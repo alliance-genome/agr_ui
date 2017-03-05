@@ -1,0 +1,54 @@
+.appAlert {
+	margin-bottom: 0;
+	border-radius: 0;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+}
+
+.logo {
+	width: 100%;
+}
+
+.appContainer {
+	font-family: Lato, Helvetica, sans-serif;
+}
+
+.topHeader {
+	padding: 1rem;
+}
+
+.midHeader {
+	border-radius: 0;
+	background: black;
+	padding: 0.75rem 1rem;
+}
+
+.nav {
+	display: flex;
+	justify-content: space-between;
+	padding: 0.5rem 0;
+	min-width: 185px;
+}
+
+.navLink {
+	color: #e2e2e2 !important;
+}
+
+.loaderContentContainer {
+	position: relative;
+}
+
+.contentContainer {
+	min-height: 400px;
+	padding: 0.75rem 1rem 0.5rem 1rem;
+}
+
+.footer {
+	position: absolute;
+	bottom: 0;
+	padding: 0.5rem 1rem;
+}
+
+.footer p {
+	margin-bottom: 0
+}

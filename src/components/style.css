@@ -1,0 +1,19 @@
+.loadingText {
+	width: 100%;
+	height: 1rem;
+	background: #e2e2e2;
+	margin-bottom: 1rem;
+	border-radius: 0.25rem;
+}
+
+.loadingHeader {
+	height: 2rem;
+}
+
+.graphContainer {
+	margin-top: 1rem;
+}
+
+.subsection {
+  margin-bottom: 1rem;
+}
