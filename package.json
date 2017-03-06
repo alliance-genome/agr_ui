@@ -52,7 +52,7 @@
     "webpack-node-externals": "^1.4.3"
   },
   "scripts": {
-    "start": "webpack-dev-server --history-api-fallback --port 2992 --hot --inline",
+    "start": "webpack-dev-server --history-api-fallback --hot --inline",
     "prestart:docker": "npm install && npm run build",
     "start:docker": "webpack-dev-server --history-api-fallback --host 0.0.0.0 --port 2992 --hot --inline",
     "prebuild": "npm run clean && npm run copy",

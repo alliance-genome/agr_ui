@@ -5,10 +5,10 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import ManifestRevisionPlugin from 'manifest-revision-webpack-plugin';
 
 let isProduction = process.env.NODE_ENV === 'production';
-let API_URL = process.env.API_URL || 'http://localhost:5000'
+let API_URL = process.env.API_URL || 'http://localhost:5000';
+let DEV_SERVER_UI_PORT = process.env.DEV_SERVER_UI_PORT || '2992';
 
 // Development asset host, asset location and build output path.
-const publicHost = isProduction ? '': 'http://localhost:2992';
 const rootAssetPath = './assets';
 const buildOutputPath = 'dist';
 
@@ -20,7 +20,7 @@ let config = {
   ],
   output: {
     path: buildOutputPath,
-    publicPath: publicHost + '/assets/',
+    publicPath: '/assets/',
     filename: '[name].js',
     chunkFilename: '[id].js'
   },
@@ -28,6 +28,7 @@ let config = {
   devServer: {
     contentBase: 'dist',
     historyApiFallback: true,
+    port: DEV_SERVER_UI_PORT,
     proxy: {
       '/api': {
         target: API_URL,
