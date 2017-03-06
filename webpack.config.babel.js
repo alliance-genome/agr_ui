@@ -5,6 +5,7 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import ManifestRevisionPlugin from 'manifest-revision-webpack-plugin';
 
 let isProduction = process.env.NODE_ENV === 'production';
+let API_URL = process.env.API_URL || 'http://localhost:5000'
 
 // Development asset host, asset location and build output path.
 const publicHost = isProduction ? '': 'http://localhost:2992';
@@ -20,13 +21,19 @@ let config = {
   output: {
     path: buildOutputPath,
     publicPath: publicHost + '/assets/',
-    filename: '[name].[hash].js',
-    chunkFilename: '[id].[hash].js'
+    filename: '[name].js',
+    chunkFilename: '[id].js'
   },
   devtool: 'eval-source-map',
   devServer: {
-    contentBase: 'src/public',
-    historyApiFallback: true
+    contentBase: 'dist',
+    historyApiFallback: true,
+    proxy: {
+      '/api': {
+        target: API_URL,
+        secure: false
+      }
+    }
   },
   module: {
     preLoaders: [
