@@ -14,6 +14,7 @@ import ResultsTable from './resultsTable';
 import { SMALL_COL_CLASS, LARGE_COL_CLASS, SEARCH_API_ERROR_MESSAGE } from '../../constants';
 import { receiveResponse, setError, setPending } from '../../actions/search';
 import LoadingPage from '../../components/loadingPage';
+import HeadMetaTags from '../../components/headMetaTags';
 
 // used to test rendering fixture response
 import fixtureResponse from './tests/fixtureResponse';
@@ -101,9 +102,11 @@ class SearchComponent extends Component {
 
   render() {
     if (!this.props.isReady) return <LoadingPage />;
+    let title = 'Searching Alliance of Genome Resources for: ' + this.props.queryParams.q;
     return (
       <div className={style.root}>
         {this.renderErrorNode()}
+        <HeadMetaTags title={title} />
         <div className='row'>
           <div className={SMALL_COL_CLASS}>
             <FilterSelector />

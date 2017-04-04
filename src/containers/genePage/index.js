@@ -8,10 +8,10 @@ import { selectGene } from '../../selectors/geneSelectors';
 import BasicGeneInfo from './basicGeneInfo';
 import GenePageHeader from './genePageHeader';
 import { OrthologyTable, mockOrthologData } from '../../components/orthology';
-import { DiseaseTable, mockDiseaseData } from '../../components/disease';
+import DiseaseTable from '../../components/disease';
 import Subsection from '../../components/subsection';
-import TranscriptViewer from './transcriptViewer';
-
+import HeadMetaTags from '../../components/headMetaTags';
+import TranscriptInlineViewer from './transcriptInlineViewer';
 
 class GenePage extends Component {
   componentDidMount() {
@@ -34,25 +34,68 @@ class GenePage extends Component {
       return null;
     }
 
+    let title = 'AGR gene page for ' + this.props.data.species + ' gene: ' + this.props.data.symbol;
+
+    // todo, add chromosome
+    let genomeLocation ;
+    if(this.props.data.genomeLocations){
+      if(this.props.data.genomeLocations.length==1){
+        genomeLocation = this.props.data.genomeLocations[0];
+      }
+      else
+      if(this.props.data.genomeLocations.length>1){
+        // TODO: figure out the proper assembly
+        for(var i in this.props.data.genomeLocations){
+          let tempGenomeLocation = this.props.data.genomeLocations[i];
+          if(tempGenomeLocation.start && tempGenomeLocation.end){
+            genomeLocation = tempGenomeLocation;
+          }
+        }
+      }
+    }
+
     return (
       <div className='container'>
-
+        <HeadMetaTags title={title} />
         <GenePageHeader symbol={this.props.data.symbol} />
 
         <Subsection>
           <BasicGeneInfo geneData={this.props.data} />
         </Subsection>
 
-        <Subsection hardcoded title='Transcript Viewer'>
-          <TranscriptViewer geneSymbol={this.props.data.symbol} species={this.props.data.species} />
+
+        <Subsection title='Transcript Viewer'>
+          {genomeLocation && genomeLocation.start && genomeLocation.end
+            ?
+            <TranscriptInlineViewer
+              chromosome={genomeLocation.chromosome}
+              fmax={genomeLocation.end}
+              fmin={genomeLocation.start}
+              geneSymbol={this.props.data.symbol}
+              species={this.props.data.species}
+            />
+            :
+            <div className="alert alert-warning">Genome Location Data Unavailable</div>
+          }
         </Subsection>
+
+        <br />
+
+        {/*<Subsection title='Transcript Viewer'>*/}
+          {/*{genomeLocation*/}
+            {/*?*/}
+            {/*<TranscriptViewer geneSymbol={this.props.data.symbol} species={this.props.data.species} fmin={genomeLocation.fmin } fmax={genomeLocation.fmax} chromosome={genomeLocation.chromosome}/>*/}
+            {/*:*/}
+            {/*<div className="alert alert-warning">Genome Location Data Unavailable</div>*/}
+          {/*}*/}
+        {/*</Subsection>*/}
 
         <Subsection hardcoded title='Orthology'>
           <OrthologyTable data={mockOrthologData} />
         </Subsection>
 
         <Subsection hardcoded title='Disease Associations'>
-          <DiseaseTable data={mockDiseaseData} />
+          <DiseaseTable/>
         </Subsection>
 
       </div>

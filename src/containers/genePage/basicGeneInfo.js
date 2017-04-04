@@ -66,7 +66,7 @@ class BasicGeneInfo extends Component {
         <div className='col-sm-8 pull-sm-4'>
           <dl className='row'>
             <dt className='col-sm-2'>Symbol</dt>
-            <dd className='col-sm-10'>{this.state.geneData.symbol}</dd>
+            <dd className='col-sm-10' id='symbol-value'>{this.state.geneData.symbol}</dd>
 
             <dt className='col-sm-2'>Name</dt>
             <dd className='col-sm-10'>{this.placeholderIfBlank(this.state.geneData.name)}</dd>

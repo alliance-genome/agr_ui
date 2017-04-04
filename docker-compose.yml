@@ -1,8 +1,7 @@
 version: '2.0'
 services:
   db:
-    image: elasticsearch:2
-    #image: elasticsearch:5
+    image: elasticsearch:5
     volumes:
       - dbdata:/usr/share/elasticsearch/data
   web:
