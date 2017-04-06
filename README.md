@@ -8,8 +8,8 @@ The web UI portal of the Alliance of Genome Resources.
 
 Ensure you've installed [nodejs][1].
 ```bash
-  Starting with Python 2.7.9, pip is included by default with the Python binary installers. 
-  
+  Install NodeJS, npm, etc.
+
   make sure the executables npm, and node are accessible from /usr/local/bin  (MAC, Linux)
   if not create symbolic links as needed
   
