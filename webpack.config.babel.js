@@ -11,6 +11,7 @@ let DEV_SERVER_UI_PORT = process.env.DEV_SERVER_UI_PORT || '2992';
 
 // Development asset host, asset location and build output path.
 const buildOutputPath = path.join(__dirname, './dist');
+const cssFileName = '[name].[contenthash].css';
 
 let config = {
   context: path.join(__dirname, 'src'),
@@ -62,7 +63,10 @@ let config = {
       {
         test: /\.css$/,
         exclude: /src/,
-        loaders: ['style', 'css']
+        loader: ExtractTextPlugin.extract(
+          'style',
+          'css'
+        )
       },
       {
         test: /\.(jpg|png|ttf|eot|woff|woff2|svg)$/,
@@ -76,7 +80,7 @@ let config = {
       inject: true,
       template: path.join(__dirname, 'src', 'public', 'index.html'),
     }),
-    new ExtractTextPlugin('index.css')
+    new ExtractTextPlugin(cssFileName)
   ]
 };
 
@@ -106,7 +110,7 @@ if (isProduction) {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
-    new ExtractTextPlugin('index.css'),
+    new ExtractTextPlugin(cssFileName),
     // Question: do we still need Manifest file, when we inject hashed assets by
     // html-webpack-plugin?
     new ManifestRevisionPlugin(path.join(buildOutputPath, 'manifest.json'), {
