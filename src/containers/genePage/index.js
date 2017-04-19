@@ -7,7 +7,7 @@ import { selectGene } from '../../selectors/geneSelectors';
 
 import BasicGeneInfo from './basicGeneInfo';
 import GenePageHeader from './genePageHeader';
-import { OrthologyTable, mockOrthologData } from '../../components/orthology';
+import { OrthologyTable } from '../../components/orthology';
 import DiseaseTable from '../../components/disease';
 import Subsection from '../../components/subsection';
 import HeadMetaTags from '../../components/headMetaTags';
@@ -90,8 +90,8 @@ class GenePage extends Component {
           {/*}*/}
         {/*</Subsection>*/}
 
-        <Subsection hardcoded title='Orthology'>
-          <OrthologyTable data={mockOrthologData} />
+        <Subsection title='Orthology'>
+          <OrthologyTable data={this.props.data.Orthology} />
         </Subsection>
 
         <Subsection hardcoded title='Disease Associations'>
