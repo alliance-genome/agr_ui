@@ -7,9 +7,19 @@ import reducers from '../reducers';
 
 const configureStore = (history) => {
   let combinedReducers = combineReducers(_.extend(reducers, { routing: routerReducer }));
+
+  // to work with redux-devtools-extension (such as the chrome extension)
+  let composeEnhancers;
+  try {
+    // include in try block so mocha test doesn't complain about ReferenceError
+    composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+  } catch (e) {
+    composeEnhancers = compose;
+  }
+
   let store = createStore(
     combinedReducers,
-    compose(applyMiddleware(routerMiddleware(history)))
+    composeEnhancers(applyMiddleware(routerMiddleware(history)))
   );
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
