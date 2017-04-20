@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import FlybaseDataGrid from 'react-flybase-datagrid';
-import '../../../node_modules/react-flybase-datagrid/dist/fixed-data-table.css';
 import './agr.css';
+import '../../../node_modules/react-flybase-datagrid/dist/fixed-data-table.css';
 
 function getHeaders(){
 

@@ -1,19 +1,16 @@
-/* the :global is css-modules syntax using by css loader */
-/* global is needed to override defaults in external css of flybase data grid*/
-
-:global(.public_fixedDataTable_main) {
+.public_fixedDataTable_main {
   border-color: #000000;
 }
 
-:global(.public_fixedDataTableCell_main) {
+.public_fixedDataTableCell_main {
   border-color: #000000;
 }
 
-:global(.public_fixedDataTable_header) {
+.public_fixedDataTable_header{
   border-color: #000000;
 }
 
-:global(.field_label) {
+.field_label{
   background-color: #CCC6AE;
   border-color: #000000;
   border-right: 1px;
