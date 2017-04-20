@@ -40,11 +40,11 @@ class OrthologyTable extends Component {
                 </td>
                 <td>{`${scoreNumerator} of ${scoreDemominator}`}</td>
                 <BooleanCell
-                  isTrue={(value) => value === 'Yes'}
+                  isTrueFunc={(value) => value === 'Yes'}
                   value={orthData.isBestScore}
                 />
                 <BooleanCell
-                  isTrue={(value) => value === 'Yes'}                
+                  isTrueFunc={(value) => value === 'Yes'}
                   value={orthData.isBestRevScore}
                 />
                 <MethodCell
@@ -70,8 +70,8 @@ OrthologyTable.propTypes = {
       predictionMethodsMatched: React.PropTypes.arrayOf(React.PropTypes.string),
       predictionMethodsNotCalled: React.PropTypes.arrayOf(React.PropTypes.string),
       predictionMethodsNotMatched: React.PropTypes.arrayOf(React.PropTypes.string),
-      isBestScore: React.PropTypes.bool,
-      isBestRevScore: React.PropTypes.bool,
+      isBestScore: React.PropTypes.string,
+      isBestRevScore: React.PropTypes.string,
     })
   )
 };
