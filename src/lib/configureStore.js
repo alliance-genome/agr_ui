@@ -1,5 +1,6 @@
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux';
 import { routerMiddleware, routerReducer } from 'react-router-redux';
+import reduxThunk from 'redux-thunk';  // useful for dispatching async actions
 import _ from 'underscore';
 
 // custom reducers
@@ -20,7 +21,7 @@ const configureStore = (history) => {
 
   let store = createStore(
     combinedReducers,
-    composeEnhancers(applyMiddleware(routerMiddleware(history)))
+    composeEnhancers(applyMiddleware(reduxThunk, routerMiddleware(history)))
   );
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
