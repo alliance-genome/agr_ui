@@ -53,11 +53,19 @@ let config = {
       },
       {
         test: /\.css$/,
-        exclude: /node_modules/,
+        include: path.resolve(__dirname, "src"),  // limite match to only src/
+        exclude: path.resolve(__dirname, "src/public.css"),
         loader: ExtractTextPlugin.extract(
           'style',
           'css?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
           'postcss'
+        )
+      },
+      {
+        test: path.resolve(__dirname, "src/public.css"),
+        loader: ExtractTextPlugin.extract(
+          'style',
+          'css'
         )
       },
       {
