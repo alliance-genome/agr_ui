@@ -53,7 +53,7 @@ let config = {
       },
       {
         test: /\.css$/,
-        include: path.resolve(__dirname, "src"),  // limite match to only src/
+        include: path.resolve(__dirname, "src"),  // limit match to only src/
         exclude: path.resolve(__dirname, "src/public.css"),
         loader: ExtractTextPlugin.extract(
           'style',
