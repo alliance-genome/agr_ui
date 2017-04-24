@@ -21,3 +21,7 @@
   height: 100%;
   width: 100%;
 }
+
+.public_fixedDataTableCell_cellContent{
+  padding: 1px;
+}
