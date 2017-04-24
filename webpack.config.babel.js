@@ -54,7 +54,7 @@ let config = {
       {
         test: /\.css$/,
         include: path.resolve(__dirname, "src"),  // limit match to only src/
-        exclude: path.resolve(__dirname, "src/public.css"),
+        exclude: path.resolve(__dirname, "src/public"),
         loader: ExtractTextPlugin.extract(
           'style',
           'css?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
@@ -62,15 +62,11 @@ let config = {
         )
       },
       {
-        test: path.resolve(__dirname, "src/public.css"),
-        loader: ExtractTextPlugin.extract(
-          'style',
-          'css'
-        )
-      },
-      {
-        test: /\.css$/,
-        exclude: /src/,
+        test:  /\.css$/,
+        include: [
+          path.resolve(__dirname, "src/public"),
+          path.resolve(__dirname, "node_modules")
+        ],
         loader: ExtractTextPlugin.extract(
           'style',
           'css'

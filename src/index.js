@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import './public.css'; // ./public.css uses a special loader, refer to webpack config
+import './public/public.css'; // ./public/public.css uses a special loader, refer to webpack config
 
 import ReactApp from './reactApplication';
 
