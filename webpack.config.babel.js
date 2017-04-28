@@ -2,7 +2,6 @@ import path from 'path';
 import webpack from 'webpack';
 
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import ManifestRevisionPlugin from 'manifest-revision-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 let isProduction = process.env.NODE_ENV === 'production';
@@ -114,13 +113,7 @@ if (isProduction) {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
-    new ExtractTextPlugin(cssFileName),
-    // Question: do we still need Manifest file, when we inject hashed assets by
-    // html-webpack-plugin?
-    new ManifestRevisionPlugin(path.join(buildOutputPath, 'manifest.json'), {
-      rootAssetPath: '../dist', // doesn't seem to like absolute path
-      ignorePaths: ['/styles', '/scripts']
-    })
+    new ExtractTextPlugin(cssFileName)
   ]
 }
 
