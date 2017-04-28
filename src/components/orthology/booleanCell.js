@@ -1,7 +1,7 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 
-const BooleanCell = ({value, isTrueFunc}) => {
-  const backgroundColor = isTrueFunc(value) ? '#dff0d8' : 'transparent';
+const BooleanCell = ({value, labelTrue, labelFalse}) => {
+  const backgroundColor = value ? '#dff0d8' : 'transparent';
   return (
     <td
       style={{
@@ -9,15 +9,16 @@ const BooleanCell = ({value, isTrueFunc}) => {
       }}
     >
     {
-      value
+      value ? (labelTrue || 'Yes') : (labelFalse || 'No')
     }
     </td>
   );
 };
 
 BooleanCell.propTypes = {
-  isTrueFunc: PropTypes.func,
-  value: PropTypes.string,
+  labelFalse: React.PropTypes.string,
+  labelTrue: React.PropTypes.string,
+  value: React.PropTypes.bool,
 };
 
 export default BooleanCell;

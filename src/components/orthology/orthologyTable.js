@@ -71,8 +71,8 @@ OrthologyTable.propTypes = {
       predictionMethodsMatched: React.PropTypes.arrayOf(React.PropTypes.string),
       predictionMethodsNotCalled: React.PropTypes.arrayOf(React.PropTypes.string),
       predictionMethodsNotMatched: React.PropTypes.arrayOf(React.PropTypes.string),
-      isBestScore: React.PropTypes.string,
-      isBestRevScore: React.PropTypes.string,
+      isBestScore: React.PropTypes.bool,
+      isBestRevScore: React.PropTypes.bool,
     })
   )
 };
