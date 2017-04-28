@@ -33,10 +33,10 @@ class OrthologyTable extends Component {
               orthData.predictionMethodsNotCalled.length +
               orthData.predictionMethodsNotCalled.length;
             return (
-              <tr key={`${orthData.gene2DataProvider}-${orthData.gene2}`}>
-                <td>{orthData.gene2DataProvider}</td>
+              <tr key={`${orthData.gene2AgrPrimaryId}`}>
+                <td>{orthData.gene2Species}</td>
                 <td>
-                  <Link to={`/gene/${orthData.gene2}`}>{orthData.gene2}</Link>
+                  <Link to={`/gene/${orthData.gene2AgrPrimaryId}`}>{orthData.gene2DisplayId}</Link>
                 </td>
                 <td>{`${scoreNumerator} of ${scoreDemominator}`}</td>
                 <BooleanCell
@@ -65,8 +65,9 @@ OrthologyTable.propTypes = {
   data: React.PropTypes.arrayOf(
     React.PropTypes.shape({
       species: React.PropTypes.string,
-      gene2: React.PropTypes.string,
-      gene2DataProvider: React.PropTypes.string,
+      gene2AgrPrimaryId: React.PropTypes.string,
+      gene2DisplayId: React.PropTypes.string,
+      gene2Species: React.PropTypes.number,
       predictionMethodsMatched: React.PropTypes.arrayOf(React.PropTypes.string),
       predictionMethodsNotCalled: React.PropTypes.arrayOf(React.PropTypes.string),
       predictionMethodsNotMatched: React.PropTypes.arrayOf(React.PropTypes.string),

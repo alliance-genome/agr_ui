@@ -96,7 +96,7 @@ class GenePage extends Component {
         {/*</Subsection>*/}
 
         <Subsection title='Orthology'>
-          <EnhancedOrthologyTable data={this.props.data.Orthology} />
+          <EnhancedOrthologyTable data={this.props.data.orthology} />
         </Subsection>
 
         <Subsection hardcoded title='Disease Associations'>
