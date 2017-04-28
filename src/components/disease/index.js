@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import FlybaseDataGrid from 'react-flybase-datagrid';
 
+const showColumnFilter = true;
+const showDownloadButton = true;
+
 function getHeaders(){
 
   var columns = [
@@ -34,7 +37,7 @@ class DiseaseTable extends Component {
   render() {
     return (
 
-       <FlybaseDataGrid columns={getHeaders()} data={data} showDownloadButton={false} showFilter={false} />
+       <FlybaseDataGrid columns={getHeaders()} data={data} showColumnFilter={showColumnFilter} showDownloadButton={showDownloadButton} />
 
     );
   }
