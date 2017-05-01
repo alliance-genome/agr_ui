@@ -39,7 +39,6 @@ class DiseaseTable extends Component {
         evidence: evidenceCode,
         dataProvider: dataProvider,
         ref: pubs.map((pub) => { return pub['pubMedId']; }).filter((pub) => { return (pub!=''); }).join()
-        // ref: evidenceCode
       };
     });
   }
@@ -50,8 +49,8 @@ class DiseaseTable extends Component {
        <FlybaseDataGrid
          columns={getHeaders()}
          data={this.data}
-         showDownloadButton={false}
-         showFilter={false}
+         showDownloadButton={true}
+         showColumnFilter={true}
        />
 
     );
