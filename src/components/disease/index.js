@@ -34,7 +34,7 @@ class DiseaseTable extends Component {
   render() {
     return (
 
-       <FlybaseDataGrid columns={getHeaders()} data={data} showColumnFilter={showColumnFilter} showDownloadButton={showDownloadButton} />
+       <FlybaseDataGrid columns={getHeaders()} data={data} showColumnFilter={true} showDownloadButton={true} />
 
     );
   }
