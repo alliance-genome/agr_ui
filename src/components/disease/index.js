@@ -19,14 +19,14 @@ class DiseaseTable extends Component {
 
     // const diseases = this.props.data.diseases;
 
-     var diseases = [
-    {
-      "associationType": "contributes_to_condition",
-      "dataProvider": "ZFIN",
-      "do_name": [
-        "cardiomyopathy"
-      ],
-      "evidence": [
+    var diseases = [
+      {
+        associationType": "contributes_to_condition",
+        "dataProvider": "ZFIN",
+        "do_name": [
+          "cardiomyopathy"
+        ],
+        "evidence": [
         {
           "evidenceCode": "TAS",
           "pubs": [
@@ -86,7 +86,6 @@ class DiseaseTable extends Component {
         evidence: evidenceCode,
         dataProvider: dataProvider,
         ref: pubs.map((pub) => { return pub['pubMedId']; }).filter((pub) => { return (pub!=''); }).join()
-        // ref: evidenceCode
       };
     });
   }
