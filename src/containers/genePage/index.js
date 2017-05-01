@@ -95,7 +95,7 @@ class GenePage extends Component {
         </Subsection>
 
         <Subsection hardcoded title='Disease Associations'>
-          <DiseaseTable />
+          <DiseaseTable data={this.props.data} />
         </Subsection>
 
       </div>
