@@ -17,54 +17,54 @@ class DiseaseTable extends Component {
   constructor(props) {
     super(props);
 
-  // const diseases = this.props.data.diseases;
+    const diseases = this.props.data.diseases;
 
-    var diseases = [
-      {
-        'associationType': 'contributes_to_condition',
-        'dataProvider': 'ZFIN',
-        'do_name': [
-          'cardiomyopathy'
-        ],
-        'evidence': [
-          {
-            'evidenceCode': 'TAS',
-            'pubs': [
-              {
-                'pubMedId': '27642634',
-                'publicationModId': 'ZFIN:ZDB-PUB-160920-5'
-              },
-              {
-                'pubMedId': '1233',
-                'publicationModId': 'ZFIN:ZDB-PUB-170406-10'
-              }
-            ]
-          }
-        ],
-      },
-      {
-        'associationType': 'contributes_to_condition',
-        'dataProvider': 'flybase',
-        'do_name': [
-          'cancer'
-        ],
-        'evidence': [
-          {
-            'evidenceCode': 'TAS',
-            'pubs': [
-              {
-                'pubMedId': '987654',
-                'publicationModId': 'ZFIN:ZDB-PUB-160920-5'
-              },
-              {
-                'pubMedId': '',
-                'publicationModId': 'ZFIN:ZDB-PUB-170406-10'
-              }
-            ]
-          }
-        ],
-      }
-    ];
+    // var diseases = [
+    //   {
+    //     'associationType': 'contributes_to_condition',
+    //     'dataProvider': 'ZFIN',
+    //     'do_name': [
+    //       'cardiomyopathy'
+    //     ],
+    //     'evidence': [
+    //       {
+    //         'evidenceCode': 'TAS',
+    //         'pubs': [
+    //           {
+    //             'pubMedId': '27642634',
+    //             'publicationModId': 'ZFIN:ZDB-PUB-160920-5'
+    //           },
+    //           {
+    //             'pubMedId': '1233',
+    //             'publicationModId': 'ZFIN:ZDB-PUB-170406-10'
+    //           }
+    //         ]
+    //       }
+    //     ],
+    //   },
+    //   {
+    //     'associationType': 'contributes_to_condition',
+    //     'dataProvider': 'flybase',
+    //     'do_name': [
+    //       'cancer'
+    //     ],
+    //     'evidence': [
+    //       {
+    //         'evidenceCode': 'TAS',
+    //         'pubs': [
+    //           {
+    //             'pubMedId': '987654',
+    //             'publicationModId': 'ZFIN:ZDB-PUB-160920-5'
+    //           },
+    //           {
+    //             'pubMedId': '',
+    //             'publicationModId': 'ZFIN:ZDB-PUB-170406-10'
+    //           }
+    //         ]
+    //       }
+    //     ],
+    //   }
+    // ];
 
     this.data = diseases.map((disease) => {
       const {
