@@ -592,7 +592,7 @@
 }
 
 .public_fixedDataTableCell_cellContent {
-  padding: 8px;
+  padding: 0px;
 }
 
 /**************  React-Flybase-DataGrid  *************/
