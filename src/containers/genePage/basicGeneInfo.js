@@ -8,11 +8,6 @@ class BasicGeneInfo extends Component {
     super(props);
     this.state = {
       geneData: this.props.geneData,
-      speciesData: {
-        species: this.props.geneData.species,
-        dataProvider: this.props.geneData.dataProvider,
-        primaryId: this.props.geneData.primaryId,
-      }
     };
   }
 
