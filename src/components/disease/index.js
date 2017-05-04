@@ -98,6 +98,7 @@ class DiseaseTable extends Component {
          data={this.data}
          showDownloadButton
          showFilter
+         width={1110}
        />
 
     );
