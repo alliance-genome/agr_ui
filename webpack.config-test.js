@@ -16,6 +16,11 @@ module.exports = {
         loader: 'null-loader'
       },
       {
+        test: /\.css$/,
+        exclude: /src/,
+        loader: 'null-loader'
+      },
+      {
         test: /\.(jpg|png|ttf|eot|woff|woff2|svg)$/,
         exclude: /node_modules/,
         loader: 'null-loader'
