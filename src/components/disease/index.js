@@ -96,8 +96,8 @@ class DiseaseTable extends Component {
        <FlybaseDataGrid
          columns={getHeaders()}
          data={this.data}
-         showDownloadButton={false}
-         showFilter={false}
+         showDownloadButton
+         showFilter
        />
 
     );
