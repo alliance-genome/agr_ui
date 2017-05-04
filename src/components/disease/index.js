@@ -97,7 +97,7 @@ class DiseaseTable extends Component {
          columns={getHeaders()}
          data={this.data}
          showDownloadButton
-         showFilter
+         showColumnFilter
          width={1110}
        />
 
