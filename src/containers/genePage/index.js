@@ -96,7 +96,7 @@ class GenePage extends Component {
 
         {this.props.data.diseases.length ?
         <Subsection hardcoded title='Disease Associations'>
-          <DiseaseTable data={this.props.data}/>
+          <DiseaseTable data={this.props.data.diseases} />
         </Subsection> : <div className="alert alert-warning">Disease Data Unavailable</div>
         }
 

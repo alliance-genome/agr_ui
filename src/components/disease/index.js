@@ -17,7 +17,7 @@ class DiseaseTable extends Component {
   constructor(props) {
     super(props);
 
-    const diseases = this.props.data.diseases;
+    const diseases = this.props.data;
 
     // var diseases = [
     //   {
@@ -96,13 +96,17 @@ class DiseaseTable extends Component {
        <FlybaseDataGrid
          columns={getHeaders()}
          data={this.data}
-         showDownloadButton
          showColumnFilter
+         showDownloadButton
          width={1110}
        />
 
     );
   }
 }
+
+DiseaseTable.propTypes = {
+  data: React.PropTypes.array.isRequired,
+};
 
 export default DiseaseTable;
