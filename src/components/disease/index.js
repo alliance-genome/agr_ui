@@ -66,7 +66,7 @@ class DiseaseTable extends Component {
     //   }
     // ];
 
-    this.data = diseases.map((disease) => {
+    this.state.data = diseases.map((disease) => {
       const {
         associationType: associationType,
         dataProvider: dataProvider,
@@ -95,7 +95,7 @@ class DiseaseTable extends Component {
 
        <FlybaseDataGrid
          columns={getHeaders()}
-         data={this.data}
+         data={this.state.data}
          showColumnFilter
          showDownloadButton
          width={1110}
