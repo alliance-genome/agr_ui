@@ -70,6 +70,7 @@ class DiseaseTable extends Component {
       const {
         associationType: associationType,
         dataProvider: dataProvider,
+        do_id: do_id,
         do_name: do_name,
         evidence: [
           {
@@ -80,6 +81,7 @@ class DiseaseTable extends Component {
       } = disease;
 
       return {
+        do_id : do_id,
         do_name : do_name,
         associationType: associationType,
         evidence: evidenceCode,
