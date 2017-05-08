@@ -17,8 +17,6 @@ class DiseaseTable extends Component {
   constructor(props) {
     super(props);
 
-    const diseases = this.props.data;
-
     // var diseases = [
     //   {
     //     'associationType': 'contributes_to_condition',
@@ -66,7 +64,12 @@ class DiseaseTable extends Component {
     //   }
     // ];
 
-    this.data = diseases.map((disease) => {
+  }
+
+  render() {
+    const diseases = this.props.data;
+
+    var data = diseases.map((disease) => {
       const {
         associationType: associationType,
         dataProvider: dataProvider,
@@ -90,14 +93,11 @@ class DiseaseTable extends Component {
       };
     });
 
-  }
-
-  render() {
     return (
 
        <FlybaseDataGrid
          columns={getHeaders()}
-         data={this.data}
+         data={data}
          showColumnFilter
          showDownloadButton
          width={1110}
