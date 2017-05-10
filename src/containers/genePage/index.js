@@ -37,7 +37,7 @@ class GenePage extends Component {
     let title = 'AGR gene page for ' + this.props.data.species + ' gene: ' + this.props.data.symbol;
 
     // todo, add chromosome
-    let genomeLocation ;
+    let genomeLocation = {};
     if(this.props.data.genomeLocations){
       if(this.props.data.genomeLocations.length==1){
         genomeLocation = this.props.data.genomeLocations[0];
@@ -63,42 +63,23 @@ class GenePage extends Component {
           <BasicGeneInfo geneData={this.props.data} />
         </Subsection>
 
-
-        <Subsection title='Transcript Viewer'>
-          {genomeLocation && genomeLocation.start && genomeLocation.end
-            ?
-            <TranscriptInlineViewer
-              chromosome={genomeLocation.chromosome}
-              fmax={genomeLocation.end}
-              fmin={genomeLocation.start}
-              geneSymbol={this.props.data.symbol}
-              species={this.props.data.species}
-            />
-            :
-            <div className="alert alert-warning">Genome Location Data Unavailable</div>
-          }
+        <Subsection hasData={typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'} title='Transcript Viewer'>
+          <TranscriptInlineViewer
+            chromosome={genomeLocation.chromosome}
+            fmax={genomeLocation.end}
+            fmin={genomeLocation.start}
+            geneSymbol={this.props.data.symbol}
+            species={this.props.data.species}
+          />
         </Subsection>
-
-        <br />
-
-        {/*<Subsection title='Transcript Viewer'>*/}
-          {/*{genomeLocation*/}
-            {/*?*/}
-            {/*<TranscriptViewer geneSymbol={this.props.data.symbol} species={this.props.data.species} fmin={genomeLocation.fmin } fmax={genomeLocation.fmax} chromosome={genomeLocation.chromosome}/>*/}
-            {/*:*/}
-            {/*<div className="alert alert-warning">Genome Location Data Unavailable</div>*/}
-          {/*}*/}
-        {/*</Subsection>*/}
 
         <Subsection hardcoded title='Orthology'>
           <OrthologyTable data={mockOrthologData} />
         </Subsection>
 
-        {this.props.data.diseases.length ?
-        <Subsection hardcoded title='Disease Associations'>
+        <Subsection hardcoded hasData={this.props.data.diseases.length} title='Disease Associations'>
           <DiseaseTable data={this.props.data.diseases} />
-        </Subsection> : <div className="alert alert-warning">Disease Data Unavailable</div>
-        }
+        </Subsection>
 
       </div>
     );
