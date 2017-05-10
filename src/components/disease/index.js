@@ -89,7 +89,7 @@ class DiseaseTable extends Component {
         associationType: associationType,
         evidence: evidenceCode,
         dataProvider: dataProvider,
-        ref: pubs.map((pub) => { return pub['pubMedId']; }).filter((pub) => { return (pub!=''); }).join()
+        ref: pubs.map((pub) => { return pub['pubMedId']; }).filter((pub) => { return (pub!=undefined); }).join()
       };
     });
 
@@ -99,7 +99,7 @@ class DiseaseTable extends Component {
          columns={getHeaders()}
          data={data}
          showColumnFilter
-         showDownloadButton
+         downloadButton={['tsv']}
          width={1110}
        />
 
