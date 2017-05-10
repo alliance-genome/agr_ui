@@ -4,40 +4,111 @@ import FlybaseDataGrid from 'react-flybase-datagrid';
 function getHeaders(){
 
   var columns = [
-   {id:'name', name:'Disease Name'},
-   {id:'assc', name:'Association'},
-   {id:'ec', name:'Evidence Code'},
-   {id:'as', name:'Association Source'},
+   {id:'do_name', name:'Disease Name'},
+   {id:'associationType', name:'Association'},
+   {id:'evidence', name:'Evidence Code'},
+   {id:'dataProvider', name:'Association Source'},
    {id:'ref', name:'References'}
   ];
-
   return columns;
-
 }
 
-const data = [
-{ name: 'Bannayan-Riley-Ruvalcaba syndrome', assc: 'is model of', ec: 'TAS', as: 'MGI', ref: 'PMID:12345, PMID:12345'},
-{ name: 'brain glioma', assc: 'causes or contributes to condition', ec: 'TAS', as: 'FB', ref: 'PMID:12345'},
-{ name: 'Cowden disease', assc: 'is model of', ec: 'TAS', as: 'MGI', ref: 'PMID:12345'},
-{ name: 'endometrial cancer', assc: 'causes or contributes to condition', ec: 'ISS', as: 'RGD', ref: 'PMID:12345'},
-{ name: 'prostate cancer', assc: 'is model of', ec: 'IC', as: 'ZFIN', ref: 'PMID:12345'},
-{ name: 'prostate cancer', assc: 'causes or contributes to condition', ec: 'ISS', as: 'SGD', ref: 'PMID:12345'},
-{ name: 'acute lymphocytic leukemia', assc: 'is model of', ec: 'TAS', as: 'MGI', ref: 'PMID:12345'},
-{ name: 'fatty liver disease', assc: 'causes or contributes to condition', ec: 'IEP', as: 'RGD', ref: 'PMID:12345'},
-{ name: 'fatty liver disease', assc: 'is model of', ec: 'TAS', as: 'MGI', ref: 'PMID:12345'},
-{ name: 'hepatocellular carcinoma', assc: 'causes or contributes to condition', ec: 'ISS', as: 'WB', ref: 'PMID:12345'},
-{ name: 'persistent fetal circulation syndrome', assc: 'is model of', ec: 'TAS', as: 'MGI', ref: 'PMID:12345'},
-{ name: 'urinary bladder cancer', assc: 'is marker for', ec: 'ISS', as: 'RGD', ref: 'PMID:12345'},
-];
-
 class DiseaseTable extends Component {
+  constructor(props) {
+    super(props);
+
+    // var diseases = [
+    //   {
+    //     'associationType': 'contributes_to_condition',
+    //     'dataProvider': 'ZFIN',
+    //     'do_name': [
+    //       'cardiomyopathy'
+    //     ],
+    //     'evidence': [
+    //       {
+    //         'evidenceCode': 'TAS',
+    //         'pubs': [
+    //           {
+    //             'pubMedId': '27642634',
+    //             'publicationModId': 'ZFIN:ZDB-PUB-160920-5'
+    //           },
+    //           {
+    //             'pubMedId': '1233',
+    //             'publicationModId': 'ZFIN:ZDB-PUB-170406-10'
+    //           }
+    //         ]
+    //       }
+    //     ],
+    //   },
+    //   {
+    //     'associationType': 'contributes_to_condition',
+    //     'dataProvider': 'flybase',
+    //     'do_name': [
+    //       'cancer'
+    //     ],
+    //     'evidence': [
+    //       {
+    //         'evidenceCode': 'TAS',
+    //         'pubs': [
+    //           {
+    //             'pubMedId': '987654',
+    //             'publicationModId': 'ZFIN:ZDB-PUB-160920-5'
+    //           },
+    //           {
+    //             'pubMedId': '',
+    //             'publicationModId': 'ZFIN:ZDB-PUB-170406-10'
+    //           }
+    //         ]
+    //       }
+    //     ],
+    //   }
+    // ];
+
+  }
+
   render() {
+    const diseases = this.props.data;
+
+    var data = diseases.map((disease) => {
+      const {
+        associationType: associationType,
+        dataProvider: dataProvider,
+        do_id: do_id,
+        do_name: do_name,
+        evidence: [
+          {
+            evidenceCode: evidenceCode,
+            pubs: [ ...pubs ]
+          }
+        ],
+      } = disease;
+
+      return {
+        do_id : do_id,
+        do_name : do_name,
+        associationType: associationType,
+        evidence: evidenceCode,
+        dataProvider: dataProvider,
+        ref: pubs.map((pub) => { return pub['pubMedId']; }).filter((pub) => { return (pub!=undefined); }).join()
+      };
+    });
+
     return (
 
-       <FlybaseDataGrid columns={getHeaders()} data={data} showDownloadButton={false} showFilter={false} />
+       <FlybaseDataGrid
+         columns={getHeaders()}
+         data={data}
+         showColumnFilter
+         downloadButton={['tsv']}
+         width={1110}
+       />
 
     );
   }
 }
+
+DiseaseTable.propTypes = {
+  data: React.PropTypes.array.isRequired,
+};
 
 export default DiseaseTable;

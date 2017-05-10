@@ -5,6 +5,7 @@ const CLEARING_FIELDS = ['category'];
 
 export function makeFieldDisplayName(unformattedName) {
   unformattedName = unformattedName || '';
+
   switch(unformattedName) {
   case 'go':
     return 'Gene Ontology';
@@ -32,6 +33,8 @@ export function makeFieldDisplayName(unformattedName) {
     return 'Associated Species';
   case 'id':
     return 'ID';
+  case 'diseases.do_name':
+    return 'Disease';
   default:
     return unformattedName.replace(/_/g, ' ');
   }

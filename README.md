@@ -74,7 +74,7 @@ JavaScript coding style is enforced with [ESLint][6].
 The rules are configured in the .eslintrc file.
 
 [1]: https://docs.npmjs.com/getting-started/installing-node
-[2]: DOCKER.md
+[2]: ../doc/DOCKER.md
 [3]: https://github.com/alliance-genome/agr_api
 [4]: https://webpack.github.io/
 [5]: https://webpack.github.io/docs/hot-module-replacement.html
