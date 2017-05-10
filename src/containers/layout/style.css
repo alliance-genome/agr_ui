@@ -4,7 +4,11 @@
 	padding-top: 0.5rem;
 	padding-bottom: 0.5rem;
 }
-
+.content {
+	width:90%;
+        margin: auto;
+}
+.member_sites{background:#ddd;}
 .logo {
 	width: 100%;
 }
@@ -16,24 +20,48 @@
 .topHeader {
 	padding: 1rem;
 }
+.topBar {padding-top:0.4em;}
+.solidBg{
+        background:#2598C5;
+}
+.miniContact a:link,
+.miniContact a:visited{color:#fff;}
+.rightWidgets { text-align:right;}
 
 .midHeader {
-	border-radius: 0;
-	background: black;
-	padding: 0.75rem 1rem;
+        background: #fff;
+	border-top: solid 1px #ddd ;
+	border-bottom: solid 1px #ddd ;
+	padding: 0em;
+        text-transform: uppercase;
+}
+.midHeader.nav-link {
+	padding: 1em;
 }
 
 .nav {
 	display: flex;
 	justify-content: space-between;
-	padding: 0.5rem 0;
+	padding: 0;
 	min-width: 185px;
 }
 
+.home a,
+.about a{ 
+	color:#2598C5;
+        text-decoration:underline;
+}
 .navLink {
 	color: #e2e2e2 !important;
+        color: #777 !important;
+        border-right: solid 1px #ddd ;
+        padding:1em;
+        text-align:center;
 }
-
+nav.navLink {
+	color: #777 !important;
+        border-right: solid 1px #ddd ;
+}
 .loaderContentContainer {
 	position: relative;
 }
@@ -41,6 +69,10 @@
 .contentContainer {
 	min-height: 400px;
 	padding: 0.75rem 1rem 0.5rem 1rem;
+}
+.footerBar {
+        width: 100%;padding:0;
+        background:#2F72B5;
 }
 
 .footer {
