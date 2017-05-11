@@ -1,7 +1,7 @@
 import React from 'react';
 
 const ReferenceCell = (refs) => {
-  return refs.map((ref) => {
+  return refs && refs.map((ref) => {
     if (ref.pubMedId && ref.pubMedUrl) {
       return <a href={ref.pubMedUrl}>{ref.pubMedId}</a>;
     } else {
