@@ -1,19 +1,21 @@
+/* eslint-disable react/no-multi-comp */
+
 import _ from 'underscore';
 import React, { Component } from 'react';
 import FlybaseDataGrid from 'react-flybase-datagrid';
 import ReferenceCell from './referenceCell';
 
-function getHeaders(){
+const doLink = (name, row) => (
+  <a href={`http://www.disease-ontology.org/?id=${row.do_id}`}>{name}</a>
+);
 
-  var columns = [
-   {id:'do_name', name:'Disease Name'},
-   {id:'associationType', name:'Association'},
-   {id:'evidence', name:'Evidence Code'},
-   {id:'dataProvider', name:'Association Source'},
-   {id:'refs', name:'References', render: ReferenceCell}
-  ];
-  return columns;
-}
+const headers = [
+  {id:'do_name', name:'Disease Name', render: doLink},
+  {id:'associationType', name:'Association'},
+  {id:'evidence', name:'Evidence Code'},
+  {id:'dataProvider', name:'Association Source'},
+  {id:'ref', name:'References', render: ReferenceCell}
+];
 
 class DiseaseTable extends Component {
   render() {
@@ -59,7 +61,7 @@ class DiseaseTable extends Component {
     return (
 
        <FlybaseDataGrid
-         columns={getHeaders()}
+         columns={headers}
          data={data}
          showColumnFilter
          downloadButton={['tsv']}
