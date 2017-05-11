@@ -17,7 +17,7 @@ const hideEmpty = (WrappedComponent) => {
       (props.hasContentFunc && props.hasContentFunc(props)) ||
       hasContent(props.data);
     return componentHasContent ? <WrappedComponent {...props} /> :
-      <i className='text-muted'>Not Available</i>;
+      <div className="alert alert-warning">Data Unavailable</div>;
   };
 
   Wrapper.propTypes = {
