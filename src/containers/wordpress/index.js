@@ -1,3 +1,4 @@
+/*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -12,19 +13,13 @@ import{ WP_REST_API_BASE_URL, MENU } from '../../constants';
 class Wordpress extends Component {
   constructor(props){
     super(props);
-    this.currentRoute='';
   }
   componentDidMount() {
-    let currentRoute=this.getCurrentRoute(this.props);
-    this.currentRoute=currentRoute;
-    this.getData(currentRoute);
+    this.getData(this.getCurrentRoute(this.props));
   }
   componentWillUpdate(nextProps, nextState){
-    let currentRoute=this.getCurrentRoute(nextProps);
-    if(this.currentRoute != currentRoute){
-      this.currentRoute=currentRoute;
-      this.currentState=nextState;
-      this.getData(currentRoute);
+    if(this.getCurrentRoute(this.props) != this.getCurrentRoute(nextProps)){
+      this.getData(this.getCurrentRoute(nextProps));
     }
   } 
   getCurrentRoute(props){
@@ -51,7 +46,7 @@ class Wordpress extends Component {
     if (!this.props.data) {
       return null;
     }
-    let title= MENU[this.currentRoute].title; 
+    let title= MENU[this.getCurrentRoute(this.props)].title; 
     return (
       <div>
         <HeadMetaTags title={title} />
