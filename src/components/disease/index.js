@@ -14,7 +14,7 @@ const headers = [
   {id:'associationType', name:'Association'},
   {id:'evidence', name:'Evidence Code'},
   {id:'dataProvider', name:'Association Source'},
-  {id:'ref', name:'References', render: ReferenceCell}
+  {id:'refs', name:'References', render: ReferenceCell}
 ];
 
 class DiseaseTable extends Component {
