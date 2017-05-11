@@ -3,14 +3,11 @@
 import _ from 'underscore';
 import React, { Component } from 'react';
 import FlybaseDataGrid from 'react-flybase-datagrid';
+import DiseaseNameCell from './diseaseNameCell';
 import ReferenceCell from './referenceCell';
 
-const doLink = (name, row) => (
-  <a href={`http://www.disease-ontology.org/?id=${row.do_id}`}>{name}</a>
-);
-
 const headers = [
-  {id:'do_name', name:'Disease Name', render: doLink},
+  {id:'doName', name:'Disease Name', render: DiseaseNameCell},
   {id:'associationType', name:'Association'},
   {id:'evidence', name:'Evidence Code'},
   {id:'dataProvider', name:'Association Source'},
@@ -29,8 +26,9 @@ class DiseaseTable extends Component {
       disease.evidence.forEach((evidence) => {
         evidence.pubs.forEach((pub) => {
           flattened.push({
-            do_id: disease.do_id,
-            do_name: disease.do_name,
+            doId: disease.do_id,
+            doName: disease.do_name,
+            doIdDisplay: disease.doIdDisplay,
             associationType: disease.associationType,
             dataProvider: disease.dataProvider,
             evidence: evidence.evidenceCode,
@@ -44,14 +42,14 @@ class DiseaseTable extends Component {
       .sortBy('evidence')
       .sortBy('dataProvider')
       .sortBy('associationType')
-      .sortBy('do_name')
+      .sortBy('doName')
       .each((row) => {
         let prev = _.last(data);
         if (typeof prev !== 'undefined' &&
             row.evidence === prev.evidence &&
             row.dataProvider === prev.dataProvider &&
             row.associationType === prev.associationType &&
-            row.do_name === prev.do_name) {
+            row.doName === prev.doName) {
           prev.refs = prev.refs.concat(row.refs);
         } else {
           data.push(row);
