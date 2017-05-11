@@ -90,12 +90,12 @@ class GenePage extends Component {
           {/*}*/}
         {/*</Subsection>*/}
 
-        <Subsection hardcoded title='Orthology'>
+        <Subsection title='Orthology'>
           <OrthologyTable data={mockOrthologData} />
         </Subsection>
 
         {this.props.data.diseases.length ?
-        <Subsection hardcoded title='Disease Associations'>
+        <Subsection title='Disease Associations'>
           <DiseaseTable data={this.props.data.diseases} />
         </Subsection> : <div className="alert alert-warning">Disease Data Unavailable</div>
         }
