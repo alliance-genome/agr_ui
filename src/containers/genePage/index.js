@@ -99,9 +99,11 @@ class GenePage extends Component {
           <EnhancedOrthologyTable data={this.props.data.orthology} />
         </Subsection>
 
+        {this.props.data.diseases.length ?
         <Subsection hardcoded title='Disease Associations'>
-          <DiseaseTable />
-        </Subsection>
+          <DiseaseTable data={this.props.data.diseases} />
+        </Subsection> : <div className="alert alert-warning">Disease Data Unavailable</div>
+        }
 
       </div>
     );

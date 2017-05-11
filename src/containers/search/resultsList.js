@@ -56,7 +56,7 @@ class ResultsList extends Component {
           {this.renderDetailFromFields(d, topFields)}
           <div className={style.detailContainer}>
             <span className={style.detailLabel}><strong>Source:</strong> </span>
-            <span><a dangerouslySetInnerHTML={{ __html: d.id }} href={d.sourceHref} className='primary-id' target='_new' /></span>
+            <span><a className='primary-id' dangerouslySetInnerHTML={{ __html: d.id }} href={d.sourceHref} target='_new' /></span>
           </div>
           {this.renderDetailFromFields(d, bottomFields)}
           {this.renderHighlightedValues(d.highlight)}

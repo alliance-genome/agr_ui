@@ -8,11 +8,6 @@ class BasicGeneInfo extends Component {
     super(props);
     this.state = {
       geneData: this.props.geneData,
-      speciesData: {
-        species: this.props.geneData.species,
-        dataProvider: this.props.geneData.dataProvider,
-        primaryId: this.props.geneData.primaryId,
-      }
     };
   }
 
@@ -51,7 +46,7 @@ class BasicGeneInfo extends Component {
       .map((ref, idx) => {
         return (
           <div key={`ref-${idx}`}>
-            <DataSourceLink dataProvider={ref.dataProvider} id={ref.id} />
+            <DataSourceLink reference={ref} />
           </div>
         );
       });
@@ -61,7 +56,7 @@ class BasicGeneInfo extends Component {
     return (
       <div className='row'>
         <div className='col-sm-4 push-sm-8'>
-          <DataSourceCard sourceData={this.state.speciesData} />
+          <DataSourceCard reference={this.state.geneData.modCrossReference} species={this.state.geneData.species} />
         </div>
         <div className='col-sm-8 pull-sm-4'>
           <dl className='row'>
