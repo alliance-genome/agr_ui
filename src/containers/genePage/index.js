@@ -10,7 +10,6 @@ import { OrthologyTable } from '../../components/orthology';
 import DiseaseTable from '../../components/disease';
 import Subsection from '../../components/subsection';
 import HeadMetaTags from '../../components/headMetaTags';
-import hideEmpty from '../../components/hideEmpty';
 import TranscriptInlineViewer from './transcriptInlineViewer';
 
 class GenePage extends Component {
@@ -57,8 +56,6 @@ class GenePage extends Component {
       }
     }
 
-    const EnhancedOrthologyTable = hideEmpty(OrthologyTable);
-
     return (
       <div className='container'>
         <HeadMetaTags title={title} />
@@ -96,7 +93,7 @@ class GenePage extends Component {
         {/*</Subsection>*/}
 
         <Subsection title='Orthology'>
-          <EnhancedOrthologyTable data={this.props.data.orthology} />
+          <OrthologyTable data={this.props.data.orthology} />
         </Subsection>
 
         {this.props.data.diseases.length ?
