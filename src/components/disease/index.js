@@ -18,9 +18,9 @@ class DiseaseTable extends Component {
   render() {
     const diseases = this.props.data;
 
-    // the way the incoming data is grouped doesn't exactly exactly align with
-    // the way we need it to be grouped for display. so, we need to flatten it
-    // and then re-group it here.
+    // the way the incoming data is grouped doesn't exactly align with the way
+    // we need it to be grouped for display. so, we need to flatten it out and
+    // then re-group it here.
     const flattened = [];
     diseases.forEach((disease) => {
       disease.evidence.forEach((evidence) => {
