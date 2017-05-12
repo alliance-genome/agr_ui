@@ -77,7 +77,7 @@ class GenePage extends Component {
           <OrthologyTable data={mockOrthologData} />
         </Subsection>
 
-        <Subsection hardcoded hasData={this.props.data.diseases.length > 0} title='Disease Associations'>
+        <Subsection hasData={this.props.data.diseases.length > 0} title='Disease Associations'>
           <DiseaseTable data={this.props.data.diseases} />
         </Subsection>
 
