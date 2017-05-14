@@ -75,7 +75,7 @@ class GenePage extends Component {
           />
         </Subsection>
 
-        <Subsection hardcoded title='Orthology'>
+        <Subsection hasData={(this.props.data.orthology || []).length > 0} title='Orthology'>
           <OrthologyTable data={this.props.data.orthology} />
         </Subsection>
 
