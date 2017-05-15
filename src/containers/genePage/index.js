@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import fetchData from '../../lib/fetchData';
-import { fetchGene, fetchGeneSuccess, fetchGeneFailure } from '../../actions/genes';
+import { fetchGene } from '../../actions/genes';
 import { selectGene } from '../../selectors/geneSelectors';
 
 import BasicGeneInfo from './basicGeneInfo';
 import GenePageHeader from './genePageHeader';
-import { OrthologyTable, mockOrthologData } from '../../components/orthology';
+import { OrthologyTable } from '../../components/orthology';
 import DiseaseTable from '../../components/disease';
 import Subsection from '../../components/subsection';
 import HeadMetaTags from '../../components/headMetaTags';
@@ -15,10 +14,13 @@ import TranscriptInlineViewer from './transcriptInlineViewer';
 
 class GenePage extends Component {
   componentDidMount() {
-    this.props.dispatch(fetchGene());
-    fetchData(`/api/gene/${this.props.params.geneId}`)
-      .then(data => this.props.dispatch(fetchGeneSuccess(data)))
-      .catch(error => this.props.dispatch(fetchGeneFailure(error)));
+    this.props.dispatch(fetchGene(this.props.params.geneId));
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.params.geneId !== prevProps.params.geneId) {
+      this.props.dispatch(fetchGene(this.props.params.geneId));
+    }
   }
 
   render() {
@@ -37,7 +39,7 @@ class GenePage extends Component {
     let title = 'AGR gene page for ' + this.props.data.species + ' gene: ' + this.props.data.symbol;
 
     // todo, add chromosome
-    let genomeLocation ;
+    let genomeLocation = {};
     if(this.props.data.genomeLocations){
       if(this.props.data.genomeLocations.length==1){
         genomeLocation = this.props.data.genomeLocations[0];
@@ -63,39 +65,22 @@ class GenePage extends Component {
           <BasicGeneInfo geneData={this.props.data} />
         </Subsection>
 
-
-        <Subsection title='Transcript Viewer'>
-          {genomeLocation && genomeLocation.start && genomeLocation.end
-            ?
-            <TranscriptInlineViewer
-              chromosome={genomeLocation.chromosome}
-              fmax={genomeLocation.end}
-              fmin={genomeLocation.start}
-              geneSymbol={this.props.data.symbol}
-              species={this.props.data.species}
-            />
-            :
-            <div className="alert alert-warning">Genome Location Data Unavailable</div>
-          }
+        <Subsection hasData={typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'} title='Transcript Viewer'>
+          <TranscriptInlineViewer
+            chromosome={genomeLocation.chromosome}
+            fmax={genomeLocation.end}
+            fmin={genomeLocation.start}
+            geneSymbol={this.props.data.symbol}
+            species={this.props.data.species}
+          />
         </Subsection>
 
-        <br />
-
-        {/*<Subsection title='Transcript Viewer'>*/}
-          {/*{genomeLocation*/}
-            {/*?*/}
-            {/*<TranscriptViewer geneSymbol={this.props.data.symbol} species={this.props.data.species} fmin={genomeLocation.fmin } fmax={genomeLocation.fmax} chromosome={genomeLocation.chromosome}/>*/}
-            {/*:*/}
-            {/*<div className="alert alert-warning">Genome Location Data Unavailable</div>*/}
-          {/*}*/}
-        {/*</Subsection>*/}
-
-        <Subsection hardcoded title='Orthology'>
-          <OrthologyTable data={mockOrthologData} />
+        <Subsection hasData={(this.props.data.orthology || []).length > 0} title='Orthology'>
+          <OrthologyTable data={this.props.data.orthology} />
         </Subsection>
 
-        <Subsection hardcoded title='Disease Associations'>
-          <DiseaseTable />
+        <Subsection hasData={this.props.data.diseases.length > 0} title='Disease Associations'>
+          <DiseaseTable data={this.props.data.diseases} />
         </Subsection>
 
       </div>
