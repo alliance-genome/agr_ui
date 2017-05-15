@@ -13,6 +13,7 @@
   "dependencies": {
     "d3": "^3.5.17",
     "extract-text-webpack-plugin": "^1.0.1",
+    "gene-ontology-ribbon": "https://github.com/geneontology/ribbon/releases/download/v0.1.0-alpha.1/gene-ontology-ribbon-v0.1.0-alpha.1.tgz",
     "immutable": "^3.8.1",
     "react": "^15.3.2",
     "react-autosuggest": "^6.1.0",
