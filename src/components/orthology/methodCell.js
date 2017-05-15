@@ -2,32 +2,29 @@ import React from 'react';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { ALL_METHODS, methodCellStyle } from './constants';
 
-const MethodCell = ({methods}) => {
-  const calledSet = new Set(
-    (methods || [])
-      .filter((method) => method.isCalled)
-      .map((method) => method.id)
-  );
-  const notCalledSet = new Set(
-    (methods || [])
-      .filter((method) => !method.isCalled)
-      .map((method) => method.id)
-  );
+const MethodCell = (props) => {
+  const {
+    predictionMethodsMatched,
+    predictionMethodsNotMatched
+  } = props;
+
+  const predictionMethodsMatchedSet = new Set(predictionMethodsMatched);
+  const predictionMethodsNotMatchedSet = new Set(predictionMethodsNotMatched);
 
   return (
     <td>
     {
-      Object.keys(ALL_METHODS).map((method) => {
+      Object.keys(ALL_METHODS).sort().map((method) => {
 
         const methodName = ALL_METHODS[method].name;
 
         let symbol, tipText;
-        if (calledSet.has(method)) {
+        if (predictionMethodsMatchedSet.has(methodName)) {
           symbol = '\u2611';
-          tipText = `Call made by ${methodName}`;
-        } else if (notCalledSet.has(method)) {
+          tipText = `Match by ${methodName}`;
+        } else if (predictionMethodsNotMatchedSet.has(methodName)) {
           symbol = '\u2610';
-          tipText = `No call made by ${methodName}`;
+          tipText = `No match by ${methodName}`;
         } else {
           symbol = '\u00a0';
           tipText = `Comparision not available on ${methodName}`;
@@ -67,7 +64,8 @@ const MethodCell = ({methods}) => {
 };
 
 MethodCell.propTypes = {
-  methods: React.PropTypes.arrayOf(React.PropTypes.string),
+  predictionMethodsMatched: React.PropTypes.arrayOf(React.PropTypes.string),
+  predictionMethodsNotMatched: React.PropTypes.arrayOf(React.PropTypes.string)
 };
 
 export default MethodCell;

@@ -27,6 +27,7 @@
     "react-router-scroll": "^0.4.1",
     "react-select": "^1.0.0-rc.2",
     "redux": "^3.6.0",
+    "redux-thunk": "2.2.0",
     "reselect": "^2.5.4",
     "underscore": "^1.8.3"
   },
