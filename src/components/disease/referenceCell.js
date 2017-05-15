@@ -4,8 +4,8 @@ const ReferenceCell = (refs) => {
   return refs && refs.map((ref) => {
     if (ref.pubMedId && ref.pubMedUrl) {
       return <a href={ref.pubMedUrl}>{ref.pubMedId}</a>;
-    } else {
-      return <span>{ref.publicationModId}</span>;
+    } else if (ref.publicationModId && ref.pubModUrl) {
+      return <a href={ref.pubModUrl}>{ref.publicationModId}</a>;
     }
   })
   .reduce((prev, curr) => [prev, ', ', curr]);
