@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import MethodHeader from './methodHeader';
 import MethodCell from './methodCell';
 import BooleanCell from './booleanCell';
 
 const columnNames = ['Species', 'Gene symbol', 'Score',
-  'Best score', 'Best reverse score', 'Method', 'Align'];
+  'Best score', 'Best reverse score', 'Method'];
 
 class OrthologyTable extends Component {
 
@@ -26,25 +27,32 @@ class OrthologyTable extends Component {
         </thead>
         <tbody>
         {
-          this.props.data.map((orthData) => {
+          this.props.data.sort((orthDataA, orthDataB) => {
+            return (orthDataA.gene2SpeciesName || '').localeCompare(orthDataB.gene2SpeciesName);
+          }).map((orthData) => {
+            const scoreNumerator = orthData.predictionMethodsMatched.length;
+            const scoreDemominator = scoreNumerator +
+              orthData.predictionMethodsNotCalled.length +
+              orthData.predictionMethodsNotCalled.length;
             return (
-              <tr key={`${orthData.species}-${orthData.geneSymbol}`}>
-                <td>{orthData.species}</td>
+              <tr key={`${orthData.gene2AgrPrimaryId}`}>
+                <td>{orthData.gene2SpeciesName}</td>
                 <td>
-                  <a href={orthData.geneURL}>{orthData.geneSymbol}</a>
-                  <span
-                    style={{
-                      display: 'inline-block',
-                      margin: '0 0.5em'
-                    }}
-                  >|</span>
-                  <a href={`https://www.ncbi.nlm.nih.gov/gene/${orthData.ncbiID}`}>[NCBI]</a>
+                  <Link to={`/gene/${orthData.gene2AgrPrimaryId}`}>{orthData.gene2Symbol}</Link>
                 </td>
-                <td>{`${orthData.scoreNumerator} of ${orthData.scoreDemominator}`}</td>
-                <BooleanCell value={orthData.isBestScore} />
-                <BooleanCell value={orthData.isBestScoreReverse} />
-                <MethodCell methods={orthData.methods} />
-                <td><a href={orthData.alignURL}>View</a></td>
+                <td>{`${scoreNumerator} of ${scoreDemominator}`}</td>
+                <BooleanCell
+                  isTrueFunc={(value) => value === 'Yes'}
+                  value={orthData.isBestScore}
+                />
+                <BooleanCell
+                  isTrueFunc={(value) => value === 'Yes'}
+                  value={orthData.isBestRevScore}
+                />
+                <MethodCell
+                  predictionMethodsMatched={orthData.predictionMethodsMatched}
+                  predictionMethodsNotMatched={orthData.predictionMethodsNotMatched}
+                />
               </tr>
             );
           })
@@ -58,15 +66,15 @@ class OrthologyTable extends Component {
 OrthologyTable.propTypes = {
   data: React.PropTypes.arrayOf(
     React.PropTypes.shape({
-      species: React.PropTypes.string,
-      geneSymbol: React.PropTypes.string,
-      geneURL: React.PropTypes.string,
-      ncbiID: React.PropTypes.string,
-      scoreNumerator: React.PropTypes.number,
-      scoreDemominator: React.PropTypes.number,
+      gene2AgrPrimaryId: React.PropTypes.string,
+      gene2Symbol: React.PropTypes.string,
+      gene2Species: React.PropTypes.number,
+      gene2SpeciesName: React.PropTypes.string,
+      predictionMethodsMatched: React.PropTypes.arrayOf(React.PropTypes.string),
+      predictionMethodsNotCalled: React.PropTypes.arrayOf(React.PropTypes.string),
+      predictionMethodsNotMatched: React.PropTypes.arrayOf(React.PropTypes.string),
       isBestScore: React.PropTypes.bool,
-      isBestScoreReverse: React.PropTypes.bool,
-      alignURL: React.PropTypes.string,
+      isBestRevScore: React.PropTypes.bool,
     })
   )
 };
