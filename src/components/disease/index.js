@@ -100,8 +100,8 @@ class DiseaseTable extends Component {
        <FlybaseDataGrid
          columns={headers}
          data={data}
-         showColumnFilter
          downloadButton={['tsv']}
+         showColumnFilter
          width={1110}
        />
 

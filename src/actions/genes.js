@@ -1,10 +1,17 @@
+import fetchData from '../lib/fetchData';
+
 export const FETCH_GENE = 'FETCH_GENE';
 export const FETCH_GENE_SUCCESS = 'FETCH_GENE_SUCCESS';
 export const FETCH_GENE_FAILURE = 'FETCH_GENE_FAILURE';
 
-export const fetchGene = function () {
-  return {
-    type: FETCH_GENE,
+export const fetchGene = function (id) {
+  return (dispatch) => {
+    dispatch({
+      type: FETCH_GENE,
+    });
+    fetchData(`/api/gene/${id}`)
+      .then((data) => dispatch(fetchGeneSuccess(data)))
+      .catch((error) => dispatch(fetchGeneFailure(error)));
   };
 };
 
