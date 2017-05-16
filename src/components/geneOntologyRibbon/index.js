@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Ribbon, { RibbonDataProvider } from 'gene-ontology-ribbon';
+import '../../../node_modules/gene-ontology-ribbon/lib/index.css';
 
 class GeneOntologyRibbon extends Component {
   render() {
