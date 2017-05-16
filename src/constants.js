@@ -37,11 +37,47 @@ export const MENU = {
     slug: 'contact-us',
     path: 'contact'
   },
-  publications: {
+  projects: {
     title: 'Projects, Work Pruduct, Publications - Alliance of Genome Resources',
     label: 'Projects, Work Pruduct, Publications',
     slug: 'projects-work-products-publications',
-    path: 'publications'
+    path: 'projects'
+  }
+};
+export const SUB_MENU= {
+  about: {
+    organization: {
+      title: 'Organization and Governance - Alliance of Genome Resources',
+      label: 'Organization and Governance',
+      slug: 'organization-and-governance',
+      path: 'organization'
+    },
+    faq:{
+      title: 'FREQUENTLY ASKED QUESTIONS - Alliance of Genome Resources',
+      label: 'Frequently Asked Questions',
+      slug: 'frequently-asked-questions',
+      path: 'faq'
+    },
+    funding: {
+      title: 'FUNDING - Alliance of Genome Resources',
+      label: 'FUNDING',
+      slug: 'funding',
+      path: 'funding'
+    }
+  },
+  projects: {
+    goups: {
+      title: 'Projects, Work Product, Publications - Alliance of Genome Resources',
+      label: 'Projects, Work Product, Publications',
+      slug: 'projects-work-products-publications',
+      path: 'projects'
+    },
+    publications:{
+      title: 'Publications - Alliance of Genome Resources',
+      label: 'Publications',
+      slug: 'publications',
+      path: 'publications'
+    }
   }
 };
 export const NON_HIGHLIGHTED_FIELDS = ['sourceHref', 'href', 'category', 'homologs', 'paralogs', 'orthologs', 'homologs.symbol', 'homologs.panther_family'];
