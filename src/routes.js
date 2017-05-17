@@ -18,6 +18,7 @@ export default (
     <Route component={Wordpress} path='supplement' />
     <Route component={Wordpress} path='orthology' />
     <Route component={Wordpress} path='phenotypes' />
+    <Route component={Wordpress} path='publications' />
     <Route component={Wordpress} path='contact' />
     <Route component={Wordpress} path='projects' />
     <Route component={Search} path='search' />
