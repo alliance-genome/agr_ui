@@ -19,6 +19,9 @@ class Layout extends Component {
 
     return (
       <div className={style.appContainer}>
+        <div className={`alert alert-warning ${style.appAlert}`} role='alert'>
+          This website is a prototype and information may not be verified. Submit bugs <a href='https://agr-jira.atlassian.net'>here.</a>
+        </div>
         <TopBar />
         <div className={style.topHeader}>
           <div className={`row ${style.content}`}>
