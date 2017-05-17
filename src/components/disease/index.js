@@ -1,107 +1,69 @@
 /* eslint-disable react/no-multi-comp */
 
+import _ from 'underscore';
 import React, { Component } from 'react';
 import FlybaseDataGrid from 'react-flybase-datagrid';
-
-const doLink = (name, row) => (
-  <a href={`http://www.disease-ontology.org/?id=${row.do_id}`}>{name}</a>
-);
+import DiseaseNameCell from './diseaseNameCell';
+import ReferenceCell from './referenceCell';
 
 const headers = [
-  {id:'do_name', name:'Disease Name', render: doLink},
+  {id:'doName', name:'Disease Name', render: DiseaseNameCell},
   {id:'associationType', name:'Association'},
   {id:'evidence', name:'Evidence Code'},
   {id:'dataProvider', name:'Association Source'},
-  {id:'ref', name:'References'}
+  {id:'refs', name:'References', render: ReferenceCell}
 ];
 
 class DiseaseTable extends Component {
-  constructor(props) {
-    super(props);
-
-    // var diseases = [
-    //   {
-    //     'associationType': 'contributes_to_condition',
-    //     'dataProvider': 'ZFIN',
-    //     'do_name': [
-    //       'cardiomyopathy'
-    //     ],
-    //     'evidence': [
-    //       {
-    //         'evidenceCode': 'TAS',
-    //         'pubs': [
-    //           {
-    //             'pubMedId': '27642634',
-    //             'publicationModId': 'ZFIN:ZDB-PUB-160920-5'
-    //           },
-    //           {
-    //             'pubMedId': '1233',
-    //             'publicationModId': 'ZFIN:ZDB-PUB-170406-10'
-    //           }
-    //         ]
-    //       }
-    //     ],
-    //   },
-    //   {
-    //     'associationType': 'contributes_to_condition',
-    //     'dataProvider': 'flybase',
-    //     'do_name': [
-    //       'cancer'
-    //     ],
-    //     'evidence': [
-    //       {
-    //         'evidenceCode': 'TAS',
-    //         'pubs': [
-    //           {
-    //             'pubMedId': '987654',
-    //             'publicationModId': 'ZFIN:ZDB-PUB-160920-5'
-    //           },
-    //           {
-    //             'pubMedId': '',
-    //             'publicationModId': 'ZFIN:ZDB-PUB-170406-10'
-    //           }
-    //         ]
-    //       }
-    //     ],
-    //   }
-    // ];
-
-  }
-
   render() {
     const diseases = this.props.data;
 
-    var data = diseases.map((disease) => {
-      const {
-        associationType: associationType,
-        dataProvider: dataProvider,
-        do_id: do_id,
-        do_name: do_name,
-        evidence: [
-          {
-            evidenceCode: evidenceCode,
-            pubs: [ ...pubs ]
-          }
-        ],
-      } = disease;
-
-      return {
-        do_id : do_id,
-        do_name : do_name,
-        associationType: associationType,
-        evidence: evidenceCode,
-        dataProvider: dataProvider,
-        ref: pubs.map((pub) => { return pub['pubMedId']; }).filter((pub) => { return (pub!=undefined); }).join()
-      };
+    // the way the incoming data is grouped doesn't exactly align with the way
+    // we need it to be grouped for display. so, we need to flatten it out and
+    // then re-group it here.
+    const flattened = [];
+    diseases.forEach((disease) => {
+      disease.evidence.forEach((evidence) => {
+        evidence.pubs.forEach((pub) => {
+          flattened.push({
+            doId: disease.do_id,
+            doName: disease.do_name,
+            doIdDisplay: disease.doIdDisplay,
+            associationType: disease.associationType,
+            dataProvider: disease.dataProvider,
+            evidence: evidence.evidenceCode,
+            refs: [pub],
+          });
+        });
+      });
     });
+    let data = [];
+    _.chain(flattened)
+      .sortBy('evidence')
+      .sortBy('dataProvider')
+      .sortBy('associationType')
+      .sortBy('doName')
+      .each((row) => {
+        let prev = _.last(data);
+        if (typeof prev !== 'undefined' &&
+            row.evidence === prev.evidence &&
+            row.dataProvider === prev.dataProvider &&
+            row.associationType === prev.associationType &&
+            row.doName === prev.doName) {
+          prev.refs = prev.refs.concat(row.refs);
+        } else {
+          data.push(row);
+        }
+      });
 
     return (
 
        <FlybaseDataGrid
          columns={headers}
          data={data}
-         showColumnFilter
          downloadButton={['tsv']}
+         maxHeight={1000}
+         showColumnFilter
          width={1110}
        />
 
