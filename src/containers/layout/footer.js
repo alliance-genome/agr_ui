@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Link } from 'react-router';
 
 import style from './style.css';
-import Menu from './menu';
+import SocialMedia from './socialMedia';
 import logo from './logofooter-1.png';
 import { SMALL_COL_CLASS, LARGE_COL_CLASS } from '../../constants';
 
@@ -16,10 +16,8 @@ class FooterBar extends Component {
                 <img className={style.logo} src={logo} />
               </Link>
           </div>
-          <div className={LARGE_COL_CLASS}>
-              <div className={style.nav}>
-                <Menu />
-              </div>
+          <div className={`${LARGE_COL_CLASS} ${style.rightWidgets}`}>
+            <div className={style.socialMediaContainer}><SocialMedia /></div>
           </div>
         </div>
       </div>
