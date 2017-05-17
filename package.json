@@ -19,7 +19,7 @@
     "react-autosuggest": "^6.1.0",
     "react-bootstrap": "^0.30.5",
     "react-dom": "^15.3.2",
-    "react-flybase-datagrid": "0.6.0",
+    "react-flybase-datagrid": "0.6.1",
     "react-ga": "^2.2.0",
     "react-helmet": "^5.0.0",
     "react-redux": "^4.4.5",
