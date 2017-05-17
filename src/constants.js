@@ -18,7 +18,7 @@ export const CATEGORIES = [
   }
 ];
 
-export const MENU = {
+export const WP_PAGES ={
   home: {
     title: 'Home - Alliance of Genome Resources',
     label: 'Home',
@@ -31,53 +31,88 @@ export const MENU = {
     slug: 'about-us',
     path: 'about'
   },
+  projects: {
+    title: 'Projects, Work Product, Publications - Alliance of Genome Resources',
+    label: 'Projects, Work Product, Publications',
+    slug: 'projects-work-products-publications',
+    path: 'projects'
+  },
   contact: {
     title: 'Contact Us - Alliance of Genome Resources',
     label: 'Contact Us',
     slug: 'contact-us',
     path: 'contact'
   },
-  projects: {
-    title: 'Projects, Work Pruduct, Publications - Alliance of Genome Resources',
-    label: 'Projects, Work Pruduct, Publications',
+  faq:{
+    title: 'FREQUENTLY ASKED QUESTIONS - Alliance of Genome Resources',
+    label: 'Frequently Asked Questions',
+    slug: 'frequently-asked-questions',
+    path: 'faq'
+  },
+  funding: {
+    title: 'FUNDING - Alliance of Genome Resources',
+    label: 'FUNDING',
+    slug: 'funding',
+    path: 'funding'
+  },
+  organization: {
+    title: 'Organization and Governance - Alliance of Genome Resources',
+    label: 'Organization and Governance',
+    slug: 'organization-and-governance',
+    path: 'organization'
+  },
+  goups: {
+    title: 'Projects, Work Product, Publications - Alliance of Genome Resources',
+    label: 'Projects, Work Product, Publications',
     slug: 'projects-work-products-publications',
     path: 'projects'
+  },
+  features: {
+    title: 'Genome Features - Alliance of Genome Resources',
+    label: 'Genome Features',
+    slug: 'genome-features',
+    path: 'features'
+  },
+  supplement: {
+    title: 'Administrative Supplement - Alliance of Genome Resources',
+    label: 'Administrative Supplement',
+    slug: 'administrative-supplement',
+    path: 'supplement'
+  },
+  orthology: {
+    title: 'Orthology - Alliance of Genome Resources',
+    label: 'Orthology',
+    slug: 'orthology',
+    path: 'orthology'
+  },
+  phenotypes: {
+    title: 'Phenotypes And Disease Models - Alliance of Genome Resources',
+    label: 'Phenotypes And Disease Models',
+    slug: 'phenotypes-and-disease-models',
+    path: 'phenotypes'
+  },
+  publications:{
+    title: 'Publications - Alliance of Genome Resources',
+    label: 'Publications',
+    slug: 'publications',
+    path: 'publications'
   }
 };
+export const MENU = [
+  'home',
+  'about',
+  'projects',
+  'contact'
+];
 export const SUB_MENU= {
-  about: {
-    organization: {
-      title: 'Organization and Governance - Alliance of Genome Resources',
-      label: 'Organization and Governance',
-      slug: 'organization-and-governance',
-      path: 'organization'
-    },
-    faq:{
-      title: 'FREQUENTLY ASKED QUESTIONS - Alliance of Genome Resources',
-      label: 'Frequently Asked Questions',
-      slug: 'frequently-asked-questions',
-      path: 'faq'
-    },
-    funding: {
-      title: 'FUNDING - Alliance of Genome Resources',
-      label: 'FUNDING',
-      slug: 'funding',
-      path: 'funding'
-    }
-  },
-  projects: {
-    goups: {
-      title: 'Projects, Work Product, Publications - Alliance of Genome Resources',
-      label: 'Projects, Work Product, Publications',
-      slug: 'projects-work-products-publications',
-      path: 'projects'
-    },
-    publications:{
-      title: 'Publications - Alliance of Genome Resources',
-      label: 'Publications',
-      slug: 'publications',
-      path: 'publications'
-    }
-  }
+  about: [
+    'faq',
+    'funding',
+    'organization'
+  ],
+  projects: [
+    'goups',
+    'publications'
+  ]
 };
 export const NON_HIGHLIGHTED_FIELDS = ['sourceHref', 'href', 'category', 'homologs', 'paralogs', 'orthologs', 'homologs.symbol', 'homologs.panther_family'];
