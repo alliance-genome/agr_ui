@@ -2,15 +2,20 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 
 import style from './style.css';
-import { MENU } from '../../constants';
+import SubMenu from './subMenu';
+import { MENU, WP_PAGES } from '../../constants';
 
 
 class Menu extends Component {
   render() {
     let container=[];
-    Object.keys(MENU).map((page,index)=>{
-      container.push(<Link className={`nav-link ${style.navLink}`} key={index} to={MENU[page].path}>{MENU[page].label}</Link>);
-    });
+    for(var index in MENU){
+      let page=MENU[index];
+      container.push(<div className={style.navContainer} key={index}>
+                       <Link className={`nav-link ${style.navLink}`} to={WP_PAGES[page].path}>{WP_PAGES[page].label}  </Link>
+                       <SubMenu path={page} />
+                     </div>);
+    }
     return (
       <div className={style.nav}>
        {container}

@@ -7,7 +7,7 @@ import { fetchWp, fetchWpSuccess, fetchWpFailure } from '../../actions/wp';
 import { selectWp } from '../../selectors/wpSelectors';
 
 import HeadMetaTags from '../../components/headMetaTags';
-import{ WP_REST_API_BASE_URL, MENU } from '../../constants';
+import{ WP_REST_API_BASE_URL, WP_PAGES } from '../../constants';
 
 
 class Wordpress extends Component {
@@ -29,7 +29,7 @@ class Wordpress extends Component {
   }
   getData(currentRoute){
     this.props.dispatch(fetchWp());
-    let homeUrl= WP_REST_API_BASE_URL+MENU[currentRoute].slug;
+    let homeUrl= WP_REST_API_BASE_URL+WP_PAGES[currentRoute].slug;
     fetchData(homeUrl)
       .then(data => this.props.dispatch(fetchWpSuccess(data)))
       .catch(error => this.props.dispatch(fetchWpFailure(error)));
@@ -46,7 +46,7 @@ class Wordpress extends Component {
     if (!this.props.data) {
       return null;
     }
-    let title= MENU[this.getCurrentRoute(this.props)].title; 
+    let title= WP_PAGES[this.getCurrentRoute(this.props)].title; 
     return (
       <div>
         <HeadMetaTags title={title} />
