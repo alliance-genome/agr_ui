@@ -12,9 +12,9 @@ class Menu extends Component {
     for(var index in MENU){
       let page=MENU[index];
       container.push(<div className={style.navContainer} key={index}>
-                       <Link className={`nav-link ${style.navLink}`} to={WP_PAGES[page].path}>{WP_PAGES[page].label}  </Link>
-                       <SubMenu path={page} />
-                     </div>);
+          <Link className={`nav-link ${style.navLink}`} to={`/wordpress/${WP_PAGES[page].path}`}>{WP_PAGES[page].label}  </Link>
+          <SubMenu path={page} />
+         </div>);
     }
     return (
       <div className={style.nav}>
