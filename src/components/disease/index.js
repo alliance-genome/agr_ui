@@ -29,7 +29,7 @@ class DiseaseTable extends Component {
             doId: disease.do_id,
             doName: disease.do_name,
             doIdDisplay: disease.doIdDisplay,
-            associationType: disease.associationType,
+            associationType: disease.associationType.replace(/_/g, ' '),
             dataProvider: disease.dataProvider,
             evidence: evidence.evidenceCode,
             refs: [pub],
