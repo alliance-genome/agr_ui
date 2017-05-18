@@ -21,12 +21,9 @@ class Wordpress extends Component {
     if(this.getCurrentRoute(this.props) != this.getCurrentRoute(nextProps)){
       this.getData(this.getCurrentRoute(nextProps));
     }
-  } 
+  }
   getCurrentRoute(props){
-    let currentRoute = (props.params.pageId===undefined)?'':props.params.pageId;
-    currentRoute=currentRoute.replace('/','');
-    currentRoute=currentRoute==''?'home' : currentRoute;
-    return currentRoute;
+    return props.params.pageId;
   }
   getData(currentRoute){
     this.props.dispatch(fetchWp());
@@ -47,7 +44,7 @@ class Wordpress extends Component {
     if (!this.props.data) {
       return null;
     }
-    let title= WP_PAGES[this.getCurrentRoute(this.props)].title; 
+    let title = WP_PAGES[this.getCurrentRoute(this.props)].title;
     return (
       <div>
         <HeadMetaTags title={title} />
