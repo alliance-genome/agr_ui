@@ -9,6 +9,8 @@ import GenePage from './containers/genePage';
 export default (
   <Route component={Layout} path='/'>
     <IndexRoute component={Wordpress} />
+    <Route component={Wordpress} path='wordpress/' />
+    <Route component={Wordpress} path='wordpress' />
     <Route component={Wordpress} path='wordpress/:pageId' />
     <Route component={Search} path='search' />
     <Route component={GenePage} path='gene/:geneId' />
