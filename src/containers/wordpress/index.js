@@ -23,7 +23,8 @@ class Wordpress extends Component {
     }
   } 
   getCurrentRoute(props){
-    let currentRoute=props.location.pathname.replace('/','');
+    let currentRoute = (props.params.pageId===undefined)?'':props.params.pageId;
+    currentRoute=currentRoute.replace('/','');
     currentRoute=currentRoute==''?'home' : currentRoute;
     return currentRoute;
   }
@@ -61,6 +62,7 @@ Wordpress.propTypes = {
   error: React.PropTypes.object,
   loading: React.PropTypes.bool,
   location: React.PropTypes.object,
+  params: React.PropTypes.object,
 };
 
 function mapStateToProps(state) {
