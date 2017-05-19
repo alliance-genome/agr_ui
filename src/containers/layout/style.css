@@ -12,7 +12,7 @@
 .logo {
 	width: 100%;
 }
-
+.socialMediaContainer{padding-top: 1rem;}
 .appContainer {
 	font-family: Lato, Helvetica, sans-serif;
 }
@@ -24,8 +24,10 @@
 .solidBg{
         background:#2598C5;
 }
+
 .miniContact a:link,
 .miniContact a:visited{color:#fff;}
+
 .rightWidgets { text-align:right;}
 
 .midHeader {
@@ -44,24 +46,44 @@
 	justify-content: space-between;
 	padding: 0;
 	min-width: 185px;
+       
+}
+.navContainer{
+  border-right: solid 1px #ddd ;
+  position:relative;
 }
 
-.home a,
-.about a{ 
-	color:#2598C5;
-        text-decoration:underline;
-}
 .navLink {
-	color: #e2e2e2 !important;
+        color: #e2e2e2 !important;
         color: #777 !important;
-        border-right: solid 1px #ddd ;
         padding:1em;
         text-align:center;
+        position:relative;
 }
-nav.navLink {
-	color: #777 !important;
-        border-right: solid 1px #ddd ;
+.sub_nav{
+  display: none;
 }
+.sub_nav{
+  justify-content: space-between;
+  border:solid 1px #ddd;
+  width:auto;
+  margin:auto;
+  position:absolute;
+  z-index:10;
+}
+.sub_nav .sub_nav_link {
+  width:auto;
+  margin:auto;
+  white-space:nowrap;
+}
+.sub_nav_link:hover{
+    background:#efefef;
+}
+
+.navContainer:hover .sub_nav{
+   display:block;
+}
+
 .loaderContentContainer {
 	position: relative;
 }
@@ -69,6 +91,10 @@ nav.navLink {
 .contentContainer {
 	min-height: 400px;
 	padding: 0.75rem 1rem 0.5rem 1rem;
+}
+.bottomRow {
+       background:#3E82BF;
+       color:#ffffff;
 }
 .footerBar {
         width: 100%;padding:0;

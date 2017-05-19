@@ -7,7 +7,7 @@ import { fetchWp, fetchWpSuccess, fetchWpFailure } from '../../actions/wp';
 import { selectWp } from '../../selectors/wpSelectors';
 
 import HeadMetaTags from '../../components/headMetaTags';
-import{ WP_REST_API_BASE_URL, MENU } from '../../constants';
+import{ WP_REST_API_BASE_URL, WP_PAGES } from '../../constants';
 
 
 class Wordpress extends Component {
@@ -21,15 +21,13 @@ class Wordpress extends Component {
     if(this.getCurrentRoute(this.props) != this.getCurrentRoute(nextProps)){
       this.getData(this.getCurrentRoute(nextProps));
     }
-  } 
+  }
   getCurrentRoute(props){
-    let currentRoute=props.location.pathname.replace('/','');
-    currentRoute=currentRoute==''?'home' : currentRoute;
-    return currentRoute;
+    return props.params.pageId;
   }
   getData(currentRoute){
     this.props.dispatch(fetchWp());
-    let homeUrl= WP_REST_API_BASE_URL+MENU[currentRoute].slug;
+    let homeUrl= WP_REST_API_BASE_URL+WP_PAGES[currentRoute].slug;
     fetchData(homeUrl)
       .then(data => this.props.dispatch(fetchWpSuccess(data)))
       .catch(error => this.props.dispatch(fetchWpFailure(error)));
@@ -46,7 +44,7 @@ class Wordpress extends Component {
     if (!this.props.data) {
       return null;
     }
-    let title= MENU[this.getCurrentRoute(this.props)].title; 
+    let title = WP_PAGES[this.getCurrentRoute(this.props)].title;
     return (
       <div>
         <HeadMetaTags title={title} />
@@ -61,6 +59,7 @@ Wordpress.propTypes = {
   error: React.PropTypes.object,
   loading: React.PropTypes.bool,
   location: React.PropTypes.object,
+  params: React.PropTypes.object,
 };
 
 function mapStateToProps(state) {
