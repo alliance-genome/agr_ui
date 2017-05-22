@@ -15,6 +15,9 @@ class GeneOntologyRibbon extends Component {
           {
             dataError ? <i className="text-muted">No Data Available</i> : null
           }
+          {
+            dataReceived || dataError ? null : 'Loading...'
+          }
           </div>
         )
       }
