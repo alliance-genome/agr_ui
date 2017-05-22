@@ -19,11 +19,18 @@ export function injectHighlightIntoResponse(responseObj) {
     simpleHighObj[key] = highStr;
     // don't highlight some fields
     if (NON_HIGHLIGHTED_FIELDS.indexOf(key) < 0) {
-      responseObj[key] = highStr;
+      responseObj[key] = injectHighlightingIntoValue(highStr, responseObj[key]);
     }
   });
   responseObj.highlights = simpleHighObj;
   return responseObj;
+}
+
+function injectHighlightingIntoValue(highlight, value) {
+  if (highlight === undefined || value === undefined) { return value; }
+  var unhighlightedValue = highlight.replace(/<\/?[em]+(>|$)/g, '');
+
+  return value.toString().replace(unhighlightedValue, highlight);
 }
 
 export function parseResults(results) {

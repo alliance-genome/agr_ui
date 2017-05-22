@@ -1,5 +1,5 @@
 import React from 'react';
-import { IndexRoute, Route  } from 'react-router';
+import { Route, IndexRedirect } from 'react-router';
 
 import Wordpress from './containers/wordpress';
 import Layout from './containers/layout';
@@ -8,11 +8,11 @@ import GenePage from './containers/genePage';
 
 export default (
   <Route component={Layout} path='/'>
-    <IndexRoute component={Wordpress} />
-    <Route component={Wordpress} path='home' />
-    <Route component={Wordpress} path='about' />
-    <Route component={Wordpress} path='contact' />
-    <Route component={Wordpress} path='publications' />
+    <IndexRedirect to="/wordpress" />
+    <Route component={Wordpress} path='wordpress' >
+      <IndexRedirect to="home" />
+      <Route component={Wordpress} path=':pageId' />
+    </Route>
     <Route component={Search} path='search' />
     <Route component={GenePage} path='gene/:geneId' />
   </Route>
