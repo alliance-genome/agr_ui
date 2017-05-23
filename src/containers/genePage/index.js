@@ -8,6 +8,7 @@ import BasicGeneInfo from './basicGeneInfo';
 import GenePageHeader from './genePageHeader';
 import { OrthologyTable } from '../../components/orthology';
 import DiseaseTable from '../../components/disease';
+import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
 import Subsection from '../../components/subsection';
 import HeadMetaTags from '../../components/headMetaTags';
 import TranscriptInlineViewer from './transcriptInlineViewer';
@@ -81,6 +82,10 @@ class GenePage extends Component {
 
         <Subsection hasData={this.props.data.diseases.length > 0} title='Disease Associations'>
           <DiseaseTable data={this.props.data.diseases} />
+        </Subsection>
+
+        <Subsection title='Gene Ontology Ribbon'>
+          <GeneOntologyRibbon db={this.props.data.dataProvider} id={this.props.data.primaryId} />
         </Subsection>
 
       </div>
