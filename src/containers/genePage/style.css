@@ -23,7 +23,9 @@
     background-size: 82px 546px;
   }
 }
-
+@media(max-width:995px){
+   dd{clear:both;border-bottom:dashed 1px #efefef;padding-bottom:0.4em;}
+}
 .speciesIcon.Drosophila-melanogaster { /* fly */
   background-position: 0 0;
 }
