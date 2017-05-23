@@ -62,9 +62,8 @@ class DiseaseTable extends Component {
          columns={headers}
          data={data}
          downloadButton={['tsv']}
-         maxHeight={1000}
+         maxHeight={1000000000000000000000}
          showColumnFilter
-         width={1110}
        />
 
     );
