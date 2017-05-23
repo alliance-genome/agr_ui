@@ -5,8 +5,9 @@ import '../../../node_modules/gene-ontology-ribbon/lib/index.css';
 class GeneOntologyRibbon extends Component {
   render() {
     const {db, id} =  this.props;
+
     return (
-      <RibbonDataProvider db={db} id={id}>
+      <RibbonDataProvider subject={id}>
       {({title, data, dataReceived, dataError}) => (
           <div>
           {
