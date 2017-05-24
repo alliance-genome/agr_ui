@@ -4,7 +4,7 @@ import '../../../node_modules/gene-ontology-ribbon/lib/index.css';
 
 class GeneOntologyRibbon extends Component {
   render() {
-    const {db, id} =  this.props;
+    const {id} =  this.props;
 
     return (
       <RibbonDataProvider subject={id}>
@@ -28,7 +28,6 @@ class GeneOntologyRibbon extends Component {
 }
 
 GeneOntologyRibbon.propTypes = {
-  db: React.PropTypes.string.isRequired,
   id: React.PropTypes.string.isRequired
 };
 
