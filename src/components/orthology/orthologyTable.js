@@ -7,6 +7,21 @@ import BooleanCell from './booleanCell';
 const columnNames = ['Species', 'Gene symbol', 'Score',
   'Best score', 'Best reverse score', 'Method'];
 
+const speciesOrder = [
+  'H. sapiens',
+  'M. musculus',
+  'R. norvegicus',
+  'D. rerio',
+  'D. melanogaster',
+  'C. elegans',
+  'S. cerevisiae'
+];
+
+const getSpeciesOrderScore = (speciesName) => {
+  const speciesIndex = speciesOrder.indexOf(speciesName);
+  return speciesIndex === -1 ? speciesOrder.length : speciesIndex;
+}
+
 class OrthologyTable extends Component {
 
   render() {
@@ -28,7 +43,8 @@ class OrthologyTable extends Component {
         <tbody>
         {
           this.props.data.sort((orthDataA, orthDataB) => {
-            return (orthDataA.gene2SpeciesName || '').localeCompare(orthDataB.gene2SpeciesName);
+            return getSpeciesOrderScore(orthDataA.gene2SpeciesName) -
+              getSpeciesOrderScore(orthDataB.gene2SpeciesName);
           }).map((orthData) => {
             const scoreNumerator = orthData.predictionMethodsMatched.length;
             const scoreDemominator = scoreNumerator +
