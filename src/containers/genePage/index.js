@@ -81,7 +81,7 @@ class GenePage extends Component {
         </Subsection>
 
         <Subsection hasData={this.props.data.diseases.length > 0} title='Disease Associations'>
-          <DiseaseTable data={this.props.data.diseases} />
+          <DiseaseTable data={this.props.data.diseases} filename={'Disease-Associations'} />
         </Subsection>
 
         <Subsection title='Gene Ontology Ribbon'>
