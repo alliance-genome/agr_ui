@@ -43,8 +43,11 @@ class OrthologyTable extends Component {
         <tbody>
         {
           this.props.data.sort((orthDataA, orthDataB) => {
-            return getSpeciesOrderScore(orthDataA.gene2SpeciesName) -
+            const speciesOrderDelta = getSpeciesOrderScore(orthDataA.gene2SpeciesName) -
               getSpeciesOrderScore(orthDataB.gene2SpeciesName);
+            return speciesOrderDelta === 0 ?
+              (orthDataB.predictionMethodsMatched.length) - (orthDataA.predictionMethodsMatched.length) :
+              speciesOrderDelta;
           }).map((orthData) => {
             const scoreNumerator = orthData.predictionMethodsMatched.length;
             const scoreDemominator = scoreNumerator +
