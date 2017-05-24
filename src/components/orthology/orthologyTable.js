@@ -33,7 +33,7 @@ class OrthologyTable extends Component {
             const scoreNumerator = orthData.predictionMethodsMatched.length;
             const scoreDemominator = scoreNumerator +
               orthData.predictionMethodsNotCalled.length +
-              orthData.predictionMethodsNotCalled.length;
+              orthData.predictionMethodsNotMatched.length;
             return (
               <tr key={`${orthData.gene2AgrPrimaryId}`}>
                 <td>{orthData.gene2SpeciesName}</td>
