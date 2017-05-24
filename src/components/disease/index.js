@@ -87,10 +87,10 @@ class DiseaseTable extends Component {
     return (
 
        <FlybaseDataGrid
-         filename={filename}
          columns={headers}
          data={data}
          downloadButton={['tsv']}
+         filename={filename}
          maxHeight={1000000000000000000000}
          showColumnFilter
        />
@@ -101,6 +101,7 @@ class DiseaseTable extends Component {
 
 DiseaseTable.propTypes = {
   data: React.PropTypes.array.isRequired,
+  filename: React.PropTypes.string,
 };
 
 export default DiseaseTable;
