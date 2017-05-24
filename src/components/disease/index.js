@@ -17,6 +17,7 @@ const headers = [
 class DiseaseTable extends Component {
   render() {
     const diseases = this.props.data;
+    const filename = this.props.filename;
 
     // the way the incoming data is grouped doesn't exactly align with the way
     // we need it to be grouped for display. so, we need to flatten it out and
@@ -59,6 +60,7 @@ class DiseaseTable extends Component {
     return (
 
        <FlybaseDataGrid
+         filename={filename}
          columns={headers}
          data={data}
          downloadButton={['tsv']}
