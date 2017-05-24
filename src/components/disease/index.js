@@ -6,12 +6,39 @@ import FlybaseDataGrid from 'react-flybase-datagrid';
 import DiseaseNameCell from './diseaseNameCell';
 import ReferenceCell from './referenceCell';
 
+const refsText = (refs) => {
+  return refs.map(ref => ref.pubMedId || ref.publicationModId || '').join(', ');
+};
+
 const headers = [
-  {id:'doName', name:'Disease Name', render: DiseaseNameCell},
-  {id:'associationType', name:'Association'},
-  {id:'evidence', name:'Evidence Code'},
-  {id:'dataProvider', name:'Association Source'},
-  {id:'refs', name:'References', render: ReferenceCell}
+  {
+    id: 'doId',
+    name: 'DO ID',
+    hidden: true,
+  },
+  {
+    id: 'doName',
+    name: 'Disease Name',
+    render: DiseaseNameCell
+  },
+  {
+    id: 'associationType',
+    name: 'Association'
+  },
+  {
+    id: 'evidence',
+    name: 'Evidence Code'
+  },
+  {
+    id: 'dataProvider',
+    name: 'Association Source'
+  },
+  {
+    id: 'refs',
+    name:'References',
+    render: ReferenceCell,
+    getText: refsText
+  }
 ];
 
 class DiseaseTable extends Component {
