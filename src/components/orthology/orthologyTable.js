@@ -7,7 +7,7 @@ import BooleanCell from './booleanCell';
 const columnNames = ['Species', 'Gene symbol', 'Score',
   'Best score', 'Best reverse score', 'Method'];
 
-const speciesOrder = [
+const defaultSpeciesOrder = [
   'H. sapiens',
   'M. musculus',
   'R. norvegicus',
@@ -17,7 +17,7 @@ const speciesOrder = [
   'S. cerevisiae'
 ];
 
-const getSpeciesOrderScore = (speciesName) => {
+const getSpeciesOrderScore = (speciesName, speciesOrder = defaultSpeciesOrder) => {
   const speciesIndex = speciesOrder.indexOf(speciesName);
   return speciesIndex === -1 ? speciesOrder.length : speciesIndex;
 };
@@ -25,6 +25,14 @@ const getSpeciesOrderScore = (speciesName) => {
 class OrthologyTable extends Component {
 
   render() {
+    const speciesPresent = this.props.data.map((orthData) => {
+      return orthData.gene2SpeciesName;
+    });
+    // refine the species order to keep only species present in orthologs
+    const speciesOrder = defaultSpeciesOrder.filter((speciesName) => {
+      return speciesPresent.indexOf(speciesName) !== -1;
+    });
+
     return(
       <table className='table'>
         <thead>
@@ -54,7 +62,7 @@ class OrthologyTable extends Component {
               orthData.predictionMethodsNotCalled.length +
               orthData.predictionMethodsNotMatched.length;
 
-            const rowStyle = getSpeciesOrderScore(orthData.gene2SpeciesName) % 2 === 0 ?
+            const rowStyle = getSpeciesOrderScore(orthData.gene2SpeciesName, speciesOrder) % 2 === 0 ?
               {backgroundColor: '#eee'} : {};
             return (
               <tr key={`${orthData.gene2AgrPrimaryId}`} style={rowStyle} >
