@@ -20,7 +20,7 @@ const speciesOrder = [
 const getSpeciesOrderScore = (speciesName) => {
   const speciesIndex = speciesOrder.indexOf(speciesName);
   return speciesIndex === -1 ? speciesOrder.length : speciesIndex;
-}
+};
 
 class OrthologyTable extends Component {
 
@@ -50,8 +50,11 @@ class OrthologyTable extends Component {
             const scoreDemominator = scoreNumerator +
               orthData.predictionMethodsNotCalled.length +
               orthData.predictionMethodsNotMatched.length;
+
+            const rowStyle = getSpeciesOrderScore(orthData.gene2SpeciesName) % 2 === 0 ?
+              {backgroundColor: '#eee'} : {};
             return (
-              <tr key={`${orthData.gene2AgrPrimaryId}`}>
+              <tr key={`${orthData.gene2AgrPrimaryId}`} style={rowStyle} >
                 <td>{orthData.gene2SpeciesName}</td>
                 <td>
                   <Link to={`/gene/${orthData.gene2AgrPrimaryId}`}>{orthData.gene2Symbol}</Link>
