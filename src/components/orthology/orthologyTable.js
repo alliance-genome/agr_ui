@@ -4,8 +4,8 @@ import MethodHeader from './methodHeader';
 import MethodCell from './methodCell';
 import BooleanCell from './booleanCell';
 
-const columnNames = ['Species', 'Gene symbol', 'Score',
-  'Best score', 'Best reverse score', 'Method'];
+const columnNames = ['Species', 'Gene symbol', 'Count',
+  'Best', 'Best reverse', 'Method'];
 
 const defaultSpeciesOrder = [
   'H. sapiens',
@@ -59,7 +59,6 @@ class OrthologyTable extends Component {
           }).map((orthData) => {
             const scoreNumerator = orthData.predictionMethodsMatched.length;
             const scoreDemominator = scoreNumerator +
-              orthData.predictionMethodsNotCalled.length +
               orthData.predictionMethodsNotMatched.length;
 
             const rowStyle = getSpeciesOrderScore(orthData.gene2SpeciesName, speciesOrder) % 2 === 0 ?

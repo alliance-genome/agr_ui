@@ -3,6 +3,13 @@ const ALL_METHODS = {
     name: 'Compara',
     icon: 'http://static.ensembl.org/i/ensembl-favicon.png'
   },
+  eggnog: {
+    name: 'eggNOG'
+  },
+  hgnc: {
+    name: 'HGNC',
+    icon: 'http://www.genenames.org/sites/genenames.org/files/genenames_favicon_0.ico'
+  },
   homologene: {
     name: 'Homologene',
     icon: 'https://www.ncbi.nlm.nih.gov/favicon.ico'
