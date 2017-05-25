@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Ribbon, { RibbonDataProvider } from 'gene-ontology-ribbon';
 import '../../../node_modules/gene-ontology-ribbon/lib/index.css';
+import fixRibbonPlacement from './fixRibbonPlacement';
+
+const PlacedRibbon = fixRibbonPlacement(Ribbon);
 
 class GeneOntologyRibbon extends Component {
   render() {
@@ -11,7 +14,7 @@ class GeneOntologyRibbon extends Component {
       {({title, data, dataReceived, dataError}) => (
           <div>
           {
-            dataReceived ? <Ribbon data={data} title={title} /> : null
+            dataReceived ? <PlacedRibbon data={data} title={title} /> : null
           }
           {
             dataError ? <i className="text-muted">No Data Available</i> : null
