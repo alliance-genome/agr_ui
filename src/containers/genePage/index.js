@@ -76,16 +76,16 @@ class GenePage extends Component {
           />
         </Subsection>
 
+        <Subsection title='Function'>
+          <GeneOntologyRibbon db={this.props.data.dataProvider} id={this.props.data.primaryId} />
+        </Subsection>
+
         <Subsection hasData={(this.props.data.orthology || []).length > 0} title='Orthology'>
           <OrthologyTable data={this.props.data.orthology} />
         </Subsection>
 
         <Subsection hasData={this.props.data.diseases.length > 0} title='Disease Associations'>
           <DiseaseTable data={this.props.data.diseases} filename={'Disease-Associations'} />
-        </Subsection>
-
-        <Subsection title='Gene Ontology Ribbon'>
-          <GeneOntologyRibbon db={this.props.data.dataProvider} id={this.props.data.primaryId} />
         </Subsection>
 
       </div>
