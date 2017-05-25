@@ -14,6 +14,7 @@ import HeadMetaTags from '../../components/headMetaTags';
 import TranscriptInlineViewer from './transcriptInlineViewer';
 
 class GenePage extends Component {
+
   componentDidMount() {
     this.props.dispatch(fetchGene(this.props.params.geneId));
   }
@@ -57,6 +58,9 @@ class GenePage extends Component {
       }
     }
 
+    let now = new Date();
+    let date = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
+
     return (
       <div className='container'>
         <HeadMetaTags title={title} />
@@ -76,16 +80,16 @@ class GenePage extends Component {
           />
         </Subsection>
 
+        <Subsection title='Function'>
+          <GeneOntologyRibbon db={this.props.data.dataProvider} id={this.props.data.primaryId} />
+        </Subsection>
+
         <Subsection hasData={(this.props.data.orthology || []).length > 0} title='Orthology'>
           <OrthologyTable data={this.props.data.orthology} />
         </Subsection>
 
         <Subsection hasData={this.props.data.diseases.length > 0} title='Disease Associations'>
-          <DiseaseTable data={this.props.data.diseases} filename={'Disease-Associations'} />
-        </Subsection>
-
-        <Subsection title='Gene Ontology Ribbon'>
-          <GeneOntologyRibbon db={this.props.data.dataProvider} id={this.props.data.primaryId} />
+          <DiseaseTable data={this.props.data.diseases} filename={`${this.props.data.symbol}-Disease-Associations-${date}`} />
         </Subsection>
 
       </div>
