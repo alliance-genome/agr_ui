@@ -15,5 +15,7 @@
 }
 
 .subsection {
+  margin-top: 1rem;
   margin-bottom: 1rem;
+  clear: left;
 }

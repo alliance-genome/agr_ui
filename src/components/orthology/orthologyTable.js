@@ -7,9 +7,32 @@ import BooleanCell from './booleanCell';
 const columnNames = ['Species', 'Gene symbol', 'Score',
   'Best score', 'Best reverse score', 'Method'];
 
+const defaultSpeciesOrder = [
+  'H. sapiens',
+  'M. musculus',
+  'R. norvegicus',
+  'D. rerio',
+  'D. melanogaster',
+  'C. elegans',
+  'S. cerevisiae'
+];
+
+const getSpeciesOrderScore = (speciesName, speciesOrder = defaultSpeciesOrder) => {
+  const speciesIndex = speciesOrder.indexOf(speciesName);
+  return speciesIndex === -1 ? speciesOrder.length : speciesIndex;
+};
+
 class OrthologyTable extends Component {
 
   render() {
+    const speciesPresent = this.props.data.map((orthData) => {
+      return orthData.gene2SpeciesName;
+    });
+    // refine the species order to keep only species present in orthologs
+    const speciesOrder = defaultSpeciesOrder.filter((speciesName) => {
+      return speciesPresent.indexOf(speciesName) !== -1;
+    });
+
     return(
       <table className='table'>
         <thead>
@@ -28,14 +51,21 @@ class OrthologyTable extends Component {
         <tbody>
         {
           this.props.data.sort((orthDataA, orthDataB) => {
-            return (orthDataA.gene2SpeciesName || '').localeCompare(orthDataB.gene2SpeciesName);
+            const speciesOrderDelta = getSpeciesOrderScore(orthDataA.gene2SpeciesName) -
+              getSpeciesOrderScore(orthDataB.gene2SpeciesName);
+            return speciesOrderDelta === 0 ?
+              (orthDataB.predictionMethodsMatched.length) - (orthDataA.predictionMethodsMatched.length) :
+              speciesOrderDelta;
           }).map((orthData) => {
             const scoreNumerator = orthData.predictionMethodsMatched.length;
             const scoreDemominator = scoreNumerator +
               orthData.predictionMethodsNotCalled.length +
-              orthData.predictionMethodsNotCalled.length;
+              orthData.predictionMethodsNotMatched.length;
+
+            const rowStyle = getSpeciesOrderScore(orthData.gene2SpeciesName, speciesOrder) % 2 === 0 ?
+              {backgroundColor: '#eee'} : {};
             return (
-              <tr key={`${orthData.gene2AgrPrimaryId}`}>
+              <tr key={`${orthData.gene2AgrPrimaryId}`} style={rowStyle} >
                 <td>{orthData.gene2SpeciesName}</td>
                 <td>
                   <Link to={`/gene/${orthData.gene2AgrPrimaryId}`}>{orthData.gene2Symbol}</Link>
