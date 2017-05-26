@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import MethodHeader from './methodHeader';
 import MethodCell from './methodCell';
 import BooleanCell from './booleanCell';
-import HelpIcon from './HelpIcon';
+import HelpIcon from './helpIcon';
 
 const columns = [
   {name: 'Species'},
