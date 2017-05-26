@@ -3,9 +3,16 @@ import { Link } from 'react-router';
 import MethodHeader from './methodHeader';
 import MethodCell from './methodCell';
 import BooleanCell from './booleanCell';
+import HelpIcon from './HelpIcon';
 
-const columnNames = ['Species', 'Gene symbol', 'Count',
-  'Best', 'Best reverse', 'Method'];
+const columns = [
+  {name: 'Species'},
+  {name: 'Gene symbol'},
+  {name: 'Count'},
+  {name: 'Best', help: 'Within this species, this gene is called as an ortholog of the input gene by the highest number of algorithms.'},
+  {name: 'Best reverse', help: 'Within the species of the input gene, the input gene is called as an ortholog of this gene by the highest number of algorithms.'},
+  {name: 'Method'}
+];
 
 const defaultSpeciesOrder = [
   'H. sapiens',
@@ -38,11 +45,14 @@ class OrthologyTable extends Component {
         <thead>
           <tr>
           {
-            columnNames.map((columnName) => {
-              if (columnName === 'Method') {
-                return (<MethodHeader key={columnName} name={columnName} />);
+            columns.map((column) => {
+              if (column.name === 'Method') {
+                return (<MethodHeader key={column.name} name={column.name} />);
               } else {
-                return (<th key={columnName}>{columnName}</th>);
+                return (<th key={column.name}>
+                  {column.name}
+                  {column.help && <HelpIcon iconKey={`help-${column.name}`} text={column.help} />}
+                </th>);
               }
             })
           }
