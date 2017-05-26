@@ -11,10 +11,10 @@ class GeneOntologyRibbon extends Component {
 
     return (
       <RibbonDataProvider subject={id}>
-      {({title, data, dataReceived, dataError}) => (
+      {({title, data, dataReceived, dataError, queryID}) => (
           <div>
           {
-            dataReceived ? <PlacedRibbon data={data} title={title} /> : null
+            dataReceived ? <PlacedRibbon data={data} queryID={queryID} title={title} /> : null
           }
           {
             dataError ? <i className="text-muted">No Data Available</i> : null

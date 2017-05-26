@@ -81,7 +81,7 @@ class GenePage extends Component {
         </Subsection>
 
         <Subsection title='Function'>
-          <GeneOntologyRibbon db={this.props.data.dataProvider} id={this.props.data.primaryId} />
+          <GeneOntologyRibbon id={this.props.data.primaryId} />
         </Subsection>
 
         <Subsection hasData={(this.props.data.orthology || []).length > 0} title='Orthology'>
