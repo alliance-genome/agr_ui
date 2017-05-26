@@ -33,6 +33,8 @@ export function makeFieldDisplayName(unformattedName) {
     return 'Associated Species';
   case 'id':
     return 'ID';
+  case 'secondaryIds':
+    return 'Secondary ID';
   case 'diseases.do_name':
     return 'Disease';
   default:
