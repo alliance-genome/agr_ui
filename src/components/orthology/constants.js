@@ -56,6 +56,11 @@ const ALL_METHODS = {
 
 const methodCellWidth = 25;
 
+const methodHeaderStyle = {
+  minWidth: methodCellWidth * Object.keys(ALL_METHODS).length,
+  height: '70px',
+};
+
 const methodCellStyle = {
   width: methodCellWidth,
   display: 'inline-block',
@@ -63,8 +68,16 @@ const methodCellStyle = {
   lineHeight: '20px',
 };
 
+const methodHeaderCellStyle = {
+  transform: 'translate(0px, 45px) rotate(-45deg)',
+  width: methodCellWidth,
+  display: 'inline-block',
+};
+
 export {
   ALL_METHODS,
   methodCellStyle,
-  methodCellWidth
+  methodCellWidth,
+  methodHeaderCellStyle,
+  methodHeaderStyle,
 };

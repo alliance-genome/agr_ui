@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
-import { ALL_METHODS, methodCellStyle } from './constants';
+import { ALL_METHODS, methodHeaderCellStyle } from './constants';
 
 const MethodLogo = ({methodKey}) => {
   const methodName = ALL_METHODS[methodKey] ?
@@ -18,7 +18,6 @@ const MethodLogo = ({methodKey}) => {
     </Tooltip>
   );
 
-  const hasIcon = ALL_METHODS[methodKey] && ALL_METHODS[methodKey].icon;
   return (
     <OverlayTrigger
       delayHide={150}
@@ -26,18 +25,7 @@ const MethodLogo = ({methodKey}) => {
       overlay={tooltip}
       placement="top"
     >
-      <span style={methodCellStyle}>
-      {
-        hasIcon ?
-          <img
-            alt={methodName}
-            height={16}
-            src={ALL_METHODS[methodKey].icon}
-            width={16}
-          /> :
-          methodName.substring(0, 1)
-      }
-      </span>
+      <span style={methodHeaderCellStyle}>{methodName}</span>
     </OverlayTrigger>
   );
 };
