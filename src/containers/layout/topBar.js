@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { Link } from 'react-router';
 
 import { SMALL_COL_CLASS, LARGE_COL_CLASS } from '../../constants';
 import SocialMedia from './socialMedia';
@@ -16,7 +15,7 @@ class TopBar extends Component {
         <div className={style.content}>
           <div className={`${SMALL_COL_CLASS} ${style.miniBidgets}`}>
             <span className={`${style.miniContact} ${style.email}`}>
-              <Link to={email_link}><i className='fa fa-envelope' /> {email_logo}</Link>
+              <a href={email_link}><i className='fa fa-envelope' /> {email_logo}</a>
             </span>
           </div>
           <div className={`${LARGE_COL_CLASS} ${style.rightWidgets} ${style.miniBidgets}`}>

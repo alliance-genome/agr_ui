@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { Link } from 'react-router';
 
 class SocialMedia extends Component {
   render() {
@@ -13,15 +12,15 @@ class SocialMedia extends Component {
    
     return (
       <p>
-        <Link to={facebook_link}>
+        <a href={facebook_link}>
           <img src={facebook_logo} />
-        </Link>
-        <Link to={twitter_link}>
+        </a>
+        <a href={twitter_link}>
           <img src={twitter_logo} />
-        </Link>
-        <Link to={github_link}>
+        </a>
+        <a href={github_link}>
           <img src={github_logo} />
-        </Link>
+        </a>
       </p>
     );
   }
