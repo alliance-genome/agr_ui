@@ -43,24 +43,35 @@ class TranscriptViewer extends Component {
     // TODO: move EVERYTHING to the externalJBrowseUrl
     let visualizationUrl = visualizationPrefix + encodeURIComponent(externalJbrowseUrl) + visualizationSuffix;
 
+    let styles = {
+      makeSpace: {
+        display: 'block',
+        marginTop: '20px',
+        marginBottom: '20px',
+        marginLeft: '15px'
+      },
+      buttonSpace: {
+        marginLeft: '15px'
+      }
+    };
+
     return (
-      <div id="genomeViewer">
-        {/*<iframe id="genomeFrame" className={style.jbrowse} src={externalJbrowseUrl}/>*/}
-        <a href={externalJbrowseUrl.replace('overview.html','index.html')} className="btn btn-warning btn-sm">Browse <i className="fa fa-search" /></a>
-        &nbsp;
-        &nbsp;
-        <a href={externalJbrowseUrl} className="btn btn-warning btn-sm">Snapshot <i className="fa fa-camera" /> </a>
-        <br />
-        <br />
-        <a href={externalJbrowseUrl.replace('overview.html','index.html')} rel="noopener noreferrer" target='_blank'>
-          <img
-            onError={this.handleImageErrored.bind(this)}
-            onLoad={this.handleImageLoaded.bind(this)}
-            src={visualizationUrl}
-          />
-        </a>
+      <div id='genomeViewer'>
+        <div className='row' style={styles.makeSpace}>
+          <a className='btn btn-secondary btn-sm col-md-1' href={externalJbrowseUrl.replace('overview.html', 'index.html')} >Browse <i className='fa fa-search' /></a>
+          <a className='btn btn-secondary btn-sm' href={externalJbrowseUrl} style={styles.buttonSpace}>Snapshot <i className='fa fa-camera' /> </a>
+        </div>
+        <div className='row' style={styles.makeSpace}>
+          <a href={externalJbrowseUrl.replace('overview.html', 'index.html')} rel='noopener noreferrer' target='_blank' title='Browse Genome'>
+            <img
+              onError={this.handleImageErrored.bind(this)}
+              onLoad={this.handleImageLoaded.bind(this)}
+              src={visualizationUrl}
+            />
+          </a>
+        </div>
         {this.state.imageStatus === 'loading'
-          ? <div>Loading ... <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" /></div>
+          ? <div>Loading ... <img src='https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif' /></div>
           : ''
         }
       </div>
