@@ -59,7 +59,7 @@ class TranscriptViewer extends Component {
       <div id='genomeViewer'>
         <div className='row' style={styles.makeSpace}>
           <a className='btn btn-secondary btn-sm col-md-1' href={externalJbrowseUrl.replace('overview.html', 'index.html')} >Browse <i className='fa fa-search' /></a>
-          <a className='btn btn-secondary btn-sm' href={externalJbrowseUrl} style={styles.buttonSpace}>Snapshot <i className='fa fa-camera' /> </a>
+          {/*<a className='btn btn-secondary btn-sm' href={externalJbrowseUrl} style={styles.buttonSpace}>Snapshot <i className='fa fa-camera' /> </a>*/}
         </div>
         <div className='row' style={styles.makeSpace}>
           <a href={externalJbrowseUrl.replace('overview.html', 'index.html')} rel='noopener noreferrer' target='_blank' title='Browse Genome'>
