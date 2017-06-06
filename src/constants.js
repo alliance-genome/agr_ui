@@ -51,7 +51,7 @@ export const WP_PAGES ={
   },
   funding: {
     title: 'FUNDING - Alliance of Genome Resources',
-    label: 'FUNDING',
+    label: 'Funding',
     slug: 'funding',
     path: 'funding'
   },
@@ -63,7 +63,7 @@ export const WP_PAGES ={
   },
   goups: {
     title: 'Projects, Work Product, Publications - Alliance of Genome Resources',
-    label: 'Projects, Work Product, Publications',
+    label: 'AGR Working Groups',
     slug: 'projects-work-products-publications',
     path: 'projects'
   },
