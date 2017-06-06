@@ -40,7 +40,7 @@
 .midHeader.nav-link {
 	padding: 1em;
 }
-
+/* Main nav style starts here */
 .nav {
 	display: flex;
 	justify-content: space-between;
@@ -48,28 +48,30 @@
 	min-width: 185px;
        
 }
-.navContainer{
+.nav .navContainer{
   border-right: solid 1px #ddd ;
   position:relative;
 }
-
-.navLink {
+.nav .navLink {
         color: #e2e2e2 !important;
         color: #777 !important;
         padding:1em;
         text-align:center;
         position:relative;
 }
-.sub_nav{
+.nav .sub_nav{
   display: none;
 }
-.sub_nav{
+.nav .sub_nav{
   justify-content: space-between;
   border:solid 1px #ddd;
   width:auto;
   margin:auto;
   position:absolute;
   z-index:10;
+}
+.nav .navContainer:hover .sub_nav{
+   display:block;
 }
 .sub_nav .sub_nav_link {
   width:auto;
@@ -80,10 +82,32 @@
     background:#efefef;
 }
 
-.navContainer:hover .sub_nav{
-   display:block;
+/* Site map style starts here */
+.site_map{
+  margin:0;padding:0;
+}
+.site_map .navContainer{
+  border-bottom: solid 1px #2598C5 ;
+}
+.site_map .navLink {
+  color: #ffffff !important;
+  padding-top:1em;
+  padding-bottom:0.8em;
+  text-align:left;
+}
+.site_map .sub_nav{
+  justify-content: space-between;
+  margin-left:1.5em;
+  background:transparent;
 }
 
+.site_map .sub_nav_link{
+  background:transparent;
+  border:0;
+  border-top: solid 1px #2598C5;
+  padding-left:0;
+  color: #efefef;
+}
 .loaderContentContainer {
 	position: relative;
 }
@@ -92,9 +116,16 @@
 	min-height: 400px;
 	padding: 0.75rem 1rem 0.5rem 1rem;
 }
-.bottomRow {
+
+.siteMapContainer {
        background:#3E82BF;
        color:#ffffff;
+       padding-top:1.5em;
+       padding-bottom:2.5em;
+}
+.siteMapContainer .sectionHeader {
+ border-bottom:solid 1px #eee;
+ padding:0;
 }
 .footerBar {
         width: 100%;padding:0;
