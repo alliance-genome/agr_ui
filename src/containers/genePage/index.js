@@ -70,7 +70,7 @@ class GenePage extends Component {
           <BasicGeneInfo geneData={this.props.data} />
         </Subsection>
 
-        <Subsection hasData={typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'} title='Transcript Viewer'>
+        <Subsection hasData={typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'} title='Gene Model'>
           <TranscriptInlineViewer
             chromosome={genomeLocation.chromosome}
             fmax={genomeLocation.end}
