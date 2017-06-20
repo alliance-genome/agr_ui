@@ -19,19 +19,23 @@ const headers = [
   {
     id: 'doName',
     name: 'Disease Name',
-    render: DiseaseNameCell
+    render: DiseaseNameCell,
+    flexGrow: 1
   },
   {
     id: 'associationType',
-    name: 'Association'
+    name: 'Association',
+    flexGrow: 1
   },
   {
     id: 'evidence',
-    name: 'Evidence Code'
+    name: 'Evidence Code',
+    maxWidth: 100,
   },
   {
     id: 'dataProvider',
-    name: 'Association Source'
+    name: 'Association Source',
+    maxWidth: 100,
   },
   {
     id: 'refs',
