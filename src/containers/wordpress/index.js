@@ -7,7 +7,7 @@ import { fetchWp, fetchWpSuccess, fetchWpFailure } from '../../actions/wp';
 import { selectWp } from '../../selectors/wpSelectors';
 
 import HeadMetaTags from '../../components/headMetaTags';
-import{ WP_REST_API_BASE_URL, WP_PAGES } from '../../constants';
+import{ WP_PAGE_BASE_URL, WP_PAGES } from '../../constants';
 
 
 class Wordpress extends Component {
@@ -27,7 +27,7 @@ class Wordpress extends Component {
   }
   getData(currentRoute){
     this.props.dispatch(fetchWp());
-    let homeUrl= WP_REST_API_BASE_URL+WP_PAGES[currentRoute].slug;
+    let homeUrl= WP_PAGE_BASE_URL+WP_PAGES[currentRoute].slug;
     fetchData(homeUrl)
       .then(data => this.props.dispatch(fetchWpSuccess(data)))
       .catch(error => this.props.dispatch(fetchWpFailure(error)));
