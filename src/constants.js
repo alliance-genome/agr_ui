@@ -1,7 +1,12 @@
 export const SEARCH_API_ERROR_MESSAGE = 'There was a problem connecting to the server. Please refresh the page.  If you continue to see this message, please contact alliance-software@lists.stanford.edu';
 export const LARGE_COL_CLASS = 'col-sm-8 col-md-8 col-xs-12';
 export const SMALL_COL_CLASS = 'col-sm-4 col-md-4 col-xs-12';
-export const WP_REST_API_BASE_URL = 'https://public-api.wordpress.com/wp/v2/sites/alliancegenome.wordpress.com/pages?slug=';
+
+/* Wordpress REST API connection setting */
+export const WP_REST_API_BASE = 'https://public-api.wordpress.com/wp/v2/sites/alliancegenome.wordpress.com';
+export const WP_PAGE_BASE_URL = WP_REST_API_BASE+'/pages?slug=';
+export const WP_POST_BASE_URL = WP_REST_API_BASE+'/posts';
+export const WP_POST_URL = WP_POST_BASE_URL+'?slug=';
 
 export const CATEGORIES = [
   {
@@ -115,4 +120,5 @@ export const SUB_MENU= {
     'publications'
   ]
 };
+
 export const NON_HIGHLIGHTED_FIELDS = ['sourceHref', 'href', 'category', 'homologs', 'paralogs', 'orthologs', 'homologs.symbol', 'homologs.panther_family'];
