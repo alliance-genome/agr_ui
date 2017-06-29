@@ -58,7 +58,6 @@ Wordpress.propTypes = {
   dispatch: React.PropTypes.func,
   error: React.PropTypes.object,
   loading: React.PropTypes.bool,
-  location: React.PropTypes.object,
   params: React.PropTypes.object,
 };
 
