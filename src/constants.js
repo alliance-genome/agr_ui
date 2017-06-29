@@ -23,6 +23,17 @@ export const CATEGORIES = [
   }
 ];
 
+/**********  Wordpress Pages *************
+  An entry is added to this constant each
+  time a new static page is created/publised in WP 
+  
+  Fields Definition:
+  1) title: The title of the page as set in WP
+  2) label: Used in the site  menu/sub menu
+  3) slug: WP slug for this page
+  4) path: Used for Portal router 
+******************************************/
+
 export const WP_PAGES ={
   home: {
     title: 'Home - Alliance of Genome Resources',
@@ -103,12 +114,22 @@ export const WP_PAGES ={
     path: 'publications'
   }
 };
+
+/********* Main Menu ************************
+  This is where you add/remove entries
+  to/from the site menu
+*********************************************/
 export const MENU = [
   'home',
   'about',
   'projects',
   'contact'
 ];
+
+/********* Sub Menu ************************
+  This is where you add/remove entries
+  to/from the submenus
+*********************************************/
 export const SUB_MENU= {
   about: [
     'faq',
