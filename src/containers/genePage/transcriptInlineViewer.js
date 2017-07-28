@@ -58,8 +58,9 @@ class TranscriptViewer extends Component {
     return (
       <div id='genomeViewer'>
         <div className='row' style={styles.makeSpace}>
-          <a className='btn btn-secondary btn-sm col-md-1' href={externalJbrowseUrl.replace('overview.html', 'index.html')} >Browse <i className='fa fa-search' /></a>
-          {/*<a className='btn btn-secondary btn-sm' href={externalJbrowseUrl} style={styles.buttonSpace}>Snapshot <i className='fa fa-camera' /> </a>*/}
+        <a href={externalJbrowseUrl.replace('overview.html', 'index.html')} rel='noopener noreferrer' target='_blank'>
+          Genome Location: Chr{this.props.chromosome}:{this.props.fmin}...{this.props.fmax} {this.props.assembly} {this.props.strand}
+        </a>
         </div>
         <div className='row' style={styles.makeSpace}>
           <a href={externalJbrowseUrl.replace('overview.html', 'index.html')} rel='noopener noreferrer' target='_blank' title='Browse Genome'>
@@ -82,11 +83,13 @@ class TranscriptViewer extends Component {
 }
 
 TranscriptViewer.propTypes = {
+  assembly: React.PropTypes.string,
   chromosome: React.PropTypes.string,
   fmax: React.PropTypes.number,
   fmin: React.PropTypes.number,
   geneSymbol: React.PropTypes.string.isRequired,
   species: React.PropTypes.string.isRequired,
+  strand: React.PropTypes.string,
 };
 
 export default TranscriptViewer;

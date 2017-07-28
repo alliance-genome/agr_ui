@@ -70,13 +70,15 @@ class GenePage extends Component {
           <BasicGeneInfo geneData={this.props.data} />
         </Subsection>
 
-        <Subsection hasData={typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'} title='Gene Model'>
+        <Subsection hasData={typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'} title='Sequence Feature Viewer'>
           <TranscriptInlineViewer
+            assembly={genomeLocation.assembly}
             chromosome={genomeLocation.chromosome}
             fmax={genomeLocation.end}
             fmin={genomeLocation.start}
             geneSymbol={this.props.data.symbol}
             species={this.props.data.species}
+            strand={genomeLocation.strand}
           />
         </Subsection>
 
