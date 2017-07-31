@@ -57,11 +57,12 @@ class TranscriptViewer extends Component {
 
     return (
       <div id='genomeViewer'>
-        <div className='row' style={styles.makeSpace}>
-        <a href={externalJbrowseUrl.replace('overview.html', 'index.html')} rel='noopener noreferrer' target='_blank'>
-          Genome Location: Chr{this.props.chromosome}:{this.props.fmin}...{this.props.fmax} {this.props.assembly} {this.props.strand}
-        </a>
-        </div>
+      <div classname='col-sm-8 pull-sm-4'>
+          <dl className='row'>
+            <dt className='col-sm-2'>Genome Location</dt>
+            <dd className='col-sm-10'><a href={externalJbrowseUrl.replace('overview.html', 'index.html')} rel='noopener noreferrer' target='_blank'> Chr{this.props.chromosome}:{this.props.fmin}...{this.props.fmax} {this.props.assembly} {this.props.strand} </a></dd>
+          </dl>
+      </div>
         <div className='row' style={styles.makeSpace}>
           <a href={externalJbrowseUrl.replace('overview.html', 'index.html')} rel='noopener noreferrer' target='_blank' title='Browse Genome'>
             <img
