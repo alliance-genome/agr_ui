@@ -21,8 +21,18 @@ class OrthologyFilteredTable extends Component {
       filterMethod: null,
       filterBest: false,
       filterReverseBest: false,
-      filterSpecies: null
+      filterSpecies: null,
+      filterConfidence: true
     };
+  }
+
+  isHighConfidence(dat) {
+    return (
+      dat.predictionMethodsMatched === 'ZFIN' ||
+      dat.predictionMethodsMatched === 'HGNC' ||
+      dat.predictionMethodsMatched.length > 2 ||
+      (dat.predictionMethodsMatched.length === 2 && dat.isBestRevScore)
+    )
   }
 
   filterCallback(dat) {
@@ -34,7 +44,8 @@ class OrthologyFilteredTable extends Component {
       dat.predictionMethodsMatched.length > this.state.filterScoreGreaterThan &&
       (this.state.filterBest ? dat.isBestScore : true) &&
       (this.state.filterReverseBest ? dat.isBestRevScore : true) &&
-      (this.state.filterSpecies ? dat.gene2SpeciesName === this.state.filterSpecies : true)
+      (this.state.filterSpecies ? dat.gene2SpeciesName === this.state.filterSpecies : true) &&
+      (this.state.filterConfidence ? this.isHighConfidence(dat) : true)
     );
   }
 
@@ -63,9 +74,14 @@ class OrthologyFilteredTable extends Component {
   }
 
   updateFilterSpecies(event) {
-    console.log(event.target.value);
     this.setState({
       filterSpecies: event.target.value === 'all' ? null : event.target.value
+    })
+  }
+
+  updateFilterConfidence(event) {
+    this.setState({
+      filterConfidence: event.target.checked
     })
   }
 
@@ -91,6 +107,14 @@ class OrthologyFilteredTable extends Component {
             <input
               checked={this.state.filterReverseBest}
               onChange={(event) => this.updateBestReverseScoreFilter(event)}
+              type="checkbox"
+            />
+          </label>
+          <label>
+            Exclude low confidence matches:
+            <input
+              checked={this.state.filterConfidence}
+              onChange={(event) => this.updateFilterConfidence(event)}
               type="checkbox"
             />
           </label>
