@@ -1,3 +1,8 @@
+/* eslint-disable react/no-set-state */
+/* set-state has to be used
+  because the state of the component is not shared
+  with the rest of the application
+*/
 import React, { Component, PropTypes } from 'react';
 import OrthologyTable from './orthologyTable';
 
@@ -32,7 +37,7 @@ class OrthologyFilteredTable extends Component {
       dat.predictionMethodsMatched === 'HGNC' ||
       dat.predictionMethodsMatched.length > 2 ||
       (dat.predictionMethodsMatched.length === 2 && dat.isBestRevScore)
-    )
+    );
   }
 
   filterCallback(dat) {
@@ -76,13 +81,13 @@ class OrthologyFilteredTable extends Component {
   updateFilterSpecies(event) {
     this.setState({
       filterSpecies: event.target.value === 'all' ? null : event.target.value
-    })
+    });
   }
 
   updateFilterConfidence(event) {
     this.setState({
       filterConfidence: event.target.checked
-    })
+    });
   }
 
   render() {
@@ -145,7 +150,7 @@ class OrthologyFilteredTable extends Component {
               {
                 all_methods.map((method, index) => {
                   const scoreGreaterThanValue = index + 1;
-                  return <option value={scoreGreaterThanValue}>> {scoreGreaterThanValue}</option>;
+                  return <option key={scoreGreaterThanValue} value={scoreGreaterThanValue}>> {scoreGreaterThanValue}</option>;
                 })
               }
             </select>
@@ -166,7 +171,7 @@ class OrthologyFilteredTable extends Component {
                     return all_species;
                   }
                 }, []).map((species) => (
-                  <option value={species}>{species}</option>
+                  <option key={species} value={species}>{species}</option>
                 ))
               }
             </select>
