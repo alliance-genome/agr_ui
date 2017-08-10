@@ -54,6 +54,12 @@ class OrthologyFilteredTable extends Component {
     });
   }
 
+  updateFilterScoreGreaterThan(event) {
+    this.setState({
+      filterScoreGreaterThan: event.target.value
+    });
+  }
+
   render() {
     const filteredData = this.props.data.filter((dat) => this.filterCallback(dat));
     const all_methods = this.props.data[0].predictionMethodsMatched.concat(
@@ -78,6 +84,21 @@ class OrthologyFilteredTable extends Component {
               onChange={(event) => this.updateBestReverseScoreFilter(event)}
               type="checkbox"
             />
+          </label>
+          <label>
+            Score:
+            <select
+              onChange={(event) => this.updateFilterScoreGreaterThan(event)}
+              value={this.state.filterScoreGreaterThan}
+            >
+              <option value={0}>> 0</option>
+              {
+                all_methods.map((method, index) => {
+                  const scoreGreaterThanValue = index + 1;
+                  return <option value={scoreGreaterThanValue}>> {scoreGreaterThanValue}</option>;
+                })
+              }
+            </select>
           </label>
           <label>
             Methods:
