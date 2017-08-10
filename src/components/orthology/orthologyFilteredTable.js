@@ -20,7 +20,8 @@ class OrthologyFilteredTable extends Component {
       filterScoreGreaterThan: 0,
       filterMethod: null,
       filterBest: false,
-      filterReverseBest: false
+      filterReverseBest: false,
+      filterSpecies: null
     };
   }
 
@@ -32,13 +33,14 @@ class OrthologyFilteredTable extends Component {
       meetMethodFilter &&
       dat.predictionMethodsMatched.length > this.state.filterScoreGreaterThan &&
       (this.state.filterBest ? dat.isBestScore : true) &&
-      (this.state.filterReverseBest ? dat.isBestRevScore : true)
+      (this.state.filterReverseBest ? dat.isBestRevScore : true) &&
+      (this.state.filterSpecies ? dat.gene2SpeciesName === this.state.filterSpecies : true)
     );
   }
 
   updateFilterMethod(event) {
     this.setState({
-      filterMethod: event.target.value
+      filterMethod: event.target.value === 'all' ? null : event.target.value
     });
   }
 
@@ -58,6 +60,13 @@ class OrthologyFilteredTable extends Component {
     this.setState({
       filterScoreGreaterThan: event.target.value
     });
+  }
+
+  updateFilterSpecies(event) {
+    console.log(event.target.value);
+    this.setState({
+      filterSpecies: event.target.value === 'all' ? null : event.target.value
+    })
   }
 
   render() {
@@ -101,12 +110,32 @@ class OrthologyFilteredTable extends Component {
             </select>
           </label>
           <label>
+            Species:
+            <select
+              onChange={(event) => this.updateFilterSpecies(event)}
+              value={this.state.filterSpecies}
+            >
+              <option value="all">All</option>
+              {
+                this.props.data.reduce((all_species, dat) => {
+                  if (all_species.indexOf(dat.gene2SpeciesName) === -1) {
+                    return all_species.concat([dat.gene2SpeciesName]);
+                  } else {
+                    return all_species;
+                  }
+                }, []).map((species) => (
+                  <option value={species}>{species}</option>
+                ))
+              }
+            </select>
+          </label>
+          <label>
             Methods:
             <select
               onChange={(event) => this.updateFilterMethod(event)}
               value={this.state.filterMethod}
             >
-              <option>All</option>
+              <option value="all">All</option>
               {
                 all_methods.map((method) => (
                   <option key={method} value={method}>{method}</option>
