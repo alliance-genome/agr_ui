@@ -91,37 +91,54 @@ class OrthologyFilteredTable extends Component {
       this.props.data[0].predictionMethodsNotCalled,
       this.props.data[0].predictionMethodsNotMatched
     ).sort(caseInsensitiveCompare);
+
+    const labelStyle = {
+      margin: '0 1em 1em 0',
+    };
+    const inputStyle = {
+      margin: '0 0.5em'
+    };
+
     return (
       <div>
-        <div>
-          <label>
+        <div
+          className="card"
+          style={{
+            padding: '1em'
+          }}
+        >
+          <label style={labelStyle}>
             Best Score Only:
             <input
               checked={this.state.filterBest}
               onChange={(event) => this.updateBestScoreFilter(event)}
+              style={inputStyle}
               type="checkbox"
             />
           </label>
-          <label>
+          <label style={labelStyle}>
             Best Reverse Score Only:
             <input
               checked={this.state.filterReverseBest}
               onChange={(event) => this.updateBestReverseScoreFilter(event)}
+              style={inputStyle}
               type="checkbox"
             />
           </label>
-          <label>
+          <label style={labelStyle}>
             Exclude low confidence matches:
             <input
               checked={this.state.filterConfidence}
               onChange={(event) => this.updateFilterConfidence(event)}
+              style={inputStyle}
               type="checkbox"
             />
           </label>
-          <label>
+          <label style={labelStyle}>
             Score:
             <select
               onChange={(event) => this.updateFilterScoreGreaterThan(event)}
+              style={inputStyle}
               value={this.state.filterScoreGreaterThan}
             >
               <option value={0}>> 0</option>
@@ -133,10 +150,11 @@ class OrthologyFilteredTable extends Component {
               }
             </select>
           </label>
-          <label>
+          <label style={labelStyle}>
             Species:
             <select
               onChange={(event) => this.updateFilterSpecies(event)}
+              style={inputStyle}
               value={this.state.filterSpecies}
             >
               <option value="all">All</option>
@@ -157,6 +175,7 @@ class OrthologyFilteredTable extends Component {
             Methods:
             <select
               onChange={(event) => this.updateFilterMethod(event)}
+              style={inputStyle}
               value={this.state.filterMethod}
             >
               <option value="all">All</option>
