@@ -36,7 +36,7 @@ class OrthologyFilteredTable extends Component {
       dat.predictionMethodsMatched === 'ZFIN' ||
       dat.predictionMethodsMatched === 'HGNC' ||
       dat.predictionMethodsMatched.length > 2 ||
-      (dat.predictionMethodsMatched.length === 2 && dat.isBestRevScore)
+      (dat.predictionMethodsMatched.length === 2 && dat.isBestScore && dat.isBestRevScore)
     );
   }
 
