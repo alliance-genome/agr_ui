@@ -7,6 +7,10 @@ export const WP_REST_API_BASE = 'https://public-api.wordpress.com/wp/v2/sites/al
 export const WP_PAGE_BASE_URL = WP_REST_API_BASE+'/pages?slug=';
 export const WP_POST_BASE_URL = WP_REST_API_BASE+'/posts';
 export const WP_POST_URL = WP_POST_BASE_URL+'?slug=';
+/* Maximum number of posts to display on the News and Events page */
+export const WP_POST_MAX_COUNT = 10;
+export const WP_PATH= 'wordpress';
+export const WP_POST_PATH = '/posts';
 
 export const CATEGORIES = [
   {
@@ -112,7 +116,14 @@ export const WP_PAGES ={
     label: 'Publications',
     slug: 'publications',
     path: 'publications'
+  },
+  posts:{
+    title: 'News And Events - Alliance of Genome Resources',
+    label: 'News & Events',
+    slug: 'news-and-events',
+    path: 'posts'
   }
+
 };
 
 /********* Main Menu ************************
@@ -123,6 +134,7 @@ export const MENU = [
   'home',
   'about',
   'projects',
+  'posts',
   'contact'
 ];
 
