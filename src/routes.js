@@ -13,6 +13,10 @@ export default (
       <IndexRedirect to="home" />
       <Route component={Wordpress} path=':pageId' />
     </Route>
+    <Route component={Wordpress} path='posts' >
+      <IndexRedirect to="/wordpress/posts" />
+      <Route component={Wordpress} path=':postId' />
+    </Route>
     <Route component={Search} path='search' />
     <Route component={GenePage} path='gene/:geneId' />
   </Route>
