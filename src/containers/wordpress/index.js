@@ -7,12 +7,17 @@ import { fetchWp, fetchWpSuccess, fetchWpFailure } from '../../actions/wp';
 import { selectWp } from '../../selectors/wpSelectors';
 
 import HeadMetaTags from '../../components/headMetaTags';
-import{ WP_PAGE_BASE_URL, WP_PAGES } from '../../constants';
+import WordpressNews from './wordpressNews';
+import WordpressPosts from './wordpressPosts';
+import NewsSubMenu from './newsSubMenu';
+import{ WP_POST_BASE_URL,WP_POST_URL } from '../../constants';
+import{ WP_PAGE_BASE_URL,WP_PAGES } from '../../constants';
 
 
 class Wordpress extends Component {
   constructor(props){
     super(props);
+    this.wp_type='page';
   }
   componentDidMount() {
     this.getData(this.getCurrentRoute(this.props));
@@ -23,11 +28,25 @@ class Wordpress extends Component {
     }
   }
   getCurrentRoute(props){
-    return props.params.pageId;
+    if(props.params.pageId){
+      if(props.params.pageId==='posts')this.wp_type='posts';
+      else this.wp_type='page';
+      return props.params.pageId;
+    }
+    else{
+      this.wp_type='posts';
+      return props.params.postId;
+    }
   }
   getData(currentRoute){
     this.props.dispatch(fetchWp());
-    let homeUrl= WP_PAGE_BASE_URL+WP_PAGES[currentRoute].slug;
+    let homeUrl='';
+    if(this.wp_type==='posts'){
+      if(!this.props.params.postId) homeUrl=WP_POST_BASE_URL;
+      else homeUrl=WP_POST_URL+this.props.params.postId;
+    }else{
+      homeUrl=WP_PAGE_BASE_URL+WP_PAGES[currentRoute].slug;
+    }
     fetchData(homeUrl)
       .then(data => this.props.dispatch(fetchWpSuccess(data)))
       .catch(error => this.props.dispatch(fetchWpFailure(error)));
@@ -44,7 +63,30 @@ class Wordpress extends Component {
     if (!this.props.data) {
       return null;
     }
-    let title = WP_PAGES[this.getCurrentRoute(this.props)].title;
+    if (this.wp_type==='posts'){    
+      let title= 'News & Events';
+      if(this.props.params.postId){
+        title=this.props.data[0].title.rendered; 
+        return (
+          <div>
+            <HeadMetaTags title={title} />
+            <NewsSubMenu title={title} />
+            <WordpressPosts data={this.props.data[0]} />
+          </div>
+        );
+      }
+      else{
+        return (
+          <div>
+            <HeadMetaTags title={title} />
+            <NewsSubMenu title={title} />
+            <WordpressNews data={this.props.data}  />
+          </div>
+        );
+      }
+    } 
+    let title = this.props.data[0].title.rendered;
+   
     return (
       <div>
         <HeadMetaTags title={title} />
@@ -58,6 +100,7 @@ Wordpress.propTypes = {
   dispatch: React.PropTypes.func,
   error: React.PropTypes.object,
   loading: React.PropTypes.bool,
+  name: React.PropTypes.string,
   params: React.PropTypes.object,
 };
 
