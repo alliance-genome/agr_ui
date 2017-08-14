@@ -38,7 +38,7 @@ export function makeFieldDisplayName(unformattedName) {
   case 'diseases.do_name':
     return 'Disease';
   default:
-    return unformattedName.replace(/_/g, ' ');
+    return unformattedName.replace(/_/g, ' ').replace('.raw','');
   }
 }
 
