@@ -92,7 +92,7 @@ class OrthologyFilteredTable extends Component {
     });
   }
 
-  resetFilters(event) {
+  resetFilters() {
     this.setState(DEFAULT_FILTERS);
   }
 
@@ -200,7 +200,7 @@ class OrthologyFilteredTable extends Component {
           <br/>
           <button
             className="btn btn-primary"
-            onClick={(event) => this.resetFilters(event)}
+            onClick={() => this.resetFilters()}
           >Reset filters</button>
         </div>
         {
