@@ -18,17 +18,19 @@ const caseInsensitiveCompare = (stringA, stringB) => {
   }
 };
 
+const DEFAULT_FILTERS = {
+  filterScoreGreaterThan: 0,
+  filterMethod: null,
+  filterBest: false,
+  filterReverseBest: false,
+  filterSpecies: null,
+  filterConfidence: true
+};
+
 class OrthologyFilteredTable extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      filterScoreGreaterThan: 0,
-      filterMethod: null,
-      filterBest: false,
-      filterReverseBest: false,
-      filterSpecies: null,
-      filterConfidence: true
-    };
+    this.state = DEFAULT_FILTERS;
   }
 
   isHighConfidence(dat) {
@@ -88,6 +90,10 @@ class OrthologyFilteredTable extends Component {
     this.setState({
       filterConfidence: event.target.checked
     });
+  }
+
+  resetFilters(event) {
+    this.setState(DEFAULT_FILTERS);
   }
 
   render() {
@@ -160,7 +166,7 @@ class OrthologyFilteredTable extends Component {
             <select
               onChange={(event) => this.updateFilterSpecies(event)}
               style={inputStyle}
-              value={this.state.filterSpecies}
+              value={this.state.filterSpecies || 'all'}
             >
               <option value="all">All</option>
               {
@@ -181,7 +187,7 @@ class OrthologyFilteredTable extends Component {
             <select
               onChange={(event) => this.updateFilterMethod(event)}
               style={inputStyle}
-              value={this.state.filterMethod}
+              value={this.state.filterMethod || 'all'}
             >
               <option value="all">All</option>
               {
@@ -191,6 +197,11 @@ class OrthologyFilteredTable extends Component {
               }
             </select>
           </label>
+          <br/>
+          <button
+            className="btn btn-primary"
+            onClick={(event) => this.resetFilters(event)}
+          >Reset filters</button>
         </div>
         {
           filteredData.length > 0 ?
