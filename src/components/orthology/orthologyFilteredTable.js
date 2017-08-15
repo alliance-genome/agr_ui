@@ -146,7 +146,7 @@ class OrthologyFilteredTable extends Component {
             />
           </label>
           <label style={labelStyle}>
-            Score:
+            Count:
             <select
               onChange={(event) => this.updateFilterScoreGreaterThan(event)}
               style={inputStyle}
