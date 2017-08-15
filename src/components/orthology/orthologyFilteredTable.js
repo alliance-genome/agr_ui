@@ -192,7 +192,11 @@ class OrthologyFilteredTable extends Component {
             </select>
           </label>
         </div>
-        <OrthologyTable data={filteredData} />
+        {
+          filteredData.length > 0 ?
+          <OrthologyTable data={filteredData} /> :
+          <i className="text-muted">No ortholog matching your filter. Please try a less stringent filter.</i>
+        }
       </div>
     );
   }
