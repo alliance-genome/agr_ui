@@ -7,6 +7,9 @@ class DiseasePage extends Component {
     return (
       <div className='container'>
         <HeadMetaTags title={title} />
+        <div className='alert alert-warning'>
+          <i className='fa fa-warning' /> Page under active development
+        </div>
         <h1>
           {this.props.params.diseaseId}
           <hr />
