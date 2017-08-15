@@ -38,7 +38,7 @@ class GenePage extends Component {
       return null;
     }
 
-    let title = 'AGR gene page for ' + this.props.data.species + ' gene: ' + this.props.data.symbol;
+    const title = `${this.props.data.symbol} | ${this.props.data.species} gene`;
 
     // todo, add chromosome
     let genomeLocation = {};

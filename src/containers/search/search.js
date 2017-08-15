@@ -102,7 +102,7 @@ class SearchComponent extends Component {
 
   render() {
     if (!this.props.isReady) return <LoadingPage />;
-    let title = 'Searching Alliance of Genome Resources for: ' + this.props.queryParams.q;
+    let title = this.props.queryParams.q;
     return (
       <div className={style.root}>
         {this.renderErrorNode()}

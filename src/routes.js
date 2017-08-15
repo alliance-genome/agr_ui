@@ -5,6 +5,7 @@ import Wordpress from './containers/wordpress';
 import Layout from './containers/layout';
 import Search from './containers/search';
 import GenePage from './containers/genePage';
+import DiseasePage from './containers/diseasePage';
 
 export default (
   <Route component={Layout} path='/'>
@@ -15,5 +16,6 @@ export default (
     </Route>
     <Route component={Search} path='search' />
     <Route component={GenePage} path='gene/:geneId' />
+    <Route component={DiseasePage} path='disease/:diseaseId' />
   </Route>
 );
