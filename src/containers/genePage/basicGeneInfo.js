@@ -60,28 +60,28 @@ class BasicGeneInfo extends Component {
         </div>
         <div className='col-sm-8 pull-sm-4'>
           <dl className='row'>
-            <dt className='col-sm-2'>Symbol</dt>
-            <dd className='col-sm-10' id='symbol-value'>{this.state.geneData.symbol}</dd>
+            <dt className='col-sm-3'>Symbol</dt>
+            <dd className='col-sm-9' id='symbol-value'>{this.state.geneData.symbol}</dd>
 
-            <dt className='col-sm-2'>Name</dt>
-            <dd className='col-sm-10'>{this.placeholderIfBlank(this.state.geneData.name)}</dd>
+            <dt className='col-sm-3'>Name</dt>
+            <dd className='col-sm-9'>{this.placeholderIfBlank(this.state.geneData.name)}</dd>
 
-            <dt className='col-sm-2'>Synonyms</dt>
-            <dd className='col-sm-10'>{this.placeholderIfBlank(
+            <dt className='col-sm-3'>Synonyms</dt>
+            <dd className='col-sm-9'>{this.placeholderIfBlank(
                 this.state.geneData.synonyms ? this.state.geneData.synonyms.join(', ') : ''
             )}</dd>
 
-            <dt className='col-sm-2'>Biotype</dt>
-            <dd className='col-sm-10'>{this.placeholderIfBlank(this.state.geneData.soTermName.replace(/_/g, ' '))}</dd>
+            <dt className='col-sm-3'>Biotype</dt>
+            <dd className='col-sm-9'>{this.placeholderIfBlank(this.state.geneData.soTermName.replace(/_/g, ' '))}</dd>
 
-            <dt className='col-sm-2'>Description</dt>
-            <dd className='col-sm-10'>{this.renderDescription()}</dd>
+            <dt className='col-sm-3'>Description</dt>
+            <dd className='col-sm-9'>{this.renderDescription()}</dd>
 
-            <dt className='col-sm-2'>Genomic Resources</dt>
-            <dd className='col-sm-10'>{this.renderCrossReferenceList()}</dd>
+            <dt className='col-sm-3'>Genomic Resources</dt>
+            <dd className='col-sm-9'>{this.renderCrossReferenceList()}</dd>
 
-            <dt className='col-sm-2'>Additional Information</dt>
-            <dd className='col-sm-10'><a href={this.state.geneData.geneLiteratureUrl}>Literature</a></dd>
+            <dt className='col-sm-3'>Additional Information</dt>
+            <dd className='col-sm-9'><a href={this.state.geneData.geneLiteratureUrl}>Literature</a></dd>
           </dl>
         </div>
       </div>
