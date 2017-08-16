@@ -1,47 +1,47 @@
-/* eslint-disable react/no-multi-comp */
-
 import _ from 'underscore';
 import React, { Component } from 'react';
-import FlybaseDataGrid from 'react-flybase-datagrid';
 import DiseaseNameCell from './diseaseNameCell';
 import ReferenceCell from './referenceCell';
+import { LocalDataTable } from '../../components/dataTable';
 
 const refsText = (refs) => {
   return refs.map(ref => ref.pubMedId || ref.publicationModId || '').join(', ');
 };
 
-const headers = [
+const columns = [
   {
-    id: 'doId',
-    name: 'DO ID',
-    hidden: true,
+    field: 'doName',
+    label: 'Disease Name',
+    format: DiseaseNameCell,
+    isKey: true,
+    sortable: true,
+    filterable: true,
   },
   {
-    id: 'doName',
-    name: 'Disease Name',
-    render: DiseaseNameCell,
-    flexGrow: 1
+    field: 'associationType',
+    label: 'Association',
+    sortable: true,
+    filterable: true,
   },
   {
-    id: 'associationType',
-    name: 'Association',
-    flexGrow: 1
+    field: 'evidence',
+    label: 'Evidence Code',
+    sortable: true,
+    filterable: true,
   },
   {
-    id: 'evidence',
-    name: 'Evidence Code',
-    maxWidth: 100,
+    field: 'dataProvider',
+    label: 'Association Source',
+    sortable: true,
+    filterable: true,
   },
   {
-    id: 'dataProvider',
-    name: 'Association Source',
-    maxWidth: 100,
-  },
-  {
-    id: 'refs',
-    name:'References',
-    render: ReferenceCell,
-    getText: refsText
+    field: 'refs',
+    label: 'References',
+    format: ReferenceCell,
+    asText: refsText,
+    sortable: true,
+    filterable: true,
   }
 ];
 
@@ -89,16 +89,7 @@ class DiseaseTable extends Component {
       });
 
     return (
-
-       <FlybaseDataGrid
-         columns={headers}
-         data={data}
-         downloadButton={['tsv']}
-         filename={filename}
-         maxHeight={1000000000000000000000}
-         showColumnFilter
-       />
-
+      <LocalDataTable columns={columns} data={data} filename={filename} />
     );
   }
 }

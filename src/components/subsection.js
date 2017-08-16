@@ -6,7 +6,7 @@ class Subsection extends Component {
   render() {
     return (
       <div className={style.subsection}>
-        {this.props.hardcoded && <span className='tag tag-danger'>Hardcoded Example Data</span>}
+        {this.props.hardcoded && <span className='badge badge-danger'>Hardcoded Example Data</span>}
         {this.props.title && <h3>{this.props.title}</h3>}
         {typeof this.props.hasData !== 'undefined' && !this.props.hasData ?
           <i className="text-muted">No Data Available</i> :
