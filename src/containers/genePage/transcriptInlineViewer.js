@@ -56,7 +56,7 @@ class TranscriptViewer extends Component {
           </div>
         </div>
         <div className='row'>
-          <div className='col-12'>
+          <div className='col-xs-12'>
             <a href={externalJbrowseUrl.replace('overview.html', 'index.html')} rel='noopener noreferrer' target='_blank' title='Browse Genome'>
               <img
                 onError={this.handleImageErrored.bind(this)}
