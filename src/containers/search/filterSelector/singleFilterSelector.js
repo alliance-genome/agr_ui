@@ -121,7 +121,7 @@ class SingleFilterSelector extends Component {
 
   renderListNode() {
     return (
-      <ul className='nav nav-pills flex-column'>
+      <ul className='nav nav-pills nav-stacked'>
         {this.renderFilterValues(this.props)}
       </ul>
     );
