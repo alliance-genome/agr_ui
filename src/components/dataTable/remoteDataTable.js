@@ -17,7 +17,6 @@ class RemoteDataTable extends Component {
     };
     this.getData = this.getData.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
-    this.handleShowExtraToggle = this.handleShowExtraToggle.bind(this);
     this.handleSortChange = this.handleSortChange.bind(this);
     this.handleCountChange = this.handleCountChange.bind(this);
   }
@@ -29,18 +28,18 @@ class RemoteDataTable extends Component {
   getData(page = this.state.page, count = this.state.count, sort = this.state.sort, order = this.state.order) {
     fetchData(`${this.props.url}?_page=${page}&_limit=${count}&_sort=${sort}&_order=${order}`)
       .then(data => {
-        this.setState({ data, total: 72, page, count, sort, order });
+        this.setState({
+          data,
+          total: 72, //TODO: just a placeholder; this will need to come from the response when available
+          page,
+          count,
+          sort,
+          order });
       });
   }
 
   handlePageChange(page, count) {
     this.getData(page, count);
-  }
-
-  handleShowExtraToggle() {
-    this.setState({
-      showExtra: !this.state.showExtra
-    });
   }
 
   handleSortChange(name, order) {
@@ -77,6 +76,7 @@ class RemoteDataTable extends Component {
               dataField={col.field}
               dataFormat={col.format}
               dataSort={col.sortable}
+              hidden={col.hidden}
               isKey={col.isKey}
               key={idx}
             >

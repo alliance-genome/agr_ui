@@ -7,7 +7,7 @@ import { selectGene } from '../../selectors/geneSelectors';
 import BasicGeneInfo from './basicGeneInfo';
 import GenePageHeader from './genePageHeader';
 import { OrthologyFilteredTable } from '../../components/orthology';
-import DiseaseTable from '../../components/disease';
+import { GenePageDiseaseTable } from '../../components/disease';
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
 import Subsection from '../../components/subsection';
 import HeadMetaTags from '../../components/headMetaTags';
@@ -91,7 +91,7 @@ class GenePage extends Component {
         </Subsection>
 
         <Subsection hasData={this.props.data.diseases.length > 0} title='Disease Associations'>
-          <DiseaseTable data={this.props.data.diseases} filename={`${this.props.data.symbol}-Disease-Associations-${date}`} />
+          <GenePageDiseaseTable data={this.props.data.diseases} filename={`${this.props.data.symbol}-Disease-Associations-${date}`} />
         </Subsection>
 
       </div>
