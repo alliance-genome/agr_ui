@@ -30,8 +30,12 @@ class WordpressFeeds extends Component {
   getData(currentRoute){
     this.props.dispatch(fetchWp());
     let homeUrl='';
-    if(this.props.params.postId==='news')homeUrl=WP_POST_BASE_URL;
-    else homeUrl=WP_POST_URL+this.props.params.postId;
+    if (this.props.params.postId==='news') {
+      homeUrl=WP_POST_BASE_URL;
+    }
+    else{ 
+      homeUrl=WP_POST_URL+this.props.params.postId;
+    }
     fetchData(homeUrl)
       .then(data => this.props.dispatch(fetchWpSuccess(data)))
       .catch(error => this.props.dispatch(fetchWpFailure(error)));
