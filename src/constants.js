@@ -7,6 +7,10 @@ export const WP_REST_API_BASE = 'https://public-api.wordpress.com/wp/v2/sites/al
 export const WP_PAGE_BASE_URL = WP_REST_API_BASE+'/pages?slug=';
 export const WP_POST_BASE_URL = WP_REST_API_BASE+'/posts';
 export const WP_POST_URL = WP_POST_BASE_URL+'?slug=';
+/* Maximum number of posts to display on the News and Events page */
+export const WP_POST_MAX_COUNT = 10;
+export const WP_PATH= '/wordpress';
+export const WP_POST_PATH = '/posts';
 
 export const CATEGORIES = [
   {
@@ -25,93 +29,81 @@ export const CATEGORIES = [
 
 /**********  Wordpress Pages *************
   An entry is added to this constant each
-  time a new static page is created/publised in WP 
+  time a new static page that's part of the
+  menu oe sub-menu  is created/publised in WP 
   
   Fields Definition:
-  1) title: The title of the page as set in WP
-  2) label: Used in the site  menu/sub menu
-  3) slug: WP slug for this page
-  4) path: Used for Portal router 
+  1) label: Used in the site  menu/sub menu
+  2) slug: WP slug for this page
+  3) path: Used for Portal router 
 ******************************************/
 
 export const WP_PAGES ={
   home: {
-    title: 'Home - Alliance of Genome Resources',
     label: 'Home',
     slug: 'home',
     path: 'home'
   },
   about: {
-    title: 'About Us - Alliance of Genome Resources',
     label: 'About Us',
     slug: 'about-us',
     path: 'about'
   },
   projects: {
-    title: 'Projects, Work Product, Publications - Alliance of Genome Resources',
     label: 'Projects, Work Product, Publications',
     slug: 'projects-work-products-publications',
     path: 'projects'
   },
   contact: {
-    title: 'Contact Us - Alliance of Genome Resources',
     label: 'Contact Us',
     slug: 'contact-us',
     path: 'contact'
   },
   faq:{
-    title: 'FREQUENTLY ASKED QUESTIONS - Alliance of Genome Resources',
     label: 'Frequently Asked Questions',
     slug: 'frequently-asked-questions',
     path: 'faq'
   },
   funding: {
-    title: 'FUNDING - Alliance of Genome Resources',
     label: 'Funding',
     slug: 'funding',
     path: 'funding'
   },
   organization: {
-    title: 'Organization and Governance - Alliance of Genome Resources',
     label: 'Organization and Governance',
     slug: 'organization-and-governance',
     path: 'organization'
   },
   goups: {
-    title: 'Projects, Work Product, Publications - Alliance of Genome Resources',
     label: 'AGR Working Groups',
     slug: 'projects-work-products-publications',
     path: 'projects'
-  },
-  features: {
-    title: 'Genome Features - Alliance of Genome Resources',
-    label: 'Genome Features',
-    slug: 'genome-features',
-    path: 'features'
-  },
-  supplement: {
-    title: 'Administrative Supplement - Alliance of Genome Resources',
-    label: 'Administrative Supplement',
-    slug: 'administrative-supplement',
-    path: 'supplement'
-  },
-  orthology: {
-    title: 'Orthology - Alliance of Genome Resources',
-    label: 'Orthology',
-    slug: 'orthology',
-    path: 'orthology'
-  },
-  phenotypes: {
-    title: 'Phenotypes And Disease Models - Alliance of Genome Resources',
-    label: 'Phenotypes And Disease Models',
-    slug: 'phenotypes-and-disease-models',
-    path: 'phenotypes'
   },
   publications:{
     title: 'Publications - Alliance of Genome Resources',
     label: 'Publications',
     slug: 'publications',
     path: 'publications'
+  },
+  news:{
+    label: 'News & Events',
+    slug: 'news-and-events',
+    path: 'news'
+  },
+  features: {
+    label: 'Genome Features',
+    slug: 'genome-features',
+    path: 'features'
+  },
+  supplement: {
+    label: 'Administrative Supplement',
+    slug: 'administrative-supplement',
+    path: 'supplement'
+  },
+  phenotypes: {
+    label: 'Phenotypes And Disease Models',
+    slug: 'phenotypes-and-disease-models',
+    path: 'phenotypes'
   }
 };
 
@@ -123,6 +115,7 @@ export const MENU = [
   'home',
   'about',
   'projects',
+  'news',
   'contact'
 ];
 

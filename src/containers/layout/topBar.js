@@ -9,17 +9,19 @@ class TopBar extends Component {
   render() {
     let email_link='mailto:info@alliancegenome.org';
     let email_logo='info@alliancegenome.org';
-   
+
     return (
       <div className={`col-xs-12 ${style.topBar} ${style.solidBg}`}>
         <div className={style.content}>
-          <div className={`${SMALL_COL_CLASS} ${style.miniBidgets}`}>
-            <span className={`${style.miniContact} ${style.email}`}>
-              <a href={email_link}><i className='fa fa-envelope' /> {email_logo}</a>
-            </span>
-          </div>
-          <div className={`${LARGE_COL_CLASS} ${style.rightWidgets} ${style.miniBidgets}`}>
-            <SocialMedia />
+          <div className='row'>
+            <div className={`${SMALL_COL_CLASS} ${style.miniBidgets}`}>
+              <span className={`${style.miniContact} ${style.email}`}>
+                <a href={email_link}><i className='fa fa-envelope' /> {email_logo}</a>
+              </span>
+            </div>
+            <div className={`${LARGE_COL_CLASS} ${style.rightWidgets} ${style.miniBidgets}`}>
+              <SocialMedia />
+            </div>
           </div>
         </div>
       </div>

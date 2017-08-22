@@ -6,8 +6,8 @@ import { selectGene } from '../../selectors/geneSelectors';
 
 import BasicGeneInfo from './basicGeneInfo';
 import GenePageHeader from './genePageHeader';
-import { OrthologyTable } from '../../components/orthology';
-import DiseaseTable from '../../components/disease';
+import { OrthologyFilteredTable } from '../../components/orthology';
+import { GenePageDiseaseTable } from '../../components/disease';
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
 import Subsection from '../../components/subsection';
 import HeadMetaTags from '../../components/headMetaTags';
@@ -38,7 +38,7 @@ class GenePage extends Component {
       return null;
     }
 
-    let title = 'AGR gene page for ' + this.props.data.species + ' gene: ' + this.props.data.symbol;
+    const title = `${this.props.data.symbol} | ${this.props.data.species} gene`;
 
     // todo, add chromosome
     let genomeLocation = {};
@@ -87,11 +87,11 @@ class GenePage extends Component {
         </Subsection>
 
         <Subsection hasData={(this.props.data.orthology || []).length > 0} title='Orthology'>
-          <OrthologyTable data={this.props.data.orthology} />
+          <OrthologyFilteredTable data={this.props.data.orthology} />
         </Subsection>
 
         <Subsection hasData={this.props.data.diseases.length > 0} title='Disease Associations'>
-          <DiseaseTable data={this.props.data.diseases} filename={`${this.props.data.symbol}-Disease-Associations-${date}`} />
+          <GenePageDiseaseTable data={this.props.data.diseases} filename={`${this.props.data.symbol}-Disease-Associations-${date}`} />
         </Subsection>
 
       </div>

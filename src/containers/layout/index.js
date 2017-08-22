@@ -10,7 +10,7 @@ import TopBar from './topBar';
 import FooterBar from './footer';
 import Menu from './menu';
 import SiteMap from './siteMap';
-import AgrTweets from './twitterWidget'; 
+import AgrTweets from './twitterWidget';
 
 import { SMALL_COL_CLASS, LARGE_COL_CLASS } from '../../constants';
 
@@ -51,10 +51,10 @@ class Layout extends Component {
           </div>
         </div>
         <div className={`col-xs-12 ${style.siteMapContainer}`}>
-          <div className={style.content}>
+          <div className={`${style.content} row`}>
             <div className={SMALL_COL_CLASS}><SiteMap /> </div>
             <div className={`${LARGE_COL_CLASS} ${style.recentPost}`}>
-              <div className={`col-xs-12 ${style.sectionHeader}`}><h3>Recent Tweets</h3></div> 
+              <div className={`col-xs-12 ${style.sectionHeader}`}><h3>Recent Tweets</h3></div>
               <div id='tweets'><AgrTweets /></div>
             </div>
           </div>

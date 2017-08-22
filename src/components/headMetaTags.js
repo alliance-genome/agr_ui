@@ -3,7 +3,7 @@ import Helmet from 'react-helmet';
 
 class HeadMetaTags extends Component {
   render() {
-    let title =this.props.title;
+    let title = `${this.props.title} | Alliance of Genome Resources`;
     return (
       <div>
         <Helmet

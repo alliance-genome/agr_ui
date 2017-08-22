@@ -2,16 +2,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import fetchData from '../../lib/fetchData';
-import { fetchWp, fetchWpSuccess, fetchWpFailure } from '../../actions/wp';
-import { selectWp } from '../../selectors/wpSelectors';
+import fetchData from '../../../lib/fetchData';
+import { fetchWp, fetchWpSuccess, fetchWpFailure } from '../../../actions/wp';
+import { selectWp } from '../../../selectors/wpSelectors';
 
-import WordpressPage from './wordpressPage';
+import WordpressNews from './wordpressNews';
+import WordpressPosts from './wordpressPosts';
 
-import{ WP_PAGE_BASE_URL,WP_PAGES } from '../../constants';
+import{ WP_POST_BASE_URL,WP_POST_URL } from '../../../constants';
 
 
-class Wordpress extends Component {
+class WordpressFeeds extends Component {
   constructor(props){
     super(props);
   }
@@ -24,12 +25,17 @@ class Wordpress extends Component {
     }
   }
   getCurrentRoute(props){
-    return props.params.pageId;
+    return props.params.postId;
   }
   getData(currentRoute){
     this.props.dispatch(fetchWp());
-    let page_slug=(currentRoute in WP_PAGES)?WP_PAGES[currentRoute].slug:currentRoute;
-    let homeUrl=WP_PAGE_BASE_URL+page_slug;
+    let homeUrl='';
+    if (this.props.params.postId==='news') {
+      homeUrl=WP_POST_BASE_URL;
+    }
+    else{ 
+      homeUrl=WP_POST_URL+this.props.params.postId;
+    }
     fetchData(homeUrl)
       .then(data => this.props.dispatch(fetchWpSuccess(data)))
       .catch(error => this.props.dispatch(fetchWpFailure(error)));
@@ -46,14 +52,19 @@ class Wordpress extends Component {
     if (!this.props.data) {
       return null;
     }
-    return (<WordpressPage data={this.props.data[0]} />);
+    if(this.props.params.postId !=='news'){
+      return (<WordpressPosts data={this.props.data[0]} />);
+    }else{
+      return (<WordpressNews data={this.props.data} path={this.props.params.url}  />);
+    }
   }
 }
-Wordpress.propTypes = {
+WordpressFeeds.propTypes = {
   data: React.PropTypes.object,
   dispatch: React.PropTypes.func,
   error: React.PropTypes.object,
   loading: React.PropTypes.bool,
+  name: React.PropTypes.string,
   params: React.PropTypes.object,
 };
 
@@ -61,5 +72,5 @@ function mapStateToProps(state) {
   return selectWp(state);
 }
 
-export { Wordpress as Wordpress };
-export default connect(mapStateToProps)(Wordpress);
+export { WordpressFeeds as WordpressFeeds };
+export default connect(mapStateToProps)(WordpressFeeds);

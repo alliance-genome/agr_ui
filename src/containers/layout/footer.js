@@ -10,7 +10,7 @@ class FooterBar extends Component {
   render() {
     return (
       <div className={`col-xs-12 ${style.footerBar}`}>
-        <div className={style.content}>
+        <div className={`${style.content} row`}>
           <div className={SMALL_COL_CLASS}>
               <Link to='/'>
                 <img className={style.logo} src={logo} />

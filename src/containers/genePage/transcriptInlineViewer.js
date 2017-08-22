@@ -1,3 +1,5 @@
+/*eslint-disable react/no-set-state */
+
 import React, {Component} from 'react';
 
 
@@ -43,34 +45,26 @@ class TranscriptViewer extends Component {
     // TODO: move EVERYTHING to the externalJBrowseUrl
     let visualizationUrl = visualizationPrefix + encodeURIComponent(externalJbrowseUrl) + visualizationSuffix;
 
-    let styles = {
-      makeSpace: {
-        display: 'block',
-        marginTop: '20px',
-        marginBottom: '20px',
-        marginLeft: '15px'
-      },
-      buttonSpace: {
-        marginLeft: '15px'
-      }
-    };
-
     return (
       <div id='genomeViewer'>
-      <div className='col-sm-8 pull-sm-4'>
-          <dl className='row'>
-            <dt className='col-sm-2'>Genome Location</dt>
-            <dd className='col-sm-10'><a href={externalJbrowseUrl.replace('overview.html', 'index.html')} rel='noopener noreferrer' target='_blank'> Chr{this.props.chromosome}:{this.props.fmin}...{this.props.fmax} {this.props.assembly} {this.props.strand} </a></dd>
-          </dl>
-      </div>
-        <div className='row' style={styles.makeSpace}>
-          <a href={externalJbrowseUrl.replace('overview.html', 'index.html')} rel='noopener noreferrer' target='_blank' title='Browse Genome'>
-            <img
-              onError={this.handleImageErrored.bind(this)}
-              onLoad={this.handleImageLoaded.bind(this)}
-              src={visualizationUrl}
-            />
-          </a>
+        <div className='row'>
+          <div className='col-sm-8'>
+              <dl className='row'>
+                <dt className='col-sm-3'>Genome Location</dt>
+                <dd className='col-sm-9'><a href={externalJbrowseUrl.replace('overview.html', 'index.html')} rel='noopener noreferrer' target='_blank'> Chr{this.props.chromosome}:{this.props.fmin}...{this.props.fmax} {this.props.assembly} {this.props.strand} </a></dd>
+              </dl>
+          </div>
+        </div>
+        <div className='row'>
+          <div className='col-xs-12'>
+            <a href={externalJbrowseUrl.replace('overview.html', 'index.html')} rel='noopener noreferrer' target='_blank' title='Browse Genome'>
+              <img
+                onError={this.handleImageErrored.bind(this)}
+                onLoad={this.handleImageLoaded.bind(this)}
+                src={visualizationUrl}
+              />
+            </a>
+          </div>
         </div>
         {this.state.imageStatus === 'loading'
           ? <div>Loading ... <img src='https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif' /></div>
@@ -94,4 +88,3 @@ TranscriptViewer.propTypes = {
 };
 
 export default TranscriptViewer;
-
