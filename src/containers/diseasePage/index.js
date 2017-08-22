@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import HeadMetaTags from '../../components/headMetaTags';
+import Subsection from '../../components/subsection';
+import { DiseasePageAssociationsTable } from '../../components/disease';
 
 class DiseasePage extends Component {
   render() {
@@ -17,6 +19,10 @@ class DiseasePage extends Component {
         <a href={'http://www.disease-ontology.org/?id=' + this.props.params.diseaseId}>
           {this.props.params.diseaseId}
         </a>
+
+        <Subsection hardcoded title='Associations'>
+          <DiseasePageAssociationsTable />
+        </Subsection>
       </div>
     );
   }

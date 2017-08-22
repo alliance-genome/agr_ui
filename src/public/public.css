@@ -598,3 +598,7 @@
 
 /**************  React-Flybase-DataGrid  *************/
 
+.react-bs-table table td, .react-bs-table table th {
+    overflow: auto;
+    white-space: normal;
+}

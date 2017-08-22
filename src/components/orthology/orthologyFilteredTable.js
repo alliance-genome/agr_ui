@@ -112,96 +112,93 @@ class OrthologyFilteredTable extends Component {
 
     return (
       <div>
-        <div
-          className="card"
-          style={{
-            padding: '1em'
-          }}
-        >
-          <label style={labelStyle}>
-            Best Score Only:
-            <input
-              checked={this.state.filterBest}
-              onChange={(event) => this.updateBestScoreFilter(event)}
-              style={inputStyle}
-              type="checkbox"
-            />
-          </label>
-          <label style={labelStyle}>
-            Best Reverse Score Only:
-            <input
-              checked={this.state.filterReverseBest}
-              onChange={(event) => this.updateBestReverseScoreFilter(event)}
-              style={inputStyle}
-              type="checkbox"
-            />
-          </label>
-          <label style={labelStyle}>
-            Exclude low confidence matches:
-            <input
-              checked={this.state.filterConfidence}
-              onChange={(event) => this.updateFilterConfidence(event)}
-              style={inputStyle}
-              type="checkbox"
-            />
-          </label>
-          <label style={labelStyle}>
-            Count:
-            <select
-              onChange={(event) => this.updateFilterScoreGreaterThan(event)}
-              style={inputStyle}
-              value={this.state.filterScoreGreaterThan}
-            >
-              <option value={0}>> 0</option>
-              {
-                all_methods.map((method, index) => {
-                  const scoreGreaterThanValue = index + 1;
-                  return <option key={scoreGreaterThanValue} value={scoreGreaterThanValue}>> {scoreGreaterThanValue}</option>;
-                })
-              }
-            </select>
-          </label>
-          <label style={labelStyle}>
-            Species:
-            <select
-              onChange={(event) => this.updateFilterSpecies(event)}
-              style={inputStyle}
-              value={this.state.filterSpecies || 'all'}
-            >
-              <option value="all">All</option>
-              {
-                this.props.data.reduce((all_species, dat) => {
-                  if (all_species.indexOf(dat.gene2SpeciesName) === -1) {
-                    return all_species.concat([dat.gene2SpeciesName]);
-                  } else {
-                    return all_species;
-                  }
-                }, []).map((species) => (
-                  <option key={species} value={species}>{species}</option>
-                ))
-              }
-            </select>
-          </label>
-          <label>
-            Methods:
-            <select
-              onChange={(event) => this.updateFilterMethod(event)}
-              style={inputStyle}
-              value={this.state.filterMethod || 'all'}
-            >
-              <option value="all">All</option>
-              {
-                all_methods.map((method) => (
-                  <option key={method} value={method}>{method}</option>
-                ))
-              }
-            </select>
-          </label>
-          <br/>
-          <button
-            className="btn btn-primary"
-            onClick={() => this.resetFilters()}
-          >Reset filters</button>
+        <div className="card">
+          <div className="card-block">
+            <label style={labelStyle}>
+              Best Score Only:
+              <input
+                checked={this.state.filterBest}
+                onChange={(event) => this.updateBestScoreFilter(event)}
+                style={inputStyle}
+                type="checkbox"
+              />
+            </label>
+            <label style={labelStyle}>
+              Best Reverse Score Only:
+              <input
+                checked={this.state.filterReverseBest}
+                onChange={(event) => this.updateBestReverseScoreFilter(event)}
+                style={inputStyle}
+                type="checkbox"
+              />
+            </label>
+            <label style={labelStyle}>
+              Exclude low confidence matches:
+              <input
+                checked={this.state.filterConfidence}
+                onChange={(event) => this.updateFilterConfidence(event)}
+                style={inputStyle}
+                type="checkbox"
+              />
+            </label>
+            <label style={labelStyle}>
+              Count:
+              <select
+                onChange={(event) => this.updateFilterScoreGreaterThan(event)}
+                style={inputStyle}
+                value={this.state.filterScoreGreaterThan}
+              >
+                <option value={0}>> 0</option>
+                {
+                  all_methods.map((method, index) => {
+                    const scoreGreaterThanValue = index + 1;
+                    return <option key={scoreGreaterThanValue} value={scoreGreaterThanValue}>> {scoreGreaterThanValue}</option>;
+                  })
+                }
+              </select>
+            </label>
+            <label style={labelStyle}>
+              Species:
+              <select
+                onChange={(event) => this.updateFilterSpecies(event)}
+                style={inputStyle}
+                value={this.state.filterSpecies || 'all'}
+              >
+                <option value="all">All</option>
+                {
+                  this.props.data.reduce((all_species, dat) => {
+                    if (all_species.indexOf(dat.gene2SpeciesName) === -1) {
+                      return all_species.concat([dat.gene2SpeciesName]);
+                    } else {
+                      return all_species;
+                    }
+                  }, []).map((species) => (
+                    <option key={species} value={species}>{species}</option>
+                  ))
+                }
+              </select>
+            </label>
+            <label>
+              Methods:
+              <select
+                onChange={(event) => this.updateFilterMethod(event)}
+                style={inputStyle}
+                value={this.state.filterMethod || 'all'}
+              >
+                <option value="all">All</option>
+                {
+                  all_methods.map((method) => (
+                    <option key={method} value={method}>{method}</option>
+                  ))
+                }
+              </select>
+            </label>
+            <br />
+            <button
+              className="btn btn-primary"
+              onClick={() => this.resetFilters()}
+            >Reset filters</button>
+          </div>
         </div>
         {
           filteredData.length > 0 ?
