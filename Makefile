@@ -20,4 +20,4 @@ bash:
 docker-run:
 	docker run -p 2992:2992 -t -i agrdocker/agr_ui_server:develop
 docker-run-command:
-	npm start:docker
+	npm run start-docker
