@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-  - "7"
+  - "6"
 
 cache:
   directories:
@@ -12,7 +12,6 @@ install:
 
 script:
   - make test
-
 
 notifications:
   slack:
