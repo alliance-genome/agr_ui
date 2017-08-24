@@ -5,4 +5,4 @@ WORKDIR /workdir/agr_ui
 ADD . .
 RUN make 
 
-CMD make run
+CMD make docker-run-command
