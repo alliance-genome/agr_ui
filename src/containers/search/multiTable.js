@@ -24,7 +24,7 @@ import {
 
 const BASE_SEARCH_URL = '/api/search';
 const PAGE_SIZE = 5;
-const CATEGORIES = ['gene', 'go'];
+const CATEGORIES = ['gene', 'go', 'disease'];
 
 
 class MultiTableComponent extends Component {
