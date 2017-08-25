@@ -24,9 +24,9 @@ let config = {
     filename: '[name].[hash].js',
     chunkFilename: '[id].[chunkhash].js'
   },
-  disableHostCheck: true,
   devtool: 'eval-source-map',
   devServer: {
+    disableHostCheck: true,
     contentBase: 'dist',
     historyApiFallback: true,
     port: DEV_SERVER_UI_PORT,
