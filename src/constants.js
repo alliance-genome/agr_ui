@@ -24,18 +24,22 @@ export const CATEGORIES = [
   {
     name: 'go',
     displayName: 'Gene Ontology'
+  },
+  {
+    name: 'disease',
+    displayName: 'Disease'
   }
 ];
 
 /**********  Wordpress Pages *************
   An entry is added to this constant each
   time a new static page that's part of the
-  menu oe sub-menu  is created/publised in WP 
-  
+  menu oe sub-menu  is created/publised in WP
+
   Fields Definition:
   1) label: Used in the site  menu/sub menu
   2) slug: WP slug for this page
-  3) path: Used for Portal router 
+  3) path: Used for Portal router
 ******************************************/
 
 export const WP_PAGES ={
