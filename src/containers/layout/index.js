@@ -24,24 +24,31 @@ class Layout extends Component {
         <div className={`alert alert-warning ${style.appAlert}`} role='alert'>
           This website is a prototype and information may not be verified. Submit bugs <a href='https://agr-jira.atlassian.net'>here.</a>
         </div>
+
         <TopBar />
-        <div className={style.topHeader}>
-          <div className={`row ${style.content}`}>
-            <div className={SMALL_COL_CLASS}>
-              <Link to='/'>
-                <img className={style.logo} src={logo} />
-              </Link>
+
+        <nav className='navbar fixed-top'>
+          <div className='container'>
+            <div className='row'>
+              <div className={SMALL_COL_CLASS}>
+                <Link className='navbar-brand' to='/'>
+                  <img height='80' src={logo} />
+                </Link>
+              </div>
+              <div className={LARGE_COL_CLASS}>
+                <SearchBar />
+              </div>
             </div>
-            <div className={LARGE_COL_CLASS}>
-              <SearchBar />
-            </div>
+
           </div>
-        </div>
+        </nav>
+
         <nav className={`navbar ${style.midHeader} ${currentRoute}`}>
-            <div className={style.content}>
+            <div className='container'>
               <Menu />
             </div>
         </nav>
+
         <div className={style.loaderContentContainer}>
           <div className={style.content}>
             <Loader />
@@ -50,15 +57,25 @@ class Layout extends Component {
             </div>
           </div>
         </div>
-        <div className={`col-xs-12 ${style.siteMapContainer}`}>
-          <div className={`${style.content} row`}>
-            <div className={SMALL_COL_CLASS}><SiteMap /> </div>
-            <div className={`${LARGE_COL_CLASS} ${style.recentPost}`}>
-              <div className={`col-xs-12 ${style.sectionHeader}`}><h3>Recent Tweets</h3></div>
-              <div id='tweets'><AgrTweets /></div>
+
+        <div className={style.siteMapContainer}>
+          <div className='container'>
+            <div className='row'>
+              <div className={SMALL_COL_CLASS}>
+                <SiteMap />
+              </div>
+              <div className={LARGE_COL_CLASS}>
+                <div className={style.sectionHeader}>
+                  <h4>Recent Tweets</h4>
+                </div>
+                <div id='tweets'>
+                  <AgrTweets />
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
         <FooterBar />
       </div>
     );
