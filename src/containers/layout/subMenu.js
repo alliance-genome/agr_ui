@@ -12,11 +12,19 @@ class SubMenu extends Component {
     if(!(page_key in SUB_MENU )){return(<div />);}
     for(var index in SUB_MENU[page_key]){
       let page=SUB_MENU[page_key][index];
-      container.push(<Link className={`list-group-item ${style.sub_nav_link}`} key={index} to={`/wordpress/${WP_PAGES[page].path}`}>{WP_PAGES[page].label}</Link>);
+      container.push(
+        <li className={style.subMenuListItem}>
+          <Link className={`${style.sub_nav_link}`} key={index} to={`/wordpress/${WP_PAGES[page].path}`}>
+            {WP_PAGES[page].label}
+          </Link>
+        </li>
+      );
     }
     return (
       <div className={`${style.sub_nav} ${page_key}`}>
-       {container}
+        <ul className='list-unstyled'>
+          {container}
+        </ul>
       </div>
     );
   }

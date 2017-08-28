@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 
-import { SMALL_COL_CLASS, LARGE_COL_CLASS } from '../../constants';
 import SocialMedia from './socialMedia';
 
 import style from './style.css';
@@ -11,20 +10,20 @@ class TopBar extends Component {
     let email_logo='info@alliancegenome.org';
 
     return (
-      <div className={`col-xs-12 ${style.topBar} ${style.solidBg}`}>
-        <div className={style.content}>
+      <nav className={`navbar fixed-top ${style.solidBg}`}>
+        <div className='container'>
           <div className='row'>
-            <div className={`${SMALL_COL_CLASS} ${style.miniBidgets}`}>
-              <span className={`${style.miniContact} ${style.email}`}>
+            <div className='col-xs-6'>
+              <span className={`navbar-text ${style.miniContact}`}>
                 <a href={email_link}><i className='fa fa-envelope' /> {email_logo}</a>
               </span>
             </div>
-            <div className={`${LARGE_COL_CLASS} ${style.rightWidgets} ${style.miniBidgets}`}>
+            <div className='col-xs-6 pull-right text-xs-right'>
               <SocialMedia />
             </div>
           </div>
         </div>
-      </div>
+      </nav>
     );
   }
 }
