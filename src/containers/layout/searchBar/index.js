@@ -13,6 +13,7 @@ import { CATEGORIES } from '../../../constants';
 const AUTO_BASE_URL = '/api/search_autocomplete';
 const DEFAULT_CAT = CATEGORIES[0];
 
+
 class SearchBarComponent extends Component {
   constructor(props) {
     super(props);
@@ -63,6 +64,31 @@ class SearchBarComponent extends Component {
       });
   }
 
+  handleSelected(event, item) {
+    if (item.method == 'click') {
+      let href = '';
+      if (item.suggestion.category == 'gene') {
+        href = '/gene/' + item.suggestion.primaryId;
+      } else if (item.suggestion.category == 'disease') {
+        href = '/disease/' + item.suggestion.primaryId;
+      } else {
+        this.setState({ value: item.suggestion.name_key });
+      }
+
+      if (href != '') {
+        this.props.dispatch(push({ pathname: href}));
+      } else {
+        let query = item.suggestion.name_key;
+        let newCat = this.state.catOption.name;
+        let newQp = { q: query };
+        if (query === '') newQp = {};
+        if (newCat !== 'all') newQp.category = newCat;
+        this.props.dispatch(push({ pathname: '/search', query: newQp }));
+      }
+
+    }
+  }
+
   renderDropdown() {
     let _title = this.state.catOption.displayName;
     let nodes = CATEGORIES.map( d => {
@@ -110,6 +136,7 @@ class SearchBarComponent extends Component {
             <Autosuggest
               getSuggestionValue={_getSuggestionValue}
               inputProps={_inputProps}
+              onSuggestionSelected={this.handleSelected.bind(this)}
               onSuggestionsClearRequested={this.handleClear.bind(this)}
               onSuggestionsFetchRequested={this.handleFetchData.bind(this)}
               renderSuggestion={this.renderSuggestion}
