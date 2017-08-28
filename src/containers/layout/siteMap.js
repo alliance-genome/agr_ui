@@ -18,8 +18,10 @@ class SiteMap extends Component {
     }
     return (
       <div className={style.site_map}>
-       <div className={`col-xs-12 ${style.sectionHeader}`}><h3>Site Map</h3></div>
-       {container}
+        <div className={style.sectionHeader}>
+         <h4>Site Map</h4>
+        </div>
+        {container}
       </div>
     );
   }
