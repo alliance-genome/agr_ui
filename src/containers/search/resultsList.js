@@ -49,11 +49,14 @@ class ResultsList extends Component {
   renderGeneEntry(d, i) {
     let topFields = ['name', 'synonyms'];
     let bottomFields = ['species', 'biotype'];
+    const speciesClass = style[d.species.replace(' ', '-')];
     let link = <Link to={`/gene/${d.id}`}><span dangerouslySetInnerHTML={{ __html: d.display_name }} /></Link>;
     return (
       <div className={style.resultContainer} key={`sr${i}`}>
         {this.renderHeader(d.category, link)}
-          {this.renderDetailFromFields(d, topFields)}
+        <div>{speciesClass}</div>
+        {speciesClass && <div className={`${style.speciesIcon} ${speciesClass}`} />}
+        {this.renderDetailFromFields(d, topFields)}
           <div className={style.detailContainer}>
             <span className={style.detailLabel}><strong>Source:</strong> </span>
             <span><a className='primary-id' dangerouslySetInnerHTML={{ __html: d.id }} href={d.sourceHref} target='_new' /></span>

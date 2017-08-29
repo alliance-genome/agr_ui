@@ -91,3 +91,44 @@ a > span > .sprite {
 	position: relative;
 	top: 0.25rem;
 }
+
+
+.speciesIcon {
+  float: right;
+  background-image: url(./speciesSprite.png);
+  margin: 1.25rem auto 0 auto;
+  width: 41px;
+  height: 45.5px;
+
+}
+
+@media (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3/2), (-webkit-min-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx) {
+  .speciesIcon {
+    background-image: url(./speciesSprite-2x.png);
+    background-size: 41px 273px;
+  }
+}
+
+.speciesIcon.Drosophila-melanogaster { /* fly */
+  background-position: 0 0;
+}
+
+.speciesIcon.Rattus-norvegicus { /* rat */
+  background-position: 0 -91px;
+}
+
+.speciesIcon.Mus-musculus { /* mouse */
+  background-position: 0 -182px;
+}
+
+.speciesIcon.Saccharomyces-cerevisiae { /* yeast */
+  background-position: 0 -273px;
+}
+
+.speciesIcon.Caenorhabditis-elegans { /* worm */
+  background-position: 0 -364px;
+}
+
+.speciesIcon.Danio-rerio { /* zebrafish */
+  background-position: 0 -455px;
+}
