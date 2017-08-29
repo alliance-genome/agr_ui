@@ -10,7 +10,6 @@
 }
 
 .content {
-  width:90%;
   margin: auto;
 }
 .member_sites{background:#ddd;}
@@ -46,6 +45,7 @@
   border-width: 1px 0 1px 0;
   padding: 0;
   text-transform: uppercase;
+  margin-bottom: 1.25rem;
 }
 .midHeader.nav-link {
   padding: 1em;
@@ -121,7 +121,6 @@
 
 .contentContainer {
   min-height: 400px;
-  padding: 0.75rem 1rem 0.5rem 1rem;
 }
 
 .siteMapContainer {
