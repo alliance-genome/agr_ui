@@ -3,7 +3,6 @@ import { createMemoryHistory } from 'react-router';
 import { connect } from 'react-redux';
 import _ from 'underscore';
 
-import style from './style.css';
 import fetchData from '../../lib/fetchData';
 import FilterSelector from './filterSelector/filterSelector';
 import MultiTable from './multiTable';
@@ -104,7 +103,7 @@ class SearchComponent extends Component {
     if (!this.props.isReady) return <LoadingPage />;
     let title = this.props.queryParams.q;
     return (
-      <div className={style.root}>
+      <div className='container'>
         {this.renderErrorNode()}
         <HeadMetaTags title={title} />
         <div className='row'>
