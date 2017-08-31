@@ -94,4 +94,5 @@ a > span > .sprite {
 
 .resultSpeciesIcon {
   float: right;
+  opacity: .25;
 }
