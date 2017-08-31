@@ -1,5 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import PropTypes from 'prop-types';
 
 const textSorter = (textRender, field) => {
   return (a, b, order) => {
@@ -28,6 +29,7 @@ class LocalDataTable extends Component {
       exportCSVSeparator: '\t',
       exportCSVText: 'Download',
       toolbarPosition: 'bottom', //move download button to the bottom
+      paginationPosition: 'top',
       sizePerPage: 6,
       sizePerPageList: [ {
         text: '6', value: 6
