@@ -38,7 +38,8 @@ export function makeFieldDisplayName(unformattedName) {
   case 'diseases.do_name':
     return 'Disease';
   default:
-    return unformattedName.replace(/_/g, ' ').replace('.raw','');
+    //replace underscores and any field name suffixes after a .
+    return unformattedName.replace(/_/g, ' ').replace(/\.(\w)+/g, '');
   }
 }
 
