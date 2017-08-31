@@ -50,7 +50,7 @@ class ResultsList extends Component {
   renderGeneEntry(d, i) {
     let topFields = ['name', 'synonyms'];
     let bottomFields = ['species', 'biotype'];
-    const speciesClass = genePageStyle[d.species.replace(' ', '-')];
+    const speciesClass = genePageStyle[(d.species || '').replace(' ', '-')];
     let link = <Link to={`/gene/${d.id}`}><span dangerouslySetInnerHTML={{ __html: d.display_name }} /></Link>;
     return (
       <div className={style.resultContainer} key={`sr${i}`}>
