@@ -66,18 +66,21 @@ class SearchBarComponent extends Component {
 
   handleSelected(event, item) {
     if (item.method == 'click') {
-      let href = '';
       if (item.suggestion.category == 'gene') {
-        href = '/gene/' + item.suggestion.primaryId;
+        let href = '/gene/' + item.suggestion.primaryId;
+        this.props.dispatch(push({ pathname: href}));
       } else if (item.suggestion.category == 'disease') {
-        href = '/disease/' + item.suggestion.primaryId;
+        let href = '/disease/' + item.suggestion.primaryId;
+        this.props.dispatch(push({ pathname: href}));
+      } else if (item.suggestion.category == 'go') {
+        this.setState({ value: '' });
+        let field = 'gene_' + item.suggestion.go_type;
+        let newQp = { category: 'gene' };
+        newQp[field] = item.suggestion.name_key;
+        //newQp = getQueryParamWithoutPage('gene_biological_process', item.suggestion.name_key, newQp);
+        this.props.dispatch(push({ pathname: '/search', query: newQp }));
       } else {
         this.setState({ value: item.suggestion.name_key });
-      }
-
-      if (href != '') {
-        this.props.dispatch(push({ pathname: href}));
-      } else {
         let query = item.suggestion.name_key;
         let newCat = this.state.catOption.name;
         let newQp = { q: query };
@@ -85,7 +88,6 @@ class SearchBarComponent extends Component {
         if (newCat !== 'all') newQp.category = newCat;
         this.props.dispatch(push({ pathname: '/search', query: newQp }));
       }
-
     }
   }
 
