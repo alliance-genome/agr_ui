@@ -13,7 +13,7 @@ class SubMenu extends Component {
     for(var index in SUB_MENU[page_key]){
       let page=SUB_MENU[page_key][index];
       container.push(
-        <li className={style.subMenuListItem}>
+        <li className={style.subMenuListItem} key={index}>
           <Link className={`${style.sub_nav_link}`} key={index} to={`/wordpress/${WP_PAGES[page].path}`}>
             {WP_PAGES[page].label}
           </Link>

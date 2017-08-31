@@ -12,8 +12,8 @@ class SiteMap extends Component {
       let page=MENU[index];
       let page_path=(page==='news')?WP_POST_PATH:WP_PATH;
       container.push(<div className={style.navContainer} key={index}>
-          <Link className={`nav-link ${style.navLink}`} to={`${page_path}/${WP_PAGES[page].path}`}>{WP_PAGES[page].label}  </Link>
-          <SubMenu path={page} />
+          <Link className={`nav-link ${style.navLink}`} to={`${page_path}/${WP_PAGES[page].path}`}>{WP_PAGES[page].label} </Link>
+          <SubMenu key={index} path={page} />
          </div>);
     }
     return (
