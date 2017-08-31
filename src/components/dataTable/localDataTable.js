@@ -28,7 +28,12 @@ class LocalDataTable extends Component {
       exportCSVSeparator: '\t',
       exportCSVText: 'Download',
       toolbarPosition: 'bottom', //move download button to the bottom
-      sizePerPage: this.pagination ? 10 : 99999999,
+      sizePerPage: 6,
+      sizePerPageList: [ {
+        text: '6', value: 6
+      }, {
+        text: 'All', value: this.props.data.length
+      } ],
     };
     return (
       <BootstrapTable
