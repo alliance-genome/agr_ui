@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 
 import style from './style.css';
+import genePageStyle from '../genePage/style.css';
 import CategoryLabel from './categoryLabel';
 import DetailList from './detailList';
 import { NON_HIGHLIGHTED_FIELDS } from '../../constants';
@@ -49,11 +50,13 @@ class ResultsList extends Component {
   renderGeneEntry(d, i) {
     let topFields = ['name', 'synonyms'];
     let bottomFields = ['species', 'biotype'];
+    const speciesClass = genePageStyle[(d.species || '').replace(' ', '-')];
     let link = <Link to={`/gene/${d.id}`}><span dangerouslySetInnerHTML={{ __html: d.display_name }} /></Link>;
     return (
       <div className={style.resultContainer} key={`sr${i}`}>
         {this.renderHeader(d.category, link)}
-          {this.renderDetailFromFields(d, topFields)}
+        {speciesClass && <div className={`${genePageStyle.speciesIcon} ${speciesClass} ${style.resultSpeciesIcon}`} />}
+        {this.renderDetailFromFields(d, topFields)}
           <div className={style.detailContainer}>
             <span className={style.detailLabel}><strong>Source:</strong> </span>
             <span><a className='primary-id' dangerouslySetInnerHTML={{ __html: d.id }} href={d.sourceHref} target='_new' /></span>
