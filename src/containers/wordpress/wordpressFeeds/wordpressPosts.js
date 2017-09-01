@@ -22,11 +22,13 @@ class WordpressPosts extends Component {
       <div>
         <HeadMetaTags title={post_title} />
         <NewsSubMenu title={post_title} />
-        <div className={`col-xs-12 ${style.postPageContainer}`}>
-          <div className={`col-xs-12 col-sm-5 ${style.floatLeft}`}>
-           <img className='img-fluid' src={post_image}  /> 
+        <div className={`container ${style.postPageContainer}`}>
+          <div className='row'>
+            <div className={`col-xs-12 col-sm-5 ${style.floatLeft}`}>
+              <img className='img-fluid' src={post_image}  />
+            </div>
+            <div dangerouslySetInnerHTML={{ __html: post_content}} />
           </div>
-          <div dangerouslySetInnerHTML={{ __html: post_content}} />
         </div>
       </div>
     );
