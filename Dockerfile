@@ -1,4 +1,4 @@
-FROM agrdocker/agr_ui_env:develop
+FROM agrdocker/agr_javascript_env:latest
 
 WORKDIR /workdir/agr_ui
 
