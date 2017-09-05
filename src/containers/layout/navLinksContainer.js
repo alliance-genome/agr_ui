@@ -15,11 +15,13 @@ class NavLinksContainer extends Component {
       let page_url=page_path+'/'+WP_PAGES[page].path;
       let page_label=WP_PAGES[page].label;
       let link_token=[];
-      if(page==='news'){link_token.push(<a className={`nav-link ${style.navLink}`} href={page_url}>{page_label}</a>);}
-      else{link_token.push(<NavLink label={page_label} url={page_url} />);}
+      if(page==='news'){
+        link_token.push(<a className={`nav-link ${style.navLink}`} href={page_url} key={index}>{page_label}</a>);
+      }
+      else{link_token.push(<NavLink key={index} label={page_label} url={page_url} />);}
       container.push(<div className={style.navContainer} key={index}>
           {link_token}
-          <SubMenu path={page} />
+          <SubMenu key={index} path={page} />
          </div>);
     }
     return (
