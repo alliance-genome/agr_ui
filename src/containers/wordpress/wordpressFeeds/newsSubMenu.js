@@ -13,7 +13,7 @@ class NewsSubMenu extends Component {
     container.push(<a href='/posts'>/News </a>);
      
     return (
-         <div className={style.postMenuContainer}>
+       <div className={style.postMenuContainer}>
          <div className='container-fluid'>
            <div className={style.postMenu_empty_row} />
            <div className={`row ${style.news_nav}`}>
@@ -22,6 +22,8 @@ class NewsSubMenu extends Component {
                 <h1 dangerouslySetInnerHTML={{ __html: post_title}} />
               </div>
            </div>
+         </div>
+       </div>
     );
   }
 }
