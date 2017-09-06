@@ -13,15 +13,15 @@ class NewsSubMenu extends Component {
     container.push(<a href='/posts'>/News </a>);
      
     return (
-      <div className={`col-xs-12 ${style.postMenuContainer}`}>
-        <div className={style.postMenu_empty_row} />
-        <div className={`row ${style.news_nav}`}>
-           <div className='col-xs-12 col-sm-4'>{container} </div>
-           <div className='col-xs-12 col-sm-8'>
-             <h1 dangerouslySetInnerHTML={{ __html: post_title}} />
+         <div className={style.postMenuContainer}>
+         <div className='container-fluid'>
+           <div className={style.postMenu_empty_row} />
+           <div className={`row ${style.news_nav}`}>
+              <div className='col-xs-12 col-sm-4'>{container} </div>
+              <div className='col-xs-12 col-sm-8 text-xs-right'>
+                <h1 dangerouslySetInnerHTML={{ __html: post_title}} />
+              </div>
            </div>
-        </div>
-      </div>
     );
   }
 }
