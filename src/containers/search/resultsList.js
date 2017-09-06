@@ -34,6 +34,15 @@ class ResultsList extends Component {
     return <DetailList data={d} fields={fields} />;
   }
 
+  renderMissingTerms(d) {
+    if (!d.missing || d.missing.length == 0) { return ''; }
+    return (
+      <div className={style.missingTerms}>
+        <DetailList data={d} fields={['missing']} />
+      </div>
+    );
+  }
+
   renderNonGeneEntry(d, i, fields) {
     let isMakeLowercase = d.category === 'disease';
     let link = <a dangerouslySetInnerHTML={{ __html: d.display_name }} href={d.href} />;
@@ -42,6 +51,7 @@ class ResultsList extends Component {
         {this.renderHeader(d.category, link, isMakeLowercase)}
         {this.renderDetailFromFields(d, fields)}
         {this.renderHighlightedValues(d.highlight)}
+        {this.renderMissingTerms(d)}
         <hr />
       </div>
     );
@@ -63,6 +73,7 @@ class ResultsList extends Component {
           </div>
           {this.renderDetailFromFields(d, bottomFields)}
           {this.renderHighlightedValues(d.highlight)}
+          {this.renderMissingTerms(d)}
         <hr />
       </div>
     );

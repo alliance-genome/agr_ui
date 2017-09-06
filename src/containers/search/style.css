@@ -61,6 +61,18 @@ td > .detailContainer {
 	text-transform: capitalize;
 }
 
+.detailValue {
+
+}
+
+.missingTerms .detailValue {
+  text-decoration: line-through;
+}
+
+.missingTerms {
+  color: #666;
+}
+
 .agrDownloadBtn {
 }
 
