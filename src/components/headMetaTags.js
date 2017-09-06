@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 
 class HeadMetaTags extends Component {
   render() {
+
     let title = `${this.props.title} | Alliance of Genome Resources`;
     return (
       <div>
@@ -18,7 +20,7 @@ class HeadMetaTags extends Component {
 }
 
 HeadMetaTags.propTypes = {
-  title: React.PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 export default HeadMetaTags;

@@ -1,29 +1,28 @@
-.newsContainer {
-  margin-top: 1.3em;
-  background: transparent;
+.newsContainer {margin-top:1.3em;background:transparent;}
+.postContainer {margin-bottom:1.3em;background:#eee;}
+.postMenuContainer{
+   background-color: #222222; 
+   background-size: cover; 
+   background-repeat: no-repeat; 
+   background-image: url('http://alliancegenome.files.wordpress.com/2016/11/news_banner.jpg'); 
+   background-position: center center; 
+   margin-bottom:1.3em;
+   clear:both;
 }
-
-.postContainer {
-  padding: 1em;
-  margin-bottom: 1.3em;
-  background: #eee;
+.postMenu_empty_row{
+ padding: 0; margin: 0;
+ width: 100%; height: 260px;
 }
-
-.postMenuContainer {
-  background-color: #222222;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-image: url('http://alliancegenome.files.wordpress.com/2016/11/news_banner.jpg');
-  background-position: center center;
-  margin-bottom: 1.3em;
-  clear: both;
+.news_nav{
+ color: #2598c5; 
+ background-color: #000000; 
+ bottom: 0;
 }
-
 .postMenu_empty_row {
-  padding: 0;
-  margin: 0;
-  width: 100%;
-  height: 260px;
+ padding: 0;
+ margin: 0;
+ width: 100%;
+ height: 260px;
 }
 
 .news_nav {
@@ -38,4 +37,10 @@
   margin-left: 0;
   margin-right: 1.2em;
   margin-bottom: 0.9em;
+.postPageContainer{margin:0;padding:0;}
+.postPageContainer img{
+float:left;
 }
+.floatLeft{
+ background:#333;padding:0; margin-left: 0;
+ margin-right:1.2em;margin-bottom:0.9em;}

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import HeadMetaTags from '../../components/headMetaTags';
 import Subsection from '../../components/subsection';
 import { DiseasePageAssociationsTable } from '../../components/disease';
@@ -29,7 +30,7 @@ class DiseasePage extends Component {
 }
 
 DiseasePage.propTypes = {
-  params: React.PropTypes.object,
+  params: PropTypes.object,
 };
 
 export default DiseasePage;

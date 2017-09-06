@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import style from './style.css';
 import { makeFieldDisplayName } from '../../lib/searchHelpers';
@@ -35,8 +36,8 @@ class DetailList extends Component {
 }
 
 DetailList.propTypes = {
-  data: React.PropTypes.object,
-  fields: React.PropTypes.array
+  data: PropTypes.object,
+  fields: PropTypes.array
 };
 
 export default DetailList;

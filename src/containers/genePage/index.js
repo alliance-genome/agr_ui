@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { fetchGene } from '../../actions/genes';
@@ -100,11 +101,11 @@ class GenePage extends Component {
 }
 
 GenePage.propTypes = {
-  data: React.PropTypes.object,
-  dispatch: React.PropTypes.func,
-  error: React.PropTypes.object,
-  loading: React.PropTypes.bool,
-  params: React.PropTypes.object,
+  data: PropTypes.object,
+  dispatch: PropTypes.func,
+  error: PropTypes.object,
+  loading: PropTypes.bool,
+  params: PropTypes.object,
 };
 
 function mapStateToProps(state) {

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import DataSourceCard from './dataSourceCard';
 import DataSourceLink from '../../components/dataSourceLink';
@@ -90,7 +91,7 @@ class BasicGeneInfo extends Component {
 }
 
 BasicGeneInfo.propTypes = {
-  geneData: React.PropTypes.object
+  geneData: PropTypes.object
 };
 
 export default BasicGeneInfo;

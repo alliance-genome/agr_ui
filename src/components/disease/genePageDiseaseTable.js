@@ -1,5 +1,6 @@
 import _ from 'underscore';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import DiseaseNameCell from './diseaseNameCell';
 import ReferenceCell from './referenceCell';
 import { LocalDataTable } from '../../components/dataTable';
@@ -95,8 +96,8 @@ class GenePageDiseaseTable extends Component {
 }
 
 GenePageDiseaseTable.propTypes = {
-  data: React.PropTypes.array.isRequired,
-  filename: React.PropTypes.string,
+  data: PropTypes.array.isRequired,
+  filename: PropTypes.string,
 };
 
 export default GenePageDiseaseTable;

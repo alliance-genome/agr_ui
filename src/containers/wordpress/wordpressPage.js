@@ -2,6 +2,7 @@
 /*** This component renders wordpress static page **/
 
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 import style from './style.css';
@@ -21,7 +22,7 @@ class WordpressPage extends Component {
 }
 
 WordpressPage.propTypes = {
-  data: React.PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
 };
 
 export default WordpressPage;

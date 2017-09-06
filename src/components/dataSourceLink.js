@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 class DataSourceLink extends Component {
   render() {
@@ -9,10 +10,10 @@ class DataSourceLink extends Component {
 }
 
 DataSourceLink.propTypes = {
-  omitPrefix: React.PropTypes.bool,
-  reference: React.PropTypes.shape({
-    crossrefCompleteUrl: React.PropTypes.string,
-    id: React.PropTypes.string,
+  omitPrefix: PropTypes.bool,
+  reference: PropTypes.shape({
+    crossrefCompleteUrl: PropTypes.string,
+    id: PropTypes.string,
   }),
 };
 

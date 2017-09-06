@@ -1,7 +1,8 @@
 /* eslint-disable react/no-set-state */
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import fetchData from '../../lib/fetchData';
+import PropTypes from 'prop-types';
 
 class RemoteDataTable extends Component {
   constructor(props) {

@@ -1,6 +1,7 @@
 /* eslint-disable react/no-set-state */
 import React, { Component } from 'react';
 import { RemoteDataTable } from '../../components/dataTable';
+import PropTypes from 'prop-types';
 
 class DiseasePageAssociationsTable extends Component {
   constructor(props) {
@@ -53,6 +54,8 @@ class DiseasePageAssociationsTable extends Component {
 }
 
 DiseasePageAssociationsTable.propTypes = {
+  columns: PropTypes.array.isRequired,
+  url: PropTypes.string,
 };
 
 export default DiseasePageAssociationsTable;

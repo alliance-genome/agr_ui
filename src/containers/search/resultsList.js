@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 import style from './style.css';
@@ -55,8 +56,8 @@ class ResultsList extends Component {
     return (
       <div className={style.resultContainer} key={`sr${i}`}>
         {this.renderHeader(d.category, link)}
-        {speciesClass && <div className={`${genePageStyle.speciesIcon} ${speciesClass} ${style.resultSpeciesIcon}`} />}
-        {this.renderDetailFromFields(d, topFields)}
+          {speciesClass && <div className={`${genePageStyle.speciesIcon} ${speciesClass} ${style.resultSpeciesIcon}`} />}
+          {this.renderDetailFromFields(d, topFields)}
           <div className={style.detailContainer}>
             <span className={style.detailLabel}><strong>Source:</strong> </span>
             <span><a className='primary-id' dangerouslySetInnerHTML={{ __html: d.id }} href={d.sourceHref} target='_new' /></span>
@@ -93,7 +94,7 @@ class ResultsList extends Component {
 }
 
 ResultsList.propTypes = {
-  entries: React.PropTypes.array
+  entries: PropTypes.array
 };
 
 export default ResultsList;

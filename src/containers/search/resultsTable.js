@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 import style from './style.css';
@@ -137,8 +138,8 @@ class ResultsTable extends Component {
 }
 
 ResultsTable.propTypes = {
-  activeCategory: React.PropTypes.string,
-  entries: React.PropTypes.array
+  activeCategory: PropTypes.string,
+  entries: PropTypes.array
 };
 
 export default ResultsTable;

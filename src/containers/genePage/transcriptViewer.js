@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import style from './style.css';
 
@@ -53,11 +54,11 @@ class TranscriptViewer extends Component {
 }
 
 TranscriptViewer.propTypes = {
-  chromosome: React.PropTypes.string,
-  fmax: React.PropTypes.number,
-  fmin: React.PropTypes.number,
-  geneSymbol: React.PropTypes.string.isRequired,
-  species: React.PropTypes.string.isRequired,
+  chromosome: PropTypes.string,
+  fmax: PropTypes.number,
+  fmin: PropTypes.number,
+  geneSymbol: PropTypes.string.isRequired,
+  species: PropTypes.string.isRequired,
 };
 
 export default TranscriptViewer;
