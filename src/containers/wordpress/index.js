@@ -1,5 +1,6 @@
 /*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import fetchData from '../../lib/fetchData';
@@ -50,11 +51,11 @@ class Wordpress extends Component {
   }
 }
 Wordpress.propTypes = {
-  data: React.PropTypes.object,
-  dispatch: React.PropTypes.func,
-  error: React.PropTypes.object,
-  loading: React.PropTypes.bool,
-  params: React.PropTypes.object,
+  data: PropTypes.object,
+  dispatch: PropTypes.func,
+  error: PropTypes.object,
+  loading: PropTypes.bool,
+  params: PropTypes.object,
 };
 
 function mapStateToProps(state) {

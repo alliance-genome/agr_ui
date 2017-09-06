@@ -3,7 +3,8 @@
   because the state of the component is not shared
   with the rest of the application
 */
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import OrthologyTable from './orthologyTable';
 
 const caseInsensitiveCompare = (stringA, stringB) => {

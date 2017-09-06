@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 class GenePageHeader extends Component {
   render() {
@@ -12,7 +13,7 @@ class GenePageHeader extends Component {
 }
 
 GenePageHeader.propTypes = {
-  symbol: React.PropTypes.string
+  symbol: PropTypes.string
 };
 
 export default GenePageHeader;

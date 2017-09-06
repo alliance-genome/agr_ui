@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 
@@ -51,10 +52,10 @@ class LogListComponent extends Component {
 }
 
 LogListComponent.propTypes = {
-  label: React.PropTypes.string,
-  logs: React.PropTypes.array,
-  query: React.PropTypes.string,
-  rawHighlight: React.PropTypes.string
+  label: PropTypes.string,
+  logs: PropTypes.array,
+  query: PropTypes.string,
+  rawHighlight: PropTypes.string
 };
 
 function mapStateToProps(state) {

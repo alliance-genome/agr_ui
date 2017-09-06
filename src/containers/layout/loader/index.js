@@ -1,5 +1,6 @@
 /*eslint-disable react/no-set-state */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import style from './style.css';
@@ -48,7 +49,7 @@ class Loader extends Component {
 }
 
 Loader.propTypes = {
-  isPending: React.PropTypes.bool
+  isPending: PropTypes.bool
 };
 
 
