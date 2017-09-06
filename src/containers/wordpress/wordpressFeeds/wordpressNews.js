@@ -20,7 +20,9 @@ class WordpressNews extends Component {
       if(posts_count>WP_POST_MAX_COUNT) break;
       let post_slug=this.props.data[index].slug;
       let post_status=this.props.data[index].status;
-    let post_excerpt=this.props.data[index].excerpt.rendered;
+      let post_title=this.props.data[index].title.rendered;
+      let post_image=this.props.data[index].featured_media_url;
+      let post_excerpt=this.props.data[index].excerpt.rendered;
 
       /* only display published posts */
       if(post_status !='publish') continue;
@@ -47,6 +49,7 @@ class WordpressNews extends Component {
     );
   }
 }
+
 WordpressNews.propTypes = {
   data: PropTypes.object.isRequired,
 };
