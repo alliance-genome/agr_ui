@@ -29,6 +29,7 @@ class WordpressPosts extends Component {
               <img className='img-fluid' src={post_image}  />
             </div>
             <div dangerouslySetInnerHTML={{ __html: post_content}} />
+          </div>
         </div>
       </div>
     );
