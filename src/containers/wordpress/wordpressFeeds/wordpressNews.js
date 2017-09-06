@@ -20,10 +20,8 @@ class WordpressNews extends Component {
       if(posts_count>WP_POST_MAX_COUNT) break;
       let post_slug=this.props.data[index].slug;
       let post_status=this.props.data[index].status;
-      let post_title=this.props.data[index].title.rendered;
-      let post_image=this.props.data[index].featured_media_url;
-      let post_excerpt=this.props.data[index].excerpt.rendered;
-      
+    let post_excerpt=this.props.data[index].excerpt.rendered;
+
       /* only display published posts */
       if(post_status !='publish') continue;
       container.push(<div className={`row ${style.postContainer}`} key={index}>
@@ -42,12 +40,13 @@ class WordpressNews extends Component {
       <div>
         <HeadMetaTags title={post_title} />
         <NewsSubMenu title={post_title} />
-        <div className={`col-xs-12 ${style.newsContainer}`}>{container} </div>
+        <div className={`container ${style.newsContainer}`}>
+          {container}
+        </div>
       </div>
     );
   }
 }
-
 WordpressNews.propTypes = {
   data: PropTypes.object.isRequired,
 };
