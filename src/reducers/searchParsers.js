@@ -118,7 +118,8 @@ function parseGeneResult(_d) {
     highlight: d.highlights,
     homologs: parseLogs(d.homologs),
     paralogs: parseLogs(d.paralogs),
-    genomic_coordinates: parseCoordinates(_d)
+    genomic_coordinates: parseCoordinates(_d),
+    missing: d.missingTerms
   };
 }
 
@@ -142,7 +143,8 @@ function parseGoResult(_d) {
     highlight: d.highlights,
     href: d.href,
     name: d.name,
-    synonyms: d.go_synonyms
+    synonyms: d.go_synonyms,
+    missing: d.missingTerms
   };
 }
 
@@ -158,7 +160,8 @@ function parseDiseaseResult(_d) {
     name: d.name,
     id: d.id,
     omim_id: d.id,
-    synonyms: d.disease_synonyms
+    synonyms: d.disease_synonyms,
+    missing: d.missingTerms
   };
 }
 
@@ -185,6 +188,7 @@ function parseDefaultResult(_d) {
     highlight: d.highlights,
     href: d.href,
     name: d.name,
-    synonyms: d.synonym
+    synonyms: d.synonym,
+    missing: d.missingTerms
   };
 }

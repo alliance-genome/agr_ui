@@ -23,7 +23,7 @@ class DetailList extends Component {
       return (
         <div className={style.detailLineContainer} key={`srField.${field}`}>
           <span className={style.detailLabel}><strong>{makeFieldDisplayName(field)}:</strong> </span>
-          {valueNode}
+          <span className={style.detailValue}>{valueNode}</span>
         </div>
       );
     });
