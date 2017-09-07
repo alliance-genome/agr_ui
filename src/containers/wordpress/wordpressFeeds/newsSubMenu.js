@@ -11,7 +11,7 @@ class NewsSubMenu extends Component {
     let post_title=this.props.title;
     container.push(<a href='/wordpress/home'>Home </a>);
     container.push(<a href='/posts'>/News </a>);
-     
+
     return (
        <div className={style.postMenuContainer}>
          <div className='container-fluid'>
