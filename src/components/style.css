@@ -19,3 +19,11 @@
   margin-bottom: 1rem;
   clear: left;
 }
+
+.primaryAttributesList > dt {
+  text-transform: capitalize;
+}
+
+.toggleLink {
+  margin-left: 0.5rem;
+}
