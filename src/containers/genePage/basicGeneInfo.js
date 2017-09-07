@@ -73,10 +73,14 @@ class BasicGeneInfo extends Component {
         name: 'Additional Information'
       },
     ];
+    const modReference = {
+      id: this.state.geneData.modGlobalCrossRefId,
+      crossrefCompleteUrl: this.state.geneData.modCrossRefCompleteUrl,
+    }
     return (
       <div className='row'>
         <div className='col-sm-4 push-sm-8'>
-          <DataSourceCard reference={this.state.geneData.modCrossReference} species={this.state.geneData.species} />
+          <DataSourceCard reference={modReference} species={this.state.geneData.species} />
         </div>
         <div className='col-sm-8 pull-sm-4'>
           <PrimaryAttributesList attributes={attrs} data={this.state.geneData} />
