@@ -23,3 +23,7 @@
 .primaryAttributesList > dt {
   text-transform: capitalize;
 }
+
+.toggleLink {
+  margin-left: 0.5rem;
+}
