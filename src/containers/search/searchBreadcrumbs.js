@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
@@ -53,9 +54,9 @@ class SearchBreadcrumbsComponent extends Component {
 }
 
 SearchBreadcrumbsComponent.propTypes = {
-  isPending: React.PropTypes.bool,
-  queryParams: React.PropTypes.object,
-  total: React.PropTypes.number
+  isPending: PropTypes.bool,
+  queryParams: PropTypes.object,
+  total: PropTypes.number
 };
 
 function mapStateToProps(state) {

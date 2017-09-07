@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import SocialMedia from './socialMedia';
 
@@ -29,7 +30,7 @@ class TopBar extends Component {
 }
 
 TopBar.propTypes = {
-  email_link: React.PropTypes.string,
+  email_link: PropTypes.string,
 };
 
 export default TopBar;

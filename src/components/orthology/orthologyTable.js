@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import MethodHeader from './methodHeader';
 import MethodCell from './methodCell';
@@ -103,17 +104,17 @@ class OrthologyTable extends Component {
 }
 
 OrthologyTable.propTypes = {
-  data: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      gene2AgrPrimaryId: React.PropTypes.string,
-      gene2Symbol: React.PropTypes.string,
-      gene2Species: React.PropTypes.number,
-      gene2SpeciesName: React.PropTypes.string,
-      predictionMethodsMatched: React.PropTypes.arrayOf(React.PropTypes.string),
-      predictionMethodsNotCalled: React.PropTypes.arrayOf(React.PropTypes.string),
-      predictionMethodsNotMatched: React.PropTypes.arrayOf(React.PropTypes.string),
-      isBestScore: React.PropTypes.bool,
-      isBestRevScore: React.PropTypes.bool,
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      gene2AgrPrimaryId: PropTypes.string,
+      gene2Symbol: PropTypes.string,
+      gene2Species: PropTypes.number,
+      gene2SpeciesName: PropTypes.string,
+      predictionMethodsMatched: PropTypes.arrayOf(PropTypes.string),
+      predictionMethodsNotCalled: PropTypes.arrayOf(PropTypes.string),
+      predictionMethodsNotMatched: PropTypes.arrayOf(PropTypes.string),
+      isBestScore: PropTypes.bool,
+      isBestRevScore: PropTypes.bool,
     })
   )
 };

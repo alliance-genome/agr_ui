@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Ribbon, { RibbonDataProvider } from 'gene-ontology-ribbon';
 import '../../../node_modules/gene-ontology-ribbon/lib/index.css';
 import fixRibbonPlacement from './fixRibbonPlacement';
@@ -31,7 +32,7 @@ class GeneOntologyRibbon extends Component {
 }
 
 GeneOntologyRibbon.propTypes = {
-  id: React.PropTypes.string.isRequired
+  id: PropTypes.string.isRequired
 };
 
 export default GeneOntologyRibbon;

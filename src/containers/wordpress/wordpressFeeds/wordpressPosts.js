@@ -2,6 +2,7 @@
 /*** This component renders wordpress post page **/
 
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 import style from './../style.css';
@@ -36,7 +37,7 @@ class WordpressPosts extends Component {
 }
 
 WordpressPosts.propTypes = {
-  data: React.PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
 };
 
 export default WordpressPosts;

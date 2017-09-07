@@ -1,6 +1,8 @@
+/*eslint-disable no-unused-vars*/
 /*** This component builds the 'News & Events' page **/
 
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 import style from './../style.css';
@@ -49,7 +51,7 @@ class WordpressNews extends Component {
 }
 
 WordpressNews.propTypes = {
-  data: React.PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
 };
 
 export default WordpressNews;
