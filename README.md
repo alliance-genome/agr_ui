@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/alliance-genome/agr.svg?branch=master)](https://travis-ci.org/alliance-genome/agr)
+[![Build Status](https://travis-ci.org/alliance-genome/agr_ui.svg?branch=master)](https://travis-ci.org/alliance-genome/agr_ui)
 
 # Alliance of Genome Resources UI
 
