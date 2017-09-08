@@ -4,6 +4,16 @@
 
 The web UI portal of the Alliance of Genome Resources.
 
+## Developing with Docker
+
+The following commands will get you inside of docker and ready to develop code
+
+```bash
+	docker pull agrdocker/agr_javascript_env
+	docker run -v`pwd`:/workdir/agr_ui -p 8080:8080 -p 80:80 -it agrdocker/agr_javascript_env:latest /bin/bash
+  npm run docker-start
+```
+
 ## Prerequisites
 
 Ensure you've installed [nodejs][1].
@@ -38,6 +48,10 @@ If you are looking to develop the API locally the following defaults will work:
 ```bash
 	agr_ui> export API_URL=http://dev.alliancegenome.org
 	agr_ui> export DEV_SERVER_UI_PORT=2992
+	agr_ui> export JBROWSE_URL=http://jbrowse.alliancegenome.org
+	agr_ui> export JBROWSE_PORT=
+	agr_ui> export MANET_URL=http://dev.alliancegenome.org
+	agr_ui> export MANET_PORT=8891
 ```
 
 ### Point to remote API instance
