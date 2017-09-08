@@ -3,17 +3,19 @@
 
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 
 import style from './style.css';
 import HeadMetaTags from '../../components/headMetaTags';
+import SecondaryNav from './secondaryNav';
 
 class WordpressPage extends Component {
   render() {
     let title = this.props.data.title.rendered;
+    let parent_id = (this.props.data.parent>0)?this.props.data.parent:this.props.data.id;
     return (
       <div>
         <HeadMetaTags title={title} />
+        <SecondaryNav  id={this.props.data.id} parent={parent_id} title={title} type='page' />
         <div dangerouslySetInnerHTML={{ __html: this.props.data.content.rendered}} />
       </div>
     );
