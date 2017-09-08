@@ -126,6 +126,7 @@ if (isProduction) {
 new webpack.DefinePlugin({
     'process.env': {
       'JBROWSE_URL': JSON.stringify(JBROWSE_URL),
+      'JBROWSE_PORT': JSON.stringify(JBROWSE_PORT)
       'MANET_URL': JSON.stringify(MANET_URL),
       'MANET_PORT': JSON.stringify(MANET_PORT)
     }
