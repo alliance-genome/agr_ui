@@ -1,5 +1,4 @@
-import React, { Component, PropTypes } from 'react';
-import { Collapse } from 'react-bootstrap';
+import React, { Component } from 'react';
 import CollapsiblePanel from '../collapsiblePanel';
 
 class OrthologyUserGuide extends Component {

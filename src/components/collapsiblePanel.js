@@ -1,3 +1,5 @@
+/* eslint-disable react/no-set-state */
+
 import React, { Component, PropTypes } from 'react';
 import { Collapse } from 'react-bootstrap';
 
@@ -23,11 +25,12 @@ class CollapsiblePanel extends Component {
       <div className="card">
         <div
           className={`card-header alert-${this.props.backgroundVariants}`}
-          onClick={() => this.handleToggle()} role="tab">
+          onClick={() => this.handleToggle()} role="tab"
+        >
           <i
             aria-hidden="true"
             className={`fa fa-chevron-${this.state.expended ? 'up' : 'down'}`}
-            style={{marginRight: "1em"}}
+            style={{marginRight: '1em'}}
           />
           <span>{this.props.title}</span>
         </div>
@@ -45,10 +48,10 @@ class CollapsiblePanel extends Component {
 }
 
 CollapsiblePanel.propTypes = {
-  title: PropTypes.string.isRequired,
+  backgroundVariants: PropTypes.string,
   children: PropTypes.element.isRequired,
   initiallyExpended: PropTypes.bool,
-  backgroundVariants: PropTypes.string,
+  title: PropTypes.string.isRequired,
 };
 
 CollapsiblePanel.defaultProps = {
