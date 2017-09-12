@@ -30,7 +30,7 @@
 
 .fadeInAndOut {
     opacity: 1;
-    animation: fade 1.5s ease-in;
+    animation: fade 1s ease-in;
 }
 
 @keyframes fade {
