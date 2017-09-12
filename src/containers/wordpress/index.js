@@ -17,11 +17,14 @@ class Wordpress extends Component {
     super(props);
   }
   componentDidMount() {
-    this.getData(this.getCurrentRoute(this.props));
+    let wpUrl = this.getCurrentRoute(this.props) || '/home';
+    this.getData(wpUrl);
   }
   componentWillUpdate(nextProps, nextState){
-    if(this.getCurrentRoute(this.props) != this.getCurrentRoute(nextProps)){
-      this.getData(this.getCurrentRoute(nextProps));
+    let wpUrl = this.getCurrentRoute(this.props) || '/home';
+    let nextWpUrl = this.getCurrentRoute(nextProps) || '/home';
+    if(wpUrl !== nextWpUrl){
+      this.getData(nextWpUrl);
     }
   }
   getCurrentRoute(props){
