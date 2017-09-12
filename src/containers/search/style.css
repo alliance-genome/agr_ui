@@ -82,6 +82,10 @@ td > .detailContainer {
   margin-left: 2em;
 }
 
+.explanationList {
+  list-style-type: none;
+}
+
 .agrDownloadBtn {
 }
 
