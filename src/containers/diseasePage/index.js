@@ -21,11 +21,23 @@ class DiseasePage extends Component {
     }
   }
 
+  renderError() {
+    let e = this.props.error;
+    if (!e) {
+      return null;
+    }
+    return (
+      <div>
+        <h1>Disease not found.</h1>
+      </div>
+    );
+  }
+
   render() {
     const disease = this.props.data;
     const title = this.props.params.diseaseId;
     if (!disease) {
-      return null;
+      return this.renderError();
     }
     return (
       <div className='container'>
@@ -34,7 +46,6 @@ class DiseasePage extends Component {
         <div className='alert alert-warning'>
           <i className='fa fa-warning' /> Page under active development
         </div>
-
         <h1>
           {disease.name} (<a href={'http://www.disease-ontology.org/?id=' + disease.doId}>{disease.doId}</a>)
           <hr />
@@ -55,6 +66,7 @@ class DiseasePage extends Component {
 DiseasePage.propTypes = {
   data: PropTypes.object,
   dispatch: PropTypes.func,
+  error: PropTypes.object,
   params: PropTypes.object,
 };
 
