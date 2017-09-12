@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import notFoundImg from './notFound.png';
 
 class NotFound extends Component {
   render() {
@@ -9,6 +10,7 @@ class NotFound extends Component {
           <h1>Page Not Found</h1>
           <p>If you continue to see this page, please email info@alliancegenome.org.</p>
         </div>
+        <img src={notFoundImg} style={{ display: 'block', maxWidth: '45rem', margin: '0 auto', padding: '3rem 0' }} />
       </div>
     );
   }
