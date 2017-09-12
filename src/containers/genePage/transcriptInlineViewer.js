@@ -49,8 +49,6 @@ class TranscriptViewer extends Component {
 
     return (
       <div id='genomeViewer'>
-        <h2>{externalPrefix}</h2>
-        <h2>heee {process.env.NODE_ENV}</h2>
         <div className='row'>
           <div className='col-sm-8'>
               <dl className='row'>
