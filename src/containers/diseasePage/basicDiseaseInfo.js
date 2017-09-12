@@ -9,7 +9,10 @@ class BasicDiseaseInfo extends Component {
     const items = terms && terms
       .map(term => <Link key={term.primaryKey} to={`/disease/${term.primaryKey}`}>{term.name}</Link>);
     return <CollapsibleList items={items} />;
-    // return items;
+  }
+
+  renderCommaSeparatedList(items) {
+    return items && items.join(', ');
   }
 
   render() {
@@ -20,10 +23,11 @@ class BasicDiseaseInfo extends Component {
       },
       {
         field: 'synonyms',
+        format: this.renderCommaSeparatedList,
       },
       {
         field: 'external_ids',
-        format: ids => ids && ids.join(', '),
+        format: this.renderCommaSeparatedList,
         name: 'Cross References',
       },
       {
