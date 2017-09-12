@@ -6,7 +6,9 @@ import { fetchDisease } from '../../actions/disease';
 import { selectDisease } from '../../selectors/disease';
 
 import HeadMetaTags from '../../components/headMetaTags';
+import LoadingPage from '../../components/loadingPage';
 import Subsection from '../../components/subsection';
+import NotFound from '../../components/notFound';
 import BasicDiseaseInfo from './basicDiseaseInfo';
 import { DiseasePageAssociationsTable } from '../../components/disease';
 
@@ -26,16 +28,15 @@ class DiseasePage extends Component {
     if (!e) {
       return null;
     }
-    return (
-      <div>
-        <h1>Disease not found.</h1>
-      </div>
-    );
+    return <NotFound />;
   }
 
   render() {
     const disease = this.props.data;
     const title = this.props.params.diseaseId;
+    if (this.props.loading) {
+      return <LoadingPage />;
+    }
     if (!disease) {
       return this.renderError();
     }
@@ -67,6 +68,7 @@ DiseasePage.propTypes = {
   data: PropTypes.object,
   dispatch: PropTypes.func,
   error: PropTypes.object,
+  loading: PropTypes.bool,
   params: PropTypes.object,
 };
 
