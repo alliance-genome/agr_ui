@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import fetchData from '../../lib/fetchData';
 import { fetchWp, fetchWpSuccess, fetchWpFailure } from '../../actions/wp';
 import { selectWp } from '../../selectors/wpSelectors';
+import LoadingPage from '../../components/loadingPage';
 
 import WordpressPage from './wordpressPage';
 
@@ -40,7 +41,7 @@ class Wordpress extends Component {
   }
   render() {
     if (this.props.loading) {
-      return <span>loading...</span>;
+      return <LoadingPage />;
     }
 
     if (this.props.error) {
