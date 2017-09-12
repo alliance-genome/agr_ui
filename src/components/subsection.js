@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import style from './style.css';
 
@@ -17,10 +18,10 @@ class Subsection extends Component {
 }
 
 Subsection.propTypes = {
-  children: React.PropTypes.element.isRequired,
-  hardcoded: React.PropTypes.bool,
-  hasData: React.PropTypes.bool,
-  title: React.PropTypes.string,
+  children: PropTypes.element.isRequired,
+  hardcoded: PropTypes.bool,
+  hasData: PropTypes.bool,
+  title: PropTypes.string,
 };
 
 export default Subsection;

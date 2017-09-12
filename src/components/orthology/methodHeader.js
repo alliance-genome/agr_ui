@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import MethodLogo from './methodLogo';
 import { ALL_METHODS, methodHeaderStyle } from './constants';
 
@@ -12,7 +13,7 @@ const MethodHeader = ({name}) => (<th>
 </th>);
 
 MethodHeader.propTypes = {
-  name: React.PropTypes.string
+  name: PropTypes.string
 };
 
 export default MethodHeader;

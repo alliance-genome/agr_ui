@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { ALL_METHODS, methodHeaderCellStyle } from './constants';
 
@@ -31,7 +32,7 @@ const MethodLogo = ({methodKey}) => {
 };
 
 MethodLogo.propTypes = {
-  methodKey: React.PropTypes.string
+  methodKey: PropTypes.string
 };
 
 export default MethodLogo;

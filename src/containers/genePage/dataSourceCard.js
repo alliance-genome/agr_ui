@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import DataSourceLink from '../../components/dataSourceLink';
 import PrimaryAttributesList from '../../components/primaryAttributesList';
@@ -32,8 +33,8 @@ class DataSourceCard extends Component {
 }
 
 DataSourceCard.propTypes = {
-  reference: React.PropTypes.object.isRequired,
-  species: React.PropTypes.string.isRequired,
+  reference: PropTypes.object.isRequired,
+  species: PropTypes.string.isRequired,
 };
 
 export default DataSourceCard;

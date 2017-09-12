@@ -33,7 +33,8 @@ let config = {
     proxy: {
       '/api': {
         target: API_URL,
-        secure: false
+        secure: false,
+        changeOrigin: true
       }
     }
   },

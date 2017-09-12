@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
@@ -25,7 +26,14 @@ class FilterSelectorComponent extends Component {
       return null;
     }
     return aggs.map( d => {
-      return <div key={`filter${d.name}`}><SingleFilterSelector {...d} queryParams={this.props.queryParams} /></div>;
+      let isShowMore = false;
+      //This is the "always show all of the values for __ facet" setting, right now
+      //species facets are the only ones that get this special honor.  Also, 'all'
+      //would be crazy if 'all' was more than 20, so we're going with 'more'
+      if (d.name.toLowerCase().includes('species')) {
+        isShowMore = true;
+      }
+      return <div key={`filter${d.name}`}><SingleFilterSelector {...d} isShowMore={isShowMore} queryParams={this.props.queryParams} /></div>;
     });
   }
 
@@ -57,10 +65,10 @@ class FilterSelectorComponent extends Component {
 }
 
 FilterSelectorComponent.propTypes = {
-  activeCategory: React.PropTypes.string,
-  aggregations: React.PropTypes.array,
-  isPending: React.PropTypes.bool,
-  queryParams: React.PropTypes.object
+  activeCategory: PropTypes.string,
+  aggregations: PropTypes.array,
+  isPending: PropTypes.bool,
+  queryParams: PropTypes.object
 };
 
 function mapStateToProps(state) {

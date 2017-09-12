@@ -2,10 +2,10 @@
 /*** This component renders wordpress post page **/
 
 import React, {Component} from 'react';
-import { Link } from 'react-router';
+import PropTypes from 'prop-types';
 
 import style from './../style.css';
-import NewsSubMenu from './newsSubMenu';
+import SecondaryNav from './../secondaryNav';
 import HeadMetaTags from '../../../components/headMetaTags';
 
 class WordpressPosts extends Component {
@@ -21,7 +21,7 @@ class WordpressPosts extends Component {
     return (
       <div>
         <HeadMetaTags title={post_title} />
-        <NewsSubMenu title={post_title} />
+        <SecondaryNav  title={post_title} type='post' />
         <div className={`container ${style.postPageContainer}`}>
           <div className='row'>
             <div className={`col-xs-12 col-sm-5 ${style.floatLeft}`}>
@@ -36,7 +36,7 @@ class WordpressPosts extends Component {
 }
 
 WordpressPosts.propTypes = {
-  data: React.PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
 };
 
 export default WordpressPosts;

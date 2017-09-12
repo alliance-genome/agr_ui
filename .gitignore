@@ -17,3 +17,4 @@ venv
 .idea
 *.swp
 tmp
+package-lock.json

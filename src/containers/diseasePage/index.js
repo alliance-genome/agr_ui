@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { fetchDisease } from '../../actions/disease';
@@ -52,9 +53,9 @@ class DiseasePage extends Component {
 }
 
 DiseasePage.propTypes = {
-  data: React.PropTypes.object,
-  dispatch: React.PropTypes.func,
-  params: React.PropTypes.object,
+  data: PropTypes.object,
+  dispatch: PropTypes.func,
+  params: PropTypes.object,
 };
 
 function mapStateToProps(state) {

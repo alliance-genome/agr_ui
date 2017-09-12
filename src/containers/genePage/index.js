@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { fetchGene } from '../../actions/genes';
@@ -6,7 +7,7 @@ import { selectGene } from '../../selectors/geneSelectors';
 
 import BasicGeneInfo from './basicGeneInfo';
 import GenePageHeader from './genePageHeader';
-import { OrthologyFilteredTable } from '../../components/orthology';
+import { OrthologyFilteredTable, OrthologyUserGuide } from '../../components/orthology';
 import { GenePageDiseaseTable } from '../../components/disease';
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
 import Subsection from '../../components/subsection';
@@ -86,8 +87,11 @@ class GenePage extends Component {
           <GeneOntologyRibbon id={this.props.data.primaryId} />
         </Subsection>
 
-        <Subsection hasData={(this.props.data.orthology || []).length > 0} title='Orthology'>
-          <OrthologyFilteredTable data={this.props.data.orthology} />
+        <Subsection title='Orthology'>
+          <OrthologyUserGuide />
+          <Subsection hasData={(this.props.data.orthology || []).length > 0}>
+            <OrthologyFilteredTable data={this.props.data.orthology} />
+          </Subsection>
         </Subsection>
 
         <Subsection hasData={(this.props.data.diseases || []) .length > 0} title='Disease Associations'>
@@ -100,11 +104,11 @@ class GenePage extends Component {
 }
 
 GenePage.propTypes = {
-  data: React.PropTypes.object,
-  dispatch: React.PropTypes.func,
-  error: React.PropTypes.object,
-  loading: React.PropTypes.bool,
-  params: React.PropTypes.object,
+  data: PropTypes.object,
+  dispatch: PropTypes.func,
+  error: PropTypes.object,
+  loading: PropTypes.bool,
+  params: PropTypes.object,
 };
 
 function mapStateToProps(state) {

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import DataSourceCard from './dataSourceCard';
 import DataSourceLink from '../../components/dataSourceLink';
@@ -72,10 +73,14 @@ class BasicGeneInfo extends Component {
         name: 'Additional Information'
       },
     ];
+    const modReference = {
+      id: this.state.geneData.modGlobalCrossRefId,
+      crossrefCompleteUrl: this.state.geneData.modCrossRefCompleteUrl,
+    };
     return (
       <div className='row'>
         <div className='col-sm-4 push-sm-8'>
-          <DataSourceCard reference={this.state.geneData.modCrossReference} species={this.state.geneData.species} />
+          <DataSourceCard reference={modReference} species={this.state.geneData.species} />
         </div>
         <div className='col-sm-8 pull-sm-4'>
           <PrimaryAttributesList attributes={attrs} data={this.state.geneData} />
@@ -86,7 +91,7 @@ class BasicGeneInfo extends Component {
 }
 
 BasicGeneInfo.propTypes = {
-  geneData: React.PropTypes.object
+  geneData: PropTypes.object
 };
 
 export default BasicGeneInfo;
