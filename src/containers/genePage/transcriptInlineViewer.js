@@ -25,14 +25,14 @@ class TranscriptViewer extends Component {
     // let externalPrefix = 'http://ec2-34-208-22-23.us-west-2.compute.amazonaws.com/jbrowse/overview.html?data=data%2F';
     // let externalPrefix = 'http://localhost/jbrowse/overview.html?data=data%2F';
     // let externalPrefix = 'http://jbrowse.alliancegenome.org/jbrowse/overview.html?data=data%2F';
-    let externalPrefix = this._http.get(process.env.JBROWSE_URL) + '/jbrowse/overview.html?data=data%2F';
+    let externalPrefix = process.env.JBROWSE_URL + '/jbrowse/overview.html?data=data%2F';
     // let externalPrefix = 'http://ec2-52-43-125-139.us-west-2.compute.amazonaws.com/jbrowse/overview.html?data=data%2F';
 
 
     // let visualizationPrefix = 'http://ec2-34-208-22-23.us-west-2.compute.amazonaws.com:8080/?url=';
     // let visualizationPrefix = 'http://dev.alliancegenome.org:8891/?url=';
     // let visualizationPrefix = 'http://localhost:8891/?url=';
-    let visualizationPrefix = this._http.get(process.env.JBROWSE_URL) + ':' + this._http.get(process.env.JBROWSE_PORT) + '/?url=';
+    let visualizationPrefix = process.env.JBROWSE_URL + ':' + process.env.JBROWSE_PORT + '/?url=';
     // let visualizationPrefix = 'http://ec2-52-43-125-139.us-west-2.compute.amazonaws.com:8891/?url=';
 
     let delay = 10000;
@@ -49,6 +49,8 @@ class TranscriptViewer extends Component {
 
     return (
       <div id='genomeViewer'>
+        <h2>{externalPrefix}</h2>
+        <h2>heee {process.env.NODE_ENV}</h2>
         <div className='row'>
           <div className='col-sm-8'>
               <dl className='row'>
