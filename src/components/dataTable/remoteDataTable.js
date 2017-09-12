@@ -59,6 +59,7 @@ class RemoteDataTable extends Component {
       page: this.state.page,
       sizePerPage: this.state.count,
       sizePerPageList: [ 10, 25, 100 ],
+      toolbarPosition: 'bottom',
     };
 
     return (
