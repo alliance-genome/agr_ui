@@ -44,7 +44,6 @@ class LocalDataTable extends Component {
         data={data}
         exportCSV
         options={options}
-        pagination
         ref={(table) => {this.tableRef = table;}}
         version='4'
       >
