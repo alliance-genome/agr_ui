@@ -6,8 +6,13 @@ import PropTypes from 'prop-types';
 class DiseasePageAssociationsTable extends Component {
   constructor(props) {
     super(props);
+
+    this.sourceLink = {'FB': 'flybase'};
+    this.sourceText = 'FB';
+
     this.state = {
-      hideExtra: true
+      showCheckbox : false,
+      hideExtra: true,
     };
     this.handleToggleExtra = this.handleToggleExtra.bind(this);
   }
@@ -22,31 +27,42 @@ class DiseasePageAssociationsTable extends Component {
     const columns = [
       {
         field: 'do_name',
-        label: 'Disease Name',
+        label: 'Disease & subtypes',
         sortable: true,
+        format: (id) => ( <a href={ `http://${this.sourceLink}/${id}` }> {id} </a> )
       },
       {
         field: 'do_id',
-        label: 'DO ID',
+        label: 'Species',
         isKey: true,
         sortable: true,
-        format: (id) => id + '!'
+      },
+      {
+        field: 'associatedGene',
+        label: 'Associated Gene',
+        sortable: true,
+        format: (id) => ( <a href={ `http://this.sourceLink/${id}` }> {this.sourceText} </a> )
       },
       {
         field: 'associationType',
-        label: 'Association',
+        label: 'Association Type',
         sortable: true,
-        hidden: this.state.hideExtra,
-      }
+      },
+      {
+        field: 'source',
+        label: 'Sources',
+        sortable: true,
+        format: (id) => ( <a href={ `http://this.sourceLink/${id}` }> {this.sourceText} </a> )
+      },
+      {
+        field: 'references',
+        label: 'References',
+        sortable: true,
+        format: (id) => ( <a href={ `http://this.sourceLink/${id}` }> {this.sourceText} </a> )
+      },
     ];
     return (
       <div>
-        <div className='checkbox pull-right'>
-          <label>
-            <input checked={!this.state.hideExtra} onChange={this.handleToggleExtra} type='checkbox' />
-            Show addition information
-          </label>
-        </div>
         <RemoteDataTable columns={columns} url='http://localhost:3000/diseases' />
       </div>
     );
@@ -54,7 +70,7 @@ class DiseasePageAssociationsTable extends Component {
 }
 
 DiseasePageAssociationsTable.propTypes = {
-  columns: PropTypes.array.isRequired,
+// columns: PropTypes.array.isRequired,
   url: PropTypes.string,
 };
 
