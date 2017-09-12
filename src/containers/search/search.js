@@ -104,7 +104,7 @@ class SearchComponent extends Component {
     if (!this.props.isReady) return <LoadingPage />;
     let title = this.props.queryParams.q;
     return (
-      <div className='container'>
+      <div className='container-fluid'>
         {this.renderErrorNode()}
         <HeadMetaTags title={title} />
         <div className='row'>
