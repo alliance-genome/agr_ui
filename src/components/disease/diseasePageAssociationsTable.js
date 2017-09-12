@@ -63,7 +63,7 @@ class DiseasePageAssociationsTable extends Component {
     ];
     return (
       <div>
-        <RemoteDataTable columns={columns} url='http://localhost:3000/diseases' />
+        <RemoteDataTable columns={columns} url='http://dev.alliancegenome.org/api/disease/DOID:9452/associations' />
       </div>
     );
   }
