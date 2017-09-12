@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import style from './style.css';
 import { makeFieldDisplayName } from '../../lib/searchHelpers';
-
+import ExplainNode from './explainNode';
 
 class ResultExplanation extends Component {
 
@@ -21,7 +21,7 @@ class ResultExplanation extends Component {
   }
 
   render() {
-    if (!this.props.explanation || this.props.explanation == '') { return '';}
+    if (!this.props.explanation || this.props.explanation === '') { return '';}
     let field = 'score';
     return (
       <div>
@@ -36,7 +36,7 @@ class ResultExplanation extends Component {
 
         </div>
         <div className={style.resultExplanation}>
-          {!this.state.isHidden && JSON.stringify(this.props.explanation, null, 2) }
+          {!this.state.isHidden && <ExplainNode explanation={this.props.explanation} /> }
         </div>
       </div>
     );
