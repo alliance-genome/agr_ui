@@ -73,6 +73,19 @@ td > .detailContainer {
   color: #666;
 }
 
+.resultExplanation {
+  white-space: pre;
+  font-size: x-small;
+}
+
+.explanationButton {
+  margin-left: 2em;
+}
+
+.explanationList {
+  list-style-type: none;
+}
+
 .agrDownloadBtn {
 }
 

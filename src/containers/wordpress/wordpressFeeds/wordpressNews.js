@@ -6,15 +6,16 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 import style from './../style.css';
-import NewsSubMenu from './newsSubMenu';
+import SecondaryNav from './../secondaryNav';
 import HeadMetaTags from '../../../components/headMetaTags';
+
 import{ WP_POST_MAX_COUNT ,WP_POST_PATH} from '../../../constants';
 
 class WordpressNews extends Component {
   render() {
     let container=[];
     let post_title='News And Events';
-    /* keep trck of the number of published posts */
+    /* keep track of the number of published posts */
     let posts_count=1;
     for(var index in this.props.data){
       if(posts_count>WP_POST_MAX_COUNT) break;
@@ -41,7 +42,7 @@ class WordpressNews extends Component {
     return (
       <div>
         <HeadMetaTags title={post_title} />
-        <NewsSubMenu title={post_title} />
+        <SecondaryNav title={post_title} type='post' />
         <div className={`container ${style.newsContainer}`}>
           {container}
         </div>

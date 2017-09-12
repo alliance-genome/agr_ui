@@ -6,6 +6,7 @@ import style from './style.css';
 import genePageStyle from '../genePage/style.css';
 import CategoryLabel from './categoryLabel';
 import DetailList from './detailList';
+import ResultExplanation from './resultExplanation';
 import { NON_HIGHLIGHTED_FIELDS } from '../../constants';
 
 const DEFAULT_FIELDS = ['symbol', 'name', 'synonyms', 'sourceHref', 'id', 'species', 'type'];
@@ -53,6 +54,7 @@ class ResultsList extends Component {
         {this.renderDetailFromFields(d, fields)}
         {this.renderHighlightedValues(d.highlight)}
         {this.renderMissingTerms(d)}
+        {d.explanation && <ResultExplanation explanation={d.explanation} score={d.score} />}
         <hr />
       </div>
     );
@@ -75,6 +77,7 @@ class ResultsList extends Component {
           {this.renderDetailFromFields(d, bottomFields)}
           {this.renderHighlightedValues(d.highlight)}
           {this.renderMissingTerms(d)}
+          {d.explanation && <ResultExplanation explanation={d.explanation} score={d.score} />}
         <hr />
       </div>
     );
