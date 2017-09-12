@@ -12,16 +12,14 @@ class TopBar extends Component {
 
     return (
       <nav className={`navbar fixed-top ${style.solidBg}`}>
-        <div className='container'>
-          <div className='row'>
-            <div className='col-xs-6'>
-              <span className={`navbar-text ${style.miniContact}`}>
-                <a href={email_link}><i className='fa fa-envelope' /> {email_logo}</a>
-              </span>
-            </div>
-            <div className='col-xs-6 pull-right text-xs-right'>
-              <SocialMedia />
-            </div>
+        <div className='row'>
+          <div className='col-xs-6'>
+            <span className={`navbar-text ${style.miniContact}`}>
+              <a href={email_link}><i className='fa fa-envelope' /> {email_logo}</a>
+            </span>
+          </div>
+          <div className='col-xs-6 pull-right text-xs-right'>
+            <SocialMedia />
           </div>
         </div>
       </nav>
