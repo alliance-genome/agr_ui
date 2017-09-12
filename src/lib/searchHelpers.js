@@ -12,8 +12,6 @@ export function makeFieldDisplayName(unformattedName) {
   case 'go_type':
   case 'go_branch':
     return 'GO Branch';
-  case 'omim_id':
-    return 'OMIM ID';
   case 'biological_process':
   case 'gene_biological_process':
     return 'Biological Process';
@@ -35,8 +33,16 @@ export function makeFieldDisplayName(unformattedName) {
     return 'ID';
   case 'secondaryIds':
     return 'Secondary ID';
+  case 'external_ids':
+    return 'Cross References';
   case 'diseases.do_name':
     return 'Disease';
+  case 'soTermName':
+    return 'Biotype';
+  case 'annotations.geneDocument.name_key':
+    return 'Gene';
+  case 'annotations.geneDocument.species':
+    return 'Associated Species';
   default:
     //replace underscores and any field name suffixes after a .
     return unformattedName.replace(/_/g, ' ').replace(/\.(\w)+/g, '');
