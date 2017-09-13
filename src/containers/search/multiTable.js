@@ -104,17 +104,19 @@ class MultiTableComponent extends Component {
     let categoryQp = getQueryParamWithValueChanged('category', category, this.props.queryParams);
     let categoryHref = { pathname: SEARCH_PATH, query: categoryQp };
 
+    if (this.getTotalForCategory(category) === '0') { return null; }
+
     return (
       <div>
         <p>
           <Link to={categoryHref}>
-            {this.getTotalForCategory(category)} <CategoryLabel category={category} />
+            {this.getTotalForCategory(category)} <CategoryLabel category={category} /> Results
           </Link>
         </p>
         <ResultsTable activeCategory={category} entries={this.getResultsForCategory(category)} />
         <span className='pull-right'>
           <Link to={categoryHref}>
-            Show All <CategoryLabel category={category} hideImage={true} /> Results
+            Show All <CategoryLabel category={category} hideImage /> Results
           </Link>
         </span>
         <hr className={style.clear} />
