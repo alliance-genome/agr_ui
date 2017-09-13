@@ -117,3 +117,7 @@ a > span > .sprite {
   float: right;
   opacity: .4;
 }
+
+.clear {
+  clear: both;
+}
