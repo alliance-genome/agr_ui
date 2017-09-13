@@ -5,7 +5,7 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 let isProduction = process.env.NODE_ENV === 'production';
-let API_URL = process.env.API_URL || 'http://localhost:5000';
+let API_URL = process.env.API_URL || 'http://localhost:8080';
 let DEV_SERVER_UI_PORT = process.env.DEV_SERVER_UI_PORT || '2992';
 
 // Development asset host, asset location and build output path.
@@ -33,7 +33,8 @@ let config = {
     proxy: {
       '/api': {
         target: API_URL,
-        secure: false
+        secure: false,
+        changeOrigin: true
       }
     }
   },

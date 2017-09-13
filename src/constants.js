@@ -34,7 +34,7 @@ export const CATEGORIES = [
 /**********  Wordpress Pages *************
   An entry is added to this constant each
   time a new static page that's part of the
-  menu oe sub-menu  is created/publised in WP
+  menu or sub-menu  is created/publised in WP
 
   Fields Definition:
   1) label: Used in the site  menu/sub menu
@@ -49,7 +49,7 @@ export const WP_PAGES ={
     path: 'home'
   },
   about: {
-    label: 'About Us',
+    label: 'About US',
     slug: 'about-us',
     path: 'about'
   },
@@ -59,7 +59,7 @@ export const WP_PAGES ={
     path: 'projects'
   },
   contact: {
-    label: 'Contact Us',
+    label: 'Contact US',
     slug: 'contact-us',
     path: 'contact'
   },
@@ -84,7 +84,6 @@ export const WP_PAGES ={
     path: 'projects'
   },
   publications:{
-    title: 'Publications - Alliance of Genome Resources',
     label: 'Publications',
     slug: 'publications',
     path: 'publications'
@@ -122,6 +121,15 @@ export const MENU = [
   'news',
   'contact'
 ];
+/********* Secondary nav setting ************************
+  This maps the ids of primary menu items
+*********************************************/
+export const MENU_IDS = {
+  16:'home',
+  2:'about',
+  257:'projects',
+  3:'contact'
+};
 
 /********* Sub Menu ************************
   This is where you add/remove entries

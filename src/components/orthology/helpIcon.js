@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 
 const HelpIcon = ({iconKey, text}) => {
@@ -13,8 +14,8 @@ const HelpIcon = ({iconKey, text}) => {
 };
 
 HelpIcon.propTypes = {
-  iconKey: React.PropTypes.string,
-  text: React.PropTypes.string,
+  iconKey: PropTypes.string,
+  text: PropTypes.string,
 };
 
 export default HelpIcon;

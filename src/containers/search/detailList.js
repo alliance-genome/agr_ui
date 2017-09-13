@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import style from './style.css';
 import { makeFieldDisplayName } from '../../lib/searchHelpers';
@@ -14,15 +15,21 @@ class DetailList extends Component {
       if (Array.isArray(value)) {
         value = value.join(JOIN_CHAR);
       }
-      if (field === 'species') {
+
+      if (value && field === 'species') {
         valueNode = <span><i dangerouslySetInnerHTML={{ __html: value }} /></span>;
       } else {
         valueNode = <span dangerouslySetInnerHTML={{ __html: value }} />;
       }
+
+      if (!value) {
+        valueNode = <i className='text-muted'>Not Available</i>;
+      }
+
       return (
         <div className={style.detailLineContainer} key={`srField.${field}`}>
           <span className={style.detailLabel}><strong>{makeFieldDisplayName(field)}:</strong> </span>
-          {valueNode}
+          <span className={style.detailValue}>{valueNode}</span>
         </div>
       );
     });
@@ -35,8 +42,8 @@ class DetailList extends Component {
 }
 
 DetailList.propTypes = {
-  data: React.PropTypes.object,
-  fields: React.PropTypes.array
+  data: PropTypes.object,
+  fields: PropTypes.array
 };
 
 export default DetailList;

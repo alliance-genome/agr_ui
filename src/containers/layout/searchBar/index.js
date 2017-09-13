@@ -1,5 +1,6 @@
 /*eslint-disable react/no-set-state */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Autosuggest from 'react-autosuggest';
 import { push } from 'react-router-redux';
@@ -154,9 +155,9 @@ class SearchBarComponent extends Component {
 }
 
 SearchBarComponent.propTypes = {
-  dispatch: React.PropTypes.func,
-  queryParams: React.PropTypes.object,
-  searchUrl: React.PropTypes.string
+  dispatch: PropTypes.func,
+  queryParams: PropTypes.object,
+  searchUrl: PropTypes.string
 };
 
 function mapStateToProps(state) {

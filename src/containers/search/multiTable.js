@@ -1,5 +1,6 @@
 /*eslint-disable react/sort-prop-types */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createMemoryHistory, Link } from 'react-router';
 import _ from 'underscore';
@@ -122,15 +123,15 @@ class MultiTableComponent extends Component {
 }
 
 MultiTableComponent.propTypes = {
-  dispatch: React.PropTypes.func,
-  queryParams: React.PropTypes.object,
-  geneResults: React.PropTypes.array,
-  goResults: React.PropTypes.array,
-  diseaseResults: React.PropTypes.array,
-  geneTotal: React.PropTypes.number,
-  goTotal: React.PropTypes.number,
-  diseaseTotal: React.PropTypes.number,
-  homologyGroupTotal: React.PropTypes.number
+  dispatch: PropTypes.func,
+  queryParams: PropTypes.object,
+  geneResults: PropTypes.array,
+  goResults: PropTypes.array,
+  diseaseResults: PropTypes.array,
+  geneTotal: PropTypes.number,
+  goTotal: PropTypes.number,
+  diseaseTotal: PropTypes.number,
+  homologyGroupTotal: PropTypes.number
 };
 
 function mapStateToProps(state) {

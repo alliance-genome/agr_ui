@@ -2,18 +2,20 @@
 /*** This component builds the 'News & Events' page **/
 
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 import style from './../style.css';
-import NewsSubMenu from './newsSubMenu';
+import SecondaryNav from './../secondaryNav';
 import HeadMetaTags from '../../../components/headMetaTags';
+
 import{ WP_POST_MAX_COUNT ,WP_POST_PATH} from '../../../constants';
 
 class WordpressNews extends Component {
   render() {
     let container=[];
     let post_title='News And Events';
-    /* keep trck of the number of published posts */
+    /* keep track of the number of published posts */
     let posts_count=1;
     for(var index in this.props.data){
       if(posts_count>WP_POST_MAX_COUNT) break;
@@ -22,7 +24,7 @@ class WordpressNews extends Component {
       let post_title=this.props.data[index].title.rendered;
       let post_image=this.props.data[index].featured_media_url;
       let post_excerpt=this.props.data[index].excerpt.rendered;
-      
+
       /* only display published posts */
       if(post_status !='publish') continue;
       container.push(<div className={`row ${style.postContainer}`} key={index}>
@@ -40,15 +42,17 @@ class WordpressNews extends Component {
     return (
       <div>
         <HeadMetaTags title={post_title} />
-        <NewsSubMenu title={post_title} />
-        <div className={`col-xs-12 ${style.newsContainer}`}>{container} </div>
+        <SecondaryNav title={post_title} type='post' />
+        <div className={`container ${style.newsContainer}`}>
+          {container}
+        </div>
       </div>
     );
   }
 }
 
 WordpressNews.propTypes = {
-  data: React.PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
 };
 
 export default WordpressNews;

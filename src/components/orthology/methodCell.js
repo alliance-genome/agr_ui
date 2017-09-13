@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { ALL_METHODS, methodCellStyle } from './constants';
 
@@ -64,8 +65,8 @@ const MethodCell = (props) => {
 };
 
 MethodCell.propTypes = {
-  predictionMethodsMatched: React.PropTypes.arrayOf(React.PropTypes.string),
-  predictionMethodsNotMatched: React.PropTypes.arrayOf(React.PropTypes.string)
+  predictionMethodsMatched: PropTypes.arrayOf(PropTypes.string),
+  predictionMethodsNotMatched: PropTypes.arrayOf(PropTypes.string)
 };
 
 export default MethodCell;
