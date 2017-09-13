@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 
 import {
   fetchDisease,
-  fetchAssociations,
+/*  fetchAssociations,
   setPerPageSize,
-  setCurrentPage,
+  setCurrentPage,*/
 } from '../../actions/disease';
 
 import {
@@ -67,13 +67,13 @@ class DiseasePage extends Component {
 }
 
 DiseasePage.propTypes = {
-  data: PropTypes.object,
-  dispatch: PropTypes.func,
-  params: PropTypes.object,
   associations: PropTypes.arrayOf(PropTypes.object), // An array containing the disease associations.
-  loadingAssociations: PropTypes.bool,               // Whether or not we are loading associations.
   associationsError: PropTypes.string,               // Association loading error messages.
   currentPage: PropTypes.number,                     // The current page of the associations table.
+  data: PropTypes.object,
+  dispatch: PropTypes.func,
+  loadingAssociations: PropTypes.bool,               // Whether or not we are loading associations.
+  params: PropTypes.object,
   perPageSize: PropTypes.number,                     // Number of associations to display per page.
   totalAssociations: PropTypes.number,               // Total number of associations.
 };

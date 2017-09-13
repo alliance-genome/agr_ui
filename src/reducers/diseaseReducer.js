@@ -23,6 +23,7 @@ export const DEFAULT_STATE = fromJS({
 });
 
 const diseaseReducer = function (state = DEFAULT_STATE, action) {
+
   switch(action.type) {
   case FETCH_DISEASE:
     return state.set('loading', true);
@@ -41,10 +42,9 @@ const diseaseReducer = function (state = DEFAULT_STATE, action) {
     return state.set('loadingAssociations', true);
 
   case FETCH_ASSOCIATIONS_SUCCESS:
-    const total = (action.payload.total) ? action.payload.total : 0;
     return state.set('loadingAssociations', false)
       .set('associations', action.payload.results)
-      .set('totalAssociations', total)
+      .set('totalAssociations', action.payload.total)
       .set('associationsError',null);
 
   case FETCH_ASSOCIATIONS_FAILURE:
