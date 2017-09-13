@@ -2,8 +2,22 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { fetchDisease } from '../../actions/disease';
-import { selectDisease } from '../../selectors/disease';
+import {
+  fetchDisease,
+/*  fetchAssociations,
+  setPerPageSize,
+  setCurrentPage,*/
+} from '../../actions/disease';
+
+import {
+  selectData,
+  selectAssociations,
+  selectTotalAssociations,
+  selectPerPageSize,
+  selectCurrentPage,
+  selectAssocationsError,
+  selectLoadingAssociation,
+} from '../../selectors/diseaseSelectors';
 
 import HeadMetaTags from '../../components/headMetaTags';
 import Subsection from '../../components/subsection';
@@ -53,13 +67,27 @@ class DiseasePage extends Component {
 }
 
 DiseasePage.propTypes = {
+  associations: PropTypes.arrayOf(PropTypes.object), // An array containing the disease associations.
+  associationsError: PropTypes.string,               // Association loading error messages.
+  currentPage: PropTypes.number,                     // The current page of the associations table.
   data: PropTypes.object,
   dispatch: PropTypes.func,
+  loadingAssociations: PropTypes.bool,               // Whether or not we are loading associations.
   params: PropTypes.object,
+  perPageSize: PropTypes.number,                     // Number of associations to display per page.
+  totalAssociations: PropTypes.number,               // Total number of associations.
 };
 
 function mapStateToProps(state) {
-  return selectDisease(state);
+  return {
+    data: selectData(state),
+    associations: selectAssociations(state),
+    loadingAssociations: selectLoadingAssociation(state),
+    associationsError: selectAssocationsError(state),
+    currentPage: selectCurrentPage(state),
+    perPageSize: selectPerPageSize(state),
+    totalAssociations: selectTotalAssociations(state)
+  };
 }
 
 export { DiseasePage as DiseasePage };
