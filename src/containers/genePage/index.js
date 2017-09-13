@@ -7,7 +7,7 @@ import { selectGene } from '../../selectors/geneSelectors';
 
 import BasicGeneInfo from './basicGeneInfo';
 import GenePageHeader from './genePageHeader';
-import { OrthologyFilteredTable } from '../../components/orthology';
+import { OrthologyFilteredTable, OrthologyUserGuide } from '../../components/orthology';
 import { GenePageDiseaseTable } from '../../components/disease';
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
 import Subsection from '../../components/subsection';
@@ -87,8 +87,11 @@ class GenePage extends Component {
           <GeneOntologyRibbon id={this.props.data.primaryId} />
         </Subsection>
 
-        <Subsection hasData={(this.props.data.orthology || []).length > 0} title='Orthology'>
-          <OrthologyFilteredTable data={this.props.data.orthology} />
+        <Subsection title='Orthology'>
+          <OrthologyUserGuide />
+          <Subsection hasData={(this.props.data.orthology || []).length > 0}>
+            <OrthologyFilteredTable data={this.props.data.orthology} />
+          </Subsection>
         </Subsection>
 
         <Subsection hasData={(this.props.data.diseases || []) .length > 0} title='Disease Associations'>
