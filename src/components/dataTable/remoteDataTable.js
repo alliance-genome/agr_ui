@@ -22,10 +22,6 @@ class RemoteDataTable extends Component {
     this.handleCountChange = this.handleCountChange.bind(this);
   }
 
-  componentDidMount() {
-    this.getData();
-  }
-
   handleSortChange(name) {
     this.getData(this.state.page, this.state.count, name);
   }

@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 
 import {
   fetchDisease,
-/*  fetchAssociations,
-  setPerPageSize,
+  fetchAssociations,
+ /* setPerPageSize,
   setCurrentPage,*/
 } from '../../actions/disease';
 
@@ -27,11 +27,13 @@ import { DiseasePageAssociationsTable } from '../../components/disease';
 class DiseasePage extends Component {
   componentDidMount() {
     this.props.dispatch(fetchDisease(this.props.params.diseaseId));
+    this.props.dispatch(fetchAssociations(this.props.params.diseaseId));
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.params.diseaseId !== prevProps.params.diseaseId) {
       this.props.dispatch(fetchDisease(this.props.params.diseaseId));
+      this.props.dispatch(fetchAssociations(this.props.params.diseaseId));
     }
   }
 
