@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { RemoteDataTable } from '../../components/dataTable';
 import PropTypes from 'prop-types';
+import ExternalLink from '../externalLink';
 
 class DiseasePageAssociationsTable extends Component {
   constructor(props) {
@@ -31,13 +32,13 @@ class DiseasePageAssociationsTable extends Component {
         {do_name: 'amyotrophic lateral sclerosis type 10', do_id: 'Mus musculus', associatedGene: 'Ang2', associationType: 'is implicated in', source: 'MGI', references: 'PMID:12345'},
         {do_name: 'amyotrophic lateral sclerosis type 10', do_id: 'Danio rerio', associatedGene: 'angpt2b', associationType: 'is implicated in', source: 'ZFIN', references: 'PMID:34567'},
         //{do_name: 'FTDALS1', do_id: 'Saccharomyces cerevisiae', associatedGene: 'asdf', associationType: 'is implicated in', source: 'SGD', references: {'PMID:45678', 'PMID:99891'}},
-      ],
+    ];
     const columns = [
       {
         field: 'do_name',
         label: 'Disease & subtypes',
         sortable: true,
-        format: (id) => ( <a href={ `http://${this.sourceLink}/${id}` }> {id} </a> )
+        format: (id) => ( <a href={`http://${this.sourceLink}/${id}`}> {id} </a> )
       },
       {
         field: 'do_id',
@@ -49,7 +50,7 @@ class DiseasePageAssociationsTable extends Component {
         field: 'associatedGene',
         label: 'Associated Gene',
         sortable: true,
-        format: (id) => ( <a href={ `http://this.sourceLink/${id}` }> {this.sourceText} </a> )
+        format: (id) => ( <ExternalLink href={`http://${this.sourceLink}/${id}`}>asdf</ExternalLink> )
       },
       {
         field: 'associationType',
@@ -60,25 +61,25 @@ class DiseasePageAssociationsTable extends Component {
         field: 'source',
         label: 'Sources',
         sortable: true,
-        format: (id) => ( <a href={ `http://this.sourceLink/${id}` }> {this.sourceText} </a> )
+        format: (id) => ( <a href={`http://this.sourceLink/${id}`}> {this.sourceText} </a> )
       },
       {
         field: 'references',
         label: 'References',
         sortable: true,
-        format: (id) => ( <a href={ `http://this.sourceLink/${id}` }> {this.sourceText} </a> )
+        format: (id) => ( <a href={`http://this.sourceLink/${id}`}> {this.sourceText} </a> )
       },
     ];
     return (
       <div>
-        <RemoteDataTable data={data} columns={columns} url='http://dev.alliancegenome.org/api/disease/DOID:9452/associations' />
+        <RemoteDataTable columns={columns} data={data} url='http://dev.alliancegenome.org/api/disease/DOID:9452/associations' />
       </div>
     );
   }
 }
 
 DiseasePageAssociationsTable.propTypes = {
-// columns: PropTypes.array.isRequired,
+  columns: PropTypes.array.isRequired,
   url: PropTypes.string,
 };
 
