@@ -7,7 +7,7 @@ import { selectGene } from '../../selectors/geneSelectors';
 
 import BasicGeneInfo from './basicGeneInfo';
 import GenePageHeader from './genePageHeader';
-import { OrthologyFilteredTable, OrthologyUserGuide } from '../../components/orthology';
+import { OrthologyFilteredTable, OrthologyUserGuide, PantherCrossRef } from '../../components/orthology';
 import { GenePageDiseaseTable } from '../../components/disease';
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
 import Subsection from '../../components/subsection';
@@ -88,6 +88,7 @@ class GenePage extends Component {
         </Subsection>
 
         <Subsection title='Orthology'>
+          <PantherCrossRef crossReferences={this.props.data.crossReferences} />
           <OrthologyUserGuide />
           <Subsection hasData={(this.props.data.orthology || []).length > 0}>
             <OrthologyFilteredTable data={this.props.data.orthology} />
