@@ -9,7 +9,7 @@ class BasicDiseaseInfo extends Component {
     const items = terms && terms
       .map(term => <Link key={term.primaryKey} to={`/disease/${term.primaryKey}`}>{term.name}</Link>);
     return <CollapsibleList items={items} />;
-    // return items;
+    //return items;
   }
 
   render() {

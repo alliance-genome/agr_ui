@@ -47,10 +47,6 @@ class DiseasePage extends Component {
       <div className='container'>
         <HeadMetaTags title={title} />
 
-        <div className='alert alert-warning'>
-          <i className='fa fa-warning' /> Page under active development
-        </div>
-
         <h1>
           {disease.name} (<a href={'http://www.disease-ontology.org/?id=' + disease.doId}>{disease.doId}</a>)
           <hr />
@@ -60,7 +56,7 @@ class DiseasePage extends Component {
           <BasicDiseaseInfo disease={disease} />
         </Subsection>
 
-        <Subsection hardcoded title='Associations'>
+        <Subsection title='Associations'>
           <DiseasePageAssociationsTable />
         </Subsection>
       </div>
