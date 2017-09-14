@@ -22,10 +22,6 @@ class RemoteDataTable extends Component {
     this.handleCountChange = this.handleCountChange.bind(this);
   }
 
-  componentDidMount() {
-    this.getData();
-  }
-
   getData(page = this.state.page, count = this.state.count, sort = this.state.sort, order = this.state.order) {
     fetchData(`${this.props.url}?_page=${page}&_limit=${count}&_sort=${sort}&_order=${order}`)
       .then(data => {
