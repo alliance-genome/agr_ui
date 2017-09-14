@@ -55,7 +55,9 @@ class DiseasePageAssociationsTable extends Component {
 
 DiseasePageAssociationsTable.propTypes = {
   columns: PropTypes.array.isRequired,
+  dispatch: PropTypes.func,
   url: PropTypes.string,
+
 };
 
 export default DiseasePageAssociationsTable;
