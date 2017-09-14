@@ -21,8 +21,8 @@ class ExternalLink extends Component {
 }
 
 ExternalLink.propTypes = {
+  children: PropTypes.element,
   href: PropTypes.string.isRequired,
-  children: PropTypes.element
 };
 
 export default ExternalLink;
