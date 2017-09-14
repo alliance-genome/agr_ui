@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { BootstrapTable, TableHeaderColumn, ExportCSVButton } from 'react-bootstrap-table';
 
-import style from './style.css';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import PropTypes from 'prop-types';
 
 const textSorter = (textRender, field) => {
   return (a, b, order) => {
@@ -25,51 +24,27 @@ class LocalDataTable extends Component {
     super(props);
   }
 
-  renderBottomPanel(props) {
-    return (
-      <div>
-        {
-          this.props.paginated &&
-          <div className='row'>
-            <div className='col-xs-6'>
-              { props.components.sizePerPageDropdown }
-            </div>
-            <div className={`col-xs-6 ${style.pageListContainer}`}>
-              { props.components.pageList }
-            </div>
-          </div>
-        }
-        {
-          this.props.filename &&
-          <div className='row'>
-            <div className='col-xs-12'>
-              <ExportCSVButton
-                btnContextual='btn-secondary'
-                btnText='Download'
-                onClick={() => this.tableRef.handleExportCSV()}
-              />
-            </div>
-          </div>
-        }
-      </div>
-    );
-  }
-
   render() {
     const { columns, data, filename } = this.props;
     const options = {
       exportCSVSeparator: '\t',
       exportCSVText: 'Download',
-      paginationPanel: this.renderBottomPanel.bind(this),
-      sizePerPage: this.pagination ? 10 : 99999999,
+      toolbarPosition: 'bottom', //move download button to the bottom
+      paginationPosition: 'top',
+      sizePerPage: 6,
+      sizePerPageList: [ {
+        text: '6', value: 6
+      }, {
+        text: 'All', value: this.props.data.length
+      } ],
     };
     return (
       <BootstrapTable
         bordered={false}
         csvFileName={filename}
         data={data}
+        exportCSV
         options={options}
-        pagination
         ref={(table) => {this.tableRef = table;}}
         version='4'
       >
