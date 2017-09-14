@@ -37,10 +37,6 @@
 	text-align: center;
 }
 
-.lowercase {
-	text-transform: lowercase;
-}
-
 .detailList mark, em {
 	background: yellow;
 }
@@ -119,5 +115,5 @@ a > span > .sprite {
 
 .resultSpeciesIcon {
   float: right;
-  opacity: .25;
+  opacity: .4;
 }

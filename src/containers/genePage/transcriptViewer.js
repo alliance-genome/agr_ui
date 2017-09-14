@@ -26,7 +26,7 @@ class TranscriptViewer extends Component {
     let locationString = this.props.fmin && this.props.fmax ? this.props.chromosome + ':' + this.props.fmin + '..' + this.props.fmax : this.props.geneSymbol;
 
     let jbrowseUrl = jbrowsePrefx + encodeURI(this.props.species) + '&loc=' + encodeURI(locationString) + '&tracks=DNA%2CAll%20Genes&highlight=';
-    let visualizationUrl = 'http://dev.alliancegenome.org:8891/?url=';
+    let visualizationUrl = this._http.get(process.env.JBROWSE_URL) + ':' + this._http.get(process.env.JBROWSE_PORT) + '/?url=';
 
     // original URL
     let delay = 5000;

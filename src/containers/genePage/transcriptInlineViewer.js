@@ -24,14 +24,15 @@ class TranscriptViewer extends Component {
     // let externalPrefix = 'http://bw.scottcain.net/jbrowse/?data=data%2F';
     // let externalPrefix = 'http://ec2-34-208-22-23.us-west-2.compute.amazonaws.com/jbrowse/overview.html?data=data%2F';
     // let externalPrefix = 'http://localhost/jbrowse/overview.html?data=data%2F';
-    let externalPrefix = 'http://jbrowse.alliancegenome.org/jbrowse/overview.html?data=data%2F';
+    // let externalPrefix = 'http://jbrowse.alliancegenome.org/jbrowse/overview.html?data=data%2F';
+    let externalPrefix = process.env.JBROWSE_URL + '/jbrowse/overview.html?data=data%2F';
     // let externalPrefix = 'http://ec2-52-43-125-139.us-west-2.compute.amazonaws.com/jbrowse/overview.html?data=data%2F';
 
 
     // let visualizationPrefix = 'http://ec2-34-208-22-23.us-west-2.compute.amazonaws.com:8080/?url=';
     // let visualizationPrefix = 'http://dev.alliancegenome.org:8891/?url=';
     // let visualizationPrefix = 'http://localhost:8891/?url=';
-    let visualizationPrefix = 'http://jbrowse.alliancegenome.org:8891/?url=';
+    let visualizationPrefix = process.env.JBROWSE_URL + ':' + process.env.JBROWSE_PORT + '/?url=';
     // let visualizationPrefix = 'http://ec2-52-43-125-139.us-west-2.compute.amazonaws.com:8891/?url=';
 
     let delay = 10000;
