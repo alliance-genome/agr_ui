@@ -53,11 +53,11 @@ const diseaseReducer = function (state = DEFAULT_STATE, action) {
       .set('associationsError', action.payload);
 
   case SET_PER_PAGE_SIZE:
-    return state.set('perPageSize',action.payload)
-      .set('currentPage',1);
+    return state.set('perPageSize', action.payload)
+      .set('currentPage', 1);
 
   case SET_CURRENT_PAGE:
-    return state.set('currentPage',action.payload);
+    return state.set('currentPage', action.payload);
 
   default:
     return state;

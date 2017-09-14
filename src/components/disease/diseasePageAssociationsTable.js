@@ -47,15 +47,17 @@ class DiseasePageAssociationsTable extends Component {
             Show addition information
           </label>
         </div>
-        <RemoteDataTable columns={columns} url='http://localhost:3000/diseases' />
+        <RemoteDataTable columns={columns} />
       </div>
     );
   }
 }
 
 DiseasePageAssociationsTable.propTypes = {
-  columns: PropTypes.array.isRequired,
+//  columns: PropTypes.array.isRequired,
+  dispatch: PropTypes.func,
   url: PropTypes.string,
+
 };
 
 export default DiseasePageAssociationsTable;

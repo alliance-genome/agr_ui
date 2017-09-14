@@ -6,6 +6,7 @@ import style from './style.css';
 import genePageStyle from '../genePage/style.css';
 import CategoryLabel from './categoryLabel';
 import DetailList from './detailList';
+import ResultExplanation from './resultExplanation';
 import { NON_HIGHLIGHTED_FIELDS } from '../../constants';
 
 const DEFAULT_FIELDS = ['symbol', 'name', 'synonyms', 'sourceHref', 'id', 'species', 'type'];
@@ -19,12 +20,11 @@ class ResultsList extends Component {
     return <DetailList data={_data} fields={_fields} />;
   }
 
-  renderHeader(category, link, isMakeLowercase) {
-    let _className = isMakeLowercase ? style.lowercase : null;
+  renderHeader(category, link) {
     return (
       <div>
         <span className={style.resultCatLabel}><CategoryLabel category={category} /></span>
-        <h4 className={_className}>
+        <h4>
           {link}
         </h4>
       </div>
@@ -36,7 +36,7 @@ class ResultsList extends Component {
   }
 
   renderMissingTerms(d) {
-    if (!d.missing || d.missing.length == 0) { return ''; }
+    if (!d.missing || d.missing.length === 0) { return ''; }
     return (
       <div className={style.missingTerms}>
         <DetailList data={d} fields={['missing']} />
@@ -44,15 +44,30 @@ class ResultsList extends Component {
     );
   }
 
-  renderNonGeneEntry(d, i, fields) {
-    let isMakeLowercase = d.category === 'disease';
+  renderDiseaseEntry(d, i) {
+    let fields = ['id', 'definition', 'external_ids'];
     let link = <a dangerouslySetInnerHTML={{ __html: d.display_name }} href={d.href} />;
     return (
       <div className={style.resultContainer} key={`sr${i}`}>
-        {this.renderHeader(d.category, link, isMakeLowercase)}
+        {this.renderHeader(d.category, link)}
         {this.renderDetailFromFields(d, fields)}
         {this.renderHighlightedValues(d.highlight)}
         {this.renderMissingTerms(d)}
+        {d.explanation && <ResultExplanation explanation={d.explanation} score={d.score} />}
+        <hr />
+      </div>
+    );
+  }
+
+  renderNonGeneEntry(d, i, fields) {
+    let link = <a dangerouslySetInnerHTML={{ __html: d.display_name }} href={d.href} />;
+    return (
+      <div className={style.resultContainer} key={`sr${i}`}>
+        {this.renderHeader(d.category, link)}
+        {this.renderDetailFromFields(d, fields)}
+        {this.renderHighlightedValues(d.highlight)}
+        {this.renderMissingTerms(d)}
+        {d.explanation && <ResultExplanation explanation={d.explanation} score={d.score} />}
         <hr />
       </div>
     );
@@ -75,6 +90,7 @@ class ResultsList extends Component {
           {this.renderDetailFromFields(d, bottomFields)}
           {this.renderHighlightedValues(d.highlight)}
           {this.renderMissingTerms(d)}
+          {d.explanation && <ResultExplanation explanation={d.explanation} score={d.score} />}
         <hr />
       </div>
     );
@@ -84,9 +100,10 @@ class ResultsList extends Component {
     return this.props.entries.map( (d, i) => {
       if (d.category === 'gene') {
         return this.renderGeneEntry(d, i);
+      } else if (d.category === 'disease') {
+        return this.renderDiseaseEntry(d, i);
       } else {
         let fieldVals = {
-          'disease': ['synonyms', 'omim_id'],
           'go': ['id', 'synonyms', 'go_branch']
         };
         let fields = fieldVals[d.category] || [];

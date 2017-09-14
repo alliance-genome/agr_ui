@@ -24,6 +24,12 @@ class SingleFilterSelector extends Component {
       numVisible: SMALL_NUM_VISIBLE,
       isSearchMode: false
     };
+
+    if (props.isShowMore) {
+      this.state = {
+        numVisible: MED_NUM_VISIBLE
+      };
+    }
   }
 
   handleSelectChange(newValues) {
@@ -147,6 +153,7 @@ class SingleFilterSelector extends Component {
 SingleFilterSelector.propTypes = {
   dispatch: PropTypes.func,
   displayName: PropTypes.string,
+  isShowMore: PropTypes.boolean,
   name: PropTypes.string,
   queryParams: PropTypes.object,
   values: PropTypes.array
