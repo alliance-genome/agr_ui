@@ -23,7 +23,7 @@ describe('Disease reducer', () => {
     };
     const returnedState = reducer(undefined, action);
     assert.equal(returnedState.get('totalAssociations'),jsonResult.total);
-    assert.equal(returnedState.get('associationsError'),null);
+    assert.equal(returnedState.get('associationsError'),'');
     assert.deepEqual(returnedState.get('associations'), jsonResult.results);
 
   });

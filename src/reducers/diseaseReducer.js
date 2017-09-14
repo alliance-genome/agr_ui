@@ -11,12 +11,12 @@ import {
 } from '../actions/disease';
 
 export const DEFAULT_STATE = fromJS({
-  data: null,
-  error: null,
+  data: {},
+  error: '',
   loading: false,
-  associations: null,
+  associations: [],
   loadingAssociations: false,
-  associationsError: null,
+  associationsError: '',
   currentPage: 1,
   perPageSize: 10,
   totalAssociations: 0,
@@ -31,11 +31,11 @@ const diseaseReducer = function (state = DEFAULT_STATE, action) {
   case FETCH_DISEASE_SUCCESS:
     return state.set('loading', false)
       .set('data', action.payload)
-      .set('error', null);
+      .set('error', '');
 
   case FETCH_DISEASE_FAILURE:
     return state.set('loading', false)
-      .set('data', null)
+      .set('data', {})
       .set('error', action.payload);
 
   case FETCH_ASSOCIATIONS:
@@ -45,11 +45,11 @@ const diseaseReducer = function (state = DEFAULT_STATE, action) {
     return state.set('loadingAssociations', false)
       .set('associations', action.payload.results)
       .set('totalAssociations', action.payload.total)
-      .set('associationsError', null);
+      .set('associationsError', '');
 
   case FETCH_ASSOCIATIONS_FAILURE:
     return state.set('loadingAssociations', false)
-      .set('associations', null)
+      .set('associations', [])
       .set('associationsError', action.payload);
 
   case SET_PER_PAGE_SIZE:
