@@ -1,7 +1,6 @@
 /* eslint-disable react/no-set-state */
 import React, {Component} from 'react';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
-import fetchData from '../../lib/fetchData';
 import PropTypes from 'prop-types';
 
 class RemoteDataTable extends Component {
@@ -11,40 +10,27 @@ class RemoteDataTable extends Component {
       data: [],
       total: 0,
       page: 1,
-      order: '',
+
       sort: '',
-      count: 10,
+
       showExtra: false,
     };
-    this.getData = this.getData.bind(this);
+
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handleSortChange = this.handleSortChange.bind(this);
     this.handleCountChange = this.handleCountChange.bind(this);
   }
 
-  getData(page = this.state.page, count = this.state.count, sort = this.state.sort, order = this.state.order) {
-    fetchData(`${this.props.url}?_page=${page}&_limit=${count}&_sort=${sort}&_order=${order}`)
-      .then(data => {
-        this.setState({
-          data,
-          total: 72, //TODO: just a placeholder; this will need to come from the response when available
-          page,
-          count,
-          sort,
-          order });
-      });
-  }
-
   handlePageChange(page, count) {
-    this.getData(page, count);
+
   }
 
   handleSortChange(name, order) {
-    this.getData(this.state.page, this.state.count, name, order);
+
   }
 
   handleCountChange(count) {
-    this.getData(1, count);
+
   }
 
   render() {
@@ -53,7 +39,7 @@ class RemoteDataTable extends Component {
       onSortChange: this.handleSortChange,
       onSizePerPageList: this.handleCountChange,
       page: this.state.page,
-      sizePerPage: this.state.count,
+      sizePerPage: 5,
       sizePerPageList: [ 10, 25, 100 ],
     };
 
