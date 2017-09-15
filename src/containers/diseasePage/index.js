@@ -57,7 +57,7 @@ class DiseasePage extends Component {
         </Subsection>
 
         <Subsection title='Associations'>
-          <DiseasePageAssociationsTable />
+          <DiseasePageAssociationsTable test={ 'lkj' }/>
         </Subsection>
       </div>
     );
