@@ -6,7 +6,6 @@ import PrimaryAttributesList from '../../components/primaryAttributesList';
 
 class BasicDiseaseInfo extends Component {
   renderTermList(terms) {
-    console.log('RENDERING - ' + (terms && terms.length));
     const items = terms && terms
       .map(term => <Link key={term.primaryKey} to={`/disease/${term.primaryKey}`}>{term.name}</Link>);
     return <CollapsibleList items={items} />;
