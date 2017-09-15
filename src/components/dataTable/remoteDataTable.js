@@ -21,15 +21,15 @@ class RemoteDataTable extends Component {
     this.handleCountChange = this.handleCountChange.bind(this);
   }
 
-  handlePageChange(page, count) {
+  handlePageChange() {
 
   }
 
-  handleSortChange(name, order) {
+  handleSortChange() {
 
   }
 
-  handleCountChange(count) {
+  handleCountChange() {
 
   }
 

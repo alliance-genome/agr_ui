@@ -19,7 +19,7 @@ class DiseasePageAssociationsTable extends Component {
   }
 
   render() {
-    console.log(this.props.dispatch);
+
     const columns = [
       {
         field: 'do_name',
@@ -42,7 +42,7 @@ class DiseasePageAssociationsTable extends Component {
     ];
     return (
       <div>
-      {this.props.test}
+      {this.props.disease}
         <div className='checkbox pull-right'>
           <label>
             <input checked={!this.state.hideExtra} onChange={this.handleToggleExtra} type='checkbox' />
@@ -57,8 +57,8 @@ class DiseasePageAssociationsTable extends Component {
 
 DiseasePageAssociationsTable.propTypes = {
 //  columns: PropTypes.array.isRequired,
-  dispatch: PropTypes.func,
-  test: PropTypes.string,
+//  dispatch: PropTypes.func,
+  disease: PropTypes.string,
   url: PropTypes.string,
 
 };
