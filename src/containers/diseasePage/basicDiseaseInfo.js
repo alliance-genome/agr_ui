@@ -26,7 +26,7 @@ class BasicDiseaseInfo extends Component {
         format: this.renderCommaSeparatedList,
       },
       {
-        field: 'external_ids',
+        field: 'crossReferences',
         format: this.renderCommaSeparatedList,
         name: 'Cross References',
       },
