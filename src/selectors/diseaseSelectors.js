@@ -37,7 +37,7 @@ export const selectLoadingAssociation = createSelector(
   (disease) => disease.get('loadingAssociations')
 );
 
-export const selectAssocationsError = createSelector(
+export const selectAssociationsError = createSelector(
   [selectDiseaseDomain],
   (disease) => disease.get('associationsError')
 );
