@@ -74,7 +74,6 @@ class RemoteDataTable extends Component {
 
 RemoteDataTable.propTypes = {
   columns: PropTypes.array,
-  url: PropTypes.string,
 };
 
 export default RemoteDataTable;
