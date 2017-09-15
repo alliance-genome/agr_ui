@@ -11,9 +11,8 @@ import {
   selectPerPageSize,
   selectTotalAssociations,
   selectLoadingAssociation,
-  selectAssocationsError
+  selectAssociationsError
 } from '../diseaseSelectors';
-import {selectTotal} from "../searchSelectors";
 
 describe('diseaseSelectors', () => {
   it('selectDiseaseDomain', () => {
@@ -84,6 +83,6 @@ describe('diseaseSelectors', () => {
     const mockedState = {
       disease: fromJS(diseaseState),
     };
-    assert.equal(selectAssocationsError(mockedState),diseaseState.associationsError);
+    assert.equal(selectAssociationsError(mockedState),diseaseState.associationsError);
   });
 });

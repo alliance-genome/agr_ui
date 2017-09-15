@@ -15,7 +15,7 @@ import {
   selectTotalAssociations,
   selectPerPageSize,
   selectCurrentPage,
-  selectAssocationsError,
+  selectAssociationsError,
   selectLoadingAssociation,
 } from '../../selectors/diseaseSelectors';
 
@@ -76,17 +76,17 @@ DiseasePage.propTypes = {
   totalAssociations: PropTypes.number,               // Total number of associations.
 };
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   return {
     data: selectData(state),
     associations: selectAssociations(state),
     loadingAssociations: selectLoadingAssociation(state),
-    associationsError: selectAssocationsError(state),
+    associationsError: selectAssociationsError(state),
     currentPage: selectCurrentPage(state),
     perPageSize: selectPerPageSize(state),
     totalAssociations: selectTotalAssociations(state)
   };
-}
+};
 
 export { DiseasePage as DiseasePage };
 export default connect(mapStateToProps)(DiseasePage);

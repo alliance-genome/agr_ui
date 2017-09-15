@@ -43,7 +43,7 @@ const diseaseReducer = function (state = DEFAULT_STATE, action) {
 
   case FETCH_ASSOCIATIONS_SUCCESS:
     return state.set('loadingAssociations', false)
-      .set('associations', action.payload.results)
+      .set('associations', fromJS(action.payload.results))
       .set('totalAssociations', action.payload.total)
       .set('associationsError', '');
 
