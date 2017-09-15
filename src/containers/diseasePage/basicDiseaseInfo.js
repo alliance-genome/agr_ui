@@ -25,6 +25,16 @@ class BasicDiseaseInfo extends Component {
     }).reduce((a, b) => [a, ', ', b]);
   }
 
+  renderCrossReferenceList(refs) {
+    return refs && refs.map((ref) => {
+      return (
+        <a href={ref.crossRefCompleteUrl} key={`ref-${ref.displayName}`}>
+          {ref.displayName}
+        </a>
+      );
+    }).reduce((a, b) => [a, ', ', b]);
+  }
+
   render() {
     const { disease } = this.props;
     const attributes = [
@@ -37,7 +47,7 @@ class BasicDiseaseInfo extends Component {
       },
       {
         field: 'crossReferences',
-        format: this.renderCommaSeparatedList,
+        format: this.renderCrossReferenceList,
         name: 'Cross References',
       },
       {
