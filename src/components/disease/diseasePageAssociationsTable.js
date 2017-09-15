@@ -42,7 +42,7 @@ class DiseasePageAssociationsTable extends Component {
     ];
     return (
       <div>
-      {this.props.disease}
+      {this.props.associations}
         <div className='checkbox pull-right'>
           <label>
             <input checked={!this.state.hideExtra} onChange={this.handleToggleExtra} type='checkbox' />
@@ -57,9 +57,8 @@ class DiseasePageAssociationsTable extends Component {
 
 DiseasePageAssociationsTable.propTypes = {
 //  columns: PropTypes.array.isRequired,
-//  dispatch: PropTypes.func,
+  associations: PropTypes.string,
   disease: PropTypes.string,
-  url: PropTypes.string,
 
 };
 
