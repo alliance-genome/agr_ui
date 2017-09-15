@@ -16,13 +16,13 @@ const columns = [
 ];
 
 const defaultSpeciesOrder = [
-  'H. sapiens',
-  'M. musculus',
-  'R. norvegicus',
-  'D. rerio',
-  'D. melanogaster',
-  'C. elegans',
-  'S. cerevisiae'
+  'Homo sapiens',
+  'Mus musculus',
+  'Rattus norvegicus',
+  'Danio rerio',
+  'Drosophila melanogaster',
+  'Caenorhabditis elegans',
+  'Saccharomyces cerevisiae'
 ];
 
 const getSpeciesOrderScore = (speciesName, speciesOrder = defaultSpeciesOrder) => {
