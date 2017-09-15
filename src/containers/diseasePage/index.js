@@ -27,18 +27,17 @@ import { DiseasePageAssociationsTable } from '../../components/disease';
 class DiseasePage extends Component {
   componentDidMount() {
     this.props.dispatch(fetchDisease(this.props.params.diseaseId));
-    this.props.dispatch(fetchAssociations(this.props.params.associations));
+    this.props.dispatch(fetchAssociations(this.props.params.diseaseId));
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.params.diseaseId !== prevProps.params.diseaseId) {
       this.props.dispatch(fetchDisease(this.props.params.diseaseId));
-      this.props.dispatch(fetchAssociations(this.props.params.associations));
+      this.props.dispatch(fetchAssociations(this.props.params.diseaseId));
     }
   }
 
   render() {
-    console.log(this.props.params.associations);
     //const disease = this.props.data;
     const disease = this.props.params.diseaseId;
     const title = this.props.params.diseaseId;
