@@ -15,6 +15,16 @@ class BasicDiseaseInfo extends Component {
     return items && items.join(', ');
   }
 
+  renderSourceList(sources) {
+    return sources && sources.map((source) => {
+      return (
+        <a href={source.url} key={`source-${source.species.displayName}`}>
+          {source.species.displayName}
+        </a>
+      );
+    }).reduce((a, b) => [a, ', ', b]);
+  }
+
   render() {
     const { disease } = this.props;
     const attributes = [
@@ -39,6 +49,11 @@ class BasicDiseaseInfo extends Component {
         field: 'children',
         format: this.renderTermList,
         name: 'Child Terms',
+      },
+      {
+        field: 'sourceList',
+        format: this.renderSourceList,
+        name: 'Sources of Associations',
       }
     ];
     return <PrimaryAttributesList attributes={attributes} data={disease} />;
