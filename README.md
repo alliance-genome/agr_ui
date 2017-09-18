@@ -14,3 +14,13 @@ Describe GenomeFeatureComponent here.
 
 [coveralls-badge]: https://img.shields.io/coveralls/gmod/genomefeaturecomponent/master.png?style=flat-square
 [coveralls]: https://coveralls.io/github/gmod/genomefeaturecomponent
+
+
+Instructions
+============
+
+    npm start
+    
+    
+View at [http://localhost:3000](http://localhost:3000).
+
