@@ -22,16 +22,16 @@ class DiseasePageAssociationsTable extends Component {
 
     const columns = [
       {
-        field: 'do_name',
+        field: 'diseaseName',
         label: 'Disease Name',
         sortable: true,
       },
       {
-        field: 'do_id',
+        field: 'diseaseID',
         label: 'DO ID',
         isKey: true,
         sortable: true,
-        format: (id) => id + '!'
+        format: (id) => id + '!!!'
       },
       {
         field: 'associationType',
@@ -48,17 +48,15 @@ class DiseasePageAssociationsTable extends Component {
             Show addition information
           </label>
         </div>
-        <RemoteDataTable columns={columns} />
+        <RemoteDataTable columns={columns} data={this.props.associations} />
       </div>
     );
   }
 }
 
 DiseasePageAssociationsTable.propTypes = {
-//  columns: PropTypes.array.isRequired,
   associations: PropTypes.arrayOf(PropTypes.object),
   disease: PropTypes.object,
-
 };
 
 export default DiseasePageAssociationsTable;
