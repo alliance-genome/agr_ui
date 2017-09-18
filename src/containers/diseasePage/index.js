@@ -40,9 +40,9 @@ class DiseasePage extends Component {
 
   render() {
     const disease = this.props.data;
-    const associations = this.props.associations;
-    //const disease = this.props.params.diseaseId;
     const title = this.props.params.diseaseId;
+    const associations = this.props.associations;
+
     if (!disease) {
       return null;
     }
@@ -69,7 +69,7 @@ class DiseasePage extends Component {
 
 DiseasePage.propTypes = {
   associations: PropTypes.arrayOf(PropTypes.object), // An array containing the disease associations.
-  associationsError: PropTypes.object,               // Association loading error messages.
+  associationsError: PropTypes.string,               // Association loading error messages.
   currentPage: PropTypes.number,                     // The current page of the associations table.
   data: PropTypes.object,
   dispatch: PropTypes.func,
