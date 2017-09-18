@@ -39,8 +39,8 @@ class DiseasePage extends Component {
   }
 
   render() {
-    //const disease = this.props.data;
-    const disease = this.props.params.diseaseId;
+    const disease = this.props.data;
+    //const disease = this.props.params.diseaseId;
     const title = this.props.params.diseaseId;
     if (!disease) {
       return null;

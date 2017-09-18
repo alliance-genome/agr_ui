@@ -30,7 +30,7 @@ const diseaseReducer = function (state = DEFAULT_STATE, action) {
 
   case FETCH_DISEASE_SUCCESS:
     return state.set('loading', false)
-      .set('data', action.payload)
+      .set('data', fromJS(action.payload))
       .set('error', '');
 
   case FETCH_DISEASE_FAILURE:
