@@ -50,7 +50,7 @@ class GenePageDiseaseTable extends Component {
         data.push({
           name: disease.name,
           doId: disease.doId,
-          associationType: annotation.assoicationType.replace(/_/g, ' '),
+          associationType: annotation.associationType.replace(/_/g, ' '),
           refs: annotation.publications,
         });
       });
