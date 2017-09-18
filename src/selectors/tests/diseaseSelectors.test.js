@@ -4,14 +4,14 @@ import { DEFAULT_STATE as diseaseState } from '../../reducers/diseaseReducer';
 
 import {
   selectDiseaseDomain,
-  selectDisease,
   selectData,
   selectAssociations,
   selectCurrentPage,
   selectPerPageSize,
   selectTotalAssociations,
   selectLoadingAssociation,
-  selectAssociationsError
+  selectAssociationsError,
+  selectTotalPages,
 } from '../diseaseSelectors';
 
 describe('diseaseSelectors', () => {
@@ -22,20 +22,13 @@ describe('diseaseSelectors', () => {
     assert.equal(selectDiseaseDomain(mockedState), diseaseState);
   });
 
-  it('selectDisease', () => {
-    const mockedState = {
-      disease: fromJS(diseaseState),
-    };
-    assert.deepEqual(selectDisease(mockedState), diseaseState.toJS());
-  });
-
   // TODO - Very simple test, since I'm unsure is planned for the 'data' state prop.
   it('selectData', () => {
     const diseaseState = { data: [1,2,3,4,5] };
     const mockedState = {
       disease: fromJS(diseaseState),
     };
-    assert.deepEqual(selectData(mockedState),diseaseState.data);
+    assert.deepEqual(selectData(mockedState).toJS(),diseaseState.data);
   });
 
   it('selectAssociations', () => {
@@ -43,7 +36,7 @@ describe('diseaseSelectors', () => {
     const mockedState = {
       disease: fromJS(diseaseState),
     };
-    assert.deepEqual(selectAssociations(mockedState),diseaseState.associations);
+    assert.deepEqual(selectAssociations(mockedState).toJS(),diseaseState.associations);
   });
 
   it('selectCurrentPage', () => {
@@ -84,5 +77,44 @@ describe('diseaseSelectors', () => {
       disease: fromJS(diseaseState),
     };
     assert.equal(selectAssociationsError(mockedState),diseaseState.associationsError);
+  });
+
+  it('selectTotalPages', () => {
+    let diseaseState = { totalAssociations: 2, perPageSize: 1 };
+    let mockedState = {
+      disease: fromJS(diseaseState),
+    };
+    assert.equal(selectTotalPages(mockedState), 2);
+
+    diseaseState.totalAssociations = 100;
+    diseaseState.perPageSize = 10;
+    mockedState.disease = fromJS(diseaseState);
+
+    assert.equal(selectTotalPages(mockedState), 10);
+
+    diseaseState.totalAssociations = 101;
+    diseaseState.perPageSize = 10;
+    mockedState.disease = fromJS(diseaseState);
+
+    assert.equal(selectTotalPages(mockedState), 11);
+
+    diseaseState.totalAssociations = 99;
+    diseaseState.perPageSize = 10;
+    mockedState.disease = fromJS(diseaseState);
+
+    assert.equal(selectTotalPages(mockedState), 10);
+
+    diseaseState.totalAssociations = 99;
+    diseaseState.perPageSize = 3;
+    mockedState.disease = fromJS(diseaseState);
+
+    assert.equal(selectTotalPages(mockedState), 33);
+
+    diseaseState.totalAssociations = 13;
+    diseaseState.perPageSize = 5;
+    mockedState.disease = fromJS(diseaseState);
+
+    assert.equal(selectTotalPages(mockedState), 3);
+
   });
 });

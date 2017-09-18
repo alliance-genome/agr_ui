@@ -2,19 +2,14 @@ import { createSelector } from 'reselect';
 
 export const selectDiseaseDomain = (state) => state.disease;
 
-export const selectDisease = createSelector(
-  [selectDiseaseDomain],
-  (disease) => disease.toJS()
-);
-
 export const selectData = createSelector(
   [selectDiseaseDomain],
-  (disease) => disease.get('data').toJS()
+  (disease) => disease.get('data')
 );
 
 export const selectAssociations = createSelector(
   [selectDiseaseDomain],
-  (disease) => disease.get('associations').toJS()
+  (disease) => disease.get('associations')
 );
 
 export const selectCurrentPage = createSelector(
@@ -40,4 +35,9 @@ export const selectLoadingAssociation = createSelector(
 export const selectAssociationsError = createSelector(
   [selectDiseaseDomain],
   (disease) => disease.get('associationsError')
+);
+
+export const selectTotalPages = createSelector(
+  [selectTotalAssociations, selectPerPageSize],
+  (numAssoc, numPerPage) => Math.ceil(numAssoc / numPerPage)
 );

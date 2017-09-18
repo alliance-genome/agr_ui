@@ -17,6 +17,7 @@ import {
   selectCurrentPage,
   selectAssociationsError,
   selectLoadingAssociation,
+  selectTotalPages,
 } from '../../selectors/diseaseSelectors';
 
 import HeadMetaTags from '../../components/headMetaTags';
@@ -75,17 +76,24 @@ DiseasePage.propTypes = {
   params: PropTypes.object,
   perPageSize: PropTypes.number,                     // Number of associations to display per page.
   totalAssociations: PropTypes.number,               // Total number of associations.
+  totalPages: PropTypes.number,                      // Total number of pages calculated from the number
+                                                     // of associations and the per page setting.
 };
 
+// Ideally, the toJS() calls should be removed here for performance reasons.
+// Additionally, the react classes that use these props should be modified
+// to handle the ImmutableJS counterparts of the JS data structures.
+// Leave in for now since I'm unsure of the downstream dependencies.
 const mapStateToProps = (state) => {
   return {
-    data: selectData(state),
-    associations: selectAssociations(state),
+    data: selectData(state).toJS(),
+    associations: selectAssociations(state).toJS(),
     loadingAssociations: selectLoadingAssociation(state),
     associationsError: selectAssociationsError(state),
     currentPage: selectCurrentPage(state),
     perPageSize: selectPerPageSize(state),
-    totalAssociations: selectTotalAssociations(state)
+    totalAssociations: selectTotalAssociations(state),
+    totalPages: selectTotalPages(state)
   };
 };
 
