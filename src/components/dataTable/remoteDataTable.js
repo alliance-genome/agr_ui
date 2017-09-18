@@ -25,7 +25,6 @@ class RemoteDataTable extends Component {
   }
 
   render() {
-    console.log(this.props.data);
 
     const { columns, data, filename } = this.props;
     const options = {
@@ -73,7 +72,9 @@ class RemoteDataTable extends Component {
 }
 
 RemoteDataTable.propTypes = {
+  columns: PropTypes.array,
   data: PropTypes.arrayOf(PropTypes.object),
+  filename: PropTypes.string,
 };
 
 export default RemoteDataTable;
