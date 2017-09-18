@@ -1,4 +1,4 @@
-import { fromJS, List, Map } from 'immutable';
+import { fromJS, Map } from 'immutable';
 import {
   FETCH_DISEASE,
   FETCH_DISEASE_SUCCESS,
@@ -49,7 +49,6 @@ const diseaseReducer = function (state = DEFAULT_STATE, action) {
 
   case FETCH_ASSOCIATIONS_FAILURE:
     return state.set('loadingAssociations', false)
-      .set('associations', List())
       .set('associationsError', action.payload);
 
   case SET_PER_PAGE_SIZE:
