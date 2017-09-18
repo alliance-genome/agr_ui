@@ -22,7 +22,12 @@ class CollapsiblePanel extends Component {
 
   render() {
     return (
-      <div className="card">
+      <div
+        className="card"
+        style={{
+          clear: 'both'
+        }}
+      >
         <div
           className={`card-header alert-${this.props.backgroundVariants}`}
           onClick={() => this.handleToggle()} role="tab"
