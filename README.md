@@ -6,14 +6,14 @@
 
 Describe GenomeFeatureComponent here.
 
-[build-badge]: https://img.shields.io/travis/gmod/genomefeaturecomponent/master.png?style=flat-square
-[build]: https://travis-ci.org/gmod/genomefeaturecomponent
+[build-badge]: https://img.shields.io/travis/GMOD/GenomeFeatureComponent/master.png?style=flat-square
+[build]: https://travis-ci.org/GMOD/GenomeFeatureComponent
 
-[npm-badge]: https://img.shields.io/npm/v/npm-package.png?style=flat-square
-[npm]: https://www.npmjs.org/package/npm-package
+[npm-badge]: https://img.shields.io/npm/v/@gmod/genomefeaturecomponent.png?style=flat-square
+[npm]: https://www.npmjs.com/package/@gmod/genomefeaturecomponent
 
-[coveralls-badge]: https://img.shields.io/coveralls/gmod/genomefeaturecomponent/master.png?style=flat-square
-[coveralls]: https://coveralls.io/github/gmod/genomefeaturecomponent
+[coveralls-badge]: https://img.shields.io/coveralls/GMOD/GenomeFeatureComponent/master.png?style=flat-square
+[coveralls]: https://coveralls.io/github/GMOD/GenomeFeatureComponent
 
 
 Instructions
