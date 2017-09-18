@@ -1,7 +1,7 @@
 {
   "name": "GenomeFeatureComponent",
   "version": "1.0.0",
-  "description": "GenomeFeatureComponent React component",
+  "description": "Provides SVG View for Genome Features rendered with the Apollo Track Web Service from JBrowse data React Component",
   "main": "lib/index.js",
   "module": "es/index.js",
   "files": [

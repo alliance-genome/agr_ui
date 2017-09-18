@@ -136,7 +136,7 @@ export default class extends Component {
         let xAxis = axisTop(x)
             .ticks(20, 's');
 
-        let viewer = select("viewer")
+        let viewer = select(".viewer")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
