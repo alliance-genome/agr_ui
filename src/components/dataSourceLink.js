@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 class DataSourceLink extends Component {
   render() {
     return (
-      <a href={this.props.reference.crossrefCompleteUrl}>{this.props.reference.id}</a>
+      <a href={this.props.reference.crossRefCompleteUrl}>{this.props.reference.id}</a>
     );
   }
 }
@@ -12,7 +12,7 @@ class DataSourceLink extends Component {
 DataSourceLink.propTypes = {
   omitPrefix: PropTypes.bool,
   reference: PropTypes.shape({
-    crossrefCompleteUrl: PropTypes.string,
+    crossRefCompleteUrl: PropTypes.string,
     id: PropTypes.string,
   }),
 };

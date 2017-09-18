@@ -75,7 +75,7 @@ class BasicGeneInfo extends Component {
     ];
     const modReference = {
       id: this.state.geneData.modGlobalCrossRefId,
-      crossrefCompleteUrl: this.state.geneData.modCrossRefCompleteUrl,
+      crossRefCompleteUrl: this.state.geneData.modCrossRefCompleteUrl,
     };
     return (
       <div className='row'>
