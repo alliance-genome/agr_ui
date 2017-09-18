@@ -57,7 +57,7 @@ class DiseasePageAssociationsTable extends Component {
 
 DiseasePageAssociationsTable.propTypes = {
 //  columns: PropTypes.array.isRequired,
-  associations: PropTypes.string,
+  associations: PropTypes.arrayOf(PropTypes.object),
   disease: PropTypes.object,
 
 };
