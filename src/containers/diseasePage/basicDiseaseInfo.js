@@ -9,7 +9,30 @@ class BasicDiseaseInfo extends Component {
     const items = terms && terms
       .map(term => <Link key={term.primaryKey} to={`/disease/${term.primaryKey}`}>{term.name}</Link>);
     return <CollapsibleList items={items} />;
-    // return items;
+  }
+
+  renderCommaSeparatedList(items) {
+    return items && items.join(', ');
+  }
+
+  renderSourceList(sources) {
+    return sources && sources.map((source) => {
+      return (
+        <a href={source.url} key={`source-${source.species.displayName}`}>
+          {source.species.displayName}
+        </a>
+      );
+    }).reduce((a, b) => [a, ', ', b]);
+  }
+
+  renderCrossReferenceList(refs) {
+    return refs && refs.map((ref) => {
+      return (
+        <a href={ref.crossRefCompleteUrl} key={`ref-${ref.displayName}`}>
+          {ref.displayName}
+        </a>
+      );
+    }).reduce((a, b) => [a, ', ', b]);
   }
 
   render() {
@@ -20,10 +43,11 @@ class BasicDiseaseInfo extends Component {
       },
       {
         field: 'synonyms',
+        format: this.renderCommaSeparatedList,
       },
       {
-        field: 'external_ids',
-        format: ids => ids && ids.join(', '),
+        field: 'crossReferences',
+        format: this.renderCrossReferenceList,
         name: 'Cross References',
       },
       {
@@ -35,6 +59,11 @@ class BasicDiseaseInfo extends Component {
         field: 'children',
         format: this.renderTermList,
         name: 'Child Terms',
+      },
+      {
+        field: 'sourceList',
+        format: this.renderSourceList,
+        name: 'Sources of Associations',
       }
     ];
     return <PrimaryAttributesList attributes={attributes} data={disease} />;
