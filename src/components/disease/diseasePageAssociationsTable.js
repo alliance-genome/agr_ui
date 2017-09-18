@@ -42,7 +42,6 @@ class DiseasePageAssociationsTable extends Component {
     ];
     return (
       <div>
-      {this.props.associations}
         <div className='checkbox pull-right'>
           <label>
             <input checked={!this.state.hideExtra} onChange={this.handleToggleExtra} type='checkbox' />
