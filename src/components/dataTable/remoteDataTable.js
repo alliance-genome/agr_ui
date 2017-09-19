@@ -58,6 +58,7 @@ class RemoteDataTable extends Component {
               dataFormat={col.format}
               dataSort={col.sortable}
               filter={col.filterable ? textFilter : null}
+              hidden={col.hidden}
               isKey={col.isKey}
               key={idx}
               sortFunc={col.asText && textSorter(col.asText, col.field)}
