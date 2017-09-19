@@ -4,7 +4,7 @@ import {scaleLinear} from "d3-scale";
 import {axisTop} from "d3-axis";
 import {select} from "d3-selection";
 
-export default class extends Component {
+export default class App extends Component {
 
 
     componentDidMount() {

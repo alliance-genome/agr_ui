@@ -1,13 +1,14 @@
 import React, {Component} from 'react'
 import {render} from 'react-dom'
-
-import Example from '../../src'
+import App from "../../src/index";
+import GenomeFeature from "../../src/GenomeFeature";
 
 class Demo extends Component {
   render() {
     return <div>
       <h1>GenomeFeatureComponent Demo</h1>
-      <Example/>
+      <App/>
+      <GenomeFeature/>
     </div>
   }
 }
