@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 
 
-class GenomeFeature extends Component {
+export default class GenomeFeature extends Component {
 
     render() {
         return (
@@ -17,4 +17,3 @@ GenomeFeature.propTypes = {
     data: PropTypes.object,
 };
 
-export default GenomeFeature;
