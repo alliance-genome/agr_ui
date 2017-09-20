@@ -19,16 +19,13 @@
     "test:watch": "nwb test-react --server"
   },
   "dependencies": {
-    "axios": "^0.16.2",
     "d3-array": "^1.2.0",
     "d3-axis": "^1.0.8",
     "d3-brush": "^1.0.4",
     "d3-scale": "^1.0.6",
     "d3-selection": "^1.1.0",
     "d3-shape": "^1.2.0",
-    "d3-svg-legend": "^2.24.1",
-    "jquery": "^3.2.1",
-    "whatwg-fetch": "^2.0.3"
+    "d3-svg-legend": "^2.24.1"
   },
   "peerDependencies": {
     "react": "15.x"
