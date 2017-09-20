@@ -19,6 +19,10 @@ Describe GenomeFeatureComponent here.
 Instructions
 ============
 
+Make sure you have node 8 or better)
+
+    npm install
+
     npm start
     
     
