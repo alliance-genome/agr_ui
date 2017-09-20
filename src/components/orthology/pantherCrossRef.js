@@ -10,7 +10,7 @@ class PantherCrossRef extends Component {
     return (
       pantherCrossRef ?
         <ExternalLink href={pantherCrossRef.crossRefCompleteUrl}>
-          {pantherCrossRef.localId}
+          {pantherCrossRef.name}
         </ExternalLink> : null
     );
   }
@@ -20,7 +20,7 @@ PantherCrossRef.propTypes = {
   crossReferences: PropTypes.arrayOf(
     PropTypes.shape({
       crossRefCompleteUrl: PropTypes.string.isRequired,
-      localId: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
     })
   ),
 };

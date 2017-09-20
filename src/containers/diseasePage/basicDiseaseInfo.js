@@ -28,8 +28,8 @@ class BasicDiseaseInfo extends Component {
   renderCrossReferenceList(refs) {
     return refs && refs.map((ref) => {
       return (
-        <a href={ref.crossRefCompleteUrl} key={`ref-${ref.displayName}`}>
-          {ref.displayName}
+        <a href={ref.crossRefCompleteUrl} key={`ref-${ref.name}`}>
+          {ref.name}
         </a>
       );
     }).reduce((a, b) => [a, ', ', b]);
