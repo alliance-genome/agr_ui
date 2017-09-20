@@ -11,6 +11,7 @@ import { OrthologyFilteredTable, OrthologyUserGuide, OrthologyBasicInfo } from '
 import { GenePageDiseaseTable } from '../../components/disease';
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
 import LoadingPage from '../../components/loadingPage';
+import NotFound from '../../components/notFound';
 import Subsection from '../../components/subsection';
 import HeadMetaTags from '../../components/headMetaTags';
 import TranscriptInlineViewer from './transcriptInlineViewer';
@@ -33,7 +34,7 @@ class GenePage extends Component {
     }
 
     if (this.props.error) {
-      return <div className='alert alert-danger'>{this.props.error}</div>;
+      return <NotFound />;
     }
 
     if (!this.props.data) {
