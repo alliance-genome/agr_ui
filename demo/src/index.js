@@ -67,7 +67,7 @@ class Demo extends Component {
                 <div>
                     <h1>GenomeFeatureComponent Demo</h1>
                     <a href={this.jbrowseUrl}>Link</a>
-                    <GenomeFeature id={id1} width={width} height={height} data={{loadedData}}/>
+                    <GenomeFeature id={id1} width={width} height={height} data={loadedData}/>
                 </div>
             )
         }
