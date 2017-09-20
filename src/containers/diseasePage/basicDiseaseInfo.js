@@ -39,12 +39,19 @@ class BasicDiseaseInfo extends Component {
     }).reduce((a, b) => [a, ', ', b]);
   }
 
+  renderDefinitionLinks(links) {
+    return links && links.map(link => <div key={link}><a href={link}>{link}</a></div>);
+  }
+
   render() {
     const { disease } = this.props;
     return (
       <AttributeList bsClassName='col-xs-12'>
         <AttributeLabel>Definition</AttributeLabel>
-        <AttributeValue>{disease.definition}</AttributeValue>
+        <AttributeValue>
+          {disease.definition}
+          {this.renderDefinitionLinks(disease.definitionLinks)}
+        </AttributeValue>
 
         <AttributeLabel>Synonyms</AttributeLabel>
         <AttributeValue>{this.renderCommaSeparatedList(disease.synonyms)}</AttributeValue>
