@@ -14,7 +14,8 @@ import LoadingPage from '../../components/loadingPage';
 import NotFound from '../../components/notFound';
 import Subsection from '../../components/subsection';
 import HeadMetaTags from '../../components/headMetaTags';
-import TranscriptInlineViewer from './transcriptInlineViewer';
+import GenomeFeatureComponent from '@gmod/genomefeaturecomponent';
+// import TranscriptInlineViewer from './transcriptInlineViewer';
 
 class GenePage extends Component {
 
@@ -74,15 +75,16 @@ class GenePage extends Component {
         </Subsection>
 
         <Subsection hasData={typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'} title='Sequence Feature Viewer'>
-          <TranscriptInlineViewer
-            assembly={genomeLocation.assembly}
-            chromosome={genomeLocation.chromosome}
-            fmax={genomeLocation.end}
-            fmin={genomeLocation.start}
-            geneSymbol={this.props.data.symbol}
-            species={this.props.data.species}
-            strand={genomeLocation.strand}
-          />
+          <GenomeFeatureComponent data={this.props.data.genomeData}  height={this.props.data.height}  width={this.props.data.width}/>
+          {/*<TranscriptInlineViewer*/}
+            {/*assembly={genomeLocation.assembly}*/}
+            {/*chromosome={genomeLocation.chromosome}*/}
+            {/*fmax={genomeLocation.end}*/}
+            {/*fmin={genomeLocation.start}*/}
+            {/*geneSymbol={this.props.data.symbol}*/}
+            {/*species={this.props.data.species}*/}
+            {/*strand={genomeLocation.strand}*/}
+          {/*/>*/}
         </Subsection>
 
         <Subsection title='Function – GO Annotations'>
