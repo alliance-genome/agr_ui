@@ -40,8 +40,9 @@ class DiseasePage extends Component {
 
   render() {
     const disease = this.props.data;
-    //const disease = this.props.params.diseaseId;
     const title = this.props.params.diseaseId;
+    const associations = this.props.associations;
+
     if (!disease) {
       return null;
     }
@@ -59,7 +60,7 @@ class DiseasePage extends Component {
         </Subsection>
 
         <Subsection title='Associations'>
-          <DiseasePageAssociationsTable disease={disease} />
+          <DiseasePageAssociationsTable associations={associations} />
         </Subsection>
       </div>
     );
