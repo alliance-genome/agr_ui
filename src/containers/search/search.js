@@ -102,7 +102,7 @@ class SearchComponent extends Component {
 
   render() {
     if (!this.props.isReady) return <LoadingPage />;
-    let title = this.props.queryParams.q;
+    let title = 'Search ' + (this.props.queryParams.q || '');
     return (
       <div className='container'>
         {this.renderErrorNode()}
