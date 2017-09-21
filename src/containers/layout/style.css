@@ -80,10 +80,6 @@
 .nav .navContainer:hover .sub_nav{
   display:block;
 }
-.navTopSearch {
-  display: flex;
-}
-
 /* Site map style starts here */
 .site_map{
   margin:0;

@@ -65,7 +65,7 @@ class GenePage extends Component {
     let date = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
 
     return (
-      <div className='container-fluid'>
+      <div className='container'>
         <HeadMetaTags title={title} />
         <GenePageHeader symbol={this.props.data.symbol} />
 
