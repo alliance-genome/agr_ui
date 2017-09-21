@@ -78,7 +78,6 @@ class SearchBarComponent extends Component {
         let field = 'gene_' + item.suggestion.go_type;
         let newQp = { category: 'gene' };
         newQp[field] = item.suggestion.name_key;
-        //newQp = getQueryParamWithoutPage('gene_biological_process', item.suggestion.name_key, newQp);
         this.props.dispatch(push({ pathname: '/search', query: newQp }));
       } else {
         this.setState({ value: item.suggestion.name_key });
@@ -108,7 +107,7 @@ class SearchBarComponent extends Component {
   renderSuggestion(d) {
     return (
       <div className={style.autoListItem}>
-        <span>{d.name}</span>
+        <span>{d.name_key}</span>
         <span className={style.catContainer}>
           <CategoryLabel category={d.category} />
         </span>
@@ -117,7 +116,7 @@ class SearchBarComponent extends Component {
   }
 
   render() {
-    let _getSuggestionValue = ( d => d.name );
+    let _getSuggestionValue = ( d => d.name_key );
     let _inputProps = {
       placeholder: 'search a gene or GO term',
       value: this.state.value,

@@ -6,7 +6,9 @@ import { fetchDisease } from '../../actions/disease';
 import { selectDisease } from '../../selectors/disease';
 
 import HeadMetaTags from '../../components/headMetaTags';
+import LoadingPage from '../../components/loadingPage';
 import Subsection from '../../components/subsection';
+import NotFound from '../../components/notFound';
 import BasicDiseaseInfo from './basicDiseaseInfo';
 import { DiseasePageAssociationsTable } from '../../components/disease';
 
@@ -21,11 +23,22 @@ class DiseasePage extends Component {
     }
   }
 
+  renderError() {
+    let e = this.props.error;
+    if (!e) {
+      return null;
+    }
+    return <NotFound />;
+  }
+
   render() {
     const disease = this.props.data;
     const title = this.props.params.diseaseId;
+    if (this.props.loading) {
+      return <LoadingPage />;
+    }
     if (!disease) {
-      return null;
+      return this.renderError();
     }
     return (
       <div className='container'>
@@ -34,7 +47,6 @@ class DiseasePage extends Component {
         <div className='alert alert-warning'>
           <i className='fa fa-warning' /> Page under active development
         </div>
-
         <h1>
           {disease.name} (<a href={'http://www.disease-ontology.org/?id=' + disease.doId}>{disease.doId}</a>)
           <hr />
@@ -55,6 +67,8 @@ class DiseasePage extends Component {
 DiseasePage.propTypes = {
   data: PropTypes.object,
   dispatch: PropTypes.func,
+  error: PropTypes.object,
+  loading: PropTypes.bool,
   params: PropTypes.object,
 };
 
