@@ -10,6 +10,8 @@ import GenePageHeader from './genePageHeader';
 import { OrthologyFilteredTable, OrthologyUserGuide, OrthologyBasicInfo } from '../../components/orthology';
 import { GenePageDiseaseTable } from '../../components/disease';
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
+import LoadingPage from '../../components/loadingPage';
+import NotFound from '../../components/notFound';
 import Subsection from '../../components/subsection';
 import HeadMetaTags from '../../components/headMetaTags';
 import TranscriptInlineViewer from './transcriptInlineViewer';
@@ -28,11 +30,11 @@ class GenePage extends Component {
 
   render() {
     if (this.props.loading) {
-      return <span>loading...</span>;
+      return <LoadingPage />;
     }
 
     if (this.props.error) {
-      return <div className='alert alert-danger'>{this.props.error}</div>;
+      return <NotFound />;
     }
 
     if (!this.props.data) {

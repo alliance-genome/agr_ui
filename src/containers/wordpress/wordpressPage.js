@@ -10,6 +10,9 @@ import SecondaryNav from './secondaryNav';
 
 class WordpressPage extends Component {
   render() {
+    if (!this.props.data) {
+      return null;
+    }
     let title = this.props.data.title.rendered;
     let parent_id = (this.props.data.parent>0)?this.props.data.parent:this.props.data.id;
     return (

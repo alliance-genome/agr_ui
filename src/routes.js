@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, IndexRedirect } from 'react-router';
+import { Route, IndexRedirect, IndexRoute } from 'react-router';
 
 import Wordpress from './containers/wordpress';
 import WordpressFeeds from './containers/wordpress/wordpressFeeds';
@@ -10,7 +10,7 @@ import DiseasePage from './containers/diseasePage';
 
 export default (
   <Route component={Layout} path='/'>
-    <IndexRedirect to="/wordpress" />
+    <IndexRoute component={Wordpress} />
     <Route component={Wordpress} path='wordpress' >
       <IndexRedirect to="home" />
       <Route component={Wordpress} path=':pageId' />
