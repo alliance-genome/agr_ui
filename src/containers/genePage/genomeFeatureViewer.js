@@ -2,15 +2,36 @@
 
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-
-// import GenomeFeatureComponent from 'genomefeaturecomponent';
+import LoadingPage from '../../components/loadingPage';
+import GenomeFeatureComponent from 'genomefeaturecomponent';
 
 
 class GenomeFeatureViewer extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {isLoading: true};
+
+    let defaultTrackName = 'All Genes';
+    let locationString = this.props.chromosome + ':' + this.props.fmin + '..' + this.props.fmax;
+
+    // let apolloServerPrefix = 'http://demo.genomearchitect.org/Apollo-staging/';
+    let apolloServerPrefix = 'http://localhost:8080/apollo/';
+
+
+    let trackDataPrefix = apolloServerPrefix + 'track/' + encodeURI(this.props.species) + '/' + defaultTrackName + '/' + encodeURI(locationString) + '.json';
+    let trackDataWithHighlight = trackDataPrefix + '?name=' + this.props.geneSymbol;
+
+    let geneSymbolUrl = '&lookupSymbol=' + this.props.geneSymbol;
+    let externalJBrowsePrefix = process.env.JBROWSE_URL + '/jbrowse/index.html?data=data%2F' + encodeURI(this.props.species);
+    let externalJbrowseUrl = externalJBrowsePrefix + '&tracks=All%20Genes&highlight=' + geneSymbolUrl;
+
+
+    this.state = {
+      isLoading: true
+    };
+
+    this.trackDataUrl = trackDataWithHighlight;
+    this.jbrowseUrl = externalJbrowseUrl;
   }
 
   // handleImageErrored() {
@@ -35,7 +56,7 @@ class GenomeFeatureViewer extends Component {
   loadData() {
     this.setState({isLoading: true});
 
-    fetch(this.dataUrl)
+    fetch(this.trackDataUrl)
       .then((response) => {
         response.json().then(data => {
           this.setState({
@@ -54,21 +75,6 @@ class GenomeFeatureViewer extends Component {
     // jbrowseUrl = "http://demo.genomearchitect.org/Apollo-staging/Honeybee/jbrowse/index.html?loc=Group1.1:329115..330633&tracks=Official%20Gene%20Set%20v3.2";
     // dataUrl = "http://demo.genomearchitect.org/Apollo-staging/track/Honeybee/Official%20Gene%20Set%20v3.2/Group1.1/GB42168-RA.json";
 
-    let defaultTrackName = 'All Genes';
-    let locationString = this.props.chromosome + ':' + this.props.fmin + '..' + this.props.fmax;
-
-    // let apolloServerPrefix = 'http://demo.genomearchitect.org/Apollo-staging/';
-    let apolloServerPrefix = 'http://localhost:8080/apollo/';
-
-
-    let trackDataPrefix = apolloServerPrefix + 'track/' + encodeURI(this.props.species) + '/' + defaultTrackName + '/' + encodeURI(locationString) + '.json';
-    let trackDataWithHighlight = trackDataPrefix + '?name=' + this.props.geneSymbol;
-    let geneSymbolUrl = '&lookupSymbol=' + this.props.geneSymbol;
-    let externalJBrowsePrefix = process.env.JBROWSE_URL + '/jbrowse/index.html?data=data%2F' + encodeURI(this.props.species);
-    let externalJbrowseUrl = externalJBrowsePrefix + '&tracks=All%20Genes&highlight=' + geneSymbolUrl;
-
-    // TODO: move EVERYTHING to the externalJBrowseUrl
-    // let visualizationUrl = visualizationPrefix + encodeURIComponent(externalJbrowseUrl) + visualizationSuffix;
 
     return (
       <div id='genomeViewer'>
@@ -76,7 +82,7 @@ class GenomeFeatureViewer extends Component {
           <div className='col-sm-8'>
             <dl className='row'>
               <dt className='col-sm-3'>Genome Location</dt>
-              <dd className='col-sm-9'><a href={externalJbrowseUrl}
+              <dd className='col-sm-9'><a href={this.jbrowseUrl}
                                           rel='noopener noreferrer' target='_blank'>
                 Chr{this.props.chromosome}:{this.props.fmin}...{this.props.fmax} {this.props.assembly} {this.props.strand} </a>
               </dd>
@@ -88,26 +94,31 @@ class GenomeFeatureViewer extends Component {
             <ul>
 
               <li>
-                <a href={trackDataWithHighlight}>{trackDataWithHighlight}</a>
+                <a href={this.trackDataUrl}>{this.trackDataUrl}</a>
               </li>
               <li>
-                <a href={externalJbrowseUrl}>{externalJbrowseUrl}</a>
+                <a href={this.jbrowseUrl}>{this.jbrowseUrl}</a>
               </li>
               <li>
-                <a href={externalJbrowseUrl.replace('overview.html', 'index.html')} rel='noopener noreferrer'
+                <a href={this.jbrowseUrl} rel='noopener noreferrer'
                    target='_blank' title='Browse Genome'>
                   Component Goes Here
-                  {/*<img*/}
-                  {/*onError={this.handleImageErrored.bind(this)}*/}
-                  {/*onLoad={this.handleImageLoaded.bind(this)}*/}
-                  {/*src={visualizationUrl}*/}
-                  {/*/>*/}
-                  {/*{this.props.state.isLoading}*/}
                   {/*<GenomeFeatureComponent data={this.props.state.loadedData}*/}
                   {/*height={this.props.data.height}*/}
                   {/*id={this.props.data.id}*/}
                   {/*width={this.props.data.width}*/}
                   {/*/>*/}
+                  {
+                    this.state.isLoading
+                      ? <LoadingPage/> :
+                      <div>
+                        <GenomeFeatureComponent data={this.state.loadedData}
+                          height={this.props.height}
+                          id={this.props.id}
+                          width={this.props.width}
+                        />
+                      </div>
+                  }
                 </a>
               </li>
             </ul>
