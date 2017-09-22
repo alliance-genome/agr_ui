@@ -49,7 +49,7 @@ class RemoteDataTable extends Component {
     };
 
     this.handleResultsPerPageChange=this.handleResultsPerPageChange.bind(this);
-    this.handlePageChange=this.handlePageChange.bind(this);
+    //this.handlePageChange=this.handlePageChange.bind(this);
 
   }
 
@@ -58,14 +58,11 @@ class RemoteDataTable extends Component {
     this.props.dispatch(fetchAssociations(this.props.id, 1, e.target.value));
   }
 
-  handlePageChange(e){
-    //e.preventDefault();
-    this.setState({currentPage:e.target.value});
-    //console.log(e);
-    console.log(e.target.value);
-    //console.log(this.props.currentPage);
-    this.props.dispatch(fetchAssociations(this.props.id, e.target.value, this.state.perPageSize));
-
+  handlePageChange(e, page){
+    e.preventDefault();
+    this.setState({currentPage:page});
+    console.log(page);
+    this.props.dispatch(fetchAssociations(this.props.id, page, this.props.perPageSize));
   }
 
   render() {
@@ -87,7 +84,7 @@ class RemoteDataTable extends Component {
     const paginationLinks = (pages) => {
       let links = [];
       for (var i = 1; i <= pages; i++) {
-        links.push(<a href='#' key={i} onClick={e => this.handlePageChange(e)} style={{paddingRight: '1%'}} value={i}>Page {i}</a>);
+        links.push(<a href='#' key={i} onClick={(e) => this.handlePageChange(e, i)} style={{paddingRight: '1%'}} value={i}>Page {i}</a>);
       }
 
       return (
