@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import PropTypes from 'prop-types';
 
 import style from './style.css';
 
@@ -11,7 +12,7 @@ class NavLink extends Component {
   }
 }
 NavLink.propTypes={
-  label: React.PropTypes.string,
-  url: React.PropTypes.string
+  label: PropTypes.string,
+  url: PropTypes.string
 };
 export default NavLink;

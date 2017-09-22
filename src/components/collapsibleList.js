@@ -1,5 +1,6 @@
 /* eslint-disable react/no-set-state */
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import style from './style.css';
 
@@ -46,8 +47,8 @@ class CollapsibleList extends Component {
 }
 
 CollapsibleList.propTypes = {
-  collapsedSize: React.PropTypes.number,
-  items: React.PropTypes.array,
+  collapsedSize: PropTypes.number,
+  items: PropTypes.array,
 };
 
 CollapsibleList.defaultProps = {

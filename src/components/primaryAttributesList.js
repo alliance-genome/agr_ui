@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import style from './style.css';
 
@@ -34,9 +35,9 @@ PrimaryAttributesList.defaultProps = {
 };
 
 PrimaryAttributesList.propTypes = {
-  attributes: React.PropTypes.array,
-  data: React.PropTypes.object,
-  termWidth: React.PropTypes.number,
+  attributes: PropTypes.array,
+  data: PropTypes.object,
+  termWidth: PropTypes.number,
 };
 
 export default PrimaryAttributesList;
