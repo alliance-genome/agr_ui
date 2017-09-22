@@ -153,7 +153,7 @@ class SingleFilterSelector extends Component {
 SingleFilterSelector.propTypes = {
   dispatch: PropTypes.func,
   displayName: PropTypes.string,
-  isShowMore: PropTypes.boolean,
+  isShowMore: PropTypes.bool,
   name: PropTypes.string,
   queryParams: PropTypes.object,
   values: PropTypes.array

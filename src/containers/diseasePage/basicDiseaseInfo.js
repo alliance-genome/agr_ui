@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router';
+import PropTypes from 'prop-types';
 
 import CollapsibleList from '../../components/collapsibleList';
 import {
@@ -73,7 +74,7 @@ class BasicDiseaseInfo extends Component {
 }
 
 BasicDiseaseInfo.propTypes = {
-  disease: React.PropTypes.object,
+  disease: PropTypes.object,
 };
 
 export default BasicDiseaseInfo;

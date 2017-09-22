@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import style from './style.css';
 import SubMenu from './subMenu';
@@ -32,6 +33,6 @@ class NavLinksContainer extends Component {
   }
 }
 NavLinksContainer.propTypes={
-  type: React.PropTypes.string,
+  type: PropTypes.string,
 };
 export default NavLinksContainer;

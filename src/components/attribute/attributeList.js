@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class AttributeList extends Component {
 
@@ -26,7 +27,7 @@ AttributeList.defaultProps = {
 AttributeList.propTypes = {
   bsClassName: PropTypes.string,
   children: PropTypes.oneOfType([
-    PropTypes.arrayOf(React.PropTypes.node),
+    PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
   ]),
 };
