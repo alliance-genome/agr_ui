@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class AttributeValue extends Component {
 
@@ -22,7 +23,7 @@ AttributeValue.defaultProps = {
 
 AttributeValue.propTypes = {
   bsClassName: PropTypes.string,
-  children: PropTypes.element,  
+  children: PropTypes.element,
   style: PropTypes.object,
 };
 
