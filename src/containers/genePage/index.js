@@ -15,6 +15,7 @@ import NotFound from '../../components/notFound';
 import Subsection from '../../components/subsection';
 import HeadMetaTags from '../../components/headMetaTags';
 
+import GenomeFeatureViewer from './genomeFeatureViewer';
 // import TranscriptInlineViewer from './transcriptInlineViewer';
 
 class GenePage extends Component {
@@ -75,7 +76,15 @@ class GenePage extends Component {
         </Subsection>
 
         <Subsection hasData={typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'} title='Sequence Feature Viewer'>
-          <GenomeFeatureViewer />
+          <GenomeFeatureViewer
+            assembly={genomeLocation.assembly}
+            chromosome={genomeLocation.chromosome}
+            fmax={genomeLocation.end}
+            fmin={genomeLocation.start}
+            geneSymbol={this.props.data.symbol}
+            species={this.props.data.species}
+            strand={genomeLocation.strand}
+          />
           {/*<TranscriptInlineViewer*/}
             {/*assembly={genomeLocation.assembly}*/}
             {/*chromosome={genomeLocation.chromosome}*/}
