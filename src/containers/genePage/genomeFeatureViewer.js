@@ -102,12 +102,6 @@ class GenomeFeatureViewer extends Component {
               <li>
                 <a href={this.jbrowseUrl} rel='noopener noreferrer'
                    target='_blank' title='Browse Genome'>
-                  Component Goes Here
-                  {/*<GenomeFeatureComponent data={this.props.state.loadedData}*/}
-                  {/*height={this.props.data.height}*/}
-                  {/*id={this.props.data.id}*/}
-                  {/*width={this.props.data.width}*/}
-                  {/*/>*/}
                   {
                     this.state.isLoading
                       ? <LoadingPage/> :

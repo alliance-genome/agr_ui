@@ -11,10 +11,10 @@
     "url": "https://github.com/alliance-genome/agr_ui.git"
   },
   "dependencies": {
-    "genomefeaturecomponent": "^0.1.4",
     "d3": "^3.5.17",
     "extract-text-webpack-plugin": "^1.0.1",
     "gene-ontology-ribbon": "0.1.5",
+    "genomefeaturecomponent": "file:../GenomeFeatureComponent",
     "immutable": "^3.8.1",
     "react": "^15.3.2",
     "react-autosuggest": "^6.1.0",
