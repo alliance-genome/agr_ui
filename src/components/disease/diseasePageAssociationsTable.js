@@ -9,6 +9,7 @@ class DiseasePageAssociationsTable extends Component {
     this.state = {
       hideExtra: true
     };
+
     this.handleToggleExtra = this.handleToggleExtra.bind(this);
   }
 
@@ -22,7 +23,7 @@ class DiseasePageAssociationsTable extends Component {
 
     const columns = [
       {
-        field: 'diseaseName',
+        field: 'primaryKey',
         label: 'Disease Name',
         sortable: true,
       },
@@ -48,7 +49,16 @@ class DiseasePageAssociationsTable extends Component {
             Show addition information
           </label>
         </div>
-        <RemoteDataTable columns={columns} data={this.props.associations} />
+        <RemoteDataTable
+          columns={columns}
+          currentPage={this.props.currentPage}
+          data={this.props.associations}
+          dispatch={this.props.dispatch}
+          id={this.props.id}
+          perPageSize={this.props.perPageSize}
+          totalAssociations={this.props.totalAssociations}
+          totalPages={this.props.totalPages}
+        />
       </div>
     );
   }
@@ -56,7 +66,14 @@ class DiseasePageAssociationsTable extends Component {
 
 DiseasePageAssociationsTable.propTypes = {
   associations: PropTypes.arrayOf(PropTypes.object),
+  currentPage: PropTypes.number,
   disease: PropTypes.object,
+  dispatch: PropTypes.func,
+  id: PropTypes.string,
+  perPageSize: PropTypes.number,
+  totalAssociations: PropTypes.number,
+  totalPages: PropTypes.number,
+
 };
 
 export default DiseasePageAssociationsTable;

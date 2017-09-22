@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import {
   fetchDisease,
   fetchAssociations,
- /* setPerPageSize,
-  setCurrentPage,*/
+  //setPerPageSize,
+  //setCurrentPage,
 } from '../../actions/disease';
 
 import {
@@ -35,13 +35,13 @@ class DiseasePage extends Component {
     if (this.props.params.diseaseId !== prevProps.params.diseaseId) {
       this.props.dispatch(fetchDisease(this.props.params.diseaseId));
       this.props.dispatch(fetchAssociations(this.props.params.diseaseId));
+
     }
   }
 
   render() {
     const disease = this.props.data;
     const title = this.props.params.diseaseId;
-    const associations = this.props.associations;
 
     if (!disease) {
       return null;
@@ -60,7 +60,15 @@ class DiseasePage extends Component {
         </Subsection>
 
         <Subsection title='Associations'>
-          <DiseasePageAssociationsTable associations={associations} />
+          <DiseasePageAssociationsTable
+            associations={this.props.associations}
+            currentPage={this.props.currentPage}
+            dispatch={this.props.dispatch}
+            id={this.props.params.diseaseId}
+            perPageSize={this.props.perPageSize}
+            totalAssociations={this.props.totalAssociations}
+            totalPages={this.props.totalPages}
+          />
         </Subsection>
       </div>
     );
