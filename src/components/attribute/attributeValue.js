@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 class AttributeValue extends Component {
 
   render() {
-    const { style, children, bsClassName } = this.props;
+    const { style, children, bsClassName, placeholder } = this.props;
     return (
       <dd
         className={bsClassName}
         style={style}
       >
-        {children || <i className='text-muted'>Not Available</i>}
+        {children || <i className='text-muted'>{placeholder}</i>}
       </dd>
     );
   }
@@ -19,11 +19,13 @@ class AttributeValue extends Component {
 AttributeValue.defaultProps = {
   style: {},
   bsClassName: 'col-sm-9',
+  placeholder: 'Not Available',
 };
 
 AttributeValue.propTypes = {
   bsClassName: PropTypes.string,
   children: PropTypes.element,
+  placeholder: PropTypes.string,
   style: PropTypes.object,
 };
 

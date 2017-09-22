@@ -3,13 +3,17 @@ import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
 import CollapsibleList from '../../components/collapsibleList';
-import PrimaryAttributesList from '../../components/primaryAttributesList';
+import {
+  AttributeList,
+  AttributeLabel,
+  AttributeValue,
+} from '../../components/attribute';
 
 class BasicDiseaseInfo extends Component {
   renderTermList(terms) {
     const items = terms && terms
       .map(term => <Link key={term.primaryKey} to={`/disease/${term.primaryKey}`}>{term.name}</Link>);
-    return <CollapsibleList items={items} />;
+    return items && <CollapsibleList items={items} />;
   }
 
   renderCommaSeparatedList(items) {
@@ -36,38 +40,36 @@ class BasicDiseaseInfo extends Component {
     }).reduce((a, b) => [a, ', ', b]);
   }
 
+  renderDefinitionLinks(links) {
+    return links && links.map(link => <div key={link}><a href={link}>{link}</a></div>);
+  }
+
   render() {
     const { disease } = this.props;
-    const attributes = [
-      {
-        field: 'definition',
-      },
-      {
-        field: 'synonyms',
-        format: this.renderCommaSeparatedList,
-      },
-      {
-        field: 'crossReferences',
-        format: this.renderCrossReferenceList,
-        name: 'Cross References',
-      },
-      {
-        field: 'parents',
-        format: this.renderTermList,
-        name: 'Parent Terms',
-      },
-      {
-        field: 'children',
-        format: this.renderTermList,
-        name: 'Child Terms',
-      },
-      {
-        field: 'sourceList',
-        format: this.renderSourceList,
-        name: 'Sources of Associations',
-      }
-    ];
-    return <PrimaryAttributesList attributes={attributes} data={disease} />;
+    return (
+      <AttributeList bsClassName='col-xs-12'>
+        <AttributeLabel>Definition</AttributeLabel>
+        <AttributeValue>
+          {disease.definition}
+          {this.renderDefinitionLinks(disease.definitionLinks)}
+        </AttributeValue>
+
+        <AttributeLabel>Synonyms</AttributeLabel>
+        <AttributeValue>{this.renderCommaSeparatedList(disease.synonyms)}</AttributeValue>
+
+        <AttributeLabel>Cross References</AttributeLabel>
+        <AttributeValue>{this.renderCrossReferenceList(disease.crossReferences)}</AttributeValue>
+
+        <AttributeLabel>Parent Terms</AttributeLabel>
+        <AttributeValue placeholder='None'>{this.renderTermList(disease.parents)}</AttributeValue>
+
+        <AttributeLabel>Child Terms</AttributeLabel>
+        <AttributeValue placeholder='None'>{this.renderTermList(disease.children)}</AttributeValue>
+
+        <AttributeLabel>Sources of Associations</AttributeLabel>
+        <AttributeValue>{this.renderSourceList(disease.sourceList)}</AttributeValue>
+      </AttributeList>
+    );
   }
 }
 
