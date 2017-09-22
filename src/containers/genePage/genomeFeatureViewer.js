@@ -107,9 +107,9 @@ class GenomeFeatureViewer extends Component {
                       ? <LoadingPage/> :
                       <div>
                         <GenomeFeatureComponent data={this.state.loadedData}
-                          height={this.props.height}
-                          id={this.props.id}
-                          width={this.props.width}
+                                                height={this.props.height}
+                                                id={this.props.id}
+                                                width={this.props.width}
                         />
                       </div>
                   }
@@ -132,8 +132,11 @@ GenomeFeatureViewer.propTypes = {
   fmax: PropTypes.number,
   fmin: PropTypes.number,
   geneSymbol: PropTypes.string.isRequired,
+  height: PropTypes.string,
+  id: PropTypes.string,
   species: PropTypes.string.isRequired,
   strand: PropTypes.string,
+  width: PropTypes.string,
 };
 
 export default GenomeFeatureViewer;

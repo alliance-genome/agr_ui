@@ -82,18 +82,12 @@ class GenePage extends Component {
             fmax={genomeLocation.end}
             fmin={genomeLocation.start}
             geneSymbol={this.props.data.symbol}
+            height='200px'
+            id='genome-feature-location-id'
             species={this.props.data.species}
             strand={genomeLocation.strand}
+            width='600px'
           />
-          {/*<TranscriptInlineViewer*/}
-            {/*assembly={genomeLocation.assembly}*/}
-            {/*chromosome={genomeLocation.chromosome}*/}
-            {/*fmax={genomeLocation.end}*/}
-            {/*fmin={genomeLocation.start}*/}
-            {/*geneSymbol={this.props.data.symbol}*/}
-            {/*species={this.props.data.species}*/}
-            {/*strand={genomeLocation.strand}*/}
-          {/*/>*/}
         </Subsection>
 
         <Subsection title='Function – GO Annotations'>
