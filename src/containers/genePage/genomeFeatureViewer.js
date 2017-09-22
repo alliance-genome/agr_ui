@@ -14,8 +14,8 @@ class GenomeFeatureViewer extends Component {
     let defaultTrackName = 'All Genes';
     let locationString = this.props.chromosome + ':' + this.props.fmin + '..' + this.props.fmax;
 
-    // let apolloServerPrefix = 'http://demo.genomearchitect.org/Apollo-staging/';
-    let apolloServerPrefix = 'http://localhost:8080/apollo/';
+    let apolloServerPrefix = 'http://demo.genomearchitect.org/Apollo-staging/';
+    // let apolloServerPrefix = 'http://localhost:8080/apollo/';
 
 
     let trackDataPrefix = apolloServerPrefix + 'track/' + encodeURI(this.props.species) + '/' + defaultTrackName + '/' + encodeURI(locationString) + '.json';
