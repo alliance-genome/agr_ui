@@ -63,10 +63,10 @@ class GenomeFeature extends Component {
     let view_end = dataRange.fmax;
     console.log(view_start + ' , ' + view_end);
     // let utr_height = 20;
-    let exon_height = 20;
-    let cds_height = 40;
-    let isoform_height = 30 ;
-    let trans_height = 5;
+    let exon_height = 20; // will be white / transparent
+    let cds_height = 40; // will be colored in
+    let isoform_height = 60 ; // height for each isoform
+    let utr_height = 5; // this is the height of the isoform running all of the way through
     let line_width = 5;
     let arrow_width = 5;
 
@@ -106,7 +106,7 @@ class GenomeFeature extends Component {
           return x(d.fmin) - arrow_width;
         }
       })
-      .attr('y', 30 + trans_height / 2 - line_width / 2)
+      .attr('y', 30 + utr_height / 2 - line_width / 2)
       .attr('transform', function (d, i) {
         return 'translate(0,' + 30 * i + ')';
       })
@@ -120,7 +120,7 @@ class GenomeFeature extends Component {
       .attr('x', function (d) {
         return x(d.fmin);
       })
-      .attr('y', 30 + trans_height / 2 - line_width / 2)
+      .attr('y', 30 + utr_height / 2 - line_width / 2)
       .attr('transform', function (d, i) {
         return 'translate(0,' + 30 * i + ')';
       });
@@ -134,10 +134,10 @@ class GenomeFeature extends Component {
       .attr('points', points)
       .attr('transform', function (d, i) {
         if (d.strand > 0) {
-          return 'translate(' + Number(x(d.fmax) + 5) + ',' + Number(20 + trans_height - line_width + 30 * i) + ')';
+          return 'translate(' + Number(x(d.fmax) + 5) + ',' + Number(20 + utr_height - line_width + 30 * i) + ')';
         }
         else {
-          return 'translate(' + Number(x(d.fmin) - 5) + ',' + Number(30 + trans_height - line_width + 30 * i) + ') rotate(180)';
+          return 'translate(' + Number(x(d.fmin) - 5) + ',' + Number(30 + utr_height - line_width + 30 * i) + ') rotate(180)';
         }
       });
 
@@ -148,7 +148,7 @@ class GenomeFeature extends Component {
         .attr('x', x(data[i].fmin))
         .attr('y', isoform_height * i )
         .attr('transform', 'translate(0,' + 30 * i + ')')
-        .attr('height', trans_height)
+        .attr('height', utr_height)
         .attr('width', x(data[i].fmax) - x(data[i].fmin));
 
       //This is hacky... idk why this works right now but its needed to get to object level.
