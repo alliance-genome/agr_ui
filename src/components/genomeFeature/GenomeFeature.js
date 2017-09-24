@@ -62,7 +62,11 @@ class GenomeFeature extends Component {
     let view_start = dataRange.fmin;
     let view_end = dataRange.fmax;
     console.log(view_start + ' , ' + view_end);
-    let trans_height = 20;
+    // let utr_height = 20;
+    let exon_height = 20;
+    let cds_height = 40;
+    let isoform_height = 30 ;
+    let trans_height = 5;
     let line_width = 5;
     let arrow_width = 5;
 
@@ -139,18 +143,39 @@ class GenomeFeature extends Component {
 
 
     for (let i in data) {
+      viewer.append('rect')
+        .attr('class', data[i].type)
+        .attr('x', x(data[i].fmin))
+        .attr('y', isoform_height * i )
+        .attr('transform', 'translate(0,' + 30 * i + ')')
+        .attr('height', trans_height)
+        .attr('width', x(data[i].fmax) - x(data[i].fmin));
+
+      //This is hacky... idk why this works right now but its needed to get to object level.
       let exons = data[i].children;
       console.log(exons);
 
-      //This is hacky... idk why this works right now but its needed to get to object level.
       exons.forEach(function (item2) {
-        viewer.append('rect')
-          .attr('class', item2.type)
-          .attr('x', x(item2.fmin))
-          .attr('y', 30)
-          .attr('transform', 'translate(0,' + 30 * i + ')')
-          .attr('height', trans_height)
-          .attr('width', x(item2.fmax) - x(item2.fmin));
+        let type = item2.type ;
+        if(type=='exon'){
+          viewer.append('rect')
+            .attr('class', type)
+            .attr('x', x(item2.fmin))
+            .attr('y', isoform_height * i )
+            .attr('transform', 'translate(0,' + 30 * i + ')')
+            .attr('height', exon_height)
+            .attr('width', x(item2.fmax) - x(item2.fmin));
+        }
+        else
+        if(type=='CDS'){
+          viewer.append('rect')
+            .attr('class', type)
+            .attr('x', x(item2.fmin))
+            .attr('y', isoform_height * i )
+            .attr('transform', 'translate(0,' + 30 * i + ')')
+            .attr('height', cds_height)
+            .attr('width', x(item2.fmax) - x(item2.fmin));
+        }
       });
     }
 
