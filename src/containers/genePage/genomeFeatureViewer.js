@@ -3,7 +3,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import LoadingPage from '../../components/loadingPage';
-import GenomeFeatureComponent from '../../components/genomeFeature/GenomeFeature';
+import GenomeFeatureComponent from '../../components/genomeFeature/GenomeFeatureD3';
 
 
 class GenomeFeatureViewer extends Component {
