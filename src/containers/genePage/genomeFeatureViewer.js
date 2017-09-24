@@ -3,7 +3,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import LoadingPage from '../../components/loadingPage';
-import GenomeFeatureComponent from '../../components/genomeFeature/GenomeFeatureD3';
+import GenomeFeatureD3 from '../../components/genomeFeature/GenomeFeatureD3';
+// import GenomeFeaturePlotly from '../../components/genomeFeature/GenomeFeaturePlotly';
 
 
 class GenomeFeatureViewer extends Component {
@@ -23,7 +24,7 @@ class GenomeFeatureViewer extends Component {
 
     let geneSymbolUrl = '&lookupSymbol=' + this.props.geneSymbol;
     let externalJBrowsePrefix = process.env.JBROWSE_URL + '/jbrowse/index.html?data=data%2F' + encodeURI(this.props.species);
-    let externalJbrowseUrl = externalJBrowsePrefix + '&tracks=All%20Genes&highlight=' + geneSymbolUrl + '&loc='+encodeURI(locationString);
+    let externalJbrowseUrl = externalJBrowsePrefix + '&tracks=All%20Genes&highlight=' + geneSymbolUrl + '&loc=' + encodeURI(locationString);
 
 
     this.state = {
@@ -112,11 +113,17 @@ class GenomeFeatureViewer extends Component {
                     this.state.isLoading
                       ? <LoadingPage/> :
                       <div>
-                        <GenomeFeatureComponent data={this.state.loadedData}
-                                                height={this.props.height}
-                                                id={this.props.id}
-                                                width={this.props.width}
+                        <GenomeFeatureD3 data={this.state.loadedData}
+                                         height={this.props.height}
+                                         id={this.props.id}
+                                         width={this.props.width}
                         />
+                        {/*<hr/>*/}
+                        {/*<GenomeFeaturePlotly data={this.state.loadedData}*/}
+                                         {/*height={this.props.height}*/}
+                                         {/*id={this.props.id}*/}
+                                         {/*width={this.props.width}*/}
+                        {/*/>*/}
                       </div>
                   }
                 </a>

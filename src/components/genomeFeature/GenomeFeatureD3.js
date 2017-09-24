@@ -68,7 +68,8 @@ class GenomeFeatureD3 extends Component {
     let isoform_height = 60 ; // height for each isoform
     let utr_height = 5; // this is the height of the isoform running all of the way through
     let line_width = 5;
-    let arrow_width = 5;
+    // let arrow_width = 5;
+    let arrow_points = '0,0 0,10 5,5';
 
     let margin = {top: 20, right: 30, bottom: 30, left: 40},
       width = 960 - margin.left - margin.right,
@@ -88,42 +89,41 @@ class GenomeFeatureD3 extends Component {
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
 
-    let transcript = viewer.selectAll('g')
-      .data(data)
-      .enter()
-      .append('g')
-      .attr('class', 'container');
+    // let transcript = viewer.selectAll('g')
+    //   .data(data)
+    //   .enter()
+    //   .append('g')
+    //   .attr('class', 'container');
 
-    let points = '0,0 0,10 5,5';
 
-    transcript.append('rect')
-      .attr('class', 'transcript')
-      .attr('x', function (d) {
-        if (d.strand > 0) {
-          return x(d.fmin);
-        }
-        else {
-          return x(d.fmin) - arrow_width;
-        }
-      })
-      .attr('y', 30 + utr_height / 2 - line_width / 2)
-      .attr('transform', function (d, i) {
-        return 'translate(0,' + 30 * i + ')';
-      })
-      .attr('height', line_width)
-      .attr('width', function (d) {
-        return x(d.fmax) - x(d.fmin) + arrow_width;
-      })
-      .append('polygon')
-      .attr('class', 'trans_arrow')
-      .attr('points', points)
-      .attr('x', function (d) {
-        return x(d.fmin);
-      })
-      .attr('y', 30 + utr_height / 2 - line_width / 2)
-      .attr('transform', function (d, i) {
-        return 'translate(0,' + 30 * i + ')';
-      });
+    // transcript.append('rect')
+    //   .attr('class', 'transcript')
+    //   .attr('x', function (d) {
+    //     if (d.strand > 0) {
+    //       return x(d.fmin);
+    //     }
+    //     else {
+    //       return x(d.fmin) - arrow_width;
+    //     }
+    //   })
+    //   .attr('y', 30 + utr_height / 2 - line_width / 2)
+    //   .attr('transform', function (d, i) {
+    //     return 'translate(0,' + 30 * i + ')';
+    //   })
+    //   .attr('height', utr_height)
+    //   .attr('width', function (d) {
+    //     return x(d.fmax) - x(d.fmin) + arrow_width;
+    //   })
+    //   .append('polygon')
+    //   .attr('class', 'trans_arrow')
+    //   .attr('points', points)
+    //   .attr('x', function (d) {
+    //     return x(d.fmin);
+    //   })
+    //   .attr('y', 30 + utr_height / 2 - line_width / 2)
+    //   .attr('transform', function (d, i) {
+    //     return 'translate(0,' + 30 * i + ')';
+    //   });
 
 
     viewer.selectAll('container')
@@ -131,7 +131,7 @@ class GenomeFeatureD3 extends Component {
       .enter()
       .append('polygon')
       .attr('class', 'trans_arrow')
-      .attr('points', points)
+      .attr('points', arrow_points)
       .attr('transform', function (d, i) {
         if (d.strand > 0) {
           return 'translate(' + Number(x(d.fmax) + 5) + ',' + Number(20 + utr_height - line_width + 30 * i) + ')';
@@ -140,7 +140,6 @@ class GenomeFeatureD3 extends Component {
           return 'translate(' + Number(x(d.fmin) - 5) + ',' + Number(30 + utr_height - line_width + 30 * i) + ') rotate(180)';
         }
       });
-
 
     for (let i in data) {
       viewer.append('rect')

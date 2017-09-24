@@ -1,14 +1,19 @@
 import React, {Component, PropTypes} from 'react';
 // import './App.css'
-import {scaleLinear} from 'd3-scale';
-import {axisTop} from 'd3-axis';
-import {select} from 'd3-selection';
+import us from 'underscore';
+// import createPlotlyComponent from 'react-plotlyjs';
+// import Plotly from 'plotly.js/dist/plotly-cartesian';
+// const PlotlyComponent = createPlotlyComponent(Plotly);
+
 
 
 class GenomeFeaturePlotly extends Component {
 
+
   constructor(props) {
     super(props);
+    this.layout = {};
+    this.config = {};
   }
 
   componentDidMount() {
@@ -55,145 +60,126 @@ class GenomeFeaturePlotly extends Component {
 
   drawGenomeFeature() {
 
-    let testData = [{ 'strand': 1, 'children': [{'phase': 0, 'strand': 1, 'fmin': 204920, 'type': 'CDS', 'fmax': 205070}, { 'phase': 0, 'strand': 1, 'fmin': 222771, 'type': 'CDS', 'fmax': 222858 }, {'strand': 1, 'fmin': 222858, 'type': 'three_prime_UTR', 'fmax': 223005}, { 'strand': 1, 'fmin': 204920, 'type': 'exon', 'fmax': 205070 }, {'strand': 1, 'fmin': 222771, 'type': 'exon', 'fmax': 223005}], 'name': 'GB42165-RA', 'id': 'http://icebox.lbl.gov/Apollo-staging/track/Honeybee/Official Gene Set v3.2/Group1.1/GB42165-RA.json', 'fmin': 204920, 'type': 'mRNA', 'fmax': 223005 }, { 'strand': -1, 'children': [[{'phase': 0, 'strand': -1, 'fmin': 229546, 'type': 'CDS', 'fmax': 229565}, { 'phase': 2, 'strand': -1, 'fmin': 227354, 'type': 'CDS', 'fmax': 227568 }, {'phase': 1, 'strand': -1, 'fmin': 226993, 'type': 'CDS', 'fmax': 227269}, { 'phase': 1, 'strand': -1, 'fmin': 226643, 'type': 'CDS', 'fmax': 226926 }, {'phase': 0, 'strand': -1, 'fmin': 226442, 'type': 'CDS', 'fmax': 226564}, { 'phase': 1, 'strand': -1, 'fmin': 226132, 'type': 'CDS', 'fmax': 226359 }, {'phase': 2, 'strand': -1, 'fmin': 225990, 'type': 'CDS', 'fmax': 226060}, { 'phase': 1, 'strand': -1, 'fmin': 225857, 'type': 'CDS', 'fmax': 225913 }, {'phase': 2, 'strand': -1, 'fmin': 225685, 'type': 'CDS', 'fmax': 225772}, { 'phase': 2, 'strand': -1, 'fmin': 225387, 'type': 'CDS', 'fmax': 225577 }, {'phase': 1, 'strand': -1, 'fmin': 216954, 'type': 'CDS', 'fmax': 217046}, { 'phase': 2, 'strand': -1, 'fmin': 215398, 'type': 'CDS', 'fmax': 215433 }, {'phase': 0, 'strand': -1, 'fmin': 213731, 'type': 'CDS', 'fmax': 213905}, { 'strand': -1, 'fmin': 230453, 'type': 'five_prime_UTR', 'fmax': 230560 }, {'strand': -1, 'fmin': 229565, 'type': 'five_prime_UTR', 'fmax': 229635}, { 'strand': -1, 'fmin': 212881, 'type': 'three_prime_UTR', 'fmax': 213731 }, {'strand': -1, 'fmin': 212881, 'type': 'exon', 'fmax': 213905}, { 'strand': -1, 'fmin': 215398, 'type': 'exon', 'fmax': 215433 }, {'strand': -1, 'fmin': 216954, 'type': 'exon', 'fmax': 217046}, { 'strand': -1, 'fmin': 225387, 'type': 'exon', 'fmax': 225577 }, {'strand': -1, 'fmin': 225685, 'type': 'exon', 'fmax': 225772}, { 'strand': -1, 'fmin': 225857, 'type': 'exon', 'fmax': 225913 }, {'strand': -1, 'fmin': 225990, 'type': 'exon', 'fmax': 226060}, { 'strand': -1, 'fmin': 226132, 'type': 'exon', 'fmax': 226359 }, {'strand': -1, 'fmin': 226442, 'type': 'exon', 'fmax': 226564}, { 'strand': -1, 'fmin': 226643, 'type': 'exon', 'fmax': 226926 }, {'strand': -1, 'fmin': 226993, 'type': 'exon', 'fmax': 227269}, { 'strand': -1, 'fmin': 227354, 'type': 'exon', 'fmax': 227568 }, {'strand': -1, 'fmin': 229546, 'type': 'exon', 'fmax': 229635}, { 'strand': -1, 'fmin': 230453, 'type': 'exon', 'fmax': 230560 }]], 'name': 'GB42161-RA', 'id': 'http://demo.genomearchitect.org/Apollo2/track/Honeybee/Official Gene Set v3.2/Group1.1/GB42161-RA.json', 'fmin': 212881, 'type': 'mRNA', 'fmax': 230560 }];
-    let data = this.props.data ? this.props.data : testData;
-    let dataRange = this.findRange(data);
+    let testData = { 'name': 'pax6a-001', 'sequence-region': 'chr25', 'start': 14929945, 'end': 14954833, 'ordered-transcripts': [ { 'name': 'pax6a-001', 'start': 14932641, 'end': 14953319, 'type': '.', 'alias': 'ENSDART00000164384', 'data': [ [14932641, 14933678, '.'], [14932641, 14933592, '.'], [14933593, 14933678, '2'], [14933593, 14933595, '0'], [14935057, 14935198, '0'], [14935057, 14935198, '.'], [14935346, 14935458, '2'], [14935346, 14935458, '.'], [14935653, 14935803, '0'], [14935653, 14935803, '.'], [14937543, 14937625, '2'], [14937543, 14937625, '.'], [14938075, 14938233, '2'], [14938075, 14938233, '.'], [14942079, 14942244, '0'], [14942079, 14942244, '.'], [14942525, 14942740, '0'], [14942525, 14942740, '.'], [14942831, 14942872, '0'], [14942831, 14942872, '.'], [14943183, 14943313, '2'], [14943183, 14943313, '.'], [14946104, 14946157, '2'], [14946104, 14946157, '.'], [14948743, 14948755, '0'], [14948743, 14948892, '.'], [14948753, 14948755, '0'], [14948756, 14948892, 'x'], [14952968, 14953319, '.'], [14952968, 14953319, '.'] ] }, { 'name': 'pax6a-002', 'start': 14932641, 'end': 14953294, 'type': '.', 'alias': 'ENSDART00000162485', 'data': [ [14932641, 14933678, '.'], [14932641, 14933592, '.'], [14933593, 14933678, '2'], [14933593, 14933595, '0'], [14935057, 14935198, '0'], [14935057, 14935198, '.'], [14935346, 14935458, '2'], [14935346, 14935458, '.'], [14935653, 14935803, '0'], [14935653, 14935803, '.'], [14937543, 14937625, '2'], [14937543, 14937625, '.'], [14938075, 14938233, '2'], [14938075, 14938233, '.'], [14942079, 14942244, '0'], [14942079, 14942244, '.'], [14942525, 14942740, '0'], [14942525, 14942740, '.'], [14943183, 14943313, '2'], [14943183, 14943313, '.'], [14946104, 14946157, '2'], [14946104, 14946157, '.'], [14948743, 14948755, '0'], [14948743, 14948892, '.'], [14948753, 14948755, '0'], [14948756, 14948892, 'x'], [14952968, 14953294, '.'], [14952968, 14953294, '.'] ] }, { 'name': 'pax6a-005', 'start': 14933331, 'end': 14948963, 'type': '.', 'alias': 'ENSDART00000165774', 'data': [ [14933331, 14933678, '.'], [14933331, 14933592, '.'], [14933593, 14933678, '2'], [14933593, 14933595, '0'], [14935057, 14935198, '0'], [14935057, 14935198, '.'], [14935346, 14935458, '2'], [14935346, 14935458, '.'], [14935653, 14935803, '0'], [14935653, 14935803, '.'], [14937543, 14937625, '2'], [14937543, 14937625, '.'], [14938075, 14938233, '2'], [14938075, 14938233, '.'], [14942079, 14942244, '0'], [14942079, 14942244, '.'], [14942525, 14942740, '0'], [14942525, 14942740, '.'], [14942831, 14942872, '0'], [14942831, 14942872, '.'], [14943183, 14943313, '2'], [14943183, 14943313, '.'], [14945307, 14945330, '2'], [14945307, 14945330, '.'], [14946104, 14946116, '0'], [14946104, 14946157, '.'], [14946114, 14946116, '0'], [14946117, 14946157, 'x'], [14946384, 14946455, '.'], [14946384, 14946455, '.'], [14948743, 14948963, '.'], [14948743, 14948963, '.'] ] }, { 'name': 'pax6a-008', 'start': 14937556, 'end': 14944042, 'type': '.', 'alias': 'ENSDART00000166490', 'data': [ [14937556, 14937625, '2'], [14937556, 14937625, '.'], [14938075, 14938233, '2'], [14938075, 14938233, '.'], [14942079, 14942193, '0'], [14942079, 14942244, '.'], [14942191, 14942193, '0'], [14942194, 14942244, 'x'], [14942525, 14942740, '.'], [14942525, 14942740, '.'], [14943183, 14943313, '.'], [14943183, 14943313, '.'], [14943874, 14944042, '.'], [14943874, 14944042, '.'] ] }, { 'name': 'pax6a-009', 'start': 14937560, 'end': 14943969, 'type': '.', 'alias': 'ENSDART00000159342', 'data': [ [14937560, 14937625, '2'], [14937560, 14937625, '.'], [14938075, 14938233, '2'], [14938075, 14938233, '.'], [14942079, 14942193, '0'], [14942079, 14942244, '.'], [14942191, 14942193, '0'], [14942194, 14942244, 'x'], [14942525, 14942740, '.'], [14942525, 14942740, '.'], [14942831, 14942872, '.'], [14942831, 14942872, '.'], [14943183, 14943313, '.'], [14943183, 14943313, '.'], [14943874, 14943969, '.'], [14943874, 14943969, '.'] ] }, { 'name': 'pax6a-006', 'start': 14938127, 'end': 14948938, 'type': '.', 'alias': 'ENSDART00000161165', 'data': [ [14938127, 14938233, '2'], [14938127, 14938233, '.'], [14942079, 14942193, '0'], [14942079, 14942244, '.'], [14942191, 14942193, '0'], [14942194, 14942244, 'x'], [14942525, 14942740, '.'], [14942525, 14942740, '.'], [14942831, 14942872, '.'], [14942831, 14942872, '.'], [14943183, 14943313, '.'], [14943183, 14943313, '.'], [14945307, 14945328, '.'], [14945307, 14945328, '.'], [14946104, 14946157, '.'], [14946104, 14946157, '.'], [14946384, 14946455, '.'], [14946384, 14946455, '.'], [14948743, 14948938, '.'], [14948743, 14948938, '.'] ] }, { 'name': 'pax6a-007', 'start': 14942525, 'end': 14949040, 'type': '.', 'alias': 'ENSDART00000172538', 'data': [ [14942525, 14942740, '0'], [14942525, 14942740, '.'], [14943183, 14943313, '2'], [14943183, 14943313, '.'], [14946104, 14946157, '2'], [14946104, 14946157, '.'], [14948743, 14948755, '0'], [14948743, 14949040, '.'], [14948753, 14948755, '0'], [14948756, 14949040, 'x'] ] }, { 'name': 'pax6a-003', 'start': 14942663, 'end': 14953349, 'type': '.', 'alias': 'ENSDART00000165632', 'data': [ [14942663, 14942740, '0'], [14942663, 14942740, '.'], [14942831, 14942872, '0'], [14942831, 14942872, '.'], [14943183, 14943313, '2'], [14943183, 14943313, '.'], [14945307, 14945330, '2'], [14945307, 14945330, '.'], [14946104, 14946116, '0'], [14946104, 14946157, '.'], [14946114, 14946116, '0'], [14946117, 14946157, 'x'], [14946384, 14946455, '.'], [14946384, 14946455, '.'], [14948743, 14948892, '.'], [14948743, 14948892, '.'], [14952968, 14953349, '.'], [14952968, 14953349, '.'] ] }, { 'name': 'pax6a-010', 'start': 14943094, 'end': 14943959, 'type': '.', 'alias': 'ENSDART00000169876', 'data': [ [14943094, 14943313, '.'], [14943874, 14943959, '.'] ] }, { 'name': 'pax6a-004', 'start': 14943299, 'end': 14953381, 'type': '.', 'alias': 'ENSDART00000159490', 'data': [ [14943299, 14943313, '2'], [14943299, 14943313, '.'], [14945307, 14945330, '2'], [14945307, 14945330, '.'], [14946104, 14946116, '0'], [14946104, 14946157, '.'], [14946114, 14946116, '0'], [14946117, 14946157, 'x'], [14946384, 14946455, '.'], [14946384, 14946455, '.'], [14948743, 14948892, '.'], [14948743, 14948892, '.'], [14949039, 14949169, '.'], [14949039, 14949169, '.'], [14952968, 14953381, '.'], [14952968, 14953381, '.'] ] } ] };
 
-    let view_start = dataRange.fmin;
-    let view_end = dataRange.fmax;
-    console.log(view_start + ' , ' + view_end);
-    // let utr_height = 20;
-    let exon_height = 20; // will be white / transparent
-    let cds_height = 40; // will be colored in
-    let isoform_height = 60 ; // height for each isoform
-    let utr_height = 5; // this is the height of the isoform running all of the way through
-    let line_width = 5;
-    let arrow_width = 5;
+    // let data = this.props.data ? this.props.data : testData ;
+    let data = testData;
+    let offset = 10;
+    let text_offset = 4;
 
-    let margin = {top: 20, right: 30, bottom: 30, left: 40},
-      width = 960 - margin.left - margin.right,
-      height = 500 - margin.top - margin.bottom;
+    // Raw base data lines.
+    let traces = [];
 
-    let x = scaleLinear()
-      .domain([view_start, view_end])
-      .range([0, width]);
+    // Raw base data lines.
+    let text_traces = {
+      // Put labels in 10%.
+      x: [],
+      y: [],
+      text: [],
+      //label: 'Labels',
+      showlegend: false,
+      mode: 'text'
+    };
 
-    let xAxis = axisTop(x)
-      .ticks(20, 's');
+    // Glyphs to appear on data lines.
+    let shapes = [];
 
-    let viewer = select('#' + this.props.id)
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
-      .append('g')
-      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+    us.each(data['ordered-transcripts'], function(transcript, index){
 
+      // Give us the right y-offset for the data.
+      let yoff = (data['ordered-transcripts'].length - index) * offset;
 
-    let transcript = viewer.selectAll('g')
-      .data(data)
-      .enter()
-      .append('g')
-      .attr('class', 'container');
-
-    let points = '0,0 0,10 5,5';
-
-    transcript.append('rect')
-      .attr('class', 'transcript')
-      .attr('x', function (d) {
-        if (d.strand > 0) {
-          return x(d.fmin);
+      // Add transcript line to the plot.
+      let main_line = {
+        type: 'line',
+        xref: 'x',
+        yref: 'y',
+        x0: transcript['start'],
+        y0: yoff,
+        x1: transcript['end'],
+        y1: yoff,
+        line: {
+          color: 'rgb(55, 128, 191)',
+          width: 3
         }
-        else {
-          return x(d.fmin) - arrow_width;
+      };
+      shapes.push(main_line);
+
+      // Add the (hopefully anonymous) segements to the trace.
+      let toggle = false;
+      us.each(transcript['data'], function(d){
+
+        let a = d[0];
+        let b = d[1];
+        let t = d[2];
+
+        // Flip.
+        if( t === 'x' ){
+          toggle = true;
         }
-      })
-      .attr('y', 30 + utr_height / 2 - line_width / 2)
-      .attr('transform', function (d, i) {
-        return 'translate(0,' + 30 * i + ')';
-      })
-      .attr('height', line_width)
-      .attr('width', function (d) {
-        return x(d.fmax) - x(d.fmin) + arrow_width;
-      })
-      .append('polygon')
-      .attr('class', 'trans_arrow')
-      .attr('points', points)
-      .attr('x', function (d) {
-        return x(d.fmin);
-      })
-      .attr('y', 30 + utr_height / 2 - line_width / 2)
-      .attr('transform', function (d, i) {
-        return 'translate(0,' + 30 * i + ')';
+
+        // Get a better shape.
+        let seg_line = {
+          type: 'rect',
+          x0: a,
+          y0: yoff + 2,
+          x1: b,
+          y1: yoff - 2,
+          line: {
+            color: 'rgb(55, 128, 191)',
+            width: 1
+          }
+        };
+        if( ! toggle ){
+          seg_line['fillcolor'] = 'rgba(55, 128, 191, 1.0)';
+        }else{
+          seg_line['fillcolor'] = 'rgba(255, 255, 255, 1.0)';
+        }
+        shapes.push(seg_line);
       });
 
+      // Put labels in 10%.
+      text_traces['x'].push(transcript['start']);
+      text_traces['y'].push(yoff + text_offset);
+      // Add text description to the trace.
+      text_traces['text'].push(transcript['name']);
 
-    viewer.selectAll('container')
-      .data(data)
-      .enter()
-      .append('polygon')
-      .attr('class', 'trans_arrow')
-      .attr('points', points)
-      .attr('transform', function (d, i) {
-        if (d.strand > 0) {
-          return 'translate(' + Number(x(d.fmax) + 5) + ',' + Number(20 + utr_height - line_width + 30 * i) + ')';
-        }
-        else {
-          return 'translate(' + Number(x(d.fmin) - 5) + ',' + Number(30 + utr_height - line_width + 30 * i) + ') rotate(180)';
-        }
-      });
+    });
 
+    // Put it all together into final bundle for rendering.
+    traces.push(text_traces);
 
-    for (let i in data) {
-      viewer.append('rect')
-        .attr('class', data[i].type)
-        .attr('x', x(data[i].fmin))
-        .attr('y', isoform_height * i )
-        .attr('transform', 'translate(0,' + 30 * i + ')')
-        .attr('height', utr_height)
-        .attr('width', x(data[i].fmax) - x(data[i].fmin));
+    this.layout = {
+      title: data['name'] + ' / ' + data['sequence-region'],
+      xaxis: {
+        range: [data['start'], data['end']],
+        zeroline: false,
+        side: 'top',
+        gridcolor: '#ccc',
+        zerolinecolor: '#fff'
+      },
+      yaxis: {
+        range: [0, (data['ordered-transcripts'].length * (offset + 1))],
+        showgrid: false,
+        showticklabels: false,
+      },
+      // width: 800,
+      // height: 600,
+      hovermode: false,
+      shapes: shapes
+    };
 
-      //This is hacky... idk why this works right now but its needed to get to object level.
-      let exons = data[i].children;
-      console.log(exons);
+    this.config = {
+      showLink: false,
+      displayModeBar: true
+    };
 
-      exons.forEach(function (item2) {
-        let type = item2.type ;
-        if(type=='exon'){
-          viewer.append('rect')
-            .attr('class', type)
-            .attr('x', x(item2.fmin))
-            .attr('y', isoform_height * i )
-            .attr('transform', 'translate(0,' + 30 * i + ')')
-            .attr('height', exon_height)
-            .attr('width', x(item2.fmax) - x(item2.fmin));
-        }
-        else
-        if(type=='CDS'){
-          viewer.append('rect')
-            .attr('class', type)
-            .attr('x', x(item2.fmin))
-            .attr('y', isoform_height * i )
-            .attr('transform', 'translate(0,' + 30 * i + ')')
-            .attr('height', cds_height)
-            .attr('width', x(item2.fmax) - x(item2.fmin));
-        }
-      });
-    }
-
-
-    viewer.append('g')
-      .attr('class', 'axis')
-      .attr('width', width)
-      .attr('height', 20)
-      .attr('transform', 'translate(0,20)')
-      .call(xAxis);
+    // Plotly.newPlot(this.props.id, traces, layout);
   }
 
   render() {
     return (
-      <div>
-        <svg id={this.props.id} className='viewer' height={this.props.height} width={this.props.width}
-             data={this.props.data}/>
-      </div>
+        <PlotlyComponent className="viewer" data={this.props.data} layout={this.layout} config={this.config}/>
     );
   }
 }
