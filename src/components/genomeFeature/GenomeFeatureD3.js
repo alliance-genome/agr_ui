@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 // import './App.css'
+import style from '../style.css';
 import {scaleLinear} from 'd3-scale';
 import {axisTop} from 'd3-axis';
 import {select} from 'd3-selection';
@@ -141,46 +142,72 @@ class GenomeFeatureD3 extends Component {
         }
       });
 
+    let isoform_count = 0 ;
     for (let i in data) {
-      viewer.append('rect')
-        .attr('class', data[i].type)
-        .attr('x', x(data[i].fmin))
-        .attr('y', isoform_height * i )
-        .attr('transform', 'translate(0,' + 30 * i + ')')
-        .attr('height', utr_height)
-        .attr('width', x(data[i].fmax) - x(data[i].fmin));
 
       //This is hacky... idk why this works right now but its needed to get to object level.
-      let exons = data[i].children;
-      console.log(exons);
+      let feature = data[i];
+      let featureChildren = feature.children;
+      console.log('featureChildren');
+      console.log(featureChildren);
 
-      exons.forEach(function (item2) {
-        let type = item2.type ;
-        if(type=='exon'){
+      featureChildren.forEach(function (featureChild) {
+        let featureType = featureChild.type ;
+        console.log('feature type: '+ featureType);
+        if(featureType=='mRNA'){
+          isoform_count += 1;
+
           viewer.append('rect')
-            .attr('class', type)
-            .attr('x', x(item2.fmin))
+            .attr('class', style.UTR)
+            .attr('x', x(feature.fmin))
             .attr('y', isoform_height * i )
             .attr('transform', 'translate(0,' + 30 * i + ')')
-            .attr('height', exon_height)
-            .attr('width', x(item2.fmax) - x(item2.fmin));
-        }
-        else
-        if(type=='CDS'){
-          viewer.append('rect')
-            .attr('class', type)
-            .attr('x', x(item2.fmin))
-            .attr('y', isoform_height * i )
-            .attr('transform', 'translate(0,' + 30 * i + ')')
-            .attr('height', cds_height)
-            .attr('width', x(item2.fmax) - x(item2.fmin));
+            .attr('height', utr_height)
+            .attr('width', x(feature.fmax) - x(feature.fmin));
+
+          viewer.append('text')
+            // .attr('class', style.genomeLabel)
+            .attr('x',  20 )
+            .attr('y',  20 )
+            .attr('font-family','sans-serif')
+            .attr('font-size','20px')
+            .attr('fill','red')
+            .attr('color','pink');
+            // .attr('text', 'bob' );
+          // .attr('transform', 'translate(0,' + 30 * i + ')')
+            // .attr('transform', 'translate(0,' + 30 * i + ')')
+            // .attr('height', utr_height)
+            // .attr('width', x(feature.fmax) - x(feature.fmin));
+
+          featureChild.children.forEach(function(innerChild){
+            let innerType = innerChild.type ;
+            if(innerType=='exon'){
+              viewer.append('rect')
+                .attr('class', style.exon)
+                .attr('x', x(innerChild.fmin))
+                .attr('y', isoform_height * isoform_count )
+                .attr('transform', 'translate(0,' + 30 * i + ')')
+                .attr('height', exon_height)
+                .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
+            }
+            else
+            if(innerType=='CDS'){
+              viewer.append('rect')
+                .attr('class', style.CDS)
+                .attr('x', x(innerChild.fmin))
+                .attr('y', isoform_height * isoform_count )
+                .attr('transform', 'translate(0,' + 30 * i + ')')
+                .attr('height', cds_height)
+                .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
+            }
+          });
         }
       });
     }
 
 
     viewer.append('g')
-      .attr('class', 'axis')
+      .attr('class', style.axis)
       .attr('width', width)
       .attr('height', 20)
       .attr('transform', 'translate(0,20)')
@@ -190,7 +217,7 @@ class GenomeFeatureD3 extends Component {
   render() {
     return (
       <div>
-        <svg id={this.props.id} className='viewer' height={this.props.height} width={this.props.width}
+        <svg id={this.props.id} className={style.viewer} height={this.props.height} width={this.props.width}
              data={this.props.data}/>
       </div>
     );
