@@ -160,7 +160,7 @@ class GenomeFeature extends Component {
             .attr('class', style.transcriptLabel)
             .attr('x', x(feature.fmin) + 30)
             .attr('y', isoform_height * isoform_count + isoform_title_height)
-            .attr('fill', selected ? 'orange' : 'gray')
+            .attr('fill', selected ? 'sandybrown' : 'gray')
             .attr('opacity', selected ? 1 : 0.5)
             .attr('height', isoform_title_height)
             .text(featureChild.name);
