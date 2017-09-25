@@ -91,21 +91,14 @@ class GenomeFeatureViewer extends Component {
               <dd className='col-sm-9'><a href={this.jbrowseUrl}
                                           rel='noopener noreferrer' target='_blank'>
                 Chr{this.props.chromosome}:{this.props.fmin}...{this.props.fmax} {this.props.assembly} {this.props.strand} </a>
+                &nbsp;
+                <a href={this.trackDataUrl}>[json]</a>
               </dd>
             </dl>
           </div>
         </div>
         <div className='row'>
           <div className='col-xs-12'>
-            <ul>
-
-              <li>
-                <a href={this.trackDataUrl}>{this.trackDataUrl}</a>
-              </li>
-              <li>
-                <a href={this.jbrowseUrl}>{this.jbrowseUrl}</a>
-              </li>
-            </ul>
             <a href={this.jbrowseUrl} rel='noopener noreferrer'
                target='_blank' title='Browse Genome'>
               {
