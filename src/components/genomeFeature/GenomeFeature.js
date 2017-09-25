@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-// import './App.css'
 import style from '../style.css';
 import {scaleLinear} from 'd3-scale';
 import {axisTop} from 'd3-axis';
