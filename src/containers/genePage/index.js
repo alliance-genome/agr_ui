@@ -16,7 +16,6 @@ import Subsection from '../../components/subsection';
 import HeadMetaTags from '../../components/headMetaTags';
 
 import GenomeFeatureViewer from './genomeFeatureViewer';
-// import TranscriptInlineViewer from './transcriptInlineViewer';
 
 class GenePage extends Component {
 
