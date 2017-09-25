@@ -5,6 +5,8 @@ WORKDIR /workdir/agr_ui
 EXPOSE 2992
 
 ADD . .
-RUN make 
+RUN npm install
+RUN npm run build
+RUN npm test
 
-CMD make docker-run-command
+CMD npm run start-docker
