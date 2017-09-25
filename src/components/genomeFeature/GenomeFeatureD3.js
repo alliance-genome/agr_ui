@@ -86,11 +86,15 @@ class GenomeFeatureD3 extends Component {
     // let utr_height = 20;
     let exon_height = 20; // will be white / transparent
     let cds_height = 40; // will be colored in
-    let isoform_height = 60; // height for each isoform
+    let isoform_height = 80; // height for each isoform
+    let isoform_view_height = 50; // height for each isoform
+    let isoform_title_height = 10; // height for each isoform
+    let gene_title_height = 20; // height for each isoform
     let utr_height = 5; // this is the height of the isoform running all of the way through
-    let line_width = 5;
     // let arrow_width = 5;
-    let arrow_points = '0,0 0,10 5,5';
+    let arrow_height  = 10 ;
+    let arrow_width = 5 ;
+    let arrow_points = '0,0 0,'+arrow_height+' '+arrow_width +','+arrow_width;
     let buffer_top = 50;
 
     let calculatedHeight = this.props.height;
@@ -131,7 +135,8 @@ class GenomeFeatureD3 extends Component {
       viewer.append('text')
         .attr('class', style.geneLabel)
         .attr('x', x(feature.fmin) + 300)
-        .attr('y', isoform_height * isoform_count + 50)
+        .attr('y', (isoform_height * isoform_count) + buffer_top + gene_title_height)
+        .attr('height', gene_title_height)
         .attr('dy', '.35em')
         .attr('fill', 'gray')
         .text(feature.name);
@@ -147,18 +152,18 @@ class GenomeFeatureD3 extends Component {
             .attr('points', arrow_points)
             .attr('transform', function () {
               if (feature.strand > 0) {
-                return 'translate(' + Number(x(feature.fmax) + 5) + ',' + Number(20 + utr_height - line_width + isoform_height * isoform_count) + ')';
+                return 'translate(' + Number(x(feature.fmax) ) + ',' + Number( (isoform_view_height / 2.0) - (arrow_height/2.0) + (isoform_height * isoform_count) + isoform_title_height) + ')';
               }
               else {
-                return 'translate(' + Number(x(feature.fmin) - 5) + ',' + Number(30 + utr_height - line_width + isoform_height * isoform_count) + ') rotate(180)';
+                return 'translate(' + Number(x(feature.fmin) ) + ',' + Number((isoform_view_height / 2.0) + (arrow_height/2.0) + (isoform_height * isoform_count) + isoform_title_height) + ') rotate(180)';
               }
             });
 
           viewer.append('rect')
             .attr('class', style.UTR)
             .attr('x', x(feature.fmin))
-            .attr('y', isoform_height * isoform_count)
-            // .attr('transform', 'translate(0,' + 30 * i + ')')
+            .attr('y', isoform_height * isoform_count + isoform_title_height)
+            .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (utr_height / 2.0)) + ')')
             .attr('height', utr_height)
             .attr('width', x(feature.fmax) - x(feature.fmin));
 
@@ -166,6 +171,7 @@ class GenomeFeatureD3 extends Component {
             .attr('class', style.transcriptLabel)
             .attr('x', x(feature.fmin) + 30)
             .attr('y', isoform_height * isoform_count)
+            .attr('height', isoform_title_height)
             .attr('dy', '.35em')
             .text(featureChild.name);
 
@@ -176,8 +182,8 @@ class GenomeFeatureD3 extends Component {
               viewer.append('rect')
                 .attr('class', style.exon)
                 .attr('x', x(innerChild.fmin))
-                .attr('y', isoform_height * isoform_count)
-                // .attr('transform', 'translate(0,' + isoform_height * isoform_count + ')')
+                .attr('y', isoform_height * isoform_count + isoform_title_height)
+                .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (exon_height / 2.0)) + ')')
                 .attr('height', exon_height)
                 .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
             }
@@ -185,8 +191,8 @@ class GenomeFeatureD3 extends Component {
               viewer.append('rect')
                 .attr('class', style.CDS)
                 .attr('x', x(innerChild.fmin))
-                .attr('y', isoform_height * isoform_count)
-                // .attr('transform', 'translate(0,' + isoform_height * isoform_count + ')')
+                .attr('y', isoform_height * isoform_count + isoform_title_height)
+                .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (cds_height / 2.0)) + ')')
                 .attr('height', cds_height)
                 .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
             }
