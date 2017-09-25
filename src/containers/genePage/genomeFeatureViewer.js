@@ -20,7 +20,7 @@ class GenomeFeatureViewer extends Component {
 
     let trackDataPrefix = apolloServerPrefix + 'track/' + encodeURI(this.props.species) + '/' + defaultTrackName + '/' + encodeURI(locationString) + '.json';
     let trackDataWithHighlight = trackDataPrefix + '?name=' + this.props.geneSymbol;
-    trackDataWithHighlight += '&ignoreCache=true';
+    // trackDataWithHighlight += '&ignoreCache=true';
 
     let geneSymbolUrl = '&lookupSymbol=' + this.props.geneSymbol;
     let externalJBrowsePrefix = process.env.JBROWSE_URL + '/jbrowse/index.html?data=data%2F' + encodeURI(this.props.species);
@@ -89,9 +89,10 @@ class GenomeFeatureViewer extends Component {
                   ? <LoadingPage/> :
                   <div>
                     <GenomeFeature data={this.state.loadedData}
-                                     height={this.props.height}
-                                     id={this.props.id}
-                                     width={this.props.width}
+                                   height={this.props.height}
+                                   id={this.props.id}
+                                   url={this.externalJBrowseUrl}
+                                   width={this.props.width}
                     />
                   </div>
               }

@@ -11,7 +11,7 @@ class GenomeFeature extends Component {
 
   constructor(props) {
     super(props);
-    this.MAX_ISOFORMS = 10 ;
+    this.MAX_ISOFORMS = 10;
   }
 
   componentDidMount() {
@@ -30,7 +30,6 @@ class GenomeFeature extends Component {
 
     if (ids.length > 0) {
       for (let i in ids) {
-        console.log(typeof  ids[i]);
         if (typeof ids[i] == 'object') {
           rootElement.removeChild(ids[i]);
         }
@@ -62,7 +61,6 @@ class GenomeFeature extends Component {
   countIsoforms(data) {
 
     let isoform_count = 0;
-    console.log('count siforms: ' + data);
     // gene level
     for (let i in data) {
       let feature = data[i];
@@ -93,11 +91,16 @@ class GenomeFeature extends Component {
     let arrow_width = 10;
     let arrow_points = '0,0 0,' + arrow_height + ' ' + arrow_width + ',' + arrow_width;
 
+
     let calculatedHeight = this.props.height;
     if (!this.props.isLoading) {
       let numberIsoforms = this.countIsoforms(this.props.data);
-      numberIsoforms = numberIsoforms > this.MAX_ISOFORMS ? this.MAX_ISOFORMS : numberIsoforms;
-      calculatedHeight = (numberIsoforms+1) * isoform_height;
+      if (numberIsoforms > this.MAX_ISOFORMS) {
+        calculatedHeight = (this.MAX_ISOFORMS + 2) * isoform_height;
+      }
+      else {
+        calculatedHeight = (numberIsoforms + 1) * isoform_height;
+      }
     }
 
     let margin = {top: 8, right: 30, bottom: 30, left: 40},
@@ -108,7 +111,7 @@ class GenomeFeature extends Component {
       .domain([view_start, view_end])
       .range([0, width]);
 
-    let tickFormat = x.tickFormat(5,'.2s');
+    let tickFormat = x.tickFormat(5, '.2s');
 
     let xAxis = axisTop(x)
       .ticks(10, 's')
@@ -131,75 +134,92 @@ class GenomeFeature extends Component {
       let selected = feature.selected;
 
       let maxIsoforms = this.MAX_ISOFORMS;
+      let externalUrl = this.props.url;
       featureChildren.forEach(function (featureChild) {
         let featureType = featureChild.type;
-        if (featureType == 'mRNA' && isoform_count < maxIsoforms) {
-          isoform_count += 1;
+        if (featureType == 'mRNA') {
+          if (isoform_count < maxIsoforms) {
+            isoform_count += 1;
 
-          viewer.append('polygon')
-            .attr('class', 'trans_arrow')
-            .attr('points', arrow_points)
-            .attr('transform', function () {
-              if (feature.strand > 0) {
-                return 'translate(' + Number(x(feature.fmax)) + ',' + Number((isoform_view_height / 2.0) - (arrow_height / 2.0) + (isoform_height * isoform_count) + isoform_title_height) + ')';
+            viewer.append('polygon')
+              .attr('class', 'trans_arrow')
+              .attr('points', arrow_points)
+              .attr('transform', function () {
+                if (feature.strand > 0) {
+                  return 'translate(' + Number(x(feature.fmax)) + ',' + Number((isoform_view_height / 2.0) - (arrow_height / 2.0) + (isoform_height * isoform_count) + isoform_title_height) + ')';
+                }
+                else {
+                  return 'translate(' + Number(x(feature.fmin)) + ',' + Number((isoform_view_height / 2.0) + (arrow_height / 2.0) + (isoform_height * isoform_count) + isoform_title_height) + ') rotate(180)';
+                }
+              });
+
+            viewer.append('rect')
+              .attr('class', style.UTR)
+              .attr('x', x(feature.fmin))
+              .attr('y', isoform_height * isoform_count + isoform_title_height)
+              .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (utr_height / 2.0)) + ')')
+              .attr('height', utr_height)
+              .attr('width', x(feature.fmax) - x(feature.fmin));
+
+            viewer.append('text')
+              .attr('class', style.transcriptLabel)
+              .attr('x', x(feature.fmin) + 30)
+              .attr('y', isoform_height * isoform_count + isoform_title_height)
+              .attr('fill', selected ? 'sandybrown' : 'gray')
+              .attr('opacity', selected ? 1 : 0.5)
+              .attr('height', isoform_title_height)
+              .text(featureChild.name);
+
+            featureChild.children = featureChild.children.sort(function (a, b) {
+              if (a.type == 'exon' && b.type != 'exon') {
+                return -1;
+              }
+              else if (a.type == 'CDS' && b.type != 'CDS') {
+                return 1;
               }
               else {
-                return 'translate(' + Number(x(feature.fmin)) + ',' + Number((isoform_view_height / 2.0) + (arrow_height / 2.0) + (isoform_height * isoform_count) + isoform_title_height) + ') rotate(180)';
+                return a - b;
               }
             });
 
-          viewer.append('rect')
-            .attr('class', style.UTR)
-            .attr('x', x(feature.fmin))
-            .attr('y', isoform_height * isoform_count + isoform_title_height)
-            .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (utr_height / 2.0)) + ')')
-            .attr('height', utr_height)
-            .attr('width', x(feature.fmax) - x(feature.fmin));
-
-          viewer.append('text')
-            .attr('class', style.transcriptLabel)
-            .attr('x', x(feature.fmin) + 30)
-            .attr('y', isoform_height * isoform_count + isoform_title_height)
-            .attr('fill', selected ? 'sandybrown' : 'gray')
-            .attr('opacity', selected ? 1 : 0.5)
-            .attr('height', isoform_title_height)
-            .text(featureChild.name);
-
-          featureChild.children = featureChild.children.sort(function (a, b) {
-            if (a.type == 'exon' && b.type != 'exon') {
-              return -1;
-            }
-            else if (a.type == 'CDS' && b.type != 'CDS') {
-              return 1;
-            }
-            else {
-              return a - b;
-            }
-          });
-
-          featureChild.children.forEach(function (innerChild) {
-            let innerType = innerChild.type;
-            if (innerType == 'exon') {
-              viewer.append('rect')
-                .attr('class', style.exon)
-                .attr('x', x(innerChild.fmin))
-                .attr('y', isoform_height * isoform_count + isoform_title_height)
-                .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (exon_height / 2.0)) + ')')
-                .attr('height', exon_height)
-                .attr('z-index', 10)
-                .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
-            }
-            else if (innerType == 'CDS') {
-              viewer.append('rect')
-                .attr('class', style.CDS)
-                .attr('x', x(innerChild.fmin))
-                .attr('y', isoform_height * isoform_count + isoform_title_height)
-                .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (cds_height / 2.0)) + ')')
-                .attr('z-index', 20)
-                .attr('height', cds_height)
-                .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
-            }
-          });
+            featureChild.children.forEach(function (innerChild) {
+              let innerType = innerChild.type;
+              if (innerType == 'exon') {
+                viewer.append('rect')
+                  .attr('class', style.exon)
+                  .attr('x', x(innerChild.fmin))
+                  .attr('y', isoform_height * isoform_count + isoform_title_height)
+                  .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (exon_height / 2.0)) + ')')
+                  .attr('height', exon_height)
+                  .attr('z-index', 10)
+                  .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
+              }
+              else if (innerType == 'CDS') {
+                viewer.append('rect')
+                  .attr('class', style.CDS)
+                  .attr('x', x(innerChild.fmin))
+                  .attr('y', isoform_height * isoform_count + isoform_title_height)
+                  .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (cds_height / 2.0)) + ')')
+                  .attr('z-index', 20)
+                  .attr('height', cds_height)
+                  .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
+              }
+            });
+          }
+          else if (isoform_count == maxIsoforms) {
+            ++isoform_count;
+            viewer.append('a')
+              .attr('class', style.transcriptLabel)
+              .attr('xlink:href', externalUrl)
+              .attr('xlink:show', 'new')
+              .append('text')
+              .attr('x', x(feature.fmin) + 30)
+              .attr('y', isoform_height * isoform_count + isoform_title_height)
+              .attr('fill', 'red')
+              .attr('opacity', 1 )
+              .attr('height', isoform_title_height)
+              .text('Maximum features displayed.  See full view for more.');
+          }
         }
       });
     }
@@ -215,8 +235,7 @@ class GenomeFeature extends Component {
   render() {
     return (
       <div>
-        <svg id={this.props.id} className={style.viewer} height={this.props.height} width={this.props.width}
-             data={this.props.data}/>
+        <svg id={this.props.id} className={style.viewer} height={this.props.height} width={this.props.width} />
       </div>
     );
   }
@@ -225,8 +244,9 @@ class GenomeFeature extends Component {
 GenomeFeature.propTypes = {
   data: PropTypes.array.isRequired,
   height: PropTypes.string,
-  width: PropTypes.string,
   id: PropTypes.string,
+  url: PropTypes.string,
+  width: PropTypes.string,
 };
 
 export default GenomeFeature;
