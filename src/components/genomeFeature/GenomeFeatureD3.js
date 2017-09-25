@@ -3,14 +3,15 @@ import React, {Component, PropTypes} from 'react';
 import style from '../style.css';
 import {scaleLinear} from 'd3-scale';
 import {axisTop} from 'd3-axis';
-import {d3Format} from 'd3-format';
 import {select} from 'd3-selection';
 
 
 class GenomeFeatureD3 extends Component {
 
+
   constructor(props) {
     super(props);
+    this.MAX_ISOFORMS = 10 ;
   }
 
   componentDidMount() {
@@ -66,7 +67,6 @@ class GenomeFeatureD3 extends Component {
     for (let i in data) {
       let feature = data[i];
       feature.children.forEach(function (geneChild) {
-        console.log(geneChild.type);
         // isoform level
         if (geneChild.type == 'mRNA') {
           isoform_count += 1;
@@ -83,28 +83,24 @@ class GenomeFeatureD3 extends Component {
 
     let view_start = dataRange.fmin;
     let view_end = dataRange.fmax;
-    // let utr_height = 20;
     let exon_height = 10; // will be white / transparent
     let cds_height = 10; // will be colored in
     let isoform_height = 40; // height for each isoform
     let isoform_view_height = 20; // height for each isoform
     let isoform_title_height = 0; // height for each isoform
-    // let gene_title_height = 10; // height for each isoform
     let utr_height = 4; // this is the height of the isoform running all of the way through
-    // let arrow_width = 5;
     let arrow_height = 20;
     let arrow_width = 10;
     let arrow_points = '0,0 0,' + arrow_height + ' ' + arrow_width + ',' + arrow_width;
-    let buffer_top = 0;
 
     let calculatedHeight = this.props.height;
     if (!this.props.isLoading) {
       let numberIsoforms = this.countIsoforms(this.props.data);
-      calculatedHeight = numberIsoforms * isoform_height;
+      numberIsoforms = numberIsoforms > this.MAX_ISOFORMS ? this.MAX_ISOFORMS : numberIsoforms;
+      calculatedHeight = (numberIsoforms+1) * isoform_height;
     }
-    calculatedHeight += buffer_top;
 
-    let margin = {top: 0, right: 30, bottom: 30, left: 40},
+    let margin = {top: 8, right: 30, bottom: 30, left: 40},
       width = 960 - margin.left - margin.right,
       height = calculatedHeight - margin.top - margin.bottom;
 
@@ -134,9 +130,10 @@ class GenomeFeatureD3 extends Component {
       let featureChildren = feature.children;
       let selected = feature.selected;
 
+      let maxIsoforms = this.MAX_ISOFORMS;
       featureChildren.forEach(function (featureChild) {
         let featureType = featureChild.type;
-        if (featureType == 'mRNA') {
+        if (featureType == 'mRNA' && isoform_count < maxIsoforms) {
           isoform_count += 1;
 
           viewer.append('polygon')
