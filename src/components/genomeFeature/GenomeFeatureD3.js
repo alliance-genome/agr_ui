@@ -26,9 +26,9 @@ class GenomeFeatureD3 extends Component {
     let rootElement = window.document.getElementById(this.props.id);
     let ids = rootElement.childNodes;
 
-    if(ids.length>0){
+    if (ids.length > 0) {
       for (let i in ids) {
-        if(typeof ids[i] == 'Node'){
+        if (typeof ids[i] == Node) {
           rootElement.removeChild(ids[i]);
         }
       }
@@ -56,6 +56,24 @@ class GenomeFeatureD3 extends Component {
     };
   }
 
+  countIsoforms(data) {
+
+    let isoform_count = 0;
+    console.log('count siforms: ' + data);
+    // gene level
+    for (let i in data) {
+      let feature = data[i];
+      feature.children.forEach(function (geneChild) {
+        console.log(geneChild.type);
+        // isoform level
+        if (geneChild.type == 'mRNA') {
+          isoform_count += 1;
+        }
+      });
+    }
+    return isoform_count;
+  }
+
   drawGenomeFeature() {
 
     let data = this.props.data;
@@ -72,10 +90,19 @@ class GenomeFeatureD3 extends Component {
     let line_width = 5;
     // let arrow_width = 5;
     let arrow_points = '0,0 0,10 5,5';
+    let buffer_top = 50;
+
+    let calculatedHeight = this.props.height;
+    if (!this.props.isLoading) {
+      let numberIsoforms = this.countIsoforms(this.props.data);
+      console.log(numberIsoforms);
+      calculatedHeight = numberIsoforms * 150;
+    }
+    calculatedHeight += buffer_top;
 
     let margin = {top: 20, right: 30, bottom: 30, left: 40},
       width = 960 - margin.left - margin.right,
-      height = 500 - margin.top - margin.bottom;
+      height = calculatedHeight - margin.top - margin.bottom;
 
     let x = scaleLinear()
       .domain([view_start, view_end])
