@@ -28,7 +28,8 @@ class GenomeFeatureD3 extends Component {
 
     if (ids.length > 0) {
       for (let i in ids) {
-        if (typeof ids[i] == Node) {
+        console.log(typeof  ids[i]);
+        if (typeof ids[i] == 'object') {
           rootElement.removeChild(ids[i]);
         }
       }
@@ -96,7 +97,7 @@ class GenomeFeatureD3 extends Component {
     if (!this.props.isLoading) {
       let numberIsoforms = this.countIsoforms(this.props.data);
       console.log(numberIsoforms);
-      calculatedHeight = numberIsoforms * 150;
+      calculatedHeight = numberIsoforms * 120;
     }
     calculatedHeight += buffer_top;
 
@@ -157,7 +158,7 @@ class GenomeFeatureD3 extends Component {
             .attr('class', style.UTR)
             .attr('x', x(feature.fmin))
             .attr('y', isoform_height * isoform_count)
-            .attr('transform', 'translate(0,' + 30 * i + ')')
+            // .attr('transform', 'translate(0,' + 30 * i + ')')
             .attr('height', utr_height)
             .attr('width', x(feature.fmax) - x(feature.fmin));
 
@@ -176,7 +177,7 @@ class GenomeFeatureD3 extends Component {
                 .attr('class', style.exon)
                 .attr('x', x(innerChild.fmin))
                 .attr('y', isoform_height * isoform_count)
-                .attr('transform', 'translate(0,' + isoform_height * isoform_count + ')')
+                // .attr('transform', 'translate(0,' + isoform_height * isoform_count + ')')
                 .attr('height', exon_height)
                 .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
             }
@@ -185,7 +186,7 @@ class GenomeFeatureD3 extends Component {
                 .attr('class', style.CDS)
                 .attr('x', x(innerChild.fmin))
                 .attr('y', isoform_height * isoform_count)
-                .attr('transform', 'translate(0,' + isoform_height * isoform_count + ')')
+                // .attr('transform', 'translate(0,' + isoform_height * isoform_count + ')')
                 .attr('height', cds_height)
                 .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
             }

@@ -38,9 +38,14 @@
   100% { opacity: 1 }
 }
 
-.exon, .five_prime_UTR, .three_prime_UTR {
+.exon{
+  fill-opacity: 0.8;
+  fill: green;
+}
+
+.five_prime_UTR, .three_prime_UTR {
   fill-opacity: 0.1;
-  fill: gold;
+  fill: red;
 }
 
 .UTR{
@@ -54,7 +59,7 @@
 }
 
 .axis{
-  fill: pink;
+  fill: hotpink;
 }
 
 .viewer{
