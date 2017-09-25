@@ -38,10 +38,7 @@ export const fetchDiseaseFailure = function (error) {
 
 export const fetchAssociations = function (id, page = 1, limit = 10) {
   return (dispatch) => {
-    dispatch(setCurrentPage(page));
-    dispatch(setPerPageSize(limit));
     dispatch(fetchAssociationsRequest());
-    // TODO: Adjust to disease associations api endpoint.
     return fetchData(`/api/disease/${id}/associations?page=${page}&limit=${limit}`)
       .then((data) => dispatch(fetchAssociationsSuccess(data)))
       .catch((error) => dispatch(fetchAssociationsFailure(error)));

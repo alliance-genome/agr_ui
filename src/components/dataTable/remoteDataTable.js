@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { fetchAssociations } from '../../actions/disease.js';
-//import { fetchAssociationsRequest } from '../../actions/disease.js';
+import {
+  fetchAssociations,
+  setCurrentPage,
+  setPerPageSize
+} from '../../actions/disease.js';
 
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import PropTypes from 'prop-types';
@@ -27,10 +30,16 @@ class RemoteDataTable extends Component {
   constructor(props) {
     super(props);
 
+    /*
+      Duplicating global state from the redux store into local state is not needed and
+      should be avoided unless absolutely necessary.
+    */
+    /*
     this.state={
       perPageSize: this.props.perPageSize,
       currentPage: this.props.currentPage,
     };
+    */
 
     this.handleResultsPerPageChange=this.handleResultsPerPageChange.bind(this);
     //this.handlePageChange=this.handlePageChange.bind(this);
@@ -38,25 +47,28 @@ class RemoteDataTable extends Component {
   }
 
   handleResultsPerPageChange(e){
-    this.setState({perPageSize:e.target.value});
+    //this.setState({perPageSize:e.target.value});
+    this.props.dispatch(setPerPageSize(e.target.value));
+    this.props.dispatch(setCurrentPage(1));
     this.props.dispatch(fetchAssociations(this.props.id, 1, e.target.value));
    // this.props.dispatch(fetchAssociationsRequest());
   }
 
   handlePageChange(page){
    // e.preventDefault();
-    this.setState({currentPage:page});
+   //this.setState({currentPage:page});
 
+    this.props.dispatch(setCurrentPage(page));
     this.props.dispatch(fetchAssociations(this.props.id, page, this.props.perPageSize));
    // this.props.dispatch(fetchAssociationsRequest());
-    console.log('page: ' + page);
-    console.log('this.props.currentPage: ' + this.props.currentPage);
-    console.log('this.state.currentPage: ' + this.state.currentPage);
+    //console.log('page: ' + page);
+    //console.log('this.props.currentPage: ' + this.props.currentPage);
+    //console.log('this.state.currentPage: ' + this.state.currentPage);
   }
 
   render() {
 
-    const { columns, data, filename} = this.props;
+    const { columns, data, filename, currentPage, totalPages, perPageSize } = this.props;
     const options = {};
 
     return (
@@ -65,17 +77,17 @@ class RemoteDataTable extends Component {
         {/*{paginationLinks(this.props.totalPages)}*/}
 
         <Pagination
-          activePage={this.state.currentPage}
+          activePage={currentPage}
           //bsSize="medium"
           //bsClass="pagination pagination-lg"
-          items={this.props.totalPages}
+          items={totalPages}
          // onSelect={(page) => {console.log(page)} }
           onSelect={(page) => this.handlePageChange(page)}
         />
 
         {<select
           onChange={this.handleResultsPerPageChange}
-          value={this.state.perPageSize}
+          value={perPageSize}
          >
           {[1,2,5,10,25,50,100].map(function(value,index){
             return <option key={index} value={value} >{value}</option>;
