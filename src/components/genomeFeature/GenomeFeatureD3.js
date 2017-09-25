@@ -85,16 +85,16 @@ class GenomeFeatureD3 extends Component {
     console.log(view_start + ' , ' + view_end);
     // let utr_height = 20;
     let exon_height = 20; // will be white / transparent
-    let cds_height = 40; // will be colored in
+    let cds_height = 20; // will be colored in
     let isoform_height = 80; // height for each isoform
     let isoform_view_height = 50; // height for each isoform
     let isoform_title_height = 10; // height for each isoform
     let gene_title_height = 20; // height for each isoform
-    let utr_height = 5; // this is the height of the isoform running all of the way through
+    let utr_height = 4; // this is the height of the isoform running all of the way through
     // let arrow_width = 5;
-    let arrow_height  = 10 ;
-    let arrow_width = 5 ;
-    let arrow_points = '0,0 0,'+arrow_height+' '+arrow_width +','+arrow_width;
+    let arrow_height = 20;
+    let arrow_width = 10;
+    let arrow_points = '0,0 0,' + arrow_height + ' ' + arrow_width + ',' + arrow_width;
     let buffer_top = 50;
 
     let calculatedHeight = this.props.height;
@@ -129,8 +129,23 @@ class GenomeFeatureD3 extends Component {
       //This is hacky... idk why this works right now but its needed to get to object level.
       let feature = data[i];
       let featureChildren = feature.children;
-      console.log('featureChildren');
-      console.log(featureChildren);
+      // let featureChildren = feature.children.sort(function(a,b){
+      //
+      //   if(a.type == 'exon' && b.type != 'exon'){
+      //     return -1 ;
+      //   }
+      //   else
+      //   if(a.type == 'CDS' && b.type != 'CDS'){
+      //     return 1 ;
+      //   }
+      //
+      //   else{
+      //     return a.type.compare(b.type);
+      //   }
+      //
+      //
+      //
+      // });
 
       viewer.append('text')
         .attr('class', style.geneLabel)
@@ -138,8 +153,10 @@ class GenomeFeatureD3 extends Component {
         .attr('y', (isoform_height * isoform_count) + buffer_top + gene_title_height)
         .attr('height', gene_title_height)
         .attr('dy', '.35em')
+        .attr('z-index', 50)
         .attr('fill', 'gray')
         .text(feature.name);
+
 
       featureChildren.forEach(function (featureChild) {
         let featureType = featureChild.type;
@@ -152,10 +169,10 @@ class GenomeFeatureD3 extends Component {
             .attr('points', arrow_points)
             .attr('transform', function () {
               if (feature.strand > 0) {
-                return 'translate(' + Number(x(feature.fmax) ) + ',' + Number( (isoform_view_height / 2.0) - (arrow_height/2.0) + (isoform_height * isoform_count) + isoform_title_height) + ')';
+                return 'translate(' + Number(x(feature.fmax)) + ',' + Number((isoform_view_height / 2.0) - (arrow_height / 2.0) + (isoform_height * isoform_count) + isoform_title_height) + ')';
               }
               else {
-                return 'translate(' + Number(x(feature.fmin) ) + ',' + Number((isoform_view_height / 2.0) + (arrow_height/2.0) + (isoform_height * isoform_count) + isoform_title_height) + ') rotate(180)';
+                return 'translate(' + Number(x(feature.fmin)) + ',' + Number((isoform_view_height / 2.0) + (arrow_height / 2.0) + (isoform_height * isoform_count) + isoform_title_height) + ') rotate(180)';
               }
             });
 
@@ -165,6 +182,7 @@ class GenomeFeatureD3 extends Component {
             .attr('y', isoform_height * isoform_count + isoform_title_height)
             .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (utr_height / 2.0)) + ')')
             .attr('height', utr_height)
+            .attr('z-index', 10)
             .attr('width', x(feature.fmax) - x(feature.fmin));
 
           viewer.append('text')
@@ -173,8 +191,22 @@ class GenomeFeatureD3 extends Component {
             .attr('y', isoform_height * isoform_count)
             .attr('height', isoform_title_height)
             .attr('dy', '.35em')
+            .attr('z-index', 50)
             .text(featureChild.name);
 
+          console.log(featureChildren.children);
+          featureChild.children = featureChild.children.sort(function(a,b){
+            if(a.type == 'exon' && b.type != 'exon'){
+              return -1 ;
+            }
+            else
+            if(a.type == 'CDS' && b.type != 'CDS'){
+              return 1 ;
+            }
+            else{
+              return a - b;
+            }
+          });
 
           featureChild.children.forEach(function (innerChild) {
             let innerType = innerChild.type;
@@ -185,6 +217,7 @@ class GenomeFeatureD3 extends Component {
                 .attr('y', isoform_height * isoform_count + isoform_title_height)
                 .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (exon_height / 2.0)) + ')')
                 .attr('height', exon_height)
+                .attr('z-index', 10)
                 .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
             }
             else if (innerType == 'CDS') {
@@ -193,6 +226,7 @@ class GenomeFeatureD3 extends Component {
                 .attr('x', x(innerChild.fmin))
                 .attr('y', isoform_height * isoform_count + isoform_title_height)
                 .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (cds_height / 2.0)) + ')')
+                .attr('z-index', 20)
                 .attr('height', cds_height)
                 .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
             }

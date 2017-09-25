@@ -38,9 +38,14 @@
   100% { opacity: 1 }
 }
 
+.trans_arrow{
+  fill: 'black'
+}
+
 .exon{
-  fill-opacity: 0.8;
-  fill: green;
+  fill-opacity: 1.0;
+  fill: white;
+  stroke: black;
 }
 
 .five_prime_UTR, .three_prime_UTR {
@@ -50,12 +55,12 @@
 
 .UTR{
   fill-opacity: 0.7;
-  fill: greenyellow;
+  fill: #7E82BF;
 }
 
 .CDS{
   fill: #3E82BF;
-  fill-opacity: 0.5;
+  fill-opacity: 1.0;
 }
 
 .axis{
@@ -63,7 +68,7 @@
 }
 
 .viewer{
-  fill: indianred;
+  fill: gray;
 }
 
 .gene{
