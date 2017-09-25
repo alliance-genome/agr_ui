@@ -22,7 +22,7 @@
     "react-bootstrap-table": "^4.0.2",
     "react-dom": "^15.3.2",
     "react-flybase-datagrid": "0.6.7",
-    "react-ga": "^2.2.0",
+    "react-ga": "2.2.0",
     "react-helmet": "^5.0.0",
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
