@@ -207,7 +207,6 @@ class GenomeFeatureD3 extends Component {
       });
     }
 
-
     viewer.append('g')
       .attr('class', style.axis)
       .attr('width', width)
