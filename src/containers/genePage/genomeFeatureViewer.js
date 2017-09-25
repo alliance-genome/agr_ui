@@ -15,10 +15,16 @@ class GenomeFeatureViewer extends Component {
 
     // TODO: should be process.env.APOLLO_URL
     // let apolloServerPrefix = 'http://demo.genomearchitect.org/Apollo-staging/';
-    let apolloServerPrefix = 'http://localhost:8080/apollo/';
+    let apolloServerPrefix ='http://agr-apollo.berkeleybop.io/Apollo-staging/';
+    // let apolloServerPrefix = 'http://localhost:8080/apollo/';
 
 
-    let trackDataPrefix = apolloServerPrefix + 'track/' + encodeURI(this.props.species) + '/' + defaultTrackName + '/' + encodeURI(locationString) + '.json';
+    // TODO: this is a hack to fix inconsistencies in JBrowse
+    let hackedLocationString = locationString ;
+    if(this.props.species == 'Homo sapiens' || this.props.species == 'Rattus norvegicus'){
+      hackedLocationString = 'Chr'+locationString ;
+    }
+    let trackDataPrefix = apolloServerPrefix + 'track/' + encodeURI(this.props.species) + '/' + defaultTrackName + '/' + encodeURI(hackedLocationString) + '.json';
     let trackDataWithHighlight = trackDataPrefix + '?name=' + this.props.geneSymbol;
     // trackDataWithHighlight += '&ignoreCache=true';
 
@@ -73,7 +79,7 @@ class GenomeFeatureViewer extends Component {
               <dt className='col-sm-3'>Genome Location</dt>
               <dd className='col-sm-9'><a href={this.jbrowseUrl}
                                           rel='noopener noreferrer' target='_blank'>
-                Chr{this.props.chromosome}:{this.props.fmin}...{this.props.fmax} {this.props.assembly} {this.props.strand} </a>
+                Chr{this.props.chromosome.startsWith('Chr')?this.props.chromosome:'Chr'+this.props.chromosome}:{this.props.fmin}...{this.props.fmax} {this.props.assembly} {this.props.strand} </a>
                 &nbsp;
                 <a href={this.trackDataUrl}>[json]</a>
               </dd>
