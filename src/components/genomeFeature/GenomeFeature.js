@@ -235,7 +235,12 @@ class GenomeFeature extends Component {
   render() {
     return (
       <div>
-        <svg id={this.props.id} className={style.viewer} height={this.props.height} width={this.props.width} />
+        <svg
+          className={style.viewer}
+          height={this.props.height}
+          id={this.props.id}
+          width={this.props.width}
+        />
       </div>
     );
   }
@@ -245,6 +250,7 @@ GenomeFeature.propTypes = {
   data: PropTypes.array.isRequired,
   height: PropTypes.string,
   id: PropTypes.string,
+  isLoading: PropTypes.boolean,
   url: PropTypes.string,
   width: PropTypes.string,
 };
