@@ -78,6 +78,7 @@
 .geneLabel{
   stroke: 2px;
   color: black;
+  font-style: italic;
 }
 
 .transcriptLabel{

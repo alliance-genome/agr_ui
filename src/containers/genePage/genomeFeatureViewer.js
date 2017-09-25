@@ -15,12 +15,13 @@ class GenomeFeatureViewer extends Component {
     let defaultTrackName = 'All Genes';
     let locationString = this.props.chromosome + ':' + this.props.fmin + '..' + this.props.fmax;
 
-    let apolloServerPrefix = 'http://demo.genomearchitect.org/Apollo-staging/';
-    // let apolloServerPrefix = 'http://localhost:8080/apollo/';
+    // let apolloServerPrefix = 'http://demo.genomearchitect.org/Apollo-staging/';
+    let apolloServerPrefix = 'http://localhost:8080/apollo/';
 
 
     let trackDataPrefix = apolloServerPrefix + 'track/' + encodeURI(this.props.species) + '/' + defaultTrackName + '/' + encodeURI(locationString) + '.json';
     let trackDataWithHighlight = trackDataPrefix + '?name=' + this.props.geneSymbol;
+    trackDataWithHighlight += '&ignoreCache=true';
 
     let geneSymbolUrl = '&lookupSymbol=' + this.props.geneSymbol;
     let externalJBrowsePrefix = process.env.JBROWSE_URL + '/jbrowse/index.html?data=data%2F' + encodeURI(this.props.species);

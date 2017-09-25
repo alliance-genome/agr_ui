@@ -82,25 +82,23 @@ class GenomeFeatureD3 extends Component {
 
     let view_start = dataRange.fmin;
     let view_end = dataRange.fmax;
-    console.log(view_start + ' , ' + view_end);
     // let utr_height = 20;
     let exon_height = 20; // will be white / transparent
     let cds_height = 20; // will be colored in
-    let isoform_height = 80; // height for each isoform
-    let isoform_view_height = 50; // height for each isoform
-    let isoform_title_height = 10; // height for each isoform
-    let gene_title_height = 20; // height for each isoform
+    let isoform_height = 50; // height for each isoform
+    let isoform_view_height = 29; // height for each isoform
+    let isoform_title_height = 0; // height for each isoform
+    // let gene_title_height = 10; // height for each isoform
     let utr_height = 4; // this is the height of the isoform running all of the way through
     // let arrow_width = 5;
     let arrow_height = 20;
     let arrow_width = 10;
     let arrow_points = '0,0 0,' + arrow_height + ' ' + arrow_width + ',' + arrow_width;
-    let buffer_top = 50;
+    let buffer_top = 0;
 
     let calculatedHeight = this.props.height;
     if (!this.props.isLoading) {
       let numberIsoforms = this.countIsoforms(this.props.data);
-      console.log(numberIsoforms);
       calculatedHeight = numberIsoforms * 120;
     }
     calculatedHeight += buffer_top;
@@ -129,38 +127,19 @@ class GenomeFeatureD3 extends Component {
       //This is hacky... idk why this works right now but its needed to get to object level.
       let feature = data[i];
       let featureChildren = feature.children;
-      // let featureChildren = feature.children.sort(function(a,b){
-      //
-      //   if(a.type == 'exon' && b.type != 'exon'){
-      //     return -1 ;
-      //   }
-      //   else
-      //   if(a.type == 'CDS' && b.type != 'CDS'){
-      //     return 1 ;
-      //   }
-      //
-      //   else{
-      //     return a.type.compare(b.type);
-      //   }
-      //
-      //
-      //
-      // });
+      let selected = feature.selected;
 
-      viewer.append('text')
-        .attr('class', style.geneLabel)
-        .attr('x', x(feature.fmin) + 300)
-        .attr('y', (isoform_height * isoform_count) + buffer_top + gene_title_height)
-        .attr('height', gene_title_height)
-        .attr('dy', '.35em')
-        .attr('z-index', 50)
-        .attr('fill', 'gray')
-        .text(feature.name);
+      // viewer.append('text')
+      //   .attr('class', style.geneLabel)
+      //   .attr('x',  width / 2.0 - feature.name.length)
+      //   .attr('y', (isoform_height * isoform_count) + buffer_top + gene_title_height)
+      //   .attr('height', gene_title_height)
+      //   .attr('fill', selected ? 'orange' : 'gray')
+      //   .text(feature.name);
 
 
       featureChildren.forEach(function (featureChild) {
         let featureType = featureChild.type;
-        console.log('feature type: ' + featureType);
         if (featureType == 'mRNA') {
           isoform_count += 1;
 
@@ -182,28 +161,25 @@ class GenomeFeatureD3 extends Component {
             .attr('y', isoform_height * isoform_count + isoform_title_height)
             .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (utr_height / 2.0)) + ')')
             .attr('height', utr_height)
-            .attr('z-index', 10)
             .attr('width', x(feature.fmax) - x(feature.fmin));
 
           viewer.append('text')
             .attr('class', style.transcriptLabel)
             .attr('x', x(feature.fmin) + 30)
-            .attr('y', isoform_height * isoform_count)
+            .attr('y', isoform_height * isoform_count + isoform_title_height)
+            .attr('fill', selected ? 'orange' : 'gray')
+            .attr('opacity', selected ? 1 : 0.5)
             .attr('height', isoform_title_height)
-            .attr('dy', '.35em')
-            .attr('z-index', 50)
             .text(featureChild.name);
 
-          console.log(featureChildren.children);
-          featureChild.children = featureChild.children.sort(function(a,b){
-            if(a.type == 'exon' && b.type != 'exon'){
-              return -1 ;
+          featureChild.children = featureChild.children.sort(function (a, b) {
+            if (a.type == 'exon' && b.type != 'exon') {
+              return -1;
             }
-            else
-            if(a.type == 'CDS' && b.type != 'CDS'){
-              return 1 ;
+            else if (a.type == 'CDS' && b.type != 'CDS') {
+              return 1;
             }
-            else{
+            else {
               return a - b;
             }
           });
