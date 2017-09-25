@@ -65,7 +65,12 @@
   fill: blue;
 }
 
-.genomeLabel{
+.geneLabel{
   stroke: 2px;
+  color: black;
+}
+
+.transcriptLabel{
+  stroke: 1px;
   color: black;
 }

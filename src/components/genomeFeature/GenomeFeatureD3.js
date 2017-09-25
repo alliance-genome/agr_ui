@@ -244,6 +244,14 @@ class GenomeFeatureD3 extends Component {
       console.log('featureChildren');
       console.log(featureChildren);
 
+      viewer.append('text')
+        .attr('class', style.geneLabel)
+        .attr('x', x(feature.fmin)+300)
+        .attr('y', isoform_height * isoform_count + 50)
+        .attr('dy', '.35em')
+        .attr('fill','gray')
+        .text(feature.name) ;
+
       featureChildren.forEach(function (featureChild) {
         let featureType = featureChild.type;
         console.log('feature type: ' + featureType);
@@ -286,11 +294,11 @@ class GenomeFeatureD3 extends Component {
             .attr('width', x(feature.fmax) - x(feature.fmin));
 
           viewer.append('text')
-            .attr('class', style.genomeLabel)
+            .attr('class', style.transcriptLabel)
             .attr('x', x(feature.fmin)+30)
             .attr('y', isoform_height * isoform_count)
             .attr('dy', '.35em')
-            .text(feature.name) ;
+            .text(featureChild.name) ;
 
 
           // viewer.append('text')
