@@ -6,7 +6,7 @@ import {axisTop} from 'd3-axis';
 import {select} from 'd3-selection';
 
 
-class GenomeFeatureD3 extends Component {
+class GenomeFeature extends Component {
 
 
   constructor(props) {
@@ -222,12 +222,12 @@ class GenomeFeatureD3 extends Component {
   }
 }
 
-GenomeFeatureD3.propTypes = {
+GenomeFeature.propTypes = {
   data: PropTypes.array.isRequired,
   height: PropTypes.string,
   width: PropTypes.string,
   id: PropTypes.string,
 };
 
-export default GenomeFeatureD3;
+export default GenomeFeature;
 
