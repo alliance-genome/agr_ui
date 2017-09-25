@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { fetchAssociations } from '../../actions/disease.js';
+//import { fetchAssociationsRequest } from '../../actions/disease.js';
 
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import PropTypes from 'prop-types';
-
-// import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
-// import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
-// import Button from 'react-bootstrap/lib/Button';
-// import ToggleButtonGroup from 'react-bootstrap/lib/ToggleButtonGroup';
-// import ToggleButton from 'react-bootstrap/lib/ToggleButton';
+import { Pagination } from 'react-bootstrap';
+import './style.css';
 
 const textSorter = (textRender, field) => {
   return (a, b, order) => {
@@ -19,20 +16,6 @@ const textSorter = (textRender, field) => {
     }
   };
 };
-
-// const DownloadButton = () => {
-//   return
-//     <ButtonToolbar>
-//       <ToggleButtonGroup defaultValue="csv" name="export" onChange={this.handleOnChange} type="radio">
-//         <ToggleButton value="csv">CSV</ToggleButton>
-//         <ToggleButton value="tsv">TSV</ToggleButton>
-//       </ToggleButtonGroup>
-//
-//       <ButtonGroup style={{height:36}} >
-//         <Button onClick={this.handleOnClick}>button</Button>
-//       </ButtonGroup>
-//     </ButtonToolbar>
-// };
 
 const textFilter = {
   type: 'TextFilter',
@@ -46,6 +29,7 @@ class RemoteDataTable extends Component {
 
     this.state={
       perPageSize: this.props.perPageSize,
+      currentPage: this.props.currentPage,
     };
 
     this.handleResultsPerPageChange=this.handleResultsPerPageChange.bind(this);
@@ -56,60 +40,48 @@ class RemoteDataTable extends Component {
   handleResultsPerPageChange(e){
     this.setState({perPageSize:e.target.value});
     this.props.dispatch(fetchAssociations(this.props.id, 1, e.target.value));
+   // this.props.dispatch(fetchAssociationsRequest());
   }
 
-  handlePageChange(e, page){
-    e.preventDefault();
+  handlePageChange(page){
+   // e.preventDefault();
     this.setState({currentPage:page});
-    console.log(page);
+
     this.props.dispatch(fetchAssociations(this.props.id, page, this.props.perPageSize));
+   // this.props.dispatch(fetchAssociationsRequest());
+    console.log('page: ' + page);
+    console.log('this.props.currentPage: ' + this.props.currentPage);
+    console.log('this.state.currentPage: ' + this.state.currentPage);
   }
 
   render() {
 
     const { columns, data, filename} = this.props;
-    const options = {
-      // exportCSVSeparator: '\t',
-      // exportCSVText: 'Download',
-      // toolbarPosition: 'bottom', //move download button to the bottom
-      // paginationPosition: 'top',
-      // sizePerPage: 6,
-      // sizePerPageList: [ {
-      //   text: '6', value: 6
-      // }, {
-      //   text: 'All', value: 9
-      // } ],
-    };
-
-    const paginationLinks = (pages) => {
-      let links = [];
-      for (var i = 1; i <= pages; i++) {
-        links.push(<a href='#' key={i} onClick={(e) => this.handlePageChange(e, i)} style={{paddingRight: '1%'}} value={i}>Page {i}</a>);
-      }
-
-      return (
-        <div>
-          {links}
-        </div>
-      );
-    };
+    const options = {};
 
     return (
       <div>
 
-        {paginationLinks(this.props.totalPages)}
+        {/*{paginationLinks(this.props.totalPages)}*/}
+
+        <Pagination
+          activePage={this.state.currentPage}
+          //bsSize="medium"
+          //bsClass="pagination pagination-lg"
+          items={this.props.totalPages}
+         // onSelect={(page) => {console.log(page)} }
+          onSelect={(page) => this.handlePageChange(page)}
+        />
 
         {<select
           onChange={this.handleResultsPerPageChange}
           value={this.state.perPageSize}
          >
-          {[1,2,10,25,50,100].map(function(value,index){
+          {[1,2,5,10,25,50,100].map(function(value,index){
             return <option key={index} value={value} >{value}</option>;
           })}
         </select>
         }
-
-        {/*{this.props.currentPage} of {this.props.totalPages}*/}
 
         <BootstrapTable
           bordered={false}
