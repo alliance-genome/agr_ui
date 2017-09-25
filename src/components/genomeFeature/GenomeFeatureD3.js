@@ -23,14 +23,16 @@ class GenomeFeatureD3 extends Component {
   redrawGenomeFeature() {
 
     // TODO: remove and re-draw the element
-    // alert(this.props.id);
-    // let rootElement = window.document.getElementById(this.props.id);
-    // let ids = rootElement.getChildren(this.props.id);
-    //
-    // for(let i in ids ){
-    //     window.document.getElementById(ids[i]).remove();
-    // }
+    let rootElement = window.document.getElementById(this.props.id);
+    let ids = rootElement.childNodes;
 
+    if(ids.length>0){
+      for (let i in ids) {
+        if(typeof ids[i] == 'Node'){
+          rootElement.removeChild(ids[i]);
+        }
+      }
+    }
     this.drawGenomeFeature();
   }
 
@@ -56,116 +58,7 @@ class GenomeFeatureD3 extends Component {
 
   drawGenomeFeature() {
 
-    let testData = [{
-      'strand': 1,
-      'children': [{'phase': 0, 'strand': 1, 'fmin': 204920, 'type': 'CDS', 'fmax': 205070}, {
-        'phase': 0,
-        'strand': 1,
-        'fmin': 222771,
-        'type': 'CDS',
-        'fmax': 222858
-      }, {'strand': 1, 'fmin': 222858, 'type': 'three_prime_UTR', 'fmax': 223005}, {
-        'strand': 1,
-        'fmin': 204920,
-        'type': 'exon',
-        'fmax': 205070
-      }, {'strand': 1, 'fmin': 222771, 'type': 'exon', 'fmax': 223005}],
-      'name': 'GB42165-RA',
-      'id': 'http://icebox.lbl.gov/Apollo-staging/track/Honeybee/Official Gene Set v3.2/Group1.1/GB42165-RA.json',
-      'fmin': 204920,
-      'type': 'mRNA',
-      'fmax': 223005
-    }, {
-      'strand': -1,
-      'children': [[{'phase': 0, 'strand': -1, 'fmin': 229546, 'type': 'CDS', 'fmax': 229565}, {
-        'phase': 2,
-        'strand': -1,
-        'fmin': 227354,
-        'type': 'CDS',
-        'fmax': 227568
-      }, {'phase': 1, 'strand': -1, 'fmin': 226993, 'type': 'CDS', 'fmax': 227269}, {
-        'phase': 1,
-        'strand': -1,
-        'fmin': 226643,
-        'type': 'CDS',
-        'fmax': 226926
-      }, {'phase': 0, 'strand': -1, 'fmin': 226442, 'type': 'CDS', 'fmax': 226564}, {
-        'phase': 1,
-        'strand': -1,
-        'fmin': 226132,
-        'type': 'CDS',
-        'fmax': 226359
-      }, {'phase': 2, 'strand': -1, 'fmin': 225990, 'type': 'CDS', 'fmax': 226060}, {
-        'phase': 1,
-        'strand': -1,
-        'fmin': 225857,
-        'type': 'CDS',
-        'fmax': 225913
-      }, {'phase': 2, 'strand': -1, 'fmin': 225685, 'type': 'CDS', 'fmax': 225772}, {
-        'phase': 2,
-        'strand': -1,
-        'fmin': 225387,
-        'type': 'CDS',
-        'fmax': 225577
-      }, {'phase': 1, 'strand': -1, 'fmin': 216954, 'type': 'CDS', 'fmax': 217046}, {
-        'phase': 2,
-        'strand': -1,
-        'fmin': 215398,
-        'type': 'CDS',
-        'fmax': 215433
-      }, {'phase': 0, 'strand': -1, 'fmin': 213731, 'type': 'CDS', 'fmax': 213905}, {
-        'strand': -1,
-        'fmin': 230453,
-        'type': 'five_prime_UTR',
-        'fmax': 230560
-      }, {'strand': -1, 'fmin': 229565, 'type': 'five_prime_UTR', 'fmax': 229635}, {
-        'strand': -1,
-        'fmin': 212881,
-        'type': 'three_prime_UTR',
-        'fmax': 213731
-      }, {'strand': -1, 'fmin': 212881, 'type': 'exon', 'fmax': 213905}, {
-        'strand': -1,
-        'fmin': 215398,
-        'type': 'exon',
-        'fmax': 215433
-      }, {'strand': -1, 'fmin': 216954, 'type': 'exon', 'fmax': 217046}, {
-        'strand': -1,
-        'fmin': 225387,
-        'type': 'exon',
-        'fmax': 225577
-      }, {'strand': -1, 'fmin': 225685, 'type': 'exon', 'fmax': 225772}, {
-        'strand': -1,
-        'fmin': 225857,
-        'type': 'exon',
-        'fmax': 225913
-      }, {'strand': -1, 'fmin': 225990, 'type': 'exon', 'fmax': 226060}, {
-        'strand': -1,
-        'fmin': 226132,
-        'type': 'exon',
-        'fmax': 226359
-      }, {'strand': -1, 'fmin': 226442, 'type': 'exon', 'fmax': 226564}, {
-        'strand': -1,
-        'fmin': 226643,
-        'type': 'exon',
-        'fmax': 226926
-      }, {'strand': -1, 'fmin': 226993, 'type': 'exon', 'fmax': 227269}, {
-        'strand': -1,
-        'fmin': 227354,
-        'type': 'exon',
-        'fmax': 227568
-      }, {'strand': -1, 'fmin': 229546, 'type': 'exon', 'fmax': 229635}, {
-        'strand': -1,
-        'fmin': 230453,
-        'type': 'exon',
-        'fmax': 230560
-      }]],
-      'name': 'GB42161-RA',
-      'id': 'http://demo.genomearchitect.org/Apollo2/track/Honeybee/Official Gene Set v3.2/Group1.1/GB42161-RA.json',
-      'fmin': 212881,
-      'type': 'mRNA',
-      'fmax': 230560
-    }];
-    let data = this.props.data ? this.props.data : testData;
+    let data = this.props.data;
     let dataRange = this.findRange(data);
 
     let view_start = dataRange.fmin;
@@ -198,43 +91,6 @@ class GenomeFeatureD3 extends Component {
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
 
-    // let transcript = viewer.selectAll('g')
-    //   .data(data)
-    //   .enter()
-    //   .append('g')
-    //   .attr('class', 'container');
-
-
-    // transcript.append('rect')
-    //   .attr('class', 'transcript')
-    //   .attr('x', function (d) {
-    //     if (d.strand > 0) {
-    //       return x(d.fmin);
-    //     }
-    //     else {
-    //       return x(d.fmin) - arrow_width;
-    //     }
-    //   })
-    //   .attr('y', 30 + utr_height / 2 - line_width / 2)
-    //   .attr('transform', function (d, i) {
-    //     return 'translate(0,' + 30 * i + ')';
-    //   })
-    //   .attr('height', utr_height)
-    //   .attr('width', function (d) {
-    //     return x(d.fmax) - x(d.fmin) + arrow_width;
-    //   })
-    //   .append('polygon')
-    //   .attr('class', 'trans_arrow')
-    //   .attr('points', points)
-    //   .attr('x', function (d) {
-    //     return x(d.fmin);
-    //   })
-    //   .attr('y', 30 + utr_height / 2 - line_width / 2)
-    //   .attr('transform', function (d, i) {
-    //     return 'translate(0,' + 30 * i + ')';
-    //   });
-
-
     let isoform_count = 0;
     for (let i in data) {
 
@@ -246,32 +102,17 @@ class GenomeFeatureD3 extends Component {
 
       viewer.append('text')
         .attr('class', style.geneLabel)
-        .attr('x', x(feature.fmin)+300)
+        .attr('x', x(feature.fmin) + 300)
         .attr('y', isoform_height * isoform_count + 50)
         .attr('dy', '.35em')
-        .attr('fill','gray')
-        .text(feature.name) ;
+        .attr('fill', 'gray')
+        .text(feature.name);
 
       featureChildren.forEach(function (featureChild) {
         let featureType = featureChild.type;
         console.log('feature type: ' + featureType);
         if (featureType == 'mRNA') {
           isoform_count += 1;
-
-          // viewer.selectAll('container')
-          //   .data(data)
-          //   .enter()
-          //   .append('polygon')
-          //   .attr('class', 'trans_arrow')
-          //   .attr('points', arrow_points)
-          //   .attr('transform', function (d, i) {
-          //     if (d.strand > 0) {
-          //       return 'translate(' + Number(x(d.fmax) + 5) + ',' + Number(20 + utr_height - line_width + 30 * i) + ')';
-          //     }
-          //     else {
-          //       return 'translate(' + Number(x(d.fmin) - 5) + ',' + Number(30 + utr_height - line_width + 30 * i) + ') rotate(180)';
-          //     }
-          //   });
 
           viewer.append('polygon')
             .attr('class', 'trans_arrow')
@@ -295,25 +136,11 @@ class GenomeFeatureD3 extends Component {
 
           viewer.append('text')
             .attr('class', style.transcriptLabel)
-            .attr('x', x(feature.fmin)+30)
+            .attr('x', x(feature.fmin) + 30)
             .attr('y', isoform_height * isoform_count)
             .attr('dy', '.35em')
-            .text(featureChild.name) ;
+            .text(featureChild.name);
 
-
-          // viewer.append('text')
-          // // .attr('class', style.genomeLabel)
-          //   .attr('x', 20)
-          //   .attr('y', 20)
-          //   .attr('font-family', 'sans-serif')
-          //   .attr('font-size', '20px')
-          //   .attr('fill', 'red')
-          //   .attr('color', 'pink');
-          // .attr('text', 'bob' );
-          // .attr('transform', 'translate(0,' + 30 * i + ')')
-          // .attr('transform', 'translate(0,' + 30 * i + ')')
-          // .attr('height', utr_height)
-          // .attr('width', x(feature.fmax) - x(feature.fmin));
 
           featureChild.children.forEach(function (innerChild) {
             let innerType = innerChild.type;
