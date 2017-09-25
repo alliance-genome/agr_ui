@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { fetchDisease } from '../../actions/disease';
 import { selectDisease } from '../../selectors/disease';
 
+import ExternalLink from '../../components/externalLink';
 import HeadMetaTags from '../../components/headMetaTags';
 import LoadingPage from '../../components/loadingPage';
 import Subsection from '../../components/subsection';
@@ -48,7 +49,13 @@ class DiseasePage extends Component {
           <i className='fa fa-warning' /> Page under active development
         </div>
         <h1>
-          {disease.name} (<a href={'http://www.disease-ontology.org/?id=' + disease.doId}>{disease.doId}</a>)
+          {disease.name}
+          &nbsp;
+          <small>
+            (<ExternalLink href={'http://www.disease-ontology.org/?id=' + disease.doId}>
+              {disease.doId}
+            </ExternalLink>)
+          </small>
           <hr />
         </h1>
 

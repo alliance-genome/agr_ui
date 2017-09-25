@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import ExternalLink from './externalLink';
 
 class DataSourceLink extends Component {
   render() {
     return (
-      <a href={this.props.reference.crossRefCompleteUrl}>{this.props.reference.name}</a>
+      <ExternalLink href={this.props.reference.crossRefCompleteUrl}>
+        {this.props.reference.name}
+      </ExternalLink>
     );
   }
 }
