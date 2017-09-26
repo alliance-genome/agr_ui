@@ -222,12 +222,23 @@ class GenomeFeature extends Component {
       });
     }
 
-    viewer.append('g')
-      .attr('class', style.axis)
-      .attr('width', width)
-      .attr('height', 20)
-      .attr('transform', 'translate(0,20)')
-      .call(xAxis);
+    if(isoform_count==0){
+      viewer.append('text')
+        .attr('x',  30)
+        .attr('y',  isoform_title_height+10 )
+        .attr('fill', 'orange')
+        .attr('opacity', 0.6 )
+        // .attr('height', isoform_title_height)
+        .text('Overview of non-coding genome features unavailable at this time.');
+    }
+    else{
+      viewer.append('g')
+        .attr('class', style.axis)
+        .attr('width', width)
+        .attr('height', 20)
+        .attr('transform', 'translate(0,20)')
+        .call(xAxis);
+    }
   }
 
   render() {
