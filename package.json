@@ -12,7 +12,9 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
-    "d3": "^3.5.17",
+    "d3-scale": "^1.0.6",
+    "d3-axis": "^1.0.8",
+    "d3-selection": "^1.1.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "gene-ontology-ribbon": "0.1.5",
     "immutable": "^3.8.1",

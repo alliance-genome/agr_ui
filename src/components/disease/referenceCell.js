@@ -1,14 +1,16 @@
 import React from 'react';
 
+import ExternalLink from '../externalLink';
+
 const ReferenceCell = (refs) => {
   return (
     <span>
       {
         refs && refs.map((ref) => {
           if (ref.pubMedId && ref.pubMedUrl) {
-            return <a href={ref.pubMedUrl}>{ref.pubMedId}</a>;
+            return <ExternalLink href={ref.pubMedUrl}>{ref.pubMedId}</ExternalLink>;
           } else if (ref.pubModId && ref.pubModUrl) {
-            return <a href={ref.pubModUrl}>{ref.pubModId}</a>;
+            return <ExternalLink href={ref.pubModUrl}>{ref.pubModId}</ExternalLink>;
           }
         })
         .reduce((prev, curr) => [prev, ', ', curr])
