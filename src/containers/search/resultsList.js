@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 import style from './style.css';
-import genePageStyle from '../genePage/style.css';
 import CategoryLabel from './categoryLabel';
 import DetailList from './detailList';
 import ResultExplanation from './resultExplanation';
 import { NON_HIGHLIGHTED_FIELDS } from '../../constants';
+
+import SpeciesIcon from '../../components/speciesIcon';
 
 const DEFAULT_FIELDS = ['symbol', 'name', 'synonyms', 'sourceHref', 'id', 'type'];
 
@@ -84,12 +85,11 @@ class ResultsList extends Component {
   renderGeneEntry(d, i) {
     let topFields = ['name', 'synonyms'];
     let bottomFields = ['biotype'];
-    const speciesClass = genePageStyle[(d.species || '').replace(' ', '-')];
     let link = <Link to={`/gene/${d.id}`}><span dangerouslySetInnerHTML={{ __html: d.display_name }} /></Link>;
     return (
       <div className={style.resultContainer} key={`sr${i}`}>
         {this.renderHeader(d.category, link, d.species)}
-          {speciesClass && <div className={`${genePageStyle.speciesIcon} ${speciesClass} ${style.resultSpeciesIcon}`} />}
+          <SpeciesIcon iconClass={style.resultSpeciesIcon} species={d.species} />
           {this.renderDetailFromFields(d, topFields)}
           <div className={style.detailContainer}>
             <span className={style.detailLabel}><strong>Source:</strong> </span>
