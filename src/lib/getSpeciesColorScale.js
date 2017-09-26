@@ -1,4 +1,4 @@
-import d3 from 'd3';
+import {scaleLinear} from 'd3-scale';
 
 const SPECIES = [
   'Homo sapiens',
@@ -11,6 +11,6 @@ const SPECIES = [
 ];
 
 export default function getSpeciesColorScale() {
-  return d3.scale.category10()
+  return scaleLinear().category10()
     .domain(SPECIES);
 }
