@@ -126,7 +126,6 @@ class GenomeFeature extends Component {
     let isoform_count = 0;
     for (let i in data) {
 
-      //This is hacky... idk why this works right now but its needed to get to object level.
       let feature = data[i];
       let featureChildren = feature.children;
       let selected = feature.selected;
@@ -168,6 +167,7 @@ class GenomeFeature extends Component {
               .attr('height', isoform_title_height)
               .text(featureChild.name);
 
+            // have to sort this so we draw the exons BEFORE the CDS
             featureChild.children = featureChild.children.sort(function (a, b) {
               if (a.type == 'exon' && b.type != 'exon') {
                 return -1;
