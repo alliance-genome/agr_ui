@@ -22,8 +22,7 @@ class GenomeFeature extends Component {
   }
 
   redrawGenomeFeature() {
-
-    // TODO: remove and re-draw the element
+    // remove the element
     let rootElement = window.document.getElementById(this.props.id);
     let ids = rootElement.childNodes;
 
