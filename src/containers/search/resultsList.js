@@ -9,7 +9,7 @@ import DetailList from './detailList';
 import ResultExplanation from './resultExplanation';
 import { NON_HIGHLIGHTED_FIELDS } from '../../constants';
 
-const DEFAULT_FIELDS = ['symbol', 'name', 'synonyms', 'sourceHref', 'id', 'species', 'type'];
+const DEFAULT_FIELDS = ['symbol', 'name', 'synonyms', 'sourceHref', 'id', 'type'];
 
 class ResultsList extends Component {
   renderHighlightedValues(highlight) {
@@ -20,13 +20,21 @@ class ResultsList extends Component {
     return <DetailList data={_data} fields={_fields} />;
   }
 
-  renderHeader(category, link) {
+  renderHeader(category, link, species) {
+    if (species) {
+      species = '(' + species + ')';
+    }
     return (
       <div>
         <span className={style.resultCatLabel}><CategoryLabel category={category} /></span>
-        <h4>
-          {link}
-        </h4>
+        <div>
+          <h4 className={style.resultLinkLabel}>
+            {link}
+          </h4>
+          <span className={style.resultSpeciesLabel}>
+            {species || ''}
+          </span>
+        </div>
       </div>
     );
   }
@@ -75,12 +83,12 @@ class ResultsList extends Component {
 
   renderGeneEntry(d, i) {
     let topFields = ['name', 'synonyms'];
-    let bottomFields = ['species', 'biotype'];
+    let bottomFields = ['biotype'];
     const speciesClass = genePageStyle[(d.species || '').replace(' ', '-')];
     let link = <Link to={`/gene/${d.id}`}><span dangerouslySetInnerHTML={{ __html: d.display_name }} /></Link>;
     return (
       <div className={style.resultContainer} key={`sr${i}`}>
-        {this.renderHeader(d.category, link)}
+        {this.renderHeader(d.category, link, d.species)}
           {speciesClass && <div className={`${genePageStyle.speciesIcon} ${speciesClass} ${style.resultSpeciesIcon}`} />}
           {this.renderDetailFromFields(d, topFields)}
           <div className={style.detailContainer}>
