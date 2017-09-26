@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 
 import DataSourceLink from '../../components/dataSourceLink';
 import PrimaryAttributesList from '../../components/primaryAttributesList';
+import SpeciesIcon from '../../components/speciesIcon';
 
 import style from './style.css';
 
 class DataSourceCard extends Component {
   render() {
-    const speciesClass = style[this.props.species.replace(' ', '-')];
     const attrs = [
       {
         field: 'species',
@@ -23,7 +23,9 @@ class DataSourceCard extends Component {
 
     return (
       <div className='card'>
-        {speciesClass && <div className={`${style.speciesIcon} ${speciesClass}`} />}
+        <div className={style.iconContainer}>
+          <SpeciesIcon species={this.props.species} />
+        </div>
         <div className='card-block'>
           <PrimaryAttributesList attributes={attrs} data={this.props} termWidth='5' />
         </div>
