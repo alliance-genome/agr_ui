@@ -2,6 +2,7 @@
 
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import style from './style.css';
 import LoadingPage from '../../components/loadingPage';
 import GenomeFeature from '../../components/genomeFeature/GenomeFeature';
 
@@ -15,8 +16,8 @@ class GenomeFeatureViewer extends Component {
 
     // TODO: should be process.env.APOLLO_URL
     // let apolloServerPrefix = 'http://demo.genomearchitect.org/Apollo-staging/';
-    let apolloServerPrefix = 'http://agr-apollo.berkeleybop.io/Apollo-staging/';
-    // let apolloServerPrefix = 'http://localhost:8080/apollo/';
+    // let apolloServerPrefix = 'http://agr-apollo.berkeleybop.io/Apollo-staging/';
+    let apolloServerPrefix = 'http://localhost:8080/apollo/';
 
 
     // TODO: this is a hack to fix inconsistencies in JBrowse
@@ -100,8 +101,8 @@ class GenomeFeatureViewer extends Component {
                                                                  url={this.externalJBrowseUrl}
                                                                  width={this.props.width}
                                                   /> : ''}
-              {this.state.loadState == 'error' ? 'Unable to load' : ''}
             </a>
+            {this.state.loadState == 'error' ? <div className={style.error}>Unable to retrieve data</div> : ''}
           </div>
         </div>
       </div>
