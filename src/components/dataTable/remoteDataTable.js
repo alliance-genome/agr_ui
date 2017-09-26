@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import {
   fetchAssociations,
   setCurrentPage,
@@ -6,9 +7,7 @@ import {
 } from '../../actions/disease.js';
 
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { PaginationList } from 'react-bootstrap-table/src/pagination/PaginationList.js';
-//import { Pagination } from 'react-bootstrap-table';
-// import { Pagination } from 'react-bootstrap';
+import Pagination from './pagination';
 import PropTypes from 'prop-types';
 // import './style.css';
 
@@ -45,27 +44,22 @@ class RemoteDataTable extends Component {
     this.props.dispatch(fetchAssociations(this.props.id, 1, e.target.value));
   }
 
-  handlePageChange(page){
-    this.props.dispatch(setCurrentPage(page));
-    this.props.dispatch(fetchAssociations(this.props.id, page, this.props.perPageSize));
-  }
-
-  // test = () => {
-  //   return(
-  //       <div>
-  //       </div>
-  //   );
-  // }
-
   render() {
-    const { columns, data, filename } = this.props;
+    const { columns, currentPage, data, dispatch, filename, id, perPageSize, totalPages } = this.props;
 
     const options = {
-      paginationPanel: PaginationList,
     };
 
     return (
       <div>
+
+        <Pagination
+          currentPage={currentPage}
+          dispatch={dispatch}
+          id={id}
+          perPageSize={perPageSize}
+          totalPages={totalPages}
+        />
 
         <BootstrapTable
           bordered={false}
@@ -73,7 +67,6 @@ class RemoteDataTable extends Component {
           data={data}
           //exportCSV
           options={options}
-          // pagination
           ref={(table) => {this.tableRef = table;}}
           version='4'
         >

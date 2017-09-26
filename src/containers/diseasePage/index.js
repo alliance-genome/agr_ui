@@ -6,7 +6,7 @@ import {
   fetchDisease,
   fetchAssociations,
   //setPerPageSize,
-  //setCurrentPage,
+  //currentPage,
 } from '../../actions/disease';
 
 import {
@@ -35,7 +35,6 @@ class DiseasePage extends Component {
     if (this.props.params.diseaseId !== prevProps.params.diseaseId) {
       this.props.dispatch(fetchDisease(this.props.params.diseaseId));
       this.props.dispatch(fetchAssociations(this.props.params.diseaseId));
-
     }
   }
 
