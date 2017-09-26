@@ -62,8 +62,8 @@ class GenomeFeatureViewer extends Component {
           return data;
         });
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        // console.log(error);
         this.setState({
           loadState: 'error'
         });
@@ -83,7 +83,7 @@ class GenomeFeatureViewer extends Component {
               <dd className='col-sm-9'><a href={this.jbrowseUrl} rel='noopener noreferrer' target='_blank'>
                 {this.props.chromosome.startsWith('Chr') ? this.props.chromosome : 'Chr' + this.props.chromosome}:{this.props.fmin}...{this.props.fmax} {this.props.assembly} {this.props.strand} </a>
                 {/*&nbsp;*/}
-                {/*<a href={this.trackDataUrl}>[json]</a>*/}
+                <a href={this.trackDataUrl}>[json]</a>
               </dd>
             </dl>
           </div>
@@ -93,12 +93,13 @@ class GenomeFeatureViewer extends Component {
             <a href={this.jbrowseUrl} rel='noopener noreferrer'
                target='_blank' title='Browse Genome'
             >
-              {this.state.loadState == 'loading' ? <LoadingPage/> : ''}
+              {this.state.loadState == 'loading' ? <LoadingPage /> : ''}
               {this.state.loadState == 'loaded' ? <GenomeFeature data={this.state.loadedData}
                                                                  height={this.props.height}
                                                                  id={this.props.id}
                                                                  url={this.externalJBrowseUrl}
-                                                                 width={this.props.width}/> : ''}
+                                                                 width={this.props.width}
+                                                  /> : ''}
               {this.state.loadState == 'error' ? 'Unable to load' : ''}
             </a>
           </div>
