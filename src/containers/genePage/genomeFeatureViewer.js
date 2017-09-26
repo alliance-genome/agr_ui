@@ -16,8 +16,8 @@ class GenomeFeatureViewer extends Component {
 
     // TODO: should be process.env.APOLLO_URL
     // let apolloServerPrefix = 'http://demo.genomearchitect.org/Apollo-staging/';
-    // let apolloServerPrefix = 'http://agr-apollo.berkeleybop.io/Apollo-staging/';
-    let apolloServerPrefix = 'http://localhost:8080/apollo/';
+    let apolloServerPrefix = 'http://agr-apollo.berkeleybop.io/Apollo-staging/';
+    // let apolloServerPrefix = 'http://localhost:8080/apollo/';
 
 
     // TODO: this is a hack to fix inconsistencies in JBrowse
@@ -54,6 +54,12 @@ class GenomeFeatureViewer extends Component {
     this.setState({loadState: 'loading'});
 
     fetch(this.trackDataUrl)
+      .then(function(response) {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response;
+      })
       .then((response) => {
         response.json().then(data => {
           this.setState({
