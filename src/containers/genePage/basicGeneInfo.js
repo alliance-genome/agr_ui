@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import DataSourceCard from './dataSourceCard';
 import DataSourceLink from '../../components/dataSourceLink';
+import ExternalLink from '../../components/externalLink';
 import PrimaryAttributesList from '../../components/primaryAttributesList';
 
 class BasicGeneInfo extends Component {
@@ -69,7 +70,7 @@ class BasicGeneInfo extends Component {
       },
       {
         field: 'geneLiteratureUrl',
-        format: s => <a href={s}>Literature</a>,
+        format: s => <ExternalLink href={s}>Literature</ExternalLink>,
         name: 'Additional Information'
       },
     ];
