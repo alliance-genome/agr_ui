@@ -10,7 +10,7 @@ import { NON_HIGHLIGHTED_FIELDS } from '../../constants';
 
 import SpeciesIcon from '../../components/speciesIcon';
 
-const DEFAULT_FIELDS = ['symbol', 'name', 'synonyms', 'sourceHref', 'id', 'species', 'type'];
+const DEFAULT_FIELDS = ['symbol', 'name', 'synonyms', 'sourceHref', 'id', 'type'];
 
 class ResultsList extends Component {
   renderHighlightedValues(highlight) {
@@ -21,13 +21,21 @@ class ResultsList extends Component {
     return <DetailList data={_data} fields={_fields} />;
   }
 
-  renderHeader(category, link) {
+  renderHeader(category, link, species) {
+    if (species) {
+      species = '(' + species + ')';
+    }
     return (
       <div>
         <span className={style.resultCatLabel}><CategoryLabel category={category} /></span>
-        <h4>
-          {link}
-        </h4>
+        <div>
+          <h4 className={style.resultLinkLabel}>
+            {link}
+          </h4>
+          <span className={style.resultSpeciesLabel}>
+            {species || ''}
+          </span>
+        </div>
       </div>
     );
   }
@@ -76,11 +84,11 @@ class ResultsList extends Component {
 
   renderGeneEntry(d, i) {
     let topFields = ['name', 'synonyms'];
-    let bottomFields = ['species', 'biotype'];
+    let bottomFields = ['biotype'];
     let link = <Link to={`/gene/${d.id}`}><span dangerouslySetInnerHTML={{ __html: d.display_name }} /></Link>;
     return (
       <div className={style.resultContainer} key={`sr${i}`}>
-        {this.renderHeader(d.category, link)}
+        {this.renderHeader(d.category, link, d.species)}
           <SpeciesIcon iconClass={style.resultSpeciesIcon} species={d.species} />
           {this.renderDetailFromFields(d, topFields)}
           <div className={style.detailContainer}>

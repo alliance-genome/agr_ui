@@ -8,6 +8,7 @@ import {
   AttributeLabel,
   AttributeValue,
 } from '../../components/attribute';
+import ExternalLink from '../../components/externalLink';
 
 class BasicDiseaseInfo extends Component {
   renderTermList(terms) {
@@ -23,9 +24,9 @@ class BasicDiseaseInfo extends Component {
   renderSourceList(sources) {
     return sources && sources.map((source) => {
       return (
-        <a href={source.url} key={`source-${source.species.displayName}`}>
+        <ExternalLink href={source.url} key={`source-${source.species.displayName}`}>
           {source.species.displayName}
-        </a>
+        </ExternalLink>
       );
     }).reduce((a, b) => [a, ', ', b]);
   }
@@ -33,15 +34,30 @@ class BasicDiseaseInfo extends Component {
   renderCrossReferenceList(refs) {
     return refs && refs.map((ref) => {
       return (
-        <a href={ref.crossRefCompleteUrl} key={`ref-${ref.name}`}>
+        <ExternalLink href={ref.crossRefCompleteUrl} key={`ref-${ref.name}`}>
           {ref.name}
-        </a>
+        </ExternalLink>
       );
     }).reduce((a, b) => [a, ', ', b]);
   }
 
+  renderDefinition(disease) {
+    return (disease.definition || disease.definitionLinks.lenth > 0) && (
+      <div>
+        {disease.definition}
+        {this.renderDefinitionLinks(disease.definitionLinks)}
+      </div>
+    );
+  }
+
   renderDefinitionLinks(links) {
-    return links && links.map(link => <div key={link}><a href={link}>{link}</a></div>);
+    return links && links.map(link => {
+      return (
+        <div key={link}>
+          <ExternalLink href={link}>{link}</ExternalLink>
+        </div>
+      );
+    });
   }
 
   render() {
@@ -50,8 +66,7 @@ class BasicDiseaseInfo extends Component {
       <AttributeList bsClassName='col-xs-12'>
         <AttributeLabel>Definition</AttributeLabel>
         <AttributeValue>
-          {disease.definition}
-          {this.renderDefinitionLinks(disease.definitionLinks)}
+          {this.renderDefinition(disease)}
         </AttributeValue>
 
         <AttributeLabel>Synonyms</AttributeLabel>
