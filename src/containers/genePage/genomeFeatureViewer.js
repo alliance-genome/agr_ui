@@ -21,9 +21,6 @@ class GenomeFeatureViewer extends Component {
 
     // TODO: this is a hack to fix inconsistencies in JBrowse
     let hackedLocationString = locationString;
-    if (this.props.species == 'Homo sapiens' || this.props.species == 'Rattus norvegicus') {
-      hackedLocationString = 'Chr' + locationString;
-    }
     let trackDataPrefix = apolloServerPrefix + 'track/' + encodeURI(this.props.species) + '/' + defaultTrackName + '/' + encodeURI(hackedLocationString) + '.json';
     let trackDataWithHighlight = trackDataPrefix + '?name=' + this.props.geneSymbol;
     // trackDataWithHighlight += '&ignoreCache=true';
@@ -53,6 +50,12 @@ class GenomeFeatureViewer extends Component {
     this.setState({loadState: 'loading'});
 
     fetch(this.trackDataUrl)
+      .then(function(response) {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response;
+      })
       .then((response) => {
         response.json().then(data => {
           this.setState({
@@ -62,8 +65,8 @@ class GenomeFeatureViewer extends Component {
           return data;
         });
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        // console.log(error);
         this.setState({
           loadState: 'error'
         });
@@ -93,14 +96,15 @@ class GenomeFeatureViewer extends Component {
             <a href={this.jbrowseUrl} rel='noopener noreferrer'
                target='_blank' title='Browse Genome'
             >
-              {this.state.loadState == 'loading' ? <LoadingPage/> : ''}
+              {this.state.loadState == 'loading' ? <LoadingPage /> : ''}
               {this.state.loadState == 'loaded' ? <GenomeFeature data={this.state.loadedData}
                                                                  height={this.props.height}
                                                                  id={this.props.id}
                                                                  url={this.externalJBrowseUrl}
-                                                                 width={this.props.width}/> : ''}
-              {this.state.loadState == 'error' ? 'Unable to load' : ''}
+                                                                 width={this.props.width}
+                                                  /> : ''}
             </a>
+            {this.state.loadState == 'error' ? <div className='text-danger'>Unable to retrieve data</div> : ''}
           </div>
         </div>
       </div>
