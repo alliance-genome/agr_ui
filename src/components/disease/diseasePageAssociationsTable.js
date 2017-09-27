@@ -43,12 +43,6 @@ class DiseasePageAssociationsTable extends Component {
     ];
     return (
       <div>
-        <div className='checkbox pull-right'>
-          <label>
-            <input checked={!this.state.hideExtra} onChange={this.handleToggleExtra} type='checkbox' />
-            Show addition information
-          </label>
-        </div>
         <RemoteDataTable
           columns={columns}
           currentPage={this.props.currentPage}
