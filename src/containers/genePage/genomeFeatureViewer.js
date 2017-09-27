@@ -22,9 +22,6 @@ class GenomeFeatureViewer extends Component {
 
     // TODO: this is a hack to fix inconsistencies in JBrowse
     let hackedLocationString = locationString;
-    if (this.props.species == 'Homo sapiens' || this.props.species == 'Rattus norvegicus') {
-      hackedLocationString = 'Chr' + locationString;
-    }
     let trackDataPrefix = apolloServerPrefix + 'track/' + encodeURI(this.props.species) + '/' + defaultTrackName + '/' + encodeURI(hackedLocationString) + '.json';
     let trackDataWithHighlight = trackDataPrefix + '?name=' + this.props.geneSymbol;
     // trackDataWithHighlight += '&ignoreCache=true';
@@ -90,7 +87,7 @@ class GenomeFeatureViewer extends Component {
               <dd className='col-sm-9'><a href={this.jbrowseUrl} rel='noopener noreferrer' target='_blank'>
                 {this.props.chromosome.startsWith('Chr') ? this.props.chromosome : 'Chr' + this.props.chromosome}:{this.props.fmin}...{this.props.fmax} {this.props.assembly} {this.props.strand} </a>
                 {/*&nbsp;*/}
-                <a href={this.trackDataUrl}>[json]</a>
+                {/*<a href={this.trackDataUrl}>[json]</a>*/}
               </dd>
             </dl>
           </div>
@@ -108,7 +105,7 @@ class GenomeFeatureViewer extends Component {
                                                                  width={this.props.width}
                                                   /> : ''}
             </a>
-            {this.state.loadState == 'error' ? <div className={style.error}>Unable to retrieve data</div> : ''}
+            {this.state.loadState == 'error' ? <div className='text-danger'>Unable to retrieve data</div> : ''}
           </div>
         </div>
       </div>
