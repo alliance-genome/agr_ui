@@ -2,8 +2,23 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { fetchDisease } from '../../actions/disease';
-import { selectDisease } from '../../selectors/disease';
+import {
+  fetchDisease,
+  fetchAssociations,
+  //setPerPageSize,
+  //currentPage,
+} from '../../actions/disease';
+
+import {
+  selectData,
+  selectAssociations,
+  selectTotalAssociations,
+  selectPerPageSize,
+  selectCurrentPage,
+  selectAssociationsError,
+  selectLoadingAssociation,
+  selectTotalPages,
+} from '../../selectors/diseaseSelectors';
 
 import ExternalLink from '../../components/externalLink';
 import HeadMetaTags from '../../components/headMetaTags';
@@ -16,11 +31,13 @@ import { DiseasePageAssociationsTable } from '../../components/disease';
 class DiseasePage extends Component {
   componentDidMount() {
     this.props.dispatch(fetchDisease(this.props.params.diseaseId));
+    this.props.dispatch(fetchAssociations(this.props.params.diseaseId));
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.params.diseaseId !== prevProps.params.diseaseId) {
       this.props.dispatch(fetchDisease(this.props.params.diseaseId));
+      this.props.dispatch(fetchAssociations(this.props.params.diseaseId));
     }
   }
 
@@ -45,9 +62,6 @@ class DiseasePage extends Component {
       <div className='container'>
         <HeadMetaTags title={title} />
 
-        <div className='alert alert-warning'>
-          <i className='fa fa-warning' /> Page under active development
-        </div>
         <h1>
           {disease.name}
           &nbsp;
@@ -63,8 +77,16 @@ class DiseasePage extends Component {
           <BasicDiseaseInfo disease={disease} />
         </Subsection>
 
-        <Subsection hardcoded title='Associations'>
-          <DiseasePageAssociationsTable />
+        <Subsection title='Associations'>
+          <DiseasePageAssociationsTable
+            associations={this.props.associations}
+            currentPage={this.props.currentPage}
+            dispatch={this.props.dispatch}
+            id={this.props.params.diseaseId}
+            perPageSize={this.props.perPageSize}
+            totalAssociations={this.props.totalAssociations}
+            totalPages={this.props.totalPages}
+          />
         </Subsection>
       </div>
     );
@@ -72,16 +94,37 @@ class DiseasePage extends Component {
 }
 
 DiseasePage.propTypes = {
+  associations: PropTypes.arrayOf(PropTypes.object), // An array containing the disease associations.
+  associationsError: PropTypes.string,               // Association loading error messages.
+  currentPage: PropTypes.number,                     // The current page of the associations table.
   data: PropTypes.object,
   dispatch: PropTypes.func,
+  loadingAssociations: PropTypes.bool,               // Whether or not we are loading associations.
   error: PropTypes.object,
   loading: PropTypes.bool,
   params: PropTypes.object,
+  perPageSize: PropTypes.number,                     // Number of associations to display per page.
+  totalAssociations: PropTypes.number,               // Total number of associations.
+  totalPages: PropTypes.number,                      // Total number of pages calculated from the number
+                                                     // of associations and the per page setting.
 };
 
-function mapStateToProps(state) {
-  return selectDisease(state);
-}
+// Ideally, the toJS() calls should be removed here for performance reasons.
+// Additionally, the react classes that use these props should be modified
+// to handle the ImmutableJS counterparts of the JS data structures.
+// Leave in for now since I'm unsure of the downstream dependencies.
+const mapStateToProps = (state) => {
+  return {
+    data: selectData(state).toJS(),
+    associations: selectAssociations(state).toJS(),
+    loadingAssociations: selectLoadingAssociation(state),
+    associationsError: selectAssociationsError(state),
+    currentPage: selectCurrentPage(state),
+    perPageSize: selectPerPageSize(state),
+    totalAssociations: selectTotalAssociations(state),
+    totalPages: selectTotalPages(state)
+  };
+};
 
 export { DiseasePage as DiseasePage };
 export default connect(mapStateToProps)(DiseasePage);
