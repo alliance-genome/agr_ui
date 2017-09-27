@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import DataSourceCard from './dataSourceCard';
 import DataSourceLink from '../../components/dataSourceLink';
+import ExternalLink from '../../components/externalLink';
 import PrimaryAttributesList from '../../components/primaryAttributesList';
 
 class BasicGeneInfo extends Component {
@@ -32,10 +33,10 @@ class BasicGeneInfo extends Component {
       return '';
     }
     return refs
-      .sort((a, b) => `${a.dataProvider}:${a.id}`.localeCompare(`${b.dataProvider}:${b.id}`))
-      .map((ref, idx) => {
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map((ref) => {
         return (
-          <div key={`ref-${idx}`}>
+          <div key={`ref-${ref.name}`}>
             <DataSourceLink reference={ref} />
           </div>
         );
@@ -69,13 +70,13 @@ class BasicGeneInfo extends Component {
       },
       {
         field: 'geneLiteratureUrl',
-        format: s => <a href={s}>Literature</a>,
+        format: s => <ExternalLink href={s}>Literature</ExternalLink>,
         name: 'Additional Information'
       },
     ];
     const modReference = {
-      id: this.state.geneData.modGlobalCrossRefId,
-      crossrefCompleteUrl: this.state.geneData.modCrossRefCompleteUrl,
+      name: this.state.geneData.modGlobalCrossRefId,
+      crossRefCompleteUrl: this.state.geneData.modCrossRefCompleteUrl,
     };
     return (
       <div className='row'>

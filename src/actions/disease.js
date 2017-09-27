@@ -17,8 +17,12 @@ export const fetchDisease = function (id) {
       type: FETCH_DISEASE,
     });
     fetchData(`/api/disease/${id}`)
-      .then((data) => dispatch(fetchDiseaseSuccess(data)))
-      .catch((error) => dispatch(fetchDiseaseFailure(error)));
+      .then((data) => {
+        dispatch(fetchDiseaseSuccess(data));
+      })
+      .catch((error) => {
+        dispatch(fetchDiseaseFailure(error));
+      });
   };
 };
 

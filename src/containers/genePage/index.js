@@ -7,12 +7,15 @@ import { selectGene } from '../../selectors/geneSelectors';
 
 import BasicGeneInfo from './basicGeneInfo';
 import GenePageHeader from './genePageHeader';
-import { OrthologyFilteredTable, OrthologyUserGuide, PantherCrossRef } from '../../components/orthology';
+import { OrthologyFilteredTable, OrthologyUserGuide, OrthologyBasicInfo } from '../../components/orthology';
 import { GenePageDiseaseTable } from '../../components/disease';
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
+import LoadingPage from '../../components/loadingPage';
+import NotFound from '../../components/notFound';
 import Subsection from '../../components/subsection';
 import HeadMetaTags from '../../components/headMetaTags';
-import TranscriptInlineViewer from './transcriptInlineViewer';
+
+import GenomeFeatureViewer from './genomeFeatureViewer';
 
 class GenePage extends Component {
 
@@ -28,11 +31,11 @@ class GenePage extends Component {
 
   render() {
     if (this.props.loading) {
-      return <span>loading...</span>;
+      return <LoadingPage />;
     }
 
     if (this.props.error) {
-      return <div className='alert alert-danger'>{this.props.error}</div>;
+      return <NotFound />;
     }
 
     if (!this.props.data) {
@@ -72,14 +75,17 @@ class GenePage extends Component {
         </Subsection>
 
         <Subsection hasData={typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'} title='Sequence Feature Viewer'>
-          <TranscriptInlineViewer
+          <GenomeFeatureViewer
             assembly={genomeLocation.assembly}
             chromosome={genomeLocation.chromosome}
             fmax={genomeLocation.end}
             fmin={genomeLocation.start}
             geneSymbol={this.props.data.symbol}
+            height='200px'
+            id='genome-feature-location-id'
             species={this.props.data.species}
             strand={genomeLocation.strand}
+            width='600px'
           />
         </Subsection>
 
@@ -88,7 +94,10 @@ class GenePage extends Component {
         </Subsection>
 
         <Subsection title='Orthology'>
-          <PantherCrossRef crossReferences={this.props.data.crossReferences} />
+          <OrthologyBasicInfo
+            crossReferences={this.props.data.crossReferences}
+            focusGeneSymbol={this.props.data.symbol}
+          />
           <OrthologyUserGuide />
           <Subsection hasData={(this.props.data.orthology || []).length > 0}>
             <OrthologyFilteredTable data={this.props.data.orthology} />

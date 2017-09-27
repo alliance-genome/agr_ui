@@ -20,8 +20,11 @@ import {
   selectTotalPages,
 } from '../../selectors/diseaseSelectors';
 
+import ExternalLink from '../../components/externalLink';
 import HeadMetaTags from '../../components/headMetaTags';
+import LoadingPage from '../../components/loadingPage';
 import Subsection from '../../components/subsection';
+import NotFound from '../../components/notFound';
 import BasicDiseaseInfo from './basicDiseaseInfo';
 import { DiseasePageAssociationsTable } from '../../components/disease';
 
@@ -38,19 +41,35 @@ class DiseasePage extends Component {
     }
   }
 
+  renderError() {
+    let e = this.props.error;
+    if (!e) {
+      return null;
+    }
+    return <NotFound />;
+  }
+
   render() {
     const disease = this.props.data;
     const title = this.props.params.diseaseId;
-
+    if (this.props.loading) {
+      return <LoadingPage />;
+    }
     if (!disease) {
-      return null;
+      return this.renderError();
     }
     return (
       <div className='container'>
         <HeadMetaTags title={title} />
 
         <h1>
-          {disease.name} (<a href={'http://www.disease-ontology.org/?id=' + disease.doId}>{disease.doId}</a>)
+          {disease.name}
+          &nbsp;
+          <small>
+            (<ExternalLink href={'http://www.disease-ontology.org/?id=' + disease.doId}>
+              {disease.doId}
+            </ExternalLink>)
+          </small>
           <hr />
         </h1>
 
@@ -81,6 +100,8 @@ DiseasePage.propTypes = {
   data: PropTypes.object,
   dispatch: PropTypes.func,
   loadingAssociations: PropTypes.bool,               // Whether or not we are loading associations.
+  error: PropTypes.object,
+  loading: PropTypes.bool,
   params: PropTypes.object,
   perPageSize: PropTypes.number,                     // Number of associations to display per page.
   totalAssociations: PropTypes.number,               // Total number of associations.

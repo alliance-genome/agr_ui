@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import fetchData from '../../lib/fetchData';
 import { fetchWp, fetchWpSuccess, fetchWpFailure } from '../../actions/wp';
 import { selectWp } from '../../selectors/wpSelectors';
+import LoadingPage from '../../components/loadingPage';
 
 import WordpressPage from './wordpressPage';
 
@@ -17,11 +18,14 @@ class Wordpress extends Component {
     super(props);
   }
   componentDidMount() {
-    this.getData(this.getCurrentRoute(this.props));
+    let wpUrl = this.getCurrentRoute(this.props) || '/home';
+    this.getData(wpUrl);
   }
   componentWillUpdate(nextProps, nextState){
-    if(this.getCurrentRoute(this.props) != this.getCurrentRoute(nextProps)){
-      this.getData(this.getCurrentRoute(nextProps));
+    let wpUrl = this.getCurrentRoute(this.props) || '/home';
+    let nextWpUrl = this.getCurrentRoute(nextProps) || '/home';
+    if(wpUrl !== nextWpUrl){
+      this.getData(nextWpUrl);
     }
   }
   getCurrentRoute(props){
@@ -37,7 +41,7 @@ class Wordpress extends Component {
   }
   render() {
     if (this.props.loading) {
-      return <span>loading...</span>;
+      return <LoadingPage />;
     }
 
     if (this.props.error) {
