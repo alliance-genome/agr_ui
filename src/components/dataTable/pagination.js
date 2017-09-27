@@ -27,8 +27,8 @@ class Pagination extends Component {
     const buttonGroupInstance = (
       <ButtonToolbar>
         <ButtonGroup>
-          <Button disabled={currentPage===1} onClick={() => this.handlePageChange(currentPage-1)} >{'<'}</Button>
-          <Button disabled={currentPage===totalPages} onClick={() => this.handlePageChange(currentPage+1)} >{'>'}</Button>
+          <Button disabled={currentPage===0} onClick={() => this.handlePageChange(currentPage-1)} >{'<'}</Button>
+          <Button disabled={currentPage===totalPages-1} onClick={() => this.handlePageChange(currentPage+1)} >{'>'}</Button>
         </ButtonGroup>
       </ButtonToolbar>
     );

@@ -17,7 +17,7 @@ export const DEFAULT_STATE = fromJS({
   associations: [],
   loadingAssociations: false,
   associationsError: '',
-  currentPage: 1,
+  currentPage: 0,
   perPageSize: 10,
   totalAssociations: 0,
 });
@@ -53,7 +53,7 @@ const diseaseReducer = function (state = DEFAULT_STATE, action) {
 
   case SET_PER_PAGE_SIZE:
     return state.set('perPageSize', action.payload)
-      .set('currentPage', 1);
+      .set('currentPage', 0);
 
   case SET_CURRENT_PAGE:
     return state.set('currentPage', action.payload);

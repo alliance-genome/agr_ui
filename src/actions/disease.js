@@ -36,7 +36,7 @@ export const fetchDiseaseFailure = function (error) {
   };
 };
 
-export const fetchAssociations = function (id, page = 1, limit = 10) {
+export const fetchAssociations = function (id, page = 0, limit = 10) {
   return (dispatch) => {
     dispatch(fetchAssociationsRequest());
     return fetchData(`/api/disease/${id}/associations?page=${page}&limit=${limit}`)

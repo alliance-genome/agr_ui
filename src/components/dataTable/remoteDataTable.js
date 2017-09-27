@@ -32,16 +32,12 @@ class RemoteDataTable extends Component {
     super(props);
 
     this.handleResultsPerPageChange=this.handleResultsPerPageChange.bind(this);
-    //this.handlePageChange=this.handlePageChange.bind(this);
-    //this.renderPaginationPanel=this.renderPaginationPanel.bind(this);
-    // this.test=this.test.bind(this);
-
   }
 
   handleResultsPerPageChange(e){
     this.props.dispatch(setPerPageSize(e.target.value));
-    this.props.dispatch(setCurrentPage(1));
-    this.props.dispatch(fetchAssociations(this.props.id, 1, e.target.value));
+    this.props.dispatch(setCurrentPage(0));
+    this.props.dispatch(fetchAssociations(this.props.id, 0, e.target.value));
   }
 
   render() {
