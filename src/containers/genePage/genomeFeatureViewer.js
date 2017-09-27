@@ -2,6 +2,7 @@
 
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import style from './style.css';
 import LoadingPage from '../../components/loadingPage';
 import GenomeFeature from '../../components/genomeFeature/GenomeFeature';
 
@@ -53,6 +54,12 @@ class GenomeFeatureViewer extends Component {
     this.setState({loadState: 'loading'});
 
     fetch(this.trackDataUrl)
+      .then(function(response) {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response;
+      })
       .then((response) => {
         response.json().then(data => {
           this.setState({
@@ -100,8 +107,8 @@ class GenomeFeatureViewer extends Component {
                                                                  url={this.externalJBrowseUrl}
                                                                  width={this.props.width}
                                                   /> : ''}
-              {this.state.loadState == 'error' ? 'Unable to load' : ''}
             </a>
+            {this.state.loadState == 'error' ? <div className={style.error}>Unable to retrieve data</div> : ''}
           </div>
         </div>
       </div>

@@ -14,3 +14,9 @@
   display: block;
   margin: 0 auto;
 }
+.error{
+  color:darkred;
+  opacity: 0.8;
+  margin-left: 20px;
+  font-weight: bolder;
+}
