@@ -25,7 +25,8 @@
 }
 
 .toggleLink {
-  margin-left: 0.5rem;
+  padding: 0 0.5rem;
+  vertical-align: baseline;
 }
 
 .fadeInAndOut {
