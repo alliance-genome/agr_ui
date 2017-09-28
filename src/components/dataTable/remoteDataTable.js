@@ -85,7 +85,7 @@ class RemoteDataTable extends Component {
           }
         </BootstrapTable>
 
-        <Download buttonText={'Download'} data={this.props.data} filename={this.props.id} id={this.props.id} />
+        <Download buttonText={'Download'} filename={this.props.id} id={this.props.id} />
 
       </div>
     );
