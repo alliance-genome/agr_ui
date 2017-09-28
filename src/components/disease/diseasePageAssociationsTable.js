@@ -9,6 +9,7 @@ class DiseasePageAssociationsTable extends Component {
     this.state = {
       hideExtra: true
     };
+
     this.handleToggleExtra = this.handleToggleExtra.bind(this);
   }
 
@@ -19,18 +20,19 @@ class DiseasePageAssociationsTable extends Component {
   }
 
   render() {
+
     const columns = [
       {
-        field: 'do_name',
+        field: 'primaryKey',
         label: 'Disease Name',
         sortable: true,
       },
       {
-        field: 'do_id',
+        field: 'diseaseID',
         label: 'DO ID',
         isKey: true,
         sortable: true,
-        format: (id) => id + '!'
+        format: (id) => id + '!!!'
       },
       {
         field: 'associationType',
@@ -41,21 +43,31 @@ class DiseasePageAssociationsTable extends Component {
     ];
     return (
       <div>
-        <div className='checkbox pull-right'>
-          <label>
-            <input checked={!this.state.hideExtra} onChange={this.handleToggleExtra} type='checkbox' />
-            Show addition information
-          </label>
-        </div>
-        <RemoteDataTable columns={columns} url='http://localhost:3000/diseases' />
+        <RemoteDataTable
+          columns={columns}
+          currentPage={this.props.currentPage}
+          data={this.props.associations}
+          dispatch={this.props.dispatch}
+          id={this.props.id}
+          perPageSize={this.props.perPageSize}
+          totalAssociations={this.props.totalAssociations}
+          totalPages={this.props.totalPages}
+        />
       </div>
     );
   }
 }
 
 DiseasePageAssociationsTable.propTypes = {
-  columns: PropTypes.array.isRequired,
-  url: PropTypes.string,
+  associations: PropTypes.arrayOf(PropTypes.object),
+  currentPage: PropTypes.number,
+  disease: PropTypes.object,
+  dispatch: PropTypes.func,
+  id: PropTypes.string,
+  perPageSize: PropTypes.number,
+  totalAssociations: PropTypes.number,
+  totalPages: PropTypes.number,
+
 };
 
 export default DiseasePageAssociationsTable;
