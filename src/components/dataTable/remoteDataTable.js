@@ -8,6 +8,7 @@ import {
 
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import Download from './downloadButton.js';
+import Pagination from './Pagination.js';
 import PropTypes from 'prop-types';
 
 const textSorter = (textRender, field) => {
@@ -35,8 +36,8 @@ class RemoteDataTable extends Component {
 
   handleResultsPerPageChange(e){
     this.props.dispatch(setPerPageSize(e.target.value));
-    this.props.dispatch(setCurrentPage(0));
-    this.props.dispatch(fetchAssociations(this.props.id, 0, e.target.value));
+    this.props.dispatch(setCurrentPage(1));
+    this.props.dispatch(fetchAssociations(this.props.id, 1, e.target.value));
   }
 
   render() {
