@@ -13,10 +13,13 @@ import SpeciesIcon from '../../components/speciesIcon';
 const DEFAULT_FIELDS = ['symbol', 'name', 'synonyms', 'sourceHref', 'id', 'type'];
 
 class ResultsList extends Component {
-  renderHighlightedValues(highlight) {
+  renderHighlightedValues(highlight, fields) {
     let _data = highlight;
+    if (!fields) {
+      fields = DEFAULT_FIELDS;
+    }
     let _fields = Object.keys(_data).filter( d => {
-      return (DEFAULT_FIELDS.indexOf(d) < 0) && (NON_HIGHLIGHTED_FIELDS.indexOf(d) < 0);
+      return (fields.indexOf(d) < 0) && (NON_HIGHLIGHTED_FIELDS.indexOf(d) < 0);
     });
     return <DetailList data={_data} fields={_fields} />;
   }
@@ -32,9 +35,7 @@ class ResultsList extends Component {
           <h4 className={style.resultLinkLabel}>
             {link}
           </h4>
-          <span className={style.resultSpeciesLabel}>
-            {species || ''}
-          </span>
+          <span className={style.resultSpeciesLabel} dangerouslySetInnerHTML={{ __html: species }} />
         </div>
       </div>
     );
@@ -60,7 +61,7 @@ class ResultsList extends Component {
       <div className={style.resultContainer} key={`sr${i}`}>
         {this.renderHeader(d.category, link)}
         {this.renderDetailFromFields(d, fields)}
-        {this.renderHighlightedValues(d.highlight)}
+        {this.renderHighlightedValues(d.highlight, fields)}
         {this.renderMissingTerms(d)}
         {d.explanation && <ResultExplanation explanation={d.explanation} score={d.score} />}
         <hr />
