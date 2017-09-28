@@ -6,7 +6,7 @@ import {
   setPerPageSize
 } from '../../actions/disease.js';
 
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import { BootstrapTable, ExportCSVButton, TableHeaderColumn } from 'react-bootstrap-table';
 import Pagination from './pagination';
 import PropTypes from 'prop-types';
 // import './style.css';
@@ -32,9 +32,22 @@ class RemoteDataTable extends Component {
     super(props);
 
     this.handleResultsPerPageChange=this.handleResultsPerPageChange.bind(this);
+    this.createCustomExportButton=this.createCustomExportButton.bind(this);
+  }
+
+  createCustomExportButton() {
+    return (
+      <ExportCSVButton
+        btnText='Download TSV'
+        href={'http://build.alliancegenome.org/api/disease/${this.props.id}/associations/download'}
+        //onClick={(e)=>{e.preventDefault()}}
+      />
+    );
   }
 
   handleResultsPerPageChange(e){
+    console.log('this.props.currentPage: ' + this.props.currentPage);
+
     this.props.dispatch(setPerPageSize(e.target.value));
     this.props.dispatch(setCurrentPage(0));
     this.props.dispatch(fetchAssociations(this.props.id, 0, e.target.value));
@@ -44,6 +57,7 @@ class RemoteDataTable extends Component {
     const { columns, currentPage, data, dispatch, filename, id, perPageSize, totalPages } = this.props;
 
     const options = {
+      exportCSVBtn: this.createCustomExportButton
     };
 
     return (
@@ -61,7 +75,7 @@ class RemoteDataTable extends Component {
           bordered={false}
           csvFileName={filename}
           data={data}
-          //exportCSV
+          exportCSV
           options={options}
           ref={(table) => {this.tableRef = table;}}
           version='4'
@@ -85,6 +99,7 @@ class RemoteDataTable extends Component {
             )
           }
         </BootstrapTable>
+
       </div>
     );
   }
