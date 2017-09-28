@@ -36,9 +36,9 @@ class CollapsibleList extends Component {
         {renderList(itemView)}
         {items.length > collapsedSize && (
           <span>
-            <a className={style.toggleLink} href='#' onClick={this.toggleCollapsed.bind(this)}>
+            <button className={`btn btn-link ${style.toggleLink}`} onClick={this.toggleCollapsed.bind(this)}>
               {collapsed ? moreLink : lessLink}
-            </a>
+            </button>
           </span>
         )}
       </div>
