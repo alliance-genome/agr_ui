@@ -22,7 +22,7 @@ class ResultsTable extends Component {
       fields = ['display_name', 'id', 'synonyms', 'go_branch'];
       break;
     case 'disease':
-      fields = ['display_name', 'omim_id', 'synonyms'];
+      fields = ['display_name', 'id'];
       break;
     default:
       fields = ['display_name', 'synonyms'];
