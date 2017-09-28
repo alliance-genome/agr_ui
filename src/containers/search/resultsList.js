@@ -32,9 +32,7 @@ class ResultsList extends Component {
           <h4 className={style.resultLinkLabel}>
             {link}
           </h4>
-          <span className={style.resultSpeciesLabel}>
-            {species || ''}
-          </span>
+          <span className={style.resultSpeciesLabel} dangerouslySetInnerHTML={{ __html: species }} />
         </div>
       </div>
     );
