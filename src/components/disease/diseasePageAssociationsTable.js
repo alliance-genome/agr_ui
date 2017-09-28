@@ -1,5 +1,8 @@
 /* eslint-disable react/no-set-state */
 import React, { Component } from 'react';
+import { Link } from 'react-router';
+
+import ReferenceCell from './referenceCell';
 import { RemoteDataTable } from '../../components/dataTable';
 import PropTypes from 'prop-types';
 
@@ -19,26 +22,51 @@ class DiseasePageAssociationsTable extends Component {
     });
   }
 
+  renderDiseaseName(name, row) {
+    return <Link to={'/disease/' + row.diseaseID}>{name}</Link>;
+  }
+
+  renderGeneLink(gene) {
+    return <Link to={'/gene/' + gene.primaryId}>{gene.symbol}</Link>;
+  }
+
   render() {
 
     const columns = [
       {
-        field: 'primaryKey',
-        label: 'Disease Name',
-        sortable: true,
-      },
-      {
         field: 'diseaseID',
         label: 'DO ID',
         isKey: true,
-        sortable: true,
-        format: (id) => id + '!!!'
+        hidden: true,
+      },
+      {
+        field: 'diseaseName',
+        label: 'Disease & Subtypes',
+        format: this.renderDiseaseName,
+      },
+      {
+        field: 'disease_species',
+        label: 'Species',
+        format: (species) => <i>{species.name}</i>,
+      },
+      {
+        field: 'geneDocument',
+        label: 'Associated Gene',
+        format: this.renderGeneLink,
       },
       {
         field: 'associationType',
-        label: 'Association',
-        sortable: true,
-        hidden: this.state.hideExtra,
+        label: 'Association Type',
+        format: (type) => type.replace(/_/g, ' '),
+      },
+      {
+        field: '',
+        label: 'Source',
+      },
+      {
+        field: 'publications',
+        label: 'References',
+        format: ReferenceCell,
       }
     ];
     return (
