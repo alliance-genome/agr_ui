@@ -7,9 +7,8 @@ import {
 } from '../../actions/disease.js';
 
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import Pagination from './pagination';
+import Download from './downloadButton.js';
 import PropTypes from 'prop-types';
-// import './style.css';
 
 const textSorter = (textRender, field) => {
   return (a, b, order) => {
@@ -43,9 +42,6 @@ class RemoteDataTable extends Component {
   render() {
     const { columns, currentPage, data, dispatch, filename, id, perPageSize, totalPages } = this.props;
 
-    const options = {
-    };
-
     return (
       <div>
 
@@ -61,8 +57,6 @@ class RemoteDataTable extends Component {
           bordered={false}
           csvFileName={filename}
           data={data}
-          //exportCSV
-          options={options}
           ref={(table) => {this.tableRef = table;}}
           version='4'
         >
@@ -85,6 +79,9 @@ class RemoteDataTable extends Component {
             )
           }
         </BootstrapTable>
+
+          <Download buttonText={'Download'} filename={this.props.id} id={this.props.id} />
+
       </div>
     );
   }
