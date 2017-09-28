@@ -8,7 +8,6 @@ import {
 
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import Download from './downloadButton.js';
-import Pagination from './pagination.js';
 import PropTypes from 'prop-types';
 
 const textSorter = (textRender, field) => {
@@ -44,8 +43,6 @@ class RemoteDataTable extends Component {
   render() {
     const { columns, currentPage, data, dispatch, filename, id, perPageSize, totalPages } = this.props;
 
-    const options={};
-
     return (
       <div>
 
@@ -61,7 +58,6 @@ class RemoteDataTable extends Component {
           bordered={false}
           csvFileName={filename}
           data={data}
-          options={options}
           ref={(table) => {this.tableRef = table;}}
           version='4'
         >
@@ -85,7 +81,7 @@ class RemoteDataTable extends Component {
           }
         </BootstrapTable>
 
-        <Download buttonText={'Download'} filename={this.props.id} id={this.props.id} />
+          <Download buttonText={'Download'} filename={this.props.id} id={this.props.id} />
 
       </div>
     );
