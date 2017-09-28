@@ -6,10 +6,10 @@ import {
   setPerPageSize
 } from '../../actions/disease.js';
 
-import { BootstrapTable, ExportCSVButton, TableHeaderColumn } from 'react-bootstrap-table';
-import Pagination from './pagination';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import Download from './downloadButton.js';
+import Pagination from './pagination.js';
 import PropTypes from 'prop-types';
-// import './style.css';
 
 const textSorter = (textRender, field) => {
   return (a, b, order) => {
@@ -32,21 +32,9 @@ class RemoteDataTable extends Component {
     super(props);
 
     this.handleResultsPerPageChange=this.handleResultsPerPageChange.bind(this);
-    this.createCustomExportButton=this.createCustomExportButton.bind(this);
-  }
-
-  createCustomExportButton() {
-    return (
-      <ExportCSVButton
-        btnText='Download TSV'
-        href={'http://build.alliancegenome.org/api/disease/${this.props.id}/associations/download'}
-        //onClick={(e)=>{e.preventDefault()}}
-      />
-    );
   }
 
   handleResultsPerPageChange(e){
-    console.log('this.props.currentPage: ' + this.props.currentPage);
 
     this.props.dispatch(setPerPageSize(e.target.value));
     this.props.dispatch(setCurrentPage(0));
@@ -56,9 +44,7 @@ class RemoteDataTable extends Component {
   render() {
     const { columns, currentPage, data, dispatch, filename, id, perPageSize, totalPages } = this.props;
 
-    const options = {
-      exportCSVBtn: this.createCustomExportButton
-    };
+    const options={};
 
     return (
       <div>
@@ -75,7 +61,6 @@ class RemoteDataTable extends Component {
           bordered={false}
           csvFileName={filename}
           data={data}
-          exportCSV
           options={options}
           ref={(table) => {this.tableRef = table;}}
           version='4'
@@ -99,6 +84,8 @@ class RemoteDataTable extends Component {
             )
           }
         </BootstrapTable>
+
+        <Download buttonText={'Download'} data={this.props.data} filename={this.props.id} id={this.props.id}/>
 
       </div>
     );
