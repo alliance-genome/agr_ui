@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import {
   fetchDisease,
   fetchAssociations,
+  setCurrentPage,
   //setPerPageSize,
-  //currentPage,
 } from '../../actions/disease';
 
 import {
@@ -37,6 +37,7 @@ class DiseasePage extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.params.diseaseId !== prevProps.params.diseaseId) {
       this.props.dispatch(fetchDisease(this.props.params.diseaseId));
+      this.props.dispatch(setCurrentPage(1));
       this.props.dispatch(fetchAssociations(this.props.params.diseaseId));
     }
   }
@@ -99,9 +100,9 @@ DiseasePage.propTypes = {
   currentPage: PropTypes.number,                     // The current page of the associations table.
   data: PropTypes.object,
   dispatch: PropTypes.func,
+  loadingAssociations: PropTypes.bool,               // Whether or not we are loading associations.
   error: PropTypes.object,
   loading: PropTypes.bool,
-  loadingAssociations: PropTypes.bool,               // Whether or not we are loading associations.
   params: PropTypes.object,
   perPageSize: PropTypes.number,                     // Number of associations to display per page.
   totalAssociations: PropTypes.number,               // Total number of associations.
@@ -115,11 +116,11 @@ DiseasePage.propTypes = {
 // Leave in for now since I'm unsure of the downstream dependencies.
 const mapStateToProps = (state) => {
   return {
+    data: selectData(state).toJS(),
     associations: selectAssociations(state).toJS(),
+    loadingAssociations: selectLoadingAssociation(state),
     associationsError: selectAssociationsError(state),
     currentPage: selectCurrentPage(state),
-    data: selectData(state).toJS(),
-    loadingAssociations: selectLoadingAssociation(state),
     perPageSize: selectPerPageSize(state),
     totalAssociations: selectTotalAssociations(state),
     totalPages: selectTotalPages(state)
