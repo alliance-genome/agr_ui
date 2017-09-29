@@ -3,9 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Ribbon, { RibbonDataProvider } from '@sibyl229/gene-ontology-ribbon';
 import '../../../node_modules/@sibyl229/gene-ontology-ribbon/lib/index.css';
-// import fixRibbonPlacement from './fixRibbonPlacement';
-//
-// const PlacedRibbon = fixRibbonPlacement(Ribbon);
+
 
 class GeneOntologyRibbon extends Component {
   render() {
