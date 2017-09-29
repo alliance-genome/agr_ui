@@ -7,6 +7,7 @@ import {
 } from '../../actions/disease.js';
 
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import Download from './downloadButton.js';
 import PropTypes from 'prop-types';
 
 const textSorter = (textRender, field) => {
@@ -89,6 +90,9 @@ class RemoteDataTable extends Component {
             )
           }
         </BootstrapTable>
+
+          <Download buttonText={'Download'} filename={this.props.id} id={this.props.id} />
+
       </div>
     );
   }
