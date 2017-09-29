@@ -8,7 +8,7 @@ import {
 
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import Download from './downloadButton.js';
-import Pagination from './Pagination.js';
+import Pagination from './pagination.js';
 import PropTypes from 'prop-types';
 
 const textSorter = (textRender, field) => {
