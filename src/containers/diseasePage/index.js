@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import {
   fetchDisease,
   fetchAssociations,
+  setCurrentPage,
   //setPerPageSize,
-  //currentPage,
 } from '../../actions/disease';
 
 import {
@@ -37,6 +37,7 @@ class DiseasePage extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.params.diseaseId !== prevProps.params.diseaseId) {
       this.props.dispatch(fetchDisease(this.props.params.diseaseId));
+      this.props.dispatch(setCurrentPage(1));
       this.props.dispatch(fetchAssociations(this.props.params.diseaseId));
     }
   }
