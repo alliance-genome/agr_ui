@@ -8,6 +8,7 @@ import {
   FETCH_ASSOCIATIONS_FAILURE,
   SET_PER_PAGE_SIZE,
   SET_CURRENT_PAGE,
+  SET_SORT,
 } from '../actions/disease';
 
 export const DEFAULT_STATE = fromJS({
@@ -57,6 +58,10 @@ const diseaseReducer = function (state = DEFAULT_STATE, action) {
 
   case SET_CURRENT_PAGE:
     return state.set('currentPage', action.payload);
+
+  case SET_SORT:
+    return state.set('sortName', action.payload.name)
+      .set('sortOrder', action.payload.order);
 
   default:
     return state;
