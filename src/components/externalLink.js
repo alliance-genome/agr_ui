@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 class ExternalLink extends Component {
   render() {
     return (
-      <span style={{'white-space': 'nowrap'}}>
+      <span style={{whiteSpace: 'nowrap'}}>
         <a
           href={this.props.href}
           rel="noopener noreferrer"
@@ -14,7 +14,7 @@ class ExternalLink extends Component {
           {this.props.href && (
             <i
               className="fa fa-external-link"
-              style={{margin: '0 3px', 'font-size': '85%'}}
+              style={{margin: '0 3px', fontSize: '85%'}}
             />
           )}
         </a>
@@ -24,7 +24,7 @@ class ExternalLink extends Component {
 }
 
 ExternalLink.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.node,
   href: PropTypes.string.isRequired,
 };
 
