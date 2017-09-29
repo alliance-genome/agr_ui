@@ -51,7 +51,7 @@ class GenePageDiseaseTable extends Component {
           name: disease.name,
           doId: disease.doId,
           associationType: annotation.associationType.replace(/_/g, ' '),
-          dataProvider: annotation.source.species.displayName,
+          dataProvider: annotation.source.name,
           refs: annotation.publications,
         });
       });
