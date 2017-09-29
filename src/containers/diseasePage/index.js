@@ -100,6 +100,7 @@ DiseasePage.propTypes = {
   currentPage: PropTypes.number,                     // The current page of the associations table.
   data: PropTypes.object,
   dispatch: PropTypes.func,
+  error: PropTypes.object,
   loading: PropTypes.bool,
   loadingAssociations: PropTypes.bool,               // Whether or not we are loading associations.
   params: PropTypes.object,
