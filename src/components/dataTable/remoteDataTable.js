@@ -3,13 +3,11 @@ import React, { Component } from 'react';
 import {
   fetchAssociations,
   setCurrentPage,
-  setPerPageSize
+  setPerPageSize,
 } from '../../actions/disease.js';
 
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import Pagination from './pagination';
 import PropTypes from 'prop-types';
-// import './style.css';
 
 const textSorter = (textRender, field) => {
   return (a, b, order) => {
@@ -30,40 +28,46 @@ const textFilter = {
 class RemoteDataTable extends Component {
   constructor(props) {
     super(props);
-
-    this.handleResultsPerPageChange=this.handleResultsPerPageChange.bind(this);
+    this.handlePageChange = this.handlePageChange.bind(this);
+    this.handleSizeChange = this.handleSizeChange.bind(this);
   }
 
-  handleResultsPerPageChange(e){
-    this.props.dispatch(setPerPageSize(e.target.value));
-    this.props.dispatch(setCurrentPage(0));
-    this.props.dispatch(fetchAssociations(this.props.id, 0, e.target.value));
+  handlePageChange(page, size) {
+    const { currentPage, dispatch, id } = this.props;
+    if (page !== currentPage) {
+      dispatch(setCurrentPage(page));
+      dispatch(fetchAssociations(id, page, size));
+    }
+  }
+
+  handleSizeChange(size) {
+    const { dispatch, id } = this.props;
+    dispatch(setPerPageSize(size));
+    dispatch(fetchAssociations(id, 1, size));
   }
 
   render() {
-    const { columns, currentPage, data, dispatch, filename, id, perPageSize, totalPages } = this.props;
+    const { columns, currentPage, data, filename, perPageSize, totalAssociations } = this.props;
 
     const options = {
+      onPageChange: this.handlePageChange,
+      onSizePerPageList: this.handleSizeChange,
+      page: currentPage,
+      sizePerPage: perPageSize,
+      sizePerPageList: [10, 25, 100],
     };
 
     return (
       <div>
 
-        <Pagination
-          currentPage={currentPage}
-          dispatch={dispatch}
-          id={id}
-          perPageSize={perPageSize}
-          totalPages={totalPages}
-        />
-
         <BootstrapTable
           bordered={false}
           csvFileName={filename}
           data={data}
-          //exportCSV
+          fetchInfo={{dataTotalSize: totalAssociations}}
           options={options}
-          ref={(table) => {this.tableRef = table;}}
+          pagination
+          remote
           version='4'
         >
           {
