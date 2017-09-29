@@ -12,7 +12,7 @@ class downloadButton extends Component {
       <a
         className={'btn btn-primary'}
         download
-        href={`/api/disease/${this.props.id}/associations/download/${this.props.filename}.tsv`}
+        href={`/api/disease/${this.props.id}/associations/download`}
       >
         {this.props.buttonText}
       </a>
