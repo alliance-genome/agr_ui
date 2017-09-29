@@ -44,16 +44,19 @@ class DiseasePageAssociationsTable extends Component {
         field: 'diseaseName',
         label: 'Disease & Subtypes',
         format: this.renderDiseaseName,
+        sortable: true,
       },
       {
         field: 'disease_species',
         label: 'Species',
         format: (species) => <i>{species.name}</i>,
+        sortable: true,
       },
       {
         field: 'geneDocument',
         label: 'Associated Gene',
         format: this.renderGeneLink,
+        sortable: true,
       },
       {
         field: 'associationType',
@@ -63,7 +66,8 @@ class DiseasePageAssociationsTable extends Component {
       {
         field: 'source',
         label: 'Source',
-        format: (s) => <ExternalLink href={s.url}>{s.name}</ExternalLink>
+        format: (s) => <ExternalLink href={s.url}>{s.name}</ExternalLink>,
+        width: '100px',
       },
       {
         field: 'publications',
@@ -80,6 +84,8 @@ class DiseasePageAssociationsTable extends Component {
           dispatch={this.props.dispatch}
           id={this.props.id}
           perPageSize={this.props.perPageSize}
+          sortName={this.props.sortName}
+          sortOrder={this.props.sortOrder}
           totalAssociations={this.props.totalAssociations}
           totalPages={this.props.totalPages}
         />
@@ -95,9 +101,10 @@ DiseasePageAssociationsTable.propTypes = {
   dispatch: PropTypes.func,
   id: PropTypes.string,
   perPageSize: PropTypes.number,
+  sortName: PropTypes.string,
+  sortOrder: PropTypes.string,
   totalAssociations: PropTypes.number,
   totalPages: PropTypes.number,
-
 };
 
 export default DiseasePageAssociationsTable;
