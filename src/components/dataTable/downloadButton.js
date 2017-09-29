@@ -21,7 +21,7 @@ class downloadButton extends Component {
 }
 
 downloadButton.propTypes = {
-  buttonText: PropTypes.text,
+  buttonText: PropTypes.string,
   filename: PropTypes.string,
   id: PropTypes.string,
 };
