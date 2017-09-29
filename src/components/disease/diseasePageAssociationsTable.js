@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 
 import ReferenceCell from './referenceCell';
+import ExternalLink from '../../components/externalLink';
 import { RemoteDataTable } from '../../components/dataTable';
 import PropTypes from 'prop-types';
 
@@ -60,8 +61,9 @@ class DiseasePageAssociationsTable extends Component {
         format: (type) => type.replace(/_/g, ' '),
       },
       {
-        field: '',
+        field: 'source',
         label: 'Source',
+        format: (s) => <ExternalLink href={s.url}>{s.name}</ExternalLink>
       },
       {
         field: 'publications',
