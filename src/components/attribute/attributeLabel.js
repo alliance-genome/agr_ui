@@ -23,7 +23,7 @@ AttributeLabel.defaultProps = {
 
 AttributeLabel.propTypes = {
   bsClassName: PropTypes.string,
-  children: PropTypes.element,
+  children: PropTypes.node,
   style: PropTypes.object,
 };
 
