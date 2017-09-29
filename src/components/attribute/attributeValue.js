@@ -24,7 +24,7 @@ AttributeValue.defaultProps = {
 
 AttributeValue.propTypes = {
   bsClassName: PropTypes.string,
-  children: PropTypes.element,
+  children: PropTypes.node,
   placeholder: PropTypes.string,
   style: PropTypes.object,
 };
