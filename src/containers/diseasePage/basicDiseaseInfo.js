@@ -17,8 +17,8 @@ class BasicDiseaseInfo extends Component {
     return items && <CollapsibleList items={items} />;
   }
 
-  renderCommaSeparatedList(items) {
-    return items && items.join(', ');
+  renderSynonymList(items) {
+    return items && items.join('; ');
   }
 
   renderSourceList(sources) {
@@ -42,7 +42,7 @@ class BasicDiseaseInfo extends Component {
   }
 
   renderDefinition(disease) {
-    return (disease.definition || disease.definitionLinks.lenth > 0) && (
+    return (disease.definition || (disease.definitionLinks && disease.definitionLinks.length > 0)) && (
       <div>
         {disease.definition}
         {this.renderDefinitionLinks(disease.definitionLinks)}
@@ -70,7 +70,7 @@ class BasicDiseaseInfo extends Component {
         </AttributeValue>
 
         <AttributeLabel>Synonyms</AttributeLabel>
-        <AttributeValue>{this.renderCommaSeparatedList(disease.synonyms)}</AttributeValue>
+        <AttributeValue>{this.renderSynonymList(disease.synonyms)}</AttributeValue>
 
         <AttributeLabel>Cross References</AttributeLabel>
         <AttributeValue>{this.renderCrossReferenceList(disease.crossReferences)}</AttributeValue>

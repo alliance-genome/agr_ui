@@ -41,3 +41,13 @@ export const selectTotalPages = createSelector(
   [selectTotalAssociations, selectPerPageSize],
   (numAssoc, numPerPage) => Math.ceil(numAssoc / numPerPage)
 );
+
+export const selectSortName = createSelector(
+  [selectDiseaseDomain],
+  (disease) => disease.get('sortName')
+);
+
+export const selectSortOrder = createSelector(
+  [selectDiseaseDomain],
+  (disease) => disease.get('sortOrder')
+);

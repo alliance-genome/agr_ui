@@ -15,7 +15,7 @@ class GenomeFeatureViewer extends Component {
 
     // TODO: should be process.env.APOLLO_URL
     // let apolloServerPrefix = 'http://demo.genomearchitect.org/Apollo-staging/';
-    let apolloServerPrefix = 'http://agr-apollo.berkeleybop.io/Apollo-staging/';
+    let apolloServerPrefix = 'https://agr-apollo.berkeleybop.io/apollo/';
     // let apolloServerPrefix = 'http://localhost:8080/apollo/';
 
 
