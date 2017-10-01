@@ -1,24 +1,59 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router';
 import MethodHeader from './methodHeader';
 import MethodCell from './methodCell';
 import BooleanCell from './booleanCell';
+import HelpIcon from './helpIcon';
 
-const columnNames = ['Species', 'Gene symbol', 'Score',
-  'Best score', 'Best reverse score', 'Method', 'Align'];
+const columns = [
+  {name: 'Species'},
+  {name: 'Gene symbol'},
+  {name: 'Count'},
+  {name: 'Best', help: 'Within this species, this gene is called as an ortholog of the input gene by the highest number of algorithms.'},
+  {name: 'Best reverse', help: 'Within the species of the input gene, the input gene is called as an ortholog of this gene by the highest number of algorithms.'},
+  {name: 'Method'}
+];
+
+const defaultSpeciesOrder = [
+  'Homo sapiens',
+  'Mus musculus',
+  'Rattus norvegicus',
+  'Danio rerio',
+  'Drosophila melanogaster',
+  'Caenorhabditis elegans',
+  'Saccharomyces cerevisiae'
+];
+
+const getSpeciesOrderScore = (speciesName, speciesOrder = defaultSpeciesOrder) => {
+  const speciesIndex = speciesOrder.indexOf(speciesName);
+  return speciesIndex === -1 ? speciesOrder.length : speciesIndex;
+};
 
 class OrthologyTable extends Component {
 
   render() {
+    const speciesPresent = this.props.data.map((orthData) => {
+      return orthData.gene2SpeciesName;
+    });
+    // refine the species order to keep only species present in orthologs
+    const speciesOrder = defaultSpeciesOrder.filter((speciesName) => {
+      return speciesPresent.indexOf(speciesName) !== -1;
+    });
+
     return(
       <table className='table'>
         <thead>
           <tr>
           {
-            columnNames.map((columnName) => {
-              if (columnName === 'Method') {
-                return (<MethodHeader key={columnName} name={columnName} />);
+            columns.map((column) => {
+              if (column.name === 'Method') {
+                return (<MethodHeader key={column.name} name={column.name} />);
               } else {
-                return (<th key={columnName}>{columnName}</th>);
+                return (<th key={column.name}>
+                  {column.name}
+                  {column.help && <HelpIcon iconKey={`help-${column.name}`} text={column.help} />}
+                </th>);
               }
             })
           }
@@ -26,25 +61,38 @@ class OrthologyTable extends Component {
         </thead>
         <tbody>
         {
-          this.props.data.map((orthData) => {
+          this.props.data.sort((orthDataA, orthDataB) => {
+            const speciesOrderDelta = getSpeciesOrderScore(orthDataA.gene2SpeciesName) -
+              getSpeciesOrderScore(orthDataB.gene2SpeciesName);
+            return speciesOrderDelta === 0 ?
+              (orthDataB.predictionMethodsMatched.length) - (orthDataA.predictionMethodsMatched.length) :
+              speciesOrderDelta;
+          }).map((orthData) => {
+            const scoreNumerator = orthData.predictionMethodsMatched.length;
+            const scoreDemominator = scoreNumerator +
+              orthData.predictionMethodsNotMatched.length;
+
+            const rowStyle = getSpeciesOrderScore(orthData.gene2SpeciesName, speciesOrder) % 2 === 0 ?
+              {backgroundColor: '#eee'} : {};
             return (
-              <tr key={`${orthData.species}-${orthData.geneSymbol}`}>
-                <td>{orthData.species}</td>
+              <tr key={`${orthData.gene2AgrPrimaryId}`} style={rowStyle} >
+                <td>{orthData.gene2SpeciesName}</td>
                 <td>
-                  <a href={orthData.geneURL}>{orthData.geneSymbol}</a>
-                  <span
-                    style={{
-                      display: 'inline-block',
-                      margin: '0 0.5em'
-                    }}
-                  >|</span>
-                  <a href={`https://www.ncbi.nlm.nih.gov/gene/${orthData.ncbiID}`}>[NCBI]</a>
+                  <Link to={`/gene/${orthData.gene2AgrPrimaryId}`}>{orthData.gene2Symbol}</Link>
                 </td>
-                <td>{`${orthData.scoreNumerator} of ${orthData.scoreDemominator}`}</td>
-                <BooleanCell value={orthData.isBestScore} />
-                <BooleanCell value={orthData.isBestScoreReverse} />
-                <MethodCell methods={orthData.methods} />
-                <td><a href={orthData.alignURL}>View</a></td>
+                <td>{`${scoreNumerator} of ${scoreDemominator}`}</td>
+                <BooleanCell
+                  isTrueFunc={(value) => value === 'Yes'}
+                  value={orthData.isBestScore}
+                />
+                <BooleanCell
+                  isTrueFunc={(value) => value === 'Yes'}
+                  value={orthData.isBestRevScore}
+                />
+                <MethodCell
+                  predictionMethodsMatched={orthData.predictionMethodsMatched}
+                  predictionMethodsNotMatched={orthData.predictionMethodsNotMatched}
+                />
               </tr>
             );
           })
@@ -56,17 +104,17 @@ class OrthologyTable extends Component {
 }
 
 OrthologyTable.propTypes = {
-  data: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      species: React.PropTypes.string,
-      geneSymbol: React.PropTypes.string,
-      geneURL: React.PropTypes.string,
-      ncbiID: React.PropTypes.string,
-      scoreNumerator: React.PropTypes.number,
-      scoreDemominator: React.PropTypes.number,
-      isBestScore: React.PropTypes.bool,
-      isBestScoreReverse: React.PropTypes.bool,
-      alignURL: React.PropTypes.string,
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      gene2AgrPrimaryId: PropTypes.string,
+      gene2Symbol: PropTypes.string,
+      gene2Species: PropTypes.number,
+      gene2SpeciesName: PropTypes.string,
+      predictionMethodsMatched: PropTypes.arrayOf(PropTypes.string),
+      predictionMethodsNotCalled: PropTypes.arrayOf(PropTypes.string),
+      predictionMethodsNotMatched: PropTypes.arrayOf(PropTypes.string),
+      isBestScore: PropTypes.bool,
+      isBestRevScore: PropTypes.bool,
     })
   )
 };

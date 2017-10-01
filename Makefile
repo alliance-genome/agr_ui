@@ -1,16 +1,28 @@
-APP_SERVER_LOCATION := $(or $(APP_SERVER_LOCATION),$(APP_SERVER_LOCATION),'../api/src/webpack')
-
 all: install build test
 
 install:
 	npm install
-run:
-	npm start
 build:
 	npm run build
 test:
 	npm test
+run:
+	npm start
 
-deploy:
-	mkdir -p $(APP_SERVER_LOCATION)
-	cp -a dist/* $(APP_SERVER_LOCATION)
+docker-build:
+	docker build -t agrdocker/agr_ui_server .
+
+push:
+	docker push agrdocker/agr_ui_server
+
+pull:
+	docker pull agrdocker/agr_ui_server
+
+bash:
+	docker run -t -i agrdocker/agr_api_server bash
+
+docker-run:
+	docker run -p 2992:2992 -t -i agrdocker/agr_ui_server
+
+docker-run-command:
+	npm run start-docker

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const BooleanCell = ({value, labelTrue, labelFalse}) => {
   const backgroundColor = value ? '#dff0d8' : 'transparent';
@@ -16,9 +17,9 @@ const BooleanCell = ({value, labelTrue, labelFalse}) => {
 };
 
 BooleanCell.propTypes = {
-  labelFalse: React.PropTypes.string,
-  labelTrue: React.PropTypes.string,
-  value: React.PropTypes.bool,
+  labelFalse: PropTypes.string,
+  labelTrue: PropTypes.string,
+  value: PropTypes.bool,
 };
 
 export default BooleanCell;

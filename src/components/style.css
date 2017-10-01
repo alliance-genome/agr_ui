@@ -15,5 +15,76 @@
 }
 
 .subsection {
+  margin-top: 1rem;
   margin-bottom: 1rem;
+  clear: left;
 }
+
+.primaryAttributesList > dt {
+  text-transform: capitalize;
+}
+
+.toggleLink {
+  padding: 0 0.5rem;
+  vertical-align: baseline;
+}
+
+.fadeInAndOut {
+    opacity: 1;
+    animation: fade 1s ease-in;
+}
+
+@keyframes fade {
+  0% { opacity: 0 }
+  100% { opacity: 1 }
+}
+
+.trans_arrow{
+  fill: 'black'
+}
+
+.exon{
+  fill-opacity: 1.0;
+  fill: white;
+  stroke: black;
+}
+
+.five_prime_UTR, .three_prime_UTR {
+  fill-opacity: 0.1;
+  fill: red;
+}
+
+.UTR{
+  fill-opacity: 0.7;
+  fill: #7E82BF;
+}
+
+.CDS{
+  fill: #3E82BF;
+  fill-opacity: 1.0;
+}
+
+.axis{
+  fill: #609C9C;
+}
+
+.viewer{
+  fill: gray;
+}
+
+.gene{
+  fill: blue;
+}
+
+.geneLabel{
+  stroke: 2px;
+  color: black;
+  font-style: italic;
+}
+
+.transcriptLabel{
+  stroke: 1px;
+  color: black;
+}
+
+.axis { font: 14px sans-serif; }

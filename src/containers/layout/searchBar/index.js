@@ -1,5 +1,6 @@
 /*eslint-disable react/no-set-state */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Autosuggest from 'react-autosuggest';
 import { push } from 'react-router-redux';
@@ -12,6 +13,7 @@ import fetchData from '../../../lib/fetchData';
 import { CATEGORIES } from '../../../constants';
 const AUTO_BASE_URL = '/api/search_autocomplete';
 const DEFAULT_CAT = CATEGORIES[0];
+
 
 class SearchBarComponent extends Component {
   constructor(props) {
@@ -63,6 +65,32 @@ class SearchBarComponent extends Component {
       });
   }
 
+  handleSelected(event, item) {
+    if (item.method == 'click') {
+      if (item.suggestion.category == 'gene') {
+        let href = '/gene/' + item.suggestion.primaryId;
+        this.props.dispatch(push({ pathname: href}));
+      } else if (item.suggestion.category == 'disease') {
+        let href = '/disease/' + item.suggestion.primaryId;
+        this.props.dispatch(push({ pathname: href}));
+      } else if (item.suggestion.category == 'go') {
+        this.setState({ value: '' });
+        let field = 'gene_' + item.suggestion.go_type;
+        let newQp = { category: 'gene' };
+        newQp[field] = item.suggestion.name_key;
+        this.props.dispatch(push({ pathname: '/search', query: newQp }));
+      } else {
+        this.setState({ value: item.suggestion.name_key });
+        let query = item.suggestion.name_key;
+        let newCat = this.state.catOption.name;
+        let newQp = { q: query };
+        if (query === '') newQp = {};
+        if (newCat !== 'all') newQp.category = newCat;
+        this.props.dispatch(push({ pathname: '/search', query: newQp }));
+      }
+    }
+  }
+
   renderDropdown() {
     let _title = this.state.catOption.displayName;
     let nodes = CATEGORIES.map( d => {
@@ -79,7 +107,7 @@ class SearchBarComponent extends Component {
   renderSuggestion(d) {
     return (
       <div className={style.autoListItem}>
-        <span>{d.name}</span>
+        <span>{d.name_key}</span>
         <span className={style.catContainer}>
           <CategoryLabel category={d.category} />
         </span>
@@ -88,7 +116,7 @@ class SearchBarComponent extends Component {
   }
 
   render() {
-    let _getSuggestionValue = ( d => d.name );
+    let _getSuggestionValue = ( d => d.name_key );
     let _inputProps = {
       placeholder: 'search a gene or GO term',
       value: this.state.value,
@@ -110,6 +138,7 @@ class SearchBarComponent extends Component {
             <Autosuggest
               getSuggestionValue={_getSuggestionValue}
               inputProps={_inputProps}
+              onSuggestionSelected={this.handleSelected.bind(this)}
               onSuggestionsClearRequested={this.handleClear.bind(this)}
               onSuggestionsFetchRequested={this.handleFetchData.bind(this)}
               renderSuggestion={this.renderSuggestion}
@@ -125,9 +154,9 @@ class SearchBarComponent extends Component {
 }
 
 SearchBarComponent.propTypes = {
-  dispatch: React.PropTypes.func,
-  queryParams: React.PropTypes.object,
-  searchUrl: React.PropTypes.string
+  dispatch: PropTypes.func,
+  queryParams: PropTypes.object,
+  searchUrl: PropTypes.string
 };
 
 function mapStateToProps(state) {

@@ -1,93 +1,90 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import DataSourceCard from './dataSourceCard';
 import DataSourceLink from '../../components/dataSourceLink';
+import ExternalLink from '../../components/externalLink';
+import PrimaryAttributesList from '../../components/primaryAttributesList';
 
 class BasicGeneInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
       geneData: this.props.geneData,
-      speciesData: {
-        species: this.props.geneData.species,
-        dataProvider: this.props.geneData.dataProvider,
-        primaryId: this.props.geneData.primaryId,
-      }
     };
   }
 
-  placeholder() {
-    return <i className='text-muted'>Not Available</i>;
-  }
-
-  placeholderIfBlank(text) {
-    if (text) {
-      return text;
-    }
-    return this.placeholder();
-  }
-
-  renderDescription() {
-    if (!this.state.geneData.geneSynopsis && !this.state.geneData.geneSynopsisUrl) {
-      return this.placeholder();
+  renderDescription(_, data) {
+    if (!data.geneSynopsis && !data.geneSynopsisUrl) {
+      return '';
     }
     return (
       <div>
-        {this.state.geneData.geneSynopsis &&
-          <p>{this.state.geneData.geneSynopsis}</p>}
-        {this.state.geneData.geneSynopsisUrl &&
-          <a href={this.state.geneData.geneSynopsisUrl}>{this.state.geneData.geneSynopsisUrl}</a>}
+        {data.geneSynopsis && <p>{data.geneSynopsis}</p>}
+        {data.geneSynopsisUrl &&
+          <a href={data.geneSynopsisUrl}>{data.geneSynopsisUrl}</a>}
       </div>
     );
   }
 
-  renderCrossReferenceList() {
-    let refs = this.state.geneData.crossReferences;
+  renderCrossReferenceList(_, data) {
+    let refs = data.crossReferences;
     if (!refs || refs.length < 1) {
-      return this.placeholder();
+      return '';
     }
     return refs
-      .sort((a, b) => `${a.dataProvider}:${a.id}`.localeCompare(`${b.dataProvider}:${b.id}`))
-      .map((ref, idx) => {
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map((ref) => {
         return (
-          <div key={`ref-${idx}`}>
-            <DataSourceLink dataProvider={ref.dataProvider} id={ref.id} />
+          <div key={`ref-${ref.name}`}>
+            <DataSourceLink reference={ref} />
           </div>
         );
       });
   }
 
   render() {
+    const attrs = [
+      {
+        field: 'symbol'
+      },
+      {
+        field: 'name'
+      },
+      {
+        field: 'synonyms',
+        format: s => s ? s.join(', ') : ''
+      },
+      {
+        field: 'soTermName',
+        format: s => s.replace(/_/g, ' '),
+        name: 'Biotype',
+      },
+      {
+        format: this.renderDescription,
+        name: 'Description',
+      },
+      {
+        format: this.renderCrossReferenceList,
+        name: 'Genomic Resources',
+      },
+      {
+        field: 'geneLiteratureUrl',
+        format: s => <ExternalLink href={s}>Literature</ExternalLink>,
+        name: 'Additional Information'
+      },
+    ];
+    const modReference = {
+      name: this.state.geneData.modGlobalCrossRefId,
+      crossRefCompleteUrl: this.state.geneData.modCrossRefCompleteUrl,
+    };
     return (
       <div className='row'>
         <div className='col-sm-4 push-sm-8'>
-          <DataSourceCard sourceData={this.state.speciesData} />
+          <DataSourceCard reference={modReference} species={this.state.geneData.species} />
         </div>
         <div className='col-sm-8 pull-sm-4'>
-          <dl className='row'>
-            <dt className='col-sm-2'>Symbol</dt>
-            <dd className='col-sm-10'>{this.state.geneData.symbol}</dd>
-
-            <dt className='col-sm-2'>Name</dt>
-            <dd className='col-sm-10'>{this.placeholderIfBlank(this.state.geneData.name)}</dd>
-
-            <dt className='col-sm-2'>Synonyms</dt>
-            <dd className='col-sm-10'>{this.placeholderIfBlank(
-                this.state.geneData.synonyms ? this.state.geneData.synonyms.join(', ') : ''
-            )}</dd>
-
-            <dt className='col-sm-2'>Biotype</dt>
-            <dd className='col-sm-10'>{this.placeholderIfBlank(this.state.geneData.soTermName.replace(/_/g, ' '))}</dd>
-
-            <dt className='col-sm-2'>Description</dt>
-            <dd className='col-sm-10'>{this.renderDescription()}</dd>
-
-            <dt className='col-sm-2'>Genomic Resources</dt>
-            <dd className='col-sm-10'>{this.renderCrossReferenceList()}</dd>
-
-            <dt className='col-sm-2'>Additional Information</dt>
-            <dd className='col-sm-10'><a href={this.state.geneData.geneLiteratureUrl}>Literature</a></dd>
-          </dl>
+          <PrimaryAttributesList attributes={attrs} data={this.state.geneData} />
         </div>
       </div>
     );
@@ -95,7 +92,7 @@ class BasicGeneInfo extends Component {
 }
 
 BasicGeneInfo.propTypes = {
-  geneData: React.PropTypes.object
+  geneData: PropTypes.object
 };
 
 export default BasicGeneInfo;

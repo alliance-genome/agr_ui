@@ -11,7 +11,11 @@ export default function fetchData(_url, options={}) {
       type : _type,
       dataType:'json',
       timeout: TIMEOUT,
-      success: data => {
+      success: (data, textStatus, response) => {
+        if (response.status !== 200) {
+          let error = new Error('API Error');
+          reject(error);
+        }
         resolve(data);
       },
       error: (request, e) => {

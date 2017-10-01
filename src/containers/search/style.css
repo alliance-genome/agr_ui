@@ -37,10 +37,6 @@
 	text-align: center;
 }
 
-.lowercase {
-	text-transform: lowercase;
-}
-
 .detailList mark, em {
 	background: yellow;
 }
@@ -61,11 +57,44 @@ td > .detailContainer {
 	text-transform: capitalize;
 }
 
+.detailValue {
+
+}
+
+.missingTerms .detailValue {
+  text-decoration: line-through;
+}
+
+.missingTerms {
+  color: #666;
+}
+
+.resultExplanation {
+  white-space: pre;
+  font-size: x-small;
+}
+
+.explanationButton {
+  margin-left: 2em;
+}
+
+.explanationList {
+  list-style-type: none;
+}
+
 .agrDownloadBtn {
 }
 
 .resultCatLabel {
 	float: right;
+}
+
+.resultLinkLabel {
+  display: inline;
+}
+
+.resultSpeciesLabel {
+  padding-left: 1em;
 }
 
 .totalPending {
@@ -90,4 +119,9 @@ a > span > .sprite {
 	background-repeat: no-repeat;
 	position: relative;
 	top: 0.25rem;
+}
+
+.resultSpeciesIcon {
+  float: right;
+  opacity: .4;
 }

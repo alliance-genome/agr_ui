@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { createMemoryHistory } from 'react-router';
 import { connect } from 'react-redux';
 import _ from 'underscore';
 
-import style from './style.css';
 import fetchData from '../../lib/fetchData';
 import FilterSelector from './filterSelector/filterSelector';
 import MultiTable from './multiTable';
@@ -14,6 +14,7 @@ import ResultsTable from './resultsTable';
 import { SMALL_COL_CLASS, LARGE_COL_CLASS, SEARCH_API_ERROR_MESSAGE } from '../../constants';
 import { receiveResponse, setError, setPending } from '../../actions/search';
 import LoadingPage from '../../components/loadingPage';
+import HeadMetaTags from '../../components/headMetaTags';
 
 // used to test rendering fixture response
 import fixtureResponse from './tests/fixtureResponse';
@@ -101,9 +102,11 @@ class SearchComponent extends Component {
 
   render() {
     if (!this.props.isReady) return <LoadingPage />;
+    let title = 'Search ' + (this.props.queryParams.q || '');
     return (
-      <div className={style.root}>
+      <div className='container'>
         {this.renderErrorNode()}
+        <HeadMetaTags title={title} />
         <div className='row'>
           <div className={SMALL_COL_CLASS}>
             <FilterSelector />
@@ -121,19 +124,19 @@ class SearchComponent extends Component {
 }
 
 SearchComponent.propTypes = {
-  activeCategory: React.PropTypes.string,
-  currentPage: React.PropTypes.number,
-  dispatch: React.PropTypes.func,
-  errorMessage: React.PropTypes.string,
-  history: React.PropTypes.object,
-  isError: React.PropTypes.bool,
-  isMultiTable: React.PropTypes.bool,
-  isReady: React.PropTypes.bool,
-  isTable: React.PropTypes.bool,
-  mode: React.PropTypes.string,
-  pageSize: React.PropTypes.number,
-  queryParams: React.PropTypes.object,
-  results: React.PropTypes.array
+  activeCategory: PropTypes.string,
+  currentPage: PropTypes.number,
+  dispatch: PropTypes.func,
+  errorMessage: PropTypes.string,
+  history: PropTypes.object,
+  isError: PropTypes.bool,
+  isMultiTable: PropTypes.bool,
+  isReady: PropTypes.bool,
+  isTable: PropTypes.bool,
+  mode: PropTypes.string,
+  pageSize: PropTypes.number,
+  queryParams: PropTypes.object,
+  results: PropTypes.array
 };
 
 function mapStateToProps(state) {

@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import MethodLogo from './methodLogo';
-import { ALL_METHODS, methodCellWidth } from './constants';
+import { ALL_METHODS, methodHeaderStyle } from './constants';
 
 const MethodHeader = ({name}) => (<th>
   <div>{name}</div>
-  <div style={{minWidth: methodCellWidth * Object.keys(ALL_METHODS).length}}>{
+  <div style={methodHeaderStyle}>{
     Object.keys(ALL_METHODS).sort().map((methodKey) => (
       <MethodLogo key={methodKey} methodKey={methodKey} />
     ))
@@ -12,7 +13,7 @@ const MethodHeader = ({name}) => (<th>
 </th>);
 
 MethodHeader.propTypes = {
-  name: React.PropTypes.string
+  name: PropTypes.string
 };
 
 export default MethodHeader;

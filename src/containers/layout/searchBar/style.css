@@ -1,11 +1,11 @@
 .container {
-	float: right;
+	float: left;
 	width: 100%;
+  margin-top: 25px;
 }
 
 .container form {
 	float: right;
-	margin-top: -1px;
 }
 
 .dropdown {
@@ -34,7 +34,8 @@
 
 .autoInput {
 	border: none;
-	padding: 7px;
+	border: solid 1px #ccc;
+	padding: 6px;
 	width: 25.25rem;
 }
 

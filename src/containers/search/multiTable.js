@@ -1,7 +1,8 @@
 /*eslint-disable react/sort-prop-types */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createMemoryHistory } from 'react-router';
+import { createMemoryHistory, Link } from 'react-router';
 import _ from 'underscore';
 
 import style from './style.css';
@@ -24,6 +25,8 @@ import {
 
 const BASE_SEARCH_URL = '/api/search';
 const PAGE_SIZE = 5;
+const CATEGORIES = ['gene', 'go', 'disease'];
+
 
 class MultiTableComponent extends Component {
   componentDidMount() {
@@ -60,14 +63,14 @@ class MultiTableComponent extends Component {
       .then( (geneData) => {
         this.props.dispatch(receiveResponse(geneData, this.props.queryParams, 'gene'));
       }).then(
-    fetchData(goUrl)
-      .then( (goData) => {
-        this.props.dispatch(receiveResponse(goData, this.props.queryParams, 'go'));
-      })).then(
-    fetchData(diseaseUrl)
-      .then( (diseaseData) => {
-        this.props.dispatch(receiveResponse(diseaseData, this.props.queryParams, 'disease'));
-      }))
+      fetchData(goUrl)
+        .then( (goData) => {
+          this.props.dispatch(receiveResponse(goData, this.props.queryParams, 'go'));
+        })).then(
+      fetchData(diseaseUrl)
+        .then( (diseaseData) => {
+          this.props.dispatch(receiveResponse(diseaseData, this.props.queryParams, 'disease'));
+        }))
       .catch( (e) => {
         this.props.dispatch(setPending(false));
         if (process.env.NODE_ENV === 'production') {
@@ -78,53 +81,57 @@ class MultiTableComponent extends Component {
       });
   }
 
-  renderGenes() {
-    return (
-      <div>
-        <p>{this.props.geneTotal.toLocaleString()} <CategoryLabel category='gene' /></p>
-        <ResultsTable activeCategory='gene' entries={this.props.geneResults} />
-      </div>
-    );
+
+
+  //there has to be a better way to do this...
+  getTotalForCategory(category) {
+    if (category == 'gene') { return this.props.geneTotal.toLocaleString(); }
+    if (category == 'go') { return this.props.goTotal.toLocaleString(); }
+    if (category == 'disease') { return this.props.diseaseTotal.toLocaleString(); }
   }
 
-  renderGo() {
-    return (
-      <div>
-        <p>{this.props.goTotal.toLocaleString()} <CategoryLabel category='go' /></p>
-        <ResultsTable activeCategory='go' entries={this.props.goResults} />
-      </div>
-    );
+  //there also has to be a better way to do this...
+  getResultsForCategory(category) {
+    if (category == 'gene') { return this.props.geneResults; }
+    if (category == 'go') { return this.props.goResults; }
+    if (category == 'disease') { return this.props.diseaseResults; }
   }
 
-  renderDisease() {
+  renderCategory(category) {
+    let categoryHref = this.getUrlByCategory(category);
+
     return (
       <div>
-        <p>{this.props.diseaseTotal.toLocaleString()} <CategoryLabel category='disease' /></p>
-        <ResultsTable activeCategory='disease' entries={this.props.diseaseResults} />
+        <p>
+          <Link to={categoryHref}>
+            {this.getTotalForCategory(category)} <CategoryLabel category={category} />
+          </Link>
+        </p>
+        <ResultsTable activeCategory={category} entries={this.getResultsForCategory(category)} />
       </div>
     );
+
   }
 
   render() {
     return (
       <div className={style.resultContainer}>
-        {this.renderGenes()}
-        {this.renderGo()}
+        {CATEGORIES.map((category) => this.renderCategory(category))}
       </div>
     );
   }
 }
 
 MultiTableComponent.propTypes = {
-  dispatch: React.PropTypes.func,
-  queryParams: React.PropTypes.object,
-  geneResults: React.PropTypes.array,
-  goResults: React.PropTypes.array,
-  diseaseResults: React.PropTypes.array,
-  geneTotal: React.PropTypes.number,
-  goTotal: React.PropTypes.number,
-  diseaseTotal: React.PropTypes.number,
-  homologyGroupTotal: React.PropTypes.number
+  dispatch: PropTypes.func,
+  queryParams: PropTypes.object,
+  geneResults: PropTypes.array,
+  goResults: PropTypes.array,
+  diseaseResults: PropTypes.array,
+  geneTotal: PropTypes.number,
+  goTotal: PropTypes.number,
+  diseaseTotal: PropTypes.number,
+  homologyGroupTotal: PropTypes.number
 };
 
 function mapStateToProps(state) {

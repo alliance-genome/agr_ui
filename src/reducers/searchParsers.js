@@ -19,11 +19,18 @@ export function injectHighlightIntoResponse(responseObj) {
     simpleHighObj[key] = highStr;
     // don't highlight some fields
     if (NON_HIGHLIGHTED_FIELDS.indexOf(key) < 0) {
-      responseObj[key] = highStr;
+      responseObj[key] = injectHighlightingIntoValue(highStr, responseObj[key]);
     }
   });
   responseObj.highlights = simpleHighObj;
   return responseObj;
+}
+
+function injectHighlightingIntoValue(highlight, value) {
+  if (highlight === undefined || value === undefined) { return value; }
+  var unhighlightedValue = highlight.replace(/<\/?[em]+(>|$)/g, '');
+
+  return value.toString().replace(unhighlightedValue, highlight);
 }
 
 export function parseResults(results) {
@@ -94,6 +101,15 @@ function parseCoordinates(d) {
   return `chr${chrom}:${d.gene_chromosome_starts}-${d.gene_chromosome_ends}`;
 }
 
+function parseCrossReferences(d) {
+  if (!d || !d.crossReferences) {
+    return null;
+  }
+  return d.crossReferences.map(function(ref) {
+    return ref.name;
+  });
+}
+
 // search result individual entry parsers
 function parseGeneResult(_d) {
   let d = injectHighlightIntoResponse(_d);
@@ -111,7 +127,10 @@ function parseGeneResult(_d) {
     highlight: d.highlights,
     homologs: parseLogs(d.homologs),
     paralogs: parseLogs(d.paralogs),
-    genomic_coordinates: parseCoordinates(_d)
+    genomic_coordinates: parseCoordinates(_d),
+    missing: d.missingTerms,
+    explanation: d.explanation,
+    score: d.score
   };
 }
 
@@ -135,7 +154,10 @@ function parseGoResult(_d) {
     highlight: d.highlights,
     href: d.href,
     name: d.name,
-    synonyms: d.go_synonyms
+    synonyms: d.go_synonyms,
+    missing: d.missingTerms,
+    explanation: d.explanation,
+    score: d.score
   };
 }
 
@@ -145,13 +167,16 @@ function parseDiseaseResult(_d) {
     associated_genes: d.associated_genes,
     category: d.category,
     display_name: d.name,
-    go_branch: d.go_branch,
+    definition: d.definition,
+    external_ids: parseCrossReferences(d),
     highlight: d.highlights,
-    href: d.href,
+    href: '/disease/' + d.id,
     name: d.name,
     id: d.id,
-    omim_id: d.id,
-    synonyms: d.disease_synonyms
+    synonyms: d.synonyms,
+    missing: d.missingTerms,
+    explanation: d.explanation,
+    score: d.score
   };
 }
 
@@ -178,6 +203,9 @@ function parseDefaultResult(_d) {
     highlight: d.highlights,
     href: d.href,
     name: d.name,
-    synonyms: d.synonym
+    synonyms: d.synonym,
+    missing: d.missingTerms,
+    explanation: d.explanation,
+    score: d.score
   };
 }
