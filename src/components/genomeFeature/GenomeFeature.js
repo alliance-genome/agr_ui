@@ -99,14 +99,12 @@ class GenomeFeature extends Component {
 
 
     let calculatedHeight = this.props.height;
-    if (!this.props.isLoading) {
-      let numberIsoforms = this.countIsoforms(this.props.data);
-      if (numberIsoforms > this.MAX_ISOFORMS) {
-        calculatedHeight = (this.MAX_ISOFORMS + 2) * isoform_height;
-      }
-      else {
-        calculatedHeight = (numberIsoforms + 1) * isoform_height;
-      }
+    let numberIsoforms = this.countIsoforms(this.props.data);
+    if (numberIsoforms > this.MAX_ISOFORMS) {
+      calculatedHeight = (this.MAX_ISOFORMS + 2) * isoform_height;
+    }
+    else {
+      calculatedHeight = (numberIsoforms + 1) * isoform_height;
     }
 
     let margin = {top: 8, right: 30, bottom: 30, left: 40},
@@ -141,9 +139,9 @@ class GenomeFeature extends Component {
       let maxIsoforms = this.MAX_ISOFORMS;
       let externalUrl = this.props.url;
       featureChildren = featureChildren.sort(function (a, b) {
-        if(a.name < b.name) return -1 ;
-        if(a.name > b.name) return 1 ;
-        return a - b  ;
+        if (a.name < b.name) return -1;
+        if (a.name > b.name) return 1;
+        return a - b;
       });
       featureChildren.forEach(function (featureChild) {
         let featureType = featureChild.type;
@@ -184,7 +182,7 @@ class GenomeFeature extends Component {
             featureChild.children = featureChild.children.sort(function (a, b) {
 
               let sortAValue = sortWeight[a.type];
-              let sortBValue = sortWeight[a.type];
+              let sortBValue = sortWeight[b.type];
 
               if (typeof sortAValue == 'number' && typeof sortBValue == 'number') {
                 return sortAValue - sortBValue;
@@ -194,6 +192,7 @@ class GenomeFeature extends Component {
                 return a.type - b.type;
               }
             });
+
 
             featureChild.children.forEach(function (innerChild) {
               let innerType = innerChild.type;
@@ -284,7 +283,6 @@ GenomeFeature.propTypes = {
   data: PropTypes.array.isRequired,
   height: PropTypes.string,
   id: PropTypes.string,
-  isLoading: PropTypes.boolean,
   url: PropTypes.string,
   width: PropTypes.string,
 };
