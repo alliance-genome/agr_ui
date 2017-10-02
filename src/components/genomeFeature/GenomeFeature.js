@@ -152,7 +152,7 @@ class GenomeFeature extends Component {
             isoform_count += 1;
 
             viewer.append('polygon')
-              .attr('class', style.trans_arrow)
+              .attr('class', style.transArrow)
               .attr('points', arrow_points)
               .attr('transform', function () {
                 if (feature.strand > 0) {
@@ -164,7 +164,7 @@ class GenomeFeature extends Component {
               });
 
             viewer.append('rect')
-              .attr('class', style.transcript_backbone)
+              .attr('class', style.transcriptBackbone)
               .attr('x', x(featureChild.fmin))
               .attr('y', isoform_height * isoform_count + isoform_title_height)
               .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (transcript_backbone_height / 2.0)) + ')')
