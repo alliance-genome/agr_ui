@@ -141,12 +141,12 @@ class GenomeFeature extends Component {
       let maxIsoforms = this.MAX_ISOFORMS;
       let externalUrl = this.props.url;
       featureChildren = featureChildren.sort(function (a, b) {
-        console.log('soring ' + a.name + ' vs ' + b.name);
-        return a.name - b.name;
+        if(a.name < b.name) return -1 ;
+        if(a.name > b.name) return 1 ;
+        return a - b  ;
       });
       featureChildren.forEach(function (featureChild) {
         let featureType = featureChild.type;
-        console.log('drawing: ' + featureChild.name);
         if (featureType == 'mRNA') {
           if (isoform_count < maxIsoforms) {
             isoform_count += 1;
@@ -190,8 +190,7 @@ class GenomeFeature extends Component {
                 return sortAValue - sortBValue;
               }
               else {
-                console.log('Type A:' + a.type);
-                console.log('Type B:' + b.type);
+                // NOTE: type not found and weighted
                 return a.type - b.type;
               }
             });
