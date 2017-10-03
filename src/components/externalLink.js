@@ -9,6 +9,7 @@ class ExternalLink extends Component {
           href={this.props.href}
           rel="noopener noreferrer"
           target="_blank"
+          title={this.props.title}
         >
           {this.props.children || this.props.href}
           {this.props.href && (
@@ -26,6 +27,7 @@ class ExternalLink extends Component {
 ExternalLink.propTypes = {
   children: PropTypes.node,
   href: PropTypes.string.isRequired,
+  title: PropTypes.string,
 };
 
 export default ExternalLink;
