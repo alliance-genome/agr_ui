@@ -378,3 +378,7 @@
     overflow: auto;
     white-space: normal;
 }
+
+.table th {
+  border-top: none;
+}
