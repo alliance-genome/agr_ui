@@ -57,6 +57,7 @@ class LocalDataTable extends Component {
               dataFormat={col.format}
               dataSort={col.sortable}
               filter={col.filterable ? textFilter : null}
+              filterValue={col.asText}
               isKey={col.isKey}
               key={idx}
               sortFunc={col.asText && textSorter(col.asText, col.field)}
