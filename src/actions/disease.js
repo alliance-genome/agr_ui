@@ -10,6 +10,7 @@ export const FETCH_ASSOCIATIONS_FAILURE = 'FETCH_ASSOCIATIONS_FAILURE';
 
 export const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 export const SET_PER_PAGE_SIZE = 'SET_PER_PAGE_SIZE';
+export const SET_SORT = 'SET_SORT';
 
 export const fetchDisease = function (id) {
   return (dispatch) => {
@@ -40,10 +41,10 @@ export const fetchDiseaseFailure = function (error) {
   };
 };
 
-export const fetchAssociations = function (id, page = 1, limit = 10) {
+export const fetchAssociations = function (id, page = 1, limit = 10, sortName = 'default', sortOrder = 'asc') {
   return (dispatch) => {
     dispatch(fetchAssociationsRequest());
-    return fetchData(`/api/disease/${id}/associations?page=${page}&limit=${limit}`)
+    return fetchData(`/api/disease/${id}/associations?page=${page}&limit=${limit}&sortBy=${sortName}&asc=${sortOrder === 'asc'}`)
       .then((data) => dispatch(fetchAssociationsSuccess(data)))
       .catch((error) => dispatch(fetchAssociationsFailure(error)));
   };
@@ -80,5 +81,15 @@ export const setPerPageSize = function(perPageSize) {
   return {
     type: SET_PER_PAGE_SIZE,
     payload: perPageSize
+  };
+};
+
+export const setSort = function (name, order) {
+  return {
+    type: SET_SORT,
+    payload: {
+      name,
+      order,
+    }
   };
 };
