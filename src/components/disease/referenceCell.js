@@ -8,9 +8,9 @@ const ReferenceCell = (refs) => {
       {
         refs && refs.map((ref) => {
           if (ref.pubMedId && ref.pubMedUrl) {
-            return <ExternalLink href={ref.pubMedUrl}>{ref.pubMedId}</ExternalLink>;
+            return <ExternalLink href={ref.pubMedUrl} title={ref.pubMedId}>{ref.pubMedId}</ExternalLink>;
           } else if (ref.pubModId && ref.pubModUrl) {
-            return <ExternalLink href={ref.pubModUrl}>{ref.pubModId}</ExternalLink>;
+            return <ExternalLink href={ref.pubModUrl} title={ref.pubModId}>{ref.pubModId}</ExternalLink>;
           }
         })
         .reduce((prev, curr) => [prev, ', ', curr])
