@@ -25,18 +25,12 @@ class LocalDataTable extends Component {
   }
 
   render() {
-    const { columns, data, filename } = this.props;
+    const { columns, data, filename, paginated } = this.props;
     const options = {
       exportCSVSeparator: '\t',
       exportCSVText: 'Download',
       toolbarPosition: 'bottom', //move download button to the bottom
-      paginationPosition: 'top',
-      sizePerPage: 6,
-      sizePerPageList: [ {
-        text: '6', value: 6
-      }, {
-        text: 'All', value: this.props.data.length
-      } ],
+      sizePerPageList: [10, 25, 100],
     };
     return (
       <BootstrapTable
@@ -45,6 +39,7 @@ class LocalDataTable extends Component {
         data={data}
         exportCSV
         options={options}
+        pagination={paginated}
         ref={(table) => {this.tableRef = table;}}
         version='4'
       >
@@ -57,6 +52,7 @@ class LocalDataTable extends Component {
               dataFormat={col.format}
               dataSort={col.sortable}
               filter={col.filterable ? textFilter : null}
+              filterValue={col.asText}
               isKey={col.isKey}
               key={idx}
               sortFunc={col.asText && textSorter(col.asText, col.field)}
