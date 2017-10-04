@@ -7,6 +7,7 @@ import fetchData from '../../lib/fetchData';
 import { fetchWp, fetchWpSuccess, fetchWpFailure } from '../../actions/wp';
 import { selectWp } from '../../selectors/wpSelectors';
 import LoadingPage from '../../components/loadingPage';
+import NotFound from '../../components/notFound';
 
 import WordpressPage from './wordpressPage';
 
@@ -36,7 +37,14 @@ class Wordpress extends Component {
     let page_slug=(currentRoute in WP_PAGES)?WP_PAGES[currentRoute].slug:currentRoute;
     let homeUrl=WP_PAGE_BASE_URL+page_slug;
     fetchData(homeUrl)
-      .then(data => this.props.dispatch(fetchWpSuccess(data)))
+      .then(data => {
+        if (data && data[0]) {
+          this.props.dispatch(fetchWpSuccess(data));
+        } else {
+          // throw our own error, since WP API doesn't return 404 when page is not found
+          throw new Error('Page not found');
+        }
+      })
       .catch(error => this.props.dispatch(fetchWpFailure(error)));
   }
   render() {
@@ -45,7 +53,7 @@ class Wordpress extends Component {
     }
 
     if (this.props.error) {
-      return <div className='alert alert-danger'>{this.props.error}</div>;
+      return <NotFound />;
     }
 
     if (!this.props.data) {
