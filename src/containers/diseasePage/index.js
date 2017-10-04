@@ -44,7 +44,7 @@ class DiseasePage extends Component {
       dispatch(fetchDisease(params.diseaseId));
       dispatch(setCurrentPage(1));
       dispatch(setPerPageSize(10));
-      dispatch(setSort('default', 'desc'));
+      dispatch(setSort('default', 'asc'));
       dispatch(fetchAssociations(params.diseaseId));
     }
   }
