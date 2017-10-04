@@ -377,6 +377,11 @@
 .react-bs-table table td, .react-bs-table table th {
     overflow: auto;
     white-space: normal;
+    text-overflow: clip;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
 }
 
 .table th {
