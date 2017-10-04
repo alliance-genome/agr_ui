@@ -1,7 +1,7 @@
 const ALL_METHODS = {
   compara: {
     name: 'Compara',
-    displayName: 'Compara',
+    displayName: 'Ensembl Compara',
     icon: 'http://static.ensembl.org/i/ensembl-favicon.png'
   },
   // eggnog: {
@@ -63,7 +63,7 @@ const methodCellWidth = 25;
 
 const methodHeaderStyle = {
   minWidth: methodCellWidth * Object.keys(ALL_METHODS).length,
-  height: '70px',
+  height: '100px',
 };
 
 const methodCellStyle = {
@@ -74,7 +74,8 @@ const methodCellStyle = {
 };
 
 const methodHeaderCellStyle = {
-  transform: 'translate(0px, 45px) rotate(-45deg)',
+  transform: 'translate(0px, 75px) rotate(-45deg)',
+  whiteSpace: 'nowrap',
   width: methodCellWidth,
   display: 'inline-block',
 };
