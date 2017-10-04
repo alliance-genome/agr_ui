@@ -383,3 +383,7 @@
     -ms-hyphens: auto;
     hyphens: auto;
 }
+
+.table th {
+  border-top: none;
+}
