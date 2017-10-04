@@ -20,14 +20,21 @@ class GenomeFeatureViewer extends Component {
 
 
     // TODO: this is a hack to fix inconsistencies in JBrowse
-    let hackedLocationString = locationString;
-    let trackDataPrefix = apolloServerPrefix + 'track/' + encodeURI(this.props.species) + '/' + defaultTrackName + '/' + encodeURI(hackedLocationString) + '.json';
+    let trackDataPrefix = apolloServerPrefix + 'track/' + encodeURI(this.props.species) + '/' + defaultTrackName + '/' + encodeURI(locationString) + '.json';
     let trackDataWithHighlight = trackDataPrefix + '?name=' + this.props.geneSymbol;
     // trackDataWithHighlight += '&ignoreCache=true';
 
     let geneSymbolUrl = '&lookupSymbol=' + this.props.geneSymbol;
     let externalJBrowsePrefix = process.env.JBROWSE_URL + '/jbrowse/index.html?data=data%2F' + encodeURI(this.props.species);
-    let externalJbrowseUrl = externalJBrowsePrefix + '&tracks=All%20Genes&highlight=' + geneSymbolUrl + '&loc=' + encodeURI(locationString);
+
+    let linkBuffer = 0.2;
+    let linkLength = this.props.fmax - this.props.fmin ;
+    let bufferedMin = this.props.fmin - (linkLength * linkBuffer/2.0);
+    let bufferedMmax = this.props.fmax + (linkLength * linkBuffer/2.0);
+    let externalLocationString = this.props.chromosome + ':' + bufferedMin + '..' + bufferedMmax;
+    bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
+    // TODO: handle bufferedMax exceeding chromosome length, though I think it has a good default.
+    let externalJbrowseUrl = externalJBrowsePrefix + '&tracks=All%20Genes&highlight=' + geneSymbolUrl + '&loc=' + encodeURI(externalLocationString);
 
 
     this.state = {
@@ -50,7 +57,7 @@ class GenomeFeatureViewer extends Component {
     this.setState({loadState: 'loading'});
 
     fetch(this.trackDataUrl)
-      .then(function(response) {
+      .then(function (response) {
         if (!response.ok) {
           throw Error(response.statusText);
         }
@@ -96,13 +103,13 @@ class GenomeFeatureViewer extends Component {
             <a href={this.jbrowseUrl} rel='noopener noreferrer'
                target='_blank' title='Browse Genome'
             >
-              {this.state.loadState == 'loading' ? <LoadingPage /> : ''}
+              {this.state.loadState == 'loading' ? <LoadingPage/> : ''}
               {this.state.loadState == 'loaded' ? <GenomeFeature data={this.state.loadedData}
                                                                  height={this.props.height}
                                                                  id={this.props.id}
                                                                  url={this.externalJBrowseUrl}
                                                                  width={this.props.width}
-                                                  /> : ''}
+              /> : ''}
             </a>
             {this.state.loadState == 'error' ? <div className='text-danger'>Unable to retrieve data</div> : ''}
           </div>
