@@ -1,6 +1,7 @@
 const ALL_METHODS = {
   compara: {
     name: 'Compara',
+    displayName: 'Compara',
     icon: 'http://static.ensembl.org/i/ensembl-favicon.png'
   },
   // eggnog: {
@@ -16,6 +17,7 @@ const ALL_METHODS = {
   // },
   inparanoid: {
     name: 'Inparanoid',
+    displayName: 'InParanoid',
     icon: 'http://inparanoid.sbc.su.se/favicon.ico'
   },
   // isobase: {
@@ -34,14 +36,17 @@ const ALL_METHODS = {
   // },
   panther: {
     name: 'Panther',
+    displayName: 'PANTHER',
     icon: 'http://www.pantherdb.org/favicon.ico'
   },
   phylome: {
     name: 'Phylome',
+    displayName: 'PhylomeDB',
     icon: 'http://phylomedb.org/sites/default/files/images/phylomedb.ico'
   },
   roundup: {
-    name: 'RoundUp'
+    name: 'RoundUp',
+    displayName: 'Roundup',
   },
   treefam: {
     name: 'TreeFam',
