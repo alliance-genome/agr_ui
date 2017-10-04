@@ -1,6 +1,7 @@
 const ALL_METHODS = {
   compara: {
     name: 'Compara',
+    displayName: 'Ensembl Compara',
     icon: 'http://static.ensembl.org/i/ensembl-favicon.png'
   },
   // eggnog: {
@@ -16,6 +17,7 @@ const ALL_METHODS = {
   // },
   inparanoid: {
     name: 'Inparanoid',
+    displayName: 'InParanoid',
     icon: 'http://inparanoid.sbc.su.se/favicon.ico'
   },
   // isobase: {
@@ -34,14 +36,17 @@ const ALL_METHODS = {
   // },
   panther: {
     name: 'Panther',
+    displayName: 'PANTHER',
     icon: 'http://www.pantherdb.org/favicon.ico'
   },
   phylome: {
     name: 'Phylome',
+    displayName: 'PhylomeDB',
     icon: 'http://phylomedb.org/sites/default/files/images/phylomedb.ico'
   },
   roundup: {
-    name: 'RoundUp'
+    name: 'RoundUp',
+    displayName: 'Roundup',
   },
   treefam: {
     name: 'TreeFam',
@@ -58,7 +63,7 @@ const methodCellWidth = 25;
 
 const methodHeaderStyle = {
   minWidth: methodCellWidth * Object.keys(ALL_METHODS).length,
-  height: '70px',
+  height: '100px',
 };
 
 const methodCellStyle = {
@@ -69,7 +74,8 @@ const methodCellStyle = {
 };
 
 const methodHeaderCellStyle = {
-  transform: 'translate(0px, 45px) rotate(-45deg)',
+  transform: 'translate(0px, 75px) rotate(-45deg)',
+  whiteSpace: 'nowrap',
   width: methodCellWidth,
   display: 'inline-block',
 };
