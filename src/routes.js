@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, IndexRedirect, IndexRoute } from 'react-router';
+import { Route, IndexRedirect, Redirect } from 'react-router';
 
 import Wordpress from './containers/wordpress';
 import WordpressFeeds from './containers/wordpress/wordpressFeeds';
@@ -10,17 +10,17 @@ import DiseasePage from './containers/diseasePage';
 
 export default (
   <Route component={Layout} path='/'>
-    <IndexRoute component={Wordpress} />
-    <Route component={Wordpress} path='wordpress' >
-      <IndexRedirect to="home" />
-      <Route component={Wordpress} path=':pageId' />
-    </Route>
+    <IndexRedirect to="/home" />
+    <Route component={Search} path='search' />
+    <Route component={GenePage} path='gene/:geneId' />
+    <Route component={DiseasePage} path='disease/:diseaseId' />
     <Route component={WordpressFeeds} path='posts' >
       <IndexRedirect to="/posts/news" />
       <Route component={WordpressFeeds} path=':postId' />
     </Route>
-    <Route component={Search} path='search' />
-    <Route component={GenePage} path='gene/:geneId' />
-    <Route component={DiseasePage} path='disease/:diseaseId' />
+    <Redirect from='/wordpress/:id' to='/:id' /> {/* before links within user edited WordPress content is fixed, this path rewrite is necessary */}
+    <Route component={Wordpress} path='/'>
+      <Route component={Wordpress} path=':pageId' />
+    </Route>
   </Route>
 );
