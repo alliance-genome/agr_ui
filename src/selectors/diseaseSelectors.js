@@ -7,6 +7,11 @@ export const selectData = createSelector(
   (disease) => disease.get('data')
 );
 
+export const selectLoading = createSelector(
+  [selectDiseaseDomain],
+  (disease) => disease.get('loading')
+);
+
 export const selectAssociations = createSelector(
   [selectDiseaseDomain],
   (disease) => disease.get('associations')
