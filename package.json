@@ -18,6 +18,7 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "@sibyl229/gene-ontology-ribbon": "1.2.5",
     "immutable": "^3.8.1",
+    "numeral": "^2.0.6",
     "prop-types": "^15.5.10",
     "react": "^15.3.2",
     "react-autosuggest": "^6.1.0",
@@ -65,7 +66,7 @@
   "scripts": {
     "start": "webpack-dev-server --history-api-fallback --hot --inline",
     "prestart:docker": "npm install && npm run build",
-    "start-docker": "webpack-dev-server --history-api-fallback --host 0.0.0.0 --port 2992",
+    "start-docker": "webpack-dev-server --history-api-fallback --host 0.0.0.0 --port 2992 --hot --inline",
     "prebuild": "npm run clean && npm run copy",
     "build": "cross-env NODE_ENV=production webpack -p --optimize-minimize",
     "clean": "rimraf dist",

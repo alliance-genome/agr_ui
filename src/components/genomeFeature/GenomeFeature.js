@@ -115,7 +115,7 @@ class GenomeFeature extends Component {
       .domain([view_start, view_end])
       .range([0, width]);
 
-    let tickFormat = x.tickFormat(5, '.2s');
+    let tickFormat = x.tickFormat(5, '.3s');
 
     let xAxis = axisTop(x)
       .ticks(10, 's')

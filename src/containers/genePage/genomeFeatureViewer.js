@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import LoadingPage from '../../components/loadingPage';
 import GenomeFeature from '../../components/genomeFeature/GenomeFeature';
+import numeral from 'numeral';
 
 class GenomeFeatureViewer extends Component {
 
@@ -20,14 +21,21 @@ class GenomeFeatureViewer extends Component {
 
 
     // TODO: this is a hack to fix inconsistencies in JBrowse
-    let hackedLocationString = locationString;
-    let trackDataPrefix = apolloServerPrefix + 'track/' + encodeURI(this.props.species) + '/' + defaultTrackName + '/' + encodeURI(hackedLocationString) + '.json';
+    let trackDataPrefix = apolloServerPrefix + 'track/' + encodeURI(this.props.species) + '/' + defaultTrackName + '/' + encodeURI(locationString) + '.json';
     let trackDataWithHighlight = trackDataPrefix + '?name=' + this.props.geneSymbol;
     // trackDataWithHighlight += '&ignoreCache=true';
 
     let geneSymbolUrl = '&lookupSymbol=' + this.props.geneSymbol;
     let externalJBrowsePrefix = process.env.JBROWSE_URL + '/jbrowse/index.html?data=data%2F' + encodeURI(this.props.species);
-    let externalJbrowseUrl = externalJBrowsePrefix + '&tracks=All%20Genes&highlight=' + geneSymbolUrl + '&loc=' + encodeURI(locationString);
+
+    let linkBuffer = 1.2;
+    let linkLength = this.props.fmax - this.props.fmin ;
+    let bufferedMin = Math.round(this.props.fmin - (linkLength * linkBuffer/2.0));
+    let bufferedMax = Math.round(this.props.fmax + (linkLength * linkBuffer/2.0));
+    let externalLocationString = this.props.chromosome + ':' + bufferedMin + '..' + bufferedMax;
+    bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
+    // TODO: handle bufferedMax exceeding chromosome length, though I think it has a good default.
+    let externalJbrowseUrl = externalJBrowsePrefix + '&tracks=All%20Genes&highlight=' + geneSymbolUrl + '&loc=' + encodeURI(externalLocationString);
 
 
     this.state = {
@@ -50,7 +58,7 @@ class GenomeFeatureViewer extends Component {
     this.setState({loadState: 'loading'});
 
     fetch(this.trackDataUrl)
-      .then(function(response) {
+      .then(function (response) {
         if (!response.ok) {
           throw Error(response.statusText);
         }
@@ -77,6 +85,8 @@ class GenomeFeatureViewer extends Component {
   render() {
 
 
+    let  lengthValue  = numeral((this.props.fmax-this.props.fmin)/1000.0).format('0,0.00');
+
     return (
       <div id='genomeViewer'>
         <div className='row'>
@@ -84,9 +94,14 @@ class GenomeFeatureViewer extends Component {
             <dl className='row'>
               <dt className='col-sm-3'>Genome Location</dt>
               <dd className='col-sm-9'><a href={this.jbrowseUrl} rel='noopener noreferrer' target='_blank'>
-                {this.props.chromosome.toLowerCase().startsWith('chr') ? this.props.chromosome : 'Chr' + this.props.chromosome}:{this.props.fmin}...{this.props.fmax} {this.props.assembly} {this.props.strand} </a>
-                {/*&nbsp;*/}
+                {this.props.chromosome.toLowerCase().startsWith('chr') ? this.props.chromosome : 'Chr' + this.props.chromosome}:{this.props.fmin}...{this.props.fmax} </a>
+                &nbsp;
+                &nbsp;
+                &nbsp;
                 {/*<a href={this.trackDataUrl}>[json]</a>*/}
+                {this.props.assembly} {this.props.strand}
+                &nbsp;
+                ({lengthValue} kb)
               </dd>
             </dl>
           </div>
