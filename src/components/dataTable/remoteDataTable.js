@@ -66,7 +66,7 @@ class RemoteDataTable extends Component {
   }
 
   render() {
-    const { columns, currentPage, data, filename, perPageSize, totalAssociations } = this.props;
+    const { columns, currentPage, data, filename, perPageSize, sortName, sortOrder, totalAssociations } = this.props;
 
     const options = {
       onPageChange: this.handlePageChange,
@@ -75,6 +75,8 @@ class RemoteDataTable extends Component {
       page: currentPage,
       sizePerPage: perPageSize,
       sizePerPageList: [10, 25, 100],
+      sortName,
+      sortOrder
     };
 
     return (

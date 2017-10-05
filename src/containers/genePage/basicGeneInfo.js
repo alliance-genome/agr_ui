@@ -2,9 +2,13 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import DataSourceCard from './dataSourceCard';
+import {
+  AttributeList,
+  AttributeLabel,
+  AttributeValue,
+} from '../../components/attribute';
 import DataSourceLink from '../../components/dataSourceLink';
 import ExternalLink from '../../components/externalLink';
-import PrimaryAttributesList from '../../components/primaryAttributesList';
 
 class BasicGeneInfo extends Component {
   constructor(props) {
@@ -14,20 +18,23 @@ class BasicGeneInfo extends Component {
     };
   }
 
-  renderDescription(_, data) {
+  renderDescription(data) {
     if (!data.geneSynopsis && !data.geneSynopsisUrl) {
       return '';
     }
     return (
       <div>
-        {data.geneSynopsis && <p>{data.geneSynopsis}</p>}
+        {data.geneSynopsis && <p dangerouslySetInnerHTML={{__html: data.geneSynopsis}} />}
         {data.geneSynopsisUrl &&
-          <a href={data.geneSynopsisUrl}>{data.geneSynopsisUrl}</a>}
+          <ExternalLink href={data.geneSynopsisUrl}>
+            {data.geneSynopsisUrl}
+          </ExternalLink>
+        }
       </div>
     );
   }
 
-  renderCrossReferenceList(_, data) {
+  renderCrossReferenceList(data) {
     let refs = data.crossReferences;
     if (!refs || refs.length < 1) {
       return '';
@@ -44,39 +51,10 @@ class BasicGeneInfo extends Component {
   }
 
   render() {
-    const attrs = [
-      {
-        field: 'symbol'
-      },
-      {
-        field: 'name'
-      },
-      {
-        field: 'synonyms',
-        format: s => s ? s.join(', ') : ''
-      },
-      {
-        field: 'soTermName',
-        format: s => s.replace(/_/g, ' '),
-        name: 'Biotype',
-      },
-      {
-        format: this.renderDescription,
-        name: 'Description',
-      },
-      {
-        format: this.renderCrossReferenceList,
-        name: 'Genomic Resources',
-      },
-      {
-        field: 'geneLiteratureUrl',
-        format: s => <ExternalLink href={s}>Literature</ExternalLink>,
-        name: 'Additional Information'
-      },
-    ];
+    const gene = this.state.geneData;
     const modReference = {
-      name: this.state.geneData.modGlobalCrossRefId,
-      crossRefCompleteUrl: this.state.geneData.modCrossRefCompleteUrl,
+      name: gene.modGlobalCrossRefId,
+      crossRefCompleteUrl: gene.modCrossRefCompleteUrl,
     };
     return (
       <div className='row'>
@@ -84,7 +62,30 @@ class BasicGeneInfo extends Component {
           <DataSourceCard reference={modReference} species={this.state.geneData.species} />
         </div>
         <div className='col-sm-8 pull-sm-4'>
-          <PrimaryAttributesList attributes={attrs} data={this.state.geneData} />
+          <AttributeList bsClassName='col-xs-12'>
+            <AttributeLabel>Symbol</AttributeLabel>
+            <AttributeValue>{gene.symbol}</AttributeValue>
+
+            <AttributeLabel>Name</AttributeLabel>
+            <AttributeValue>{gene.name}</AttributeValue>
+
+            <AttributeLabel>Synonyms</AttributeLabel>
+            <AttributeValue>{gene.synonyms && gene.synonyms.join(', ')}</AttributeValue>
+
+            <AttributeLabel>Biotype</AttributeLabel>
+            <AttributeValue>{gene.soTermName.replace(/_/g, ' ')}</AttributeValue>
+
+            <AttributeLabel>Description</AttributeLabel>
+            <AttributeValue>{this.renderDescription(gene)}</AttributeValue>
+
+            <AttributeLabel>Genomic Resources</AttributeLabel>
+            <AttributeValue>{this.renderCrossReferenceList(gene)}</AttributeValue>
+
+            <AttributeLabel>Additional Information</AttributeLabel>
+            <AttributeValue>
+              <ExternalLink href={gene.geneLiteratureUrl}>Literature</ExternalLink>
+            </AttributeValue>
+          </AttributeList>
         </div>
       </div>
     );
