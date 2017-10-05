@@ -30,7 +30,7 @@ class Wordpress extends Component {
     }
   }
   getCurrentRoute(props){
-    return props.params.pageId;
+    return props.pageId;
   }
   getData(currentRoute){
     this.props.dispatch(fetchWp());
@@ -67,6 +67,7 @@ Wordpress.propTypes = {
   dispatch: PropTypes.func,
   error: PropTypes.object,
   loading: PropTypes.bool,
+  pageId: PropTypes.string,
   params: PropTypes.object,
 };
 

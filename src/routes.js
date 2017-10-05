@@ -8,6 +8,8 @@ import Search from './containers/search';
 import GenePage from './containers/genePage';
 import DiseasePage from './containers/diseasePage';
 
+import { WP_PAGES } from './constants';
+
 export default (
   <Route component={Layout} path='/'>
     <IndexRedirect to="/home" />
@@ -19,8 +21,17 @@ export default (
       <Route component={WordpressFeeds} path=':postId' />
     </Route>
     <Redirect from='/wordpress/:id' to='/:id' /> {/* before links within user edited WordPress content is fixed, this path rewrite is necessary */}
-    <Route component={Wordpress} path='/'>
-      <Route component={Wordpress} path=':pageId' />
-    </Route>
+    {
+      Object.values(WP_PAGES).map((page) => (
+        <Route
+          component={
+            (props) => <Wordpress {...props} pageId={page.path} />
+          }
+          key={page.path}
+          path={page.path}
+        />
+      ))
+    }
+
   </Route>
 );
