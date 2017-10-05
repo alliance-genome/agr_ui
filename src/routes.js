@@ -27,8 +27,10 @@ export default (
     </Route>
     <Redirect from='/wordpress/:id' to='/:id' /> {/* before links within user edited WordPress content is fixed, this path rewrite is necessary */}
     {
-      Object.values(WP_PAGES).map((page) => (
-        page.path === 'home' ?
+      Object.keys(WP_PAGES).map((pageKey) => {
+        const page = WP_PAGES[pageKey];
+        return (
+          page.path === 'home' ?
           <Redirect from='home' to="/" /> :
           <Route
             component={
@@ -37,7 +39,8 @@ export default (
             key={page.path}
             path={page.path}
           />
-      ))
+        );
+      })
     }
     <Route component={NotFound} path="*" />
   </Route>
