@@ -9,8 +9,11 @@ test:
 run:
 	npm start
 
-docker-build:
-	docker build -t agrdocker/agr_ui_server .
+docker-build-webpack:
+	docker build --build-arg NODE_ENV=production -t agrdocker/agr_ui_server -f Dockerfile_webpack_dev .
+
+docker-build-nginx:
+	docker build --build-arg NODE_ENV=production -t agrdocker/agr_ui_server -f Dockerfile_nginx .
 
 push:
 	docker push agrdocker/agr_ui_server
@@ -19,7 +22,7 @@ pull:
 	docker pull agrdocker/agr_ui_server
 
 bash:
-	docker run -t -i agrdocker/agr_api_server bash
+	docker run -t -i agrdocker/agr_ui_server bash
 
 docker-run:
 	docker run -p 2992:2992 -t -i agrdocker/agr_ui_server
