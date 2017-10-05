@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import LoadingPage from '../../components/loadingPage';
 import GenomeFeature from '../../components/genomeFeature/GenomeFeature';
+import numeral from 'numeral';
 
 class GenomeFeatureViewer extends Component {
 
@@ -27,7 +28,7 @@ class GenomeFeatureViewer extends Component {
     let geneSymbolUrl = '&lookupSymbol=' + this.props.geneSymbol;
     let externalJBrowsePrefix = process.env.JBROWSE_URL + '/jbrowse/index.html?data=data%2F' + encodeURI(this.props.species);
 
-    let linkBuffer = 0.2;
+    let linkBuffer = 1.2;
     let linkLength = this.props.fmax - this.props.fmin ;
     let bufferedMin = Math.round(this.props.fmin - (linkLength * linkBuffer/2.0));
     let bufferedMax = Math.round(this.props.fmax + (linkLength * linkBuffer/2.0));
@@ -84,6 +85,8 @@ class GenomeFeatureViewer extends Component {
   render() {
 
 
+    let  lengthValue  = numeral((this.props.fmax-this.props.fmin)/1000.0).format('0,0.00');
+
     return (
       <div id='genomeViewer'>
         <div className='row'>
@@ -98,7 +101,7 @@ class GenomeFeatureViewer extends Component {
                 {/*<a href={this.trackDataUrl}>[json]</a>*/}
                 {this.props.assembly} {this.props.strand}
                 &nbsp;
-                ({(this.props.fmax-this.props.fmin)/1000.0} kb)
+                ({lengthValue} kb)
               </dd>
             </dl>
           </div>
@@ -108,13 +111,13 @@ class GenomeFeatureViewer extends Component {
             <a href={this.jbrowseUrl} rel='noopener noreferrer'
                target='_blank' title='Browse Genome'
             >
-              {this.state.loadState == 'loading' ? <LoadingPage/> : ''}
+              {this.state.loadState == 'loading' ? <LoadingPage /> : ''}
               {this.state.loadState == 'loaded' ? <GenomeFeature data={this.state.loadedData}
                                                                  height={this.props.height}
                                                                  id={this.props.id}
                                                                  url={this.externalJBrowseUrl}
                                                                  width={this.props.width}
-              /> : ''}
+                                                  /> : ''}
             </a>
             {this.state.loadState == 'error' ? <div className='text-danger'>Unable to retrieve data</div> : ''}
           </div>
