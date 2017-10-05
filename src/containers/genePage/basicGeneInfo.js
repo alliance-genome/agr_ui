@@ -26,7 +26,10 @@ class BasicGeneInfo extends Component {
       <div>
         {data.geneSynopsis && <p dangerouslySetInnerHTML={{__html: data.geneSynopsis}} />}
         {data.geneSynopsisUrl &&
-          <a href={data.geneSynopsisUrl}>{data.geneSynopsisUrl}</a>}
+          <ExternalLink href={data.geneSynopsisUrl}>
+            {data.geneSynopsisUrl}
+          </ExternalLink>
+        }
       </div>
     );
   }
