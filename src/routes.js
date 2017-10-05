@@ -27,13 +27,15 @@ export default (
     <Redirect from='/wordpress/:id' to='/:id' /> {/* before links within user edited WordPress content is fixed, this path rewrite is necessary */}
     {
       Object.values(WP_PAGES).map((page) => (
-        <Route
-          component={
-            (props) => <Wordpress {...props} pageId={page.path} />
-          }
-          key={page.path}
-          path={page.path}
-        />
+        page.path === 'home' ?
+          <Redirect from='home' to="/" /> :
+          <Route
+            component={
+              (props) => <Wordpress {...props} pageId={page.path} />
+            }
+            key={page.path}
+            path={page.path}
+          />
       ))
     }
 
