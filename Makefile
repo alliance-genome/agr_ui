@@ -9,9 +9,6 @@ test:
 run:
 	npm start
 
-docker-build-webpack:
-	docker build -t agrdocker/agr_ui_server -f Dockerfile_webpack_dev .
-
 docker-build-nginx:
 	docker build --build-arg NODE_ENV=production -t agrdocker/agr_ui_server -f Dockerfile_nginx .
 
