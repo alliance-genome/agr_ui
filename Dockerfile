@@ -6,6 +6,10 @@ EXPOSE 2992
 
 ADD . .
 RUN npm install
+
+ARG NODE_ENV=development
+ENV NODE_ENV ${NODE_ENV}
+
 RUN npm run build
 RUN npm test
 
