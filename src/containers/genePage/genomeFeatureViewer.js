@@ -96,9 +96,9 @@ class GenomeFeatureViewer extends Component {
                 &nbsp;
                 &nbsp;
                 {/*<a href={this.trackDataUrl}>[json]</a>*/}
-                {this.props.assembly ? 'Assembly: '+this.props.assembly+'' : ''} {this.props.strand}
+                {this.props.assembly} {this.props.strand}
                 &nbsp;
-                Length: { (this.props.fmax-this.props.fmin)/1000.0} kb
+                ({(this.props.fmax-this.props.fmin)/1000.0} kb)
               </dd>
             </dl>
           </div>
