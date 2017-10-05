@@ -9,11 +9,13 @@ test:
 run:
 	npm start
 
-docker-build-webpack:
-	docker build -t agrdocker/agr_ui_server -f Dockerfile_webpack_dev .
-
 docker-build-nginx:
-	docker build --build-arg NODE_ENV=production -t agrdocker/agr_ui_server -f Dockerfile_nginx .
+	docker build --build-arg NODE_ENV=production -t agr_ui_build_img -f Dockerfile.build .
+	docker create --name agr.ui.server.temp agr_ui_build_img
+	docker cp agr.ui.server.temp:/workdir/agr_ui/dist dist
+	docker rm agr.ui.server.temp
+	docker rmi agr_ui_build_img
+	docker build -t agrdocker/agr_ui_server .
 
 push:
 	docker push agrdocker/agr_ui_server
