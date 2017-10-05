@@ -28,8 +28,23 @@ export function injectHighlightIntoResponse(responseObj) {
 
 function injectHighlightingIntoValue(highlight, value) {
   if (highlight === undefined || value === undefined) { return value; }
+
   var unhighlightedValue = highlight.replace(/<\/?[em]+(>|$)/g, '');
 
+  var returnValue;
+
+  if (Array.isArray(value)) {
+    returnValue = value.map(function(val) {
+      return replaceHighlightValue(val, unhighlightedValue, highlight);
+    });
+  } else {
+    returnValue = replaceHighlightValue(value, unhighlightedValue, highlight);
+  }
+
+  return returnValue;
+}
+
+function replaceHighlightValue(value, unhighlightedValue, highlight) {
   return value.toString().replace(unhighlightedValue, highlight);
 }
 

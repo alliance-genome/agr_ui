@@ -32,10 +32,6 @@
   padding-bottom: 8px;
 }
 
-.primaryAttributesList > dt {
-  text-transform: capitalize;
-}
-
 .toggleLink {
   padding: 0 0.5rem;
   vertical-align: baseline;
@@ -61,13 +57,13 @@
   stroke: black;
 }
 
-.exon{
+.exon {
   fill-opacity: 1.0;
   fill: white;
   stroke: black;
 }
 
-.UTR{
+.UTR {
   fill-opacity: 1.0;
   fill: white;
   stroke: black;
