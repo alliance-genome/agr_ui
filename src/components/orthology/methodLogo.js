@@ -5,7 +5,7 @@ import { ALL_METHODS, methodHeaderCellStyle } from './constants';
 
 const MethodLogo = ({methodKey}) => {
   const methodName = ALL_METHODS[methodKey] ?
-    ALL_METHODS[methodKey].name : methodKey;
+    (ALL_METHODS[methodKey].displayName || ALL_METHODS[methodKey].name) : methodKey;
 
   const tooltip = (
     <Tooltip
