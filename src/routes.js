@@ -7,6 +7,7 @@ import Layout from './containers/layout';
 import Search from './containers/search';
 import GenePage from './containers/genePage';
 import DiseasePage from './containers/diseasePage';
+import NotFound from './components/notFound';
 
 import { WP_PAGES } from './constants';
 
@@ -38,6 +39,6 @@ export default (
           />
       ))
     }
-
+    <Route component={NotFound} path="*" />
   </Route>
 );
