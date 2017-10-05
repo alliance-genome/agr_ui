@@ -2,32 +2,36 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import DataSourceLink from '../../components/dataSourceLink';
-import PrimaryAttributesList from '../../components/primaryAttributesList';
+import {
+  AttributeList,
+  AttributeLabel,
+  AttributeValue,
+} from '../../components/attribute';
 import SpeciesIcon from '../../components/speciesIcon';
 
 import style from './style.css';
 
 class DataSourceCard extends Component {
   render() {
-    const attrs = [
-      {
-        field: 'species',
-        format: s => <i>{s}</i>,
-      },
-      {
-        field: 'reference',
-        format: r => <DataSourceLink reference={r} />,
-        name: 'Primary Source',
-      }
-    ];
-
+    const { species, reference } = this.props;
+    const listClass = 'col-xs-12';
+    const labelClass = 'col-md-3';
+    const valueClass = 'col-md-9';
     return (
       <div className='card'>
         <div className={style.iconContainer}>
-          <SpeciesIcon species={this.props.species} />
+          <SpeciesIcon species={species} />
         </div>
         <div className='card-block'>
-          <PrimaryAttributesList attributes={attrs} data={this.props} termWidth='5' />
+          <AttributeList bsClassName={listClass}>
+            <AttributeLabel bsClassName={labelClass}>Species</AttributeLabel>
+            <AttributeValue bsClassName={valueClass}><i>{species}</i></AttributeValue>
+
+            <AttributeLabel bsClassName={labelClass}>Source</AttributeLabel>
+            <AttributeValue bsClassName={valueClass}>
+              <DataSourceLink reference={reference} />
+            </AttributeValue>
+          </AttributeList>
         </div>
       </div>
     );

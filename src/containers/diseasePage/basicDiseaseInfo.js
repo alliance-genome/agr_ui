@@ -32,13 +32,15 @@ class BasicDiseaseInfo extends Component {
   }
 
   renderCrossReferenceList(refs) {
-    return refs && refs.map((ref) => {
-      return (
-        <ExternalLink href={ref.crossRefCompleteUrl} key={`ref-${ref.name}`}>
-          {ref.name}
-        </ExternalLink>
-      );
-    }).reduce((a, b) => [a, ', ', b]);
+    return refs && refs
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map((ref) => {
+        return (
+          <ExternalLink href={ref.crossRefCompleteUrl} key={`ref-${ref.name}`}>
+            {ref.name}
+          </ExternalLink>
+        );
+      }).reduce((a, b) => [a, ', ', b]);
   }
 
   renderDefinition(disease) {

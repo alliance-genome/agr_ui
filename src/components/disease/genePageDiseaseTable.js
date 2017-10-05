@@ -61,7 +61,7 @@ class GenePageDiseaseTable extends Component {
     });
 
     return (
-      <LocalDataTable columns={columns} data={data} filename={filename} />
+      <LocalDataTable columns={columns} data={data} filename={filename} paginated />
     );
   }
 }
