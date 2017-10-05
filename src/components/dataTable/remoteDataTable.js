@@ -53,9 +53,9 @@ class RemoteDataTable extends Component {
   }
 
   handleSizeChange(size) {
-    const { dispatch, id, sortName, sortOrder } = this.props;
+    const { currentPage, dispatch, id, sortName, sortOrder } = this.props;
     dispatch(setPerPageSize(size));
-    dispatch(fetchAssociations(id, 1, size, sortName, sortOrder));
+    dispatch(fetchAssociations(id, currentPage, size, sortName, sortOrder));
   }
 
   handleSortChange(fieldName, sortOrder) {
