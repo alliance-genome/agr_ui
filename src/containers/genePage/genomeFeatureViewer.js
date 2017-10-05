@@ -91,9 +91,14 @@ class GenomeFeatureViewer extends Component {
             <dl className='row'>
               <dt className='col-sm-3'>Genome Location</dt>
               <dd className='col-sm-9'><a href={this.jbrowseUrl} rel='noopener noreferrer' target='_blank'>
-                {this.props.chromosome.toLowerCase().startsWith('chr') ? this.props.chromosome : 'Chr' + this.props.chromosome}:{this.props.fmin}...{this.props.fmax} {this.props.assembly} {this.props.strand} </a>
-                {/*&nbsp;*/}
+                {this.props.chromosome.toLowerCase().startsWith('chr') ? this.props.chromosome : 'Chr' + this.props.chromosome}:{this.props.fmin}...{this.props.fmax} </a>
+                &nbsp;
+                &nbsp;
+                &nbsp;
                 {/*<a href={this.trackDataUrl}>[json]</a>*/}
+                {this.props.assembly ? 'Assembly: '+this.props.assembly+'' : ''} {this.props.strand}
+                &nbsp;
+                Length: { (this.props.fmax-this.props.fmin)/1000.0} kb
               </dd>
             </dl>
           </div>
