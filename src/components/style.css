@@ -32,10 +32,6 @@
   padding-bottom: 8px;
 }
 
-.primaryAttributesList > dt {
-  text-transform: capitalize;
-}
-
 .toggleLink {
   padding: 0 0.5rem;
   vertical-align: baseline;
