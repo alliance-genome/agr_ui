@@ -6,7 +6,6 @@ import {
   fetchDisease,
   fetchAssociations,
   setCurrentPage,
-  //setPerPageSize,
 } from '../../actions/disease';
 
 import {
@@ -128,10 +127,11 @@ const mapStateToProps = (state) => {
     data: selectData(state).toJS(),
     loadingAssociations: selectLoadingAssociation(state),
     perPageSize: selectPerPageSize(state),
-    selectSortName: selectSortName(state),
-    selectSortOrder: selectSortOrder(state),
+    sortName: selectSortName(state),
+    sortOrder: selectSortOrder(state),
     totalAssociations: selectTotalAssociations(state),
     totalPages: selectTotalPages(state)
+
   };
 };
 
