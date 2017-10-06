@@ -6,6 +6,8 @@ import {
   fetchDisease,
   fetchAssociations,
   setCurrentPage,
+  setPerPageSize,
+  setSort,
 } from '../../actions/disease';
 
 import {
@@ -15,6 +17,7 @@ import {
   selectPerPageSize,
   selectCurrentPage,
   selectAssociationsError,
+  selectLoading,
   selectLoadingAssociation,
   selectTotalPages,
   selectSortName,
@@ -36,10 +39,13 @@ class DiseasePage extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.params.diseaseId !== prevProps.params.diseaseId) {
-      this.props.dispatch(fetchDisease(this.props.params.diseaseId));
-      this.props.dispatch(setCurrentPage(1));
-      this.props.dispatch(fetchAssociations(this.props.params.diseaseId));
+    const { dispatch, params } = this.props;
+    if (params.diseaseId !== prevProps.params.diseaseId) {
+      dispatch(fetchDisease(params.diseaseId));
+      dispatch(setCurrentPage(1));
+      dispatch(setPerPageSize(10));
+      dispatch(setSort('default', 'asc'));
+      dispatch(fetchAssociations(params.diseaseId));
     }
   }
 
@@ -52,14 +58,21 @@ class DiseasePage extends Component {
   }
 
   render() {
-    const disease = this.props.data;
-    const title = this.props.params.diseaseId;
     if (this.props.loading) {
       return <LoadingPage />;
     }
-    if (!disease) {
-      return this.renderError();
+
+    if (this.props.error) {
+      return <NotFound />;
     }
+
+    if (!this.props.data) {
+      return null;
+    }
+
+    const disease = this.props.data;
+    const title = this.props.params.diseaseId;
+
     return (
       <div className='container'>
         <HeadMetaTags title={title} />
@@ -125,6 +138,7 @@ const mapStateToProps = (state) => {
     associationsError: selectAssociationsError(state),
     currentPage: selectCurrentPage(state),
     data: selectData(state).toJS(),
+    loading: selectLoading(state),
     loadingAssociations: selectLoadingAssociation(state),
     perPageSize: selectPerPageSize(state),
     sortName: selectSortName(state),

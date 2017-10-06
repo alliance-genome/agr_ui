@@ -1,3 +1,10 @@
+.externalLink:after {
+  font-family: FontAwesome;
+  content: "\f08e";
+  padding-left: 3px;
+  font-size: 85%;
+}
+
 .loadingText {
   width: 100%;
   height: 1rem;
@@ -16,12 +23,13 @@
 
 .subsection {
   margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 4rem;
   clear: left;
 }
 
-.primaryAttributesList > dt {
-  text-transform: capitalize;
+.subsection > h3 {
+  border-bottom: 1px solid rgba(0,0,0,0.4);
+  padding-bottom: 8px;
 }
 
 .toggleLink {
@@ -49,13 +57,13 @@
   stroke: black;
 }
 
-.exon{
+.exon {
   fill-opacity: 1.0;
   fill: white;
   stroke: black;
 }
 
-.UTR{
+.UTR {
   fill-opacity: 1.0;
   fill: white;
   stroke: black;
