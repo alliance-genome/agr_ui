@@ -81,8 +81,6 @@ class RemoteDataTable extends Component {
       page: currentPage,
       sizePerPage: perPageSize,
       sizePerPageList: [10, 25, 100],
-      sortName,
-      sortOrder
     };
 
     return (
