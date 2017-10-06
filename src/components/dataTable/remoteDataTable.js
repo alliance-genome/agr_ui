@@ -39,13 +39,15 @@ const getSortName = (fieldName) => {
 class RemoteDataTable extends Component {
   constructor(props) {
     super(props);
+
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handleSizeChange = this.handleSizeChange.bind(this);
     this.handleSortChange = this.handleSortChange.bind(this);
   }
 
   handlePageChange(page, size) {
-    const { currentPage, dispatch, id, sortName, sortOrder } = this.props;
+    const { currentPage, dispatch, id, sortOrder, sortName } = this.props;
+
     if (page !== currentPage) {
       dispatch(setCurrentPage(page));
       dispatch(fetchAssociations(id, page, size, sortName, sortOrder));
@@ -53,15 +55,17 @@ class RemoteDataTable extends Component {
   }
 
   handleSizeChange(size) {
-    const { dispatch, id, sortName, sortOrder } = this.props;
+    const { currentPage, dispatch, id, sortName, sortOrder } = this.props;
     dispatch(setPerPageSize(size));
-    dispatch(fetchAssociations(id, 1, size, sortName, sortOrder));
+    dispatch(fetchAssociations(id, currentPage , size, sortName, sortOrder));
   }
 
   handleSortChange(fieldName, sortOrder) {
     const { currentPage, dispatch, id, perPageSize } = this.props;
+
     const sortName = getSortName(fieldName);
     dispatch(setSort(sortName, sortOrder));
+
     dispatch(fetchAssociations(id, currentPage, perPageSize, sortName, sortOrder));
   }
 
@@ -71,12 +75,12 @@ class RemoteDataTable extends Component {
     const options = {
       onPageChange: this.handlePageChange,
       onSizePerPageList: this.handleSizeChange,
+      sortName: sortName,
+      sortOrder: sortOrder,
       onSortChange: this.handleSortChange,
       page: currentPage,
       sizePerPage: perPageSize,
       sizePerPageList: [10, 25, 100],
-      sortName,
-      sortOrder
     };
 
     return (
