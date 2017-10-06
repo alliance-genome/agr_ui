@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
@@ -28,8 +29,8 @@ class CategoryLabel extends Component {
 
 CategoryLabel.propTypes = {
   category: PropTypes.string,
+  hideImage: PropTypes.bool,
   hideLabel: PropTypes.bool,
-  hideImage: PropTypes.bool
 };
 
 export default CategoryLabel;
