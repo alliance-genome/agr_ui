@@ -57,6 +57,7 @@
     "null-loader": "^0.1.1",
     "postcss-loader": "^0.13.0",
     "rimraf": "^2.5.2",
+    "robotstxt-webpack-plugin": "^2.0.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.2",

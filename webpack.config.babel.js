@@ -3,6 +3,7 @@ import webpack from 'webpack';
 
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import RobotstxtPlugin from 'robotstxt-webpack-plugin';
 
 let isProduction = process.env.NODE_ENV === 'production';
 let API_URL = process.env.API_URL || 'http://localhost:8080';
@@ -11,10 +12,37 @@ let JBROWSE_URL = process.env.JBROWSE_URL || 'http://jbrowse.alliancegenome.org'
 let JBROWSE_PORT = process.env.JBROWSE_PORT || '8891';
 let MANET_URL = process.env.MANET_URL || 'http://jbrowse.alliancegenome.org';
 let MANET_PORT = process.env.MANET_PORT || '8891';
+let LIVE_UI = process.env.LIVE_UI || 'false';
 
 // Development asset host, asset location and build output path.
 const buildOutputPath = path.join(__dirname, './dist');
 const cssFileName = '[name].[contenthash].css';
+
+const robotsOptions = (LIVE_UI === 'true')? {
+    policy: [
+        {
+            userAgent: 'Googlebot',
+            allow: '/',
+            disallow: '/search',
+            crawlDelay: 1
+        },
+        {
+            userAgent: '*',
+            allow: '/',
+            disallow: '/search',
+            crawlDelay: 2
+        }
+    ],
+    sitemap: 'http://alliancegenome.org/sitemap.xml',
+  }
+  :{
+    policy: [
+       {
+            userAgent: '*',
+            disallow: '/'
+       }
+    ]
+};
 
 let config = {
   context: path.join(__dirname, 'src'),
@@ -84,6 +112,7 @@ let config = {
     ]
   },
   plugins: [
+    new RobotstxtPlugin(robotsOptions),
     new HtmlWebpackPlugin({
       inject: true,
       template: path.join(__dirname, 'src', 'public', 'index.html'),
@@ -106,6 +135,7 @@ if (isProduction) {
   config.devtool = 'source-map';
   config.devServer = {};
   config.plugins = [
+    new RobotstxtPlugin(robotsOptions),
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
       inject: true,
