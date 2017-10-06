@@ -9,7 +9,7 @@ export const WP_POST_BASE_URL = WP_REST_API_BASE+'/posts';
 export const WP_POST_URL = WP_POST_BASE_URL+'?slug=';
 /* Maximum number of posts to display on the News and Events page */
 export const WP_POST_MAX_COUNT = 10;
-export const WP_PATH= '/wordpress';
+export const WP_PATH= '';
 export const WP_POST_PATH = '/posts';
 
 export const CATEGORIES = [

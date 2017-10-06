@@ -6,7 +6,7 @@ import SubMenu from './subMenu';
 import NavLink from './navLink';
 import { MENU, WP_PAGES ,WP_PATH ,WP_POST_PATH } from '../../constants';
 
-const HOME_ROUTE = '/wordpress/home';
+const HOME_ROUTE = '/home';
 
 class NavLinksContainer extends Component {
   render() {

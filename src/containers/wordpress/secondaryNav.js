@@ -14,7 +14,7 @@ class SecondaryNav extends Component {
     case 'contact':return style.contactMenuContainer;
     case 'projects':return style.projectsMenuContainer;
     case 'post':return style.postMenuContainer;
-    } 
+    }
   }
   render() {
     let container=[];
@@ -25,7 +25,7 @@ class SecondaryNav extends Component {
     let menu_cat=(this.props.type==='post')?'post':MENU_IDS[this.props.parent];
     let menu_container=this.getStyle(menu_cat);
 
-    container.push(<a href='/wordpress/home'>Home </a>);
+    container.push(<a href='/home'>Home </a>);
     if(this.props.type==='post'){
       container.push(<a href='/posts/news'> /News</a>);
     }
@@ -33,11 +33,11 @@ class SecondaryNav extends Component {
       if(menu_cat==='home'){return (<div />);}
       let parent=MENU_IDS[parent_id];
       let parent_label=WP_PAGES[parent].label;
-      container.push(<a href={`/wordpress/${parent}`}> /{parent_label}/</a>);
+      container.push(<a href={`/${parent}`}> /{parent_label}/</a>);
       if(parent_id!=page_id){
         container.push(<a dangerouslySetInnerHTML={{ __html: page_title}} />);
       }
-     
+
     }
     return (
        <div className={menu_container}>
