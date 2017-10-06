@@ -2,6 +2,11 @@
 
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {
+  AttributeList,
+  AttributeLabel,
+  AttributeValue,
+} from '../../components/attribute';
 import LoadingPage from '../../components/loadingPage';
 import GenomeFeature from '../../components/genomeFeature/GenomeFeature';
 import numeral from 'numeral';
@@ -83,29 +88,22 @@ class GenomeFeatureViewer extends Component {
 
 
   render() {
-
-
-    let  lengthValue  = numeral((this.props.fmax-this.props.fmin)/1000.0).format('0,0.00');
+    const { assembly, chromosome, fmin, fmax, strand } = this.props;
+    const lengthValue = numeral((fmax - fmin) / 1000.0).format('0,0.00');
 
     return (
       <div id='genomeViewer'>
-        <div className='row'>
-          <div className='col-sm-8'>
-            <dl className='row'>
-              <dt className='col-sm-3'>Genome Location</dt>
-              <dd className='col-sm-9'><a href={this.jbrowseUrl} rel='noopener noreferrer' target='_blank'>
-                {this.props.chromosome.toLowerCase().startsWith('chr') ? this.props.chromosome : 'Chr' + this.props.chromosome}:{this.props.fmin}...{this.props.fmax} </a>
-                &nbsp;
-                &nbsp;
-                &nbsp;
-                {/*<a href={this.trackDataUrl}>[json]</a>*/}
-                {this.props.assembly} {this.props.strand}
-                &nbsp;
-                ({lengthValue} kb)
-              </dd>
-            </dl>
-          </div>
-        </div>
+        <AttributeList>
+          <AttributeLabel>Genome location</AttributeLabel>
+          <AttributeValue>
+            <a href={this.jbrowseUrl} rel='noopener noreferrer' target='_blank'>
+              {chromosome.toLowerCase().startsWith('chr') ? chromosome : 'Chr' + chromosome}:{fmin}...{fmax}
+            </a> {strand} ({lengthValue} kb)
+          </AttributeValue>
+
+          <AttributeLabel>Assembly version</AttributeLabel>
+          <AttributeValue>{assembly}</AttributeValue>
+        </AttributeList>
         <div className='row'>
           <div className='col-xs-12'>
             <a href={this.jbrowseUrl} rel='noopener noreferrer'
