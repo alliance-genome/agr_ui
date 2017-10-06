@@ -145,6 +145,7 @@ const mapStateToProps = (state) => {
     sortOrder: selectSortOrder(state),
     totalAssociations: selectTotalAssociations(state),
     totalPages: selectTotalPages(state)
+
   };
 };
 

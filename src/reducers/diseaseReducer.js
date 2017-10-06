@@ -21,6 +21,8 @@ export const DEFAULT_STATE = fromJS({
   currentPage: 1,
   perPageSize: 10,
   totalAssociations: 0,
+  sortOrder: undefined,
+  sortName: undefined
 });
 
 const diseaseReducer = function (state = DEFAULT_STATE, action) {
