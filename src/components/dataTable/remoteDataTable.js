@@ -1,98 +1,142 @@
-/* eslint-disable react/no-set-state */
-import React, {Component} from 'react';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
-import fetchData from '../../lib/fetchData';
+import React, { Component } from 'react';
+
+import {
+  fetchAssociations,
+  setCurrentPage,
+  setPerPageSize,
+  setSort,
+} from '../../actions/disease.js';
+
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import Download from './downloadButton.js';
 import PropTypes from 'prop-types';
+
+const textFilter = {
+  type: 'TextFilter',
+  delay: 100,
+  placeholder: ' '
+};
+
+// TODO: this is a hack because the API JSON field names don't line up with
+// the URL query param names. So we rectify them here. It might be better to
+// do it as part of the column definition.
+const getSortName = (fieldName) => {
+  switch(fieldName) {
+  case 'diseaseName':
+    return 'disease';
+
+  case 'disease_species':
+    return 'species';
+
+  case 'geneDocument':
+    return 'gene';
+
+  default:
+    return 'default';
+  }
+};
 
 class RemoteDataTable extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      data: [],
-      total: 0,
-      page: 1,
-      order: '',
-      sort: '',
-      count: 10,
-      showExtra: false,
-    };
-    this.getData = this.getData.bind(this);
+
     this.handlePageChange = this.handlePageChange.bind(this);
+    this.handleSizeChange = this.handleSizeChange.bind(this);
     this.handleSortChange = this.handleSortChange.bind(this);
-    this.handleCountChange = this.handleCountChange.bind(this);
   }
 
-  componentDidMount() {
-    this.getData();
+  handlePageChange(page, size) {
+    const { currentPage, dispatch, id, sortOrder, sortName } = this.props;
+
+    if (page !== currentPage) {
+      dispatch(setCurrentPage(page));
+      dispatch(fetchAssociations(id, page, size, sortName, sortOrder));
+    }
   }
 
-  getData(page = this.state.page, count = this.state.count, sort = this.state.sort, order = this.state.order) {
-    fetchData(`${this.props.url}?_page=${page}&_limit=${count}&_sort=${sort}&_order=${order}`)
-      .then(data => {
-        this.setState({
-          data,
-          total: 72, //TODO: just a placeholder; this will need to come from the response when available
-          page,
-          count,
-          sort,
-          order });
-      });
+  handleSizeChange(size) {
+    const { currentPage, dispatch, id, sortName, sortOrder } = this.props;
+    dispatch(setPerPageSize(size));
+    dispatch(fetchAssociations(id, currentPage , size, sortName, sortOrder));
   }
 
-  handlePageChange(page, count) {
-    this.getData(page, count);
-  }
+  handleSortChange(fieldName, sortOrder) {
+    const { currentPage, dispatch, id, perPageSize } = this.props;
 
-  handleSortChange(name, order) {
-    this.getData(this.state.page, this.state.count, name, order);
-  }
+    const sortName = getSortName(fieldName);
+    dispatch(setSort(sortName, sortOrder));
 
-  handleCountChange(count) {
-    this.getData(1, count);
+    dispatch(fetchAssociations(id, currentPage, perPageSize, sortName, sortOrder));
   }
 
   render() {
+    const { columns, currentPage, data, filename, perPageSize, sortName, sortOrder, totalAssociations } = this.props;
+
     const options = {
       onPageChange: this.handlePageChange,
+      onSizePerPageList: this.handleSizeChange,
+      sortName: sortName,
+      sortOrder: sortOrder,
       onSortChange: this.handleSortChange,
-      onSizePerPageList: this.handleCountChange,
-      page: this.state.page,
-      sizePerPage: this.state.count,
-      sizePerPageList: [ 10, 25, 100 ],
+      page: currentPage,
+      sizePerPage: perPageSize,
+      sizePerPageList: [10, 25, 100],
+      sortName,
+      sortOrder
     };
 
     return (
-      <BootstrapTable
-        bordered={false}
-        data={this.state.data}
-        fetchInfo={{dataTotalSize: this.state.total}}
-        options={options}
-        pagination
-        remote
-        version='4'
-      >
-        {
-          this.props.columns.map((col, idx) =>
-            <TableHeaderColumn
-              dataField={col.field}
-              dataFormat={col.format}
-              dataSort={col.sortable}
-              hidden={col.hidden}
-              isKey={col.isKey}
-              key={idx}
-            >
-              {col.label}
-            </TableHeaderColumn>
-          )
-        }
-      </BootstrapTable>
+      <div>
+
+        <BootstrapTable
+          bordered={false}
+          csvFileName={filename}
+          data={data}
+          fetchInfo={{dataTotalSize: totalAssociations}}
+          options={options}
+          pagination
+          remote
+          version='4'
+        >
+          {
+            columns.map((col, idx) =>
+              <TableHeaderColumn
+                csvFormat={col.asText}
+                csvHeader={col.label}
+                dataField={col.field}
+                dataFormat={col.format}
+                dataSort={col.sortable}
+                filter={col.filterable ? textFilter : null}
+                hidden={col.hidden}
+                isKey={col.isKey}
+                key={idx}
+                width={col.width}
+              >
+                {col.label}
+              </TableHeaderColumn>
+            )
+          }
+        </BootstrapTable>
+
+        <Download buttonText={'Download'} filename={this.props.id} id={this.props.id} />
+      </div>
     );
   }
 }
 
 RemoteDataTable.propTypes = {
   columns: PropTypes.array,
-  url: PropTypes.string,
+  currentPage: PropTypes.number,
+  data: PropTypes.arrayOf(PropTypes.object),
+  dispatch: PropTypes.func,
+  filename: PropTypes.string,
+  id: PropTypes.string,
+  limit: PropTypes.number,
+  perPageSize: PropTypes.number,
+  sortName: PropTypes.string,
+  sortOrder: PropTypes.string,
+  totalAssociations: PropTypes.number,
+  totalPages: PropTypes.number,
 };
 
 export default RemoteDataTable;

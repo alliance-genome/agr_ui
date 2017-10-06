@@ -18,17 +18,18 @@ const MethodCell = (props) => {
       Object.keys(ALL_METHODS).sort().map((method) => {
 
         const methodName = ALL_METHODS[method].name;
+        const methodDisplayName = ALL_METHODS[method].displayName || methodName;
 
         let symbol, tipText;
         if (predictionMethodsMatchedSet.has(methodName)) {
           symbol = '\u2611';
-          tipText = `Match by ${methodName}`;
+          tipText = `Match by ${methodDisplayName}`;
         } else if (predictionMethodsNotMatchedSet.has(methodName)) {
           symbol = '\u2610';
-          tipText = `No match by ${methodName}`;
+          tipText = `No match by ${methodDisplayName}`;
         } else {
           symbol = '\u00a0';
-          tipText = `Comparision not available on ${methodName}`;
+          tipText = `Comparision not available on ${methodDisplayName}`;
         }
 
         const tooltip = (

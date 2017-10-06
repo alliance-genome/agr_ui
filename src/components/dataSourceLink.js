@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import ExternalLink from './externalLink';
 
 class DataSourceLink extends Component {
   render() {
     return (
-      <a href={this.props.reference.crossrefCompleteUrl}>{this.props.reference.id}</a>
+      <ExternalLink href={this.props.reference.crossRefCompleteUrl}>
+        {this.props.reference.name}
+      </ExternalLink>
     );
   }
 }
@@ -12,8 +15,8 @@ class DataSourceLink extends Component {
 DataSourceLink.propTypes = {
   omitPrefix: PropTypes.bool,
   reference: PropTypes.shape({
-    crossrefCompleteUrl: PropTypes.string,
-    id: PropTypes.string,
+    crossRefCompleteUrl: PropTypes.string,
+    name: PropTypes.string,
   }),
 };
 

@@ -1,6 +1,7 @@
 /* eslint-disable react/no-set-state */
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Collapse } from 'react-bootstrap';
 
 class CollapsiblePanel extends Component {
@@ -22,7 +23,12 @@ class CollapsiblePanel extends Component {
 
   render() {
     return (
-      <div className="card">
+      <div
+        className="card"
+        style={{
+          clear: 'both'
+        }}
+      >
         <div
           className={`card-header alert-${this.props.backgroundVariants}`}
           onClick={() => this.handleToggle()} role="tab"

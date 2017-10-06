@@ -50,7 +50,8 @@ class GenePageDiseaseTable extends Component {
         data.push({
           name: disease.name,
           doId: disease.doId,
-          associationType: annotation.assoicationType.replace(/_/g, ' '),
+          associationType: annotation.associationType.replace(/_/g, ' '),
+          dataProvider: annotation.source.name,
           refs: annotation.publications,
         });
       });
@@ -60,7 +61,7 @@ class GenePageDiseaseTable extends Component {
     });
 
     return (
-      <LocalDataTable columns={columns} data={data} filename={filename} />
+      <LocalDataTable columns={columns} data={data} filename={filename} paginated />
     );
   }
 }

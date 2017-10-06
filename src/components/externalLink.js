@@ -1,28 +1,30 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+import style from './style.css';
 
 class ExternalLink extends Component {
   render() {
     return (
       <span>
         <a
+          className={this.props.href ? style.externalLink : ''}
           href={this.props.href}
           rel="noopener noreferrer"
           target="_blank"
+          title={this.props.title}
         >
           {this.props.children || this.props.href}
         </a>
-        <i
-          className="fa fa-external-link"
-          style={{margin: '0 3px'}}
-        />
       </span>
     );
   }
 }
 
 ExternalLink.propTypes = {
+  children: PropTypes.node,
   href: PropTypes.string.isRequired,
-  children: PropTypes.element
+  title: PropTypes.string,
 };
 
 export default ExternalLink;

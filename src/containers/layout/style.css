@@ -7,6 +7,8 @@
 
 .socialLinks a {
   padding-left: 0.3rem;
+  color: white;
+  font-size: 20px;
 }
 
 .content {
@@ -40,9 +42,6 @@
 
 .midHeader {
   background: #fff;
-  border-color: #ddd;
-  border-style: solid;
-  border-width: 1px 0 1px 0;
   padding: 0;
   text-transform: uppercase;
   margin-bottom: 1.25rem;
@@ -56,16 +55,11 @@
   justify-content: space-between;
   padding: 0;
 }
-.nav .navContainer {
-  border-right: 1px solid #ddd;
-  flex-grow: 1;
-  text-align: center;
-}
 .nav .navContainer:first-child {
-  border-left: 1px solid #ddd;
 }
 .nav .navLink {
-  padding: 1rem;
+  padding: 0.25rem;
+  color: #373a3c;
 }
 .nav .sub_nav{
   display: none;
@@ -88,7 +82,6 @@
 .nav .navContainer:hover .sub_nav{
   display:block;
 }
-
 /* Site map style starts here */
 .site_map{
   margin:0;

@@ -1,10 +1,11 @@
-FROM agrdocker/agr_javascript_env:latest
+FROM nginx
 
-WORKDIR /workdir/agr_ui
+WORKDIR /workdir/agr_ui/dist
+
+COPY dist .
+
+WORKDIR /etc/nginx/conf.d
+
+ADD nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 2992
-
-ADD . .
-RUN make 
-
-CMD make docker-run-command

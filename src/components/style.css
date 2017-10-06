@@ -1,29 +1,108 @@
+.externalLink:after {
+  font-family: FontAwesome;
+  content: "\f08e";
+  padding-left: 3px;
+  font-size: 85%;
+}
+
 .loadingText {
-	width: 100%;
-	height: 1rem;
-	background: #e2e2e2;
-	margin-bottom: 1rem;
-	border-radius: 0.25rem;
+  width: 100%;
+  height: 1rem;
+  background: #e2e2e2;
+  margin-bottom: 1rem;
+  border-radius: 0.25rem;
 }
 
 .loadingHeader {
-	height: 2rem;
+  height: 2rem;
 }
 
 .graphContainer {
-	margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 .subsection {
   margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 4rem;
   clear: left;
 }
 
-.primaryAttributesList > dt {
-  text-transform: capitalize;
+.subsection > h3 {
+  border-bottom: 1px solid rgba(0,0,0,0.4);
+  padding-bottom: 8px;
 }
 
 .toggleLink {
-  margin-left: 0.5rem;
+  padding: 0 0.5rem;
+  vertical-align: baseline;
+}
+
+.fadeInAndOut {
+  opacity: 1;
+  animation: fade 1s ease-in;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0
+  }
+  100% {
+    opacity: 1
+  }
+}
+
+.transArrow {
+  fill-opacity: 1.0;
+  fill: black;
+  stroke: black;
+}
+
+.exon {
+  fill-opacity: 1.0;
+  fill: white;
+  stroke: black;
+}
+
+.UTR {
+  fill-opacity: 1.0;
+  fill: white;
+  stroke: black;
+}
+
+.transcriptBackbone {
+  fill-opacity: 1.0;
+  fill: gray;
+}
+
+.CDS {
+  fill: #3E82BF;
+  stroke: #3E82BF;
+  fill-opacity: 1.0;
+}
+
+.axis {
+  fill: #609C9C;
+}
+
+.viewer {
+  fill: gray;
+}
+
+.gene {
+  fill: blue;
+}
+
+.geneLabel {
+  stroke: 2px;
+  color: black;
+  font-style: italic;
+}
+
+.transcriptLabel {
+  stroke: 1px;
+  color: black;
+}
+
+.axis {
+  font: 14px sans-serif;
 }

@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import fetchData from '../../lib/fetchData';
 import { fetchWp, fetchWpSuccess, fetchWpFailure } from '../../actions/wp';
 import { selectWp } from '../../selectors/wpSelectors';
+import LoadingPage from '../../components/loadingPage';
+import NotFound from '../../components/notFound';
 
 import WordpressPage from './wordpressPage';
 
@@ -17,31 +19,41 @@ class Wordpress extends Component {
     super(props);
   }
   componentDidMount() {
-    this.getData(this.getCurrentRoute(this.props));
+    let wpUrl = this.getCurrentRoute(this.props) || '/home';
+    this.getData(wpUrl);
   }
   componentWillUpdate(nextProps, nextState){
-    if(this.getCurrentRoute(this.props) != this.getCurrentRoute(nextProps)){
-      this.getData(this.getCurrentRoute(nextProps));
+    let wpUrl = this.getCurrentRoute(this.props) || '/home';
+    let nextWpUrl = this.getCurrentRoute(nextProps) || '/home';
+    if(wpUrl !== nextWpUrl){
+      this.getData(nextWpUrl);
     }
   }
   getCurrentRoute(props){
-    return props.params.pageId;
+    return props.pageId;
   }
   getData(currentRoute){
     this.props.dispatch(fetchWp());
     let page_slug=(currentRoute in WP_PAGES)?WP_PAGES[currentRoute].slug:currentRoute;
     let homeUrl=WP_PAGE_BASE_URL+page_slug;
     fetchData(homeUrl)
-      .then(data => this.props.dispatch(fetchWpSuccess(data)))
+      .then(data => {
+        if (data && data[0]) {
+          this.props.dispatch(fetchWpSuccess(data));
+        } else {
+          // throw our own error, since WP API doesn't return 404 when page is not found
+          throw new Error('Page not found');
+        }
+      })
       .catch(error => this.props.dispatch(fetchWpFailure(error)));
   }
   render() {
     if (this.props.loading) {
-      return <span>loading...</span>;
+      return <LoadingPage />;
     }
 
     if (this.props.error) {
-      return <div className='alert alert-danger'>{this.props.error}</div>;
+      return <NotFound />;
     }
 
     if (!this.props.data) {
@@ -55,6 +67,7 @@ Wordpress.propTypes = {
   dispatch: PropTypes.func,
   error: PropTypes.object,
   loading: PropTypes.bool,
+  pageId: PropTypes.string,
   params: PropTypes.object,
 };
 

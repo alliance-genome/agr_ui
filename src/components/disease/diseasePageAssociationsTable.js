@@ -1,5 +1,9 @@
 /* eslint-disable react/no-set-state */
 import React, { Component } from 'react';
+import { Link } from 'react-router';
+
+import ReferenceCell from './referenceCell';
+import ExternalLink from '../../components/externalLink';
 import { RemoteDataTable } from '../../components/dataTable';
 import PropTypes from 'prop-types';
 
@@ -9,6 +13,7 @@ class DiseasePageAssociationsTable extends Component {
     this.state = {
       hideExtra: true
     };
+
     this.handleToggleExtra = this.handleToggleExtra.bind(this);
   }
 
@@ -18,44 +23,88 @@ class DiseasePageAssociationsTable extends Component {
     });
   }
 
+  renderDiseaseName(name, row) {
+    return <Link to={'/disease/' + row.diseaseID}>{name}</Link>;
+  }
+
+  renderGeneLink(gene) {
+    return <Link to={'/gene/' + gene.primaryId}>{gene.symbol}</Link>;
+  }
+
   render() {
+
     const columns = [
       {
-        field: 'do_name',
-        label: 'Disease Name',
+        field: 'diseaseID',
+        label: 'DO ID',
+        isKey: true,
+        hidden: true,
+      },
+      {
+        field: 'diseaseName',
+        label: 'Disease & Subtypes',
+        format: this.renderDiseaseName,
         sortable: true,
       },
       {
-        field: 'do_id',
-        label: 'DO ID',
-        isKey: true,
+        field: 'disease_species',
+        label: 'Species',
+        format: (species) => <i>{species.name}</i>,
         sortable: true,
-        format: (id) => id + '!'
+      },
+      {
+        field: 'geneDocument',
+        label: 'Associated Gene',
+        format: this.renderGeneLink,
+        sortable: true,
       },
       {
         field: 'associationType',
-        label: 'Association',
-        sortable: true,
-        hidden: this.state.hideExtra,
+        label: 'Association Type',
+        format: (type) => type.replace(/_/g, ' '),
+      },
+      {
+        field: 'source',
+        label: 'Source',
+        format: (s) => <ExternalLink href={s.url}>{s.name}</ExternalLink>,
+        width: '100px',
+      },
+      {
+        field: 'publications',
+        label: 'References',
+        format: ReferenceCell,
       }
     ];
     return (
       <div>
-        <div className='checkbox pull-right'>
-          <label>
-            <input checked={!this.state.hideExtra} onChange={this.handleToggleExtra} type='checkbox' />
-            Show addition information
-          </label>
-        </div>
-        <RemoteDataTable columns={columns} url='http://localhost:3000/diseases' />
+        <RemoteDataTable
+          columns={columns}
+          currentPage={this.props.currentPage}
+          data={this.props.associations}
+          dispatch={this.props.dispatch}
+          id={this.props.id}
+          perPageSize={this.props.perPageSize}
+          sortName={this.props.sortName}
+          sortOrder={this.props.sortOrder}
+          totalAssociations={this.props.totalAssociations}
+          totalPages={this.props.totalPages}
+        />
       </div>
     );
   }
 }
 
 DiseasePageAssociationsTable.propTypes = {
-  columns: PropTypes.array.isRequired,
-  url: PropTypes.string,
+  associations: PropTypes.arrayOf(PropTypes.object),
+  currentPage: PropTypes.number,
+  disease: PropTypes.object,
+  dispatch: PropTypes.func,
+  id: PropTypes.string,
+  perPageSize: PropTypes.number,
+  sortName: PropTypes.string,
+  sortOrder: PropTypes.string,
+  totalAssociations: PropTypes.number,
+  totalPages: PropTypes.number,
 };
 
 export default DiseasePageAssociationsTable;

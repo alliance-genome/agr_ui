@@ -1,5 +1,6 @@
 /* eslint-disable react/no-set-state */
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import style from './style.css';
 
@@ -15,15 +16,6 @@ class CollapsibleList extends Component {
     };
   }
 
-  componentWillReceiveProps() {
-    // collapse the list again if we recieve new list
-    // TODO: it seems like you need to click "more" twice to expand the
-    // first time. perhaps this may not be the best place to do this.
-    this.setState({
-      collapsed: true
-    });
-  }
-
   toggleCollapsed() {
     this.setState({
       collapsed: !this.state.collapsed
@@ -36,10 +28,7 @@ class CollapsibleList extends Component {
     if (!items) {
       return null;
     }
-    let itemView = items;
-    if (collapsed) {
-      itemView = itemView.slice(0, collapsedSize);
-    }
+    const itemView = collapsed ? items.slice(0, collapsedSize) : items;
     const moreLink = <span>... More <i className='fa fa-caret-right' /></span>;
     const lessLink = <span>Less <i className='fa fa-caret-left' /></span>;
     return (
@@ -47,18 +36,19 @@ class CollapsibleList extends Component {
         {renderList(itemView)}
         {items.length > collapsedSize && (
           <span>
-            <a className={style.toggleLink} href='#' onClick={this.toggleCollapsed.bind(this)}>
+            <button className={`btn btn-link ${style.toggleLink}`} onClick={this.toggleCollapsed.bind(this)}>
               {collapsed ? moreLink : lessLink}
-            </a>
+            </button>
           </span>
         )}
-      </div>);
+      </div>
+    );
   }
 }
 
 CollapsibleList.propTypes = {
-  collapsedSize: React.PropTypes.number,
-  items: React.PropTypes.array,
+  collapsedSize: PropTypes.number,
+  items: PropTypes.array,
 };
 
 CollapsibleList.defaultProps = {

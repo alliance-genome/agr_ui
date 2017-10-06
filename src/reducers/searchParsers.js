@@ -28,8 +28,23 @@ export function injectHighlightIntoResponse(responseObj) {
 
 function injectHighlightingIntoValue(highlight, value) {
   if (highlight === undefined || value === undefined) { return value; }
+
   var unhighlightedValue = highlight.replace(/<\/?[em]+(>|$)/g, '');
 
+  var returnValue;
+
+  if (Array.isArray(value)) {
+    returnValue = value.map(function(val) {
+      return replaceHighlightValue(val, unhighlightedValue, highlight);
+    });
+  } else {
+    returnValue = replaceHighlightValue(value, unhighlightedValue, highlight);
+  }
+
+  return returnValue;
+}
+
+function replaceHighlightValue(value, unhighlightedValue, highlight) {
   return value.toString().replace(unhighlightedValue, highlight);
 }
 
@@ -101,6 +116,15 @@ function parseCoordinates(d) {
   return `chr${chrom}:${d.gene_chromosome_starts}-${d.gene_chromosome_ends}`;
 }
 
+function parseCrossReferences(d) {
+  if (!d || !d.crossReferences) {
+    return null;
+  }
+  return d.crossReferences.map(function(ref) {
+    return ref.name;
+  });
+}
+
 // search result individual entry parsers
 function parseGeneResult(_d) {
   let d = injectHighlightIntoResponse(_d);
@@ -159,7 +183,7 @@ function parseDiseaseResult(_d) {
     category: d.category,
     display_name: d.name,
     definition: d.definition,
-    external_ids: d.external_ids,
+    external_ids: parseCrossReferences(d),
     highlight: d.highlights,
     href: '/disease/' + d.id,
     name: d.name,
