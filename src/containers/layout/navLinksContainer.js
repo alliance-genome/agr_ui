@@ -18,10 +18,7 @@ class NavLinksContainer extends Component {
       if (page_url === HOME_ROUTE) page_url = '/';
       let page_label=WP_PAGES[page].label;
       let link_token=[];
-      if(page==='news'){
-        link_token.push(<a className={`nav-link ${style.navLink}`} href={page_url} key={index}>{page_label}</a>);
-      }
-      else{link_token.push(<NavLink key={index} label={page_label} url={page_url} />);}
+      link_token.push(<a className={`nav-link ${style.navLink}`} href={page_url} key={index}>{page_label}</a>);
       container.push(<div className={style.navContainer} key={index}>
           {link_token}
           <SubMenu key={index} path={page} />
