@@ -116,10 +116,15 @@ class GenomeFeature extends Component {
       .domain([view_start, view_end])
       .range([0, width]);
 
-    let tickFormat = x.tickFormat(5, '.3s');
+
+    // 9 ticks
+    let viewLength = view_end - view_start;
+    let resolution = Math.round(30 / Math.log(viewLength)) ;
+    let resolutionString = '.'+resolution + 's';
+    let tickFormat = x.tickFormat(5, resolutionString);
 
     let xAxis = axisTop(x)
-      .ticks(10, 's')
+      .ticks(8, 's')
       .tickSize(8)
       .tickFormat(tickFormat);
 
