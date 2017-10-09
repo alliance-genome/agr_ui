@@ -95,6 +95,7 @@ class GenomeFeature extends Component {
       , 'five_prime_UTR': 200
       , 'three_prime_UTR': 200
       , 'CDS': 1000
+    // , 'intron': 50
     };
 
 
@@ -187,10 +188,14 @@ class GenomeFeature extends Component {
               if (typeof sortAValue == 'number' && typeof sortBValue == 'number') {
                 return sortAValue - sortBValue;
               }
-              else {
-                // NOTE: type not found and weighted
-                return a.type - b.type;
+              if (typeof sortAValue == 'number' && typeof sortBValue != 'number') {
+                return -1 ;
               }
+              if (typeof sortAValue != 'number' && typeof sortBValue == 'number') {
+                return 1 ;
+              }
+              // NOTE: type not found and weighted
+              return a.type - b.type;
             });
 
 
