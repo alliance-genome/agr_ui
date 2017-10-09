@@ -2,7 +2,7 @@ import assert from 'assert';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { createMemoryHistory } from 'react-router';
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
 
 import configureStore from '../../../lib/configureStore';
 import SearchContainer from '../search';
@@ -24,7 +24,7 @@ describe('Search', () => {
 
   it('should be able to render after getting a response', () => {
     let store = configureStore(historyObj);
-    store.dispatch(receiveResponse(fixtureResponse, { q: 'kinase' }))
+    store.dispatch(receiveResponse(fixtureResponse, { q: 'kinase' }));
     let htmlString = renderToString(<Provider store={store}><SearchContainer /></Provider>);
     assert.equal(typeof htmlString, 'string');
   });
@@ -43,7 +43,7 @@ describe('SearchControls', () => {
     let htmlString = renderToString(
       <SearchControlsComponent
         currentPage={1}
-        isTable={true}
+        isTable
         queryParams={{}}
         totalPages={5}
       />
