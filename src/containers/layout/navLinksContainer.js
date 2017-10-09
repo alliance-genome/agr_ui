@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import style from './style.css';
 import SubMenu from './subMenu';
-import NavLink from './navLink';
 import { MENU, WP_PAGES ,WP_PATH ,WP_POST_PATH } from '../../constants';
 
 const HOME_ROUTE = '/home';
