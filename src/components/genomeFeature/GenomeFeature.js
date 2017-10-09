@@ -84,21 +84,27 @@ class GenomeFeature extends Component {
     let isoform_height = 40; // height for each isoform
     let isoform_view_height = 20; // height for each isoform
     let isoform_title_height = 0; // height for each isoform
-    let utr_height = 4; // this is the height of the isoform running all of the way through
+    let utr_height = 10; // this is the height of the isoform running all of the way through
+    let transcript_backbone_height = 4; // this is the height of the isoform running all of the way through
     let arrow_height = 20;
     let arrow_width = 10;
     let arrow_points = '0,0 0,' + arrow_height + ' ' + arrow_width + ',' + arrow_width;
+    let sortWeight = {
+      'exon': 100
+      , 'UTR': 200
+      , 'five_prime_UTR': 200
+      , 'three_prime_UTR': 200
+      , 'CDS': 1000
+    };
 
 
     let calculatedHeight = this.props.height;
-    if (!this.props.isLoading) {
-      let numberIsoforms = this.countIsoforms(this.props.data);
-      if (numberIsoforms > this.MAX_ISOFORMS) {
-        calculatedHeight = (this.MAX_ISOFORMS + 2) * isoform_height;
-      }
-      else {
-        calculatedHeight = (numberIsoforms + 1) * isoform_height;
-      }
+    let numberIsoforms = this.countIsoforms(this.props.data);
+    if (numberIsoforms > this.MAX_ISOFORMS) {
+      calculatedHeight = (this.MAX_ISOFORMS + 2) * isoform_height;
+    }
+    else {
+      calculatedHeight = (numberIsoforms + 1) * isoform_height;
     }
 
     let margin = {top: 8, right: 30, bottom: 30, left: 40},
@@ -109,7 +115,7 @@ class GenomeFeature extends Component {
       .domain([view_start, view_end])
       .range([0, width]);
 
-    let tickFormat = x.tickFormat(5, '.2s');
+    let tickFormat = x.tickFormat(5, '.3s');
 
     let xAxis = axisTop(x)
       .ticks(10, 's')
@@ -132,6 +138,11 @@ class GenomeFeature extends Component {
 
       let maxIsoforms = this.MAX_ISOFORMS;
       let externalUrl = this.props.url;
+      featureChildren = featureChildren.sort(function (a, b) {
+        if (a.name < b.name) return -1;
+        if (a.name > b.name) return 1;
+        return a - b;
+      });
       featureChildren.forEach(function (featureChild) {
         let featureType = featureChild.type;
         if (featureType == 'mRNA') {
@@ -139,24 +150,24 @@ class GenomeFeature extends Component {
             isoform_count += 1;
 
             viewer.append('polygon')
-              .attr('class', 'trans_arrow')
+              .attr('class', style.transArrow)
               .attr('points', arrow_points)
               .attr('transform', function () {
                 if (feature.strand > 0) {
-                  return 'translate(' + Number(x(feature.fmax)) + ',' + Number((isoform_view_height / 2.0) - (arrow_height / 2.0) + (isoform_height * isoform_count) + isoform_title_height) + ')';
+                  return 'translate(' + Number(x(featureChild.fmax)) + ',' + Number((isoform_view_height / 2.0) - (arrow_height / 2.0) + (isoform_height * isoform_count) + isoform_title_height) + ')';
                 }
                 else {
-                  return 'translate(' + Number(x(feature.fmin)) + ',' + Number((isoform_view_height / 2.0) + (arrow_height / 2.0) + (isoform_height * isoform_count) + isoform_title_height) + ') rotate(180)';
+                  return 'translate(' + Number(x(featureChild.fmin)) + ',' + Number((isoform_view_height / 2.0) + (arrow_height / 2.0) + (isoform_height * isoform_count) + isoform_title_height) + ') rotate(180)';
                 }
               });
 
             viewer.append('rect')
-              .attr('class', style.UTR)
-              .attr('x', x(feature.fmin))
+              .attr('class', style.transcriptBackbone)
+              .attr('x', x(featureChild.fmin))
               .attr('y', isoform_height * isoform_count + isoform_title_height)
-              .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (utr_height / 2.0)) + ')')
-              .attr('height', utr_height)
-              .attr('width', x(feature.fmax) - x(feature.fmin));
+              .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (transcript_backbone_height / 2.0)) + ')')
+              .attr('height', transcript_backbone_height)
+              .attr('width', x(featureChild.fmax) - x(featureChild.fmin));
 
             viewer.append('text')
               .attr('class', style.transcriptLabel)
@@ -169,16 +180,19 @@ class GenomeFeature extends Component {
 
             // have to sort this so we draw the exons BEFORE the CDS
             featureChild.children = featureChild.children.sort(function (a, b) {
-              if (a.type == 'exon' && b.type != 'exon') {
-                return -1;
-              }
-              else if (a.type == 'CDS' && b.type != 'CDS') {
-                return 1;
+
+              let sortAValue = sortWeight[a.type];
+              let sortBValue = sortWeight[b.type];
+
+              if (typeof sortAValue == 'number' && typeof sortBValue == 'number') {
+                return sortAValue - sortBValue;
               }
               else {
-                return a - b;
+                // NOTE: type not found and weighted
+                return a.type - b.type;
               }
             });
+
 
             featureChild.children.forEach(function (innerChild) {
               let innerType = innerChild.type;
@@ -202,6 +216,16 @@ class GenomeFeature extends Component {
                   .attr('height', cds_height)
                   .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
               }
+              else if (innerType == 'UTR' || innerType == 'five_prime_UTR' || innerType == 'three_prime_UTR') {
+                viewer.append('rect')
+                  .attr('class', style.UTR)
+                  .attr('x', x(innerChild.fmin))
+                  .attr('y', isoform_height * isoform_count + isoform_title_height)
+                  .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (utr_height / 2.0)) + ')')
+                  .attr('z-index', 20)
+                  .attr('height', utr_height)
+                  .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
+              }
             });
           }
           else if (isoform_count == maxIsoforms) {
@@ -214,7 +238,7 @@ class GenomeFeature extends Component {
               .attr('x', x(feature.fmin) + 30)
               .attr('y', isoform_height * isoform_count + isoform_title_height)
               .attr('fill', 'red')
-              .attr('opacity', 1 )
+              .attr('opacity', 1)
               .attr('height', isoform_title_height)
               .text('Maximum features displayed.  See full view for more.');
           }
@@ -222,16 +246,16 @@ class GenomeFeature extends Component {
       });
     }
 
-    if(isoform_count==0){
+    if (isoform_count == 0) {
       viewer.append('text')
-        .attr('x',  30)
-        .attr('y',  isoform_title_height+10 )
+        .attr('x', 30)
+        .attr('y', isoform_title_height + 10)
         .attr('fill', 'orange')
-        .attr('opacity', 0.6 )
+        .attr('opacity', 0.6)
         // .attr('height', isoform_title_height)
         .text('Overview of non-coding genome features unavailable at this time.');
     }
-    else{
+    else {
       viewer.append('g')
         .attr('class', style.axis)
         .attr('width', width)
@@ -259,7 +283,6 @@ GenomeFeature.propTypes = {
   data: PropTypes.array.isRequired,
   height: PropTypes.string,
   id: PropTypes.string,
-  isLoading: PropTypes.boolean,
   url: PropTypes.string,
   width: PropTypes.string,
 };

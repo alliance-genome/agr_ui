@@ -22,10 +22,6 @@ class Layout extends Component {
 
     return (
       <div className={style.appContainer}>
-        <div className={`alert alert-warning ${style.appAlert}`} role='alert'>
-          This website is a prototype and information may not be verified. Submit bugs <a href='https://agr-jira.atlassian.net'>here.</a>
-        </div>
-
         <TopBar />
 
         <nav className='navbar fixed-top'>
@@ -34,13 +30,13 @@ class Layout extends Component {
               <div className={SMALL_COL_CLASS}>
                 <Link className='navbar-brand' to='/'>
                   <img height='80' src={logo} />
-                </Link>   
-              </div>    
-              <div className={LARGE_COL_CLASS}>   
-                <SearchBar />   
-              </div>    
+                </Link>
+              </div>
+              <div className={LARGE_COL_CLASS}>
+                <SearchBar />
+              </div>
             </div>
-          </div>   
+          </div>
         </nav>
 
         <nav className={`navbar ${style.midHeader} ${currentRoute}`}>
