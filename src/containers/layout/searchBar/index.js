@@ -118,7 +118,7 @@ class SearchBarComponent extends Component {
   render() {
     let _getSuggestionValue = ( d => d.name_key );
     let _inputProps = {
-      placeholder: 'search a gene or GO term',
+      placeholder: 'search a gene, disease or GO term',
       value: this.state.value,
       onChange: this.handleTyping.bind(this)
     };

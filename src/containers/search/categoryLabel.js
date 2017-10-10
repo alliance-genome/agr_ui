@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
@@ -21,13 +22,15 @@ class CategoryLabel extends Component {
     let current = this.getCurrentOption();
     let label = current ? current.displayName : '';
     let labelNode = this.props.hideLabel ? null : <span className={style.catLabel}> {label}</span>;
-    return <span>{this.renderSprite()}{labelNode}</span>;
+    let spriteNode = this.props.hideImage ? null : <span>{this.renderSprite()}</span>;
+    return <span>{spriteNode}{labelNode}</span>;
   }
 }
 
 CategoryLabel.propTypes = {
   category: PropTypes.string,
-  hideLabel: PropTypes.bool
+  hideImage: PropTypes.bool,
+  hideLabel: PropTypes.bool,
 };
 
 export default CategoryLabel;

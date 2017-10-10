@@ -19,7 +19,7 @@ export const CATEGORIES = [
   },
   {
     name: 'gene',
-    displayName: 'Genes'
+    displayName: 'Gene'
   },
   {
     name: 'go',

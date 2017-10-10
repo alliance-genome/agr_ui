@@ -76,7 +76,7 @@ class OrthologyTable extends Component {
               {backgroundColor: '#eee'} : {};
             return (
               <tr key={`${orthData.gene2AgrPrimaryId}`} style={rowStyle} >
-                <td>{orthData.gene2SpeciesName}</td>
+                <td style={{fontStyle: 'italic'}}>{orthData.gene2SpeciesName}</td>
                 <td>
                   <Link to={`/gene/${orthData.gene2AgrPrimaryId}`}>{orthData.gene2Symbol}</Link>
                 </td>

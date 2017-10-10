@@ -19,7 +19,7 @@ class OrthologyBasicInfo extends Component {
           {this.props.focusGeneSymbol}
         </AttributeValue>
 
-        <AttributeLabel>Panther</AttributeLabel>
+        <AttributeLabel>Gene tree</AttributeLabel>
         <AttributeValue>
           <PantherCrossRef crossReferences={this.props.crossReferences} />
         </AttributeValue>

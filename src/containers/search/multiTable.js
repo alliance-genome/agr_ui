@@ -11,6 +11,8 @@ import CategoryLabel from './categoryLabel';
 import fetchData from '../../lib/fetchData';
 import { SEARCH_API_ERROR_MESSAGE } from '../../constants';
 import { receiveResponse, setError, setPending } from '../../actions/search';
+import { getQueryParamWithValueChanged } from '../../lib/searchHelpers';
+
 
 import {
   selectQueryParams,
@@ -26,6 +28,7 @@ import {
 const BASE_SEARCH_URL = '/api/search';
 const PAGE_SIZE = 5;
 const CATEGORIES = ['gene', 'go', 'disease'];
+const SEARCH_PATH = '/search';
 
 
 class MultiTableComponent extends Component {
@@ -98,16 +101,25 @@ class MultiTableComponent extends Component {
   }
 
   renderCategory(category) {
-    let categoryHref = this.getUrlByCategory(category);
+    let categoryQp = getQueryParamWithValueChanged('category', category, this.props.queryParams);
+    let categoryHref = { pathname: SEARCH_PATH, query: categoryQp };
+
+    if (this.getTotalForCategory(category) === '0') { return null; }
 
     return (
       <div>
         <p>
           <Link to={categoryHref}>
-            {this.getTotalForCategory(category)} <CategoryLabel category={category} />
+            {this.getTotalForCategory(category)} <CategoryLabel category={category} /> Results
           </Link>
         </p>
         <ResultsTable activeCategory={category} entries={this.getResultsForCategory(category)} />
+        <span className='pull-right'>
+          <Link to={categoryHref}>
+            Show All <CategoryLabel category={category} hideImage /> Results
+          </Link>
+        </span>
+        <hr className={style.clear} />
       </div>
     );
 
