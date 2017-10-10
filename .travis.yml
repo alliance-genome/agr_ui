@@ -8,7 +8,7 @@ cache:
     - node_modules
 
 install:
-  - make install build
+  - make install sitemap build
 
 script:
   - make test
