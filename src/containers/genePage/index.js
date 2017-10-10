@@ -83,11 +83,13 @@ class GenePage extends Component {
             geneSymbol={this.props.data.symbol}
             height='200px'
             id='genome-feature-location-id'
+            primaryId={this.props.data.primaryId}
             species={this.props.data.species}
             strand={genomeLocation.strand}
             width='600px'
           />
         </Subsection>
+        
 
         <Subsection title='Function – GO Annotations'>
           <GeneOntologyRibbon id={this.props.data.primaryId} />
