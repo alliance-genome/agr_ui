@@ -89,6 +89,7 @@ class GenePage extends Component {
             width='600px'
           />
         </Subsection>
+        
 
         <Subsection title='Function – GO Annotations'>
           <GeneOntologyRibbon id={this.props.data.primaryId} />
