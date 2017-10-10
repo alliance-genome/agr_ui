@@ -1,7 +1,5 @@
-all: install sitemap build test
+all: install build test
 
-sitemap:
-	python generate_sitemaps.py
 install:
 	npm install
 build:
