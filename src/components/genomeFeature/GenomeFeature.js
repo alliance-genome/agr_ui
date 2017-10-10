@@ -95,6 +95,7 @@ class GenomeFeature extends Component {
       , 'five_prime_UTR': 200
       , 'three_prime_UTR': 200
       , 'CDS': 1000
+    // , 'intron': 50
     };
 
 
@@ -115,10 +116,15 @@ class GenomeFeature extends Component {
       .domain([view_start, view_end])
       .range([0, width]);
 
-    let tickFormat = x.tickFormat(5, '.3s');
+
+    // 9 ticks
+    let viewLength = view_end - view_start;
+    let resolution = Math.round(30 / Math.log(viewLength)) ;
+    let resolutionString = '.'+resolution + 's';
+    let tickFormat = x.tickFormat(5, resolutionString);
 
     let xAxis = axisTop(x)
-      .ticks(10, 's')
+      .ticks(8, 's')
       .tickSize(8)
       .tickFormat(tickFormat);
 
@@ -187,10 +193,14 @@ class GenomeFeature extends Component {
               if (typeof sortAValue == 'number' && typeof sortBValue == 'number') {
                 return sortAValue - sortBValue;
               }
-              else {
-                // NOTE: type not found and weighted
-                return a.type - b.type;
+              if (typeof sortAValue == 'number' && typeof sortBValue != 'number') {
+                return -1 ;
               }
+              if (typeof sortAValue != 'number' && typeof sortBValue == 'number') {
+                return 1 ;
+              }
+              // NOTE: type not found and weighted
+              return a.type - b.type;
             });
 
 
