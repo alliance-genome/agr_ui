@@ -27,16 +27,27 @@ class GenomeFeatureViewer extends Component {
 
     // TODO: this is a hack to fix inconsistencies in JBrowse
     let trackDataPrefix = apolloServerPrefix + 'track/' + encodeURI(this.props.species) + '/' + defaultTrackName + '/' + encodeURI(locationString) + '.json';
-    let trackDataWithHighlight = trackDataPrefix + '?name=' + this.props.geneSymbol;
+    let trackDataWithHighlight;
+    if (this.props.species == 'Caenorhabditis elegans' && this.props.primaryId.indexOf(':') > 0) {
+      trackDataWithHighlight = trackDataPrefix + '?name=' + this.props.primaryId.split(':')[1];
+    }
+    // TODO: Still some inconsistencies with SGD data
+    // else
+    // if (this.props.species == 'Saccharomyces cerevisiae' && this.props.primaryId.indexOf('_mRNA') > 0) {
+    //   trackDataWithHighlight = trackDataPrefix + '?name=' + this.props.primaryId.split('_')[0];
+    // }
+    else {
+      trackDataWithHighlight = trackDataPrefix + '?name=' + this.props.geneSymbol;
+    }
     // trackDataWithHighlight += '&ignoreCache=true';
 
     let geneSymbolUrl = '&lookupSymbol=' + this.props.geneSymbol;
     let externalJBrowsePrefix = process.env.JBROWSE_URL + '/jbrowse/index.html?data=data%2F' + encodeURI(this.props.species);
 
     let linkBuffer = 1.2;
-    let linkLength = this.props.fmax - this.props.fmin ;
-    let bufferedMin = Math.round(this.props.fmin - (linkLength * linkBuffer/2.0));
-    let bufferedMax = Math.round(this.props.fmax + (linkLength * linkBuffer/2.0));
+    let linkLength = this.props.fmax - this.props.fmin;
+    let bufferedMin = Math.round(this.props.fmin - (linkLength * linkBuffer / 2.0));
+    let bufferedMax = Math.round(this.props.fmax + (linkLength * linkBuffer / 2.0));
     let externalLocationString = this.props.chromosome + ':' + bufferedMin + '..' + bufferedMax;
     bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
     // TODO: handle bufferedMax exceeding chromosome length, though I think it has a good default.
@@ -136,6 +147,7 @@ GenomeFeatureViewer.propTypes = {
   geneSymbol: PropTypes.string.isRequired,
   height: PropTypes.string,
   id: PropTypes.string,
+  primaryId: PropTypes.string,
   species: PropTypes.string.isRequired,
   strand: PropTypes.string,
   width: PropTypes.string,
