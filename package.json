@@ -36,6 +36,7 @@
     "redux": "^3.6.0",
     "redux-thunk": "2.2.0",
     "reselect": "^2.5.4",
+    "sitemap": "^1.13.0",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
@@ -57,6 +58,7 @@
     "null-loader": "^0.1.1",
     "postcss-loader": "^0.13.0",
     "rimraf": "^2.5.2",
+    "robotstxt-webpack-plugin": "^2.0.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.2",
@@ -67,9 +69,10 @@
     "start": "webpack-dev-server --history-api-fallback --hot --inline",
     "prestart:docker": "npm install && npm run build",
     "start-docker": "webpack-dev-server --history-api-fallback --host 0.0.0.0 --port 2992 --hot --inline",
-    "prebuild": "npm run clean && npm run copy",
+    "prebuild": "npm run clean && npm run copy && npm run sitemap",
     "build": "cross-env NODE_ENV=production webpack -p --optimize-minimize",
     "clean": "rimraf dist",
+    "sitemap": "node bin/build_sitemap.js",
     "copy": "cp -r src/public/. dist",
     "lint": "eslint src --max-warnings 0",
     "pretest": "npm run lint",
