@@ -16,7 +16,7 @@
     "d3-axis": "^1.0.8",
     "d3-selection": "^1.1.0",
     "extract-text-webpack-plugin": "^1.0.1",
-    "@sibyl229/gene-ontology-ribbon": "1.2.5",
+    "@sibyl229/gene-ontology-ribbon": "1.2.7",
     "immutable": "^3.8.1",
     "numeral": "^2.0.6",
     "prop-types": "^15.5.10",
