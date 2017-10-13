@@ -67,32 +67,47 @@ class GenomeFeatureViewer extends Component {
   componentDidUpdate() {
   }
 
-  loadData() {
-    this.setState({loadState: 'loading'});
-
-    fetch(this.trackDataUrl)
-      .then(function (response) {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-        return response;
-      })
-      .then((response) => {
-        response.json().then(data => {
-          this.setState({
-            loadState: 'loaded'
-            , loadedData: data
-          });
-          return data;
-        });
-      })
-      .catch(() => {
-        // console.log(error);
-        this.setState({
-          loadState: 'error'
-        });
-      });
+  isCodingType(){
+    let proteinCodingTypes = [
+      'gene'
+      ,'protein_coding_gene'
+      ,'protein_coding'
+    ];
+    return proteinCodingTypes.indexOf(this.props.biotype)>=0 ;
   }
+
+  loadData() {
+    if(!this.isCodingType()){
+      this.setState({loadState: 'noncoding'});
+    }
+    else{
+      this.setState({loadState: 'loading'});
+      fetch(this.trackDataUrl)
+        .then(function (response) {
+          if (!response.ok) {
+            throw Error(response.statusText);
+          }
+          return response;
+        })
+        .then((response) => {
+          response.json().then(data => {
+            this.setState({
+              loadState: 'loaded'
+              , loadedData: data
+            });
+            return data;
+          });
+        })
+        .catch(() => {
+          // console.log(error);
+          this.setState({
+            loadState: 'error'
+          });
+        });
+    }
+
+  }
+
 
 
   render() {
@@ -126,6 +141,7 @@ class GenomeFeatureViewer extends Component {
                                                   /> : ''}
             </a>
             {this.state.loadState == 'error' ? <div className='text-danger'>Unable to retrieve data</div> : ''}
+            {this.state.loadState == 'noncoding' ? <div className='text-warning'>Overview for non-coding genes unavailable</div> : ''}
           </div>
         </div>
       </div>
@@ -138,6 +154,7 @@ class GenomeFeatureViewer extends Component {
 
 GenomeFeatureViewer.propTypes = {
   assembly: PropTypes.string,
+  biotype: PropTypes.string,
   chromosome: PropTypes.string,
   fmax: PropTypes.number,
   fmin: PropTypes.number,
