@@ -42,9 +42,10 @@
 
 .midHeader {
   background: #fff;
+  border-top: solid 1px #ddd;
+  border-bottom: solid 1px #ddd;
   padding: 0;
   text-transform: uppercase;
-  margin-bottom: 1.25rem;
 }
 .midHeader.nav-link {
   padding: 1em;
@@ -55,12 +56,22 @@
   justify-content: space-between;
   padding: 0;
 }
-.nav .navContainer:first-child {
+.nav .navContainer {
+  border-right: 1px solid #ddd;
+  flex-grow: 1;
+  text-align: center;
 }
-.nav .navLink {
-  padding: 0.25rem;
+.nav .navContainer:first-child {
+ border-left: 1px solid #ddd;
+}
+.nav .navLink,
+.nav .sub_nav_link{
+  padding: 1rem;
+}
+.nav .navLink,.nav .sub_nav_link {
   color: #373a3c;
 }
+
 .nav .sub_nav{
   display: none;
 }
@@ -82,6 +93,18 @@
 .nav .navContainer:hover .sub_nav{
   display:block;
 }
+.nav .sub_nav .subMenuListItem{
+  border-top:solid 1px #ddd;
+}
+.nav .sub_nav .subMenuListItem:first-child{
+  border:0;
+}
+.nav .navContainer:hover .navLink,
+.nav .sub_nav .subMenuListItem:hover .sub_nav_link{
+  color:#2598C5;
+  text-decoration:underline;
+}
+
 /* Site map style starts here */
 .site_map{
   margin:0;
@@ -114,6 +137,7 @@
 
 .contentContainer {
   min-height: 400px;
+  padding-top: 1.25rem;
 }
 
 .siteMapContainer {

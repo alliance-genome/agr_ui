@@ -28,7 +28,7 @@
 }
 
 .subsection > h3 {
-  border-bottom: 1px solid rgba(0,0,0,0.4);
+  border-bottom: 1px solid #ddd;
   padding-bottom: 8px;
 }
 
