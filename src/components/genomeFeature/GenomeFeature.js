@@ -62,12 +62,14 @@ class GenomeFeature extends Component {
     // gene level
     for (let i in data) {
       let feature = data[i];
-      feature.children.forEach(function (geneChild) {
-        // isoform level
-        if (geneChild.type == 'mRNA') {
-          isoform_count += 1;
-        }
-      });
+      if(feature.children){
+        feature.children.forEach(function (geneChild) {
+          // isoform level
+          if (geneChild.type == 'mRNA') {
+            isoform_count += 1;
+          }
+        });
+      }
     }
     return isoform_count;
   }
@@ -140,120 +142,123 @@ class GenomeFeature extends Component {
 
       let feature = data[i];
       let featureChildren = feature.children;
-      let selected = feature.selected;
+      if (featureChildren) {
 
-      let maxIsoforms = this.MAX_ISOFORMS;
-      let externalUrl = this.props.url;
-      featureChildren = featureChildren.sort(function (a, b) {
-        if (a.name < b.name) return -1;
-        if (a.name > b.name) return 1;
-        return a - b;
-      });
-      featureChildren.forEach(function (featureChild) {
-        let featureType = featureChild.type;
-        if (featureType == 'mRNA') {
-          if (isoform_count < maxIsoforms) {
-            isoform_count += 1;
+        let selected = feature.selected;
 
-            viewer.append('polygon')
-              .attr('class', style.transArrow)
-              .attr('points', arrow_points)
-              .attr('transform', function () {
-                if (feature.strand > 0) {
-                  return 'translate(' + Number(x(featureChild.fmax)) + ',' + Number((isoform_view_height / 2.0) - (arrow_height / 2.0) + (isoform_height * isoform_count) + isoform_title_height) + ')';
+        let maxIsoforms = this.MAX_ISOFORMS;
+        let externalUrl = this.props.url;
+        featureChildren = featureChildren.sort(function (a, b) {
+          if (a.name < b.name) return -1;
+          if (a.name > b.name) return 1;
+          return a - b;
+        });
+        featureChildren.forEach(function (featureChild) {
+          let featureType = featureChild.type;
+          if (featureType == 'mRNA') {
+            if (isoform_count < maxIsoforms) {
+              isoform_count += 1;
+
+              viewer.append('polygon')
+                .attr('class', style.transArrow)
+                .attr('points', arrow_points)
+                .attr('transform', function () {
+                  if (feature.strand > 0) {
+                    return 'translate(' + Number(x(featureChild.fmax)) + ',' + Number((isoform_view_height / 2.0) - (arrow_height / 2.0) + (isoform_height * isoform_count) + isoform_title_height) + ')';
+                  }
+                  else {
+                    return 'translate(' + Number(x(featureChild.fmin)) + ',' + Number((isoform_view_height / 2.0) + (arrow_height / 2.0) + (isoform_height * isoform_count) + isoform_title_height) + ') rotate(180)';
+                  }
+                });
+
+              viewer.append('rect')
+                .attr('class', style.transcriptBackbone)
+                .attr('x', x(featureChild.fmin))
+                .attr('y', isoform_height * isoform_count + isoform_title_height)
+                .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (transcript_backbone_height / 2.0)) + ')')
+                .attr('height', transcript_backbone_height)
+                .attr('width', x(featureChild.fmax) - x(featureChild.fmin));
+
+              viewer.append('text')
+                .attr('class', style.transcriptLabel)
+                .attr('x', x(feature.fmin) + 30)
+                .attr('y', isoform_height * isoform_count + isoform_title_height)
+                .attr('fill', selected ? 'sandybrown' : 'gray')
+                .attr('opacity', selected ? 1 : 0.5)
+                .attr('height', isoform_title_height)
+                .text(featureChild.name);
+
+              // have to sort this so we draw the exons BEFORE the CDS
+              featureChild.children = featureChild.children.sort(function (a, b) {
+
+                let sortAValue = sortWeight[a.type];
+                let sortBValue = sortWeight[b.type];
+
+                if (typeof sortAValue == 'number' && typeof sortBValue == 'number') {
+                  return sortAValue - sortBValue;
                 }
-                else {
-                  return 'translate(' + Number(x(featureChild.fmin)) + ',' + Number((isoform_view_height / 2.0) + (arrow_height / 2.0) + (isoform_height * isoform_count) + isoform_title_height) + ') rotate(180)';
+                if (typeof sortAValue == 'number' && typeof sortBValue != 'number') {
+                  return -1;
                 }
+                if (typeof sortAValue != 'number' && typeof sortBValue == 'number') {
+                  return 1;
+                }
+                // NOTE: type not found and weighted
+                return a.type - b.type;
               });
 
-            viewer.append('rect')
-              .attr('class', style.transcriptBackbone)
-              .attr('x', x(featureChild.fmin))
-              .attr('y', isoform_height * isoform_count + isoform_title_height)
-              .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (transcript_backbone_height / 2.0)) + ')')
-              .attr('height', transcript_backbone_height)
-              .attr('width', x(featureChild.fmax) - x(featureChild.fmin));
 
-            viewer.append('text')
-              .attr('class', style.transcriptLabel)
-              .attr('x', x(feature.fmin) + 30)
-              .attr('y', isoform_height * isoform_count + isoform_title_height)
-              .attr('fill', selected ? 'sandybrown' : 'gray')
-              .attr('opacity', selected ? 1 : 0.5)
-              .attr('height', isoform_title_height)
-              .text(featureChild.name);
-
-            // have to sort this so we draw the exons BEFORE the CDS
-            featureChild.children = featureChild.children.sort(function (a, b) {
-
-              let sortAValue = sortWeight[a.type];
-              let sortBValue = sortWeight[b.type];
-
-              if (typeof sortAValue == 'number' && typeof sortBValue == 'number') {
-                return sortAValue - sortBValue;
-              }
-              if (typeof sortAValue == 'number' && typeof sortBValue != 'number') {
-                return -1 ;
-              }
-              if (typeof sortAValue != 'number' && typeof sortBValue == 'number') {
-                return 1 ;
-              }
-              // NOTE: type not found and weighted
-              return a.type - b.type;
-            });
-
-
-            featureChild.children.forEach(function (innerChild) {
-              let innerType = innerChild.type;
-              if (innerType == 'exon') {
-                viewer.append('rect')
-                  .attr('class', style.exon)
-                  .attr('x', x(innerChild.fmin))
-                  .attr('y', isoform_height * isoform_count + isoform_title_height)
-                  .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (exon_height / 2.0)) + ')')
-                  .attr('height', exon_height)
-                  .attr('z-index', 10)
-                  .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
-              }
-              else if (innerType == 'CDS') {
-                viewer.append('rect')
-                  .attr('class', style.CDS)
-                  .attr('x', x(innerChild.fmin))
-                  .attr('y', isoform_height * isoform_count + isoform_title_height)
-                  .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (cds_height / 2.0)) + ')')
-                  .attr('z-index', 20)
-                  .attr('height', cds_height)
-                  .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
-              }
-              else if (innerType == 'UTR' || innerType == 'five_prime_UTR' || innerType == 'three_prime_UTR') {
-                viewer.append('rect')
-                  .attr('class', style.UTR)
-                  .attr('x', x(innerChild.fmin))
-                  .attr('y', isoform_height * isoform_count + isoform_title_height)
-                  .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (utr_height / 2.0)) + ')')
-                  .attr('z-index', 20)
-                  .attr('height', utr_height)
-                  .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
-              }
-            });
+              featureChild.children.forEach(function (innerChild) {
+                let innerType = innerChild.type;
+                if (innerType == 'exon') {
+                  viewer.append('rect')
+                    .attr('class', style.exon)
+                    .attr('x', x(innerChild.fmin))
+                    .attr('y', isoform_height * isoform_count + isoform_title_height)
+                    .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (exon_height / 2.0)) + ')')
+                    .attr('height', exon_height)
+                    .attr('z-index', 10)
+                    .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
+                }
+                else if (innerType == 'CDS') {
+                  viewer.append('rect')
+                    .attr('class', style.CDS)
+                    .attr('x', x(innerChild.fmin))
+                    .attr('y', isoform_height * isoform_count + isoform_title_height)
+                    .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (cds_height / 2.0)) + ')')
+                    .attr('z-index', 20)
+                    .attr('height', cds_height)
+                    .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
+                }
+                else if (innerType == 'UTR' || innerType == 'five_prime_UTR' || innerType == 'three_prime_UTR') {
+                  viewer.append('rect')
+                    .attr('class', style.UTR)
+                    .attr('x', x(innerChild.fmin))
+                    .attr('y', isoform_height * isoform_count + isoform_title_height)
+                    .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (utr_height / 2.0)) + ')')
+                    .attr('z-index', 20)
+                    .attr('height', utr_height)
+                    .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
+                }
+              });
+            }
+            else if (isoform_count == maxIsoforms) {
+              ++isoform_count;
+              viewer.append('a')
+                .attr('class', style.transcriptLabel)
+                .attr('xlink:href', externalUrl)
+                .attr('xlink:show', 'new')
+                .append('text')
+                .attr('x', x(feature.fmin) + 30)
+                .attr('y', isoform_height * isoform_count + isoform_title_height)
+                .attr('fill', 'red')
+                .attr('opacity', 1)
+                .attr('height', isoform_title_height)
+                .text('Maximum features displayed.  See full view for more.');
+            }
           }
-          else if (isoform_count == maxIsoforms) {
-            ++isoform_count;
-            viewer.append('a')
-              .attr('class', style.transcriptLabel)
-              .attr('xlink:href', externalUrl)
-              .attr('xlink:show', 'new')
-              .append('text')
-              .attr('x', x(feature.fmin) + 30)
-              .attr('y', isoform_height * isoform_count + isoform_title_height)
-              .attr('fill', 'red')
-              .attr('opacity', 1)
-              .attr('height', isoform_title_height)
-              .text('Maximum features displayed.  See full view for more.');
-          }
-        }
-      });
+        });
+      }
     }
 
     if (isoform_count == 0) {
