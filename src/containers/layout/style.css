@@ -65,7 +65,8 @@
 .nav .navContainer:first-child {
  border-left: 1px solid #ddd;
 }
-.nav .navLink{
+.nav .navLink,
+.nav .sub_nav_link{
   padding: 0.25rem;
 }
 .nav .navLink,.nav .sub_nav_link {
@@ -94,15 +95,15 @@
   display:block;
 }
 .nav .sub_nav .subMenuListItem{
-  border-top:solid 1px #60BFDB;
+  border-top:solid 1px #ddd;
 }
-.nav .navContainer:hover,
-.nav .sub_nav .subMenuListItem:hover{
-  background:#60BFDB;
+.nav .sub_nav .subMenuListItem:first-child{
+  border:0;
 }
 .nav .navContainer:hover .navLink,
 .nav .sub_nav .subMenuListItem:hover .sub_nav_link{
-  color:#fff;
+  color:#2598C5;
+  text-decoration:underline;
 }
 
 /* Site map style starts here */
