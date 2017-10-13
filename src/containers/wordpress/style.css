@@ -1,3 +1,6 @@
+.wordPressContainer {
+  margin-top: -1.25rem;
+}
 .newsContainer { margin-top: 1.3em;background: transparent;}
 .postContainer {padding: 1em;margin-bottom: 1.3em;background: #eee;}
 .postMenuContainer,.homeMenuContainer,
