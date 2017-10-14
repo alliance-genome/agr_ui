@@ -72,6 +72,7 @@ class GenomeFeatureViewer extends Component {
       'gene'
       ,'protein_coding_gene'
       ,'protein_coding'
+      ,'ORF'
     ];
     return proteinCodingTypes.indexOf(this.props.biotype)>=0 ;
   }
