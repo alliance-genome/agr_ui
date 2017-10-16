@@ -27,16 +27,24 @@ class GenomeFeatureViewer extends Component {
 
     // TODO: this is a hack to fix inconsistencies in JBrowse
     let trackDataPrefix = apolloServerPrefix + 'track/' + encodeURI(this.props.species) + '/' + defaultTrackName + '/' + encodeURI(locationString) + '.json';
-    let trackDataWithHighlight = trackDataPrefix + '?name=' + this.props.geneSymbol;
+    let trackDataWithHighlight;
+    if (this.props.species == 'Caenorhabditis elegans' && this.props.primaryId.indexOf(':') > 0) {
+      trackDataWithHighlight = trackDataPrefix + '?name=' + this.props.primaryId.split(':')[1];
+    }
+    else {
+      trackDataWithHighlight = trackDataPrefix + '?name=' + this.props.geneSymbol;
+    }
+// TODO: Still some inconsistencies with SGD data
+// else
     // trackDataWithHighlight += '&ignoreCache=true';
 
     let geneSymbolUrl = '&lookupSymbol=' + this.props.geneSymbol;
     let externalJBrowsePrefix = process.env.JBROWSE_URL + '/jbrowse/index.html?data=data%2F' + encodeURI(this.props.species);
 
     let linkBuffer = 1.2;
-    let linkLength = this.props.fmax - this.props.fmin ;
-    let bufferedMin = Math.round(this.props.fmin - (linkLength * linkBuffer/2.0));
-    let bufferedMax = Math.round(this.props.fmax + (linkLength * linkBuffer/2.0));
+    let linkLength = this.props.fmax - this.props.fmin;
+    let bufferedMin = Math.round(this.props.fmin - (linkLength * linkBuffer / 2.0));
+    let bufferedMax = Math.round(this.props.fmax + (linkLength * linkBuffer / 2.0));
     let externalLocationString = this.props.chromosome + ':' + bufferedMin + '..' + bufferedMax;
     bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
     // TODO: handle bufferedMax exceeding chromosome length, though I think it has a good default.
@@ -59,36 +67,52 @@ class GenomeFeatureViewer extends Component {
   componentDidUpdate() {
   }
 
-  loadData() {
-    this.setState({loadState: 'loading'});
+  isCodingType(){
+    let proteinCodingTypes = [
+      'gene'
+      ,'protein_coding_gene'
+      ,'protein_coding'
+      ,'ORF'
+    ];
+    return proteinCodingTypes.indexOf(this.props.biotype)>=0 ;
+  }
 
-    fetch(this.trackDataUrl)
-      .then(function (response) {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-        return response;
-      })
-      .then((response) => {
-        response.json().then(data => {
-          this.setState({
-            loadState: 'loaded'
-            , loadedData: data
+  loadData() {
+    if(!this.isCodingType()){
+      this.setState({loadState: 'noncoding'});
+    }
+    else{
+      this.setState({loadState: 'loading'});
+      fetch(this.trackDataUrl)
+        .then(function (response) {
+          if (!response.ok) {
+            throw Error(response.statusText);
+          }
+          return response;
+        })
+        .then((response) => {
+          response.json().then(data => {
+            this.setState({
+              loadState: 'loaded'
+              , loadedData: data
+            });
+            return data;
           });
-          return data;
+        })
+        .catch(() => {
+          // console.log(error);
+          this.setState({
+            loadState: 'error'
+          });
         });
-      })
-      .catch(() => {
-        // console.log(error);
-        this.setState({
-          loadState: 'error'
-        });
-      });
+    }
+
   }
 
 
+
   render() {
-    const { assembly, chromosome, fmin, fmax, strand } = this.props;
+    const {assembly, chromosome, fmin, fmax, strand} = this.props;
     const lengthValue = numeral((fmax - fmin) / 1000.0).format('0,0.00');
 
     return (
@@ -118,6 +142,7 @@ class GenomeFeatureViewer extends Component {
                                                   /> : ''}
             </a>
             {this.state.loadState == 'error' ? <div className='text-danger'>Unable to retrieve data</div> : ''}
+            {this.state.loadState == 'noncoding' ? <div className='text-warning'>Overview for non-coding genes unavailable</div> : ''}
           </div>
         </div>
       </div>
@@ -130,12 +155,14 @@ class GenomeFeatureViewer extends Component {
 
 GenomeFeatureViewer.propTypes = {
   assembly: PropTypes.string,
+  biotype: PropTypes.string,
   chromosome: PropTypes.string,
   fmax: PropTypes.number,
   fmin: PropTypes.number,
   geneSymbol: PropTypes.string.isRequired,
   height: PropTypes.string,
   id: PropTypes.string,
+  primaryId: PropTypes.string,
   species: PropTypes.string.isRequired,
   strand: PropTypes.string,
   width: PropTypes.string,

@@ -77,12 +77,14 @@ class GenePage extends Component {
         <Subsection hasData={typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'} title='Sequence Feature Viewer'>
           <GenomeFeatureViewer
             assembly={genomeLocation.assembly}
+            biotype={this.props.data.soTermName}
             chromosome={genomeLocation.chromosome}
             fmax={genomeLocation.end}
             fmin={genomeLocation.start}
             geneSymbol={this.props.data.symbol}
             height='200px'
             id='genome-feature-location-id'
+            primaryId={this.props.data.primaryId}
             species={this.props.data.species}
             strand={genomeLocation.strand}
             width='600px'

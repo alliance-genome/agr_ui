@@ -16,7 +16,7 @@ class WordpressPage extends Component {
     let title = this.props.data.title.rendered;
     let parent_id = (this.props.data.parent>0)?this.props.data.parent:this.props.data.id;
     return (
-      <div>
+      <div className={style.wordPressContainer}>
         <HeadMetaTags title={title} />
         <SecondaryNav  id={this.props.data.id} parent={parent_id} title={title} type='page' />
         <div dangerouslySetInnerHTML={{ __html: this.props.data.content.rendered}} />
