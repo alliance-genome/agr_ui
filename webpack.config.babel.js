@@ -21,19 +21,12 @@ const cssFileName = '[name].[contenthash].css';
 const robotsOptions = (LIVE_UI === 'true')? {
     policy: [
         {
-            userAgent: 'Googlebot',
-            allow: '/',
-            disallow: '/search',
-            crawlDelay: 1
-        },
-        {
             userAgent: '*',
             allow: '/',
-            disallow: '/search',
-            crawlDelay: 2
+            disallow: '/search'
         }
     ],
-    sitemap: 'http://alliancegenome.org/sitemap.xml',
+    sitemap: 'http://www.alliancegenome.org/sitemap.xml',
   }
   :{
     policy: [
