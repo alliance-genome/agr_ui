@@ -8,5 +8,8 @@ RUN npm install
 ARG NODE_ENV=development
 ENV NODE_ENV ${NODE_ENV}
 
+ARG LIVE_UI=true
+ENV LIVE_UI ${LIVE_UI}
+
 RUN npm run build
 RUN npm test
