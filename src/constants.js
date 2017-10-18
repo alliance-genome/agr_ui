@@ -103,6 +103,16 @@ export const WP_PAGES ={
     slug: 'administrative-supplement',
     path: 'supplement'
   },
+  orthology: {
+    label: 'Orthology',
+    slug: 'orthology',
+    path: 'orthology'
+  },
+  'alliance-disease-annotations-tutorial':{
+    label: 'Alliance Disease Annotations Tutorial',
+    slug: 'alliance-disease-annotations-tutorial',
+    path: 'alliance-disease-annotations-tutorial'
+  },
   phenotypes: {
     label: 'Phenotypes And Disease Models',
     slug: 'phenotypes-and-disease-models',
