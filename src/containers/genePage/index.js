@@ -46,21 +46,33 @@ class GenePage extends Component {
 
     // todo, add chromosome
     let genomeLocation = {};
-    if(this.props.data.genomeLocations){
-      if(this.props.data.genomeLocations.length==1){
-        genomeLocation = this.props.data.genomeLocations[0];
-      }
-      else
-      if(this.props.data.genomeLocations.length>1){
-        // TODO: figure out the proper assembly
-        for(var i in this.props.data.genomeLocations){
-          let tempGenomeLocation = this.props.data.genomeLocations[i];
-          if(tempGenomeLocation.start && tempGenomeLocation.end){
-            genomeLocation = tempGenomeLocation;
-          }
-        }
+    // if(this.props.data.genomeLocations){
+    //   if(this.props.data.genomeLocations.length==1){
+    //     genomeLocation = this.props.data.genomeLocations[0];
+    //   }
+    //   else
+    //   if(this.props.data.genomeLocations.length>1){
+    //     // TODO: figure out the proper assembly
+    //     for(var i in this.props.data.genomeLocations){
+    //       let tempGenomeLocation = this.props.data.genomeLocations[i];
+    //       if(tempGenomeLocation.start && tempGenomeLocation.end){
+    //         genomeLocation = tempGenomeLocation;
+    //       }
+    //     }
+    //   }
+    // }
+
+    let genomeLocations = [];
+    console.log(this.props.data.genomeLocations)
+    for(let i in this.props.data.genomeLocations){
+      let tempGenomeLocation = this.props.data.genomeLocations[i];
+      if(tempGenomeLocation.start && tempGenomeLocation.end){
+        tempGenomeLocation.id  = 'genome-location-id-'+i;
+        genomeLocations.push(tempGenomeLocation);
+        genomeLocation = tempGenomeLocation;
       }
     }
+    console.log(genomeLocations)
 
     let now = new Date();
     let date = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
@@ -75,21 +87,24 @@ class GenePage extends Component {
         </Subsection>
 
         <Subsection hasData={typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'} title='Sequence Feature Viewer'>
-          <GenomeFeatureViewer
-            assembly={genomeLocation.assembly}
-            biotype={this.props.data.soTermName}
-            chromosome={genomeLocation.chromosome}
-            fmax={genomeLocation.end}
-            fmin={genomeLocation.start}
-            geneSymbol={this.props.data.symbol}
-            height='200px'
-            id='genome-feature-location-id'
-            primaryId={this.props.data.primaryId}
-            species={this.props.data.species}
-            strand={genomeLocation.strand}
-            synonyms={this.props.data.synonyms}
-            width='600px'
-          />
+          { genomeLocations.map((item) => (
+            <GenomeFeatureViewer
+                assembly={item.assembly}
+                biotype={this.props.data.soTermName}
+                chromosome={item.chromosome}
+                fmax={item.end}
+                fmin={item.start}
+                geneSymbol={this.props.data.symbol}
+                height='200px'
+                id={item.id}
+                primaryId={this.props.data.primaryId}
+                species={this.props.data.species}
+                strand={item.strand}
+                synonyms={this.props.data.synonyms}
+                width='600px'
+            />
+            ))
+          }
         </Subsection>
 
         <Subsection title='Function – GO Annotations'>
