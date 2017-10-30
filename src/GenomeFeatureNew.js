@@ -4,15 +4,18 @@
 //import style from 'App.css';
 var d3 = require ("d3");
 
-var GenerateGenomeView = function(data){
+var DrawGenomeView = function(data){
 
   //Some of these were in different places
   //Not sure if we want these as constants or not
   let MAX_ISOFORMS = 10;
   let calculatedHeight = 500;
+  //console.log(data);
+  //data = getDataApollo('1','1000','2000');
+  //console.log(data);
+
 
   let dataRange = findRange(data);
-  //Hardcoded for now...
 
   let view_start = dataRange.fmin;
   let view_end = dataRange.fmax;
@@ -181,7 +184,7 @@ var GenerateGenomeView = function(data){
             ++isoform_count;
             viewer.append('a')
               .attr('class', 'transcriptLabel')
-              .attr('xlink:href', externalUrl)
+              //.attr('xlink:href', externalUrl)
               .attr('xlink:show', 'new')
               .append('text')
               .attr('x', x(feature.fmin) + 30)
@@ -213,7 +216,6 @@ var GenerateGenomeView = function(data){
       .call(xAxis);
   }
 
-  console.log('I work.');
 };
 
 function findRange(data) {
@@ -254,6 +256,31 @@ function countIsoforms(data) {
     }
   }
   return isoform_count;
+}
+
+var GenerateGenomeView= function(chr, start, end)
+{
+  //Clear it first maaang
+  var svg = d3.select("#viewer");
+  svg.selectAll("*").remove();
+  //Right now this is Hardcoded
+  let externalLocationString = chr + ':' + start + '..' + end;
+  dataUrl ="https://agr-apollo.berkeleybop.io/apollo/track/Homo%20sapiens/All%20Genes/" + encodeURI(externalLocationString) + ".json";
+  console.log(dataUrl);
+  fetch(dataUrl)
+      .then((response) => {
+          response.json()
+      .then(data => {
+              console.log("In the data function maaaan.");
+              console.log(data);
+              DrawGenomeView(data);
+
+          });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+  //return data;
 }
 
 module.exports= GenerateGenomeView;

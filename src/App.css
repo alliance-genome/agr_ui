@@ -1,3 +1,55 @@
-.exon, .five_prime_UTR, .three_prime_UTR {
-    fill-opacity: 0.1
+.transArrow {
+  fill-opacity: 1.0;
+  fill: black;
+  stroke: black;
+}
+
+.exon {
+  fill-opacity: 1.0;
+  fill: white;
+  stroke: black;
+}
+
+.UTR {
+  fill-opacity: 1.0;
+  fill: white;
+  stroke: black;
+}
+
+.transcriptBackbone {
+  fill-opacity: 1.0;
+  fill: gray;
+}
+
+.CDS {
+  fill: #3E82BF;
+  stroke: #3E82BF;
+  fill-opacity: 1.0;
+}
+
+.axis {
+  fill: #609C9C;
+}
+
+.viewer {
+  fill: gray;
+}
+
+.gene {
+  fill: blue;
+}
+
+.geneLabel {
+  stroke: 2px;
+  color: black;
+  font-style: italic;
+}
+
+.transcriptLabel {
+  stroke: 1px;
+  color: black;
+}
+
+.axis {
+  font: 14px sans-serif;
 }

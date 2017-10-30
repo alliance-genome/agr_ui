@@ -29,9 +29,11 @@ class Demo extends Component {
     //console.log(dataUrl)
     constructor(props) {
         super(props);
+
         this.state = {
             isLoading: true
         }
+
     }
 
     loadData() {
@@ -52,13 +54,14 @@ class Demo extends Component {
             });
     }
 
+
     componentDidMount() {
         this.loadData()
     }
 
     componentDidUpdate() {
         // this.testNetwork();
-        // this.loadData()
+        this.loadData()
     }
 
     render() {
@@ -68,7 +71,7 @@ class Demo extends Component {
         let id1 = "genome-feature-demo-1";
 
         if (this.state.isLoading) {
-            return (
+           return (
                 <div>Loading</div>
             )
         }
