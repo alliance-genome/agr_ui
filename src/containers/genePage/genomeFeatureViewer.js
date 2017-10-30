@@ -27,13 +27,25 @@ class GenomeFeatureViewer extends Component {
 
     // TODO: this is a hack to fix inconsistencies in JBrowse
     let trackDataPrefix = apolloServerPrefix + 'track/' + encodeURI(this.props.species) + '/' + defaultTrackName + '/' + encodeURI(locationString) + '.json';
-    let trackDataWithHighlight;
-    if (this.props.species == 'Caenorhabditis elegans' && this.props.primaryId.indexOf(':') > 0) {
-      trackDataWithHighlight = trackDataPrefix + '?name=' + this.props.primaryId.split(':')[1];
+    let trackDataWithHighlight = trackDataPrefix;
+    let names = [];
+    if (this.props.primaryId.indexOf(':') > 0) {
+      names.push(this.props.primaryId.split(':')[1]);
     }
-    else {
-      trackDataWithHighlight = trackDataPrefix + '?name=' + this.props.geneSymbol;
+    names.push(this.props.geneSymbol);
+
+
+    if (this.props.synonyms) {
+      for (let syn of this.props.synonyms) {
+        names.push(syn);
+      }
     }
+
+    for (let name in names) {
+      trackDataWithHighlight = trackDataWithHighlight + (name == 0 ? '?' : '&') + 'name='+names[name];
+    }
+
+
 // TODO: Still some inconsistencies with SGD data
 // else
     // trackDataWithHighlight += '&ignoreCache=true';
@@ -67,21 +79,21 @@ class GenomeFeatureViewer extends Component {
   componentDidUpdate() {
   }
 
-  isCodingType(){
+  isCodingType() {
     let proteinCodingTypes = [
       'gene'
-      ,'protein_coding_gene'
-      ,'protein_coding'
-      ,'ORF'
+      , 'protein_coding_gene'
+      , 'protein_coding'
+      , 'ORF'
     ];
-    return proteinCodingTypes.indexOf(this.props.biotype)>=0 ;
+    return proteinCodingTypes.indexOf(this.props.biotype) >= 0;
   }
 
   loadData() {
-    if(!this.isCodingType()){
+    if (!this.isCodingType()) {
       this.setState({loadState: 'noncoding'});
     }
-    else{
+    else {
       this.setState({loadState: 'loading'});
       fetch(this.trackDataUrl)
         .then(function (response) {
@@ -108,7 +120,6 @@ class GenomeFeatureViewer extends Component {
     }
 
   }
-
 
 
   render() {
@@ -142,7 +153,8 @@ class GenomeFeatureViewer extends Component {
                                                   /> : ''}
             </a>
             {this.state.loadState == 'error' ? <div className='text-danger'>Unable to retrieve data</div> : ''}
-            {this.state.loadState == 'noncoding' ? <div className='text-warning'>Overview for non-coding genes unavailable</div> : ''}
+            {this.state.loadState == 'noncoding' ?
+              <div className='text-warning'>Overview for non-coding genes unavailable</div> : ''}
           </div>
         </div>
       </div>
@@ -165,6 +177,7 @@ GenomeFeatureViewer.propTypes = {
   primaryId: PropTypes.string,
   species: PropTypes.string.isRequired,
   strand: PropTypes.string,
+  synonyms: PropTypes.string,
   width: PropTypes.string,
 };
 
