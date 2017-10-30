@@ -34,10 +34,10 @@ export default (
           <Redirect from='home' to="/" /> :
           <Route
             component={
-              (props) => <Wordpress {...props} pageId={page.path} />
+              (props) => <Wordpress {...props} pageId={page.slug} />
             }
-            key={page.path}
-            path={page.path}
+            key={page.slug}
+            path={page.slug}
           />
         );
       })
