@@ -136,6 +136,11 @@ class GenomeFeature extends Component {
       .append('g')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
+    data = data.sort(function (a, b) {
+      if(a.selected && !b.selected ) return -1 ;
+      if(!a.selected && b.slected ) return 1 ;
+      return a.name - b.name ;
+    });
 
     let isoform_count = 0;
     for (let i in data) {

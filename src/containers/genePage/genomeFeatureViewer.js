@@ -177,7 +177,7 @@ GenomeFeatureViewer.propTypes = {
   primaryId: PropTypes.string,
   species: PropTypes.string.isRequired,
   strand: PropTypes.string,
-  synonyms: PropTypes.string,
+  synonyms: PropTypes.array,
   width: PropTypes.string,
 };
 
