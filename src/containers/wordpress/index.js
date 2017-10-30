@@ -34,9 +34,7 @@ class Wordpress extends Component {
   }
   getData(currentRoute){
     this.props.dispatch(fetchWp());
-    let page_slug= WP_PAGES[currentRoute].slug;
-    if( (typeof page_slug) ==='undefined'){ page_slug= currentRoute;}
-    let homeUrl=WP_PAGE_BASE_URL+page_slug;
+    let homeUrl=WP_PAGE_BASE_URL+currentRoute
     fetchData(homeUrl)
       .then(data => {
         if (data && data[0]) {
