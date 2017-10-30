@@ -10,9 +10,9 @@ class SecondaryNav extends Component {
   getStyle(menu_cat){
     switch(menu_cat){
     case 'home': return style.homeMenuContainer;
-    case 'about':return style.aboutMenuContainer;
-    case 'contact':return style.contactMenuContainer;
-    case 'projects':return style.projectsMenuContainer;
+    case 'about-us':return style.aboutMenuContainer;
+    case 'contact-us':return style.contactMenuContainer;
+    case 'projects-work-products-publications':return style.projectsMenuContainer;
     case 'post':return style.postMenuContainer;
     }
   }
