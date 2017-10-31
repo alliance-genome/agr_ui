@@ -138,7 +138,7 @@ class GenomeFeature extends Component {
 
     data = data.sort(function (a, b) {
       if(a.selected && !b.selected ) return -1 ;
-      if(!a.selected && b.slected ) return 1 ;
+      if(!a.selected && b.selected ) return 1 ;
       return a.name - b.name ;
     });
 
