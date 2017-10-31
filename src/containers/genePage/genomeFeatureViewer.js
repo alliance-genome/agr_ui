@@ -90,10 +90,10 @@ class GenomeFeatureViewer extends Component {
   }
 
   loadData() {
-    if (!this.isCodingType()) {
-      this.setState({loadState: 'noncoding'});
-    }
-    else {
+    // if (!this.isCodingType()) {
+    //   this.setState({loadState: 'noncoding'});
+    // }
+    // else {
       this.setState({loadState: 'loading'});
       fetch(this.trackDataUrl)
         .then(function (response) {
@@ -117,7 +117,7 @@ class GenomeFeatureViewer extends Component {
             loadState: 'error'
           });
         });
-    }
+    // }
 
   }
 
