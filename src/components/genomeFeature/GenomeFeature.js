@@ -99,6 +99,11 @@ class GenomeFeature extends Component {
       , 'CDS': 1000
     // , 'intron': 50
     };
+    let transcriptTypes = [
+      'mRNA','ncRNA','piRNA_gene'
+      ,'Inc_RNA'
+      ,'miRNA_gene'
+    ];
 
 
     let calculatedHeight = this.props.height;
@@ -160,7 +165,7 @@ class GenomeFeature extends Component {
         });
         featureChildren.forEach(function (featureChild) {
           let featureType = featureChild.type;
-          if (featureType == 'mRNA') {
+          if (transcriptTypes.indexOf(featureType)>=0) {
             if (isoform_count < maxIsoforms) {
               isoform_count += 1;
 
