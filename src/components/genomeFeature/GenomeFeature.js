@@ -3,7 +3,7 @@ import style from '../style.css';
 import {scaleLinear} from 'd3-scale';
 import {axisTop} from 'd3-axis';
 import {select} from 'd3-selection';
-import {FeatureTypeHandler} from '../../lib/FeatureTypeHandler';
+import {getTranscriptTypes} from '../../lib/genomeFeatureTypes';
 
 
 class GenomeFeature extends Component {
@@ -100,8 +100,7 @@ class GenomeFeature extends Component {
       , 'CDS': 1000
     // , 'intron': 50
     };
-    this.featureTypeHandler = new FeatureTypeHandler();
-    let transcriptTypes = this.featureTypeHandler.getTranscriptTypes();
+    let transcriptTypes = getTranscriptTypes();
 
     let calculatedHeight = this.props.height;
     let numberIsoforms = this.countIsoforms(this.props.data);
