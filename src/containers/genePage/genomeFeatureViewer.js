@@ -11,10 +11,14 @@ import LoadingPage from '../../components/loadingPage';
 import GenomeFeature from '../../components/genomeFeature/GenomeFeature';
 import numeral from 'numeral';
 
+// import {FeatureTypeHandler} from '../..//lib/FeatureTypeHandler';
+
 class GenomeFeatureViewer extends Component {
 
   constructor(props) {
     super(props);
+
+    // this.featureTypeHandler = new FeatureTypeHandler();
 
     let defaultTrackName = 'All Genes'; // this is the generic track name
     let locationString = this.props.chromosome + ':' + this.props.fmin + '..' + this.props.fmax;
@@ -42,7 +46,7 @@ class GenomeFeatureViewer extends Component {
     }
 
     for (let name in names) {
-      trackDataWithHighlight = trackDataWithHighlight + (name == 0 ? '?' : '&') + 'name='+names[name];
+      trackDataWithHighlight = trackDataWithHighlight + (name == 0 ? '?' : '&') + 'name=' + names[name];
     }
 
 
@@ -79,44 +83,34 @@ class GenomeFeatureViewer extends Component {
   componentDidUpdate() {
   }
 
-  isCodingType() {
-    let proteinCodingTypes = [
-      'gene'
-      , 'protein_coding_gene'
-      , 'protein_coding'
-      , 'ORF'
-    ];
-    return proteinCodingTypes.indexOf(this.props.biotype) >= 0;
-  }
-
   loadData() {
     // if (!this.isCodingType()) {
     //   this.setState({loadState: 'noncoding'});
     // }
     // else {
-      this.setState({loadState: 'loading'});
-      fetch(this.trackDataUrl)
-        .then(function (response) {
-          if (!response.ok) {
-            throw Error(response.statusText);
-          }
-          return response;
-        })
-        .then((response) => {
-          response.json().then(data => {
-            this.setState({
-              loadState: 'loaded'
-              , loadedData: data
-            });
-            return data;
-          });
-        })
-        .catch(() => {
-          // console.log(error);
+    this.setState({loadState: 'loading'});
+    fetch(this.trackDataUrl)
+      .then(function (response) {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response;
+      })
+      .then((response) => {
+        response.json().then(data => {
           this.setState({
-            loadState: 'error'
+            loadState: 'loaded'
+            , loadedData: data
           });
+          return data;
         });
+      })
+      .catch(() => {
+        // console.log(error);
+        this.setState({
+          loadState: 'error'
+        });
+      });
     // }
 
   }
