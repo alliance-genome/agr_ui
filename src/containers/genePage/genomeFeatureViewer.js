@@ -11,8 +11,6 @@ import LoadingPage from '../../components/loadingPage';
 import GenomeFeature from '../../components/genomeFeature/GenomeFeature';
 import numeral from 'numeral';
 
-// import {FeatureTypeHandler} from '../..//lib/FeatureTypeHandler';
-
 class GenomeFeatureViewer extends Component {
 
   constructor(props) {
@@ -84,10 +82,6 @@ class GenomeFeatureViewer extends Component {
   }
 
   loadData() {
-    // if (!this.isCodingType()) {
-    //   this.setState({loadState: 'noncoding'});
-    // }
-    // else {
     this.setState({loadState: 'loading'});
     fetch(this.trackDataUrl)
       .then(function (response) {
@@ -147,8 +141,8 @@ class GenomeFeatureViewer extends Component {
                                                   /> : ''}
             </a>
             {this.state.loadState == 'error' ? <div className='text-danger'>Unable to retrieve data</div> : ''}
-            {this.state.loadState == 'noncoding' ?
-              <div className='text-warning'>Overview for non-coding genes unavailable</div> : ''}
+            {/*{this.state.loadState == 'noncoding' ?*/}
+              {/*<div className='text-warning'>Overview for non-coding genes unavailable</div> : ''}*/}
           </div>
         </div>
       </div>
