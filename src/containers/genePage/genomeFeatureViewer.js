@@ -59,9 +59,9 @@ class GenomeFeatureViewer extends Component {
     let linkBuffer = 1.2;
     let linkLength = this.props.fmax - this.props.fmin;
     let bufferedMin = Math.round(this.props.fmin - (linkLength * linkBuffer / 2.0));
+    bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
     let bufferedMax = Math.round(this.props.fmax + (linkLength * linkBuffer / 2.0));
     let externalLocationString = this.props.chromosome + ':' + bufferedMin + '..' + bufferedMax;
-    bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
     // TODO: handle bufferedMax exceeding chromosome length, though I think it has a good default.
     let externalJbrowseUrl = externalJBrowsePrefix + '&tracks=All%20Genes&highlight=' + geneSymbolUrl + '&loc=' + encodeURI(externalLocationString);
 
@@ -102,13 +102,10 @@ class GenomeFeatureViewer extends Component {
         });
       })
       .catch(() => {
-        // console.log(error);
         this.setState({
           loadState: 'error'
         });
       });
-    // }
-
   }
 
 
