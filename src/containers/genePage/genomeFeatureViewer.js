@@ -144,8 +144,6 @@ class GenomeFeatureViewer extends Component {
                                                   /> : ''}
             </a>
             {this.state.loadState == 'error' ? <div className='text-danger'>Unable to retrieve data</div> : ''}
-            {/*{this.state.loadState == 'noncoding' ?*/}
-              {/*<div className='text-warning'>Overview for non-coding genes unavailable</div> : ''}*/}
           </div>
         </div>
       </div>
