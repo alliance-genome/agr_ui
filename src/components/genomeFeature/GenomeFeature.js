@@ -3,7 +3,6 @@ import style from '../style.css';
 import {scaleLinear} from 'd3-scale';
 import {axisTop} from 'd3-axis';
 import {select} from 'd3-selection';
-import {getTranscriptTypes} from '../../lib/genomeFeatureTypes';
 
 
 class GenomeFeature extends Component {
@@ -60,13 +59,14 @@ class GenomeFeature extends Component {
   countIsoforms(data) {
 
     let isoform_count = 0;
+    let transcriptTypes = this.props.transcriptTypes;
     // gene level
     for (let i in data) {
       let feature = data[i];
       if(feature.children){
         feature.children.forEach(function (geneChild) {
           // isoform level
-          if (geneChild.type == 'mRNA') {
+          if (transcriptTypes.indexOf(geneChild.type)>=0) {
             isoform_count += 1;
           }
         });
@@ -78,6 +78,7 @@ class GenomeFeature extends Component {
   drawGenomeFeature() {
 
     let data = this.props.data;
+    let transcriptTypes = this.props.transcriptTypes;
     let dataRange = this.findRange(data);
 
     let view_start = dataRange.fmin;
@@ -100,8 +101,6 @@ class GenomeFeature extends Component {
       , 'CDS': 1000
     // , 'intron': 50
     };
-    let transcriptTypes = getTranscriptTypes();
-
     let calculatedHeight = this.props.height;
     let numberIsoforms = this.countIsoforms(this.props.data);
     if (numberIsoforms > this.MAX_ISOFORMS) {
@@ -304,6 +303,7 @@ GenomeFeature.propTypes = {
   data: PropTypes.array.isRequired,
   height: PropTypes.string,
   id: PropTypes.string,
+  transcriptTypes: PropTypes.array,
   url: PropTypes.string,
   width: PropTypes.string,
 };

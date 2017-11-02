@@ -10,6 +10,7 @@ import {
 import LoadingPage from '../../components/loadingPage';
 import GenomeFeature from '../../components/genomeFeature/GenomeFeature';
 import numeral from 'numeral';
+import {getTranscriptTypes} from '../../lib/genomeFeatureTypes';
 
 class GenomeFeatureViewer extends Component {
 
@@ -83,6 +84,7 @@ class GenomeFeatureViewer extends Component {
 
   loadData() {
     this.setState({loadState: 'loading'});
+    this.transcriptTypes = getTranscriptTypes();
     fetch(this.trackDataUrl)
       .then(function (response) {
         if (!response.ok) {
@@ -136,6 +138,7 @@ class GenomeFeatureViewer extends Component {
               {this.state.loadState == 'loaded' ? <GenomeFeature data={this.state.loadedData}
                                                                  height={this.props.height}
                                                                  id={this.props.id}
+                                                                 transcriptTypes={this.transcriptTypes}
                                                                  url={this.externalJBrowseUrl}
                                                                  width={this.props.width}
                                                   /> : ''}
