@@ -59,13 +59,14 @@ class GenomeFeature extends Component {
   countIsoforms(data) {
 
     let isoform_count = 0;
+    let transcriptTypes = this.props.transcriptTypes;
     // gene level
     for (let i in data) {
       let feature = data[i];
       if(feature.children){
         feature.children.forEach(function (geneChild) {
           // isoform level
-          if (geneChild.type == 'mRNA') {
+          if (transcriptTypes.indexOf(geneChild.type)>=0) {
             isoform_count += 1;
           }
         });
@@ -77,6 +78,7 @@ class GenomeFeature extends Component {
   drawGenomeFeature() {
 
     let data = this.props.data;
+    let transcriptTypes = this.props.transcriptTypes;
     let dataRange = this.findRange(data);
 
     let view_start = dataRange.fmin;
@@ -99,8 +101,6 @@ class GenomeFeature extends Component {
       , 'CDS': 1000
     // , 'intron': 50
     };
-
-
     let calculatedHeight = this.props.height;
     let numberIsoforms = this.countIsoforms(this.props.data);
     if (numberIsoforms > this.MAX_ISOFORMS) {
@@ -121,12 +121,16 @@ class GenomeFeature extends Component {
 
     // 9 ticks
     let viewLength = view_end - view_start;
-    let resolution = Math.round(30 / Math.log(viewLength)) ;
+    let resolution = Math.round(20 / Math.log(viewLength)) ;
     let resolutionString = '.'+resolution + 's';
     let tickFormat = x.tickFormat(5, resolutionString);
 
+    let viewAvg = Math.log((view_end + view_start) / 2.0,10) ;
+    let numTicks = 2 + viewAvg / resolution;
+
+
     let xAxis = axisTop(x)
-      .ticks(8, 's')
+      .ticks(numTicks, 's')
       .tickSize(8)
       .tickFormat(tickFormat);
 
@@ -160,7 +164,7 @@ class GenomeFeature extends Component {
         });
         featureChildren.forEach(function (featureChild) {
           let featureType = featureChild.type;
-          if (featureType == 'mRNA') {
+          if (transcriptTypes.indexOf(featureType)>=0) {
             if (isoform_count < maxIsoforms) {
               isoform_count += 1;
 
@@ -303,6 +307,7 @@ GenomeFeature.propTypes = {
   data: PropTypes.array.isRequired,
   height: PropTypes.string,
   id: PropTypes.string,
+  transcriptTypes: PropTypes.array,
   url: PropTypes.string,
   width: PropTypes.string,
 };
