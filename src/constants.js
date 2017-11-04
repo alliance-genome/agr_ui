@@ -52,7 +52,7 @@ export const WP_PAGES ={
     slug: 'about-us'
   },
   'projects-work-products-publications': {
-    label: 'Projects, Work Product, Publications',
+    label: 'Work Products',
     slug: 'projects-work-products-publications'
   },
   'contact-us': {
@@ -74,6 +74,22 @@ export const WP_PAGES ={
   publications:{
     label: 'Publications',
     slug: 'publications'
+  },
+  'administrative-supplement':{
+    label: 'Administrative Supplement',
+    slug: 'administrative-supplement'
+  },
+  'genome-features': {
+    label: 'Genome Features',
+    slug: 'genome-features',
+  },
+  orthology: {
+    label: 'Orthology',
+    slug: 'orthology'
+  },
+  'phenotypes-and-disease-models': {
+    label: 'Phenotypes And Disease Models',
+    slug: 'phenotypes-and-disease-models'
   },
   news:{
     label: 'News & Events',
@@ -110,11 +126,14 @@ export const SUB_MENU= {
   'about-us': [
     'frequently-asked-questions',
     'funding',
-    'organization-and-governance'
+    'organization-and-governance',
+    'publications'
   ],
   'projects-work-products-publications': [
-    'projects-work-products-publications',
-    'publications'
+    'administrative-supplement',
+    'genome-features',
+    'orthology',
+    'phenotypes-and-disease-models'
   ]
 };
 
