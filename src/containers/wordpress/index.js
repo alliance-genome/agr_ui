@@ -62,7 +62,7 @@ class Wordpress extends Component {
   }
 }
 Wordpress.propTypes = {
-  data: PropTypes.object,
+  data: PropTypes.array,
   dispatch: PropTypes.func,
   error: PropTypes.object,
   loading: PropTypes.bool,
