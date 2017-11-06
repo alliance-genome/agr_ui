@@ -34,7 +34,7 @@ class Wordpress extends Component {
   }
   getData(currentRoute){
     this.props.dispatch(fetchWp());
-    let wpUrl=WP_PAGE_BASE_URL+currentRoute
+    let wpUrl=WP_PAGE_BASE_URL+currentRoute;
     fetchData(wpUrl)
       .then(data => {
         if (data && data[0]) {
