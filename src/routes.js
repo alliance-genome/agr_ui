@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, IndexRedirect, IndexRoute, Redirect } from 'react-router';
+import { Route, IndexRedirect, Redirect } from 'react-router';
 
 import Wordpress from './containers/wordpress';
 import WordpressFeeds from './containers/wordpress/wordpressFeeds';
@@ -8,8 +8,6 @@ import Search from './containers/search';
 import GenePage from './containers/genePage';
 import DiseasePage from './containers/diseasePage';
 import NotFound from './components/notFound';
-
-import { WP_PAGES } from './constants';
 
 export default (
   <Route component={Layout} path='/'>
