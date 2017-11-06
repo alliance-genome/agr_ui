@@ -4,8 +4,7 @@ var sm = require('sitemap'), fs = require('fs');
 
 var sitemapindex = sm.buildSitemapIndex({
     urls: [
-          'http://www.alliancegenome.org/main-sitemap.xml',
-          'http://www.alliancegenome.org/api/sitemap.xml'
+          'http://www.alliancegenome.org/main-sitemap.xml'
     ]
 });
 

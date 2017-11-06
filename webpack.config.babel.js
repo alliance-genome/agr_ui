@@ -26,7 +26,10 @@ const robotsOptions = (LIVE_UI === 'true')? {
             disallow: '/search'
         }
     ],
-    sitemap: 'http://www.alliancegenome.org/sitemap.xml',
+    sitemap: [
+      'http://www.alliancegenome.org/sitemap.xml',
+      'http://www.alliancegenome.org/api/sitemap.xml'
+    ]
   }
   :{
     policy: [
