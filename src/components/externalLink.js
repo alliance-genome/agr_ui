@@ -23,7 +23,7 @@ class ExternalLink extends Component {
 
 ExternalLink.propTypes = {
   children: PropTypes.node,
-  href: PropTypes.string,
+  href: PropTypes.string.isRequired,
   title: PropTypes.string,
 };
 
