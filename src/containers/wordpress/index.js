@@ -30,7 +30,8 @@ class Wordpress extends Component {
     }
   }
   getCurrentRoute(props){
-    return props.params.pageId;
+    let currentRoute=(props.params.pageId)?props.params.pageId:props.pageId;
+    return currentRoute;
   }
   getData(currentRoute){
     this.props.dispatch(fetchWp());
