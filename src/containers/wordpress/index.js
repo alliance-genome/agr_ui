@@ -11,7 +11,7 @@ import NotFound from '../../components/notFound';
 
 import WordpressPage from './wordpressPage';
 
-import{ WP_PAGE_BASE_URL,WP_PAGES } from '../../constants';
+import{ WP_PAGE_BASE_URL} from '../../constants';
 
 
 class Wordpress extends Component {
@@ -19,25 +19,23 @@ class Wordpress extends Component {
     super(props);
   }
   componentDidMount() {
-    let wpUrl = this.getCurrentRoute(this.props) || '/home';
+    let wpUrl = this.getCurrentRoute(this.props);
     this.getData(wpUrl);
   }
   componentWillUpdate(nextProps, nextState){
-    let wpUrl = this.getCurrentRoute(this.props) || '/home';
-    let nextWpUrl = this.getCurrentRoute(nextProps) || '/home';
+    let wpUrl = this.getCurrentRoute(this.props);
+    let nextWpUrl = this.getCurrentRoute(nextProps);
     if(wpUrl !== nextWpUrl){
       this.getData(nextWpUrl);
     }
   }
   getCurrentRoute(props){
-    return props.pageId;
+    return props.params.pageId;
   }
   getData(currentRoute){
     this.props.dispatch(fetchWp());
-    let page_slug= WP_PAGES[currentRoute].slug;
-    if( (typeof page_slug) ==='undefined'){ page_slug= currentRoute;}
-    let homeUrl=WP_PAGE_BASE_URL+page_slug;
-    fetchData(homeUrl)
+    let wpUrl=WP_PAGE_BASE_URL+currentRoute;
+    fetchData(wpUrl)
       .then(data => {
         if (data && data[0]) {
           this.props.dispatch(fetchWpSuccess(data));
