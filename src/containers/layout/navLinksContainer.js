@@ -13,7 +13,7 @@ class NavLinksContainer extends Component {
     for(var index in MENU){
       let page=MENU[index];
       let page_path=(page==='news')?WP_POST_PATH:WP_PATH;
-      let page_url=page_path+'/'+WP_PAGES[page].path;
+      let page_url=page_path+'/'+WP_PAGES[page].slug;
       if (page_url === HOME_ROUTE) page_url = '/';
       let page_label=WP_PAGES[page].label;
       let link_token=[];
