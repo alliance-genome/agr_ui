@@ -96,7 +96,7 @@ var DrawGenomeView = function(data){
         let featureType = featureChild.type;
         if (featureType == 'mRNA') {
           //function to assign row based on available space.
-          let current_row = checkSpace(used_space,featureChild.fmin, featureChild.fmax);
+          let current_row = checkSpace(used_space,x(featureChild.fmin), x(featureChild.fmax));
           if (current_row < maxRows) {
             //Will need to remove this... rows not incremented every time now.
             row_count += 1;
@@ -113,15 +113,7 @@ var DrawGenomeView = function(data){
                 }
               });
 
-              //This is probably not the most efficent way to do this.
-              if (used_space[current_row]){
-                let temp = used_space[current_row];
-                temp.push(featureChild.fmin+":"+featureChild.fmax);
-                used_space[current_row]= temp;
-              }
-              else {
-                used_space[current_row]=[featureChild.fmin+":"+featureChild.fmax]
-              }
+
 
 
 
@@ -133,7 +125,7 @@ var DrawGenomeView = function(data){
               .attr('height', transcript_backbone_height)
               .attr('width', x(featureChild.fmax) - x(featureChild.fmin));
 
-            viewer.append('text')
+            var text_label = viewer.append('text')
               .attr('class', 'transcriptLabel')
               .attr('x', x(feature.fmin))
               .attr('y', isoform_height * current_row + isoform_title_height)
@@ -141,6 +133,30 @@ var DrawGenomeView = function(data){
               .attr('opacity', selected ? 1 : 0.5)
               .attr('height', isoform_title_height)
               .text(featureChild.name);
+
+              //Now that the label has been created we can calculate the space that
+              //this new element is taking up making sure to add in the width of
+              //the box.
+              text_width = text_label.node().getBBox().width;
+              let feat_end;
+              if(text_width>x(featureChild.fmax)-x(featureChild.fmin))
+                {feat_end=x(featureChild.fmin)+text_width;}
+              else {
+                feat_end=x(featureChild.fmax);
+              }
+
+              //This is probably not the most efficent way to do this.
+              //Making an 2d array... each row is the first array (no zer0)
+              //next level is each element taking up space.
+              if (used_space[current_row]){
+                let temp = used_space[current_row];
+                temp.push(x(featureChild.fmin)+":"+feat_end);
+                used_space[current_row]= temp;
+              }
+              else {
+                used_space[current_row]=[x(featureChild.fmin)+":"+x(featureChild.fmax)]
+              }
+
 
             // have to sort this so we draw the exons BEFORE the CDS
             featureChild.children = featureChild.children.sort(function (a, b) {
@@ -338,7 +354,6 @@ function checkSpace(used_space,start,end)
     if(!assigned)
       {row =used_space.length;}
   }
-  console.log("Put this feature in this row! Start"+start+" End"+end+" row"+row);
   return row;
 
 }
