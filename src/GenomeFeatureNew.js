@@ -8,7 +8,7 @@ var DrawGenomeView = function(data){
 
   //Some of these were in different places
   //Not sure if we want these as constants or not
-  let MAX_ISOFORMS = 10;
+  let MAX_ROWS = 10;
   let calculatedHeight = 500;
   //console.log(data);
   //data = getDataApollo('1','1000','2000');
@@ -19,7 +19,7 @@ var DrawGenomeView = function(data){
 
   let view_start = dataRange.fmin;
   let view_end = dataRange.fmax;
-  console.log(view_start);
+  //console.log(view_start);
   let exon_height = 10; // will be white / transparent
   let cds_height = 10; // will be colored in
   let isoform_height = 40; // height for each isoform
@@ -42,8 +42,8 @@ var DrawGenomeView = function(data){
   //Testing if the countIsoforms function is broked
   //let numberIsoforms =2;
   let numberIsoforms = countIsoforms(data);
-  if (numberIsoforms > MAX_ISOFORMS) {
-    calculatedHeight = (MAX_ISOFORMS + 2) * isoform_height;
+  if (numberIsoforms > MAX_ROWS) {
+    calculatedHeight = (MAX_ROWS + 2) * isoform_height;
   }
   else {
     calculatedHeight = (numberIsoforms + 1) * isoform_height;
@@ -74,7 +74,8 @@ var DrawGenomeView = function(data){
     .append('g')
     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-  let isoform_count =0;
+  let row_count =0;
+  let used_space = [];
   for (let i in data) {
 
     let feature = data[i];
@@ -84,7 +85,7 @@ var DrawGenomeView = function(data){
       let selected = feature.selected;
 
       //do I need this?
-      let maxIsoforms = MAX_ISOFORMS;
+      let maxRows = MAX_ROWS;
       //let externalUrl = this.props.url;
       featureChildren = featureChildren.sort(function (a, b) {
         if (a.name < b.name) return -1;
@@ -94,33 +95,48 @@ var DrawGenomeView = function(data){
       featureChildren.forEach(function (featureChild) {
         let featureType = featureChild.type;
         if (featureType == 'mRNA') {
-          if (isoform_count < maxIsoforms) {
-            isoform_count += 1;
+          //function to assign row based on available space.
+          let current_row = checkSpace(used_space,featureChild.fmin, featureChild.fmax);
+          if (current_row < maxRows) {
+            //Will need to remove this... rows not incremented every time now.
+            row_count += 1;
 
             viewer.append('polygon')
               .attr('class', 'transArrow')
               .attr('points', arrow_points)
               .attr('transform', function () {
                 if (feature.strand > 0) {
-                  return 'translate(' + Number(x(featureChild.fmax)) + ',' + Number((isoform_view_height / 2.0) - (arrow_height / 2.0) + (isoform_height * isoform_count) + isoform_title_height) + ')';
+                  return 'translate(' + Number(x(featureChild.fmax)) + ',' + Number((isoform_view_height / 2.0) - (arrow_height / 2.0) + (isoform_height * current_row) + isoform_title_height) + ')';
                 }
                 else {
-                  return 'translate(' + Number(x(featureChild.fmin)) + ',' + Number((isoform_view_height / 2.0) + (arrow_height / 2.0) + (isoform_height * isoform_count) + isoform_title_height) + ') rotate(180)';
+                  return 'translate(' + Number(x(featureChild.fmin)) + ',' + Number((isoform_view_height / 2.0) + (arrow_height / 2.0) + (isoform_height * current_row) + isoform_title_height) + ') rotate(180)';
                 }
               });
+
+              //This is probably not the most efficent way to do this.
+              if (used_space[current_row]){
+                let temp = used_space[current_row];
+                temp.push(featureChild.fmin+":"+featureChild.fmax);
+                used_space[current_row]= temp;
+              }
+              else {
+                used_space[current_row]=[featureChild.fmin+":"+featureChild.fmax]
+              }
+
+
 
             viewer.append('rect')
               .attr('class', 'transcriptBackbone')
               .attr('x', x(featureChild.fmin))
-              .attr('y', isoform_height * isoform_count + isoform_title_height)
+              .attr('y', isoform_height * current_row + isoform_title_height)
               .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (transcript_backbone_height / 2.0)) + ')')
               .attr('height', transcript_backbone_height)
               .attr('width', x(featureChild.fmax) - x(featureChild.fmin));
 
             viewer.append('text')
               .attr('class', 'transcriptLabel')
-              .attr('x', x(feature.fmin) + 30)
-              .attr('y', isoform_height * isoform_count + isoform_title_height)
+              .attr('x', x(feature.fmin))
+              .attr('y', isoform_height * current_row + isoform_title_height)
               .attr('fill', selected ? 'sandybrown' : 'gray')
               .attr('opacity', selected ? 1 : 0.5)
               .attr('height', isoform_title_height)
@@ -152,7 +168,7 @@ var DrawGenomeView = function(data){
                 viewer.append('rect')
                   .attr('class', 'exon')
                   .attr('x', x(innerChild.fmin))
-                  .attr('y', isoform_height * isoform_count + isoform_title_height)
+                  .attr('y', isoform_height * current_row + isoform_title_height)
                   .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (exon_height / 2.0)) + ')')
                   .attr('height', exon_height)
                   .attr('z-index', 10)
@@ -162,7 +178,7 @@ var DrawGenomeView = function(data){
                 viewer.append('rect')
                   .attr('class', 'CDS')
                   .attr('x', x(innerChild.fmin))
-                  .attr('y', isoform_height * isoform_count + isoform_title_height)
+                  .attr('y', isoform_height * current_row + isoform_title_height)
                   .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (cds_height / 2.0)) + ')')
                   .attr('z-index', 20)
                   .attr('height', cds_height)
@@ -172,7 +188,7 @@ var DrawGenomeView = function(data){
                 viewer.append('rect')
                   .attr('class', 'UTR')
                   .attr('x', x(innerChild.fmin))
-                  .attr('y', isoform_height * isoform_count + isoform_title_height)
+                  .attr('y', isoform_height * current_row + isoform_title_height)
                   .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (utr_height / 2.0)) + ')')
                   .attr('z-index', 20)
                   .attr('height', utr_height)
@@ -180,15 +196,15 @@ var DrawGenomeView = function(data){
               }
             });
           }
-          else if (isoform_count == maxIsoforms) {
-            ++isoform_count;
+          else if (current_row == maxRows) {
+            ++current_row;
             viewer.append('a')
               .attr('class', 'transcriptLabel')
               //.attr('xlink:href', externalUrl)
               .attr('xlink:show', 'new')
               .append('text')
               .attr('x', x(feature.fmin) + 30)
-              .attr('y', isoform_height * isoform_count + isoform_title_height)
+              .attr('y', isoform_height * current_row + isoform_title_height)
               .attr('fill', 'red')
               .attr('opacity', 1)
               .attr('height', isoform_title_height)
@@ -198,7 +214,7 @@ var DrawGenomeView = function(data){
       });
     }
   }
-  if (isoform_count == 0) {
+  if (row_count == 0) {
   viewer.append('text')
     .attr('x', 30)
     .attr('y', isoform_title_height + 10)
@@ -206,6 +222,8 @@ var DrawGenomeView = function(data){
     .attr('opacity', 0.6)
     // .attr('height', isoform_title_height)
     .text('Overview of non-coding genome features unavailable at this time.');
+
+    console.log("This happens");
   }
   else {
     viewer.append('g')
@@ -215,6 +233,7 @@ var DrawGenomeView = function(data){
       .attr('transform', 'translate(0,20)')
       .call(xAxis);
   }
+  //console.log(used_space);
 
 };
 
@@ -238,7 +257,6 @@ function findRange(data) {
 };
 
 function countIsoforms(data) {
-  console.log("counting them isoforms");
   let isoform_count = 0;
   // gene level
   for (let i in data) {
@@ -246,11 +264,10 @@ function countIsoforms(data) {
     if(feature.children){
       feature.children.forEach(function (geneChild) {
         // isoform level
-        console.log(geneChild.type);
+        //console.log(geneChild.type);
         //changing this to processed_pseudogene for demo... was mRNA
         if (geneChild.type == 'mRNA') {
           isoform_count += 1;
-          console.log("This happens");
         }
       });
     }
@@ -271,8 +288,8 @@ var GenerateGenomeView= function(chr, start, end)
       .then((response) => {
           response.json()
       .then(data => {
-              console.log("In the data function maaaan.");
-              console.log(data);
+              //console.log("In the data function maaaan.");
+              //console.log(data);
               DrawGenomeView(data);
 
           });
@@ -282,5 +299,47 @@ var GenerateGenomeView= function(chr, start, end)
   });
   //return data;
 }
+//Takes in the current entry start/end and the array of used space and assigns a row
+function checkSpace(used_space,start,end)
+{
+  var row;
+  var assigned;
+  var fits;
+  //if empty... this is the first entry... on the first row.
 
+  if(used_space.length==0)
+    {row = 1;}
+  else{
+    //for each row
+    for(var i=1; i<used_space.length; i++){
+      //for each entry in that row
+      console.log(used_space[i].length);
+      for(var z=0; z<used_space[i].length; z++){
+
+        var [used_start,used_end] = used_space[i][z].split(':');
+        //check for overlap
+        if(end<used_start||start>used_end){
+          fits=1;
+          console.log("yar");
+        }
+        else {
+          fits=0;
+          break;
+        }
+      }
+      if(fits){
+        assigned=1;
+        row=i;
+        break;
+      }
+    }
+    //if this is true for 0 rows... use the next row.
+    //zero indexed so length is the next one.
+    if(!assigned)
+      {row =used_space.length;}
+  }
+  console.log("Put this feature in this row! Start"+start+" End"+end+" row"+row);
+  return row;
+
+}
 module.exports= GenerateGenomeView;
