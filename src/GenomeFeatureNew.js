@@ -30,6 +30,24 @@ var DrawGenomeView = function(data){
   let arrow_height = 20;
   let arrow_width = 10;
   let arrow_points = '0,0 0,' + arrow_height + ' ' + arrow_width + ',' + arrow_width;
+  let UTR_feats= ["UTR","five_prime_UTR","three_prime_UTR"];
+  let CDS_feats= ["CDS"];
+  let exon_feats= ["exon"];
+  let display_feats=["mRNA"];
+
+  //need to build a new sortWeight since these can be dynamic
+  let sortWeight = {};
+  for(var i=0,len = UTR_feats.length; i <len; i++){
+    sortWeight[UTR_feats[i]]=200;
+  }
+  for(var i=0,len = CDS_feats.length; i <len; i++){
+    sortWeight[CDS_feats[i]]=1000;
+  }
+  for(var i=0,len = exon_feats.length; i <len; i++){
+    sortWeight[exon_feats[i]]=100;
+  }
+
+  /*
   let sortWeight = {
     'exon': 100
     , 'UTR': 200
@@ -38,6 +56,7 @@ var DrawGenomeView = function(data){
     , 'CDS': 1000
     // , 'intron': 50
   };
+  */
 
   //Testing if the countIsoforms function is broked
   //let numberIsoforms =2;
@@ -48,7 +67,6 @@ var DrawGenomeView = function(data){
   else {
     calculatedHeight = (numberIsoforms + 1) * isoform_height;
   }
-  console.log(numberIsoforms);
   let margin = {top: 8, right: 30, bottom: 30, left: 40},
      width = 960 - margin.left - margin.right,
      height = calculatedHeight - margin.top - margin.bottom;
@@ -94,7 +112,7 @@ var DrawGenomeView = function(data){
       });
       featureChildren.forEach(function (featureChild) {
         let featureType = featureChild.type;
-        if (featureType == 'mRNA') {
+        if (display_feats.indexOf(featureType)>=0) {
           //function to assign row based on available space.
           let current_row = checkSpace(used_space,x(featureChild.fmin), x(featureChild.fmax));
           if (current_row < maxRows) {
@@ -180,7 +198,7 @@ var DrawGenomeView = function(data){
 
             featureChild.children.forEach(function (innerChild) {
               let innerType = innerChild.type;
-              if (innerType == 'exon') {
+              if (exon_feats.indexOf(innerType)>=0) {
                 viewer.append('rect')
                   .attr('class', 'exon')
                   .attr('x', x(innerChild.fmin))
@@ -190,7 +208,7 @@ var DrawGenomeView = function(data){
                   .attr('z-index', 10)
                   .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
               }
-              else if (innerType == 'CDS') {
+              else if (CDS_feats.indexOf(innerType)>=0) {
                 viewer.append('rect')
                   .attr('class', 'CDS')
                   .attr('x', x(innerChild.fmin))
@@ -200,7 +218,7 @@ var DrawGenomeView = function(data){
                   .attr('height', cds_height)
                   .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
               }
-              else if (innerType == 'UTR' || innerType == 'five_prime_UTR' || innerType == 'three_prime_UTR') {
+              else if (UTR_feats.indexOf(innerType)>=0) {
                 viewer.append('rect')
                   .attr('class', 'UTR')
                   .attr('x', x(innerChild.fmin))
@@ -239,7 +257,6 @@ var DrawGenomeView = function(data){
     // .attr('height', isoform_title_height)
     .text('Overview of non-coding genome features unavailable at this time.');
 
-    console.log("This happens");
   }
   else {
     viewer.append('g')
@@ -249,7 +266,6 @@ var DrawGenomeView = function(data){
       .attr('transform', 'translate(0,20)')
       .call(xAxis);
   }
-  //console.log(used_space);
 
 };
 
@@ -329,24 +345,19 @@ function checkSpace(used_space,start,end)
     //for each row
     for(var i=1; i<used_space.length; i++){
       //for each entry in that row
-      console.log(used_space[i].length);
       for(var z=0; z<used_space[i].length; z++){
 
         var [used_start,used_end] = used_space[i][z].split(':');
         //check for overlap
         if(end<used_start||start>used_end){
           fits=1;
-          console.log("yar");
         }
         else {
-          fits=0;
-          break;
+          fits=0;break;
         }
       }
       if(fits){
-        assigned=1;
-        row=i;
-        break;
+        assigned=1;row=i;break;
       }
     }
     //if this is true for 0 rows... use the next row.
