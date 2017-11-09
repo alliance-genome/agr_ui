@@ -94,6 +94,7 @@ class RemoteDataTable extends Component {
           options={options}
           pagination
           remote
+          replace
           version='4'
         >
           {
