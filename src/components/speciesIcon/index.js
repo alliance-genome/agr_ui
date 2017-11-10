@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import style from './style.css';
 
@@ -20,6 +21,12 @@ const SpeciesIcon = ({species, small, iconClass}) => {
   return speciesClass && (
     <div className={classes.join(' ')} />
   );
+};
+
+SpeciesIcon.propTypes = {
+  iconClass: PropTypes.string.isRequired,
+  small: PropTypes.bool,
+  species: PropTypes.string.isRequired,
 };
 
 export default SpeciesIcon;
