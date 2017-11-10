@@ -6,7 +6,7 @@ const SpeciesIcon = ({species, small, iconClass}) => {
   if (!species) {
     return null;
   }
-  const speciesClass = style[species.replace(' ', '-')];
+  const speciesClass = style[species.replace(/<\/?[^>]+(>|$)/g, '').replace(' ', '-')];
   if (!speciesClass) {
     return null;
   }
