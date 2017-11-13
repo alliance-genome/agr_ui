@@ -26,7 +26,7 @@ const SpeciesIcon = ({species, small, iconClass}) => {
 SpeciesIcon.propTypes = {
   iconClass: PropTypes.string.isRequired,
   small: PropTypes.bool,
-  species: PropTypes.string.isRequired,
+  species: PropTypes.bool,
 };
 
 export default SpeciesIcon;
