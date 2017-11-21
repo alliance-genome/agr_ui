@@ -1,7 +1,11 @@
 import GenePageDiseaseTable from './genePageDiseaseTable';
-import DiseasePageAssociationsTable from './diseasePageAssociationsTable';
+import DiseaseNameCell from './diseaseNameCell';
+import DiseasePageHeader from './diseasePageHeader';
+import ReferenceCell from './referenceCell';
 
 export {
   GenePageDiseaseTable,
-  DiseasePageAssociationsTable
+  DiseaseNameCell,
+  DiseasePageHeader,
+  ReferenceCell,
 };
