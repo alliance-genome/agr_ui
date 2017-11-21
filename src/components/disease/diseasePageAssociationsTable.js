@@ -1,10 +1,9 @@
 /* eslint-disable react/no-set-state */
-
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 
 import ReferenceCell from './referenceCell';
-
+import ExternalLink from '../../components/externalLink';
 import { RemoteDataTable } from '../../components/dataTable';
 import PropTypes from 'prop-types';
 
@@ -67,6 +66,7 @@ class DiseasePageAssociationsTable extends Component {
       {
         field: 'source',
         label: 'Source',
+        format: (s) => <ExternalLink href={s.diseaseUrl}>{s.name}</ExternalLink>,
         width: '100px',
       },
       {
@@ -75,7 +75,6 @@ class DiseasePageAssociationsTable extends Component {
         format: ReferenceCell,
       }
     ];
-
     return (
       <div>
         <RemoteDataTable
