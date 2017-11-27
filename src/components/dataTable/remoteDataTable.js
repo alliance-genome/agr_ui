@@ -4,7 +4,6 @@ import {
   fetchAssociations,
   setCurrentPage,
   setPerPageSize,
-  setSort,
 } from '../../actions/disease.js';
 
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
@@ -43,6 +42,11 @@ class RemoteDataTable extends Component {
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handleSizeChange = this.handleSizeChange.bind(this);
     this.handleSortChange = this.handleSortChange.bind(this);
+
+    this.state={
+      sortOrder: this.props.sortOrder,
+    };
+
   }
 
   handlePageChange(page, size) {
@@ -60,13 +64,16 @@ class RemoteDataTable extends Component {
     dispatch(fetchAssociations(id, currentPage , size, sortName, sortOrder));
   }
 
-  handleSortChange(fieldName, sortOrder) {
+  handleSortChange(fieldName) {
+
     const { currentPage, dispatch, id, perPageSize } = this.props;
 
-    const sortName = getSortName(fieldName);
-    dispatch(setSort(sortName, sortOrder));
+    this.setState({
+      sortOrder: this.state.sortOrder==='asc' ? 'desc' : 'asc',
+    });
 
-    dispatch(fetchAssociations(id, currentPage, perPageSize, sortName, sortOrder));
+    const sortName = getSortName(fieldName);
+    dispatch(fetchAssociations(id, currentPage, perPageSize, sortName, this.state.sortOrder));
   }
 
   render() {
