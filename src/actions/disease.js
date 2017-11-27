@@ -44,7 +44,7 @@ export const fetchDiseaseFailure = function (error) {
 export const fetchAssociations = function (id, page = 1, limit = 10, sortName = 'default', sortOrder = 'asc') {
   return (dispatch) => {
     dispatch(fetchAssociationsRequest());
-    return fetchData(`/api/disease/${id}/associations?page=${page}&limit=${limit}&sortBy=${sortName}&asc=${sortOrder === 'asc'}`)
+    return fetchData(`/api/disease/${id}/associations?page=${page}&limit=${limit}&sortBy=${sortName}&asc=${ sortOrder === 'asc' ? true : false }`)
       .then((data) => dispatch(fetchAssociationsSuccess(data)))
       .catch((error) => dispatch(fetchAssociationsFailure(error)));
   };
