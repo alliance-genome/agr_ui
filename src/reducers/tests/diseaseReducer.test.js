@@ -29,7 +29,7 @@ describe('Disease reducer', () => {
   });
 
   it('fetchAssociationsFailure', () => {
-    const errorMsg = "Request failed";
+    const errorMsg = 'Request failed';
     const action = {
       type: actionsAndTypes.FETCH_ASSOCIATIONS_FAILURE,
       payload: errorMsg
@@ -52,4 +52,3 @@ describe('Disease reducer', () => {
     assert.deepEqual(returnedState.get('perPageSize'), perPageSize);
   });
 });
-
