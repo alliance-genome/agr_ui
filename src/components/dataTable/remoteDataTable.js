@@ -1,39 +1,13 @@
 import React, { Component } from 'react';
 
-import {
-  fetchAssociations,
-  setCurrentPage,
-  setPerPageSize,
-  setSort,
-} from '../../actions/disease.js';
-
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import Download from './downloadButton.js';
+import DownloadButton from './downloadButton.js';
 import PropTypes from 'prop-types';
 
 const textFilter = {
   type: 'TextFilter',
   delay: 100,
   placeholder: ' '
-};
-
-// TODO: this is a hack because the API JSON field names don't line up with
-// the URL query param names. So we rectify them here. It might be better to
-// do it as part of the column definition.
-const getSortName = (fieldName) => {
-  switch(fieldName) {
-  case 'diseaseName':
-    return 'disease';
-
-  case 'disease_species':
-    return 'species';
-
-  case 'geneDocument':
-    return 'gene';
-
-  default:
-    return 'default';
-  }
 };
 
 class RemoteDataTable extends Component {
@@ -46,31 +20,19 @@ class RemoteDataTable extends Component {
   }
 
   handlePageChange(page, size) {
-    const { currentPage, dispatch, id, sortOrder, sortName } = this.props;
-
-    if (page !== currentPage) {
-      dispatch(setCurrentPage(page));
-      dispatch(fetchAssociations(id, page, size, sortName, sortOrder));
-    }
+    this.props.onPageChange(page, size);
   }
 
   handleSizeChange(size) {
-    const { currentPage, dispatch, id, sortName, sortOrder } = this.props;
-    dispatch(setPerPageSize(size));
-    dispatch(fetchAssociations(id, currentPage , size, sortName, sortOrder));
+    this.props.onSizeChange(size);
   }
 
   handleSortChange(fieldName, sortOrder) {
-    const { currentPage, dispatch, id, perPageSize } = this.props;
-
-    const sortName = getSortName(fieldName);
-    dispatch(setSort(sortName, sortOrder));
-
-    dispatch(fetchAssociations(id, currentPage, perPageSize, sortName, sortOrder));
+    this.props.onSortChange(fieldName, sortOrder);
   }
 
   render() {
-    const { columns, currentPage, data, filename, perPageSize, sortName, sortOrder, totalAssociations } = this.props;
+    const { columns, currentPage, data, downloadUrl, perPageSize, sortName, sortOrder, totalRows } = this.props;
 
     const options = {
       onPageChange: this.handlePageChange,
@@ -85,23 +47,18 @@ class RemoteDataTable extends Component {
 
     return (
       <div>
-
         <BootstrapTable
           bordered={false}
-          csvFileName={filename}
           data={data}
-          fetchInfo={{dataTotalSize: totalAssociations}}
+          fetchInfo={{dataTotalSize: totalRows}}
           options={options}
           pagination
           remote
-          replace
           version='4'
         >
           {
             columns.map((col, idx) =>
               <TableHeaderColumn
-                csvFormat={col.asText}
-                csvHeader={col.label}
                 dataField={col.field}
                 dataFormat={col.format}
                 dataSort={col.sortable}
@@ -116,8 +73,7 @@ class RemoteDataTable extends Component {
             )
           }
         </BootstrapTable>
-
-        <Download buttonText={'Download'} filename={this.props.id} id={this.props.id} />
+        <DownloadButton buttonText='Download' downloadUrl={downloadUrl} />
       </div>
     );
   }
@@ -127,15 +83,15 @@ RemoteDataTable.propTypes = {
   columns: PropTypes.array,
   currentPage: PropTypes.number,
   data: PropTypes.arrayOf(PropTypes.object),
-  dispatch: PropTypes.func,
-  filename: PropTypes.string,
-  id: PropTypes.string,
-  limit: PropTypes.number,
+  downloadUrl: PropTypes.string,
+  onPageChange: PropTypes.func,
+  onSizeChange: PropTypes.func,
+  onSortChange: PropTypes.func,
   perPageSize: PropTypes.number,
   sortName: PropTypes.string,
   sortOrder: PropTypes.string,
-  totalAssociations: PropTypes.number,
   totalPages: PropTypes.number,
+  totalRows: PropTypes.number,
 };
 
 export default RemoteDataTable;
