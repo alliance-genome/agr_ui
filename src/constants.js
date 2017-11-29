@@ -138,3 +138,5 @@ export const SUB_MENU= {
 };
 
 export const NON_HIGHLIGHTED_FIELDS = ['sourceHref', 'href', 'category', 'homologs', 'paralogs', 'orthologs', 'homologs.symbol', 'homologs.panther_family'];
+
+export const HELP_EMAIL = 'alliance-helpdesk@lists.stanford.edu';
