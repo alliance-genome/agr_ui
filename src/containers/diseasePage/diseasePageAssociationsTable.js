@@ -157,8 +157,8 @@ class DiseasePageAssociationsTable extends Component {
           perPageSize={this.props.perPageSize}
           sortName={this.props.sortName}
           sortOrder={this.props.sortOrder}
-          totalAssociations={this.props.totalAssociations}
           totalPages={this.props.totalPages}
+          totalRows={this.props.totalAssociations}
         />
       </div>
     );

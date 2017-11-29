@@ -32,7 +32,7 @@ class RemoteDataTable extends Component {
   }
 
   render() {
-    const { columns, currentPage, data, downloadUrl, perPageSize, sortName, sortOrder, totalAssociations } = this.props;
+    const { columns, currentPage, data, downloadUrl, perPageSize, sortName, sortOrder, totalRows } = this.props;
 
     const options = {
       onPageChange: this.handlePageChange,
@@ -50,7 +50,7 @@ class RemoteDataTable extends Component {
         <BootstrapTable
           bordered={false}
           data={data}
-          fetchInfo={{dataTotalSize: totalAssociations}}
+          fetchInfo={{dataTotalSize: totalRows}}
           options={options}
           pagination
           remote
@@ -90,8 +90,8 @@ RemoteDataTable.propTypes = {
   perPageSize: PropTypes.number,
   sortName: PropTypes.string,
   sortOrder: PropTypes.string,
-  totalAssociations: PropTypes.number,
   totalPages: PropTypes.number,
+  totalRows: PropTypes.number,
 };
 
 export default RemoteDataTable;
