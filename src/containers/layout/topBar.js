@@ -14,7 +14,7 @@ class TopBar extends Component {
           <div className='row'>
             <div className='col-xs-6'>
               <span className={`navbar-text ${style.miniContact}`}>
-                Questions? <a href={`mailto:${HELP_EMAIL}`}>Contact Us!</a>
+                Questions? <a href={`mailto:${HELP_EMAIL}`}>Contact Us</a>
               </span>
             </div>
             <div className='col-xs-6 pull-right text-xs-right'>
