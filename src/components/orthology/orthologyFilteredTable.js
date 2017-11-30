@@ -89,7 +89,7 @@ class OrthologyFilteredTable extends Component {
 
   updateFilterConfidence(event) {
     this.setState({
-      filterConfidence: event.target.checked
+      filterConfidence: !event.target.checked
     });
   }
 
@@ -134,9 +134,9 @@ class OrthologyFilteredTable extends Component {
               />
             </label>
             <label style={labelStyle}>
-              Exclude low confidence matches:
+              Include low confidence matches:
               <input
-                checked={this.state.filterConfidence}
+                checked={!this.state.filterConfidence}
                 onChange={(event) => this.updateFilterConfidence(event)}
                 style={inputStyle}
                 type="checkbox"
