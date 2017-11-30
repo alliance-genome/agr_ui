@@ -42,6 +42,22 @@ export const fetchDiseaseFailure = function (error) {
 };
 
 export const fetchAssociations = function (id, page = 1, limit = 10, sortName = 'default', sortOrder = 'asc') {
+  // TODO: this is a hack because the API JSON field names don't line up with
+  // the URL query param names. So we rectify them here. It might be better to
+  // do it as part of the table column definition.
+  switch(sortName) {
+  case 'diseaseName':
+    sortName = 'disease';
+    break;
+
+  case 'disease_species':
+    sortName = 'species';
+    break;
+
+  case 'geneDocument':
+    sortName = 'gene';
+    break;
+  }
   return (dispatch) => {
     dispatch(fetchAssociationsRequest());
     return fetchData(`/api/disease/${id}/associations?page=${page}&limit=${limit}&sortBy=${sortName}&asc=${sortOrder === 'asc'}`)
