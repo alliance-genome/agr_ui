@@ -24,25 +24,6 @@ import ExternalLink from '../../components/externalLink';
 import { RemoteDataTable } from '../../components/dataTable';
 import { ReferenceCell } from '../../components/disease';
 
-// TODO: this is a hack because the API JSON field names don't line up with
-// the URL query param names. So we rectify them here. It might be better to
-// do it as part of the column definition.
-const getSortName = (fieldName) => {
-  switch(fieldName) {
-  case 'diseaseName':
-    return 'disease';
-
-  case 'disease_species':
-    return 'species';
-
-  case 'geneDocument':
-    return 'gene';
-
-  default:
-    return 'default';
-  }
-};
-
 class DiseasePageAssociationsTable extends Component {
   constructor(props) {
     super(props);
@@ -87,9 +68,8 @@ class DiseasePageAssociationsTable extends Component {
 
   handleSortChange(fieldName, sortOrder) {
     const { currentPage, dispatch, id, perPageSize } = this.props;
-    const sortName = getSortName(fieldName);
-    dispatch(setSort(sortName, sortOrder));
-    dispatch(fetchAssociations(id, currentPage, perPageSize, sortName, sortOrder));
+    dispatch(setSort(fieldName, sortOrder));
+    dispatch(fetchAssociations(id, currentPage, perPageSize, fieldName, sortOrder));
   }
 
   renderDiseaseName(name, row) {
