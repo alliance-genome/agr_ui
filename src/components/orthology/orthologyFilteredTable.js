@@ -115,33 +115,35 @@ class OrthologyFilteredTable extends Component {
       <div>
         <div className="card">
           <div className="card-block">
-            <label style={labelStyle}>
-              Best Score Only:
-              <input
-                checked={this.state.filterBest}
-                onChange={(event) => this.updateBestScoreFilter(event)}
-                style={inputStyle}
-                type="checkbox"
-              />
-            </label>
-            <label style={labelStyle}>
-              Best Reverse Score Only:
-              <input
-                checked={this.state.filterReverseBest}
-                onChange={(event) => this.updateBestReverseScoreFilter(event)}
-                style={inputStyle}
-                type="checkbox"
-              />
-            </label>
-            <label style={labelStyle}>
-              Include low confidence matches:
-              <input
-                checked={!this.state.filterConfidence}
-                onChange={(event) => this.updateFilterConfidence(event)}
-                style={inputStyle}
-                type="checkbox"
-              />
-            </label>
+            <div style={{display: 'flex', flexDirection: 'column', marginLeft: '-0.5em'}}>
+              <label style={labelStyle}>
+                <input
+                  checked={!this.state.filterConfidence}
+                  onChange={(event) => this.updateFilterConfidence(event)}
+                  style={inputStyle}
+                  type="checkbox"
+                />
+                Include low confidence matches
+              </label>
+              <label style={labelStyle}>
+                <input
+                  checked={this.state.filterBest}
+                  onChange={(event) => this.updateBestScoreFilter(event)}
+                  style={inputStyle}
+                  type="checkbox"
+                />
+                Best Score Only
+              </label>
+              <label style={labelStyle}>
+                <input
+                  checked={this.state.filterReverseBest}
+                  onChange={(event) => this.updateBestReverseScoreFilter(event)}
+                  style={inputStyle}
+                  type="checkbox"
+                />
+                Best Reverse Score Only
+              </label>
+            </div>
             <label style={labelStyle}>
               Count:
               <select
