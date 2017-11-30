@@ -5,6 +5,7 @@
 */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Collapse } from 'react-bootstrap';
 import OrthologyTable from './orthologyTable';
 
 const caseInsensitiveCompare = (stringA, stringB) => {
@@ -31,7 +32,8 @@ const DEFAULT_FILTERS = {
 class OrthologyFilteredTable extends Component {
   constructor(props) {
     super(props);
-    this.state = DEFAULT_FILTERS;
+    const defaultState = Object.assign({showFilterPanel: false,}, DEFAULT_FILTERS);
+    this.state = defaultState;
   }
 
   isHighConfidence(dat) {
@@ -97,6 +99,12 @@ class OrthologyFilteredTable extends Component {
     this.setState(DEFAULT_FILTERS);
   }
 
+  toggleFilterPanel() {
+    this.setState((prevState) => ({
+      showFilterPanel: !prevState.showFilterPanel,
+    }));
+  }
+
   render() {
     const filteredData = this.props.data.filter((dat) => this.filterCallback(dat));
     const all_methods = this.props.data[0].predictionMethodsMatched.concat(
@@ -105,16 +113,38 @@ class OrthologyFilteredTable extends Component {
     ).sort(caseInsensitiveCompare);
 
     const labelStyle = {
-      margin: '0 1em 1em 0',
+      margin: '0em 1em 0em 0',
+      lineHeight: '2em',
     };
     const inputStyle = {
       margin: '0 0.5em'
     };
 
+    const buttonStyle = {
+      marginRight: '0.5em',
+      minWidth: '8em',
+    };
+
     return (
       <div>
-        <div className="card">
-          <div className="card-block">
+        <div>
+          <button
+            className="btn btn-primary"
+            onClick={() => this.toggleFilterPanel()}
+            style={buttonStyle}
+            type="button"
+          >{`${this.state.showFilterPanel ? 'Hide' : 'Show'} filters`}</button>
+          <button
+            className="btn btn-secondary"
+            onClick={() => this.resetFilters()}
+            style={buttonStyle}
+            type="button"
+          >Reset filters</button>
+        </div>
+
+        <Collapse in={this.state.showFilterPanel}>
+        <div>
+          <div className="card card-block" style={{margin: '0.5em 0'}}>
             <div style={{display: 'flex', flexDirection: 'column', marginLeft: '-0.5em'}}>
               <label style={labelStyle}>
                 <input
@@ -196,18 +226,16 @@ class OrthologyFilteredTable extends Component {
                 }
               </select>
             </label>
-            <br />
-            <button
-              className="btn btn-primary"
-              onClick={() => this.resetFilters()}
-            >Reset filters</button>
           </div>
         </div>
-        {
-          filteredData.length > 0 ?
-          <OrthologyTable data={filteredData} /> :
-          <i className="text-muted">No ortholog matching your filter. Please try a less stringent filter.</i>
-        }
+        </Collapse>
+        <div style={{marginTop: -20}}>
+          {
+            filteredData.length > 0 ?
+            <OrthologyTable data={filteredData} /> :
+            <i className="text-muted">No ortholog matching your filter. Please try a less stringent filter.</i>
+          }
+        </div>
       </div>
     );
   }
