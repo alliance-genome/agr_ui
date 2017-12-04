@@ -45,68 +45,55 @@ export const CATEGORIES = [
 export const WP_PAGES ={
   home: {
     label: 'Home',
-    slug: 'home',
-    path: 'home'
+    slug: 'home'
   },
-  about: {
+  'about-us': {
     label: 'About US',
-    slug: 'about-us',
-    path: 'about'
+    slug: 'about-us'
   },
-  projects: {
-    label: 'Projects, Work Product, Publications',
-    slug: 'projects-work-products-publications',
-    path: 'projects'
+  'projects-work-products-publications': {
+    label: 'Work Products',
+    slug: 'projects-work-products-publications'
   },
-  contact: {
+  'contact-us': {
     label: 'Contact US',
-    slug: 'contact-us',
-    path: 'contact'
+    slug: 'contact-us'
   },
-  faq:{
+  'frequently-asked-questions':{
     label: 'Frequently Asked Questions',
-    slug: 'frequently-asked-questions',
-    path: 'faq'
+    slug: 'frequently-asked-questions'
   },
   funding: {
     label: 'Funding',
-    slug: 'funding',
-    path: 'funding'
+    slug: 'funding'
   },
-  organization: {
+  'organization-and-governance': {
     label: 'Organization and Governance',
-    slug: 'organization-and-governance',
-    path: 'organization'
-  },
-  goups: {
-    label: 'AGR Working Groups',
-    slug: 'projects-work-products-publications',
-    path: 'projects'
+    slug: 'organization-and-governance'
   },
   publications:{
     label: 'Publications',
-    slug: 'publications',
-    path: 'publications'
+    slug: 'publications'
+  },
+  'administrative-supplement':{
+    label: 'Administrative Supplement',
+    slug: 'administrative-supplement'
+  },
+  'genome-features': {
+    label: 'Genome Features',
+    slug: 'genome-features',
+  },
+  orthology: {
+    label: 'Orthology',
+    slug: 'orthology'
+  },
+  'phenotypes-and-disease-models': {
+    label: 'Phenotypes And Disease Models',
+    slug: 'phenotypes-and-disease-models'
   },
   news:{
     label: 'News & Events',
-    slug: 'news-and-events',
-    path: 'news'
-  },
-  features: {
-    label: 'Genome Features',
-    slug: 'genome-features',
-    path: 'features'
-  },
-  supplement: {
-    label: 'Administrative Supplement',
-    slug: 'administrative-supplement',
-    path: 'supplement'
-  },
-  phenotypes: {
-    label: 'Phenotypes And Disease Models',
-    slug: 'phenotypes-and-disease-models',
-    path: 'phenotypes'
+    slug: 'news'
   }
 };
 
@@ -116,19 +103,19 @@ export const WP_PAGES ={
 *********************************************/
 export const MENU = [
   'home',
-  'about',
-  'projects',
+  'about-us',
+  'projects-work-products-publications',
   'news',
-  'contact'
+  'contact-us'
 ];
 /********* Secondary nav setting ************************
   This maps the ids of primary menu items
 *********************************************/
 export const MENU_IDS = {
   16:'home',
-  2:'about',
-  257:'projects',
-  3:'contact'
+  2:'about-us',
+  257:'projects-work-products-publications',
+  3:'contact-us'
 };
 
 /********* Sub Menu ************************
@@ -136,15 +123,20 @@ export const MENU_IDS = {
   to/from the submenus
 *********************************************/
 export const SUB_MENU= {
-  about: [
-    'faq',
+  'about-us': [
+    'frequently-asked-questions',
     'funding',
-    'organization'
-  ],
-  projects: [
-    'goups',
+    'organization-and-governance',
     'publications'
+  ],
+  'projects-work-products-publications': [
+    'administrative-supplement',
+    'genome-features',
+    'orthology',
+    'phenotypes-and-disease-models'
   ]
 };
 
 export const NON_HIGHLIGHTED_FIELDS = ['sourceHref', 'href', 'category', 'homologs', 'paralogs', 'orthologs', 'homologs.symbol', 'homologs.panther_family'];
+
+export const HELP_EMAIL = 'alliance-helpdesk@lists.stanford.edu';
