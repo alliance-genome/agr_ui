@@ -11,12 +11,12 @@
     "url": "https://github.com/alliance-genome/agr_ui.git"
   },
   "dependencies": {
+    "@sibyl229/gene-ontology-ribbon": "1.2.7",
     "babel-polyfill": "^6.26.0",
-    "d3-scale": "^1.0.6",
     "d3-axis": "^1.0.8",
+    "d3-scale": "^1.0.6",
     "d3-selection": "^1.1.0",
     "extract-text-webpack-plugin": "^1.0.1",
-    "@sibyl229/gene-ontology-ribbon": "1.2.7",
     "immutable": "^3.8.1",
     "numeral": "^2.0.6",
     "prop-types": "^15.5.10",
