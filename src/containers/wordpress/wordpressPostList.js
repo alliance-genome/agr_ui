@@ -37,10 +37,10 @@ class WordpressPostList extends Component {
     }
 
     return (
-      <div>
+      <div className={style.wordPressContainer}>
         <HeadMetaTags title={title} />
         <SecondaryNav title={title} type='post' />
-        <div className={`container ${style.newsContainer}`}>
+        <div className='container'>
           {
             this.props.postList.map(post => {
               if (post.status !== 'publish') { return; }
