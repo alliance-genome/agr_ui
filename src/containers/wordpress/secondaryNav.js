@@ -1,7 +1,6 @@
-/*eslint-disable no-unused-vars*/
-
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router';
 
 import style from './style.css';
 import { MENU_IDS,WP_PAGES } from './../../constants';
@@ -25,17 +24,17 @@ class SecondaryNav extends Component {
     let menu_cat=(this.props.type==='post')?'post':MENU_IDS[this.props.parent];
     let menu_container=this.getStyle(menu_cat);
 
-    container.push(<a href='/home'>Home </a>);
+    container.push(<Link to='/home'>Home </Link>);
     if(this.props.type==='post'){
-      container.push(<a href='/posts/news'> /News</a>);
+      container.push(<Link to='/posts'> /News</Link>);
     }
     else{
       if(menu_cat==='home'){return (<div />);}
       let parent=MENU_IDS[parent_id];
       let parent_label=WP_PAGES[parent].label;
-      container.push(<a href={`/${parent}`}> /{parent_label}/</a>);
-      if(parent_id!=page_id){
-        container.push(<a dangerouslySetInnerHTML={{ __html: page_title}} />);
+      container.push(<Link to={`/${parent}`}> /{parent_label}/</Link>);
+      if(parent_id !== page_id){
+        container.push(<span dangerouslySetInnerHTML={{ __html: page_title}} />);
       }
 
     }
