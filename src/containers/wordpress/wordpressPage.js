@@ -7,12 +7,12 @@ import HeadMetaTags from '../../components/headMetaTags';
 import LoadingPage from '../../components/loadingPage';
 import SecondaryNav from './secondaryNav';
 
-import { fetchWordpressPage } from '../../actions/wp';
+import { fetchWordpressPage } from '../../actions/wordpress';
 
 import {
   selectLoading,
   selectPage
-} from '../../selectors/wpSelectors';
+} from '../../selectors/wordpressSelectors';
 
 class WordpressPage extends Component {
   componentDidMount() {

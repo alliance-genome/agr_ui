@@ -7,12 +7,12 @@ import style from './style.css';
 import SecondaryNav from './secondaryNav';
 import HeadMetaTags from '../../components/headMetaTags';
 
-import { fetchWordpressPostList } from '../../actions/wp';
+import { fetchWordpressPostList } from '../../actions/wordpress';
 
 import {
   selectLoading,
   selectPostList
-} from '../../selectors/wpSelectors';
+} from '../../selectors/wordpressSelectors';
 import LoadingPage from '../../components/loadingPage';
 
 class WordpressPostList extends Component {

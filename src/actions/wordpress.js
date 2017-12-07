@@ -1,5 +1,9 @@
 import fetchData from '../lib/fetchData';
-import { WP_PAGE_BASE_URL, WP_POST_BASE_URL, WP_POST_URL } from '../constants';
+import {
+  WORDPRESS_PAGE_BASE_URL,
+  WORDPRESS_POST_BASE_URL,
+  WORDPRESS_POST_URL
+} from '../constants';
 
 export const FETCH_WORDPRESS_POST_LIST = 'FETCH_WORDPRESS_POST_LIST';
 export const FETCH_WORDPRESS_POST_LIST_SUCCESS = 'FETCH_WORDPRESS_POST_LIST_SUCCESS';
@@ -18,7 +22,7 @@ export const fetchWordpressPostList = function () {
     dispatch({
       type: FETCH_WORDPRESS_POST_LIST
     });
-    fetchData(WP_POST_BASE_URL)
+    fetchData(WORDPRESS_POST_BASE_URL)
       .then(data => dispatch(fetchWordpressPostListSuccess(data)))
       .catch(error => dispatch(fetchWordpressPostListFailure(error)));
   };
@@ -43,7 +47,7 @@ export const fetchWordpressPost = function (slug) {
     dispatch({
       type: FETCH_WORDPRESS_POST
     });
-    fetchData(WP_POST_URL + slug)
+    fetchData(WORDPRESS_POST_URL + slug)
       .then(data => dispatch(fetchWordpressPostSuccess(data)))
       .catch(error => dispatch(fetchWordpressPostFailure(error)));
   };
@@ -68,12 +72,12 @@ export const fetchWordpressPage = function (slug) {
     dispatch({
       type: FETCH_WORDPRESS_PAGE
     });
-    fetchData(WP_PAGE_BASE_URL + slug)
+    fetchData(WORDPRESS_PAGE_BASE_URL + slug)
       .then(data => {
         if (data && data[0]) {
           dispatch(fetchWordpressPageSuccess(data[0]));
         } else {
-          // throw our own error, since WP API doesn't return 404 when page is not found
+          // throw our own error, since Wordpress API doesn't return 404 when page is not found
           throw new Error('Page not found');
         }
       })

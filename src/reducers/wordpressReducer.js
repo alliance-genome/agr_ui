@@ -9,7 +9,7 @@ import {
   FETCH_WORDPRESS_POST,
   FETCH_WORDPRESS_POST_SUCCESS,
   FETCH_WORDPRESS_POST_FAILURE,
-} from '../actions/wp';
+} from '../actions/wordpress';
 
 const DEFAULT_STATE = fromJS({
   page: null,
@@ -19,7 +19,7 @@ const DEFAULT_STATE = fromJS({
   loading: false,
 });
 
-const wpReducer = function (state = DEFAULT_STATE, action) {
+const wordpressReducer = function (state = DEFAULT_STATE, action) {
   switch(action.type) {
   case FETCH_WORDPRESS_POST_LIST:
     return state.set('loading', true);
@@ -65,4 +65,4 @@ const wpReducer = function (state = DEFAULT_STATE, action) {
   }
 };
 
-export default wpReducer;
+export default wordpressReducer;

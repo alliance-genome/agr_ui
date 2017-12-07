@@ -7,12 +7,12 @@ import HeadMetaTags from '../../components/headMetaTags';
 import LoadingPage from '../../components/loadingPage';
 import SecondaryNav from './secondaryNav';
 
-import { fetchWordpressPost } from '../../actions/wp';
+import { fetchWordpressPost } from '../../actions/wordpress';
 
 import {
   selectLoading,
   selectPost
-} from '../../selectors/wpSelectors';
+} from '../../selectors/wordpressSelectors';
 
 class WordpressPost extends Component {
   constructor(props) {

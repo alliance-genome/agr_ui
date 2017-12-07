@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 
 import style from './style.css';
-import { MENU_IDS,WP_PAGES } from './../../constants';
+import { MENU_IDS,WORDPRESS_PAGES } from './../../constants';
 
 class SecondaryNav extends Component {
   getStyle(menu_cat){
@@ -31,7 +31,7 @@ class SecondaryNav extends Component {
     else{
       if(menu_cat==='home'){return (<div />);}
       let parent=MENU_IDS[parent_id];
-      let parent_label=WP_PAGES[parent].label;
+      let parent_label=WORDPRESS_PAGES[parent].label;
       container.push(<Link to={`/${parent}`}> /{parent_label}/</Link>);
       if(parent_id !== page_id){
         container.push(<span dangerouslySetInnerHTML={{ __html: page_title}} />);
