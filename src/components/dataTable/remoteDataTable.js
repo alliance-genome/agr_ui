@@ -31,6 +31,14 @@ class RemoteDataTable extends Component {
     this.props.onSortChange(fieldName, sortOrder);
   }
 
+  renderPaginationShowsTotal(start, end, total) {
+    return (
+      <p>
+        { start } to { end }, of { total } results.
+      </p>
+    );
+  }
+
   render() {
     const { columns, currentPage, data, downloadUrl, perPageSize, sortName, sortOrder, totalRows } = this.props;
 
@@ -40,6 +48,7 @@ class RemoteDataTable extends Component {
       sortName: sortName,
       sortOrder: sortOrder,
       onSortChange: this.handleSortChange,
+      paginationShowsTotal: this.renderPaginationShowsTotal,
       page: currentPage,
       sizePerPage: perPageSize,
       sizePerPageList: [10, 25, 100],
