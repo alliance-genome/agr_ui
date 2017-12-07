@@ -3,14 +3,14 @@ export const LARGE_COL_CLASS = 'col-sm-8 col-md-8 col-xs-12';
 export const SMALL_COL_CLASS = 'col-sm-4 col-md-4 col-xs-12';
 
 /* Wordpress REST API connection setting */
-export const WP_REST_API_BASE = 'https://public-api.wordpress.com/wp/v2/sites/alliancegenome.wordpress.com';
-export const WP_PAGE_BASE_URL = WP_REST_API_BASE + '/pages?slug=';
-export const WP_POST_BASE_URL = WP_REST_API_BASE + '/posts';
-export const WP_POST_URL = WP_POST_BASE_URL + '?slug=';
+export const WORDPRESS_REST_API_BASE = 'https://public-api.wordpress.com/wp/v2/sites/alliancegenome.wordpress.com';
+export const WORDPRESS_PAGE_BASE_URL = WORDPRESS_REST_API_BASE + '/pages?slug=';
+export const WORDPRESS_POST_BASE_URL = WORDPRESS_REST_API_BASE + '/posts';
+export const WORDPRESS_POST_URL = WORDPRESS_POST_BASE_URL + '?slug=';
 /* Maximum number of posts to display on the News and Events page */
-export const WP_POST_MAX_COUNT = 10;
-export const WP_PATH = '';
-export const WP_POST_PATH = '/posts';
+export const WORDPRESS_POST_MAX_COUNT = 10;
+export const WORDPRESS_PATH = '';
+export const WORDPRESS_POST_PATH = '/posts';
 
 export const CATEGORIES = [
   {
@@ -34,15 +34,16 @@ export const CATEGORIES = [
 /**********  Wordpress Pages *************
  An entry is added to this constant each
  time a new static page that's part of the
- menu or sub-menu  is created/publised in WP
+ menu or sub-menu  is created/published in
+ wordpress
 
  Fields Definition:
  1) label: Used in the site  menu/sub menu
- 2) slug: WP slug for this page
+ 2) slug: Wordpress slug for this page
  3) path: Used for Portal router
  ******************************************/
 
-export const WP_PAGES = {
+export const WORDPRESS_PAGES = {
   home: {
     label: 'Home',
     slug: 'home'
