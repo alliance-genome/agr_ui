@@ -1,33 +1,71 @@
-/*eslint-disable no-unused-vars*/
-/*** This component renders wordpress static page **/
-
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import style from './style.css';
 import HeadMetaTags from '../../components/headMetaTags';
+import LoadingPage from '../../components/loadingPage';
 import SecondaryNav from './secondaryNav';
 
+import { fetchWordpressPage } from '../../actions/wp';
+
+import {
+  selectLoading,
+  selectPage
+} from '../../selectors/wpSelectors';
+
 class WordpressPage extends Component {
+  componentDidMount() {
+    this.fetchPage();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.params.slug !== prevProps.params.slug) {
+      this.fetchPage();
+    }
+  }
+
+  fetchPage() {
+    const { dispatch, params } = this.props;
+    dispatch(fetchWordpressPage(params.slug));
+  }
+
   render() {
-    if (!this.props.data) {
+    const { loading, page } = this.props;
+
+    if (loading) {
+      return <LoadingPage />;
+    }
+
+    if (!page) {
       return null;
     }
-    let title = this.props.data.title.rendered;
-    let parent_id = (this.props.data.parent>0)?this.props.data.parent:this.props.data.id;
+
+    const title = page.title.rendered;
+    let parentId = (page.parent > 0) ? page.parent : page.id;
     return (
       <div className={style.wordPressContainer}>
         <HeadMetaTags title={title} />
-        <SecondaryNav  id={this.props.data.id} parent={parent_id} title={title} type='page' />
-        <div dangerouslySetInnerHTML={{ __html: this.props.data.content.rendered}} />
+        <SecondaryNav id={page.id} parent={parentId} title={title} type='page' />
+        <div dangerouslySetInnerHTML={{ __html: page.content.rendered}} />
       </div>
     );
-
   }
 }
 
 WordpressPage.propTypes = {
-  data: PropTypes.object.isRequired,
+  dispatch: PropTypes.func,
+  loading: PropTypes.bool,
+  page: PropTypes.object,
+  params: PropTypes.object,
 };
 
-export default WordpressPage;
+const mapStateToProps = (state) => {
+  return {
+    loading: selectLoading(state),
+    page: selectPage(state),
+  };
+};
+
+export { WordpressPage as WordpressPage };
+export default connect(mapStateToProps)(WordpressPage);
