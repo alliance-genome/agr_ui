@@ -1,23 +1,23 @@
 import { createSelector } from 'reselect';
 
-export const selectWpDomain = (state) => state.wp;
+export const selectWordpressDomain = (state) => state.wordpress;
 
 export const selectLoading = createSelector(
-  [selectWpDomain],
+  [selectWordpressDomain],
   (wordpress) => wordpress.get('loading')
 );
 
 export const selectPage = createSelector(
-  [selectWpDomain],
+  [selectWordpressDomain],
   (wordpress) => wordpress.get('page')
 );
 
 export const selectPostList = createSelector(
-  [selectWpDomain],
+  [selectWordpressDomain],
   (wordpress) => wordpress.get('postList')
 );
 
 export const selectPost = createSelector(
-  [selectWpDomain],
+  [selectWordpressDomain],
   (wordpress) => wordpress.get('post')
 );
