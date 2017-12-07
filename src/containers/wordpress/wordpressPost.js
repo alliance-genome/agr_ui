@@ -47,10 +47,10 @@ class WordpressPost extends Component {
 
     const title = post.title.rendered;
     return (
-      <div>
+      <div className={style.wordPressContainer}>
         <HeadMetaTags title={title} />
         <SecondaryNav  title={title} type='post' />
-        <div className={`container ${style.postPageContainer}`}>
+        <div className='container'>
           <div className='row'>
             <div className={`col-xs-12 col-sm-5 ${style.floatLeft}`}>
               <img className='img-fluid' src={post.featured_media_url}  />
