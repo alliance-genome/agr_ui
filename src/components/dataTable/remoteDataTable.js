@@ -33,7 +33,7 @@ class RemoteDataTable extends Component {
 
   renderPaginationShowsTotal(start, end, total) {
     return (
-      <p>
+      <p style={{float:'right', width:'70%'}}>
         { start } to { end }, of { total } results.
       </p>
     );
