@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 
 import style from './style.css';
 import SubMenu from './subMenu';
-import { MENU, WORDPRESS_PAGES ,WORDPRESS_PATH ,WORDPRESS_POST_PATH } from '../../constants';
+import { MENU, WORDPRESS_PAGES, WORDPRESS_PATH, WORDPRESS_POST_PATH } from '../../constants';
 
 const HOME_ROUTE = '/home';
 
