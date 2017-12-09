@@ -14,7 +14,7 @@ import {
 const DEFAULT_STATE = fromJS({
   page: null,
   post: null,
-  postList: [],
+  postList: null,
   error: null,
   loading: false,
 });
