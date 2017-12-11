@@ -4,6 +4,8 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import DownloadButton from './downloadButton.js';
 import PropTypes from 'prop-types';
 
+import style from './style.css';
+
 const textFilter = {
   type: 'TextFilter',
   delay: 100,
@@ -17,6 +19,7 @@ class RemoteDataTable extends Component {
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handleSizeChange = this.handleSizeChange.bind(this);
     this.handleSortChange = this.handleSortChange.bind(this);
+    this.renderPaginationShowsTotal = this.renderPaginationShowsTotal.bind(this);
   }
 
   handlePageChange(page, size) {
@@ -31,6 +34,14 @@ class RemoteDataTable extends Component {
     this.props.onSortChange(fieldName, sortOrder);
   }
 
+  renderPaginationShowsTotal(start, end, total) {
+    return (
+      <p className={style.remoteDataTablePaginationShowsTotal}>
+        { start } to { end }, of { total } results.
+      </p>
+    );
+  }
+
   render() {
     const { columns, currentPage, data, downloadUrl, perPageSize, sortName, sortOrder, totalRows } = this.props;
 
@@ -40,6 +51,7 @@ class RemoteDataTable extends Component {
       sortName: sortName,
       sortOrder: sortOrder,
       onSortChange: this.handleSortChange,
+      paginationShowsTotal: this.renderPaginationShowsTotal,
       page: currentPage,
       sizePerPage: perPageSize,
       sizePerPageList: [10, 25, 100],
