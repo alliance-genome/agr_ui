@@ -5,22 +5,17 @@ import { Provider } from 'react-redux';
 import { createMemoryHistory } from 'react-router';
 
 import configureStore from '../../lib/configureStore';
-import{ WP_REST_API_BASE_URL } from '../../constants';
 
+import { WordpressPage } from './index';
 
-
-
-import Wordpress from './index';
-
-let homeUrl= WP_REST_API_BASE_URL+'home';
-let historyObj = createMemoryHistory(homeUrl);
+let historyObj = createMemoryHistory('/publications');
 
 describe('Wordpress', () => {
   it('should be able to render to an HTML string', () => {
     let store = configureStore(historyObj);
     let htmlString = renderToString(
       <Provider store={store}>
-        <Wordpress />
+        <WordpressPage />
       </Provider>
     );
     assert.equal(typeof htmlString, 'string');

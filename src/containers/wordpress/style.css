@@ -1,41 +1,55 @@
 .wordPressContainer {
   margin-top: -1.25rem;
 }
-.newsContainer { margin-top: 1.3em;background: transparent;}
-.postContainer {padding: 1em;margin-bottom: 1.3em;background: #eee;}
-.postMenuContainer,.homeMenuContainer,
-.aboutMenuContainer,.projectsMenuContainer,
-.contactMenuContainer  {
-  background-color: #222222;
+
+.postContainer {
+  border-bottom: 1px solid #ddd;
+  margin: 1rem 0;
+  padding-bottom: 1rem;
+}
+
+.postContainer:last-of-type {
+  border-bottom: none;
+}
+
+.postMenuContainer, .homeMenuContainer,
+.aboutMenuContainer, .projectsMenuContainer,
+.contactMenuContainer {
   background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
+  background: #222222 no-repeat center center;
   margin-bottom: 1.3em;
   clear: both;
 }
+
 .postMenuContainer {
   background-image: url('http://alliancegenome.files.wordpress.com/2016/11/news_banner.jpg');
 }
+
 .aboutMenuContainer,
 .contactMenuContainer {
   background-image: url('http://alliancegenome.files.wordpress.com/2016/11/allbanners-45621.jpg');
 }
-.projectsMenuContainer{
- background-image: url('http://alliancegenome.files.wordpress.com/2016/11/contact_banner.jpg');
+
+.projectsMenuContainer {
+  background-image: url('http://alliancegenome.files.wordpress.com/2016/11/contact_banner.jpg');
 }
 
-.secondaryNavEmptyRow,.postMenuContainer.secondaryNav{
-  padding: 0; margin: 0;
+.secondaryNavEmptyRow, .postMenuContainer.secondaryNav {
+  padding: 0;
+  margin: 0;
   width: 100%;
 }
-.secondaryNavEmptyRow{
-   height: 260px;
+
+.secondaryNavEmptyRow {
+  height: 260px;
 }
+
 .secondaryNav {
   color: #2598c5;
   background-color: #000000;
   bottom: 0;
 }
+
 .floatLeft {
   background: #333;
   padding: 0;
