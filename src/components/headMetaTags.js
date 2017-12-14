@@ -10,7 +10,7 @@ class HeadMetaTags extends Component {
   }
 
   titleCase(str) {
-    return str.toLowerCase().strip().split(' ').map(function (word) {
+    return str.toLowerCase().trim().split(' ').map(function (word) {
       return word.replace(word[0], word[0].toUpperCase());
     }).join(' ');
   }
