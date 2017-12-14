@@ -74,6 +74,8 @@
     "clean": "rimraf dist",
     "sitemap": "node bin/build_sitemap.js",
     "copy": "cp -r src/public/. dist",
+    "lint": "eslint src --max-warnings 0",
+    "pretest": "npm run lint",
     "test": "NODE_ENV=test mocha-webpack --webpack-config webpack.config-test.js \"src/**/*test.js\"",
     "test:watch": "NODE_ENV=test mocha-webpack --webpack-config webpack.config-test.js --watch \"src/**/*test.js\""
   }

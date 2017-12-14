@@ -10,11 +10,14 @@ import {
 import LoadingPage from '../../components/loadingPage';
 import GenomeFeature from '../../components/genomeFeature/GenomeFeature';
 import numeral from 'numeral';
+import {getTranscriptTypes} from '../../lib/genomeFeatureTypes';
 
 class GenomeFeatureViewer extends Component {
 
   constructor(props) {
     super(props);
+
+    // this.featureTypeHandler = new FeatureTypeHandler();
 
     let defaultTrackName = 'All Genes'; // this is the generic track name
     let locationString = this.props.chromosome + ':' + this.props.fmin + '..' + this.props.fmax;
@@ -27,13 +30,25 @@ class GenomeFeatureViewer extends Component {
 
     // TODO: this is a hack to fix inconsistencies in JBrowse
     let trackDataPrefix = apolloServerPrefix + 'track/' + encodeURI(this.props.species) + '/' + defaultTrackName + '/' + encodeURI(locationString) + '.json';
-    let trackDataWithHighlight;
-    if (this.props.species == 'Caenorhabditis elegans' && this.props.primaryId.indexOf(':') > 0) {
-      trackDataWithHighlight = trackDataPrefix + '?name=' + this.props.primaryId.split(':')[1];
+    let trackDataWithHighlight = trackDataPrefix;
+    let names = [];
+    if (this.props.primaryId.indexOf(':') > 0) {
+      names.push(this.props.primaryId.split(':')[1]);
     }
-    else {
-      trackDataWithHighlight = trackDataPrefix + '?name=' + this.props.geneSymbol;
+    names.push(this.props.geneSymbol);
+
+
+    if (this.props.synonyms) {
+      for (let syn of this.props.synonyms) {
+        names.push(syn);
+      }
     }
+
+    for (let name in names) {
+      trackDataWithHighlight = trackDataWithHighlight + (name == 0 ? '?' : '&') + 'name=' + names[name];
+    }
+
+
 // TODO: Still some inconsistencies with SGD data
 // else
     // trackDataWithHighlight += '&ignoreCache=true';
@@ -44,9 +59,9 @@ class GenomeFeatureViewer extends Component {
     let linkBuffer = 1.2;
     let linkLength = this.props.fmax - this.props.fmin;
     let bufferedMin = Math.round(this.props.fmin - (linkLength * linkBuffer / 2.0));
+    bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
     let bufferedMax = Math.round(this.props.fmax + (linkLength * linkBuffer / 2.0));
     let externalLocationString = this.props.chromosome + ':' + bufferedMin + '..' + bufferedMax;
-    bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
     // TODO: handle bufferedMax exceeding chromosome length, though I think it has a good default.
     let externalJbrowseUrl = externalJBrowsePrefix + '&tracks=All%20Genes&highlight=' + geneSymbolUrl + '&loc=' + encodeURI(externalLocationString);
 
@@ -67,48 +82,31 @@ class GenomeFeatureViewer extends Component {
   componentDidUpdate() {
   }
 
-  isCodingType(){
-    let proteinCodingTypes = [
-      'gene'
-      ,'protein_coding_gene'
-      ,'protein_coding'
-      ,'ORF'
-    ];
-    return proteinCodingTypes.indexOf(this.props.biotype)>=0 ;
-  }
-
   loadData() {
-    if(!this.isCodingType()){
-      this.setState({loadState: 'noncoding'});
-    }
-    else{
-      this.setState({loadState: 'loading'});
-      fetch(this.trackDataUrl)
-        .then(function (response) {
-          if (!response.ok) {
-            throw Error(response.statusText);
-          }
-          return response;
-        })
-        .then((response) => {
-          response.json().then(data => {
-            this.setState({
-              loadState: 'loaded'
-              , loadedData: data
-            });
-            return data;
-          });
-        })
-        .catch(() => {
-          // console.log(error);
+    this.setState({loadState: 'loading'});
+    this.transcriptTypes = getTranscriptTypes();
+    fetch(this.trackDataUrl)
+      .then(function (response) {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response;
+      })
+      .then((response) => {
+        response.json().then(data => {
           this.setState({
-            loadState: 'error'
+            loadState: 'loaded'
+            , loadedData: data
           });
+          return data;
         });
-    }
-
+      })
+      .catch(() => {
+        this.setState({
+          loadState: 'error'
+        });
+      });
   }
-
 
 
   render() {
@@ -137,12 +135,12 @@ class GenomeFeatureViewer extends Component {
               {this.state.loadState == 'loaded' ? <GenomeFeature data={this.state.loadedData}
                                                                  height={this.props.height}
                                                                  id={this.props.id}
+                                                                 transcriptTypes={this.transcriptTypes}
                                                                  url={this.externalJBrowseUrl}
                                                                  width={this.props.width}
                                                   /> : ''}
             </a>
             {this.state.loadState == 'error' ? <div className='text-danger'>Unable to retrieve data</div> : ''}
-            {this.state.loadState == 'noncoding' ? <div className='text-warning'>Overview for non-coding genes unavailable</div> : ''}
           </div>
         </div>
       </div>
@@ -165,6 +163,7 @@ GenomeFeatureViewer.propTypes = {
   primaryId: PropTypes.string,
   species: PropTypes.string.isRequired,
   strand: PropTypes.string,
+  synonyms: PropTypes.array,
   width: PropTypes.string,
 };
 

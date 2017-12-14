@@ -12,6 +12,11 @@ export const selectLoading = createSelector(
   (disease) => disease.get('loading')
 );
 
+export const selectError = createSelector(
+  [selectDiseaseDomain],
+  (disease) => disease.get('error')
+);
+
 export const selectAssociations = createSelector(
   [selectDiseaseDomain],
   (disease) => disease.get('associations')
