@@ -5,10 +5,7 @@ import { Provider } from 'react-redux';
 import { createMemoryHistory } from 'react-router';
 
 import configureStore from '../../../lib/configureStore';
-import{ WP_POST_BASE_URL,WP_POST_URL } from '../../../constants';
-
-
-
+import{ WP_POST_BASE_URL } from '../../../constants';
 
 import WordpressFeeds from './index';
 

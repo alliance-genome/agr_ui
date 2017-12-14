@@ -1,29 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-class downloadButton extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render(){
-
-    return(
-      <a
-        className={'btn btn-primary'}
-        download
-        href={`/api/disease/${this.props.id}/associations/download`}
-      >
-        {this.props.buttonText}
-      </a>
-    );
-  }
-}
-
-downloadButton.propTypes = {
-  buttonText: PropTypes.string,
-  filename: PropTypes.string,
-  id: PropTypes.string,
+const DownloadButton = ({buttonText, downloadUrl}) => {
+  return(
+    <a
+      className={'btn btn-primary'}
+      href={downloadUrl}
+    >
+      {buttonText}
+    </a>
+  );
 };
 
-export default downloadButton;
+DownloadButton.propTypes = {
+  buttonText: PropTypes.string,
+  downloadUrl: PropTypes.string,
+};
+
+export default DownloadButton;

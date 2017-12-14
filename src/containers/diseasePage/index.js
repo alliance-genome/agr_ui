@@ -4,48 +4,32 @@ import { connect } from 'react-redux';
 
 import {
   fetchDisease,
-  fetchAssociations,
-  setCurrentPage,
-  setPerPageSize,
-  setSort,
 } from '../../actions/disease';
 
 import {
   selectData,
-  selectAssociations,
-  selectTotalAssociations,
-  selectPerPageSize,
-  selectCurrentPage,
-  selectAssociationsError,
+  selectError,
   selectLoading,
-  selectLoadingAssociation,
-  selectTotalPages,
-  selectSortName,
-  selectSortOrder,
 } from '../../selectors/diseaseSelectors';
 
-import ExternalLink from '../../components/externalLink';
 import HeadMetaTags from '../../components/headMetaTags';
 import LoadingPage from '../../components/loadingPage';
 import Subsection from '../../components/subsection';
 import NotFound from '../../components/notFound';
 import BasicDiseaseInfo from './basicDiseaseInfo';
-import { DiseasePageAssociationsTable } from '../../components/disease';
+import { DiseasePageHeader } from '../../components/disease';
+import DiseasePageAssociationsTable from './diseasePageAssociationsTable';
 
 class DiseasePage extends Component {
   componentDidMount() {
-    this.props.dispatch(fetchDisease(this.props.params.diseaseId));
-    this.props.dispatch(fetchAssociations(this.props.params.diseaseId));
+    const { dispatch, params } = this.props;
+    dispatch(fetchDisease(params.diseaseId));
   }
 
   componentDidUpdate(prevProps) {
     const { dispatch, params } = this.props;
     if (params.diseaseId !== prevProps.params.diseaseId) {
       dispatch(fetchDisease(params.diseaseId));
-      dispatch(setCurrentPage(1));
-      dispatch(setPerPageSize(10));
-      dispatch(setSort('default', 'asc'));
-      dispatch(fetchAssociations(params.diseaseId));
     }
   }
 
@@ -77,33 +61,14 @@ class DiseasePage extends Component {
       <div className='container'>
         <HeadMetaTags title={title} />
 
-        <h1>
-          {disease.name}
-          &nbsp;
-          <small>
-            (<ExternalLink href={'http://www.disease-ontology.org/?id=' + disease.doId}>
-              {disease.doId}
-            </ExternalLink>)
-          </small>
-          <hr />
-        </h1>
+        <DiseasePageHeader disease={disease} />
 
         <Subsection>
           <BasicDiseaseInfo disease={disease} />
         </Subsection>
 
         <Subsection title='Associations'>
-          <DiseasePageAssociationsTable
-            associations={this.props.associations}
-            currentPage={this.props.currentPage}
-            dispatch={this.props.dispatch}
-            id={this.props.params.diseaseId}
-            perPageSize={this.props.perPageSize}
-            sortName={this.props.sortName}
-            sortOrder={this.props.sortOrder}
-            totalAssociations={this.props.totalAssociations}
-            totalPages={this.props.totalPages}
-          />
+          <DiseasePageAssociationsTable id={disease.doId} />
         </Subsection>
       </div>
     );
@@ -111,21 +76,11 @@ class DiseasePage extends Component {
 }
 
 DiseasePage.propTypes = {
-  associations: PropTypes.arrayOf(PropTypes.object), // An array containing the disease associations.
-  associationsError: PropTypes.string,               // Association loading error messages.
-  currentPage: PropTypes.number,                     // The current page of the associations table.
   data: PropTypes.object,
   dispatch: PropTypes.func,
-  error: PropTypes.object,
+  error: PropTypes.string,
   loading: PropTypes.bool,
-  loadingAssociations: PropTypes.bool,               // Whether or not we are loading associations.
   params: PropTypes.object,
-  perPageSize: PropTypes.number,                     // Number of associations to display per page.
-  sortName: PropTypes.string,
-  sortOrder: PropTypes.string,
-  totalAssociations: PropTypes.number,               // Total number of associations.
-  totalPages: PropTypes.number,                      // Total number of pages calculated from the number
-                                                     // of associations and the per page setting.
 };
 
 // Ideally, the toJS() calls should be removed here for performance reasons.
@@ -134,18 +89,9 @@ DiseasePage.propTypes = {
 // Leave in for now since I'm unsure of the downstream dependencies.
 const mapStateToProps = (state) => {
   return {
-    associations: selectAssociations(state).toJS(),
-    associationsError: selectAssociationsError(state),
-    currentPage: selectCurrentPage(state),
     data: selectData(state).toJS(),
+    error: selectError(state),
     loading: selectLoading(state),
-    loadingAssociations: selectLoadingAssociation(state),
-    perPageSize: selectPerPageSize(state),
-    sortName: selectSortName(state),
-    sortOrder: selectSortOrder(state),
-    totalAssociations: selectTotalAssociations(state),
-    totalPages: selectTotalPages(state)
-
   };
 };
 

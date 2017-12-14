@@ -87,6 +87,7 @@ class GenePage extends Component {
             primaryId={this.props.data.primaryId}
             species={this.props.data.species}
             strand={genomeLocation.strand}
+            synonyms={this.props.data.synonyms}
             width='600px'
           />
         </Subsection>
