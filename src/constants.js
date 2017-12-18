@@ -146,3 +146,81 @@ export const SUB_MENU = {
 export const NON_HIGHLIGHTED_FIELDS = ['sourceHref', 'href', 'category', 'homologs', 'paralogs', 'orthologs', 'homologs.symbol', 'homologs.panther_family'];
 
 export const HELP_EMAIL = 'alliance-helpdesk@lists.stanford.edu';
+
+/**
+ * collapsible menu: MenuItems
+ */
+export const NAV_MENU = {
+  home: {
+    id: 1,
+    label: 'Home',
+    slug: 'home',
+    sub: undefined
+  },
+  'about-us': {
+    id: 2,
+    label: 'About US',
+    slug: 'about-us',
+    sub: {
+      'frequently-asked-questions': {
+        id: 5,
+        label: 'Frequently Asked Questions',
+        slug: 'frequently-asked-questions'
+      },
+      'funding': {
+        id: 6,
+        label: 'Funding',
+        slug: 'funding'
+      },
+      'organization-and-governance': {
+        id: 7,
+        label: 'Organization and Governance',
+        slug: 'organization-and-governance'
+      },
+      'publications': {
+        id: 8,
+        label: 'Publications',
+        slug: 'publications',
+      }
+    }
+  },
+  'projects-work-products-publications': {
+    id: 3,
+    label: 'Work Products',
+    slug: 'projects-work-products-publications',
+    sub: {
+      'administrative-supplement': {
+        id: 9,
+        label: 'Administrative Supplement',
+        slug: 'administrative-supplement'
+      },
+      'genome-features':{
+        id: 10,
+        label: 'Genome Features',
+        slug: 'genome-features'
+      },
+      'orthology':{
+        id: 11,
+        label: 'Orthology',
+        slug: 'orthology'
+      },
+      'phenotypes-and-disease-models':{
+        id: 12,
+        label: 'Phenotypes And Disease Models',
+        slug: 'phenotypes-and-disease-models'
+      }
+    }
+  },
+  'contact-us': {
+    id: 4,
+    label: 'Contact US',
+    slug: 'contact-us',
+    sub: undefined
+  },
+  news:{
+    id: 13,
+    label: 'News & Events',
+    slug: 'news',
+    sub: undefined
+  }
+};
