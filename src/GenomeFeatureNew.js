@@ -14,8 +14,11 @@ var DrawGenomeView = function(data){
   //data = getDataApollo('1','1000','2000');
   //console.log(data);
 
-
-  let dataRange = findRange(data);
+  let UTR_feats= ["UTR","five_prime_UTR","three_prime_UTR"];
+  let CDS_feats= ["CDS"];
+  let exon_feats= ["exon"];
+  let display_feats=["mRNA"];
+  let dataRange = findRange(data,display_feats);
 
   let view_start = dataRange.fmin;
   let view_end = dataRange.fmax;
@@ -30,10 +33,7 @@ var DrawGenomeView = function(data){
   let arrow_height = 20;
   let arrow_width = 10;
   let arrow_points = '0,0 0,' + arrow_height + ' ' + arrow_width + ',' + arrow_width;
-  let UTR_feats= ["UTR","five_prime_UTR","three_prime_UTR"];
-  let CDS_feats= ["CDS"];
-  let exon_feats= ["exon"];
-  let display_feats=["mRNA"];
+
 
   //need to build a new sortWeight since these can be dynamic
   let sortWeight = {};
@@ -75,16 +75,7 @@ var DrawGenomeView = function(data){
       .domain([view_start, view_end])
       .range([0, width]);
 
-  // 9 ticks
-  let viewLength = view_end - view_start;
-  let resolution = Math.round(30 / Math.log(viewLength)) ;
-  let resolutionString = '.'+resolution + 's';
-  let tickFormat = x.tickFormat(5, resolutionString);
 
-  let xAxis = d3.axisTop(x)
-    .ticks(8, 's')
-    .tickSize(8)
-    .tickFormat(tickFormat);
 
   let viewer = d3.select('#viewer')
     .attr('width', width + margin.left + margin.right)
@@ -94,9 +85,13 @@ var DrawGenomeView = function(data){
 
   let row_count =0;
   let used_space = [];
+  let fmin_display=-1;
+  let fmax_display=-1;
+  console.log(data.length);
   for (let i in data) {
-
+    console.log(i);
     let feature = data[i];
+    console.log(feature);
     let featureChildren = feature.children;
     if (featureChildren) {
 
@@ -105,6 +100,8 @@ var DrawGenomeView = function(data){
       //do I need this?
       let maxRows = MAX_ROWS;
       //let externalUrl = this.props.url;
+      //May want to remove this and add an external sort function
+      //outside of the render method to put certain features on top.
       featureChildren = featureChildren.sort(function (a, b) {
         if (a.name < b.name) return -1;
         if (a.name > b.name) return 1;
@@ -113,27 +110,40 @@ var DrawGenomeView = function(data){
       featureChildren.forEach(function (featureChild) {
         let featureType = featureChild.type;
         if (display_feats.indexOf(featureType)>=0) {
+
+
+
+
           //function to assign row based on available space.
           let current_row = checkSpace(used_space,x(featureChild.fmin), x(featureChild.fmax));
+
           if (current_row < maxRows) {
             //Will need to remove this... rows not incremented every time now.
             row_count += 1;
 
+
+
             viewer.append('polygon')
-              .attr('class', 'transArrow')
-              .attr('points', arrow_points)
-              .attr('transform', function () {
+              .datum(function(){
+                let y_val;
                 if (feature.strand > 0) {
-                  return 'translate(' + Number(x(featureChild.fmax)) + ',' + Number((isoform_view_height / 2.0) - (arrow_height / 2.0) + (isoform_height * current_row) + isoform_title_height) + ')';
+                  y_val = Number((isoform_view_height / 2.0) - (arrow_height / 2.0) + (isoform_height * current_row) + isoform_title_height);
                 }
                 else {
-                  return 'translate(' + Number(x(featureChild.fmin)) + ',' + Number((isoform_view_height / 2.0) + (arrow_height / 2.0) + (isoform_height * current_row) + isoform_title_height) + ') rotate(180)';
+                  y_val = Number((isoform_view_height / 2.0) + (arrow_height / 2.0) + (isoform_height * current_row) + isoform_title_height);
+                }
+                return {fmin: featureChild.fmin,fmax: featureChild.fmax,strand:feature.strand,y_val: y_val};
+              })
+              .attr('class', 'transArrow')
+              .attr('points', arrow_points)
+              .attr('transform', function (d) {
+                if (feature.strand > 0) {
+                  return 'translate('+Number(x(d.fmax))+',' + d.y_val + ')';
+                }
+                else {
+                  return 'translate('+Number(x(d.fmin))+',' + d.y_val + ') rotate(180)';
                 }
               });
-
-
-
-
 
             viewer.append('rect')
               .attr('class', 'transcriptBackbone')
@@ -141,40 +151,66 @@ var DrawGenomeView = function(data){
               .attr('y', isoform_height * current_row + isoform_title_height)
               .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (transcript_backbone_height / 2.0)) + ')')
               .attr('height', transcript_backbone_height)
-              .attr('width', x(featureChild.fmax) - x(featureChild.fmin));
+              .attr('width', x(featureChild.fmax) - x(featureChild.fmin))
+              .datum({fmin: featureChild.fmin,fmax: featureChild.fmax});
 
             var text_label = viewer.append('text')
               .attr('class', 'transcriptLabel')
-              .attr('x', x(feature.fmin))
+              .attr('x', x(featureChild.fmin))
               .attr('y', isoform_height * current_row + isoform_title_height)
               .attr('fill', selected ? 'sandybrown' : 'gray')
               .attr('opacity', selected ? 1 : 0.5)
               .attr('height', isoform_title_height)
-              .text(featureChild.name);
+              .text(featureChild.name)
+              .datum({fmin:featureChild.fmin});
 
               //Now that the label has been created we can calculate the space that
               //this new element is taking up making sure to add in the width of
               //the box.
               text_width = text_label.node().getBBox().width;
+              console.log(featureChild.name);
+              console.log(text_width+x(featureChild.fmin));
+              console.log(x(featureChild.fmax));
+              console.log("Text Width " +text_width);
+              console.log("Feature width " +Number(x(featureChild.fmax)-x(featureChild.fmin)));
+
+
+
+              let bp_end=0;
+              //First check to see if label goes past the end
+              if (Number(text_width+x(featureChild.fmin))>width){
+                console.log(featureChild.name+" goes over the edge");
+              }
               let feat_end;
-              if(text_width>x(featureChild.fmax)-x(featureChild.fmin))
-                {feat_end=x(featureChild.fmin)+text_width;}
+              if(text_width>x(featureChild.fmax)-x(featureChild.fmin)){
+                feat_end=x(featureChild.fmin)+text_width;
+              }
               else {
                 feat_end=x(featureChild.fmax);
               }
+              console.log("Feature label ends @ "+x.invert(feat_end));
 
               //This is probably not the most efficent way to do this.
               //Making an 2d array... each row is the first array (no zer0)
               //next level is each element taking up space.
+              //Also using colons as spacers seems very perl... maybe change that?
               if (used_space[current_row]){
                 let temp = used_space[current_row];
                 temp.push(x(featureChild.fmin)+":"+feat_end);
                 used_space[current_row]= temp;
               }
               else {
-                used_space[current_row]=[x(featureChild.fmin)+":"+x(featureChild.fmax)]
+                used_space[current_row]=[x(featureChild.fmin)+":"+feat_end]
               }
 
+              //Now check on bounds since this feature is displayed
+              //The true end of display is converted to bp.
+              if(fmin_display < 0 ||fmin_display > featureChild.fmin){
+                fmin_display = featureChild.fmin;
+              }
+              if(fmax_display<0 || fmax_display < featureChild.fmax){
+                fmax_display = featureChild.fmax;
+              }
 
             // have to sort this so we draw the exons BEFORE the CDS
             featureChild.children = featureChild.children.sort(function (a, b) {
@@ -206,7 +242,8 @@ var DrawGenomeView = function(data){
                   .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (exon_height / 2.0)) + ')')
                   .attr('height', exon_height)
                   .attr('z-index', 10)
-                  .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
+                  .attr('width', x(innerChild.fmax) - x(innerChild.fmin))
+                  .datum({fmin: innerChild.fmin,fmax: innerChild.fmax});
               }
               else if (CDS_feats.indexOf(innerType)>=0) {
                 viewer.append('rect')
@@ -216,7 +253,8 @@ var DrawGenomeView = function(data){
                   .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (cds_height / 2.0)) + ')')
                   .attr('z-index', 20)
                   .attr('height', cds_height)
-                  .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
+                  .attr('width', x(innerChild.fmax) - x(innerChild.fmin))
+                  .datum({fmin: innerChild.fmin,fmax: innerChild.fmax});
               }
               else if (UTR_feats.indexOf(innerType)>=0) {
                 viewer.append('rect')
@@ -226,7 +264,8 @@ var DrawGenomeView = function(data){
                   .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (utr_height / 2.0)) + ')')
                   .attr('z-index', 20)
                   .attr('height', utr_height)
-                  .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
+                  .attr('width', x(innerChild.fmax) - x(innerChild.fmin))
+                  .datum({fmin: innerChild.fmin,fmax: innerChild.fmax});
               }
             });
           }
@@ -259,6 +298,32 @@ var DrawGenomeView = function(data){
 
   }
   else {
+
+    //Check if resize is necessary
+    /*
+    if(fmin_display>view_start ||fmax_display < view_end){
+        x = d3.scaleLinear()
+          .domain([fmin_display, fmax_display])
+          .range([0, width]);
+        view_start = fmin_display;
+        view_end = fmax_display;
+      doResize(fmin_display,fmax_display,viewer,width,x);
+      console.log(fmin_display,fmax_display);
+    }
+    */
+
+
+    // 9 ticks
+    let viewLength = view_end - view_start;
+    let resolution = Math.round(30 / Math.log(viewLength)) ;
+    let resolutionString = '.'+resolution + 's';
+    let tickFormat = x.tickFormat(5, resolutionString);
+
+    let xAxis = d3.axisTop(x)
+      .ticks(8, 's')
+      .tickSize(8)
+      .tickFormat(tickFormat);
+
     viewer.append('g')
       .attr('class', 'axis')
       .attr('width', width)
@@ -267,24 +332,89 @@ var DrawGenomeView = function(data){
       .call(xAxis);
   }
 
+
+
 };
 
-function findRange(data) {
+function doResize(fmin_display, fmax_display, viewer,width,newx){
+  console.log("Do resize.");
+
+
+
+  viewer.selectAll("rect.transcriptBackbone")
+    .attr("x", function(d){return newx(d.fmin);})
+    .attr('width', function(d){return newx(d.fmax) - newx(d.fmin);})
+
+  viewer.selectAll("rect.exon")
+    .attr("x", function(d){return newx(d.fmin);})
+    .attr('width', function(d){return newx(d.fmax) - newx(d.fmin);})
+
+  viewer.selectAll("rect.CDS")
+    .attr("x", function(d){return newx(d.fmin);})
+    .attr('width', function(d){return newx(d.fmax) - newx(d.fmin);})
+
+  viewer.selectAll("rect.UTR")
+    .attr("x", function(d){return newx(d.fmin);})
+    .attr('width', function(d){return newx(d.fmax) - newx(d.fmin);})
+
+  viewer.selectAll("polygon.transArrow")
+  .attr('transform', function (d) {
+    if (d.strand > 0) {
+      return 'translate('+Number(newx(d.fmax))+',' + d.y_val + ')';
+    }
+    else {
+      return 'translate('+Number(newx(d.fmin))+',' + d.y_val + ') rotate(180)';
+    }
+  });
+
+  var text_label = viewer.selectAll("text.transcriptLabel")
+    .attr("x", function(d){
+      return Number(newx(d.fmin))
+    })
+    .attr("class",function(d){
+      text_width = this.getBBox().width;
+      if((newx(d.fmin)+text_width)>width){
+        return "REMOVE";
+      }
+      else {
+        return "transcriptLabel";
+      }
+    });
+
+    viewer.selectAll("text.REMOVE").remove();
+
+  console.log(text_width);
+}
+//Function to find range
+//Now with checkSpace function embedded.
+//Will only check rows that make it into the final viz.
+//Needs to assign the row as well
+//Added check for type.... all types were getting included even if
+//we had no intention to display them
+function findRange(data,display_feats) {
     let fmin = -1;
     let fmax = -1;
 
     for (let d in data) {
-      if (fmin < 0 || data[d].fmin < fmin) {
-        fmin = data[d].fmin;
-      }
-      if (fmax < 0 || data[d].fmax > fmax) {
-        fmax = data[d].fmax;
-      }
-    }
+      let feature = data[d];
+      console.log(feature.type);
+      let featureChildren = feature.children;
+      featureChildren.forEach(function (featureChild) {
+            if (display_feats.indexOf(featureChild.type)>=0){
+              //console.log(featureChild.name,featureChild.fmin,featureChild.fmax);
+              if (fmin < 0 || featureChild.fmin < fmin) {
+                fmin = featureChild.fmin;
+              }
+              if (fmax < 0 || featureChild.fmax > fmax) {
+                fmax = featureChild.fmax;
+              }
+            }
+        });//transcript level
+      }//gene level
 
     return {
-      fmin: fmin
-      , fmax: fmax
+      fmin: fmin,
+      fmax: fmax
     };
 };
 
@@ -296,8 +426,6 @@ function countIsoforms(data) {
     if(feature.children){
       feature.children.forEach(function (geneChild) {
         // isoform level
-        //console.log(geneChild.type);
-        //changing this to processed_pseudogene for demo... was mRNA
         if (geneChild.type == 'mRNA') {
           isoform_count += 1;
         }
@@ -307,14 +435,14 @@ function countIsoforms(data) {
   return isoform_count;
 }
 
-var GenerateGenomeView= function(chr, start, end)
+var GenerateGenomeView= function(chr, start, end, organism)
 {
   //Clear it first maaang
   var svg = d3.select("#viewer");
   svg.selectAll("*").remove();
   //Right now this is Hardcoded
   let externalLocationString = chr + ':' + start + '..' + end;
-  dataUrl ="https://agr-apollo.berkeleybop.io/apollo/track/Homo%20sapiens/All%20Genes/" + encodeURI(externalLocationString) + ".json";
+  dataUrl ="https://agr-apollo.berkeleybop.io/apollo/track/" +encodeURI(organism)+ "/All%20Genes/" + encodeURI(externalLocationString) + ".json";
   console.log(dataUrl);
   fetch(dataUrl)
       .then((response) => {
@@ -348,6 +476,7 @@ function checkSpace(used_space,start,end)
       for(var z=0; z<used_space[i].length; z++){
 
         var [used_start,used_end] = used_space[i][z].split(':');
+
         //check for overlap
         if(end<used_start||start>used_end){
           fits=1;
