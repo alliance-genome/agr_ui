@@ -55,11 +55,10 @@ class DiseasePage extends Component {
     }
 
     const disease = this.props.data;
-    const title = this.props.params.diseaseId;
 
     return (
       <div className='container'>
-        <HeadMetaTags title={title} />
+        <HeadMetaTags title={disease.name} />
 
         <DiseasePageHeader disease={disease} />
 
