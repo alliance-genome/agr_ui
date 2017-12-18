@@ -7,11 +7,12 @@ import Loader from './loader/index';
 import logo from './agrLogo.png';
 import SearchBar from './searchBar';
 
-import TopBar from './topBar';
+//import TopBar from './topBar';
 import FooterBar from './footer';
 import Menu from './menu';
 import SiteMap from './siteMap';
 import AgrTweets from './twitterWidget';
+import NavMenu from './navigation/index';
 
 import { SMALL_COL_CLASS, LARGE_COL_CLASS } from '../../constants';
 
@@ -22,7 +23,7 @@ class Layout extends Component {
 
     return (
       <div className={style.appContainer}>
-        <TopBar />
+        <NavMenu />
 
         <nav className='navbar fixed-top'>
           <div className='container'>
