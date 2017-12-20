@@ -100,6 +100,7 @@ class GenePage extends Component {
           <OrthologyBasicInfo
             crossReferences={this.props.data.crossReferences}
             focusGeneSymbol={this.props.data.symbol}
+            species={this.props.data.species}
           />
           <Subsection hasData={(this.props.data.orthology || []).length > 0}>
             <OrthologyFilteredTable data={this.props.data.orthology} />
