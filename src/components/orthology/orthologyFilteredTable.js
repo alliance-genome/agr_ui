@@ -229,7 +229,7 @@ class OrthologyFilteredTable extends Component {
           </div>
         </div>
         </Collapse>
-        <div style={{marginTop: -20}}>
+        <div style={{marginTop: 20}}>
           {
             filteredData.length > 0 ?
             <OrthologyTable data={filteredData} /> :
