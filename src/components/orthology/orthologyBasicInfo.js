@@ -16,7 +16,7 @@ class OrthologyBasicInfo extends Component {
 
         <AttributeLabel>Focus gene</AttributeLabel>
         <AttributeValue>
-          {this.props.focusGeneSymbol}
+          {this.props.focusGeneSymbol} - (Species: {this.props.species})
         </AttributeValue>
 
         <AttributeLabel>Gene tree</AttributeLabel>
@@ -33,6 +33,7 @@ class OrthologyBasicInfo extends Component {
 OrthologyBasicInfo.propTypes = {
   crossReferences: PropTypes.any,
   focusGeneSymbol: PropTypes.string,
+  species: PropTypes.string,
 };
 
 export default OrthologyBasicInfo;
