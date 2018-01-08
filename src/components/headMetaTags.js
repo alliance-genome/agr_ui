@@ -17,7 +17,7 @@ class HeadMetaTags extends Component {
 
   render() {
 
-    let title = `${this.titleCase(this.props.title)} | Alliance of Genome Resources`;
+    let title = `${this.props.title ? this.titleCase(this.props.title) : ''} | Alliance of Genome Resources`;
 
     return (
       <div>
