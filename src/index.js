@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+//import React, {Component} from 'react'
 import './App.css'
 import {scaleLinear} from "d3-scale";
 import {axisTop} from "d3-axis";
@@ -103,6 +103,7 @@ export default class App extends Component {
             console.log(exons);
 
             //This is hacky... idk why this works right now but its needed to get to object level.
+            //Hello
             exons.forEach(function (item) {
                 item.forEach(function (item2) {
 
