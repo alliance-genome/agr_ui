@@ -45,8 +45,12 @@ export function makeFieldDisplayName(unformattedName) {
     return 'Associated Species';
   default:
     //replace underscores and any field name suffixes after a ., capitalize
-    return toTitleCase(unformattedName.replace(/_/g, ' ').replace(/\.(\w)+/g, ''));
+    return unformattedName.replace(/_/g, ' ').replace(/\.(\w)+/g, '');
   }
+}
+
+export function makeTitleCaseFieldDisplayName(unformattedName) {
+  return toTitleCase(makeFieldDisplayName(unformattedName));
 }
 
 export function getQueryParamWithoutPage(key, val, queryParams) {
