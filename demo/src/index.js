@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import {render} from 'react-dom'
 import styles from '../../src/App.css'
-//import GenomeFeature from "../../src/GenomeFeature";
-import GenomeFeature from "./GenomeFeature";
+import GenomeFeature from "../../src/GenomeFeature";
+// import GenomeFeature from "./GenomeFeature";
 // import "whatwg-fetch";
 
 
