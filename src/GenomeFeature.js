@@ -7,7 +7,6 @@
 var d3 = require ("d3");
 
 var DrawGenomeView = function(data){
-
   //Some of these were in different places
   //Not sure if we want these as constants or not
   let MAX_ROWS = 10;
@@ -336,7 +335,8 @@ var DrawGenomeView = function(data){
 
 
 
-};
+}
+
 
 function doResize(fmin_display, fmax_display, viewer,width,newx){
   console.log("Do resize.");
@@ -418,7 +418,8 @@ function findRange(data,display_feats) {
       fmin: fmin,
       fmax: fmax
     };
-};
+}
+//;
 
 function countIsoforms(data) {
   let isoform_count = 0;
@@ -499,4 +500,4 @@ function checkSpace(used_space,start,end)
   return row;
 
 }
-module.exports= GenerateGenomeView;
+module.exports = GenerateGenomeView;
