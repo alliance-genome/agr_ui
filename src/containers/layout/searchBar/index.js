@@ -98,9 +98,11 @@ class SearchBarComponent extends Component {
       return <MenuItem className={style.dropdownItem} eventKey={d.name} key={d.name}>{labelNode}</MenuItem>;
     });
     return (
-      <DropdownButton className={style.dropdown} id='bg-nested-dropdown' onSelect={this.handleSelect.bind(this)} title={_title}>
-        {nodes}
-      </DropdownButton>
+      <div className="input-group-button">
+        <DropdownButton className={style.dropdown} id='bg-nested-dropdown' onSelect={this.handleSelect.bind(this)} title={_title}>
+          {nodes}
+        </DropdownButton>
+      </div>
     );
   }
 
@@ -131,25 +133,17 @@ class SearchBarComponent extends Component {
       suggestion: style.suggestion,
       suggestionFocused: style.suggestionFocused
     };
-    return (
-      <div className={style.container}>
-        <form onSubmit={this.handleSubmit.bind(this)} ref='form'>
-          {this.renderDropdown()}
-            <Autosuggest
-              getSuggestionValue={_getSuggestionValue}
-              inputProps={_inputProps}
-              onSuggestionSelected={this.handleSelected.bind(this)}
-              onSuggestionsClearRequested={this.handleClear.bind(this)}
-              onSuggestionsFetchRequested={this.handleFetchData.bind(this)}
-              renderSuggestion={this.renderSuggestion}
-              suggestions={this.state.autoOptions}
-              theme={_theme}
-            />
-          <a className={`btn btn-primary ${style.searchBtn}`} href='#' onClick={this.handleSubmit.bind(this)}><i className='fa fa-search' /></a>
+    return (<div className={style.container}>
+        <form onSubmit={this.handleSubmit.bind(this)} ref="form">
+          <div className="input-group">
+            {this.renderDropdown()}
+            <Autosuggest getSuggestionValue={_getSuggestionValue} inputProps={_inputProps} onSuggestionSelected={this.handleSelected.bind(this)} onSuggestionsClearRequested={this.handleClear.bind(this)} onSuggestionsFetchRequested={this.handleFetchData.bind(this)} renderSuggestion={this.renderSuggestion} suggestions={this.state.autoOptions} theme={_theme} />
+            <a className={`btn btn-primary ${style.searchBtn}`} href="#" onClick={this.handleSubmit.bind(this)}>
+              <i className="fa fa-search" />
+            </a>
+          </div>
         </form>
-
-      </div>
-    );
+      </div>);
   }
 }
 

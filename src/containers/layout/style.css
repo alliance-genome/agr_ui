@@ -166,3 +166,11 @@
 .footer p {
   margin-bottom: 0
 }
+
+.agrLogo {
+  height: 60px;
+  border-right-style: solid;
+  border-right-color: lightgrey;
+  padding-right: 10px;
+}
+

@@ -12,7 +12,7 @@ import FooterBar from './footer';
 import Menu from './menu';
 import SiteMap from './siteMap';
 import AgrTweets from './twitterWidget';
-import NavMenu from './navigation/index';
+//import NavMenu from './navigation/index';
 
 import { SMALL_COL_CLASS, LARGE_COL_CLASS } from '../../constants';
 
@@ -21,16 +21,13 @@ class Layout extends Component {
     let currentRoute=this.props.location.pathname.replace('/','');
     currentRoute= currentRoute==''?'home' : currentRoute;
 
-    return (
-      <div className={style.appContainer}>
-        <NavMenu />
-
-        <nav className='navbar fixed-top'>
-          <div className='container'>
-            <div className='row'>
+    return <div className={style.appContainer}>
+        <nav className="navbar fixed-top">
+          <div className="container">
+            <div className="row">
               <div className={SMALL_COL_CLASS}>
-                <Link className='navbar-brand' to='/'>
-                  <img height='80' src={logo} />
+                <Link className="navbar-brand agr-logo" to="/">
+                  <img className={style.agrLogo} src={logo} />
                 </Link>
               </div>
               <div className={LARGE_COL_CLASS}>
@@ -41,9 +38,9 @@ class Layout extends Component {
         </nav>
 
         <nav className={`navbar ${style.midHeader} ${currentRoute}`}>
-            <div className='container'>
-              <Menu />
-            </div>
+          <div className="container">
+            <Menu />
+          </div>
         </nav>
 
         <div className={style.loaderContentContainer}>
@@ -56,8 +53,8 @@ class Layout extends Component {
         </div>
 
         <div className={style.siteMapContainer}>
-          <div className='container'>
-            <div className='row'>
+          <div className="container">
+            <div className="row">
               <div className={SMALL_COL_CLASS}>
                 <SiteMap />
               </div>
@@ -65,7 +62,7 @@ class Layout extends Component {
                 <div className={style.sectionHeader}>
                   <h4>Recent Tweets</h4>
                 </div>
-                <div id='tweets'>
+                <div id="tweets">
                   <AgrTweets />
                 </div>
               </div>
@@ -74,8 +71,7 @@ class Layout extends Component {
         </div>
 
         <FooterBar />
-      </div>
-    );
+      </div>;
   }
 }
 
