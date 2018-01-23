@@ -4,9 +4,10 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
 import style from './style.css';
-import { getQueryParamWithoutPage, makeFieldDisplayName } from '../../lib/searchHelpers';
-
+import { getQueryParamWithoutPage, makeFieldDisplayName, makeTitleCaseFieldDisplayName } from '../../lib/searchHelpers';
 import { selectIsPending, selectQueryParams, selectTotal } from '../../selectors/searchSelectors.js';
+
+import CategoryLabel from './categoryLabel.js';
 
 const IGNORED_PARAMS = ['page', 'mode'];
 const SORT_PRIORITY = ['category', 'q'];
@@ -18,11 +19,16 @@ class SearchBreadcrumbsComponent extends Component {
       let newPath = { pathname: '/search', query: newQp };
       let label = makeFieldDisplayName(d);
       let labelNode = (key === 'q') ? `"${label}"` : label;
+      let fieldLabel = makeTitleCaseFieldDisplayName(key) + ':';
       if (key === 'species') {
         labelNode = <i>{labelNode}</i>;
       }
+      else if (key === 'category') {
+        fieldLabel = '';
+        labelNode = <CategoryLabel category={d} />;
+      }
       return (
-        <Link className={`btn btn-primary ${style.sortLabel}`} key={`bc${key}.${i}`} to={newPath}><span>{labelNode} <i className='fa fa-times' /></span></Link>
+        <Link className={`btn btn-primary ${style.sortLabel}`} key={`bc${key}.${i}`} to={newPath}><span>{fieldLabel} {labelNode} <i className='fa fa-times' /></span></Link>
       );
     });
   }

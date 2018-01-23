@@ -44,9 +44,13 @@ export function makeFieldDisplayName(unformattedName) {
   case 'annotations.geneDocument.species':
     return 'Associated Species';
   default:
-    //replace underscores and any field name suffixes after a .
+    //replace underscores and any field name suffixes after a ., capitalize
     return unformattedName.replace(/_/g, ' ').replace(/\.(\w)+/g, '');
   }
+}
+
+export function makeTitleCaseFieldDisplayName(unformattedName) {
+  return toTitleCase(makeFieldDisplayName(unformattedName));
 }
 
 export function getQueryParamWithoutPage(key, val, queryParams) {
@@ -86,4 +90,8 @@ export function getQueryParamWithValueChanged(key, val, queryParams, isClear=fal
     return qp;
   }
   return qp;
+}
+
+function toTitleCase(str) {
+  return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 import style from './style.css';
-import { SUB_MENU, WP_PAGES} from '../../constants';
+import { SUB_MENU, WORDPRESS_PAGES} from '../../constants';
 
 
 class SubMenu extends Component {
@@ -15,8 +15,8 @@ class SubMenu extends Component {
       let page=SUB_MENU[page_key][index];
       container.push(
         <li className={style.subMenuListItem} key={index}>
-          <Link className={`${style.sub_nav_link}`} key={index} to={`/${WP_PAGES[page].slug}`}>
-            {WP_PAGES[page].label}
+          <Link className={`${style.sub_nav_link}`} key={index} to={`/${WORDPRESS_PAGES[page].slug}`}>
+            {WORDPRESS_PAGES[page].label}
           </Link>
         </li>
       );

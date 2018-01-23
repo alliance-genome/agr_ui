@@ -90,7 +90,7 @@ class ResultsList extends Component {
     return (
       <div className={style.resultContainer} key={`sr${i}`}>
         {this.renderHeader(d.category, link, d.species)}
-          <SpeciesIcon iconClass={style.resultSpeciesIcon} species={d.species} />
+          <SpeciesIcon iconClass={style.resultSpeciesIcon} species={d.speciesKey} />
           {this.renderDetailFromFields(d, topFields)}
           <div className={style.detailContainer}>
             <span className={style.detailLabel}><strong>Source:</strong> </span>

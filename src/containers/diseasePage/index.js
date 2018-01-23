@@ -21,6 +21,12 @@ import { DiseasePageHeader } from '../../components/disease';
 import DiseasePageAssociationsTable from './diseasePageAssociationsTable';
 
 class DiseasePage extends Component {
+  constructor(props) {
+    super(props);
+
+    this.titleCase = this.titleCase.bind(this);
+  }
+
   componentDidMount() {
     const { dispatch, params } = this.props;
     dispatch(fetchDisease(params.diseaseId));
@@ -41,6 +47,12 @@ class DiseasePage extends Component {
     return <NotFound />;
   }
 
+  titleCase(str) {
+    return str.toLowerCase().trim().split(' ').map(function (word) {
+      return word.replace(word[0], word[0].toUpperCase());
+    }).join(' ');
+  }
+
   render() {
     if (this.props.loading) {
       return <LoadingPage />;
@@ -55,11 +67,10 @@ class DiseasePage extends Component {
     }
 
     const disease = this.props.data;
-    const title = this.props.params.diseaseId;
 
     return (
       <div className='container'>
-        <HeadMetaTags title={title} />
+        <HeadMetaTags title={disease.name ? this.titleCase(disease.name) : disease.doId} />
 
         <DiseasePageHeader disease={disease} />
 
