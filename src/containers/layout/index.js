@@ -27,7 +27,7 @@ class Layout extends Component {
             <div className="row">
               <div className={SMALL_COL_CLASS}>
                 <Link className="navbar-brand agr-logo" to="/">
-                  <img className={style.agrLogo} src={logo} />
+                  <img className={`img-fluid ${style.agrLogo}`} src={logo} />
                 </Link>
               </div>
               <div className={LARGE_COL_CLASS}>
