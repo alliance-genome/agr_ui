@@ -86,3 +86,10 @@
 	display: inline-block;
 	border-radius: 0 0.25rem 0.25rem 0;
 }
+
+.search .fa-search {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
