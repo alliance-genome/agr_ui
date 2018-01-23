@@ -127,6 +127,7 @@ function parseCrossReferences(d) {
 
 // search result individual entry parsers
 function parseGeneResult(_d) {
+  let speciesKey = _d.species;
   let d = injectHighlightIntoResponse(_d);
   return {
     symbol: d.symbol || '(no symbol)',
@@ -139,6 +140,7 @@ function parseGeneResult(_d) {
     synonyms: d.synonyms,
     biotype: makeFieldDisplayName(d.soTermName),
     species: d.species,
+    speciesKey: speciesKey,  //capture species from before highlighting
     highlight: d.highlights,
     homologs: parseLogs(d.homologs),
     paralogs: parseLogs(d.paralogs),

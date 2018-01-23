@@ -10,7 +10,7 @@ The following commands will get you inside of docker and ready to develop code
 
 ```bash
 	docker pull agrdocker/agr_javascript_env
-	docker run -v`pwd`:/workdir/agr_ui -p 2992:2992 -it agrdocker/agr_javascript_env:latest /bin/bash
+	docker run -v `pwd`:/workdir/agr_ui -p 2992:2992 -it agrdocker/agr_javascript_env:latest /bin/bash
   npm run docker-start
 ```
 

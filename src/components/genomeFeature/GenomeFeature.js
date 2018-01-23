@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import style from '../style.css';
 import {scaleLinear} from 'd3-scale';
 import {axisTop} from 'd3-axis';
