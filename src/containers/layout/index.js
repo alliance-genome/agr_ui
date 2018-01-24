@@ -9,10 +9,11 @@ import SearchBar from './searchBar';
 
 //import TopBar from './topBar';
 import FooterBar from './footer';
-import Menu from './menu';
+//import Menu from './menu';
 import SiteMap from './siteMap';
 import AgrTweets from './twitterWidget';
 //import NavMenu from './navigation/index';
+import MenuItems from './navigation/menuItems';
 
 import { SMALL_COL_CLASS, LARGE_COL_CLASS } from '../../constants';
 
@@ -21,7 +22,7 @@ class Layout extends Component {
     let currentRoute=this.props.location.pathname.replace('/','');
     currentRoute= currentRoute==''?'home' : currentRoute;
 
-    return <div className={style.appContainer}>
+    return (<div className={style.appContainer}>
         <nav className="navbar fixed-top">
           <div className="container">
             <div className="row">
@@ -39,7 +40,7 @@ class Layout extends Component {
 
         <nav className={`navbar ${style.midHeader} ${currentRoute}`}>
           <div className="container">
-            <Menu />
+            <MenuItems />
           </div>
         </nav>
 
@@ -71,7 +72,7 @@ class Layout extends Component {
         </div>
 
         <FooterBar />
-      </div>;
+      </div>);
   }
 }
 

@@ -32,26 +32,25 @@ class MenuItems extends Component{
       let sub_container = [];
      for (let subItem in NAV_MENU[page].sub) {
         let sub_page_url = page_path + "/" + NAV_MENU[page].sub[subItem].slug;
-       sub_container.push(
-         <li key={NAV_MENU[page].sub[subItem].id} >
-            <a href={sub_page_url} className={`${style.sub_nav_link}`}>{NAV_MENU[page].sub[subItem].label}</a>
-          </li>
-        );
+       sub_container.push(<span>
+           <a href={sub_page_url} className={`dropdown-item`} key={NAV_MENU[page].sub[subItem].id}>
+             {NAV_MENU[page].sub[subItem].label}
+           </a></span>);
       }
      container.push(
-       <li className="dropdown" key={NAV_MENU[page].id}>
+       <li className="nav-item dropdown" key={NAV_MENU[page].id}>
           <a className={`nav-link dropdown-toggle`} data-toggle="dropdown" role="button" aria-expanded="false" href={page_url}>
             {page_label} <span className="caret" />
           </a>
-          <ul className="dropdown-menu" role="menu">
+          <div className="dropdown-menu dropdown-menu-right" role="menu">
             {sub_container}
-          </ul>
+          </div>
         </li>
       );
 
     }
     else {
-      container.push(<li key={NAV_MENU[page].id}>
+      container.push(<li key={NAV_MENU[page].id} className="nav-item">
           <a className={`nav-link`} href={page_url}>
             {page_label}
           </a>
@@ -59,30 +58,16 @@ class MenuItems extends Component{
     }
 
    }
-    return (
-          <div className="navbar-wrapper">
-              <nav className="navbar navbar-default navbar-static-top offset-3 pull right">
-                <div className="container">
-                  <div className="navbar-header">
-                    <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                      <span className="sr-only">Toggle navigation</span>
-                      <span className="icon-bar" />
-                      <span className="icon-bar" />
-                      <span className="icon-bar" />
-                    </button>
-                    <a className="navbar-brand pull left" href="#">
-                      <img src={logo} />
-                    </a>
-                  </div>
-                  <div id="navbar" className="navbar-collapse collapse">
-                    <ul className="nav navbar-nav">
-                      {container}
-                    </ul>
-                  </div>
-                </div>
-              </nav>
+    return <div>
+        <nav className="navbar navbar-static-top">
+          <button className="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2">
+            &#9776;
+          </button>
+          <div className="collapse navbar-toggleable-md" id="exCollapsingNavbar2">
+            <ul className="nav navbar-nav">{container}</ul>
           </div>
-    );
+        </nav>
+      </div>;
 
   }
 }

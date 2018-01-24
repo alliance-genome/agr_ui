@@ -167,19 +167,8 @@
   margin-bottom: 0
 }
 
-.agrLogo {
+.agr-logo {
   height: 60px;
-  border-right-style: solid;
-  border-right-color: lightgrey;
-  padding-right: 10px;
+
 }
-
-.search .fa-search {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-}
-
-
-
 
