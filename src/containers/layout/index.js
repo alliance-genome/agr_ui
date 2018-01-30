@@ -7,7 +7,7 @@ import Loader from './loader/index';
 import logo from './agrLogo.png';
 import SearchBar from './searchBar';
 
-//import TopBar from './topBar';
+import TopBar from './topBar';
 import FooterBar from './footer';
 //import Menu from './menu';
 import SiteMap from './siteMap';
@@ -19,28 +19,32 @@ import { SMALL_COL_CLASS, LARGE_COL_CLASS } from '../../constants';
 
 class Layout extends Component {
   render() {
-    let currentRoute=this.props.location.pathname.replace('/','');
-    currentRoute= currentRoute==''?'home' : currentRoute;
+    //let currentRoute=this.props.location.pathname.replace('/','');
+    //currentRoute= currentRoute==''?'home' : currentRoute;
 
-    return (<div className={style.appContainer}>
-        <nav className="navbar fixed-top">
+    return (<div>
+    <TopBar />
+    <div className={style.appContainer}>
+        <nav className={`navbar fixed-top ${style.navbarCustom}`}>
           <div className="container">
             <div className="row">
-              <div className={SMALL_COL_CLASS}>
-                <Link className="navbar-brand agr-logo" to="/">
-                  <img className={`img-fluid ${style.agrLogo}`} src={logo} />
-                </Link>
+              <div className="col-sm-3 col-md-3">
+                <div className="navbar-header">
+                  <button className="navbar-toggler hidden-sm-up pull-right" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2">
+                    &#9776;
+                  </button>
+                  <Link className="navbar-brand" to="/">
+                    <img className={`img-fluid ${style.agrLogo}`} src={logo} />
+                  </Link>
+                </div>
               </div>
-              <div className={LARGE_COL_CLASS}>
+              <div className="col-sm-6 col-md-6 pull-right">
                 <SearchBar />
               </div>
             </div>
-          </div>
-        </nav>
-
-        <nav className={`navbar ${style.midHeader} ${currentRoute}`}>
-          <div className="container">
-            <MenuItems />
+            <div className="row">
+              <MenuItems />
+            </div>
           </div>
         </nav>
 
@@ -70,8 +74,8 @@ class Layout extends Component {
             </div>
           </div>
         </div>
-
         <FooterBar />
+      </div>
       </div>);
   }
 }
