@@ -16,7 +16,7 @@ import {
   WP_POST_PATH,
   SUB_MENU,
   NAV_MENU
-} from "../../../constants";
+} from '../../../constants/index';
 const HOME_ROUTE = '/home';
 
 class MenuItems extends Component{
