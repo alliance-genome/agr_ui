@@ -21,6 +21,7 @@ const HOME_ROUTE = '/home';
 
 class MenuItems extends Component{
   render(){
+    debugger;
     let container = [];
    for(var item in MENU){
      let page = MENU[item];
@@ -58,15 +59,8 @@ class MenuItems extends Component{
     }
 
    }
-    return <div>
-        <nav className="navbar navbar-static-top">
-          <button className="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2">
-            &#9776;
-          </button>
-          <div className="collapse navbar-toggleable-md" id="exCollapsingNavbar2">
-            <ul className="nav navbar-nav">{container}</ul>
-          </div>
-        </nav>
+    return <div className="collapse navbar-toggleable-md" id="exCollapsingNavbar2">
+        <ul className="nav nav-tabs">{container}</ul>
       </div>;
 
   }
