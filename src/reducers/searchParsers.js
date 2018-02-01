@@ -171,7 +171,7 @@ function parseGoResult(_d) {
     highlight: d.highlights,
     href: d.href,
     name: d.name,
-    synonyms: d.go_synonyms,
+    synonyms: d.synonyms,
     missing: d.missingTerms,
     explanation: d.explanation,
     score: d.score
