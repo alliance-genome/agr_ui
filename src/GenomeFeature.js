@@ -1,5 +1,5 @@
 /* eslint-disable */
-
+console.log("We are here");
 //import {scaleLinear} from "d3-scale";
 //import {axisTop} from "d3-axis";
 //import {select} from "d3-selection";
@@ -170,7 +170,7 @@ var DrawGenomeView = function(data){
               //Now that the label has been created we can calculate the space that
               //this new element is taking up making sure to add in the width of
               //the box.
-              text_width = text_label.node().getBBox().width;
+              var text_width = text_label.node().getBBox().width;
               console.log(featureChild.name);
               console.log(text_width+x(featureChild.fmin));
               console.log(x(featureChild.fmax));
@@ -443,11 +443,12 @@ function countIsoforms(data) {
 var GenerateGenomeView= function(chr, start, end, organism)
 {
   //Clear it first maaang
+  console.log("generating....");
   var svg = d3.select("#viewer");
   svg.selectAll("*").remove();
   //Right now this is Hardcoded
   let externalLocationString = chr + ':' + start + '..' + end;
-  dataUrl ="https://agr-apollo.berkeleybop.io/apollo/track/" +encodeURI(organism)+ "/All%20Genes/" + encodeURI(externalLocationString) + ".json";
+  var dataUrl ="https://agr-apollo.berkeleybop.io/apollo/track/" +encodeURI(organism)+ "/All%20Genes/" + encodeURI(externalLocationString) + ".json";
   console.log(dataUrl);
   fetch(dataUrl)
       .then((response) => {
