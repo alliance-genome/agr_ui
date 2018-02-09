@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import PropTypes from 'prop-types';
 
+import Utils from './utils';
+
 const textSorter = (textRender, field) => {
   return (a, b, order) => {
     if (order === 'desc') {
@@ -11,12 +13,6 @@ const textSorter = (textRender, field) => {
       return textRender(b[field]).localeCompare(textRender(a[field]));
     }
   };
-};
-
-const textFilter = {
-  type: 'TextFilter',
-  delay: 100,
-  placeholder: ' '
 };
 
 class LocalDataTable extends Component {
@@ -40,7 +36,6 @@ class LocalDataTable extends Component {
         exportCSV
         options={options}
         pagination={paginated}
-        ref={(table) => {this.tableRef = table;}}
         version='4'
       >
         {
@@ -51,7 +46,7 @@ class LocalDataTable extends Component {
               dataField={col.field}
               dataFormat={col.format}
               dataSort={col.sortable}
-              filter={col.filterable ? textFilter : null}
+              filter={Utils.getTextFilter(col)}
               filterValue={col.asText}
               isKey={col.isKey}
               key={idx}
