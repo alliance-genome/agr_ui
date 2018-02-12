@@ -1,7 +1,7 @@
 {
   "name": "genomefeaturecomponent",
   "version": "0.1.0",
-  "description": "Provides SVG View for Genome Features rendered with the Apollo Track Web Service from JBrowse data React Component",
+  "description": "Provides SVG View for Genome Features rendered with the Apollo Track Web Service via JBrowse",
   "main": "src/GenomeFeature.js",
   "module": "src/GenomeFeature.js",
   "files": [
@@ -38,11 +38,11 @@
     "eslint-plugin-standard": "^3.0.1",
     "webpack-dev-server": "^2.11.1"
   },
-  "author": "",
+  "author": "Paul Hale (GH:pjhale), Nathan Dunn (GH:nathandunn)",
   "homepage": "",
   "license": "MIT",
-  "repository": "",
+  "repository": "https://github.com/GMOD/GenomeFeatureComponent",
   "keywords": [
-    "react-component"
+    "genome feature viewer","genomics","genes","transcripts"
   ]
 }
