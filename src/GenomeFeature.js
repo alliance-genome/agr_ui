@@ -11,7 +11,7 @@ var d3 = require ("d3");
 var DrawGenomeView = function(data,svg_target){
   //Some of these were in different places
   //Not sure if we want these as constants or not
-  let MAX_ROWS=10;
+  let MAX_ROWS = 10;
   let calculatedHeight = 500;
   //console.log(data);
   //data = getDataApollo('1','1000','2000');
@@ -461,7 +461,7 @@ var GenerateGenomeView= function(chr, start, end, organism,svg_target)
     console.log(error);
   });
   //return data;
-}
+};
 
 //Takes in the current entry start/end and the array of used space and assigns a row
 function checkSpace(used_space,start,end)

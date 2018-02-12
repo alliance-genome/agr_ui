@@ -43,6 +43,9 @@
   "license": "MIT",
   "repository": "https://github.com/GMOD/GenomeFeatureComponent",
   "keywords": [
-    "genome feature viewer","genomics","genes","transcripts"
+    "genome feature viewer",
+    "genomics",
+    "genes",
+    "transcripts"
   ]
 }
