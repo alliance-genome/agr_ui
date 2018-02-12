@@ -50,8 +50,6 @@ If you are looking to develop the API locally the following defaults will work:
 	agr_ui> export DEV_SERVER_UI_PORT=2992
 	agr_ui> export JBROWSE_URL=http://jbrowse.alliancegenome.org
 	agr_ui> export JBROWSE_PORT=80
-	agr_ui> export MANET_URL=http://dev.alliancegenome.org
-	agr_ui> export MANET_PORT=8891
 ```
 
 ### Point to remote API instance
