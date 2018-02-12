@@ -6,6 +6,10 @@ var config  = {
   output:{
     filename: "demo/src/bundle.js"
   },
+  devServer:{
+      contentBase:'./demo/src/'
+
+  },
   module: {
     rules : [
       {
