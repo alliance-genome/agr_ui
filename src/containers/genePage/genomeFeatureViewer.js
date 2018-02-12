@@ -9,6 +9,7 @@ import {
 } from '../../components/attribute';
 import LoadingPage from '../../components/loadingPage';
 import GenomeFeature from '../../components/genomeFeature/GenomeFeature';
+import GenomeFeatureView from 'genomefeaturecomponent';
 import numeral from 'numeral';
 import {getTranscriptTypes} from '../../lib/genomeFeatureTypes';
 
@@ -112,8 +113,10 @@ class GenomeFeatureViewer extends Component {
   render() {
     const {assembly, chromosome, fmin, fmax, strand} = this.props;
     const lengthValue = numeral((fmax - fmin) / 1000.0).format('0,0.00');
+    GenomeFeatureView(this.props.id);
 
     return (
+
       <div id='genomeViewer'>
         <AttributeList>
           <AttributeLabel>Genome location</AttributeLabel>

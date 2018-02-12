@@ -17,6 +17,7 @@
     "d3-scale": "^1.0.6",
     "d3-selection": "^1.1.0",
     "extract-text-webpack-plugin": "^1.0.1",
+    "genomefeaturecomponent": "file:../GenomeFeatureComponent",
     "immutable": "^3.8.1",
     "numeral": "^2.0.6",
     "prop-types": "^15.5.10",
