@@ -8,7 +8,7 @@ var d3 = require ("d3");
 
 //module.exports = XMLHttpRequest;
 
-var DrawGenomeView = function(data){
+var DrawGenomeView = function(data,svg_target){
   //Some of these were in different places
   //Not sure if we want these as constants or not
   let MAX_ROWS=10;
@@ -80,7 +80,7 @@ var DrawGenomeView = function(data){
 
 
 
-  let viewer = d3.select('#viewer')
+  let viewer = d3.select(svg_target)
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)
     .append('g')
@@ -171,11 +171,12 @@ var DrawGenomeView = function(data){
               //this new element is taking up making sure to add in the width of
               //the box.
               var text_width = text_label.node().getBBox().width;
-              console.log(featureChild.name);
-              console.log(text_width+x(featureChild.fmin));
-              console.log(x(featureChild.fmax));
-              console.log("Text Width " +text_width);
-              console.log("Feature width " +Number(x(featureChild.fmax)-x(featureChild.fmin)));
+
+              //console.log(featureChild.name);
+              //console.log(text_width+x(featureChild.fmin));
+              //console.log(x(featureChild.fmax));
+              //console.log("Text Width " +text_width);
+              //console.log("Feature width " +Number(x(featureChild.fmax)-x(featureChild.fmin)));
 
 
 
@@ -191,7 +192,6 @@ var DrawGenomeView = function(data){
               else {
                 feat_end=x(featureChild.fmax);
               }
-              console.log("Feature label ends @ "+x.invert(feat_end));
 
               //This is probably not the most efficent way to do this.
               //Making an 2d array... each row is the first array (no zer0)
@@ -386,8 +386,6 @@ function doResize(fmin_display, fmax_display, viewer,width,newx){
     });
 
     viewer.selectAll("text.REMOVE").remove();
-
-  console.log(text_width);
 }
 //Function to find range
 //Now with checkSpace function embedded.
@@ -440,23 +438,22 @@ function countIsoforms(data) {
   return isoform_count;
 }
 
-var GenerateGenomeView= function(chr, start, end, organism)
+var GenerateGenomeView= function(chr, start, end, organism,svg_target)
 {
   //Clear it first maaang
-  console.log("generating....");
-  var svg = d3.select("#viewer");
+  console.log("generating.... for "+svg_target+"!");
+  var svg = d3.select(svg_target);
   svg.selectAll("*").remove();
   //Right now this is Hardcoded
   let externalLocationString = chr + ':' + start + '..' + end;
   var dataUrl ="https://agr-apollo.berkeleybop.io/apollo/track/" +encodeURI(organism)+ "/All%20Genes/" + encodeURI(externalLocationString) + ".json";
-  console.log(dataUrl);
   fetch(dataUrl)
       .then((response) => {
           response.json()
       .then(data => {
               //console.log("In the data function maaaan.");
               //console.log(data);
-              DrawGenomeView(data);
+              DrawGenomeView(data,svg_target);
 
           });
   })
