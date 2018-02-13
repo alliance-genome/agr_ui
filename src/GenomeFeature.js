@@ -1,10 +1,10 @@
 /* eslint-disable */
 console.log("We are here");
-//import {scaleLinear} from "d3-scale";
-//import {axisTop} from "d3-axis";
-//import {select} from "d3-selection";
+import {scaleLinear} from "d3-scale";
+import {axisTop} from "d3-axis";
+import {select} from "d3-selection";
 //import style from 'App.css';
-var d3 = require ("d3");
+// var d3 = require ("d3");
 
 //module.exports = XMLHttpRequest;
 
@@ -74,13 +74,13 @@ var DrawGenomeView = function(data,svg_target){
      width = 960 - margin.left - margin.right,
      height = calculatedHeight - margin.top - margin.bottom;
 
-  let x = d3.scaleLinear()
+  let x = scaleLinear()
       .domain([view_start, view_end])
       .range([0, width]);
 
 
 
-  let viewer = d3.select(svg_target)
+  let viewer = select(svg_target)
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)
     .append('g')
@@ -322,7 +322,7 @@ var DrawGenomeView = function(data,svg_target){
     let resolutionString = '.'+resolution + 's';
     let tickFormat = x.tickFormat(5, resolutionString);
 
-    let xAxis = d3.axisTop(x)
+    let xAxis = axisTop(x)
       .ticks(8, 's')
       .tickSize(8)
       .tickFormat(tickFormat);
@@ -442,7 +442,7 @@ var GenerateGenomeView= function(chr, start, end, organism,svg_target)
 {
   //Clear it first maaang
   console.log("generating.... for "+svg_target+"!");
-  var svg = d3.select(svg_target);
+  var svg = select(svg_target);
   svg.selectAll("*").remove();
   //Right now this is Hardcoded
   let externalLocationString = chr + ':' + start + '..' + end;
