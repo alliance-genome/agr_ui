@@ -18,12 +18,21 @@ const textSorter = (textRender, field) => {
 class LocalDataTable extends Component {
   constructor(props) {
     super(props);
+
+    this.renderExportCSV = this.renderExportCSV.bind(this);
+  }
+
+  renderExportCSV() {
+    return (
+      <div>asdf</div>
+    );
   }
 
   render() {
     const { columns, data, filename, paginated } = this.props;
     const options = {
       exportCSVSeparator: '\t',
+      exportCSV: this.renderExportCSV,
       exportCSVText: 'Download',
       toolbarPosition: 'bottom', //move download button to the bottom
       sizePerPageList: [10, 25, 100],
@@ -33,7 +42,6 @@ class LocalDataTable extends Component {
         bordered={false}
         csvFileName={filename}
         data={data}
-        exportCSV
         options={options}
         pagination={paginated}
         version='4'
