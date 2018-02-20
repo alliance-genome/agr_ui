@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import { BootstrapTable, TableHeaderColumn, ExportCSVButton} from 'react-bootstrap-table';
 import PropTypes from 'prop-types';
 
 import Utils from './utils';
@@ -19,29 +19,30 @@ class LocalDataTable extends Component {
   constructor(props) {
     super(props);
 
-    this.renderExportCSV = this.renderExportCSV.bind(this);
+    this.createCustomExportCSVButton = this.createCustomExportCSVButton.bind(this);
   }
 
-  renderExportCSV() {
+  createCustomExportCSVButton() {
     return (
-      <div>asdf</div>
+     <ExportCSVButton btnContextual={'btn-primary'} />
     );
   }
 
   render() {
     const { columns, data, filename, paginated } = this.props;
     const options = {
+      exportCSVBtn: this.createCustomExportCSVButton,
       exportCSVSeparator: '\t',
-      exportCSV: this.renderExportCSV,
       exportCSVText: 'Download',
-      toolbarPosition: 'bottom', //move download button to the bottom
       sizePerPageList: [10, 25, 100],
+      toolbarPosition: 'bottom', //move download button to the bottom
     };
     return (
       <BootstrapTable
         bordered={false}
         csvFileName={filename}
         data={data}
+        exportCSV
         options={options}
         pagination={paginated}
         version='4'
