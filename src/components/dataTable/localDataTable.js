@@ -26,7 +26,7 @@ class LocalDataTable extends Component {
   createCustomToolbar() {
     return (
       <div className='btn-group' role='group'>
-        <ExportCSVButton btnContextual={'btn-primary'} btnText='Download' />
+        <ExportCSVButton btnContextual={'btn-primary'} btnGlyphicon='' btnText='Download' />
       </div>
     );
   }
