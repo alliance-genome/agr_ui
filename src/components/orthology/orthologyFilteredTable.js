@@ -40,6 +40,15 @@ class OrthologyFilteredTable extends Component {
     return (
       dat.predictionMethodsMatched === 'ZFIN' ||
       dat.predictionMethodsMatched === 'HGNC' ||
+      (dat.predictionMethodsMatched.length > 2 && (dat.isBestScore || dat.isBestRevScore)) ||
+      (dat.predictionMethodsMatched.length === 2 && dat.isBestScore && dat.isBestRevScore)
+    );
+  }
+
+  isMediumConfidence(dat) {
+    return (
+      dat.predictionMethodsMatched === 'ZFIN' ||
+      dat.predictionMethodsMatched === 'HGNC' ||
       dat.predictionMethodsMatched.length > 2 ||
       (dat.predictionMethodsMatched.length === 2 && dat.isBestScore && dat.isBestRevScore)
     );
