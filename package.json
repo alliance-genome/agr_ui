@@ -70,7 +70,7 @@
     "prestart:docker": "npm install && npm run build",
     "start-docker": "webpack-dev-server --history-api-fallback --host 0.0.0.0 --port 2992 --hot --inline",
     "prebuild": "npm run clean && npm run copy && npm run sitemap",
-    "build": "cross-env NODE_ENV=development webpack -p --optimize-minimize",
+    "build": "cross-env NODE_ENV=production webpack -p --optimize-minimize",
     "clean": "rimraf dist",
     "sitemap": "node bin/build_sitemap.js",
     "copy": "cp -r src/public/. dist",
