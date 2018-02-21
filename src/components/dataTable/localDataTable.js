@@ -19,22 +19,24 @@ class LocalDataTable extends Component {
   constructor(props) {
     super(props);
 
-    this.createCustomExportCSVButton = this.createCustomExportCSVButton.bind(this);
+    this.createCustomToolbar = this.createCustomToolbar.bind(this);
+
   }
 
-  createCustomExportCSVButton() {
+  createCustomToolbar() {
     return (
-     <ExportCSVButton btnContextual={'btn-primary'} />
+      <div className='btn-group' role='group'>
+        <ExportCSVButton btnContextual={'btn-primary'} btnText='Download' />
+      </div>
     );
   }
 
   render() {
     const { columns, data, filename, paginated } = this.props;
     const options = {
-      exportCSVBtn: this.createCustomExportCSVButton,
       exportCSVSeparator: '\t',
-      exportCSVText: 'Download',
       sizePerPageList: [10, 25, 100],
+      toolBar: this.createCustomToolbar,
       toolbarPosition: 'bottom', //move download button to the bottom
     };
     return (
@@ -42,6 +44,7 @@ class LocalDataTable extends Component {
         bordered={false}
         csvFileName={filename}
         data={data}
+        enableExportCSV
         exportCSV
         options={options}
         pagination={paginated}
