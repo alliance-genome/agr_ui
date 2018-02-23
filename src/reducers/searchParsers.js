@@ -57,6 +57,8 @@ export function parseResults(results) {
       return parseGoResult(d);
     case 'disease':
       return parseDiseaseResult(d);
+    case 'allele':
+      return parseAlleleResult(d);
     case 'homology_group':
       return parseHomologyGroupResult(d);
     default:
@@ -211,11 +213,29 @@ function parseHomologyGroupResult(_d) {
   };
 }
 
+function parseAlleleResult(_d) {
+  let d = injectHighlightIntoResponse(_d);
+  return {
+    category: d.category,
+    id: d.id,
+    display_name: d.symbol,
+    href: d.href,
+    highlight: d.highlights,
+    name: d.symbol,
+    synonyms: d.synonym,
+    missing: d.missingTerms,
+    explanation: d.explanation,
+    score: d.score
+  };
+}
+
+
 function parseDefaultResult(_d) {
   let d = injectHighlightIntoResponse(_d);
   return {
     associated_genes: d.associated_genes,
-    category: d.category || 'gene',
+    category: d.category,
+    id: d.id,
     display_name: d.name,
     highlight: d.highlights,
     href: d.href,

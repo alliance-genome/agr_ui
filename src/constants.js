@@ -12,6 +12,7 @@ export const WORDPRESS_POST_MAX_COUNT = 10;
 export const WORDPRESS_PATH = '';
 export const WORDPRESS_POST_PATH = '/posts';
 
+//the order in this array matters for the category icons
 export const CATEGORIES = [
   {
     name: 'all',
@@ -28,6 +29,10 @@ export const CATEGORIES = [
   {
     name: 'disease',
     displayName: 'Disease'
+  },
+  {
+    name: 'allele',
+    displayName: 'Allele'
   }
 ];
 
