@@ -69,7 +69,7 @@ class ResultsList extends Component {
     );
   }
 
-  renderNonGeneEntry(d, i, fields) {
+  renderEntry(d, i, fields) {
     let link = <a dangerouslySetInnerHTML={{ __html: d.display_name }} href={d.href} />;
     return (
       <div className={style.resultContainer} key={`sr${i}`}>
@@ -111,12 +111,10 @@ class ResultsList extends Component {
         return this.renderGeneEntry(d, i);
       } else if (d.category === 'disease') {
         return this.renderDiseaseEntry(d, i);
+      } else if (d.category === 'go') {
+        return this.renderEntry(d, i, ['id', 'synonyms', 'go_branch']);
       } else {
-        let fieldVals = {
-          'go': ['id', 'synonyms', 'go_branch']
-        };
-        let fields = fieldVals[d.category] || [];
-        return this.renderNonGeneEntry(d, i, fields);
+        return this.renderEntry(d,i, ['id','synonyms']);
       }
     });
   }

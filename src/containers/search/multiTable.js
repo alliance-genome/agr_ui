@@ -19,15 +19,18 @@ import {
   selectGeneResults,
   selectGoResults,
   selectDiseaseResults,
+  selectAlleleResults,
   selectGeneTotal,
   selectGoTotal,
   selectDiseaseTotal,
+  selectAlleleTotal,
   selectHomologyGroupTotal,
 } from '../../selectors/searchSelectors';
 
 const BASE_SEARCH_URL = '/api/search';
 const PAGE_SIZE = 5;
-const CATEGORIES = ['gene', 'go', 'disease'];
+//todo: ideally this would come from constants.js, but we don't want 'all'
+const CATEGORIES = ['gene', 'go', 'disease', 'allele'];
 const SEARCH_PATH = '/search';
 
 
@@ -61,6 +64,7 @@ class MultiTableComponent extends Component {
     let geneUrl = this.getUrlByCategory('gene');
     let goUrl = this.getUrlByCategory('go');
     let diseaseUrl = this.getUrlByCategory('disease');
+    let alleleUrl = this.getUrlByCategory('allele');
     this.props.dispatch(setPending(true));
     fetchData(geneUrl)
       .then( (geneData) => {
@@ -73,7 +77,12 @@ class MultiTableComponent extends Component {
       fetchData(diseaseUrl)
         .then( (diseaseData) => {
           this.props.dispatch(receiveResponse(diseaseData, this.props.queryParams, 'disease'));
-        }))
+        })).then(
+      fetchData(alleleUrl)
+        .then( (alleleData) => {
+          this.props.dispatch(receiveResponse(alleleData, this.props.queryParams, 'allele'));
+        })
+      )
       .catch( (e) => {
         this.props.dispatch(setPending(false));
         if (process.env.NODE_ENV === 'production') {
@@ -91,6 +100,7 @@ class MultiTableComponent extends Component {
     if (category == 'gene') { return this.props.geneTotal.toLocaleString(); }
     if (category == 'go') { return this.props.goTotal.toLocaleString(); }
     if (category == 'disease') { return this.props.diseaseTotal.toLocaleString(); }
+    if (category == 'allele') { return this.props.alleleTotal.toLocaleString(); }
   }
 
   //there also has to be a better way to do this...
@@ -98,6 +108,7 @@ class MultiTableComponent extends Component {
     if (category == 'gene') { return this.props.geneResults; }
     if (category == 'go') { return this.props.goResults; }
     if (category == 'disease') { return this.props.diseaseResults; }
+    if (category == 'allele') { return this.props.alleleResults;}
   }
 
   renderCategory(category) {
@@ -140,9 +151,11 @@ MultiTableComponent.propTypes = {
   geneResults: PropTypes.array,
   goResults: PropTypes.array,
   diseaseResults: PropTypes.array,
+  alleleResults: PropTypes.array,
   geneTotal: PropTypes.number,
   goTotal: PropTypes.number,
   diseaseTotal: PropTypes.number,
+  alleleTotal: PropTypes.number,
   homologyGroupTotal: PropTypes.number
 };
 
@@ -152,9 +165,11 @@ function mapStateToProps(state) {
     geneResults: selectGeneResults(state),
     goResults: selectGoResults(state),
     diseaseResults: selectDiseaseResults(state),
+    alleleResults: selectAlleleResults(state),
     geneTotal: selectGeneTotal(state),
     goTotal: selectGoTotal(state),
     diseaseTotal: selectDiseaseTotal(state),
+    alleleTotal: selectAlleleTotal(state),
     homologyGroupTotal: selectHomologyGroupTotal(state),
   };
 }
