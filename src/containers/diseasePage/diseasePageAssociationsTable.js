@@ -80,6 +80,20 @@ class DiseasePageAssociationsTable extends Component {
     return <Link to={'/gene/' + gene.primaryId}>{gene.symbol}</Link>;
   }
 
+  renderGeneticEntity(featureDocument){
+    if(featureDocument){
+      return <ExternalLink href={'http://google.com/search?q=' + featureDocument.symbol}>{featureDocument.symbol}</ExternalLink>;
+    }
+    return '';
+  }
+
+  renderGeneticEntityType(featureDocument){
+    if(featureDocument){
+      return <ExternalLink href={'http://google.com/search?q=' + featureDocument.category}>{featureDocument.category}</ExternalLink>;
+    }
+    return '';
+  }
+
   render() {
 
     const columns = [
@@ -122,6 +136,17 @@ class DiseasePageAssociationsTable extends Component {
         field: 'publications',
         label: 'References',
         format: ReferenceCell,
+      },
+      {
+        field: 'featureDocument',
+        label: 'Genetic Entity',
+        format: this.renderGeneticEntity,
+      },
+      {
+        field: 'featureDocument',
+        label: 'Genetic Entity Type',
+        format: this.renderGeneticEntityType,
+
       }
     ];
     return (
