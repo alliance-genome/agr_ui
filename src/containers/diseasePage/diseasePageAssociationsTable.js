@@ -85,14 +85,14 @@ class DiseasePageAssociationsTable extends Component {
 
   renderGeneticEntity(featureDocument){
     if(featureDocument){
-      return <ExternalLink href={'http://google.com/search?q=' + featureDocument.symbol}>{featureDocument.symbol}</ExternalLink>;
+      return <ExternalLink href={featureDocument.modCrossRefFullUrl}>{featureDocument.symbol}</ExternalLink>;
     }
     return '';
   }
 
   renderGeneticEntityType(featureDocument){
     if(featureDocument){
-      return <ExternalLink href={'http://google.com/search?q=' + featureDocument.category}>{featureDocument.category}</ExternalLink>;
+      return <div>{featureDocument.category}</div>;
     }
     return '';
   }
