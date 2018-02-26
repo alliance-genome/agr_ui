@@ -11,6 +11,9 @@ const ALL_METHODS = {
     name: 'HGNC',
     icon: 'http://www.genenames.org/sites/genenames.org/files/genenames_favicon_0.ico'
   },
+  hieranoid: {
+    name: 'Hieranoid',
+  },
   // homologene: {
   //   name: 'Homologene',
   //   icon: 'https://www.ncbi.nlm.nih.gov/favicon.ico'
@@ -26,6 +29,12 @@ const ALL_METHODS = {
   oma: {
     name: 'OMA',
     icon: 'https://omictools.com/img/apple-touch-icon.png'
+  },
+  orthofinder: {
+    name: 'OrthoFinder',
+  },
+  orthoinspector: {
+    name: 'OrthoInspector'
   },
   // orthodb: {
   //   name: 'OrthoDB',
