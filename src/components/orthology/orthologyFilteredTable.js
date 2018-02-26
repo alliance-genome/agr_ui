@@ -76,7 +76,6 @@ class OrthologyFilteredTable extends Component {
     return (
       <label style={labelStyle}>
         <input
-          className="form-check-input"
           checked={stringencyLevel === this.state.stringencyLevel}
           onChange={(event) => this.setState({
             stringencyLevel: event.target.value
@@ -292,7 +291,6 @@ OrthologyFilteredTable.propTypes = {
     PropTypes.shape({
       gene2AgrPrimaryId: PropTypes.string,
       gene2Symbol: PropTypes.string,
-      gene2Species: PropTypes.number,
       gene2SpeciesName: PropTypes.string,
       predictionMethodsMatched: PropTypes.arrayOf(PropTypes.string),
       predictionMethodsNotCalled: PropTypes.arrayOf(PropTypes.string),
