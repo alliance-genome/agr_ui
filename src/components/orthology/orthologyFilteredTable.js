@@ -66,13 +66,22 @@ class OrthologyFilteredTable extends Component {
   }
 
   renderStringencyOption(stringencyLevel, label) {
+    const labelStyle = {
+      margin: '0em 1em 0em 0',
+      lineHeight: '2em',
+    };
+    const inputStyle = {
+      margin: '0 0.5em'
+    };
     return (
-      <label className="radio-inline">
+      <label style={labelStyle}>
         <input
+          className="form-check-input"
           checked={stringencyLevel === this.state.stringencyLevel}
           onChange={(event) => this.setState({
             stringencyLevel: event.target.value
           })}
+          style={inputStyle}
           type="radio"
           value={stringencyLevel}
         />
@@ -181,10 +190,13 @@ class OrthologyFilteredTable extends Component {
         <Collapse in={this.state.showFilterPanel}>
         <div>
           <div className="card card-block" style={{margin: '0.5em 0'}}>
-            <div style={{display: 'flex', flexDirection: 'column', marginLeft: '-0.5em'}}>
+            <div>
+              <span>Stringency:</span>
               {this.renderStringencyOption('high', 'Best-hits filter')}
               {this.renderStringencyOption('moderate', 'Moderate filter')}
               {this.renderStringencyOption('low', 'No filter (show all)')}
+            </div>
+            <div style={{display: 'flex', flexDirection: 'column', marginLeft: '-0.5em'}}>
               <label style={labelStyle}>
                 <input
                   checked={this.state.filterBest}
