@@ -73,7 +73,8 @@ class ResultsList extends Component {
     let link = <a dangerouslySetInnerHTML={{ __html: d.display_name }} href={d.href} />;
     return (
       <div className={style.resultContainer} key={`sr${i}`}>
-        {this.renderHeader(d.category, link)}
+        {this.renderHeader(d.category, link, d.species)}
+        <SpeciesIcon iconClass={style.resultSpeciesIcon} species={d.speciesKey} />
         {this.renderDetailFromFields(d, fields)}
         {this.renderHighlightedValues(d.highlight)}
         {this.renderMissingTerms(d)}
@@ -113,6 +114,8 @@ class ResultsList extends Component {
         return this.renderDiseaseEntry(d, i);
       } else if (d.category === 'go') {
         return this.renderEntry(d, i, ['id', 'synonyms', 'go_branch']);
+      } else if (d.category === 'allele') {
+        return this.renderEntry(d, i, ['id','gene', 'synonyms', 'diseases']);
       } else {
         return this.renderEntry(d,i, ['id','synonyms']);
       }
