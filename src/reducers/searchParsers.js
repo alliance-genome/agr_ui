@@ -57,6 +57,8 @@ export function parseResults(results) {
       return parseGoResult(d);
     case 'disease':
       return parseDiseaseResult(d);
+    case 'allele':
+      return parseAlleleResult(d);
     case 'homology_group':
       return parseHomologyGroupResult(d);
     default:
@@ -211,11 +213,34 @@ function parseHomologyGroupResult(_d) {
   };
 }
 
+function parseAlleleResult(_d) {
+  let speciesKey = _d.geneDocument.species;
+  let d = injectHighlightIntoResponse(_d);
+  return {
+    category: d.category,
+    id: d.id,
+    display_name: d.symbol,
+    href: _d.modCrossRefFullUrl,
+    highlight: d.highlights,
+    name: d.symbol,
+    synonyms: d.synonym,
+    species: d.geneDocument.species,
+    speciesKey: speciesKey,
+    diseases: d.diseaseDocuments.map(x => x.name_key),
+    gene: d.geneDocument.name_key,
+    missing: d.missingTerms,
+    explanation: d.explanation,
+    score: d.score
+  };
+}
+
+
 function parseDefaultResult(_d) {
   let d = injectHighlightIntoResponse(_d);
   return {
     associated_genes: d.associated_genes,
-    category: d.category || 'gene',
+    category: d.category,
+    id: d.id,
     display_name: d.name,
     highlight: d.highlights,
     href: d.href,

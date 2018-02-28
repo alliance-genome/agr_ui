@@ -43,6 +43,18 @@ export function makeFieldDisplayName(unformattedName) {
     return 'Gene';
   case 'annotations.geneDocument.species':
     return 'Associated Species';
+  case 'geneDocument.species':
+    return 'Species';
+  case 'geneDocument.name_key':
+    return 'Gene';
+  case 'geneDocument.name':
+    return 'Gene';
+  case 'diseaseDocuments.name':
+    return 'Associated Disease';
+  case 'featureDocument.name':
+    return 'Allele';
+  case 'allele.name':
+    return 'Allele';
   default:
     //replace underscores and any field name suffixes after a ., capitalize
     return unformattedName.replace(/_/g, ' ').replace(/\.(\w)+/g, '');
