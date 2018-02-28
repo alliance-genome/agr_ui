@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
+import { uniq } from 'lodash';
+
 import {
   fetchAssociations,
   setCurrentPage,
@@ -97,6 +99,26 @@ class DiseasePageAssociationsTable extends Component {
     return '';
   }
 
+  renderSpeciesLink(geneDocument){
+    if(geneDocument){
+      return <div>{geneDocument.name_key}</div>;
+    }
+    return '';
+  }
+
+  renderEvidenceCodes(publications){
+
+    let returnValue = publications && uniq(publications.map((publication) => {
+      return (
+        publication.evidenceCodes
+      );
+    }).reduce((a, b) => a.concat(b)))
+    .filter((x, i, a) => a.indexOf(x) == i)
+    .sort();
+
+    return returnValue.join(', ');
+  }
+
   render() {
 
     const columns = [
@@ -107,9 +129,9 @@ class DiseasePageAssociationsTable extends Component {
         hidden: true,
       },
       {
-        field: 'diseaseName',
-        label: 'Disease & Subtypes',
-        format: this.renderDiseaseName,
+        field: 'geneDocument',
+        label: 'Gene',
+        format: this.renderGeneLink,
         sortable: true,
       },
       {
@@ -119,15 +141,30 @@ class DiseasePageAssociationsTable extends Component {
         sortable: true,
       },
       {
-        field: 'geneDocument',
-        label: 'Associated Gene',
-        format: this.renderGeneLink,
-        sortable: true,
+        field: 'featureDocument',
+        label: 'Genetic Entity',
+        format: this.renderGeneticEntity,
+      },
+      {
+        field: 'featureDocument',
+        label: 'Genetic Entity Type',
+        format: this.renderGeneticEntityType,
       },
       {
         field: 'associationType',
         label: 'Association Type',
         format: (type) => type.replace(/_/g, ' '),
+      },
+      {
+        field: 'diseaseName',
+        label: 'Disease',
+        format: this.renderDiseaseName,
+        sortable: true,
+      },
+      {
+        field: 'publications',
+        label: 'Evidence Code',
+        format: this.renderEvidenceCodes,
       },
       {
         field: 'source',
@@ -140,18 +177,8 @@ class DiseasePageAssociationsTable extends Component {
         label: 'References',
         format: ReferenceCell,
       },
-      {
-        field: 'featureDocument',
-        label: 'Genetic Entity',
-        format: this.renderGeneticEntity,
-      },
-      {
-        field: 'featureDocument',
-        label: 'Genetic Entity Type',
-        format: this.renderGeneticEntityType,
-
-      }
     ];
+
     return (
       <div>
         <RemoteDataTable
