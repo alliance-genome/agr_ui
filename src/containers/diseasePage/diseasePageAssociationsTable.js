@@ -96,13 +96,6 @@ class DiseasePageAssociationsTable extends Component {
     return '';
   }
 
-  renderSpeciesLink(geneDocument){
-    if(geneDocument){
-      return <div>{geneDocument.name_key}</div>;
-    }
-    return '';
-  }
-
   renderEvidenceCodes(publications){
 
     let returnValue = publications && uniq(publications.map((publication) => {
