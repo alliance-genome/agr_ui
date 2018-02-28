@@ -26,7 +26,7 @@ const DEFAULT_FILTERS = {
   filterBest: false,
   filterReverseBest: false,
   filterSpecies: null,
-  filterConfidence: true
+  stringencyLevel: 'high',
 };
 
 class OrthologyFilteredTable extends Component {
@@ -36,12 +36,56 @@ class OrthologyFilteredTable extends Component {
     this.state = defaultState;
   }
 
-  isHighConfidence(dat) {
+  isHighStringency(dat) {
+    return (
+      dat.predictionMethodsMatched === 'ZFIN' ||
+      dat.predictionMethodsMatched === 'HGNC' ||
+      (dat.predictionMethodsMatched.length > 2 && (dat.isBestScore || dat.isBestRevScore)) ||
+      (dat.predictionMethodsMatched.length === 2 && dat.isBestScore && dat.isBestRevScore)
+    );
+  }
+
+  isModerateStringency(dat) {
     return (
       dat.predictionMethodsMatched === 'ZFIN' ||
       dat.predictionMethodsMatched === 'HGNC' ||
       dat.predictionMethodsMatched.length > 2 ||
       (dat.predictionMethodsMatched.length === 2 && dat.isBestScore && dat.isBestRevScore)
+    );
+  }
+
+  filterByStringency(dat) {
+    switch (this.state.stringencyLevel) {
+    case 'high':
+      return this.isHighStringency(dat);
+    case 'moderate':
+      return this.isModerateStringency(dat);
+    default:
+      return true;
+    }
+  }
+
+  renderStringencyOption(stringencyLevel, label) {
+    const labelStyle = {
+      margin: '0em 1em 0em 0',
+      lineHeight: '2em',
+    };
+    const inputStyle = {
+      margin: '0 0.5em'
+    };
+    return (
+      <label style={labelStyle}>
+        <input
+          checked={stringencyLevel === this.state.stringencyLevel}
+          onChange={(event) => this.setState({
+            stringencyLevel: event.target.value
+          })}
+          style={inputStyle}
+          type="radio"
+          value={stringencyLevel}
+        />
+        {label}
+      </label>
     );
   }
 
@@ -55,7 +99,7 @@ class OrthologyFilteredTable extends Component {
       (this.state.filterBest ? dat.isBestScore : true) &&
       (this.state.filterReverseBest ? dat.isBestRevScore : true) &&
       (this.state.filterSpecies ? dat.gene2SpeciesName === this.state.filterSpecies : true) &&
-      (this.state.filterConfidence ? this.isHighConfidence(dat) : true)
+      this.filterByStringency(dat)
     );
   }
 
@@ -145,16 +189,13 @@ class OrthologyFilteredTable extends Component {
         <Collapse in={this.state.showFilterPanel}>
         <div>
           <div className="card card-block" style={{margin: '0.5em 0'}}>
+            <div>
+              <span>Stringency:</span>
+              {this.renderStringencyOption('high', 'Best-hits filter')}
+              {this.renderStringencyOption('moderate', 'Moderate filter')}
+              {this.renderStringencyOption('low', 'No filter (show all)')}
+            </div>
             <div style={{display: 'flex', flexDirection: 'column', marginLeft: '-0.5em'}}>
-              <label style={labelStyle}>
-                <input
-                  checked={!this.state.filterConfidence}
-                  onChange={(event) => this.updateFilterConfidence(event)}
-                  style={inputStyle}
-                  type="checkbox"
-                />
-                Include low confidence matches
-              </label>
               <label style={labelStyle}>
                 <input
                   checked={this.state.filterBest}
@@ -250,7 +291,6 @@ OrthologyFilteredTable.propTypes = {
     PropTypes.shape({
       gene2AgrPrimaryId: PropTypes.string,
       gene2Symbol: PropTypes.string,
-      gene2Species: PropTypes.number,
       gene2SpeciesName: PropTypes.string,
       predictionMethodsMatched: PropTypes.arrayOf(PropTypes.string),
       predictionMethodsNotCalled: PropTypes.arrayOf(PropTypes.string),
