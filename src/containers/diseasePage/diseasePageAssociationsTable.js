@@ -91,7 +91,7 @@ class DiseasePageAssociationsTable extends Component {
        <ExternalLink href={featureDocument.modCrossRefFullUrl}>
          <div dangerouslySetInnerHTML={{__html: featureDocument.symbol}} />
        </ExternalLink>);
-     }
+    }
     return '';
   }
 
