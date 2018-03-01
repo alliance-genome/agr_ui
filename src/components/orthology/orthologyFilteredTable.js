@@ -38,8 +38,8 @@ class OrthologyFilteredTable extends Component {
 
   isHighStringency(dat) {
     return (
-      dat.predictionMethodsMatched === 'ZFIN' ||
-      dat.predictionMethodsMatched === 'HGNC' ||
+      dat.predictionMethodsMatched.indexOf('ZFIN') > -1 ||
+      dat.predictionMethodsMatched.indexOf('HGNC') > -1 ||
       (dat.predictionMethodsMatched.length > 2 && (dat.isBestScore || dat.isBestRevScore)) ||
       (dat.predictionMethodsMatched.length === 2 && dat.isBestScore && dat.isBestRevScore)
     );
@@ -47,8 +47,8 @@ class OrthologyFilteredTable extends Component {
 
   isModerateStringency(dat) {
     return (
-      dat.predictionMethodsMatched === 'ZFIN' ||
-      dat.predictionMethodsMatched === 'HGNC' ||
+      dat.predictionMethodsMatched.indexOf('ZFIN') > -1 ||
+      dat.predictionMethodsMatched.indexOf('HGNC') > -1 ||
       dat.predictionMethodsMatched.length > 2 ||
       (dat.predictionMethodsMatched.length === 2 && dat.isBestScore && dat.isBestRevScore)
     );
