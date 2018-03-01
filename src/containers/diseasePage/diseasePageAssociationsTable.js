@@ -87,10 +87,11 @@ class DiseasePageAssociationsTable extends Component {
   renderGeneticEntity(featureDocument){
 
     if(featureDocument){
-      let html = featureDocument.symbol;
-      console.log(html);
-      return <ExternalLink href={featureDocument.modCrossRefFullUrl}>{'<div dangerouslySetInnerHTML={{__html: 'First &middot; Second'}} />'}</ExternalLink>;
-    }
+      return (
+       <ExternalLink href={featureDocument.modCrossRefFullUrl}>
+         <div dangerouslySetInnerHTML={{__html: featureDocument.symbol}} />
+       </ExternalLink>);
+     }
     return '';
   }
 
