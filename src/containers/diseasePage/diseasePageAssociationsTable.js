@@ -1,3 +1,5 @@
+ /* disable-eslint */
+/* eslint-disable no-console */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
@@ -83,8 +85,11 @@ class DiseasePageAssociationsTable extends Component {
   }
 
   renderGeneticEntity(featureDocument){
+
     if(featureDocument){
-      return <ExternalLink href={featureDocument.modCrossRefFullUrl}>{featureDocument.symbol}</ExternalLink>;
+      let html = featureDocument.symbol;
+      console.log(html);
+      return <ExternalLink href={featureDocument.modCrossRefFullUrl}>{'<div dangerouslySetInnerHTML={{__html: 'First &middot; Second'}} />'}</ExternalLink>;
     }
     return '';
   }
@@ -97,16 +102,19 @@ class DiseasePageAssociationsTable extends Component {
   }
 
   renderEvidenceCodes(publications){
+    if(publications){
+      let returnValue = publications && uniq(publications.map((publication) => {
+        return (
+          publication.evidenceCodes
+        );
+      }).reduce((a, b) => a.concat(b)))
+      .filter((x, i, a) => a.indexOf(x) == i)
+      .sort();
 
-    let returnValue = publications && uniq(publications.map((publication) => {
-      return (
-        publication.evidenceCodes
-      );
-    }).reduce((a, b) => a.concat(b)))
-    .filter((x, i, a) => a.indexOf(x) == i)
-    .sort();
+      return returnValue.join(', ');
+    }
 
-    return returnValue.join(', ');
+    return '';
   }
 
   render() {
