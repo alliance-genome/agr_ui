@@ -4,41 +4,6 @@ import DiseaseNameCell from './diseaseNameCell';
 import ReferenceCell from './referenceCell';
 import { LocalDataTable } from '../../components/dataTable';
 
-const refsText = (refs) => {
-  return refs.map(ref => ref.pubMedId || ref.pubModId || '').join(', ');
-};
-
-const columns = [
-  {
-    field: 'name',
-    label: 'Disease Name',
-    format: DiseaseNameCell,
-    isKey: true,
-    sortable: true,
-    filterable: true,
-  },
-  {
-    field: 'associationType',
-    label: 'Association',
-    sortable: true,
-    filterable: true,
-  },
-  {
-    field: 'dataProvider',
-    label: 'Association Source',
-    sortable: true,
-    filterable: true,
-  },
-  {
-    field: 'refs',
-    label: 'References',
-    format: ReferenceCell,
-    asText: refsText,
-    sortable: true,
-    filterable: true,
-  }
-];
-
 class GenePageDiseaseTable extends Component {
   render() {
     const diseases = this.props.data;
@@ -59,6 +24,41 @@ class GenePageDiseaseTable extends Component {
     data.sort((a, b) => {
       return a.name.toUpperCase().localeCompare(b.name.toUpperCase());
     });
+
+    const refsText = (refs) => {
+      return refs.map(ref => ref.pubMedId || ref.pubModId || '').join(', ');
+    };
+
+    const columns = [
+      {
+        field: 'name',
+        label: 'Disease Name',
+        format: DiseaseNameCell,
+        isKey: true,
+        sortable: true,
+        filterable: true,
+      },
+      {
+        field: 'associationType',
+        label: 'Association',
+        sortable: true,
+        filterable: true,
+      },
+      {
+        field: 'dataProvider',
+        label: 'Association Source',
+        sortable: true,
+        filterable: true,
+      },
+      {
+        field: 'refs',
+        label: 'References',
+        format: ReferenceCell,
+        asText: refsText,
+        sortable: true,
+        filterable: true,
+      }
+    ];
 
     return (
       <LocalDataTable columns={columns} data={data} filename={filename} paginated />
