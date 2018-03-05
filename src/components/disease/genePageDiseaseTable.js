@@ -64,7 +64,7 @@ class GenePageDiseaseTable extends Component {
       },
       {
         field: 'entityName',
-        label: 'Genetic Entity Type',
+        label: 'Genetic Entity',
         format: this.renderGeneticEntity,
         sortable: true,
         filterable: true,
