@@ -56,7 +56,7 @@ class GenePageDiseaseTable extends Component {
     const columns = [
       {
         field: 'name',
-        label: 'Disease Name',
+        label: 'Disease',
         format: DiseaseNameCell,
         isKey: true,
         sortable: true,
@@ -64,7 +64,7 @@ class GenePageDiseaseTable extends Component {
       },
       {
         field: 'entityName',
-        label: 'Entity Name',
+        label: 'Genetic Entity Type',
         format: this.renderGeneticEntity,
         sortable: true,
         filterable: true,
@@ -84,7 +84,7 @@ class GenePageDiseaseTable extends Component {
       },
       {
         field: 'dataProvider',
-        label: 'Association Source',
+        label: 'Source',
         sortable: true,
         filterable: true,
       },
