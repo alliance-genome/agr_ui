@@ -3,8 +3,29 @@ import PropTypes from 'prop-types';
 import DiseaseNameCell from './diseaseNameCell';
 import ReferenceCell from './referenceCell';
 import { LocalDataTable } from '../../components/dataTable';
+import ExternalLink from '../../components/externalLink';
 
 class GenePageDiseaseTable extends Component {
+
+  renderGeneticEntity(featureDocument){
+
+    if(featureDocument){
+      return (
+        <ExternalLink href={featureDocument.modCrossRefFullUrl}>
+          <div dangerouslySetInnerHTML={{__html: featureDocument.symbol}} />
+        </ExternalLink>
+      );
+    }
+    return '';
+  }
+
+  renderGeneticEntityType(featureDocument){
+    if(featureDocument){
+      return <div>{featureDocument.category}</div>;
+    }
+    return '';
+  }
+
   render() {
     const diseases = this.props.data;
     const filename = this.props.filename;
@@ -12,10 +33,13 @@ class GenePageDiseaseTable extends Component {
     let data = [];
     diseases.forEach((disease) => {
       disease.annotations.forEach((annotation) => {
+
         data.push({
           name: disease.name,
           doId: disease.doId,
           associationType: annotation.associationType.replace(/_/g, ' '),
+          entityName: annotation.featureDocument,
+          entityCategory: annotation.featureDocument,
           dataProvider: annotation.source.name,
           refs: annotation.publications,
         });
@@ -35,6 +59,20 @@ class GenePageDiseaseTable extends Component {
         label: 'Disease Name',
         format: DiseaseNameCell,
         isKey: true,
+        sortable: true,
+        filterable: true,
+      },
+      {
+        field: 'entityName',
+        label: 'Entity Name',
+        format: this.renderGeneticEntity,
+        sortable: true,
+        filterable: true,
+      },
+      {
+        field: 'entityCategory',
+        label: 'Genetic Entity Type',
+        format: this.renderGeneticEntityType,
         sortable: true,
         filterable: true,
       },
