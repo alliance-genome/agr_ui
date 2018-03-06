@@ -18,51 +18,45 @@ import {
   NAV_MENU
 } from '../../../constants/index';
 const HOME_ROUTE = '/home';
+import NavItem from './item';
 
-class MenuItems extends Component{
-  render(){
-    debugger;
+class MenuItems extends Component {
+
+  render() {
     let container = [];
-   for(var item in MENU){
-     let page = MENU[item];
-     let page_path = page === "news" ? WP_POST_PATH : WP_PATH;
-     let page_url = page_path + "/" + NAV_MENU[page].slug;
-     if (page_url === HOME_ROUTE) page_url = "/";
-     let page_label = NAV_MENU[page].label;
-    if (NAV_MENU[page].sub != undefined) {
-      let sub_container = [];
-     for (let subItem in NAV_MENU[page].sub) {
-        let sub_page_url = page_path + "/" + NAV_MENU[page].sub[subItem].slug;
-       sub_container.push(<span>
-           <a href={sub_page_url} className={`dropdown-item`} key={NAV_MENU[page].sub[subItem].id}>
-             {NAV_MENU[page].sub[subItem].label}
-           </a></span>);
+    let tabActive = "";
+    for (var item in MENU) {
+      let page = MENU[item];
+      let page_path = page === "news" ? WP_POST_PATH : WP_PATH;
+      let page_url = page_path + "/" + NAV_MENU[page].slug;
+      if (page_url === HOME_ROUTE) page_url = "/";
+      let page_label = NAV_MENU[page].label;
+
+      if (NAV_MENU[page].sub != undefined) {
+        let sub_container = [];
+        for (let subItem in NAV_MENU[page].sub) {
+          let sub_page_url = page_path + "/" + NAV_MENU[page].sub[subItem].slug;
+          sub_container.push(<li key={Math.random()}>
+              <NavItem isActive={page === this.props.currentRoute ? true : false} href={sub_page_url} uniqueKey={Math.random()} label={NAV_MENU[page].sub[subItem].label} isChild={true} parentNode={page}  />
+            </li>);
+        }
+        container.push(<li className="nav-item dropdown" key={Math.random()} >
+            <NavItem isActive={page === this.props.currentRoute ? true : false} hasDropDown={NAV_MENU[page].sub != undefined ? true : false} role="button" isChild={false} aria-expanded="false" href={page_url} label={page_label} uniqueKey={Math.random()} parentNode={page} />
+            <div className="dropdown-menu dropdown-menu-right" key role="menu">
+              <ul>{sub_container}</ul>
+            </div>
+          </li>);
+      } else {
+        container.push(<li className="nav-item" key={Math.random()}>
+            <NavItem uniqueKey={Math.random()} label={page_label} href={page_url} isActive={page === this.props.currentRoute ? true : false} isChild={false} parentNode={page} />
+          </li>);
       }
-     container.push(
-       <li className="nav-item dropdown" key={NAV_MENU[page].id}>
-          <a className={`nav-link dropdown-toggle`} data-toggle="dropdown" role="button" aria-expanded="false" href={page_url}>
-            {page_label} <span className="caret" />
-          </a>
-          <div className="dropdown-menu dropdown-menu-right" role="menu">
-            {sub_container}
-          </div>
-        </li>
-      );
-
     }
-    else {
-      container.push(<li key={NAV_MENU[page].id} className="nav-item">
-          <a className={`nav-link`} href={page_url}>
-            {page_label}
-          </a>
-        </li>);
-    }
-
-   }
-    return <div className="collapse navbar-toggleable-md" id="exCollapsingNavbar2">
+    return (
+      <div className="collapse navbar-toggleable-md" id="exCollapsingNavbar2">
         <ul className="nav nav-tabs">{container}</ul>
-      </div>;
-
+      </div>
+    );
   }
 }
 
