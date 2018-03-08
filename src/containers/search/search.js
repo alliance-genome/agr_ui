@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { createMemoryHistory } from 'react-router';
 import { connect } from 'react-redux';
-import _ from 'underscore';
+import { clone } from 'lodash.clone';
 
 import fetchData from '../../lib/fetchData';
 import FilterSelector from './filterSelector/filterSelector';
@@ -56,7 +56,7 @@ class SearchComponent extends Component {
     let size = this.props.pageSize;
     let _limit = size;
     let _offset = (this.props.currentPage - 1) * size;
-    let qp = _.clone(this.props.queryParams);
+    let qp = clone(this.props.queryParams);
     qp.limit = _limit;
     qp.offset = _offset;
     let tempHistory = createMemoryHistory('/');
