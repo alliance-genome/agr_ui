@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createMemoryHistory, Link } from 'react-router';
-import _ from 'underscore';
+import clone from 'lodash.clone';
 
 import style from './style.css';
 import ResultsTable from './resultsTable';
@@ -51,7 +51,7 @@ class MultiTableComponent extends Component {
     let currentPage = 1;
     let _limit = size;
     let _offset = (currentPage - 1) * size;
-    let qp = _.clone(this.props.queryParams);
+    let qp = clone(this.props.queryParams);
     qp.limit = _limit;
     qp.offset = _offset;
     qp.category = category;
