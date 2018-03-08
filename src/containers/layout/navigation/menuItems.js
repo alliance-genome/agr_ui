@@ -21,6 +21,9 @@ const HOME_ROUTE = '/home';
 import NavItem from './item';
 
 class MenuItems extends Component {
+  constructor(props){
+    super(props);
+  }
 
   render() {
     let container = [];
@@ -34,29 +37,39 @@ class MenuItems extends Component {
 
       if (NAV_MENU[page].sub != undefined) {
         let sub_container = [];
+        let is_item_active = false;
         for (let subItem in NAV_MENU[page].sub) {
-          let sub_page_url = page_path + "/" + NAV_MENU[page].sub[subItem].slug;
-          sub_container.push(<li key={Math.random()}>
-              <NavItem isActive={page === this.props.currentRoute ? true : false} href={sub_page_url} uniqueKey={Math.random()} label={NAV_MENU[page].sub[subItem].label} isChild={true} parentNode={page}  />
-            </li>);
+          let child_slug = NAV_MENU[page].sub[subItem].slug;
+          let sub_page_url = page_path + "/" + child_slug;
+          if (child_slug === this.props.currentRoute || page === this.props.currentRoute) {
+            is_item_active = true;
+          }
+          sub_container.push(<NavItem isActive={child_slug === this.props.currentRoute ? true : false} href={sub_page_url} uniqueKey={Math.random()} key={Math.random()} label={NAV_MENU[page].sub[subItem].label} isChild={true} parentNode={page} />);
         }
-        container.push(<li className="nav-item dropdown" key={Math.random()} >
-            <NavItem isActive={page === this.props.currentRoute ? true : false} hasDropDown={NAV_MENU[page].sub != undefined ? true : false} role="button" isChild={false} aria-expanded="false" href={page_url} label={page_label} uniqueKey={Math.random()} parentNode={page} />
-            <div className="dropdown-menu dropdown-menu-right" key role="menu">
-              <ul>{sub_container}</ul>
+        container.push(<li className="nav-item dropdown" key={Math.random()}>
+            <NavItem isActive={is_item_active} hasDropDown={NAV_MENU[page].sub != undefined ? true : false} role="button" isChild={false} aria-expanded="false" href={page_url} label={page_label} uniqueKey={Math.random()} parentNode={page} />
+            <div className="dropdown-menu" key role="menu">
+              {sub_container}
             </div>
           </li>);
       } else {
-        container.push(<li className="nav-item" key={Math.random()}>
-            <NavItem uniqueKey={Math.random()} label={page_label} href={page_url} isActive={page === this.props.currentRoute ? true : false} isChild={false} parentNode={page} />
-          </li>);
+        if(page == "news"){
+          container.push(<li className="nav-item" key={Math.random()}>
+              <NavItem uniqueKey={Math.random()} label={page_label} href={page_url} isActive={"posts" === this.props.currentRoute ? true : false} isChild={false} parentNode={page} />
+            </li>);
+        }
+        else{
+          container.push(<li className="nav-item" key={Math.random()}>
+              <NavItem uniqueKey={Math.random()} label={page_label} href={page_url} isActive={page === this.props.currentRoute ? true : false} isChild={false} parentNode={page} />
+            </li>);
+        }
+
+
       }
     }
-    return (
-      <div className="collapse navbar-toggleable-md" id="exCollapsingNavbar2">
-        <ul className="nav nav-tabs">{container}</ul>
-      </div>
-    );
+    return <div className="collapse navbar-toggleable-md" id="exCollapsingNavbar2">
+        <ul className={"nav navbar-nav topnav"}>{container}</ul>
+      </div>;
   }
 }
 

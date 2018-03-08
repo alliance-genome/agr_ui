@@ -9,16 +9,16 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 class NavItem extends Component {
-  
+
 
   render() {
-    let classNames = "nav-link";
+    let classNames = "";
     if (this.props.isActive) {
       classNames += " active";
     }
 
     if (this.props.hasDropDown) {
-      classNames += " dropdown-toggle";
+      classNames += " nav-link dropdown-toggle";
       return (
         <a
           aria-expanded="false"
@@ -27,16 +27,26 @@ class NavItem extends Component {
           href={this.props.href}
           key={this.props.uniqueKey}
           role="button"
-          onClick={this.handleNavClick(this)}
+
         >
           {this.props.label}
           <span className="caret" />
         </a>
       );
     } else {
-      return <a className={classNames} href={this.props.href} key={this.props.uniqueKey} onClick={this.handleNavClick(this)}>
-          {this.props.label}
-        </a>;
+      if(this.props.isChild){
+        classNames +=" dropdown-item sub-menu";
+         return <a className={classNames} href={this.props.href} key={this.props.uniqueKey}>
+             {this.props.label}
+           </a>;
+      }
+      else{
+        classNames += " nav-link";
+         return <a className={classNames} href={this.props.href} key={this.props.uniqueKey}>
+             {this.props.label}
+           </a>;
+      }
+
     }
   }
 }
