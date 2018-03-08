@@ -227,5 +227,11 @@ export const NAV_MENU = {
     label: 'News & Events',
     slug: 'news',
     sub: undefined
+  },
+  posts:{
+    id: 131,
+    label: 'News & Events',
+    slug: 'news',
+    sub: undefined
   }
 };

@@ -9,20 +9,20 @@ import SearchBar from './searchBar';
 
 import TopBar from './topBar';
 import FooterBar from './footer';
-//import Menu from './menu';
 import SiteMap from './siteMap';
 import AgrTweets from './twitterWidget';
-//import NavMenu from './navigation/index';
 import MenuItems from './navigation/menuItems';
 
 import { SMALL_COL_CLASS, LARGE_COL_CLASS } from '../../constants';
 
 class Layout extends Component {
-  render() {
-    let currentRoute=this.props.location.pathname.replace('/','');
-    currentRoute= currentRoute==''?'home' : currentRoute;
 
-    return (<div>
+  render() {
+    let currentRoute = this.props.location.pathname.replace('/', '');
+    currentRoute = currentRoute == '' ? 'home' : currentRoute;
+
+    return (
+      <div>
         <TopBar />
         <div className={style.appContainer}>
           <nav className={`navbar fixed-top ${style.navbarCustom}`}>
@@ -30,11 +30,19 @@ class Layout extends Component {
               <div className="row">
                 <div className="col-sm-3 col-md-3">
                   <div className="navbar-header">
-                    <button className="navbar-toggler hidden-sm-up pull-right" type="button" data-target="#exCollapsingNavbar2" data-toggle="collapse">
+                    <button
+                      className="navbar-toggler hidden-sm-up pull-right"
+                      type="button"
+                      data-target="#exCollapsingNavbar2"
+                      data-toggle="collapse"
+                    >
                       &#9776;
                     </button>
                     <Link className="navbar-brand" to="/">
-                      <img className={`img-fluid ${style.agrLogo}`} src={logo} />
+                      <img
+                        className={`img-fluid ${style.agrLogo}`}
+                        src={logo}
+                      />
                     </Link>
                   </div>
                 </div>
@@ -42,7 +50,7 @@ class Layout extends Component {
                   <SearchBar />
                 </div>
               </div>
-              <div className="row">
+              <div className="row" style={{ marginLeft: '0.1rem' }}>
                 <MenuItems currentRoute={currentRoute} />
               </div>
             </div>
@@ -76,7 +84,8 @@ class Layout extends Component {
           </div>
           <FooterBar />
         </div>
-      </div>);
+      </div>
+    );
   }
 }
 

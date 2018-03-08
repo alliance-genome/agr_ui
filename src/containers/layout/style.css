@@ -205,6 +205,15 @@
 .navbarCustom .left-addon input {
   padding-left: 30px;
 }
+.row.cMenu{
+  margin-left: 1.1rem !important;
+}
+
+/* Style the links inside the navigation bar */
+
+
+
+
 
 @media (max-width: 767px) {
   .navbarCustom .formSearch {
