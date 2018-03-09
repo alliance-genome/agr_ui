@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
-import { uniq } from 'lodash';
+import uniq from 'lodash.uniq';
 
 import {
   fetchAssociations,

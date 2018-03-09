@@ -1,13 +1,13 @@
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux';
 import { routerMiddleware, routerReducer } from 'react-router-redux';
 import reduxThunk from 'redux-thunk';  // useful for dispatching async actions
-import _ from 'underscore';
+import assignIn from 'lodash.assignin';
 
 // custom reducers
 import reducers from '../reducers';
 
 const configureStore = (history) => {
-  let combinedReducers = combineReducers(_.extend(reducers, { routing: routerReducer }));
+  let combinedReducers = combineReducers(assignIn(reducers, { routing: routerReducer }));
 
   // to work with redux-devtools-extension (such as the chrome extension)
   let composeEnhancers;
