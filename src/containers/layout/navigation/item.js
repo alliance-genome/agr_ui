@@ -1,50 +1,24 @@
-/**
- * Navigation menu item object
- * author: fgondwe@stanford.edu
- * date: 01/30/18
- */
-/* eslint-disable  */
-
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 class NavItem extends Component {
-
-
   render() {
-    let classNames = "";
+    let classNames = '';
     if (this.props.isActive) {
-      classNames += " active";
+      classNames += ' active';
     }
 
     if (this.props.hasDropDown) {
-      classNames += " nav-link dropdown-toggle";
-      return (
-        <a
-          aria-expanded="false"
-          className={classNames}
-          data-toggle="dropdown"
-          href={this.props.href}
-          key={this.props.uniqueKey}
-          role="button"
-
-        >
-          {this.props.label}
-          <span className="caret" />
-        </a>
-      );
+      classNames += ' nav-link dropdown-toggle';
+      return (<a aria-expanded='false' className={classNames} data-toggle='dropdown' href={this.props.href} key={this.props.uniqueKey} role='button'>{this.props.label}<span className='caret' /></a>);
     } else {
       if(this.props.isChild){
-        classNames +=" dropdown-item sub-menu";
-         return <a className={classNames} href={this.props.href} key={this.props.uniqueKey}>
-             {this.props.label}
-           </a>;
+        classNames +=' dropdown-item sub-menu';
+        return (<a className={classNames} href={this.props.href} key={this.props.uniqueKey}>{this.props.label}</a>);
       }
       else{
-        classNames += " nav-link";
-         return <a className={classNames} href={this.props.href} key={this.props.uniqueKey}>
-             {this.props.label}
-           </a>;
+        classNames += ' nav-link';
+        return (<a className={classNames} href={this.props.href} key={this.props.uniqueKey}>{this.props.label}</a>);
       }
 
     }
