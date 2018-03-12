@@ -166,3 +166,61 @@
 .footer p {
   margin-bottom: 0
 }
+
+.agr-logo {
+  height: 60px;
+
+}
+/**Custom**/
+
+.navbar.navbarCustom {
+  height: 50px;
+  border: none;
+}
+
+.navbarCustom .formSearch {
+  width: 300px;
+  float: left;
+  display: block;
+  position: absolute;
+  padding-top: 7px;
+  margin-left: 160px;
+}
+
+.navbarCustom .inner-addon {
+  position: relative;
+}
+
+.navbarCustom .inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+  color: black;
+}
+
+.navbarCustom .left-addon .glyphicon {
+  left: 0px;
+}
+
+.navbarCustom .left-addon input {
+  padding-left: 30px;
+}
+.row.cMenu{
+  margin-left: 1.1rem !important;
+}
+
+@media (max-width: 767px) {
+  .navbarCustom .formSearch {
+    padding-left: 15px;
+    width: 70%;
+    margin-left: 0;
+  }
+  .navbarCustom .navbar-collapse {
+    background: #f5f5f5;
+  }
+}
+.agrLogo {
+  width: 13rem;
+}
+
+
