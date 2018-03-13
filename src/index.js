@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';
 
@@ -7,4 +6,20 @@ import './public/public.css'; // ./public/public.css uses a special loader, refe
 
 import ReactApp from './reactApplication';
 
-render(<ReactApp />, document.getElementById('app'));
+function main() {
+  render(<ReactApp />, document.getElementById('app'));
+}
+
+function browserSupportsAllFeatures() {
+  return window.Promise && window.fetch && window.Symbol;
+}
+
+if (browserSupportsAllFeatures()) {
+  // Browsers that support all features run `main()` immediately.
+  main();
+} else {
+  // All other browsers loads polyfills and then run `main()`.
+  require(['babel-polyfill'], () => {
+    main();
+  });
+}

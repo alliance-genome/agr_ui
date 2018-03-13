@@ -22,7 +22,7 @@ class HeadMetaTags extends Component {
 }
 
 HeadMetaTags.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string
 
 };
 

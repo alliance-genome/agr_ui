@@ -9,7 +9,7 @@ class SocialMedia extends Component {
     const twitter_link = 'https://twitter.com/alliancegenome';
 
     return (
-      <span className={style.socialLinks}>
+      <span className={`pull-right ${style.socialLinks}`}>
         <a href={facebook_link}>
           <i className='fa fa-fw fa-facebook' />
         </a>
