@@ -81,7 +81,7 @@ class RemoteDataTable extends Component {
             )
           }
         </BootstrapTable>
-        <DownloadButton buttonText='Download' downloadUrl={downloadUrl} />
+        <DownloadButton downloadUrl={downloadUrl} />
       </div>
     );
   }
