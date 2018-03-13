@@ -4,6 +4,7 @@ import DiseaseNameCell from './diseaseNameCell';
 import ReferenceCell from './referenceCell';
 import { LocalDataTable } from '../../components/dataTable';
 import ExternalLink from '../../components/externalLink';
+import { uniq } from 'lodash.uniq';
 
 class GenePageDiseaseTable extends Component {
 
@@ -26,6 +27,22 @@ class GenePageDiseaseTable extends Component {
     return '';
   }
 
+  renderEvidenceCodes(publications){
+    if(publications){
+      let returnValue = publications && uniq(publications.map((publication) => {
+        return (
+          publication.evidenceCodes
+        );
+      }).reduce((a, b) => a.concat(b)))
+      .filter((x, i, a) => a.indexOf(x) == i)
+      .sort();
+
+      return returnValue.join(', ');
+    }
+
+    return '';
+  }
+
   render() {
     const diseases = this.props.data;
     const filename = this.props.filename;
@@ -41,6 +58,7 @@ class GenePageDiseaseTable extends Component {
           entityName: annotation.featureDocument,
           entityCategory: annotation.featureDocument,
           dataProvider: annotation.source.name,
+          publications: annotation.publications,
           refs: annotation.publications,
         });
       });
@@ -79,6 +97,12 @@ class GenePageDiseaseTable extends Component {
       {
         field: 'associationType',
         label: 'Association',
+        sortable: true,
+        filterable: true,
+      },
+      {
+        field: 'publications',
+        label: 'Evidence Code',
         sortable: true,
         filterable: true,
       },
