@@ -6,7 +6,7 @@ const ReferenceCell = (refs) => {
   return (
     <span>
       {
-        refs && refs.map((ref) => {
+        refs && refs.length > 0 && refs.map((ref) => {
           if (ref.pubMedId && ref.pubMedUrl) {
             return <ExternalLink href={ref.pubMedUrl} title={ref.pubMedId}>{ref.pubMedId}</ExternalLink>;
           } else if (ref.pubModId && ref.pubModUrl) {
