@@ -5,6 +5,7 @@ import ReferenceCell from './referenceCell';
 import { LocalDataTable } from '../../components/dataTable';
 import ExternalLink from '../../components/externalLink';
 import { uniq } from 'lodash.uniq';
+import EvidenceCodesCell from './evidenceCodesCell';
 
 class GenePageDiseaseTable extends Component {
 
@@ -105,6 +106,8 @@ class GenePageDiseaseTable extends Component {
       {
         field: 'publications',
         label: 'Evidence Code',
+        format: EvidenceCodesCell,
+        asText: EvidenceCodesCell,
         sortable: true,
         filterable: true,
       },
