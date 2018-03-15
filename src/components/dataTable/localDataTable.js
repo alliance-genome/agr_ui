@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 
-import { BootstrapTable, TableHeaderColumn, ExportCSVButton} from 'react-bootstrap-table';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import PropTypes from 'prop-types';
 
 import Utils from './utils';
+import DownloadButton from './downloadButton';
 
 const textSorter = (textRender, field) => {
   return (a, b, order) => {
@@ -18,15 +19,12 @@ const textSorter = (textRender, field) => {
 class LocalDataTable extends Component {
   constructor(props) {
     super(props);
-
-    this.createCustomToolbar = this.createCustomToolbar.bind(this);
-
   }
 
-  createCustomToolbar() {
+  renderDownloadButton(onClick) {
     return (
       <div className='btn-group' role='group'>
-        <ExportCSVButton btnContextual={'btn-primary'} btnGlyphicon='' btnText='Download' />
+        <DownloadButton onClick={onClick} />
       </div>
     );
   }
@@ -34,9 +32,9 @@ class LocalDataTable extends Component {
   render() {
     const { columns, data, filename, paginated } = this.props;
     const options = {
+      exportCSVBtn: this.renderDownloadButton,
       exportCSVSeparator: '\t',
       sizePerPageList: [10, 25, 100],
-      toolBar: this.createCustomToolbar,
       toolbarPosition: 'bottom', //move download button to the bottom
     };
     return (
@@ -44,7 +42,6 @@ class LocalDataTable extends Component {
         bordered={false}
         csvFileName={filename}
         data={data}
-        enableExportCSV
         exportCSV
         options={options}
         pagination={paginated}

@@ -86,6 +86,7 @@ class GenePageDiseaseTable extends Component {
         format: this.renderGeneticEntity,
         sortable: true,
         filterable: true,
+        asText: (featureDocument) => featureDocument ? featureDocument.symbol : ''
       },
       {
         field: 'entityCategory',
@@ -93,6 +94,7 @@ class GenePageDiseaseTable extends Component {
         format: this.renderGeneticEntityType,
         sortable: true,
         filterable: true,
+        asText: (featureDocument) => featureDocument ? featureDocument.category : ''
       },
       {
         field: 'associationType',
