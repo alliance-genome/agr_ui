@@ -54,7 +54,7 @@ export const WORDPRESS_PAGES = {
     slug: 'home'
   },
   'about-us': {
-    label: 'About US',
+    label: 'About Us',
     slug: 'about-us'
   },
   'projects-work-products-publications': {
@@ -62,7 +62,7 @@ export const WORDPRESS_PAGES = {
     slug: 'projects-work-products-publications'
   },
   'contact-us': {
-    label: 'Contact US',
+    label: 'Contact Us',
     slug: 'contact-us'
   },
   'frequently-asked-questions': {
@@ -159,7 +159,7 @@ export const NAV_MENU = {
   },
   'about-us': {
     id: 2,
-    label: 'About US',
+    label: 'About Us',
     slug: 'about-us',
     sub: {
       'frequently-asked-questions': {
@@ -213,12 +213,18 @@ export const NAV_MENU = {
   },
   'contact-us': {
     id: 4,
-    label: 'Contact US',
+    label: 'Contact Us',
     slug: 'contact-us',
     sub: undefined
   },
   news:{
     id: 13,
+    label: 'News & Events',
+    slug: 'news',
+    sub: undefined
+  },
+  posts:{
+    id: 131,
     label: 'News & Events',
     slug: 'news',
     sub: undefined
