@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
-import uniq from 'lodash.uniq';
-
 import {
   fetchAssociations,
   setCurrentPage,
@@ -25,6 +23,7 @@ import {
 import ExternalLink from '../../components/externalLink';
 import { RemoteDataTable } from '../../components/dataTable';
 import { ReferenceCell } from '../../components/disease';
+import EvidenceCodesCell from '../../components/disease/evidenceCodesCell';
 
 class DiseasePageAssociationsTable extends Component {
   constructor(props) {
@@ -100,22 +99,6 @@ class DiseasePageAssociationsTable extends Component {
     return '';
   }
 
-  renderEvidenceCodes(publications){
-    if(publications){
-      let returnValue = publications && uniq(publications.map((publication) => {
-        return (
-          publication.evidenceCodes
-        );
-      }).reduce((a, b) => a.concat(b)))
-      .filter((x, i, a) => a.indexOf(x) == i)
-      .sort();
-
-      return returnValue.join(', ');
-    }
-
-    return '';
-  }
-
   render() {
 
     const columns = [
@@ -161,7 +144,7 @@ class DiseasePageAssociationsTable extends Component {
       {
         field: 'publications',
         label: 'Evidence Code',
-        format: this.renderEvidenceCodes,
+        format: EvidenceCodesCell,
       },
       {
         field: 'source',
