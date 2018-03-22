@@ -58,6 +58,11 @@ export const selectDiseaseResults = createSelector(
   (search) => search.get('diseaseResults').toJS()
 );
 
+export const selectAlleleResults = createSelector(
+  [selectSearchDomain],
+  (search) => search.get('alleleResults').toJS()
+);
+
 export const selectHomologyGroupResults = createSelector(
   [selectSearchDomain],
   (search) => search.get('homologyGroupResults').toJS()
@@ -76,6 +81,11 @@ export const selectGoTotal = createSelector(
 export const selectDiseaseTotal = createSelector(
   [selectSearchDomain],
   (search) => search.get('diseaseTotal')
+);
+
+export const selectAlleleTotal = createSelector(
+  [selectSearchDomain],
+  (search) => search.get('alleleTotal')
 );
 
 export const selectHomologyGroupTotal = createSelector(

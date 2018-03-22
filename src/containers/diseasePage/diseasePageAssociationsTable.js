@@ -23,6 +23,7 @@ import {
 import ExternalLink from '../../components/externalLink';
 import { RemoteDataTable } from '../../components/dataTable';
 import { ReferenceCell } from '../../components/disease';
+import EvidenceCodesCell from '../../components/disease/evidenceCodesCell';
 
 class DiseasePageAssociationsTable extends Component {
   constructor(props) {
@@ -80,6 +81,24 @@ class DiseasePageAssociationsTable extends Component {
     return <Link to={'/gene/' + gene.primaryId}>{gene.symbol}</Link>;
   }
 
+  renderGeneticEntity(featureDocument){
+
+    if(featureDocument){
+      return (
+       <ExternalLink href={featureDocument.modCrossRefFullUrl}>
+         <div dangerouslySetInnerHTML={{__html: featureDocument.symbol}} />
+       </ExternalLink>);
+    }
+    return '';
+  }
+
+  renderGeneticEntityType(featureDocument){
+    if(featureDocument){
+      return <div>{featureDocument.category}</div>;
+    }
+    return '';
+  }
+
   render() {
 
     const columns = [
@@ -90,9 +109,9 @@ class DiseasePageAssociationsTable extends Component {
         hidden: true,
       },
       {
-        field: 'diseaseName',
-        label: 'Disease & Subtypes',
-        format: this.renderDiseaseName,
+        field: 'geneDocument',
+        label: 'Gene',
+        format: this.renderGeneLink,
         sortable: true,
       },
       {
@@ -102,15 +121,30 @@ class DiseasePageAssociationsTable extends Component {
         sortable: true,
       },
       {
-        field: 'geneDocument',
-        label: 'Associated Gene',
-        format: this.renderGeneLink,
-        sortable: true,
+        field: 'featureDocument',
+        label: 'Genetic Entity',
+        format: this.renderGeneticEntity,
+      },
+      {
+        field: 'featureDocument',
+        label: 'Genetic Entity Type',
+        format: this.renderGeneticEntityType,
       },
       {
         field: 'associationType',
         label: 'Association Type',
         format: (type) => type.replace(/_/g, ' '),
+      },
+      {
+        field: 'diseaseName',
+        label: 'Disease',
+        format: this.renderDiseaseName,
+        sortable: true,
+      },
+      {
+        field: 'publications',
+        label: 'Evidence Code',
+        format: EvidenceCodesCell,
       },
       {
         field: 'source',
@@ -122,8 +156,9 @@ class DiseasePageAssociationsTable extends Component {
         field: 'publications',
         label: 'References',
         format: ReferenceCell,
-      }
+      },
     ];
+
     return (
       <div>
         <RemoteDataTable

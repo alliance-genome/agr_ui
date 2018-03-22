@@ -11,10 +11,8 @@ const AgrTweets = function(){
         screenName: 'alliancegenome'
       }}
       options={{
-        chrome: 'noheader, noborders,nofooter,transparent',
-        height: '450',
-        linkColor: '#eeeeee',
-        theme: 'dark',
+        chrome: 'noheader, noborders,nofooter',
+        height: '600',
         username: 'alliancegenome'
       }}
     />
