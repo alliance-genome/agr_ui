@@ -108,7 +108,6 @@ OrthologyTable.propTypes = {
     PropTypes.shape({
       gene2AgrPrimaryId: PropTypes.string,
       gene2Symbol: PropTypes.string,
-      gene2Species: PropTypes.number,
       gene2SpeciesName: PropTypes.string,
       predictionMethodsMatched: PropTypes.arrayOf(PropTypes.string),
       predictionMethodsNotCalled: PropTypes.arrayOf(PropTypes.string),

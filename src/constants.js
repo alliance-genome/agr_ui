@@ -12,6 +12,7 @@ export const WORDPRESS_POST_MAX_COUNT = 10;
 export const WORDPRESS_PATH = '';
 export const WORDPRESS_POST_PATH = '/posts';
 
+//the order in this array matters for the category icons
 export const CATEGORIES = [
   {
     name: 'all',
@@ -28,6 +29,10 @@ export const CATEGORIES = [
   {
     name: 'disease',
     displayName: 'Disease'
+  },
+  {
+    name: 'allele',
+    displayName: 'Allele'
   }
 ];
 
@@ -49,7 +54,7 @@ export const WORDPRESS_PAGES = {
     slug: 'home'
   },
   'about-us': {
-    label: 'About US',
+    label: 'About Us',
     slug: 'about-us'
   },
   'projects-work-products-publications': {
@@ -57,7 +62,7 @@ export const WORDPRESS_PAGES = {
     slug: 'projects-work-products-publications'
   },
   'contact-us': {
-    label: 'Contact US',
+    label: 'Contact Us',
     slug: 'contact-us'
   },
   'frequently-asked-questions': {
@@ -141,3 +146,87 @@ export const SUB_MENU = {
 export const NON_HIGHLIGHTED_FIELDS = ['sourceHref', 'href', 'category', 'homologs', 'paralogs', 'orthologs', 'homologs.symbol', 'homologs.panther_family'];
 
 export const HELP_EMAIL = 'alliance-helpdesk@lists.stanford.edu';
+
+/**
+ * collapsible menu: MenuItems
+ */
+export const NAV_MENU = {
+  home: {
+    id: 1,
+    label: 'Home',
+    slug: 'home',
+    sub: undefined
+  },
+  'about-us': {
+    id: 2,
+    label: 'About Us',
+    slug: 'about-us',
+    sub: {
+      'frequently-asked-questions': {
+        id: 5,
+        label: 'Frequently Asked Questions',
+        slug: 'frequently-asked-questions'
+      },
+      'funding': {
+        id: 6,
+        label: 'Funding',
+        slug: 'funding'
+      },
+      'organization-and-governance': {
+        id: 7,
+        label: 'Organization and Governance',
+        slug: 'organization-and-governance'
+      },
+      'publications': {
+        id: 8,
+        label: 'Publications',
+        slug: 'publications',
+      }
+    }
+  },
+  'projects-work-products-publications': {
+    id: 3,
+    label: 'Work Products',
+    slug: 'projects-work-products-publications',
+    sub: {
+      'administrative-supplement': {
+        id: 9,
+        label: 'Administrative Supplement',
+        slug: 'administrative-supplement'
+      },
+      'genome-features':{
+        id: 10,
+        label: 'Genome Features',
+        slug: 'genome-features'
+      },
+      'orthology':{
+        id: 11,
+        label: 'Orthology',
+        slug: 'orthology'
+      },
+      'phenotypes-and-disease-models':{
+        id: 12,
+        label: 'Phenotypes And Disease Models',
+        slug: 'phenotypes-and-disease-models'
+      }
+    }
+  },
+  'contact-us': {
+    id: 4,
+    label: 'Contact Us',
+    slug: 'contact-us',
+    sub: undefined
+  },
+  news:{
+    id: 13,
+    label: 'News & Events',
+    slug: 'news',
+    sub: undefined
+  },
+  posts:{
+    id: 131,
+    label: 'News & Events',
+    slug: 'news',
+    sub: undefined
+  }
+};
