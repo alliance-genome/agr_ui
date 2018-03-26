@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 // import RibbonDataProvider from 'gene-ontology-ribbon/src/RibbonDataProvider';
 import Ribbon , { RibbonDataProvider } from 'gene-ontology-ribbon';
 // import Ribbon, { RibbonDataProvider } from '@sibyl229/gene-ontology-ribbon';
-// import '../../../node_modules/@sibyl229/gene-ontology-ribbon/lib/index.css';
+import '../../../node_modules/gene-ontology-ribbon/lib/index.css';
 
 
 class GeneOntologyRibbon extends Component {

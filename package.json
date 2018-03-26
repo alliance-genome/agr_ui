@@ -16,7 +16,7 @@
     "d3-scale": "^1.0.6",
     "d3-selection": "^1.1.0",
     "extract-text-webpack-plugin": "^1.0.1",
-    "gene-ontology-ribbon": "file:../ribbon/gene-ontology-ribbon-1.2.0.tgz",
+    "gene-ontology-ribbon": "file:../ribbon/gene-ontology-ribbon-1.2.1.tgz",
     "immutable": "^3.8.1",
     "lodash.assignin": "^4.2.0",
     "lodash.clone": "^4.5.0",
