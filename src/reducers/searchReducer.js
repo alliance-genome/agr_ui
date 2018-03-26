@@ -20,6 +20,7 @@ const DEFAULT_STATE = fromJS({
   geneTotal: 0,
   goTotal: 0,
   diseaseTotal: 0,
+  alleleTotal: 0,
   homologyGroupTotal: 0,
   // mixed
   results: [],
