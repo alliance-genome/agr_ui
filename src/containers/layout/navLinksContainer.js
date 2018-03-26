@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+//import { Link } from 'react-router';
 
 import style from './style.css';
 import SubMenu from './subMenu';
@@ -18,8 +18,9 @@ class NavLinksContainer extends Component {
       if (page_url === HOME_ROUTE) page_url = '/';
       let page_label=WORDPRESS_PAGES[page].label;
       let link_token=[];
-      link_token.push(<Link className={`nav-link ${style.navLink}`} key={index} to={page_url}>{page_label}</Link>);
-      container.push(<div className={style.navContainer} key={index}>
+      link_token.push(<a className={`nav-link ${style.navLink}`} href={page_url} key={index}>{page_label}</a>);
+      container.push(
+        <div className={style.navContainer} key={index}>
           {link_token}
           <SubMenu key={index} path={page} />
          </div>);

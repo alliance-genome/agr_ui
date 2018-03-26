@@ -1,4 +1,5 @@
-import _ from 'underscore';
+import clone from 'lodash.clone';
+import without from 'lodash.without';
 
 const SINGLE_VAL_FIELDS = ['mode', 'page'];
 const CLEARING_FIELDS = ['category'];
@@ -43,6 +44,18 @@ export function makeFieldDisplayName(unformattedName) {
     return 'Gene';
   case 'annotations.geneDocument.species':
     return 'Associated Species';
+  case 'geneDocument.species':
+    return 'Species';
+  case 'geneDocument.name_key':
+    return 'Gene';
+  case 'geneDocument.name':
+    return 'Gene';
+  case 'diseaseDocuments.name':
+    return 'Associated Disease';
+  case 'featureDocument.name':
+    return 'Allele';
+  case 'allele.name':
+    return 'Allele';
   default:
     //replace underscores and any field name suffixes after a ., capitalize
     return unformattedName.replace(/_/g, ' ').replace(/\.(\w)+/g, '');
@@ -59,8 +72,8 @@ export function getQueryParamWithoutPage(key, val, queryParams) {
 }
 
 export function getQueryParamWithValueChanged(key, val, queryParams, isClear=false) {
-  let qp = _.clone(queryParams || {});
-  let oldVal = _.clone(qp[key]);
+  let qp = clone(queryParams || {});
+  let oldVal = clone(qp[key]);
   let isSingleValField = (SINGLE_VAL_FIELDS.indexOf(key) > -1);
   if (isSingleValField || oldVal === null || typeof oldVal === 'undefined') {
     qp[key] = val;
@@ -71,7 +84,7 @@ export function getQueryParamWithValueChanged(key, val, queryParams, isClear=fal
   }
   let newVal;
   if (oldVal.indexOf(val) > -1) {
-    newVal = _.without(oldVal, val);
+    newVal = without(oldVal, val);
   } else {
     newVal = oldVal;
     if (Array.isArray(val)) {
