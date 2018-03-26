@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import PropTypes from 'prop-types';
 
+import Utils from './utils';
+import DownloadButton from './downloadButton';
+
 const textSorter = (textRender, field) => {
   return (a, b, order) => {
     if (order === 'desc') {
@@ -13,24 +16,26 @@ const textSorter = (textRender, field) => {
   };
 };
 
-const textFilter = {
-  type: 'TextFilter',
-  delay: 100,
-  placeholder: ' '
-};
-
 class LocalDataTable extends Component {
   constructor(props) {
     super(props);
   }
 
+  renderDownloadButton(onClick) {
+    return (
+      <div className='btn-group' role='group'>
+        <DownloadButton onClick={onClick} />
+      </div>
+    );
+  }
+
   render() {
     const { columns, data, filename, paginated } = this.props;
     const options = {
+      exportCSVBtn: this.renderDownloadButton,
       exportCSVSeparator: '\t',
-      exportCSVText: 'Download',
-      toolbarPosition: 'bottom', //move download button to the bottom
       sizePerPageList: [10, 25, 100],
+      toolbarPosition: 'bottom', //move download button to the bottom
     };
     return (
       <BootstrapTable
@@ -40,7 +45,6 @@ class LocalDataTable extends Component {
         exportCSV
         options={options}
         pagination={paginated}
-        ref={(table) => {this.tableRef = table;}}
         version='4'
       >
         {
@@ -51,7 +55,7 @@ class LocalDataTable extends Component {
               dataField={col.field}
               dataFormat={col.format}
               dataSort={col.sortable}
-              filter={col.filterable ? textFilter : null}
+              filter={Utils.getTextFilter(col)}
               filterValue={col.asText}
               isKey={col.isKey}
               key={idx}

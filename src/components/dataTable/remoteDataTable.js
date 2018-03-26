@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import DownloadButton from './downloadButton.js';
 import PropTypes from 'prop-types';
 
-import style from './style.css';
+import DownloadButton from './downloadButton';
+import Utils from './utils';
 
-const textFilter = {
-  type: 'TextFilter',
-  delay: 100,
-  placeholder: ' '
-};
+import style from './style.css';
 
 class RemoteDataTable extends Component {
   constructor(props) {
@@ -74,7 +70,7 @@ class RemoteDataTable extends Component {
                 dataField={col.field}
                 dataFormat={col.format}
                 dataSort={col.sortable}
-                filter={col.filterable ? textFilter : null}
+                filter={Utils.getTextFilter(col)}
                 hidden={col.hidden}
                 isKey={col.isKey}
                 key={idx}
@@ -85,7 +81,7 @@ class RemoteDataTable extends Component {
             )
           }
         </BootstrapTable>
-        <DownloadButton buttonText='Download' downloadUrl={downloadUrl} />
+        <DownloadButton downloadUrl={downloadUrl} />
       </div>
     );
   }
