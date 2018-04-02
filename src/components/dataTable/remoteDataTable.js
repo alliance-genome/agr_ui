@@ -67,6 +67,7 @@ class RemoteDataTable extends Component {
           {
             columns.map((col, idx) =>
               <TableHeaderColumn
+                columnClassName={col.style}
                 dataField={col.field}
                 dataFormat={col.format}
                 dataSort={col.sortable}
