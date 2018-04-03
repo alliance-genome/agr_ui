@@ -156,6 +156,7 @@ class DiseasePageAssociationsTable extends Component {
         field: 'publications',
         label: 'References',
         format: ReferenceCell,
+        style: 'referenceColumn',
       },
     ];
 
