@@ -27,7 +27,7 @@
     "react": "^15.3.2",
     "react-autosuggest": "^6.1.0",
     "react-bootstrap": "^0.31.2",
-    "react-bootstrap-table": "^4.0.2",
+    "react-bootstrap-table": "https://github.com/FlyBase/react-bootstrap-table/releases/download/v4.0.3/react-bootstrap-table-4.0.3.tgz",
     "react-dom": "^15.3.2",
     "react-ga": "2.2.0",
     "react-helmet": "^5.0.0",
