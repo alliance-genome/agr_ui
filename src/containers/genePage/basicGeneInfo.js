@@ -49,16 +49,11 @@ class BasicGeneInfo extends Component {
           );
         });
     };
-
     const gene = this.state.geneData;
-    const modReference = {
-      name: gene.modGlobalCrossRefId,
-      crossRefCompleteUrl: gene.modCrossRefCompleteUrl,
-    };
     return (
       <div className='row'>
         <div className='col-sm-4 push-sm-8'>
-          <DataSourceCard reference={modReference} species={this.state.geneData.species} />
+          <DataSourceCard reference={gene.crossReferences.gene[0]} species={gene.species} />
         </div>
         <div className='col-sm-8 pull-sm-4'>
           <AttributeList bsClassName='col-xs-12'>
