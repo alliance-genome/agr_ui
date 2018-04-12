@@ -34,23 +34,22 @@ class BasicGeneInfo extends Component {
     );
   }
 
-  renderCrossReferenceList(data) {
-    let refs = data.crossReferences;
-    if (!refs || refs.length < 1) {
-      return '';
-    }
-    return refs
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .map((ref) => {
-        return (
-          <div key={`ref-${ref.name}`}>
-            <DataSourceLink reference={ref} />
-          </div>
-        );
-      });
-  }
-
   render() {
+    const renderCrossReferenceList = (refs) => {
+      if (!refs || refs.length < 1) {
+        return '';
+      }
+      return refs
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map((ref) => {
+          return (
+            <div key={`ref-${ref.name}`}>
+              <DataSourceLink reference={ref} />
+            </div>
+          );
+        });
+    };
+
     const gene = this.state.geneData;
     const modReference = {
       name: gene.modGlobalCrossRefId,
@@ -79,7 +78,7 @@ class BasicGeneInfo extends Component {
             <AttributeValue>{this.renderDescription(gene)}</AttributeValue>
 
             <AttributeLabel>Genomic Resources</AttributeLabel>
-            <AttributeValue>{this.renderCrossReferenceList(gene)}</AttributeValue>
+            <AttributeValue>{renderCrossReferenceList(gene.crossReferences.generic_cross_reference)}</AttributeValue>
 
             <AttributeLabel>Additional Information</AttributeLabel>
             <AttributeValue>

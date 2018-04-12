@@ -5,9 +5,8 @@ import ExternalLink from '../externalLink';
 class PantherCrossRef extends Component {
 
   render() {
-    const pantherCrossRef = (this.props.crossReferences || []).filter(
-      (dat) => dat.crossRefCompleteUrl.match(/http:\/\/pantherdb.org.*/i)
-    )[0];
+    const crossReferences = (this.props.crossReferences || {}).generic_cross_reference || [];
+    const pantherCrossRef = crossReferences.find( ref => ref.prefix === 'PANTHER' );
     return (
       pantherCrossRef ?
         <ExternalLink href={pantherCrossRef.crossRefCompleteUrl}>
@@ -18,12 +17,7 @@ class PantherCrossRef extends Component {
 }
 
 PantherCrossRef.propTypes = {
-  crossReferences: PropTypes.arrayOf(
-    PropTypes.shape({
-      crossRefCompleteUrl: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-    })
-  ),
+  crossReferences: PropTypes.object,
 };
 
 export default PantherCrossRef;
