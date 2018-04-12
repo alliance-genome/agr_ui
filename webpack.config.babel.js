@@ -6,11 +6,12 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import RobotstxtPlugin from 'robotstxt-webpack-plugin';
 
 let isProduction = process.env.NODE_ENV === 'production';
-let API_URL = process.env.API_URL || 'http://localhost:8080';
+let API_URL = 'http://dev.alliancegenome.org';
 let DEV_SERVER_UI_PORT = process.env.DEV_SERVER_UI_PORT || '2992';
 let JBROWSE_URL = process.env.JBROWSE_URL || 'http://jbrowse.alliancegenome.org';
 let JBROWSE_PORT = process.env.JBROWSE_PORT || '8891';
-let LIVE_UI = process.env.LIVE_UI || 'false';
+//let LIVE_UI = process.env.LIVE_UI || 'false';
+let LIVE_UI = 'true' ;
 
 // Development asset host, asset location and build output path.
 const buildOutputPath = path.join(__dirname, './dist');
@@ -56,6 +57,7 @@ let config = {
     contentBase: 'dist',
     historyApiFallback: true,
     port: DEV_SERVER_UI_PORT,
+    host: '0.0.0.0',
     proxy: {
       '/api': {
         target: API_URL,
