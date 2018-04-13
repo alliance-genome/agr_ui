@@ -5,8 +5,7 @@ import ExternalLink from '../externalLink';
 class PantherCrossRef extends Component {
 
   render() {
-    const crossReferences = (this.props.crossReferences || {}).generic_cross_reference || [];
-    const pantherCrossRef = crossReferences.find( ref => ref.prefix === 'PANTHER' );
+    const pantherCrossRef = (this.props.crossReferences['gene/panther'] || [])[0];
     return (
       pantherCrossRef ?
         <ExternalLink href={pantherCrossRef.crossRefCompleteUrl}>
