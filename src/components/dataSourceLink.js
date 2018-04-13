@@ -6,18 +6,18 @@ class DataSourceLink extends Component {
   render() {
     return (
       <ExternalLink href={this.props.reference.crossRefCompleteUrl}>
-        {this.props.reference.name}
+        {this.props.text || this.props.reference.name}
       </ExternalLink>
     );
   }
 }
 
 DataSourceLink.propTypes = {
-  omitPrefix: PropTypes.bool,
   reference: PropTypes.shape({
     crossRefCompleteUrl: PropTypes.string,
     name: PropTypes.string,
   }),
+  text: PropTypes.string,
 };
 
 export default DataSourceLink;

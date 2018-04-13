@@ -77,7 +77,7 @@ class BasicGeneInfo extends Component {
 
             <AttributeLabel>Additional Information</AttributeLabel>
             <AttributeValue>
-              <ExternalLink href={gene.geneLiteratureUrl}>Literature</ExternalLink>
+              <DataSourceLink reference={(gene.crossReferences['gene/references'] || [])[0]} text='Literature' />
             </AttributeValue>
           </AttributeList>
         </div>
