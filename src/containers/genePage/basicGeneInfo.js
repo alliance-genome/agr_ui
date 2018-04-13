@@ -9,6 +9,7 @@ import {
 } from '../../components/attribute';
 import DataSourceLink from '../../components/dataSourceLink';
 import ExternalLink from '../../components/externalLink';
+import CrossReferenceList from '../../components/crossReferenceList';
 
 class BasicGeneInfo extends Component {
   constructor(props) {
@@ -35,20 +36,6 @@ class BasicGeneInfo extends Component {
   }
 
   render() {
-    const renderCrossReferenceList = (refs) => {
-      if (!refs || refs.length < 1) {
-        return '';
-      }
-      return refs
-        .sort((a, b) => a.name.localeCompare(b.name))
-        .map((ref) => {
-          return (
-            <div key={`ref-${ref.name}`}>
-              <DataSourceLink reference={ref} />
-            </div>
-          );
-        });
-    };
     const gene = this.state.geneData;
     return (
       <div className='row'>
@@ -73,11 +60,16 @@ class BasicGeneInfo extends Component {
             <AttributeValue>{this.renderDescription(gene)}</AttributeValue>
 
             <AttributeLabel>Genomic Resources</AttributeLabel>
-            <AttributeValue>{renderCrossReferenceList(gene.crossReferences.generic_cross_reference)}</AttributeValue>
+            <AttributeValue>
+              {gene.crossReferences && <CrossReferenceList crossReferences={gene.crossReferences.generic_cross_reference} />}
+            </AttributeValue>
 
             <AttributeLabel>Additional Information</AttributeLabel>
             <AttributeValue>
-              <DataSourceLink reference={(gene.crossReferences['gene/references'] || [])[0]} text='Literature' />
+              {gene.crossReferences &&
+                gene.crossReferences['gene/references'] &&
+                <DataSourceLink reference={gene.crossReferences['gene/references'][0]} text='Literature' />
+              }
             </AttributeValue>
           </AttributeList>
         </div>
