@@ -16,8 +16,10 @@ const ExpressionLinks = ({wildTypeExpressionLink, allExpressionLink, otherExpres
     <AttributeList>
       <AttributeLabel>Primary Sources</AttributeLabel>
       <AttributeValue>
-        {wtLink && <div><ExternalLink href={wtLink.crossRefCompleteUrl}>{wtLink.prefix} (wild type)</ExternalLink></div>}
-        {allLink && <div><ExternalLink href={allLink.crossRefCompleteUrl}>{allLink.prefix} (all)</ExternalLink></div>}
+        { (wtLink || allLink) && <div>
+          {wtLink && <div><ExternalLink href={wtLink.crossRefCompleteUrl}>{wtLink.prefix} (wild type)</ExternalLink></div>}
+          {allLink && <div><ExternalLink href={allLink.crossRefCompleteUrl}>{allLink.prefix} (all)</ExternalLink></div>}
+        </div> }
       </AttributeValue>
 
       <AttributeLabel>Other Sources</AttributeLabel>
