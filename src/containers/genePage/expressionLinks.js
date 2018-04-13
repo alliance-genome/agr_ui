@@ -6,8 +6,8 @@ import {
   AttributeLabel,
   AttributeValue,
 } from '../../components/attribute';
-import DataSourceLink from '../../components/dataSourceLink';
 import ExternalLink from '../../components/externalLink';
+import CrossReferenceList from '../../components/crossReferenceList';
 
 const ExpressionLinks = ({wildTypeExpressionLink, allExpressionLink, otherExpressionLinks}) => {
   const wtLink = (wildTypeExpressionLink || [])[0];
@@ -15,7 +15,7 @@ const ExpressionLinks = ({wildTypeExpressionLink, allExpressionLink, otherExpres
   return (
     <AttributeList>
       <AttributeLabel>Primary Sources</AttributeLabel>
-      <AttributeValue>
+      <AttributeValue placeholder='None'>
         { (wtLink || allLink) && <div>
           {wtLink && <div><ExternalLink href={wtLink.crossRefCompleteUrl}>{wtLink.prefix} (wild type)</ExternalLink></div>}
           {allLink && <div><ExternalLink href={allLink.crossRefCompleteUrl}>{allLink.prefix} (all)</ExternalLink></div>}
@@ -24,13 +24,7 @@ const ExpressionLinks = ({wildTypeExpressionLink, allExpressionLink, otherExpres
 
       <AttributeLabel>Other Sources</AttributeLabel>
       <AttributeValue placeholder='None'>
-        {
-          otherExpressionLinks && otherExpressionLinks.map(link => (
-            <div key={link.localId}>
-              <DataSourceLink reference={link} />
-            </div>
-          ))
-        }
+        {otherExpressionLinks && <CrossReferenceList crossReferences={otherExpressionLinks} />}
       </AttributeValue>
     </AttributeList>
   );
