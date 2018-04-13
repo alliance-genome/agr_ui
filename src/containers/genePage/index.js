@@ -16,46 +16,48 @@ import Subsection from '../../components/subsection';
 import HeadMetaTags from '../../components/headMetaTags';
 
 import GenomeFeatureViewer from './genomeFeatureViewer';
+import ExpressionLinks from './expressionLinks';
 
 class GenePage extends Component {
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.dispatch(fetchGene(this.props.params.geneId));
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     if (this.props.params.geneId !== prevProps.params.geneId) {
       this.props.dispatch(fetchGene(this.props.params.geneId));
     }
   }
 
-  render() {
-    if (this.props.loading) {
+  render () {
+    const {data, error, loading} = this.props;
+
+    if (loading) {
       return <LoadingPage />;
     }
 
-    if (this.props.error) {
+    if (error) {
       return <NotFound />;
     }
 
-    if (!this.props.data) {
+    if (!data) {
       return null;
     }
 
-    const title = `${this.props.data.symbol} | ${this.props.data.species} gene`;
+    const title = `${data.symbol} | ${data.species} gene`;
 
     // todo, add chromosome
     let genomeLocation = {};
-    if(this.props.data.genomeLocations){
-      if(this.props.data.genomeLocations.length==1){
-        genomeLocation = this.props.data.genomeLocations[0];
+    if (data.genomeLocations) {
+      if (data.genomeLocations.length === 1) {
+        genomeLocation = data.genomeLocations[0];
       }
-      else
-      if(this.props.data.genomeLocations.length>1){
+      else if (data.genomeLocations.length > 1) {
         // TODO: figure out the proper assembly
-        for(var i in this.props.data.genomeLocations){
-          let tempGenomeLocation = this.props.data.genomeLocations[i];
-          if(tempGenomeLocation.start && tempGenomeLocation.end){
+        for (var i in data.genomeLocations) {
+          let tempGenomeLocation = data.genomeLocations[i];
+          if (tempGenomeLocation.start && tempGenomeLocation.end) {
             genomeLocation = tempGenomeLocation;
           }
         }
@@ -68,50 +70,60 @@ class GenePage extends Component {
     return (
       <div className='container'>
         <HeadMetaTags title={title} />
-        <GenePageHeader symbol={this.props.data.symbol} />
+        <GenePageHeader symbol={data.symbol} />
 
         <Subsection>
-          <BasicGeneInfo geneData={this.props.data} />
+          <BasicGeneInfo geneData={data} />
         </Subsection>
 
-        <Subsection hasData={typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'} title='Sequence Feature Viewer'>
+        <Subsection hasData={typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'}
+                    title='Sequence Feature Viewer'
+        >
           <GenomeFeatureViewer
             assembly={genomeLocation.assembly}
-            biotype={this.props.data.soTermName}
+            biotype={data.soTermName}
             chromosome={genomeLocation.chromosome}
             fmax={genomeLocation.end}
             fmin={genomeLocation.start}
-            geneSymbol={this.props.data.symbol}
+            geneSymbol={data.symbol}
             height='200px'
             id='genome-feature-location-id'
-            primaryId={this.props.data.primaryId}
-            species={this.props.data.species}
+            primaryId={data.primaryId}
+            species={data.species}
             strand={genomeLocation.strand}
-            synonyms={this.props.data.synonyms}
+            synonyms={data.synonyms}
             width='600px'
           />
         </Subsection>
 
         <Subsection title='Function – GO Annotations'>
-          <GeneOntologyRibbon id={this.props.data.primaryId} />
+          <GeneOntologyRibbon id={data.primaryId} />
         </Subsection>
 
         <Subsection title='Orthology'>
           <OrthologyBasicInfo
-            crossReferences={this.props.data.crossReferences}
-            focusGeneSymbol={this.props.data.symbol}
-            species={this.props.data.species}
+            crossReferences={data.crossReferences}
+            focusGeneSymbol={data.symbol}
+            species={data.species}
           />
-          <Subsection hasData={(this.props.data.orthology || []).length > 0}>
-            <OrthologyFilteredTable data={this.props.data.orthology} />
+          <Subsection hasData={(data.orthology || []).length > 0}>
+            <OrthologyFilteredTable data={data.orthology} />
             <OrthologyUserGuide />
           </Subsection>
         </Subsection>
 
-        <Subsection hasData={(this.props.data.diseases || []) .length > 0} title='Disease Associations'>
-          <GenePageDiseaseTable data={this.props.data.diseases} filename={`${this.props.data.symbol}-Disease-Associations-${date}`} />
+        <Subsection hasData={(data.diseases || []).length > 0} title='Disease Associations'>
+          <GenePageDiseaseTable data={data.diseases}
+                                filename={`${data.symbol}-Disease-Associations-${date}`}
+          />
         </Subsection>
 
+        <Subsection title='Expression'>
+          <ExpressionLinks allExpressionLink={data.crossReferences['gene/expression']}
+                           otherExpressionLinks={data.crossReferences['gene/other_expression']}
+                           wildTypeExpressionLink={data.crossReferences['gene/wild_type_expression']}
+          />
+        </Subsection>
       </div>
     );
   }
@@ -125,7 +137,7 @@ GenePage.propTypes = {
   params: PropTypes.object,
 };
 
-function mapStateToProps(state) {
+function mapStateToProps (state) {
   return selectGene(state);
 }
 

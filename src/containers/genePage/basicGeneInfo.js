@@ -9,6 +9,7 @@ import {
 } from '../../components/attribute';
 import DataSourceLink from '../../components/dataSourceLink';
 import ExternalLink from '../../components/externalLink';
+import CrossReferenceList from '../../components/crossReferenceList';
 
 class BasicGeneInfo extends Component {
   constructor(props) {
@@ -34,32 +35,12 @@ class BasicGeneInfo extends Component {
     );
   }
 
-  renderCrossReferenceList(data) {
-    let refs = data.crossReferences;
-    if (!refs || refs.length < 1) {
-      return '';
-    }
-    return refs
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .map((ref) => {
-        return (
-          <div key={`ref-${ref.name}`}>
-            <DataSourceLink reference={ref} />
-          </div>
-        );
-      });
-  }
-
   render() {
     const gene = this.state.geneData;
-    const modReference = {
-      name: gene.modGlobalCrossRefId,
-      crossRefCompleteUrl: gene.modCrossRefCompleteUrl,
-    };
     return (
       <div className='row'>
         <div className='col-sm-4 push-sm-8'>
-          <DataSourceCard reference={modReference} species={this.state.geneData.species} />
+          <DataSourceCard reference={gene.crossReferences.gene[0]} species={gene.species} />
         </div>
         <div className='col-sm-8 pull-sm-4'>
           <AttributeList bsClassName='col-xs-12'>
@@ -79,11 +60,16 @@ class BasicGeneInfo extends Component {
             <AttributeValue>{this.renderDescription(gene)}</AttributeValue>
 
             <AttributeLabel>Genomic Resources</AttributeLabel>
-            <AttributeValue>{this.renderCrossReferenceList(gene)}</AttributeValue>
+            <AttributeValue>
+              {gene.crossReferences && <CrossReferenceList crossReferences={gene.crossReferences.generic_cross_reference} />}
+            </AttributeValue>
 
             <AttributeLabel>Additional Information</AttributeLabel>
             <AttributeValue>
-              <ExternalLink href={gene.geneLiteratureUrl}>Literature</ExternalLink>
+              {gene.crossReferences &&
+                gene.crossReferences['gene/references'] &&
+                <DataSourceLink reference={gene.crossReferences['gene/references'][0]} text='Literature' />
+              }
             </AttributeValue>
           </AttributeList>
         </div>
