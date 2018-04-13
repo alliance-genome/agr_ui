@@ -4,6 +4,9 @@ import ExternalLink from './externalLink';
 
 class DataSourceLink extends Component {
   render() {
+    if (!this.props.reference) {
+      return null;
+    }
     return (
       <ExternalLink href={this.props.reference.crossRefCompleteUrl}>
         {this.props.text || this.props.reference.name}
