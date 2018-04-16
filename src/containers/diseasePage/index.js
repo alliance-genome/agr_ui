@@ -54,15 +54,17 @@ class DiseasePage extends Component {
   }
 
   render() {
-    if (this.props.loading) {
+    const {data, error, loading} = this.props;
+
+    if (loading) {
       return <LoadingPage />;
     }
 
-    if (this.props.error) {
+    if (error) {
       return <NotFound />;
     }
 
-    if (!this.props.data) {
+    if (!data || !Object.keys(data).length) {
       return null;
     }
 
