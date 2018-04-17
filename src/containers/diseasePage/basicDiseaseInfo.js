@@ -9,6 +9,7 @@ import {
   AttributeValue,
 } from '../../components/attribute';
 import ExternalLink from '../../components/externalLink';
+import CrossReferenceList from '../../components/crossReferenceList';
 
 class BasicDiseaseInfo extends Component {
   renderTermList(terms) {
@@ -29,18 +30,6 @@ class BasicDiseaseInfo extends Component {
         </ExternalLink>
       );
     }).reduce((a, b) => [a, ', ', b]);
-  }
-
-  renderCrossReferenceList(refs) {
-    return refs && refs
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .map((ref) => {
-        return (
-          <ExternalLink href={ref.crossRefCompleteUrl} key={`ref-${ref.name}`}>
-            {ref.name}
-          </ExternalLink>
-        );
-      }).reduce((a, b) => [a, ', ', b]);
   }
 
   renderDefinition(disease) {
@@ -75,7 +64,9 @@ class BasicDiseaseInfo extends Component {
         <AttributeValue>{this.renderSynonymList(disease.synonyms)}</AttributeValue>
 
         <AttributeLabel>Cross References</AttributeLabel>
-        <AttributeValue>{this.renderCrossReferenceList(disease.crossReferences)}</AttributeValue>
+        <AttributeValue>
+          {disease.crossReferences && <CrossReferenceList crossReferences={disease.crossReferences['ontology_provided_cross_reference']} />}
+        </AttributeValue>
 
         <AttributeLabel>Parent Terms</AttributeLabel>
         <AttributeValue placeholder='None'>{this.renderTermList(disease.parents)}</AttributeValue>
