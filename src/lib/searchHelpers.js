@@ -32,9 +32,13 @@ export function makeFieldDisplayName(unformattedName) {
     return 'Associated Species';
   case 'id':
     return 'ID';
+  case 'primaryId':
+    return 'ID';
   case 'secondaryIds':
     return 'Secondary ID';
   case 'external_ids':
+    return 'Cross References';
+  case 'crossReferences.generic_cross_reference.name':
     return 'Cross References';
   case 'diseases.name':
     return 'Disease';
