@@ -122,9 +122,11 @@ function parseCrossReferences(d) {
   if (!d || !d.crossReferences) {
     return null;
   }
-  return d.crossReferences.map(function(ref) {
-    return ref.name;
-  });
+
+  return Object.keys(d.crossReferences)
+    .map(k => { return d.crossReferences[k]; } )
+    .reduce(function (a, b) { return a.concat(b); }, [])
+    .map(function (r) { return r.name; });
 }
 
 // search result individual entry parsers
