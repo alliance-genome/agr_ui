@@ -40,6 +40,12 @@ export function makeFieldDisplayName(unformattedName) {
     return 'Cross References';
   case 'crossReferences.generic_cross_reference.name':
     return 'Cross References';
+  case 'crossReferences.ontology_provided_cross_reference.name':
+    return 'Cross References';
+  case 'crossReferences.generic_cross_reference.localId':
+    return 'Cross References';
+  case 'crossReferences.ontology_provided_cross_reference.localId':
+    return 'Cross References';
   case 'diseases.name':
     return 'Disease';
   case 'soTermName':
