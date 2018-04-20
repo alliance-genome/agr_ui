@@ -28,17 +28,17 @@ class ResultsList extends Component {
     if (species) {
       species = '(' + species + ')';
     }
-    return (
-      <div>
-        <span className={style.resultCatLabel}><CategoryLabel category={category} /></span>
-        <div>
-          <h4 className={style.resultLinkLabel}>
-            {link}
-          </h4>
+    return (<div className="row">
+        <div className="col-sm-10">
+          <h4 className={style.resultLinkLabel}>{link}</h4>
           <span className={style.resultSpeciesLabel} dangerouslySetInnerHTML={{ __html: species }} />
         </div>
-      </div>
-    );
+        <div className="col-sm-2">
+          <span className={style.resultCatLabel}>
+            <CategoryLabel category={category} />
+          </span>
+        </div>
+      </div>);
   }
 
   renderDetailFromFields(d, fields) {
@@ -123,11 +123,9 @@ class ResultsList extends Component {
   }
 
   render() {
-    return (
-      <div>
+    return (<div className={style.resultsListParent}>
         {this.renderRows()}
-      </div>
-    );
+      </div>);
   }
 }
 
