@@ -107,14 +107,13 @@ class DiseasePageAssociationsTable extends Component {
         label: 'DO ID',
         isKey: true,
         hidden: true,
-        width: '10%',
       },
       {
         field: 'geneDocument',
         label: 'Gene',
         format: this.renderGeneLink,
         sortable: true,
-        width: '10%',
+        width: '7%',
       },
       {
         field: 'disease_species',
@@ -127,13 +126,13 @@ class DiseasePageAssociationsTable extends Component {
         field: 'featureDocument',
         label: 'Genetic Entity',
         format: this.renderGeneticEntity,
-        width: '10%',
+        width: '15%',
       },
       {
         field: 'featureDocument',
         label: 'Genetic Entity Type',
         format: this.renderGeneticEntityType,
-        width: '10%',
+        width: '7%',
       },
       {
         field: 'associationType',
