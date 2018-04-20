@@ -408,21 +408,16 @@
 
 }
 
-.contentContainer a[href^="http"]:after,
-td a[href^="http"]:after {
+.contentContainer a[href^="http"]:after, td a[href^="http"]:after {
   content: " \f08e";
   font-family: FontAwesome;
   font-weight: normal;
   font-style: normal;
   text-decoration: none;
   -webkit-font-smoothing: antialiased;
-  font-size: 0.8em;
+  font-size: 0.6em;
   position: relative;
-  margin-top: -2px;
-  /* sprites.less reset */
   display: inline;
-  width: auto;
-  height: auto;
   line-height: normal;
   vertical-align: baseline;
   background-image: none;
