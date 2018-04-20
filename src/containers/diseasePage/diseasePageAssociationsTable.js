@@ -107,7 +107,6 @@ class DiseasePageAssociationsTable extends Component {
         label: 'DO ID',
         isKey: true,
         hidden: true,
-        width: '88%',
       },
       {
         field: 'geneDocument',
