@@ -1,17 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ExternalLink from '../externalLink';
+import DataSourceLink from '../dataSourceLink';
 
 class PantherCrossRef extends Component {
 
   render() {
     const pantherCrossRef = (this.props.crossReferences['gene/panther'] || [])[0];
-    return (
-      pantherCrossRef ?
-        <ExternalLink href={pantherCrossRef.crossRefCompleteUrl}>
-          {pantherCrossRef.name}
-        </ExternalLink> : null
-    );
+    return <DataSourceLink reference={pantherCrossRef} />;
   }
 }
 
