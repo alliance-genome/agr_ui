@@ -408,4 +408,24 @@
 
 }
 
-
+contentContainer a[href^="http"]:after,
+td a[href^="http"]:after {
+  content: " \f08e";
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  -webkit-font-smoothing: antialiased;
+  font-size: 0.8em;
+  position: relative;
+  margin-top: -2px;
+  /* sprites.less reset */
+  display: inline;
+  width: auto;
+  height: auto;
+  line-height: normal;
+  vertical-align: baseline;
+  background-image: none;
+  background-position: 0% 0%;
+  background-repeat: repeat;
+}
