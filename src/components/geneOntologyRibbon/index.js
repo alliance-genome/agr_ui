@@ -23,6 +23,7 @@ class GeneOntologyRibbon extends Component {
                 geneUrlFormatter={(geneId) => `/gene/${geneId}`}
                 slimlist={data}
                 title={title}
+                subject={id}
               /> :
               null
           }
