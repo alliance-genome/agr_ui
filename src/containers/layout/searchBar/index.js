@@ -66,6 +66,8 @@ class SearchBarComponent extends Component {
   }
 
   handleSelected(event, item) {
+    //gene and disease will go to the pages and skip search results,
+    //go terms and alleles will just go to regular search pages as the query
     if (item.method == 'click') {
       if (item.suggestion.category == 'gene') {
         let href = '/gene/' + item.suggestion.primaryId;
@@ -73,12 +75,6 @@ class SearchBarComponent extends Component {
       } else if (item.suggestion.category == 'disease') {
         let href = '/disease/' + item.suggestion.primaryId;
         this.props.dispatch(push({ pathname: href}));
-      } else if (item.suggestion.category == 'go') {
-        this.setState({ value: '' });
-        let field = 'gene_' + item.suggestion.go_type;
-        let newQp = { category: 'gene' };
-        newQp[field] = item.suggestion.name_key;
-        this.props.dispatch(push({ pathname: '/search', query: newQp }));
       } else {
         this.setState({ value: item.suggestion.name_key });
         let query = item.suggestion.name_key;
