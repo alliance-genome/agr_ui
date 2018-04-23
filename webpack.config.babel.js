@@ -10,8 +10,7 @@ let API_URL = process.env.API_URL || 'http://localhost:8080';
 let DEV_SERVER_UI_PORT = process.env.DEV_SERVER_UI_PORT || '2992';
 let JBROWSE_URL = process.env.JBROWSE_URL || 'http://jbrowse.alliancegenome.org';
 let JBROWSE_PORT = process.env.JBROWSE_PORT || '8891';
-//let LIVE_UI = process.env.LIVE_UI || 'false';
-let LIVE_UI = 'true' ;
+let LIVE_UI = process.env.LIVE_UI || 'false';
 
 // Development asset host, asset location and build output path.
 const buildOutputPath = path.join(__dirname, './dist');
