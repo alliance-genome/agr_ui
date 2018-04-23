@@ -1,7 +1,6 @@
 .controlContainer {
 	float: right;
 	margin-top: 0.25rem;
-	width: 120px;
 	display: flex;
 	justify-content: space-between;
 }
@@ -18,6 +17,9 @@
 .control {
 	margin-right: 1rem;
 	display: inline-block;
+}
+.resultsListParent{
+  padding-top: 1.1rem !important;
 }
 
 .resultContainer {
