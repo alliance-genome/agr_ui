@@ -11,7 +11,7 @@
     "url": "https://github.com/alliance-genome/agr_ui.git"
   },
   "dependencies": {
-    "@nathandunn/gene-ontology-ribbon": "^1.2.8",
+    "@geneontology/ribbon": "^1.3.0",
     "babel-polyfill": "^6.26.0",
     "d3-axis": "^1.0.8",
     "d3-scale": "^1.0.6",

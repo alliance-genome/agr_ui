@@ -1,8 +1,8 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Ribbon , { RibbonDataProvider } from '@nathandunn/gene-ontology-ribbon';
-import '../../../node_modules/@nathandunn/gene-ontology-ribbon/lib/index.css';
+import Ribbon , { RibbonDataProvider } from '@geneontology/ribbon';
+import '../../../node_modules/@geneontology/ribbon/lib/index.css';
 
 
 class GeneOntologyRibbon extends Component {
