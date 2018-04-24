@@ -5,24 +5,46 @@ import style from './style.css';
 
 class ExternalLink extends Component {
   render() {
-    return (
-      <span>
-        <a
-          className={this.props.href ? style.externalLink : ''}
-          href={this.props.href}
-          rel="noopener noreferrer"
-          target="_blank"
-          title={this.props.title}
-        >
-          {this.props.children || this.props.href}
-        </a>
-      </span>
-    );
+    const{children, displayName, flag, href, title} = this.props;
+    debugger;
+    if(flag){
+      return (
+        <span>
+          <a
+            className={href ? style.externalLink : ''}
+            dangerouslySetInnerHTML={{ __html: displayName }}
+            href={href}
+            rel="noopener noreferrer"
+            target="_blank"
+            title={title}
+          >
+            {children || href}
+          </a>
+        </span>
+      );
+    }
+    else{
+      return (
+        <span>
+          <a
+            className={href ? style.externalLink : ''}
+            href={href}
+            rel="noopener noreferrer"
+            target="_blank"
+            title={title}
+          >
+            {children || href}
+          </a>
+        </span>
+      );
+    }
   }
 }
 
 ExternalLink.propTypes = {
   children: PropTypes.node,
+  displayName: PropTypes.string,
+  flag: PropTypes.bool,
   href: PropTypes.string,
   title: PropTypes.string,
 };

@@ -7,6 +7,8 @@ import DetailList from './detailList';
 import LogList from './logList';
 import { makeFieldDisplayName } from '../../lib/searchHelpers';
 import { NON_HIGHLIGHTED_FIELDS } from '../../constants';
+//import ExternalLink from '../../components/externalLink';
+//import {isExternalUrl} from '../../lib/helpers';
 
 const MATCH_LABEL = 'match_by';
 const MAX_CHAR = 100;
