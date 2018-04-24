@@ -1,52 +1,54 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import style from './style.css';
 
 class ExternalLink extends Component {
   render() {
-    const{children, displayName, flag, href, title} = this.props;
-    debugger;
-    if(flag){
+    if(this.props.flag){
       return (
-        <span>
-          <a
-            className={href ? style.externalLink : ''}
-            dangerouslySetInnerHTML={{ __html: displayName }}
-            href={href}
-            rel="noopener noreferrer"
-            target="_blank"
-            title={title}
-          >
-            {children || href}
-          </a>
-        </span>
+      <span>
+        <a
+          className={this.props.href ? style.externalLink : ''}
+          dangerouslySetInnerHTML={{ __html: this.props.displayName }}
+          href={this.props.href}
+          rel="noopener noreferrer"
+          target="_blank"
+          title={this.props.title}
+
+        >
+          {this.props.children || this.props.href}
+        </a>
+      </span>
       );
+
     }
     else{
       return (
-        <span>
-          <a
-            className={href ? style.externalLink : ''}
-            href={href}
-            rel="noopener noreferrer"
-            target="_blank"
-            title={title}
-          >
-            {children || href}
-          </a>
-        </span>
+      <span>
+        <a
+          className={this.props.href ? style.externalLink : ''}
+          href={this.props.href}
+          rel="noopener noreferrer"
+          target="_blank"
+          title={this.props.title}
+        >
+          {this.props.children || this.props.href}
+        </a>
+      </span>
       );
+
     }
+
   }
 }
 
 ExternalLink.propTypes = {
   children: PropTypes.node,
   displayName: PropTypes.string,
-  flag: PropTypes.bool,
+  flag:PropTypes.bool,
   href: PropTypes.string,
   title: PropTypes.string,
+
 };
 
 export default ExternalLink;
