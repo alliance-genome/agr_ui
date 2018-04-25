@@ -14,6 +14,7 @@ import SpeciesIcon from '../../components/speciesIcon';
 
 const DEFAULT_FIELDS = ['symbol', 'name', 'synonyms', 'sourceHref', 'id', 'type'];
 
+
 class ResultsList extends Component {
   renderHighlightedValues(highlight, fields) {
     let _data = highlight;
@@ -58,7 +59,7 @@ class ResultsList extends Component {
 
   renderDiseaseEntry(d, i) {
     let fields = ['id', 'definition', 'external_ids'];
-    let link = isExternalUrl(d.href) ? <ExternalLink displayName={d.display_name} flag href={d.href} /> : <a dangerouslySetInnerHTML={{ __html: d.display_name }} href={d.href} />;
+    let link = isExternalUrl(d.href, window.location.href) ? <ExternalLink displayName={d.display_name} flag href={d.href} /> : <a dangerouslySetInnerHTML={{ __html: d.display_name }} href={d.href} />;
     return (
       <div className={style.resultContainer} key={`sr${i}`}>
         {this.renderHeader(d.category, link)}
@@ -72,7 +73,7 @@ class ResultsList extends Component {
   }
 
   renderEntry(d, i, fields) {
-    let link = isExternalUrl(d.href) ? <ExternalLink displayName={d.display_name} flag href={d.href} /> : <a dangerouslySetInnerHTML={{ __html: d.display_name }} href={d.href} />;
+    let link = isExternalUrl(d.href, window.location.href) ? <ExternalLink displayName={d.display_name} flag href={d.href} /> : <a dangerouslySetInnerHTML={{ __html: d.display_name }} href={d.href} />;
     return (
       <div className={style.resultContainer} key={`sr${i}`}>
         {this.renderHeader(d.category, link, d.species)}

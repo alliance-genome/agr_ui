@@ -14,8 +14,7 @@ class ExternalLink extends Component {
           rel="noopener noreferrer"
           target="_blank"
           title={this.props.title}
-        >
-        </a>
+        />
       </span>
       );
 
