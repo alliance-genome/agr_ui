@@ -12,7 +12,6 @@ import ExternalLink from '../../components/externalLink';
 
 import SpeciesIcon from '../../components/speciesIcon';
 
-
 const DEFAULT_FIELDS = ['symbol', 'name', 'synonyms', 'sourceHref', 'id', 'type'];
 
 class ResultsList extends Component {
@@ -73,7 +72,7 @@ class ResultsList extends Component {
   }
 
   renderEntry(d, i, fields) {
-    let link = isExternalUrl(d.href ? '': 'http://amigo.geneontology.org/amigo/term/GO:0001779') ? <ExternalLink displayName={d.display_name} flag href='http://amigo.geneontology.org/amigo/term/GO:0001779' /> : <a dangerouslySetInnerHTML={{ __html: d.display_name }} href={d.href} />;
+    let link = isExternalUrl(d.href) ? <ExternalLink displayName={d.display_name} flag href={d.href} /> : <a dangerouslySetInnerHTML={{ __html: d.display_name }} href={d.href} />;
     return (
       <div className={style.resultContainer} key={`sr${i}`}>
         {this.renderHeader(d.category, link, d.species)}
