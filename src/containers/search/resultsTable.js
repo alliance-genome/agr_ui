@@ -7,8 +7,8 @@ import DetailList from './detailList';
 import LogList from './logList';
 import { makeFieldDisplayName } from '../../lib/searchHelpers';
 import { NON_HIGHLIGHTED_FIELDS } from '../../constants';
-//import ExternalLink from '../../components/externalLink';
-//import {isExternalUrl} from '../../lib/helpers';
+import {isExternalUrl} from '../../lib/helpers';
+import ExternalLink from '../../components/externalLink';
 
 const MATCH_LABEL = 'match_by';
 const MAX_CHAR = 100;
@@ -68,6 +68,7 @@ class ResultsTable extends Component {
   renderRows() {
     let entries = this.props.entries;
     let fields = this.getFields();
+    let tempLink = '';
     let rowNodes = entries.map( (d, i) => {
       let nodes = fields.map( (field) => {
         let isMakeLowercase = d.category === 'disease';
@@ -77,9 +78,9 @@ class ResultsTable extends Component {
         switch(field) {
         case 'display_name':
         case 'symbol':
+          tempLink = isExternalUrl(d.href) ? <ExternalLink displayName={d[field]} flag href={d.href} /> : <a className={_className} dangerouslySetInnerHTML={{ __html: d[field] }} href={d.href} target="_new" />;
           nameLink = d.category === 'gene' ?
-            <Link to={`/gene/${d.id}`}><span dangerouslySetInnerHTML={{ __html: d.display_name }} /></Link> :
-            <a className={_className} dangerouslySetInnerHTML={{ __html: d[field] }} href={d.href} target='_new' />;
+            <Link to={`/gene/${d.id}`}><span dangerouslySetInnerHTML={{ __html: d.display_name }} /></Link> : tempLink;
           return <td key={_key}>{nameLink}</td>;
         case 'source':
           return <td key={_key}><a dangerouslySetInnerHTML={{ __html: d.id }} href={d.href} target='_new' /></td>;
