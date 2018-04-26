@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import style from './style.css';
 
 class ExternalLink extends Component {
-  render() {
+  render () {
+    const {children, href, title} = this.props;
     return (
-      <span>
-        <a
-          className={this.props.href ? style.externalLink : ''}
-          href={this.props.href}
-          rel="noopener noreferrer"
-          target="_blank"
-          title={this.props.title}
-        >
-          {this.props.children || this.props.href}
-        </a>
-      </span>
+      <a
+        className={href ? style.externalLink : ''}
+        href={href}
+        rel="noopener noreferrer"
+        target="_blank"
+        title={title}
+      >
+        {children || href}
+      </a>
     );
   }
 }
