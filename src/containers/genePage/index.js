@@ -112,7 +112,7 @@ class GenePage extends Component {
           </Subsection>
         </Subsection>
 
-        <Subsection hasData={(this.props.data.diseases || []) .length > 0} title='Disease Associations'>
+        <Subsection hasData={(this.props.data.diseases || []).length > 0} title='Disease Associations'>
           <GenePageDiseaseTable data={this.props.data.diseases} filename={`${this.props.data.symbol}-Disease-Associations-${date}.tsv`} />
         </Subsection>
 
