@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 
 import style from './style.css';
 import DetailList from './detailList';
 import LogList from './logList';
-import { makeFieldDisplayName } from '../../lib/searchHelpers';
+import { getLinkForEntry, makeFieldDisplayName } from '../../lib/searchHelpers';
 import { NON_HIGHLIGHTED_FIELDS } from '../../constants';
 
 const MATCH_LABEL = 'match_by';
@@ -68,17 +67,11 @@ class ResultsTable extends Component {
     let fields = this.getFields();
     let rowNodes = entries.map( (d, i) => {
       let nodes = fields.map( (field) => {
-        let isMakeLowercase = d.category === 'disease';
-        let _className = isMakeLowercase ? style.lowercase : null;
         let _key = `srtc.${i}.${field}`;
-        let nameLink;
         switch(field) {
         case 'display_name':
         case 'symbol':
-          nameLink = d.category === 'gene' ?
-            <Link to={`/gene/${d.id}`}><span dangerouslySetInnerHTML={{ __html: d.display_name }} /></Link> :
-            <a className={_className} dangerouslySetInnerHTML={{ __html: d[field] }} href={d.href} target='_new' />;
-          return <td key={_key}>{nameLink}</td>;
+          return <td key={_key}>{getLinkForEntry(d)}</td>;
         case 'source':
           return <td key={_key}><a dangerouslySetInnerHTML={{ __html: d.id }} href={d.href} target='_new' /></td>;
         case MATCH_LABEL:

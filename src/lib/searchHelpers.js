@@ -1,5 +1,8 @@
+import React from 'react';
 import clone from 'lodash.clone';
 import without from 'lodash.without';
+import { Link } from 'react-router';
+import ExternalLink from '../components/externalLink';
 
 const SINGLE_VAL_FIELDS = ['mode', 'page'];
 const CLEARING_FIELDS = ['category'];
@@ -113,6 +116,18 @@ export function getQueryParamWithValueChanged(key, val, queryParams, isClear=fal
     return qp;
   }
   return qp;
+}
+
+export function getLinkForEntry(entry) {
+  const inner = <span dangerouslySetInnerHTML={{ __html: entry.display_name }} />;
+  switch (entry.category) {
+  case 'gene':
+    return <Link to={`/gene/${entry.id}`}>{inner}</Link>;
+  case 'disease':
+    return <Link to={`/disease/${entry.id}`}>{inner}</Link>;
+  default:
+    return <ExternalLink href={entry.href}>{inner}</ExternalLink>;
+  }
 }
 
 function toTitleCase(str) {
