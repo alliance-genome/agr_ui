@@ -181,7 +181,7 @@ class OrthologyFilteredTable extends Component {
         <div className="card card-block" style={{margin: '0.5em 0'}}>
           <div>
             <span>Stringency:</span>
-            {this.renderStringencyOption('high', 'Best+best reverse filter (default)')}
+            {this.renderStringencyOption('high', 'Stringent filter (default)')}
             {this.renderStringencyOption('moderate', 'Moderate filter')}
             {this.renderStringencyOption('low', 'No filter / Show all')}
           </div>
