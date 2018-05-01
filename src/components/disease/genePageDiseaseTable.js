@@ -1,48 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import DiseaseNameCell from './diseaseNameCell';
+
 import ReferenceCell from './referenceCell';
 import { LocalDataTable } from '../../components/dataTable';
-import ExternalLink from '../../components/externalLink';
-import { uniq } from 'lodash.uniq';
-import EvidenceCodesCell from './evidenceCodesCell';
+import { GeneticEntityCell, DiseaseNameCell, EvidenceCodesCell } from '.';
 
 class GenePageDiseaseTable extends Component {
-
-  renderGeneticEntity(featureDocument){
-
-    if(featureDocument){
-      return (
-        <ExternalLink href={featureDocument.modCrossRefFullUrl}>
-          <div dangerouslySetInnerHTML={{__html: featureDocument.symbol}} />
-        </ExternalLink>
-      );
-    }
-    return '';
-  }
-
-  renderGeneticEntityType(featureDocument){
-    if(featureDocument){
-      return <div>{featureDocument.category}</div>;
-    }
-    return '';
-  }
-
-  renderEvidenceCodes(publications){
-    if(publications){
-      let returnValue = publications && uniq(publications.map((publication) => {
-        return (
-          publication.evidenceCodes
-        );
-      }).reduce((a, b) => a.concat(b)))
-      .filter((x, i, a) => a.indexOf(x) == i)
-      .sort();
-
-      return returnValue.join(', ');
-    }
-
-    return '';
-  }
 
   render() {
     const diseases = this.props.data;
@@ -57,7 +20,7 @@ class GenePageDiseaseTable extends Component {
           doId: disease.doId,
           associationType: annotation.associationType.replace(/_/g, ' '),
           entityName: annotation.featureDocument,
-          entityCategory: annotation.featureDocument,
+          entityCategory: annotation.featureDocument && annotation.featureDocument.category,
           dataProvider: annotation.source.name,
           publications: annotation.publications,
           refs: annotation.publications,
@@ -80,28 +43,30 @@ class GenePageDiseaseTable extends Component {
         isKey: true,
         sortable: true,
         filterable: true,
+        width: '15%',
       },
       {
         field: 'entityName',
         label: 'Genetic Entity',
-        format: this.renderGeneticEntity,
+        format: GeneticEntityCell,
         sortable: true,
         filterable: true,
-        asText: (featureDocument) => featureDocument ? featureDocument.symbol : ''
+        asText: (featureDocument) => featureDocument ? featureDocument.symbol : '',
+        width: '22%',
       },
       {
         field: 'entityCategory',
         label: 'Genetic Entity Type',
-        format: this.renderGeneticEntityType,
         sortable: true,
         filterable: true,
-        asText: (featureDocument) => featureDocument ? featureDocument.category : ''
+        width: '13%',
       },
       {
         field: 'associationType',
         label: 'Association',
         sortable: true,
         filterable: true,
+        width: '15%',
       },
       {
         field: 'publications',
@@ -110,12 +75,14 @@ class GenePageDiseaseTable extends Component {
         asText: EvidenceCodesCell,
         sortable: true,
         filterable: true,
+        width: '10%',
       },
       {
         field: 'dataProvider',
         label: 'Source',
         sortable: true,
         filterable: true,
+        width: '8%'
       },
       {
         field: 'refs',
@@ -124,6 +91,7 @@ class GenePageDiseaseTable extends Component {
         asText: refsText,
         sortable: true,
         filterable: true,
+        width: '17%',
       }
     ];
 
