@@ -22,8 +22,7 @@ import {
 
 import ExternalLink from '../../components/externalLink';
 import { RemoteDataTable } from '../../components/dataTable';
-import { ReferenceCell } from '../../components/disease';
-import EvidenceCodesCell from '../../components/disease/evidenceCodesCell';
+import { ReferenceCell, GeneticEntityCell, EvidenceCodesCell } from '../../components/disease';
 
 class DiseasePageAssociationsTable extends Component {
   constructor(props) {
@@ -81,24 +80,6 @@ class DiseasePageAssociationsTable extends Component {
     return <Link to={'/gene/' + gene.primaryId}>{gene.symbol}</Link>;
   }
 
-  renderGeneticEntity(featureDocument){
-
-    if(featureDocument){
-      return (
-       <ExternalLink href={featureDocument.modCrossRefFullUrl}>
-         <div dangerouslySetInnerHTML={{__html: featureDocument.symbol}} />
-       </ExternalLink>);
-    }
-    return '';
-  }
-
-  renderGeneticEntityType(featureDocument){
-    if(featureDocument){
-      return <div>{featureDocument.category}</div>;
-    }
-    return '';
-  }
-
   render() {
 
     const columns = [
@@ -125,13 +106,13 @@ class DiseasePageAssociationsTable extends Component {
       {
         field: 'featureDocument',
         label: 'Genetic Entity',
-        format: this.renderGeneticEntity,
+        format: GeneticEntityCell,
         width: '15%',
       },
       {
         field: 'featureDocument',
         label: 'Genetic Entity Type',
-        format: this.renderGeneticEntityType,
+        format: (feature) => feature && feature.category,
         width: '7%',
       },
       {
