@@ -14,6 +14,15 @@ const ExpressionLinks = ({wildTypeExpressionLink, allExpressionLink, otherExpres
   const allLink = (allExpressionLink || [])[0];
   const wtLabel = wtLink ? (wtLink.prefix + ' (wild type)') : '';
   const allLabel = allLink ? (allLink.prefix + (wtLink ? ' (all)' : '')) : '';
+
+  // more than one GEO link? don't show any them.
+  if (otherExpressionLinks) {
+    const linkIsGeo = link => link.displayName === 'GEO';
+    if (otherExpressionLinks.filter(linkIsGeo).length > 1) {
+      otherExpressionLinks = otherExpressionLinks.filter(link => !linkIsGeo(link));
+    }
+  }
+
   return (
     <AttributeList>
       <AttributeLabel>Primary Sources</AttributeLabel>
@@ -27,7 +36,7 @@ const ExpressionLinks = ({wildTypeExpressionLink, allExpressionLink, otherExpres
 
       <AttributeLabel>Other Sources</AttributeLabel>
       <AttributeValue placeholder='None'>
-        {otherExpressionLinks && <CrossReferenceList crossReferences={otherExpressionLinks} />}
+        {otherExpressionLinks && otherExpressionLinks.length && <CrossReferenceList crossReferences={otherExpressionLinks} />}
       </AttributeValue>
     </AttributeList>
   );
