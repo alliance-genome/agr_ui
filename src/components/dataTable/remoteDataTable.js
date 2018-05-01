@@ -62,6 +62,8 @@ class RemoteDataTable extends Component {
           options={options}
           pagination
           remote
+          tableBodyClass='table-sm'
+          tableHeaderClass='table-sm'
           version='4'
         >
           {
