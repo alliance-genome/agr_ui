@@ -8,7 +8,7 @@ class ExternalLink extends Component {
     return (
       <a
         className={href ? style.externalLink : ''}
-        href={href}
+        href={href || null}
         rel="noopener noreferrer"
         target="_blank"
         title={title}
