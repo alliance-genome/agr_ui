@@ -6,8 +6,6 @@ import PropTypes from 'prop-types';
 import DownloadButton from './downloadButton';
 import Utils from './utils';
 
-import style from './style.css';
-
 class RemoteDataTable extends Component {
   constructor(props) {
     super(props);
@@ -15,7 +13,7 @@ class RemoteDataTable extends Component {
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handleSizeChange = this.handleSizeChange.bind(this);
     this.handleSortChange = this.handleSortChange.bind(this);
-    this.renderPaginationShowsTotal = this.renderPaginationShowsTotal.bind(this);
+
   }
 
   handlePageChange(page, size) {
@@ -30,14 +28,6 @@ class RemoteDataTable extends Component {
     this.props.onSortChange(fieldName, sortOrder);
   }
 
-  renderPaginationShowsTotal(start, end, total) {
-    return (
-      <p className={style.remoteDataTablePaginationShowsTotal}>
-        { start } to { end }, of { total } results.
-      </p>
-    );
-  }
-
   render() {
     const { columns, currentPage, data, downloadUrl, perPageSize, sortName, sortOrder, totalRows } = this.props;
 
@@ -47,7 +37,7 @@ class RemoteDataTable extends Component {
       sortName: sortName,
       sortOrder: sortOrder,
       onSortChange: this.handleSortChange,
-      paginationShowsTotal: this.renderPaginationShowsTotal,
+      paginationShowsTotal: Utils.renderPaginationShowsTotal,
       page: currentPage,
       sizePerPage: perPageSize,
       sizePerPageList: [10, 25, 100],
