@@ -34,7 +34,7 @@ class BasicDiseaseInfo extends Component {
 
   renderDefinition(disease) {
     return (disease.definition || (disease.definitionLinks && disease.definitionLinks.length > 0)) && (
-      <div>
+      <div className='definitionSection'>
         {disease.definition}
         {this.renderDefinitionLinks(disease.definitionLinks)}
       </div>

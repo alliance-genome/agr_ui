@@ -405,5 +405,8 @@
 
 .dropdown-item.sub-menu.active{
   background-color: #2E99C3 !important;
+}
 
+div.definitionSection div {
+  padding-top: 2%;
 }
