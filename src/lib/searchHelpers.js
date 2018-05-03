@@ -10,6 +10,8 @@ const CLEARING_FIELDS = ['category'];
 export function makeFieldDisplayName(unformattedName) {
   unformattedName = unformattedName || '';
 
+  unformattedName = unformattedName.replace('name_key', 'Symbol');
+
   switch(unformattedName) {
   case 'go':
     return 'Gene Ontology';
@@ -53,13 +55,13 @@ export function makeFieldDisplayName(unformattedName) {
     return 'Disease';
   case 'soTermName':
     return 'Biotype';
-  case 'annotations.geneDocument.name_key':
+  case 'annotations.geneDocument.Symbol':
     return 'Gene';
   case 'annotations.geneDocument.species':
     return 'Associated Species';
   case 'geneDocument.species':
     return 'Species';
-  case 'geneDocument.name_key':
+  case 'geneDocument.Symbol':
     return 'Gene';
   case 'geneDocument.name':
     return 'Gene';
