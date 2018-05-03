@@ -4,6 +4,19 @@ const FILTER_ORDER = ['biotype', 'species'];
 import { makeFieldDisplayName } from '../lib/searchHelpers';
 import { NON_HIGHLIGHTED_FIELDS } from '../constants';
 
+export function flattenWithPrettyFieldNames(highlights) {
+  if (highlights === undefined) { return highlights; }
+
+  let prettyHighlights = {};
+
+  Object.keys(highlights).forEach( key => {
+    prettyHighlights[makeFieldDisplayName(key)] = highlights[key];
+  });
+
+  return prettyHighlights;
+}
+
+
 // takes the fields in responseObj.highlights and replaces the shallow values in responseObj
 // also return highlight values as strings like '<em>val</em>...<em>val2</em>' instead of array
 export function injectHighlightIntoResponse(responseObj) {
@@ -22,7 +35,7 @@ export function injectHighlightIntoResponse(responseObj) {
       responseObj[key] = injectHighlightingIntoValue(highStr, responseObj[key]);
     }
   });
-  responseObj.highlights = simpleHighObj;
+  responseObj.highlights = flattenWithPrettyFieldNames(simpleHighObj);
   return responseObj;
 }
 
@@ -47,6 +60,7 @@ function injectHighlightingIntoValue(highlight, value) {
 function replaceHighlightValue(value, unhighlightedValue, highlight) {
   return value.toString().replace(unhighlightedValue, highlight);
 }
+
 
 export function parseResults(results) {
   return results.map( d => {
