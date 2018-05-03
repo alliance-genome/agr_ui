@@ -1,3 +1,6 @@
+.externalLink {
+  word-wrap: break-word;
+}
 .externalLink:after {
   font-family: FontAwesome;
   content: "\f08e";
