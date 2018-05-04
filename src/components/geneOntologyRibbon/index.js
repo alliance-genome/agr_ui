@@ -17,6 +17,7 @@ class GeneOntologyRibbon extends Component {
             dataReceived ?
               <Ribbon
                 geneUrlFormatter={(geneId) => `/gene/${geneId}`}
+                showing={false}
                 slimlist={data}
                 subject={id}
                 title={title}

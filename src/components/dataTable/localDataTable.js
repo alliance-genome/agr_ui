@@ -6,8 +6,6 @@ import PropTypes from 'prop-types';
 import Utils from './utils';
 import DownloadButton from './downloadButton';
 
-import style from './style.css';
-
 const textSorter = (textRender, field) => {
   return (a, b, order) => {
     if (order === 'desc') {
@@ -23,14 +21,6 @@ class LocalDataTable extends Component {
     super(props);
   }
 
-  renderPaginationShowsTotal(start, end, total) {
-    return (
-      <p className={style.remoteDataTablePaginationShowsTotal}>
-        { start } to { end }, of { total } results.
-      </p>
-    );
-  }
-
   renderDownloadButton(onClick) {
     return (
       <div className='btn-group' role='group'>
@@ -44,7 +34,7 @@ class LocalDataTable extends Component {
     const options = {
       exportCSVBtn: this.renderDownloadButton,
       exportCSVSeparator: '\t',
-      paginationShowsTotal: this.renderPaginationShowsTotal,
+      paginationShowsTotal: Utils.renderPaginationShowsTotal,
       sizePerPageList: [10, 25, 100],
       toolbarPosition: 'bottom', //move download button to the bottom
     };
