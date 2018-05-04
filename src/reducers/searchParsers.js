@@ -4,7 +4,7 @@ const FILTER_ORDER = ['biotype', 'species'];
 import { makeFieldDisplayName } from '../lib/searchHelpers';
 import { NON_HIGHLIGHTED_FIELDS } from '../constants';
 
-export function flattenWithPrettyFieldNames(highlights) {
+function flattenWithPrettyFieldNames(highlights) {
   if (highlights === undefined) { return highlights; }
 
   let prettyHighlights = {};
