@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 
 import style from './style.css';
 import CategoryLabel from './categoryLabel';
@@ -9,6 +8,7 @@ import ResultExplanation from './resultExplanation';
 import { NON_HIGHLIGHTED_FIELDS } from '../../constants';
 
 import SpeciesIcon from '../../components/speciesIcon';
+import { getLinkForEntry } from '../../lib/searchHelpers';
 
 const DEFAULT_FIELDS = ['symbol', 'name', 'synonyms', 'sourceHref', 'id', 'type'];
 
@@ -24,21 +24,18 @@ class ResultsList extends Component {
     return <DetailList data={_data} fields={_fields} />;
   }
 
-  renderHeader(category, link, species) {
-    if (species) {
-      species = '(' + species + ')';
-    }
-    return (
-      <div>
-        <span className={style.resultCatLabel}><CategoryLabel category={category} /></span>
-        <div>
-          <h4 className={style.resultLinkLabel}>
-            {link}
-          </h4>
-          <span className={style.resultSpeciesLabel} dangerouslySetInnerHTML={{ __html: species }} />
+  renderHeader(d) {
+    return (<div className="row">
+        <div className="col-sm-10">
+          <h4 className={style.resultLinkLabel}>{getLinkForEntry(d)}</h4>
+          {d.species && <span className={style.resultSpeciesLabel} dangerouslySetInnerHTML={{ __html: '(' + d.species + ')' }} />}
         </div>
-      </div>
-    );
+        <div className="col-sm-2">
+          <span className={style.resultCatLabel}>
+            <CategoryLabel category={d.category} />
+          </span>
+        </div>
+      </div>);
   }
 
   renderDetailFromFields(d, fields) {
@@ -56,10 +53,9 @@ class ResultsList extends Component {
 
   renderDiseaseEntry(d, i) {
     let fields = ['id', 'definition', 'external_ids'];
-    let link = <a dangerouslySetInnerHTML={{ __html: d.display_name }} href={d.href} />;
     return (
       <div className={style.resultContainer} key={`sr${i}`}>
-        {this.renderHeader(d.category, link)}
+        {this.renderHeader(d)}
         {this.renderDetailFromFields(d, fields)}
         {this.renderHighlightedValues(d.highlight, fields)}
         {this.renderMissingTerms(d)}
@@ -70,10 +66,9 @@ class ResultsList extends Component {
   }
 
   renderEntry(d, i, fields) {
-    let link = <a dangerouslySetInnerHTML={{ __html: d.display_name }} href={d.href} />;
     return (
       <div className={style.resultContainer} key={`sr${i}`}>
-        {this.renderHeader(d.category, link, d.species)}
+        {this.renderHeader(d)}
         <SpeciesIcon iconClass={style.resultSpeciesIcon} species={d.speciesKey} />
         {this.renderDetailFromFields(d, fields)}
         {this.renderHighlightedValues(d.highlight)}
@@ -87,10 +82,9 @@ class ResultsList extends Component {
   renderGeneEntry(d, i) {
     let topFields = ['name', 'synonyms'];
     let bottomFields = ['biotype'];
-    let link = <Link to={`/gene/${d.id}`}><span dangerouslySetInnerHTML={{ __html: d.display_name }} /></Link>;
     return (
       <div className={style.resultContainer} key={`sr${i}`}>
-        {this.renderHeader(d.category, link, d.species)}
+        {this.renderHeader(d)}
           <SpeciesIcon iconClass={style.resultSpeciesIcon} species={d.speciesKey} />
           {this.renderDetailFromFields(d, topFields)}
           <div className={style.detailContainer}>
@@ -123,11 +117,9 @@ class ResultsList extends Component {
   }
 
   render() {
-    return (
-      <div>
+    return (<div className={style.resultsListParent}>
         {this.renderRows()}
-      </div>
-    );
+      </div>);
   }
 }
 

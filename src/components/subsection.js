@@ -18,7 +18,7 @@ class Subsection extends Component {
 }
 
 Subsection.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.node.isRequired,
   hardcoded: PropTypes.bool,
   hasData: PropTypes.bool,
   title: PropTypes.string,

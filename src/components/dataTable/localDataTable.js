@@ -34,6 +34,7 @@ class LocalDataTable extends Component {
     const options = {
       exportCSVBtn: this.renderDownloadButton,
       exportCSVSeparator: '\t',
+      paginationShowsTotal: Utils.renderPaginationShowsTotal,
       sizePerPageList: [10, 25, 100],
       toolbarPosition: 'bottom', //move download button to the bottom
     };
@@ -45,6 +46,8 @@ class LocalDataTable extends Component {
         exportCSV
         options={options}
         pagination={paginated}
+        tableBodyClass='table-sm'
+        tableHeaderClass='table-sm'
         version='4'
       >
         {
@@ -60,6 +63,7 @@ class LocalDataTable extends Component {
               isKey={col.isKey}
               key={idx}
               sortFunc={col.asText && textSorter(col.asText, col.field)}
+              width={col.width}
             >
               {col.label}
             </TableHeaderColumn>

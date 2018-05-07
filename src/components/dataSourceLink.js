@@ -4,20 +4,24 @@ import ExternalLink from './externalLink';
 
 class DataSourceLink extends Component {
   render() {
+    const {reference, text} = this.props;
+    if (!reference) {
+      return null;
+    }
     return (
       <ExternalLink href={this.props.reference.crossRefCompleteUrl}>
-        {this.props.reference.name}
+        {text || (reference.displayName || reference.name)}
       </ExternalLink>
     );
   }
 }
 
 DataSourceLink.propTypes = {
-  omitPrefix: PropTypes.bool,
   reference: PropTypes.shape({
     crossRefCompleteUrl: PropTypes.string,
     name: PropTypes.string,
   }),
+  text: PropTypes.string,
 };
 
 export default DataSourceLink;

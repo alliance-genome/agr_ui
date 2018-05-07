@@ -1,23 +1,25 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Ribbon, { RibbonDataProvider } from '@sibyl229/gene-ontology-ribbon';
-import '../../../node_modules/@sibyl229/gene-ontology-ribbon/lib/index.css';
+import Ribbon , { RibbonDataProvider } from '@geneontology/ribbon';
+import '../../../node_modules/@geneontology/ribbon/lib/index.css';
 
 
 class GeneOntologyRibbon extends Component {
   render() {
-    const {id} =  this.props;
+    const {id,slim} =  this.props;
 
     return (
-      <RibbonDataProvider subject={id}>
+      <RibbonDataProvider slim={slim} subject={id} >
       {({title, data, dataError, dataReceived}) => (
           <div>
           {
             dataReceived ?
               <Ribbon
                 geneUrlFormatter={(geneId) => `/gene/${geneId}`}
+                showing={false}
                 slimlist={data}
+                subject={id}
                 title={title}
               /> :
               null
@@ -37,7 +39,8 @@ class GeneOntologyRibbon extends Component {
 }
 
 GeneOntologyRibbon.propTypes = {
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  slim: PropTypes.string.isRequired,
 };
 
 export default GeneOntologyRibbon;

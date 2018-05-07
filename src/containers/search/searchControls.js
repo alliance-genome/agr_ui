@@ -43,15 +43,25 @@ class SearchControlsComponent extends Component {
     let nextHef = { pathname: SEARCH_PATH, query: nextQp };
     let isPrevDisabled = curPage <= 1;
     let isNextDisabled = curPage >= totPage;
-    return (
-      <div className={style.control}>
-        <label className={`${style.searchLabel}`}>Page {curPage.toLocaleString()} of {totPage.toLocaleString()}</label>
-        <div className='btn-group' role='group'>
-          <Link className={`btn btn-secondary${isPrevDisabled ? ' disabled' : ''}`} to={prevHef}><i className='fa fa-chevron-left' /></Link>
-          <Link className={`btn btn-secondary${isNextDisabled ? ' disabled' : ''}`} to={nextHef}><i className='fa fa-chevron-right' /></Link>
+    return (<div className={style.control}>
+        <div className="row">
+          <div className="row">
+            <label className={`${style.searchLabel}`}>
+              Page {curPage.toLocaleString()} of {totPage.toLocaleString()}
+            </label>
+          </div>
+          <div className="row">
+            <div className="btn-group" role="group">
+              <Link className={`btn btn-secondary${isPrevDisabled ? ' disabled' : ''}`} to={prevHef}>
+                <i className="fa fa-chevron-left" />
+              </Link>
+              <Link className={`btn btn-secondary${isNextDisabled ? ' disabled' : ''}`} to={nextHef}>
+                <i className="fa fa-chevron-right" />
+              </Link>
+            </div>
+          </div>
         </div>
-      </div>
-    );
+      </div>);
   }
 
   renderSortinator() {
@@ -97,12 +107,11 @@ class SearchControlsComponent extends Component {
   }
 
   render() {
-    return (
-      <div>
-        {this.renderViewAs()}
-        {this.renderNonViewAs()}
-      </div>
-    );
+    return (<div className="row">
+        <div className="col-sm-4">{this.renderViewAs()}</div>
+        <div className="col-sm-4" />
+        <div className="col-sm-4">{this.renderNonViewAs()}</div>
+      </div>);
   }
 }
 

@@ -1,29 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ExternalLink from '../externalLink';
+import DataSourceLink from '../dataSourceLink';
 
 class PantherCrossRef extends Component {
 
   render() {
-    const pantherCrossRef = (this.props.crossReferences || []).filter(
-      (dat) => dat.crossRefCompleteUrl.match(/http:\/\/pantherdb.org.*/i)
-    )[0];
-    return (
-      pantherCrossRef ?
-        <ExternalLink href={pantherCrossRef.crossRefCompleteUrl}>
-          {pantherCrossRef.name}
-        </ExternalLink> : null
-    );
+    const pantherCrossRef = (this.props.crossReferences['gene/panther'] || [])[0];
+    return <DataSourceLink reference={pantherCrossRef} />;
   }
 }
 
 PantherCrossRef.propTypes = {
-  crossReferences: PropTypes.arrayOf(
-    PropTypes.shape({
-      crossRefCompleteUrl: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-    })
-  ),
+  crossReferences: PropTypes.object,
 };
 
 export default PantherCrossRef;
