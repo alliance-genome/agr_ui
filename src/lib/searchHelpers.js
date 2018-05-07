@@ -1,11 +1,16 @@
+import React from 'react';
 import clone from 'lodash.clone';
 import without from 'lodash.without';
+import { Link } from 'react-router';
+import ExternalLink from '../components/externalLink';
 
 const SINGLE_VAL_FIELDS = ['mode', 'page'];
 const CLEARING_FIELDS = ['category'];
 
 export function makeFieldDisplayName(unformattedName) {
   unformattedName = unformattedName || '';
+
+  unformattedName = unformattedName.replace('name_key', 'Symbol');
 
   switch(unformattedName) {
   case 'go':
@@ -32,21 +37,31 @@ export function makeFieldDisplayName(unformattedName) {
     return 'Associated Species';
   case 'id':
     return 'ID';
+  case 'primaryId':
+    return 'ID';
   case 'secondaryIds':
     return 'Secondary ID';
   case 'external_ids':
+    return 'Cross References';
+  case 'crossReferences.generic_cross_reference.name':
+    return 'Cross References';
+  case 'crossReferences.ontology_provided_cross_reference.name':
+    return 'Cross References';
+  case 'crossReferences.generic_cross_reference.localId':
+    return 'Cross References';
+  case 'crossReferences.ontology_provided_cross_reference.localId':
     return 'Cross References';
   case 'diseases.name':
     return 'Disease';
   case 'soTermName':
     return 'Biotype';
-  case 'annotations.geneDocument.name_key':
+  case 'annotations.geneDocument.Symbol':
     return 'Gene';
   case 'annotations.geneDocument.species':
     return 'Associated Species';
   case 'geneDocument.species':
     return 'Species';
-  case 'geneDocument.name_key':
+  case 'geneDocument.Symbol':
     return 'Gene';
   case 'geneDocument.name':
     return 'Gene';
@@ -103,6 +118,18 @@ export function getQueryParamWithValueChanged(key, val, queryParams, isClear=fal
     return qp;
   }
   return qp;
+}
+
+export function getLinkForEntry(entry) {
+  const inner = <span dangerouslySetInnerHTML={{ __html: entry.display_name }} />;
+  switch (entry.category) {
+  case 'gene':
+    return <Link to={`/gene/${entry.id}`}>{inner}</Link>;
+  case 'disease':
+    return <Link to={`/disease/${entry.id}`}>{inner}</Link>;
+  default:
+    return <ExternalLink href={entry.href}>{inner}</ExternalLink>;
+  }
 }
 
 function toTitleCase(str) {

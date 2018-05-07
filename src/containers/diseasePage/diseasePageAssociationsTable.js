@@ -22,8 +22,7 @@ import {
 
 import ExternalLink from '../../components/externalLink';
 import { RemoteDataTable } from '../../components/dataTable';
-import { ReferenceCell } from '../../components/disease';
-import EvidenceCodesCell from '../../components/disease/evidenceCodesCell';
+import { ReferenceCell, GeneticEntityCell, EvidenceCodesCell } from '../../components/disease';
 
 class DiseasePageAssociationsTable extends Component {
   constructor(props) {
@@ -81,24 +80,6 @@ class DiseasePageAssociationsTable extends Component {
     return <Link to={'/gene/' + gene.primaryId}>{gene.symbol}</Link>;
   }
 
-  renderGeneticEntity(featureDocument){
-
-    if(featureDocument){
-      return (
-       <ExternalLink href={featureDocument.modCrossRefFullUrl}>
-         <div dangerouslySetInnerHTML={{__html: featureDocument.symbol}} />
-       </ExternalLink>);
-    }
-    return '';
-  }
-
-  renderGeneticEntityType(featureDocument){
-    if(featureDocument){
-      return <div>{featureDocument.category}</div>;
-    }
-    return '';
-  }
-
   render() {
 
     const columns = [
@@ -113,49 +94,57 @@ class DiseasePageAssociationsTable extends Component {
         label: 'Gene',
         format: this.renderGeneLink,
         sortable: true,
+        width: '7%',
       },
       {
         field: 'disease_species',
         label: 'Species',
         format: (species) => <i>{species.name}</i>,
         sortable: true,
+        width: '10%',
       },
       {
         field: 'featureDocument',
         label: 'Genetic Entity',
-        format: this.renderGeneticEntity,
+        format: GeneticEntityCell,
+        width: '15%',
       },
       {
         field: 'featureDocument',
         label: 'Genetic Entity Type',
-        format: this.renderGeneticEntityType,
+        format: (feature) => feature && feature.category,
+        width: '7%',
       },
       {
         field: 'associationType',
         label: 'Association Type',
         format: (type) => type.replace(/_/g, ' '),
+        width: '10%',
       },
       {
         field: 'diseaseName',
         label: 'Disease',
         format: this.renderDiseaseName,
         sortable: true,
+        width: '10%',
       },
       {
         field: 'publications',
         label: 'Evidence Code',
         format: EvidenceCodesCell,
+        width: '5%',
       },
       {
         field: 'source',
         label: 'Source',
         format: (s) => <ExternalLink href={s.diseaseUrl}>{s.name}</ExternalLink>,
-        width: '100px',
+        width: '7%',
       },
       {
         field: 'publications',
         label: 'References',
         format: ReferenceCell,
+        width: '15%',
       },
     ];
 
