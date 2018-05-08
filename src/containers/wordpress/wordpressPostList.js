@@ -47,12 +47,12 @@ class WordpressPostList extends Component {
               const link = `/posts/${post.slug}`;
               return (
                 <div className={`row ${style.postContainer}`} key={post.id}>
-                  <div className='col-xs-12 col-sm-4'>
+                  <div className='col-12 col-sm-4'>
                     <Link href={link}>
                       <img className='img-fluid' src={post.featured_media_url} />
                     </Link>
                   </div>
-                  <div className='col-xs-12 col-sm-8'>
+                  <div className='col-12 col-sm-8'>
                     <Link to={link}>
                       <h3 dangerouslySetInnerHTML={{ __html: post.title.rendered}} />
                     </Link>
