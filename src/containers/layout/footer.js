@@ -11,12 +11,12 @@ class FooterBar extends Component {
       <div className={style.footerBar}>
         <div className='container'>
           <div className='row'>
-            <div className='col-xs-6'>
+            <div className='col-6'>
                 <Link to='/'>
                   <img height='50' src={logo} />
                 </Link>
             </div>
-            <div className='col-xs-6 pull-right text-xs-right'>
+            <div className='col-6 float-right text-xs-right'>
               <SocialMedia />
             </div>
           </div>

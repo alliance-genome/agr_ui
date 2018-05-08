@@ -34,16 +34,15 @@ class Layout extends Component {
                   </div>
                 </div>
                 <div className="col-sm-3 col-md-3">
-                  <button className="navbar-toggler hidden-lg-up pull-right" type="button" data-target="#exCollapsingNavbar2" data-toggle="collapse">
+                  <button className="navbar-toggler hidden-lg-up float-right" data-target="#exCollapsingNavbar2" data-toggle="collapse" type="button">
                     &#9776;
                   </button>
                 </div>
-
-                <div className="col-sm-6 col-md-6 pull-right">
+                <div className="col-sm-6 col-md-6 float-right">
                   <SearchBar />
                 </div>
               </div>
-              <div className="row" style={{ marginLeft: "0.1rem" }}>
+              <div className="row">
                 <MenuItems currentRoute={currentRoute} />
               </div>
             </div>
@@ -61,7 +60,7 @@ class Layout extends Component {
           <div className={style.siteMapContainer}>
             <div className="container">
               <div className="row">
-                <div className="col-sm-6 col-md-6 col-xs-12">
+                <div className="col-sm-6 col-md-6 col-12">
                   <div>
                     <h4>Recent Tweets</h4>
                   </div>
@@ -69,7 +68,7 @@ class Layout extends Component {
                     <AgrTweets />
                   </div>
                 </div>
-                <div className="col-sm-6 col-md-6 col-xs-12">
+                <div className="col-sm-6 col-md-6 col-12">
                   <SiteMap />
                 </div>
               </div>
