@@ -9,13 +9,14 @@ import TopBar from './topBar';
 import FooterBar from './footer';
 import SiteMap from './siteMap';
 import AgrTweets from './twitterWidget';
-import MenuItems from './navigation/menuItems';
-/* eslint-disable */
+import { MenuItems } from './navigation';
+
+
 class Layout extends Component {
 
   render() {
     let currentRoute = this.props.location.pathname.replace('/', '');
-    currentRoute = currentRoute == '' ? 'home' : currentRoute;
+    currentRoute = currentRoute === '' ? 'home' : currentRoute;
 
     return <div>
         <div className='hidden-sm-down'>

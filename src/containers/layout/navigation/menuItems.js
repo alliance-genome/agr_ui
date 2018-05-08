@@ -9,7 +9,7 @@ import {
 } from '../../../constants';
 
 const HOME_ROUTE = '/home';
-import NavItem from './item';
+import { NavItem } from '.';
 
 class MenuItems extends Component {
   render () {
