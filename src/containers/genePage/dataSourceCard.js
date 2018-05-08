@@ -14,7 +14,7 @@ import style from './style.css';
 class DataSourceCard extends Component {
   render() {
     const { species, reference } = this.props;
-    const listClass = 'col-xs-12';
+    const listClass = 'col-12';
     const labelClass = 'col-md-3';
     const valueClass = 'col-md-9';
     return (

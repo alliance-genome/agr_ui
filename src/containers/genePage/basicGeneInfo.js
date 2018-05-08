@@ -39,11 +39,11 @@ class BasicGeneInfo extends Component {
     const gene = this.state.geneData;
     return (
       <div className='row'>
-        <div className='col-sm-4 push-sm-8'>
+        <div className='col-sm-4 order-sm-last'>
           <DataSourceCard reference={gene.crossReferences.gene[0]} species={gene.species} />
         </div>
-        <div className='col-sm-8 pull-sm-4'>
-          <AttributeList bsClassName='col-xs-12'>
+        <div className='col-sm-8 order-sm-first'>
+          <AttributeList bsClassName='col-12'>
             <AttributeLabel>Symbol</AttributeLabel>
             <AttributeValue>{gene.symbol}</AttributeValue>
 

@@ -127,7 +127,7 @@ class GenomeFeatureViewer extends Component {
           <AttributeValue>{assembly}</AttributeValue>
         </AttributeList>
         <div className='row'>
-          <div className='col-xs-12'>
+          <div className='col-12'>
             <a href={this.jbrowseUrl} rel='noopener noreferrer'
                target='_blank' title='Browse Genome'
             >

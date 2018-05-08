@@ -125,7 +125,7 @@ class MultiTableComponent extends Component {
           </Link>
         </p>
         <ResultsTable activeCategory={category} entries={this.getResultsForCategory(category)} />
-        <span className='pull-right'>
+        <span className='float-right'>
           <Link to={categoryHref}>
             Show All <CategoryLabel category={category} hideImage /> Results
           </Link>
