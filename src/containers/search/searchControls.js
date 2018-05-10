@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { DropdownButton, MenuItem } from 'react-bootstrap';
 
 import style from './style.css';
 import { getQueryParamWithValueChanged } from '../../lib/searchHelpers';
@@ -22,11 +21,11 @@ class SearchControlsComponent extends Component {
     let listHref = { pathname: SEARCH_PATH, query: listQp };
     let tableHref = { pathname: SEARCH_PATH, query: tableQp };
     return (
-      <div className={style.control}>
+      <div>
         <label className={style.searchLabel}>View As</label>
         <div className='btn-group' role='group'>
-          <Link className={`btn btn-${(this.props.mode === 'list') ? 'primary': 'secondary'}`} to={listHref}><i className='fa fa-list' /> List</Link>
-          <Link className={`btn btn-${(this.props.mode === 'table') ? 'primary': 'secondary'}`} to={tableHref}><i className='fa fa-table' /> Table</Link>
+          <Link className={`btn btn-${(this.props.mode === 'list') ? 'primary': 'outline-primary'}`} to={listHref}><i className='fa fa-list' /> List</Link>
+          <Link className={`btn btn-${(this.props.mode === 'table') ? 'primary': 'outline-primary'}`} to={tableHref}><i className='fa fa-table' /> Table</Link>
         </div>
       </div>
     );
@@ -43,75 +42,34 @@ class SearchControlsComponent extends Component {
     let nextHef = { pathname: SEARCH_PATH, query: nextQp };
     let isPrevDisabled = curPage <= 1;
     let isNextDisabled = curPage >= totPage;
-    return (<div className={style.control}>
-        <div className="row">
-          <div className="row">
-            <label className={`${style.searchLabel}`}>
-              Page {curPage.toLocaleString()} of {totPage.toLocaleString()}
-            </label>
-          </div>
-          <div className="row">
-            <div className="btn-group" role="group">
-              <Link className={`btn btn-secondary${isPrevDisabled ? ' disabled' : ''}`} to={prevHef}>
-                <i className="fa fa-chevron-left" />
-              </Link>
-              <Link className={`btn btn-secondary${isNextDisabled ? ' disabled' : ''}`} to={nextHef}>
-                <i className="fa fa-chevron-right" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>);
-  }
-
-  renderSortinator() {
-    return (
-      <div className={style.control}>
-        <label className={style.searchLabel}>Sort By</label>
-        <DropdownButton className='btn-secondary' id='bg-nested-dropdown' title='Relevance'>
-          <MenuItem eventKey='1'>Dropdown link</MenuItem>
-          <MenuItem eventKey='2'>Dropdown link</MenuItem>
-        </DropdownButton>
-      </div>
-    );
-  }
-
-  renderPageSizeControl() {
-    return (
-      <div className={style.control}>
-        <label className={style.searchLabel}>Page Size</label>
-        <DropdownButton className='btn-secondary' id='bg-nested-dropdown' title='50'>
-          <MenuItem eventKey='1'>Dropdown link</MenuItem>
-          <MenuItem eventKey='2'>Dropdown link</MenuItem>
-        </DropdownButton>
-      </div>
-    );
-  }
-
-  renderDownloadButton() {
     return (
       <div>
-        <label className={style.searchLabel}>&nbsp;</label>
-        <a className={`btn btn-secondary ${style.agrDownloadBtn}`} href='#'><i className='fa fa-download' /> Download</a>
+        <label className={`${style.searchLabel}`}>
+          Page {curPage.toLocaleString()} of {totPage.toLocaleString()}
+        </label>
+        <div className='btn-group' role='group'>
+          <Link className={`btn btn-outline-secondary${isPrevDisabled ? ' disabled' : ''}`} to={prevHef}>
+            <i className='fa fa-chevron-left' />
+          </Link>
+          <Link className={`btn btn-outline-secondary${isNextDisabled ? ' disabled' : ''}`} to={nextHef}>
+            <i className='fa fa-chevron-right' />
+          </Link>
+        </div>
       </div>
     );
   }
 
   renderNonViewAs() {
-    if (this.props.isMultiTable) return null;
-    return (
-      <div className={style.controlContainer}>
-        {this.renderPaginator()}
-      </div>
-    );
+    return this.props.isMultiTable ? null : this.renderPaginator();
   }
 
   render() {
-    return (<div className="row">
-        <div className="col-sm-4">{this.renderViewAs()}</div>
-        <div className="col-sm-4" />
-        <div className="col-sm-4">{this.renderNonViewAs()}</div>
-      </div>);
+    return (
+      <div className='d-flex'>
+        <div>{this.renderViewAs()}</div>
+        <div className='ml-auto'>{this.renderNonViewAs()}</div>
+      </div>
+    );
   }
 }
 
