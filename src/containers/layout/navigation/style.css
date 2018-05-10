@@ -1,14 +1,10 @@
 .topnav a {
-  padding: 14px 16px;
   text-decoration: none;
   border-bottom: 3px solid transparent;
   margin-right: 1em;
 }
 
-.topnav .nav-item a:hover {
-  border-bottom: 3px solid #f1ad4d;
-}
-
-.topnav .nav-item a.active {
+.topnav a:hover,
+.topnav a.active {
   border-bottom: 3px solid #f1ad4d;
 }
