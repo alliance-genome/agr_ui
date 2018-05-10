@@ -29,7 +29,10 @@ class Layout extends Component {
               <Link className='navbar-brand' to='/'>
                 <img className={`img-fluid ${style.agrLogo}`} src={logo} />
               </Link>
-              <button className="navbar-toggler float-right d-block d-md-none" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2" aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation">
+              <button aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation"
+                      className="navbar-toggler float-right d-block d-md-none" data-target="#exCollapsingNavbar2"
+                      data-toggle="collapse" type="button"
+              >
                 &#9776;
               </button>
             </div>

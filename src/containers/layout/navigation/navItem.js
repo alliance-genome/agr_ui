@@ -2,11 +2,13 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
+import style from './style.css';
+
 class NavItem extends Component {
   render() {
     let classNames = '';
     if (this.props.isActive) {
-      classNames += ' active';
+      classNames += style.active;
     }
 
     if (this.props.hasDropDown) {
