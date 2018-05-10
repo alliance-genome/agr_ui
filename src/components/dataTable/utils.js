@@ -1,6 +1,8 @@
 import React from 'react';
 import style from './style.css';
 
+import { SizePerPageDropDown } from 'react-bootstrap-table';
+
 export default {
   getTextFilter(column) {
     return column.filterable ? {
@@ -15,6 +17,13 @@ export default {
       <p className={style.remoteDataTablePaginationShowsTotal}>
         { start } to { end }, of { total } results.
       </p>
+    );
+  },
+
+  // eslint-disable-next-line react/no-multi-comp
+  renderSizePerPageDropDown() {
+    return (
+      <SizePerPageDropDown btnContextual='btn-outline-secondary' />
     );
   }
 };
