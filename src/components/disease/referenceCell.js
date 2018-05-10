@@ -6,11 +6,11 @@ const ReferenceCell = (refs) => {
   return (
     <span>
       {
-        refs && refs.length > 0 && refs.map((ref) => {
+        refs && refs.length > 0 && refs.map((ref, idx) => {
           if (ref.pubMedId && ref.pubMedUrl) {
-            return <ExternalLink href={ref.pubMedUrl} title={ref.pubMedId}>{ref.pubMedId}</ExternalLink>;
+            return <ExternalLink href={ref.pubMedUrl} key={idx} title={ref.pubMedId}>{ref.pubMedId}</ExternalLink>;
           } else if (ref.pubModId && ref.pubModUrl) {
-            return <ExternalLink href={ref.pubModUrl} title={ref.pubModId}>{ref.pubModId}</ExternalLink>;
+            return <ExternalLink href={ref.pubModUrl} key={idx} title={ref.pubModId}>{ref.pubModId}</ExternalLink>;
           }
         })
         .reduce((prev, curr) => [prev, ', ', curr])
