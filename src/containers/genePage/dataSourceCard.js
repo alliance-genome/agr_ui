@@ -15,8 +15,8 @@ class DataSourceCard extends Component {
   render() {
     const { species, reference } = this.props;
     const listClass = 'col-12';
-    const labelClass = 'col-md-3';
-    const valueClass = 'col-md-9';
+    const labelClass = 'col-lg-3';
+    const valueClass = 'col-lg-9';
     return (
       <div className='card'>
         <div className={style.iconContainer}>
