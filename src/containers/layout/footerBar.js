@@ -9,17 +9,11 @@ class FooterBar extends Component {
   render() {
     return (
       <div className={style.footerBar}>
-        <div className='container'>
-          <div className='row'>
-            <div className='col-6'>
-                <Link to='/'>
-                  <img height='50' src={logo} />
-                </Link>
-            </div>
-            <div className='col-6 float-right text-xs-right'>
-              <SocialMedia />
-            </div>
-          </div>
+        <div className='align-items-center container d-flex justify-content-between'>
+          <Link to='/'>
+            <img height='50' src={logo} />
+          </Link>
+          <SocialMedia />
         </div>
       </div>
     );
