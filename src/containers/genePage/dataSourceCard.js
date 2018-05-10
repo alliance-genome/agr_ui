@@ -22,7 +22,7 @@ class DataSourceCard extends Component {
         <div className={style.iconContainer}>
           <SpeciesIcon species={species} />
         </div>
-        <div className='card-block'>
+        <div className='card-body'>
           <AttributeList bsClassName={listClass}>
             <AttributeLabel bsClassName={labelClass}>Species</AttributeLabel>
             <AttributeValue bsClassName={valueClass}><i>{species}</i></AttributeValue>

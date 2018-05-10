@@ -43,7 +43,7 @@ class CollapsiblePanel extends Component {
 
         <Collapse in={this.state.expended}>
           <div role="tabpanel">
-            <div className="card-block">
+            <div className="card-body">
               {this.props.children}
             </div>
           </div>
