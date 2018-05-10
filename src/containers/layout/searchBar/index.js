@@ -93,11 +93,13 @@ class SearchBarComponent extends Component {
       let labelNode = (d.name === DEFAULT_CAT.name) ? 'All' : <CategoryLabel category={d.name} />;
       return <MenuItem className={style.dropdownItem} eventKey={d.name} key={d.name}>{labelNode}</MenuItem>;
     });
-    return (<div className={`${style.searchBtns}`}>
-        <DropdownButton className={`btn-outline-light ${style.dropdown} ${style.dropdownBtn}`} id="bg-nested-dropdown" onSelect={this.handleSelect.bind(this)} title={_title}>
+    return (
+      <div className={`input-group-prepend ${style.searchBtns}`}>
+        <DropdownButton className={`btn-outline-primary ${style.dropdown} ${style.dropdownBtn}`} id='bg-nested-dropdown' onSelect={this.handleSelect.bind(this)} title={_title}>
           {nodes}
         </DropdownButton>
-      </div>);
+      </div>
+    );
   }
 
   renderSuggestion(d) {
@@ -119,6 +121,7 @@ class SearchBarComponent extends Component {
       onChange: this.handleTyping.bind(this)
     };
     let _theme = {
+      container: style.autoContainer,
       containerOpen: style.autoContainerOpen,
       input: style.autoInput,
       suggestionsContainer: style.suggestionsContainer,
@@ -126,17 +129,19 @@ class SearchBarComponent extends Component {
       suggestion: style.suggestion,
       suggestionFocused: style.suggestionFocused
     };
-    return (<form className={style.formSearch} onSubmit={this.handleSubmit.bind(this)} ref="form" role="search">
-        <div className="input-group">
+    return (
+      <form onSubmit={this.handleSubmit.bind(this)}>
+        <div className='input-group'>
           {this.renderDropdown()}
-          <Autosuggest className="form-control" getSuggestionValue={_getSuggestionValue} inputProps={_inputProps} onSuggestionSelected={this.handleSelected.bind(this)} onSuggestionsClearRequested={this.handleClear.bind(this)} onSuggestionsFetchRequested={this.handleFetchData.bind(this)} renderSuggestion={this.renderSuggestion} suggestions={this.state.autoOptions} theme={_theme} />
-          <div className="input-group-append">
-            <button className={`btn btn-primary ${style.searchBtns}`} onClick={this.handleSubmit.bind(this)} type="submit">
-              <i className="fa fa-search" />
+          <Autosuggest className='form-control' getSuggestionValue={_getSuggestionValue} inputProps={_inputProps} onSuggestionSelected={this.handleSelected.bind(this)} onSuggestionsClearRequested={this.handleClear.bind(this)} onSuggestionsFetchRequested={this.handleFetchData.bind(this)} renderSuggestion={this.renderSuggestion} suggestions={this.state.autoOptions} theme={_theme} />
+          <div className='input-group-append'>
+            <button className={`btn btn-primary ${style.searchBtns}`} type='submit'>
+              <i className='fa fa-search' />
             </button>
           </div>
         </div>
-      </form>);
+      </form>
+    );
   }
 }
 
