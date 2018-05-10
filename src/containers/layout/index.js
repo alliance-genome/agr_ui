@@ -6,7 +6,7 @@ import Loader from './loader/index';
 import logo from './agrLogo.png';
 import SearchBar from './searchBar';
 import TopBar from './topBar';
-import FooterBar from './footer';
+import FooterBar from './footerBar';
 import SiteMap from './siteMap';
 import AgrTweets from './twitterWidget';
 import { MenuItems } from './navigation';
