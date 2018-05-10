@@ -388,21 +388,6 @@
   border-top: none;
 }
 
-.topnav a {
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-  border-bottom: 3px solid transparent;
-}
-
-.topnav .nav-item a:hover {
-  border-bottom: 3px solid #f1ad4d;
-}
-
-.topnav .nav-item a.active {
-  border-bottom: 3px solid #f1ad4d;
-}
-
 .dropdown-item.sub-menu.active{
   background-color: #2E99C3 !important;
 
