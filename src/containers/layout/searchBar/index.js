@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Autosuggest from 'react-autosuggest';
 import { push } from 'react-router-redux';
-import { DropdownButton, MenuItem } from 'react-bootstrap';
+import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 
 import style from './style.css';
 import CategoryLabel from '../../search/categoryLabel';
@@ -34,8 +34,9 @@ class SearchBarComponent extends Component {
     this.dispatchSearchFromQuery(selected);
   }
 
-  handleSelect(eventKey) {
-    let newCatOption = CATEGORIES.filter( d => d.name === eventKey )[0];
+  handleSelect(event) {
+    const selected = event.currentTarget.dataset.name;
+    const newCatOption = CATEGORIES.filter( d => d.name === selected )[0];
     this.setState({ catOption: newCatOption });
   }
 
@@ -91,14 +92,21 @@ class SearchBarComponent extends Component {
     let _title = this.state.catOption.displayName;
     let nodes = CATEGORIES.map( d => {
       let labelNode = (d.name === DEFAULT_CAT.name) ? 'All' : <CategoryLabel category={d.name} />;
-      return <MenuItem className={style.dropdownItem} eventKey={d.name} key={d.name}>{labelNode}</MenuItem>;
+      return (
+        <DropdownItem className={style.dropdownItem} data-name={d.name} key={d.name} onClick={this.handleSelect.bind(this)}>
+          {labelNode}
+        </DropdownItem>
+      );
     });
     return (
-      <div className={`input-group-prepend ${style.searchBtns}`}>
-        <DropdownButton className={`btn-outline-primary ${style.dropdown} ${style.dropdownBtn}`} id='bg-nested-dropdown' onSelect={this.handleSelect.bind(this)} title={_title}>
+      <UncontrolledDropdown className={`input-group-prepend ${style.searchBtns}`}>
+        <DropdownToggle caret color='secondary' outline>
+          {_title}
+        </DropdownToggle>
+        <DropdownMenu>
           {nodes}
-        </DropdownButton>
-      </div>
+        </DropdownMenu>
+      </UncontrolledDropdown>
     );
   }
 

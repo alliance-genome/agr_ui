@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { UncontrolledTooltip } from 'reactstrap';
 import { ALL_METHODS, methodCellStyle } from './constants';
 
 const MethodCell = (props) => {
   const {
     predictionMethodsMatched,
-    predictionMethodsNotMatched
+    predictionMethodsNotMatched,
+    rowKey
   } = props;
 
   const predictionMethodsMatchedSet = new Set(predictionMethodsMatched);
@@ -32,32 +33,16 @@ const MethodCell = (props) => {
           tipText = `Comparision not available on ${methodDisplayName}`;
         }
 
-        const tooltip = (
-          <Tooltip
-            className="in"
-            id="tooltip-bottom"
-            placement="bottom"
-          >
-          {
-            tipText
-          }
-          </Tooltip>
-        );
-
+        const id = `${rowKey}-${method}`.replace(/[\s:]/g, '-');
         return (
-          <OverlayTrigger
-            delayHide={150}
-            delayShow={300}
-            key={method}
-            overlay={tooltip}
-            placement="top"
-          >
-            <span style={Object.assign({fontSize: 22}, methodCellStyle)}>
-            {
-              symbol
-            }
+          <span key={method}>
+            <span id={id} style={Object.assign({fontSize: 22}, methodCellStyle)}>
+              {symbol}
             </span>
-          </OverlayTrigger>
+            <UncontrolledTooltip delay={{show: 300, hide: 150}} placement='top' target={id}>
+              {tipText}
+            </UncontrolledTooltip>
+          </span>
         );
       })
     }
@@ -67,7 +52,8 @@ const MethodCell = (props) => {
 
 MethodCell.propTypes = {
   predictionMethodsMatched: PropTypes.arrayOf(PropTypes.string),
-  predictionMethodsNotMatched: PropTypes.arrayOf(PropTypes.string)
+  predictionMethodsNotMatched: PropTypes.arrayOf(PropTypes.string),
+  rowKey: PropTypes.string
 };
 
 export default MethodCell;

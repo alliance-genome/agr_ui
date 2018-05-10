@@ -5,7 +5,7 @@
 */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Collapse } from 'react-bootstrap';
+import { Collapse } from 'reactstrap';
 import OrthologyTable from './orthologyTable';
 
 const caseInsensitiveCompare = (stringA, stringB) => {
@@ -185,7 +185,7 @@ class OrthologyFilteredTable extends Component {
             {this.renderStringencyOption('moderate', 'Moderate filter')}
             {this.renderStringencyOption('low', 'No filter / Show all')}
           </div>
-          <Collapse in={this.state.showFilterPanel}>
+          <Collapse isOpen={this.state.showFilterPanel}>
             <div>
               <span style={docTextStyle}>Additional filters to further constrain the results:</span>
               <div style={{display: 'flex', flexDirection: 'column', marginLeft: '-0.5em'}}>
