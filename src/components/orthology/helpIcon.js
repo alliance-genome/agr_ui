@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { UncontrolledTooltip } from 'reactstrap';
 
 const HelpIcon = ({iconKey, text}) => {
-  const tooltip = (
-    <Tooltip id={iconKey}>{text}</Tooltip>
-  );
+  const id = iconKey.replace(/\s/g, '-');
   return (
-    <OverlayTrigger overlay={tooltip} placement='bottom'>
-      <i className='fa fa-fw fa-question-circle text-primary' />
-    </OverlayTrigger>
+    <span>
+      <i className='fa fa-fw fa-question-circle text-primary' id={id} />
+      <UncontrolledTooltip placement='bottom' target={id}>
+        {text}
+      </UncontrolledTooltip>
+    </span>
   );
 };
 
