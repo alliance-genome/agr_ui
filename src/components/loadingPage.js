@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import style from './style.css';
+import style from './style.scss';
 import { SMALL_COL_CLASS, LARGE_COL_CLASS } from '../constants';
 
 class LoadingPage extends Component {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import style from './style.css';
+import style from './style.scss';
 import DetailList from './detailList';
 import { getLinkForEntry, makeFieldDisplayName } from '../../lib/searchHelpers';
 import { NON_HIGHLIGHTED_FIELDS } from '../../constants';

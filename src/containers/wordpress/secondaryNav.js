@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-import style from './style.css';
+import style from './style.scss';
 import { MENU_IDS, WORDPRESS_PAGES } from './../../constants';
 
 class SecondaryNav extends Component {

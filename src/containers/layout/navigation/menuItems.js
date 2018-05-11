@@ -10,7 +10,7 @@ import {
 
 const HOME_ROUTE = '/home';
 import { NavItem } from '.';
-import style from './style.css';
+import style from './style.scss';
 
 class MenuItems extends Component {
   render () {

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router';
 
-import style from './style.css';
+import style from './style.scss';
 import SocialMedia from './socialMedia';
 import logo from './logofooter-1.png';
 
