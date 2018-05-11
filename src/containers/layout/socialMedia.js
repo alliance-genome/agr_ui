@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import style from './style.css';
+import style from './style.scss';
 
 class SocialMedia extends Component {
   render() {

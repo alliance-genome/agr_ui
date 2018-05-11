@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import { HELP_EMAIL } from '../../constants';
 import SocialMedia from './socialMedia';
 
-import style from './style.css';
+import style from './style.scss';
 
 class TopBar extends Component {
   render() {

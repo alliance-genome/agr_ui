@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import style from '../style.css';
+import style from '../style.scss';
 import {scaleLinear} from 'd3-scale';
 import {axisTop} from 'd3-axis';
 import {select} from 'd3-selection';

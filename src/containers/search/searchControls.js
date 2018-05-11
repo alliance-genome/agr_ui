@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
-import style from './style.css';
+import style from './style.scss';
 import { getQueryParamWithValueChanged } from '../../lib/searchHelpers';
 
 import {

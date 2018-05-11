@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { createMemoryHistory, Link } from 'react-router';
 import clone from 'lodash.clone';
 
-import style from './style.css';
+import style from './style.scss';
 import ResultsTable from './resultsTable';
 import CategoryLabel from './categoryLabel';
 import fetchData from '../../lib/fetchData';

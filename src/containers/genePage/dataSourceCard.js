@@ -9,7 +9,7 @@ import {
 } from '../../components/attribute';
 import SpeciesIcon from '../../components/speciesIcon';
 
-import style from './style.css';
+import style from './style.scss';
 
 class DataSourceCard extends Component {
   render() {

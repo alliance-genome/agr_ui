@@ -6,7 +6,7 @@ import Autosuggest from 'react-autosuggest';
 import { push } from 'react-router-redux';
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 
-import style from './style.css';
+import style from './style.scss';
 import CategoryLabel from '../../search/categoryLabel';
 import fetchData from '../../../lib/fetchData';
 

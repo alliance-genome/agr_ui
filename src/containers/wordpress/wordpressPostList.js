@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import style from './style.css';
+import style from './style.scss';
 import SecondaryNav from './secondaryNav';
 import HeadMetaTags from '../../components/headMetaTags';
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import style from './style.css';
+import style from './style.scss';
 import Loader from './loader/index';
 import logo from './agrLogo.png';
 import SearchBar from './searchBar';
