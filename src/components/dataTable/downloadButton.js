@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 
 const DownloadButton = ({buttonText, downloadUrl, onClick}) => {
   return(
-    <a
-      className={'btn btn-primary'}
-      href={downloadUrl}
-      onClick={onClick}
-      style={{color: 'white'}}
+    <button
+      className={'btn btn-outline-secondary'}
+      onClick={(downloadUrl && (() => window.location.replace(downloadUrl))) || onClick}
     >
       {buttonText}
-    </a>
+    </button>
   );
 };
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import { render } from 'react-dom';
-
+import 'bootstrap';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import 'react-select/dist/react-select.css';
-// import './public/public.css'; // ./public/public.css uses a special loader, refer to webpack config
+import './style.scss';
 
 import ReactApp from './reactApplication';
 

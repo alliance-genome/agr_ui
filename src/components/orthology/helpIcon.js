@@ -7,7 +7,7 @@ const HelpIcon = ({iconKey, text}) => {
   return (
     <span>
       <i className='fa fa-fw fa-question-circle text-primary' id={id} />
-      <UncontrolledTooltip placement='bottom' target={id}>
+      <UncontrolledTooltip placement='top' target={id}>
         {text}
       </UncontrolledTooltip>
     </span>

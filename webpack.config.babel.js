@@ -82,8 +82,11 @@ let config = {
       },
       {
         test: /\.scss$/,
-        include: path.resolve(__dirname, 'src'),  // limit match to only src/
-        exclude: path.resolve(__dirname, 'src/public'),
+        include: path.resolve(__dirname, 'src'),
+        exclude: [
+          path.resolve(__dirname, 'src/public'),
+          path.resolve(__dirname, 'src/style.scss')
+        ],
         loader: mainSass.extract([
           'css?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
           'postcss',
@@ -91,11 +94,12 @@ let config = {
         ])
       },
       {
-        test:  /\.css$/,
+        test:  /\.(css|scss)$/,
         include: [
-          path.resolve(__dirname, 'node_modules')
+          path.resolve(__dirname, 'node_modules'),
+          path.resolve(__dirname, 'src/style.scss')
         ],
-        loader: vendorCss.extract('css')
+        loader: vendorCss.extract(['css', 'sass'])
       },
       {
         test: /\.(jpg|png|ttf|eot|woff|woff2|svg)$/,

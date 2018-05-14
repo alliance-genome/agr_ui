@@ -270,7 +270,7 @@ class OrthologyFilteredTable extends Component {
               type="button"
             >{`${this.state.showFilterPanel ? 'Hide' : 'Show'} additional filters`}</button>
             <button
-              className="btn btn-secondary"
+              className="btn btn-outline-secondary"
               onClick={() => this.resetFilters()}
               style={buttonStyle}
               type="button"
