@@ -1,3 +1,5 @@
+@import "../../theme";
+
 .appAlert {
   margin-bottom: 0;
   border-radius: 0;
@@ -36,12 +38,12 @@
 }
 
 .topBar {
-  background: #2598C5;
+  background: $primary;
   color: #fff;
-}
 
-.topBar a {
-  color: #fff;
+  a {
+    color: #fff;
+  }
 }
 
 .rightWidgets {

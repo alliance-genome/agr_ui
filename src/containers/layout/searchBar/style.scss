@@ -1,3 +1,5 @@
+@import "../../../theme";
+
 .container {
 	float: left;
 	width: 100%;
@@ -35,7 +37,7 @@
   height: 3rem;
   padding: 0 5px;
   width: 100%;
-  border: 1px solid #6c757d; /* match secondary outline button */
+  border: 1px solid $secondary;
 }
 
 .searchBtns{
