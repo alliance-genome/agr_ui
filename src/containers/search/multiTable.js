@@ -111,14 +111,14 @@ class MultiTableComponent extends Component {
     if (category == 'allele') { return this.props.alleleResults;}
   }
 
-  renderCategory(category) {
+  renderCategory(category, key) {
     let categoryQp = getQueryParamWithValueChanged('category', category, this.props.queryParams);
     let categoryHref = { pathname: SEARCH_PATH, query: categoryQp };
 
     if (this.getTotalForCategory(category) === '0') { return null; }
 
     return (
-      <div>
+      <div key={key}>
         <p>
           <Link to={categoryHref}>
             {this.getTotalForCategory(category)} <CategoryLabel category={category} /> Results
@@ -138,8 +138,8 @@ class MultiTableComponent extends Component {
 
   render() {
     return (
-      <div className={style.resultContainer}>
-        {CATEGORIES.map((category) => this.renderCategory(category))}
+      <div className={style.resultContainer} >
+        {CATEGORIES.map((category, idx) => this.renderCategory(category, idx))}
       </div>
     );
   }
