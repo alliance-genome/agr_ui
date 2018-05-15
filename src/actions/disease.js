@@ -55,7 +55,7 @@ export const fetchAssociations = function (id, page = 1, limit = 10, sortName = 
     break;
 
   case 'geneDocument':
-    sortName = 'gene';
+    sortName = 'geneName';
     break;
   }
   return (dispatch) => {
