@@ -20,14 +20,14 @@ class WordpressPage extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.params.slug !== prevProps.params.slug) {
+    if (this.props.slug !== prevProps.slug) {
       this.fetchPage();
     }
   }
 
   fetchPage() {
-    const { dispatch, params } = this.props;
-    dispatch(fetchWordpressPage(params.slug));
+    const { dispatch, slug } = this.props;
+    dispatch(fetchWordpressPage(slug));
   }
 
   render() {
@@ -57,7 +57,7 @@ WordpressPage.propTypes = {
   dispatch: PropTypes.func,
   loading: PropTypes.bool,
   page: PropTypes.object,
-  params: PropTypes.object,
+  slug: PropTypes.string,
 };
 
 const mapStateToProps = (state) => {

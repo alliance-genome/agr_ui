@@ -2,9 +2,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router-dom';
 import Select from 'react-select';
-import { push } from 'react-router-redux';
 
 import style from './style.css';
 import {getQueryParamWithoutPage} from '../../../lib/searchHelpers';
@@ -36,7 +35,7 @@ class SingleFilterSelector extends Component {
     let simpleValues = newValues.map( d => d.name );
     let newQp = getQueryParamWithoutPage(this.props.name, simpleValues, this.props.queryParams);
     let newPath = { pathname: SEARCH_PATH, query: newQp };
-    this.props.dispatch(push(newPath));
+    this.props.dispatch(this.props.history.push(newPath));
   }
 
   renderFilterValues() {
@@ -156,7 +155,10 @@ SingleFilterSelector.propTypes = {
   isShowMore: PropTypes.bool,
   name: PropTypes.string,
   queryParams: PropTypes.object,
-  values: PropTypes.array
+  values: PropTypes.array,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
-export default connect()(SingleFilterSelector);
+export default connect()(withRouter(SingleFilterSelector));
