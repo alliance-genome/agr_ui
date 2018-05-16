@@ -1,7 +1,7 @@
 import assert from 'assert';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { createMemoryHistory } from 'react-router';
+import { createMemoryHistory } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import configureStore from '../../../lib/configureStore';

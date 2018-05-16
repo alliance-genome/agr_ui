@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { createMemoryHistory } from 'react-router';
+import { createMemoryHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import clone from 'lodash.clone';
 

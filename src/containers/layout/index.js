@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import style from './style.css';
 import Loader from './loader/index';
 import logo from './agrLogo.png';
@@ -14,7 +14,7 @@ import MenuItems from './navigation/menuItems';
 class Layout extends Component {
 
   render() {
-    let currentRoute = this.props.location.pathname.replace('/', '');
+    let currentRoute = this.props.location ? this.props.location.pathname.replace('/', '') : '';
     currentRoute = currentRoute == '' ? 'home' : currentRoute;
 
     return <div>

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createMemoryHistory, Link } from 'react-router';
+import { createMemoryHistory, Link } from 'react-router-dom';
 import clone from 'lodash.clone';
 
 import style from './style.css';

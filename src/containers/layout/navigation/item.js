@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 class NavItem extends Component {
   render() {
@@ -15,11 +15,11 @@ class NavItem extends Component {
     } else {
       if(this.props.isChild){
         classNames +=' dropdown-item sub-menu';
-        return (<Link className={classNames} href={this.props.href} key={this.props.uniqueKey}>{this.props.label}</Link>);
+        return (<Link className={classNames} to={this.props.href} key={this.props.uniqueKey}>{this.props.label}</Link>);
       }
       else{
         classNames += ' nav-link';
-        return (<Link className={classNames} href={this.props.href} key={this.props.uniqueKey}>{this.props.label}</Link>);
+        return (<Link className={classNames} to={this.props.href} key={this.props.uniqueKey}>{this.props.label}</Link>);
       }
 
     }
