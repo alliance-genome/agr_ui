@@ -1,7 +1,6 @@
 import assert from 'assert';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { createMemoryHistory } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import configureStore from '../../../lib/configureStore';
@@ -14,18 +13,16 @@ import fixtureResponse from './fixtureResponse';
 import { receiveResponse } from '../../../actions/search';
 import jsdom from 'mocha-jsdom';
 
-let historyObj = createMemoryHistory('/search');
-
 describe('Search', () => {
   jsdom();
   it('should be able to render to an HTML string', () => {
-    let store = configureStore(historyObj);
+    let store = configureStore();
     let htmlString = renderToString(<Provider store={store}><SearchContainer /></Provider>);
     assert.equal(typeof htmlString, 'string');
   });
 
   it('should be able to render after getting a response', () => {
-    let store = configureStore(historyObj);
+    let store = configureStore();
     store.dispatch(receiveResponse(fixtureResponse, { q: 'kinase' }));
     let htmlString = renderToString(<Provider store={store}><SearchContainer /></Provider>);
     assert.equal(typeof htmlString, 'string');
