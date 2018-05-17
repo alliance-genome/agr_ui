@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import './public/public.css'; // ./public/public.css uses a special loader, refer to webpack config
@@ -7,7 +8,12 @@ import './public/public.css'; // ./public/public.css uses a special loader, refe
 import ReactApp from './reactApplication';
 
 function main() {
-  render(<ReactApp />, document.getElementById('app'));
+  render(
+    <Router>
+      <ReactApp />
+    </Router>,
+    document.getElementById('app')
+  );
 }
 
 function browserSupportsAllFeatures() {

@@ -2,6 +2,7 @@ import assert from 'assert';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
+import { MemoryRouter as Router } from 'react-router';
 
 import configureStore from '../../lib/configureStore';
 
@@ -12,7 +13,9 @@ describe('Wordpress', () => {
     let store = configureStore();
     let htmlString = renderToString(
       <Provider store={store}>
-        <WordpressPage />
+        <Router>
+          <WordpressPage />
+        </Router>
       </Provider>
     );
     assert.equal(typeof htmlString, 'string');
