@@ -2,6 +2,7 @@ import assert from 'assert';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
+import { MemoryRouter as Router } from 'react-router';
 
 import configureStore from '../../lib/configureStore';
 
@@ -12,7 +13,9 @@ describe('GenePage', () => {
     let store = configureStore();
     let htmlString = renderToString(
       <Provider store={store}>
-        <GenePage params={{geneId: 'WBGene00197647'}} />
+        <Router>
+          <GenePage params={{geneId: 'WBGene00197647'}} />
+        </Router>
       </Provider>
     );
     assert.equal(typeof htmlString, 'string');

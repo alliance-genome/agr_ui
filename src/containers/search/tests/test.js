@@ -2,6 +2,7 @@ import assert from 'assert';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
+import { MemoryRouter as Router, Route } from 'react-router';
 
 import configureStore from '../../../lib/configureStore';
 import SearchContainer from '../search';
@@ -17,21 +18,33 @@ describe('Search', () => {
   jsdom();
   it('should be able to render to an HTML string', () => {
     let store = configureStore();
-    let htmlString = renderToString(<Provider store={store}><SearchContainer /></Provider>);
+    let htmlString = renderToString(
+      <Provider store={store}>
+        <Router>
+          <Route component={SearchContainer} />
+        </Router>
+      </Provider>
+    );
     assert.equal(typeof htmlString, 'string');
   });
 
   it('should be able to render after getting a response', () => {
     let store = configureStore();
     store.dispatch(receiveResponse(fixtureResponse, { q: 'kinase' }));
-    let htmlString = renderToString(<Provider store={store}><SearchContainer /></Provider>);
+    let htmlString = renderToString(
+      <Provider store={store}>
+        <Router>
+          <Route component={SearchContainer} />
+        </Router>
+      </Provider>
+    );
     assert.equal(typeof htmlString, 'string');
   });
 });
 
 describe('SearchBreadcrumbs', () => {
   it('should be able to render to an HTML string', () => {
-    let htmlString = renderToString(<SearchBreadcrumbsComponent queryParams={{ page: 0, query: 'actin' }} total={5} />);
+    let htmlString = renderToString(<Router><SearchBreadcrumbsComponent queryParams={{ page: 0, query: 'actin' }} total={5} /></Router>);
     assert.equal(typeof htmlString, 'string');
   });
 });
@@ -40,12 +53,14 @@ describe('SearchBreadcrumbs', () => {
 describe('SearchControls', () => {
   it('should be able to render to an HTML string', () => {
     let htmlString = renderToString(
-      <SearchControlsComponent
-        currentPage={1}
-        isTable
-        queryParams={{}}
-        totalPages={5}
-      />
+      <Router>
+        <SearchControlsComponent
+          currentPage={1}
+          isTable
+          queryParams={{}}
+          totalPages={5}
+        />
+      </Router>
     );
     assert.equal(typeof htmlString, 'string');
   });
@@ -60,7 +75,7 @@ describe('ResultsTable', () => {
 
 describe('FilterSelector', () => {
   it('should be able to render to an HTML string', () => {
-    let htmlString = renderToString(<FilterSelectorComponent aggregations={[]} />);
+    let htmlString = renderToString(<Router><FilterSelectorComponent aggregations={[]} /></Router>);
     assert.equal(typeof htmlString, 'string');
   });
 });
