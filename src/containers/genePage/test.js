@@ -11,10 +11,15 @@ import GenePage from './index';
 describe('GenePage', () => {
   it('should be able to render to an HTML string', () => {
     let store = configureStore();
+    const match = {
+      params: {
+        geneId: 'WBGene00197647'
+      }
+    };
     let htmlString = renderToString(
       <Provider store={store}>
         <Router>
-          <GenePage params={{geneId: 'WBGene00197647'}} />
+          <GenePage match={match} />
         </Router>
       </Provider>
     );

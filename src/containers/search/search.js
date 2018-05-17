@@ -131,9 +131,7 @@ SearchComponent.propTypes = {
   isMultiTable: PropTypes.bool,
   isReady: PropTypes.bool,
   isTable: PropTypes.bool,
-  location: PropTypes.shape({
-    query: PropTypes.object.isRequired,
-  }),
+  location: PropTypes.any.isRequired,
   mode: PropTypes.string,
   pageSize: PropTypes.number,
   queryParams: PropTypes.object,

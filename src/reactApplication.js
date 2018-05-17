@@ -50,7 +50,10 @@ class ReactApp extends Component {
 }
 
 ReactApp.propTypes = {
-  router: PropTypes.node,
+  router: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.func,
+  ]),
 };
 
 export default ReactApp;
