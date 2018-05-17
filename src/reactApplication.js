@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 //import { useScroll } from 'react-router-scroll';
 import configureStore from './lib/configureStore';
 import { BrowserRouter } from 'react-router-dom';
+import { ScrollContext } from 'react-router-scroll-4';
 import PropTypes from 'prop-types';
 import ReactGA from 'react-ga';
 import RouteListener from './components/routeListener';
@@ -33,9 +34,15 @@ class ReactApp extends Component {
     return (
       <Provider store={store}>
         <Router>
-          <RouteListener onRouteChange={logPageView}>
-            {routes}
-          </RouteListener>
+          {
+            isBrowser ?
+              <ScrollContext>
+                <RouteListener onRouteChange={logPageView}>
+                  {routes}
+                </RouteListener>
+              </ScrollContext> :
+              routes
+          }
         </Router>
       </Provider>
     );
