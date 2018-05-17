@@ -29,9 +29,8 @@ class ReactApp extends Component {
     }
     return (
       <Provider store={store}>
-        <Router
-          //onUpdate={logPageView}
-        >
+        <Router>
+          {/*onUpdate={logPageView}*/}
           {routes}
         </Router>
       </Provider>

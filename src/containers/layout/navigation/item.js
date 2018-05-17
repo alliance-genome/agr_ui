@@ -15,11 +15,11 @@ class NavItem extends Component {
     } else {
       if(this.props.isChild){
         classNames +=' dropdown-item sub-menu';
-        return (<Link className={classNames} to={this.props.href} key={this.props.uniqueKey}>{this.props.label}</Link>);
+        return (<Link className={classNames} key={this.props.uniqueKey} to={this.props.href}>{this.props.label}</Link>);
       }
       else{
         classNames += ' nav-link';
-        return (<Link className={classNames} to={this.props.href} key={this.props.uniqueKey}>{this.props.label}</Link>);
+        return (<Link className={classNames} key={this.props.uniqueKey} to={this.props.href}>{this.props.label}</Link>);
       }
 
     }

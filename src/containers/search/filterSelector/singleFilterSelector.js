@@ -152,13 +152,13 @@ class SingleFilterSelector extends Component {
 SingleFilterSelector.propTypes = {
   dispatch: PropTypes.func,
   displayName: PropTypes.string,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
   isShowMore: PropTypes.bool,
   name: PropTypes.string,
   queryParams: PropTypes.object,
   values: PropTypes.array,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
 };
 
 export default connect()(withRouter(SingleFilterSelector));
