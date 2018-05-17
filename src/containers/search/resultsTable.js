@@ -104,7 +104,7 @@ class ResultsTable extends Component {
     let logHighlight = highlight['homologs.symbol'] || highlight['homologs.panther_family'];
     let homologNode = null;
     if (homologs.length && logHighlight) {
-      homologNode = <LogList label='Homologs' logs={homologs} rawHighlight={logHighlight} />;
+      homologNode = <LogList label='Homologs' logs={homologs} rawHighlight={logHighlight} query={this.props.query} />;
     }
     return (
       <div>
@@ -132,7 +132,8 @@ class ResultsTable extends Component {
 
 ResultsTable.propTypes = {
   activeCategory: PropTypes.string,
-  entries: PropTypes.array
+  entries: PropTypes.array,
+  query: PropTypes.any,
 };
 
 export default ResultsTable;

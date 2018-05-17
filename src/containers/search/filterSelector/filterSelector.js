@@ -12,7 +12,6 @@ import {
   selectActiveCategory,
   selectAggregations,
   selectIsPending,
-  selectQueryParams,
 } from '../../../selectors/searchSelectors';
 
 class FilterSelectorComponent extends Component {
@@ -76,7 +75,6 @@ function mapStateToProps(state) {
     activeCategory:  selectActiveCategory(state),
     aggregations: selectAggregations(state),
     isPending: selectIsPending(state),
-    queryParams: selectQueryParams(state)
   };
 }
 

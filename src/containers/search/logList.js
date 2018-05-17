@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 
 import style from './style.css';
 const DEFAULT_LABEL = 'Homologs';
 const HIGHLIGHT_EL = 'em';
-import { selectQueryParams } from '../../selectors/searchSelectors';
 
 class LogListComponent extends Component {
   renderLabel(raw) {
@@ -58,11 +56,4 @@ LogListComponent.propTypes = {
   rawHighlight: PropTypes.string
 };
 
-function mapStateToProps(state) {
-  let qp = selectQueryParams(state);
-  return {
-    query: qp.q || ''
-  };
-}
-
-export default connect(mapStateToProps)(LogListComponent);
+export default LogListComponent;

@@ -10,7 +10,6 @@ import { getQueryParamWithValueChanged } from '../../lib/searchHelpers';
 import {
   selectActiveCategory,
   selectTotalPages,
-  selectQueryParams
 } from '../../selectors/searchSelectors';
 
 const SEARCH_PATH = '/search';
@@ -123,9 +122,9 @@ SearchControlsComponent.propTypes = {
   totalPages: PropTypes.number
 };
 
-function mapStateToProps(state) {
-  let _queryParams = selectQueryParams(state);
+function mapStateToProps(state, ownProps) {
   let activeCategory = selectActiveCategory(state);
+  const _queryParams = ownProps.queryParams;
   let _mode = _queryParams.mode;
   if (!_mode || _mode === 'graph') {
     _mode = 'list';
@@ -136,7 +135,6 @@ function mapStateToProps(state) {
     currentPage: parseInt(_queryParams.page) || 1,
     isMultiTable: _isMultiTable,
     mode: _mode,
-    queryParams: _queryParams,
     totalPages: selectTotalPages(state)
   };
 }

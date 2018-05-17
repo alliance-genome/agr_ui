@@ -19,7 +19,7 @@ const DEFAULT_CAT = CATEGORIES[0];
 class SearchBarComponent extends Component {
   constructor(props) {
     super(props);
-    let initValue = parseQueryString(this.props.location.search).q || '';
+    let initValue = parseQueryString(this.props.location.query).q || '';
     this.state = {
       autoOptions: [],
       catOption: DEFAULT_CAT,
