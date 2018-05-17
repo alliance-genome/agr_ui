@@ -23,12 +23,14 @@ export default (
           <Route component={Search} path='/search' />
           <Route component={GenePage} path='/gene/:geneId' />
           <Route component={DiseasePage} path='/disease/:diseaseId' />
-          <Route component={WordpressPostList} path='/posts' />
           {/* <Redirect from='/posts/news' to='/posts' /> */}
           <Route component={WordpressPost} path='/posts/:slug' />
+          <Route component={WordpressPostList} path='/posts' />
           {/* <Redirect from='/wordpress/:id' to='/:id' />  */}
           {/* before links within user edited WordPress content is fixed, this path rewrite is necessary */}
-          <Route component={WordpressPage} path='/:slug' />
+          <Route component={({location}) =>
+            <WordpressPage slug={location.pathname}/>
+          } path='/:slug' />
           <Route component={NotFound} />
         </Switch>
       </Layout>

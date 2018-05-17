@@ -48,7 +48,7 @@ class WordpressPostList extends Component {
               return (
                 <div className={`row ${style.postContainer}`} key={post.id}>
                   <div className='col-xs-12 col-sm-4'>
-                    <Link href={link}>
+                    <Link to={link}>
                       <img className='img-fluid' src={post.featured_media_url} />
                     </Link>
                   </div>
