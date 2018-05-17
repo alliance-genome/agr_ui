@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Autosuggest from 'react-autosuggest';
-import { parse as parseQueryString} from 'query-string';
+import { parse as parseQueryString, stringify as stringifyQueryString} from 'query-string';
 import { withRouter } from 'react-router-dom';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 
@@ -47,7 +47,7 @@ class SearchBarComponent extends Component {
     let newQp = { q: query };
     if (query === '') newQp = {};
     if (newCat !== 'all') newQp.category = newCat;
-    this.props.history.push({ pathname: '/search', query: newQp });
+    this.props.history.push({ pathname: '/search', search: stringifyQueryString(newQp) });
   }
 
   handleTyping(e, { newValue }) {
