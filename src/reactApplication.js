@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 //import { useScroll } from 'react-router-scroll';
 import configureStore from './lib/configureStore';
+import { BrowserRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import ReactGA from 'react-ga';
 import RouteListener from './components/routeListener';
 import routes from './routes';
@@ -27,14 +29,21 @@ class ReactApp extends Component {
     if (isBrowser) {
     //  routerMiddlware.push(useScroll());
     }
+    const Router = this.props.router || BrowserRouter;
     return (
       <Provider store={store}>
-        <RouteListener onRouteChange={logPageView}>
-          {routes}
-        </RouteListener>
+        <Router>
+          <RouteListener onRouteChange={logPageView}>
+            {routes}
+          </RouteListener>
+        </Router>
       </Provider>
     );
   }
 }
+
+ReactApp.propTypes = {
+  router: PropTypes.node,
+};
 
 export default ReactApp;
