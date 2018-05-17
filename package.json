@@ -33,7 +33,6 @@
     "react-ga": "2.2.0",
     "react-helmet": "^5.0.0",
     "react-redux": "^4.4.5",
-    "react-router": "4.2.0",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^4.0.6",
     "react-router-scroll-4": "^1.0.0-beta.1",

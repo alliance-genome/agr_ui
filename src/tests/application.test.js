@@ -1,7 +1,7 @@
 import assert from 'assert';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter } from 'react-router-dom';
 
 import ReactApp from '../reactApplication';
 
