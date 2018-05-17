@@ -104,7 +104,7 @@ class ResultsTable extends Component {
     let logHighlight = highlight['homologs.symbol'] || highlight['homologs.panther_family'];
     let homologNode = null;
     if (homologs.length && logHighlight) {
-      homologNode = <LogList label='Homologs' logs={homologs} rawHighlight={logHighlight} query={this.props.query} />;
+      homologNode = <LogList label='Homologs' logs={homologs} query={this.props.query} rawHighlight={logHighlight} />;
     }
     return (
       <div>

@@ -57,11 +57,9 @@ class SearchComponent extends Component {
     let _limit = size;
     let _offset = (this.props.currentPage - 1) * size;
     let qp = clone(this.props.queryParams);
-    console.log(this.props.queryParams);
     qp.limit = _limit;
     qp.offset = _offset;
     const searchUrl = `${BASE_SEARCH_URL}?${stringifyQueryString(qp)}`;
-    console.log(searchUrl);
     this.props.dispatch(setPending(true));
     fetchData(searchUrl)
       .then( (data) => {
@@ -81,7 +79,7 @@ class SearchComponent extends Component {
 
   renderResultsNode() {
     if (this.props.isMultiTable) {
-      return <MultiTable queryParams={this.props.queryParams}/>;
+      return <MultiTable queryParams={this.props.queryParams} />;
     } else if (this.props.isTable) {
       return <ResultsTable activeCategory={this.props.activeCategory} entries={this.props.results} query={this.props.queryParams.q} />;
     } else {
@@ -110,7 +108,7 @@ class SearchComponent extends Component {
         <HeadMetaTags title={title} />
         <div className='row'>
           <div className={SMALL_COL_CLASS}>
-            <FilterSelector queryParams={this.props.queryParams}/>
+            <FilterSelector queryParams={this.props.queryParams} />
           </div>
           <div className={LARGE_COL_CLASS}>
             <SearchBreadcrumbs queryParams={this.props.queryParams} />
@@ -129,13 +127,13 @@ SearchComponent.propTypes = {
   currentPage: PropTypes.number,
   dispatch: PropTypes.func,
   errorMessage: PropTypes.string,
-  location: PropTypes.shape({
-    query: PropTypes.object.isRequired,
-  }),
   isError: PropTypes.bool,
   isMultiTable: PropTypes.bool,
   isReady: PropTypes.bool,
   isTable: PropTypes.bool,
+  location: PropTypes.shape({
+    query: PropTypes.object.isRequired,
+  }),
   mode: PropTypes.string,
   pageSize: PropTypes.number,
   queryParams: PropTypes.object,
