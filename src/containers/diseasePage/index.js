@@ -28,14 +28,14 @@ class DiseasePage extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, params } = this.props;
-    dispatch(fetchDisease(params.diseaseId));
+    const { dispatch } = this.props;
+    dispatch(fetchDisease(this.props.match.params.diseaseId));
   }
 
   componentDidUpdate(prevProps) {
-    const { dispatch, params } = this.props;
-    if (params.diseaseId !== prevProps.params.diseaseId) {
-      dispatch(fetchDisease(params.diseaseId));
+    const { dispatch } = this.props;
+    if (this.props.match.params.diseaseId !== prevProps.match.params.diseaseId) {
+      dispatch(fetchDisease(this.props.match.params.diseaseId));
     }
   }
 
@@ -93,7 +93,9 @@ DiseasePage.propTypes = {
   dispatch: PropTypes.func,
   error: PropTypes.string,
   loading: PropTypes.bool,
-  params: PropTypes.object,
+  match: PropTypes.shape({
+    params: PropTypes.object,
+  }).isRequired,
 };
 
 // Ideally, the toJS() calls should be removed here for performance reasons.
