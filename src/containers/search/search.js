@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { createMemoryHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import clone from 'lodash.clone';
+import { stringify as stringifyQueryString } from 'query-string';
 
 import fetchData from '../../lib/fetchData';
 import FilterSelector from './filterSelector/filterSelector';
@@ -40,7 +40,7 @@ class SearchComponent extends Component {
 
   // fetch data whenever URL changes within /search
   componentDidUpdate (prevProps) {
-    if (prevProps.queryParams !== this.props.queryParams) {
+    if (prevProps.location !== this.props.location) {
       this.fetchSearchData();
     }
   }
@@ -57,10 +57,11 @@ class SearchComponent extends Component {
     let _limit = size;
     let _offset = (this.props.currentPage - 1) * size;
     let qp = clone(this.props.queryParams);
+    console.log(this.props.queryParams);
     qp.limit = _limit;
     qp.offset = _offset;
-    let tempHistory = createMemoryHistory('/');
-    let searchUrl = tempHistory.createPath({ pathname: BASE_SEARCH_URL, query: qp });
+    const searchUrl = `${BASE_SEARCH_URL}?${stringifyQueryString(qp)}`;
+    console.log(searchUrl);
     this.props.dispatch(setPending(true));
     fetchData(searchUrl)
       .then( (data) => {
@@ -80,9 +81,9 @@ class SearchComponent extends Component {
 
   renderResultsNode() {
     if (this.props.isMultiTable) {
-      return <MultiTable />;
+      return <MultiTable queryParams={this.props.queryParams}/>;
     } else if (this.props.isTable) {
-      return <ResultsTable activeCategory={this.props.activeCategory} entries={this.props.results} />;
+      return <ResultsTable activeCategory={this.props.activeCategory} entries={this.props.results} query={this.props.queryParams.q} />;
     } else {
       return <ResultsList entries={this.props.results} />;
     }
@@ -109,13 +110,13 @@ class SearchComponent extends Component {
         <HeadMetaTags title={title} />
         <div className='row'>
           <div className={SMALL_COL_CLASS}>
-            <FilterSelector />
+            <FilterSelector queryParams={this.props.queryParams}/>
           </div>
           <div className={LARGE_COL_CLASS}>
-            <SearchBreadcrumbs />
-            <SearchControls />
+            <SearchBreadcrumbs queryParams={this.props.queryParams} />
+            <SearchControls queryParams={this.props.queryParams} />
             {this.renderResultsNode()}
-            <SearchControls />
+            <SearchControls queryParams={this.props.queryParams} />
           </div>
         </div>
       </div>
@@ -128,7 +129,9 @@ SearchComponent.propTypes = {
   currentPage: PropTypes.number,
   dispatch: PropTypes.func,
   errorMessage: PropTypes.string,
-  history: PropTypes.object,
+  location: PropTypes.shape({
+    query: PropTypes.object.isRequired,
+  }),
   isError: PropTypes.bool,
   isMultiTable: PropTypes.bool,
   isReady: PropTypes.bool,
@@ -139,8 +142,8 @@ SearchComponent.propTypes = {
   results: PropTypes.array
 };
 
-function mapStateToProps(state) {
-  let _queryParams = selectQueryParams(state);
+function mapStateToProps(state, ownProps) {
+  let _queryParams = selectQueryParams(state, ownProps);
   let _mode = _queryParams.mode;
   let _isTable = (_mode === 'table');
   let _currentPage = parseInt(_queryParams.page) || 1;

@@ -15,7 +15,6 @@ import { getQueryParamWithValueChanged } from '../../lib/searchHelpers';
 
 
 import {
-  selectQueryParams,
   selectGeneResults,
   selectGoResults,
   selectDiseaseResults,
@@ -161,7 +160,6 @@ MultiTableComponent.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    queryParams: selectQueryParams(state),
     geneResults: selectGeneResults(state),
     goResults: selectGoResults(state),
     diseaseResults: selectDiseaseResults(state),
