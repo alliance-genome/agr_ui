@@ -2,8 +2,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createMemoryHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import clone from 'lodash.clone';
+import { stringify as stringifyQueryString } from 'query-string';
 
 import style from './style.css';
 import ResultsTable from './resultsTable';
@@ -54,9 +55,7 @@ class MultiTableComponent extends Component {
     qp.limit = _limit;
     qp.offset = _offset;
     qp.category = category;
-    let tempHistory = createMemoryHistory('/');
-    let searchUrl = tempHistory.createPath({ pathname: BASE_SEARCH_URL, query: qp });
-    return searchUrl;
+    return `${BASE_SEARCH_URL}?q=${stringifyQueryString(qp)}`;
   }
 
   fetchAllData() {
