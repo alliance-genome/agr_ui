@@ -4,28 +4,19 @@ import PropTypes from 'prop-types';
 class AttributeList extends Component {
 
   render() {
-    const { children, bsClassName } = this.props;
+    const { children } = this.props;
 
     return (
-      <div className="row">
-        <div className={bsClassName}>
-          <dl className="row no-gutters">
-            {
-              children
-            }
-          </dl>
-        </div>
-      </div>
+      <dl className='row no-gutters'>
+        {
+          children
+        }
+      </dl>
     );
   }
 }
 
-AttributeList.defaultProps = {
-  bsClassName: 'col-sm-8',
-};
-
 AttributeList.propTypes = {
-  bsClassName: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
