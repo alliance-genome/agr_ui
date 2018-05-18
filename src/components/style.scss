@@ -25,11 +25,24 @@
   margin-top: 1rem;
   margin-bottom: 4rem;
   clear: left;
-}
 
-.subsection > h3 {
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 8px;
+  h3 {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+  }
+
+  .target {
+    display: block;
+    visibility: hidden;
+    position: relative;
+    top: -1rem;
+  }
+
+  @media (max-width: 768px) {
+    .target {
+      top: -125px;
+    }
+  }
 }
 
 .toggleLink {
