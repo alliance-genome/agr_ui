@@ -43,7 +43,7 @@ class GenePageDiseaseTable extends Component {
         isKey: true,
         sortable: true,
         filterable: true,
-        width: '15%',
+        width: 150,
       },
       {
         field: 'entityName',
@@ -52,21 +52,21 @@ class GenePageDiseaseTable extends Component {
         sortable: true,
         filterable: true,
         asText: (featureDocument) => featureDocument ? featureDocument.symbol : '',
-        width: '22%',
+        width: 185,
       },
       {
         field: 'entityCategory',
         label: 'Genetic Entity Type',
         sortable: true,
         filterable: true,
-        width: '13%',
+        width: 110,
       },
       {
         field: 'associationType',
         label: 'Association',
         sortable: true,
         filterable: true,
-        width: '15%',
+        width: 110,
       },
       {
         field: 'publications',
@@ -75,14 +75,14 @@ class GenePageDiseaseTable extends Component {
         asText: EvidenceCodesCell,
         sortable: true,
         filterable: true,
-        width: '10%',
+        width: 75,
       },
       {
         field: 'dataProvider',
         label: 'Source',
         sortable: true,
         filterable: true,
-        width: '8%'
+        width: 75,
       },
       {
         field: 'refs',
@@ -91,7 +91,7 @@ class GenePageDiseaseTable extends Component {
         asText: refsText,
         sortable: true,
         filterable: true,
-        width: '17%',
+        width: 150,
       }
     ];
 

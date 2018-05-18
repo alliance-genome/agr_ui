@@ -7,6 +7,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Collapse } from 'reactstrap';
 import OrthologyTable from './orthologyTable';
+import HorizontalScroll from '../horizontalScroll';
 
 const caseInsensitiveCompare = (stringA, stringB) => {
   const stringALowerCase = stringA.toLowerCase();
@@ -281,7 +282,9 @@ class OrthologyFilteredTable extends Component {
         <div style={{marginTop: -40}}>
           {
             filteredData.length > 0 ?
-            <OrthologyTable data={filteredData} /> :
+            <HorizontalScroll width={800}>
+              <OrthologyTable data={filteredData} />
+            </HorizontalScroll> :
             <i className="text-muted">No ortholog matching your filter. Please try a less stringent filter.</i>
           }
         </div>
