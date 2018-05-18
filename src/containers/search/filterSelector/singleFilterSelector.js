@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 import Select from 'react-select';
 import { push } from 'react-router-redux';
 
-import style from './style.css';
+import style from './style.scss';
 import {getQueryParamWithoutPage} from '../../../lib/searchHelpers';
 import getSpeciesColorScale from '../../../lib/getSpeciesColorScale';
 import CategoryLabel from '../categoryLabel';
@@ -128,7 +128,7 @@ class SingleFilterSelector extends Component {
 
   renderListNode() {
     return (
-      <ul className='nav nav-pills nav-stacked'>
+      <ul className='nav nav-pills flex-column'>
         {this.renderFilterValues(this.props)}
       </ul>
     );

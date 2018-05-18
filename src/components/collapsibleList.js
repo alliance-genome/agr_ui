@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import style from './style.css';
+import style from './style.scss';
 
 const renderList = (items) => {
   return items.reduce((a, b) => [a, ', ', b]);

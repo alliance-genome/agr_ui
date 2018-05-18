@@ -40,6 +40,7 @@ class RemoteDataTable extends Component {
       paginationShowsTotal: Utils.renderPaginationShowsTotal,
       page: currentPage,
       sizePerPage: perPageSize,
+      sizePerPageDropDown: Utils.renderSizePerPageDropDown,
       sizePerPageList: [10, 25, 100],
     };
 
