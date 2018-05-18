@@ -16,12 +16,12 @@ module.exports = {
         loader: 'babel'
       },
       {
-        test: /\.css$/,
+        test: /\.(css|scss)$/,
         exclude: /node_modules/,
         loader: 'null-loader'
       },
       {
-        test: /\.css$/,
+        test: /\.(css|scss)$/,
         exclude: /src/,
         loader: 'null-loader'
       },

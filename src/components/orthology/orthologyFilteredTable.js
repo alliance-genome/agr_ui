@@ -5,7 +5,7 @@
 */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Collapse } from 'react-bootstrap';
+import { Collapse } from 'reactstrap';
 import OrthologyTable from './orthologyTable';
 
 const caseInsensitiveCompare = (stringA, stringB) => {
@@ -178,14 +178,14 @@ class OrthologyFilteredTable extends Component {
 
     return (
       <div>
-        <div className="card card-block" style={{margin: '0.5em 0'}}>
+        <div className="card card-body" style={{margin: '0.5em 0'}}>
           <div>
             <span>Stringency:</span>
             {this.renderStringencyOption('high', 'Stringent filter (default)')}
             {this.renderStringencyOption('moderate', 'Moderate filter')}
             {this.renderStringencyOption('low', 'No filter / Show all')}
           </div>
-          <Collapse in={this.state.showFilterPanel}>
+          <Collapse isOpen={this.state.showFilterPanel}>
             <div>
               <span style={docTextStyle}>Additional filters to further constrain the results:</span>
               <div style={{display: 'flex', flexDirection: 'column', marginLeft: '-0.5em'}}>
@@ -270,7 +270,7 @@ class OrthologyFilteredTable extends Component {
               type="button"
             >{`${this.state.showFilterPanel ? 'Hide' : 'Show'} additional filters`}</button>
             <button
-              className="btn btn-secondary"
+              className="btn btn-outline-secondary"
               onClick={() => this.resetFilters()}
               style={buttonStyle}
               type="button"
