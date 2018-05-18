@@ -23,17 +23,17 @@ class Layout extends Component {
           <TopBar />
         </div>
 
-        <div className='container'>
+        <div className='container-fluid'>
           <div className='row align-items-center'>
-            <div className='col-md'>
+            <div className='col-md d-flex justify-content-between'>
               <Link className='navbar-brand' to='/'>
                 <img className={`img-fluid ${style.agrLogo}`} src={logo} />
               </Link>
               <button aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation"
-                      className="navbar-toggler float-right d-block d-md-none" data-target="#exCollapsingNavbar2"
+                      className="navbar-toggler d-md-none" data-target="#exCollapsingNavbar2"
                       data-toggle="collapse" type="button"
               >
-                &#9776;
+                <i className='fa fa-fw fa-bars' />
               </button>
             </div>
             <div className='col-md'>
