@@ -72,10 +72,10 @@ class SearchBarComponent extends Component {
     if (item.method == 'click') {
       if (item.suggestion.category == 'gene') {
         let href = '/gene/' + item.suggestion.primaryId;
-        this.props.dispatch(this.props.history.push({ pathname: href}));
+        this.props.history.push({ pathname: href});
       } else if (item.suggestion.category == 'disease') {
         let href = '/disease/' + item.suggestion.primaryId;
-        this.props.dispatch(this.props.history.push({ pathname: href}));
+        this.props.history.push({ pathname: href});
       } else {
         this.setState({ value: item.suggestion.name_key });
         let query = item.suggestion.name_key;
@@ -83,7 +83,7 @@ class SearchBarComponent extends Component {
         let newQp = { q: query };
         if (query === '') newQp = {};
         if (newCat !== 'all') newQp.category = newCat;
-        this.props.dispatch(this.props.history.push({ pathname: '/search', query: newQp }));
+        this.props.history.push({ pathname: '/search', query: newQp });
       }
     }
   }
