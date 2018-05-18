@@ -55,7 +55,7 @@ class MultiTableComponent extends Component {
     qp.limit = _limit;
     qp.offset = _offset;
     qp.category = category;
-    return `${BASE_SEARCH_URL}?q=${stringifyQueryString(qp)}`;
+    return `${BASE_SEARCH_URL}?${stringifyQueryString(qp)}`;
   }
 
   fetchAllData() {
