@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import clone from 'lodash.clone';
-import { stringify as stringifyQueryString } from 'query-string';
+import { stringify as stringifyQuery } from 'query-string';
 
 import style from './style.css';
 import ResultsTable from './resultsTable';
@@ -41,7 +41,7 @@ class MultiTableComponent extends Component {
 
   // fetch data whenever URL changes within /search
   componentDidUpdate (prevProps) {
-    if (stringifyQueryString(prevProps.queryParams) !== stringifyQueryString(this.props.queryParams)) {
+    if (stringifyQuery(prevProps.queryParams) !== stringifyQuery(this.props.queryParams)) {
       this.fetchAllData();
     }
   }
@@ -55,7 +55,7 @@ class MultiTableComponent extends Component {
     qp.limit = _limit;
     qp.offset = _offset;
     qp.category = category;
-    return `${BASE_SEARCH_URL}?${stringifyQueryString(qp)}`;
+    return `${BASE_SEARCH_URL}?${stringifyQuery(qp)}`;
   }
 
   fetchAllData() {

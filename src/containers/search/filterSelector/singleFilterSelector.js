@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import Select from 'react-select';
-import { stringify as stringifyQueryString } from 'query-string';
+import { stringify as stringifyQuery } from 'query-string';
 
 import style from './style.css';
 import {getQueryParamWithoutPage} from '../../../lib/searchHelpers';
@@ -62,7 +62,7 @@ class SingleFilterSelector extends Component {
       let newQueryObj = getQueryParamWithoutPage(this.props.name, d.key, this.props.queryParams);
       return (
         <li className='nav-item' key={_key}>
-          <Link className={`nav-link${classSuffix}`} to={{ pathname: SEARCH_PATH, search: stringifyQueryString(newQueryObj) }}>
+          <Link className={`nav-link${classSuffix}`} to={{ pathname: SEARCH_PATH, search: stringifyQuery(newQueryObj) }}>
             <span className={style.aggLink}>
               <span className={style.aggLinkLabel}>{dotNode}{nameNode}</span><span>{d.total.toLocaleString()}</span>
             </span>
