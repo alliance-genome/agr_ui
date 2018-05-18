@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import clone from 'lodash.clone';
-import { stringify as stringifyQueryString } from 'query-string';
+import { stringify as stringifyQuery } from 'query-string';
 
 import fetchData from '../../lib/fetchData';
 import FilterSelector from './filterSelector/filterSelector';
@@ -59,7 +59,7 @@ class SearchComponent extends Component {
     let qp = clone(this.props.queryParams);
     qp.limit = _limit;
     qp.offset = _offset;
-    const searchUrl = `${BASE_SEARCH_URL}?${stringifyQueryString(qp)}`;
+    const searchUrl = `${BASE_SEARCH_URL}?${stringifyQuery(qp)}`;
     this.props.dispatch(setPending(true));
     fetchData(searchUrl)
       .then( (data) => {
