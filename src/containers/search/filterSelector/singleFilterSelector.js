@@ -161,4 +161,4 @@ SingleFilterSelector.propTypes = {
   values: PropTypes.array,
 };
 
-export default connect()(withRouter(SingleFilterSelector));
+export default withRouter(connect()(SingleFilterSelector));
