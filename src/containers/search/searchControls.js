@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { stringify as stringifyQueryString } from 'query-string';
 import { connect } from 'react-redux';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 
@@ -18,8 +19,8 @@ class SearchControlsComponent extends Component {
   renderViewAs() {
     let listQp = getQueryParamWithValueChanged('mode', 'list', this.props.queryParams);
     let tableQp = getQueryParamWithValueChanged('mode', 'table', this.props.queryParams);
-    let listHref = { pathname: SEARCH_PATH, query: listQp };
-    let tableHref = { pathname: SEARCH_PATH, query: tableQp };
+    let listHref = { pathname: SEARCH_PATH, search: stringifyQueryString(listQp) };
+    let tableHref = { pathname: SEARCH_PATH, search: stringifyQueryString(tableQp) };
     return (
       <div className={style.control}>
         <label className={style.searchLabel}>View As</label>
@@ -38,8 +39,8 @@ class SearchControlsComponent extends Component {
     let prevPage = Math.max(1, curPage - 1);
     let prevQp = getQueryParamWithValueChanged('page', prevPage, this.props.queryParams);
     let nextQp = getQueryParamWithValueChanged('page', nextPage, this.props.queryParams);
-    let prevHef = { pathname: SEARCH_PATH, query: prevQp };
-    let nextHef = { pathname: SEARCH_PATH, query: nextQp };
+    let prevHef = { pathname: SEARCH_PATH, search: stringifyQueryString(prevQp) };
+    let nextHef = { pathname: SEARCH_PATH, search: stringifyQueryString(nextQp) };
     let isPrevDisabled = curPage <= 1;
     let isNextDisabled = curPage >= totPage;
     return (<div className={style.control}>

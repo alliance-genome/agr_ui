@@ -41,7 +41,7 @@ class MultiTableComponent extends Component {
 
   // fetch data whenever URL changes within /search
   componentDidUpdate (prevProps) {
-    if (prevProps.queryParams !== this.props.queryParams) {
+    if (stringifyQueryString(prevProps.queryParams) !== stringifyQueryString(this.props.queryParams)) {
       this.fetchAllData();
     }
   }
