@@ -38,6 +38,9 @@ class BasicGeneInfo extends Component {
     const gene = this.state.geneData;
     return (
       <AttributeList>
+        <AttributeLabel>Species</AttributeLabel>
+        <AttributeValue><i>{gene.species}</i></AttributeValue>
+
         <AttributeLabel>Symbol</AttributeLabel>
         <AttributeValue>{gene.symbol}</AttributeValue>
 
