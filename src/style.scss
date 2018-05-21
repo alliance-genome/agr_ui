@@ -1,0 +1,17 @@
+@import "theme";
+@import "~bootstrap/scss/bootstrap";
+
+.react-bs-table table, .table {
+  td, th {
+    white-space: normal;
+    text-overflow: clip;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+  }
+
+  th {
+    border-top: none;
+  }
+}

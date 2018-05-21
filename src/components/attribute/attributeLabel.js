@@ -18,7 +18,7 @@ class AttributeLabel extends Component {
 
 AttributeLabel.defaultProps = {
   style: {},
-  bsClassName: 'col-sm-3',
+  bsClassName: 'col-md-3',
 };
 
 AttributeLabel.propTypes = {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import style from './style.css';
+import style from './style.scss';
 import { MENU_IDS, WORDPRESS_PAGES } from './../../constants';
 
 class SecondaryNav extends Component {
@@ -52,8 +52,8 @@ class SecondaryNav extends Component {
           <div className={style.secondaryNavEmptyRow} />
           <div className={`row ${style.secondaryNav}`}>
             <div className='container'>
-              <div className='col-xs-12 col-sm-4'>{container} </div>
-              <div className='col-xs-12 col-sm-8 text-xs-right'>
+              <div className='col-12 col-sm-4'>{container} </div>
+              <div className='col-12 col-sm-8 text-xs-right'>
                 <h1 dangerouslySetInnerHTML={{__html: pageTitle}} />
               </div>
             </div>

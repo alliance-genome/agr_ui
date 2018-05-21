@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import Autosuggest from 'react-autosuggest';
 import { parse as parseQueryString, stringify as stringifyQuery} from 'query-string';
 import { withRouter } from 'react-router-dom';
-import { DropdownButton, MenuItem } from 'react-bootstrap';
+import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 
-import style from './style.css';
+import style from './style.scss';
 import CategoryLabel from '../../search/categoryLabel';
 import fetchData from '../../../lib/fetchData';
 
@@ -35,8 +35,9 @@ class SearchBarComponent extends Component {
     this.dispatchSearchFromQuery(selected);
   }
 
-  handleSelect(eventKey) {
-    let newCatOption = CATEGORIES.filter( d => d.name === eventKey )[0];
+  handleSelect(event) {
+    const selected = event.currentTarget.dataset.name;
+    const newCatOption = CATEGORIES.filter( d => d.name === selected )[0];
     this.setState({ catOption: newCatOption });
   }
 
@@ -92,13 +93,22 @@ class SearchBarComponent extends Component {
     let _title = this.state.catOption.displayName;
     let nodes = CATEGORIES.map( d => {
       let labelNode = (d.name === DEFAULT_CAT.name) ? 'All' : <CategoryLabel category={d.name} />;
-      return <MenuItem className={style.dropdownItem} eventKey={d.name} key={d.name}>{labelNode}</MenuItem>;
+      return (
+        <DropdownItem className={style.dropdownItem} data-name={d.name} key={d.name} onClick={this.handleSelect.bind(this)}>
+          {labelNode}
+        </DropdownItem>
+      );
     });
-    return (<div className={`input-group-btn ${style.searchBtns}`}>
-        <DropdownButton className={`btn-outline-light ${style.dropdown} ${style.dropdownBtn}`} id="bg-nested-dropdown" onSelect={this.handleSelect.bind(this)} title={_title}>
+    return (
+      <UncontrolledDropdown className={`input-group-prepend ${style.searchBtns}`}>
+        <DropdownToggle caret color='secondary' outline>
+          {_title}
+        </DropdownToggle>
+        <DropdownMenu>
           {nodes}
-        </DropdownButton>
-      </div>);
+        </DropdownMenu>
+      </UncontrolledDropdown>
+    );
   }
 
   renderSuggestion(d) {
@@ -120,6 +130,7 @@ class SearchBarComponent extends Component {
       onChange: this.handleTyping.bind(this)
     };
     let _theme = {
+      container: style.autoContainer,
       containerOpen: style.autoContainerOpen,
       input: style.autoInput,
       suggestionsContainer: style.suggestionsContainer,
@@ -127,17 +138,19 @@ class SearchBarComponent extends Component {
       suggestion: style.suggestion,
       suggestionFocused: style.suggestionFocused
     };
-    return (<form className={style.formSearch} onSubmit={this.handleSubmit.bind(this)} ref="form" role="search">
-        <div className="input-group">
+    return (
+      <form onSubmit={this.handleSubmit.bind(this)}>
+        <div className='input-group'>
           {this.renderDropdown()}
-          <Autosuggest className="form-control" getSuggestionValue={_getSuggestionValue} inputProps={_inputProps} onSuggestionSelected={this.handleSelected.bind(this)} onSuggestionsClearRequested={this.handleClear.bind(this)} onSuggestionsFetchRequested={this.handleFetchData.bind(this)} renderSuggestion={this.renderSuggestion} suggestions={this.state.autoOptions} theme={_theme} />
-          <div className="input-group-btn">
-            <button className={`btn btn-primary ${style.searchBtns}`} onClick={this.handleSubmit.bind(this)} type="submit">
-              <i className="fa fa-search" />
+          <Autosuggest className='form-control' getSuggestionValue={_getSuggestionValue} inputProps={_inputProps} onSuggestionSelected={this.handleSelected.bind(this)} onSuggestionsClearRequested={this.handleClear.bind(this)} onSuggestionsFetchRequested={this.handleFetchData.bind(this)} renderSuggestion={this.renderSuggestion} suggestions={this.state.autoOptions} theme={_theme} />
+          <div className='input-group-append'>
+            <button className={`btn btn-primary ${style.searchBtns}`} type='submit'>
+              <i className='fa fa-search' />
             </button>
           </div>
         </div>
-      </form>);
+      </form>
+    );
   }
 }
 

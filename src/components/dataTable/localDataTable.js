@@ -35,6 +35,7 @@ class LocalDataTable extends Component {
       exportCSVBtn: this.renderDownloadButton,
       exportCSVSeparator: '\t',
       paginationShowsTotal: Utils.renderPaginationShowsTotal,
+      sizePerPageDropDown: Utils.renderSizePerPageDropDown,
       sizePerPageList: [10, 25, 100],
       toolbarPosition: 'bottom', //move download button to the bottom
     };

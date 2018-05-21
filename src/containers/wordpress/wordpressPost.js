@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import style from './style.css';
+import style from './style.scss';
 import HeadMetaTags from '../../components/headMetaTags';
 import LoadingPage from '../../components/loadingPage';
 import SecondaryNav from './secondaryNav';
@@ -52,7 +52,7 @@ class WordpressPost extends Component {
         <SecondaryNav  title={title} type='post' />
         <div className='container'>
           <div className='row'>
-            <div className={`col-xs-12 col-sm-5 ${style.floatLeft}`}>
+            <div className={`col-12 col-sm-5 ${style.floatLeft}`}>
               <img className='img-fluid' src={post.featured_media_url}  />
             </div>
             <div dangerouslySetInnerHTML={{ __html: post.content.rendered}} />

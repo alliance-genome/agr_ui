@@ -1,18 +1,7 @@
-import React, { Component } from 'react';
-import TopHeaher from './topHeader';
-import MiddleHeader from './middleHeader';
+import MenuItems from './menuItems';
+import NavItem from './navItem';
 
-
-class NavMenu extends Component{
-  render(){
-    return(
-      <div>
-        <TopHeaher />
-        <MiddleHeader />
-      </div>
-    );
-  }
-
-}
-
-export default NavMenu;
+export {
+  MenuItems,
+  NavItem,
+};
