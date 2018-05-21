@@ -6,7 +6,7 @@ import style from './style.scss';
 const HorizontalScroll = ({children, width}) => {
   return (
     <div className={style.hScrollOuter}>
-      <div className={style.hScrollInner} style={{minWidth: width}}>
+      <div style={{minWidth: width}}>
         {children}
       </div>
     </div>

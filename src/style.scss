@@ -1,4 +1,5 @@
 @import "theme";
+@import "mixins";
 @import "~bootstrap/scss/bootstrap";
 
 .react-bs-table table, .table {
@@ -17,16 +18,8 @@
   >div {
     overflow: visible;
   }
-  &::-webkit-scrollbar {
-    -webkit-appearance: none;
-    display: block;
-    height: 8px;
-    background-color: rgba(0,0,0,0);
-    -webkit-border-radius: 100px;
+  th {
+    vertical-align: bottom !important;
   }
-  &::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background-color: rgba(0,0,0,.5);
-    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
-  }
+  @include webkit-scrollbar;
 }
