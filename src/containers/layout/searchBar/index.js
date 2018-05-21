@@ -84,7 +84,7 @@ class SearchBarComponent extends Component {
         let newQp = { q: query };
         if (query === '') newQp = {};
         if (newCat !== 'all') newQp.category = newCat;
-        this.props.history.push({ pathname: '/search', query: newQp });
+        this.props.history.push({ pathname: '/search', search: stringifyQuery(newQp) });
       }
     }
   }
