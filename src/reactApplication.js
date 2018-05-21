@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Router, applyRouterMiddleware, browserHistory, createMemoryHistory } from 'react-router';
 import { Provider } from 'react-redux';
-import { syncHistoryWithStore } from 'react-router-redux';
-import { useScroll } from 'react-router-scroll';
 import configureStore from './lib/configureStore';
+import { BrowserRouter } from 'react-router-dom';
+import { ScrollContext } from 'react-router-scroll-4';
+import PropTypes from 'prop-types';
 import ReactGA from 'react-ga';
+import RouteListener from './components/routeListener';
 import routes from './routes';
 
 const isBrowser = (typeof window !== 'undefined');
@@ -13,9 +14,9 @@ if (isBrowser && window.location.hostname !== 'localhost') {
   ReactGA.initialize('UA-98765810-1');
 }
 
-function logPageView() {
+function logPageView(location) {
   if (isBrowser) {
-    let page = window.location.pathname + window.location.search;
+    let page = location.pathname + location.search;
     ReactGA.set({ page: page });
     ReactGA.pageview(page);
   }
@@ -23,24 +24,32 @@ function logPageView() {
 
 class ReactApp extends Component {
   render() {
-    let historyObj = isBrowser ? browserHistory : createMemoryHistory('/');
-    let store = configureStore(historyObj);
-    let history = syncHistoryWithStore(historyObj, store);
-    let routerMiddlware = [];
-    if (isBrowser) {
-      routerMiddlware.push(useScroll());
-    }
+    let store = configureStore();
+
+    const Router = this.props.router || BrowserRouter;
     return (
       <Provider store={store}>
-        <Router history={history}
-                onUpdate={logPageView}
-                render={applyRouterMiddleware(...routerMiddlware)}
-        >
-          {routes}
+        <Router>
+          {
+            isBrowser ?
+              <ScrollContext>
+                <RouteListener onRouteChange={logPageView}>
+                  {routes}
+                </RouteListener>
+              </ScrollContext> :
+              routes
+          }
         </Router>
       </Provider>
     );
   }
 }
+
+ReactApp.propTypes = {
+  router: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.func,
+  ]),
+};
 
 export default ReactApp;

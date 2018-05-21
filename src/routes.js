@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, IndexRoute, Redirect } from 'react-router';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 import {
   WordpressPage,
@@ -13,20 +13,41 @@ import DiseasePage from './containers/diseasePage';
 import NotFound from './components/notFound';
 
 export default (
-  <Route component={Layout} path='/'>
-    <IndexRoute
-      component={
-        (props) => <WordpressPage {...props} params={{slug: 'home'}} />
-      }
-    />
-    <Route component={Search} path='/search' />
-    <Route component={GenePage} path='/gene/:geneId' />
-    <Route component={DiseasePage} path='/disease/:diseaseId' />
-    <Route component={WordpressPostList} path='/posts' />
-    <Redirect from='/posts/news' to='/posts' />
-    <Route component={WordpressPost} path='/posts/:slug' />
-    <Redirect from='/wordpress/:id' to='/:id' /> {/* before links within user edited WordPress content is fixed, this path rewrite is necessary */}
-    <Route component={WordpressPage} path='/:slug' />
-    <Route component={NotFound} path="*" />
-  </Route>
+  <Route component={
+    (props) => (
+      <Layout {...props}>
+        <Switch>
+          <Route component={
+            () => (
+              <WordpressPage slug='home' />
+            )} exact path='/'
+          />
+          <Route component={Search} path='/search' />
+          <Route component={GenePage} path='/gene/:geneId' />
+          <Route component={DiseasePage} path='/disease/:diseaseId' />
+          <Route component={
+            () => (
+              <Redirect to='/posts' />
+            )} path='/posts/news'
+          />
+          <Route component={WordpressPost} path='/posts/:slug' />
+          <Route component={WordpressPostList} path='/posts' />
+          <Route component={
+            ({match}) => (
+              <Redirect to={`/${match.params.id}`} />
+            )} path='/wordpress/:id'
+          />
+          {/* before links within user edited WordPress content is fixed, this path rewrite is necessary */}
+          <Route component={
+            ({location}) =>
+              <WordpressPage slug={location.pathname} />
+            } path='/:slug'
+          />
+          <Route component={NotFound} />
+        </Switch>
+      </Layout>
+    )}
+    path='/'
+  />
+
 );

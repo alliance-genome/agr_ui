@@ -24,14 +24,14 @@ class WordpressPost extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.params.slug !== prevProps.params.slug) {
+    if (this.props.match.params.slug !== prevProps.match.params.slug) {
       this.fetch();
     }
   }
 
   fetch() {
-    const { dispatch, params } = this.props;
-    dispatch(fetchWordpressPost(params.slug));
+    const { dispatch } = this.props;
+    dispatch(fetchWordpressPost(this.props.match.params.slug));
   }
 
   render() {
@@ -66,7 +66,9 @@ class WordpressPost extends Component {
 WordpressPost.propTypes = {
   dispatch: PropTypes.func,
   loading: PropTypes.bool,
-  params: PropTypes.object,
+  match: PropTypes.shape({
+    params: PropTypes.object,
+  }).isRequired,
   post: PropTypes.object,
 };
 

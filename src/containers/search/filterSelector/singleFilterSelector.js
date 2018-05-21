@@ -2,9 +2,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router-dom';
 import Select from 'react-select';
-import { push } from 'react-router-redux';
+import { stringify as stringifyQuery } from 'query-string';
 
 import style from './style.scss';
 import {getQueryParamWithoutPage} from '../../../lib/searchHelpers';
@@ -36,7 +36,7 @@ class SingleFilterSelector extends Component {
     let simpleValues = newValues.map( d => d.name );
     let newQp = getQueryParamWithoutPage(this.props.name, simpleValues, this.props.queryParams);
     let newPath = { pathname: SEARCH_PATH, query: newQp };
-    this.props.dispatch(push(newPath));
+    this.props.history.push(newPath);
   }
 
   renderFilterValues() {
@@ -62,7 +62,7 @@ class SingleFilterSelector extends Component {
       let newQueryObj = getQueryParamWithoutPage(this.props.name, d.key, this.props.queryParams);
       return (
         <li className='nav-item' key={_key}>
-          <Link className={`nav-link${classSuffix}`} to={{ pathname: SEARCH_PATH, query: newQueryObj }}>
+          <Link className={`nav-link${classSuffix}`} to={{ pathname: SEARCH_PATH, search: stringifyQuery(newQueryObj) }}>
             <span className={style.aggLink}>
               <span className={style.aggLinkLabel}>{dotNode}{nameNode}</span><span>{d.total.toLocaleString()}</span>
             </span>
@@ -153,10 +153,13 @@ class SingleFilterSelector extends Component {
 SingleFilterSelector.propTypes = {
   dispatch: PropTypes.func,
   displayName: PropTypes.string,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
   isShowMore: PropTypes.bool,
   name: PropTypes.string,
   queryParams: PropTypes.object,
-  values: PropTypes.array
+  values: PropTypes.array,
 };
 
-export default connect()(SingleFilterSelector);
+export default withRouter(connect()(SingleFilterSelector));

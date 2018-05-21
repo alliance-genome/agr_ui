@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import style from './style.scss';
 import { getQueryParamWithoutPage, makeFieldDisplayName, makeTitleCaseFieldDisplayName } from '../../lib/searchHelpers';
-import { selectIsPending, selectQueryParams, selectTotal } from '../../selectors/searchSelectors.js';
+import { selectIsPending, selectTotal } from '../../selectors/searchSelectors.js';
 
 import CategoryLabel from './categoryLabel.js';
 
@@ -68,7 +68,6 @@ SearchBreadcrumbsComponent.propTypes = {
 function mapStateToProps(state) {
   return {
     isPending: selectIsPending(state),
-    queryParams: selectQueryParams(state),
     total: selectTotal(state)
   };
 }
