@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import style from './style.css';
+import style from './style.scss';
 import { SUB_MENU, WORDPRESS_PAGES} from '../../constants';
 
 

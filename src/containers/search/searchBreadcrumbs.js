@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import style from './style.css';
+import style from './style.scss';
 import { getQueryParamWithoutPage, makeFieldDisplayName, makeTitleCaseFieldDisplayName } from '../../lib/searchHelpers';
 import { selectIsPending, selectTotal } from '../../selectors/searchSelectors.js';
 
@@ -25,7 +25,7 @@ class SearchBreadcrumbsComponent extends Component {
       }
       else if (key === 'category') {
         fieldLabel = '';
-        labelNode = <CategoryLabel category={d} />;
+        labelNode = <CategoryLabel category={d} spriteColor='white' />;
       }
       return (
         <Link className={`btn btn-primary ${style.sortLabel}`} key={`bc${key}.${i}`} to={newPath}><span>{fieldLabel} {labelNode} <i className='fa fa-times' /></span></Link>

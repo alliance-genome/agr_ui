@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import clone from 'lodash.clone';
 import { stringify as stringifyQuery } from 'query-string';
 
-import style from './style.css';
+import style from './style.scss';
 import ResultsTable from './resultsTable';
 import CategoryLabel from './categoryLabel';
 import fetchData from '../../lib/fetchData';
@@ -123,7 +123,7 @@ class MultiTableComponent extends Component {
           </Link>
         </p>
         <ResultsTable activeCategory={category} entries={this.getResultsForCategory(category)} />
-        <span className='pull-right'>
+        <span className='float-right'>
           <Link to={categoryHref}>
             Show All <CategoryLabel category={category} hideImage /> Results
           </Link>

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import style from './style.css';
+import style from './style.scss';
 import DetailList from './detailList';
-import LogList from './logList';
 import { getLinkForEntry, makeFieldDisplayName } from '../../lib/searchHelpers';
 import { NON_HIGHLIGHTED_FIELDS } from '../../constants';
 
@@ -95,23 +94,12 @@ class ResultsTable extends Component {
     );
   }
 
-  renderHighlight(highlight, homologs) {
-    homologs = homologs || [];
+  renderHighlight(highlight) {
     let _data = highlight;
     let _fields = Object.keys(_data).filter( d => {
       return (NON_HIGHLIGHTED_FIELDS.indexOf(d) < 0);
     });
-    let logHighlight = highlight['homologs.symbol'] || highlight['homologs.panther_family'];
-    let homologNode = null;
-    if (homologs.length && logHighlight) {
-      homologNode = <LogList label='Homologs' logs={homologs} query={this.props.query} rawHighlight={logHighlight} />;
-    }
-    return (
-      <div>
-        <DetailList data={_data} fields={_fields} />
-        {homologNode}
-      </div>
-    );
+    return <DetailList data={_data} fields={_fields} />;
   }
 
   render() {

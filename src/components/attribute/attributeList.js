@@ -9,7 +9,7 @@ class AttributeList extends Component {
     return (
       <div className="row">
         <div className={bsClassName}>
-          <dl className="row">
+          <dl className="row no-gutters">
             {
               children
             }

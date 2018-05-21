@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import style from './style.css';
+import style from './style.scss';
 import { CATEGORIES } from '../../constants';
 
 class CategoryLabel extends Component {
@@ -12,10 +12,24 @@ class CategoryLabel extends Component {
   }
 
   renderSprite() {
-    let current = this.getCurrentOption();
-    let offset = Math.max(0, CATEGORIES.indexOf(current)) - 1;
-    let offsetStyle = `-${offset}rem`;
-    return <span className={`${this.props.category} ${style.sprite}`} style={{ backgroundPositionY: offsetStyle }} />;
+    const current = this.getCurrentOption();
+    const yOffset = Math.max(0, CATEGORIES.indexOf(current)) - 1;
+    const yOffsetStyle = `-${yOffset}rem`;
+    let xOffset = 0;
+    switch (this.props.spriteColor) {
+    case 'white':
+      xOffset = 1;
+      break;
+    case 'blue':
+      xOffset = 2;
+      break;
+    }
+    const xOffsetStyle = `-${xOffset * 1.15}rem`;
+    const positions = {
+      backgroundPositionX: xOffsetStyle,
+      backgroundPositionY: yOffsetStyle
+    };
+    return <span className={`${this.props.category} ${style.sprite}`} style={positions} />;
   }
 
   render() {
@@ -31,6 +45,11 @@ CategoryLabel.propTypes = {
   category: PropTypes.string,
   hideImage: PropTypes.bool,
   hideLabel: PropTypes.bool,
+  spriteColor: PropTypes.string,
+};
+
+CategoryLabel.defaultProps = {
+  spriteColor: 'black',
 };
 
 export default CategoryLabel;

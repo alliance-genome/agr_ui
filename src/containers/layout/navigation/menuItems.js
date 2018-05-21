@@ -9,7 +9,8 @@ import {
 } from '../../../constants';
 
 const HOME_ROUTE = '/home';
-import NavItem from './item';
+import { NavItem } from '.';
+import style from './style.scss';
 
 class MenuItems extends Component {
   render () {
@@ -66,9 +67,15 @@ class MenuItems extends Component {
       }
     }
     return (
-      <div className="collapse navbar-toggleable-md" id="exCollapsingNavbar2">
-        <ul className={'nav navbar-nav topnav'}>{container}</ul>
-      </div>
+      <nav className='navbar navbar-expand-md p-0'>
+        <div className='container'>
+          <div className='collapse navbar-collapse' id='exCollapsingNavbar2'>
+            <ul className={`navbar-nav ${style.topnav}`}>
+              {container}
+            </ul>
+          </div>
+        </div>
+      </nav>
     );
   }
 }
