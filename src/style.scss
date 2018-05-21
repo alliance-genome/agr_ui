@@ -3,6 +3,8 @@
 @import "~bootstrap/scss/bootstrap";
 
 .react-bs-table table, .table {
+  margin-bottom: 0;
+
   td, th {
     white-space: normal;
     text-overflow: clip;
