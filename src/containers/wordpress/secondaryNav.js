@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import style from './style.scss';
 import { MENU_IDS, WORDPRESS_PAGES } from './../../constants';

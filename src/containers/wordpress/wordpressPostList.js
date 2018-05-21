@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import style from './style.scss';
 import SecondaryNav from './secondaryNav';
@@ -48,7 +48,7 @@ class WordpressPostList extends Component {
               return (
                 <div className={`row ${style.postContainer}`} key={post.id}>
                   <div className='col-12 col-sm-4'>
-                    <Link href={link}>
+                    <Link to={link}>
                       <img className='img-fluid' src={post.featured_media_url} />
                     </Link>
                   </div>

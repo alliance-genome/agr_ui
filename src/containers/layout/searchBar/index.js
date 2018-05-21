@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Autosuggest from 'react-autosuggest';
-import { push } from 'react-router-redux';
+import { parse as parseQueryString, stringify as stringifyQuery} from 'query-string';
+import { withRouter } from 'react-router-dom';
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 
 import style from './style.scss';
@@ -18,7 +19,7 @@ const DEFAULT_CAT = CATEGORIES[0];
 class SearchBarComponent extends Component {
   constructor(props) {
     super(props);
-    let initValue = this.props.queryParams.q || '';
+    let initValue = parseQueryString(this.props.location.search).q || '';
     this.state = {
       autoOptions: [],
       catOption: DEFAULT_CAT,
@@ -47,7 +48,7 @@ class SearchBarComponent extends Component {
     let newQp = { q: query };
     if (query === '') newQp = {};
     if (newCat !== 'all') newQp.category = newCat;
-    this.props.dispatch(push({ pathname: '/search', query: newQp }));
+    this.props.history.push({ pathname: '/search', search: stringifyQuery(newQp) });
   }
 
   handleTyping(e, { newValue }) {
@@ -72,10 +73,10 @@ class SearchBarComponent extends Component {
     if (item.method == 'click') {
       if (item.suggestion.category == 'gene') {
         let href = '/gene/' + item.suggestion.primaryId;
-        this.props.dispatch(push({ pathname: href}));
+        this.props.history.push({ pathname: href});
       } else if (item.suggestion.category == 'disease') {
         let href = '/disease/' + item.suggestion.primaryId;
-        this.props.dispatch(push({ pathname: href}));
+        this.props.history.push({ pathname: href});
       } else {
         this.setState({ value: item.suggestion.name_key });
         let query = item.suggestion.name_key;
@@ -83,7 +84,7 @@ class SearchBarComponent extends Component {
         let newQp = { q: query };
         if (query === '') newQp = {};
         if (newCat !== 'all') newQp.category = newCat;
-        this.props.dispatch(push({ pathname: '/search', query: newQp }));
+        this.props.history.push({ pathname: '/search', query: newQp });
       }
     }
   }
@@ -155,16 +156,20 @@ class SearchBarComponent extends Component {
 
 SearchBarComponent.propTypes = {
   dispatch: PropTypes.func,
-  queryParams: PropTypes.object,
-  searchUrl: PropTypes.string
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
-function mapStateToProps(state) {
-  let location = state.routing.locationBeforeTransitions;
-  let _queryParams = location ? location.query : {};
+function mapStateToProps() {
   return {
-    queryParams: _queryParams
   };
 }
-export { SearchBarComponent as SearchBarComponent };
-export default connect(mapStateToProps)(SearchBarComponent);
+
+const SearchBarComponentWithHistory = withRouter(SearchBarComponent);
+
+export { SearchBarComponentWithHistory as SearchBarComponent };
+export default connect(mapStateToProps)(SearchBarComponentWithHistory);

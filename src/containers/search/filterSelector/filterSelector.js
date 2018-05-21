@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import style from './style.scss';
@@ -12,7 +12,6 @@ import {
   selectActiveCategory,
   selectAggregations,
   selectIsPending,
-  selectQueryParams,
 } from '../../../selectors/searchSelectors';
 
 class FilterSelectorComponent extends Component {
@@ -76,7 +75,6 @@ function mapStateToProps(state) {
     activeCategory:  selectActiveCategory(state),
     aggregations: selectAggregations(state),
     isPending: selectIsPending(state),
-    queryParams: selectQueryParams(state)
   };
 }
 
