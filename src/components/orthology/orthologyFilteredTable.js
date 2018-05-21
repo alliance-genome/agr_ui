@@ -279,7 +279,7 @@ class OrthologyFilteredTable extends Component {
           </div>
         </div>
 
-        <div style={{marginTop: -40}}>
+        <div style={{marginTop: -40, marginBottom: '1rem'}}>
           {
             filteredData.length > 0 ?
             <HorizontalScroll width={800}>
