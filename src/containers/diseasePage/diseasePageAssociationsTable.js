@@ -113,7 +113,7 @@ class DiseasePageAssociationsTable extends Component {
         field: 'featureDocument',
         label: 'Genetic Entity Type',
         format: (feature) => feature && feature.category,
-        width: 110,
+        width: 90,
       },
       {
         field: 'associationType',
@@ -138,7 +138,7 @@ class DiseasePageAssociationsTable extends Component {
         field: 'source',
         label: 'Source',
         format: (s) => <ExternalLink href={s.diseaseUrl}>{s.name}</ExternalLink>,
-        width: 75,
+        width: 65,
       },
       {
         field: 'publications',
