@@ -68,6 +68,7 @@ const searchReducer = function (state = DEFAULT_STATE, action) {
       .set('isPending', false)
       .set(totalTarget, action.payload.total)
       .set('aggregations', newAggs)
+      .set('activeCategory', action.queryParams.category || 'none')
       .set('isReady', true)
       // parse results
       .set(resultsTarget, fromJS(parseResults(action.payload.results)));
