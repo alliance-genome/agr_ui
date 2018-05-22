@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { parse as parseQueryString } from 'query-string';
 
 // See https://github.com/reactjs/reselect
 // for details on using selectors.
@@ -7,7 +8,12 @@ import { createSelector } from 'reselect';
  * Direct selector to the search state.
  */
 export const selectSearchDomain = (state) => state.search;
-export const selectRoutingDomain = (state) => state.routing;
+export const selectRoutingDomain = (state, props) => {
+  const {location} = props;
+  return {
+    location,
+  };
+};
 
 export const selectSearch = createSelector(
   [selectSearchDomain],
@@ -36,10 +42,8 @@ export const selectIsPending = createSelector(
 
 export const selectQueryParams = createSelector(
   [selectRoutingDomain],
-  (routing) => {
-    let location = routing.locationBeforeTransitions;
-    let queryParams = location ? routing.locationBeforeTransitions.query : {};
-    return queryParams;
+  ({location}) => {
+    return location.query || parseQueryString(location.search);
   }
 );
 

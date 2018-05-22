@@ -9,20 +9,20 @@ import {
 } from '../../components/attribute';
 import SpeciesIcon from '../../components/speciesIcon';
 
-import style from './style.css';
+import style from './style.scss';
 
 class DataSourceCard extends Component {
   render() {
     const { species, reference } = this.props;
-    const listClass = 'col-xs-12';
-    const labelClass = 'col-md-3';
-    const valueClass = 'col-md-9';
+    const listClass = 'col-12';
+    const labelClass = 'col-lg-3';
+    const valueClass = 'col-lg-9';
     return (
       <div className='card'>
         <div className={style.iconContainer}>
           <SpeciesIcon species={species} />
         </div>
-        <div className='card-block'>
+        <div className='card-body'>
           <AttributeList bsClassName={listClass}>
             <AttributeLabel bsClassName={labelClass}>Species</AttributeLabel>
             <AttributeValue bsClassName={valueClass}><i>{species}</i></AttributeValue>

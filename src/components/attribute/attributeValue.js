@@ -18,7 +18,7 @@ class AttributeValue extends Component {
 
 AttributeValue.defaultProps = {
   style: {},
-  bsClassName: 'col-sm-9',
+  bsClassName: 'col-md-9',
   placeholder: 'Not Available',
 };
 

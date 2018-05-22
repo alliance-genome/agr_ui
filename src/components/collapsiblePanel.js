@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Collapse } from 'react-bootstrap';
+import { Collapse } from 'reactstrap';
 
 class CollapsiblePanel extends Component {
   constructor(props) {
@@ -32,6 +32,7 @@ class CollapsiblePanel extends Component {
         <div
           className={`card-header alert-${this.props.backgroundVariants}`}
           onClick={() => this.handleToggle()} role="tab"
+          style={{cursor: 'pointer'}}
         >
           <i
             aria-hidden="true"
@@ -41,9 +42,9 @@ class CollapsiblePanel extends Component {
           <span>{this.props.title}</span>
         </div>
 
-        <Collapse in={this.state.expended}>
+        <Collapse isOpen={this.state.expended}>
           <div role="tabpanel">
-            <div className="card-block">
+            <div className="card-body">
               {this.props.children}
             </div>
           </div>
