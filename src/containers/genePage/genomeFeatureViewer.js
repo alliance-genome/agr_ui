@@ -130,14 +130,14 @@ class GenomeFeatureViewer extends Component {
             <a href={this.jbrowseUrl} rel='noopener noreferrer'
                target='_blank' title='Browse Genome'
             >
-              {this.state.loadState === 'loading' ? <LoadingPage/> : ''}
+              {this.state.loadState === 'loading' ? <LoadingPage /> : ''}
               {this.state.loadState === 'loaded' ? <GenomeFeature data={this.state.loadedData}
                                                                   height={this.props.height}
                                                                   id={this.props.id}
                                                                   transcriptTypes={this.transcriptTypes}
                                                                   url={this.externalJBrowseUrl}
                                                                   width={this.props.width}
-              /> : ''}
+                                                   /> : ''}
             </a>
             {this.state.loadState === 'error' ? <div className='text-danger'>Unable to retrieve data</div> : ''}
           </div>
