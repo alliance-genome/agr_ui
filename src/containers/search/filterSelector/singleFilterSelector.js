@@ -35,7 +35,7 @@ class SingleFilterSelector extends Component {
   handleSelectChange(newValues) {
     let simpleValues = newValues.map( d => d.name );
     let newQp = getQueryParamWithoutPage(this.props.name, simpleValues, this.props.queryParams);
-    let newPath = { pathname: SEARCH_PATH, query: newQp };
+    let newPath = { pathname: SEARCH_PATH, search: stringifyQuery(newQp) };
     this.props.history.push(newPath);
   }
 

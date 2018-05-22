@@ -111,7 +111,7 @@ class MultiTableComponent extends Component {
 
   renderCategory(category, key) {
     let categoryQp = getQueryParamWithValueChanged('category', category, this.props.queryParams);
-    let categoryHref = { pathname: SEARCH_PATH, query: categoryQp };
+    let categoryHref = { pathname: SEARCH_PATH, search: stringifyQuery(categoryQp) };
 
     if (this.getTotalForCategory(category) === '0') { return null; }
 
