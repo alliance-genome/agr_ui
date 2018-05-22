@@ -1,4 +1,4 @@
-/*eslint-disable no-undef */
+import $ from 'jquery';
 
 const TIMEOUT = 5000;
 

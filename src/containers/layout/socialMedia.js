@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import style from './style.css';
+import style from './style.scss';
 
 class SocialMedia extends Component {
   render() {
@@ -9,7 +9,7 @@ class SocialMedia extends Component {
     const twitter_link = 'https://twitter.com/alliancegenome';
 
     return (
-      <span className={`pull-right ${style.socialLinks}`}>
+      <span className={style.socialLinks}>
         <a href={facebook_link}>
           <i className='fa fa-fw fa-facebook' />
         </a>

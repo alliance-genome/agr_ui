@@ -2,10 +2,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createMemoryHistory, Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import clone from 'lodash.clone';
+import { stringify as stringifyQuery } from 'query-string';
 
-import style from './style.css';
+import style from './style.scss';
 import ResultsTable from './resultsTable';
 import CategoryLabel from './categoryLabel';
 import fetchData from '../../lib/fetchData';
@@ -15,7 +16,6 @@ import { getQueryParamWithValueChanged } from '../../lib/searchHelpers';
 
 
 import {
-  selectQueryParams,
   selectGeneResults,
   selectGoResults,
   selectDiseaseResults,
@@ -41,7 +41,7 @@ class MultiTableComponent extends Component {
 
   // fetch data whenever URL changes within /search
   componentDidUpdate (prevProps) {
-    if (prevProps.queryParams !== this.props.queryParams) {
+    if (stringifyQuery(prevProps.queryParams) !== stringifyQuery(this.props.queryParams)) {
       this.fetchAllData();
     }
   }
@@ -55,9 +55,7 @@ class MultiTableComponent extends Component {
     qp.limit = _limit;
     qp.offset = _offset;
     qp.category = category;
-    let tempHistory = createMemoryHistory('/');
-    let searchUrl = tempHistory.createPath({ pathname: BASE_SEARCH_URL, query: qp });
-    return searchUrl;
+    return `${BASE_SEARCH_URL}?${stringifyQuery(qp)}`;
   }
 
   fetchAllData() {
@@ -113,7 +111,7 @@ class MultiTableComponent extends Component {
 
   renderCategory(category, key) {
     let categoryQp = getQueryParamWithValueChanged('category', category, this.props.queryParams);
-    let categoryHref = { pathname: SEARCH_PATH, query: categoryQp };
+    let categoryHref = { pathname: SEARCH_PATH, search: stringifyQuery(categoryQp) };
 
     if (this.getTotalForCategory(category) === '0') { return null; }
 
@@ -125,7 +123,7 @@ class MultiTableComponent extends Component {
           </Link>
         </p>
         <ResultsTable activeCategory={category} entries={this.getResultsForCategory(category)} />
-        <span className='pull-right'>
+        <span className='float-right'>
           <Link to={categoryHref}>
             Show All <CategoryLabel category={category} hideImage /> Results
           </Link>
@@ -161,7 +159,6 @@ MultiTableComponent.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    queryParams: selectQueryParams(state),
     geneResults: selectGeneResults(state),
     goResults: selectGoResults(state),
     diseaseResults: selectDiseaseResults(state),
