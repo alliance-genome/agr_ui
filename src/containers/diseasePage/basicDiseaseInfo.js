@@ -24,13 +24,16 @@ class BasicDiseaseInfo extends Component {
   }
 
   renderSourceList(sources) {
-    return sources && sources.map((source) => {
-      return (
-        <ExternalLink href={source.url} key={`source-${source.species.displayName}`}>
-          {source.species.displayName}
-        </ExternalLink>
-      );
-    }).reduce((a, b) => [a, ', ', b]);
+    return sources &&
+      <CommaSeparatedList>
+        {
+          sources.map((source) => (
+            <ExternalLink href={source.url} key={`source-${source.species.displayName}`}>
+              {source.species.displayName}
+            </ExternalLink>
+          ))
+        }
+      </CommaSeparatedList>;
   }
 
   renderDefinition(disease) {
