@@ -23,12 +23,12 @@ import DataSourceLink from '../../components/dataSourceLink';
 class GenePage extends Component {
 
   componentDidMount () {
-    this.props.dispatch(fetchGene(this.props.params.geneId));
+    this.props.dispatch(fetchGene(this.props.match.params.geneId));
   }
 
   componentDidUpdate (prevProps) {
-    if (this.props.params.geneId !== prevProps.params.geneId) {
-      this.props.dispatch(fetchGene(this.props.params.geneId));
+    if (this.props.match.params.geneId !== prevProps.match.params.geneId) {
+      this.props.dispatch(fetchGene(this.props.match.params.geneId));
     }
   }
 
@@ -151,7 +151,9 @@ GenePage.propTypes = {
   dispatch: PropTypes.func,
   error: PropTypes.object,
   loading: PropTypes.bool,
-  params: PropTypes.object,
+  match: PropTypes.shape({
+    params: PropTypes.object,
+  }).isRequired,
 };
 
 function mapStateToProps (state) {

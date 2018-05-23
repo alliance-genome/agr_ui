@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import style from './style.scss';
 import SingleFilterSelector from './singleFilterSelector';
 import { getQueryParamWithValueChanged } from '../../../lib/searchHelpers';
 import CategoryLabel from '../categoryLabel';
+import { stringify } from 'query-string';
 
 import {
   selectActiveCategory,
   selectAggregations,
   selectIsPending,
-  selectQueryParams,
 } from '../../../selectors/searchSelectors';
 
 class FilterSelectorComponent extends Component {
@@ -43,7 +43,7 @@ class FilterSelectorComponent extends Component {
       return null;
     }
     let newQp = getQueryParamWithValueChanged('category', [], this.props.queryParams, true);
-    let newHref = { pathname: '/search', query: newQp };
+    let newHref = { pathname: '/search', search: stringify(newQp) };
     return (
       <div>
         <p><CategoryLabel category={this.props.activeCategory} /></p>
@@ -76,7 +76,6 @@ function mapStateToProps(state) {
     activeCategory:  selectActiveCategory(state),
     aggregations: selectAggregations(state),
     isPending: selectIsPending(state),
-    queryParams: selectQueryParams(state)
   };
 }
 

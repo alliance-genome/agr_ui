@@ -9,6 +9,7 @@ import {
 import DataSourceLink from '../../components/dataSourceLink';
 import ExternalLink from '../../components/externalLink';
 import CrossReferenceList from '../../components/crossReferenceList';
+import SynonymList from '../../components/synonymList';
 
 class BasicGeneInfo extends Component {
   constructor(props) {
@@ -48,7 +49,9 @@ class BasicGeneInfo extends Component {
         <AttributeValue>{gene.name}</AttributeValue>
 
         <AttributeLabel>Synonyms</AttributeLabel>
-        <AttributeValue>{gene.synonyms && gene.synonyms.join(', ')}</AttributeValue>
+        <AttributeValue placeholder='None'>
+          {gene.synonyms && <SynonymList synonyms={gene.synonyms} />}
+        </AttributeValue>
 
         <AttributeLabel>Biotype</AttributeLabel>
         <AttributeValue>{gene.soTermName.replace(/_/g, ' ')}</AttributeValue>

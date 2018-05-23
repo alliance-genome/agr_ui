@@ -29,8 +29,7 @@ class GenomeFeatureViewer extends Component {
 
 
     // TODO: this is a hack to fix inconsistencies in JBrowse
-    let trackDataPrefix = apolloServerPrefix + 'track/' + encodeURI(this.props.species) + '/' + defaultTrackName + '/' + encodeURI(locationString) + '.json';
-    let trackDataWithHighlight = trackDataPrefix;
+    let trackDataWithHighlight = apolloServerPrefix + 'track/' + encodeURI(this.props.species) + '/' + defaultTrackName + '/' + encodeURI(locationString) + '.json';
     let names = [];
     if (this.props.primaryId.indexOf(':') > 0) {
       names.push(this.props.primaryId.split(':')[1]);
@@ -45,7 +44,7 @@ class GenomeFeatureViewer extends Component {
     }
 
     for (let name in names) {
-      trackDataWithHighlight = trackDataWithHighlight + (name == 0 ? '?' : '&') + 'name=' + names[name];
+      trackDataWithHighlight = trackDataWithHighlight + (Number.parseInt(name) === 0 ? '?' : '&') + 'name=' + encodeURI(names[name]);
     }
 
 
@@ -131,16 +130,16 @@ class GenomeFeatureViewer extends Component {
             <a href={this.jbrowseUrl} rel='noopener noreferrer'
                target='_blank' title='Browse Genome'
             >
-              {this.state.loadState == 'loading' ? <LoadingPage /> : ''}
-              {this.state.loadState == 'loaded' ? <GenomeFeature data={this.state.loadedData}
-                                                                 height={this.props.height}
-                                                                 id={this.props.id}
-                                                                 transcriptTypes={this.transcriptTypes}
-                                                                 url={this.externalJBrowseUrl}
-                                                                 width={this.props.width}
-                                                  /> : ''}
+              {this.state.loadState === 'loading' ? <LoadingPage /> : ''}
+              {this.state.loadState === 'loaded' ? <GenomeFeature data={this.state.loadedData}
+                                                                  height={this.props.height}
+                                                                  id={this.props.id}
+                                                                  transcriptTypes={this.transcriptTypes}
+                                                                  url={this.externalJBrowseUrl}
+                                                                  width={this.props.width}
+                                                   /> : ''}
             </a>
-            {this.state.loadState == 'error' ? <div className='text-danger'>Unable to retrieve data</div> : ''}
+            {this.state.loadState === 'error' ? <div className='text-danger'>Unable to retrieve data</div> : ''}
           </div>
         </div>
       </div>

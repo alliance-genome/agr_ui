@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import ReferenceCell from './referenceCell';
 import { LocalDataTable } from '../../components/dataTable';
 import { GeneticEntityCell, DiseaseNameCell, EvidenceCodesCell } from '.';
+import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
 
 class GenePageDiseaseTable extends Component {
 
@@ -14,7 +15,6 @@ class GenePageDiseaseTable extends Component {
     let data = [];
     diseases.forEach((disease) => {
       disease.annotations.forEach((annotation) => {
-
         data.push({
           name: disease.name,
           doId: disease.doId,
@@ -27,9 +27,7 @@ class GenePageDiseaseTable extends Component {
         });
       });
     });
-    data.sort((a, b) => {
-      return a.name.toUpperCase().localeCompare(b.name.toUpperCase());
-    });
+    data.sort(compareAlphabeticalCaseInsensitive(row => row.name));
 
     const refsText = (refs) => {
       return refs.map(ref => ref.pubMedId || ref.pubModId || '').join(', ');
