@@ -8,7 +8,10 @@ import './style.scss';
 import ReactApp from './reactApplication';
 
 function main() {
-  render(<ReactApp />, document.getElementById('app'));
+  render(
+    <ReactApp />,
+    document.getElementById('app')
+  );
 }
 
 function browserSupportsAllFeatures() {

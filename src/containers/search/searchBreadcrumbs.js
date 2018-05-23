@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import style from './style.scss';
 import { getQueryParamWithoutPage, makeFieldDisplayName, makeTitleCaseFieldDisplayName } from '../../lib/searchHelpers';
-import { selectIsPending, selectQueryParams, selectTotal } from '../../selectors/searchSelectors.js';
+import { selectIsPending, selectTotal } from '../../selectors/searchSelectors.js';
+import { stringify } from 'query-string';
 
 import CategoryLabel from './categoryLabel.js';
 
@@ -16,7 +17,7 @@ class SearchBreadcrumbsComponent extends Component {
   renderCrumbValues(key, values) {
     return values.map( (d, i) => {
       let newQp = getQueryParamWithoutPage(key,d,this.props.queryParams);
-      let newPath = { pathname: '/search', query: newQp };
+      let newPath = { pathname: '/search', search: stringify(newQp) };
       let label = makeFieldDisplayName(d);
       let labelNode = (key === 'q') ? `"${label}"` : label;
       let fieldLabel = makeTitleCaseFieldDisplayName(key) + ':';
@@ -68,7 +69,6 @@ SearchBreadcrumbsComponent.propTypes = {
 function mapStateToProps(state) {
   return {
     isPending: selectIsPending(state),
-    queryParams: selectQueryParams(state),
     total: selectTotal(state)
   };
 }

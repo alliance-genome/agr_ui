@@ -120,7 +120,8 @@ class ResultsTable extends Component {
 
 ResultsTable.propTypes = {
   activeCategory: PropTypes.string,
-  entries: PropTypes.array
+  entries: PropTypes.array,
+  query: PropTypes.any,
 };
 
 export default ResultsTable;

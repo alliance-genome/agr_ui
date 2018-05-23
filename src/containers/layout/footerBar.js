@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import style from './style.scss';
 import SocialMedia from './socialMedia';

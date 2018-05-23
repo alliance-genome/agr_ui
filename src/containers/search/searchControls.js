@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
+import { stringify as stringifyQuery } from 'query-string';
 import { connect } from 'react-redux';
 
 import style from './style.scss';
@@ -9,7 +10,6 @@ import { getQueryParamWithValueChanged } from '../../lib/searchHelpers';
 import {
   selectActiveCategory,
   selectTotalPages,
-  selectQueryParams
 } from '../../selectors/searchSelectors';
 
 const SEARCH_PATH = '/search';
@@ -18,8 +18,8 @@ class SearchControlsComponent extends Component {
   renderViewAs() {
     let listQp = getQueryParamWithValueChanged('mode', 'list', this.props.queryParams);
     let tableQp = getQueryParamWithValueChanged('mode', 'table', this.props.queryParams);
-    let listHref = { pathname: SEARCH_PATH, query: listQp };
-    let tableHref = { pathname: SEARCH_PATH, query: tableQp };
+    let listHref = { pathname: SEARCH_PATH, search: stringifyQuery(listQp) };
+    let tableHref = { pathname: SEARCH_PATH, search: stringifyQuery(tableQp) };
     return (
       <div>
         <label className={style.searchLabel}>View As</label>
@@ -38,8 +38,8 @@ class SearchControlsComponent extends Component {
     let prevPage = Math.max(1, curPage - 1);
     let prevQp = getQueryParamWithValueChanged('page', prevPage, this.props.queryParams);
     let nextQp = getQueryParamWithValueChanged('page', nextPage, this.props.queryParams);
-    let prevHef = { pathname: SEARCH_PATH, query: prevQp };
-    let nextHef = { pathname: SEARCH_PATH, query: nextQp };
+    let prevHef = { pathname: SEARCH_PATH, search: stringifyQuery(prevQp) };
+    let nextHef = { pathname: SEARCH_PATH, search: stringifyQuery(nextQp) };
     let isPrevDisabled = curPage <= 1;
     let isNextDisabled = curPage >= totPage;
     return (
@@ -81,9 +81,9 @@ SearchControlsComponent.propTypes = {
   totalPages: PropTypes.number
 };
 
-function mapStateToProps(state) {
-  let _queryParams = selectQueryParams(state);
+function mapStateToProps(state, ownProps) {
   let activeCategory = selectActiveCategory(state);
+  const _queryParams = ownProps.queryParams;
   let _mode = _queryParams.mode;
   if (!_mode || _mode === 'graph') {
     _mode = 'list';
@@ -94,7 +94,6 @@ function mapStateToProps(state) {
     currentPage: parseInt(_queryParams.page) || 1,
     isMultiTable: _isMultiTable,
     mode: _mode,
-    queryParams: _queryParams,
     totalPages: selectTotalPages(state)
   };
 }
