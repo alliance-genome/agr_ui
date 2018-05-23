@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { HashLink } from 'react-router-hash-link';
 
 import { makeId } from '../../lib/utils';
 
@@ -26,12 +27,12 @@ const PageNav = ({entityName, extra, icon, link, sections}) => {
         <div className='navbar-collapse collapse list-group list-group-flush' id='data-page-nav'>
           {
             sections && sections.map(section => (
-              <a className='list-group-item list-group-item-action'
-                 href={'#' + makeId(section)}
-                 key={section}
+              <HashLink className='list-group-item list-group-item-action'
+                        key={section}
+                        to={'#' + makeId(section)}
               >
                 {section}
-              </a>
+              </HashLink>
             ))
           }
         </div>
