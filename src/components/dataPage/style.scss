@@ -32,6 +32,10 @@
 
   a {
     border: 0;
+    color: $link-color;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   .entity {
