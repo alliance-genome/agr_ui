@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import CollapsibleList from '../../components/collapsibleList';
 import {
   AttributeList,
   AttributeLabel,
@@ -10,16 +9,22 @@ import {
 } from '../../components/attribute';
 import ExternalLink from '../../components/externalLink';
 import CrossReferenceList from '../../components/crossReferenceList';
+import { CollapsibleList, CollapsibleListItem } from '../../components/collapsibleList';
+import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
+import SynonymList from '../../components/synonymList';
 
 class BasicDiseaseInfo extends Component {
   renderTermList(terms) {
-    const items = terms && terms
-      .map(term => <Link key={term.primaryKey} to={`/disease/${term.primaryKey}`}>{term.name}</Link>);
-    return items && <CollapsibleList items={items} />;
-  }
-
-  renderSynonymList(items) {
-    return items && items.join('; ');
+    return terms &&
+      <CollapsibleList>
+        {terms
+          .sort(compareAlphabeticalCaseInsensitive(term => term.name))
+          .map(term => (
+            <CollapsibleListItem key={term.primaryKey}>
+              <Link key={term.primaryKey} to={`/disease/${term.primaryKey}`}>{term.name}</Link>
+            </CollapsibleListItem>
+          ))}
+      </CollapsibleList>;
   }
 
   renderSourceList(sources) {
@@ -61,7 +66,9 @@ class BasicDiseaseInfo extends Component {
         </AttributeValue>
 
         <AttributeLabel>Synonyms</AttributeLabel>
-        <AttributeValue>{this.renderSynonymList(disease.synonyms)}</AttributeValue>
+        <AttributeValue placeholder='None'>
+          {disease.synonyms && <SynonymList synonyms={disease.synonyms} />}
+        </AttributeValue>
 
         <AttributeLabel>Cross References</AttributeLabel>
         <AttributeValue>
