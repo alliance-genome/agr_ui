@@ -10,6 +10,7 @@ import {
 } from '../../components/attribute';
 import ExternalLink from '../../components/externalLink';
 import CrossReferenceList from '../../components/crossReferenceList';
+import CommaSeparatedList from '../../components/commaSeparatedList';
 
 class BasicDiseaseInfo extends Component {
   renderTermList(terms) {
@@ -36,19 +37,17 @@ class BasicDiseaseInfo extends Component {
     return (disease.definition || (disease.definitionLinks && disease.definitionLinks.length > 0)) && (
       <div>
         {disease.definition}
+        {' '}
         {this.renderDefinitionLinks(disease.definitionLinks)}
       </div>
     );
   }
 
   renderDefinitionLinks(links) {
-    return links && links.map(link => {
-      return (
-        <div key={link}>
-          <ExternalLink href={link}>{link}</ExternalLink>
-        </div>
-      );
-    });
+    return links &&
+      <CommaSeparatedList>
+        {links.map((link, idx) => <ExternalLink href={link} key={link} title={link}>[{idx + 1}]</ExternalLink>)}
+      </CommaSeparatedList>;
   }
 
   render() {
