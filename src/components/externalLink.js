@@ -4,11 +4,12 @@ import style from './style.scss';
 
 class ExternalLink extends Component {
   render () {
-    const {children, href, title} = this.props;
+    const {children, href, id, title} = this.props;
     return (
       <a
         className={href ? style.externalLink : ''}
         href={href || null}
+        id={id}
         rel="noopener noreferrer"
         target="_blank"
         title={title}
@@ -22,6 +23,7 @@ class ExternalLink extends Component {
 ExternalLink.propTypes = {
   children: PropTypes.node,
   href: PropTypes.string,
+  id: PropTypes.string,
   title: PropTypes.string,
 };
 
