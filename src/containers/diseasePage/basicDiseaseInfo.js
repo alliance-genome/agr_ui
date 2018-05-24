@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { UncontrolledTooltip } from 'reactstrap';
+
+import style from './style.scss';
 
 import {
   AttributeList,
@@ -54,7 +57,21 @@ class BasicDiseaseInfo extends Component {
   renderDefinitionLinks(links) {
     return links &&
       <CommaSeparatedList>
-        {links.map((link, idx) => <ExternalLink href={link} key={link} title={link}>[{idx + 1}]</ExternalLink>)}
+        {
+          links.map((link, idx) => (
+            <span key={link}>
+              <ExternalLink href={link} id={`definition-link-${idx}`}>[{idx + 1}]</ExternalLink>
+              <UncontrolledTooltip
+                delay={{show: 200, hide: 0}}
+                innerClassName={style.urlTooltip}
+                placement='bottom'
+                target={`definition-link-${idx}`}
+              >
+                {link}
+              </UncontrolledTooltip>
+            </span>
+          ))
+        }
       </CommaSeparatedList>;
   }
 
