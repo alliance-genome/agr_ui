@@ -117,6 +117,7 @@ let config = {
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('develop'),
+        'APOLLO_URL': JSON.stringify(APOLLO_URL),
         'JBROWSE_URL': JSON.stringify(JBROWSE_URL),
         'JBROWSE_PORT': JSON.stringify(JBROWSE_PORT)
       }
@@ -151,6 +152,7 @@ if (isProduction) {
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('production'),
+        'APOLLO_URL': JSON.stringify(APOLLO_URL),
         'JBROWSE_URL': JSON.stringify(JBROWSE_URL),
         'JBROWSE_PORT': JSON.stringify(JBROWSE_PORT)
       }
