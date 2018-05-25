@@ -117,6 +117,25 @@
   font: 14px sans-serif;
 }
 
+.commaSeparatedList {
+  display: inline;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    display: inline;
+  }
+
+  li:after {
+    content: ", ";
+  }
+
+  li:last-of-type:after {
+    content: "";
+  }
+}
+
 .hScrollOuter {
   width: 100%;
   overflow-x: auto;

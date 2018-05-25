@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { UncontrolledTooltip } from 'reactstrap';
+
+import style from './style.scss';
 
 import {
   AttributeList,
@@ -9,6 +12,7 @@ import {
 } from '../../components/attribute';
 import ExternalLink from '../../components/externalLink';
 import CrossReferenceList from '../../components/crossReferenceList';
+import CommaSeparatedList from '../../components/commaSeparatedList';
 import { CollapsibleList, CollapsibleListItem } from '../../components/collapsibleList';
 import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
 import SynonymList from '../../components/synonymList';
@@ -28,32 +32,47 @@ class BasicDiseaseInfo extends Component {
   }
 
   renderSourceList(sources) {
-    return sources && sources.map((source) => {
-      return (
-        <ExternalLink href={source.url} key={`source-${source.species.displayName}`}>
-          {source.species.displayName}
-        </ExternalLink>
-      );
-    }).reduce((a, b) => [a, ', ', b]);
+    return sources &&
+      <CommaSeparatedList>
+        {
+          sources.map((source) => (
+            <ExternalLink href={source.url} key={`source-${source.species.displayName}`}>
+              {source.species.displayName}
+            </ExternalLink>
+          ))
+        }
+      </CommaSeparatedList>;
   }
 
   renderDefinition(disease) {
     return (disease.definition || (disease.definitionLinks && disease.definitionLinks.length > 0)) && (
       <div>
         {disease.definition}
+        {' '}
         {this.renderDefinitionLinks(disease.definitionLinks)}
       </div>
     );
   }
 
   renderDefinitionLinks(links) {
-    return links && links.map(link => {
-      return (
-        <div key={link}>
-          <ExternalLink href={link}>{link}</ExternalLink>
-        </div>
-      );
-    });
+    return links &&
+      <CommaSeparatedList>
+        {
+          links.map((link, idx) => (
+            <span key={link}>
+              <ExternalLink href={link} id={`definition-link-${idx}`}>[{idx + 1}]</ExternalLink>
+              <UncontrolledTooltip
+                delay={{show: 200, hide: 0}}
+                innerClassName={style.urlTooltip}
+                placement='bottom'
+                target={`definition-link-${idx}`}
+              >
+                {link}
+              </UncontrolledTooltip>
+            </span>
+          ))
+        }
+      </CommaSeparatedList>;
   }
 
   render() {
