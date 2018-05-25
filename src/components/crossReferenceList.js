@@ -4,7 +4,7 @@ import DataSourceLink from './dataSourceLink';
 import { CollapsibleList, CollapsibleListItem } from './collapsibleList';
 import { compareAlphabeticalCaseInsensitive } from '../lib/utils';
 
-const CrossReferenceList = ({crossReferences}) => {
+const CrossReferenceList = ({collapsible, crossReferences}) => {
   const byName = compareAlphabeticalCaseInsensitive(xref => (xref.displayName || xref.name));
   const byWithLinkThenName = (a, b) => {
     if (a.crossRefCompleteUrl && !b.crossRefCompleteUrl) {
@@ -20,13 +20,15 @@ const CrossReferenceList = ({crossReferences}) => {
     return null;
   }
 
+  const size = collapsible ? undefined : crossReferences.length;
+
   return (
-    <CollapsibleList>
+    <CollapsibleList collapsedSize={size}>
       {
         crossReferences
           .sort(byWithLinkThenName)
           .map(ref => (
-            <CollapsibleListItem key={ref.localId}>
+            <CollapsibleListItem key={`${ref.localId}-${ref.type}`}>
               <DataSourceLink reference={ref} />
             </CollapsibleListItem>
           ))
@@ -36,7 +38,12 @@ const CrossReferenceList = ({crossReferences}) => {
 };
 
 CrossReferenceList.propTypes = {
+  collapsible: PropTypes.bool,
   crossReferences: PropTypes.array,
+};
+
+CrossReferenceList.defaultProps = {
+  collapsible: true
 };
 
 export default CrossReferenceList;
