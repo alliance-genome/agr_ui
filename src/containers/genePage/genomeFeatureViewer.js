@@ -21,7 +21,12 @@ class GenomeFeatureViewer extends Component {
 
     let defaultTrackName = 'All Genes'; // this is the generic track name
     let locationString = this.props.chromosome + ':' + this.props.fmin + '..' + this.props.fmax;
-    let apolloServerPrefix = process.env.APOLLO_URL;
+
+    // TODO: should be process.env.APOLLO_URL
+    // let apolloServerPrefix = 'http://demo.genomearchitect.org/Apollo-staging/';
+    let apolloServerPrefix = 'https://agr-apollo.berkeleybop.io/apollo/';
+    // let apolloServerPrefix = 'http://localhost:8080/apollo/';
+
 
     // TODO: this is a hack to fix inconsistencies in JBrowse
     let trackDataWithHighlight = apolloServerPrefix + 'track/' + encodeURI(this.props.species) + '/' + defaultTrackName + '/' + encodeURI(locationString) + '.json';
