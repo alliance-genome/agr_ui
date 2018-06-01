@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DataSourceLink from './dataSourceLink';
-import { CollapsibleList, CollapsibleListItem } from './collapsibleList';
+import { CollapsibleList } from './collapsibleList';
 import { compareAlphabeticalCaseInsensitive } from '../lib/utils';
 
 const CrossReferenceList = ({collapsible, crossReferences}) => {
@@ -27,11 +27,7 @@ const CrossReferenceList = ({collapsible, crossReferences}) => {
       {
         crossReferences
           .sort(byWithLinkThenName)
-          .map(ref => (
-            <CollapsibleListItem key={`${ref.localId}-${ref.type}`}>
-              <DataSourceLink reference={ref} />
-            </CollapsibleListItem>
-          ))
+          .map(ref => <DataSourceLink key={`${ref.localId}-${ref.type}`} reference={ref} />)
       }
     </CollapsibleList>
   );

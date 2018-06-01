@@ -25,13 +25,14 @@ class CollapsibleList extends Component {
     if (!children) {
       return null;
     }
-    const childArray = React.Children.toArray(children);
     const childCount = React.Children.count(children);
-    const childView = collapsed ? childArray.slice(0, collapsedSize) : childArray;
     return (
       <div>
         <ul className={style.collapsibleList}>
-          {childView}
+          {React.Children.map(children, (child, idx) => {
+            if (collapsed && idx >= collapsedSize) return;
+            return <li>{child}</li>;
+          })}
         </ul>
         {childCount > collapsedSize && (
           <span>
