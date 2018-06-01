@@ -9,6 +9,7 @@ let isProduction = process.env.NODE_ENV === 'production';
 let API_URL = process.env.API_URL || 'http://localhost:8080';
 let DEV_SERVER_UI_PORT = process.env.DEV_SERVER_UI_PORT || '2992';
 let JBROWSE_URL = process.env.JBROWSE_URL || 'http://jbrowse.alliancegenome.org';
+let APOLLO_URL = process.env.APOLLO_URL || 'https://agr-apollo.berkeleybop.io/apollo/';
 let JBROWSE_PORT = process.env.JBROWSE_PORT || '8891';
 let LIVE_UI = process.env.LIVE_UI || 'false';
 
@@ -116,6 +117,7 @@ let config = {
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('develop'),
+        'APOLLO_URL': JSON.stringify(APOLLO_URL),
         'JBROWSE_URL': JSON.stringify(JBROWSE_URL),
         'JBROWSE_PORT': JSON.stringify(JBROWSE_PORT)
       }
@@ -150,6 +152,7 @@ if (isProduction) {
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('production'),
+        'APOLLO_URL': JSON.stringify(APOLLO_URL),
         'JBROWSE_URL': JSON.stringify(JBROWSE_URL),
         'JBROWSE_PORT': JSON.stringify(JBROWSE_PORT)
       }
