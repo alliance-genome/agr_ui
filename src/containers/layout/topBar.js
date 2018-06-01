@@ -9,7 +9,7 @@ class TopBar extends Component {
   render() {
     return (
       <div className={style.topBar}>
-        <div className='align-items-center container d-flex justify-content-between py-2'>
+        <div className='align-items-center container-fluid d-flex justify-content-between py-2'>
           <span>Questions? <a href={`mailto:${HELP_EMAIL}`}>Contact Us</a></span>
           <SocialMedia />
         </div>

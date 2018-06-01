@@ -1,0 +1,57 @@
+@import "../../theme";
+@import "~bootstrap/scss/bootstrap";
+
+.dataContainer {
+  overflow-x: auto;
+
+  @include media-breakpoint-up(md) {
+    border-left: 1px solid $hr-border-color;
+  }
+}
+
+.dataContent {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.pageNav {
+  position: -webkit-sticky;
+  position: sticky;
+  top: -1px;
+  background: white;
+  z-index: 101;
+  padding: 0;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+
+  @include media-breakpoint-up(md) {
+    height: 100%;
+    max-width: 18rem;
+    min-width: 18rem;
+    box-shadow: none;
+  }
+
+  a {
+    border: 0;
+    color: $link-color;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .entity {
+    display: flex;
+    align-items: center;
+    margin: 0 1.25rem;
+    padding: 0.75rem 0;
+    color: #495057;
+
+    @include media-breakpoint-up(md) {
+      border-bottom: 1px solid $hr-border-color;
+    }
+
+    h4 {
+      color: #495057;
+    }
+  }
+}
+

@@ -75,7 +75,7 @@ class BasicDiseaseInfo extends Component {
   render() {
     const { disease } = this.props;
     return (
-      <AttributeList bsClassName='col-12'>
+      <AttributeList>
         <AttributeLabel>Definition</AttributeLabel>
         <AttributeValue>
           {this.renderDefinition(disease)}
