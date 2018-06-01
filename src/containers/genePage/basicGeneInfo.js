@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import DataSourceCard from './dataSourceCard';
 import {
   AttributeList,
   AttributeLabel,
@@ -39,44 +38,40 @@ class BasicGeneInfo extends Component {
   render() {
     const gene = this.state.geneData;
     return (
-      <div className='row'>
-        <div className='col-sm-4 order-sm-last'>
-          <DataSourceCard reference={gene.crossReferences.gene[0]} species={gene.species} />
-        </div>
-        <div className='col-sm-8 order-sm-first'>
-          <AttributeList bsClassName='col-12'>
-            <AttributeLabel>Symbol</AttributeLabel>
-            <AttributeValue>{gene.symbol}</AttributeValue>
+      <AttributeList>
+        <AttributeLabel>Species</AttributeLabel>
+        <AttributeValue><i>{gene.species}</i></AttributeValue>
 
-            <AttributeLabel>Name</AttributeLabel>
-            <AttributeValue>{gene.name}</AttributeValue>
+        <AttributeLabel>Symbol</AttributeLabel>
+        <AttributeValue>{gene.symbol}</AttributeValue>
 
-            <AttributeLabel>Synonyms</AttributeLabel>
-            <AttributeValue placeholder='None'>
-              {gene.synonyms && <SynonymList synonyms={gene.synonyms} />}
-            </AttributeValue>
+        <AttributeLabel>Name</AttributeLabel>
+        <AttributeValue>{gene.name}</AttributeValue>
 
-            <AttributeLabel>Biotype</AttributeLabel>
-            <AttributeValue>{gene.soTermName.replace(/_/g, ' ')}</AttributeValue>
+        <AttributeLabel>Synonyms</AttributeLabel>
+        <AttributeValue placeholder='None'>
+          {gene.synonyms && <SynonymList synonyms={gene.synonyms} />}
+        </AttributeValue>
 
-            <AttributeLabel>Description</AttributeLabel>
-            <AttributeValue>{this.renderDescription(gene)}</AttributeValue>
+        <AttributeLabel>Biotype</AttributeLabel>
+        <AttributeValue>{gene.soTermName.replace(/_/g, ' ')}</AttributeValue>
 
-            <AttributeLabel>Genomic Resources</AttributeLabel>
-            <AttributeValue>
-              {gene.crossReferences.generic_cross_reference && <CrossReferenceList crossReferences={gene.crossReferences.generic_cross_reference} />}
-            </AttributeValue>
+        <AttributeLabel>Description</AttributeLabel>
+        <AttributeValue>{this.renderDescription(gene)}</AttributeValue>
 
-            <AttributeLabel>Additional Information</AttributeLabel>
-            <AttributeValue>
-              {gene.crossReferences &&
-                gene.crossReferences['gene/references'] &&
-                <DataSourceLink reference={gene.crossReferences['gene/references'][0]} text='Literature' />
-              }
-            </AttributeValue>
-          </AttributeList>
-        </div>
-      </div>
+        <AttributeLabel>Genomic Resources</AttributeLabel>
+        <AttributeValue>
+          {gene.crossReferences.generic_cross_reference && <CrossReferenceList crossReferences={gene.crossReferences.generic_cross_reference} />}
+        </AttributeValue>
+
+        <AttributeLabel>Additional Information</AttributeLabel>
+        <AttributeValue>
+          {gene.crossReferences &&
+            gene.crossReferences['gene/references'] &&
+            <DataSourceLink reference={gene.crossReferences['gene/references'][0]} text='Literature' />
+          }
+        </AttributeValue>
+      </AttributeList>
     );
   }
 }
