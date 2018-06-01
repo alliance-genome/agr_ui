@@ -135,9 +135,12 @@ class GenePage extends Component {
           </Subsection>
 
           <Subsection title={EXPRESSION}>
-            <ExpressionLinks allExpressionLink={data.crossReferences['gene/expression']}
-                             otherExpressionLinks={data.crossReferences['gene/other_expression']}
-                             wildTypeExpressionLink={data.crossReferences['gene/wild_type_expression']}
+            <ExpressionLinks otherSources={data.crossReferences['gene/other_expression']}
+                             primarySources={[]
+                               .concat(data.crossReferences['gene/expression'])
+                               .concat(data.crossReferences['gene/wild_type_expression'])
+                               .concat(data.crossReferences['gene/spell'])
+                             }
             />
           </Subsection>
         </PageData>
