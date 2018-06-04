@@ -7,36 +7,13 @@ import {
   AttributeValue,
 } from '../../components/attribute';
 import DataSourceLink from '../../components/dataSourceLink';
-import ExternalLink from '../../components/externalLink';
 import CrossReferenceList from '../../components/crossReferenceList';
 import SynonymList from '../../components/synonymList';
+import ModGeneDescription from './modGeneDescription';
 
 class BasicGeneInfo extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      geneData: this.props.geneData,
-    };
-  }
-
-  renderDescription(data) {
-    if (!data.geneSynopsis && !data.geneSynopsisUrl) {
-      return '';
-    }
-    return (
-      <div>
-        {data.geneSynopsis && <p dangerouslySetInnerHTML={{__html: data.geneSynopsis}} />}
-        {data.geneSynopsisUrl &&
-          <ExternalLink href={data.geneSynopsisUrl}>
-            {data.geneSynopsisUrl}
-          </ExternalLink>
-        }
-      </div>
-    );
-  }
-
   render() {
-    const gene = this.state.geneData;
+    const {gene} = this.props;
     return (
       <AttributeList>
         <AttributeLabel>Species</AttributeLabel>
@@ -56,8 +33,16 @@ class BasicGeneInfo extends Component {
         <AttributeLabel>Biotype</AttributeLabel>
         <AttributeValue>{gene.soTermName.replace(/_/g, ' ')}</AttributeValue>
 
-        <AttributeLabel>Description</AttributeLabel>
-        <AttributeValue>{this.renderDescription(gene)}</AttributeValue>
+        <AttributeLabel>Automated Description</AttributeLabel>
+        <AttributeValue>{gene.automatedGeneSynopsis}</AttributeValue>
+
+        <AttributeLabel>{gene.dataProvider} Description</AttributeLabel>
+        <AttributeValue>
+          {
+            (gene.geneSynopsis || gene.geneSynopsisUrl) &&
+            <ModGeneDescription description={gene.geneSynopsis} url={gene.geneSynopsisUrl} />
+          }
+        </AttributeValue>
 
         <AttributeLabel>Genomic Resources</AttributeLabel>
         <AttributeValue>
@@ -77,7 +62,7 @@ class BasicGeneInfo extends Component {
 }
 
 BasicGeneInfo.propTypes = {
-  geneData: PropTypes.object
+  gene: PropTypes.object
 };
 
 export default BasicGeneInfo;
