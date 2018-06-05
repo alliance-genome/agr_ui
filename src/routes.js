@@ -11,6 +11,7 @@ import Search from './containers/search';
 import GenePage from './containers/genePage';
 import DiseasePage from './containers/diseasePage';
 import NotFound from './components/notFound';
+import DownloadsPage from './containers/downloadsPage';
 
 export default (
   <Route component={
@@ -27,6 +28,7 @@ export default (
           <Route component={DiseasePage} path='/disease/:diseaseId' />
           <Route component={WordpressPost} path='/news/:slug' />
           <Route component={WordpressPostList} path='/news' />
+          <Route component={DownloadsPage} path='/downloads' />
           <Route component={
             ({match}) => (
               <Redirect to={`/${match.params.id}`} />
