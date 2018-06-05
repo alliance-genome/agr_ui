@@ -12,38 +12,35 @@ class AlleleTable extends Component {
     return <i dangerouslySetInnerHTML={{ __html: symbol }} />;
   }
 
-  renderSynonym(synonym){
-    return '';
-  }
-
-  renderDiseaseDocuments(documentArray){
-    if(documentArray.length>0){
-      return documentArray[0].name;
-    }
-  }
-
-  renderSourceList(sourceList){
-    if(sourceList.length>0){
-      return sourceList[0].name;
-    }
-  }
-
   render() {
 
     const alleles = this.props.data;
 
     let dataSet =[];
+    let synonyms = [];
 
     alleles && alleles.forEach((allele) => {
       let diseaseDocuments = allele.diseaseDocuments;
-      let sourceList = diseaseDocuments.sourceList;
+      synonyms.push(...allele.synonyms);
 
-        dataSet.push({
-          symbol: allele.symbol,
-          synonym: allele.synonym,
-          // sourceList: sourceList,
-          diseaseDocuments: diseaseDocuments,
-        });
+      let sourceList = [];
+      for (let doc of diseaseDocuments) {
+        for (let source of doc.sourceList) {
+         sourceList.push(source.name);
+        }
+      }
+
+      let diseaseDocumentName = [];
+      for (let doc of diseaseDocuments) {
+          diseaseDocumentName.push(doc.name);
+      }
+
+      dataSet.push({
+        symbol: allele.symbol,
+        synonym: synonyms,
+        source: sourceList,
+        theAssociatedHumanDiseases: diseaseDocumentName,
+      });
     });
 
     const columns = [
@@ -59,16 +56,14 @@ class AlleleTable extends Component {
         format: this.renderSynonym,
         isKey: false,
       },
-      // {
-      //   field: 'sourceList',
-      //   label: 'Source',
-      //   format: this.renderSourceList,
-      //   isKey: false,
-      // },
       {
-        field: 'diseaseDocuments',
+        field: 'source',
+        label: 'Source',
+        isKey: false,
+      },
+      {
+        field: 'theAssociatedHumanDiseases',
         label: 'Associated Human Disease',
-        format: this.renderDiseaseDocuments,
         isKey: false,
       },
     ];
