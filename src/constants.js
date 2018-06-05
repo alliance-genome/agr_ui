@@ -52,6 +52,10 @@ export const NAV_MENU = [
     wordpressId: 16,
   },
   {
+    label: 'Downloads',
+    route: '/downloads',
+  },
+  {
     label: 'About Us',
     route: '/about-us',
     wordpressId: 2,
