@@ -13,6 +13,7 @@ import {
   selectLoading,
   selectPage
 } from '../../selectors/wordpressSelectors';
+import NotFound from '../../components/notFound';
 
 class WordpressPage extends Component {
   componentDidMount() {
@@ -31,14 +32,14 @@ class WordpressPage extends Component {
   }
 
   render() {
-    const { loading, page } = this.props;
+    const { loading, page, slug } = this.props;
 
     if (loading) {
       return <LoadingPage />;
     }
 
     if (!page) {
-      return null;
+      return <NotFound />;
     }
 
     const title = page.title.rendered;
@@ -46,7 +47,7 @@ class WordpressPage extends Component {
     return (
       <div className={style.wordPressContainer}>
         <HeadMetaTags title={title} />
-        <SecondaryNav id={page.id} parent={parentId} title={title} type='page' />
+        {slug !== 'home' && <SecondaryNav parent={parentId} title={title} type='page' />}
         <div dangerouslySetInnerHTML={{ __html: page.content.rendered}} />
       </div>
     );

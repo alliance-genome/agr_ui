@@ -44,7 +44,7 @@ class WordpressPostList extends Component {
           {
             this.props.postList.map(post => {
               if (post.status !== 'publish') { return; }
-              const link = `/posts/${post.slug}`;
+              const link = `/news/${post.slug}`;
               return (
                 <div className={`row ${style.postContainer}`} key={post.id}>
                   <div className='col-12 col-sm-4'>

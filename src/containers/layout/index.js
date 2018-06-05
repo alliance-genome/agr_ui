@@ -14,9 +14,6 @@ import { MenuItems } from './navigation';
 class Layout extends Component {
 
   render() {
-    let currentRoute = this.props.location ? this.props.location.pathname.replace('/', '') : '';
-    currentRoute = currentRoute === '' ? 'home' : currentRoute;
-
     return (
       <div className={style.appContainer}>
         <div className='d-none d-md-block'>
@@ -42,7 +39,7 @@ class Layout extends Component {
           </div>
         </div>
 
-        <MenuItems currentRoute={currentRoute} />
+        <MenuItems currentRoute={this.props.location.pathname} />
 
         <div className={style.loaderContentContainer}>
           <div className={style.content}>

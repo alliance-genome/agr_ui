@@ -25,13 +25,8 @@ export default (
           <Route component={Search} path='/search' />
           <Route component={GenePage} path='/gene/:geneId' />
           <Route component={DiseasePage} path='/disease/:diseaseId' />
-          <Route component={
-            () => (
-              <Redirect to='/posts' />
-            )} path='/posts/news'
-          />
-          <Route component={WordpressPost} path='/posts/:slug' />
-          <Route component={WordpressPostList} path='/posts' />
+          <Route component={WordpressPost} path='/news/:slug' />
+          <Route component={WordpressPostList} path='/news' />
           <Route component={
             ({match}) => (
               <Redirect to={`/${match.params.id}`} />
@@ -39,8 +34,8 @@ export default (
           />
           {/* before links within user edited WordPress content is fixed, this path rewrite is necessary */}
           <Route component={
-            ({location}) =>
-              <WordpressPage slug={location.pathname} />
+            ({match}) =>
+              <WordpressPage slug={match.params.slug} />
             } path='/:slug'
           />
           <Route component={NotFound} />
