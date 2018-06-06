@@ -6,12 +6,15 @@ import { compareAlphabeticalCaseInsensitive } from '../lib/utils';
 const SynonymList = ({synonyms}) => {
   return synonyms &&
     <CollapsibleList>
-      {synonyms.sort(compareAlphabeticalCaseInsensitive())}
+      {synonyms
+        .sort(compareAlphabeticalCaseInsensitive())
+        .map(synonym => <span dangerouslySetInnerHTML={{__html: synonym}} key={synonym} />)
+      }
     </CollapsibleList>;
 };
 
 SynonymList.propTypes = {
-  synonym: PropTypes.arrayOf(PropTypes.string),
+  synonyms: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default SynonymList;

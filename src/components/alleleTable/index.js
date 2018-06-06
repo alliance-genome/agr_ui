@@ -5,9 +5,10 @@ import { selectAlleles, selectLoadingAlleles, selectTotalAlleles } from '../../s
 import { connect } from 'react-redux';
 import LocalDataTable from '../dataTable/localDataTable';
 import ExternalLink from '../externalLink';
-import CommaSeparatedList from '../commaSeparatedList';
 import { Link } from 'react-router-dom';
 import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
+import CollapsibleList from '../collapsibleList/collapsibleList';
+import SynonymList from '../synonymList';
 
 class AlleleTable extends Component {
   componentDidMount () {
@@ -46,7 +47,8 @@ class AlleleTable extends Component {
       {
         field: 'synonyms',
         label: 'Synonyms',
-        width: '185px',
+        format: synonyms => <SynonymList synonyms={synonyms} />,
+        width: '200px',
         sortable: true,
         filterable: true,
       },
@@ -63,14 +65,14 @@ class AlleleTable extends Component {
         field: 'diseases',
         label: 'Associated Human Disease',
         format: diseases => (
-          diseases && <CommaSeparatedList>
+          diseases && <CollapsibleList collapsedSize={diseases.length}>
             {diseases.map(disease => <Link key={disease.id} to={`/disease/${disease.id}`}>{disease.name}</Link>)}
-          </CommaSeparatedList>
+          </CollapsibleList>
         ),
         asText: diseases => diseases
           .map(disease => `${disease.name} [${disease.id}]`)
           .join(', '),
-        width: '290px',
+        width: '275px',
         sortable: true,
         filterable: true,
       },
