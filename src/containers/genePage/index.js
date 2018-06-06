@@ -130,9 +130,9 @@ class GenePage extends Component {
             </Subsection>
           </Subsection>
 
-          <Subsection hasData={(this.props.data.diseases || []).length > 0} title={DISEASE}>
-            <GenePageDiseaseTable data={this.props.data.diseases}
-                                  filename={`${this.props.data.symbol}-Disease-Associations-${date}.tsv`}
+          <Subsection hasData={(data.diseases || []).length > 0} title={DISEASE}>
+            <GenePageDiseaseTable data={data.diseases}
+                                  filename={`${data.symbol}-Disease-Associations-${date}.tsv`}
             />
           </Subsection>
 
@@ -147,7 +147,7 @@ class GenePage extends Component {
           </Subsection>
 
           <Subsection title={ALLELES}>
-            <AlleleTable filename={`${this.props.data.symbol}-Alleles-${date}.tsv`}
+            <AlleleTable filename={`${data.symbol}-Alleles-${date}.tsv`}
                          geneDataProvider={data.dataProvider}
                          geneId={data.primaryId}
             />
