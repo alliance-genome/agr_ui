@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { fetchAlleles } from '../../actions/genes';
-import { selectAlleles } from '../../selectors/geneSelectors';
+import { selectAlleles, selectLoadingAlleles, selectTotalAlleles } from '../../selectors/geneSelectors';
 import { connect } from 'react-redux';
 import LocalDataTable from '../dataTable/localDataTable';
 import ExternalLink from '../externalLink';
@@ -23,7 +23,16 @@ class AlleleTable extends Component {
   }
 
   render() {
-    const { alleles, filename, geneDataProvider } = this.props;
+    const { alleles, filename, geneDataProvider, loading, total } = this.props;
+
+    if (loading) {
+      return null;
+    }
+
+    if (total === 0) {
+      return <i className='text-muted'>No data available</i>;
+    }
+
     const columns = [
       {
         field: 'symbol',
@@ -92,11 +101,15 @@ AlleleTable.propTypes = {
   filename: PropTypes.string.isRequired,
   geneDataProvider: PropTypes.string.isRequired,
   geneId: PropTypes.string.isRequired,
+  loading: PropTypes.bool,
+  total: PropTypes.number,
 };
 
 function mapStateToProps (state) {
   return {
-    alleles: selectAlleles(state)
+    alleles: selectAlleles(state),
+    loading: selectLoadingAlleles(state),
+    total: selectTotalAlleles(state),
   };
 }
 

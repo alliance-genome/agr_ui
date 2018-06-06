@@ -13,6 +13,8 @@ const DEFAULT_STATE = fromJS({
   data: null,
   error: null,
   loading: false,
+  loadingAllele: false,
+  totalAlleles: 0,
 });
 
 const geneReducer = function (state = DEFAULT_STATE, action) {
@@ -36,10 +38,12 @@ const geneReducer = function (state = DEFAULT_STATE, action) {
   case FETCH_ALLELE_SUCCESS:
     return state.set('loadingAllele', false)
       .set('alleles', fromJS(action.payload.results))
+      .set('totalAlleles', action.payload.total)
       .set('error', null);
 
   case FETCH_ALLELE_FAILURE:
     return state.set('loadingAllele', false)
+      .set('totalAlleles', 0)
       .set('error', action.payload);
 
   default:
