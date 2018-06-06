@@ -9,7 +9,7 @@ import {
 } from '../actions/genes';
 
 const DEFAULT_STATE = fromJS({
-  alleles: null,
+  alleles: [],
   data: null,
   error: null,
   loading: false,
@@ -35,13 +35,11 @@ const geneReducer = function (state = DEFAULT_STATE, action) {
 
   case FETCH_ALLELE_SUCCESS:
     return state.set('loadingAllele', false)
-      // .set('alleles', action.payload)
       .set('alleles', fromJS(action.payload.results))
       .set('error', null);
 
   case FETCH_ALLELE_FAILURE:
     return state.set('loadingAllele', false)
-      .set('alleles', null)
       .set('error', action.payload);
 
   default:

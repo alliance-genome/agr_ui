@@ -1,106 +1,91 @@
-/* eslint-disable */
 import React, { Component } from 'react';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import PropTypes from 'prop-types';
+import { fetchAlleles } from '../../actions/genes';
+import { selectAlleles } from '../../selectors/geneSelectors';
+import { connect } from 'react-redux';
+import LocalDataTable from '../dataTable/localDataTable';
+import ExternalLink from '../externalLink';
+import CommaSeparatedList from '../commaSeparatedList';
+import { Link } from 'react-router-dom';
+import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
 
 class AlleleTable extends Component {
-   constructor(props) {
-    super(props);
+  componentDidMount () {
+    const { dispatch, geneId } = this.props;
+    dispatch(fetchAlleles(geneId));
   }
 
-  renderSymbol(symbol){
-    return <i dangerouslySetInnerHTML={{ __html: symbol }} />;
+  componentDidUpdate (prevProps) {
+    const { dispatch, geneId } = this.props;
+    if (geneId !== prevProps.geneId) {
+      dispatch(fetchAlleles(geneId));
+    }
   }
 
   render() {
-
-    const alleles = this.props.data;
-
-    let dataSet =[];
-    let synonyms = [];
-
-    alleles && alleles.forEach((allele) => {
-      let diseaseDocuments = allele.diseaseDocuments;
-      synonyms.push(...allele.synonyms);
-
-      let sourceList = [];
-      for (let doc of diseaseDocuments) {
-        for (let source of doc.sourceList) {
-         sourceList.push(source.name);
-        }
-      }
-
-      let diseaseDocumentName = [];
-      for (let doc of diseaseDocuments) {
-          diseaseDocumentName.push(doc.name);
-      }
-
-      dataSet.push({
-        symbol: allele.symbol,
-        synonym: synonyms,
-        source: sourceList,
-        theAssociatedHumanDiseases: diseaseDocumentName,
-      });
-    });
-
+    const { alleles, filename, geneDataProvider } = this.props;
     const columns = [
       {
         field: 'symbol',
         label: 'Symbol',
-        format: this.renderSymbol,
+        format: symbol => <span dangerouslySetInnerHTML={{ __html: symbol }} />,
         isKey: true,
       },
       {
-        field: 'synonym',
-        label: 'Synonym',
-        format: this.renderSynonym,
-        isKey: false,
+        field: 'synonyms',
+        label: 'Synonyms',
       },
       {
         field: 'source',
         label: 'Source',
-        isKey: false,
+        format: source => <ExternalLink href={source.url}>{source.dataProvider}</ExternalLink>,
+        asText: source => source.url,
       },
       {
-        field: 'theAssociatedHumanDiseases',
+        field: 'diseases',
         label: 'Associated Human Disease',
-        isKey: false,
+        format: diseases => (
+          diseases && <CommaSeparatedList>
+            {diseases.map(disease => <Link key={disease.id} to={`/disease/${disease.id}`}>{disease.name}</Link>)}
+          </CommaSeparatedList>
+        ),
+        asText: diseases => diseases
+          .map(disease => `${disease.name} [${disease.id}]`)
+          .join(', ')
       },
     ];
 
-    return (
-      <div>
-         <BootstrapTable
-           bordered={false}
-           columns={columns}
-           data={dataSet}
-           version='4'
-         >
-            {
-            columns.map((col, idx) =>
-              <TableHeaderColumn
-                csvFormat={col.asText}
-                csvHeader={col.label}
-                dataField={col.field}
-                dataFormat={col.format}
-                dataSort={col.sortable}
-                filterValue={col.asText}
-                isKey={col.isKey}
-                key={idx}
-                width={col.width}
-              >
-                {col.label}
-              </TableHeaderColumn>
-            )
-            }
-          </BootstrapTable>
-      </div>
-    );
+    const data = alleles.map(allele => ({
+      symbol: allele.symbol,
+      synonyms: allele.synonyms,
+      source: {
+        dataProvider: geneDataProvider,
+        url: allele.modCrossRefFullUrl,
+      },
+      diseases: allele.diseaseDocuments
+        .map(disease => ({
+          id: disease.doId,
+          name: disease.name,
+        }))
+        .sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
+    }));
+
+    return <LocalDataTable columns={columns} data={data} filename={filename} paginated />;
   }
 }
 
 AlleleTable.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object),
+  alleles: PropTypes.array,
+  dispatch: PropTypes.func,
+  filename: PropTypes.string.isRequired,
+  geneDataProvider: PropTypes.string.isRequired,
+  geneId: PropTypes.string.isRequired,
 };
 
-export default AlleleTable;
+function mapStateToProps (state) {
+  return {
+    alleles: selectAlleles(state)
+  };
+}
+
+export default connect(mapStateToProps)(AlleleTable);

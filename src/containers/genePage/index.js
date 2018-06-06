@@ -1,54 +1,141 @@
-/* eslint-disable true */
-/*eslint no-unused-vars: "error"*/
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { fetchGene, fetchAlleles } from '../../actions/genes';
-// import { selectAlleles } from'../../selectors/geneSelectors';
-
+import { fetchGene } from '../../actions/genes';
 import { selectGene } from '../../selectors/geneSelectors';
-import Subsection from '../../components/subsection';
 
+import BasicGeneInfo from './basicGeneInfo';
+import GenePageHeader from './genePageHeader';
+import { OrthologyFilteredTable, OrthologyUserGuide, OrthologyBasicInfo } from '../../components/orthology';
+import { GenePageDiseaseTable } from '../../components/disease';
+import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
+import LoadingPage from '../../components/loadingPage';
+import NotFound from '../../components/notFound';
+import Subsection from '../../components/subsection';
+import HeadMetaTags from '../../components/headMetaTags';
 import AlleleTable from '../../components/alleleTable';
 
-// import GenomeFeatureViewer from './genomeFeatureViewer';
-// import ExpressionLinks from './expressionLinks';
+import GenomeFeatureViewer from './genomeFeatureViewer';
+import ExpressionLinks from './expressionLinks';
 
 class GenePage extends Component {
 
   componentDidMount () {
     this.props.dispatch(fetchGene(this.props.match.params.geneId));
-    this.props.dispatch(fetchAlleles(this.props.match.params.geneId));
   }
 
   componentDidUpdate (prevProps) {
     if (this.props.match.params.geneId !== prevProps.match.params.geneId) {
       this.props.dispatch(fetchGene(this.props.match.params.geneId));
-      this.props.dispatch(fetchAlleles(this.props.match.params.geneId));
     }
   }
 
   render () {
-    const { alleles,
-    // data, error, loading
-          } = this.props;
+    const {data, error, loading} = this.props;
+
+    if (loading) {
+      return <LoadingPage />;
+    }
+
+    if (error) {
+      return <NotFound />;
+    }
+
+    if (!data) {
+      return null;
+    }
+
+    const title = `${data.symbol} | ${data.species} gene`;
+
+    // todo, add chromosome
+    let genomeLocation = {};
+    if (data.genomeLocations) {
+      if (data.genomeLocations.length === 1) {
+        genomeLocation = data.genomeLocations[0];
+      }
+      else if (data.genomeLocations.length > 1) {
+        // TODO: figure out the proper assembly
+        for (var i in data.genomeLocations) {
+          let tempGenomeLocation = data.genomeLocations[i];
+          if (tempGenomeLocation.start && tempGenomeLocation.end) {
+            genomeLocation = tempGenomeLocation;
+          }
+        }
+      }
+    }
+
+    let now = new Date();
+    let date = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
 
     return (
       <div className='container'>
+        <HeadMetaTags title={title} />
+        <GenePageHeader symbol={data.symbol} />
 
         <Subsection>
-          <AlleleTable data={alleles} />
+          <BasicGeneInfo geneData={data} />
         </Subsection>
 
+        <Subsection hasData={typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'}
+                    title='Sequence Feature Viewer'
+        >
+          <GenomeFeatureViewer
+            assembly={genomeLocation.assembly}
+            biotype={data.soTermName}
+            chromosome={genomeLocation.chromosome}
+            fmax={genomeLocation.end}
+            fmin={genomeLocation.start}
+            geneSymbol={data.symbol}
+            height='200px'
+            id='genome-feature-location-id'
+            primaryId={data.primaryId}
+            species={data.species}
+            strand={genomeLocation.strand}
+            synonyms={data.synonyms}
+            width='600px'
+          />
+        </Subsection>
+
+        <Subsection title='Function – GO Annotations'>
+          <GeneOntologyRibbon id={data.primaryId} slim='agr' />
+        </Subsection>
+
+        <Subsection title='Orthology'>
+          <OrthologyBasicInfo
+            crossReferences={data.crossReferences}
+            focusGeneSymbol={data.symbol}
+            species={data.species}
+          />
+          <Subsection hasData={(data.orthology || []).length > 0}>
+            <OrthologyFilteredTable data={data.orthology} />
+            <OrthologyUserGuide />
+          </Subsection>
+        </Subsection>
+
+        <Subsection hasData={(this.props.data.diseases || []).length > 0} title='Disease Associations'>
+          <GenePageDiseaseTable data={this.props.data.diseases} filename={`${this.props.data.symbol}-Disease-Associations-${date}.tsv`} />
+        </Subsection>
+
+        <Subsection title='Expression'>
+          <ExpressionLinks allExpressionLink={data.crossReferences['gene/expression']}
+                           otherExpressionLinks={data.crossReferences['gene/other_expression']}
+                           wildTypeExpressionLink={data.crossReferences['gene/wild_type_expression']}
+          />
+        </Subsection>
+
+        <Subsection title='Alleles'>
+          <AlleleTable filename={`${this.props.data.symbol}-Alleles-${date}.tsv`}
+                       geneDataProvider={data.dataProvider}
+                       geneId={data.primaryId}
+          />
+        </Subsection>
       </div>
     );
   }
 }
 
 GenePage.propTypes = {
-  alleles: PropTypes.array,
   data: PropTypes.object,
   dispatch: PropTypes.func,
   error: PropTypes.object,
