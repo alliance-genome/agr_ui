@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Ribbon , { RibbonDataProvider } from '@geneontology/ribbon';
 import '../../../node_modules/@geneontology/ribbon/lib/index.css';
 import HorizontalScroll from '../horizontalScroll';
+import NoData from '../noData';
 
 
 class GeneOntologyRibbon extends Component {
@@ -29,7 +30,7 @@ class GeneOntologyRibbon extends Component {
               null
           }
           {
-            dataError ? <i className="text-muted">No Data Available</i> : null
+            dataError ? <NoData /> : null
           }
           {
             dataReceived || dataError ? null : 'Loading...'
