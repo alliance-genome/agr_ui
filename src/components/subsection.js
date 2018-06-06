@@ -5,6 +5,8 @@ import $ from 'jquery';
 import style from './style.scss';
 import { makeId } from '../lib/utils';
 
+import NoData from './noData';
+
 class Subsection extends Component {
   componentDidMount() {
     $(document.body).scrollspy('refresh');
@@ -17,10 +19,7 @@ class Subsection extends Component {
         <a className={style.target} id={id} />
         {this.props.hardcoded && <span className='tag tag-danger'>Hardcoded Example Data</span>}
         {this.props.title && !this.props.hideTitle && <h3>{this.props.title}</h3>}
-        {typeof this.props.hasData !== 'undefined' && !this.props.hasData ?
-          <i className="text-muted">No Data Available</i> :
-          this.props.children
-        }
+        {typeof this.props.hasData !== 'undefined' && !this.props.hasData ? <NoData /> : this.props.children}
       </div>
     );
   }

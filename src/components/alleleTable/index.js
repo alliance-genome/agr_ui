@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
 import CollapsibleList from '../collapsibleList/collapsibleList';
 import SynonymList from '../synonymList';
+import NoData from '../noData';
 
 class AlleleTable extends Component {
   componentDidMount () {
@@ -31,7 +32,7 @@ class AlleleTable extends Component {
     }
 
     if (total === 0) {
-      return <i className='text-muted'>No data available</i>;
+      return <NoData />;
     }
 
     const columns = [
