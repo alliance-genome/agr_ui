@@ -5,19 +5,21 @@ import { connect } from 'react-redux';
 import { fetchGene } from '../../actions/genes';
 import { selectGene } from '../../selectors/geneSelectors';
 
+import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPage';
 import BasicGeneInfo from './basicGeneInfo';
-import GenePageHeader from './genePageHeader';
 import { OrthologyFilteredTable, OrthologyUserGuide, OrthologyBasicInfo } from '../../components/orthology';
 import { GenePageDiseaseTable } from '../../components/disease';
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
 import LoadingPage from '../../components/loadingPage';
 import NotFound from '../../components/notFound';
 import Subsection from '../../components/subsection';
-import HeadMetaTags from '../../components/headMetaTags';
 import AlleleTable from '../../components/alleleTable';
 
 import GenomeFeatureViewer from './genomeFeatureViewer';
 import ExpressionLinks from './expressionLinks';
+
+import SpeciesIcon from '../../components/speciesIcon';
+import DataSourceLink from '../../components/dataSourceLink';
 
 class GenePage extends Component {
 
@@ -68,69 +70,89 @@ class GenePage extends Component {
     let now = new Date();
     let date = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
 
+    const SUMMARY = 'Summary';
+    const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
+    const FUNCTION = 'Function - GO Annotations';
+    const ORTHOLOGY = 'Orthology';
+    const DISEASE = 'Disease Associations';
+    const EXPRESSION = 'Expression';
+    const SECTIONS = [SUMMARY, SEQUENCE_FEATURE_VIEWER, FUNCTION, ORTHOLOGY, DISEASE, EXPRESSION];
+
     return (
-      <div className='container'>
-        <HeadMetaTags title={title} />
-        <GenePageHeader symbol={data.symbol} />
+      <DataPage title={title}>
+        <PageNav entityName={data.symbol}
+                 extra={<i>{data.species}</i>}
+                 icon={<SpeciesIcon species={data.species} />}
+                 link={<DataSourceLink reference={data.crossReferences.gene[0]} />}
+                 sections={SECTIONS}
+        />
+        <PageData>
+          <PageHeader entityName={data.symbol} />
 
-        <Subsection>
-          <BasicGeneInfo geneData={data} />
-        </Subsection>
-
-        <Subsection hasData={typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'}
-                    title='Sequence Feature Viewer'
-        >
-          <GenomeFeatureViewer
-            assembly={genomeLocation.assembly}
-            biotype={data.soTermName}
-            chromosome={genomeLocation.chromosome}
-            fmax={genomeLocation.end}
-            fmin={genomeLocation.start}
-            geneSymbol={data.symbol}
-            height='200px'
-            id='genome-feature-location-id'
-            primaryId={data.primaryId}
-            species={data.species}
-            strand={genomeLocation.strand}
-            synonyms={data.synonyms}
-            width='600px'
-          />
-        </Subsection>
-
-        <Subsection title='Function – GO Annotations'>
-          <GeneOntologyRibbon id={data.primaryId} slim='agr' />
-        </Subsection>
-
-        <Subsection title='Orthology'>
-          <OrthologyBasicInfo
-            crossReferences={data.crossReferences}
-            focusGeneSymbol={data.symbol}
-            species={data.species}
-          />
-          <Subsection hasData={(data.orthology || []).length > 0}>
-            <OrthologyFilteredTable data={data.orthology} />
-            <OrthologyUserGuide />
+          <Subsection hideTitle title={SUMMARY}>
+            <BasicGeneInfo geneData={data} />
           </Subsection>
-        </Subsection>
 
-        <Subsection hasData={(this.props.data.diseases || []).length > 0} title='Disease Associations'>
-          <GenePageDiseaseTable data={this.props.data.diseases} filename={`${this.props.data.symbol}-Disease-Associations-${date}.tsv`} />
-        </Subsection>
+          <Subsection hasData={typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'}
+                      title={SEQUENCE_FEATURE_VIEWER}
+          >
+            <GenomeFeatureViewer
+              assembly={genomeLocation.assembly}
+              biotype={data.soTermName}
+              chromosome={genomeLocation.chromosome}
+              fmax={genomeLocation.end}
+              fmin={genomeLocation.start}
+              geneSymbol={data.symbol}
+              height='200px'
+              id='genome-feature-location-id'
+              primaryId={data.primaryId}
+              species={data.species}
+              strand={genomeLocation.strand}
+              synonyms={data.synonyms}
+              width='600px'
+            />
+          </Subsection>
 
-        <Subsection title='Expression'>
-          <ExpressionLinks allExpressionLink={data.crossReferences['gene/expression']}
-                           otherExpressionLinks={data.crossReferences['gene/other_expression']}
-                           wildTypeExpressionLink={data.crossReferences['gene/wild_type_expression']}
-          />
-        </Subsection>
+          <Subsection title={FUNCTION}>
+            <GeneOntologyRibbon id={data.primaryId} slim='agr' />
+          </Subsection>
 
-        <Subsection title='Alleles'>
-          <AlleleTable filename={`${this.props.data.symbol}-Alleles-${date}.tsv`}
-                       geneDataProvider={data.dataProvider}
-                       geneId={data.primaryId}
-          />
-        </Subsection>
-      </div>
+          <Subsection title={ORTHOLOGY}>
+            <OrthologyBasicInfo
+              crossReferences={data.crossReferences}
+              focusGeneSymbol={data.symbol}
+              species={data.species}
+            />
+            <Subsection hasData={(data.orthology || []).length > 0}>
+              <OrthologyFilteredTable data={data.orthology} />
+              <OrthologyUserGuide />
+            </Subsection>
+          </Subsection>
+
+          <Subsection hasData={(this.props.data.diseases || []).length > 0} title={DISEASE}>
+            <GenePageDiseaseTable data={this.props.data.diseases}
+                                  filename={`${this.props.data.symbol}-Disease-Associations-${date}.tsv`}
+            />
+          </Subsection>
+
+          <Subsection title={EXPRESSION}>
+            <ExpressionLinks otherSources={data.crossReferences['gene/other_expression']}
+                             primarySources={[]
+                               .concat(data.crossReferences['gene/expression'])
+                               .concat(data.crossReferences['gene/wild_type_expression'])
+                               .concat(data.crossReferences['gene/spell'])
+                             }
+            />
+          </Subsection>
+
+          <Subsection title='Alleles'>
+            <AlleleTable filename={`${this.props.data.symbol}-Alleles-${date}.tsv`}
+                         geneDataProvider={data.dataProvider}
+                         geneId={data.primaryId}
+            />
+          </Subsection>
+        </PageData>
+      </DataPage>
     );
   }
 }

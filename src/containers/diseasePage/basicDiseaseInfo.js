@@ -13,7 +13,7 @@ import {
 import ExternalLink from '../../components/externalLink';
 import CrossReferenceList from '../../components/crossReferenceList';
 import CommaSeparatedList from '../../components/commaSeparatedList';
-import { CollapsibleList, CollapsibleListItem } from '../../components/collapsibleList';
+import { CollapsibleList } from '../../components/collapsibleList';
 import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
 import SynonymList from '../../components/synonymList';
 
@@ -23,11 +23,8 @@ class BasicDiseaseInfo extends Component {
       <CollapsibleList>
         {terms
           .sort(compareAlphabeticalCaseInsensitive(term => term.name))
-          .map(term => (
-            <CollapsibleListItem key={term.primaryKey}>
-              <Link key={term.primaryKey} to={`/disease/${term.primaryKey}`}>{term.name}</Link>
-            </CollapsibleListItem>
-          ))}
+          .map(term => <Link key={term.primaryKey} to={`/disease/${term.primaryKey}`}>{term.name}</Link>)
+        }
       </CollapsibleList>;
   }
 
@@ -78,7 +75,7 @@ class BasicDiseaseInfo extends Component {
   render() {
     const { disease } = this.props;
     return (
-      <AttributeList bsClassName='col-12'>
+      <AttributeList>
         <AttributeLabel>Definition</AttributeLabel>
         <AttributeValue>
           {this.renderDefinition(disease)}

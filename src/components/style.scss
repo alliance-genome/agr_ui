@@ -1,3 +1,5 @@
+@import "../mixins";
+
 .externalLink:after {
   font-family: FontAwesome;
   content: "\f08e";
@@ -25,11 +27,24 @@
   margin-top: 1rem;
   margin-bottom: 4rem;
   clear: left;
-}
 
-.subsection > h3 {
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 8px;
+  h3 {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+  }
+
+  .target {
+    display: block;
+    visibility: hidden;
+    position: relative;
+    top: -1rem;
+  }
+
+  @media (max-width: 768px) {
+    .target {
+      top: -125px;
+    }
+  }
 }
 
 .fadeInAndOut {
@@ -119,4 +134,15 @@
   li:last-of-type:after {
     content: "";
   }
+}
+
+.hScrollOuter {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  position: relative;
+  height: 100%;
+  -webkit-overflow-scrolling: touch;
+
+  @include webkit-scrollbar;
 }

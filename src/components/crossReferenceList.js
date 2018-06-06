@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DataSourceLink from './dataSourceLink';
-import { CollapsibleList, CollapsibleListItem } from './collapsibleList';
+import { CollapsibleList } from './collapsibleList';
 import { compareAlphabeticalCaseInsensitive } from '../lib/utils';
 
-const CrossReferenceList = ({crossReferences}) => {
+const CrossReferenceList = ({collapsible, crossReferences}) => {
   const byName = compareAlphabeticalCaseInsensitive(xref => (xref.displayName || xref.name));
   const byWithLinkThenName = (a, b) => {
     if (a.crossRefCompleteUrl && !b.crossRefCompleteUrl) {
@@ -20,23 +20,26 @@ const CrossReferenceList = ({crossReferences}) => {
     return null;
   }
 
+  const size = collapsible ? undefined : crossReferences.length;
+
   return (
-    <CollapsibleList>
+    <CollapsibleList collapsedSize={size}>
       {
         crossReferences
           .sort(byWithLinkThenName)
-          .map(ref => (
-            <CollapsibleListItem key={ref.localId}>
-              <DataSourceLink reference={ref} />
-            </CollapsibleListItem>
-          ))
+          .map(ref => <DataSourceLink key={`${ref.localId}-${ref.type}`} reference={ref} />)
       }
     </CollapsibleList>
   );
 };
 
 CrossReferenceList.propTypes = {
+  collapsible: PropTypes.bool,
   crossReferences: PropTypes.array,
+};
+
+CrossReferenceList.defaultProps = {
+  collapsible: true
 };
 
 export default CrossReferenceList;

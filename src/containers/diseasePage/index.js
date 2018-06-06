@@ -12,13 +12,13 @@ import {
   selectLoading,
 } from '../../selectors/diseaseSelectors';
 
-import HeadMetaTags from '../../components/headMetaTags';
 import LoadingPage from '../../components/loadingPage';
 import Subsection from '../../components/subsection';
 import NotFound from '../../components/notFound';
 import BasicDiseaseInfo from './basicDiseaseInfo';
-import { DiseasePageHeader } from '../../components/disease';
 import DiseasePageAssociationsTable from './diseasePageAssociationsTable';
+import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPage';
+import ExternalLink from '../../components/externalLink';
 
 class DiseasePage extends Component {
   constructor(props) {
@@ -70,20 +70,31 @@ class DiseasePage extends Component {
 
     const disease = this.props.data;
 
+    const SUMMARY = 'Summary';
+    const ASSOCIATIONS = 'Associations';
+    const SECTIONS = [SUMMARY, ASSOCIATIONS];
+
+    const doLink = (
+      <ExternalLink href={'http://www.disease-ontology.org/?id=' + disease.doId}>
+        {disease.doId}
+      </ExternalLink>
+    );
+
     return (
-      <div className='container'>
-        <HeadMetaTags title={disease.name ? this.titleCase(disease.name) : disease.doId} />
+      <DataPage title={disease.name || disease.doId}>
+        <PageNav entityName={disease.name} link={doLink} sections={SECTIONS} />
+        <PageData>
+          <PageHeader entityName={disease.name} />
 
-        <DiseasePageHeader disease={disease} />
+          <Subsection hideTitle title={SUMMARY}>
+            <BasicDiseaseInfo disease={disease} />
+          </Subsection>
 
-        <Subsection>
-          <BasicDiseaseInfo disease={disease} />
-        </Subsection>
-
-        <Subsection title='Associations'>
-          <DiseasePageAssociationsTable id={disease.doId} />
-        </Subsection>
-      </div>
+          <Subsection title='Associations'>
+            <DiseasePageAssociationsTable id={disease.doId} />
+          </Subsection>
+        </PageData>
+      </DataPage>
     );
   }
 }
