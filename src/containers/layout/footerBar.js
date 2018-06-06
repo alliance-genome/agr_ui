@@ -9,7 +9,7 @@ class FooterBar extends Component {
   render() {
     return (
       <div className={style.footerBar}>
-        <div className='align-items-center container d-flex justify-content-between'>
+        <div className='align-items-center container-fluid d-flex justify-content-between'>
           <Link to='/'>
             <img height='50' src={logo} />
           </Link>

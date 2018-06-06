@@ -67,10 +67,10 @@ class MenuItems extends Component {
       }
     }
     return (
-      <nav className='navbar navbar-expand-md p-0'>
-        <div className='container'>
-          <div className='collapse navbar-collapse' id='exCollapsingNavbar2'>
-            <ul className={`navbar-nav ${style.topnav}`}>
+      <nav className={`navbar navbar-expand-md ${style.topnav}`}>
+        <div className='container-fluid'>
+          <div className={`collapse navbar-collapse ${style.inner}`} id='exCollapsingNavbar2'>
+            <ul className='navbar-nav'>
               {container}
             </ul>
           </div>

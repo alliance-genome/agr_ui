@@ -18,7 +18,7 @@ const SpeciesIcon = ({species, small, iconClass}) => {
     classes.push(iconClass);
   }
   return speciesClass && (
-    <div className={classes.join(' ')} />
+    <span className={classes.join(' ')} />
   );
 };
 
