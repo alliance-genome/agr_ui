@@ -29,17 +29,20 @@ class AlleleTable extends Component {
         field: 'symbol',
         label: 'Symbol',
         format: symbol => <span dangerouslySetInnerHTML={{ __html: symbol }} />,
+        width: '185px',
         isKey: true,
       },
       {
         field: 'synonyms',
         label: 'Synonyms',
+        width: '185px',
       },
       {
         field: 'source',
         label: 'Source',
         format: source => <ExternalLink href={source.url}>{source.dataProvider}</ExternalLink>,
         asText: source => source.url,
+        width: '75px',
       },
       {
         field: 'diseases',
@@ -51,7 +54,8 @@ class AlleleTable extends Component {
         ),
         asText: diseases => diseases
           .map(disease => `${disease.name} [${disease.id}]`)
-          .join(', ')
+          .join(', '),
+        width: '290px',
       },
     ];
 
