@@ -12,10 +12,8 @@ import { SearchBreadcrumbsComponent } from '../searchBreadcrumbs';
 import { SearchControlsComponent } from '../searchControls';
 import fixtureResponse from './fixtureResponse';
 import { receiveResponse } from '../../../actions/search';
-import jsdom from 'mocha-jsdom';
 
 describe('Search', () => {
-  jsdom();
   it('should be able to render to an HTML string', () => {
     let store = configureStore();
     let htmlString = renderToString(
