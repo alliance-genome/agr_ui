@@ -30,12 +30,16 @@ class AlleleTable extends Component {
         label: 'Symbol',
         format: symbol => <span dangerouslySetInnerHTML={{ __html: symbol }} />,
         width: '185px',
+        sortable: true,
+        filterable: true,
         isKey: true,
       },
       {
         field: 'synonyms',
         label: 'Synonyms',
         width: '185px',
+        sortable: true,
+        filterable: true,
       },
       {
         field: 'source',
@@ -43,6 +47,8 @@ class AlleleTable extends Component {
         format: source => <ExternalLink href={source.url}>{source.dataProvider}</ExternalLink>,
         asText: source => source.url,
         width: '75px',
+        sortable: true,
+        filterable: true,
       },
       {
         field: 'diseases',
@@ -56,6 +62,8 @@ class AlleleTable extends Component {
           .map(disease => `${disease.name} [${disease.id}]`)
           .join(', '),
         width: '290px',
+        sortable: true,
+        filterable: true,
       },
     ];
 
