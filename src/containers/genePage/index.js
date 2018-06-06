@@ -76,7 +76,8 @@ class GenePage extends Component {
     const ORTHOLOGY = 'Orthology';
     const DISEASE = 'Disease Associations';
     const EXPRESSION = 'Expression';
-    const SECTIONS = [SUMMARY, SEQUENCE_FEATURE_VIEWER, FUNCTION, ORTHOLOGY, DISEASE, EXPRESSION];
+    const ALLELES = 'Alleles';
+    const SECTIONS = [SUMMARY, SEQUENCE_FEATURE_VIEWER, FUNCTION, ORTHOLOGY, DISEASE, EXPRESSION, ALLELES];
 
     return (
       <DataPage title={title}>
@@ -145,7 +146,7 @@ class GenePage extends Component {
             />
           </Subsection>
 
-          <Subsection title='Alleles'>
+          <Subsection title={ALLELES}>
             <AlleleTable filename={`${this.props.data.symbol}-Alleles-${date}.tsv`}
                          geneDataProvider={data.dataProvider}
                          geneId={data.primaryId}
