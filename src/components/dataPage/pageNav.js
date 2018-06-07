@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { HashLink } from 'react-router-hash-link';
 import $ from 'jquery';
+import Scrollspy from 'react-scrollspy';
 
 import { makeId } from '../../lib/utils';
 
@@ -25,18 +26,24 @@ const PageNav = ({entityName, extra, icon, link, sections}) => {
           </button>
         </div>
 
-        <div className='navbar-collapse collapse list-group list-group-flush' id='data-page-nav'>
-          {
-            sections && sections.map(section => (
-              <HashLink className='list-group-item list-group-item-action'
-                        key={section}
-                        onClick={() => $('#data-page-nav').collapse('hide')}
-                        to={'#' + makeId(section)}
-              >
-                {section}
-              </HashLink>
-            ))
-          }
+        <div className='navbar-collapse collapse' id='data-page-nav'>
+          <Scrollspy className={`list-group list-group-flush ${style.scrollSpy}`}
+                     componentTag='div'
+                     currentClassName='active'
+                     items={sections.map(makeId)}
+          >
+            {
+              sections.map(section => (
+                <HashLink className='list-group-item list-group-item-action'
+                          key={section}
+                          onClick={() => $('#data-page-nav').collapse('hide')}
+                          to={'#' + makeId(section)}
+                >
+                  {section}
+                </HashLink>
+              ))
+            }
+          </Scrollspy>
         </div>
       </div>
     </div>
