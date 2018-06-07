@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import NoData from '../noData';
 
 class AttributeValue extends Component {
 
@@ -10,7 +11,7 @@ class AttributeValue extends Component {
         className={bsClassName}
         style={style}
       >
-        {children || <i className='text-muted'>{placeholder}</i>}
+        {children || <NoData>{placeholder}</NoData>}
       </dd>
     );
   }
