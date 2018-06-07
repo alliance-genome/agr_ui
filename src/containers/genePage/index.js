@@ -91,7 +91,7 @@ class GenePage extends Component {
           <PageHeader entityName={data.symbol} />
 
           <Subsection hideTitle title={SUMMARY}>
-            <BasicGeneInfo geneData={data} />
+            <BasicGeneInfo gene={data} />
           </Subsection>
 
           <Subsection hasData={typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'}
