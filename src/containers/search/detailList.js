@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import style from './style.scss';
 import { makeFieldDisplayName } from '../../lib/searchHelpers';
+import NoData from '../../components/noData';
 
 const JOIN_CHAR = ', ';
 
@@ -23,7 +24,7 @@ class DetailList extends Component {
       }
 
       if (!value) {
-        valueNode = <i className='text-muted'>Not Available</i>;
+        valueNode = <NoData>Not Available</NoData>;
       }
 
       return (

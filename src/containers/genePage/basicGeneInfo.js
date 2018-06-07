@@ -50,7 +50,7 @@ class BasicGeneInfo extends Component {
 
         <AttributeLabel>Synonyms</AttributeLabel>
         <AttributeValue placeholder='None'>
-          {gene.synonyms && <SynonymList synonyms={gene.synonyms} />}
+          {gene.synonyms && gene.synonyms.length && <SynonymList synonyms={gene.synonyms} />}
         </AttributeValue>
 
         <AttributeLabel>Biotype</AttributeLabel>
