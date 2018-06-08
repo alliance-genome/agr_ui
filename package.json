@@ -38,6 +38,7 @@
     "react-router-dom": "^4.2.2",
     "react-router-hash-link": "^1.2.0",
     "react-router-scroll-4": "^1.0.0-beta.1",
+    "react-scrollspy": "^3.3.5",
     "react-select": "^1.0.0-rc.2",
     "react-twitter-widgets": "^1.3.0",
     "reactstrap": "^6.0.0",
