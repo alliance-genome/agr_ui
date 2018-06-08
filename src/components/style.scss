@@ -24,9 +24,9 @@
 }
 
 .subsection {
-  margin-top: 1rem;
   margin-bottom: 4rem;
   clear: left;
+  position: relative;
 
   h3 {
     border-bottom: 1px solid #ddd;
@@ -36,13 +36,16 @@
   .target {
     display: block;
     visibility: hidden;
-    position: relative;
+    position: absolute;
     top: -1rem;
+    bottom: 0;
+    width: 100%;
   }
 
   @media (max-width: 768px) {
     .target {
       top: -125px;
+      bottom: 125px;
     }
   }
 }

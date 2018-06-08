@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import $ from 'jquery';
 
 import style from './style.scss';
 import { makeId } from '../lib/utils';
@@ -8,10 +7,6 @@ import { makeId } from '../lib/utils';
 import NoData from './noData';
 
 class Subsection extends Component {
-  componentDidMount() {
-    $(document.body).scrollspy('refresh');
-  }
-
   render() {
     const id = this.props.title && makeId(this.props.title);
     return (
