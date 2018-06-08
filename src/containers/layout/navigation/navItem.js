@@ -6,35 +6,48 @@ import style from './style.scss';
 
 class NavItem extends Component {
   render() {
-    let classNames = '';
-    if (this.props.isActive) {
-      classNames += style.active;
-    }
-
-    if (this.props.hasDropDown) {
-      classNames += ' nav-link dropdown-toggle';
-      return (<a aria-expanded='false' className={classNames} data-toggle='dropdown' href={this.props.href} key={this.props.uniqueKey} role='button'>{this.props.label}<span className='caret' /></a>);
-    } else {
-      if(this.props.isChild){
-        classNames +=' dropdown-item sub-menu';
-        return (<Link className={classNames} key={this.props.uniqueKey} to={this.props.href}>{this.props.label}</Link>);
-      }
-      else{
-        classNames += ' nav-link';
-        return (<Link className={classNames} key={this.props.uniqueKey} to={this.props.href}>{this.props.label}</Link>);
-      }
-
-    }
+    const { currentRoute, page } = this.props;
+    const isParent = typeof page.sub !== 'undefined';
+    const isActive = route => route === currentRoute ? style.active : '';
+    return (
+      <li className={`nav-item ${isParent && ' dropdown'}`}>
+        <div className='btn-group'>
+          <Link className={`nav-link ${isActive(page.route)} ${isParent && ' dropdown-toggle'}`}
+                data-toggle={isParent && 'dropdown'}
+                to={page.route}
+          >
+            {page.label}
+          </Link>
+          {page.sub && (
+            <div className='dropdown-menu' key role='menu'>
+              <Link className={`dropdown-item sub-menu ${isActive(page.route)}`} to={page.route}>
+                {page.label}
+              </Link>
+              {
+                page.sub.map(sub => (
+                  <Link className={`dropdown-item sub-menu ${isActive(sub.route)}`}
+                        key={sub.route}
+                        to={sub.route}
+                  >
+                    {sub.label}
+                  </Link>
+                ))
+              }
+            </div>
+          )}
+        </div>
+      </li>
+    );
   }
 }
+
 NavItem.propTypes = {
-  hasDropDown: PropTypes.bool,
-  href: PropTypes.string,
-  isActive: PropTypes.bool,
-  isChild:PropTypes.bool,
-  label: PropTypes.string,
-  parentNode: PropTypes.string,
-  uniqueKey: PropTypes.number
+  currentRoute: PropTypes.string,
+  page: PropTypes.shape({
+    label: PropTypes.string,
+    route: PropTypes.string,
+    sub: PropTypes.array,
+  }),
 };
 
 export default NavItem;
