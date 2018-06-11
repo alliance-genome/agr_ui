@@ -23,7 +23,7 @@ class DownloadsPage extends React.Component {
             />
             <UncontrolledCollapse toggler='#interactions-help'>
               <p>
-                This provides a set of annotations of molecular interactions for
+                This file provides a set of annotations of molecular interactions for
                 genes and gene products for all Alliance species (human, rat, mouse, zebrafish, fruit fly, nematode, and
                 yeast). The file is in the <ExternalLink href='https://github.com/HUPO-PSI/miTab'>PSI-MI TAB format</ExternalLink>,
                 a tab-delimited format established by the <ExternalLink href='http://www.psidev.info'>HUPO Proteomics Standards
