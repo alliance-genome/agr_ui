@@ -14,7 +14,7 @@ class DownloadsPage extends React.Component {
         <AttributeList>
           <AttributeLabel>Interactions</AttributeLabel>
           <AttributeValue>
-            <a href='https://mod-datadumps.s3.amazonaws.com/INT/Alliance_molecular_interactions.tar.gz'>
+            <a href='https://download.alliancegenome.org/INT/Alliance_molecular_interactions.tar.gz'>
               Alliance_molecular_interactions.tar.gz
             </a>
             <i className='fa fa-fw fa-question-circle text-primary'
