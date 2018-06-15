@@ -136,13 +136,22 @@ class SearchBarComponent extends Component {
       suggestionsContainer: style.suggestionsContainer,
       suggestionsList: style.suggestionsList,
       suggestion: style.suggestion,
-      suggestionFocused: style.suggestionFocused
+      suggestionHighlighted: style.suggestionHighlighted
     };
     return (
       <form onSubmit={this.handleSubmit.bind(this)}>
         <div className='input-group'>
           {this.renderDropdown()}
-          <Autosuggest className='form-control' getSuggestionValue={_getSuggestionValue} inputProps={_inputProps} onSuggestionSelected={this.handleSelected.bind(this)} onSuggestionsClearRequested={this.handleClear.bind(this)} onSuggestionsFetchRequested={this.handleFetchData.bind(this)} renderSuggestion={this.renderSuggestion} suggestions={this.state.autoOptions} theme={_theme} />
+          <Autosuggest className='form-control'
+                       getSuggestionValue={_getSuggestionValue}
+                       inputProps={_inputProps}
+                       onSuggestionSelected={this.handleSelected.bind(this)}
+                       onSuggestionsClearRequested={this.handleClear.bind(this)}
+                       onSuggestionsFetchRequested={this.handleFetchData.bind(this)}
+                       renderSuggestion={this.renderSuggestion}
+                       suggestions={this.state.autoOptions}
+                       theme={_theme}
+          />
           <div className='input-group-append'>
             <button className={`btn btn-primary ${style.searchBtns}`} type='submit'>
               <i className='fa fa-search' />

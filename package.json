@@ -11,7 +11,7 @@
     "url": "https://github.com/alliance-genome/agr_ui.git"
   },
   "dependencies": {
-    "@geneontology/ribbon": "^1.3.9",
+    "@geneontology/ribbon": "1.4.1",
     "babel-polyfill": "^6.26.0",
     "bootstrap": "4.1.1",
     "d3-axis": "^1.0.8",
@@ -28,10 +28,10 @@
     "popper.js": "1.14.3",
     "prop-types": "^15.5.10",
     "query-string": "^5.1.1",
-    "react": "^15.3.2",
-    "react-autosuggest": "^6.1.0",
-    "react-bootstrap-table": "https://github.com/FlyBase/react-bootstrap-table/releases/download/v4.0.3/react-bootstrap-table-4.0.3.tgz",
-    "react-dom": "^15.3.2",
+    "react": "^16.4.0",
+    "react-autosuggest": "^9.3.4",
+    "react-bootstrap-table": "https://github.com/FlyBase/react-bootstrap-table/releases/download/v4.3.1.1/react-bootstrap-table-4.3.1.1.tgz",
+    "react-dom": "^16.4.0",
     "react-ga": "2.2.0",
     "react-helmet": "^5.0.0",
     "react-redux": "^4.4.5",
