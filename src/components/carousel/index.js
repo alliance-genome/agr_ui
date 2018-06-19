@@ -12,28 +12,22 @@ const items = [
   {
     background: 'https://i0.wp.com/alliancegenome.files.wordpress.com/2016/11/banner1.jpg',
     logo: 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner_1_flyin_logo.png',
-    altText: 'Slide 1 altText',
     captionHeader: 'The Gene Ontology Consortium and Six Model Organism Databases have joined together to form the Alliance of Genome Resources',
     captionText: 'MORE INFORMATION',
-    className: 'slide1',
     link: '/about-us',
   },
   {
     background: 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner2.jpg',
     logo: '',
-    altText: 'Slide 2 altText',
     captionHeader: 'Have questions about the Alliance of Genome Resources?',
     captionText: 'CONTACT US',
-    className: 'slide2',
     link: '/contact-us',
   },
   {
     background: 'https://i2.wp.com/alliancegenome.files.wordpress.com/2016/11/banner3.jpg',
     logo: '',
-    altText: 'Slide 3 altText',
     captionHeader: 'The Alliance Orthology Working Group is developing a gold standard set of orthologs to support comparative genomics across multiple model organisms.\n',
     captionText: 'CLICK HERE FOR MORE INFO',
-    className: 'slide3',
     link: '/orthology',
   }
 ];
@@ -60,20 +54,17 @@ class Homepage extends Component {
   next() {
     if (this.animating) return;
     const nextIndex = this.state.activeIndex === items.length - 1 ? 0 : this.state.activeIndex + 1;
-    /*eslint-disable next-line*/
     this.setState({ activeIndex: nextIndex });
   }
 
   previous() {
     if (this.animating) return;
     const nextIndex = this.state.activeIndex === 0 ? items.length - 1 : this.state.activeIndex - 1;
-    /*eslint-disable next-line*/
     this.setState({ activeIndex: nextIndex });
   }
 
   goToIndex(newIndex) {
     if (this.animating) return;
-    /*eslint-disable next-line*/
     this.setState({ activeIndex: newIndex });
   }
 
@@ -85,9 +76,7 @@ class Homepage extends Component {
         <CarouselItem
           className="custom-tag"
           key={idx}
-          /*eslint-disable next-line*/
           onExiting={this.onExiting}
-          /*eslint-disable next-line*/
           onExited={this.onExited}
         >
           <img className='logo-img' src={item.logo} />
