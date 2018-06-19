@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { UncontrolledTooltip } from 'reactstrap';
 
-import CollapsibleList from '../../components/collapsibleList';
+import style from './style.scss';
+
 import {
   AttributeList,
   AttributeLabel,
@@ -10,58 +12,79 @@ import {
 } from '../../components/attribute';
 import ExternalLink from '../../components/externalLink';
 import CrossReferenceList from '../../components/crossReferenceList';
+import CommaSeparatedList from '../../components/commaSeparatedList';
+import { CollapsibleList } from '../../components/collapsibleList';
+import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
+import SynonymList from '../../components/synonymList';
 
 class BasicDiseaseInfo extends Component {
   renderTermList(terms) {
-    const items = terms && terms
-      .map(term => <Link key={term.primaryKey} to={`/disease/${term.primaryKey}`}>{term.name}</Link>);
-    return items && <CollapsibleList items={items} />;
-  }
-
-  renderSynonymList(items) {
-    return items && items.join('; ');
+    return terms &&
+      <CollapsibleList>
+        {terms
+          .sort(compareAlphabeticalCaseInsensitive(term => term.name))
+          .map(term => <Link key={term.primaryKey} to={`/disease/${term.primaryKey}`}>{term.name}</Link>)
+        }
+      </CollapsibleList>;
   }
 
   renderSourceList(sources) {
-    return sources && sources.map((source) => {
-      return (
-        <ExternalLink href={source.url} key={`source-${source.species.displayName}`}>
-          {source.species.displayName}
-        </ExternalLink>
-      );
-    }).reduce((a, b) => [a, ', ', b]);
+    return sources &&
+      <CommaSeparatedList>
+        {
+          sources.map((source) => (
+            <ExternalLink href={source.url} key={`source-${source.species.displayName}`}>
+              {source.species.displayName}
+            </ExternalLink>
+          ))
+        }
+      </CommaSeparatedList>;
   }
 
   renderDefinition(disease) {
     return (disease.definition || (disease.definitionLinks && disease.definitionLinks.length > 0)) && (
       <div>
         {disease.definition}
+        {' '}
         {this.renderDefinitionLinks(disease.definitionLinks)}
       </div>
     );
   }
 
   renderDefinitionLinks(links) {
-    return links && links.map(link => {
-      return (
-        <div key={link}>
-          <ExternalLink href={link}>{link}</ExternalLink>
-        </div>
-      );
-    });
+    return links &&
+      <CommaSeparatedList>
+        {
+          links.map((link, idx) => (
+            <span key={link}>
+              <ExternalLink href={link} id={`definition-link-${idx}`}>[{idx + 1}]</ExternalLink>
+              <UncontrolledTooltip
+                delay={{show: 200, hide: 0}}
+                innerClassName={style.urlTooltip}
+                placement='bottom'
+                target={`definition-link-${idx}`}
+              >
+                {link}
+              </UncontrolledTooltip>
+            </span>
+          ))
+        }
+      </CommaSeparatedList>;
   }
 
   render() {
     const { disease } = this.props;
     return (
-      <AttributeList bsClassName='col-xs-12'>
+      <AttributeList>
         <AttributeLabel>Definition</AttributeLabel>
         <AttributeValue>
           {this.renderDefinition(disease)}
         </AttributeValue>
 
         <AttributeLabel>Synonyms</AttributeLabel>
-        <AttributeValue>{this.renderSynonymList(disease.synonyms)}</AttributeValue>
+        <AttributeValue placeholder='None'>
+          {disease.synonyms && <SynonymList synonyms={disease.synonyms} />}
+        </AttributeValue>
 
         <AttributeLabel>Cross References</AttributeLabel>
         <AttributeValue>

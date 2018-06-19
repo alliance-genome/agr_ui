@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
-import style from './style.css';
+import style from './style.scss';
 import SecondaryNav from './secondaryNav';
 import HeadMetaTags from '../../components/headMetaTags';
 
@@ -44,15 +44,15 @@ class WordpressPostList extends Component {
           {
             this.props.postList.map(post => {
               if (post.status !== 'publish') { return; }
-              const link = `/posts/${post.slug}`;
+              const link = `/news/${post.slug}`;
               return (
                 <div className={`row ${style.postContainer}`} key={post.id}>
-                  <div className='col-xs-12 col-sm-4'>
-                    <Link href={link}>
+                  <div className='col-12 col-sm-4'>
+                    <Link to={link}>
                       <img className='img-fluid' src={post.featured_media_url} />
                     </Link>
                   </div>
-                  <div className='col-xs-12 col-sm-8'>
+                  <div className='col-12 col-sm-8'>
                     <Link to={link}>
                       <h3 dangerouslySetInnerHTML={{ __html: post.title.rendered}} />
                     </Link>

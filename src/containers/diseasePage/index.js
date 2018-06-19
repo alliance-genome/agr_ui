@@ -12,13 +12,13 @@ import {
   selectLoading,
 } from '../../selectors/diseaseSelectors';
 
-import HeadMetaTags from '../../components/headMetaTags';
 import LoadingPage from '../../components/loadingPage';
 import Subsection from '../../components/subsection';
 import NotFound from '../../components/notFound';
 import BasicDiseaseInfo from './basicDiseaseInfo';
-import { DiseasePageHeader } from '../../components/disease';
 import DiseasePageAssociationsTable from './diseasePageAssociationsTable';
+import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPage';
+import ExternalLink from '../../components/externalLink';
 
 class DiseasePage extends Component {
   constructor(props) {
@@ -28,14 +28,14 @@ class DiseasePage extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, params } = this.props;
-    dispatch(fetchDisease(params.diseaseId));
+    const { dispatch } = this.props;
+    dispatch(fetchDisease(this.props.match.params.diseaseId));
   }
 
   componentDidUpdate(prevProps) {
-    const { dispatch, params } = this.props;
-    if (params.diseaseId !== prevProps.params.diseaseId) {
-      dispatch(fetchDisease(params.diseaseId));
+    const { dispatch } = this.props;
+    if (this.props.match.params.diseaseId !== prevProps.match.params.diseaseId) {
+      dispatch(fetchDisease(this.props.match.params.diseaseId));
     }
   }
 
@@ -70,20 +70,31 @@ class DiseasePage extends Component {
 
     const disease = this.props.data;
 
+    const SUMMARY = 'Summary';
+    const ASSOCIATIONS = 'Associations';
+    const SECTIONS = [SUMMARY, ASSOCIATIONS];
+
+    const doLink = (
+      <ExternalLink href={'http://www.disease-ontology.org/?id=' + disease.doId}>
+        {disease.doId}
+      </ExternalLink>
+    );
+
     return (
-      <div className='container'>
-        <HeadMetaTags title={disease.name ? this.titleCase(disease.name) : disease.doId} />
+      <DataPage title={disease.name || disease.doId}>
+        <PageNav entityName={disease.name} link={doLink} sections={SECTIONS} />
+        <PageData>
+          <PageHeader entityName={disease.name} />
 
-        <DiseasePageHeader disease={disease} />
+          <Subsection hideTitle title={SUMMARY}>
+            <BasicDiseaseInfo disease={disease} />
+          </Subsection>
 
-        <Subsection>
-          <BasicDiseaseInfo disease={disease} />
-        </Subsection>
-
-        <Subsection title='Associations'>
-          <DiseasePageAssociationsTable id={disease.doId} />
-        </Subsection>
-      </div>
+          <Subsection title='Associations'>
+            <DiseasePageAssociationsTable id={disease.doId} />
+          </Subsection>
+        </PageData>
+      </DataPage>
     );
   }
 }
@@ -93,7 +104,9 @@ DiseasePage.propTypes = {
   dispatch: PropTypes.func,
   error: PropTypes.string,
   loading: PropTypes.bool,
-  params: PropTypes.object,
+  match: PropTypes.shape({
+    params: PropTypes.object,
+  }).isRequired,
 };
 
 // Ideally, the toJS() calls should be removed here for performance reasons.

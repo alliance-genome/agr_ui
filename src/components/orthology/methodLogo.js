@@ -1,33 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { UncontrolledTooltip } from 'reactstrap';
 import { ALL_METHODS, methodHeaderCellStyle } from './constants';
 
 const MethodLogo = ({methodKey}) => {
   const methodName = ALL_METHODS[methodKey] ?
     (ALL_METHODS[methodKey].displayName || ALL_METHODS[methodKey].name) : methodKey;
-
-  const tooltip = (
-    <Tooltip
-      className="in"
-      id="tooltip-bottom"
-      placement="bottom"
-    >
-    {
-      methodName
-    }
-    </Tooltip>
-  );
-
+  const id = 'methodLogo-' + methodKey.replace(/\s/g, '-');
   return (
-    <OverlayTrigger
-      delayHide={150}
-      delayShow={300}
-      overlay={tooltip}
-      placement="top"
-    >
-      <span style={methodHeaderCellStyle}>{methodName}</span>
-    </OverlayTrigger>
+    <span>
+      <span id={id} style={methodHeaderCellStyle}>{methodName}</span>
+      <UncontrolledTooltip delay={{hide: 150, show: 300}} placement='top' target={id}>
+        {methodName}
+      </UncontrolledTooltip>
+    </span>
   );
 };
 

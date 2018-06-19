@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import style from './style.css';
+import style from './style.scss';
 import HeadMetaTags from '../../components/headMetaTags';
 import LoadingPage from '../../components/loadingPage';
 import SecondaryNav from './secondaryNav';
@@ -13,6 +13,7 @@ import {
   selectLoading,
   selectPage
 } from '../../selectors/wordpressSelectors';
+import NotFound from '../../components/notFound';
 
 class WordpressPage extends Component {
   componentDidMount() {
@@ -20,25 +21,25 @@ class WordpressPage extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.params.slug !== prevProps.params.slug) {
+    if (this.props.slug !== prevProps.slug) {
       this.fetchPage();
     }
   }
 
   fetchPage() {
-    const { dispatch, params } = this.props;
-    dispatch(fetchWordpressPage(params.slug));
+    const { dispatch, slug } = this.props;
+    dispatch(fetchWordpressPage(slug));
   }
 
   render() {
-    const { loading, page } = this.props;
+    const { loading, page, slug } = this.props;
 
     if (loading) {
       return <LoadingPage />;
     }
 
     if (!page) {
-      return null;
+      return <NotFound />;
     }
 
     const title = page.title.rendered;
@@ -46,7 +47,7 @@ class WordpressPage extends Component {
     return (
       <div className={style.wordPressContainer}>
         <HeadMetaTags title={title} />
-        <SecondaryNav id={page.id} parent={parentId} title={title} type='page' />
+        {slug !== 'home' && <SecondaryNav parent={parentId} title={title} type='page' />}
         <div dangerouslySetInnerHTML={{ __html: page.content.rendered}} />
       </div>
     );
@@ -57,7 +58,7 @@ WordpressPage.propTypes = {
   dispatch: PropTypes.func,
   loading: PropTypes.bool,
   page: PropTypes.object,
-  params: PropTypes.object,
+  slug: PropTypes.string,
 };
 
 const mapStateToProps = (state) => {

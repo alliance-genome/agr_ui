@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import ReferenceCell from './referenceCell';
 import { LocalDataTable } from '../../components/dataTable';
 import { GeneticEntityCell, DiseaseNameCell, EvidenceCodesCell } from '.';
+import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
 
 class GenePageDiseaseTable extends Component {
 
@@ -14,7 +15,6 @@ class GenePageDiseaseTable extends Component {
     let data = [];
     diseases.forEach((disease) => {
       disease.annotations.forEach((annotation) => {
-
         data.push({
           name: disease.name,
           doId: disease.doId,
@@ -27,9 +27,7 @@ class GenePageDiseaseTable extends Component {
         });
       });
     });
-    data.sort((a, b) => {
-      return a.name.toUpperCase().localeCompare(b.name.toUpperCase());
-    });
+    data.sort(compareAlphabeticalCaseInsensitive(row => row.name));
 
     const refsText = (refs) => {
       return refs.map(ref => ref.pubMedId || ref.pubModId || '').join(', ');
@@ -43,7 +41,7 @@ class GenePageDiseaseTable extends Component {
         isKey: true,
         sortable: true,
         filterable: true,
-        width: '15%',
+        width: '150px',
       },
       {
         field: 'entityName',
@@ -52,21 +50,21 @@ class GenePageDiseaseTable extends Component {
         sortable: true,
         filterable: true,
         asText: (featureDocument) => featureDocument ? featureDocument.symbol : '',
-        width: '22%',
+        width: '185px',
       },
       {
         field: 'entityCategory',
         label: 'Genetic Entity Type',
         sortable: true,
         filterable: true,
-        width: '13%',
+        width: '110px',
       },
       {
         field: 'associationType',
         label: 'Association',
         sortable: true,
         filterable: true,
-        width: '15%',
+        width: '110px',
       },
       {
         field: 'publications',
@@ -75,14 +73,14 @@ class GenePageDiseaseTable extends Component {
         asText: EvidenceCodesCell,
         sortable: true,
         filterable: true,
-        width: '10%',
+        width: '75px',
       },
       {
         field: 'dataProvider',
         label: 'Source',
         sortable: true,
         filterable: true,
-        width: '8%'
+        width: '75px',
       },
       {
         field: 'refs',
@@ -91,7 +89,7 @@ class GenePageDiseaseTable extends Component {
         asText: refsText,
         sortable: true,
         filterable: true,
-        width: '17%',
+        width: '150px',
       }
     ];
 

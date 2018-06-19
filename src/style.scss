@@ -1,0 +1,27 @@
+@import "theme";
+@import "mixins";
+@import "~bootstrap/scss/bootstrap";
+
+.react-bs-table table, .table {
+  margin-bottom: 0;
+
+  td, th {
+    white-space: normal;
+    text-overflow: clip;
+  }
+
+  th {
+    border-top: none;
+  }
+}
+
+.react-bs-table {
+  overflow-x: auto;
+  >div {
+    overflow: visible;
+  }
+  th {
+    vertical-align: bottom !important;
+  }
+  @include webkit-scrollbar;
+}

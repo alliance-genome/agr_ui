@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 
-import style from './style.css';
-import { MENU_IDS, WORDPRESS_PAGES } from './../../constants';
+import style from './style.scss';
+import { NAV_MENU } from '../../constants';
 
 class SecondaryNav extends Component {
   getStyle (menuCat) {
     switch (menuCat) {
-    case 'home':
+    case '/':
       return style.homeMenuContainer;
-    case 'about-us':
+    case '/about-us':
       return style.aboutMenuContainer;
-    case 'contact-us':
+    case '/contact-us':
       return style.contactMenuContainer;
-    case 'projects-work-products-publications':
+    case '/projects-work-products-publications':
       return style.projectsMenuContainer;
     case 'post':
       return style.postMenuContainer;
@@ -22,39 +21,20 @@ class SecondaryNav extends Component {
   }
 
   render () {
-    let container = [];
-    let pageTitle = this.props.title;
-    let pageId = this.props.id;
-    let parentId = this.props.parent;
+    const { parent, title, type } = this.props;
+    const parentPage = NAV_MENU.find(page => page.wordpressId === parent);
 
-    let menuCat = (this.props.type === 'post') ? 'post' : MENU_IDS[this.props.parent];
+    let menuCat = (type === 'post') ? 'post' : (parentPage.route || '/');
     let menuContainer = this.getStyle(menuCat);
 
-    container.push(<Link key='home' to='/home'>Home </Link>);
-    if (this.props.type === 'post') {
-      container.push(<Link key='posts' to='/posts'> /News</Link>);
-    }
-    else {
-      if (menuCat === 'home') {
-        return (<div />);
-      }
-      let parent = MENU_IDS[parentId];
-      let parentLabel = WORDPRESS_PAGES[parent].label;
-      container.push(<Link key={parentLabel} to={`/${parent}`}> /{parentLabel}/</Link>);
-      if (parentId !== pageId) {
-        container.push(<span dangerouslySetInnerHTML={{__html: pageTitle}} key='title' />);
-      }
-
-    }
     return (
-      <div className={menuContainer}>
-        <div className='container-fluid'>
-          <div className={style.secondaryNavEmptyRow} />
-          <div className={`row ${style.secondaryNav}`}>
-            <div className='container'>
-              <div className='col-xs-12 col-sm-4'>{container} </div>
-              <div className='col-xs-12 col-sm-8 text-xs-right'>
-                <h1 dangerouslySetInnerHTML={{__html: pageTitle}} />
+      <div>
+        <div className={menuContainer}>
+          <div className='container-fluid'>
+            <div className={style.secondaryNavEmptyRow} />
+            <div className={`row ${style.secondaryNav}`}>
+              <div className='container'>
+                <h1 dangerouslySetInnerHTML={{__html: title}} />
               </div>
             </div>
           </div>
@@ -65,7 +45,6 @@ class SecondaryNav extends Component {
 }
 
 SecondaryNav.propTypes = {
-  id: PropTypes.number,
   parent: PropTypes.number,
   title: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,

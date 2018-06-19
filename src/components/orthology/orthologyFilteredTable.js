@@ -5,8 +5,10 @@
 */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Collapse } from 'react-bootstrap';
+import { Collapse } from 'reactstrap';
 import OrthologyTable from './orthologyTable';
+import HorizontalScroll from '../horizontalScroll';
+import NoData from '../noData';
 
 const caseInsensitiveCompare = (stringA, stringB) => {
   const stringALowerCase = stringA.toLowerCase();
@@ -178,14 +180,14 @@ class OrthologyFilteredTable extends Component {
 
     return (
       <div>
-        <div className="card card-block" style={{margin: '0.5em 0'}}>
+        <div className="card card-body" style={{margin: '0.5em 0'}}>
           <div>
             <span>Stringency:</span>
             {this.renderStringencyOption('high', 'Stringent filter (default)')}
             {this.renderStringencyOption('moderate', 'Moderate filter')}
             {this.renderStringencyOption('low', 'No filter / Show all')}
           </div>
-          <Collapse in={this.state.showFilterPanel}>
+          <Collapse isOpen={this.state.showFilterPanel}>
             <div>
               <span style={docTextStyle}>Additional filters to further constrain the results:</span>
               <div style={{display: 'flex', flexDirection: 'column', marginLeft: '-0.5em'}}>
@@ -270,7 +272,7 @@ class OrthologyFilteredTable extends Component {
               type="button"
             >{`${this.state.showFilterPanel ? 'Hide' : 'Show'} additional filters`}</button>
             <button
-              className="btn btn-secondary"
+              className="btn btn-outline-secondary"
               onClick={() => this.resetFilters()}
               style={buttonStyle}
               type="button"
@@ -278,11 +280,13 @@ class OrthologyFilteredTable extends Component {
           </div>
         </div>
 
-        <div style={{marginTop: -40}}>
+        <div style={{marginBottom: '1rem'}}>
           {
             filteredData.length > 0 ?
-            <OrthologyTable data={filteredData} /> :
-            <i className="text-muted">No ortholog matching your filter. Please try a less stringent filter.</i>
+              <HorizontalScroll width={800}>
+                <OrthologyTable data={filteredData} />
+              </HorizontalScroll> :
+              <NoData>No ortholog matching your filter. Please try a less stringent filter.</NoData>
           }
         </div>
       </div>

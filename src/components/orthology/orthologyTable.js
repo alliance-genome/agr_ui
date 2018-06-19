@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import MethodHeader from './methodHeader';
 import MethodCell from './methodCell';
 import BooleanCell from './booleanCell';
@@ -51,8 +51,7 @@ class OrthologyTable extends Component {
                 return (<MethodHeader key={column.name} name={column.name} />);
               } else {
                 return (<th key={column.name}>
-                  {column.name}
-                  {column.help && <HelpIcon iconKey={`help-${column.name}`} text={column.help} />}
+                  {column.name}{column.help && <HelpIcon iconKey={`help-${column.name}`} text={column.help} />}
                 </th>);
               }
             })
@@ -74,8 +73,9 @@ class OrthologyTable extends Component {
 
             const rowStyle = getSpeciesOrderScore(orthData.gene2SpeciesName, speciesOrder) % 2 === 0 ?
               {backgroundColor: '#eee'} : {};
+            const key = orthData.gene2AgrPrimaryId;
             return (
-              <tr key={`${orthData.gene2AgrPrimaryId}`} style={rowStyle} >
+              <tr key={key} style={rowStyle} >
                 <td style={{fontStyle: 'italic'}}>{orthData.gene2SpeciesName}</td>
                 <td>
                   <Link to={`/gene/${orthData.gene2AgrPrimaryId}`}>{orthData.gene2Symbol}</Link>
@@ -92,6 +92,7 @@ class OrthologyTable extends Component {
                 <MethodCell
                   predictionMethodsMatched={orthData.predictionMethodsMatched}
                   predictionMethodsNotMatched={orthData.predictionMethodsNotMatched}
+                  rowKey={key}
                 />
               </tr>
             );
