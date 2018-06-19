@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import {
   Carousel,
@@ -9,23 +10,35 @@ import {
 
 const items = [
   {
-    src: 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15ba800aa1d%20text%20%7B%20fill%3A%23555%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15ba800aa1d%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22285.921875%22%20y%3D%22218.3%22%3EFirst%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E',
-    altText: 'Slide 1',
-    caption: 'Slide 1'
+    background: 'https://i0.wp.com/alliancegenome.files.wordpress.com/2016/11/banner1.jpg',
+    logo: 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner_1_flyin_logo.png',
+    altText: 'Slide 1 altText',
+    captionHeader: 'The Gene Ontology Consortium and Six Model Organism Databases have joined together to form the Alliance of Genome Resources',
+    captionText: 'MORE INFORMATION',
+    className: 'slide1',
+    link: '/about-us',
   },
   {
-    src: 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15ba800aa20%20text%20%7B%20fill%3A%23444%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15ba800aa20%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23666%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22247.3203125%22%20y%3D%22218.3%22%3ESecond%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E',
-    altText: 'Slide 2',
-    caption: 'Slide 2'
+    background: 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner2.jpg',
+    logo: '',
+    altText: 'Slide 2 altText',
+    captionHeader: 'Have questions about the Alliance of Genome Resources?',
+    captionText: 'CONTACT US',
+    className: 'slide2',
+    link: '/contact-us',
   },
   {
-    src: 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15ba800aa21%20text%20%7B%20fill%3A%23333%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15ba800aa21%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23555%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22277%22%20y%3D%22218.3%22%3EThird%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E',
-    altText: 'Slide 3',
-    caption: 'Slide 3'
+    background: 'https://i2.wp.com/alliancegenome.files.wordpress.com/2016/11/banner3.jpg',
+    logo: '',
+    altText: 'Slide 3 altText',
+    captionHeader: 'The Alliance Orthology Working Group is developing a gold standard set of orthologs to support comparative genomics across multiple model organisms.\n',
+    captionText: 'CLICK HERE FOR MORE INFO',
+    className: 'slide3',
+    link: '/orthology',
   }
 ];
 
-class Example extends Component {
+class Homepage extends Component {
   constructor(props) {
     super(props);
     this.state = { activeIndex: 0 };
@@ -47,50 +60,171 @@ class Example extends Component {
   next() {
     if (this.animating) return;
     const nextIndex = this.state.activeIndex === items.length - 1 ? 0 : this.state.activeIndex + 1;
+    /*eslint-disable next-line*/
     this.setState({ activeIndex: nextIndex });
   }
 
   previous() {
     if (this.animating) return;
     const nextIndex = this.state.activeIndex === 0 ? items.length - 1 : this.state.activeIndex - 1;
+    /*eslint-disable next-line*/
     this.setState({ activeIndex: nextIndex });
   }
 
   goToIndex(newIndex) {
     if (this.animating) return;
+    /*eslint-disable next-line*/
     this.setState({ activeIndex: newIndex });
   }
 
   render() {
     const { activeIndex } = this.state;
 
-    const slides = items.map((item) => {
+    const slides = items.map((item, idx) => {
       return (
         <CarouselItem
+          className="custom-tag"
+          key={idx}
+          /*eslint-disable next-line*/
           onExiting={this.onExiting}
+          /*eslint-disable next-line*/
           onExited={this.onExited}
-          key={item.src}
         >
-          <img src={item.src} alt={item.altText} />
-          <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
+          <img className='logo-img' src={item.logo} />
+          <img className='slide-background' src={item.background} alt={item.altText} />
+
+          <a href={item.link}>
+            <CarouselCaption
+              className={item.className}
+              captionText={item.captionText}
+              captionHeader={item.captionHeader}
+            />
+          </a>
+
         </CarouselItem>
       );
     });
 
     return (
+      <div>
+      <style>
+        {
+            `.custom-tag {
+              width: 100%;
+              max-height: 312px;
+              margin:auto;
+            }
+
+            .logo-img {
+              top: 5%;
+              width: 25%;
+              position: absolute;
+              left: 15%;
+              float: left;
+            }
+
+            .slide-background {
+              width: 100%;
+              height: 100%;
+            }
+
+            .captionStyle{
+              width: 30%;
+              position: absolute;
+              top: 30%;
+              left: 55%;
+              color: #2598c5;
+            }
+            .carousel-caption{
+              left:50%;
+            }
+           `
+        }
+
+      </style>
+
       <Carousel
         activeIndex={activeIndex}
         next={this.next}
         previous={this.previous}
       >
-        <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
+
+        <CarouselIndicators activeIndex={activeIndex} items={items} onClickHandler={this.goToIndex} />
         {slides}
+
         <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />
         <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
+
       </Carousel>
+
+
+      <div style={{padding: '3rem'}} >
+        <div className="container">
+          <div>
+            <h2><span >MISSION STATEMENT</span></h2>
+          </div>
+          <p >The primary mission of the Alliance of Genome Resources (the Alliance) is to develop
+            and maintain sustainable genome information resources that facilitate the use of diverse model organisms
+            in understanding the genetic and genomic basis of human biology, health and disease. This understanding is
+            fundamental for advancing genome biology research and for translating human genome data into clinical
+            utility.</p>
+        </div>
+      </div>
+
+      <div style={{background: '#F6F6F6', color: '#333', padding: '1rem'}}>
+        <div className="container">
+          <div className="row">
+            <div className="col-xs-12 col-12 col-sm-4 ">
+              <h3><span >ALLIANCE FOUNDING MEMBER SITES</span></h3>
+              <p>The founding members of the Alliance of Genome Resources are: FlyBase, Mouse Genome Database (MGD),
+                the Gene Ontology Consortium (GOC), Saccharomyces Genome Database (SGD), Rat Genome Database (RGD),
+                WormBase, and the Zebrafish Information Network (ZFIN).</p>
+            </div>
+
+            <div className="col-xs-12 col-12 col-sm-8">
+              <div className="row" >
+                <div className="col-xs-3 col-3"><a href="http://www.wormbase.org/">
+                  <img alt="WormBase" className="img-fluid"
+                       src="https://alliancegenome.files.wordpress.com/2016/11/logo_wormbase.png" title="WormBase" />
+                </a></div>
+                <div className="col-xs-3 col-3"><a href="https://zfin.org/">
+                  <img alt="Zfin" className="img-fluid"
+                       src="https://alliancegenome.files.wordpress.com/2016/11/logo_zfin.png" title="ZFIN" />
+                </a></div>
+                <div className="col-xs-3 col-3"><a href="http://www.geneontology.org">
+                  <img alt="Gene Ontology" className="img-fluid"
+                       src="https://alliancegenome.files.wordpress.com/2016/11/logo_goc.png" title="Gene Ontology" />
+                </a></div>
+                <div className="col-xs-3 col-3"><a href="http://www.informatics.jax.org/">
+                  <img alt="MGD" className="img-fluid"
+                       src="https://alliancegenome.files.wordpress.com/2016/11/logo_rgd.png" title="MGD" />
+                </a></div>
+              </div>
+
+              <div className="row">
+                <div className="col-xs-3 col-3"><a href="http://flybase.org/">
+                  <img alt="FlyBase" className="img-fluid"
+                       src="https://alliancegenome.files.wordpress.com/2016/11/logo_flybase.png" title="FlyBase" />
+                </a></div>
+                <div className="col-xs-3 col-3"><a href="http://rgd.mcw.edu/">
+                  <img alt="RGD" className="img-fluid"
+                       src="https://alliancegenome.files.wordpress.com/2016/11/logo_mgd.png" title="RGD" />
+                </a></div>
+                <div className="col-xs-3 col-3"><a href="http://www.yeastgenome.org/">
+                  <img alt="SGD" className="img-fluid"
+                       src="https://alliancegenome.files.wordpress.com/2016/11/logo_sgd.png" title="SGD" />
+                </a></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
     );
   }
 }
 
 
-export default Example;
+export default Homepage;
