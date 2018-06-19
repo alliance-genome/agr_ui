@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import style from './style.css';
+import style from './style.scss';
 import { selectIsPending } from '../../../selectors/searchSelectors';
 
 const FINISH_INTERVAL = 250;

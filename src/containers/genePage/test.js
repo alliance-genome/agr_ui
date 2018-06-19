@@ -2,20 +2,25 @@ import assert from 'assert';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
-import { createMemoryHistory } from 'react-router';
+import { MemoryRouter as Router } from 'react-router-dom';
 
 import configureStore from '../../lib/configureStore';
 
 import GenePage from './index';
 
-let historyObj = createMemoryHistory('/gene/WBGene00197647');
-
 describe('GenePage', () => {
   it('should be able to render to an HTML string', () => {
-    let store = configureStore(historyObj);
+    let store = configureStore();
+    const match = {
+      params: {
+        geneId: 'WBGene00197647'
+      }
+    };
     let htmlString = renderToString(
       <Provider store={store}>
-        <GenePage params={{geneId: 'WBGene00197647'}} />
+        <Router>
+          <GenePage match={match} />
+        </Router>
       </Provider>
     );
     assert.equal(typeof htmlString, 'string');

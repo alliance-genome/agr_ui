@@ -1,36 +1,41 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-//import { Link } from 'react-router';
 
-import style from './style.css';
-import SubMenu from './subMenu';
-import { MENU, WORDPRESS_PAGES, WORDPRESS_PATH, WORDPRESS_POST_PATH } from '../../constants';
-
-const HOME_ROUTE = '/home';
+import style from './style.scss';
+import { NAV_MENU } from '../../constants';
+import { Link } from 'react-router-dom';
 
 class NavLinksContainer extends Component {
   render() {
-    let container=[];
-    for(var index in MENU){
-      let page=MENU[index];
-      let page_path=(page==='news')?WORDPRESS_POST_PATH:WORDPRESS_PATH;
-      let page_url=page_path+'/'+WORDPRESS_PAGES[page].slug;
-      if (page_url === HOME_ROUTE) page_url = '/';
-      let page_label=WORDPRESS_PAGES[page].label;
-      let link_token=[];
-      link_token.push(<a className={`nav-link ${style.navLink}`} href={page_url} key={index}>{page_label}</a>);
-      container.push(
-        <div className={style.navContainer} key={index}>
-          {link_token}
-          <SubMenu key={index} path={page} />
-         </div>);
-    }
     return (
-      <div className={this.props.type}>{container}</div>
+      <div className={this.props.type}>
+        {
+          NAV_MENU.map(page => (
+            <div className={style.navContainer} key={page.route}>
+              <Link className={`nav-link ${style.navLink}`} to={page.route}>
+                {page.label}
+              </Link>
+              <div className={style.sub_nav}>
+                <ul className='list-unstyled'>
+                  {page.sub && page.sub.map(sub => (
+                    <li className={style.subMenuListItem} key={sub.route}>
+                      <Link className={style.sub_nav_link} to={sub.route}>
+                        {sub.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))
+        }
+      </div>
     );
   }
 }
+
 NavLinksContainer.propTypes={
   type: PropTypes.string,
 };
+
 export default NavLinksContainer;

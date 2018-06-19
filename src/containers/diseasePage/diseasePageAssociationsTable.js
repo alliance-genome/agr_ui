@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import {
@@ -54,7 +54,7 @@ class DiseasePageAssociationsTable extends Component {
 
   handlePageChange(page, size) {
     const { currentPage, dispatch, id, sortOrder, sortName } = this.props;
-    if (page != currentPage) {
+    if (page !== currentPage) {
       dispatch(setCurrentPage(page));
       dispatch(fetchAssociations(id, page, size, sortName, sortOrder));
     }
@@ -94,57 +94,57 @@ class DiseasePageAssociationsTable extends Component {
         label: 'Gene',
         format: this.renderGeneLink,
         sortable: true,
-        width: '7%',
+        width: '90px',
       },
       {
         field: 'disease_species',
         label: 'Species',
         format: (species) => <i>{species.name}</i>,
         sortable: true,
-        width: '10%',
+        width: '105px',
       },
       {
         field: 'featureDocument',
         label: 'Genetic Entity',
         format: GeneticEntityCell,
-        width: '15%',
+        width: '185px',
       },
       {
         field: 'featureDocument',
         label: 'Genetic Entity Type',
         format: (feature) => feature && feature.category,
-        width: '7%',
+        width: '90px',
       },
       {
         field: 'associationType',
         label: 'Association Type',
         format: (type) => type.replace(/_/g, ' '),
-        width: '10%',
+        width: '110px',
       },
       {
         field: 'diseaseName',
         label: 'Disease',
         format: this.renderDiseaseName,
         sortable: true,
-        width: '10%',
+        width: '120px',
       },
       {
         field: 'publications',
         label: 'Evidence Code',
         format: EvidenceCodesCell,
-        width: '5%',
+        width: '75px',
       },
       {
         field: 'source',
         label: 'Source',
         format: (s) => <ExternalLink href={s.diseaseUrl}>{s.name}</ExternalLink>,
-        width: '7%',
+        width: '65px',
       },
       {
         field: 'publications',
         label: 'References',
         format: ReferenceCell,
-        width: '15%',
+        width: '150px',
       },
     ];
 

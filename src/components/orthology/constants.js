@@ -80,6 +80,7 @@ const methodCellStyle = {
   display: 'inline-block',
   textAlign: 'center',
   lineHeight: '20px',
+  cursor: 'default',
 };
 
 const methodHeaderCellStyle = {

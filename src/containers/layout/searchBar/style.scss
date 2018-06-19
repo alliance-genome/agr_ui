@@ -1,3 +1,5 @@
+@import "../../../theme";
+
 .container {
 	float: left;
 	width: 100%;
@@ -28,18 +30,15 @@
 }
 
 .autoContainer {
-	display: inline-block;
-	position: relative;
-	top: 0px;
+	flex-grow: 1;
+  position: relative;
 }
 
 .autoInput {
-	border: solid 1px #ccc;
-  padding: 6px;
-  padding-bottom: 10px;
-  width: 100%;
   height: 3rem;
-  min-width: 50px;
+  padding: 0 5px;
+  width: 100%;
+  border: 1px solid $secondary;
 }
 
 .searchBtns{
@@ -53,9 +52,10 @@
 .suggestionsContainer {
 	position: absolute;
 	background: white;
-	border-top: none;
 	border-radius: 0 0 0.25rem 0.25rem;
-	width: 100%;
+  border: 1px solid $secondary;
+  border-top-width: 0;
+  width: 100%;
 	z-index: 1;
 }
 
@@ -87,12 +87,6 @@
 	background: #E8F2FE;
 }
 
-
-.searchBtn {
-	display: inline-block;
-	border-radius: 0 0.25rem 0.25rem 0;
-}
-
 .search .fa-search {
   position: absolute;
   top: 10px;
@@ -103,28 +97,6 @@
   border: 1px solid #cccccc;
 }
 
-.navbar-custom .formSearch {
+.searchForm {
   width: 300px;
-  float: left;
-  display: block;
-  position: absolute;
-  padding-top: 7px;
-  margin-left: 160px;
 }
-@media (max-width: 767px) {
-  .navbar-custom .formSearch {
-    padding-left: 15px;
-    width: 70%;
-    margin-left: 0;
-  }
-  .navbar-custom .navbar-collapse {
-    background: #f5f5f5;
-  }
-}
-
-
-
-
-
-
-

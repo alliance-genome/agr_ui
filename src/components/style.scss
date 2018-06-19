@@ -1,3 +1,5 @@
+@import "../mixins";
+
 .externalLink:after {
   font-family: FontAwesome;
   content: "\f08e";
@@ -22,19 +24,30 @@
 }
 
 .subsection {
-  margin-top: 1rem;
   margin-bottom: 4rem;
   clear: left;
-}
+  position: relative;
 
-.subsection > h3 {
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 8px;
-}
+  h3 {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+  }
 
-.toggleLink {
-  padding: 0 0.5rem;
-  vertical-align: baseline;
+  .target {
+    display: block;
+    visibility: hidden;
+    position: absolute;
+    top: -1rem;
+    bottom: 0;
+    width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    .target {
+      top: -125px;
+      bottom: 125px;
+    }
+  }
 }
 
 .fadeInAndOut {
@@ -105,4 +118,34 @@
 
 .axis {
   font: 14px sans-serif;
+}
+
+.commaSeparatedList {
+  display: inline;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    display: inline;
+  }
+
+  li:after {
+    content: ", ";
+  }
+
+  li:last-of-type:after {
+    content: "";
+  }
+}
+
+.hScrollOuter {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  position: relative;
+  height: 100%;
+  -webkit-overflow-scrolling: touch;
+
+  @include webkit-scrollbar;
 }

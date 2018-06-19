@@ -1,6 +1,6 @@
 import React from 'react';
 
-import style from './style.css';
+import style from './style.scss';
 
 const SpeciesIcon = ({species, small, iconClass}) => {
   if (!species) {
@@ -18,7 +18,7 @@ const SpeciesIcon = ({species, small, iconClass}) => {
     classes.push(iconClass);
   }
   return speciesClass && (
-    <div className={classes.join(' ')} />
+    <span className={classes.join(' ')} />
   );
 };
 

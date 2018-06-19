@@ -1,0 +1,19 @@
+.topnav {
+  padding: 0;
+
+  a {
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+    margin-right: 1em;
+    &:hover,
+    &.active {
+      border-bottom: 3px solid #f1ad4d;
+    }
+  }
+
+  .inner {
+    @media (max-width: 768px) {
+      padding: 1rem;
+    }
+  }
+}
