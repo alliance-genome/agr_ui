@@ -4,7 +4,6 @@ import {
   Carousel,
   CarouselItem,
   CarouselControl,
-  CarouselIndicators,
   CarouselCaption
 } from 'reactstrap';
 
@@ -138,7 +137,6 @@ class Homepage extends Component {
         previous={this.previous}
       >
 
-        <CarouselIndicators activeIndex={activeIndex} items={items} onClickHandler={this.goToIndex} />
         {slides}
 
         <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />
