@@ -1,4 +1,5 @@
-/* eslint-disable */
+/* eslint-disable react/no-set-state */
+
 import React, { Component } from 'react';
 import {
   Carousel,
@@ -35,28 +36,28 @@ class Homepage extends Component {
   constructor(props) {
     super(props);
     this.state = { activeIndex: 0 };
-    this.next = this.next.bind(this);
-    this.previous = this.previous.bind(this);
+    this.handleNext = this.handleNext.bind(this);
+    this.handlePrevious = this.handlePrevious.bind(this);
     this.goToIndex = this.goToIndex.bind(this);
-    this.onExiting = this.onExiting.bind(this);
-    this.onExited = this.onExited.bind(this);
+    this.handleOnExiting = this.handleOnExiting.bind(this);
+    this.handleOnExited = this.handleOnExited.bind(this);
   }
 
-  onExiting() {
+  handleOnExiting() {
     this.animating = true;
   }
 
-  onExited() {
+  handleOnExited() {
     this.animating = false;
   }
 
-  next() {
+  handleNext() {
     if (this.animating) return;
     const nextIndex = this.state.activeIndex === items.length - 1 ? 0 : this.state.activeIndex + 1;
     this.setState({ activeIndex: nextIndex });
   }
 
-  previous() {
+  handlePrevious() {
     if (this.animating) return;
     const nextIndex = this.state.activeIndex === 0 ? items.length - 1 : this.state.activeIndex - 1;
     this.setState({ activeIndex: nextIndex });
@@ -75,17 +76,17 @@ class Homepage extends Component {
         <CarouselItem
           className="custom-tag"
           key={idx}
-          onExiting={this.onExiting}
-          onExited={this.onExited}
+          onExited={this.handleOnExited}
+          onExiting={this.handleOnExiting}
         >
           <img className='logo-img' src={item.logo} />
-          <img className='slide-background' src={item.background} alt={item.altText} />
+          <img alt={item.altText} className='slide-background' src={item.background} />
 
           <a href={item.link}>
             <CarouselCaption
-              className={item.className}
-              captionText={item.captionText}
               captionHeader={item.captionHeader}
+              captionText={item.captionText}
+              className={item.className}
             />
           </a>
 
@@ -139,8 +140,8 @@ class Homepage extends Component {
 
         {slides}
 
-        <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />
-        <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
+        <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.handlePrevious} />
+        <CarouselControl direction="next" directionText="Next" onClickHandler={this.handleNext} />
 
       </Carousel>
 
@@ -154,7 +155,8 @@ class Homepage extends Component {
             and maintain sustainable genome information resources that facilitate the use of diverse model organisms
             in understanding the genetic and genomic basis of human biology, health and disease. This understanding is
             fundamental for advancing genome biology research and for translating human genome data into clinical
-            utility.</p>
+            utility.
+          </p>
         </div>
       </div>
 
@@ -165,42 +167,50 @@ class Homepage extends Component {
               <h3><span >ALLIANCE FOUNDING MEMBER SITES</span></h3>
               <p>The founding members of the Alliance of Genome Resources are: FlyBase, Mouse Genome Database (MGD),
                 the Gene Ontology Consortium (GOC), Saccharomyces Genome Database (SGD), Rat Genome Database (RGD),
-                WormBase, and the Zebrafish Information Network (ZFIN).</p>
+                WormBase, and the Zebrafish Information Network (ZFIN).
+              </p>
             </div>
 
             <div className="col-xs-12 col-12 col-sm-8">
               <div className="row" >
-                <div className="col-xs-3 col-3"><a href="http://www.wormbase.org/">
-                  <img alt="WormBase" className="img-fluid"
-                       src="https://alliancegenome.files.wordpress.com/2016/11/logo_wormbase.png" title="WormBase" />
-                </a></div>
-                <div className="col-xs-3 col-3"><a href="https://zfin.org/">
-                  <img alt="Zfin" className="img-fluid"
-                       src="https://alliancegenome.files.wordpress.com/2016/11/logo_zfin.png" title="ZFIN" />
-                </a></div>
-                <div className="col-xs-3 col-3"><a href="http://www.geneontology.org">
-                  <img alt="Gene Ontology" className="img-fluid"
-                       src="https://alliancegenome.files.wordpress.com/2016/11/logo_goc.png" title="Gene Ontology" />
-                </a></div>
-                <div className="col-xs-3 col-3"><a href="http://www.informatics.jax.org/">
-                  <img alt="MGD" className="img-fluid"
-                       src="https://alliancegenome.files.wordpress.com/2016/11/logo_rgd.png" title="MGD" />
-                </a></div>
+                <div className="col-xs-3 col-3">
+                  <a href="http://www.wormbase.org/">
+                    <img alt="WormBase" className="img-fluid" src="https://alliancegenome.files.wordpress.com/2016/11/logo_wormbase.png" title="WormBase" />
+                  </a>
+                </div>
+                <div className="col-xs-3 col-3">
+                  <a href="https://zfin.org/">
+                    <img alt="Zfin" className="img-fluid" src="https://alliancegenome.files.wordpress.com/2016/11/logo_zfin.png" title="ZFIN" />
+                  </a>
+                </div>
+                <div className="col-xs-3 col-3">
+                  <a href="http://www.geneontology.org">
+                    <img alt="Gene Ontology" className="img-fluid" src="https://alliancegenome.files.wordpress.com/2016/11/logo_goc.png" title="Gene Ontology" />
+                  </a>
+                </div>
+                <div className="col-xs-3 col-3">
+                  <a href="http://www.informatics.jax.org/">
+                    <img alt="MGD" className="img-fluid" src="https://alliancegenome.files.wordpress.com/2016/11/logo_rgd.png" title="MGD" />
+                  </a>
+                </div>
               </div>
 
               <div className="row">
-                <div className="col-xs-3 col-3"><a href="http://flybase.org/">
-                  <img alt="FlyBase" className="img-fluid"
-                       src="https://alliancegenome.files.wordpress.com/2016/11/logo_flybase.png" title="FlyBase" />
-                </a></div>
-                <div className="col-xs-3 col-3"><a href="http://rgd.mcw.edu/">
-                  <img alt="RGD" className="img-fluid"
-                       src="https://alliancegenome.files.wordpress.com/2016/11/logo_mgd.png" title="RGD" />
-                </a></div>
-                <div className="col-xs-3 col-3"><a href="http://www.yeastgenome.org/">
-                  <img alt="SGD" className="img-fluid"
-                       src="https://alliancegenome.files.wordpress.com/2016/11/logo_sgd.png" title="SGD" />
-                </a></div>
+                <div className="col-xs-3 col-3">
+                  <a href="http://flybase.org/">
+                    <img alt="FlyBase" className="img-fluid" src="https://alliancegenome.files.wordpress.com/2016/11/logo_flybase.png" title="FlyBase" />
+                  </a>
+                </div>
+                <div className="col-xs-3 col-3">
+                  <a href="http://rgd.mcw.edu/">
+                    <img alt="RGD" className="img-fluid" src="https://alliancegenome.files.wordpress.com/2016/11/logo_mgd.png" title="RGD" />
+                  </a>
+                </div>
+                <div className="col-xs-3 col-3">
+                  <a href="http://www.yeastgenome.org/">
+                    <img alt="SGD" className="img-fluid" src="https://alliancegenome.files.wordpress.com/2016/11/logo_sgd.png" title="SGD" />
+                  </a>
+                </div>
               </div>
 
             </div>
