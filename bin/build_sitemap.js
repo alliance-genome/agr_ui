@@ -4,14 +4,14 @@ var sm = require('sitemap'), fs = require('fs');
 
 var sitemapindex = sm.buildSitemapIndex({
     urls: [
-          'http://www.alliancegenome.org/main-sitemap.xml'
+          'https://www.alliancegenome.org/main-sitemap.xml'
     ]
 });
 
 fs.writeFileSync("dist/sitemap.xml", sitemapindex.toString());
 
 var sitemap = sm.createSitemap({
-    hostname: 'http://www.alliancegenome.org',
+    hostname: 'https://www.alliancegenome.org',
     urls: [
         { url: '/' ,             changefreq: 'monthly', priority: 0.1, lastmodrealtime: true },
         { url: '/about-us',         changefreq: 'monthly', priority: 0.8, lastmodrealtime: true },
