@@ -6,6 +6,7 @@ import {
   WordpressPostList,
   WordpressPost,
 } from './containers/wordpress';
+import Homepage from './containers/homepage';
 import Layout from './containers/layout';
 import Search from './containers/search';
 import GenePage from './containers/genePage';
@@ -20,7 +21,7 @@ export default (
         <Switch>
           <Route component={
             () => (
-              <WordpressPage slug='home' />
+              <Homepage />
             )} exact path='/'
           />
           <Route component={Search} path='/search' />
