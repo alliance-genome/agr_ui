@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import style from './style.scss';
-import Carousel from '../../components/carousel';
 import HeadMetaTags from '../../components/headMetaTags';
 import LoadingPage from '../../components/loadingPage';
 import SecondaryNav from './secondaryNav';
@@ -48,7 +47,6 @@ class WordpressPage extends Component {
     return (
       <div className={style.wordPressContainer}>
         <HeadMetaTags title={title} />
-        {slug === 'home' && <Carousel /> }
         {slug !== 'home' && <SecondaryNav parent={parentId} title={title} type='page' />}
         {slug !== 'home' && <div dangerouslySetInnerHTML={{ __html: page.content.rendered}} />}
       </div>
