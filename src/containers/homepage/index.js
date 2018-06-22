@@ -79,7 +79,7 @@ class Homepage extends Component {
           onExited={this.handleOnExited}
           onExiting={this.handleOnExiting}
         >
-          <img className='logo-img' src={item.logo} />
+          {item.logo && <img className='logo-img' src={item.logo} />}
           <img alt={item.altText} className='slide-background' src={item.background} />
 
           <a href={item.link}>
