@@ -126,6 +126,9 @@ class Homepage extends Component {
             }
             .carousel-caption{
               left:50%;
+              background-color: #00000069;
+              border-radius: 10px;
+              padding: 3px;
             }
            `
         }
