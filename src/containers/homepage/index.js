@@ -7,6 +7,7 @@ import {
   CarouselControl,
   CarouselCaption
 } from 'reactstrap';
+import style from './style.scss';
 
 const items = [
   {
@@ -74,19 +75,19 @@ class Homepage extends Component {
     const slides = items.map((item, idx) => {
       return (
         <CarouselItem
-          className="custom-tag"
+          className={style.customTag}
           key={idx}
           onExited={this.handleOnExited}
           onExiting={this.handleOnExiting}
         >
-          {item.logo && <img className='logo-img' src={item.logo} />}
-          <img alt={item.altText} className='slide-background' src={item.background} />
+          {item.logo && <img className={style.logoImg} src={item.logo} />}
+          <img alt={item.altText} className={style.slideBackground} src={item.background} />
 
           <a href={item.link}>
             <CarouselCaption
               captionHeader={item.captionHeader}
               captionText={item.captionText}
-              className={item.className}
+              className={style.carouselCaption}
             />
           </a>
 
@@ -96,44 +97,6 @@ class Homepage extends Component {
 
     return (
       <div>
-      <style>
-        {
-            `.custom-tag {
-              width: 100%;
-              max-height: 312px;
-              margin:auto;
-            }
-
-            .logo-img {
-              top: 5%;
-              width: 25%;
-              position: absolute;
-              left: 15%;
-              float: left;
-            }
-
-            .slide-background {
-              width: 100%;
-              height: 100%;
-            }
-
-            .captionStyle{
-              width: 30%;
-              position: absolute;
-              top: 30%;
-              left: 55%;
-              color: #2598c5;
-            }
-            .carousel-caption{
-              left:50%;
-              background-color: #00000069;
-              border-radius: 10px;
-              padding: 3px;
-            }
-           `
-        }
-
-      </style>
 
       <Carousel
         activeIndex={activeIndex}
