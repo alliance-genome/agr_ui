@@ -6,11 +6,13 @@
   }
 
   .logoImg {
-    top: 5%;
+    //top: 1%;
+    max-width: none;
     width: 25%;
     position: absolute;
-    left: 15%;
-    float: left;
+    //left: 15%;
+    //float: left;
+    max-height:1039px;
   }
 
   .slideBackground {
@@ -18,17 +20,30 @@
     height: 100%;
   }
 
-  .captionStyle{
+  .captionStyle {
     width: 30%;
     position: absolute;
-    top: 30%;
+    top: 3%;
     left: 55%;
     color: #2598c5;
   }
 
-  .carouselCaption{
+  .carouselCaption {
     left:50%;
     background-color: #00000069;
-    border-radius: 10px;
+    border-radius: 5px;
     padding: 3px;
+    bottom: calc(2px + 0.5vw)
+  }
+
+  .d-none {
+    display: block !important;
+  }
+
+  h3 {
+    font-size: calc(12px + 0.5vw) !important;
+  }
+
+  p {
+    font-size: calc(10px + 0.5vw) !important;
   }

@@ -80,6 +80,7 @@ class Homepage extends Component {
           onExited={this.handleOnExited}
           onExiting={this.handleOnExiting}
         >
+          <div>
           {item.logo && <img className={style.logoImg} src={item.logo} />}
           <img alt={item.altText} className={style.slideBackground} src={item.background} />
 
@@ -88,9 +89,10 @@ class Homepage extends Component {
               captionHeader={item.captionHeader}
               captionText={item.captionText}
               className={style.carouselCaption}
+              cssModule={style}
             />
           </a>
-
+          </div>
         </CarouselItem>
       );
     });
