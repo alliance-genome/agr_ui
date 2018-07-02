@@ -4,11 +4,10 @@ import {
   Carousel,
   CarouselItem,
   CarouselControl,
-  CarouselIndicators,
-  CarouselCaption
 } from 'reactstrap';
 
 import style from './style.scss';
+
 // import './style.scss';
 
 const items = [
@@ -20,22 +19,22 @@ const items = [
     link: '/about-us',
     className: 'slide1',
   },
-  // {
-  //   background: 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner2.jpg',
-  //   logo: 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner_1_flyin_logo.png',
-  //   captionHeader: 'Have questions about the Alliance of Genome Resources?',
-  //   captionText: 'CONTACT US ',
-  //   link: '/contact-us',
-  //   className: 'slide2',
-  // },
-  // {
-  //   background: 'https://i2.wp.com/alliancegenome.files.wordpress.com/2016/11/banner3.jpg',
-  //   logo: 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner_1_flyin_logo.png',
-  //   captionHeader: 'The Alliance Orthology Working Group is developing a gold standard set of orthologs to support comparative genomics across multiple model organisms.\n',
-  //   captionText: 'CLICK HERE FOR MORE INFO ',
-  //   link: '/orthology',
-  //   className: 'slide3',
-  // },
+  {
+    background: 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner2.jpg',
+    logo: 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner_1_flyin_logo.png',
+    captionHeader: 'Have questions about the Alliance of Genome Resources?',
+    captionText: 'CONTACT US ',
+    link: '/contact-us',
+    className: 'slide2',
+  },
+  {
+    background: 'https://i2.wp.com/alliancegenome.files.wordpress.com/2016/11/banner3.jpg',
+    logo: 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner_1_flyin_logo.png',
+    captionHeader: 'The Alliance Orthology Working Group is developing a gold standard set of orthologs to support comparative genomics across multiple model organisms.\n',
+    captionText: 'CLICK HERE FOR MORE INFO ',
+    link: '/orthology',
+    className: 'slide3',
+  },
 ];
 
 class Homepage extends Component {
@@ -91,7 +90,7 @@ class Homepage extends Component {
           onExited={this.onExited}
         >
 
-          <div className={style.slide1}>
+          <div className={ `style.${item.className}` } >
             <div className='container'>
               <div className='row' style={{padding: '1rem'}}>
                 <div className='col-xs-12 col-12 col-sm-6'>
