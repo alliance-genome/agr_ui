@@ -9,6 +9,7 @@ import {
 } from 'reactstrap';
 
 import style from './style.scss';
+// import './style.scss';
 
 const items = [
   {
@@ -19,22 +20,22 @@ const items = [
     link: '/about-us',
     className: 'slide1',
   },
-  {
-    background: 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner2.jpg',
-    logo: 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner_1_flyin_logo.png',
-    captionHeader: 'Have questions about the Alliance of Genome Resources?',
-    captionText: 'CONTACT US ',
-    link: '/contact-us',
-    className: 'slide2',
-  },
-  {
-    background: 'https://i2.wp.com/alliancegenome.files.wordpress.com/2016/11/banner3.jpg',
-    logo: 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner_1_flyin_logo.png',
-    captionHeader: 'The Alliance Orthology Working Group is developing a gold standard set of orthologs to support comparative genomics across multiple model organisms.\n',
-    captionText: 'CLICK HERE FOR MORE INFO ',
-    link: '/orthology',
-    className: 'slide3',
-  },
+  // {
+  //   background: 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner2.jpg',
+  //   logo: 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner_1_flyin_logo.png',
+  //   captionHeader: 'Have questions about the Alliance of Genome Resources?',
+  //   captionText: 'CONTACT US ',
+  //   link: '/contact-us',
+  //   className: 'slide2',
+  // },
+  // {
+  //   background: 'https://i2.wp.com/alliancegenome.files.wordpress.com/2016/11/banner3.jpg',
+  //   logo: 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner_1_flyin_logo.png',
+  //   captionHeader: 'The Alliance Orthology Working Group is developing a gold standard set of orthologs to support comparative genomics across multiple model organisms.\n',
+  //   captionText: 'CLICK HERE FOR MORE INFO ',
+  //   link: '/orthology',
+  //   className: 'slide3',
+  // },
 ];
 
 class Homepage extends Component {
@@ -82,7 +83,7 @@ class Homepage extends Component {
     const slides = items.map((item, idx) => {
       return (
         <CarouselItem
-          className="custom-tag"
+          // className="custom-tag"
           key={idx}
           /*eslint-disable next-line*/
           onExiting={this.onExiting}
@@ -90,14 +91,14 @@ class Homepage extends Component {
           onExited={this.onExited}
         >
 
-          <div className={item.className}>
+          <div className={style.slide1}>
             <div className='container'>
               <div className='row' style={{padding: '1rem'}}>
                 <div className='col-xs-12 col-12 col-sm-6'>
-                  <img className='img-fluid horizontal-center logoImg' src={item.logo}></img>
+                  <img className='img-fluid horizontalCenter logoImg' src={item.logo} />
                 </div>
-                <div className='col-xs-12 col-12 col-sm-6 vertical-center' style={{color: '#ffffff'}}>
-                  <div className='carouselCaption horizontal-center'>
+                <div className='col-xs-12 col-12 col-sm-6 verticalCenter' style={{color: '#ffffff'}}>
+                  <div className='carouselCaption horizontalCenter'>
                     <h2 className='catptionHeader'>{item.captionHeader}</h2>
                     <div className='text-xs-center text-center'>
                       <a className='btn btn-light btn-secondary captionButton' href={item.link}>{item.captionText}
@@ -117,60 +118,6 @@ class Homepage extends Component {
 
     return (
       <div>
-        <style>
-          {
-            `
-            .slide1 {
-              background: url('https://alliancegenome.files.wordpress.com/2016/11/banner1.jpg');
-              background-size: cover;
-            }
-
-            .slide2 {
-              background: url('https://alliancegenome.files.wordpress.com/2016/11/banner2.jpg');
-              background-size: cover;
-            }
-
-            .slide3 {
-              background: url('https://alliancegenome.files.wordpress.com/2016/11/banner3.jpg');
-              background-size: cover;
-            }
-
-            .logoImg {
-              position: absolute;
-              max-height: 100%;
-              max-width: 50%
-              margin: auto;
-            }
-
-            .horizontal-center {
-              position: relative;
-              top: 0;
-              left: 50%;
-              transform: translateX(-50%);
-            }
-
-            .vertical-center {
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-            }
-
-            .carouselCaption {
-              background-color: #00000069;
-              border-radius: 5px;
-              padding: 1em;
-              margin: 1em 0 0 0 ;
-              min-height: 140px;
-            }
-
-            .captionButton {
-              margin: 1em;
-            }
-
-          `
-          }
-
-        </style>
 
         <Carousel
           activeIndex={activeIndex}
