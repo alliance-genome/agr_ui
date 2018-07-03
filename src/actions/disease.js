@@ -8,10 +8,6 @@ export const FETCH_ASSOCIATIONS = 'FETCH_ASSOCIATIONS';
 export const FETCH_ASSOCIATIONS_SUCCESS = 'FETCH_ASSOCIATIONS_SUCCESS';
 export const FETCH_ASSOCIATIONS_FAILURE = 'FETCH_ASSOCIATIONS_FAILURE';
 
-export const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
-export const SET_PER_PAGE_SIZE = 'SET_PER_PAGE_SIZE';
-export const SET_SORT = 'SET_SORT';
-
 export const fetchDisease = function (id) {
   return (dispatch) => {
     dispatch({
@@ -41,26 +37,13 @@ export const fetchDiseaseFailure = function (error) {
   };
 };
 
-export const fetchAssociations = function (id, page = 1, limit = 10, sortName = 'default', sortOrder = 'asc') {
-  // TODO: this is a hack because the API JSON field names don't line up with
-  // the URL query param names. So we rectify them here. It might be better to
-  // do it as part of the table column definition.
-  switch(sortName) {
-  case 'diseaseName':
-    sortName = 'disease';
-    break;
-
-  case 'disease_species':
-    sortName = 'species';
-    break;
-
-  case 'geneDocument':
-    sortName = 'geneName';
-    break;
-  }
+export const fetchAssociations = function (id, opts) {
   return (dispatch) => {
     dispatch(fetchAssociationsRequest());
-    return fetchData(`/api/disease/${id}/associations?page=${page}&limit=${limit}&sortBy=${sortName}&asc=${ sortOrder === 'asc' ? true : false }`)
+    const filterQueries = opts.filters && opts.filters
+      .map(filter => `${filter.name}=${filter.value}`)
+      .join('&');
+    return fetchData(`/api/disease/${id}/associations?page=${opts.page}&limit=${opts.limit}&sortBy=${opts.sort.name}&asc=${opts.sort.order === 'asc'}&${filterQueries}`)
       .then((data) => dispatch(fetchAssociationsSuccess(data)))
       .catch((error) => dispatch(fetchAssociationsFailure(error)));
   };
@@ -86,26 +69,3 @@ export const fetchAssociationsFailure = function (error) {
   };
 };
 
-export const setCurrentPage = function(page) {
-  return {
-    type: SET_CURRENT_PAGE,
-    payload: page
-  };
-};
-
-export const setPerPageSize = function(perPageSize) {
-  return {
-    type: SET_PER_PAGE_SIZE,
-    payload: perPageSize
-  };
-};
-
-export const setSort = function (name, order) {
-  return {
-    type: SET_SORT,
-    payload: {
-      name,
-      order,
-    }
-  };
-};

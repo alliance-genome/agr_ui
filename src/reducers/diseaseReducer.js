@@ -1,4 +1,4 @@
-import { fromJS, Map } from 'immutable';
+import { fromJS } from 'immutable';
 import {
   FETCH_DISEASE,
   FETCH_DISEASE_SUCCESS,
@@ -6,23 +6,18 @@ import {
   FETCH_ASSOCIATIONS,
   FETCH_ASSOCIATIONS_SUCCESS,
   FETCH_ASSOCIATIONS_FAILURE,
-  SET_PER_PAGE_SIZE,
-  SET_CURRENT_PAGE,
-  SET_SORT,
 } from '../actions/disease';
 
 export const DEFAULT_STATE = fromJS({
-  data: {},
-  error: '',
+  data: null,
+  error: null,
   loading: false,
-  associations: [],
-  loadingAssociations: false,
-  associationsError: '',
-  currentPage: 1,
-  perPageSize: 10,
-  totalAssociations: 0,
-  sortOrder: 'asc',
-  sortName: 'default'
+  associations: {
+    data: [],
+    loading: false,
+    error: null,
+    total: 0,
+  },
 });
 
 const diseaseReducer = function (state = DEFAULT_STATE, action) {
@@ -33,37 +28,28 @@ const diseaseReducer = function (state = DEFAULT_STATE, action) {
 
   case FETCH_DISEASE_SUCCESS:
     return state.set('loading', false)
-      .set('data', fromJS(action.payload))
-      .set('error', '');
+      .set('data', action.payload)
+      .set('error', null);
 
   case FETCH_DISEASE_FAILURE:
     return state.set('loading', false)
-      .set('data', Map())
+      .set('data', null)
       .set('error', action.payload);
 
   case FETCH_ASSOCIATIONS:
-    return state.set('loadingAssociations', true);
+    return state.setIn(['associations', 'loading'], true);
 
   case FETCH_ASSOCIATIONS_SUCCESS:
-    return state.set('loadingAssociations', false)
-      .set('associations', fromJS(action.payload.results))
-      .set('totalAssociations', action.payload.total)
-      .set('associationsError', '');
+    return state.setIn(['associations', 'loading'], false)
+      .setIn(['associations', 'data'], action.payload.results)
+      .setIn(['associations', 'total'], action.payload.total)
+      .setIn(['associations', 'error'], null);
 
   case FETCH_ASSOCIATIONS_FAILURE:
-    return state.set('loadingAssociations', false)
-      .set('associationsError', action.payload);
-
-  case SET_PER_PAGE_SIZE:
-    return state.set('perPageSize', action.payload)
-      .set('currentPage', 1);
-
-  case SET_CURRENT_PAGE:
-    return state.set('currentPage', action.payload);
-
-  case SET_SORT:
-    return state.set('sortName', action.payload.name)
-      .set('sortOrder', action.payload.order);
+    return state.setIn(['associations', 'loading'], false)
+      .setIn(['associations', 'data'], [])
+      .setIn(['associations', 'total'], 0)
+      .setIn(['associations', 'error'], action.payload);
 
   default:
     return state;
