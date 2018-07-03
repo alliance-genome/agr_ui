@@ -10,10 +10,15 @@ class RemoteDataTable extends Component {
   constructor(props) {
     super(props);
 
+    this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handleSizeChange = this.handleSizeChange.bind(this);
     this.handleSortChange = this.handleSortChange.bind(this);
 
+  }
+
+  handleFilterChange(filter) {
+    this.props.onFilterChange(filter);
   }
 
   handlePageChange(page, size) {
@@ -32,6 +37,7 @@ class RemoteDataTable extends Component {
     const { columns, currentPage, data, downloadUrl, perPageSize, sortName, sortOrder, totalRows } = this.props;
 
     const options = {
+      onFilterChange: this.handleFilterChange,
       onPageChange: this.handlePageChange,
       onSizePerPageList: this.handleSizeChange,
       sortName: sortName,
@@ -85,6 +91,7 @@ RemoteDataTable.propTypes = {
   currentPage: PropTypes.number,
   data: PropTypes.arrayOf(PropTypes.object),
   downloadUrl: PropTypes.string,
+  onFilterChange: PropTypes.func,
   onPageChange: PropTypes.func,
   onSizeChange: PropTypes.func,
   onSortChange: PropTypes.func,
