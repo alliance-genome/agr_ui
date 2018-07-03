@@ -98,7 +98,6 @@ RemoteDataTable.propTypes = {
   perPageSize: PropTypes.number,
   sortName: PropTypes.string,
   sortOrder: PropTypes.string,
-  totalPages: PropTypes.number,
   totalRows: PropTypes.number,
 };
 
