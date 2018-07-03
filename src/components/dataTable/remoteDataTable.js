@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import DownloadButton from './downloadButton';
 import Utils from './utils';
+import PaginationPanel from './paginationPanel';
 
 class RemoteDataTable extends Component {
   constructor(props) {
@@ -43,6 +44,7 @@ class RemoteDataTable extends Component {
       sortName: sortName,
       sortOrder: sortOrder,
       onSortChange: this.handleSortChange,
+      paginationPanel: PaginationPanel,
       paginationShowsTotal: Utils.renderPaginationShowsTotal,
       page: currentPage,
       sizePerPage: perPageSize,
