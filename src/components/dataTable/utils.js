@@ -1,5 +1,4 @@
 import React from 'react';
-import style from './style.scss';
 
 import { SizePerPageDropDown } from 'react-bootstrap-table';
 
@@ -13,11 +12,7 @@ export default {
   },
 
   renderPaginationShowsTotal(start, end, total) {
-    return (
-      <p className={style.remoteDataTablePaginationShowsTotal}>
-        { start } to { end }, of { total } results.
-      </p>
-    );
+    return <span>Showing { start } - { end } of { total } rows</span>;
   },
 
   // eslint-disable-next-line react/no-multi-comp
