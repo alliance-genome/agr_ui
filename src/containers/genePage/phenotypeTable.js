@@ -6,9 +6,7 @@ import isEqual from 'lodash.isequal';
 
 import { fetchPhenotypes } from '../../actions/genes';
 import { selectPhenotypes } from '../../selectors/geneSelectors';
-import RemoteDataTable from '../../components/dataTable/remoteDataTable';
-import ReferenceCell from '../../components/disease/referenceCell';
-import GeneticEntityCell from '../../components/disease/geneticEntityCell';
+import { RemoteDataTable, ReferenceCell, GeneticEntityCell } from '../../components/dataTable';
 
 class PhenotypeTable extends React.Component {
   constructor(props) {
