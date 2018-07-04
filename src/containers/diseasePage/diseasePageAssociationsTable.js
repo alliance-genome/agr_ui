@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import isEqual from 'lodash.isequal';
 
 import { fetchAssociations } from '../../actions/disease';
 import { selectAssociations } from '../../selectors/diseaseSelectors';
@@ -18,59 +17,13 @@ import {
 } from '../../components/dataTable';
 
 class DiseasePageAssociationsTable extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      limit: 10,
-      page: 1,
-      sort: {
-        name: 'default',
-        order: 'asc',
-      },
-      filters: []
-    };
-
-    this.handleFilterChange = this.handleFilterChange.bind(this);
-    this.handlePageChange = this.handlePageChange.bind(this);
-    this.handleSizeChange = this.handleSizeChange.bind(this);
-    this.handleSortChange = this.handleSortChange.bind(this);
-  }
-
-  componentDidMount() {
-    this._loadAssociations();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.id !== prevProps.id || !isEqual(this.state, prevState)) {
-      this._loadAssociations();
-    }
-  }
-
-  _loadAssociations() {
+  loadAssociations(opts) {
     const { dispatch, id } = this.props;
-    dispatch(fetchAssociations(id, this.state));
-  }
-
-  handleFilterChange(filter) {
-    this.setState({filters: Object.keys(filter).map(key => ({name: key, value: filter[key].value}))});
-  }
-
-  handlePageChange(page) {
-    this.setState({page});
-  }
-
-  handleSizeChange(limit) {
-    this.setState({limit});
-  }
-
-  handleSortChange(name, order) {
-    this.setState({sort: {name, order}});
+    dispatch(fetchAssociations(id, opts));
   }
 
   render() {
     const { associations, id } = this.props;
-    const { limit, page, sort } = this.state;
 
     const columns = [
       {
@@ -172,16 +125,9 @@ class DiseasePageAssociationsTable extends Component {
       <div>
         <RemoteDataTable
           columns={columns}
-          currentPage={page}
           data={data}
           downloadUrl={`/api/disease/${id}/associations/download`}
-          onFilterChange={this.handleFilterChange}
-          onPageChange={this.handlePageChange}
-          onSizeChange={this.handleSizeChange}
-          onSortChange={this.handleSortChange}
-          perPageSize={limit}
-          sortName={sort.name}
-          sortOrder={sort.order}
+          onUpdate={this.loadAssociations.bind(this)}
           totalRows={associations.total}
         />
       </div>

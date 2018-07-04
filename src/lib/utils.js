@@ -8,3 +8,10 @@ export function compareAlphabeticalCaseInsensitive(accessor) {
     return accessor(a).toLowerCase().localeCompare(accessor(b).toLowerCase());
   };
 }
+
+export function buildTableQueryString(options) {
+  const filterQueries = options.filters && options.filters
+    .map(filter => `${filter.name}=${filter.value}`)
+    .join('&');
+  return `page=${options.page}&limit=${options.limit}&sortBy=${options.sort.name}&asc=${options.sort.order === 'asc'}&${filterQueries}`;
+}

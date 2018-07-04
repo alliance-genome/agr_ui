@@ -1,7 +1,9 @@
+/* eslint-disable react/no-set-state */
 import React, { Component } from 'react';
 
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import PropTypes from 'prop-types';
+import isEqual from 'lodash.isequal';
 
 import DownloadButton from './downloadButton';
 import Utils from './utils';
@@ -11,43 +13,63 @@ class RemoteDataTable extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      limit: 10,
+      page: 1,
+      sort: {
+        name: '',
+        order: '',
+      },
+      filters: []
+    };
+
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handleSizeChange = this.handleSizeChange.bind(this);
     this.handleSortChange = this.handleSortChange.bind(this);
+  }
 
+  componentDidMount() {
+    this.props.onUpdate(this.state);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!isEqual(this.state, prevState)) {
+      this.props.onUpdate(this.state);
+    }
   }
 
   handleFilterChange(filter) {
-    this.props.onFilterChange(filter);
+    this.setState({filters: Object.keys(filter).map(key => ({name: key, value: filter[key].value}))});
   }
 
-  handlePageChange(page, size) {
-    this.props.onPageChange(page, size);
+  handlePageChange(page) {
+    this.setState({page});
   }
 
-  handleSizeChange(size) {
-    this.props.onSizeChange(size);
+  handleSizeChange(limit) {
+    this.setState({limit});
   }
 
-  handleSortChange(fieldName, sortOrder) {
-    this.props.onSortChange(fieldName, sortOrder);
+  handleSortChange(name, order) {
+    this.setState({sort: {name, order}});
   }
 
   render() {
-    const { columns, currentPage, data, downloadUrl, perPageSize, sortName, sortOrder, totalRows } = this.props;
+    const { columns, data, downloadUrl, totalRows } = this.props;
+    const { page, limit, sort } = this.state;
 
     const options = {
       onFilterChange: this.handleFilterChange,
       onPageChange: this.handlePageChange,
       onSizePerPageList: this.handleSizeChange,
-      sortName: sortName,
-      sortOrder: sortOrder,
+      sortName: sort.name,
+      sortOrder: sort.order,
       onSortChange: this.handleSortChange,
       paginationPanel: PaginationPanel,
       paginationShowsTotal: Utils.renderPaginationShowsTotal,
-      page: currentPage,
-      sizePerPage: perPageSize,
+      page: page,
+      sizePerPage: limit,
       sizePerPageDropDown: Utils.renderSizePerPageDropDown,
       sizePerPageList: [10, 25, 100],
     };
@@ -90,16 +112,9 @@ class RemoteDataTable extends Component {
 
 RemoteDataTable.propTypes = {
   columns: PropTypes.array,
-  currentPage: PropTypes.number,
   data: PropTypes.arrayOf(PropTypes.object),
   downloadUrl: PropTypes.string,
-  onFilterChange: PropTypes.func,
-  onPageChange: PropTypes.func,
-  onSizeChange: PropTypes.func,
-  onSortChange: PropTypes.func,
-  perPageSize: PropTypes.number,
-  sortName: PropTypes.string,
-  sortOrder: PropTypes.string,
+  onUpdate: PropTypes.func,
   totalRows: PropTypes.number,
 };
 
