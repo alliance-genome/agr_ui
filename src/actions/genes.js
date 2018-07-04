@@ -1,4 +1,5 @@
 import fetchData from '../lib/fetchData';
+import { buildTableQueryString } from '../lib/utils';
 
 export const FETCH_GENE = 'FETCH_GENE';
 export const FETCH_GENE_SUCCESS = 'FETCH_GENE_SUCCESS';
@@ -62,15 +63,12 @@ export const fetchAlleleFailure = function (error) {
   };
 };
 
-export const fetchPhenotypes = function (id, q) {
+export const fetchPhenotypes = function (id, opts) {
   return (dispatch) => {
     dispatch({
       type: FETCH_PHENOTYPES,
     });
-    const filterQueries = q.filters && q.filters
-      .map(filter => `${filter.name}=${filter.value}`)
-      .join('&');
-    return fetchData(`/api/gene/${id}/phenotypes?limit=${q.limit}&page=${q.page}&sortBy=${q.sort.name}&asc=${q.sort.order === 'asc'}&${filterQueries}`)
+    return fetchData(`/api/gene/${id}/phenotypes?${buildTableQueryString(opts)}`)
       .then((data) => dispatch(fetchPhenotypesSuccess(data)))
       .catch((error) => dispatch(fetchPhenotypesFailure(error)));
   };

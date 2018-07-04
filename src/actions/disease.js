@@ -1,4 +1,5 @@
 import fetchData from '../lib/fetchData';
+import { buildTableQueryString } from '../lib/utils';
 
 export const FETCH_DISEASE = 'FETCH_DISEASE';
 export const FETCH_DISEASE_SUCCESS = 'FETCH_DISEASE_SUCCESS';
@@ -40,10 +41,7 @@ export const fetchDiseaseFailure = function (error) {
 export const fetchAssociations = function (id, opts) {
   return (dispatch) => {
     dispatch(fetchAssociationsRequest());
-    const filterQueries = opts.filters && opts.filters
-      .map(filter => `${filter.name}=${filter.value}`)
-      .join('&');
-    return fetchData(`/api/disease/${id}/associations?page=${opts.page}&limit=${opts.limit}&sortBy=${opts.sort.name}&asc=${opts.sort.order === 'asc'}&${filterQueries}`)
+    return fetchData(`/api/disease/${id}/associations?${buildTableQueryString(opts)}`)
       .then((data) => dispatch(fetchAssociationsSuccess(data)))
       .catch((error) => dispatch(fetchAssociationsFailure(error)));
   };

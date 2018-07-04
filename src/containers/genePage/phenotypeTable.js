@@ -2,66 +2,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import isEqual from 'lodash.isequal';
 
 import { fetchPhenotypes } from '../../actions/genes';
 import { selectPhenotypes } from '../../selectors/geneSelectors';
 import { RemoteDataTable, ReferenceCell, GeneticEntityCell } from '../../components/dataTable';
 
 class PhenotypeTable extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      limit: 10,
-      page: 1,
-      sort: {
-        name: 'phenotype',
-        order: 'asc',
-      },
-      filters: []
-    };
-
-    this.handleFilterChange = this.handleFilterChange.bind(this);
-    this.handlePageChange = this.handlePageChange.bind(this);
-    this.handleSizeChange = this.handleSizeChange.bind(this);
-    this.handleSortChange = this.handleSortChange.bind(this);
-  }
-
-  componentDidMount() {
-    this.dispatchFetch();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.geneId !== prevProps.geneId || !isEqual(this.state, prevState)) {
-      this.dispatchFetch();
-    }
-  }
-
-  dispatchFetch() {
+  loadPhenotypes(opts) {
     const { dispatch, geneId } = this.props;
-    const { page, limit, sort, filters } = this.state;
-    dispatch(fetchPhenotypes(geneId, {limit, page, sort, filters}));
-  }
-
-  handleFilterChange(filter) {
-    this.setState({filters: Object.keys(filter).map(key => ({name: key, value: filter[key].value}))});
-  }
-
-  handlePageChange(page) {
-    this.setState({page});
-  }
-
-  handleSizeChange(limit) {
-    this.setState({limit});
-  }
-
-  handleSortChange(name, order) {
-    this.setState({sort: {name, order}});
+    dispatch(fetchPhenotypes(geneId, opts));
   }
 
   render() {
     const { geneId, phenotypes } = this.props;
-    const { page, limit, sort } = this.state;
 
     const data = phenotypes.data && phenotypes.data.map(record => {
       return {
@@ -115,16 +68,9 @@ class PhenotypeTable extends React.Component {
     return (
       <RemoteDataTable
         columns={columns}
-        currentPage={page}
         data={data}
         downloadUrl={`/api/gene/${geneId}/phenotypes/download`}
-        onFilterChange={this.handleFilterChange}
-        onPageChange={this.handlePageChange}
-        onSizeChange={this.handleSizeChange}
-        onSortChange={this.handleSortChange}
-        perPageSize={limit}
-        sortName={sort.name}
-        sortOrder={sort.order}
+        onUpdate={this.loadPhenotypes.bind(this)}
         totalRows={phenotypes.total}
       />
     );
