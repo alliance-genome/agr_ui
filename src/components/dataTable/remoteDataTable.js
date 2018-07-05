@@ -58,13 +58,9 @@ class RemoteDataTable extends Component {
 
   render() {
     const { columns, data, downloadUrl, loading, totalRows } = this.props;
-    const { page, limit, sort } = this.state;
+    const { page, limit, sort, filters } = this.state;
 
-    if ((!data || !data.length) && loading) {
-      return <i>Loading...</i>;
-    }
-
-    if (!loading && totalRows === 0) {
+    if (!loading && !filters.length && totalRows === 0) {
       return <NoData />;
     }
 
