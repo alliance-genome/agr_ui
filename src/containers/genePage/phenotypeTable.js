@@ -70,6 +70,7 @@ class PhenotypeTable extends React.Component {
         columns={columns}
         data={data}
         downloadUrl={`/api/gene/${geneId}/phenotypes/download`}
+        loading={phenotypes.loading}
         onUpdate={this.loadPhenotypes.bind(this)}
         totalRows={phenotypes.total}
       />

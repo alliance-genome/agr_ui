@@ -127,6 +127,7 @@ class DiseasePageAssociationsTable extends Component {
           columns={columns}
           data={data}
           downloadUrl={`/api/disease/${id}/associations/download`}
+          loading={associations.loading}
           onUpdate={this.loadAssociations.bind(this)}
           totalRows={associations.total}
         />
