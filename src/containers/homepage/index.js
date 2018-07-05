@@ -89,8 +89,7 @@ class Homepage extends Component {
           /*eslint-disable next-line*/
           onExited={this.onExited}
         >
-
-          <div className={ `style.${item.className}` } >
+          <div className={ style[item.className] } >
             <div className='container'>
               <div className='row' style={{padding: '1rem'}}>
                 <div className='col-xs-12 col-12 col-sm-6'>
