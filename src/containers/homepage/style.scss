@@ -5,12 +5,12 @@
 }
 
 .slide2 {
-  background-image: url("https://alliancegenome.files.wordpress.com/2016/11/banner2.jpg");
+  background-image: url('https://alliancegenome.files.wordpress.com/2016/11/banner2.jpg');
   background-size: cover;
 }
 
 .slide3 {
-  background-image: url("https://alliancegenome.files.wordpress.com/2016/11/banner3.jpg");
+  background-image: url('https://alliancegenome.files.wordpress.com/2016/11/banner3.jpg');
   background-size: cover;
 }
 
@@ -19,19 +19,6 @@
   max-height: 100%;
   max-width: 50%;
   margin: auto;
-}
-
-.horizontalCenter {
-  position: relative;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.verticalCenter {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 .carouselCaption {
@@ -43,5 +30,14 @@
 }
 
 .captionButton {
-  margin: 1em;
+  margin-top: 1em;
+}
+
+.captionHeader {
+  font-size: 1.5em;
+  color: #ffffff;
+}
+
+.py-1 {
+  padding: '1rem';
 }

@@ -8,8 +8,6 @@ import {
 
 import style from './style.scss';
 
-// import './style.scss';
-
 const items = [
   {
     background: 'https://i0.wp.com/alliancegenome.files.wordpress.com/2016/11/banner1.jpg',
@@ -89,17 +87,17 @@ class Homepage extends Component {
           /*eslint-disable next-line*/
           onExited={this.onExited}
         >
-          <div className={ style[item.className] } >
+          <div className={style[item.className]} >
             <div className='container'>
-              <div className='row' style={{padding: '1rem'}}>
+              <div className='row py-1'>
                 <div className='col-xs-12 col-12 col-sm-6'>
-                  <img className='img-fluid horizontalCenter logoImg' src={item.logo} />
+                  <img className='img-fluid logoImg' src={item.logo} />
                 </div>
-                <div className='col-xs-12 col-12 col-sm-6 verticalCenter' style={{color: '#ffffff'}}>
-                  <div className='carouselCaption horizontalCenter'>
-                    <h2 className='catptionHeader'>{item.captionHeader}</h2>
+                <div className='col-xs-12 col-12 col-sm-6 align-self-center'>
+                  <div className={style.carouselCaption} >
+                    <div className={style.captionHeader} >{item.captionHeader}</div>
                     <div className='text-xs-center text-center'>
-                      <a className='btn btn-light btn-secondary captionButton' href={item.link}>{item.captionText}
+                      <a className={`btn btn-light btn-secondary ${style.captionButton}`} href={item.link}>{item.captionText}
                         <i className='fa fa-chevron-right'></i>
                         <br/>
                       </a>
