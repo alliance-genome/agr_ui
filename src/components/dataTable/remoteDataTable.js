@@ -8,6 +8,7 @@ import isEqual from 'lodash.isequal';
 import DownloadButton from './downloadButton';
 import Utils from './utils';
 import PaginationPanel from './paginationPanel';
+import NoData from '../noData';
 
 class RemoteDataTable extends Component {
   constructor(props) {
@@ -56,8 +57,16 @@ class RemoteDataTable extends Component {
   }
 
   render() {
-    const { columns, data, downloadUrl, totalRows } = this.props;
+    const { columns, data, downloadUrl, loading, totalRows } = this.props;
     const { page, limit, sort } = this.state;
+
+    if ((!data || !data.length) && loading) {
+      return <i>Loading...</i>;
+    }
+
+    if (!loading && totalRows === 0) {
+      return <NoData />;
+    }
 
     const options = {
       onFilterChange: this.handleFilterChange,
@@ -114,6 +123,7 @@ RemoteDataTable.propTypes = {
   columns: PropTypes.array,
   data: PropTypes.arrayOf(PropTypes.object),
   downloadUrl: PropTypes.string,
+  loading: PropTypes.bool,
   onUpdate: PropTypes.func,
   totalRows: PropTypes.number,
 };
