@@ -126,8 +126,8 @@ class Homepage extends Component {
 
         <div style={{padding: '3rem'}} >
           <div className="container">
-            <div>
-              <h2><span >MISSION STATEMENT</span></h2>
+            <div style={{width: '100%', textAlign: 'center'}}>
+              <h2><span style={{color: '#2598c5'}}>MISSION STATEMENT</span></h2>
             </div>
             <p >The primary mission of the Alliance of Genome Resources (the Alliance) is to develop
               and maintain sustainable genome information resources that facilitate the use of diverse model organisms
