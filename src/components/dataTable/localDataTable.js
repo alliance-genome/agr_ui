@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import Utils from './utils';
 import DownloadButton from './downloadButton';
+import PaginationPanel from './paginationPanel';
 
 const textSorter = (textRender, field) => {
   return (a, b, order) => {
@@ -35,6 +36,7 @@ class LocalDataTable extends Component {
       exportCSVBtn: this.renderDownloadButton,
       exportCSVSeparator: '\t',
       paginationShowsTotal: Utils.renderPaginationShowsTotal,
+      paginationPanel: PaginationPanel,
       sizePerPageDropDown: Utils.renderSizePerPageDropDown,
       sizePerPageList: [10, 25, 100],
       toolbarPosition: 'bottom', //move download button to the bottom
