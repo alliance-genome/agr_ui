@@ -18,6 +18,7 @@ class PhenotypeTable extends React.Component {
 
     const data = phenotypes.data && phenotypes.data.map(record => {
       return {
+        id: record.id,
         phenotype: record.phenotype,
         geneticEntity: record.featureDocument && {
           modCrossRefFullUrl: record.featureDocument.modCrossRefFullUrl,
