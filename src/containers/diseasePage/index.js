@@ -109,13 +109,9 @@ DiseasePage.propTypes = {
   }).isRequired,
 };
 
-// Ideally, the toJS() calls should be removed here for performance reasons.
-// Additionally, the react classes that use these props should be modified
-// to handle the ImmutableJS counterparts of the JS data structures.
-// Leave in for now since I'm unsure of the downstream dependencies.
 const mapStateToProps = (state) => {
   return {
-    data: selectData(state).toJS(),
+    data: selectData(state),
     error: selectError(state),
     loading: selectLoading(state),
   };

@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import ReferenceCell from './referenceCell';
-import { LocalDataTable } from '../../components/dataTable';
-import { GeneticEntityCell, DiseaseNameCell, EvidenceCodesCell } from '.';
+import {
+  LocalDataTable,
+  DiseaseNameCell,
+  GeneticEntityCell,
+  EvidenceCodesCell,
+  ReferenceCell
+} from '../../components/dataTable';
 import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
 
 class GenePageDiseaseTable extends Component {
