@@ -79,11 +79,8 @@ class Homepage extends Component {
       return (
         <CarouselItem
           key={idx}
-          /*eslint-disable next-line*/
           onExited={this.handleOnExited}
-          /*eslint-disable next-line*/
           onExiting={this.handleOnExiting}
-
         >
           <div className={style[item.className]} >
             <div className='container'>
@@ -116,8 +113,8 @@ class Homepage extends Component {
 
         <Carousel
           activeIndex={activeIndex}
-          next={this.next}
-          previous={this.previous}
+          next={this.onHandleNext}
+          previous={this.onHandlePrevious}
         >
 
           {slides}
@@ -126,7 +123,6 @@ class Homepage extends Component {
           <CarouselControl direction="next" directionText="Next" onClickHandler={this.handleNext} />
 
         </Carousel>
-
 
         <div style={{padding: '3rem'}} >
           <div className="container">
@@ -142,52 +138,67 @@ class Homepage extends Component {
         </div>
 
         <div style={{background: '#F6F6F6', color: '#333', padding: '1rem'}}>
-          <div className="container">
-            <div className="row">
-              <div className="col-xs-12 col-12 col-sm-4 ">
+
+          <div className='container'>
+            <div className='row'>
+
+              <div className='col-xs-12 col-12 col-sm-4 '>
                 <h3><span >ALLIANCE FOUNDING MEMBER SITES</span></h3>
                 <p>The founding members of the Alliance of Genome Resources are: FlyBase, Mouse Genome Database (MGD),
                   the Gene Ontology Consortium (GOC), Saccharomyces Genome Database (SGD), Rat Genome Database (RGD),
                   WormBase, and the Zebrafish Information Network (ZFIN).</p>
               </div>
 
-              <div className="col-xs-3 col-3">
-                <a href="http://www.wormbase.org/">
-                  <img alt="WormBase" className="img-fluid" src="https://alliancegenome.files.wordpress.com/2016/11/logo_wormbase.png" title="WormBase" />
-                </a>
-              </div>
-              <div className="col-xs-3 col-3">
-                <a href="https://zfin.org/">
-                  <img alt="Zfin" className="img-fluid" src="https://alliancegenome.files.wordpress.com/2016/11/logo_zfin.png" title="ZFIN" />
-                </a>
-              </div>
-              <div className="col-xs-3 col-3">
-                <a href="http://www.geneontology.org">
-                  <img alt="Gene Ontology" className="img-fluid" src="https://alliancegenome.files.wordpress.com/2016/11/logo_goc.png" title="Gene Ontology" />
-                </a>
-              </div>
-              <div className="col-xs-3 col-3">
-                <a href="http://www.informatics.jax.org/">
-                  <img alt="MGD" className="img-fluid" src="https://alliancegenome.files.wordpress.com/2016/11/logo_rgd.png" title="MGD" />
-                </a>
-              </div>
-            </div>
+              <div className='col-xs-12 col-12 col-sm-8'>
 
-            <div className="row">
-              <div className="col-xs-3 col-3">
-                <a href="http://flybase.org/">
-                  <img alt="FlyBase" className="img-fluid" src="https://alliancegenome.files.wordpress.com/2016/11/logo_flybase.png" title="FlyBase" />
-                </a>
-              </div>
-              <div className="col-xs-3 col-3">
-                <a href="http://rgd.mcw.edu/">
-                  <img alt="RGD" className="img-fluid" src="https://alliancegenome.files.wordpress.com/2016/11/logo_mgd.png" title="RGD" />
-                </a>
-              </div>
-              <div className="col-xs-3 col-3">
-                <a href="http://www.yeastgenome.org/">
-                  <img alt="SGD" className="img-fluid" src="https://alliancegenome.files.wordpress.com/2016/11/logo_sgd.png" title="SGD" />
-                </a>
+                <div className='row' style={{marginBottom: '1rem'}}>
+
+                  <div className='col-xs-3 col-3'>
+                    <a href='http://www.wormbase.org/'>
+                      <img alt='WormBase' className='img-fluid' src='https://alliancegenome.files.wordpress.com/2016/11/logo_wormbase.png' title='WormBase' />
+                    </a>
+                  </div>
+
+                  <div className='col-xs-3 col-3'>
+                    <a href='https://zfin.org/'>
+                      <img alt='Zfin' className='img-fluid' src='https://alliancegenome.files.wordpress.com/2016/11/logo_zfin.png' title='ZFIN' />
+                    </a>
+                  </div>
+
+                  <div className='col-xs-3 col-3'>
+                    <a href='http://www.geneontology.org'>
+                      <img alt='Gene Ontology' className='img-fluid' src='https://alliancegenome.files.wordpress.com/2016/11/logo_goc.png' title='Gene Ontology' />
+                    </a>
+                  </div>
+
+                  <div className='col-xs-3 col-3'>
+                    <a href='http://www.informatics.jax.org/'>
+                      <img alt='MGD' className='img-fluid' src='https://alliancegenome.files.wordpress.com/2016/11/logo_rgd.png' title='MGD' />
+                    </a>
+                  </div>
+
+                </div>
+
+                <div className='row'>
+
+                  <div className='col-xs-3 col-3'>
+                    <a href='http://flybase.org/'>
+                      <img alt='FlyBase' className='img-fluid' src='https://alliancegenome.files.wordpress.com/2016/11/logo_flybase.png' title='FlyBase' />
+                    </a>
+                  </div>
+
+                  <div className='col-xs-3 col-3'>
+                    <a href='http://rgd.mcw.edu/'>
+                      <img alt='RGD' className='img-fluid' src='https://alliancegenome.files.wordpress.com/2016/11/logo_mgd.png' title='RGD' />
+                    </a>
+                  </div>
+
+                  <div className='col-xs-3 col-3'>
+                    <a href='http://www.yeastgenome.org/'>
+                      <img alt='SGD' className='img-fluid' src='https://alliancegenome.files.wordpress.com/2016/11/logo_sgd.png' title='SGD' />
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -196,6 +207,5 @@ class Homepage extends Component {
     );
   }
 }
-
 
 export default Homepage;
