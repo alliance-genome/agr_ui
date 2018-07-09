@@ -48,7 +48,7 @@ class WordpressPage extends Component {
       <div className={style.wordPressContainer}>
         <HeadMetaTags title={title} />
         {slug !== 'home' && <SecondaryNav parent={parentId} title={title} type='page' />}
-        <div dangerouslySetInnerHTML={{ __html: page.content.rendered}} />
+        {slug !== 'home' && <div dangerouslySetInnerHTML={{ __html: page.content.rendered}} />}
       </div>
     );
   }
