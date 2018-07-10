@@ -40,8 +40,8 @@ class Homepage extends Component {
   constructor(props) {
     super(props);
     this.state = { activeIndex: 0 };
-    this.onHandleNext = this.handleNext.bind(this);
-    this.onHandlePrevious = this.handlePrevious.bind(this);
+    this.onHandleNext =  this.handleNext = this.handleNext.bind(this);
+    this.onHandlePrevious = this.handlePrevious = this.handlePrevious.bind(this);
     this.goToIndex = this.goToIndex.bind(this);
     this.handleOnExiting = this.handleOnExiting.bind(this);
     this.handleOnExited = this.handleOnExited.bind(this);
