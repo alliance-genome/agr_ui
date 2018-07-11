@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Ribbon , { RibbonDataProvider } from '@geneontology/ribbon';
-import '@geneontology/ribbon/lib/index.css';
 import HorizontalScroll from '../horizontalScroll';
 import NoData from '../noData';
 
