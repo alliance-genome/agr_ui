@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Ribbon , { RibbonDataProvider } from '@geneontology/ribbon';
-import '../../../node_modules/@geneontology/ribbon/lib/index.css';
 import HorizontalScroll from '../horizontalScroll';
 import NoData from '../noData';
 
@@ -13,15 +12,15 @@ class GeneOntologyRibbon extends Component {
 
     return (
       <RibbonDataProvider slim={slim} subject={id} >
-      {({title, data, dataError, dataReceived}) => (
+      {({title, blocks, dataError, dataReceived}) => (
           <div>
           {
             dataReceived ?
               <HorizontalScroll width={800}>
                 <Ribbon
+                  blocks={blocks}
                   geneUrlFormatter={(geneId) => `/gene/${geneId}`}
                   showing={false}
-                  slimlist={data}
                   subject={id}
                   title={title}
                 />
