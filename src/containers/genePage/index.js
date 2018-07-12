@@ -79,7 +79,7 @@ class GenePage extends Component {
     const EXPRESSION = 'Expression';
     const ALLELES = 'Alleles';
     const PHENOTYPES = 'Phenotypes';
-    const SECTIONS = [SUMMARY, SEQUENCE_FEATURE_VIEWER, FUNCTION, ORTHOLOGY, DISEASE, EXPRESSION, ALLELES, PHENOTYPES];
+    const SECTIONS = [SUMMARY, SEQUENCE_FEATURE_VIEWER, FUNCTION, ORTHOLOGY, PHENOTYPES, DISEASE, EXPRESSION, ALLELES];
 
     return (
       <DataPage title={title}>
@@ -132,6 +132,10 @@ class GenePage extends Component {
             </Subsection>
           </Subsection>
 
+          <Subsection title={PHENOTYPES}>
+            <PhenotypeTable geneId={data.primaryId} />
+          </Subsection>
+
           <Subsection hasData={(data.diseases || []).length > 0} title={DISEASE}>
             <GenePageDiseaseTable data={data.diseases}
                                   filename={`${data.symbol}-Disease-Associations-${date}.tsv`}
@@ -153,10 +157,6 @@ class GenePage extends Component {
                          geneDataProvider={data.dataProvider}
                          geneId={data.primaryId}
             />
-          </Subsection>
-
-          <Subsection title={PHENOTYPES}>
-            <PhenotypeTable geneId={data.primaryId} />
           </Subsection>
         </PageData>
       </DataPage>
