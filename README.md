@@ -32,7 +32,7 @@ Ensure you've installed [nodejs][1].
 * Clone your agr copy and checkout the development branch
 
 ```bash
-	> git clone https://github.com/yourGitAccount/agr_ui.git
+	> git clone https://github.com/alliance-genome/agr_ui.git
 	> cd agr_ui
 	> git status   #should show current branch being development if not git checkout development
 	agr_ui> make      #( to Setup dev working platform )
