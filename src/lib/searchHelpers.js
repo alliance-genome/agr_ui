@@ -18,14 +18,14 @@ export function makeFieldDisplayName(unformattedName) {
   case 'go_type':
   case 'go_branch':
     return 'GO Branch';
-  case 'biological_process':
-  case 'gene_biological_process':
+  case 'biologicalProcess':
+  case 'biologicalProcessWithParents':
     return 'Biological Process';
-  case 'cellular_component':
-  case 'gene_cellular_component':
+  case 'cellularComponent':
+  case 'cellularComponentWithParents':
     return 'Cellular Component';
-  case 'molecular_function':
-  case 'gene_molecular_function':
+  case 'molecularFunction':
+  case 'molecularFunctionWithParents':
     return 'Molecular Function';
   case 'geneType':
     return 'Gene Type';
