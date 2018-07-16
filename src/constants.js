@@ -52,8 +52,14 @@ export const NAV_MENU = [
     wordpressId: 16,
   },
   {
-    label: 'Downloads',
+    label: 'Data',
     route: '/downloads',
+    sub: [
+      {
+        label: 'API',
+        route: '/api/swagger-ui',
+      },
+    ]
   },
   {
     label: 'About Us',
