@@ -26,6 +26,9 @@
   @include webkit-scrollbar;
 }
 
+/**
+Ribbon includes.
+ */
 .ontology-ribbon__header {
   display: flex;
   padding: 4px 4px;
@@ -56,3 +59,15 @@
   display: inline-block;
 }
 
+.ontology-ribbon__block-tile {
+  border: 1px solid silver;
+  height: 16px;
+  width: 16px;
+  margin-right: -1px;
+  position: relative;
+  text-align: center;
+  vertical-align: middle;
+  text-shadow: -1px 0 silver, 0 1px silver, 1px 0 silver, 0 -1px silver;
+  cursor: pointer;
+  line-height: 1.0em;
+}
