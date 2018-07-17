@@ -13,7 +13,7 @@ class MenuItems extends Component {
         <div className='container-fluid'>
           <div className={`collapse navbar-collapse ${style.inner}`} id='exCollapsingNavbar2'>
             <ul className='navbar-nav'>
-              {NAV_MENU.map(page => <NavItem currentRoute={this.props.currentRoute} key={page.route} page={page} />)}
+              {NAV_MENU.map(page => <NavItem currentRoute={this.props.currentRoute} key={page.label} page={page} />)}
             </ul>
           </div>
         </div>
