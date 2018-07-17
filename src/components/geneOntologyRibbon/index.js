@@ -11,7 +11,10 @@ class GeneOntologyRibbon extends Component {
     const {id,slim} =  this.props;
 
     return (
-      <RibbonDataProvider slim={slim} subject={id} >
+      <RibbonDataProvider heatColorArray={[6,100,100]}
+                          heatLevels={48}
+                          slim={slim}
+                          subject={id} >
       {({title, blocks, dataError, dataReceived}) => (
           <div>
           {

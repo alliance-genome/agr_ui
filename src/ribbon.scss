@@ -1,0 +1,417 @@
+//.urlTooltip {
+//  max-width: 500px;
+//  word-break: break-all;
+//}
+
+.ontology-ribbon {
+  display: flex;
+  justify-content: flex-start;
+  font-family: Lato, Helvetica, sans-serif;
+  font-size: 1rem;
+  line-height: 1;
+  height: 2rem;
+}
+
+
+.ontology-ribbon__about {
+  align-items: center;
+  padding: .5em;
+  text-align: left;
+  width: 100%;
+  position: relative;
+}
+
+.ontology-ribbon__about-text {
+  vertical-align: middle;
+  height: 60px;
+  display: inline-block;
+  padding-left: 1rem;
+}
+
+
+/* start of species icon */
+//.ontology-ribbon-species-icon_agr {
+//  background-image: url(./icon/speciesSprite.png);
+//  width: 78px;
+//  height: 90px;
+//  background-size: 700% 100%;
+//  display: inline-block;
+//  margin-right: 1rem !important;
+//}
+
+//.ontology-ribbon-species-icon_agr.small {
+//  width: 26px;
+//  height: 30px;
+//}
+//
+//.fade-enter {
+//  opacity: 0.01;
+//}
+//
+//.fade-enter.fade-enter-active {
+//  opacity: 1;
+//  transition: opacity 500ms linear;
+//}
+//
+//.fade-exit {
+//  opacity: 1;
+//}
+//
+//.fade-exit.fade-exit-active {
+//  opacity: 0.01;
+//  transition: opacity 300ms linear;
+//}
+//
+//.ontology-ribbon__strip {
+//  font-size: 0.8rem;
+//  margin-right: 2em;
+//  flex: 0 1 auto;
+//  margin-top: 33px;
+//}
+//
+//.ontology-ribbon__strip-label {
+//  font-style: italic;
+//  position: relative;
+//  white-space: nowrap;
+//  top: 1rem;
+//  text-align: center;
+//  left: 1rem;
+//  display: block;
+//  color: black;
+//}
+//
+//.ontology-ribbon__strip-picked {
+//  color: #8BC34A;
+//  text-decoration: underline;
+//}
+//
+//.ontology-ribbon__strip-label:hover {
+//  cursor: pointer;
+//  font-weight: bold;
+//  color: #173090;
+//}
+//
+//.ontology-ribbon__block {
+//  height: 13em;
+//  font-size: 0.8rem;
+//  display: table-cell;
+//  vertical-align: bottom;
+//  padding-bottom: 2rem;
+//}
+//
+//.ontology-ribbon__block_match {
+//  font-weight: bold;
+//}
+//
+//.ontology-ribbon__block_active {
+//  color: #000;
+//}
+//
+//.ontology-ribbon__block-title {
+//  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+//  transform: rotate(-45deg);
+//  text-indent: 10px;
+//  width: 16px;
+//  white-space: nowrap;
+//  cursor: pointer;
+//}
+//
+//.ontology-ribbon__block-tile {
+//  border: 1px solid silver;
+//  height: 16px;
+//  width: 16px;
+//  margin-right: -1px;
+//  position: relative;
+//  text-align: center;
+//  vertical-align: middle;
+//  text-shadow: -1px 0 silver, 0 1px silver, 1px 0 silver, 0 -1px silver;
+//  cursor: pointer;
+//}
+//
+//.ontology-ribbon__block:hover {
+//  /*font-weight: bold;*/
+//  color: #173090;
+//}
+//
+//.ontology-ribbon__block-tile:hover {
+//  border: 1px solid #173090;
+//  z-index: 10;
+//}
+//
+//.ontology-ribbon__tile-separator {
+//  height: 16px;
+//  width: 16px;
+//  margin-right: -1px;
+//  position: relative;
+//  vertical-align: middle;
+//}
+//
+//.ontology-ribbon-assoc__row {
+//  display: flex;
+//  flex-direction: row;
+//  font-size: .8rem;
+//  margin: 0;
+//  border-radius: 2px;
+//}
+//
+//.ontology-ribbon-assoc__row:last-child {
+//  border-bottom: none;
+//}
+//
+//.ontology-ribbon__assoc {
+//  display: flex;
+//  flex-direction: column;
+//  font-family: Lato, Helvetica, sans-serif;
+//  font-size: 1rem;
+//  width: 100%;
+//  line-height: 1em;
+//  color: #26393D;
+//  text-decoration: none;
+//}
+//
+//.ontology-ribbon-focalterm {
+//  border-left-style: solid;
+//  border-left-width: thick;
+//  border-left-color: #8BC34A;
+//  font-style: italic;
+//}
+//
+//.ontology-ribbon-assoc__white:hover {
+//  background-color: lightgray;
+//}
+//
+//.ontology-ribbon-assoc__green:hover {
+//  background-color: lightskyblue;
+//}
+//
+//.ontology-ribbon-assoc__term-content {
+//  flex: 0 1 40%;
+//  min-width: 140px;
+//  margin-left: 10px;
+//  padding: 0.3em 0;
+//}
+//
+//.ontology-ribbon-assoc__gene {
+//  flex: 0 1 20%;
+//  min-width: 100px;
+//  margin: 0;
+//  padding: 0.3em 0;
+//}
+//
+//.ontology-ribbon-evidence__codes {
+//  display: flex;
+//  flex-direction: column;
+//}
+//
+//.ontology-ribbon-evidence__group {
+//  display: flex;
+//  flex-direction: row;
+//  /*flex: 0 1 40%;
+//  min-width: 150px;
+//  margin-left: 10px;*/
+//}
+//.ontology-ribbon-assoc__evidence {
+//  flex: 0 1 20%;
+//  min-width: 100px;
+//  margin: 0;
+//  padding: 0.3em 0;
+//}
+//
+//.ontology-ribbon-assoc__evidence-type {
+//  flex: 0 1 10%;
+//  min-width: 100px;
+//  margin: 0;
+//  padding: 0.3em 0;
+//}
+//
+//.ontology-ribbon-assoc__evidence-with {
+//  display: flex;
+//  flex-direction: column;
+//}
+//.ontology-ribbon-assoc__evidence-with-name {
+//  flex: 0 1 30%;
+//  min-width: 100px;
+//  margin: 0;
+//  padding: 0.3em 0;
+//}
+//
+//.ontology-ribbon-assoc__evidence-reference {
+//  display: flex;
+//  flex-direction: column;
+//}
+//
+//.ontology-ribbon-assoc__evidence-ref-name {
+//  flex: 0 1 20%;
+//  min-width: 100px;
+//  margin: 0;
+//  padding: 0.3em 0;
+//}
+//
+//.ontology-ribbon-assoc__gene-content {
+//  flex: 0 0 80%;
+//  margin: 0;
+//  padding: 0.3em 0;
+//}
+//
+//@media (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3/2), (-webkit-min-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx) {
+//  .ontology-ribbon-species-icon_agr {
+//    background-image: url(./icon/speciesSprite-2x.png);
+//  }
+//}
+//
+//.ontology-ribbon-species-icon_agr.Drosophila-melanogaster { /* fly */
+//  background-position: 0 0;
+//}
+//
+//.ontology-ribbon-species-icon_agr.Homo-sapiens { /* human */
+//  background-position: 16.6667% 0;
+//}
+//
+//.ontology-ribbon-species-icon_agr.Mus-musculus { /* mouse */
+//  background-position: 33.3333% 0;
+//}
+//
+//.ontology-ribbon-species-icon_agr.Rattus-norvegicus { /* rat */
+//  background-position: 50% 0;
+//}
+//
+//.ontology-ribbon-species-icon_agr.Saccharomyces-cerevisiae { /* yeast */
+//  background-position: 66.6667% 0;
+//}
+//
+//.ontology-ribbon-species-icon_agr.Saccharomyces-cerevisiae-S288C { /* also yeast */
+//  background-position: 66.6667% 0;
+//}
+//
+//.ontology-ribbon-species-icon_agr.Caenorhabditis-elegans { /* worm */
+//  background-position: 83.3333% 0;
+//}
+//
+//.ontology-ribbon-species-icon_agr.Danio-rerio { /* zebrafish */
+//  background-position: 100% 0;
+//}
+//
+//.evidence-qualifier{
+//  text-decoration: none;
+//  color: #2C3339;
+//  font-style: italic;
+//  font-size: .8rem;
+//}
+//
+//.evidence-qualifier:hover{
+//  cursor: pointer;
+//  font-weight: bold;
+//}
+//
+//.go-link{
+//  text-decoration: none;
+//  color: #1A237D;
+//}
+//
+//.go-link:hover{
+//  cursor: pointer;
+//  text-decoration: underline;
+//}
+//
+//.link{
+//  text-decoration: none;
+//  color: #1A237D;
+//  display: inline-block;
+//}
+//
+//.link:hover{
+//  cursor: pointer;
+//  text-decoration: underline;
+//}
+//
+//.bright {
+//  color: #FF1998;
+//  transition: all 0.2s ease
+//}
+//
+//.bright:hover{
+//  font-weight: bold;
+//  transform: scale(2)
+//}
+//
+//.ontology-ribbon__header {
+//  display: flex;
+//  padding: 4px 4px;
+//  font-size: .8rem;
+//  background-color: #3f51b5;
+//  color: #FFFAE4;
+//}
+//
+//.ontology-ribbon__assoc-row {
+//  display: flex;
+//  padding: 4px 4px;
+//  font-size: .9rem;
+//}
+//
+//.ontology-ribbon__term-column {
+//  display: flex;
+//  flex: 50%;
+//  flex-direction: column;
+//  max-width: 50%;
+//}
+//
+//.ontology-ribbon__evidence-column {
+//  display: flex;
+//  flex: 50%;
+//  flex-direction: column;
+//  max-width: 50%;
+//}
+//
+//.ontology-ribbon__evidence-row {
+//  display: flex;
+//  font-size: .9rem;
+//}
+//
+//.ontology-ribbon__eco {
+//  display: flex;
+//  flex: 20%;
+//  flex-direction: column;
+//  max-width: 20%;
+//  vertical-align: middle;
+//  color: #2C3E50;
+//}
+//
+//.ontology-ribbon__eco-group-column {
+//  display: flex;
+//  flex: 80%;
+//  flex-direction: column;
+//  max-width: 80%;
+//}
+//
+//.ontology-ribbon__eco-group-row {
+//  display: flex;
+//  font-size: .9rem;
+//  padding: .25rem;
+//}
+//
+//.ontology-ribbon__eco-group-row:hover {
+//  background-color: #f0f8e8;
+//  opacity: 10%;
+//  border-radius: .5rem;
+//}
+//
+//.ontology-ribbon__with-column {
+//  display: flex;
+//  flex: 50%;
+//  flex-direction: column;
+//  max-width: 50%;
+//}
+//
+//.ontology-ribbon__ref-column {
+//  display: flex;
+//  flex: 50%;
+//  flex-direction: column;
+//  max-width: 50%;
+//  padding-bottom: .0rem;
+//}
+//
+//.ontology-ribbon__content {
+//  vertical-align: middle;
+//}
+//
+
