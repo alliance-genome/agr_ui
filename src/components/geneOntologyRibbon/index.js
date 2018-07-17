@@ -14,7 +14,8 @@ class GeneOntologyRibbon extends Component {
       <RibbonDataProvider heatColorArray={[6,100,100]}
                           heatLevels={48}
                           slim={slim}
-                          subject={id} >
+                          subject={id}
+      >
       {({title, blocks, dataError, dataReceived}) => (
           <div>
           {
