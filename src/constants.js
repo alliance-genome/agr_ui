@@ -53,8 +53,11 @@ export const NAV_MENU = [
   },
   {
     label: 'Data',
-    route: '/downloads',
     sub: [
+      {
+        label: 'Downloads',
+        route: '/downloads',
+      },
       {
         label: 'API',
         route: '/api/swagger-ui',
@@ -62,10 +65,13 @@ export const NAV_MENU = [
     ]
   },
   {
-    label: 'About Us',
-    route: '/about-us',
+    label: 'About',
     wordpressId: 2,
     sub: [
+      {
+        label: 'About Us',
+        route: '/about-us',
+      },
       {
         label: 'Frequently Asked Questions',
         route: '/frequently-asked-questions'
@@ -86,9 +92,12 @@ export const NAV_MENU = [
   },
   {
     label: 'Work Products',
-    route: '/projects-work-products-publications',
     wordpressId: 257,
     sub: [
+      {
+        label: 'Projects, Work Products, and Publications',
+        route: '/projects-work-products-publications',
+      },
       {
         label: 'Administrative Supplement',
         route: '/administrative-supplement'
