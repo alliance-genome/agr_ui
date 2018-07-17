@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import style from './style.scss';
-import { NAV_MENU } from '../../constants';
 
 class SecondaryNav extends Component {
   getStyle (menuCat) {
     switch (menuCat) {
+    // magic numbers are wordpress parent IDs
     case 16:
       return style.homeMenuContainer;
     case 2:
