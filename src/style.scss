@@ -25,3 +25,11 @@
   }
   @include webkit-scrollbar;
 }
+
+.ontology-ribbon__header {
+  display: flex;
+  padding: 4px 4px;
+  font-size: .8rem;
+  background-color: pink;
+  color: green;
+}

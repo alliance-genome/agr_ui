@@ -5,7 +5,6 @@ import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import 'react-select/dist/react-select.css';
 import '@geneontology/ribbon/lib/index.css';
 import './style.scss';
-import './ribbon.scss';
 
 import ReactApp from './reactApplication';
 
