@@ -9,20 +9,15 @@ class NavItem extends Component {
     const { currentRoute, page } = this.props;
     const isParent = typeof page.sub !== 'undefined';
     const isActive = route => route === currentRoute ? style.active : '';
+    const menuItem = isParent ?
+      <a className='nav-link dropdown-toggle' data-toggle='dropdown' href='#' role='button'>{page.label}</a> :
+      <Link className={`nav-link ${isActive(page.route)} ${style.menuItem}`} to={page.route}>{page.label}</Link>;
     return (
-      <li className={`nav-item ${isParent && ' dropdown'}`}>
+      <li className={`nav-item ${isParent ? ' dropdown' : ''}`}>
         <div className='btn-group'>
-          <Link className={`nav-link ${isActive(page.route)} ${isParent && ' dropdown-toggle'}`}
-                data-toggle={isParent && 'dropdown'}
-                to={page.route}
-          >
-            {page.label}
-          </Link>
+          {menuItem}
           {page.sub && (
             <div className='dropdown-menu' key role='menu'>
-              <Link className={`dropdown-item sub-menu ${isActive(page.route)}`} to={page.route}>
-                {page.label}
-              </Link>
               {
                 page.sub.map(sub => (
                   <Link className={`dropdown-item sub-menu ${isActive(sub.route)}`}

@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import style from './style.scss';
-import { NAV_MENU } from '../../constants';
 
 class SecondaryNav extends Component {
   getStyle (menuCat) {
     switch (menuCat) {
-    case '/':
+    // magic numbers are wordpress parent IDs
+    case 16:
       return style.homeMenuContainer;
-    case '/about-us':
+    case 2:
       return style.aboutMenuContainer;
-    case '/contact-us':
+    case 3:
       return style.contactMenuContainer;
-    case '/projects-work-products-publications':
+    case 257:
       return style.projectsMenuContainer;
     case 'post':
       return style.postMenuContainer;
@@ -22,9 +22,8 @@ class SecondaryNav extends Component {
 
   render () {
     const { parent, title, type } = this.props;
-    const parentPage = NAV_MENU.find(page => page.wordpressId === parent);
 
-    let menuCat = (type === 'post') ? 'post' : (parentPage.route || '/');
+    let menuCat = (type === 'post') ? 'post' : parent;
     let menuContainer = this.getStyle(menuCat);
 
     return (
