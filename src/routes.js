@@ -28,7 +28,12 @@ export default (
           <Route component={DownloadsPage} path='/downloads' />
 
           {/* this one needs to be handled outside of the main application */}
-          <Route exact path='/api/swagger-ui' render={() => <Redirect to='/api/swagger-ui' />} />
+          <Route exact path='/api/swagger-ui' render={
+            () => {
+              window.location.href = '/api/swagger-ui';
+              return null;
+            }}
+          />
 
           <Route component={
             ({match}) => (
