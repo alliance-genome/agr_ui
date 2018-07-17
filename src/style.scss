@@ -17,7 +17,7 @@
 
 .react-bs-table {
   overflow-x: auto;
-  >div {
+  > div {
     overflow: visible;
   }
   th {
@@ -30,6 +30,29 @@
   display: flex;
   padding: 4px 4px;
   font-size: .8rem;
-  background-color: pink;
-  color: green;
+  background-color: rgb(6, 100, 100);
+  color: white;
 }
+
+.go-link {
+  text-decoration: none;
+  color: #247BBD;
+}
+
+.go-link:visited {
+  text-decoration: none;
+  color: purple;
+}
+
+.link {
+  text-decoration: none;
+  color: #247BBD;
+  display: inline-block;
+}
+
+.link:visited {
+  text-decoration: none;
+  color: purple;
+  display: inline-block;
+}
+
