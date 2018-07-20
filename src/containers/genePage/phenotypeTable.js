@@ -40,21 +40,21 @@ class PhenotypeTable extends React.Component {
         label: 'Phenotype Term',
         format: (term) => <span dangerouslySetInnerHTML={{__html: term}} />,
         sortable: true,
-        filterable: true,
+        filterable: false,
       },
       {
         field: 'geneticEntity',
         label: 'Genetic Entity',
         format: GeneticEntityCell,
         sortable: true,
-        filterable: true,
+        filterable: false,
         width: '185px',
       },
       {
         field: 'geneticEntityType',
         label: 'Genetic Entity Type',
         sortable: true,
-        filterable: true,
+        filterable: false,
         width: '100px',
       },
       {
@@ -62,7 +62,7 @@ class PhenotypeTable extends React.Component {
         label: 'References',
         format: ReferenceCell,
         sortable: true,
-        filterable: true,
+        filterable: false,
         width: '150px',
       },
     ];
