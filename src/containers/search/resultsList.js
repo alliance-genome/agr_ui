@@ -39,7 +39,7 @@ class ResultsList extends Component {
   }
 
   renderDetailFromFields(d, fields) {
-    return <DetailList data={d} fields={fields} />;
+    return <DetailList data={d} fields={fields}  />;
   }
 
   renderMissingTerms(d) {
@@ -107,7 +107,7 @@ class ResultsList extends Component {
       } else if (d.category === 'disease') {
         return this.renderDiseaseEntry(d, i);
       } else if (d.category === 'go') {
-        return this.renderEntry(d, i, ['id', 'synonyms', 'go_branch']);
+        return this.renderEntry(d, i, ['id', 'collapsible_synonyms', 'go_branch']);
       } else if (d.category === 'allele') {
         return this.renderEntry(d, i, ['id','gene', 'synonyms', 'diseases']);
       } else {
