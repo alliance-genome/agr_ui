@@ -11,6 +11,7 @@ export function makeFieldDisplayName(unformattedName) {
   unformattedName = unformattedName || '';
 
   unformattedName = unformattedName.replace('name_key', 'Symbol');
+  unformattedName = unformattedName.replace('collapsible_', '');
 
   switch(unformattedName) {
   case 'go':
