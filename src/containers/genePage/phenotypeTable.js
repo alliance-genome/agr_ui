@@ -24,7 +24,7 @@ class PhenotypeTable extends React.Component {
           modCrossRefFullUrl: record.featureDocument.modCrossRefFullUrl,
           symbol: record.featureDocument.symbol,
         },
-        geneticEntityType: record.featureDocument && record.featureDocument.category,
+        geneticEntityType: record.geneticEntity,
         reference: record.publications,
       };
     });
