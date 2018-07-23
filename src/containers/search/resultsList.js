@@ -43,7 +43,7 @@ class ResultsList extends Component {
   }
 
   renderMissingTerms(d) {
-    if (!d.missing || d.missing.length === 0) { return ''; }
+    if (!d.missing || d.missing.length === 0 || d.missing[0] === '') { return ''; }
     return (
       <div className={style.missingTerms}>
         <DetailList data={d} fields={['missing']} />
