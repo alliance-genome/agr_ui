@@ -6,6 +6,16 @@ import NoData from '../noData';
 
 
 class GeneOntologyRibbon extends Component {
+
+  static hasBlockData(blocks){
+    for(let b of blocks ){
+      if(b.uniqueIDs.length>0){
+        return true ;
+      }
+    }
+    return false ;
+  }
+
   render() {
     const {id, slim} = this.props;
 
@@ -18,7 +28,7 @@ class GeneOntologyRibbon extends Component {
         {({title, blocks, dataError, dataReceived}) => (
           <div>
             {
-              dataReceived && blocks.reduce((accumulator, block) => { return ( accumulator + block.uniqueIDs.length ); } , 0) ?
+              dataReceived && GeneOntologyRibbon.hasBlockData(blocks) ?
               <HorizontalScroll width={800}>
               <Ribbon
               blocks={blocks}
