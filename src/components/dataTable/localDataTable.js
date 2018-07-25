@@ -17,6 +17,14 @@ const textSorter = (textRender, field) => {
   };
 };
 
+const getSortFunction = (column) => {
+  const textFunction = column.filterText || column.asText;
+  if (!textFunction) {
+    return null;
+  }
+  return textSorter(textFunction, column.field);
+};
+
 class LocalDataTable extends Component {
   constructor(props) {
     super(props);
@@ -62,10 +70,10 @@ class LocalDataTable extends Component {
               dataFormat={col.format}
               dataSort={col.sortable}
               filter={Utils.getTextFilter(col)}
-              filterValue={col.asText}
+              filterValue={col.filterText || col.asText}
               isKey={col.isKey}
               key={idx}
-              sortFunc={col.asText && textSorter(col.asText, col.field)}
+              sortFunc={getSortFunction(col)}
               width={col.width}
             >
               {col.label}
