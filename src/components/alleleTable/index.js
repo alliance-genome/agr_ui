@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import LocalDataTable from '../dataTable/localDataTable';
 import ExternalLink from '../externalLink';
 import { Link } from 'react-router-dom';
-import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
+import { compareAlphabeticalCaseInsensitive, stripHtml } from '../../lib/utils';
 import CollapsibleList from '../collapsibleList/collapsibleList';
 import SynonymList from '../synonymList';
 import NoData from '../noData';
@@ -43,6 +43,7 @@ class AlleleTable extends Component {
         width: '185px',
         sortable: true,
         filterable: true,
+        filterText: symbol => stripHtml(symbol),
         isKey: true,
       },
       {
@@ -52,6 +53,7 @@ class AlleleTable extends Component {
         width: '200px',
         sortable: true,
         filterable: true,
+        filterText: synonyms => synonyms.map(s => stripHtml(s)).join(' '),
       },
       {
         field: 'source',
@@ -61,6 +63,7 @@ class AlleleTable extends Component {
         width: '75px',
         sortable: true,
         filterable: true,
+        filterText: source => source.dataProvider
       },
       {
         field: 'diseases',
@@ -76,6 +79,7 @@ class AlleleTable extends Component {
         width: '275px',
         sortable: true,
         filterable: true,
+        filterText: diseases => diseases.map(d => d.name).join(' '),
       },
     ];
 
