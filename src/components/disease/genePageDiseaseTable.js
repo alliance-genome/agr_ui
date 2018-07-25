@@ -8,7 +8,7 @@ import {
   EvidenceCodesCell,
   ReferenceCell
 } from '../../components/dataTable';
-import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
+import { compareAlphabeticalCaseInsensitive, stripHtml } from '../../lib/utils';
 
 class GenePageDiseaseTable extends Component {
 
@@ -24,7 +24,7 @@ class GenePageDiseaseTable extends Component {
           doId: disease.doId,
           associationType: annotation.associationType.replace(/_/g, ' '),
           entityName: annotation.featureDocument,
-          entityCategory: annotation.featureDocument && annotation.featureDocument.category,
+          entityCategory: annotation.featureDocument ? annotation.featureDocument.category : 'gene',
           dataProvider: annotation.source.name,
           publications: annotation.publications,
           refs: annotation.publications,
@@ -53,6 +53,7 @@ class GenePageDiseaseTable extends Component {
         format: GeneticEntityCell,
         sortable: true,
         filterable: true,
+        filterText: feature => feature ? stripHtml(feature.symbol) : '',
         asText: (featureDocument) => featureDocument ? featureDocument.symbol : '',
         width: '185px',
       },
