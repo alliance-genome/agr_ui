@@ -11,6 +11,7 @@ const COLLAPSIBLE_FIELDS = ['external_ids', 'collapsible_synonyms'];
 const JOIN_CHAR = ', ';
 
 class DetailList extends Component {
+
   render() {
     let d = this.props.data;
     let nodes = this.props.fields.map( (field) => {
@@ -20,7 +21,7 @@ class DetailList extends Component {
       if (Array.isArray(value)) {
         if (COLLAPSIBLE_FIELDS.includes(field)) { //special handling to make cross references collapsible
           valueNode = (
-            <CollapsibleList>{value.sort()}</CollapsibleList>
+            <CollapsibleList>{value.sort().map(val => <span dangerouslySetInnerHTML={{ __html: val }} key={val} />)}</CollapsibleList>
           );
         } else { //everything else just gets joined
           value = value.join(JOIN_CHAR);
@@ -52,6 +53,7 @@ class DetailList extends Component {
       </div>
     );
   }
+
 }
 
 DetailList.propTypes = {
