@@ -11,7 +11,7 @@
     "url": "https://github.com/alliance-genome/agr_ui.git"
   },
   "dependencies": {
-    "@geneontology/ribbon": "^1.4.10",
+    "@geneontology/ribbon": "^1.4.11",
     "babel-polyfill": "^6.26.0",
     "bootstrap": "4.1.1",
     "d3-axis": "^1.0.8",
