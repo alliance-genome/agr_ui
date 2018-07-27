@@ -17,8 +17,8 @@ export function compareAlphabeticalCaseInsensitive(accessor) {
 }
 
 export function buildTableQueryString(options) {
-  const filterQueries = options.filters && options.filters
-    .map(filter => `${filter.name}=${filter.value}`)
-    .join('&');
-  return `page=${options.page}&limit=${options.limit}&sortBy=${options.sort.name}&asc=${options.sort.order === 'asc'}&${filterQueries}`;
+  const filterQueries = options.filters.length ?
+    ('&' + options.filters.map(filter => `${filter.name}=${filter.value}`).join('&')) : '';
+  const sortOrderQuery = options.sort.order ? `&asc=${options.sort.order === 'asc'}` : '';
+  return `page=${options.page}&limit=${options.limit}&sortBy=${options.sort.name}${sortOrderQuery}${filterQueries}`;
 }
