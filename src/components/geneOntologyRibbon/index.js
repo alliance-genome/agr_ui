@@ -1,43 +1,55 @@
-
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Ribbon , { RibbonDataProvider } from '@geneontology/ribbon';
-import '../../../node_modules/@geneontology/ribbon/lib/index.css';
+import Ribbon, {RibbonDataProvider} from '@geneontology/ribbon';
 import HorizontalScroll from '../horizontalScroll';
 import NoData from '../noData';
 
 
 class GeneOntologyRibbon extends Component {
+
+  static hasBlockData(blocks){
+    for(let b of blocks ){
+      if(b.uniqueIDs.length>0){
+        return true ;
+      }
+    }
+    return false ;
+  }
+
   render() {
-    const {id,slim} =  this.props;
+    const {id, slim} = this.props;
 
     return (
-      <RibbonDataProvider slim={slim} subject={id} >
-      {({title, data, dataError, dataReceived}) => (
+      <RibbonDataProvider heatColorArray={[6, 100, 100]}
+                          heatLevels={48}
+                          slim={slim}
+                          subject={id}
+      >
+        {({title, blocks, dataError, dataReceived}) => (
           <div>
-          {
-            dataReceived ?
+            {
+              dataReceived && GeneOntologyRibbon.hasBlockData(blocks) ?
               <HorizontalScroll width={800}>
-                <Ribbon
-                  geneUrlFormatter={(geneId) => `/gene/${geneId}`}
-                  showing={false}
-                  slimlist={data}
-                  subject={id}
-                  title={title}
-                />
+              <Ribbon
+              blocks={blocks}
+              geneUrlFormatter={(geneId) => `/gene/${geneId}`}
+              showing={false}
+              subject={id}
+              title={title}
+              />
               </HorizontalScroll>
-               :
-              null
-          }
-          {
-            dataError ? <NoData /> : null
-          }
-          {
-            dataReceived || dataError ? null : 'Loading...'
-          }
+              :
+              <NoData />
+            }
+            {
+              dataError ? <NoData /> : null
+            }
+            {
+              dataReceived || dataError ? null : 'Loading...'
+            }
           </div>
         )
-      }
+        }
       </RibbonDataProvider>
     );
   }

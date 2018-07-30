@@ -22,9 +22,10 @@ describe('Disease reducer', () => {
       payload: jsonResult
     };
     const returnedState = reducer(undefined, action);
-    assert.equal(returnedState.get('totalAssociations'),jsonResult.total);
-    assert.equal(returnedState.get('associationsError'),'');
-    assert.deepEqual(returnedState.get('associations').toJS(), jsonResult.results);
+    const associations = returnedState.get('associations').toJS();
+    assert.equal(associations.total, jsonResult.total);
+    assert.equal(associations.error, null);
+    assert.deepEqual(associations.data, jsonResult.results);
 
   });
 
@@ -35,20 +36,6 @@ describe('Disease reducer', () => {
       payload: errorMsg
     };
     const returnedState = reducer(undefined, action);
-    assert.equal(returnedState.get('associationsError'), errorMsg);
-  });
-
-  it('setCurrentPage', () => {
-    const currentPage = 42;
-    const action = { type: actionsAndTypes.SET_CURRENT_PAGE, payload: currentPage };
-    const returnedState = reducer(undefined, action);
-    assert.deepEqual(returnedState.get('currentPage'), currentPage);
-  });
-
-  it('setPerPageSize', () => {
-    const perPageSize = 4;
-    const action = { type: actionsAndTypes.SET_PER_PAGE_SIZE, payload: perPageSize };
-    const returnedState = reducer(undefined, action);
-    assert.deepEqual(returnedState.get('perPageSize'), perPageSize);
+    assert.equal(returnedState.get('associations').toJS().error, errorMsg);
   });
 });

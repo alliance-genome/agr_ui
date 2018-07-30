@@ -17,11 +17,57 @@
 
 .react-bs-table {
   overflow-x: auto;
-  >div {
+  > div {
     overflow: visible;
   }
   th {
     vertical-align: bottom !important;
   }
   @include webkit-scrollbar;
+}
+
+/**
+Ribbon includes.
+ */
+.ontology-ribbon__header {
+  display: flex;
+  padding: 4px 4px;
+  font-size: .8rem;
+  background-color: rgb(6, 100, 100);
+  color: white;
+}
+
+.go-link {
+  text-decoration: none;
+  color: #247BBD;
+}
+
+.go-link:visited {
+  text-decoration: none;
+  color: purple;
+}
+
+.link {
+  text-decoration: none;
+  color: #247BBD;
+  display: inline;
+}
+
+.link:visited {
+  text-decoration: none;
+  color: purple;
+  display: inline;
+}
+
+.ontology-ribbon__block-tile {
+  border: 1px solid silver;
+  height: 16px;
+  width: 16px;
+  margin-right: -1px;
+  position: relative;
+  text-align: center;
+  vertical-align: middle;
+  text-shadow: -1px 0 silver, 0 1px silver, 1px 0 silver, 0 -1px silver;
+  cursor: pointer;
+  line-height: 1.0em;
 }

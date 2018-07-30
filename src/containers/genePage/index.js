@@ -20,6 +20,7 @@ import ExpressionLinks from './expressionLinks';
 
 import SpeciesIcon from '../../components/speciesIcon';
 import DataSourceLink from '../../components/dataSourceLink';
+import PhenotypeTable from './phenotypeTable';
 
 class GenePage extends Component {
 
@@ -77,7 +78,8 @@ class GenePage extends Component {
     const DISEASE = 'Disease Associations';
     const EXPRESSION = 'Expression';
     const ALLELES = 'Alleles';
-    const SECTIONS = [SUMMARY, SEQUENCE_FEATURE_VIEWER, FUNCTION, ORTHOLOGY, DISEASE, EXPRESSION, ALLELES];
+    const PHENOTYPES = 'Phenotypes';
+    const SECTIONS = [SUMMARY, SEQUENCE_FEATURE_VIEWER, FUNCTION, ORTHOLOGY, PHENOTYPES, DISEASE, EXPRESSION, ALLELES];
 
     return (
       <DataPage title={title}>
@@ -128,6 +130,10 @@ class GenePage extends Component {
               <OrthologyFilteredTable data={data.orthology} />
               <OrthologyUserGuide />
             </Subsection>
+          </Subsection>
+
+          <Subsection title={PHENOTYPES}>
+            <PhenotypeTable geneId={data.primaryId} />
           </Subsection>
 
           <Subsection hasData={(data.diseases || []).length > 0} title={DISEASE}>
