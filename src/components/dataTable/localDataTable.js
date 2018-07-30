@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import Utils from './utils';
 import DownloadButton from './downloadButton';
+import PaginationPanel from './paginationPanel';
 
 const textSorter = (textRender, field) => {
   return (a, b, order) => {
@@ -14,6 +15,14 @@ const textSorter = (textRender, field) => {
       return textRender(b[field]).localeCompare(textRender(a[field]));
     }
   };
+};
+
+const getSortFunction = (column) => {
+  const textFunction = column.filterText || column.asText;
+  if (!textFunction) {
+    return null;
+  }
+  return textSorter(textFunction, column.field);
 };
 
 class LocalDataTable extends Component {
@@ -35,6 +44,7 @@ class LocalDataTable extends Component {
       exportCSVBtn: this.renderDownloadButton,
       exportCSVSeparator: '\t',
       paginationShowsTotal: Utils.renderPaginationShowsTotal,
+      paginationPanel: PaginationPanel,
       sizePerPageDropDown: Utils.renderSizePerPageDropDown,
       sizePerPageList: [10, 25, 100],
       toolbarPosition: 'bottom', //move download button to the bottom
@@ -60,10 +70,10 @@ class LocalDataTable extends Component {
               dataFormat={col.format}
               dataSort={col.sortable}
               filter={Utils.getTextFilter(col)}
-              filterValue={col.asText}
+              filterValue={col.filterText || col.asText}
               isKey={col.isKey}
               key={idx}
-              sortFunc={col.asText && textSorter(col.asText, col.field)}
+              sortFunc={getSortFunction(col)}
               width={col.width}
             >
               {col.label}

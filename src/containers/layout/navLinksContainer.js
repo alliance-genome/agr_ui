@@ -10,24 +10,27 @@ class NavLinksContainer extends Component {
     return (
       <div className={this.props.type}>
         {
-          NAV_MENU.map(page => (
-            <div className={style.navContainer} key={page.route}>
-              <Link className={`nav-link ${style.navLink}`} to={page.route}>
-                {page.label}
-              </Link>
-              <div className={style.sub_nav}>
-                <ul className='list-unstyled'>
-                  {page.sub && page.sub.map(sub => (
-                    <li className={style.subMenuListItem} key={sub.route}>
-                      <Link className={style.sub_nav_link} to={sub.route}>
-                        {sub.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+          NAV_MENU.map(page => {
+            const item = page.route ?
+              <Link className={`nav-link ${style.navLink}`} to={page.route}>{page.label}</Link> :
+              <span className={`nav-link ${style.navLink}`}>{page.label}</span>;
+            return (
+              <div className={style.navContainer} key={page.label}>
+                {item}
+                <div className={style.sub_nav}>
+                  <ul className='list-unstyled'>
+                    {page.sub && page.sub.map(sub => (
+                      <li className={style.subMenuListItem} key={sub.route}>
+                        <Link className={style.sub_nav_link} to={sub.route}>
+                          {sub.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </div>
-          ))
+            );
+          })
         }
       </div>
     );

@@ -43,12 +43,4 @@ describe('Disease actions', () => {
   it('fetchAssociationsFailure()', () => {
     assert.deepEqual(actionsAndTypes.fetchAssociationsFailure('I failed :-('), { type: actionsAndTypes.FETCH_ASSOCIATIONS_FAILURE, payload: 'I failed :-('});
   });
-
-  it('setCurrentPage', () => {
-    assert.deepEqual(actionsAndTypes.setCurrentPage(2), { type: actionsAndTypes.SET_CURRENT_PAGE, payload: 2});
-  });
-
-  it('setPerPageSize', () => {
-    assert.deepEqual(actionsAndTypes.setPerPageSize(100), { type: actionsAndTypes.SET_PER_PAGE_SIZE, payload: 100});
-  });
 });
