@@ -73,8 +73,12 @@ export function makeFieldDisplayName(unformattedName) {
   case 'allele.name':
     return 'Allele';
   default:
-    //replace underscores and any field name suffixes after a ., capitalize
-    return unformattedName.replace(/_/g, ' ').replace(/\.(\w)+/g, '');
+    //replace fix both camel case and underscores, capitalize the first letter
+    return unformattedName
+      .replace( /([A-Z])/g, ' $1' )
+      .replace(/_/g, ' ')
+      .replace(/\.(\w)+/g, '')
+      .replace(/^\w/, c => c.toUpperCase());
   }
 }
 
