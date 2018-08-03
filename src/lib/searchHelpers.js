@@ -7,6 +7,21 @@ import ExternalLink from '../components/externalLink';
 const SINGLE_VAL_FIELDS = ['mode', 'page'];
 const CLEARING_FIELDS = ['category'];
 
+export function makeValueDisplayName(unformattedName) {
+  unformattedName = unformattedName || '';
+
+  switch(unformattedName) {
+  case 'biological_process':
+    return 'biological process';
+  case 'molecular_function':
+    return 'molecular function';
+  case 'cellular_component':
+    return 'cellular component';
+  default:
+    return unformattedName;
+  }
+}
+
 export function makeFieldDisplayName(unformattedName) {
   unformattedName = unformattedName || '';
 
