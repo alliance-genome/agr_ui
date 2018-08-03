@@ -75,7 +75,8 @@
     "url-loader": "^0.5.7",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.16.1",
-    "webpack-node-externals": "^1.4.3"
+    "webpack-node-externals": "^1.4.3",
+    "snyk": "^1.90.0"
   },
   "scripts": {
     "start": "webpack-dev-server --history-api-fallback --hot --inline",
@@ -88,7 +89,7 @@
     "copy": "cp -r src/public/. dist",
     "lint": "eslint src --max-warnings 0",
     "pretest": "npm run lint",
-    "test": "NODE_ENV=test mocha-webpack --webpack-config webpack.config-test.js \"src/**/*test.js\"",
+    "test": "snyk test && NODE_ENV=test mocha-webpack --webpack-config webpack.config-test.js \"src/**/*test.js\"",
     "test:watch": "NODE_ENV=test mocha-webpack --webpack-config webpack.config-test.js --watch \"src/**/*test.js\""
   }
 }
