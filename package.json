@@ -29,7 +29,7 @@
     "popper.js": "1.14.3",
     "prop-types": "^15.5.10",
     "query-string": "^5.1.1",
-    "react": "^16.4.0",
+    "react": "^16.4.1",
     "react-autosuggest": "^9.3.4",
     "react-bootstrap-table": "FlyBase/react-bootstrap-table#4.3.2",
     "react-dom": "^16.4.2",
