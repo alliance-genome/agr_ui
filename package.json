@@ -13,7 +13,7 @@
   "dependencies": {
     "@geneontology/ribbon": "^1.4.11",
     "babel-polyfill": "^6.26.0",
-    "bootstrap": "4.1.1",
+    "bootstrap": "^4.1.2",
     "d3-axis": "^1.0.8",
     "d3-scale": "^1.0.6",
     "d3-selection": "^1.1.0",
@@ -47,7 +47,8 @@
     "redux-thunk": "2.2.0",
     "reselect": "^2.5.4",
     "sitemap": "^1.13.0",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "snyk": "^1.90.0"
   },
   "devDependencies": {
     "babel-core": "^6.14.0",
@@ -89,6 +90,10 @@
     "lint": "eslint src --max-warnings 0",
     "pretest": "npm run lint",
     "test": "NODE_ENV=test mocha-webpack --webpack-config webpack.config-test.js \"src/**/*test.js\"",
-    "test:watch": "NODE_ENV=test mocha-webpack --webpack-config webpack.config-test.js --watch \"src/**/*test.js\""
-  }
+    "test:watch": "NODE_ENV=test mocha-webpack --webpack-config webpack.config-test.js --watch \"src/**/*test.js\"",
+    "snyk": "snyk test",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
+  },
+  "snyk": true
 }
