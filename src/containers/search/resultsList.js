@@ -52,7 +52,7 @@ class ResultsList extends Component {
   }
 
   renderDiseaseEntry(d, i) {
-    let fields = ['id', 'definition', 'external_ids'];
+    let fields = ['id', 'definition'];
     return (
       <div className={style.resultContainer} key={`sr${i}`}>
         {this.renderHeader(d)}
