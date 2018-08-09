@@ -132,7 +132,7 @@ class GenePage extends Component {
             </Subsection>
           </Subsection>
 
-          <Subsection title={PHENOTYPES}>
+          <Subsection hasData={(data.phenotypes || []).length > 0} title={PHENOTYPES}>
             <PhenotypeTable geneId={data.primaryId} />
           </Subsection>
 
