@@ -9,9 +9,9 @@ The web UI portal of the Alliance of Genome Resources.
 The following commands will get you inside of docker and ready to develop code
 
 ```bash
-	docker pull agrdocker/agr_javascript_env
+  docker pull agrdocker/agr_javascript_env
   export API_URL=http://dev.alliancegenome.org
-	docker run -w `pwd`:/workdir/agr_ui -p 2992:2992 -it agrdocker/agr_javascript_env:latest /bin/bash
+  docker run -w `pwd`:/workdir/agr_ui -e API_URL -p 2992:2992 -it agrdocker/agr_javascript_env:latest /bin/bash
   npm run docker-start
 ```
 
