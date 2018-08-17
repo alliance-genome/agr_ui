@@ -11,7 +11,7 @@ The following commands will get you inside of docker and ready to develop code
 ```bash
   docker pull agrdocker/agr_javascript_env
   export API_URL=http://dev.alliancegenome.org
-  docker run -w `pwd`:/workdir/agr_ui -e API_URL -p 2992:2992 -it agrdocker/agr_javascript_env:latest /bin/bash
+  docker run -v `pwd`:/workdir/agr_ui -w /workdir/agr_ui -e API_URL -p 2992:2992 -it agrdocker/agr_javascript_env /bin/bash 
   npm run docker-start
 ```
 
