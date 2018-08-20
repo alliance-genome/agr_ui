@@ -170,7 +170,13 @@ var DrawGenomeView = function(data,svg_target){
               //Now that the label has been created we can calculate the space that
               //this new element is taking up making sure to add in the width of
               //the box.
-              var text_width = text_label.node().getBBox().width;
+              var text_width = 300 ;
+              try{
+                text_width = text_label.node().getBBox().width ;
+              }
+              catch (e) {
+                 // console.error("unable to get text label node")
+              }
 
               //console.log(featureChild.name);
               //console.log(text_width+x(featureChild.fmin));
