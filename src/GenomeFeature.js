@@ -1,8 +1,8 @@
 /* eslint-disable */
 console.log("We are here");
-import {scaleLinear} from "d3-scale";
-import {axisTop} from "d3-axis";
-import {select} from "d3-selection";
+let scaleLinear = require("d3-scale").scaleLinear;
+let axisTop = require("d3-axis").axisTop;
+let select = require("d3-selection").select;
 //import style from 'App.css';
 // var d3 = require ("d3");
 

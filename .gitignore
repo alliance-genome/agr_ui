@@ -65,3 +65,4 @@ typings/
 
 *.swp
 .idea
+demo/src/bundle.js
