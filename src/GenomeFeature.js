@@ -458,38 +458,49 @@ function countIsoforms(data) {
 
 // var GenerateGenomeView= function(chr, start, end, organism,svg_target)
 var GenerateGenomeView = function (svg_target, options) {
-    // chr, start, end, organism,
-    let {chromosome, start, end, genome, server, track, highlightNames} = options;
-    server = server ? server : 'https://agr-apollo.berkeleybop.io/apollo/';
-    track = track ? track : 'All Genes';
+        // chr, start, end, organism,
+        let {chromosome, start, end, genome, server, track, highlightNames, gene} = options;
+        server = server ? server : 'https://agr-apollo.berkeleybop.io/apollo/';
+        track = track ? track : 'All Genes';
 
-    let nameString = '';
-    for (let nameIndex in highlightNames) {
-        nameString += nameIndex == 0 ? '?' : '&';
-        nameString += 'name=' + highlightNames[nameIndex];
-    }
-    //Clear it first maaang
-    // console.log("generating.... for "+svg_target+"!");
-    let svg = select(svg_target);
-    svg.selectAll("*").remove();
-    //Right now this is Hardcoded
-    let externalLocationString = chromosome + ':' + start + '..' + end;
-    let dataUrl = server + '/track/' + encodeURI(genome) + '/' + track + '/' + encodeURI(externalLocationString) + '.json' + nameString;
-    fetch(dataUrl)
-        .then((response) => {
-            response.json()
-                .then(data => {
-                    //console.log("In the data function maaaan.");
-                    //console.log(data);
-                    DrawGenomeView(data, svg_target);
+        let nameString = '';
+        for (let nameIndex in highlightNames) {
+            nameString += nameIndex == 0 ? '?' : '&';
+            nameString += 'name=' + highlightNames[nameIndex];
+        }
+        //Clear it first maaang
+        // console.log("generating.... for "+svg_target+"!");
+        let svg = select(svg_target);
+        svg.selectAll("*").remove();
+        //Right now this is Hardcoded
+        let dataUrl;
+        if (!gene && chromosome && start && end) {
+            let externalLocationString = chromosome + ':' + start + '..' + end;
+            dataUrl = server + '/track/' + encodeURI(genome) + '/' + track + '/' + encodeURI(externalLocationString) + '.json' + nameString;
+        }
+        else if (gene && chromosome) {
+            // let externalLocationString = chromosome + ':' + start + '..' + end;
+            nameString = nameString ? nameString : '?name='+gene;
+            dataUrl = server + '/track/' + encodeURI(genome) + '/' + track + '/' + chromosome + '/' + gene + '.json' + nameString;
+        }
+        if (dataUrl) {
+            fetch(dataUrl)
+                .then((response) => {
+                    response.json()
+                        .then(data => {
+                            DrawGenomeView(data, svg_target);
 
+                        });
+                })
+                .catch((error) => {
+                    console.log(error);
                 });
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-    //return data;
-};
+        }
+        else {
+            console.error("Not enough information to generate a url for fetching data", options);
+        }
+    }
+;
 
 //Takes in the current entry start/end and the array of used space and assigns a row
 function checkSpace(used_space, start, end) {
