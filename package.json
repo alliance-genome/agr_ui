@@ -11,7 +11,8 @@
     "umd"
   ],
   "scripts": {
-    "start": "webpack && webpack-dev-server"
+    "start": "webpack && webpack-dev-server",
+    "build": "webpack"
   },
   "dependencies": {
     "d3": "^4.11.0",
