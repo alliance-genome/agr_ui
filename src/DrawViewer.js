@@ -68,14 +68,13 @@ var DrawGenomeView = function(data, svg_target){
       .domain([view_start, view_end])
       .range([0, width]);
 
-  // Clear it first maaang
+  // Just make sure we have a clear svg
+  d3.select(svg_target).selectAll("*").remove();
   let viewer = d3.select(svg_target)
-  viewer.selectAll("*").remove();
-
-  viewer.attr('width', width + margin.left + margin.right)
-    .attr('height', height + margin.top + margin.bottom)
-    .append('g')
-    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+  .attr('width', width + margin.left + margin.right)
+  .attr('height', height + margin.top + margin.bottom)
+  .append('g')
+  .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
   let row_count =0;
   let used_space = [];
