@@ -104,7 +104,7 @@ export function parseAggs(rawAggs, queryObject) {
     });
     return {
       name: d.key,
-      displayName: makeValueDisplayName(d.key),
+      displayName: makeFieldDisplayName(d.key),
       key: d.key,
       values: _values
     };
