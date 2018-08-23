@@ -1,5 +1,5 @@
 import DrawViewer from './DrawViewer';
-
+import { ApolloService } from './services/services';
 /*
  Main entry for creating the genome viewer.
  Currently only draws isoforms at a global level
@@ -19,17 +19,12 @@ var GenerateGenomeView = function(config, svg_target)
   // Config should be a set of tracks and we should be drawing 
   // based on track type to the svg
   let externalLocationString = config.chromosome + ':' + config.start + '..' + config.end;
-  var dataUrl = "https://agr-apollo.berkeleybop.io/apollo/track/" + encodeURI(config.genome) + "/All%20Genes/" + 
-  encodeURI(externalLocationString) + ".json";
-  fetch(dataUrl)
-      .then((response) => {
-          response.json()
-      .then(data => {
-          DrawViewer(data, svg_target);
-      });
-  })
-  .catch((error) => {
-    console.log(error);
+  var dataUrl = "https://agr-apollo.berkeleybop.io/apollo/track/" + encodeURI(config.genome) + "/All%20Genes/" + encodeURI(externalLocationString) + ".json";
+  
+  // TODO: We can still make this more robust.
+  var apolloService = new ApolloService()
+  apolloService.GetIsoformTrack(dataUrl).then((data) =>{
+        DrawViewer(data, svg_target);
   });
 };
 

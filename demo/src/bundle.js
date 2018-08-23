@@ -13153,12 +13153,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _DrawViewer = __webpack_require__(202);
 
 var _DrawViewer2 = _interopRequireDefault(_DrawViewer);
+
+var _services = __webpack_require__(546);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -13176,18 +13178,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
   @Param svg_target: a DOM element id, where the viewer will be drawn.
 */
 var GenerateGenomeView = function GenerateGenomeView(config, svg_target) {
-    // TODO: 
-    // Config should be a set of tracks and we should be drawing 
-    // based on track type to the svg
-    var externalLocationString = config.chromosome + ':' + config.start + '..' + config.end;
-    var dataUrl = "https://agr-apollo.berkeleybop.io/apollo/track/" + encodeURI(config.genome) + "/All%20Genes/" + encodeURI(externalLocationString) + ".json";
-    fetch(dataUrl).then(function (response) {
-        response.json().then(function (data) {
-            (0, _DrawViewer2.default)(data, svg_target);
-        });
-    }).catch(function (error) {
-        console.log(error);
-    });
+  // TODO: 
+  // Config should be a set of tracks and we should be drawing 
+  // based on track type to the svg
+  var externalLocationString = config.chromosome + ':' + config.start + '..' + config.end;
+  var dataUrl = "https://agr-apollo.berkeleybop.io/apollo/track/" + encodeURI(config.genome) + "/All%20Genes/" + encodeURI(externalLocationString) + ".json";
+
+  // TODO: We can still make this more robust.
+  var apolloService = new _services.ApolloService();
+  apolloService.GetIsoformTrack(dataUrl).then(function (data) {
+    (0, _DrawViewer2.default)(data, svg_target);
+  });
 };
 
 exports.default = GenerateGenomeView;
@@ -32304,6 +32305,48 @@ var _d3Selection = __webpack_require__(1);
 function nopropagation() {
   _d3Selection.event.stopImmediatePropagation();
 }
+
+/***/ }),
+/* 546 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ApolloService = function () {
+    /*
+    * ApolloService Class
+    * 
+    */
+    function ApolloService() {
+        _classCallCheck(this, ApolloService);
+    }
+
+    _createClass(ApolloService, [{
+        key: "GetIsoformTrack",
+        value: function GetIsoformTrack(url) {
+            return new Promise(function (resolve, reject) {
+                fetch(url).then(function (response) {
+                    resolve(response.json());
+                }).catch(function (error) {
+                    reject(error);
+                });
+            });
+        }
+    }]);
+
+    return ApolloService;
+}();
+
+exports.ApolloService = ApolloService;
 
 /***/ })
 /******/ ]);
