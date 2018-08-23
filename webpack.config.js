@@ -1,14 +1,12 @@
-var webpack = require('webpack');
-var config = {
-    entry: {
-        app: "./demo/src/JSDemo.js"
-    },
-    output: {
-        filename: "demo/src/bundle.js"
-    },
-    devServer: {
-        contentBase: './demo/src/'
-
+var config  = {
+  entry: {
+    app :"./demo/src/JSDemo.js"
+  },
+  output:{
+    filename: "demo/src/bundle.js"
+  },
+  devServer:{
+      contentBase:'./demo/src/'
     },
     module: {
         rules: [
@@ -29,14 +27,3 @@ var config = {
 };
 
 module.exports = config;
-
-//module.exports = {
-//  entry: "./demo/src/JSDemo.js",
-//  output: {
-//    filename: "bundle.js"
-//  },
-//  devServer : {
-//    contentBase: "./demo/src/",
-//    port: 8081
-//  }
-//}

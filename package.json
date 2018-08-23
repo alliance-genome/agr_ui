@@ -2,8 +2,8 @@
   "name": "genomefeaturecomponent",
   "version": "0.1.2",
   "description": "Provides SVG View for Genome Features rendered with the Apollo Track Web Service via JBrowse",
-  "main": "src/GenomeFeature.js",
-  "module": "src/GenomeFeature.js",
+  "main": "src/GenomeFeatureViewer.js",
+  "module": "src/GenomeFeatureViewer.js",
   "files": [
     "css",
     "es",
@@ -11,13 +11,12 @@
     "umd"
   ],
   "scripts": {
-    "start": "webpack && webpack-dev-server"
+    "start": "webpack && webpack-dev-server",
+    "build": "webpack"
   },
   "dependencies": {
     "babel": "^6.23.0",
-    "d3-axis": "^1.0.8",
-    "d3-scale": "^1.0.6",
-    "d3-selection": "^1.1.0"
+    "d3": "^5.6.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
