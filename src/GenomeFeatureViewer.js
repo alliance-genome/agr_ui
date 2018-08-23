@@ -18,7 +18,7 @@ var GenerateGenomeView = function (config, svg_target) {
     // TODO:
     // Config should be a set of tracks and we should be drawing
     // based on track type to the svg
-    let {chromosome, start, end, genome, server, track, highlightNames} = config;
+    let {chromosome, start, end, genome, server, track, highlightNames, gene} = config;
     server = server ? server : 'https://agr-apollo.berkeleybop.io/apollo/';
     track = track ? track : 'All Genes';
     let nameString = '';
@@ -28,14 +28,32 @@ var GenerateGenomeView = function (config, svg_target) {
         nameString += 'name=' + highlightNames[nameIndex];
     }
 
-    let externalLocationString = chromosome + ':' + start + '..' + end;
-    let dataUrl = server + '/track/' + encodeURI(genome) + '/' + track + '/' + encodeURI(externalLocationString) + '.json' + nameString;
+    // let externalLocationString = chromosome + ':' + start + '..' + end;
+    // let dataUrl = server + '/track/' + encodeURI(genome) + '/' + track + '/' + encodeURI(externalLocationString) + '.json' + nameString;
+
+    let dataUrl;
+    if (!gene && chromosome && start && end) {
+        let externalLocationString = chromosome + ':' + start + '..' + end;
+        dataUrl = server + '/track/' + encodeURI(genome) + '/' + track + '/' + encodeURI(externalLocationString) + '.json' + nameString;
+    }
+    else if (gene && chromosome) {
+        nameString = nameString ? nameString : '?name=' + gene;
+        dataUrl = server + '/track/' + encodeURI(genome) + '/' + track + '/' + chromosome + '/' + gene + '.json' + nameString;
+    }
+
 
     // TODO: We can still make this more robust.
-    var apolloService = new ApolloService();
-    apolloService.GetIsoformTrack(dataUrl).then((data) => {
-        DrawViewer(data, svg_target);
-    });
+    if (dataUrl) {
+        let apolloService = new ApolloService();
+        apolloService.GetIsoformTrack(dataUrl).then((data) => {
+            DrawViewer(data, svg_target);
+        }).catch((error) => {
+            console.error(error);
+        });
+    }
+    else {
+        console.error("Not enough information to generate a url for fetching data", config);
+    }
 };
 
 export default GenerateGenomeView;
