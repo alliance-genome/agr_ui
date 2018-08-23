@@ -1,4 +1,3 @@
-var webpack = require ('webpack');
 var config  = {
   entry: {
     app :"./demo/src/JSDemo.js"

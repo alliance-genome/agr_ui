@@ -1,21 +1,11 @@
-/* eslint-disable */
-console.log("We are here");
-//import {scaleLinear} from "d3-scale";
-//import {axisTop} from "d3-axis";
-//import {select} from "d3-selection";
-//import style from 'App.css';
-var d3 = require ("d3");
-
-//module.exports = XMLHttpRequest;
-
-var DrawGenomeView = function(data,svg_target){
-  //Some of these were in different places
-  //Not sure if we want these as constants or not
+import {countIsoforms, findRange, checkSpace} from './utils';
+import * as d3 from "d3";
+// TODO:
+// This can be refactored to an isoform track
+// if we seperate out the top "global" label
+var DrawGenomeView = function(data, svg_target){
   let MAX_ROWS = 10;
   let calculatedHeight = 500;
-  //console.log(data);
-  //data = getDataApollo('1','1000','2000');
-  //console.log(data);
 
   let UTR_feats= ["UTR","five_prime_UTR","three_prime_UTR"];
   let CDS_feats= ["CDS"];
@@ -25,7 +15,6 @@ var DrawGenomeView = function(data,svg_target){
 
   let view_start = dataRange.fmin;
   let view_end = dataRange.fmax;
-  //console.log(view_start);
   let exon_height = 10; // will be white / transparent
   let cds_height = 10; // will be colored in
   let isoform_height = 40; // height for each isoform
@@ -70,6 +59,7 @@ var DrawGenomeView = function(data,svg_target){
   else {
     calculatedHeight = (numberIsoforms + 1) * isoform_height;
   }
+
   let margin = {top: 8, right: 30, bottom: 30, left: 40},
      width = 960 - margin.left - margin.right,
      height = calculatedHeight - margin.top - margin.bottom;
@@ -78,21 +68,19 @@ var DrawGenomeView = function(data,svg_target){
       .domain([view_start, view_end])
       .range([0, width]);
 
-
-
+  // Just make sure we have a clear svg
+  d3.select(svg_target).selectAll("*").remove();
   let viewer = d3.select(svg_target)
-    .attr('width', width + margin.left + margin.right)
-    .attr('height', height + margin.top + margin.bottom)
-    .append('g')
-    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+  .attr('width', width + margin.left + margin.right)
+  .attr('height', height + margin.top + margin.bottom)
+  .append('g')
+  .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
   let row_count =0;
   let used_space = [];
   let fmin_display=-1;
   let fmax_display=-1;
-  console.log(data.length);
   for (let i in data) {
-    console.log(i);
     let feature = data[i];
     console.log(feature);
     let featureChildren = feature.children;
@@ -114,17 +102,12 @@ var DrawGenomeView = function(data,svg_target){
         let featureType = featureChild.type;
         if (display_feats.indexOf(featureType)>=0) {
 
-
-
-
           //function to assign row based on available space.
           let current_row = checkSpace(used_space,x(featureChild.fmin), x(featureChild.fmax));
 
           if (current_row < maxRows) {
             //Will need to remove this... rows not incremented every time now.
             row_count += 1;
-
-
 
             viewer.append('polygon')
               .datum(function(){
@@ -171,15 +154,6 @@ var DrawGenomeView = function(data,svg_target){
               //this new element is taking up making sure to add in the width of
               //the box.
               var text_width = text_label.node().getBBox().width;
-
-              //console.log(featureChild.name);
-              //console.log(text_width+x(featureChild.fmin));
-              //console.log(x(featureChild.fmax));
-              //console.log("Text Width " +text_width);
-              //console.log("Feature width " +Number(x(featureChild.fmax)-x(featureChild.fmin)));
-
-
-
               let bp_end=0;
               //First check to see if label goes past the end
               if (Number(text_width+x(featureChild.fmin))>width){
@@ -334,171 +308,6 @@ var DrawGenomeView = function(data,svg_target){
       .attr('transform', 'translate(0,20)')
       .call(xAxis);
   }
-
-
-
 }
 
-
-function doResize(fmin_display, fmax_display, viewer,width,newx){
-  console.log("Do resize.");
-
-
-
-  viewer.selectAll("rect.transcriptBackbone")
-    .attr("x", function(d){return newx(d.fmin);})
-    .attr('width', function(d){return newx(d.fmax) - newx(d.fmin);})
-
-  viewer.selectAll("rect.exon")
-    .attr("x", function(d){return newx(d.fmin);})
-    .attr('width', function(d){return newx(d.fmax) - newx(d.fmin);})
-
-  viewer.selectAll("rect.CDS")
-    .attr("x", function(d){return newx(d.fmin);})
-    .attr('width', function(d){return newx(d.fmax) - newx(d.fmin);})
-
-  viewer.selectAll("rect.UTR")
-    .attr("x", function(d){return newx(d.fmin);})
-    .attr('width', function(d){return newx(d.fmax) - newx(d.fmin);})
-
-  viewer.selectAll("polygon.transArrow")
-  .attr('transform', function (d) {
-    if (d.strand > 0) {
-      return 'translate('+Number(newx(d.fmax))+',' + d.y_val + ')';
-    }
-    else {
-      return 'translate('+Number(newx(d.fmin))+',' + d.y_val + ') rotate(180)';
-    }
-  });
-
-  var text_label = viewer.selectAll("text.transcriptLabel")
-    .attr("x", function(d){
-      return Number(newx(d.fmin))
-    })
-    .attr("class",function(d){
-      text_width = this.getBBox().width;
-      if((newx(d.fmin)+text_width)>width){
-        return "REMOVE";
-      }
-      else {
-        return "transcriptLabel";
-      }
-    });
-
-    viewer.selectAll("text.REMOVE").remove();
-}
-//Function to find range
-//Now with checkSpace function embedded.
-//Will only check rows that make it into the final viz.
-//Needs to assign the row as well
-//Added check for type.... all types were getting included even if
-//we had no intention to display them
-function findRange(data,display_feats) {
-    let fmin = -1;
-    let fmax = -1;
-
-    for (let d in data) {
-      let feature = data[d];
-      console.log(feature.type);
-      let featureChildren = feature.children;
-      featureChildren.forEach(function (featureChild) {
-            if (display_feats.indexOf(featureChild.type)>=0){
-              //console.log(featureChild.name,featureChild.fmin,featureChild.fmax);
-              if (fmin < 0 || featureChild.fmin < fmin) {
-                fmin = featureChild.fmin;
-              }
-              if (fmax < 0 || featureChild.fmax > fmax) {
-                fmax = featureChild.fmax;
-              }
-            }
-        });//transcript level
-      }//gene level
-
-    return {
-      fmin: fmin,
-      fmax: fmax
-    };
-}
-//;
-
-function countIsoforms(data) {
-  let isoform_count = 0;
-  // gene level
-  for (let i in data) {
-    let feature = data[i];
-    if(feature.children){
-      feature.children.forEach(function (geneChild) {
-        // isoform level
-        if (geneChild.type == 'mRNA') {
-          isoform_count += 1;
-        }
-      });
-    }
-  }
-  return isoform_count;
-}
-
-var GenerateGenomeView= function(chr, start, end, organism,svg_target)
-{
-  //Clear it first maaang
-  console.log("generating.... for "+svg_target+"!");
-  var svg = d3.select(svg_target);
-  svg.selectAll("*").remove();
-  //Right now this is Hardcoded
-  let externalLocationString = chr + ':' + start + '..' + end;
-  var dataUrl ="https://agr-apollo.berkeleybop.io/apollo/track/" +encodeURI(organism)+ "/All%20Genes/" + encodeURI(externalLocationString) + ".json";
-  fetch(dataUrl)
-      .then((response) => {
-          response.json()
-      .then(data => {
-              //console.log("In the data function maaaan.");
-              //console.log(data);
-              DrawGenomeView(data,svg_target);
-
-          });
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-  //return data;
-};
-
-//Takes in the current entry start/end and the array of used space and assigns a row
-function checkSpace(used_space,start,end)
-{
-  var row;
-  var assigned;
-  var fits;
-  //if empty... this is the first entry... on the first row.
-
-  if(used_space.length==0)
-    {row = 1;}
-  else{
-    //for each row
-    for(var i=1; i<used_space.length; i++){
-      //for each entry in that row
-      for(var z=0; z<used_space[i].length; z++){
-
-        var [used_start,used_end] = used_space[i][z].split(':');
-
-        //check for overlap
-        if(end<used_start||start>used_end){
-          fits=1;
-        }
-        else {
-          fits=0;break;
-        }
-      }
-      if(fits){
-        assigned=1;row=i;break;
-      }
-    }
-    //if this is true for 0 rows... use the next row.
-    //zero indexed so length is the next one.
-    if(!assigned)
-      {row =used_space.length;}
-  }
-  return row;
-
-}
-module.exports = GenerateGenomeView;
+export default DrawGenomeView;

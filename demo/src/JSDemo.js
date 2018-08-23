@@ -1,7 +1,6 @@
-//import {GenerateGenomeView} from "../../src/GenomeFeature.js";
-var GenerateGenomeView  = require('../../src/GenomeFeature');
-//import '../../src/App.css';
+import GenomeFeatureViewer from "../../src/GenomeFeatureViewer";
 
-GenerateGenomeView(5,28456815,28467256,"Mus musculus","#viewer2");
 
-GenerateGenomeView(5,75574916,75656722,"Mus musculus","#viewer");
+
+GenomeFeatureViewer({chromosome:5, start:28456815, end:28467256, genome:"Mus musculus"},"#viewer2");
+GenomeFeatureViewer({chromosome:5, start:75574916, end:75656722, genome:"Mus musculus"}, "#viewer");
