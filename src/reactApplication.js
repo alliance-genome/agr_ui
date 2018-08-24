@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import ReactGA from 'react-ga';
 import RouteListener from './components/routeListener';
 import routes from './routes';
+import ScrollToTop from './components/ScrollToTop';
 
 const isBrowser = (typeof window !== 'undefined');
 
@@ -30,15 +31,17 @@ class ReactApp extends Component {
     return (
       <Provider store={store}>
         <Router>
-          {
-            isBrowser ?
-              <ScrollContext>
-                <RouteListener onRouteChange={logPageView}>
-                  {routes}
-                </RouteListener>
-              </ScrollContext> :
-              routes
-          }
+            {
+              isBrowser ?
+              <ScrollToTop>
+                <ScrollContext>
+                  <RouteListener onRouteChange={logPageView}>
+                    {routes}
+                  </RouteListener>
+                </ScrollContext>
+              </ScrollToTop> :
+                routes
+            }
         </Router>
       </Provider>
     );
