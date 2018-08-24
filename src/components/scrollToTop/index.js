@@ -3,8 +3,11 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 class ScrollToTop extends Component {
+
   componentDidUpdate(prevProps) {
-    if (this.props.location !== prevProps.location) {
+    let isChrome = !!window.chrome && !!window.chrome.webstore;
+
+    if (this.props.location !== prevProps.location && !isChrome) {
       window.scrollTo(0, 0);
     }
   }
