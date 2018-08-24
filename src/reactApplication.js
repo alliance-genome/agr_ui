@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import ReactGA from 'react-ga';
 import RouteListener from './components/routeListener';
 import routes from './routes';
-import ScrollToTop from './components/ScrollToTop';
+import ScrollToTop from './components/scrollToTop';
 
 const isBrowser = (typeof window !== 'undefined');
 
