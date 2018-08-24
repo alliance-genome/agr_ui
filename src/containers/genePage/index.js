@@ -14,6 +14,7 @@ import LoadingPage from '../../components/loadingPage';
 import NotFound from '../../components/notFound';
 import Subsection from '../../components/subsection';
 import AlleleTable from '../../components/alleleTable';
+import { GenePhysicalInteractionDetailTable } from '../../components/interaction';
 
 import GenomeFeatureViewer from './genomeFeatureViewer';
 import ExpressionLinks from './expressionLinks';
@@ -80,7 +81,18 @@ class GenePage extends Component {
     const EXPRESSION = 'Expression';
     const ALLELES = 'Alleles';
     const PHENOTYPES = 'Phenotypes';
-    const SECTIONS = [SUMMARY, SEQUENCE_FEATURE_VIEWER, FUNCTION, ORTHOLOGY, PHENOTYPES, DISEASE, EXPRESSION, ALLELES];
+    const INTERACTIONS = 'Interactions';
+    const SECTIONS = [
+      SUMMARY,
+      SEQUENCE_FEATURE_VIEWER,
+      FUNCTION,
+      ORTHOLOGY,
+      PHENOTYPES,
+      DISEASE,
+      EXPRESSION,
+      ALLELES,
+      INTERACTIONS,
+    ];
 
     return (
       <DataPage  data={data} title={title}>
@@ -158,6 +170,12 @@ class GenePage extends Component {
             <AlleleTable filename={`${data.symbol}-${data.primaryId}-Alleles-${date}.tsv`}
                          geneDataProvider={data.dataProvider}
                          geneId={data.primaryId}
+            />
+          </Subsection>
+          <Subsection title={INTERACTIONS}>
+            <GenePhysicalInteractionDetailTable
+              filename={`${data.symbol}-Interactions-${date}.tsv`}
+              geneId={data.primaryId}
             />
           </Subsection>
         </PageData>
