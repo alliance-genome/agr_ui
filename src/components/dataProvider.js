@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import fetchData from '../lib/fetchData';
+import makeCancelable from '../lib/makeCancelable';
 
 const status = {
   STARTING: 'STARTING',
@@ -30,6 +31,12 @@ export default class DataProvider extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    // to avoid “setState warning” on unmounted component
+    // refer to https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html
+    this.cancelableFetch && this.cancelableFetch.cancel();
+  }
+
   fetchData() {
     const { url, fetchOptions } = this.props;
     // eslint-disable-next-line
@@ -38,7 +45,8 @@ export default class DataProvider extends React.Component {
       data: null,
       error: null,
     }, () => {
-      fetchData(url, fetchOptions).then(
+      this.cancelableFetch = makeCancelable(fetchData(url, fetchOptions));
+      this.cancelableFetch.promise.then(
         // eslint-disable-next-line
         (data) => this.setState({
           status: status.SUCCESS,
