@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 export default class GenePhysicalInteractionDetailTable extends React.Component {
   render() {
     return (
-      <p>A place holder for physical interaction table</p>
+      <p>A place holder for physical interaction table {
+        JSON.stringify(this.props.data)
+      }</p>
 //      <LocalDataTable data={this.props} />
     );
   }
