@@ -32,17 +32,20 @@ export default class DataProvider extends React.Component {
 
   fetchData() {
     const { url, fetchOptions } = this.props;
+    // eslint-disable-next-line
     this.setState({
       status: status.LOADING,
       data: null,
       error: null,
     }, () => {
       fetchData(url, fetchOptions).then(
+        // eslint-disable-next-line
         (data) => this.setState({
           status: status.SUCCESS,
           data: data,
         })
       ).catch(
+        // eslint-disable-next-line
         (error) => this.setState({
           status: status.ERROR,
           error: error,
@@ -62,6 +65,7 @@ export default class DataProvider extends React.Component {
 }
 
 DataProvider.propTypes = {
-  url: PropTypes.string.isRequired,
+  children: PropTypes.func.isRequired,
   fetchOptions: PropTypes.object,
+  url: PropTypes.string.isRequired,
 };
