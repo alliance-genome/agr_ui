@@ -26,7 +26,6 @@ class GenePage extends Component {
 
   componentDidMount () {
     this.props.dispatch(fetchGene(this.props.match.params.geneId));
-    window.scrollTo(0,0);
   }
 
   componentDidUpdate (prevProps) {
