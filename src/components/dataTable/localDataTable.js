@@ -66,6 +66,8 @@ class LocalDataTable extends Component {
         {
           columns.map((col, idx) =>
             <TableHeaderColumn
+              className={col.className}
+              columnClassName={col.columnClassName}
               csvFormat={col.asText || col.format}
               csvHeader={col.csvHeader || col.label}
               dataField={col.field}
