@@ -66,13 +66,15 @@ class LocalDataTable extends Component {
         {
           columns.map((col, idx) =>
             <TableHeaderColumn
-              csvFormat={col.asText}
-              csvHeader={col.label}
+              csvFormat={col.asText || col.format}
+              csvHeader={col.csvHeader || col.label}
               dataField={col.field}
               dataFormat={col.format}
               dataSort={col.sortable}
+              export={col.export}
               filter={Utils.getTextFilter(col)}
               filterValue={col.filterText || col.asText}
+              hidden={col.hidden}
               isKey={col.isKey}
               key={idx}
               sortFunc={getSortFunction(col)}
