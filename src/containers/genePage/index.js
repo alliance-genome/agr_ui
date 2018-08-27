@@ -175,10 +175,10 @@ class GenePage extends Component {
           </Subsection>
           <Subsection title={INTERACTIONS}>
             <DataProvider url={`/api/gene/${data.primaryId}/interactions`}>
-              {({data, status}) => (
-                data ? (
+              {({data: interactionData, status}) => (
+                interactionData ? (
                   <GenePhysicalInteractionDetailTable
-                    data={data}
+                    data={interactionData}
                     filename={`${data.symbol}-Interactions-${date}.tsv`}
                     geneId={data.primaryId}
                   />
