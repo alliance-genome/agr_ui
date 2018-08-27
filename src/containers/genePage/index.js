@@ -461,7 +461,7 @@ class GenePage extends Component {
                       }
                     ]}
                     filename={`${data.symbol}-Interactions-${date}.tsv`}
-                    geneId={data.primaryId}
+                    focusGeneDisplayName={data.symbol}
                   />
                 ) : status
               )}
