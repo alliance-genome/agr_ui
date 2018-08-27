@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   LocalDataTable,
+  GeneCell,
 } from '../dataTable';
 
 export default class GenePhysicalInteractionDetailTable extends React.Component {
@@ -11,7 +12,7 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         field: 'geneB',
         label: 'Interactor gene',
         isKey: true, // TODO: remove this later
-        format: (gene) => (gene.symbol),
+        format: GeneCell,
         width: '75px',
       },
     ];
