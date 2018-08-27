@@ -6,6 +6,7 @@ import {
 } from '../dataTable';
 import CommaSeparatedList from '../commaSeparatedList';
 import ExternalLink from '../externalLink';
+import style from './genePhysicalInteractionDetailTable.scss';
 
 export default class GenePhysicalInteractionDetailTable extends React.Component {
   render() {
@@ -21,6 +22,8 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         ),
         asText: ({displayName}) => displayName,
         width: '12em',
+        className: style.columnHeaderGroup0,
+        columnClassName: style.columnGroup0,
       },
       {
         field: 'interactionAType',
@@ -35,6 +38,8 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         csvHeader: 'Focus gene molecule type',
         format: ({label}) => label,
         width: '6em',
+        className: style.columnHeaderGroup1,
+        columnClassName: style.columnGroup1,
       },
       {
         field: 'interactionARole',
@@ -49,6 +54,8 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         csvHeader: 'Focus gene experimental role',
         format: ({label}) => label,
         width: '7em',
+        className: style.columnHeaderGroup1,
+        columnClassName: style.columnGroup1,
       },
       {
         field: 'geneB',
@@ -64,6 +71,8 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         format: GeneCell,
         asText: ({symbol}) => symbol,
         width: '6em',
+        className: style.columnHeaderGroup2,
+        columnClassName: style.columnGroup2,
       },
       {
         field: 'geneB',
@@ -77,6 +86,8 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         label: 'Interactor species',
         format: ({species}) => species.name,
         width: '8em',
+        className: style.columnHeaderGroup2,
+        columnClassName: style.columnGroup2,
       },
       {
         field: 'interactionBType',
@@ -90,6 +101,8 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         label: 'Interactor molecule type',
         format: ({label}) => label,
         width: '6em',
+        className: style.columnHeaderGroup2,
+        columnClassName: style.columnGroup2,
       },
       {
         field: 'interactionBRole',
@@ -103,6 +116,8 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         label: 'Interactor experimental role',
         format: ({label}) => label,
         width: '7em',
+        className: style.columnHeaderGroup2,
+        columnClassName: style.columnGroup2,
       },
       {
         field: 'interactionType',
@@ -116,6 +131,8 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         label: 'Interaction type',
         format: ({label}) => label,
         width: '8em',
+        className: style.columnHeaderGroup3,
+        columnClassName: style.columnGroup3,
       },
       {
         field: 'detectionsMethods',
@@ -146,6 +163,8 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
           ).join(',');
         },
         width: '12em',
+        className: style.columnHeaderGroup3,
+        columnClassName: style.columnGroup3,
       },
       {
         field: 'sourceDatabase',
@@ -168,6 +187,8 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         },
         asText: ({label}) => label,
         width: '10em',
+        className: style.columnHeaderGroup3,
+        columnClassName: style.columnGroup3,
       },
       {
         field: 'aggregationDatabase',
@@ -189,6 +210,8 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         format: ({pubMedUrl, primaryKey}) => <ExternalLink href={pubMedUrl}>{primaryKey}</ExternalLink>,
         asText: ({primaryKey}) => primaryKey,
         width: '10em',
+        className: style.columnHeaderGroup3,
+        columnClassName: style.columnGroup3,
       },
     ];
     return (
