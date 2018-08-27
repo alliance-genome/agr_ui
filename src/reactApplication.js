@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import configureStore from './lib/configureStore';
 import { BrowserRouter } from 'react-router-dom';
-import { ScrollContext } from 'react-router-scroll-4';
 import PropTypes from 'prop-types';
 import ReactGA from 'react-ga';
 import RouteListener from './components/routeListener';
@@ -34,11 +33,9 @@ class ReactApp extends Component {
             {
               isBrowser ?
               <ScrollToTop>
-                <ScrollContext>
                   <RouteListener onRouteChange={logPageView}>
                     {routes}
                   </RouteListener>
-                </ScrollContext>
               </ScrollToTop> :
                 routes
             }
