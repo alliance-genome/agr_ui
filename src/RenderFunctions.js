@@ -47,19 +47,19 @@ function doResize(fmin_display, fmax_display, viewer, width,newx)
 
   viewer.selectAll("rect.transcriptBackbone")
     .attr("x", function(d){return newx(d.fmin);})
-    .attr('width', function(d){return newx(d.fmax) - newx(d.fmin);})
+    .attr('width', function(d){return newx(d.fmax) - newx(d.fmin);});
 
   viewer.selectAll("rect.exon")
     .attr("x", function(d){return newx(d.fmin);})
-    .attr('width', function(d){return newx(d.fmax) - newx(d.fmin);})
+    .attr('width', function(d){return newx(d.fmax) - newx(d.fmin);});
 
   viewer.selectAll("rect.CDS")
     .attr("x", function(d){return newx(d.fmin);})
-    .attr('width', function(d){return newx(d.fmax) - newx(d.fmin);})
+    .attr('width', function(d){return newx(d.fmax) - newx(d.fmin);});
 
   viewer.selectAll("rect.UTR")
     .attr("x", function(d){return newx(d.fmin);})
-    .attr('width', function(d){return newx(d.fmax) - newx(d.fmin);})
+    .attr('width', function(d){return newx(d.fmax) - newx(d.fmin);});
 
   viewer.selectAll("polygon.transArrow")
   .attr('transform', function (d) {
@@ -71,6 +71,7 @@ function doResize(fmin_display, fmax_display, viewer, width,newx)
     }
   });
 
+  // TODO: remove unused?
   var text_label = viewer.selectAll("text.transcriptLabel")
     .attr("x", function(d){
       return Number(newx(d.fmin))
@@ -94,7 +95,7 @@ function doResize(fmin_display, fmax_display, viewer, width,newx)
 //Needs to assign the row as well
 //Added check for type.... all types were getting included even if
 //we had no intention to display them
-function findRange(data, display_feats) 
+function findRange(data, display_feats)
 {
     let fmin = -1;
     let fmax = -1;
@@ -120,7 +121,7 @@ function findRange(data, display_feats)
     };
 }
 
-function countIsoforms(data) 
+function countIsoforms(data)
 {
     let isoform_count = 0;
     // gene level
@@ -138,5 +139,5 @@ function countIsoforms(data)
     return isoform_count;
   }
 
-  
+
 export { countIsoforms, findRange, checkSpace, doResize }
