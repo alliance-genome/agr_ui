@@ -17,27 +17,60 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         label: 'Source ID',
         isKey: true,
         format: ({displayName, crossRefCompleteUrl}) => (
-          <a href={crossRefCompleteUrl}>{displayName}</a>
+          <ExternalLink href={crossRefCompleteUrl}>{displayName}</ExternalLink>
         ),
-        width: '10em',
+        asText: ({displayName}) => displayName,
+        width: '12em',
+      },
+      {
+        field: 'interactionAType',
+        label: 'Focus gene molecule type ID',
+        asText: ({primaryKey}) => primaryKey,
+        hidden: true,
+        export: true,
       },
       {
         field: 'interactionAType',
         label: `${focusGeneDisplayName} molecule type`,
+        csvHeader: 'Focus gene molecule type',
         format: ({label}) => label,
         width: '6em',
       },
       {
         field: 'interactionARole',
+        label: 'Focus gene experimental role ID',
+        asText: ({primaryKey}) => primaryKey,
+        hidden: true,
+        export: true,
+      },
+      {
+        field: 'interactionARole',
         label: `${focusGeneDisplayName} experimental role`,
+        csvHeader: 'Focus gene experimental role',
         format: ({label}) => label,
         width: '7em',
       },
       {
         field: 'geneB',
+        label: 'Interactor gene ID',
+        asText: ({geneID, primaryKey}) => geneID || primaryKey,
+        hidden: true,
+        export: true,
+      },
+      {
+        field: 'geneB',
         label: 'Interactor gene',
+        csvHeader: 'Interactor gene',
         format: GeneCell,
+        asText: ({symbol}) => symbol,
         width: '6em',
+      },
+      {
+        field: 'geneB',
+        label: 'Interactor species ID',
+        asText: ({species}) => species.primaryKey,
+        hidden: true,
+        export: true,
       },
       {
         field: 'geneB',
@@ -47,9 +80,23 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
       },
       {
         field: 'interactionBType',
+        label: 'Interactor molecule type ID',
+        asText: ({primaryKey}) => primaryKey,
+        hidden: true,
+        export: true,
+      },
+      {
+        field: 'interactionBType',
         label: 'Interactor molecule type',
         format: ({label}) => label,
         width: '6em',
+      },
+      {
+        field: 'interactionBRole',
+        label: 'Interactor experimental role ID',
+        asText: ({label}) => label,
+        hidden: true,
+        export: true,
       },
       {
         field: 'interactionBRole',
@@ -59,13 +106,31 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
       },
       {
         field: 'interactionType',
+        label: 'Interaction type ID',
+        asText: ({primaryKey}) => primaryKey,
+        hidden: true,
+        export: true,
+      },
+      {
+        field: 'interactionType',
         label: 'Interaction type',
         format: ({label}) => label,
         width: '8em',
       },
       {
         field: 'detectionsMethods',
-        label: 'Detection method',
+        label: 'Detection method IDs',
+        asText: (items) => {
+          return items.map(
+            ({primaryKey}) => primaryKey
+          ).join(',');
+        },
+        hidden: true,
+        export: true,
+      },
+      {
+        field: 'detectionsMethods',
+        label: 'Detection methods',
         format: (items) => {
           return (
             <CommaSeparatedList>
@@ -75,7 +140,19 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
             </CommaSeparatedList>
           );
         },
+        asText: (items) => {
+          return items.map(
+            ({label}) => label
+          ).join(',');
+        },
         width: '12em',
+      },
+      {
+        field: 'sourceDatabase',
+        label: 'Source DB ID',
+        asText: ({primaryKey}) => primaryKey,
+        hidden: true,
+        export: true,
       },
       {
         field: 'sourceDatabase',
@@ -89,12 +166,28 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
             </span>
           );
         },
+        asText: ({label}) => label,
         width: '10em',
+      },
+      {
+        field: 'aggregationDatabase',
+        label: 'Aggregation DB ID',
+        asText: ({primaryKey}) => primaryKey,
+        hidden: true,
+        export: true,
+      },
+      {
+        field: 'aggregationDatabase',
+        label: 'Aggregation DB',
+        asText: ({label}) => label,
+        hidden: true,
+        export: true,
       },
       {
         field: 'publication',
         label: 'Reference',
-        format: ({pubMedUrl, primaryKey}) => <a href={pubMedUrl}>{primaryKey}</a>,
+        format: ({pubMedUrl, primaryKey}) => <ExternalLink href={pubMedUrl}>{primaryKey}</ExternalLink>,
+        asText: ({primaryKey}) => primaryKey,
         width: '10em',
       },
     ];
