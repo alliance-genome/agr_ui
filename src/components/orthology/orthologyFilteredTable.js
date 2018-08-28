@@ -9,6 +9,7 @@ import { Collapse } from 'reactstrap';
 import OrthologyTable from './orthologyTable';
 import HorizontalScroll from '../horizontalScroll';
 import NoData from '../noData';
+import ControlsContainer from '../controlsContainer';
 
 const caseInsensitiveCompare = (stringA, stringB) => {
   const stringALowerCase = stringA.toLowerCase();
@@ -180,7 +181,7 @@ class OrthologyFilteredTable extends Component {
 
     return (
       <div>
-        <div className="card card-body" style={{margin: '0.5em 0'}}>
+        <ControlsContainer>
           <div>
             <span>Stringency:</span>
             {this.renderStringencyOption('high', 'Stringent filter (default)')}
@@ -278,7 +279,7 @@ class OrthologyFilteredTable extends Component {
               type="button"
             >Reset filters</button>
           </div>
-        </div>
+        </ControlsContainer>
 
         <div style={{marginBottom: '1rem'}}>
           {
