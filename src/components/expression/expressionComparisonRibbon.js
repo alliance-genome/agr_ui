@@ -1,8 +1,12 @@
 /* eslint-disable react/no-set-state */
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import ControlsContainer from '../controlsContainer';
 import { StringencySelector } from '../orthology';
 import { STRINGENCY_HIGH } from '../orthology/constants';
+import { selectOrthology } from '../../selectors/geneSelectors';
 
 class ExpressionComparisonRibbon extends React.Component {
   constructor(props) {
@@ -24,4 +28,14 @@ class ExpressionComparisonRibbon extends React.Component {
   }
 }
 
-export default ExpressionComparisonRibbon;
+ExpressionComparisonRibbon.propTypes = {
+  orthology: PropTypes.array,
+};
+
+function mapStateToProps (state) {
+  return {
+    orthology: selectOrthology(state),
+  };
+}
+
+export default connect(mapStateToProps)(ExpressionComparisonRibbon);
