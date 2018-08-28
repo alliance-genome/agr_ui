@@ -26,7 +26,7 @@ function logPageView(location) {
 class ReactApp extends Component {
   render() {
     let store = configureStore();
-    const ChosenScrollContext = window && window.chrome ? ScrollContext : ScrollToTop;
+    const ChosenScrollContext = isBrowser && window.chrome ? ScrollContext : ScrollToTop;
 
     const Router = this.props.router || BrowserRouter;
     return (
