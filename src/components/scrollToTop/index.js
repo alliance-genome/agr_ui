@@ -5,9 +5,7 @@ import PropTypes from 'prop-types';
 class ScrollToTop extends Component {
 
   componentDidUpdate(prevProps) {
-    let isChrome = !!window.chrome && !!window.chrome.webstore;
-
-    if (this.props.location !== prevProps.location && !isChrome) {
+    if (this.props.location !== prevProps.location) {
       window.scrollTo(0, 0);
     }
   }
@@ -23,4 +21,3 @@ ScrollToTop.propTypes = {
   children: PropTypes.node,
   location: PropTypes.object.isRequired,
 };
-

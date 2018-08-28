@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import ReactGA from 'react-ga';
 import RouteListener from './components/routeListener';
 import routes from './routes';
+import { ScrollContext } from 'react-router-scroll-4';
 import ScrollToTop from './components/scrollToTop';
 
 const isBrowser = (typeof window !== 'undefined');
@@ -25,6 +26,7 @@ function logPageView(location) {
 class ReactApp extends Component {
   render() {
     let store = configureStore();
+    const ChosenScrollContext = window && window.chrome ? ScrollContext : ScrollToTop;
 
     const Router = this.props.router || BrowserRouter;
     return (
@@ -32,11 +34,11 @@ class ReactApp extends Component {
         <Router>
             {
               isBrowser ?
-              <ScrollToTop>
+                <ChosenScrollContext>
                   <RouteListener onRouteChange={logPageView}>
                     {routes}
                   </RouteListener>
-              </ScrollToTop> :
+                </ChosenScrollContext> :
                 routes
             }
         </Router>
