@@ -10,7 +10,8 @@ import { OrthologyTable, StringencySelector } from '.';
 import HorizontalScroll from '../horizontalScroll';
 import NoData from '../noData';
 import ControlsContainer from '../controlsContainer';
-import { STRINGENCY_HIGH, STRINGENCY_MED } from './constants';
+import { STRINGENCY_HIGH } from './constants';
+import { orthologyMeetsStringency } from '../../lib/utils';
 
 const caseInsensitiveCompare = (stringA, stringB) => {
   const stringALowerCase = stringA.toLowerCase();
@@ -40,35 +41,6 @@ class OrthologyFilteredTable extends Component {
     this.state = defaultState;
   }
 
-  isHighStringency(dat) {
-    return (
-      dat.predictionMethodsMatched.indexOf('ZFIN') > -1 ||
-      dat.predictionMethodsMatched.indexOf('HGNC') > -1 ||
-      (dat.predictionMethodsMatched.length > 2 && (dat.isBestScore || dat.isBestRevScore)) ||
-      (dat.predictionMethodsMatched.length === 2 && dat.isBestScore && dat.isBestRevScore)
-    );
-  }
-
-  isModerateStringency(dat) {
-    return (
-      dat.predictionMethodsMatched.indexOf('ZFIN') > -1 ||
-      dat.predictionMethodsMatched.indexOf('HGNC') > -1 ||
-      dat.predictionMethodsMatched.length > 2 ||
-      (dat.predictionMethodsMatched.length === 2 && dat.isBestScore && dat.isBestRevScore)
-    );
-  }
-
-  filterByStringency(dat) {
-    switch (this.state.stringencyLevel) {
-    case STRINGENCY_HIGH:
-      return this.isHighStringency(dat);
-    case STRINGENCY_MED:
-      return this.isModerateStringency(dat);
-    default:
-      return true;
-    }
-  }
-
   filterCallback(dat) {
     const meetMethodFilter = this.state.filterMethod ?
       dat.predictionMethodsMatched.indexOf(this.state.filterMethod) > -1 :
@@ -79,7 +51,7 @@ class OrthologyFilteredTable extends Component {
       (this.state.filterBest ? dat.isBestScore : true) &&
       (this.state.filterReverseBest ? dat.isBestRevScore : true) &&
       (this.state.filterSpecies ? dat.gene2SpeciesName === this.state.filterSpecies : true) &&
-      this.filterByStringency(dat)
+      orthologyMeetsStringency(dat, this.state.stringencyLevel)
     );
   }
 
