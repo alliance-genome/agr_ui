@@ -21,6 +21,7 @@ import ExpressionLinks from './expressionLinks';
 import SpeciesIcon from '../../components/speciesIcon';
 import DataSourceLink from '../../components/dataSourceLink';
 import PhenotypeTable from './phenotypeTable';
+import { ExpressionComparisonRibbon } from '../../components/expression';
 
 class GenePage extends Component {
 
@@ -150,6 +151,7 @@ class GenePage extends Component {
                                .concat(data.crossReferences['gene/spell'])
                              }
             />
+            <ExpressionComparisonRibbon />
           </Subsection>
 
           <Subsection title={ALLELES}>
