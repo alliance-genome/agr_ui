@@ -6,10 +6,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Collapse } from 'reactstrap';
-import OrthologyTable from './orthologyTable';
+import { OrthologyTable, StringencySelector } from '.';
 import HorizontalScroll from '../horizontalScroll';
 import NoData from '../noData';
 import ControlsContainer from '../controlsContainer';
+import { STRINGENCY_HIGH, STRINGENCY_MED } from './constants';
 
 const caseInsensitiveCompare = (stringA, stringB) => {
   const stringALowerCase = stringA.toLowerCase();
@@ -29,7 +30,7 @@ const DEFAULT_FILTERS = {
   filterBest: false,
   filterReverseBest: false,
   filterSpecies: null,
-  stringencyLevel: 'high',
+  stringencyLevel: STRINGENCY_HIGH,
 };
 
 class OrthologyFilteredTable extends Component {
@@ -59,37 +60,13 @@ class OrthologyFilteredTable extends Component {
 
   filterByStringency(dat) {
     switch (this.state.stringencyLevel) {
-    case 'high':
+    case STRINGENCY_HIGH:
       return this.isHighStringency(dat);
-    case 'moderate':
+    case STRINGENCY_MED:
       return this.isModerateStringency(dat);
     default:
       return true;
     }
-  }
-
-  renderStringencyOption(stringencyLevel, label) {
-    const labelStyle = {
-      margin: '0em 1em 0em 0',
-      lineHeight: '2em',
-    };
-    const inputStyle = {
-      margin: '0 0.5em'
-    };
-    return (
-      <label style={labelStyle}>
-        <input
-          checked={stringencyLevel === this.state.stringencyLevel}
-          onChange={(event) => this.setState({
-            stringencyLevel: event.target.value
-          })}
-          style={inputStyle}
-          type="radio"
-          value={stringencyLevel}
-        />
-        {label}
-      </label>
-    );
   }
 
   filterCallback(dat) {
@@ -182,12 +159,9 @@ class OrthologyFilteredTable extends Component {
     return (
       <div>
         <ControlsContainer>
-          <div>
-            <span>Stringency:</span>
-            {this.renderStringencyOption('high', 'Stringent filter (default)')}
-            {this.renderStringencyOption('moderate', 'Moderate filter')}
-            {this.renderStringencyOption('low', 'No filter / Show all')}
-          </div>
+          <StringencySelector defaultLevel={this.state.stringencyLevel}
+                              onChange={level => this.setState({stringencyLevel: level})}
+          />
           <Collapse isOpen={this.state.showFilterPanel}>
             <div>
               <span style={docTextStyle}>Additional filters to further constrain the results:</span>

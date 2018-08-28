@@ -90,10 +90,17 @@ const methodHeaderCellStyle = {
   display: 'inline-block',
 };
 
+const STRINGENCY_HIGH = 'high';
+const STRINGENCY_MED = 'moderate';
+const STRINGNECY_LOW = 'low';
+
 export {
   ALL_METHODS,
   methodCellStyle,
   methodCellWidth,
   methodHeaderCellStyle,
   methodHeaderStyle,
+  STRINGENCY_HIGH,
+  STRINGENCY_MED,
+  STRINGNECY_LOW
 };
