@@ -33,12 +33,8 @@ class ExpressionComparisonRibbon extends React.Component {
       <React.Fragment>
         <ControlsContainer>
           <b>Compare to ortholog genes</b>
+          <StringencySelector defaultLevel={stringency} onChange={s => this.setState({stringency: s})} />
           <div className='d-flex align-items-baseline'>
-            <div className='flex-shrink-0'>
-              <StringencySelector defaultLevel={stringency} onChange={s => this.setState({stringency: s})} />
-            </div>
-            <Button color='primary' onClick={() => this.setState({selectedOrthologs: filteredOrthology})}>Add all</Button>
-            <span className='px-2'>or</span>
             <div className='flex-grow-1'>
               <Select
                 closeMenuOnSelect={false}
@@ -51,6 +47,8 @@ class ExpressionComparisonRibbon extends React.Component {
                 value={selectedOrthologs}
               />
             </div>
+            <span className='px-2'>or</span>
+            <Button color='primary' onClick={() => this.setState({selectedOrthologs: filteredOrthology})}>Add all</Button>
           </div>
         </ControlsContainer>
       </React.Fragment>
