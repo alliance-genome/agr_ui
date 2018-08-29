@@ -3,10 +3,17 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 class ScrollToTop extends Component {
+  componentDidMount() {
+    // prevent scrollRestoration 'auto' interfere with scrolling to the top
+    history.scrollRestoration = 'manual';
+  }
 
   componentDidUpdate(prevProps) {
-    if (this.props.location !== prevProps.location) {
-      window.scrollTo(0, 0);
+    // compare pathname, which ignoring changes in URL hash
+    const currentPath = this.props.location && this.props.location.pathname;
+    const previousPath = prevProps.location && prevProps.location.pathname;
+    if (currentPath !== previousPath) {
+      window.scrollTo(0,0);
     }
   }
 
