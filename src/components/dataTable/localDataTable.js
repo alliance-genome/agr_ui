@@ -68,7 +68,7 @@ class LocalDataTable extends Component {
             <TableHeaderColumn
               className={col.className}
               columnClassName={col.columnClassName}
-              csvFormat={col.asText || col.format}
+              csvFormat={col.asText}
               csvHeader={col.csvHeader || col.label}
               dataField={col.field}
               dataFormat={col.format}
