@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 
 const ControlsContainer = ({children}) => {
   return (
-    <div className="card card-body" style={{margin: '0.5em 0'}}>
-      {children}
+    <div className='card'>
+      <div className='card-body'>
+        {children}
+      </div>
     </div>
   );
 };
