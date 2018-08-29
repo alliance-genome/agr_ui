@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import HeadMetaTags from '../headMetaTags';
 
-const DataPage = ({children, title}) => {
+const DataPage = ({children, data,title}) => {
   return (
     <div className='container-fluid'>
-      <HeadMetaTags title={title} />
+      <HeadMetaTags data={data} title={title}  />
       <div className='row'>
         {children}
       </div>
@@ -15,6 +15,7 @@ const DataPage = ({children, title}) => {
 
 DataPage.propTypes = {
   children: PropTypes.node,
+  data:PropTypes.any,
   title: PropTypes.string,
 };
 
