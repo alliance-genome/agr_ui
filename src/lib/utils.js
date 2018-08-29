@@ -57,3 +57,16 @@ export function orthologyMeetsStringency(orthology, stringency) {
 export function filterOrthologyByStringency(orthologyList, stringency) {
   return orthologyList.filter(o => orthologyMeetsStringency(o, stringency));
 }
+
+export function shortSpeciesName(taxonId) {
+  const shortNames = {
+    'NCBITaxon:9606': 'Hsa',
+    'NCBITaxon:10116': 'Rno',
+    'NCBITaxon:10090': 'Mmu',
+    'NCBITaxon:7955': 'Dre',
+    'NCBITaxon:7227': 'Dme',
+    'NCBITaxon:6239': 'Cel',
+    'NCBITaxon:4932': 'Sce',
+  };
+  return shortNames[taxonId];
+}

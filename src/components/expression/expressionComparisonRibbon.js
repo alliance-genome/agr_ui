@@ -9,7 +9,7 @@ import ControlsContainer from '../controlsContainer';
 import { StringencySelector } from '../orthology';
 import { STRINGENCY_HIGH } from '../orthology/constants';
 import { selectOrthology } from '../../selectors/geneSelectors';
-import { filterOrthologyByStringency } from '../../lib/utils';
+import { filterOrthologyByStringency, shortSpeciesName } from '../../lib/utils';
 
 class ExpressionComparisonRibbon extends React.Component {
   constructor(props) {
@@ -42,7 +42,7 @@ class ExpressionComparisonRibbon extends React.Component {
             <div className='flex-grow-1'>
               <Select
                 closeMenuOnSelect={false}
-                getOptionLabel={option => `${option.gene2Symbol} (${option.gene2SpeciesName})`}
+                getOptionLabel={option => `${option.gene2Symbol} (${shortSpeciesName(option.gene2Species)})`}
                 getOptionValue={option => option.gene2AgrPrimaryId}
                 isMulti
                 onChange={this.handleChange}
