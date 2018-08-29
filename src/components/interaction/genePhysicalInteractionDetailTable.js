@@ -111,7 +111,7 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
       {
         field: 'interactionBRole',
         label: 'Interactor experimental role ID',
-        asText: ({label}) => label,
+        asText: ({primaryKey}) => primaryKey,
         hidden: true,
         export: true,
       },
