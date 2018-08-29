@@ -33,19 +33,25 @@ class ExpressionComparisonRibbon extends React.Component {
       <React.Fragment>
         <ControlsContainer>
           <b>Compare to ortholog genes</b>
-          <StringencySelector defaultLevel={stringency} onChange={s => this.setState({stringency: s})} />
-          <Button color="primary" onClick={() => this.setState({selectedOrthologs: filteredOrthology})}>Add all</Button>
-          or
-          <Select
-            closeMenuOnSelect={false}
-            getOptionLabel={option => `${option.gene2Symbol} (${option.gene2SpeciesName})`}
-            getOptionValue={option => option.gene2AgrPrimaryId}
-            isMulti
-            onChange={this.handleChange}
-            options={filteredOrthology}
-            placeholder='Select orthologs...'
-            value={selectedOrthologs}
-          />
+          <div className='d-flex align-items-baseline'>
+            <div className='flex-shrink-0'>
+              <StringencySelector defaultLevel={stringency} onChange={s => this.setState({stringency: s})} />
+            </div>
+            <Button color='primary' onClick={() => this.setState({selectedOrthologs: filteredOrthology})}>Add all</Button>
+            <span className='px-2'>or</span>
+            <div className='flex-grow-1'>
+              <Select
+                closeMenuOnSelect={false}
+                getOptionLabel={option => `${option.gene2Symbol} (${option.gene2SpeciesName})`}
+                getOptionValue={option => option.gene2AgrPrimaryId}
+                isMulti
+                onChange={this.handleChange}
+                options={filteredOrthology}
+                placeholder='Select orthologs...'
+                value={selectedOrthologs}
+              />
+            </div>
+          </div>
         </ControlsContainer>
       </React.Fragment>
     );
