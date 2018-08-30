@@ -45,7 +45,13 @@ export default class DataProvider extends React.Component {
       data: null,
       error: null,
     }, () => {
-      this.cancelableFetch = makeCancelable(fetchData(url, fetchOptions));
+      this.cancelableFetch = makeCancelable(
+        fetchData(url, fetchOptions).catch(
+          (jqXHR, textStatus, errorMessage) => {
+            throw new Error(errorMessage);
+          }
+        )
+      );
       this.cancelableFetch.promise.then(
         // eslint-disable-next-line
         (data) => this.setState({
@@ -56,7 +62,7 @@ export default class DataProvider extends React.Component {
         // eslint-disable-next-line
         (error) => this.setState({
           status: status.ERROR,
-          error: error,
+          error: error.message,
         })
       );
     });

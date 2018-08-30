@@ -14,7 +14,7 @@ import LoadingPage from '../../components/loadingPage';
 import NotFound from '../../components/notFound';
 import Subsection from '../../components/subsection';
 import AlleleTable from '../../components/alleleTable';
-import DataProvider from '../../components/dataProvider';
+import DataLoader from '../../components/dataLoader';
 import { GenePhysicalInteractionDetailTable } from '../../components/interaction';
 
 import GenomeFeatureViewer from './genomeFeatureViewer';
@@ -174,17 +174,15 @@ class GenePage extends Component {
             />
           </Subsection>
           <Subsection title={INTERACTIONS}>
-            <DataProvider url={`/api/gene/${data.primaryId}/interactions`}>
-              {({data: interactionData, status}) => (
-                interactionData ? (
-                  <GenePhysicalInteractionDetailTable
-                    data={interactionData}
-                    filename={`${data.symbol}-Interactions-${date}.tsv`}
-                    focusGeneDisplayName={data.symbol}
-                  />
-                ) : status
+            <DataLoader url={`/api/gene/${data.primaryId}/interactions`}>
+              {({data: interactionData}) => (
+                <GenePhysicalInteractionDetailTable
+                  data={interactionData}
+                  filename={`${data.symbol}-Interactions-${date}.tsv`}
+                  focusGeneDisplayName={data.symbol}
+                />
               )}
-            </DataProvider>
+            </DataLoader>
           </Subsection>
         </PageData>
       </DataPage>
