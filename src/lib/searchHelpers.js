@@ -36,12 +36,15 @@ export function makeFieldDisplayName(unformattedName) {
     return 'GO Branch';
   case 'biologicalProcess':
   case 'biologicalProcessWithParents':
+  case 'biologicalProcessAgrSlim':
     return 'Biological Process';
   case 'cellularComponent':
   case 'cellularComponentWithParents':
+  case 'cellularComponentAgrSlim':
     return 'Cellular Component';
   case 'molecularFunction':
   case 'molecularFunctionWithParents':
+  case 'molecularFunctionAgrSlim':
     return 'Molecular Function';
   case 'geneType':
     return 'Gene Type';
