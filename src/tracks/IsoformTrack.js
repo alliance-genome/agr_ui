@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import {countIsoforms, findRange, checkSpace} from '../RenderFunctions';
+import { countIsoforms, findRange, checkSpace } from '../RenderFunctions';
 import { ApolloService } from '../services/services';
 
 export default class IsoformTrack{ 
@@ -12,7 +12,10 @@ export default class IsoformTrack{
         this.getTrackData(track);
     }
     // Draw our track on the viewer
-    DrawTrack(){
+    // TODO: Potentially seperate this large section of code
+    // for both testing/extensibility
+    DrawTrack()
+    {
         let viewer = this.viewer;
         let data = this.trackData;
         let width = this.width;
@@ -296,7 +299,10 @@ export default class IsoformTrack{
     }
   }
 
-  getTrackData(track){
+  /* Method for isoformTrack service call */
+
+  getTrackData(track)
+  {
     let externalLocationString = track["chromosome"] + ':' + track["start"] + '..' + track["end"];
     var dataUrl = track["url"][0] + encodeURI(track["genome"]) + track["url"][1] + encodeURI(externalLocationString) + track["url"][2];
     let apolloService = new ApolloService()

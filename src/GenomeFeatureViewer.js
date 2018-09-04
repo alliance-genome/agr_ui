@@ -29,8 +29,9 @@ export default class GenomeFeatureViewer {
     _checkConfig(config)
     {
         // Ensure we have config type
+        // TODO: Make sure we have top label information
         let locale = config["locale"];
-        if(locale != "global" || locale != "global"){
+        if(locale != "global" && locale != "local"){
             throw new Error("No locale found in config. Must be 'global' or 'local'");
         }
         // Ensure we have tracks
@@ -39,19 +40,19 @@ export default class GenomeFeatureViewer {
             throw new Error("No tracks found. Must be an array of tracks.");
         }
 
-        // TODO: Ensure we valid have track types
-
         this._setProperties(config);
     }
     // Set our properties since we know config is valid
-    _setProperties(config){
+    _setProperties(config)
+    {
         this.tracks = config["tracks"];
         this.locale = config["locale"];
     }
 
     // Init our viewer
-    _initViewer(svg_target){
-        console.log("Init viewer...")
+    _initViewer(svg_target)
+    {
+        console.log("[GFCLog] Initializing for " + svg_target);
         let margin = {top: 8, right: 30, bottom: 30, left: 40};
 
         this.width = this.width - margin.left - margin.right;
@@ -64,5 +65,26 @@ export default class GenomeFeatureViewer {
             .append('g')
             .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
         return viewer;
+    }
+
+    /*
+    *
+    * Methods for utility
+    * 
+    */
+
+    getTracks(defaultTrack)
+    {
+        // Return all tracks if a default track
+        // is not requested
+        if(!defaultTrack)
+        {
+            return this.tracks;
+        }
+        else
+        { 
+            // For now return the first track as default
+            return this.tracks[0];
+        }
     }
 }
