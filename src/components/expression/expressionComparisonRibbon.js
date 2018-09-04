@@ -9,7 +9,10 @@ import ControlsContainer from '../controlsContainer';
 import { StringencySelector } from '../orthology';
 import { STRINGENCY_HIGH } from '../orthology/constants';
 import { selectOrthology } from '../../selectors/geneSelectors';
-import { filterOrthologyByStringency, shortSpeciesName } from '../../lib/utils';
+import {
+  compareAlphabeticalCaseInsensitive, compareSpeciesPhylogenetic, filterOrthologyByStringency, shortSpeciesName,
+  sortBy,
+} from '../../lib/utils';
 
 class ExpressionComparisonRibbon extends React.Component {
   constructor(props) {
@@ -28,7 +31,10 @@ class ExpressionComparisonRibbon extends React.Component {
   render() {
     const { orthology } = this.props;
     const { stringency, selectedOrthologs } = this.state;
-    const filteredOrthology = filterOrthologyByStringency(orthology, stringency);
+    const filteredOrthology = sortBy(filterOrthologyByStringency(orthology, stringency), [
+      compareSpeciesPhylogenetic(o => o.gene2Species),
+      compareAlphabeticalCaseInsensitive(o => o.gene2Symbol)
+    ]);
     return (
       <React.Fragment>
         <ControlsContainer>

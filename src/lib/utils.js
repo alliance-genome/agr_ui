@@ -18,6 +18,40 @@ export function compareAlphabeticalCaseInsensitive(accessor) {
   };
 }
 
+function getSpeciesPhylogeneitcIndex(taxonId) {
+  const defaultOrder = [
+    'NCBITaxon:9606',
+    'NCBITaxon:10090',
+    'NCBITaxon:10116',
+    'NCBITaxon:7955',
+    'NCBITaxon:7227',
+    'NCBITaxon:6239',
+    'NCBITaxon:4932',
+  ];
+  const index = defaultOrder.indexOf(taxonId);
+  return index < 0 ? defaultOrder.length : index;
+}
+
+export function compareSpeciesPhylogenetic(accessor) {
+  accessor = accessor || (val => val);
+  return (a, b) => {
+    return getSpeciesPhylogeneitcIndex(accessor(a)) - getSpeciesPhylogeneitcIndex(accessor(b));
+  };
+}
+
+export function sortBy(array, compareFunctions) {
+  return array.sort((a, b) => {
+    const last = compareFunctions.length - 1;
+    for (let i = 0; i < last; i++) {
+      const compareOutput = compareFunctions[i](a, b);
+      if (compareOutput !== 0) {
+        return compareOutput;
+      }
+    }
+    return compareFunctions[last](a, b);
+  });
+}
+
 export function buildTableQueryString(options) {
   const filterQueries = options.filters.length ?
     ('&' + options.filters.map(filter => `${filter.name}=${filter.value}`).join('&')) : '';

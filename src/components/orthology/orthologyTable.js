@@ -5,6 +5,7 @@ import MethodHeader from './methodHeader';
 import MethodCell from './methodCell';
 import BooleanCell from './booleanCell';
 import HelpIcon from './helpIcon';
+import { compareSpeciesPhylogenetic, sortBy } from '../../lib/utils';
 
 const columns = [
   {name: 'Species'},
@@ -15,32 +16,10 @@ const columns = [
   {name: 'Method'}
 ];
 
-const defaultSpeciesOrder = [
-  'Homo sapiens',
-  'Mus musculus',
-  'Rattus norvegicus',
-  'Danio rerio',
-  'Drosophila melanogaster',
-  'Caenorhabditis elegans',
-  'Saccharomyces cerevisiae'
-];
-
-const getSpeciesOrderScore = (speciesName, speciesOrder = defaultSpeciesOrder) => {
-  const speciesIndex = speciesOrder.indexOf(speciesName);
-  return speciesIndex === -1 ? speciesOrder.length : speciesIndex;
-};
-
 class OrthologyTable extends Component {
 
   render() {
-    const speciesPresent = this.props.data.map((orthData) => {
-      return orthData.gene2SpeciesName;
-    });
-    // refine the species order to keep only species present in orthologs
-    const speciesOrder = defaultSpeciesOrder.filter((speciesName) => {
-      return speciesPresent.indexOf(speciesName) !== -1;
-    });
-
+    let rowGroup = 0;
     return(
       <table className='table'>
         <thead>
@@ -60,22 +39,21 @@ class OrthologyTable extends Component {
         </thead>
         <tbody>
         {
-          this.props.data.sort((orthDataA, orthDataB) => {
-            const speciesOrderDelta = getSpeciesOrderScore(orthDataA.gene2SpeciesName) -
-              getSpeciesOrderScore(orthDataB.gene2SpeciesName);
-            return speciesOrderDelta === 0 ?
-              (orthDataB.predictionMethodsMatched.length) - (orthDataA.predictionMethodsMatched.length) :
-              speciesOrderDelta;
-          }).map((orthData) => {
+          sortBy(this.props.data, [
+            compareSpeciesPhylogenetic(o => o.gene2Species),
+            (orthDataA, orthDataB) => orthDataB.predictionMethodsMatched.length - orthDataA.predictionMethodsMatched.length
+          ]).map((orthData, idx, orthList) => {
             const scoreNumerator = orthData.predictionMethodsMatched.length;
             const scoreDemominator = scoreNumerator +
               orthData.predictionMethodsNotMatched.length;
 
-            const rowStyle = getSpeciesOrderScore(orthData.gene2SpeciesName, speciesOrder) % 2 === 0 ?
-              {backgroundColor: '#eee'} : {};
+            if (idx > 0 && orthList[idx - 1].gene2Species !== orthData.gene2Species) {
+              rowGroup += 1;
+            }
+
             const key = orthData.gene2AgrPrimaryId;
             return (
-              <tr key={key} style={rowStyle} >
+              <tr key={key} style={{backgroundColor: rowGroup % 2 === 0 ? '#eee' : ''}} >
                 <td style={{fontStyle: 'italic'}}>{orthData.gene2SpeciesName}</td>
                 <td>
                   <Link to={`/gene/${orthData.gene2AgrPrimaryId}`}>{orthData.gene2Symbol}</Link>
