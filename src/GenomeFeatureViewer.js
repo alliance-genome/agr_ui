@@ -1,31 +1,68 @@
-import DrawViewer from './DrawViewer';
-import { ApolloService } from './services/services';
+import DrawGenomeView from "./DrawViewer";
+import * as d3 from "d3";
+
 /*
- Main entry for creating the genome viewer.
- Currently only draws isoforms at a global level
- @Param config: a set of configurations for the isoform track
+ * Main viewer.
+ * 
+ * @Param config: A configuration file full of tracks & metadata
+ * @Param svg_target: The id of an svg element
+ * @Param height: height of svg
+ * @Param width: width of svg
+ * 
+ *
+ */
+export default class GenomeFeatureViewer {
+
+    constructor(config, svg_target , height, width)
     {
-        chromosome:5,
-        start:75574916,
-        end:75656722,
-        genome:"Mus musculus"
+        this.tracks = [];
+        this.locale = "";
+        this._checkConfig(config);
+        this.height = height;
+        this.width = width;
+        this.viewer = this._initViewer(svg_target);
+        
+        DrawGenomeView(this);
+    }
+    
+    // Check configuration files
+    _checkConfig(config)
+    {
+        // Ensure we have config type
+        let locale = config["locale"];
+        if(locale != "global" || locale != "global"){
+            throw new Error("No locale found in config. Must be 'global' or 'local'");
+        }
+        // Ensure we have tracks
+        let tracks = config["tracks"];
+        if(!tracks || tracks.length == 0){
+            throw new Error("No tracks found. Must be an array of tracks.");
+        }
+
+        // TODO: Ensure we valid have track types
+
+        this._setProperties(config);
+    }
+    // Set our properties since we know config is valid
+    _setProperties(config){
+        this.tracks = config["tracks"];
+        this.locale = config["locale"];
     }
 
-  @Param svg_target: a DOM element id, where the viewer will be drawn.
-*/
-var GenerateGenomeView = function(config, svg_target)
-{
-  // TODO: 
-  // Config should be a set of tracks and we should be drawing 
-  // based on track type to the svg
-  let externalLocationString = config.chromosome + ':' + config.start + '..' + config.end;
-  var dataUrl = "https://agr-apollo.berkeleybop.io/apollo/track/" + encodeURI(config.genome) + "/All%20Genes/" + encodeURI(externalLocationString) + ".json";
-  
-  // TODO: We can still make this more robust.
-  var apolloService = new ApolloService()
-  apolloService.GetIsoformTrack(dataUrl).then((data) =>{
-        DrawViewer(data, svg_target);
-  });
-};
+    // Init our viewer
+    _initViewer(svg_target){
+        console.log("Init viewer...")
+        let margin = {top: 8, right: 30, bottom: 30, left: 40};
 
-export default GenerateGenomeView;
+        this.width = this.width - margin.left - margin.right;
+        this.height = this.height - margin.top - margin.bottom;
+
+        d3.select(svg_target).selectAll("*").remove();
+        var viewer = d3.select(svg_target)
+            .attr('width', this.width + margin.left + margin.right)
+            .attr('height', this.height + margin.top + margin.bottom)
+            .append('g')
+            .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+        return viewer;
+    }
+}
