@@ -41,6 +41,7 @@ class PhenotypeTable extends React.Component {
         format: (term) => <span dangerouslySetInnerHTML={{__html: term}} />,
         sortable: false,
         filterable: false,
+        width: '120px',
       },
       {
         field: 'geneticEntity',
