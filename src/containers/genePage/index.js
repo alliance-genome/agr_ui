@@ -82,7 +82,7 @@ class GenePage extends Component {
     const SECTIONS = [SUMMARY, SEQUENCE_FEATURE_VIEWER, FUNCTION, ORTHOLOGY, PHENOTYPES, DISEASE, EXPRESSION, ALLELES];
 
     return (
-      <DataPage title={title}>
+      <DataPage  data={data} title={title}>
         <PageNav entityName={data.symbol}
                  extra={<i>{data.species}</i>}
                  icon={<SpeciesIcon species={data.species} />}
