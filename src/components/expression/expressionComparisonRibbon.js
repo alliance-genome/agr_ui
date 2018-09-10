@@ -13,6 +13,7 @@ import {
   compareAlphabeticalCaseInsensitive, compareSpeciesPhylogenetic, filterOrthologyByStringency, shortSpeciesName,
   sortBy,
 } from '../../lib/utils';
+import SummaryRibbon from './summaryRibbon';
 
 class ExpressionComparisonRibbon extends React.Component {
   constructor(props) {
@@ -57,6 +58,9 @@ class ExpressionComparisonRibbon extends React.Component {
             <Button color='primary' onClick={() => this.setState({selectedOrthologs: filteredOrthology})}>Add all</Button>
           </div>
         </ControlsContainer>
+        <div>
+          {this.state.selectedOrthologs.map(o => <SummaryRibbon geneId={o.gene2AgrPrimaryId} key={o.gene2AgrPrimaryId} />)}
+        </div>
       </React.Fragment>
     );
   }
