@@ -3,6 +3,39 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { selectSummary } from '../../selectors/expressionSelectors';
 import { fetchExpressionSummary } from '../../actions/expression';
+import { RibbonBase } from '@geneontology/ribbon';
+
+const makeBlocks = summary => {
+  const blocks = [];
+  blocks.push({
+    class_id: 'All annotations',
+    class_label: `All ${summary.totalAnnotations} annotations`,
+    color: '#8BC34A',
+    uniqueAssocs: new Array(summary.totalAnnotations),
+    uniqueIDs: []
+  });
+  summary.groups.forEach(group => {
+    blocks.push({
+      class_id: group.name,
+      class_label: group.name,
+      color: '#fff',
+      no_data: false,
+      separator: true,
+      uniqueAssocs: [],
+      uniqueIDs: [],
+    });
+    group.terms.forEach(term => {
+      blocks.push({
+        class_id: term.id,
+        class_label: term.name,
+        color: term.numberOfAnnotations > 0 ? '#ff00ff' : '#ffffff',
+        uniqueAssocs: new Array(term.numberOfAnnotations),
+        uniqueIDs: [],
+      });
+    });
+  });
+  return blocks;
+};
 
 class SummaryRibbon extends React.Component {
   componentDidMount() {
@@ -13,15 +46,36 @@ class SummaryRibbon extends React.Component {
   }
 
   render() {
-    const { data, error, loading } = this.props.summary || {};
-    return <div>{this.props.geneId}: {loading && 'LOADING...'}{data && data.totalAnnotations}{error && 'ERROR!'}</div>;
+    const { geneId, label, onClick, showLabel, summary } = this.props;
+    const { data, error, loading } = summary || {};
+    return (
+      <div className='d-flex align-items-baseline'>
+        {showLabel && (label || geneId)}
+        {loading && 'LOADING...'}
+        {error && 'ERROR!'}
+        {data &&
+          <RibbonBase blocks={makeBlocks(data)}
+                      onSlimEnter={() => {}}
+                      onSlimLeave={() => {}}
+                      onSlimSelect={onClick}
+          />
+        }
+      </div>
+    );
   }
 }
 
 SummaryRibbon.propTypes = {
   dispatch: PropTypes.func,
   geneId: PropTypes.string,
+  label: PropTypes.string,
+  onClick: PropTypes.func,
+  showLabel: PropTypes.bool,
   summary: PropTypes.object,
+};
+
+SummaryRibbon.defaultProps = {
+  showLabel: true,
 };
 
 const mapStateToProps = (state, props) => ({
