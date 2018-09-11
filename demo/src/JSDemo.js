@@ -1,12 +1,33 @@
 import GenomeFeatureViewer  from "../../src/GenomeFeatureViewer";
+import { ApolloService } from '../../src/services/services';
 
 
-
-//Viewer({chromosome:5, start:28456815, end:28467256, genome:"Mus musculus"},"#viewer2");
-let config2 = {
-    "locale": "global",
+/* Lcoal View Example */
+let configLocal = {
+    "locale": "local",
+    "chromosome": 5,
+    "start": 48515448,
+    "end": 48515548,
     "tracks": [
         {
+            "id": 1,
+            "label": "Case Variants",
+            "type": "variant",
+            "chromosome": 5,
+        },
+        {
+            "id": 2,
+            "label": "Case Variants",
+            "type": "variant",
+            "chromosome": 5,
+        }
+    ]
+}
+var viewer2 = new GenomeFeatureViewer(configLocal, "#viewer2", 500, 960)
+
+
+/*
+{
             "id": 1,
             "type": "isoform",
             "chromosome": 5,
@@ -19,12 +40,11 @@ let config2 = {
                 ".json"    
             ]
         }
-    ]
-}
-var viewer2 = new GenomeFeatureViewer(config2, "#viewer2", 500, 960)
 
 
-let config = {
+Global View Example
+
+    let configGlobal = {
     "locale": "global",
     "tracks": [
         { 
@@ -43,4 +63,4 @@ let config = {
     ]
 };
 
-var viewer = new GenomeFeatureViewer(config, "#viewer", 500, 960);
+var viewer = new GenomeFeatureViewer(configGlobal, "#viewer", 500, 960); */

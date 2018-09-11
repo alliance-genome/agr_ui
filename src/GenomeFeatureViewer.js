@@ -1,4 +1,4 @@
-import DrawGenomeView from "./DrawViewer";
+import Drawer from "./Drawer";
 import * as d3 from "d3";
 
 /*
@@ -17,12 +17,13 @@ export default class GenomeFeatureViewer {
     {
         this.tracks = [];
         this.locale = "";
+        this.config = {};
         this._checkConfig(config);
         this.height = height;
         this.width = width;
         this.viewer = this._initViewer(svg_target);
-        
-        DrawGenomeView(this);
+        this.drawer = new Drawer(this);
+        this.drawer.draw();
     }
     
     // Check configuration files
@@ -45,6 +46,7 @@ export default class GenomeFeatureViewer {
     // Set our properties since we know config is valid
     _setProperties(config)
     {
+        this.config = config;
         this.tracks = config["tracks"];
         this.locale = config["locale"];
     }
@@ -53,17 +55,26 @@ export default class GenomeFeatureViewer {
     _initViewer(svg_target)
     {
         console.log("[GFCLog] Initializing for " + svg_target);
-        let margin = {top: 8, right: 30, bottom: 30, left: 40};
-
+        let margin = {top: 10, right: 10, bottom: 10, left: 10};
+        let labelOffset = 150;
+        let translateX = margin.left;
         this.width = this.width - margin.left - margin.right;
         this.height = this.height - margin.top - margin.bottom;
-
+        // We want labels to the left on the local view.
+        if(this.locale == "local"){
+            translateX = translateX + labelOffset;
+        }
         d3.select(svg_target).selectAll("*").remove();
         var viewer = d3.select(svg_target)
             .attr('width', this.width + margin.left + margin.right)
             .attr('height', this.height + margin.top + margin.bottom)
             .append('g')
-            .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+            .attr('class', "main-view")
+            .attr('transform', 'translate(' + translateX + ',' + margin.top + ')');
+        // The ".main-view" we want it to be offset for the label.
+        if(this.locale == "local"){
+            this.width = this.width - labelOffset;
+        }
         return viewer;
     }
 
