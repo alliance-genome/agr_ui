@@ -15,6 +15,8 @@ import {
 } from '../../lib/utils';
 import SummaryRibbon from './summaryRibbon';
 
+const makeLabel = (symbol, taxonId) => `${symbol} (${shortSpeciesName(taxonId)})`;
+
 class ExpressionComparisonRibbon extends React.Component {
   constructor(props) {
     super(props);
@@ -30,7 +32,7 @@ class ExpressionComparisonRibbon extends React.Component {
   }
 
   render() {
-    const { orthology } = this.props;
+    const { geneId, geneSymbol, geneTaxon, orthology } = this.props;
     const { stringency, selectedOrthologs } = this.state;
     const filteredOrthology = sortBy(filterOrthologyByStringency(orthology, stringency), [
       compareSpeciesPhylogenetic(o => o.gene2Species),
@@ -45,7 +47,7 @@ class ExpressionComparisonRibbon extends React.Component {
             <div className='flex-grow-1'>
               <Select
                 closeMenuOnSelect={false}
-                getOptionLabel={option => `${option.gene2Symbol} (${shortSpeciesName(option.gene2Species)})`}
+                getOptionLabel={option => makeLabel(option.gene2Symbol, option.gene2Species)}
                 getOptionValue={option => option.gene2AgrPrimaryId}
                 isMulti
                 onChange={this.handleChange}
@@ -59,7 +61,13 @@ class ExpressionComparisonRibbon extends React.Component {
           </div>
         </ControlsContainer>
         <div>
-          {this.state.selectedOrthologs.map(o => <SummaryRibbon geneId={o.gene2AgrPrimaryId} key={o.gene2AgrPrimaryId} />)}
+          <SummaryRibbon geneId={geneId} label={makeLabel(geneSymbol, geneTaxon)} showLabel={selectedOrthologs.length > 0} />
+          {selectedOrthologs.map(o => (
+            <SummaryRibbon geneId={o.gene2AgrPrimaryId}
+                           key={o.gene2AgrPrimaryId}
+                           label={makeLabel(o.gene2Symbol, o.gene2Species)}
+            />
+          ))}
         </div>
       </React.Fragment>
     );
@@ -67,6 +75,9 @@ class ExpressionComparisonRibbon extends React.Component {
 }
 
 ExpressionComparisonRibbon.propTypes = {
+  geneId: PropTypes.string.isRequired,
+  geneSymbol: PropTypes.string.isRequired,
+  geneTaxon: PropTypes.string.isRequired,
   orthology: PropTypes.array,
 };
 

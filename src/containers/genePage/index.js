@@ -151,7 +151,7 @@ class GenePage extends Component {
                                .concat(data.crossReferences['gene/spell'])
                              }
             />
-            <ExpressionComparisonRibbon />
+            <ExpressionComparisonRibbon geneId={data.primaryId} geneSymbol={data.symbol} geneTaxon={data.taxonId} />
           </Subsection>
 
           <Subsection title={ALLELES}>
