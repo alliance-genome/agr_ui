@@ -28,7 +28,10 @@ class HeadMetaTags extends Component {
           },
           version: '2.0',
           license: 'CC BY 4.0',
-          identifier: data.primaryId,
+          identifier: {
+            '@type': 'Text',
+            value:  data.primaryId
+          },
         }),
       };
     }
