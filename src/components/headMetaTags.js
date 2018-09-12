@@ -17,6 +17,7 @@ class HeadMetaTags extends Component {
         innerHTML: JSON.stringify({
           '@context': 'http://schema.org',
           '@type': 'Dataset',
+          '@id': data.primaryId,
           name: data.symbol,
           description: data.automatedGeneSynopsis + ' ' + (data.geneSynopsis || data.geneSynopsisUrl || ''),
           url: 'http://www.alliancegenome.org/gene/' + data.primaryId,
@@ -27,8 +28,7 @@ class HeadMetaTags extends Component {
             'name': 'Alliance of Genome Resources'
           },
           version: '2.0',
-          license: 'CC BY 4.0',
-          identifier: data.primaryId,
+          license: 'CC BY 4.0'
         }),
       };
     }
