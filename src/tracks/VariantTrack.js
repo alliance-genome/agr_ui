@@ -25,18 +25,26 @@ export default class VariantTrack {
         .range([0, width]);
         let triangle = d3.symbol().type(d3.symbolTriangle).size(20);
 
-        // Tooltip
+        // Tooltip configuration
         let tooltip = d3Tip();
-        tooltip.attr('class', 'd3-tip').html(function(d) { 
-            let tipHtml = '<p><strong>Case Variant Information</strong></p><hr><p>Position: ' + d["position"] + '</p><hr>' + '<p>Mutation: '+ d["ref"] + '>' + d["mutant"]+ '</p>';
+        tooltip.attr('class', 'd3-tip').html(function(d) {
+            let title = "Case Variant"
+            let tipHtml = 
+            '<table>' + 
+                '<th colspan="2">' + title.toUpperCase() + '</th>' +
+                '<tr><td>Position</td> <td>' +  d["position"] + '</td></tr>' +
+                '<tr><td>Mutation</td> <td>' +  d["ref"] + ' > ' + d["mutant"] + '</td></tr>'
+            '</table>';
             return tipHtml; 
         
-        });
+        }).offset([-10,0]);
         viewer.call(tooltip);
 
-        // Calculate the height and spacing for each track.
-        // Get the total height of where we are.
-        // draw new variant track
+        /*
+            Calculate the height and spacing for each track.
+            Get the total height of where we are.
+            draw new variant track
+         */
         let nodes = d3.selectAll(".track").nodes();
         let usedHeight = 0;
         var numTracks = 0; //Number of tracks including axis
@@ -59,7 +67,7 @@ export default class VariantTrack {
             .attr("fill", "red")
             .attr("transform", function(d) {
                 return "translate(" + x(d.position) + "," + 10 + ")";
-            }).on('click', tooltip.show).on('mouseout', tooltip.hide);
+            }).on('mouseenter', tooltip.show).on('mouseout', tooltip.hide);
         
         // Track Label Boxes 
         // TODO: LabelOffset should be based on label size.
