@@ -26,8 +26,9 @@ export default class Drawer {
         let width  = this.gfc["width"];
         let viewer = this.gfc["viewer"];
         let tracks = this.gfc["tracks"];
-        
 
+        // Draw our reference if it's local for now.
+        // TODO: With a global config we want to create the reference here too.
         console.log("[GCLog] Drawing reference..");
         if(locale == "local"){
            const referenceTrack = new ReferenceLabel(viewer,  {"chromosome": chromosome, "start": start, "end": end}, height, width);
@@ -35,6 +36,8 @@ export default class Drawer {
            referenceTrack.DrawTrack();
         }
 
+        // Always take the start end of our view.
+        // TODO: Lock view to always have some number of sequence (50, 100)?
         console.log("[GFCLog] Drawing tracks..");
         tracks.forEach(async function(track) {
             track["start"] = start;

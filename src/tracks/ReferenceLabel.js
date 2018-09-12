@@ -19,7 +19,8 @@ export default class ReferenceLabel {
         let x = d3.scaleLinear()
         .domain([this.track["start"], this.track["end"] + 1])
         .range([0, width]);
-
+        
+        // Represent our sequence in integers on an x-axis
         let xAxis = d3.axisBottom(x).tickValues( this._getRefTick(this.track["start"] + 1, this.track["end"]) )
         .tickFormat(function(d,i){ return data[i] }).tickSize(8).tickPadding(6);
 
