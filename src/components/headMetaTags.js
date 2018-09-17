@@ -4,7 +4,6 @@ import Helmet from 'react-helmet';
 
 class HeadMetaTags extends Component {
 
-
   render() {
 
     let title = `${this.props.title} | Alliance of Genome Resources`;
@@ -37,7 +36,22 @@ class HeadMetaTags extends Component {
       <div>
         <Helmet
           meta={[
-            {property: 'og:title', content: {title}}
+            {
+              property: 'og:title',
+              content: {title},
+            },
+            {
+              property: 'og:image',
+              content: 'https://alliancegenome.files.wordpress.com/2016/11/banner_1_flyin_logo.png',
+            },
+            {
+              property: 'og:url',
+              content: 'https://alliancegenome.com/',
+            },
+            {
+              property: 'og:description',
+              content: 'The primary mission of the Alliance of Genome Resources (the Alliance) is to develop and maintain sustainable genome information resources that facilitate the use of diverse model organisms in understanding the genetic and genomic basis of human biology, health and disease. This understanding is fundamental for advancing genome biology research and for translating human genome data into clinical utility.',
+            },
           ]}
           script={(schema ? [schema] : [])}
           title={title}
