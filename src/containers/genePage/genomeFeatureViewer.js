@@ -11,6 +11,7 @@ import LoadingPage from '../../components/loadingPage';
 import GenomeFeature from '../../components/genomeFeature/GenomeFeature';
 import numeral from 'numeral';
 import {getTranscriptTypes} from '../../lib/genomeFeatureTypes';
+import ExternalLink from '../../components/externalLink';
 
 class GenomeFeatureViewer extends Component {
 
@@ -110,11 +111,11 @@ class GenomeFeatureViewer extends Component {
     return (
       <div id='genomeViewer'>
         <AttributeList>
-          <AttributeLabel>Genome location</AttributeLabel>
+          <AttributeLabel>Genome location </AttributeLabel>
           <AttributeValue>
-            <a href={this.jbrowseUrl} rel='noopener noreferrer' target='_blank'>
-              {chromosome.toLowerCase().startsWith('chr') ? chromosome : 'Chr' + chromosome}:{fmin}...{fmax}
-            </a> {strand} ({lengthValue} kb)
+            <ExternalLink href={this.jbrowseUrl}>
+              {chromosome.toLowerCase().startsWith('chr') ? chromosome : 'Chr' +chromosome}:{fmin}...{fmax}
+            </ExternalLink> {strand} ({lengthValue} kb)
           </AttributeValue>
 
           <AttributeLabel>Assembly version</AttributeLabel>
