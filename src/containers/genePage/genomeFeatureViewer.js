@@ -111,7 +111,7 @@ class GenomeFeatureViewer extends Component {
     return (
       <div id='genomeViewer'>
         <AttributeList>
-          <AttributeLabel>Genome location </AttributeLabel>
+          <AttributeLabel>Genome location</AttributeLabel>
           <AttributeValue>
             <ExternalLink href={this.jbrowseUrl}>
               {chromosome.toLowerCase().startsWith('chr') ? chromosome : 'Chr' +chromosome}:{fmin}...{fmax}
