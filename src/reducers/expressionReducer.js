@@ -1,5 +1,12 @@
 import { fromJS } from 'immutable';
-import { FETCH_SUMMARY, FETCH_SUMMARY_FAILURE, FETCH_SUMMARY_SUCCESS } from '../actions/expression';
+import {
+  FETCH_SUMMARY,
+  FETCH_SUMMARY_FAILURE,
+  FETCH_SUMMARY_SUCCESS,
+  FETCH_EXPRESSION_ANNOTATIONS,
+  FETCH_EXPRESSION_ANNOTATIONS_SUCCESS,
+  FETCH_EXPRESSION_ANNOTATIONS_FAILURE
+} from '../actions/expression';
 
 const DEFAULT_STATE = fromJS({
   summaries: {},
@@ -23,6 +30,22 @@ const expressionReducer = (state = DEFAULT_STATE, action) => {
       .setIn(['summaries', action.id, 'loading'], false)
       .setIn(['summaries', action.id, 'data'], null)
       .setIn(['summaries', action.id, 'error'], action.error);
+
+  case FETCH_EXPRESSION_ANNOTATIONS:
+    return state
+      .setIn(['annotations', 'loading'], true);
+
+  case FETCH_EXPRESSION_ANNOTATIONS_SUCCESS:
+    return state
+      .setIn(['annotations', 'loading'], false)
+      .setIn(['annotations', 'data'], action.annotations)
+      .setIn(['annotations', 'error'], null);
+
+  case FETCH_EXPRESSION_ANNOTATIONS_FAILURE:
+    return state
+      .setIn(['annotations', 'loading'], false)
+      .setIn(['annotations', 'data'], null)
+      .setIn(['annotations', 'error'], action.error);
 
   default:
     return state;

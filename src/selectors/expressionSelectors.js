@@ -14,3 +14,8 @@ export const selectSummary = geneId => {
     }
   );
 };
+
+export const selectAnnotations = createSelector(
+  [selectExpressionDomain],
+  expression => expression.get('annotations').toJS()
+);
