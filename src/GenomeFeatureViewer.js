@@ -18,6 +18,7 @@ export default class GenomeFeatureViewer {
         this.tracks = [];
         this.locale = "";
         this.config = {};
+        this.svg_target = svg_target;
         this._checkConfig(config);
         this.height = height;
         this.width = width;
@@ -56,25 +57,14 @@ export default class GenomeFeatureViewer {
     {
         console.log("[GFCLog] Initializing for " + svg_target);
         let margin = {top: 10, right: 10, bottom: 10, left: 10};
-        let labelOffset = 150;
-        let translateX = margin.left;
-        this.width = this.width - margin.left - margin.right;
         this.height = this.height - margin.top - margin.bottom;
-        // We want labels to the left on the local view.
-        if(this.locale == "local"){
-            translateX = translateX + labelOffset;
-        }
         d3.select(svg_target).selectAll("*").remove();
         var viewer = d3.select(svg_target)
-            .attr('width', this.width + margin.left + margin.right)
+            .attr('width', this.width)
             .attr('height', this.height + margin.top + margin.bottom)
             .append('g')
-            .attr('class', "main-view")
-            .attr('transform', 'translate(' + translateX + ',' + margin.top + ')');
-        // The ".main-view" we want it to be offset for the label.
-        if(this.locale == "local"){
-            this.width = this.width - labelOffset;
-        }
+            .attr('class', "main-view");
+
         return viewer;
     }
 

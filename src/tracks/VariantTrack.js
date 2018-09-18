@@ -22,9 +22,9 @@ export default class VariantTrack {
         let width = this.width;
         let x = d3.scaleLinear()
         .domain([this.track["start"], this.track["end"] + 1])
-        .range([0, width]);
+        .range([100, width]);
         let triangle = d3.symbol().type(d3.symbolTriangle).size(20);
-
+    
         // Tooltip configuration
         let tooltip = d3Tip();
         tooltip.attr('class', 'd3-tip').html(function(d) {
@@ -37,7 +37,7 @@ export default class VariantTrack {
             '</table>';
             return tipHtml; 
         
-        }).offset([-10,0]);
+        }).offset([10,0]).direction('s');
         viewer.call(tooltip);
 
         /*
@@ -45,6 +45,7 @@ export default class VariantTrack {
             Get the total height of where we are.
             draw new variant track
          */
+        let trackHeight = 20;
         let nodes = d3.selectAll(".track").nodes();
         let usedHeight = 0;
         var numTracks = 0; //Number of tracks including axis
@@ -55,11 +56,12 @@ export default class VariantTrack {
         let newTrackPosition = usedHeight;
 
         // Create our track container with a simple background
-        let track = viewer.append("g").attr('transform', 'translate(0,' + newTrackPosition + ')').attr("class", "track");
-        track.append("rect").attr("height", 20).attr("width", width).attr("fill-opacity", 0.1).attr("fill", "rgb(148, 140, 140)")
+        let track = viewer.append("g").attr('transform', 'translate(0,' + newTrackPosition + ')').attr("class", "track")
+        track.append("rect").attr("height", trackHeight).attr("width", width).attr("fill-opacity", 0.1).attr("fill", "rgb(148, 140, 140)")
         .attr("stroke-width", 0).attr("stroke-opacity", 0);
 
         // Draw our variants
+        // TODO: Variant color based on type or user defined in config?
         track.selectAll("path").data(variants).enter().append("path")
             .attr("d", triangle)
             .attr("class", "case-variant")
@@ -71,10 +73,11 @@ export default class VariantTrack {
         
         // Track Label Boxes 
         // TODO: LabelOffset should be based on label size.
-        let labelOffset = 75; 
-        let trackLabel = viewer.append("g").attr('transform', 'translate(' + -labelOffset +',' + newTrackPosition + ')')
-        .attr("class", "track-label");
-        trackLabel.append("line").attr("x1", labelOffset).attr("y1", 0).attr("x2", labelOffset).attr("y2", 20).attr("stroke-width", 3)
+        // TODO: Append this to parent container that will not be clipped.
+        let labelOffset = 25;
+        let trackLabel = d3.select("#viewer2").append("g").attr('transform', 'translate(' + labelOffset +',' + newTrackPosition + ')')
+        .attr("class", "track-label");        
+        trackLabel.append("line").attr("x1", 75).attr("y1", 0).attr("x2", 75).attr("y2", trackHeight).attr("stroke-width", 3)
         .attr("stroke", "#609C9C");
         trackLabel.append("text").text(this.track["label"].toUpperCase()).attr("y", 12);
         
