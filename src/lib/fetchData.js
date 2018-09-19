@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-const TIMEOUT = 5000;
+const TIMEOUT = 30000;
 
 export default function fetchData(_url, options={}) {
   let _type = options.type || 'GET';
