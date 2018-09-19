@@ -62,7 +62,7 @@ class ExpressionComparisonRibbon extends React.Component {
   }
 
   handleBlockClick(block) {
-    this.setState({selectedTerm: block.class_id}, () => this.loadAnnotations());
+    this.setState({selectedTerm: block.class_id}, () => this.handleAnnotationUpdate());
   }
 
   handleAnnotationUpdate(opts) {
