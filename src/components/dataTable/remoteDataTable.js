@@ -56,6 +56,10 @@ class RemoteDataTable extends Component {
     this.setState({sort: {name, order}});
   }
 
+  reset() {
+    this.setState({page: 1});
+  }
+
   render() {
     const { columns, data, downloadUrl, loading, totalRows } = this.props;
     const { page, limit, sort, filters } = this.state;
