@@ -14,35 +14,9 @@ import {
   sortBy,
 } from '../../lib/utils';
 import SummaryRibbon from './summaryRibbon';
-import { selectAnnotations } from '../../selectors/expressionSelectors';
-import { fetchExpressionAnnotations } from '../../actions/expression';
-import RemoteDataTable from '../dataTable/remoteDataTable';
+import AnnotationTable from './annotationTable';
 
 const makeLabel = (symbol, taxonId) => `${symbol} (${shortSpeciesName(taxonId)})`;
-
-const columns = [
-  {
-    field: 'key',
-    isKey: true,
-    hidden: true,
-  },
-  {
-    field: 'species',
-    label: 'Species',
-  },
-  {
-    field: 'gene',
-    label: 'Gene',
-  },
-  {
-    field: 'location',
-    label: 'Location',
-  },
-  {
-    field: 'stage',
-    label: 'Stage',
-  }
-];
 
 class ExpressionComparisonRibbon extends React.Component {
   constructor(props) {
@@ -54,7 +28,6 @@ class ExpressionComparisonRibbon extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleBlockClick = this.handleBlockClick.bind(this);
-    this.handleAnnotationUpdate = this.handleAnnotationUpdate.bind(this);
   }
 
   handleChange(values) {
@@ -62,32 +35,17 @@ class ExpressionComparisonRibbon extends React.Component {
   }
 
   handleBlockClick(block) {
-    this.setState({selectedTerm: block.class_id}, () => this.handleAnnotationUpdate());
-  }
-
-  handleAnnotationUpdate(opts) {
-    opts = opts || {};
-    opts.page = opts.page || 1;
-    const { dispatch, geneId } = this.props;
-    const { selectedOrthologs, selectedTerm } = this.state;
-    const selectedGenes = [geneId].concat(selectedOrthologs.map(o => o.gene2AgrPrimaryId));
-    dispatch(fetchExpressionAnnotations(selectedGenes, selectedTerm, opts.page));
+    this.setState({selectedTerm: block.class_id});
   }
 
   render() {
-    const { annotations, geneId, geneSymbol, geneTaxon, orthology } = this.props;
-    const { stringency, selectedOrthologs } = this.state;
+    const { geneId, geneSymbol, geneTaxon, orthology } = this.props;
+    const { stringency, selectedOrthologs, selectedTerm } = this.state;
     const filteredOrthology = sortBy(filterOrthologyByStringency(orthology, stringency), [
       compareSpeciesPhylogenetic(o => o.gene2Species),
       compareAlphabeticalCaseInsensitive(o => o.gene2Symbol)
     ]);
-    const data = annotations.data && annotations.data.results.map(result => ({
-      key: `${result.gene.geneID}-${result.termName}-${result.stage.stageID}`,
-      species: result.gene.speciesName,
-      gene: result.gene.symbol,
-      location: result.termName,
-      stage: result.stage.name,
-    }));
+    const genes = [geneId].concat(selectedOrthologs.map(o => o.gene2AgrPrimaryId));
     return (
       <React.Fragment>
         <ControlsContainer>
@@ -124,22 +82,13 @@ class ExpressionComparisonRibbon extends React.Component {
             />
           ))}
         </div>
-        { annotations.data &&
-          <RemoteDataTable
-            columns={columns}
-            data={data}
-            loading={annotations.loading}
-            onUpdate={this.handleAnnotationUpdate}
-            totalRows={annotations.data ? annotations.data.total : 0}
-          />
-        }
+        <AnnotationTable genes={genes} term={selectedTerm} />
       </React.Fragment>
     );
   }
 }
 
 ExpressionComparisonRibbon.propTypes = {
-  annotations: PropTypes.object,
   dispatch: PropTypes.func,
   geneId: PropTypes.string.isRequired,
   geneSymbol: PropTypes.string.isRequired,
@@ -150,7 +99,6 @@ ExpressionComparisonRibbon.propTypes = {
 function mapStateToProps (state) {
   return {
     orthology: selectOrthology(state),
-    annotations: selectAnnotations(state),
   };
 }
 

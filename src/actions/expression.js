@@ -32,13 +32,13 @@ const fetchExpressionSummaryFailure = (id, error) => ({
   error,
 });
 
-export const fetchExpressionAnnotations = (genes, term, page) => {
+export const fetchExpressionAnnotations = (genes, term, opts) => {
   return (dispatch) => {
     dispatch({
       type: FETCH_EXPRESSION_ANNOTATIONS
     });
     const geneParams = genes.map(gene => `geneID=${gene}`).join('&');
-    return fetchData(`/api/expression?termID=${term}&${geneParams}&page=${page}`)
+    return fetchData(`/api/expression?termID=${term}&${geneParams}&page=${opts.page}`)
       .then(data => dispatch(fetchExpressionAnnotationsSuccess(data)))
       .catch(error => dispatch(fetchExpressionAnnotationsFailure(error)));
   };
