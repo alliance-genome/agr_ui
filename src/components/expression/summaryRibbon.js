@@ -4,6 +4,13 @@ import PropTypes from 'prop-types';
 import { selectSummary } from '../../selectors/expressionSelectors';
 import { fetchExpressionSummary } from '../../actions/expression';
 import { RibbonBase } from '@geneontology/ribbon';
+import { compareByFixedOrder, compareAlphabeticalCaseInsensitive, sortBy } from '../../lib/utils';
+
+const GROUP_ORDER = [
+  'Anatomy',
+  'Stage',
+  'Cellular Component'
+];
 
 const makeBlocks = summary => {
   const blocks = [];
@@ -14,7 +21,10 @@ const makeBlocks = summary => {
     uniqueAssocs: new Array(summary.totalAnnotations),
     uniqueIDs: []
   });
-  summary.groups.forEach(group => {
+  sortBy(summary.groups, [
+    compareByFixedOrder(GROUP_ORDER, g => g.name),
+    compareAlphabeticalCaseInsensitive(g => g.name)
+  ]).forEach(group => {
     blocks.push({
       class_id: group.name,
       class_label: group.name,

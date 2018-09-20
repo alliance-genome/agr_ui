@@ -136,3 +136,13 @@ export const DEFAULT_TABLE_STATE = {
   },
   filters: []
 };
+
+export const TAXON_ORDER = [
+  'NCBITaxon:9606',
+  'NCBITaxon:10090',
+  'NCBITaxon:10116',
+  'NCBITaxon:7955',
+  'NCBITaxon:7227',
+  'NCBITaxon:6239',
+  'NCBITaxon:4932',
+];

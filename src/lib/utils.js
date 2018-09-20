@@ -12,32 +12,24 @@ export function stripHtml (string) {
   return string.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>?/gi, '').trim();
 }
 
+function functionOrIdentity(func) {
+  return func || (val => val);
+}
+
 export function compareAlphabeticalCaseInsensitive(accessor) {
-  accessor = accessor || (val => val);
+  accessor = functionOrIdentity(accessor);
   return function (a, b) {
     return accessor(a).toLowerCase().localeCompare(accessor(b).toLowerCase());
   };
 }
 
-function getSpeciesPhylogeneitcIndex(taxonId) {
-  const defaultOrder = [
-    'NCBITaxon:9606',
-    'NCBITaxon:10090',
-    'NCBITaxon:10116',
-    'NCBITaxon:7955',
-    'NCBITaxon:7227',
-    'NCBITaxon:6239',
-    'NCBITaxon:4932',
-  ];
-  const index = defaultOrder.indexOf(taxonId);
-  return index < 0 ? defaultOrder.length : index;
-}
-
-export function compareSpeciesPhylogenetic(accessor) {
-  accessor = accessor || (val => val);
-  return (a, b) => {
-    return getSpeciesPhylogeneitcIndex(accessor(a)) - getSpeciesPhylogeneitcIndex(accessor(b));
+export function compareByFixedOrder(order, accessor) {
+  accessor = functionOrIdentity(accessor);
+  const indexOf = value => {
+    const index = order.indexOf(value);
+    return index < 0 ? order.length : index;
   };
+  return (a, b) => indexOf(accessor(a)) - indexOf(accessor(b));
 }
 
 export function sortBy(array, compareFunctions) {

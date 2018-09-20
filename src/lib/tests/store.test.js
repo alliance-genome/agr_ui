@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import configureStore from './configureStore';
+import configureStore from '../configureStore';
 
 describe('Store', () => {
   it('can be initialized to an object', () => {
