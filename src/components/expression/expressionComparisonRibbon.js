@@ -15,6 +15,7 @@ import {
 } from '../../lib/utils';
 import SummaryRibbon from './summaryRibbon';
 import AnnotationTable from './annotationTable';
+import HorizontalScroll from '../horizontalScroll';
 
 const makeLabel = (symbol, taxonId) => `${symbol} (${shortSpeciesName(taxonId)})`;
 
@@ -70,7 +71,7 @@ class ExpressionComparisonRibbon extends React.Component {
             <Button color='primary' onClick={() => this.setState({selectedOrthologs: filteredOrthology})}>Add all</Button>
           </div>
         </ControlsContainer>
-        <div>
+        <HorizontalScroll width={750}>
           <SummaryRibbon geneId={geneId}
                          label={makeLabel(geneSymbol, geneTaxon)}
                          onClick={this.handleBlockClick}
@@ -85,7 +86,7 @@ class ExpressionComparisonRibbon extends React.Component {
                            selectedTerm={selectedTerm}
             />
           ))}
-        </div>
+        </HorizontalScroll>
         <AnnotationTable genes={genes} term={selectedTerm && selectedTerm.class_id} />
       </React.Fragment>
     );
