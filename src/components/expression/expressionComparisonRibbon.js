@@ -44,7 +44,7 @@ class ExpressionComparisonRibbon extends React.Component {
   render() {
     const { geneId, geneSymbol, geneTaxon, orthology } = this.props;
     const { stringency, selectedOrthologs, selectedTerm } = this.state;
-    const filteredOrthology = sortBy(filterOrthologyByStringency(orthology, stringency), [
+    const filteredOrthology = orthology && sortBy(filterOrthologyByStringency(orthology, stringency), [
       compareSpeciesPhylogenetic(o => o.gene2Species),
       compareAlphabeticalCaseInsensitive(o => o.gene2Symbol)
     ]);
