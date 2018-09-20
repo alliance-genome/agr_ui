@@ -9,20 +9,13 @@ import DownloadButton from './downloadButton';
 import Utils from './utils';
 import PaginationPanel from './paginationPanel';
 import NoData from '../noData';
+import { DEFAULT_TABLE_STATE } from '../../constants';
 
 class RemoteDataTable extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      limit: 10,
-      page: 1,
-      sort: {
-        name: '',
-        order: '',
-      },
-      filters: []
-    };
+    this.state = DEFAULT_TABLE_STATE;
 
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);

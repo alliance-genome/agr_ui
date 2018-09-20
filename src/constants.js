@@ -126,3 +126,13 @@ export const NAV_MENU = [
     wordpressId: 3,
   },
 ];
+
+export const DEFAULT_TABLE_STATE = {
+  limit: 10,
+  page: 1,
+  sort: {
+    name: '',
+    order: '',
+  },
+  filters: []
+};
