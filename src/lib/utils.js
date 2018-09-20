@@ -1,4 +1,5 @@
 import { STRINGENCY_HIGH, STRINGENCY_MED } from '../components/orthology/constants';
+import { DEFAULT_TABLE_STATE } from '../constants';
 
 export function makeId(string) {
   return string.toLowerCase().replace(/[^A-Za-z0-9]/g, '-');
@@ -53,6 +54,9 @@ export function sortBy(array, compareFunctions) {
 }
 
 export function buildTableQueryString(options) {
+  if (!options) {
+    options = DEFAULT_TABLE_STATE;
+  }
   const filterQueries = options.filters.length ?
     ('&' + options.filters.map(filter => `${filter.name}=${filter.value}`).join('&')) : '';
   const sortOrderQuery = options.sort.order ? `&asc=${options.sort.order === 'asc'}` : '';

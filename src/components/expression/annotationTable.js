@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import isEqual from 'lodash.isequal';
+
 import { selectAnnotations } from '../../selectors/expressionSelectors';
 import { fetchExpressionAnnotations } from '../../actions/expression';
 import { RemoteDataTable } from '../dataTable';
@@ -38,9 +40,9 @@ class AnnotationTable extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { dispatch, genes, term } = this.props;
-    if (term !== prevProps.term) {
-      this.tableRef.current.reset();
-      dispatch(fetchExpressionAnnotations(genes, term, {page: 1}));
+    if ((term && term !== prevProps.term) || !isEqual(genes, prevProps.genes)) {
+      this.tableRef.current && this.tableRef.current.reset();
+      dispatch(fetchExpressionAnnotations(genes, term));
     }
   }
 
@@ -52,7 +54,7 @@ class AnnotationTable extends React.Component {
   render() {
     const { annotations, term } = this.props;
 
-    if (!term) {
+    if (!term || !annotations.data) {
       return null;
     }
 

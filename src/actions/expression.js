@@ -1,4 +1,5 @@
 import fetchData from '../lib/fetchData';
+import { buildTableQueryString } from '../lib/utils';
 
 export const FETCH_SUMMARY = 'FETCH_SUMMARY';
 export const FETCH_SUMMARY_SUCCESS = 'FETCH_SUMMARY_SUCCESS';
@@ -38,7 +39,7 @@ export const fetchExpressionAnnotations = (genes, term, opts) => {
       type: FETCH_EXPRESSION_ANNOTATIONS
     });
     const geneParams = genes.map(gene => `geneID=${gene}`).join('&');
-    return fetchData(`/api/expression?termID=${term}&${geneParams}&page=${opts.page}`)
+    return fetchData(`/api/expression?termID=${term}&${geneParams}&${buildTableQueryString(opts)}`)
       .then(data => dispatch(fetchExpressionAnnotationsSuccess(data)))
       .catch(error => dispatch(fetchExpressionAnnotationsFailure(error)));
   };

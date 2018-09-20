@@ -46,7 +46,7 @@ class SummaryRibbon extends React.Component {
   }
 
   render() {
-    const { geneId, label, onClick, showLabel, summary } = this.props;
+    const { geneId, label, onClick, selectedTerm, showLabel, summary } = this.props;
     const { data, error, loading } = summary || {};
     return (
       <div className='d-flex align-items-baseline'>
@@ -55,6 +55,7 @@ class SummaryRibbon extends React.Component {
         {error && 'ERROR!'}
         {data &&
           <RibbonBase blocks={makeBlocks(data)}
+                      currentblock={selectedTerm}
                       onSlimEnter={() => {}}
                       onSlimLeave={() => {}}
                       onSlimSelect={onClick}
@@ -70,6 +71,7 @@ SummaryRibbon.propTypes = {
   geneId: PropTypes.string,
   label: PropTypes.string,
   onClick: PropTypes.func,
+  selectedTerm: PropTypes.object,
   showLabel: PropTypes.bool,
   summary: PropTypes.object,
 };

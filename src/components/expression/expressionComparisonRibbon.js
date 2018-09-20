@@ -24,7 +24,7 @@ class ExpressionComparisonRibbon extends React.Component {
     this.state = {
       stringency: STRINGENCY_HIGH,
       selectedOrthologs: [],
-      selectedTerm: null,
+      selectedTerm: undefined,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleBlockClick = this.handleBlockClick.bind(this);
@@ -35,7 +35,9 @@ class ExpressionComparisonRibbon extends React.Component {
   }
 
   handleBlockClick(block) {
-    this.setState({selectedTerm: block.class_id});
+    let { selectedTerm } = this.state;
+    selectedTerm = (selectedTerm && selectedTerm.class_id === block.class_id) ? undefined : block;
+    this.setState({selectedTerm});
   }
 
   render() {
@@ -72,6 +74,7 @@ class ExpressionComparisonRibbon extends React.Component {
           <SummaryRibbon geneId={geneId}
                          label={makeLabel(geneSymbol, geneTaxon)}
                          onClick={this.handleBlockClick}
+                         selectedTerm={selectedTerm}
                          showLabel={selectedOrthologs.length > 0}
           />
           {selectedOrthologs.map(o => (
@@ -79,10 +82,11 @@ class ExpressionComparisonRibbon extends React.Component {
                            key={o.gene2AgrPrimaryId}
                            label={makeLabel(o.gene2Symbol, o.gene2Species)}
                            onClick={this.handleBlockClick}
+                           selectedTerm={selectedTerm}
             />
           ))}
         </div>
-        <AnnotationTable genes={genes} term={selectedTerm} />
+        <AnnotationTable genes={genes} term={selectedTerm && selectedTerm.class_id} />
       </React.Fragment>
     );
   }
