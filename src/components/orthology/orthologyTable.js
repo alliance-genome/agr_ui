@@ -5,7 +5,8 @@ import MethodHeader from './methodHeader';
 import MethodCell from './methodCell';
 import BooleanCell from './booleanCell';
 import HelpIcon from './helpIcon';
-import { compareSpeciesPhylogenetic, sortBy } from '../../lib/utils';
+import { sortBy, compareByFixedOrder } from '../../lib/utils';
+import { TAXON_ORDER } from '../../constants';
 
 const columns = [
   {name: 'Species'},
@@ -40,7 +41,7 @@ class OrthologyTable extends Component {
         <tbody>
         {
           sortBy(this.props.data, [
-            compareSpeciesPhylogenetic(o => o.gene2Species),
+            compareByFixedOrder(TAXON_ORDER, o => o.gene2Species),
             (orthDataA, orthDataB) => orthDataB.predictionMethodsMatched.length - orthDataA.predictionMethodsMatched.length
           ]).map((orthData, idx, orthList) => {
             const scoreNumerator = orthData.predictionMethodsMatched.length;

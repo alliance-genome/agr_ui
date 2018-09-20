@@ -10,9 +10,13 @@ import { StringencySelector } from '../orthology';
 import { STRINGENCY_HIGH } from '../orthology/constants';
 import { selectOrthology } from '../../selectors/geneSelectors';
 import {
-  compareAlphabeticalCaseInsensitive, compareSpeciesPhylogenetic, filterOrthologyByStringency, shortSpeciesName,
+  compareAlphabeticalCaseInsensitive, filterOrthologyByStringency, shortSpeciesName,
   sortBy,
+  compareByFixedOrder,
 } from '../../lib/utils';
+import {
+  TAXON_ORDER
+} from '../../constants';
 import SummaryRibbon from './summaryRibbon';
 import AnnotationTable from './annotationTable';
 import HorizontalScroll from '../horizontalScroll';
@@ -45,7 +49,7 @@ class ExpressionComparisonRibbon extends React.Component {
     const { geneId, geneSymbol, geneTaxon, orthology } = this.props;
     const { stringency, selectedOrthologs, selectedTerm } = this.state;
     const filteredOrthology = orthology && sortBy(filterOrthologyByStringency(orthology, stringency), [
-      compareSpeciesPhylogenetic(o => o.gene2Species),
+      compareByFixedOrder(TAXON_ORDER, o => o.gene2Species),
       compareAlphabeticalCaseInsensitive(o => o.gene2Symbol)
     ]);
     const genes = [geneId].concat(selectedOrthologs.map(o => o.gene2AgrPrimaryId));
