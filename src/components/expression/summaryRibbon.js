@@ -59,17 +59,19 @@ class SummaryRibbon extends React.Component {
     const { geneId, label, onClick, selectedTerm, showLabel, summary } = this.props;
     const { data, error, loading } = summary || {};
     return (
-      <div className='d-flex align-items-baseline'>
-        {showLabel && (label || geneId)}
+      <div style={{display: 'table-row'}}>
+        {showLabel && <span style={{display: 'table-cell', whiteSpace: 'nowrap', paddingRight: '0.5em'}}>{label || geneId}</span>}
         {loading && 'LOADING...'}
         {error && 'ERROR!'}
         {data &&
-          <RibbonBase blocks={makeBlocks(data)}
-                      currentblock={selectedTerm}
-                      onSlimEnter={() => {}}
-                      onSlimLeave={() => {}}
-                      onSlimSelect={onClick}
-          />
+          <span style={{display: 'table-cell'}}>
+            <RibbonBase blocks={makeBlocks(data)}
+                        currentblock={selectedTerm}
+                        onSlimEnter={() => {}}
+                        onSlimLeave={() => {}}
+                        onSlimSelect={onClick}
+            />
+          </span>
         }
       </div>
     );
