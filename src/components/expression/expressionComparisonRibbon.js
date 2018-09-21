@@ -75,21 +75,24 @@ class ExpressionComparisonRibbon extends React.Component {
             <Button color='primary' onClick={() => this.setState({selectedOrthologs: filteredOrthology})}>Add all</Button>
           </div>
         </ControlsContainer>
-        <HorizontalScroll width={750}>
-          <SummaryRibbon geneId={geneId}
-                         label={makeLabel(geneSymbol, geneTaxon)}
-                         onClick={this.handleBlockClick}
-                         selectedTerm={selectedTerm}
-                         showLabel={selectedOrthologs.length > 0}
-          />
-          {selectedOrthologs.map(o => (
-            <SummaryRibbon geneId={o.gene2AgrPrimaryId}
-                           key={o.gene2AgrPrimaryId}
-                           label={makeLabel(o.gene2Symbol, o.gene2Species)}
-                           onClick={this.handleBlockClick}
-                           selectedTerm={selectedTerm}
+        <HorizontalScroll>
+          <div style={{display: 'table'}}>
+            <SummaryRibbon geneId={geneId}
+                          label={makeLabel(geneSymbol, geneTaxon)}
+                          onClick={this.handleBlockClick}
+                          selectedTerm={selectedTerm}
+                          showLabel={selectedOrthologs.length > 0}
             />
-          ))}
+            {selectedOrthologs.map(o => (
+              <SummaryRibbon geneId={o.gene2AgrPrimaryId}
+                            key={o.gene2AgrPrimaryId}
+                            label={makeLabel(o.gene2Symbol, o.gene2Species)}
+                            onClick={this.handleBlockClick}
+                            selectedTerm={selectedTerm}
+              />
+            ))}
+          </div>
+
         </HorizontalScroll>
         <AnnotationTable genes={genes} term={selectedTerm && selectedTerm.class_id} />
       </React.Fragment>
