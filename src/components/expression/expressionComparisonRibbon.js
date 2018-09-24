@@ -76,7 +76,7 @@ class ExpressionComparisonRibbon extends React.Component {
           </div>
         </ControlsContainer>
         <HorizontalScroll>
-          <div style={{display: 'table'}}>
+          <div className='d-table pb-4'>
             <SummaryRibbon geneId={geneId}
                           label={makeLabel(geneSymbol, geneTaxon)}
                           onClick={this.handleBlockClick}
@@ -89,6 +89,7 @@ class ExpressionComparisonRibbon extends React.Component {
                             label={makeLabel(o.gene2Symbol, o.gene2Species)}
                             onClick={this.handleBlockClick}
                             selectedTerm={selectedTerm}
+                            showBlockTitles={false}
               />
             ))}
           </div>
