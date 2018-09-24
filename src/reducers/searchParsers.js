@@ -1,7 +1,7 @@
 const JOIN_HIGHLIGHT_BY = '...';
 const FILTER_ORDER = ['biotype', 'species'];
 
-import { makeFieldDisplayName } from '../lib/searchHelpers';
+import { makeFieldDisplayName, makeValueDisplayName } from '../lib/searchHelpers';
 import { NON_HIGHLIGHTED_FIELDS } from '../constants';
 
 function flattenWithPrettyFieldNames(highlights) {
@@ -96,7 +96,7 @@ export function parseAggs(rawAggs, queryObject) {
       }
       return {
         name: _d.key,
-        displayName: makeFieldDisplayName(_d.key),
+        displayName: makeValueDisplayName(_d.key),
         key: _d.key,
         total: _d.total,
         isActive: _isActive
@@ -184,7 +184,7 @@ function parseGoResult(_d) {
   return {
     category: d.category,
     display_name: d.name,
-    go_branch: makeFieldDisplayName(d.go_type),
+    go_branch: makeValueDisplayName(d.go_type),
     id: d.id,
     highlight: d.highlights,
     href: d.href,

@@ -7,6 +7,21 @@ import ExternalLink from '../components/externalLink';
 const SINGLE_VAL_FIELDS = ['mode', 'page'];
 const CLEARING_FIELDS = ['category'];
 
+export function makeValueDisplayName(unformattedName) {
+  unformattedName = unformattedName || '';
+
+  switch(unformattedName) {
+  case 'biological_process':
+    return 'biological process';
+  case 'molecular_function':
+    return 'molecular function';
+  case 'cellular_component':
+    return 'cellular component';
+  default:
+    return unformattedName;
+  }
+}
+
 export function makeFieldDisplayName(unformattedName) {
   unformattedName = unformattedName || '';
 
@@ -21,12 +36,15 @@ export function makeFieldDisplayName(unformattedName) {
     return 'GO Branch';
   case 'biologicalProcess':
   case 'biologicalProcessWithParents':
+  case 'biologicalProcessAgrSlim':
     return 'Biological Process';
   case 'cellularComponent':
   case 'cellularComponentWithParents':
+  case 'cellularComponentAgrSlim':
     return 'Cellular Component';
   case 'molecularFunction':
   case 'molecularFunctionWithParents':
+  case 'molecularFunctionAgrSlim':
     return 'Molecular Function';
   case 'geneType':
     return 'Gene Type';
@@ -73,8 +91,12 @@ export function makeFieldDisplayName(unformattedName) {
   case 'allele.name':
     return 'Allele';
   default:
-    //replace underscores and any field name suffixes after a ., capitalize
-    return unformattedName.replace(/_/g, ' ').replace(/\.(\w)+/g, '');
+    //replace fix both camel case and underscores, capitalize the first letter
+    return unformattedName
+      .replace( /([A-Z])/g, ' $1' )
+      .replace(/_/g, ' ')
+      .replace(/\.(\w)+/g, '')
+      .replace(/^\w/, c => c.toUpperCase());
   }
 }
 

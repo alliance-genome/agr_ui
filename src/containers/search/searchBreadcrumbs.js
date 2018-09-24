@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import style from './style.scss';
-import { getQueryParamWithoutPage, makeFieldDisplayName, makeTitleCaseFieldDisplayName } from '../../lib/searchHelpers';
+import { getQueryParamWithoutPage, makeValueDisplayName, makeTitleCaseFieldDisplayName } from '../../lib/searchHelpers';
 import { selectIsPending, selectTotal } from '../../selectors/searchSelectors.js';
 import { stringify } from 'query-string';
 
@@ -18,7 +18,7 @@ class SearchBreadcrumbsComponent extends Component {
     return values.map( (d, i) => {
       let newQp = getQueryParamWithoutPage(key,d,this.props.queryParams);
       let newPath = { pathname: '/search', search: stringify(newQp) };
-      let label = makeFieldDisplayName(d);
+      let label = makeValueDisplayName(d);
       let labelNode = (key === 'q') ? `"${label}"` : label;
       let fieldLabel = makeTitleCaseFieldDisplayName(key) + ':';
       if (key === 'species') {
