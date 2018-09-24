@@ -56,20 +56,21 @@ class SummaryRibbon extends React.Component {
   }
 
   render() {
-    const { geneId, label, onClick, selectedTerm, showLabel, summary } = this.props;
+    const { geneId, label, onClick, selectedTerm, showBlockTitles, showLabel, summary } = this.props;
     const { data, error, loading } = summary || {};
     return (
-      <div style={{display: 'table-row'}}>
-        {showLabel && <span style={{display: 'table-cell', whiteSpace: 'nowrap', paddingRight: '0.5em'}}>{label || geneId}</span>}
+      <div className='d-table-row'>
+        {showLabel && <span className='d-table-cell text-nowrap pr-2'>{label || geneId}</span>}
         {loading && 'LOADING...'}
         {error && 'ERROR!'}
         {data &&
-          <span style={{display: 'table-cell'}}>
+          <span className='d-table-cell'>
             <RibbonBase blocks={makeBlocks(data)}
                         currentblock={selectedTerm}
                         onSlimEnter={() => {}}
                         onSlimLeave={() => {}}
                         onSlimSelect={onClick}
+                        showBlockTitles={showBlockTitles}
             />
           </span>
         }
@@ -84,6 +85,7 @@ SummaryRibbon.propTypes = {
   label: PropTypes.string,
   onClick: PropTypes.func,
   selectedTerm: PropTypes.object,
+  showBlockTitles: PropTypes.bool,
   showLabel: PropTypes.bool,
   summary: PropTypes.object,
 };
