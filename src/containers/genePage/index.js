@@ -117,7 +117,7 @@ class GenePage extends Component {
           </Subsection>
 
           <Subsection title={FUNCTION}>
-            <GeneOntologyRibbon id={data.primaryId} slim='agr' />
+            <GeneOntologyRibbon id={data.primaryId} />
           </Subsection>
 
           <Subsection title={ORTHOLOGY}>
