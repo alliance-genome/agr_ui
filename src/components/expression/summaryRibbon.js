@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import * as d3 from 'd3-scale';
 import { selectSummary } from '../../selectors/expressionSelectors';
 import { fetchExpressionSummary } from '../../actions/expression';
 import { RibbonBase } from '@geneontology/ribbon';
@@ -31,14 +32,15 @@ const makeBlocks = summary => {
       color: '#fff',
       no_data: false,
       separator: true,
-      uniqueAssocs: [],
+      uniqueAssocs: new Array(group.totalAnnotations),
       uniqueIDs: [],
     });
+    const scale = d3.scaleLog().domain([1, group.totalAnnotations]).range(['#ffffff', '#008080']);
     group.terms.forEach(term => {
       blocks.push({
         class_id: term.id,
         class_label: term.name,
-        color: term.numberOfAnnotations > 0 ? '#ff00ff' : '#ffffff',
+        color: term.numberOfAnnotations === 0 ? '#ffffff' : scale(term.numberOfAnnotations + 1),
         uniqueAssocs: new Array(term.numberOfAnnotations),
         uniqueIDs: [],
       });
