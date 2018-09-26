@@ -1,12 +1,12 @@
 /* eslint-disable react/no-set-state */
 import React, { Component } from 'react';
-
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 
 import DownloadButton from './downloadButton';
 import Utils from './utils';
+import * as analytics from '../../lib/analytics';
 import PaginationPanel from './paginationPanel';
 import NoData from '../noData';
 
@@ -44,11 +44,13 @@ class RemoteDataTable extends Component {
     this.setState({filters: Object.keys(filter).map(key => ({name: key, value: filter[key].value}))});
   }
 
-  handlePageChange(page) {
+  handlePageChange(page, size, title) {
+    analytics.logTablePageEvent(title);
     this.setState({page});
   }
 
   handleSizeChange(limit) {
+    analytics.logTableSizeEvent(limit);
     this.setState({limit});
   }
 
