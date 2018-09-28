@@ -64,7 +64,7 @@ const ALL_METHODS = {
   zfin: {
     name: 'ZFIN',
     icon: 'https://zfin.org/images/zfinlogo.png'
-//    icon: 'https://zfin.org/favicon.ico'
+    //    icon: 'https://zfin.org/favicon.ico'
   }
 };
 

@@ -68,18 +68,18 @@ class MultiTableComponent extends Component {
       .then( (geneData) => {
         this.props.dispatch(receiveResponse(geneData, this.props.queryParams, 'gene'));
       }).then(
-      fetchData(goUrl)
-        .then( (goData) => {
-          this.props.dispatch(receiveResponse(goData, this.props.queryParams, 'go'));
-        })).then(
-      fetchData(diseaseUrl)
-        .then( (diseaseData) => {
-          this.props.dispatch(receiveResponse(diseaseData, this.props.queryParams, 'disease'));
-        })).then(
-      fetchData(alleleUrl)
-        .then( (alleleData) => {
-          this.props.dispatch(receiveResponse(alleleData, this.props.queryParams, 'allele'));
-        })
+        fetchData(goUrl)
+          .then( (goData) => {
+            this.props.dispatch(receiveResponse(goData, this.props.queryParams, 'go'));
+          })).then(
+        fetchData(diseaseUrl)
+          .then( (diseaseData) => {
+            this.props.dispatch(receiveResponse(diseaseData, this.props.queryParams, 'disease'));
+          })).then(
+        fetchData(alleleUrl)
+          .then( (alleleData) => {
+            this.props.dispatch(receiveResponse(alleleData, this.props.queryParams, 'allele'));
+          })
       )
       .catch( (e) => {
         this.props.dispatch(setPending(false));

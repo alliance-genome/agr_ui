@@ -62,7 +62,7 @@ class LocalDataTable extends Component {
         version='4'
       >
         {
-          columns.map((col, idx) =>
+          columns.map((col, idx) => (
             <TableHeaderColumn
               csvFormat={col.asText}
               csvHeader={col.label}
@@ -78,7 +78,7 @@ class LocalDataTable extends Component {
             >
               {col.label}
             </TableHeaderColumn>
-          )
+          ))
         }
       </BootstrapTable>
     );

@@ -3,7 +3,7 @@
     "browser": true,
     "es6": true,
     "node": true,
-    "mocha": true,
+    "mocha": true
   },
   "extends": "eslint:recommended",
   "parserOptions": {
@@ -53,7 +53,6 @@
     "react/jsx-no-target-blank": 1,
     "react/jsx-pascal-case": 1,
     "react/jsx-sort-props": 1,
-    "react/jsx-space-before-closing": 1,
     "react/jsx-uses-react": 2,
     "react/jsx-uses-vars": 1
   },

@@ -1,25 +1,22 @@
 import path from 'path';
 import webpack from 'webpack';
 
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import RobotstxtPlugin from 'robotstxt-webpack-plugin';
+import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 
-let isProduction = process.env.NODE_ENV === 'production';
-let API_URL = process.env.API_URL || 'http://localhost:8080';
-let DEV_SERVER_UI_PORT = process.env.DEV_SERVER_UI_PORT || '2992';
-let JBROWSE_URL = process.env.JBROWSE_URL || 'http://jbrowse.alliancegenome.org';
-let APOLLO_URL = process.env.APOLLO_URL || 'https://agr-apollo.berkeleybop.io/apollo/';
-let JBROWSE_PORT = process.env.JBROWSE_PORT || '8891';
-let LIVE_UI = process.env.LIVE_UI || 'false';
+const API_URL = process.env.API_URL || 'http://localhost:8080';
+const DEV_SERVER_UI_PORT = process.env.DEV_SERVER_UI_PORT || '2992';
+const JBROWSE_URL = process.env.JBROWSE_URL || 'http://jbrowse.alliancegenome.org';
+const JBROWSE_PORT = process.env.JBROWSE_PORT || '8891';
+const APOLLO_URL = process.env.APOLLO_URL || 'https://agr-apollo.berkeleybop.io/apollo/';
 
-// Development asset host, asset location and build output path.
-const buildOutputPath = path.join(__dirname, './dist');
+const isDev = process.env.NODE_ENV !== 'production';
 
-let mainSass = new ExtractTextPlugin('main.[contenthash].css');
-let vendorCss = new ExtractTextPlugin('vendor.[contenthash].css');
-
-const robotsOptions = (LIVE_UI === 'true') ? {
+const robotstxtProdOptions = {
   policy: [
     {
       userAgent: '*',
@@ -31,7 +28,8 @@ const robotsOptions = (LIVE_UI === 'true') ? {
     'http://www.alliancegenome.org/sitemap.xml',
     'http://www.alliancegenome.org/api/sitemap.xml',
   ],
-} : {
+};
+const robotstxtDevOptions = {
   policy: [
     {
       userAgent: '*',
@@ -40,127 +38,142 @@ const robotsOptions = (LIVE_UI === 'true') ? {
   ],
 };
 
-let config = {
-  context: path.join(__dirname, 'src'),
-  debug: true,
-  entry: [
-    './index.js'
-  ],
-  output: {
-    path: buildOutputPath,
-    publicPath: '/',
-    filename: '[name].[hash].js',
-    chunkFilename: '[id].[chunkhash].js'
-  },
-  devtool: 'eval-source-map',
-  devServer: {
-    disableHostCheck: true,
-    contentBase: 'dist',
-    historyApiFallback: true,
-    port: DEV_SERVER_UI_PORT,
-    host: '0.0.0.0',
-    proxy: {
-      '/api': {
-        target: API_URL,
-        secure: false,
-        changeOrigin: true
-      }
+const devServer = {
+  disableHostCheck: true,
+  contentBase: path.resolve(__dirname, 'dist'),
+  historyApiFallback: true,
+  port: DEV_SERVER_UI_PORT,
+  host: '0.0.0.0',
+  hot: true,
+  proxy: {
+    '/api': {
+      target: API_URL,
+      secure: false,
+      changeOrigin: true
     }
+  }
+};
+
+const plugins = [
+  new HtmlWebpackPlugin({
+    template: path.resolve(__dirname, 'src/public/index.html')
+  }),
+  new FaviconsWebpackPlugin({
+    logo: path.resolve(__dirname, 'src/public/logo.png'),
+    inject: true,
+    title: 'Alliance of Genome Resources'
+  }),
+  new webpack.DefinePlugin({
+    'process.env': {
+      'APOLLO_URL': JSON.stringify(APOLLO_URL),
+      'JBROWSE_URL': JSON.stringify(JBROWSE_URL),
+      'JBROWSE_PORT': JSON.stringify(JBROWSE_PORT)
+    }
+  }),
+  new MiniCssExtractPlugin({
+    filename: '[name].[hash].css',
+    chunkFilename: '[id].[hash].css'
+  }),
+  new RobotstxtPlugin(isDev ? robotstxtDevOptions : robotstxtProdOptions),
+];
+
+if (isDev) {
+  plugins.push(new webpack.HotModuleReplacementPlugin());
+}
+
+module.exports = {
+  mode: isDev ? 'development' : 'production',
+  entry: {
+    main: path.resolve(__dirname, 'src/index.js'),
+    // style: path.resolve(__dirname, 'src/style.js')
   },
+  output: {
+    filename: '[name].[hash].js',
+    chunkFilename: '[id].[hash].js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
+  },
+  devtool: isDev ? 'eval-source-map' : 'source-map',
+  devServer: isDev ? devServer : undefined,
   module: {
-    preLoaders: [
+    rules: [
+      // run eslint on javascript files before anything else
       {
+        enforce: 'pre',
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'eslint'
-      }
-    ],
-    loaders: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel'
+        use: ['eslint-loader'],
       },
+
+      // transform javascript files according to babel rules
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: ['babel-loader'],
+      },
+
+      // transform our own sass files, except for the bootstrap and overrides file
       {
         test: /\.scss$/,
         include: path.resolve(__dirname, 'src'),
-        exclude: [
-          path.resolve(__dirname, 'src/public'),
-          path.resolve(__dirname, 'src/style.scss')
-        ],
-        loader: mainSass.extract([
-          'css?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
-          'postcss',
-          'sass'
-        ])
+        exclude: path.resolve(__dirname, 'src/style.scss'),
+        use: [
+          isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              sourceMap: true,
+              importLoaders: 1,
+              localIdentName: '[name]__[local]___[hash:base64:5]'
+            }
+          },
+          'sass-loader'
+        ]
       },
+
+      // transform third-party sass and css, including our overrides
       {
-        test:  /\.(css|scss)$/,
+        test: /\.(css|sass|scss)$/,
         include: [
           path.resolve(__dirname, 'node_modules'),
           path.resolve(__dirname, 'src/style.scss')
         ],
-        loader: vendorCss.extract(['css', 'sass'])
+        use: [
+          isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+            }
+          },
+          'sass-loader'
+        ]
       },
+
+      // static files
       {
-        test: /\.(jpg|png|ttf|eot|woff|woff2|svg)$/,
-        loader: 'url?limit=100000'
+        test: /\.png$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 100000
+            }
+          }
+        ]
       }
     ]
   },
-  plugins: [
-    new RobotstxtPlugin(robotsOptions),
-    new HtmlWebpackPlugin({
-      inject: true,
-      template: path.join(__dirname, 'src', 'public', 'index.html'),
-    }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify('develop'),
-        'APOLLO_URL': JSON.stringify(APOLLO_URL),
-        'JBROWSE_URL': JSON.stringify(JBROWSE_URL),
-        'JBROWSE_PORT': JSON.stringify(JBROWSE_PORT)
-      }
-    }),
-    vendorCss,
-    mainSass
-  ]
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true
+      }),
+      new OptimizeCSSAssetsPlugin(),
+    ]
+  },
+  plugins,
 };
-
-if (isProduction) {
-  config.devtool = 'source-map';
-  config.devServer = {};
-  config.plugins = [
-    new RobotstxtPlugin(robotsOptions),
-    // Generates an `index.html` file with the <script> injected.
-    new HtmlWebpackPlugin({
-      inject: true,
-      template: path.join(__dirname, 'src', 'public', 'index.html'),
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeRedundantAttributes: true,
-        useShortDoctype: true,
-        removeEmptyAttributes: true,
-        removeStyleLinkTypeAttributes: true,
-        keepClosingSlash: true,
-        minifyJS: true,
-        minifyCSS: true,
-        minifyURLs: true
-      }
-    }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify('production'),
-        'APOLLO_URL': JSON.stringify(APOLLO_URL),
-        'JBROWSE_URL': JSON.stringify(JBROWSE_URL),
-        'JBROWSE_PORT': JSON.stringify(JBROWSE_PORT)
-      }
-    }),
-    new webpack.optimize.UglifyJsPlugin(),
-    vendorCss,
-    mainSass
-  ];
-}
-
-export default config;

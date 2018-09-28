@@ -25,12 +25,13 @@ class GeneOntologyRibbon extends Component {
             <div>
               {dataReceived && GeneOntologyRibbon.hasBlockData(blocks) ?
                 <HorizontalScroll width={800}>
-                  <Ribbon blocks={blocks}
-                          config={config}
-                          eco_list={eco_list}
-                          showing={false}
-                          subject={id}
-                          title={title}
+                  <Ribbon
+                    blocks={blocks}
+                    config={config}
+                    eco_list={eco_list}
+                    showing={false}
+                    subject={id}
+                    title={title}
                   />
                 </HorizontalScroll> :
                 <NoData />
