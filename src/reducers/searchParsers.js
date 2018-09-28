@@ -190,7 +190,7 @@ function parseGoResult(_d) {
     href: d.href,
     name: d.name,
     collapsible_synonyms: d.synonyms, //not just named synonyms,
-                             //so that it can be collapsible when others aren't
+    //so that it can be collapsible when others aren't
     missing: d.missingTerms,
     explanation: d.explanation,
     score: d.score

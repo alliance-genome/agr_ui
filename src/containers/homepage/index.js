@@ -94,7 +94,7 @@ class Homepage extends Component {
                     <div className='text-xs-center text-center'>
                       <a className={`btn btn-light btn-secondary ${style.captionButton}`} href={item.link}>
                         {item.captionText}
-                          <i className='fa fa-chevron-right' />
+                        <i className='fa fa-chevron-right' />
                         <br />
                       </a>
                     </div>

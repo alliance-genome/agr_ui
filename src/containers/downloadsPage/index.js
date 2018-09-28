@@ -17,9 +17,10 @@ class DownloadsPage extends React.Component {
             <a href='https://download.alliancegenome.org/INT/Alliance_molecular_interactions.tar.gz'>
               Alliance_molecular_interactions.tar.gz
             </a>
-            <i className='fa fa-fw fa-question-circle text-primary'
-               id='interactions-help'
-               style={{cursor: 'pointer', marginLeft: '1rem'}}
+            <i
+              className='fa fa-fw fa-question-circle text-primary'
+              id='interactions-help'
+              style={{cursor: 'pointer', marginLeft: '1rem'}}
             />
             <UncontrolledCollapse toggler='#interactions-help'>
               <p>

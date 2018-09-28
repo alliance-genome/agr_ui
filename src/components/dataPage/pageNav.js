@@ -27,17 +27,19 @@ const PageNav = ({entityName, extra, icon, link, sections}) => {
         </div>
 
         <div className='navbar-collapse collapse' id='data-page-nav'>
-          <Scrollspy className={`list-group list-group-flush ${style.scrollSpy}`}
-                     componentTag='div'
-                     currentClassName='active'
-                     items={sections.map(makeId)}
+          <Scrollspy
+            className={`list-group list-group-flush ${style.scrollSpy}`}
+            componentTag='div'
+            currentClassName='active'
+            items={sections.map(makeId)}
           >
             {
               sections.map(section => (
-                <HashLink className='list-group-item list-group-item-action'
-                          key={section}
-                          onClick={() => $('#data-page-nav').collapse('hide')}
-                          to={'#' + makeId(section)}
+                <HashLink
+                  className='list-group-item list-group-item-action'
+                  key={section}
+                  onClick={() => $('#data-page-nav').collapse('hide')}
+                  to={'#' + makeId(section)}
                 >
                   {section}
                 </HashLink>
