@@ -53,3 +53,13 @@
 .axis {
   font: 14px sans-serif;
 }
+
+.x-local-axis {
+  font: 8px sans-serif;
+}
+
+.track-label{
+  font-size: 12px;
+  font-weight: 200;
+  fill: darkgray;
+}
