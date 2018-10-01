@@ -65,7 +65,7 @@ class SummaryRibbon extends React.Component {
       <div className='d-table-row'>
         {showLabel && <span className='d-table-cell text-nowrap pr-2'>{label || geneId}</span>}
         {loading && <LoadingSpinner />}
-        {error && 'ERROR!'}
+        {error && <span className='text-danger'>Could not fetch data. Try agian later.</span>}
         {data &&
           <span className='d-table-cell'>
             <RibbonBase blocks={makeBlocks(data)}
