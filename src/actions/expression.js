@@ -39,7 +39,8 @@ export const fetchExpressionAnnotations = (genes, term, opts) => {
       type: FETCH_EXPRESSION_ANNOTATIONS
     });
     const geneParams = genes.map(gene => `geneID=${gene}`).join('&');
-    return fetchData(`/api/expression?termID=${term}&${geneParams}&${buildTableQueryString(opts)}`)
+    const tableQuery = buildTableQueryString(opts, 'filter.');
+    return fetchData(`/api/expression?termID=${term}&${geneParams}&${tableQuery}`)
       .then(data => dispatch(fetchExpressionAnnotationsSuccess(data)))
       .catch(error => dispatch(fetchExpressionAnnotationsFailure(error)));
   };

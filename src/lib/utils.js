@@ -45,12 +45,13 @@ export function sortBy(array, compareFunctions) {
   });
 }
 
-export function buildTableQueryString(options) {
+export function buildTableQueryString(options, filterPrefix) {
   if (!options) {
     options = DEFAULT_TABLE_STATE;
   }
+  filterPrefix = filterPrefix || '';
   const filterQueries = options.filters.length ?
-    ('&' + options.filters.map(filter => `${filter.name}=${filter.value}`).join('&')) : '';
+    ('&' + options.filters.map(filter => `${filterPrefix}${filter.name}=${filter.value}`).join('&')) : '';
   const sortOrderQuery = options.sort.order ? `&asc=${options.sort.order === 'asc'}` : '';
   return `page=${options.page}&limit=${options.limit}&sortBy=${options.sort.name}${sortOrderQuery}${filterQueries}`;
 }
