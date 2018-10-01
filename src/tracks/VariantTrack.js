@@ -22,7 +22,7 @@ export default class VariantTrack {
         let width = this.width;
         let x = d3.scaleLinear()
         .domain([this.track["start"], this.track["end"] + 1])
-        .range([100, width]);
+        .range(this.track["range"]);
         let triangle = d3.symbol().type(d3.symbolTriangle).size(20);
     
         // Tooltip configuration
@@ -48,7 +48,7 @@ export default class VariantTrack {
         let trackHeight = 20;
         let nodes = d3.selectAll(".track").nodes();
         let usedHeight = 0;
-        var numTracks = 0; //Number of tracks including axis
+        let numTracks = 0; //Number of tracks including axis
         nodes.forEach(node => {
                 usedHeight += node.getBoundingClientRect().height + 10;
                 numTracks++;
@@ -57,8 +57,8 @@ export default class VariantTrack {
 
         // Create our track container with a simple background
         let track = viewer.append("g").attr('transform', 'translate(0,' + newTrackPosition + ')').attr("class", "track")
-        track.append("rect").attr("height", trackHeight).attr("width", width).attr("fill-opacity", 0.1).attr("fill", "rgb(148, 140, 140)")
-        .attr("stroke-width", 0).attr("stroke-opacity", 0);
+        track.append("rect").attr("height", trackHeight).attr("width", -(this.track["range"][0]) + this.track["range"][1]).attr("fill-opacity", 0.1).attr("fill", "rgb(148, 140, 140)")
+        .attr("stroke-width", 0).attr("stroke-opacity", 0).attr("transform", "translate(" + this.track["range"][0] +",0)");
 
         // Draw our variants
         // TODO: Variant color based on type or user defined in config?
@@ -71,9 +71,7 @@ export default class VariantTrack {
                 return "translate(" + x(d.position) + "," + 10 + ")";
             }).on('mouseenter', tooltip.show).on('mouseout', tooltip.hide);
         
-        // Track Label Boxes 
-        // TODO: LabelOffset should be based on label size.
-        // TODO: Append this to parent container that will not be clipped.
+        // Track Label Boxes currently 100px
         let labelOffset = 25;
         let trackLabel = d3.select("#viewer2").append("g").attr('transform', 'translate(' + labelOffset +',' + newTrackPosition + ')')
         .attr("class", "track-label");        

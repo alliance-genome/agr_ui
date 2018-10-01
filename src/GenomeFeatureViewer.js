@@ -1,3 +1,4 @@
+"use strict";
 import Drawer from "./Drawer";
 import * as d3 from "d3";
 
@@ -22,6 +23,7 @@ export default class GenomeFeatureViewer {
         this._checkConfig(config);
         this.height = height;
         this.width = width;
+
         this.viewer = this._initViewer(svg_target);
         this.drawer = new Drawer(this);
         this.drawer.draw();
@@ -44,6 +46,7 @@ export default class GenomeFeatureViewer {
 
         this._setProperties(config);
     }
+
     // Set our properties since we know config is valid
     _setProperties(config)
     {
@@ -52,28 +55,38 @@ export default class GenomeFeatureViewer {
         this.locale = config["locale"];
     }
 
-    // Init our viewer
+    // Creating our drawing space.
     _initViewer(svg_target)
     {
         console.log("[GFCLog] Initializing for " + svg_target);
-        let margin = {top: 10, right: 10, bottom: 10, left: 10};
-        this.height = this.height - margin.top - margin.bottom;
         d3.select(svg_target).selectAll("*").remove();
-        var viewer = d3.select(svg_target)
-            .attr('width', this.width)
-            .attr('height', this.height + margin.top + margin.bottom)
+        let viewer = d3.select(svg_target);
+        
+        
+        if(this.locale == "global")
+        {
+            let margin = {top: 8, right: 30, bottom: 30, left: 40};
+            viewer.attr('width', this.width).attr("height", this.height).append('g')
+            .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')').attr("class", "main-view");
+            this.width = this.width - margin.left - margin.right;
+            this.height = this.height - margin.top - margin.bottom;
+
+        }else{
+            // Different margins for a local view. (Maybe we can make these match at some point)
+            let margin = {top: 10, bottom: 10};
+            viewer.attr('width', this.width)
+            .attr('height', this.height)
             .append('g')
             .attr('class', "main-view");
+            this.height = this.height - margin.top - margin.bottom;
+        }
 
-        return viewer;
+        return d3.select(".main-view");
     }
 
     /*
-    *
-    * Methods for utility
-    * 
+     Methods to interact with viewer.
     */
-
     getTracks(defaultTrack)
     {
         // Return all tracks if a default track
@@ -87,5 +100,12 @@ export default class GenomeFeatureViewer {
             // For now return the first track as default
             return this.tracks[0];
         }
+    }
+
+   // Set our sequence start and sequence end
+   setSequence(start, end)
+    {
+        this.config["start"] = start;
+        this.config["end"] = end;
     }
 }
