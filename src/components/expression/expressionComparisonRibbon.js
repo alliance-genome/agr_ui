@@ -93,9 +93,10 @@ class ExpressionComparisonRibbon extends React.Component {
               />
             ))}
           </div>
-
         </HorizontalScroll>
-        <AnnotationTable genes={genes} term={selectedTerm && selectedTerm.class_id} />
+        <div className='pt-4'>
+          <AnnotationTable genes={genes} term={selectedTerm && selectedTerm.class_id} />
+        </div>
       </React.Fragment>
     );
   }
