@@ -33,6 +33,7 @@
     "webpack": "^3.12.0",
     "webpack-dev-server": "^2.11.2"
   },
+  "author": "Nathan Dunn",
   "contributors": [
     {
       "name": "Michael Gargano",
