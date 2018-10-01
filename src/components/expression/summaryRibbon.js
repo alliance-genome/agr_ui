@@ -6,6 +6,7 @@ import { selectSummary } from '../../selectors/expressionSelectors';
 import { fetchExpressionSummary } from '../../actions/expression';
 import { RibbonBase } from '@geneontology/ribbon';
 import { compareByFixedOrder, compareAlphabeticalCaseInsensitive, sortBy } from '../../lib/utils';
+import LoadingSpinner from '../loadingSpinner';
 
 const GROUP_ORDER = [
   'Anatomy',
@@ -63,7 +64,7 @@ class SummaryRibbon extends React.Component {
     return (
       <div className='d-table-row'>
         {showLabel && <span className='d-table-cell text-nowrap pr-2'>{label || geneId}</span>}
-        {loading && 'LOADING...'}
+        {loading && <LoadingSpinner />}
         {error && 'ERROR!'}
         {data &&
           <span className='d-table-cell'>
