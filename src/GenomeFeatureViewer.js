@@ -1,59 +1,111 @@
-import DrawViewer from './DrawViewer';
-import {ApolloService} from './services/services';
+"use strict";
+import Drawer from "./Drawer";
+import * as d3 from "d3";
+
 /*
- Main entry for creating the genome viewer.
- Currently only draws isoforms at a global level
- @Param config: a set of configurations for the isoform track
+ * Main viewer.
+ *
+ * @Param config: A configuration file full of tracks & metadata
+ * @Param svg_target: The id of an svg element
+ * @Param height: height of svg
+ * @Param width: width of svg
+ *
+ *
+ */
+export default class GenomeFeatureViewer {
+
+    constructor(config, svg_target , height, width)
     {
-        chromosome: 5,
-        start: 75574916,
-        end: 75656722,
-        genome: "Mus musculus",
-        highlightNames: ['Kit']
+        this.tracks = [];
+        this.locale = "";
+        this.config = {};
+        this.svg_target = svg_target;
+        this._checkConfig(config);
+        this.height = height;
+        this.width = width;
+
+        this.viewer = this._initViewer(svg_target);
+        this.drawer = new Drawer(this);
+        this.drawer.draw();
     }
 
-  @Param svg_target: a DOM element id, where the viewer will be drawn.
-*/
-var GenerateGenomeView = function (config, svg_target) {
-    // TODO:
-    // Config should be a set of tracks and we should be drawing
-    // based on track type to the svg
-    let {chromosome, start, end, genome, server, track, highlightNames, gene} = config;
-    server = server ? server : 'https://agr-apollo.berkeleybop.io/apollo/';
-    track = track ? track : 'All Genes';
-    let nameString = '';
+    // Check configuration files
+    _checkConfig(config)
+    {
+        // Ensure we have config type
+        // TODO: Make sure we have top label information
+        let locale = config["locale"];
+        if(locale != "global" && locale != "local"){
+            throw new Error("No locale found in config. Must be 'global' or 'local'");
+        }
+        // Ensure we have tracks
+        let tracks = config["tracks"];
+        if(!tracks || tracks.length == 0){
+            throw new Error("No tracks found. Must be an array of tracks.");
+        }
 
-    for (let nameIndex in highlightNames) {
-        nameString += nameIndex == 0 ? '?' : '&';
-        nameString += 'name=' + highlightNames[nameIndex];
+        this._setProperties(config);
     }
 
-    // let externalLocationString = chromosome + ':' + start + '..' + end;
-    // let dataUrl = server + '/track/' + encodeURI(genome) + '/' + track + '/' + encodeURI(externalLocationString) + '.json' + nameString;
-
-    let dataUrl;
-    if (!gene && chromosome && start && end) {
-        let externalLocationString = chromosome + ':' + start + '..' + end;
-        dataUrl = server + '/track/' + encodeURI(genome) + '/' + track + '/' + encodeURI(externalLocationString) + '.json' + nameString;
-    }
-    else if (gene && chromosome) {
-        nameString = nameString ? nameString : '?name=' + gene;
-        dataUrl = server + '/track/' + encodeURI(genome) + '/' + track + '/' + chromosome + '/' + gene + '.json' + nameString;
+    // Set our properties since we know config is valid
+    _setProperties(config)
+    {
+        this.config = config;
+        this.tracks = config["tracks"];
+        this.locale = config["locale"];
     }
 
+    // Creating our drawing space.
+    _initViewer(svg_target)
+    {
+        console.log("[GFCLog] Initializing for " + svg_target);
+        d3.select(svg_target).selectAll("*").remove();
+        let viewer = d3.select(svg_target);
 
-    // TODO: We can still make this more robust.
-    if (dataUrl) {
-        let apolloService = new ApolloService();
-        apolloService.GetIsoformTrack(dataUrl).then((data) => {
-            DrawViewer(data, svg_target);
-        }).catch((error) => {
-            console.error(error);
-        });
-    }
-    else {
-        console.error("Not enough information to generate a url for fetching data", config);
-    }
-};
 
-export default GenerateGenomeView;
+        if(this.locale == "global")
+        {
+            let margin = {top: 8, right: 30, bottom: 30, left: 40};
+            viewer.attr('width', this.width).attr("height", this.height).append('g')
+            .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')').attr("class", "main-view");
+            this.width = this.width - margin.left - margin.right;
+            this.height = this.height - margin.top - margin.bottom;
+
+        }else{
+            // Different margins for a local view. (Maybe we can make these match at some point)
+            let margin = {top: 10, bottom: 10};
+            viewer.attr('width', this.width)
+            .attr('height', this.height)
+            .append('g')
+            .attr('class', "main-view");
+            this.height = this.height - margin.top - margin.bottom;
+        }
+
+        return d3.select(".main-view");
+    }
+
+    /*
+     Methods to interact with viewer.
+    */
+    getTracks(defaultTrack)
+    {
+        // Return all tracks if a default track
+        // is not requested
+        if(!defaultTrack)
+        {
+            return this.tracks;
+        }
+        else
+        {
+            // For now return the first track as default
+            return this.tracks[0];
+        }
+    }
+
+   // Set our sequence start and sequence end
+   setSequence(start, end)
+    {
+        this.config["start"] = start;
+        this.config["end"] = end;
+    }
+}
