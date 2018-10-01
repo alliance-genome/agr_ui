@@ -8,47 +8,41 @@ import NoData from '../noData';
 class GeneOntologyRibbon extends Component {
 
   static hasBlockData(blocks){
-    for(let b of blocks ){
-      if(b.uniqueIDs.length>0){
-        return true ;
+    for (let b of blocks) {
+      if (b.uniqueIDs.length > 0) {
+        return true;
       }
     }
-    return false ;
+    return false;
   }
 
   render() {
-    const {id, slim} = this.props;
-
+    const { id } = this.props;
     return (
-      <RibbonDataProvider heatColorArray={[6, 100, 100]}
-                          heatLevels={48}
-                          slim={slim}
+      <RibbonDataProvider subject={id}>
+        {
+          ({blocks, config, dataError, dataReceived, eco_list, title}) => (
+            <div>
+              {dataReceived && GeneOntologyRibbon.hasBlockData(blocks) ?
+                <HorizontalScroll width={800}>
+                  <Ribbon blocks={blocks}
+                          config={config}
+                          eco_list={eco_list}
+                          showing={false}
                           subject={id}
-      >
-        {({title, blocks, dataError, dataReceived}) => (
-          <div>
-            {
-              dataReceived && GeneOntologyRibbon.hasBlockData(blocks) ?
-              <HorizontalScroll width={800}>
-              <Ribbon
-              blocks={blocks}
-              geneUrlFormatter={(geneId) => `/gene/${geneId}`}
-              showing={false}
-              subject={id}
-              title={title}
-              />
-              </HorizontalScroll>
-              :
-              <NoData />
-            }
-            {
-              dataError ? <NoData /> : null
-            }
-            {
-              dataReceived || dataError ? null : 'Loading...'
-            }
-          </div>
-        )
+                          title={title}
+                  />
+                </HorizontalScroll> :
+                <NoData />
+              }
+              {
+                dataError ? <NoData /> : null
+              }
+              {
+                dataReceived || dataError ? null : 'Loading...'
+              }
+            </div>
+          )
         }
       </RibbonDataProvider>
     );
@@ -57,7 +51,6 @@ class GeneOntologyRibbon extends Component {
 
 GeneOntologyRibbon.propTypes = {
   id: PropTypes.string.isRequired,
-  slim: PropTypes.string.isRequired,
 };
 
 export default GeneOntologyRibbon;

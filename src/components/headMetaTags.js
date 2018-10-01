@@ -28,7 +28,7 @@ class HeadMetaTags extends Component {
             'name': 'Alliance of Genome Resources'
           },
           version: '2.0',
-          license: 'CC BY 4.0'
+          license: 'CC BY 4.0',
         }),
       };
     }
