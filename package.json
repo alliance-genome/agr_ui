@@ -34,6 +34,12 @@
     "webpack-dev-server": "^2.11.1"
   },
   "author": "Paul Hale (GH:pjhale), Nathan Dunn (GH:nathandunn)",
+  "contributors": [
+    { "name" : "Michael Gargano"
+      , "email" : "Michael.Gargano@jax.org"
+      , "url" : "https://github.com/iimpulse"
+    }
+  ],
   "homepage": "",
   "license": "MIT",
   "repository": "https://github.com/GMOD/GenomeFeatureComponent",
