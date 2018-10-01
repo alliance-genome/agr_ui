@@ -45,32 +45,39 @@ class AnnotationTable extends React.Component {
         field: 'species',
         label: 'Species',
         format: s => <i>{s}</i>,
+        filterable: true,
       },
       {
         field: 'gene',
         label: 'Gene',
-        format: g => <Link to={'/' + g.geneID}>{g.symbol}</Link>
+        format: g => <Link to={'/' + g.geneID}>{g.symbol}</Link>,
+        filterable: true,
       },
       {
         field: 'location',
         label: 'Location',
+        filterable: true
       },
       {
         field: 'stage',
         label: 'Stage',
+        filterable: true
       },
       {
         field: 'assay',
         label: 'Assay',
+        filterable: true
       },
       {
         field: 'source',
         label: 'Source',
+        filterable: true,
       },
       {
-        field: 'references',
+        field: 'reference',
         label: 'References',
-        format: ReferenceCell
+        format: ReferenceCell,
+        filterable: true,
       }
     ];
 
@@ -82,7 +89,7 @@ class AnnotationTable extends React.Component {
       stage: result.stage && result.stage.name,
       assay: result.assay.name,
       source: result.dataProvider,
-      references: result.publications,
+      reference: result.publications,
     }));
     return (
       <RemoteDataTable
