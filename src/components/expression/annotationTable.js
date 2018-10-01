@@ -29,30 +29,38 @@ class AnnotationTable extends React.Component {
   }
 
   render() {
-    const { annotations, term } = this.props;
+    const { annotations, genes, term } = this.props;
 
     if (!term) {
       return null;
     }
 
-    const columns = [
+    let columns = [
       {
         field: 'key',
         isKey: true,
         hidden: true,
-      },
-      {
-        field: 'species',
-        label: 'Species',
-        format: s => <i>{s}</i>,
-        filterable: true,
-      },
-      {
-        field: 'gene',
-        label: 'Gene',
-        format: g => <Link to={'/' + g.geneID}>{g.symbol}</Link>,
-        filterable: true,
-      },
+      }
+    ];
+
+    if (genes.length > 1) {
+      columns = columns.concat([
+        {
+          field: 'species',
+          label: 'Species',
+          format: s => <i>{s}</i>,
+          filterable: true,
+        },
+        {
+          field: 'gene',
+          label: 'Gene',
+          format: g => <Link to={'/' + g.geneID}>{g.symbol}</Link>,
+          filterable: true,
+        },
+      ]);
+    }
+
+    columns = columns.concat([
       {
         field: 'location',
         label: 'Location',
@@ -79,7 +87,7 @@ class AnnotationTable extends React.Component {
         format: ReferenceCell,
         filterable: true,
       }
-    ];
+    ]);
 
     const data = annotations && annotations.data && annotations.data.results.map(result => ({
       key: `${result.gene.geneID}-${result.termName}-${result.stage ? result.stage.stageID : 'other'}`,
