@@ -50,12 +50,14 @@ class AnnotationTable extends React.Component {
           label: 'Species',
           format: s => <i>{s}</i>,
           filterable: true,
+          width: '100px',
         },
         {
           field: 'gene',
           label: 'Gene',
           format: g => <Link to={'/' + g.geneID}>{g.symbol}</Link>,
           filterable: true,
+          width: '75px',
         },
       ]);
     }
@@ -64,28 +66,33 @@ class AnnotationTable extends React.Component {
       {
         field: 'location',
         label: 'Location',
-        filterable: true
+        filterable: true,
+        width: '150px',
       },
       {
         field: 'stage',
         label: 'Stage',
-        filterable: true
+        filterable: true,
+        width: '100px'
       },
       {
         field: 'assay',
         label: 'Assay',
-        filterable: true
+        filterable: true,
+        width: '150px',
       },
       {
         field: 'source',
         label: 'Source',
         filterable: true,
+        width: '100px',
       },
       {
         field: 'reference',
         label: 'References',
         format: ReferenceCell,
         filterable: true,
+        width: '150px',
       }
     ]);
 
