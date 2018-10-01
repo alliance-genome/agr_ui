@@ -17,15 +17,13 @@ const MethodCell = (props) => {
     <td>
     {
       Object.keys(ALL_METHODS).sort().map((method) => {
-
-        const methodName = ALL_METHODS[method].name;
-        const methodDisplayName = ALL_METHODS[method].displayName || methodName;
+        const methodDisplayName = (ALL_METHODS[method] || {}).displayName || method;
 
         let symbol, tipText;
-        if (predictionMethodsMatchedSet.has(methodName)) {
+        if (predictionMethodsMatchedSet.has(method)) {
           symbol = '\u2611';
           tipText = `Match by ${methodDisplayName}`;
-        } else if (predictionMethodsNotMatchedSet.has(methodName)) {
+        } else if (predictionMethodsNotMatchedSet.has(method)) {
           symbol = '\u2610';
           tipText = `No match by ${methodDisplayName}`;
         } else {
