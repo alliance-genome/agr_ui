@@ -20,6 +20,7 @@ export default class IsoformTrack{
         let data = this.trackData;
         let width = this.width;
         let MAX_ROWS = 10;
+        let calculatedHeight = 500;
     
         let UTR_feats= ["UTR","five_prime_UTR","three_prime_UTR"];
         let CDS_feats= ["CDS"];
