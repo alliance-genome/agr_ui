@@ -4,7 +4,7 @@ import { ApolloService } from '../services/services';
 
 export default class IsoformTrack{ 
 
-    constructor(viewer, track, width, height){
+    constructor(viewer, track, height, width){
         this.trackData = {};
         this.viewer = viewer;
         this.width = width;
