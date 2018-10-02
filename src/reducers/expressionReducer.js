@@ -33,17 +33,23 @@ const expressionReducer = (state = DEFAULT_STATE, action) => {
 
   case FETCH_EXPRESSION_ANNOTATIONS:
     return state
-      .setIn(['annotations', 'loading'], true);
+      .setIn(['annotations', 'loading'], true)
+      .setIn(['annotations', 'request'], action.payload);
 
   case FETCH_EXPRESSION_ANNOTATIONS_SUCCESS:
     return state
       .setIn(['annotations', 'loading'], false)
+      .setIn(['annotations', 'request'], null)
       .setIn(['annotations', 'data'], action.annotations)
       .setIn(['annotations', 'error'], null);
 
   case FETCH_EXPRESSION_ANNOTATIONS_FAILURE:
+    if (action.error.statusText && action.error.statusText === 'abort') {
+      return state;
+    }
     return state
       .setIn(['annotations', 'loading'], false)
+      .setIn(['annotations', 'request'], null)
       .setIn(['annotations', 'data'], null)
       .setIn(['annotations', 'error'], action.error);
 
