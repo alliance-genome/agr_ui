@@ -82,7 +82,7 @@ class GenePage extends Component {
     const EXPRESSION = 'Expression';
     const ALLELES = 'Alleles';
     const PHENOTYPES = 'Phenotypes';
-    const INTERACTIONS = 'Interactions';
+    const INTERACTIONS = 'Molecular Interactions';
     const SECTIONS = [
       SUMMARY,
       SEQUENCE_FEATURE_VIEWER,
