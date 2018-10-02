@@ -5,7 +5,7 @@ import { ApolloService } from '../services/services';
 /*
     The reference sequence label track.
 */
-export default class ReferenceLabel { 
+export default class ReferenceTrack { 
 
     constructor(viewer, track, height, width){
         this.refSeq = "";
@@ -15,7 +15,7 @@ export default class ReferenceLabel {
         this.track = track;
     }
 
-    DrawTrack()
+    DrawScrollableTrack()
     {
         let viewer = this.viewer;
         let data = this.refSeq;
@@ -34,6 +34,36 @@ export default class ReferenceLabel {
             .attr('transform', 'translate(0, 10)')
             .call(xAxis);
             
+    }
+
+    DrawOverviewTrack(){
+        let viewer = this.viewer;
+        let view_start = this.track["start"]
+        let view_end = this.track["end"];
+        let width = this.width;
+
+        let x = d3.scaleLinear()
+        .domain([view_start, view_end])
+        .range(this.track["range"]);
+    
+        let viewLength = view_end - view_start;
+       // let resolution = Math.round(30 / Math.log(viewLength)) ;
+        //let resolutionString = '.'+resolution + 's';
+        //let tickFormat = x.tickFormat(5, resolutionString);
+
+       
+
+        let xAxis = d3.axisTop(x)
+            .ticks(8, 's')
+            .tickSize(8)
+            //.tickFormat(5, resolutionString);
+
+        viewer.append('g')
+            .attr('class', 'axis track')
+            .attr('width', width)
+            .attr('height', 20)
+            .attr('transform', 'translate(0,20)')
+            .call(xAxis);
     }
 
     /*

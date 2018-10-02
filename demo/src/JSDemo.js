@@ -5,7 +5,7 @@ import { ApolloService } from '../../src/services/services';
 // Local View Example
 // Right now we enter in with a specific location, center it in the viewer.
 // TODO: Enable a range and start the left most value on the viewer.
-let configLocal = {
+/*let configLocal = {
     "locale": "local",
     "chromosome": 5,
     "start": 48515461,
@@ -28,10 +28,7 @@ let configLocal = {
 }
 
 
-var viewer2 = new GenomeFeatureViewer(configLocal, "#viewer2", 500, 960)
-
-
-/*Global View Example
+var viewer2 = new GenomeFeatureViewer(configLocal, "#viewer2", 500, 960)*/
 
 
 let configGlobal = {
@@ -53,4 +50,4 @@ let configGlobal = {
     ]
 };
 
-var viewer = new GenomeFeatureViewer(configGlobal, "#viewer", 500, 960);*/
+var viewer = new GenomeFeatureViewer(configGlobal, "#viewer", 500, 960);
