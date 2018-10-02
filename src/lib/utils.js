@@ -97,7 +97,7 @@ export function shortSpeciesName(taxonId) {
     'NCBITaxon:7955': 'Dre',
     'NCBITaxon:7227': 'Dme',
     'NCBITaxon:6239': 'Cel',
-    'NCBITaxon:4932': 'Sce',
+    'NCBITaxon:559292': 'Sce',
   };
   return shortNames[taxonId];
 }
