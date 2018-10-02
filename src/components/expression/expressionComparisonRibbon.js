@@ -23,6 +23,11 @@ import HorizontalScroll from '../horizontalScroll';
 
 const makeLabel = (symbol, taxonId) => `${symbol} (${shortSpeciesName(taxonId)})`;
 
+const sortOrthology = orthology => sortBy(orthology, [
+  compareByFixedOrder(TAXON_ORDER, o => o.gene2Species),
+  compareAlphabeticalCaseInsensitive(o => o.gene2Symbol)
+]);
+
 class ExpressionComparisonRibbon extends React.Component {
   constructor(props) {
     super(props);
@@ -48,10 +53,7 @@ class ExpressionComparisonRibbon extends React.Component {
   render() {
     const { geneId, geneSymbol, geneTaxon, orthology } = this.props;
     const { stringency, selectedOrthologs, selectedTerm } = this.state;
-    const filteredOrthology = orthology && sortBy(filterOrthologyByStringency(orthology, stringency), [
-      compareByFixedOrder(TAXON_ORDER, o => o.gene2Species),
-      compareAlphabeticalCaseInsensitive(o => o.gene2Symbol)
-    ]);
+    const filteredOrthology = orthology && sortOrthology(filterOrthologyByStringency(orthology, stringency));
     const genes = [geneId].concat(selectedOrthologs.map(o => o.gene2AgrPrimaryId));
     return (
       <React.Fragment>
@@ -83,7 +85,7 @@ class ExpressionComparisonRibbon extends React.Component {
                           selectedTerm={selectedTerm}
                           showLabel={selectedOrthologs.length > 0}
             />
-            {selectedOrthologs.map(o => (
+            {sortOrthology(selectedOrthologs).map(o => (
               <SummaryRibbon geneId={o.gene2AgrPrimaryId}
                             key={o.gene2AgrPrimaryId}
                             label={makeLabel(o.gene2Symbol, o.gene2Species)}
