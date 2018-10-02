@@ -6,6 +6,7 @@ import {
 } from '../dataTable';
 import CommaSeparatedList from '../commaSeparatedList';
 import ExternalLink from '../externalLink';
+import MITerm from './MITerm';
 import style from './genePhysicalInteractionDetailTable.scss';
 
 export default class GenePhysicalInteractionDetailTable extends React.Component {
@@ -36,7 +37,7 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         field: 'interactionAType',
         label: `${focusGeneDisplayName} molecule type`,
         csvHeader: 'Focus gene molecule type',
-        format: ({label}) => label,
+        format: MITerm,
         asText: ({label}) => label,
         width: '6em',
         className: style.columnHeaderGroup1,
@@ -53,7 +54,7 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         field: 'interactionARole',
         label: `${focusGeneDisplayName} experimental role`,
         csvHeader: 'Focus gene experimental role',
-        format: ({label}) => label,
+        format: MITerm,
         asText: ({label}) => label,
         width: '7em',
         className: style.columnHeaderGroup1,
@@ -104,7 +105,7 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
       {
         field: 'interactionBType',
         label: 'Interactor molecule type',
-        format: ({label}) => label,
+        format: MITerm,
         asText: ({label}) => label,
         width: '6em',
         className: style.columnHeaderGroup2,
@@ -120,7 +121,7 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
       {
         field: 'interactionBRole',
         label: 'Interactor experimental role',
-        format: ({label}) => label,
+        format: MITerm,
         asText: ({label}) => label,
         width: '7em',
         className: style.columnHeaderGroup2,
@@ -136,7 +137,7 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
       {
         field: 'interactionType',
         label: 'Interaction type',
-        format: ({label}) => label,
+        format: MITerm,
         asText: ({label}) => label,
         width: '8em',
         className: style.columnHeaderGroup3,
@@ -160,7 +161,9 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
           return (
             <CommaSeparatedList>
               {
-                items.map(({label}) => label)
+                items.map(
+                  (props, index) => <MITerm key={`${props.label}-${index}`} {...props} />
+                )
               }
             </CommaSeparatedList>
           );
