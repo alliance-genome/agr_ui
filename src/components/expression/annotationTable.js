@@ -55,7 +55,7 @@ class AnnotationTable extends React.Component {
         {
           field: 'gene',
           label: 'Gene',
-          format: g => <Link to={'/' + g.geneID}>{g.symbol}</Link>,
+          format: g => <Link to={'/gene/' + g.geneID}>{g.symbol}</Link>,
           filterable: true,
           width: '75px',
         },
