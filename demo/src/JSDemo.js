@@ -1,6 +1,28 @@
 import GenomeFeatureViewer  from "../../src/GenomeFeatureViewer";
 import { ApolloService } from '../../src/services/services';
 
+// Global View Example
+
+let configGlobal = {
+    "locale": "global",
+    "chromosome": 5,
+    "start": 75574916,
+    "end": 75656722,
+    "tracks": [
+        {
+            "id": 1,
+            "genome":"Mus musculus",
+            "type": "isoform",
+            "url": [
+                "https://agr-apollo.berkeleybop.io/apollo/track/",
+                "/All%20Genes/",
+                ".json"
+            ]
+        }
+    ]
+};
+
+var viewer = new GenomeFeatureViewer(configGlobal, "#viewer", 500, 400);
 
 // Local View Example
 // Right now we enter in with a specific location, center it in the viewer.
@@ -28,29 +50,7 @@ let configLocal = {
 }
 
 
-var viewer2 = new GenomeFeatureViewer(configLocal, "#viewer2", 500, 960)
+var viewer2 = new GenomeFeatureViewer(configLocal, "#viewer2", 500, 460);
 
 
-/*Global View Example
 
-
-let configGlobal = {
-    "locale": "global",
-    "chromosome": 5,
-    "start": 75574916,
-    "end": 75656722,
-    "tracks": [
-        {
-            "id": 1,
-            "genome":"Mus musculus",
-            "type": "isoform",
-            "url": [
-                "https://agr-apollo.berkeleybop.io/apollo/track/",
-                "/All%20Genes/",
-                ".json"
-            ]
-        }
-    ]
-};
-
-var viewer = new GenomeFeatureViewer(configGlobal, "#viewer", 500, 960);*/
