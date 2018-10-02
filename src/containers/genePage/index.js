@@ -178,7 +178,7 @@ class GenePage extends Component {
               {({data: interactionData}) => (
                 <GenePhysicalInteractionDetailTable
                   data={interactionData}
-                  filename={`${data.symbol}-Interactions-${date}.tsv`}
+                  filename={`${data.symbol}-${data.primaryId}-Interactions-${date}.tsv`}
                   focusGeneDisplayName={data.symbol}
                 />
               )}
