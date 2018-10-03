@@ -39,3 +39,17 @@ E.g., http://someserver.org/apollo/track/Honeybee/Official%20Gene%20Set%20v3.2/G
 [{"strand":1,"children":[[{"phase":0,"strand":1,"fmin":329332,"type":"CDS","fmax":329459},{"phase":2,"strand":1,"fmin":329849,"type":"CDS","fmax":330082},{"phase":0,"strand":1,"fmin":330165,"type":"CDS","fmax":330301},{"phase":2,"strand":1,"fmin":330375,"type":"CDS","fmax":330416},{"strand":1,"fmin":329332,"type":"exon","fmax":329459},{"strand":1,"fmin":329849,"type":"exon","fmax":330082},{"strand":1,"fmin":330165,"type":"exon","fmax":330301},{"strand":1,"fmin":330375,"type":"exon","fmax":330416}]],"name":"GB42168-RA","id":"http://demo.genomearchitect.org/Apollo2/track/Honeybee/Official Gene Set v3.2/Group1.1/GB42168-RA.json","fmin":329332,"type":"mRNA","fmax":330416,"selected":true}]
 ```
 
+
+Goal
+====
+
+The idea is that we can have multiple interactive tracks.
+
+This is an example of how they might be used.  The controls / filters can be used to interact and the details section could be part of that interaction. 
+
+The top genomic view is the "overview", consisting of a (very sad) variant track and an isoform track, though it could be any number.  
+The red arrow at top indicates a selected region that is linked to the scrollable track at the bottom through a separate eventing model. 
+
+
+
+![alt text](images/Version1Output.png "Logo Title Text 1")
