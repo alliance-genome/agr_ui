@@ -4,7 +4,7 @@ var config = {
         app: "./demo/src/JSDemo.js"
     },
     output: {
-        filename: "demo/src/bundle.js"
+        filename: "bundle.js"
     },
     devServer: {
         contentBase: './demo/src/'
