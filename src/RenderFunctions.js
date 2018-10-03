@@ -139,8 +139,11 @@ function countIsoforms(data)
     return isoform_count;
   }
 
-function calculateNewTrackPosition(){
-  let nodes = d3.selectAll(".track").nodes();
+function calculateNewTrackPosition(viewer){
+  let viewerClass = viewer.attr('class');
+  let classNames = viewerClass.split(' ');
+  let viewTrackSelector = "." + classNames[0] + "." + classNames[1] + " .track";
+  let nodes = d3.selectAll(viewTrackSelector).nodes();
         let usedHeight = 0;
         let numTracks = 0; //Number of tracks including axis
         nodes.forEach(node => {

@@ -118,7 +118,8 @@ export default class Drawer {
     */
     dragged(ref){
         // Get tick size for our scroll value
-        let scrollValue = parseInt(d3.select(".x-local-axis .tick").node().getBoundingClientRect().width) * 2;
+        let viewerTicks = ref.gfc["svg_target"] + " .x-local-axis .tick"
+        let scrollValue = parseInt(d3.select(viewerTicks).node().getBoundingClientRect().width) * 2;
         if(ref.drag_cx != d3.event.x){
             // Figure out which way the user wants to go.
             // 1 -> going up
@@ -149,10 +150,11 @@ export default class Drawer {
         let ref = this;
         // We want to move the track in a direction when dragging
         // thresholds for end of the sequence
-        let dragThresh = {"maxNegative": this.gfc["width"] - ref.range[1]};
+        let dragThresh = {"maxNegative": ref.gfc["width"] - ref.range[1]};
         // We are moving get our elements and translate them
-        // the distance of a tick. 
-        d3.selectAll(".track").attr("transform",function(){
+        // the distance of a tick.
+        let viewerTracks = ref.gfc["svg_target"] + " .main-view .track";
+        d3.selectAll(viewerTracks).attr("transform",function(){
             let trs = ref.getTranslate(d3.select(this).attr("transform"));
             let newX = 0;
             if(direction == 1)

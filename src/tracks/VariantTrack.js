@@ -47,7 +47,7 @@ export default class VariantTrack {
             draw new variant track
          */
         let trackHeight = 20;
-        let newTrackPosition = calculateNewTrackPosition();
+        let newTrackPosition = calculateNewTrackPosition(this.viewer);
 
         // Create our track container with a simple background
         let track = viewer.append("g").attr('transform', 'translate(0,' + newTrackPosition + ')').attr("class", "track")
