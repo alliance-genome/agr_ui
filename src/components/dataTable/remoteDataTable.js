@@ -9,6 +9,7 @@ import DownloadButton from './downloadButton';
 import Utils from './utils';
 import PaginationPanel from './paginationPanel';
 import NoData from '../noData';
+import LoadingOverlay from './loadingOverlay';
 
 class RemoteDataTable extends Component {
   constructor(props) {
@@ -80,7 +81,8 @@ class RemoteDataTable extends Component {
     };
 
     return (
-      <div>
+      <div style={{position: 'relative'}}>
+        <LoadingOverlay loading={loading} />
         <BootstrapTable
           bordered={false}
           data={data}
