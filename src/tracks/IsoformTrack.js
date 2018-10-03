@@ -45,7 +45,7 @@ export default class IsoformTrack{
             .range([0, width]);
         
         // Calculate where this track should go and translate it
-        let newTrackPosition = calculateNewTrackPosition();
+        let newTrackPosition = calculateNewTrackPosition(this.viewer);
         let track = viewer.append("g").attr('transform', 'translate(0,' + newTrackPosition + ')').attr("class", "track");
             
         //need to build a new sortWeight since these can be dynamic

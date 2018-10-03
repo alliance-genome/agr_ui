@@ -54,6 +54,33 @@ class ApolloService
         ]
         return fakeVariants;
     }
+
+    // Fake globll variant track
+    GetFakeGlobalVariants(chromosome, start, end){
+        let fakeVariants = [
+            {
+                "position": 75575916,
+                "ref": "G",
+                "mutant":"A"
+            },
+            {
+                "position": 75575056,
+                "ref": "T",
+                "mutant":"C"
+            },
+            {
+                "position": 75645056,
+                "ref": "A",
+                "mutant":"G"
+            },
+            {
+                "position": 75655056,
+                "ref": "C",
+                "mutant":"A"
+            }
+        ]
+        return fakeVariants;
+    }
 }
 
 export { ApolloService }
