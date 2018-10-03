@@ -2,6 +2,7 @@
 import IsoformTrack from './tracks/IsoformTrack';
 import ReferenceTrack from './tracks/ReferenceTrack';
 import VariantTrack from './tracks/VariantTrack';
+import VariantTrackGlobal from './tracks/VariantTrackGlobal'
 import * as d3 from "d3";
 /*
 *   Main Drawing class
@@ -93,6 +94,11 @@ export default class Drawer {
             {
                 track["range"] = sequenceOptions["range"];
                 const variantTrack = new VariantTrack(viewer, track, height, width);
+                await variantTrack.getTrackData();
+                variantTrack.DrawTrack();
+            }else if(track.type == "variant-global"){
+                track["range"] = sequenceOptions["range"];
+                const variantTrack = new VariantTrackGlobal(viewer, track, height, width);
                 await variantTrack.getTrackData();
                 variantTrack.DrawTrack();
             }

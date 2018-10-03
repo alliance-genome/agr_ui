@@ -10,6 +10,11 @@ let configGlobal = {
     "end": 75656722,
     "tracks": [
         {
+            id:2,
+            "genome":"Mus musculus",
+            "type": "variant-global",
+        },
+        {
             "id": 1,
             "genome":"Mus musculus",
             "type": "isoform",
@@ -18,7 +23,7 @@ let configGlobal = {
                 "/All%20Genes/",
                 ".json"
             ]
-        }
+        },
     ]
 };
 
