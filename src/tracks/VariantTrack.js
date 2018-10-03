@@ -1,6 +1,7 @@
 import * as d3 from "d3"; 
 import { ApolloService } from '../services/services';
 import d3Tip from "d3-tip";
+import {calculateNewTrackPosition} from '../RenderFunctions';
 
 export default class VariantTrack { 
 
@@ -46,14 +47,7 @@ export default class VariantTrack {
             draw new variant track
          */
         let trackHeight = 20;
-        let nodes = d3.selectAll(".track").nodes();
-        let usedHeight = 0;
-        let numTracks = 0; //Number of tracks including axis
-        nodes.forEach(node => {
-                usedHeight += node.getBoundingClientRect().height + 10;
-                numTracks++;
-        })
-        let newTrackPosition = usedHeight;
+        let newTrackPosition = calculateNewTrackPosition();
 
         // Create our track container with a simple background
         let track = viewer.append("g").attr('transform', 'translate(0,' + newTrackPosition + ')').attr("class", "track")

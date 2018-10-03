@@ -2,7 +2,7 @@
   Utility functions for tracks. This file is temporary and will be moved to the corresponding
   track util.
 */
-
+import * as d3 from "d3-selection";
 //Takes in the current entry start/end and the array of used space and assigns a row
 function checkSpace(used_space, start, end)
 {
@@ -139,5 +139,16 @@ function countIsoforms(data)
     return isoform_count;
   }
 
+function calculateNewTrackPosition(){
+  let nodes = d3.selectAll(".track").nodes();
+        let usedHeight = 0;
+        let numTracks = 0; //Number of tracks including axis
+        nodes.forEach(node => {
+                usedHeight += node.getBoundingClientRect().height + 10;
+                numTracks++;
+        });
+    return usedHeight;
+}
 
-export { countIsoforms, findRange, checkSpace, doResize }
+
+export { countIsoforms, findRange, checkSpace, doResize,calculateNewTrackPosition  }
