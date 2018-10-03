@@ -14,8 +14,7 @@ import * as d3 from "d3";
  */
 export default class GenomeFeatureViewer {
 
-    constructor(config, svg_target , height, width)
-    {
+    constructor(config, svg_target, width, height) {
         this.tracks = [];
         this.locale = "";
         this.config = {};
@@ -30,17 +29,16 @@ export default class GenomeFeatureViewer {
     }
 
     // Check configuration files
-    _checkConfig(config)
-    {
+    _checkConfig(config) {
         // Ensure we have config type
         // TODO: Make sure we have top label information
         let locale = config["locale"];
-        if(locale != "global" && locale != "local"){
+        if (locale != "global" && locale != "local") {
             throw new Error("No locale found in config. Must be 'global' or 'local'");
         }
         // Ensure we have tracks
         let tracks = config["tracks"];
-        if(!tracks || tracks.length == 0){
+        if (!tracks || tracks.length == 0) {
             throw new Error("No tracks found. Must be an array of tracks.");
         }
 
@@ -48,63 +46,57 @@ export default class GenomeFeatureViewer {
     }
 
     // Set our properties since we know config is valid
-    _setProperties(config)
-    {
+    _setProperties(config) {
         this.config = config;
         this.tracks = config["tracks"];
         this.locale = config["locale"];
     }
 
     // Creating our drawing space.
-    _initViewer(svg_target)
-    {
+    _initViewer(svg_target) {
         console.log("[GFCLog] Initializing for " + svg_target);
         d3.select(svg_target).selectAll("*").remove();
         let viewer = d3.select(svg_target);
+        let svgClass = svg_target.replace("#", '');
+        let mainViewClass = svgClass + " main-view"
 
-
-        if(this.locale == "global")
-        {
+        if (this.locale == "global") {
             let margin = {top: 8, right: 30, bottom: 30, left: 40};
             viewer.attr('width', this.width).attr("height", this.height).append('g')
-            .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')').attr("class", "main-view");
+                .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')').attr("class", mainViewClass);
             this.width = this.width - margin.left - margin.right;
             this.height = this.height - margin.top - margin.bottom;
 
-        }else{
+        } else {
             // Different margins for a local view. (Maybe we can make these match at some point)
             let margin = {top: 10, bottom: 10};
             viewer.attr('width', this.width)
-            .attr('height', this.height)
-            .append('g')
-            .attr('class', "main-view");
+                .attr('height', this.height)
+                .append('g')
+                .attr('class', mainViewClass);
             this.height = this.height - margin.top - margin.bottom;
         }
-
-        return d3.select(".main-view");
+        let mainViewTarget = svg_target + " .main-view";
+        return d3.select(mainViewTarget);
     }
 
     /*
      Methods to interact with viewer.
     */
-    getTracks(defaultTrack)
-    {
+    getTracks(defaultTrack) {
         // Return all tracks if a default track
         // is not requested
-        if(!defaultTrack)
-        {
+        if (!defaultTrack) {
             return this.tracks;
         }
-        else
-        {
+        else {
             // For now return the first track as default
             return this.tracks[0];
         }
     }
 
-   // Set our sequence start and sequence end
-   setSequence(start, end)
-    {
+    // Set our sequence start and sequence end
+    setSequence(start, end) {
         this.config["start"] = start;
         this.config["end"] = end;
     }
