@@ -1,12 +1,13 @@
-var config  = {
-  entry: {
-    app :"./demo/src/JSDemo.js"
-  },
-  output:{
-    filename: "demo/src/bundle.js"
-  },
-  devServer:{
-      contentBase:'./demo/src/'
+var config = {
+    mode: "development",
+    entry: {
+        app: "./demo/src/JSDemo.js"
+    },
+    output: {
+        filename: "demo/src/bundle.js"
+    },
+    devServer: {
+        contentBase: './demo/src/'
     },
     module: {
         rules: [
