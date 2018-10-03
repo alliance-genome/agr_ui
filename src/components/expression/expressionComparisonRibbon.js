@@ -57,26 +57,29 @@ class ExpressionComparisonRibbon extends React.Component {
     const genes = [geneId].concat(selectedOrthologs.map(o => o.gene2AgrPrimaryId));
     return (
       <React.Fragment>
-        <ControlsContainer>
-          <b>Compare to ortholog genes</b>
-          <StringencySelector defaultLevel={stringency} onChange={s => this.setState({stringency: s})} />
-          <div className='d-flex align-items-baseline'>
-            <div className='flex-grow-1'>
-              <Select
-                closeMenuOnSelect={false}
-                getOptionLabel={option => makeLabel(option.gene2Symbol, option.gene2Species)}
-                getOptionValue={option => option.gene2AgrPrimaryId}
-                isMulti
-                onChange={this.handleChange}
-                options={filteredOrthology}
-                placeholder='Select orthologs...'
-                value={selectedOrthologs}
-              />
+        <div className='pb-4'>
+          <ControlsContainer>
+            <b>Compare to ortholog genes</b>
+            <StringencySelector defaultLevel={stringency} onChange={s => this.setState({stringency: s})} />
+            <div className='d-flex align-items-baseline'>
+              <div className='flex-grow-1'>
+                <Select
+                  closeMenuOnSelect={false}
+                  getOptionLabel={option => makeLabel(option.gene2Symbol, option.gene2Species)}
+                  getOptionValue={option => option.gene2AgrPrimaryId}
+                  isMulti
+                  maxMenuHeight={210}
+                  onChange={this.handleChange}
+                  options={filteredOrthology}
+                  placeholder='Select orthologs...'
+                  value={selectedOrthologs}
+                />
+              </div>
+              <span className='px-2'>or</span>
+              <Button color='primary' onClick={() => this.setState({selectedOrthologs: filteredOrthology})}>Add all</Button>
             </div>
-            <span className='px-2'>or</span>
-            <Button color='primary' onClick={() => this.setState({selectedOrthologs: filteredOrthology})}>Add all</Button>
-          </div>
-        </ControlsContainer>
+          </ControlsContainer>
+        </div>
         <HorizontalScroll>
           <div className='d-table pb-4'>
             <SummaryRibbon geneId={geneId}
