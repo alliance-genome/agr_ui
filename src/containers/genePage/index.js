@@ -8,7 +8,11 @@ import { selectGene } from '../../selectors/geneSelectors';
 import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPage';
 import BasicGeneInfo from './basicGeneInfo';
 import { OrthologyFilteredTable, OrthologyUserGuide, OrthologyBasicInfo } from '../../components/orthology';
-import { GenePageDiseaseTable } from '../../components/disease';
+import {
+  GenePageDiseaseTable,
+  getDiseaseAssociationViaOrthology,
+  getDiseaseAssociationViaExperiment,
+} from '../../components/disease';
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
 import LoadingPage from '../../components/loadingPage';
 import NotFound from '../../components/notFound';
@@ -78,22 +82,13 @@ class GenePage extends Component {
     const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
     const FUNCTION = 'Function - GO Annotations';
     const ORTHOLOGY = 'Orthology';
-    const DISEASE = 'Disease Associations';
+    const DISEASE_VIA_EXPERIMENT = 'Disease Associations Via Empirical Data';
+    const DISEASE_VIA_ORTHOLOGY = 'Disease Associations Via Orthology';
     const EXPRESSION = 'Expression';
     const ALLELES = 'Alleles';
     const PHENOTYPES = 'Phenotypes';
     const INTERACTIONS = 'Molecular Interactions';
-    const SECTIONS = [
-      SUMMARY,
-      SEQUENCE_FEATURE_VIEWER,
-      FUNCTION,
-      ORTHOLOGY,
-      PHENOTYPES,
-      DISEASE,
-      EXPRESSION,
-      ALLELES,
-      INTERACTIONS,
-    ];
+    const SECTIONS = [SUMMARY, SEQUENCE_FEATURE_VIEWER, FUNCTION, ORTHOLOGY, PHENOTYPES, DISEASE_VIA_EXPERIMENT, DISEASE_VIA_ORTHOLOGY, EXPRESSION, ALLELES, INTERACTIONS];
 
     return (
       <DataPage  data={data} title={title}>
@@ -150,9 +145,15 @@ class GenePage extends Component {
             <PhenotypeTable geneId={data.primaryId} />
           </Subsection>
 
-          <Subsection hasData={(data.diseases || []).length > 0} title={DISEASE}>
-            <GenePageDiseaseTable data={data.diseases}
-                                  filename={`${data.symbol}-${data.primaryId}-Disease-Associations-${date}.tsv`}
+          <Subsection hasData={getDiseaseAssociationViaExperiment(data.diseases).length > 0} title={DISEASE_VIA_EXPERIMENT}>
+            <GenePageDiseaseTable data={getDiseaseAssociationViaExperiment(data.diseases)}
+                                  filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaEmpiricalData-${date}.tsv`}
+            />
+          </Subsection>
+
+          <Subsection hasData={getDiseaseAssociationViaOrthology(data.diseases)} title={DISEASE_VIA_ORTHOLOGY}>
+            <GenePageDiseaseTable data={getDiseaseAssociationViaOrthology(data.diseases)}
+                                  filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaOrthology-${date}.tsv`}
             />
           </Subsection>
 
