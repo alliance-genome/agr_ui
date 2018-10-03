@@ -1,6 +1,6 @@
 "use strict"
 import IsoformTrack from './tracks/IsoformTrack';
-import ReferenceLabel from './tracks/ReferenceLabel';
+import ReferenceTrack from './tracks/ReferenceTrack';
 import VariantTrack from './tracks/VariantTrack';
 import * as d3 from "d3";
 /*
@@ -31,6 +31,8 @@ export default class Drawer {
         let draggingViewer = null;
         let draggingStart = null;
 
+        // TODO: Try to eliminate this if statement. 
+        // Potentially refactor the style for this.
         if(locale == "local"){
             width  = document.body.clientWidth;
             // Other setup
@@ -45,29 +47,35 @@ export default class Drawer {
             .attr("width", this.gfc["width"] - labelOffset)
             .attr("transform", "translate(" + labelOffset + ",10)");
             viewer.attr("clip-path", "url(#clip)");
-
         }
         
         let options = this.gfc["config"];
         // Sequence information
-        let sequenceOptions = this._configureRange(options["start"], options["end"])
+        let sequenceOptions = this._configureRange(options["start"], options["end"], width)
         this.range = sequenceOptions["range"];
         let chromosome = options["chromosome"];
         let start = sequenceOptions["start"];
         let end = sequenceOptions["end"];
 
         // Draw our reference if it's local for now.
-        // TODO: With a global config we want to create the reference here too.
         console.log("[GCLog] Drawing reference..");
-        if(locale == "local"){
-           const referenceTrack = new ReferenceLabel(viewer,  {"chromosome": chromosome, "start": start, "end": end, "range": sequenceOptions["range"]}, 
+        const referenceTrack = new ReferenceTrack(viewer,  
+            {"chromosome": chromosome, "start": start, "end": end, "range": sequenceOptions["range"]}, 
             height, width);
+        if(locale == "local")
+        {
+            // Scrollable View
            await referenceTrack.getTrackData();
-           referenceTrack.DrawTrack();
+           referenceTrack.DrawScrollableTrack();
            viewer.call(d3.drag()
                 .on("start",draggingStart )
                 .on("drag", draggingViewer)
             );
+        } 
+        else
+        {
+            // Overview Mode
+            referenceTrack.DrawOverviewTrack();
         }
 
         // Always take the start end of our view.
@@ -189,8 +197,9 @@ export default class Drawer {
         Configure the range for our tracks two use cases
             1. Entered with a position
             2. TODO: Entered with a range start at 0?
+            3. Are we in overview or scrollable?
     */
-    _configureRange(start, end)
+    _configureRange(start, end, width)
     {
         let sequenceLength = null;
         let desiredScaling = 17 ; // most optimal for ~50bp in the view.
@@ -201,7 +210,8 @@ export default class Drawer {
         // create our sequence 'padding'
         // ex. position 20, we want total 100 nucelotides
         // (20 - 49) & (50 + 20) 
-        if(start == end )
+        // definitely in scrollable
+        if(start == end)
         {
             sequenceLength = 300; // hardcode 150 to each end.
             rangeWidth = desiredScaling * sequenceLength;
@@ -211,13 +221,11 @@ export default class Drawer {
             let middleOfView  = (d3.select('#clip-rect').node().getBoundingClientRect().width / 2) + 100; 
             range = [middleOfView - (rangeWidth/2), middleOfView + (rangeWidth / 2)];
         }else{
-            return {"range":[], "start": start, "end": end};
+            // This statement will not work with scrollable setting and a defined range
+            // TODO: FIX THIS
+            return {"range":[0, width], "start": start, "end": end};
         }
 
         return {"range": range, "start": start, "end": end};
     }
-
-
-
-    
 }

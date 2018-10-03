@@ -22,35 +22,34 @@ let configGlobal = {
     ]
 };
 
-var viewer = new GenomeFeatureViewer(configGlobal, "#viewer", 500, 400);
+var viewer = new GenomeFeatureViewer(configGlobal, "#viewer", 800, 700);
 
 // Local View Example
 // Right now we enter in with a specific location, center it in the viewer.
 // TODO: Enable a range and start the left most value on the viewer.
-let configLocal = {
-    "locale": "local",
-    "chromosome": 5,
-    "start": 48515461,
-    "end": 48515461,
-    "centerVariant": true,
-    "tracks": [
-        {
-            "id": 1,
-            "label": "Case Variants",
-            "type": "variant",
-            "chromosome": 5,
-        },
-        {
-            "id": 2,
-            "label": "ClinVar Cases",
-            "type": "variant",
-            "chromosome": 5,
-        }
-    ]
-}
-
-
-var viewer2 = new GenomeFeatureViewer(configLocal, "#viewer2", 500, 460);
-
-
+// let configLocal = {
+//     "locale": "local",
+//     "chromosome": 5,
+//     "start": 48515461,
+//     "end": 48515461,
+//     "centerVariant": true,
+//     "tracks": [
+//         {
+//             "id": 1,
+//             "label": "Case Variants",
+//             "type": "variant",
+//             "chromosome": 5,
+//         },
+//         {
+//             "id": 2,
+//             "label": "ClinVar Cases",
+//             "type": "variant",
+//             "chromosome": 5,
+//         }
+//     ]
+// };
+//
+//
+// var viewer2 = new GenomeFeatureViewer(configLocal, "#viewer2", 500, 960)
+//
 
