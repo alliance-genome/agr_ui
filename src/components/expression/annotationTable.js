@@ -78,6 +78,7 @@ class AnnotationTable extends React.Component {
       {
         field: 'assay',
         label: 'Assay',
+        format: a => <span title={a.name}>{a.displaySynonym}</span>,
         filterable: true,
         width: '150px',
       },
@@ -102,7 +103,7 @@ class AnnotationTable extends React.Component {
       gene: result.gene,
       location: result.termName,
       stage: result.stage && result.stage.name,
-      assay: result.assay.name,
+      assay: result.assay,
       source: result.dataProvider,
       reference: result.publications,
     }));
