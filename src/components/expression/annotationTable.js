@@ -64,7 +64,7 @@ class AnnotationTable extends React.Component {
 
     columns = columns.concat([
       {
-        field: 'location',
+        field: 'term',
         label: 'Location',
         filterable: true,
         width: '150px',
@@ -101,7 +101,7 @@ class AnnotationTable extends React.Component {
       key: `${result.gene.geneID}-${result.termName}-${result.stage ? result.stage.stageID : 'other'}`,
       species: result.gene.speciesName,
       gene: result.gene,
-      location: result.termName,
+      term: result.termName,
       stage: result.stage && result.stage.name,
       assay: result.assay,
       source: result.dataProvider,
