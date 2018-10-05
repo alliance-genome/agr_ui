@@ -107,10 +107,14 @@ class AnnotationTable extends React.Component {
       source: result.dataProvider,
       reference: result.publications,
     }));
+
+    const geneIdParams = genes.map(g => `geneID=${g}`).join('&');
+    const downloadUrl = `/api/expression/download?termID=${term}&${geneIdParams}`;
     return (
       <RemoteDataTable
         columns={columns}
         data={data}
+        downloadUrl={downloadUrl}
         loading={annotations.loading}
         onUpdate={this.handleUpdate}
         ref={this.tableRef}
