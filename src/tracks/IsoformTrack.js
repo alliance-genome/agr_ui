@@ -138,7 +138,7 @@ export default class IsoformTrack{
                             .attr('opacity', selected ? 1 : 0.5)
                             .attr('height', isoform_title_height)
                             .attr("transform","translate(" + x(featureChild.fmin) + ",0)")
-                            .text(featureChild.name)
+                            .text(featureChild.name + " (" + feature.name + ")")
                             .datum({fmin:featureChild.fmin});
 
                         //Now that the label has been created we can calculate the space that
