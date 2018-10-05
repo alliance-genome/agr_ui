@@ -87,14 +87,16 @@ class ExpressionComparisonRibbon extends React.Component {
                           onClick={this.handleBlockClick}
                           selectedTerm={selectedTerm}
                           showLabel={selectedOrthologs.length > 0}
+                          showSeparatorLabels={selectedOrthologs.length === 0}
             />
-            {sortOrthology(selectedOrthologs).map(o => (
+            {sortOrthology(selectedOrthologs).map((o, idx) => (
               <SummaryRibbon geneId={o.gene2AgrPrimaryId}
                             key={o.gene2AgrPrimaryId}
                             label={makeLabel(o.gene2Symbol, o.gene2Species)}
                             onClick={this.handleBlockClick}
                             selectedTerm={selectedTerm}
                             showBlockTitles={false}
+                            showSeparatorLabels={idx === selectedOrthologs.length - 1}
               />
             ))}
           </div>

@@ -18,7 +18,7 @@ const makeBlocks = summary => {
   const blocks = [];
   blocks.push({
     class_id: 'All annotations',
-    class_label: `All ${summary.totalAnnotations} annotations`,
+    class_label: 'All annotations',
     color: '#8BC34A',
     uniqueAssocs: new Array(summary.totalAnnotations),
     uniqueIDs: []
@@ -59,7 +59,7 @@ class SummaryRibbon extends React.Component {
   }
 
   render() {
-    const { geneId, label, onClick, selectedTerm, showBlockTitles, showLabel, summary } = this.props;
+    const { geneId, label, onClick, selectedTerm, showBlockTitles, showLabel, showSeparatorLabels, summary } = this.props;
     const { data, error, loading } = summary || {};
     return (
       <div className='d-table-row'>
@@ -74,6 +74,8 @@ class SummaryRibbon extends React.Component {
                         onSlimLeave={() => {}}
                         onSlimSelect={onClick}
                         showBlockTitles={showBlockTitles}
+                        showSeparatorLabelPrefixes={false}
+                        showSeparatorLabels={showSeparatorLabels}
             />
           </span>
         }
@@ -90,11 +92,13 @@ SummaryRibbon.propTypes = {
   selectedTerm: PropTypes.object,
   showBlockTitles: PropTypes.bool,
   showLabel: PropTypes.bool,
+  showSeparatorLabels: PropTypes.bool,
   summary: PropTypes.object,
 };
 
 SummaryRibbon.defaultProps = {
   showLabel: true,
+  showSeparatorLabels: true,
 };
 
 const mapStateToProps = (state, props) => ({
