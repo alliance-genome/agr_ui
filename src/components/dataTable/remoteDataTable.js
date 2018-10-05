@@ -17,6 +17,7 @@ class RemoteDataTable extends Component {
     super(props);
 
     this.state = DEFAULT_TABLE_STATE;
+    this.columnRefs = new Map();
 
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
@@ -32,6 +33,10 @@ class RemoteDataTable extends Component {
     if (!isEqual(this.state, prevState)) {
       this.props.onUpdate(this.state);
     }
+  }
+
+  setColumnRef(key, ref) {
+    this.columnRefs.set(key, ref);
   }
 
   handleFilterChange(filter) {
@@ -51,7 +56,8 @@ class RemoteDataTable extends Component {
   }
 
   reset() {
-    this.setState({page: 1});
+    this.setState({page: 1, filters: []});
+    this.columnRefs.forEach(ref => ref.cleanFiltered());
   }
 
   render() {
@@ -101,6 +107,7 @@ class RemoteDataTable extends Component {
                 hidden={col.hidden}
                 isKey={col.isKey}
                 key={idx}
+                ref={ref => this.setColumnRef(col.field, ref)}
                 width={col.width}
               >
                 {col.label}
