@@ -44,9 +44,6 @@ const expressionReducer = (state = DEFAULT_STATE, action) => {
       .setIn(['annotations', 'error'], null);
 
   case FETCH_EXPRESSION_ANNOTATIONS_FAILURE:
-    if (action.error.statusText && action.error.statusText === 'abort') {
-      return state;
-    }
     return state
       .setIn(['annotations', 'loading'], false)
       .setIn(['annotations', 'request'], null)

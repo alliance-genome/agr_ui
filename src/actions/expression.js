@@ -45,7 +45,12 @@ export const fetchExpressionAnnotations = (genes, term, opts) => {
     const request = fetchData(`/api/expression?termID=${term}&${geneParams}&${tableQuery}`);
     request
       .then(data => dispatch(fetchExpressionAnnotationsSuccess(data)))
-      .catch(error => dispatch(fetchExpressionAnnotationsFailure(error)));
+      .catch(error => {
+        if (error.statusText === 'abort') {
+          return;
+        }
+        dispatch(fetchExpressionAnnotationsFailure(error));
+      });
     dispatch({
       type: FETCH_EXPRESSION_ANNOTATIONS,
       payload: request,
