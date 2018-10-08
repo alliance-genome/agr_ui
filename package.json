@@ -31,7 +31,7 @@
     "query-string": "^5.1.1",
     "react": "^16.4.2",
     "react-autosuggest": "^9.3.4",
-    "react-bootstrap-table": "FlyBase/react-bootstrap-table#4.3.2",
+    "react-bootstrap-table": "FlyBase/react-bootstrap-table#4.3.3",
     "react-dom": "^16.4.2",
     "react-ga": "2.2.0",
     "react-helmet": "^5.0.0",
