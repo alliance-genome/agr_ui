@@ -15,6 +15,7 @@ import {
   compareByFixedOrder,
 } from '../../lib/utils';
 import {
+  TAXON_IDS,
   TAXON_ORDER
 } from '../../constants';
 import SummaryRibbon from './summaryRibbon';
@@ -27,6 +28,10 @@ const sortOrthology = orthology => sortBy(orthology, [
   compareByFixedOrder(TAXON_ORDER, o => o.gene2Species),
   compareAlphabeticalCaseInsensitive(o => o.gene2Symbol)
 ]);
+
+const ANATOMY = 'Anatomy';
+const STAGE = 'Stage';
+const CC = 'Cellular Component';
 
 class ExpressionComparisonRibbon extends React.Component {
   constructor(props) {
@@ -55,6 +60,8 @@ class ExpressionComparisonRibbon extends React.Component {
     const { stringency, selectedOrthologs, selectedTerm } = this.state;
     const filteredOrthology = orthology && sortOrthology(filterOrthologyByStringency(orthology, stringency));
     const genes = [geneId].concat(selectedOrthologs.map(o => o.gene2AgrPrimaryId));
+    // if only looking at a single yeast gene, just show CC group
+    const groups = (geneTaxon === TAXON_IDS.YEAST && selectedOrthologs.length === 0) ? [CC] : [ANATOMY, STAGE, CC];
     return (
       <React.Fragment>
         <div className='pb-4'>
@@ -83,6 +90,7 @@ class ExpressionComparisonRibbon extends React.Component {
         <HorizontalScroll>
           <div className='d-table pb-4'>
             <SummaryRibbon geneId={geneId}
+                          groups={groups}
                           label={makeLabel(geneSymbol, geneTaxon)}
                           onClick={this.handleBlockClick}
                           selectedTerm={selectedTerm}
@@ -91,6 +99,7 @@ class ExpressionComparisonRibbon extends React.Component {
             />
             {sortOrthology(selectedOrthologs).map((o, idx) => (
               <SummaryRibbon geneId={o.gene2AgrPrimaryId}
+                            groups={groups}
                             key={o.gene2AgrPrimaryId}
                             label={makeLabel(o.gene2Symbol, o.gene2Species)}
                             onClick={this.handleBlockClick}

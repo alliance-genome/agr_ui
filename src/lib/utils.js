@@ -1,5 +1,5 @@
 import { STRINGENCY_HIGH, STRINGENCY_MED } from '../components/orthology/constants';
-import { DEFAULT_TABLE_STATE } from '../constants';
+import { DEFAULT_TABLE_STATE, TAXON_IDS } from '../constants';
 
 export function makeId(string) {
   return string.toLowerCase().replace(/[^A-Za-z0-9]/g, '-');
@@ -91,13 +91,13 @@ export function filterOrthologyByStringency(orthologyList, stringency) {
 
 export function shortSpeciesName(taxonId) {
   const shortNames = {
-    'NCBITaxon:9606': 'Hsa',
-    'NCBITaxon:10116': 'Rno',
-    'NCBITaxon:10090': 'Mmu',
-    'NCBITaxon:7955': 'Dre',
-    'NCBITaxon:7227': 'Dme',
-    'NCBITaxon:6239': 'Cel',
-    'NCBITaxon:559292': 'Sce',
+    [TAXON_IDS.HUMAN]: 'Hsa',
+    [TAXON_IDS.RAT]: 'Rno',
+    [TAXON_IDS.MOUSE]: 'Mmu',
+    [TAXON_IDS.FISH]: 'Dre',
+    [TAXON_IDS.FLY]: 'Dme',
+    [TAXON_IDS.WORM]: 'Cel',
+    [TAXON_IDS.YEAST]: 'Sce',
   };
   return shortNames[taxonId];
 }
