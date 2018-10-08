@@ -8,13 +8,7 @@ import { RibbonBase } from '@geneontology/ribbon';
 import { compareByFixedOrder, compareAlphabeticalCaseInsensitive, sortBy } from '../../lib/utils';
 import LoadingSpinner from '../loadingSpinner';
 
-const GROUP_ORDER = [
-  'Anatomy',
-  'Stage',
-  'Cellular Component'
-];
-
-const makeBlocks = summary => {
+const makeBlocks = (summary, groups) => {
   const blocks = [];
   blocks.push({
     class_id: 'All annotations',
@@ -24,9 +18,12 @@ const makeBlocks = summary => {
     uniqueIDs: []
   });
   sortBy(summary.groups, [
-    compareByFixedOrder(GROUP_ORDER, g => g.name),
+    compareByFixedOrder(groups, g => g.name),
     compareAlphabeticalCaseInsensitive(g => g.name)
   ]).forEach(group => {
+    if (groups.indexOf(group.name) < 0) {
+      return;
+    }
     blocks.push({
       class_id: group.name,
       class_label: group.name,
@@ -59,7 +56,7 @@ class SummaryRibbon extends React.Component {
   }
 
   render() {
-    const { geneId, label, onClick, selectedTerm, showBlockTitles, showLabel, showSeparatorLabels, summary } = this.props;
+    const { geneId, groups, label, onClick, selectedTerm, showBlockTitles, showLabel, showSeparatorLabels, summary } = this.props;
     const { data, error, loading } = summary || {};
     return (
       <div className='d-table-row'>
@@ -68,7 +65,7 @@ class SummaryRibbon extends React.Component {
         {error && <span className='text-danger'>Could not fetch data. Try again later.</span>}
         {data &&
           <span className='d-table-cell'>
-            <RibbonBase blocks={makeBlocks(data)}
+            <RibbonBase blocks={makeBlocks(data, groups)}
                         currentblock={selectedTerm}
                         onSlimEnter={() => {}}
                         onSlimLeave={() => {}}
@@ -87,6 +84,7 @@ class SummaryRibbon extends React.Component {
 SummaryRibbon.propTypes = {
   dispatch: PropTypes.func,
   geneId: PropTypes.string,
+  groups: PropTypes.array,
   label: PropTypes.string,
   onClick: PropTypes.func,
   selectedTerm: PropTypes.object,

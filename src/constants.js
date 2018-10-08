@@ -137,12 +137,22 @@ export const DEFAULT_TABLE_STATE = {
   filters: []
 };
 
+export const TAXON_IDS = {
+  HUMAN: 'NCBITaxon:9606',
+  MOUSE: 'NCBITaxon:10090',
+  RAT: 'NCBITaxon:10116',
+  FISH: 'NCBITaxon:7955',
+  FLY: 'NCBITaxon:7227',
+  WORM: 'NCBITaxon:6239',
+  YEAST: 'NCBITaxon:559292'
+};
+
 export const TAXON_ORDER = [
-  'NCBITaxon:9606',
-  'NCBITaxon:10090',
-  'NCBITaxon:10116',
-  'NCBITaxon:7955',
-  'NCBITaxon:7227',
-  'NCBITaxon:6239',
-  'NCBITaxon:4932',
+  TAXON_IDS.HUMAN,
+  TAXON_IDS.MOUSE,
+  TAXON_IDS.RAT,
+  TAXON_IDS.FISH,
+  TAXON_IDS.FLY,
+  TAXON_IDS.WORM,
+  TAXON_IDS.YEAST,
 ];
