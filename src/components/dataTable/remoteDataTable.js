@@ -57,7 +57,7 @@ class RemoteDataTable extends Component {
 
   reset() {
     this.setState(DEFAULT_TABLE_STATE);
-    this.columnRefs.forEach(ref => ref.cleanFiltered());
+    this.columnRefs.forEach(ref => ref && ref.cleanFiltered());
   }
 
   render() {
