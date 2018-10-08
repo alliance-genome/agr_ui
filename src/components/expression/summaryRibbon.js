@@ -19,7 +19,7 @@ const makeBlocks = summary => {
   blocks.push({
     class_id: 'All annotations',
     class_label: 'All annotations',
-    color: '#8BC34A',
+    color: summary.totalAnnotations ? '#8BC34A' : '#ffffff',
     uniqueAssocs: new Array(summary.totalAnnotations),
     uniqueIDs: []
   });
