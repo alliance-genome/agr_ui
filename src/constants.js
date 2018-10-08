@@ -156,3 +156,15 @@ export const TAXON_ORDER = [
   TAXON_IDS.WORM,
   TAXON_IDS.YEAST,
 ];
+
+export const GA_PROPERTY_ID = 'UA-98765810-1';
+
+export const GA_EVENT_CATEGORY = {
+  TABLE: 'Table',
+};
+
+export const GA_EVENT_ACTION = {
+  GO_TO_PAGE: 'Go to page',
+  SET_PAGE_SIZE: 'Set page size'
+};
+

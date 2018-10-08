@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import PropTypes from 'prop-types';
 
 import Utils from './utils';
+import * as analytics from '../../lib/analytics';
 import DownloadButton from './downloadButton';
 import PaginationPanel from './paginationPanel';
 
@@ -43,6 +43,8 @@ class LocalDataTable extends Component {
     const options = {
       exportCSVBtn: this.renderDownloadButton,
       exportCSVSeparator: '\t',
+      onPageChange: (page, size, title) => analytics.logTablePageEvent(title),
+      onSizePerPageList: analytics.logTableSizeEvent,
       paginationShowsTotal: Utils.renderPaginationShowsTotal,
       paginationPanel: PaginationPanel,
       sizePerPageDropDown: Utils.renderSizePerPageDropDown,

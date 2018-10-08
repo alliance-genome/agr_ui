@@ -4,8 +4,7 @@ import { UncontrolledTooltip } from 'reactstrap';
 import { ALL_METHODS, methodHeaderCellStyle } from './constants';
 
 const MethodLogo = ({methodKey}) => {
-  const methodName = ALL_METHODS[methodKey] ?
-    (ALL_METHODS[methodKey].displayName || ALL_METHODS[methodKey].name) : methodKey;
+  const methodName = (ALL_METHODS[methodKey] || {}).displayName || methodKey;
   const id = 'methodLogo-' + methodKey.replace(/\s/g, '-');
   return (
     <span>
