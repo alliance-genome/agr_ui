@@ -40,7 +40,10 @@ class RemoteDataTable extends Component {
   }
 
   handleFilterChange(filter) {
-    this.setState({filters: Object.keys(filter).map(key => ({name: key, value: filter[key].value}))});
+    this.setState({
+      filters: Object.keys(filter).map(key => ({name: key, value: filter[key].value})),
+      page: 1,
+    });
   }
 
   handlePageChange(page, size, title) {
