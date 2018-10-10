@@ -30,13 +30,12 @@ const PageNav = ({entityName, extra, icon, link, sections}) => {
           <Scrollspy className={`list-group list-group-flush ${style.scrollSpy}`}
                      componentTag='div'
                      currentClassName='active'
-                     items={sections.map(({name, isWrapper}) => isWrapper ? '' : makeId(name))}
+                     items={sections.map(({name}) => makeId(name))}
           >
             {
-              sections.map(({name: section, level=0, isWrapper}) => {
+              sections.map(({name: section, level=0}) => {
                 const style = {paddingLeft: `${level + 1}em`, border: 'none',};
-                return (isWrapper ?
-                  <span className="list-group-item" key={section} style={style}>{section}</span> :
+                return (
                   <HashLink className="list-group-item list-group-item-action"
                             key={section}
                             onClick={() => $('#data-page-nav').collapse('hide')}

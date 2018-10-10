@@ -108,7 +108,6 @@ class GenePage extends Component {
       },
       {
         name: DISEASE,
-        isWrapper: true,
       },
       {
         name: DISEASE_VIA_EXPERIMENT,
@@ -184,7 +183,7 @@ class GenePage extends Component {
             <PhenotypeTable geneId={data.primaryId} />
           </Subsection>
 
-          <Subsection title={DISEASE}>
+          <Subsection title={DISEASE} isWrapper>
             <Subsection hardcoded hasData={getDiseaseAssociationViaExperiment(data.diseases).length > 0} level={1} title={DISEASE_VIA_EXPERIMENT}>
               <GenePageDiseaseViaExperimentTable
                 data={getDiseaseAssociationViaExperiment(data.diseases)}
