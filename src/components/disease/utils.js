@@ -15,6 +15,7 @@
 
 function getDiseaseAssociationViaOrthology() {
   /* eslint-disable */
+  // example data from RGD:2129
   return (
     [
       {
@@ -12139,6 +12140,7 @@ function getDiseaseAssociationViaOrthology() {
 
 function getDiseaseAssociationViaExperiment() {
   /* eslint-disable */
+  // example data from RGD:2129
   return (
     [
       {
