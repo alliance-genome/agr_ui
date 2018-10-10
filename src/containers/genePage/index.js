@@ -14,6 +14,8 @@ import LoadingPage from '../../components/loadingPage';
 import NotFound from '../../components/notFound';
 import Subsection from '../../components/subsection';
 import AlleleTable from '../../components/alleleTable';
+import DataLoader from '../../components/dataLoader';
+import { GenePhysicalInteractionDetailTable } from '../../components/interaction';
 
 import GenomeFeatureViewer from './genomeFeatureViewer';
 import ExpressionLinks from './expressionLinks';
@@ -80,7 +82,18 @@ class GenePage extends Component {
     const EXPRESSION = 'Expression';
     const ALLELES = 'Alleles';
     const PHENOTYPES = 'Phenotypes';
-    const SECTIONS = [SUMMARY, SEQUENCE_FEATURE_VIEWER, FUNCTION, ORTHOLOGY, PHENOTYPES, DISEASE, EXPRESSION, ALLELES];
+    const INTERACTIONS = 'Molecular Interactions';
+    const SECTIONS = [
+      SUMMARY,
+      SEQUENCE_FEATURE_VIEWER,
+      FUNCTION,
+      ORTHOLOGY,
+      PHENOTYPES,
+      DISEASE,
+      EXPRESSION,
+      ALLELES,
+      INTERACTIONS,
+    ];
 
     return (
       <DataPage  data={data} title={title}>
@@ -159,6 +172,17 @@ class GenePage extends Component {
                          geneDataProvider={data.dataProvider}
                          geneId={data.primaryId}
             />
+          </Subsection>
+          <Subsection title={INTERACTIONS}>
+            <DataLoader url={`/api/gene/${data.primaryId}/interactions`}>
+              {({data: interactionData}) => (
+                <GenePhysicalInteractionDetailTable
+                  data={interactionData}
+                  filename={`${data.symbol}-${data.primaryId}-Interactions-${date}.tsv`}
+                  focusGeneDisplayName={data.symbol}
+                />
+              )}
+            </DataLoader>
           </Subsection>
         </PageData>
       </DataPage>
