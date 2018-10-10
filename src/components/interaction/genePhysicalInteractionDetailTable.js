@@ -189,11 +189,11 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         label: 'Source DB',
         format: ({label}, row) => {
           return label === row.aggregationDatabase.label ?
-            <span><ExternalLink href="#">{label}</ExternalLink></span> :
+            <span>{label}</span> :
             <span>
-              <ExternalLink href="#">{label}</ExternalLink>
-              <span> via </span>
-              <ExternalLink href="#">{row.aggregationDatabase.label}</ExternalLink>
+              {label}
+              <i><span> via </span></i>
+              {row.aggregationDatabase.label}
             </span>;
         },
         asText: ({label}) => label,
