@@ -101,13 +101,13 @@ class SingleFilterSelector extends Component {
       <div className={style.selectContainer}>
         <Select
           delimiter={DELIMITER}
-          labelKey='displayName'
-          multi
+          getOptionLabel={option => option.displayName}
+          getOptionValue={option => option.name}
+          isMulti
           onChange={this.handleSelectChange.bind(this)}
           options={this.props.values}
           placeholder='Search or Select'
           value={currentValues}
-          valueKey='name'
         />
       </div>
     );
