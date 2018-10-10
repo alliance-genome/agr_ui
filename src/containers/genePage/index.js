@@ -9,7 +9,8 @@ import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPa
 import BasicGeneInfo from './basicGeneInfo';
 import { OrthologyFilteredTable, OrthologyUserGuide, OrthologyBasicInfo } from '../../components/orthology';
 import {
-  GenePageDiseaseTable,
+  GenePageDiseaseViaExperimentTable,
+  GenePageDiseaseViaOrthologyTable,
   getDiseaseAssociationViaOrthology,
   getDiseaseAssociationViaExperiment,
 } from '../../components/disease';
@@ -146,14 +147,16 @@ class GenePage extends Component {
           </Subsection>
 
           <Subsection hardcoded hasData={getDiseaseAssociationViaExperiment(data.diseases).length > 0} title={DISEASE_VIA_EXPERIMENT}>
-            <GenePageDiseaseTable data={getDiseaseAssociationViaExperiment(data.diseases)}
-                                  filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaEmpiricalData-${date}.tsv`}
+            <GenePageDiseaseViaExperimentTable
+              data={getDiseaseAssociationViaExperiment(data.diseases)}
+              filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaEmpiricalData-${date}.tsv`}
             />
           </Subsection>
 
           <Subsection hardcoded hasData={getDiseaseAssociationViaOrthology(data.diseases)} title={DISEASE_VIA_ORTHOLOGY}>
-            <GenePageDiseaseTable data={getDiseaseAssociationViaOrthology(data.diseases)}
-                                  filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaOrthology-${date}.tsv`}
+            <GenePageDiseaseViaOrthologyTable
+              data={getDiseaseAssociationViaOrthology(data.diseases)}
+              filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaOrthology-${date}.tsv`}
             />
           </Subsection>
 
