@@ -30,18 +30,23 @@ const PageNav = ({entityName, extra, icon, link, sections}) => {
           <Scrollspy className={`list-group list-group-flush ${style.scrollSpy}`}
                      componentTag='div'
                      currentClassName='active'
-                     items={sections.map(makeId)}
+                     items={sections.map(({name, isWrapper}) => isWrapper ? '' : makeId(name))}
           >
             {
-              sections.map(section => (
-                <HashLink className='list-group-item list-group-item-action'
-                          key={section}
-                          onClick={() => $('#data-page-nav').collapse('hide')}
-                          to={'#' + makeId(section)}
-                >
-                  {section}
-                </HashLink>
-              ))
+              sections.map(({name: section, level=0, isWrapper}) => {
+                const style = {paddingLeft: `${level + 1}em`, border: 'none',};
+                return (isWrapper ?
+                  <span className="list-group-item" key={section} style={style}>{section}</span> :
+                  <HashLink className="list-group-item list-group-item-action"
+                            key={section}
+                            onClick={() => $('#data-page-nav').collapse('hide')}
+                            style={style}
+                            to={'#' + makeId(section)}
+                  >
+                    {section}
+                  </HashLink>
+                );
+              })
             }
           </Scrollspy>
         </div>
@@ -55,7 +60,10 @@ PageNav.propTypes = {
   extra: PropTypes.node,
   icon: PropTypes.node,
   link: PropTypes.node,
-  sections: PropTypes.arrayOf(PropTypes.string),
+  sections: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    level: PropTypes.number,
+  })),
 };
 
 export default PageNav;

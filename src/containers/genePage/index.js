@@ -83,13 +83,51 @@ class GenePage extends Component {
     const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
     const FUNCTION = 'Function - GO Annotations';
     const ORTHOLOGY = 'Orthology';
-    const DISEASE_VIA_EXPERIMENT = 'Disease Associations Via Empirical Data';
-    const DISEASE_VIA_ORTHOLOGY = 'Disease Associations Via Orthology';
+    const DISEASE = 'Diseases';
+    const DISEASE_VIA_EXPERIMENT = 'Diseases Associations Via Empirical Data';
+    const DISEASE_VIA_ORTHOLOGY = 'Diseases Associations Via Orthology';
     const EXPRESSION = 'Expression';
     const ALLELES = 'Alleles';
     const PHENOTYPES = 'Phenotypes';
     const INTERACTIONS = 'Molecular Interactions';
-    const SECTIONS = [SUMMARY, SEQUENCE_FEATURE_VIEWER, FUNCTION, ORTHOLOGY, PHENOTYPES, DISEASE_VIA_EXPERIMENT, DISEASE_VIA_ORTHOLOGY, EXPRESSION, ALLELES, INTERACTIONS];
+    const SECTIONS = [
+      {
+        name: SUMMARY,
+      },
+      {
+        name: SEQUENCE_FEATURE_VIEWER,
+      },
+      {
+        name: FUNCTION,
+      },
+      {
+        name: ORTHOLOGY,
+      },
+      {
+        name: PHENOTYPES,
+      },
+      {
+        name: DISEASE,
+        isWrapper: true,
+      },
+      {
+        name: DISEASE_VIA_EXPERIMENT,
+        level: 1,
+      },
+      {
+        name: DISEASE_VIA_ORTHOLOGY,
+        level: 1,
+      },
+      {
+        name: EXPRESSION,
+      },
+      {
+        name: ALLELES,
+      },
+      {
+        name: INTERACTIONS,
+      },
+    ];
 
     return (
       <DataPage  data={data} title={title}>
@@ -146,18 +184,19 @@ class GenePage extends Component {
             <PhenotypeTable geneId={data.primaryId} />
           </Subsection>
 
-          <Subsection hardcoded hasData={getDiseaseAssociationViaExperiment(data.diseases).length > 0} title={DISEASE_VIA_EXPERIMENT}>
-            <GenePageDiseaseViaExperimentTable
-              data={getDiseaseAssociationViaExperiment(data.diseases)}
-              filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaEmpiricalData-${date}.tsv`}
-            />
-          </Subsection>
-
-          <Subsection hardcoded hasData={getDiseaseAssociationViaOrthology(data.diseases)} title={DISEASE_VIA_ORTHOLOGY}>
-            <GenePageDiseaseViaOrthologyTable
-              data={getDiseaseAssociationViaOrthology(data.diseases)}
-              filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaOrthology-${date}.tsv`}
-            />
+          <Subsection title={DISEASE}>
+            <Subsection hardcoded hasData={getDiseaseAssociationViaExperiment(data.diseases).length > 0} level={1} title={DISEASE_VIA_EXPERIMENT}>
+              <GenePageDiseaseViaExperimentTable
+                data={getDiseaseAssociationViaExperiment(data.diseases)}
+                filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaEmpiricalData-${date}.tsv`}
+              />
+            </Subsection>
+            <Subsection hardcoded hasData={getDiseaseAssociationViaOrthology(data.diseases)} level={1} title={DISEASE_VIA_ORTHOLOGY}>
+              <GenePageDiseaseViaOrthologyTable
+                data={getDiseaseAssociationViaOrthology(data.diseases)}
+                filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaOrthology-${date}.tsv`}
+              />
+            </Subsection>
           </Subsection>
 
           <Subsection title={EXPRESSION}>
