@@ -104,7 +104,7 @@ export function parseAggs(rawAggs, queryObject) {
     });
     return {
       name: d.key,
-      displayName: makeFieldDisplayName(d.key),
+      displayName: makeValueDisplayName(d.key),
       key: d.key,
       values: _values
     };
@@ -156,7 +156,7 @@ function parseGeneResult(_d) {
     id: d.id || '(no ID)',
     sourceHref: d.href,
     synonyms: d.synonyms,
-    biotype: makeFieldDisplayName(d.soTermName),
+    biotype: makeValueDisplayName(d.soTermName),
     species: d.species,
     speciesKey: speciesKey,  //capture species from before highlighting
     highlight: d.highlights,

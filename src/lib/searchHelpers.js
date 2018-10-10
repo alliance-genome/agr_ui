@@ -18,7 +18,7 @@ export function makeValueDisplayName(unformattedName) {
   case 'cellular_component':
     return 'cellular component';
   default:
-    return unformattedName;
+    return unformattedName.replace(/_/g, ' ');
   }
 }
 
