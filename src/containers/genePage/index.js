@@ -145,13 +145,13 @@ class GenePage extends Component {
             <PhenotypeTable geneId={data.primaryId} />
           </Subsection>
 
-          <Subsection hasData={getDiseaseAssociationViaExperiment(data.diseases).length > 0} title={DISEASE_VIA_EXPERIMENT}>
+          <Subsection hardcoded hasData={getDiseaseAssociationViaExperiment(data.diseases).length > 0} title={DISEASE_VIA_EXPERIMENT}>
             <GenePageDiseaseTable data={getDiseaseAssociationViaExperiment(data.diseases)}
                                   filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaEmpiricalData-${date}.tsv`}
             />
           </Subsection>
 
-          <Subsection hasData={getDiseaseAssociationViaOrthology(data.diseases)} title={DISEASE_VIA_ORTHOLOGY}>
+          <Subsection hardcoded hasData={getDiseaseAssociationViaOrthology(data.diseases)} title={DISEASE_VIA_ORTHOLOGY}>
             <GenePageDiseaseTable data={getDiseaseAssociationViaOrthology(data.diseases)}
                                   filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaOrthology-${date}.tsv`}
             />
