@@ -12,7 +12,7 @@ class Subsection extends Component {
     return (
       <div className={style.subsection}>
         <a className={style.target} id={id} />
-        {this.props.hardcoded && <span className='tag tag-danger'>Hardcoded Example Data</span>}
+        {this.props.hardcoded && <span className='badge badge-danger'>Hardcoded Example Data</span>}
         {this.props.title && !this.props.hideTitle && <h3>{this.props.title}</h3>}
         {typeof this.props.hasData !== 'undefined' && !this.props.hasData ? <NoData /> : this.props.children}
       </div>
