@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import { Link } from 'react-router-dom';
 import {
   LocalDataTable,
   DiseaseNameCell,
-  GeneticEntityCell,
   EvidenceCodesCell,
   ReferenceCell
 } from '../../components/dataTable';
-import { compareAlphabeticalCaseInsensitive, stripHtml } from '../../lib/utils';
+import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
 
 class GenePageDiseaseTable extends Component {
 
@@ -23,6 +22,11 @@ class GenePageDiseaseTable extends Component {
           name: disease.name,
           doId: disease.doId,
           associationType: annotation.associationType.replace(/_/g, ' '),
+          orthologySpecies: annotation.orthologySpecies,
+          orthologyGene: {
+            primaryKey: 'Placeholder',
+            symbol: 'GenePlaceholder',
+          },
           entityName: annotation.featureDocument,
           entityCategory: annotation.featureDocument ? annotation.featureDocument.category : 'gene',
           dataProvider: annotation.source.name,
@@ -48,18 +52,19 @@ class GenePageDiseaseTable extends Component {
         width: '150px',
       },
       {
-        field: 'entityName',
-        label: 'Genetic Entity',
-        format: GeneticEntityCell,
+        field: 'orthologyGene',
+        label: 'Ortholog',
+        format: ({primaryKey, symbol}) => <Link to={`/gene/${primaryKey}`}>{symbol}</Link>,
         sortable: true,
         filterable: true,
-        filterText: feature => feature ? stripHtml(feature.symbol) : '',
-        asText: (featureDocument) => featureDocument ? featureDocument.symbol : '',
+        asText: ({symbol}) => symbol ? symbol : '',
         width: '185px',
       },
       {
-        field: 'entityCategory',
-        label: 'Genetic Entity Type',
+        field: 'orthologySpecies',
+        label: 'Ortholog Species',
+        format: ({name}) => name ? <i>{name}</i> : '',
+        asText: ({name}) => name ? name : '',
         sortable: true,
         filterable: true,
         width: '110px',
