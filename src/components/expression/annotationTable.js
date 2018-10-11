@@ -7,6 +7,7 @@ import isEqual from 'lodash.isequal';
 import { selectAnnotations } from '../../selectors/expressionSelectors';
 import { fetchExpressionAnnotations } from '../../actions/expression';
 import { RemoteDataTable, ReferenceCell } from '../dataTable';
+import CrossReferenceList from '../crossReferenceList';
 
 class AnnotationTable extends React.Component {
   constructor(props) {
@@ -35,34 +36,28 @@ class AnnotationTable extends React.Component {
       return null;
     }
 
-    let columns = [
+    const columns = [
       {
         field: 'key',
         isKey: true,
         hidden: true,
-      }
-    ];
-
-    if (genes.length > 1) {
-      columns = columns.concat([
-        {
-          field: 'species',
-          label: 'Species',
-          format: s => <i>{s}</i>,
-          filterable: true,
-          width: '100px',
-        },
-        {
-          field: 'gene',
-          label: 'Gene',
-          format: g => <Link to={'/gene/' + g.geneID}>{g.symbol}</Link>,
-          filterable: true,
-          width: '75px',
-        },
-      ]);
-    }
-
-    columns = columns.concat([
+      },
+      {
+        field: 'species',
+        label: 'Species',
+        format: s => <i>{s}</i>,
+        filterable: true,
+        width: '100px',
+        hidden: genes.length < 2,
+      },
+      {
+        field: 'gene',
+        label: 'Gene',
+        format: g => <Link to={'/gene/' + g.geneID}>{g.symbol}</Link>,
+        filterable: true,
+        width: '75px',
+        hidden: genes.length < 2,
+      },
       {
         field: 'term',
         label: 'Location',
@@ -86,7 +81,8 @@ class AnnotationTable extends React.Component {
         field: 'source',
         label: 'Source',
         filterable: true,
-        width: '100px',
+        format: refs => <CrossReferenceList collapsible={false} crossReferences={refs} />,
+        width: '200px',
       },
       {
         field: 'reference',
@@ -95,7 +91,7 @@ class AnnotationTable extends React.Component {
         filterable: true,
         width: '150px',
       }
-    ]);
+    ];
 
     const data = annotations && annotations.data && annotations.data.results.map(result => ({
       key: `${result.gene.geneID}-${result.termName}-${result.stage ? result.stage.stageID : 'other'}`,
@@ -104,7 +100,7 @@ class AnnotationTable extends React.Component {
       term: result.termName,
       stage: result.stage && result.stage.stageID,
       assay: result.assay,
-      source: result.dataProvider,
+      source: result.crossReferences,
       reference: result.publications,
     }));
 
