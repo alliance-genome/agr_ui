@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import HeadMetaTags from '../headMetaTags';
 
-const DataPage = ({children, data,title}) => {
+const DataPage = ({children, data, title}) => {
   return (
     <div className='container-fluid'>
       <HeadMetaTags data={data} title={title}  />
