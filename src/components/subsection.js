@@ -14,18 +14,18 @@ class Subsection extends Component {
     let renderTitle;
     switch (this.props.level) {
     case 1:
-      renderTitle = <h4>{this.props.isWrapper && target}{this.props.title}</h4>;
+      renderTitle = <h4>{this.props.isMeta && target}{this.props.title}</h4>;
       break;
     case 2:
-      renderTitle = <h5>{this.props.isWrapper && target}{this.props.title}</h5>;
+      renderTitle = <h5>{this.props.isMeta && target}{this.props.title}</h5>;
       break;
     default:
-      renderTitle = <h3>{this.props.isWrapper && target}{this.props.title}</h3>;
+      renderTitle = <h3>{this.props.isMeta && target}{this.props.title}</h3>;
     }
 
     return (
-      <div className={style.subsection}>
-        {!this.props.isWrapper && target}
+      <div className={`${style.subsection} ${this.props.isMeta ? style.subsectionMeta : style.subsectionNonMeta}`}>
+        {!this.props.isMeta && target}
         {this.props.hardcoded && <span className='badge badge-danger'>Hardcoded Example Data</span>}
         {this.props.title && !this.props.hideTitle && renderTitle}
         {typeof this.props.hasData !== 'undefined' && !this.props.hasData ? <NoData /> : this.props.children}
@@ -39,7 +39,7 @@ Subsection.propTypes = {
   hardcoded: PropTypes.bool,
   hasData: PropTypes.bool,
   hideTitle: PropTypes.bool,
-  isWrapper: PropTypes.bool,
+  isMeta: PropTypes.bool,
   level: PropTypes.number,
   title: PropTypes.string,
 };

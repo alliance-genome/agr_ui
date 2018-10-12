@@ -54,6 +54,13 @@
   }
 }
 
+.subsectionNonMeta {
+}
+
+.subsectionMeta {
+  margin-bottom: 0;
+}
+
 .fadeInAndOut {
   opacity: 1;
   animation: fade 1s ease-in;
