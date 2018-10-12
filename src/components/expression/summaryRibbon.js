@@ -33,7 +33,7 @@ const makeBlocks = (summary, groups) => {
       uniqueAssocs: new Array(group.totalAnnotations),
       uniqueIDs: [],
     });
-    const scale = d3.scaleLog().domain([1, group.totalAnnotations]).range(['#ffffff', '#008080']);
+    const scale = d3.scaleLog().domain([1, group.totalAnnotations + 1]).range(['#ffffff', '#066464']);
     group.terms.forEach(term => {
       blocks.push({
         class_id: term.id,
