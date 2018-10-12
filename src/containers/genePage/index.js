@@ -8,7 +8,12 @@ import { selectGene } from '../../selectors/geneSelectors';
 import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPage';
 import BasicGeneInfo from './basicGeneInfo';
 import { OrthologyFilteredTable, OrthologyUserGuide, OrthologyBasicInfo } from '../../components/orthology';
-import { GenePageDiseaseTable } from '../../components/disease';
+import {
+  GenePageDiseaseViaExperimentTable,
+  GenePageDiseaseViaOrthologyTable,
+  getDiseaseAssociationViaOrthology,
+  getDiseaseAssociationViaExperiment,
+} from '../../components/disease';
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
 import LoadingPage from '../../components/loadingPage';
 import NotFound from '../../components/notFound';
@@ -79,20 +84,48 @@ class GenePage extends Component {
     const FUNCTION = 'Function - GO Annotations';
     const ORTHOLOGY = 'Orthology';
     const DISEASE = 'Disease Associations';
+    const DISEASE_VIA_EXPERIMENT = 'Disease Associations Via Empirical Data';
+    const DISEASE_VIA_ORTHOLOGY = 'Disease Associations Via Orthology';
     const EXPRESSION = 'Expression';
     const ALLELES = 'Alleles';
     const PHENOTYPES = 'Phenotypes';
     const INTERACTIONS = 'Molecular Interactions';
     const SECTIONS = [
-      SUMMARY,
-      SEQUENCE_FEATURE_VIEWER,
-      FUNCTION,
-      ORTHOLOGY,
-      PHENOTYPES,
-      DISEASE,
-      EXPRESSION,
-      ALLELES,
-      INTERACTIONS,
+      {
+        name: SUMMARY,
+      },
+      {
+        name: SEQUENCE_FEATURE_VIEWER,
+      },
+      {
+        name: FUNCTION,
+      },
+      {
+        name: ORTHOLOGY,
+      },
+      {
+        name: PHENOTYPES,
+      },
+      {
+        name: DISEASE,
+      },
+      {
+        name: DISEASE_VIA_EXPERIMENT,
+        level: 1,
+      },
+      {
+        name: DISEASE_VIA_ORTHOLOGY,
+        level: 1,
+      },
+      {
+        name: EXPRESSION,
+      },
+      {
+        name: ALLELES,
+      },
+      {
+        name: INTERACTIONS,
+      },
     ];
 
     return (
@@ -150,9 +183,17 @@ class GenePage extends Component {
             <PhenotypeTable geneId={data.primaryId} />
           </Subsection>
 
-          <Subsection hasData={(data.diseases || []).length > 0} title={DISEASE}>
-            <GenePageDiseaseTable data={data.diseases}
-                                  filename={`${data.symbol}-${data.primaryId}-Disease-Associations-${date}.tsv`}
+          <Subsection isMeta title={DISEASE} />
+          <Subsection hardcoded hasData={getDiseaseAssociationViaExperiment(data.diseases).length > 0} level={1} title={DISEASE_VIA_EXPERIMENT}>
+            <GenePageDiseaseViaExperimentTable
+              data={getDiseaseAssociationViaExperiment(data.diseases)}
+              filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaEmpiricalData-${date}.tsv`}
+            />
+          </Subsection>
+          <Subsection hardcoded hasData={getDiseaseAssociationViaOrthology(data.diseases)} level={1} title={DISEASE_VIA_ORTHOLOGY}>
+            <GenePageDiseaseViaOrthologyTable
+              data={getDiseaseAssociationViaOrthology(data.diseases)}
+              filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaOrthology-${date}.tsv`}
             />
           </Subsection>
 
