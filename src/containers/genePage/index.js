@@ -83,9 +83,9 @@ class GenePage extends Component {
     const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
     const FUNCTION = 'Function - GO Annotations';
     const ORTHOLOGY = 'Orthology';
-    const DISEASE = 'Diseases';
-    const DISEASE_VIA_EXPERIMENT = 'Diseases Associations Via Empirical Data';
-    const DISEASE_VIA_ORTHOLOGY = 'Diseases Associations Via Orthology';
+    const DISEASE = 'Disease Associations';
+    const DISEASE_VIA_EXPERIMENT = 'Disease Associations Via Empirical Data';
+    const DISEASE_VIA_ORTHOLOGY = 'Disease Associations Via Orthology';
     const EXPRESSION = 'Expression';
     const ALLELES = 'Alleles';
     const PHENOTYPES = 'Phenotypes';
