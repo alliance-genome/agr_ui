@@ -22,7 +22,7 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
           <div>
             {
               crossReferences.map(({displayName, crossRefCompleteUrl}) => (
-                <div><ExternalLink key={displayName} href={crossRefCompleteUrl}>{displayName}</ExternalLink></div>
+                <div key={displayName}><ExternalLink href={crossRefCompleteUrl}>{displayName}</ExternalLink></div>
               ))
             }
           </div>
