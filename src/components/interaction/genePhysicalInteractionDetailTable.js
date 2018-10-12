@@ -15,13 +15,21 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
 
     const columns = [
       {
-        field: 'crossReference',
+        field: 'crossReferences',
         label: 'Source ID',
         isKey: true,
-        format: ({displayName, crossRefCompleteUrl}) => (
-          <ExternalLink href={crossRefCompleteUrl}>{displayName}</ExternalLink>
+        format: (crossReferences) => (
+          <div>
+            {
+              crossReferences.map(({displayName, crossRefCompleteUrl}) => (
+                <ExternalLink key={displayName} href={crossRefCompleteUrl}>{displayName}</ExternalLink>
+              ))
+            }
+          </div>
         ),
-        asText: ({displayName}) => displayName,
+        asText: (crossReferences) => (
+          crossReferences.map(({displayName}) => (displayName)).join(',')
+        ),
         width: '12em',
         className: style.columnHeaderGroup0,
         columnClassName: style.columnGroup0,
