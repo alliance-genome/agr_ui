@@ -1,5 +1,8 @@
-import GenePageDiseaseTable from './genePageDiseaseTable';
+import GenePageDiseaseViaExperimentTable from './genePageDiseaseViaExperimentTable';
+import GenePageDiseaseViaOrthologyTable from './genePageDiseaseViaOrthologyTable';
+export * from './utils';
 
 export {
-  GenePageDiseaseTable,
+  GenePageDiseaseViaExperimentTable,
+  GenePageDiseaseViaOrthologyTable,
 };
