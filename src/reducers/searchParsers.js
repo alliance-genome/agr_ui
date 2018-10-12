@@ -1,5 +1,4 @@
 const JOIN_HIGHLIGHT_BY = '...';
-const FILTER_ORDER = ['biotype', 'species'];
 
 import { makeFieldDisplayName, makeValueDisplayName } from '../lib/searchHelpers';
 import { NON_HIGHLIGHTED_FIELDS } from '../constants';
@@ -82,8 +81,6 @@ export function parseResults(results) {
 }
 
 export function parseAggs(rawAggs, queryObject) {
-  // first sort them
-  rawAggs = rawAggs.sort( (a, b) => (FILTER_ORDER.indexOf(a.key) < FILTER_ORDER.indexOf(b.key)) );
   return rawAggs.map( d => {
     let _values = d.values.map( _d => {
       let currentValue = queryObject[d.key];
