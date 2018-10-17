@@ -77,7 +77,7 @@ class DiseasePageAssociationsTable extends Component {
         format: DiseaseNameCell,
         sortable: true,
         filterable: false,
-        width: '130px',
+        width: '175px',
       },
       {
         field: 'evidenceCode',
