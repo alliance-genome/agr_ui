@@ -26,12 +26,10 @@ class Subsection extends Component {
 
     return (
       <div className={`${style.subsection} ${this.props.isMeta ? style.subsectionMeta : style.subsectionNonMeta}`}>
-        <ErrorBoundary>
-          {!this.props.isMeta && target}
-          {this.props.hardcoded && <span className='badge badge-danger'>Hardcoded Example Data</span>}
-          {this.props.title && !this.props.hideTitle && renderTitle}
-          {typeof this.props.hasData !== 'undefined' && !this.props.hasData ? <NoData /> : this.props.children}
-        </ErrorBoundary>
+        {!this.props.isMeta && target}
+        {this.props.hardcoded && <span className='badge badge-danger'>Hardcoded Example Data</span>}
+        {this.props.title && !this.props.hideTitle && renderTitle}
+        {this.props.isMeta ? null : typeof this.props.hasData !== 'undefined' && !this.props.hasData ? <NoData /> : <ErrorBoundary>{this.props.children}</ErrorBoundary>}
       </div>
     );
   }
