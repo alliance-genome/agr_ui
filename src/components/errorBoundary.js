@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { HELP_EMAIL } from '../constants';
 
 export default class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -7,15 +8,12 @@ export default class ErrorBoundary extends React.Component {
     this.state = { hasError: false };
   }
 
-  componentDidCatch(error, info) {
+  componentDidCatch() {
     // Display fallback UI
     // eslint-disable-next-line
     this.setState({ hasError: true });
     // You can also log the error to an error reporting service
     // logErrorToMyService(error, info);
-    // log error
-    // eslint-disable-next-line
-    console.error(error, info);
   }
 
   render() {
@@ -23,7 +21,10 @@ export default class ErrorBoundary extends React.Component {
       // You can render any custom fallback UI
       return (
         <div className="alert alert-danger" role="alert">
-          Something went wrong. (See console)
+          <strong>There is a problem displaying this section.</strong>
+          <br />
+          <span>If you continue to see this message, please contact us at </span>
+          <a href={`mailto:${HELP_EMAIL}`}>{HELP_EMAIL}</a>
         </div>
       );
     }
