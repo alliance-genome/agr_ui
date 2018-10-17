@@ -5,6 +5,7 @@ import style from './style.scss';
 import { makeId } from '../lib/utils';
 
 import NoData from './noData';
+import ErrorBoundary from './errorBoundary';
 
 class Subsection extends Component {
   render() {
@@ -28,7 +29,7 @@ class Subsection extends Component {
         {!this.props.isMeta && target}
         {this.props.hardcoded && <span className='badge badge-danger'>Hardcoded Example Data</span>}
         {this.props.title && !this.props.hideTitle && renderTitle}
-        {typeof this.props.hasData !== 'undefined' && !this.props.hasData ? <NoData /> : this.props.children}
+        {this.props.isMeta ? null : typeof this.props.hasData !== 'undefined' && !this.props.hasData ? <NoData /> : <ErrorBoundary>{this.props.children}</ErrorBoundary>}
       </div>
     );
   }
