@@ -311,6 +311,20 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         aggregationDatabase,
         publication,
       }, interactionRewriteFields);
+    }).sort(({geneB: geneX} = {}, {geneB: geneY} = {}) => {
+      const getGeneName = ({symbol} = {}) => ((symbol || '').toUpperCase());
+      const nameX = getGeneName(geneX);
+      const nameY = getGeneName(geneY);
+
+      if (nameX < nameY) {
+        return -1;
+      }
+      if (nameX > nameY) {
+        return 1;
+      }
+
+      // names must be equal
+      return 0;
     });
 //    console.log(data);
     return (
