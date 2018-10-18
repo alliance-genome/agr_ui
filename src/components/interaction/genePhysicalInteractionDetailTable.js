@@ -9,7 +9,14 @@ import ExternalLink from '../externalLink';
 import MITerm from './MITerm';
 import style from './genePhysicalInteractionDetailTable.scss';
 
+const DEFAULT_TABLE_KEY = 'physicalInteractionTable';
+
 export default class GenePhysicalInteractionDetailTable extends React.Component {
+
+  getCellId(fieldKey, rowIndex) {
+    return `${this.props.tableKey || DEFAULT_TABLE_KEY}-${fieldKey}-${rowIndex}`;
+  }
+
   render() {
     const {focusGeneDisplayName} = this.props;
 
@@ -45,7 +52,12 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         field: 'interactionAType',
         label: `${focusGeneDisplayName} molecule type`,
         csvHeader: 'Focus gene molecule type',
-        format: MITerm,
+        format: (fieldData, row, formatExtraData, rowIndex) => {
+          const id = this.getCellId('interactionAType', rowIndex);
+          return (
+            <MITerm {...fieldData} id={id} />
+          );
+        },
         asText: ({label}) => label,
         width: '6em',
         className: style.columnHeaderGroup1,
@@ -62,7 +74,12 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         field: 'interactionARole',
         label: `${focusGeneDisplayName} experimental role`,
         csvHeader: 'Focus gene experimental role',
-        format: MITerm,
+        format: (fieldData, row, formatExtraData, rowIndex) => {
+          const id = this.getCellId('interactionARole', rowIndex);
+          return (
+            <MITerm {...fieldData} id={id} />
+          );
+        },
         asText: ({label}) => label,
         width: '7em',
         className: style.columnHeaderGroup1,
@@ -113,7 +130,12 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
       {
         field: 'interactionBType',
         label: 'Interactor molecule type',
-        format: MITerm,
+        format: (fieldData, row, formatExtraData, rowIndex) => {
+          const id = this.getCellId('interactionBType', rowIndex);
+          return (
+            <MITerm {...fieldData} id={id} />
+          );
+        },
         asText: ({label}) => label,
         width: '6em',
         className: style.columnHeaderGroup2,
@@ -129,7 +151,12 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
       {
         field: 'interactionBRole',
         label: 'Interactor experimental role',
-        format: MITerm,
+        format: (fieldData, row, formatExtraData, rowIndex) => {
+          const id = this.getCellId('interactionBRole', rowIndex);
+          return (
+            <MITerm {...fieldData} id={id} />
+          );
+        },
         asText: ({label}) => label,
         width: '7em',
         className: style.columnHeaderGroup2,
@@ -145,7 +172,12 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
       {
         field: 'interactionType',
         label: 'Interaction type',
-        format: MITerm,
+        format: (fieldData, row, formatExtraData, rowIndex) => {
+          const id = this.getCellId('interactionType', rowIndex);
+          return (
+            <MITerm {...fieldData} id={id} />
+          );
+        },
         asText: ({label}) => label,
         width: '8em',
         className: style.columnHeaderGroup3,
@@ -165,12 +197,17 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
       {
         field: 'detectionsMethods',
         label: 'Detection methods',
-        format: (items = []) => {
+        format: (items = [], row, formatExtraData, rowIndex) => {
           return (
             <CommaSeparatedList>
               {
                 items.map(
-                  (props, index) => <MITerm key={`${props.label}-${index}`} {...props} />
+                  (props, index) => {
+                    const id = this.getCellId('detectionsMethods', `${rowIndex}-${index}`);
+                    return (
+                      <MITerm key={id} {...props} id={id} />
+                    );
+                  }
                 )
               }
             </CommaSeparatedList>
@@ -248,4 +285,5 @@ GenePhysicalInteractionDetailTable.propTypes = {
   data: PropTypes.any,
   filename: PropTypes.any,
   focusGeneDisplayName: PropTypes.string,
+  tableKey: PropTypes.string,
 };
