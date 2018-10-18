@@ -18,15 +18,23 @@ export function makeValueDisplayName(unformattedName) {
   case 'cellular_component':
     return 'cellular component';
   default:
-    return unformattedName;
+    return unformattedName.replace(/_/g, ' ');
   }
 }
 
 export function makeFieldDisplayName(unformattedName) {
+
+  const suffixesToRemove = ['WithParents','AgrSlim'];
+
   unformattedName = unformattedName || '';
+
+  suffixesToRemove.forEach(function(suffix) {
+    unformattedName = unformattedName.replace(suffix,'');
+  });
 
   unformattedName = unformattedName.replace('name_key', 'Symbol');
   unformattedName = unformattedName.replace('collapsible_', '');
+
 
   switch(unformattedName) {
   case 'go':
@@ -34,18 +42,6 @@ export function makeFieldDisplayName(unformattedName) {
   case 'go_type':
   case 'go_branch':
     return 'GO Branch';
-  case 'biologicalProcess':
-  case 'biologicalProcessWithParents':
-  case 'biologicalProcessAgrSlim':
-    return 'Biological Process';
-  case 'cellularComponent':
-  case 'cellularComponentWithParents':
-  case 'cellularComponentAgrSlim':
-    return 'Cellular Component';
-  case 'molecularFunction':
-  case 'molecularFunctionWithParents':
-  case 'molecularFunctionAgrSlim':
-    return 'Molecular Function';
   case 'geneType':
     return 'Gene Type';
   case 'disease_genes':
