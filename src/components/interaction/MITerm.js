@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { CellTooltip } from '../dataTable';
 //import ExternalLink from '../externalLink';
 
 const TERMS = {
@@ -22,19 +23,28 @@ const TERMS = {
   'MI:2190': 'lincRNA',
 };
 
-export default function MITerm({primaryKey, label}) {
-  if (label) {
+export default function MITerm({primaryKey, label, definition, id} = {}) {
+  const displayName = TERMS[primaryKey] || label || primaryKey;
+  if (!primaryKey && !label) {
+    return null;
+  }
+
+  if (definition) {
     //const url = `https://www.ebi.ac.uk/ols/ontologies/mi/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2F${primaryKey.replace(/\W+/, '_')}`;
     // return <ExternalLink href={url}>{TERMS[primaryKey] || label}</ExternalLink>;
     return (
-      <span>{TERMS[primaryKey] || label}</span>
+      <CellTooltip id={id} tooltip={definition}>
+        {displayName}
+      </CellTooltip>
     );
   } else {
-    return null;
+    return displayName;
   }
 }
 
 MITerm.propTypes = {
+  definition: PropTypes.string,
+  id: PropTypes.any,
   label: PropTypes.string.isRequired,
   primaryKey: PropTypes.string.isRequired,
 };
