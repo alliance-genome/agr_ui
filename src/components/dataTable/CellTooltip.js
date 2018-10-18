@@ -3,6 +3,12 @@ import PropTypes from 'prop-types';
 import { UncontrolledTooltip } from 'reactstrap';
 
 function CellTooltip({tooltip, id, children}) {
+  let tooltipText;
+  let isTruncated;
+  if (typeof tooltip === 'string') {
+    tooltipText = tooltip.split(' ').slice(0, 50).join(' ');
+    isTruncated = tooltipText !== tooltip;
+  }
 
   return (
     <div>
@@ -11,7 +17,12 @@ function CellTooltip({tooltip, id, children}) {
         delay={{show: 300, hide: 150}}
         placement="top"
         target={id}
-      >{tooltip}</UncontrolledTooltip>
+      >
+        {
+          /* super long tooltip interferes with mouseover event */
+          tooltipText ? isTruncated ? `${tooltipText}...` : tooltipText : tooltip
+        }
+      </UncontrolledTooltip>
     </div>
   );
 }
