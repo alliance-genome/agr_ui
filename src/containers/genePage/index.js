@@ -221,6 +221,7 @@ class GenePage extends Component {
                   data={interactionData}
                   filename={`${data.symbol}-${data.primaryId}-Interactions-${date}.tsv`}
                   focusGeneDisplayName={data.symbol}
+                  focusGeneId={data.primaryId}
                 />
               )}
             </DataLoader>

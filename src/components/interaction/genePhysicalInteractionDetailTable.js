@@ -88,7 +88,7 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
       {
         field: 'geneB',
         label: 'Interactor gene ID',
-        asText: ({geneID, primaryKey}) => geneID || primaryKey,
+        asText: ({geneID}) => geneID,
         hidden: true,
         export: true,
       },
@@ -270,10 +270,53 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         columnClassName: style.columnGroup3,
       },
     ];
+    const data = (this.props.data || []).map((interaction) => {
+      const {
+        // fields that might need to be rewrite
+        geneA,
+        interactionAType,
+        interactionARole,
+        geneB,
+        interactionBType,
+        interactionBRole,
+
+        // other fields
+        crossReferences,
+        interactionType,
+        detectionsMethods,
+        sourceDatabase,
+        aggregationDatabase,
+        publication,
+      } = interaction;
+      const interactionRewriteFields = geneA.geneID === this.props.focusGeneId ? {
+        geneA,
+        interactionAType,
+        interactionARole,
+        geneB,
+        interactionBType,
+        interactionBRole,
+      } : {
+        geneA: geneB,
+        interactionAType: interactionBType,
+        interactionARole: interactionBRole,
+        geneB: geneA,
+        interactionBType: interactionAType,
+        interactionBRole: interactionARole,
+      };
+      return Object.assign({
+        crossReferences,
+        interactionType,
+        detectionsMethods,
+        sourceDatabase,
+        aggregationDatabase,
+        publication,
+      }, interactionRewriteFields);
+    });
+//    console.log(data);
     return (
       <LocalDataTable
         columns={columns}
-        data={this.props.data}
+        data={data}
         filename={this.props.filename}
         paginated
       />
@@ -285,5 +328,6 @@ GenePhysicalInteractionDetailTable.propTypes = {
   data: PropTypes.any,
   filename: PropTypes.any,
   focusGeneDisplayName: PropTypes.string,
+  focusGeneId: PropTypes.string.isRequired,
   tableKey: PropTypes.string,
 };
