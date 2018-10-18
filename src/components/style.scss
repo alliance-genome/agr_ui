@@ -33,6 +33,10 @@
     padding-bottom: 8px;
   }
 
+  h3, h4, h5 {
+    position: relative;
+  }
+
   .target {
     display: block;
     visibility: hidden;
@@ -48,6 +52,13 @@
       bottom: 125px;
     }
   }
+}
+
+.subsectionNonMeta {
+}
+
+.subsectionMeta {
+  margin-bottom: 0;
 }
 
 .fadeInAndOut {
