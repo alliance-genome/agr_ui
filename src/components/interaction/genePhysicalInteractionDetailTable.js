@@ -18,7 +18,7 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         field: 'crossReferences',
         label: 'Source ID',
         isKey: true,
-        format: (crossReferences) => (
+        format: (crossReferences = []) => (
           <div>
             {
               crossReferences.map(({displayName, crossRefCompleteUrl}) => (
@@ -27,7 +27,7 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
             }
           </div>
         ),
-        asText: (crossReferences) => (
+        asText: (crossReferences = []) => (
           crossReferences.map(({displayName}) => (displayName)).join(',')
         ),
         width: '12em',
@@ -154,7 +154,7 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
       {
         field: 'detectionsMethods',
         label: 'Detection method IDs',
-        asText: (items) => {
+        asText: (items = []) => {
           return items.map(
             ({primaryKey}) => primaryKey
           ).join(',');
@@ -165,7 +165,7 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
       {
         field: 'detectionsMethods',
         label: 'Detection methods',
-        format: (items) => {
+        format: (items = []) => {
           return (
             <CommaSeparatedList>
               {
@@ -176,7 +176,7 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
             </CommaSeparatedList>
           );
         },
-        asText: (items) => {
+        asText: (items = []) => {
           return items.map(
             ({label}) => label
           ).join(',');
