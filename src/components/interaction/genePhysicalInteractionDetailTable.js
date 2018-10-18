@@ -37,7 +37,7 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         asText: (crossReferences = []) => (
           crossReferences.map(({displayName}) => (displayName)).join(',')
         ),
-        width: '12em',
+        width: '14em',
         className: style.columnHeaderGroup0,
         columnClassName: style.columnGroup0,
       },
