@@ -49,13 +49,11 @@ class GenePageDiseaseTable extends Component {
         width: '150px',
       },
       {
-        field: 'orthologyGeneSpecies',
-        label: 'Ortholog Species',
-        format: (species) => species ? <i>{species}</i> : '',
-        asText: (species) => species ? species : '',
+        field: 'associationType',
+        label: 'Association',
         sortable: true,
         filterable: true,
-        width: '150px',
+        width: '110px',
       },
       {
         field: 'orthologyGene',
@@ -67,11 +65,13 @@ class GenePageDiseaseTable extends Component {
         width: '110px',
       },
       {
-        field: 'associationType',
-        label: 'Association',
+        field: 'orthologyGeneSpecies',
+        label: 'Ortholog Species',
+        format: (species) => species ? <i>{species}</i> : '',
+        asText: (species) => species ? species : '',
         sortable: true,
         filterable: true,
-        width: '110px',
+        width: '150px',
       },
       {
         field: 'publications',
