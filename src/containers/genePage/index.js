@@ -183,18 +183,19 @@ class GenePage extends Component {
             <PhenotypeTable geneId={data.primaryId} />
           </Subsection>
 
-          <Subsection isMeta title={DISEASE} />
-          <Subsection hasData={getDiseaseAssociationViaExperiment(data).length > 0} level={1} title={DISEASE_VIA_EXPERIMENT}>
-            <GenePageDiseaseViaExperimentTable
-              data={getDiseaseAssociationViaExperiment(data)}
-              filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaEmpiricalData-${date}.tsv`}
-            />
-          </Subsection>
-          <Subsection hasData={getDiseaseAssociationViaOrthology(data).length > 0} level={1} title={DISEASE_VIA_ORTHOLOGY}>
-            <GenePageDiseaseViaOrthologyTable
-              data={getDiseaseAssociationViaOrthology(data)}
-              filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaOrthology-${date}.tsv`}
-            />
+          <Subsection isMeta title={DISEASE}>
+            <Subsection hasData={getDiseaseAssociationViaExperiment(data).length > 0} level={1} title={DISEASE_VIA_EXPERIMENT}>
+              <GenePageDiseaseViaExperimentTable
+                data={getDiseaseAssociationViaExperiment(data)}
+                filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaEmpiricalData-${date}.tsv`}
+              />
+            </Subsection>
+            <Subsection hasData={getDiseaseAssociationViaOrthology(data).length > 0} level={1} title={DISEASE_VIA_ORTHOLOGY}>
+              <GenePageDiseaseViaOrthologyTable
+                data={getDiseaseAssociationViaOrthology(data)}
+                filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaOrthology-${date}.tsv`}
+              />
+            </Subsection>
           </Subsection>
 
           <Subsection title={EXPRESSION}>
