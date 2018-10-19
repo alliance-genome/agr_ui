@@ -7,7 +7,9 @@ import isEqual from 'lodash.isequal';
 import { selectAnnotations } from '../../selectors/expressionSelectors';
 import { fetchExpressionAnnotations } from '../../actions/expression';
 import { RemoteDataTable, ReferenceCell } from '../dataTable';
-import CrossReferenceList from '../crossReferenceList';
+import CommaSeparatedList from '../commaSeparatedList';
+import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
+import DataSourceLink from '../dataSourceLink';
 
 class AnnotationTable extends React.Component {
   constructor(props) {
@@ -79,9 +81,15 @@ class AnnotationTable extends React.Component {
       },
       {
         field: 'source',
-        label: 'Source',
+        label: 'Sources',
         filterable: true,
-        format: refs => <CrossReferenceList collapsible={false} crossReferences={refs} />,
+        format: refs => refs && (
+          <CommaSeparatedList>
+            {refs
+              .sort(compareAlphabeticalCaseInsensitive(ref => ref.displayName))
+              .map(ref => <DataSourceLink key={ref.primaryKey} reference={ref} />)}
+          </CommaSeparatedList>
+        ),
         width: '200px',
       },
       {
