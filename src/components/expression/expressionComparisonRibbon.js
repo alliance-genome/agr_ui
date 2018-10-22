@@ -10,9 +10,11 @@ import { StringencySelector } from '../orthology';
 import { STRINGENCY_HIGH } from '../orthology/constants';
 import { selectOrthology } from '../../selectors/geneSelectors';
 import {
-  compareAlphabeticalCaseInsensitive, filterOrthologyByStringency, shortSpeciesName,
-  sortBy,
+  compareAlphabeticalCaseInsensitive,
   compareByFixedOrder,
+  orthologyMeetsStringency,
+  shortSpeciesName,
+  compareBy,
 } from '../../lib/utils';
 import {
   TAXON_IDS,
@@ -24,10 +26,13 @@ import HorizontalScroll from '../horizontalScroll';
 
 const makeLabel = (symbol, taxonId) => `${symbol} (${shortSpeciesName(taxonId)})`;
 
-const sortOrthology = orthology => sortBy(orthology, [
+const compareBySpeciesThenAlphabetical = compareBy([
   compareByFixedOrder(TAXON_ORDER, o => o.gene2Species),
   compareAlphabeticalCaseInsensitive(o => o.gene2Symbol)
 ]);
+
+const byNotHuman = orthology => orthology.gene2Species !== TAXON_IDS.HUMAN;
+const byStringency = stringency => orthology => orthologyMeetsStringency(orthology, stringency);
 
 const ANATOMY = 'Anatomy';
 const STAGE = 'Stage';
@@ -58,7 +63,10 @@ class ExpressionComparisonRibbon extends React.Component {
   render() {
     const { geneId, geneSymbol, geneTaxon, orthology } = this.props;
     const { stringency, selectedOrthologs, selectedTerm } = this.state;
-    const filteredOrthology = orthology && sortOrthology(filterOrthologyByStringency(orthology, stringency));
+    const filteredOrthology = orthology && orthology
+      .filter(byNotHuman)
+      .filter(byStringency(stringency))
+      .sort(compareBySpeciesThenAlphabetical);
     const genes = [geneId].concat(selectedOrthologs.map(o => o.gene2AgrPrimaryId));
     // if only looking at a single yeast gene, just show CC group
     const groups = (geneTaxon === TAXON_IDS.YEAST && selectedOrthologs.length === 0) ? [CC] : [ANATOMY, STAGE, CC];
@@ -97,7 +105,7 @@ class ExpressionComparisonRibbon extends React.Component {
                           showLabel={selectedOrthologs.length > 0}
                           showSeparatorLabels={selectedOrthologs.length === 0}
             />
-            {sortOrthology(selectedOrthologs).map((o, idx) => (
+            {selectedOrthologs.sort(compareBySpeciesThenAlphabetical).map((o, idx) => (
               <SummaryRibbon geneId={o.gene2AgrPrimaryId}
                             groups={groups}
                             key={o.gene2AgrPrimaryId}
