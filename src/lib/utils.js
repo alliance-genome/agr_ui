@@ -32,8 +32,8 @@ export function compareByFixedOrder(order, accessor) {
   return (a, b) => indexOf(accessor(a)) - indexOf(accessor(b));
 }
 
-export function sortBy(array, compareFunctions) {
-  return array.sort((a, b) => {
+export function compareBy(compareFunctions) {
+  return (a, b) => {
     const last = compareFunctions.length - 1;
     for (let i = 0; i < last; i++) {
       const compareOutput = compareFunctions[i](a, b);
@@ -42,7 +42,11 @@ export function sortBy(array, compareFunctions) {
       }
     }
     return compareFunctions[last](a, b);
-  });
+  };
+}
+
+export function sortBy(array, compareFunctions) {
+  return array.sort(compareBy(compareFunctions));
 }
 
 export function buildTableQueryString(options, filterPrefix) {

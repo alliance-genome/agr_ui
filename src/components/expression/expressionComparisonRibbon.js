@@ -10,9 +10,11 @@ import { StringencySelector } from '../orthology';
 import { STRINGENCY_HIGH } from '../orthology/constants';
 import { selectOrthology } from '../../selectors/geneSelectors';
 import {
-  compareAlphabeticalCaseInsensitive, filterOrthologyByStringency, shortSpeciesName,
-  sortBy,
+  compareAlphabeticalCaseInsensitive,
   compareByFixedOrder,
+  orthologyMeetsStringency,
+  shortSpeciesName,
+  compareBy,
 } from '../../lib/utils';
 import {
   TAXON_IDS,
@@ -24,10 +26,13 @@ import HorizontalScroll from '../horizontalScroll';
 
 const makeLabel = (symbol, taxonId) => `${symbol} (${shortSpeciesName(taxonId)})`;
 
-const sortOrthology = orthology => sortBy(orthology, [
+const compareBySpeciesThenAlphabetical = compareBy([
   compareByFixedOrder(TAXON_ORDER, o => o.gene2Species),
   compareAlphabeticalCaseInsensitive(o => o.gene2Symbol)
 ]);
+
+const byNotHuman = orthology => orthology.gene2Species !== TAXON_IDS.HUMAN;
+const byStringency = stringency => orthology => orthologyMeetsStringency(orthology, stringency);
 
 const ANATOMY = 'Anatomy';
 const STAGE = 'Stage';
@@ -58,7 +63,10 @@ class ExpressionComparisonRibbon extends React.Component {
   render() {
     const { geneId, geneSymbol, geneTaxon, orthology } = this.props;
     const { stringency, selectedOrthologs, selectedTerm } = this.state;
-    const filteredOrthology = orthology && sortOrthology(filterOrthologyByStringency(orthology, stringency));
+    const filteredOrthology = orthology && orthology
+      .filter(byNotHuman)
+      .filter(byStringency(stringency))
+      .sort(compareBySpeciesThenAlphabetical);
     const genes = [geneId].concat(selectedOrthologs.map(o => o.gene2AgrPrimaryId));
     // if only looking at a single yeast gene, just show CC group
     const groups = (geneTaxon === TAXON_IDS.YEAST && selectedOrthologs.length === 0) ? [CC] : [ANATOMY, STAGE, CC];
@@ -89,30 +97,50 @@ class ExpressionComparisonRibbon extends React.Component {
         </div>
         <HorizontalScroll>
           <div className='d-table pb-4'>
-            <SummaryRibbon geneId={geneId}
-                          groups={groups}
-                          label={makeLabel(geneSymbol, geneTaxon)}
-                          onClick={this.handleBlockClick}
-                          selectedTerm={selectedTerm}
-                          showLabel={selectedOrthologs.length > 0}
-                          showSeparatorLabels={selectedOrthologs.length === 0}
-            />
-            {sortOrthology(selectedOrthologs).map((o, idx) => (
-              <SummaryRibbon geneId={o.gene2AgrPrimaryId}
-                            groups={groups}
-                            key={o.gene2AgrPrimaryId}
-                            label={makeLabel(o.gene2Symbol, o.gene2Species)}
-                            onClick={this.handleBlockClick}
-                            selectedTerm={selectedTerm}
-                            showBlockTitles={false}
-                            showSeparatorLabels={idx === selectedOrthologs.length - 1}
-              />
+            <div className='d-table-row'>
+              {selectedOrthologs.length > 0 &&
+                <span className='d-table-cell text-nowrap pr-2'>
+                  {makeLabel(geneSymbol, geneTaxon)}
+                </span>
+              }
+              <span className='d-table-cell'>
+                {geneTaxon === TAXON_IDS.HUMAN && selectedOrthologs.length === 0 ?
+                  <i className='text-muted'>Expression data not available for human genes</i> :
+                  <SummaryRibbon geneId={geneId}
+                                groups={groups}
+                                onClick={this.handleBlockClick}
+                                overrideColor={geneTaxon === TAXON_IDS.HUMAN && '#dedede'}
+                                selectedTerm={selectedTerm}
+                                showSeparatorLabels={selectedOrthologs.length === 0}
+                  />
+                }
+              </span>
+            </div>
+            {selectedOrthologs.sort(compareBySpeciesThenAlphabetical).map((o, idx) => (
+              <div className='d-table-row' key={o.gene2AgrPrimaryId}>
+                <span className='d-table-cell text-nowrap pr-2'>
+                  {makeLabel(o.gene2Symbol, o.gene2Species)}
+                </span>
+                <span className='d-table-cell'>
+                  <SummaryRibbon geneId={o.gene2AgrPrimaryId}
+                                 groups={groups}
+                                 key={o.gene2AgrPrimaryId}
+                                 label={makeLabel(o.gene2Symbol, o.gene2Species)}
+                                 onClick={this.handleBlockClick}
+                                 selectedTerm={selectedTerm}
+                                 showBlockTitles={false}
+                                 showSeparatorLabels={idx === selectedOrthologs.length - 1}
+                  />
+                </span>
+              </div>
             ))}
           </div>
         </HorizontalScroll>
-        <div className='pt-4'>
-          <AnnotationTable genes={genes} term={selectedTerm && selectedTerm.class_id} />
-        </div>
+        {selectedTerm &&
+          <div className='pt-4'>
+            <AnnotationTable genes={genes} term={selectedTerm.class_id} />
+          </div>
+        }
       </React.Fragment>
     );
   }
