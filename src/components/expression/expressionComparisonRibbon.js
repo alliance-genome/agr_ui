@@ -97,30 +97,50 @@ class ExpressionComparisonRibbon extends React.Component {
         </div>
         <HorizontalScroll>
           <div className='d-table pb-4'>
-            <SummaryRibbon geneId={geneId}
-                          groups={groups}
-                          label={makeLabel(geneSymbol, geneTaxon)}
-                          onClick={this.handleBlockClick}
-                          selectedTerm={selectedTerm}
-                          showLabel={selectedOrthologs.length > 0}
-                          showSeparatorLabels={selectedOrthologs.length === 0}
-            />
+            <div className='d-table-row'>
+              {selectedOrthologs.length > 0 &&
+                <span className='d-table-cell text-nowrap pr-2'>
+                  {makeLabel(geneSymbol, geneTaxon)}
+                </span>
+              }
+              <span className='d-table-cell'>
+                {geneTaxon === TAXON_IDS.HUMAN && selectedOrthologs.length === 0 ?
+                  <i className='text-muted'>Expression data not available for human genes</i> :
+                  <SummaryRibbon geneId={geneId}
+                                groups={groups}
+                                onClick={this.handleBlockClick}
+                                overrideColor={geneTaxon === TAXON_IDS.HUMAN && '#dedede'}
+                                selectedTerm={selectedTerm}
+                                showSeparatorLabels={selectedOrthologs.length === 0}
+                  />
+                }
+              </span>
+            </div>
             {selectedOrthologs.sort(compareBySpeciesThenAlphabetical).map((o, idx) => (
-              <SummaryRibbon geneId={o.gene2AgrPrimaryId}
-                            groups={groups}
-                            key={o.gene2AgrPrimaryId}
-                            label={makeLabel(o.gene2Symbol, o.gene2Species)}
-                            onClick={this.handleBlockClick}
-                            selectedTerm={selectedTerm}
-                            showBlockTitles={false}
-                            showSeparatorLabels={idx === selectedOrthologs.length - 1}
-              />
+              <div className='d-table-row' key={o.gene2AgrPrimaryId}>
+                <span className='d-table-cell text-nowrap pr-2'>
+                  {makeLabel(o.gene2Symbol, o.gene2Species)}
+                </span>
+                <span className='d-table-cell'>
+                  <SummaryRibbon geneId={o.gene2AgrPrimaryId}
+                                 groups={groups}
+                                 key={o.gene2AgrPrimaryId}
+                                 label={makeLabel(o.gene2Symbol, o.gene2Species)}
+                                 onClick={this.handleBlockClick}
+                                 selectedTerm={selectedTerm}
+                                 showBlockTitles={false}
+                                 showSeparatorLabels={idx === selectedOrthologs.length - 1}
+                  />
+                </span>
+              </div>
             ))}
           </div>
         </HorizontalScroll>
-        <div className='pt-4'>
-          <AnnotationTable genes={genes} term={selectedTerm && selectedTerm.class_id} />
-        </div>
+        {selectedTerm &&
+          <div className='pt-4'>
+            <AnnotationTable genes={genes} term={selectedTerm.class_id} />
+          </div>
+        }
       </React.Fragment>
     );
   }

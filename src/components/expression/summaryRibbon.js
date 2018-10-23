@@ -8,12 +8,12 @@ import { RibbonBase } from '@geneontology/ribbon';
 import { compareByFixedOrder, compareAlphabeticalCaseInsensitive, sortBy } from '../../lib/utils';
 import LoadingSpinner from '../loadingSpinner';
 
-const makeBlocks = (summary, groups) => {
+const makeBlocks = (summary, groups, overrideColor) => {
   const blocks = [];
   blocks.push({
     class_id: 'All annotations',
     class_label: 'All annotations',
-    color: summary.totalAnnotations ? '#8BC34A' : '#ffffff',
+    color: overrideColor || (summary.totalAnnotations ? '#8BC34A' : '#ffffff'),
     uniqueAssocs: new Array(summary.totalAnnotations),
     uniqueIDs: []
   });
@@ -38,7 +38,7 @@ const makeBlocks = (summary, groups) => {
       blocks.push({
         class_id: term.id,
         class_label: term.name,
-        color: term.numberOfAnnotations === 0 ? '#ffffff' : scale(term.numberOfAnnotations + 1),
+        color: overrideColor || (term.numberOfAnnotations === 0 ? '#ffffff' : scale(term.numberOfAnnotations + 1)),
         uniqueAssocs: new Array(term.numberOfAnnotations),
         uniqueIDs: [],
       });
@@ -56,27 +56,24 @@ class SummaryRibbon extends React.Component {
   }
 
   render() {
-    const { geneId, groups, label, onClick, selectedTerm, showBlockTitles, showLabel, showSeparatorLabels, summary } = this.props;
+    const { groups, onClick, overrideColor, selectedTerm, showBlockTitles, showSeparatorLabels, summary } = this.props;
     const { data, error, loading } = summary || {};
     return (
-      <div className='d-table-row'>
-        {showLabel && <span className='d-table-cell text-nowrap pr-2'>{label || geneId}</span>}
+      <React.Fragment>
         {loading && <LoadingSpinner />}
         {error && <span className='text-danger'>Could not fetch data. Try again later.</span>}
         {data &&
-          <span className='d-table-cell'>
-            <RibbonBase blocks={makeBlocks(data, groups)}
-                        currentblock={selectedTerm}
-                        onSlimEnter={() => {}}
-                        onSlimLeave={() => {}}
-                        onSlimSelect={onClick}
-                        showBlockTitles={showBlockTitles}
-                        showSeparatorLabelPrefixes={false}
-                        showSeparatorLabels={showSeparatorLabels}
-            />
-          </span>
+          <RibbonBase blocks={makeBlocks(data, groups, overrideColor)}
+                      currentblock={selectedTerm}
+                      onSlimEnter={() => {}}
+                      onSlimLeave={() => {}}
+                      onSlimSelect={onClick}
+                      showBlockTitles={showBlockTitles}
+                      showSeparatorLabelPrefixes={false}
+                      showSeparatorLabels={showSeparatorLabels}
+          />
         }
-      </div>
+      </React.Fragment>
     );
   }
 }
@@ -85,17 +82,15 @@ SummaryRibbon.propTypes = {
   dispatch: PropTypes.func,
   geneId: PropTypes.string,
   groups: PropTypes.array,
-  label: PropTypes.string,
   onClick: PropTypes.func,
+  overrideColor: PropTypes.string,
   selectedTerm: PropTypes.object,
   showBlockTitles: PropTypes.bool,
-  showLabel: PropTypes.bool,
   showSeparatorLabels: PropTypes.bool,
   summary: PropTypes.object,
 };
 
 SummaryRibbon.defaultProps = {
-  showLabel: true,
   showSeparatorLabels: true,
 };
 
