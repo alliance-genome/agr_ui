@@ -20,6 +20,7 @@ export default class GenomeFeatureViewer {
         this.config = {};
         this.svg_target = svg_target;
         this._checkConfig(config);
+        this._extendD3();
         this.height = height;
         this.width = width;
 
@@ -43,6 +44,20 @@ export default class GenomeFeatureViewer {
         }
 
         this._setProperties(config);
+    }
+    
+    // Create an extension on our d3
+    _extendD3(){
+        d3.selection.prototype.first = function() {
+            return d3.select(
+                this.nodes()[0]
+            );
+        };
+        d3.selection.prototype.last = function() {
+            return d3.select(
+                this.nodes()[this.size() - 1]
+            );
+        };
     }
 
     // Set our properties since we know config is valid

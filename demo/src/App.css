@@ -36,6 +36,31 @@ html, body {
   fill: #609C9C;
 }
 
+.nucleotide{
+  height: 15px;
+  width: 17px;
+  fill-opacity: 0.5; 
+  stroke: black;
+  stroke-width: .5px;
+  stroke-opacity: 0.5;
+}
+
+.nucleotide.nt-a{
+  fill: rgb(197,218,141);
+}
+
+.nucleotide.nt-t{
+  fill: rgb(238,113,109);
+}
+
+.nucleotide.nt-c{
+  fill:rgb(242,192,116);
+}
+
+.nucleotide.nt-g{
+  fill:rgb(113,155,248);
+
+}
 .viewer {
   fill: gray;
 }
@@ -61,6 +86,22 @@ html, body {
 
 .x-local-axis {
   font: 10px sans-serif;
+  stroke-width: 0px;
+  fill:none;
+}
+
+.x-local-axis .tick:nth-child(10n + 12){
+  stroke-width: 1px;
+}
+
+.x-local-axis .tick text{
+  font-weight: bold;
+}
+
+.x-local-numerical {
+  font: 8px sans-serif;
+  fill:none;
+
 }
 
 .main-view{
@@ -75,7 +116,7 @@ html, body {
 }
 
 
-
+/* D3 Tooltip */
 .d3-tip {
   line-height: 1;
   padding: 0;
@@ -115,8 +156,6 @@ html, body {
   margin: 0;
   border: 1px solid #CCC;
 }
-
-
 
 .d3-tip table td:first-child {
   font-weight: 700;

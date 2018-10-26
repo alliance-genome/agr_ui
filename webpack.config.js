@@ -1,10 +1,9 @@
 var config = {
-    mode: "development",
     entry: {
         app: "./demo/src/JSDemo.js"
     },
     output: {
-        filename: "bundle.js"
+        filename: "./demo/src/bundle.js"
     },
     devServer: {
         contentBase: './demo/src/'

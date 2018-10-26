@@ -2,8 +2,9 @@
 import IsoformTrack from './tracks/IsoformTrack';
 import ReferenceTrack from './tracks/ReferenceTrack';
 import VariantTrack from './tracks/VariantTrack';
-import VariantTrackGlobal from './tracks/VariantTrackGlobal'
+import VariantTrackGlobal from './tracks/VariantTrackGlobal';
 import * as d3 from "d3";
+import { getTranslate } from './RenderFunctions';
 /*
 *   Main Drawing class
 *   @Param viewer: the entire viewer
@@ -46,7 +47,7 @@ export default class Drawer {
             .attr("x", "0").attr("y", "0")
             .attr("height", height)
             .attr("width", this.gfc["width"] - labelOffset)
-            .attr("transform", "translate(" + labelOffset + ",10)");
+            .attr("transform", "translate(" + labelOffset + ",0)");
             viewer.attr("clip-path", "url(#clip)");
         }
         
@@ -153,15 +154,16 @@ export default class Drawer {
     */
     scrollView(direction, scrollValue)
     {
+        console.log(scrollValue);
         let ref = this;
         // We want to move the track in a direction when dragging
         // thresholds for end of the sequence
-        let dragThresh = {"maxNegative": ref.gfc["width"] - ref.range[1]};
+        let dragThresh = {"maxNegative": (this.gfc["width"] - ref.range[1]) + -(scrollValue / 2)};
         // We are moving get our elements and translate them
         // the distance of a tick.
         let viewerTracks = ref.gfc["svg_target"] + " .main-view .track";
         d3.selectAll(viewerTracks).attr("transform",function(){
-            let trs = ref.getTranslate(d3.select(this).attr("transform"));
+            let trs = getTranslate(d3.select(this).attr("transform"));
             let newX = 0;
             if(direction == 1)
             {
@@ -172,33 +174,14 @@ export default class Drawer {
                 newX = trs[0] - scrollValue; 
             }
             // Want to make sure we don't go beyond our sequence length. Which is defined by our range.
-            if( newX <= dragThresh["maxNegative"] || newX > -(ref.range[0]) + 100 )
+            if( newX <= dragThresh["maxNegative"] || newX > -(ref.range[0]) + 100 + (scrollValue / 2))
             {
+                console.log(newX);
                 return "translate(" + trs[0] +"," + trs[1] + ")";
             }
 
             return "translate(" + newX +"," + trs[1] + ")";
         });
-    }
-
-    // Nasty function to get translate values since d3 deprecated.
-    getTranslate(transform) 
-    {
-        // Create a dummy g for calculation purposes only. This will never
-        // be appended to the DOM and will be discarded once this function 
-        // returns.
-        var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-        
-        // Set the transform attribute to the provided string value.
-        g.setAttributeNS(null, "transform", transform);
-        
-        // consolidate the SVGTransformList containing all transformations
-        // to a single SVGTransform of type SVG_TRANSFORM_MATRIX and get
-        // its SVGMatrix. 
-        var matrix = g.transform.baseVal.consolidate().matrix;
-        
-        // As per definition values e and f are the ones for the translation.
-        return [matrix.e, matrix.f];
     }
 
     /* 
