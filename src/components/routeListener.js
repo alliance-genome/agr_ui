@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
 class RouteListener extends React.Component {
+  componentDidMount() {
+    this.onRouteChange();
+  }
+
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
       this.onRouteChange();
