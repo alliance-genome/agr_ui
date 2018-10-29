@@ -1,29 +1,23 @@
 /* eslint-disable react/no-set-state */
 import React, { Component } from 'react';
-
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 
 import DownloadButton from './downloadButton';
 import Utils from './utils';
+import * as analytics from '../../lib/analytics';
 import PaginationPanel from './paginationPanel';
 import NoData from '../noData';
+import { DEFAULT_TABLE_STATE } from '../../constants';
 import LoadingOverlay from './loadingOverlay';
 
 class RemoteDataTable extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      limit: 10,
-      page: 1,
-      sort: {
-        name: '',
-        order: '',
-      },
-      filters: []
-    };
+    this.state = DEFAULT_TABLE_STATE;
+    this.columnRefs = new Map();
 
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
@@ -41,20 +35,34 @@ class RemoteDataTable extends Component {
     }
   }
 
-  handleFilterChange(filter) {
-    this.setState({filters: Object.keys(filter).map(key => ({name: key, value: filter[key].value}))});
+  setColumnRef(key, ref) {
+    this.columnRefs.set(key, ref);
   }
 
-  handlePageChange(page) {
+  handleFilterChange(filter) {
+    this.setState({
+      filters: Object.keys(filter).map(key => ({name: key, value: filter[key].value})),
+      page: 1,
+    });
+  }
+
+  handlePageChange(page, size, title) {
+    analytics.logTablePageEvent(title);
     this.setState({page});
   }
 
   handleSizeChange(limit) {
+    analytics.logTableSizeEvent(limit);
     this.setState({limit});
   }
 
   handleSortChange(name, order) {
     this.setState({sort: {name, order}});
+  }
+
+  reset() {
+    this.setState(DEFAULT_TABLE_STATE);
+    this.columnRefs.forEach(ref => ref && ref.cleanFiltered());
   }
 
   render() {
@@ -104,6 +112,7 @@ class RemoteDataTable extends Component {
                 hidden={col.hidden}
                 isKey={col.isKey}
                 key={idx}
+                ref={ref => this.setColumnRef(col.field, ref)}
                 width={col.width}
               >
                 {col.label}

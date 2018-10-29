@@ -72,7 +72,10 @@ class DiseasePage extends Component {
 
     const SUMMARY = 'Summary';
     const ASSOCIATIONS = 'Associations';
-    const SECTIONS = [SUMMARY, ASSOCIATIONS];
+    const SECTIONS = [
+      {name: SUMMARY},
+      {name: ASSOCIATIONS}
+    ];
 
     const doLink = (
       <ExternalLink href={'http://www.disease-ontology.org/?id=' + disease.doId}>

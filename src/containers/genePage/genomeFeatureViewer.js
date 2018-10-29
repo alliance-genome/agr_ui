@@ -7,11 +7,11 @@ import {
   AttributeLabel,
   AttributeValue,
 } from '../../components/attribute';
-import LoadingPage from '../../components/loadingPage';
 import GenomeFeature from '../../components/genomeFeature/GenomeFeature';
 import numeral from 'numeral';
 import {getTranscriptTypes} from '../../lib/genomeFeatureTypes';
 import ExternalLink from '../../components/externalLink';
+import LoadingSpinner from '../../components/loadingSpinner';
 
 class GenomeFeatureViewer extends Component {
 
@@ -127,7 +127,7 @@ class GenomeFeatureViewer extends Component {
               href={this.jbrowseUrl} rel='noopener noreferrer'
               target='_blank' title='Browse Genome'
             >
-              {this.state.loadState === 'loading' ? <LoadingPage /> : ''}
+              {this.state.loadState === 'loading' ? <LoadingSpinner /> : ''}
               {this.state.loadState === 'loaded' ?
                 <GenomeFeature
                   data={this.state.loadedData}

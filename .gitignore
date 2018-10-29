@@ -20,3 +20,4 @@ tmp
 package-lock.json
 .idea
 *.iml
+.vscode/
