@@ -42,7 +42,7 @@ const searchReducer = function (state = DEFAULT_STATE, action) {
     let newActiveCat = action.payload.query.category || 'none';
     // parse aggs to update active state during route change
     return state.set('aggregations', fromJS(parseAggs(state.get('aggregations').toJS(), action.payload.query)))
-                .set('activeCategory', newActiveCat);
+      .set('activeCategory', newActiveCat);
   case 'SEARCH_RESPONSE':
     let actionCat = action.category || 'none';
     let resultsTargetsVals = {

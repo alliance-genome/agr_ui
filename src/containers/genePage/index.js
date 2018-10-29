@@ -129,12 +129,13 @@ class GenePage extends Component {
     ];
 
     return (
-      <DataPage  data={data} title={title}>
-        <PageNav entityName={data.symbol}
-                 extra={<i>{data.species}</i>}
-                 icon={<SpeciesIcon species={data.species} />}
-                 link={<DataSourceLink reference={data.crossReferences.gene[0]} />}
-                 sections={SECTIONS}
+      <DataPage data={data} title={title}>
+        <PageNav
+          entityName={data.symbol}
+          extra={<i>{data.species}</i>}
+          icon={<SpeciesIcon species={data.species} />}
+          link={<DataSourceLink reference={data.crossReferences.gene[0]} />}
+          sections={SECTIONS}
         />
         <PageData>
           <PageHeader entityName={data.symbol} />
@@ -143,8 +144,9 @@ class GenePage extends Component {
             <BasicGeneInfo gene={data} />
           </Subsection>
 
-          <Subsection hasData={typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'}
-                      title={SEQUENCE_FEATURE_VIEWER}
+          <Subsection
+            hasData={typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'}
+            title={SEQUENCE_FEATURE_VIEWER}
           >
             <GenomeFeatureViewer
               assembly={genomeLocation.assembly}
@@ -199,20 +201,22 @@ class GenePage extends Component {
           </Subsection>
 
           <Subsection title={EXPRESSION}>
-            <ExpressionLinks otherSources={data.crossReferences['gene/other_expression']}
-                             primarySources={[]
-                               .concat(data.crossReferences['gene/expression'])
-                               .concat(data.crossReferences['gene/wild_type_expression'])
-                               .concat(data.crossReferences['gene/spell'])
-                             }
+            <ExpressionLinks
+              otherSources={data.crossReferences['gene/other_expression']}
+              primarySources={[]
+                .concat(data.crossReferences['gene/expression'])
+                .concat(data.crossReferences['gene/wild_type_expression'])
+                .concat(data.crossReferences['gene/spell'])
+              }
             />
             <ExpressionComparisonRibbon geneId={data.primaryId} geneSymbol={data.symbol} geneTaxon={data.taxonId} />
           </Subsection>
 
           <Subsection title={ALLELES}>
-            <AlleleTable filename={`${data.symbol}-${data.primaryId}-Alleles-${date}.tsv`}
-                         geneDataProvider={data.dataProvider}
-                         geneId={data.primaryId}
+            <AlleleTable
+              filename={`${data.symbol}-${data.primaryId}-Alleles-${date}.tsv`}
+              geneDataProvider={data.dataProvider}
+              geneId={data.primaryId}
             />
           </Subsection>
           <Subsection title={INTERACTIONS}>

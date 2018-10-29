@@ -12,13 +12,13 @@ export default class DataLoader extends React.Component {
         {
           ({data, error, status}) => (
             status === 'SUCCESS' ? data ? children({data: data}) : <NoData /> :
-            status === 'ERROR' ? (
-              <div className="alert alert-danger" role="alert">
-                {error}
-              </div>
-            ) :
-            status === 'LOADING' ? 'Loading...' :
-            null
+              status === 'ERROR' ? (
+                <div className="alert alert-danger" role="alert">
+                  {error}
+                </div>
+              ) :
+                status === 'LOADING' ? 'Loading...' :
+                  null
           )
         }
       </DataProvider>

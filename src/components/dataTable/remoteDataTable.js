@@ -103,7 +103,7 @@ class RemoteDataTable extends Component {
           version='4'
         >
           {
-            columns.map((col, idx) =>
+            columns.map((col, idx) => (
               <TableHeaderColumn
                 dataField={col.field}
                 dataFormat={col.format}
@@ -117,7 +117,7 @@ class RemoteDataTable extends Component {
               >
                 {col.label}
               </TableHeaderColumn>
-            )
+            ))
           }
         </BootstrapTable>
         <DownloadButton downloadUrl={downloadUrl} />

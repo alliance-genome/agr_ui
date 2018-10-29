@@ -30,3 +30,7 @@ if (browserSupportsAllFeatures()) {
     main();
   });
 }
+
+if (module.hot) {
+  module.hot.accept();
+}

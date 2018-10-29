@@ -64,7 +64,7 @@ class LocalDataTable extends Component {
         version='4'
       >
         {
-          columns.map((col, idx) =>
+          columns.map((col, idx) => (
             <TableHeaderColumn
               className={col.className}
               columnClassName={col.columnClassName}
@@ -84,7 +84,7 @@ class LocalDataTable extends Component {
             >
               {col.label}
             </TableHeaderColumn>
-          )
+          ))
         }
       </BootstrapTable>
     );

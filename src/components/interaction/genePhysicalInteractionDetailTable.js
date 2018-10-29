@@ -326,7 +326,7 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
       // names must be equal
       return 0;
     });
-//    console.log(data);
+    //    console.log(data);
     return (
       <LocalDataTable
         columns={columns}
