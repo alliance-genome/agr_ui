@@ -131,8 +131,9 @@ class OrthologyFilteredTable extends Component {
     return (
       <div>
         <ControlsContainer>
-          <StringencySelector defaultLevel={this.state.stringencyLevel}
-                              onChange={level => this.setState({stringencyLevel: level})}
+          <StringencySelector
+            defaultLevel={this.state.stringencyLevel}
+            onChange={level => this.setState({stringencyLevel: level})}
           />
           <Collapse isOpen={this.state.showFilterPanel}>
             <div>

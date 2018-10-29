@@ -26,16 +26,16 @@ class ResultsList extends Component {
 
   renderHeader(d) {
     return (<div className="row">
-        <div className="col-sm-10">
-          <h4 className={style.resultLinkLabel}>{getLinkForEntry(d)}</h4>
-          {d.species && <span className={style.resultSpeciesLabel} dangerouslySetInnerHTML={{ __html: '(' + d.species + ')' }} />}
-        </div>
-        <div className="col-sm-2">
-          <span className={style.resultCatLabel}>
-            <CategoryLabel category={d.category} />
-          </span>
-        </div>
-      </div>);
+      <div className="col-sm-10">
+        <h4 className={style.resultLinkLabel}>{getLinkForEntry(d)}</h4>
+        {d.species && <span className={style.resultSpeciesLabel} dangerouslySetInnerHTML={{ __html: '(' + d.species + ')' }} />}
+      </div>
+      <div className="col-sm-2">
+        <span className={style.resultCatLabel}>
+          <CategoryLabel category={d.category} />
+        </span>
+      </div>
+    </div>);
   }
 
   renderDetailFromFields(d, fields) {
@@ -85,16 +85,16 @@ class ResultsList extends Component {
     return (
       <div className={style.resultContainer} key={`sr${i}`}>
         {this.renderHeader(d)}
-          <SpeciesIcon iconClass={style.resultSpeciesIcon} species={d.speciesKey} />
-          {this.renderDetailFromFields(d, topFields)}
-          <div className={style.detailContainer}>
-            <span className={style.detailLabel}><strong>Source:</strong> </span>
-            <span><a className='primary-id' dangerouslySetInnerHTML={{ __html: d.id }} href={d.sourceHref} target='_new' /></span>
-          </div>
-          {this.renderDetailFromFields(d, bottomFields)}
-          {this.renderHighlightedValues(d.highlight)}
-          {this.renderMissingTerms(d)}
-          {d.explanation && <ResultExplanation explanation={d.explanation} score={d.score} />}
+        <SpeciesIcon iconClass={style.resultSpeciesIcon} species={d.speciesKey} />
+        {this.renderDetailFromFields(d, topFields)}
+        <div className={style.detailContainer}>
+          <span className={style.detailLabel}><strong>Source:</strong> </span>
+          <span><a className='primary-id' dangerouslySetInnerHTML={{ __html: d.id }} href={d.sourceHref} target='_new' /></span>
+        </div>
+        {this.renderDetailFromFields(d, bottomFields)}
+        {this.renderHighlightedValues(d.highlight)}
+        {this.renderMissingTerms(d)}
+        {d.explanation && <ResultExplanation explanation={d.explanation} score={d.score} />}
         <hr />
       </div>
     );
@@ -118,8 +118,8 @@ class ResultsList extends Component {
 
   render() {
     return (<div className={style.resultsListParent}>
-        {this.renderRows()}
-      </div>);
+      {this.renderRows()}
+    </div>);
   }
 }
 

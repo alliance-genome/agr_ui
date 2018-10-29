@@ -58,7 +58,7 @@ class WordpressPostList extends Component {
                     </Link>
                     <p dangerouslySetInnerHTML={{ __html: post.excerpt.rendered}} />
                   </div>
-                 </div>
+                </div>
               );
             })
           }

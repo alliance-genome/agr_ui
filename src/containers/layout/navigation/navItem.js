@@ -20,9 +20,10 @@ class NavItem extends Component {
             <div className='dropdown-menu' key role='menu'>
               {
                 page.sub.map(sub => (
-                  <Link className={`dropdown-item sub-menu ${isActive(sub.route)}`}
-                        key={sub.route}
-                        to={sub.route}
+                  <Link
+                    className={`dropdown-item sub-menu ${isActive(sub.route)}`}
+                    key={sub.route}
+                    to={sub.route}
                   >
                     {sub.label}
                   </Link>

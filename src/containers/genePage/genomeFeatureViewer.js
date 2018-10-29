@@ -44,8 +44,8 @@ class GenomeFeatureViewer extends Component {
     }
 
 
-// TODO: Still some inconsistencies with SGD data
-// else
+    // TODO: Still some inconsistencies with SGD data
+    // else
     // trackDataWithHighlight += '&ignoreCache=true';
 
     let geneSymbolUrl = '&lookupSymbol=' + this.props.geneSymbol;
@@ -123,24 +123,28 @@ class GenomeFeatureViewer extends Component {
         </AttributeList>
         <div className='row'>
           <div className='col-12'>
-            <a href={this.jbrowseUrl} rel='noopener noreferrer'
-               target='_blank' title='Browse Genome'
+            <a
+              href={this.jbrowseUrl} rel='noopener noreferrer'
+              target='_blank' title='Browse Genome'
             >
               {this.state.loadState === 'loading' ? <LoadingSpinner /> : ''}
-              {this.state.loadState === 'loaded' ? <GenomeFeature data={this.state.loadedData}
-                                                                  height={this.props.height}
-                                                                  id={this.props.id}
-                                                                  transcriptTypes={this.transcriptTypes}
-                                                                  url={this.externalJBrowseUrl}
-                                                                  width={this.props.width}
-                                                   /> : ''}
+              {this.state.loadState === 'loaded' ?
+                <GenomeFeature
+                  data={this.state.loadedData}
+                  height={this.props.height}
+                  id={this.props.id}
+                  transcriptTypes={this.transcriptTypes}
+                  url={this.externalJBrowseUrl}
+                  width={this.props.width}
+                /> : ''
+              }
             </a>
             {this.state.loadState === 'error' ? <div className='text-danger'>Unable to retrieve data</div> : ''}
           </div>
         </div>
       </div>
     )
-      ;
+    ;
   }
 
 

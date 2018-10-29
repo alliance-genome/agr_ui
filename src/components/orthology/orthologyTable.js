@@ -25,58 +25,58 @@ class OrthologyTable extends Component {
       <table className='table'>
         <thead>
           <tr>
-          {
-            columns.map((column) => {
-              if (column.name === 'Method') {
-                return (<MethodHeader key={column.name} name={column.name} />);
-              } else {
-                return (<th key={column.name}>
-                  {column.name}{column.help && <HelpIcon iconKey={`help-${column.name}`} text={column.help} />}
-                </th>);
-              }
-            })
-          }
+            {
+              columns.map((column) => {
+                if (column.name === 'Method') {
+                  return (<MethodHeader key={column.name} name={column.name} />);
+                } else {
+                  return (<th key={column.name}>
+                    {column.name}{column.help && <HelpIcon iconKey={`help-${column.name}`} text={column.help} />}
+                  </th>);
+                }
+              })
+            }
           </tr>
         </thead>
         <tbody>
-        {
-          sortBy(this.props.data, [
-            compareByFixedOrder(TAXON_ORDER, o => o.gene2Species),
-            (orthDataA, orthDataB) => orthDataB.predictionMethodsMatched.length - orthDataA.predictionMethodsMatched.length
-          ]).map((orthData, idx, orthList) => {
-            const scoreNumerator = orthData.predictionMethodsMatched.length;
-            const scoreDemominator = scoreNumerator +
-              orthData.predictionMethodsNotMatched.length;
+          {
+            sortBy(this.props.data, [
+              compareByFixedOrder(TAXON_ORDER, o => o.gene2Species),
+              (orthDataA, orthDataB) => orthDataB.predictionMethodsMatched.length - orthDataA.predictionMethodsMatched.length
+            ]).map((orthData, idx, orthList) => {
+              const scoreNumerator = orthData.predictionMethodsMatched.length;
+              const scoreDemominator = scoreNumerator +
+                orthData.predictionMethodsNotMatched.length;
 
-            if (idx > 0 && orthList[idx - 1].gene2Species !== orthData.gene2Species) {
-              rowGroup += 1;
-            }
+              if (idx > 0 && orthList[idx - 1].gene2Species !== orthData.gene2Species) {
+                rowGroup += 1;
+              }
 
-            const key = orthData.gene2AgrPrimaryId;
-            return (
-              <tr key={key} style={{backgroundColor: rowGroup % 2 === 0 ? '#eee' : ''}} >
-                <td style={{fontStyle: 'italic'}}>{orthData.gene2SpeciesName}</td>
-                <td>
-                  <Link to={`/gene/${orthData.gene2AgrPrimaryId}`}>{orthData.gene2Symbol}</Link>
-                </td>
-                <td>{`${scoreNumerator} of ${scoreDemominator}`}</td>
-                <BooleanCell
-                  isTrueFunc={(value) => value === 'Yes'}
-                  value={orthData.isBestScore}
-                />
-                <BooleanCell
-                  isTrueFunc={(value) => value === 'Yes'}
-                  value={orthData.isBestRevScore}
-                />
-                <MethodCell
-                  predictionMethodsMatched={orthData.predictionMethodsMatched}
-                  predictionMethodsNotMatched={orthData.predictionMethodsNotMatched}
-                  rowKey={key}
-                />
-              </tr>
-            );
-          })
-        }
+              const key = orthData.gene2AgrPrimaryId;
+              return (
+                <tr key={key} style={{backgroundColor: rowGroup % 2 === 0 ? '#eee' : ''}} >
+                  <td style={{fontStyle: 'italic'}}>{orthData.gene2SpeciesName}</td>
+                  <td>
+                    <Link to={`/gene/${orthData.gene2AgrPrimaryId}`}>{orthData.gene2Symbol}</Link>
+                  </td>
+                  <td>{`${scoreNumerator} of ${scoreDemominator}`}</td>
+                  <BooleanCell
+                    isTrueFunc={(value) => value === 'Yes'}
+                    value={orthData.isBestScore}
+                  />
+                  <BooleanCell
+                    isTrueFunc={(value) => value === 'Yes'}
+                    value={orthData.isBestRevScore}
+                  />
+                  <MethodCell
+                    predictionMethodsMatched={orthData.predictionMethodsMatched}
+                    predictionMethodsNotMatched={orthData.predictionMethodsNotMatched}
+                    rowKey={key}
+                  />
+                </tr>
+              );
+            })
+          }
         </tbody>
       </table>
     );

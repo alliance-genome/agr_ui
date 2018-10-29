@@ -9,9 +9,9 @@ const BooleanCell = ({value, labelTrue, labelFalse}) => {
         backgroundColor: backgroundColor,
       }}
     >
-    {
-      value ? (labelTrue || 'Yes') : (labelFalse || 'No')
-    }
+      {
+        value ? (labelTrue || 'Yes') : (labelFalse || 'No')
+      }
     </td>
   );
 };

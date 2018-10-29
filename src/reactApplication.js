@@ -20,15 +20,15 @@ class ReactApp extends Component {
     return (
       <Provider store={store}>
         <Router>
-            {
-              isBrowser ?
-                <ChosenScrollContext>
-                  <RouteListener onRouteChange={logPageView}>
-                    {routes}
-                  </RouteListener>
-                </ChosenScrollContext> :
-                routes
-            }
+          {
+            isBrowser ?
+              <ChosenScrollContext>
+                <RouteListener onRouteChange={logPageView}>
+                  {routes}
+                </RouteListener>
+              </ChosenScrollContext> :
+              routes
+          }
         </Router>
       </Provider>
     );
