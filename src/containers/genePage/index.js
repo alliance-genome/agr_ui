@@ -8,12 +8,19 @@ import { selectGene } from '../../selectors/geneSelectors';
 import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPage';
 import BasicGeneInfo from './basicGeneInfo';
 import { OrthologyFilteredTable, OrthologyUserGuide, OrthologyBasicInfo } from '../../components/orthology';
-import { GenePageDiseaseTable } from '../../components/disease';
+import {
+  GenePageDiseaseViaExperimentTable,
+  GenePageDiseaseViaOrthologyTable,
+  getDiseaseAssociationViaOrthology,
+  getDiseaseAssociationViaExperiment,
+} from '../../components/disease';
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
 import LoadingPage from '../../components/loadingPage';
 import NotFound from '../../components/notFound';
 import Subsection from '../../components/subsection';
 import AlleleTable from '../../components/alleleTable';
+import DataLoader from '../../components/dataLoader';
+import { GenePhysicalInteractionDetailTable } from '../../components/interaction';
 
 import GenomeFeatureViewer from './genomeFeatureViewer';
 import ExpressionLinks from './expressionLinks';
@@ -21,6 +28,7 @@ import ExpressionLinks from './expressionLinks';
 import SpeciesIcon from '../../components/speciesIcon';
 import DataSourceLink from '../../components/dataSourceLink';
 import PhenotypeTable from './phenotypeTable';
+import { ExpressionComparisonRibbon } from '../../components/expression';
 
 class GenePage extends Component {
 
@@ -76,10 +84,49 @@ class GenePage extends Component {
     const FUNCTION = 'Function - GO Annotations';
     const ORTHOLOGY = 'Orthology';
     const DISEASE = 'Disease Associations';
+    const DISEASE_VIA_EXPERIMENT = 'Disease Associations Via Empirical Data';
+    const DISEASE_VIA_ORTHOLOGY = 'Disease Associations Via Orthology';
     const EXPRESSION = 'Expression';
     const ALLELES = 'Alleles';
     const PHENOTYPES = 'Phenotypes';
-    const SECTIONS = [SUMMARY, SEQUENCE_FEATURE_VIEWER, FUNCTION, ORTHOLOGY, PHENOTYPES, DISEASE, EXPRESSION, ALLELES];
+    const INTERACTIONS = 'Molecular Interactions';
+    const SECTIONS = [
+      {
+        name: SUMMARY,
+      },
+      {
+        name: SEQUENCE_FEATURE_VIEWER,
+      },
+      {
+        name: FUNCTION,
+      },
+      {
+        name: ORTHOLOGY,
+      },
+      {
+        name: PHENOTYPES,
+      },
+      {
+        name: DISEASE,
+      },
+      {
+        name: DISEASE_VIA_EXPERIMENT,
+        level: 1,
+      },
+      {
+        name: DISEASE_VIA_ORTHOLOGY,
+        level: 1,
+      },
+      {
+        name: EXPRESSION,
+      },
+      {
+        name: ALLELES,
+      },
+      {
+        name: INTERACTIONS,
+      },
+    ];
 
     return (
       <DataPage data={data} title={title}>
@@ -138,11 +185,19 @@ class GenePage extends Component {
             <PhenotypeTable geneId={data.primaryId} />
           </Subsection>
 
-          <Subsection hasData={(data.diseases || []).length > 0} title={DISEASE}>
-            <GenePageDiseaseTable
-              data={data.diseases}
-              filename={`${data.symbol}-${data.primaryId}-Disease-Associations-${date}.tsv`}
-            />
+          <Subsection isMeta title={DISEASE}>
+            <Subsection hasData={getDiseaseAssociationViaExperiment(data).length > 0} level={1} title={DISEASE_VIA_EXPERIMENT}>
+              <GenePageDiseaseViaExperimentTable
+                data={getDiseaseAssociationViaExperiment(data)}
+                filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaEmpiricalData-${date}.tsv`}
+              />
+            </Subsection>
+            <Subsection hasData={getDiseaseAssociationViaOrthology(data).length > 0} level={1} title={DISEASE_VIA_ORTHOLOGY}>
+              <GenePageDiseaseViaOrthologyTable
+                data={getDiseaseAssociationViaOrthology(data)}
+                filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaOrthology-${date}.tsv`}
+              />
+            </Subsection>
           </Subsection>
 
           <Subsection title={EXPRESSION}>
@@ -154,6 +209,7 @@ class GenePage extends Component {
                 .concat(data.crossReferences['gene/spell'])
               }
             />
+            <ExpressionComparisonRibbon geneId={data.primaryId} geneSymbol={data.symbol} geneTaxon={data.taxonId} />
           </Subsection>
 
           <Subsection title={ALLELES}>
@@ -162,6 +218,18 @@ class GenePage extends Component {
               geneDataProvider={data.dataProvider}
               geneId={data.primaryId}
             />
+          </Subsection>
+          <Subsection title={INTERACTIONS}>
+            <DataLoader url={`/api/gene/${data.primaryId}/interactions`}>
+              {({data: interactionData}) => (
+                <GenePhysicalInteractionDetailTable
+                  data={interactionData}
+                  filename={`${data.symbol}-${data.primaryId}-Interactions-${date}.tsv`}
+                  focusGeneDisplayName={data.symbol}
+                  focusGeneId={data.primaryId}
+                />
+              )}
+            </DataLoader>
           </Subsection>
         </PageData>
       </DataPage>

@@ -2,11 +2,13 @@ import React from 'react';
 import { AttributeList, AttributeLabel, AttributeValue } from '../../components/attribute';
 import { UncontrolledCollapse } from 'reactstrap';
 import ExternalLink from '../../components/externalLink';
+import HeadMetaTags from '../../components/headMetaTags';
 
 class DownloadsPage extends React.Component {
   render() {
     return (
       <div className='container'>
+        <HeadMetaTags title='Downloads' />
         <h1>
           Downloads
           <hr />
