@@ -63,14 +63,15 @@ class SummaryRibbon extends React.Component {
         {loading && <LoadingSpinner />}
         {error && <span className='text-danger'>Could not fetch data. Try again later.</span>}
         {data &&
-          <RibbonBase blocks={makeBlocks(data, groups, overrideColor)}
-                      currentblock={selectedTerm}
-                      onSlimEnter={() => {}}
-                      onSlimLeave={() => {}}
-                      onSlimSelect={onClick}
-                      showBlockTitles={showBlockTitles}
-                      showSeparatorLabelPrefixes={false}
-                      showSeparatorLabels={showSeparatorLabels}
+          <RibbonBase
+            blocks={makeBlocks(data, groups, overrideColor)}
+            currentblock={selectedTerm}
+            onSlimEnter={() => {}}
+            onSlimLeave={() => {}}
+            onSlimSelect={onClick}
+            showBlockTitles={showBlockTitles}
+            showSeparatorLabelPrefixes={false}
+            showSeparatorLabels={showSeparatorLabels}
           />
         }
       </React.Fragment>
