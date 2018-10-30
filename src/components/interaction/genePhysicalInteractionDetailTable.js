@@ -22,26 +22,6 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
 
     const columns = [
       {
-        field: 'crossReferences',
-        label: 'Source ID',
-        isKey: true,
-        format: (crossReferences = []) => (
-          <div>
-            {
-              crossReferences.map(({displayName, crossRefCompleteUrl} = {}) => (
-                <div key={displayName}><ExternalLink href={crossRefCompleteUrl}>{displayName}</ExternalLink></div>
-              ))
-            }
-          </div>
-        ),
-        asText: (crossReferences = []) => (
-          crossReferences.map(({displayName} = {}) => (displayName)).join(',')
-        ),
-        width: '14em',
-        className: style.columnHeaderGroup0,
-        columnClassName: style.columnGroup0,
-      },
-      {
         field: 'interactionAType',
         label: 'Focus gene molecule type ID',
         asText: ({primaryKey} = {}) => primaryKey,
@@ -221,6 +201,26 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         width: '12em',
         className: style.columnHeaderGroup3,
         columnClassName: style.columnGroup3,
+      },
+      {
+        field: 'crossReferences',
+        label: 'Source ID',
+        isKey: true,
+        format: (crossReferences = []) => (
+          <div>
+            {
+              crossReferences.map(({displayName, crossRefCompleteUrl} = {}) => (
+                <div key={displayName}><ExternalLink href={crossRefCompleteUrl}>{displayName}</ExternalLink></div>
+              ))
+            }
+          </div>
+        ),
+        asText: (crossReferences = []) => (
+          crossReferences.map(({displayName} = {}) => (displayName)).join(',')
+        ),
+        width: '14em',
+        className: style.columnHeaderGroup0,
+        columnClassName: style.columnGroup0,
       },
       {
         field: 'sourceDatabase',
