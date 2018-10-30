@@ -11,7 +11,7 @@ export default class DataLoader extends React.Component {
       <DataProvider url={url}>
         {
           ({data, error, status}) => (
-            status === 'SUCCESS' ? data ? children({data: data}) : <NoData /> :
+            status === 'SUCCESS' ? (data && (!Array.isArray(data) || data.length !== 0)) ? children({data: data}) : <NoData /> :
             status === 'ERROR' ? (
               <div className="alert alert-danger" role="alert">
                 {error}
