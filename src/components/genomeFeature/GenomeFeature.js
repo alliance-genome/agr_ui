@@ -200,58 +200,61 @@ class GenomeFeature extends Component {
                 .text(featureChild.name);
 
               // have to sort this so we draw the exons BEFORE the CDS
-              featureChild.children = featureChild.children.sort(function (a, b) {
+              if(featureChild.children){
+                featureChild.children = featureChild.children.sort(function (a, b) {
 
-                let sortAValue = sortWeight[a.type];
-                let sortBValue = sortWeight[b.type];
+                  let sortAValue = sortWeight[a.type];
+                  let sortBValue = sortWeight[b.type];
 
-                if (typeof sortAValue == 'number' && typeof sortBValue == 'number') {
-                  return sortAValue - sortBValue;
-                }
-                if (typeof sortAValue == 'number' && typeof sortBValue != 'number') {
-                  return -1;
-                }
-                if (typeof sortAValue != 'number' && typeof sortBValue == 'number') {
-                  return 1;
-                }
-                // NOTE: type not found and weighted
-                return a.type - b.type;
-              });
+                  if (typeof sortAValue == 'number' && typeof sortBValue == 'number') {
+                    return sortAValue - sortBValue;
+                  }
+                  if (typeof sortAValue == 'number' && typeof sortBValue != 'number') {
+                    return -1;
+                  }
+                  if (typeof sortAValue != 'number' && typeof sortBValue == 'number') {
+                    return 1;
+                  }
+                  // NOTE: type not found and weighted
+                  return a.type - b.type;
+                });
 
 
-              featureChild.children.forEach(function (innerChild) {
-                let innerType = innerChild.type;
-                if (innerType == 'exon') {
-                  viewer.append('rect')
-                    .attr('class', style.exon)
-                    .attr('x', x(innerChild.fmin))
-                    .attr('y', isoform_height * isoform_count + isoform_title_height)
-                    .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (exon_height / 2.0)) + ')')
-                    .attr('height', exon_height)
-                    .attr('z-index', 10)
-                    .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
-                }
-                else if (innerType == 'CDS') {
-                  viewer.append('rect')
-                    .attr('class', style.CDS)
-                    .attr('x', x(innerChild.fmin))
-                    .attr('y', isoform_height * isoform_count + isoform_title_height)
-                    .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (cds_height / 2.0)) + ')')
-                    .attr('z-index', 20)
-                    .attr('height', cds_height)
-                    .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
-                }
-                else if (innerType == 'UTR' || innerType == 'five_prime_UTR' || innerType == 'three_prime_UTR') {
-                  viewer.append('rect')
-                    .attr('class', style.UTR)
-                    .attr('x', x(innerChild.fmin))
-                    .attr('y', isoform_height * isoform_count + isoform_title_height)
-                    .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (utr_height / 2.0)) + ')')
-                    .attr('z-index', 20)
-                    .attr('height', utr_height)
-                    .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
-                }
-              });
+                featureChild.children.forEach(function (innerChild) {
+                  let innerType = innerChild.type;
+                  if (innerType == 'exon') {
+                    viewer.append('rect')
+                      .attr('class', style.exon)
+                      .attr('x', x(innerChild.fmin))
+                      .attr('y', isoform_height * isoform_count + isoform_title_height)
+                      .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (exon_height / 2.0)) + ')')
+                      .attr('height', exon_height)
+                      .attr('z-index', 10)
+                      .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
+                  }
+                  else if (innerType == 'CDS') {
+                    viewer.append('rect')
+                      .attr('class', style.CDS)
+                      .attr('x', x(innerChild.fmin))
+                      .attr('y', isoform_height * isoform_count + isoform_title_height)
+                      .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (cds_height / 2.0)) + ')')
+                      .attr('z-index', 20)
+                      .attr('height', cds_height)
+                      .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
+                  }
+                  else if (innerType == 'UTR' || innerType == 'five_prime_UTR' || innerType == 'three_prime_UTR') {
+                    viewer.append('rect')
+                      .attr('class', style.UTR)
+                      .attr('x', x(innerChild.fmin))
+                      .attr('y', isoform_height * isoform_count + isoform_title_height)
+                      .attr('transform', 'translate(0,' + ( (isoform_view_height / 2.0) - (utr_height / 2.0)) + ')')
+                      .attr('z-index', 20)
+                      .attr('height', utr_height)
+                      .attr('width', x(innerChild.fmax) - x(innerChild.fmin));
+                  }
+                });
+
+              }
             }
             else if (isoform_count == maxIsoforms) {
               ++isoform_count;
