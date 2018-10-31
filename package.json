@@ -12,7 +12,7 @@
   },
   "private": true,
   "dependencies": {
-    "@geneontology/ribbon": "1.5.3",
+    "@geneontology/ribbon": "1.5.7",
     "babel-polyfill": "^6.26.0",
     "bootstrap": "4.1.2",
     "d3-axis": "^1.0.8",

@@ -61,8 +61,8 @@ Ribbon includes.
 
 .ontology-ribbon__block-tile {
   border: 1px solid silver;
-  height: 16px;
-  width: 16px;
+  width: 0.75rem;
+  height: 0.75rem;
   margin-right: -1px;
   position: relative;
   text-align: center;
@@ -70,4 +70,8 @@ Ribbon includes.
   text-shadow: -1px 0 silver, 0 1px silver, 1px 0 silver, 0 -1px silver;
   cursor: pointer;
   line-height: 1.0em;
+}
+
+.ontology-ribbon__block {
+  font-size: 0.72rem !important;
 }
