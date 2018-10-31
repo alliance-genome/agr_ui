@@ -18,6 +18,7 @@
   ],
   "rules": {
     "indent": ["error", 2],
+    "max-warnings": 0,
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "single"],
     "semi": ["error", "always"],

@@ -93,7 +93,7 @@
     "postbuild": "npm run sitemap",
     "clean": "rimraf dist",
     "sitemap": "node bin/build_sitemap.js",
-    "lint": "eslint src --max-warnings 0",
+    "lint": "eslint src",
     "pretest": "npm run lint",
     "test": "NODE_ENV=test mocha-webpack --webpack-config webpack.config-test.js \"src/**/*test.js\"",
     "test:watch": "NODE_ENV=test mocha-webpack --webpack-config webpack.config-test.js --watch \"src/**/*test.js\""
