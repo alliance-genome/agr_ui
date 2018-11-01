@@ -11,6 +11,7 @@ export const getTranscriptTypes = function () {
     , 'snRNA'
     , 'rRNA'
     , 'ARS'
+    , 'antisense_RNA'
 
 
     , 'C_gene_segment'
