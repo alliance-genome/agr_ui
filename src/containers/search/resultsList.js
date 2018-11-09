@@ -82,6 +82,7 @@ class ResultsList extends Component {
         {this.renderHeader(d)}
         {this.renderDetailFromFields(d, fields)}
         {this.renderHighlightedValues(d.highlight, fields)}
+        {this.renderRelatedData(d)}
         {this.renderMissingTerms(d)}
         {d.explanation && <ResultExplanation explanation={d.explanation} score={d.score} />}
         <hr />
@@ -96,6 +97,7 @@ class ResultsList extends Component {
         <SpeciesIcon iconClass={style.resultSpeciesIcon} species={d.speciesKey} />
         {this.renderDetailFromFields(d, fields)}
         {this.renderHighlightedValues(d.highlight)}
+        {this.renderRelatedData(d)}
         {this.renderMissingTerms(d)}
         {d.explanation && <ResultExplanation explanation={d.explanation} score={d.score} />}
         <hr />
