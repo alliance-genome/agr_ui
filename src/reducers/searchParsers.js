@@ -160,6 +160,7 @@ function parseGeneResult(_d) {
     homologs: parseLogs(d.homologs),
     paralogs: parseLogs(d.paralogs),
     genomic_coordinates: parseCoordinates(_d),
+    relatedData: d.relatedData,
     missing: d.missingTerms,
     explanation: d.explanation,
     score: d.score

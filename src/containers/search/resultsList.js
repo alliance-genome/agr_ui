@@ -5,10 +5,12 @@ import style from './style.scss';
 import CategoryLabel from './categoryLabel';
 import DetailList from './detailList';
 import ResultExplanation from './resultExplanation';
-import { NON_HIGHLIGHTED_FIELDS } from '../../constants';
+import {CATEGORIES, NON_HIGHLIGHTED_FIELDS} from '../../constants';
+import { Link } from 'react-router-dom';
 
 import SpeciesIcon from '../../components/speciesIcon';
 import { getLinkForEntry } from '../../lib/searchHelpers';
+import { stringify } from 'query-string';
 
 const DEFAULT_FIELDS = ['symbol', 'name', 'synonyms', 'sourceHref', 'id', 'type'];
 
@@ -47,6 +49,28 @@ class ResultsList extends Component {
     return (
       <div className={style.missingTerms}>
         <DetailList data={d} fields={['missing']} />
+      </div>
+    );
+  }
+
+  renderRelatedData(d) {
+    if (!d.relatedData || d.relatedData.length === 0 || d.relatedData[0] === '') { return ''; }
+
+    const _links = d.relatedData.map( x => {
+      let queryParams = {category: x.category};
+      queryParams[x.targetField] = x.sourceName;
+      const categoryLabel = CATEGORIES.filter( cat => cat.name === x.category )[0].displayName;
+      const href = {pathname:'/search', search: stringify(queryParams)};
+
+      return <li className='list-inline-item' key={x.category}><Link to={href}>{categoryLabel} ({x.count})</Link></li>;
+    });
+
+    //let _links = d.relatedData.map( rd => <Link innerRef={'/search'}> rd.category + ' (' + rd.count + ')'</Link>).join(' ');
+    return (
+      <div className={style.relatedDataLinks}>
+        <ul className='list-unstyled list-inline'>
+          {_links}
+        </ul>
       </div>
     );
   }
@@ -93,6 +117,7 @@ class ResultsList extends Component {
         </div>
         {this.renderDetailFromFields(d, bottomFields)}
         {this.renderHighlightedValues(d.highlight)}
+        {this.renderRelatedData(d)}
         {this.renderMissingTerms(d)}
         {d.explanation && <ResultExplanation explanation={d.explanation} score={d.score} />}
         <hr />
