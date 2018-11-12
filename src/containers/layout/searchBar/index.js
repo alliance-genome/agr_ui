@@ -37,7 +37,7 @@ class SearchBarComponent extends Component {
 
   handleSelect(event) {
     const selected = event.currentTarget.dataset.name;
-    const newCatOption = CATEGORIES.filter( d => d.name === selected )[0];
+    const newCatOption = CATEGORIES.find(cat => cat.name === selected);
     this.setState({ catOption: newCatOption });
   }
 
