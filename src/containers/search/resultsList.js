@@ -57,15 +57,16 @@ class ResultsList extends Component {
     if (!d.relatedData || d.relatedData.length === 0 || d.relatedData[0] === '') { return ''; }
 
     const _links = d.relatedData.map( x => {
-      let queryParams = {category: x.category};
-      queryParams[x.targetField] = x.sourceName;
-      const categoryLabel = CATEGORIES.filter( cat => cat.name === x.category )[0].displayName;
+      const queryParams = {
+        category: x.category,
+        [x.targetField]: x.sourceName
+      };
+      const categoryLabel = CATEGORIES.find(cat => cat.name === x.category).displayName;
       const href = {pathname:'/search', search: stringify(queryParams)};
 
       return <li className='list-inline-item' key={x.category}><Link to={href}>{categoryLabel} ({x.count})</Link></li>;
     });
 
-    //let _links = d.relatedData.map( rd => <Link innerRef={'/search'}> rd.category + ' (' + rd.count + ')'</Link>).join(' ');
     return (
       <div className={style.relatedDataLinks}>
         <ul className='list-unstyled list-inline'>
