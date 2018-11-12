@@ -7,8 +7,7 @@ import { CATEGORIES } from '../../constants';
 
 class CategoryLabel extends Component {
   getCurrentOption() {
-    let current = CATEGORIES.filter( d => d.name === this.props.category )[0];
-    return current;
+    return CATEGORIES.find(cat => cat.name === this.props.category);
   }
 
   renderSprite() {

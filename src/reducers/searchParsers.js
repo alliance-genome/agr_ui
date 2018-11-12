@@ -160,6 +160,7 @@ function parseGeneResult(_d) {
     homologs: parseLogs(d.homologs),
     paralogs: parseLogs(d.paralogs),
     genomic_coordinates: parseCoordinates(_d),
+    relatedData: d.relatedData,
     missing: d.missingTerms,
     explanation: d.explanation,
     score: d.score
@@ -188,6 +189,7 @@ function parseGoResult(_d) {
     name: d.name,
     collapsible_synonyms: d.synonyms, //not just named synonyms,
     //so that it can be collapsible when others aren't
+    relatedData: d.relatedData,
     missing: d.missingTerms,
     explanation: d.explanation,
     score: d.score
@@ -207,6 +209,7 @@ function parseDiseaseResult(_d) {
     name: d.name,
     id: d.id,
     synonyms: d.synonyms,
+    relatedData: d.relatedData,
     missing: d.missingTerms,
     explanation: d.explanation,
     score: d.score
@@ -242,6 +245,7 @@ function parseAlleleResult(_d) {
     speciesKey: speciesKey,
     diseases: d.diseaseDocuments.map(x => x.name_key),
     gene: d.geneDocument.name_key,
+    relatedData: d.relatedData,
     missing: d.missingTerms,
     explanation: d.explanation,
     score: d.score

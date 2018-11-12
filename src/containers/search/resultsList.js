@@ -5,10 +5,12 @@ import style from './style.scss';
 import CategoryLabel from './categoryLabel';
 import DetailList from './detailList';
 import ResultExplanation from './resultExplanation';
-import { NON_HIGHLIGHTED_FIELDS } from '../../constants';
+import {CATEGORIES, NON_HIGHLIGHTED_FIELDS} from '../../constants';
+import { Link } from 'react-router-dom';
 
 import SpeciesIcon from '../../components/speciesIcon';
 import { getLinkForEntry } from '../../lib/searchHelpers';
+import { stringify } from 'query-string';
 
 const DEFAULT_FIELDS = ['symbol', 'name', 'synonyms', 'sourceHref', 'id', 'type'];
 
@@ -51,6 +53,29 @@ class ResultsList extends Component {
     );
   }
 
+  renderRelatedData(d) {
+    if (!d.relatedData || d.relatedData.length === 0 || d.relatedData[0] === '') { return ''; }
+
+    const _links = d.relatedData.map( x => {
+      const queryParams = {
+        category: x.category,
+        [x.targetField]: x.sourceName
+      };
+      const categoryLabel = CATEGORIES.find(cat => cat.name === x.category).displayName;
+      const href = {pathname:'/search', search: stringify(queryParams)};
+
+      return <li className='list-inline-item' key={x.category}><Link to={href}>{categoryLabel} ({x.count})</Link></li>;
+    });
+
+    return (
+      <div className={style.relatedDataLinks}>
+        <ul className='list-unstyled list-inline'>
+          {_links}
+        </ul>
+      </div>
+    );
+  }
+
   renderDiseaseEntry(d, i) {
     let fields = ['id', 'definition'];
     return (
@@ -58,6 +83,7 @@ class ResultsList extends Component {
         {this.renderHeader(d)}
         {this.renderDetailFromFields(d, fields)}
         {this.renderHighlightedValues(d.highlight, fields)}
+        {this.renderRelatedData(d)}
         {this.renderMissingTerms(d)}
         {d.explanation && <ResultExplanation explanation={d.explanation} score={d.score} />}
         <hr />
@@ -72,6 +98,7 @@ class ResultsList extends Component {
         <SpeciesIcon iconClass={style.resultSpeciesIcon} species={d.speciesKey} />
         {this.renderDetailFromFields(d, fields)}
         {this.renderHighlightedValues(d.highlight)}
+        {this.renderRelatedData(d)}
         {this.renderMissingTerms(d)}
         {d.explanation && <ResultExplanation explanation={d.explanation} score={d.score} />}
         <hr />
@@ -93,6 +120,7 @@ class ResultsList extends Component {
         </div>
         {this.renderDetailFromFields(d, bottomFields)}
         {this.renderHighlightedValues(d.highlight)}
+        {this.renderRelatedData(d)}
         {this.renderMissingTerms(d)}
         {d.explanation && <ResultExplanation explanation={d.explanation} score={d.score} />}
         <hr />

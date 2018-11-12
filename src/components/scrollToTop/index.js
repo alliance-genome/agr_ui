@@ -10,8 +10,8 @@ class ScrollToTop extends Component {
 
   componentDidUpdate(prevProps) {
     // compare pathname, which ignoring changes in URL hash
-    const currentPath = this.props.location && this.props.location.pathname;
-    const previousPath = prevProps.location && prevProps.location.pathname;
+    const currentPath = this.props.location && (this.props.location.pathname + this.props.location.search);
+    const previousPath = prevProps.location && (prevProps.location.pathname + prevProps.location.search);
     if (currentPath !== previousPath) {
       window.scrollTo(0,0);
     }
