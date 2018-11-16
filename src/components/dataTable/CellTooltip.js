@@ -15,7 +15,7 @@ function CellTooltip({tooltip, id, children}) {
       <span id={id}>{children}</span>
       <UncontrolledTooltip
         delay={{show: 300, hide: 150}}
-        placement="top"
+        placement="right"
         target={id}
       >
         {
