@@ -3,6 +3,7 @@ import OrthologyFilteredTable from './orthologyFilteredTable';
 import OrthologyUserGuide from './orthologyUserGuide';
 import PantherCrossRef from './pantherCrossRef';
 import OrthologyBasicInfo from './orthologyBasicInfo';
+import StringencySelector from './stringencySelector';
 
 export {
   OrthologyBasicInfo,
@@ -10,4 +11,5 @@ export {
   OrthologyFilteredTable,
   OrthologyUserGuide,
   PantherCrossRef,
+  StringencySelector,
 };

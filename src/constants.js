@@ -126,3 +126,45 @@ export const NAV_MENU = [
     wordpressId: 3,
   },
 ];
+
+export const DEFAULT_TABLE_STATE = {
+  limit: 10,
+  page: 1,
+  sort: {
+    name: '',
+    order: '',
+  },
+  filters: []
+};
+
+export const TAXON_IDS = {
+  HUMAN: 'NCBITaxon:9606',
+  MOUSE: 'NCBITaxon:10090',
+  RAT: 'NCBITaxon:10116',
+  FISH: 'NCBITaxon:7955',
+  FLY: 'NCBITaxon:7227',
+  WORM: 'NCBITaxon:6239',
+  YEAST: 'NCBITaxon:559292'
+};
+
+export const TAXON_ORDER = [
+  TAXON_IDS.HUMAN,
+  TAXON_IDS.MOUSE,
+  TAXON_IDS.RAT,
+  TAXON_IDS.FISH,
+  TAXON_IDS.FLY,
+  TAXON_IDS.WORM,
+  TAXON_IDS.YEAST,
+];
+
+export const GA_PROPERTY_ID = 'UA-98765810-1';
+
+export const GA_EVENT_CATEGORY = {
+  TABLE: 'Table',
+};
+
+export const GA_EVENT_ACTION = {
+  GO_TO_PAGE: 'Go to page',
+  SET_PAGE_SIZE: 'Set page size'
+};
+

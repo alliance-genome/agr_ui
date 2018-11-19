@@ -6,9 +6,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Collapse } from 'reactstrap';
-import OrthologyTable from './orthologyTable';
+import { OrthologyTable, StringencySelector } from '.';
 import HorizontalScroll from '../horizontalScroll';
 import NoData from '../noData';
+import ControlsContainer from '../controlsContainer';
+import { STRINGENCY_HIGH } from './constants';
+import { orthologyMeetsStringency } from '../../lib/utils';
 
 const caseInsensitiveCompare = (stringA, stringB) => {
   const stringALowerCase = stringA.toLowerCase();
@@ -28,7 +31,7 @@ const DEFAULT_FILTERS = {
   filterBest: false,
   filterReverseBest: false,
   filterSpecies: null,
-  stringencyLevel: 'high',
+  stringencyLevel: STRINGENCY_HIGH,
 };
 
 class OrthologyFilteredTable extends Component {
@@ -36,59 +39,6 @@ class OrthologyFilteredTable extends Component {
     super(props);
     const defaultState = Object.assign({showFilterPanel: false,}, DEFAULT_FILTERS);
     this.state = defaultState;
-  }
-
-  isHighStringency(dat) {
-    return (
-      dat.predictionMethodsMatched.indexOf('ZFIN') > -1 ||
-      dat.predictionMethodsMatched.indexOf('HGNC') > -1 ||
-      (dat.predictionMethodsMatched.length > 2 && (dat.isBestScore || dat.isBestRevScore)) ||
-      (dat.predictionMethodsMatched.length === 2 && dat.isBestScore && dat.isBestRevScore)
-    );
-  }
-
-  isModerateStringency(dat) {
-    return (
-      dat.predictionMethodsMatched.indexOf('ZFIN') > -1 ||
-      dat.predictionMethodsMatched.indexOf('HGNC') > -1 ||
-      dat.predictionMethodsMatched.length > 2 ||
-      (dat.predictionMethodsMatched.length === 2 && dat.isBestScore && dat.isBestRevScore)
-    );
-  }
-
-  filterByStringency(dat) {
-    switch (this.state.stringencyLevel) {
-    case 'high':
-      return this.isHighStringency(dat);
-    case 'moderate':
-      return this.isModerateStringency(dat);
-    default:
-      return true;
-    }
-  }
-
-  renderStringencyOption(stringencyLevel, label) {
-    const labelStyle = {
-      margin: '0em 1em 0em 0',
-      lineHeight: '2em',
-    };
-    const inputStyle = {
-      margin: '0 0.5em'
-    };
-    return (
-      <label style={labelStyle}>
-        <input
-          checked={stringencyLevel === this.state.stringencyLevel}
-          onChange={(event) => this.setState({
-            stringencyLevel: event.target.value
-          })}
-          style={inputStyle}
-          type="radio"
-          value={stringencyLevel}
-        />
-        {label}
-      </label>
-    );
   }
 
   filterCallback(dat) {
@@ -101,7 +51,7 @@ class OrthologyFilteredTable extends Component {
       (this.state.filterBest ? dat.isBestScore : true) &&
       (this.state.filterReverseBest ? dat.isBestRevScore : true) &&
       (this.state.filterSpecies ? dat.gene2SpeciesName === this.state.filterSpecies : true) &&
-      this.filterByStringency(dat)
+      orthologyMeetsStringency(dat, this.state.stringencyLevel)
     );
   }
 
@@ -180,13 +130,10 @@ class OrthologyFilteredTable extends Component {
 
     return (
       <div>
-        <div className="card card-body" style={{margin: '0.5em 0'}}>
-          <div>
-            <span>Stringency:</span>
-            {this.renderStringencyOption('high', 'Stringent filter (default)')}
-            {this.renderStringencyOption('moderate', 'Moderate filter')}
-            {this.renderStringencyOption('low', 'No filter / Show all')}
-          </div>
+        <ControlsContainer>
+          <StringencySelector defaultLevel={this.state.stringencyLevel}
+                              onChange={level => this.setState({stringencyLevel: level})}
+          />
           <Collapse isOpen={this.state.showFilterPanel}>
             <div>
               <span style={docTextStyle}>Additional filters to further constrain the results:</span>
@@ -278,7 +225,7 @@ class OrthologyFilteredTable extends Component {
               type="button"
             >Reset filters</button>
           </div>
-        </div>
+        </ControlsContainer>
 
         <div style={{marginBottom: '1rem'}}>
           {
