@@ -9,16 +9,48 @@ class HeadMetaTags extends Component {
 
     let title = `${this.props.title} | Alliance of Genome Resources`;
     let data = this.props.data;
-    let schema = undefined;
+    let schemas = [];
+
+
+    schemas.push({
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'http://schema.org',
+        '@type': 'Organization',
+        'url': 'https://www.alliancegenome.org',
+        'logo': 'https://pbs.twimg.com/profile_images/751097942778351616/OW7j5m0Z_bigger.jpg',
+        'email': 'alliance-helpdesk@lists.stanford.edu'
+      })
+    });
+
+
+    schemas.push({
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'http://schema.org',
+        '@type': 'WebSite',
+        'url': 'https://www.alliancegenome.org/',
+        'potentialAction': {
+          '@type': 'SearchAction',
+          'target': 'https://www.alliancegenome.org//search?q={term}',
+          'query-input': 'required name=term'
+        }
+      }),
+    });
+
     if (data) {
       let keywords = ['gene', data.dataProvider.replace('\n', ' '), data.symbol, ...data.synonyms, data.species, data.primaryId];
-      schema = {
+
+      schemas.push({
         type: 'application/ld+json',
         innerHTML: JSON.stringify({
           '@context': 'http://schema.org',
           '@type': 'Dataset',
           '@id': data.primaryId,
           name: data.symbol,
+          dateCreated: new Date(data.dateProduced),
+          datePublished: new Date(data.dateProduced),
+          dateModified: new Date(data.dateProduced),
           description: data.automatedGeneSynopsis + ' ' + (data.geneSynopsis || data.geneSynopsisUrl || ''),
           url: 'http://www.alliancegenome.org/gene/' + data.primaryId,
           keywords: keywords.join(' '),
@@ -30,7 +62,7 @@ class HeadMetaTags extends Component {
           version: '2.0',
           license: 'CC BY 4.0',
         }),
-      };
+      });
     }
 
     return (
@@ -39,7 +71,7 @@ class HeadMetaTags extends Component {
           meta={[
             {property: 'og:title', content: {title}}
           ]}
-          script={(schema ? [schema] : [])}
+          script={(schemas)}
           title={title}
         />
       </div>
