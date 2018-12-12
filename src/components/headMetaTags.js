@@ -12,6 +12,7 @@ class HeadMetaTags extends Component {
     let schemas = [];
 
 
+    // general view
     schemas.push({
       type: 'application/ld+json',
       innerHTML: JSON.stringify({
@@ -24,6 +25,7 @@ class HeadMetaTags extends Component {
     });
 
 
+    // specify actions
     schemas.push({
       type: 'application/ld+json',
       innerHTML: JSON.stringify({
@@ -35,6 +37,27 @@ class HeadMetaTags extends Component {
           'target': 'https://www.alliancegenome.org//search?q={term}',
           'query-input': 'required name=term'
         }
+      }),
+    });
+
+    // bioschemas section
+    schemas.push({
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': [
+          {
+            'bs': 'http://bioschemas.org/'
+          },
+          'http://schema.org',
+          {
+            '@base': 'http://schema.org'
+          }
+        ],
+        '@type': [
+          'bs:Gene'
+        ],
+        'identifier': 'ZFIN:ZDB-GENE-001103-2',
+        'name': 'sox9b'
       }),
     });
 
