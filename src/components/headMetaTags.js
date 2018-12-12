@@ -19,7 +19,7 @@ class HeadMetaTags extends Component {
         '@context': 'http://schema.org',
         '@type': 'Organization',
         'url': 'https://www.alliancegenome.org',
-        'logo': 'https://pbs.twimg.com/profile_images/751097942778351616/OW7j5m0Z_bigger.jpg',
+        'logo': 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner_1_flyin_logo.png',
         'email': 'alliance-helpdesk@lists.stanford.edu'
       })
     });
@@ -34,7 +34,7 @@ class HeadMetaTags extends Component {
         'url': 'https://www.alliancegenome.org/',
         'potentialAction': {
           '@type': 'SearchAction',
-          'target': 'https://www.alliancegenome.org//search?q={term}',
+          'target': 'https://www.alliancegenome.org/search?q={term}',
           'query-input': 'required name=term'
         }
       }),
