@@ -40,26 +40,6 @@ class HeadMetaTags extends Component {
       }),
     });
 
-    // bioschemas section
-    schemas.push({
-      type: 'application/ld+json',
-      innerHTML: JSON.stringify({
-        '@context': [
-          {
-            'bs': 'http://bioschemas.org/'
-          },
-          'http://schema.org',
-          {
-            '@base': 'http://schema.org'
-          }
-        ],
-        '@type': [
-          'bs:Gene'
-        ],
-        'identifier': 'ZFIN:ZDB-GENE-001103-2',
-        'name': 'sox9b'
-      }),
-    });
 
     if (data) {
       let keywords = ['gene', data.dataProvider.replace('\n', ' '), data.symbol, ...data.synonyms, data.species, data.primaryId];
@@ -84,6 +64,34 @@ class HeadMetaTags extends Component {
           },
           version: '2.0',
           license: 'CC BY 4.0',
+        }),
+      });
+
+      // based on this: https://github.com/BioSchemas/specifications/tree/master/Gene/examples
+      // bioschemas section
+      schemas.push({
+        type: 'application/ld+json',
+        innerHTML: JSON.stringify({
+          '@context': [
+            {
+              'bs': 'http://bioschemas.org/'
+            },
+            'http://schema.org',
+            {
+              '@base': 'http://schema.org'
+            }
+          ],
+          '@type': [
+            'bs:Gene'
+          ],
+          identifier: data.primaryId,
+          name: data.symbol,
+          url: `https://www.alliancegenome.org/gene/${data.primaryId}`,
+          dateCreated: new Date(data.dateProduced),
+          datePublished: new Date(data.dateProduced),
+          dateModified: new Date(data.dateProduced),
+          description: data.automatedGeneSynopsis + ' ' + (data.geneSynopsis || data.geneSynopsisUrl || ''),
+          // 'sameAs': `https://zfin.org/ZDB-GENE-001103-2`, // TODO: add resolver here
         }),
       });
     }
