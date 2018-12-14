@@ -16,8 +16,8 @@ const SpeciesIcon = ({species, scale, iconClass}) => {
     classes.push(iconClass);
   }
   const size = {
-    'min-width': 78 * scale,
-    'min-height': 90 * scale,
+    minWidth: 78 * scale,
+    minHeight: 90 * scale,
   };
   return <span className={classes.join(' ')} style={size} />;
 };
