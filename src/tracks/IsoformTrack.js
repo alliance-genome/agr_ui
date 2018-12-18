@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import { countIsoforms, findRange, checkSpace, calculateNewTrackPosition } from '../RenderFunctions';
 import { ApolloService } from '../services/services';
 
-export default class IsoformTrack{ 
+export default class IsoformTrack{
 
     constructor(viewer, track, height, width){
         this.trackData = {};
@@ -21,13 +21,13 @@ export default class IsoformTrack{
         let width = this.width;
         let MAX_ROWS = 10;
         let calculatedHeight = 500;
-    
+
         let UTR_feats= ["UTR","five_prime_UTR","three_prime_UTR"];
         let CDS_feats= ["CDS"];
         let exon_feats= ["exon"];
         let display_feats=["mRNA"];
         let dataRange = findRange(data,display_feats);
-    
+
         let view_start = dataRange.fmin;
         let view_end = dataRange.fmax;
         let exon_height = 10; // will be white / transparent
@@ -43,33 +43,34 @@ export default class IsoformTrack{
         let x = d3.scaleLinear()
             .domain([view_start, view_end])
             .range([0, width]);
-        
+
         // Calculate where this track should go and translate it
         let newTrackPosition = calculateNewTrackPosition(this.viewer);
         let track = viewer.append("g").attr('transform', 'translate(0,' + newTrackPosition + ')').attr("class", "track");
-            
+
         //need to build a new sortWeight since these can be dynamic
         let sortWeight = {};
-        for(var i=0,len = UTR_feats.length; i <len; i++){
+        for(let i=0,len = UTR_feats.length; i <len; i++){
             sortWeight[UTR_feats[i]]=200;
         }
-        for(var i=0,len = CDS_feats.length; i <len; i++){
+        for(let i=0,len = CDS_feats.length; i <len; i++){
             sortWeight[CDS_feats[i]]=1000;
         }
-        for(var i=0,len = exon_feats.length; i <len; i++){
+        for(let i=0,len = exon_feats.length; i <len; i++){
             sortWeight[exon_feats[i]]=100;
         }
-    
+
         //Testing if the countIsoforms function is broked
         //let numberIsoforms =2;
         let numberIsoforms = countIsoforms(data);
-        if (numberIsoforms > MAX_ROWS) {
-            calculatedHeight = (MAX_ROWS + 2) * isoform_height;
-        }
-        else {
-            calculatedHeight = (numberIsoforms + 1) * isoform_height;
-        }
-    
+        console.log('number of isoforms',numberIsoforms)
+        // if (numberIsoforms > MAX_ROWS) {
+        //     calculatedHeight = (MAX_ROWS + 2) * isoform_height;
+        // }
+        // else {
+        //     calculatedHeight = (numberIsoforms + 1) * isoform_height;
+        // }
+
         let row_count =0;
         let used_space = [];
         let fmin_display=-1;
@@ -85,7 +86,7 @@ export default class IsoformTrack{
 
             //do I need this?
             let maxRows = MAX_ROWS;
-            
+
             //May want to remove this and add an external sort function
             //outside of the render method to put certain features on top.
             featureChildren = featureChildren.sort(function (a, b) {
@@ -98,7 +99,8 @@ export default class IsoformTrack{
             featureChildren.forEach(function (featureChild) {
                 //
                 let featureType = featureChild.type;
-                
+
+                console.log(featureType)
                 if (display_feats.indexOf(featureType)>=0) {
                     //function to assign row based on available space.
                     // *** DANGER EDGE CASE ***/
@@ -258,7 +260,7 @@ export default class IsoformTrack{
                 .attr('fill', 'orange')
                 .attr('opacity', 0.6)
                 .text('Overview of non-coding genome features unavailable at this time.');
-    
+
         }
   }
 
@@ -271,6 +273,6 @@ export default class IsoformTrack{
     apolloService.GetIsoformTrack(dataUrl).then((data) =>{
             this.trackData = data;
             this.DrawTrack();
-    }); 
+    });
   }
 }
