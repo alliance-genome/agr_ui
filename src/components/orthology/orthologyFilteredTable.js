@@ -48,9 +48,9 @@ class OrthologyFilteredTable extends Component {
     return (
       meetMethodFilter &&
       dat.predictionMethodsMatched.length > this.state.filterScoreGreaterThan &&
-      (this.state.filterBest ? dat.isBestScore : true) &&
-      (this.state.filterReverseBest ? dat.isBestRevScore : true) &&
-      (this.state.filterSpecies ? dat.gene2SpeciesName === this.state.filterSpecies : true) &&
+      (this.state.filterBest ? dat.best : true) &&
+      (this.state.filterReverseBest ? dat.bestReverse : true) &&
+      (this.state.filterSpecies ? (dat.homologGene || {}).speciesName === this.state.filterSpecies : true) &&
       orthologyMeetsStringency(dat, this.state.stringencyLevel)
     );
   }
@@ -184,8 +184,9 @@ class OrthologyFilteredTable extends Component {
                   <option value="all">All</option>
                   {
                     this.props.data.reduce((all_species, dat) => {
-                      if (all_species.indexOf(dat.gene2SpeciesName) === -1) {
-                        return all_species.concat([dat.gene2SpeciesName]);
+                      const {homologGene = {}} = dat;
+                      if (all_species.indexOf(homologGene.speciesName) === -1) {
+                        return all_species.concat([homologGene.speciesName]);
                       } else {
                         return all_species;
                       }
@@ -249,14 +250,15 @@ OrthologyFilteredTable.propTypes = {
   // filterReverseBest: PropTypes.bool
   data: PropTypes.arrayOf(
     PropTypes.shape({
-      gene2AgrPrimaryId: PropTypes.string,
-      gene2Symbol: PropTypes.string,
+      homologGene: PropTypes.shape({
+        speciesName: PropTypes.string,
+      }),
       gene2SpeciesName: PropTypes.string,
       predictionMethodsMatched: PropTypes.arrayOf(PropTypes.string),
       predictionMethodsNotCalled: PropTypes.arrayOf(PropTypes.string),
       predictionMethodsNotMatched: PropTypes.arrayOf(PropTypes.string),
-      isBestScore: PropTypes.bool,
-      isBestRevScore: PropTypes.bool,
+      best: PropTypes.bool,
+      bestReverse: PropTypes.bool,
     })
   )
 };
