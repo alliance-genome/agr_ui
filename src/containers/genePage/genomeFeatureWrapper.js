@@ -7,13 +7,14 @@ import {
   AttributeLabel,
   AttributeValue,
 } from '../../components/attribute';
-import GenomeFeature from '../../components/genomeFeature/GenomeFeature';
+// import GenomeFeature from '../../components/genomeFeature/GenomeFeature';
 import numeral from 'numeral';
-import {getTranscriptTypes} from '../../lib/genomeFeatureTypes';
+// import {getTranscriptTypes} from '../../lib/genomeFeatureTypes';
 import ExternalLink from '../../components/externalLink';
 import LoadingSpinner from '../../components/loadingSpinner';
+import GenomeFeatureViewer from 'genomefeaturecomponent';
 
-class GenomeFeatureViewer extends Component {
+class GenomeFeatureWrapper extends Component {
 
   constructor(props) {
     super(props);
@@ -79,7 +80,7 @@ class GenomeFeatureViewer extends Component {
 
   loadData() {
     this.setState({loadState: 'loading'});
-    this.transcriptTypes = getTranscriptTypes();
+    // this.transcriptTypes = getTranscriptTypes();
     fetch(this.trackDataUrl)
       .then(function (response) {
         if (!response.ok) {
@@ -105,16 +106,41 @@ class GenomeFeatureViewer extends Component {
 
 
   render() {
-    const {assembly, chromosome, fmin, fmax, strand} = this.props;
+    const {assembly, chromosome, fmin, fmax, strand,geneSymbol,synonyms} = this.props;
     const lengthValue = numeral((fmax - fmin) / 1000.0).format('0,0.00');
 
+    let nameSuffix = [geneSymbol,...synonyms];
+    let nameSuffixString = nameSuffix.join('&name=');
+    if(nameSuffixString.length>0){
+      nameSuffixString = `?name=${nameSuffixString}`;
+    }
+
+    const configGlobal = {
+      'locale': 'global',
+      'chromosome': chromosome,
+      'start': fmin,
+      'end': fmax,
+      'tracks': [
+        {
+          'id': 1,
+          'genome': this.props.species,
+          'type': 'isoform',
+          'url': [
+            process.env.APOLLO_URL+'/track/',
+            '/All%20Genes/',
+            `.json${nameSuffixString}`
+          ]
+        },
+      ]
+    };
+    new GenomeFeatureViewer(configGlobal, `#${this.props.id}`, 700, 400);
     return (
       <div id='genomeViewer'>
         <AttributeList>
           <AttributeLabel>Genome location</AttributeLabel>
           <AttributeValue>
             <ExternalLink href={this.jbrowseUrl}>
-              {chromosome.toLowerCase().startsWith('chr') ? chromosome : 'Chr' +chromosome}:{fmin}...{fmax}
+              {chromosome.toLowerCase().startsWith('chr') ? chromosome : 'Chr' + chromosome}:{fmin}...{fmax}
             </ExternalLink> {strand} ({lengthValue} kb)
           </AttributeValue>
 
@@ -127,17 +153,8 @@ class GenomeFeatureViewer extends Component {
               href={this.jbrowseUrl} rel='noopener noreferrer'
               target='_blank' title='Browse Genome'
             >
-              {this.state.loadState === 'loading' ? <LoadingSpinner /> : ''}
-              {this.state.loadState === 'loaded' ?
-                <GenomeFeature
-                  data={this.state.loadedData}
-                  height={this.props.height}
-                  id={this.props.id}
-                  transcriptTypes={this.transcriptTypes}
-                  url={this.externalJBrowseUrl}
-                  width={this.props.width}
-                /> : ''
-              }
+              {this.state.loadState === 'loading' ? <LoadingSpinner/> : ''}
+              <div id={this.props.id} />
             </a>
             {this.state.loadState === 'error' ? <div className='text-danger'>Unable to retrieve data</div> : ''}
           </div>
@@ -150,7 +167,7 @@ class GenomeFeatureViewer extends Component {
 
 }
 
-GenomeFeatureViewer.propTypes = {
+GenomeFeatureWrapper.propTypes = {
   assembly: PropTypes.string,
   biotype: PropTypes.string,
   chromosome: PropTypes.string,
@@ -166,4 +183,4 @@ GenomeFeatureViewer.propTypes = {
   width: PropTypes.string,
 };
 
-export default GenomeFeatureViewer;
+export default GenomeFeatureWrapper;
