@@ -73,9 +73,11 @@ class GenomeFeatureWrapper extends Component {
 
   componentDidMount() {
     this.loadData();
+    this.loadGenomeFeature();
   }
 
   componentDidUpdate() {
+    this.loadGenomeFeature();
   }
 
   loadData() {
@@ -106,34 +108,9 @@ class GenomeFeatureWrapper extends Component {
 
 
   render() {
-    const {assembly, chromosome, fmin, fmax, strand,geneSymbol,synonyms} = this.props;
+    const {assembly, chromosome, fmin, fmax, strand} = this.props;
     const lengthValue = numeral((fmax - fmin) / 1000.0).format('0,0.00');
 
-    let nameSuffix = [geneSymbol,...synonyms];
-    let nameSuffixString = nameSuffix.join('&name=');
-    if(nameSuffixString.length>0){
-      nameSuffixString = `?name=${nameSuffixString}`;
-    }
-
-    const configGlobal = {
-      'locale': 'global',
-      'chromosome': chromosome,
-      'start': fmin,
-      'end': fmax,
-      'tracks': [
-        {
-          'id': 1,
-          'genome': this.props.species,
-          'type': 'isoform',
-          'url': [
-            process.env.APOLLO_URL+'/track/',
-            '/All%20Genes/',
-            `.json${nameSuffixString}`
-          ]
-        },
-      ]
-    };
-    new GenomeFeatureViewer(configGlobal, `#${this.props.id}`, 700, 400);
     return (
       <div id='genomeViewer'>
         <AttributeList>
@@ -154,17 +131,44 @@ class GenomeFeatureWrapper extends Component {
               target='_blank' title='Browse Genome'
             >
               {this.state.loadState === 'loading' ? <LoadingSpinner/> : ''}
-              <div id={this.props.id} />
+              <div id={this.props.id}>LOAD HERE</div>
             </a>
             {this.state.loadState === 'error' ? <div className='text-danger'>Unable to retrieve data</div> : ''}
           </div>
         </div>
       </div>
-    )
-    ;
+    ) ;
   }
 
 
+  loadGenomeFeature() {
+    const {chromosome, fmin, fmax, geneSymbol, synonyms} = this.props;
+    let nameSuffix = [geneSymbol, ...synonyms];
+    let nameSuffixString = nameSuffix.join('&name=');
+    if (nameSuffixString.length > 0) {
+      nameSuffixString = `?name=${nameSuffixString}`;
+    }
+
+    const configGlobal = {
+      'locale': 'global',
+      'chromosome': chromosome,
+      'start': fmin,
+      'end': fmax,
+      'tracks': [
+        {
+          'id': 1,
+          'genome': this.props.species,
+          'type': 'isoform',
+          'url': [
+            process.env.APOLLO_URL + '/track/',
+            '/All%20Genes/',
+            `.json${nameSuffixString}`
+          ]
+        },
+      ]
+    };
+    new GenomeFeatureViewer(configGlobal, `#${this.props.id}`, 700, 400);
+  }
 }
 
 GenomeFeatureWrapper.propTypes = {
