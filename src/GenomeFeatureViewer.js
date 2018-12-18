@@ -1,4 +1,6 @@
 "use strict";
+
+import 'babel-polyfill';
 import Drawer from "./Drawer";
 import * as d3 from "d3";
 
@@ -116,3 +118,8 @@ export default class GenomeFeatureViewer {
         this.config["end"] = end;
     }
 }
+
+// The use of 'output.library' in webpack config provides
+// the variable 'GenomeFeatureViewer' to 'window', so we don't need
+// the following anymore:
+// window.GenomeFeatureViewer = GenomeFeatureViewer;

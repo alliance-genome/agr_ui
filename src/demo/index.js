@@ -1,5 +1,5 @@
-import GenomeFeatureViewer  from "../../src/GenomeFeatureViewer";
-import { ApolloService } from '../../src/services/services';
+import GenomeFeatureViewer from 'GenomeFeatureViewer';
+//DELETE?UNUSED? import { ApolloService } from '../../src/services/services';
 
 // Global View Example
 
