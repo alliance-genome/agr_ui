@@ -44,29 +44,30 @@ class OrthologyTable extends Component {
               compareByFixedOrder(TAXON_ORDER, o => o.gene2Species),
               (orthDataA, orthDataB) => orthDataB.predictionMethodsMatched.length - orthDataA.predictionMethodsMatched.length
             ]).map((orthData, idx, orthList) => {
+              const gene2 = orthData.homologGene || {};
               const scoreNumerator = orthData.predictionMethodsMatched.length;
               const scoreDemominator = scoreNumerator +
                 orthData.predictionMethodsNotMatched.length;
 
-              if (idx > 0 && orthList[idx - 1].gene2Species !== orthData.gene2Species) {
+              if (idx > 0 && orthList[idx - 1].gene2Species !== gene2.speciesName) {
                 rowGroup += 1;
               }
 
-              const key = orthData.gene2AgrPrimaryId;
+              const key = gene2.geneID;
               return (
                 <tr key={key} style={{backgroundColor: rowGroup % 2 === 0 ? '#eee' : ''}} >
-                  <td style={{fontStyle: 'italic'}}>{orthData.gene2SpeciesName}</td>
+                  <td style={{fontStyle: 'italic'}}>{gene2.speciesName}</td>
                   <td>
-                    <Link to={`/gene/${orthData.gene2AgrPrimaryId}`}>{orthData.gene2Symbol}</Link>
+                    <Link to={`/gene/${gene2.geneID}`}>{gene2.symbol}</Link>
                   </td>
                   <td>{`${scoreNumerator} of ${scoreDemominator}`}</td>
                   <BooleanCell
                     isTrueFunc={(value) => value === 'Yes'}
-                    value={orthData.isBestScore}
+                    value={orthData.best}
                   />
                   <BooleanCell
                     isTrueFunc={(value) => value === 'Yes'}
-                    value={orthData.isBestRevScore}
+                    value={orthData.bestReverse}
                   />
                   <MethodCell
                     predictionMethodsMatched={orthData.predictionMethodsMatched}
@@ -86,14 +87,16 @@ class OrthologyTable extends Component {
 OrthologyTable.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
-      gene2AgrPrimaryId: PropTypes.string,
-      gene2Symbol: PropTypes.string,
-      gene2SpeciesName: PropTypes.string,
+      gene: PropTypes.shape({
+        geneID: PropTypes.string,
+        symbol: PropTypes.string,
+        speciesName: PropTypes.string,
+      }),
       predictionMethodsMatched: PropTypes.arrayOf(PropTypes.string),
       predictionMethodsNotCalled: PropTypes.arrayOf(PropTypes.string),
       predictionMethodsNotMatched: PropTypes.arrayOf(PropTypes.string),
-      isBestScore: PropTypes.bool,
-      isBestRevScore: PropTypes.bool,
+      best: PropTypes.bool,
+      bestReverse: PropTypes.bool,
     })
   )
 };

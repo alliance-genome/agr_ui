@@ -169,7 +169,11 @@ class GenePage extends Component {
           <Subsection title={ORTHOLOGY}>
             <OrthologyBasicInfo pantherCrossReference={data.crossReferences.panther} />
             <Subsection hasData={(data.orthology || []).length > 0}>
-              <OrthologyFilteredTable data={data.orthology} />
+              <DataLoader url={`/api/gene/${data.primaryId}/homologs?stringencyFilter=all&rows=${1000}`}>
+                {({data}) => (
+                  <OrthologyFilteredTable data={data.results} />
+                )}
+              </DataLoader>
               <OrthologyUserGuide />
             </Subsection>
           </Subsection>
