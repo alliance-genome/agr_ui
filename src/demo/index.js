@@ -34,6 +34,25 @@ let configGlobal2 = {
     "chromosome": "2L",
     "start": 19400752,
     "end": 19426596,
+    "transcriptTypes":  [
+        'mRNA', 'ncRNA', 'piRNA'
+        , 'lincRNA'
+        , 'miRNA'
+        , 'pre_miRNA'
+        , 'snoRNA'
+        , 'lnc_RNA'
+        , 'tRNA'
+        , 'snRNA'
+        , 'rRNA'
+        , 'ARS'
+        , 'antisense_RNA'
+
+
+        , 'C_gene_segment'
+        , 'V_gene_segment'
+        , 'pseudogene_attribute'
+        ,'snoRNA_gene'
+    ],
     "tracks": [
         {
             "id": 1,
@@ -42,7 +61,7 @@ let configGlobal2 = {
             "url": [
                 "https://agr-apollo.berkeleybop.io/apollo/track/",
                 "/All%20Genes/",
-                ".json"
+                ".json?name=Pax"
             ]
         },
     ]

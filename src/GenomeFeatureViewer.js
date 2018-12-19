@@ -36,18 +36,18 @@ export default class GenomeFeatureViewer {
         // Ensure we have config type
         // TODO: Make sure we have top label information
         let locale = config["locale"];
-        if (locale != "global" && locale != "local") {
+        if (locale !== "global" && locale !== "local") {
             throw new Error("No locale found in config. Must be 'global' or 'local'");
         }
         // Ensure we have tracks
         let tracks = config["tracks"];
-        if (!tracks || tracks.length == 0) {
+        if (!tracks || tracks.length === 0) {
             throw new Error("No tracks found. Must be an array of tracks.");
         }
 
         this._setProperties(config);
     }
-    
+
     // Create an extension on our d3
     _extendD3(){
         d3.selection.prototype.first = function() {
@@ -65,19 +65,20 @@ export default class GenomeFeatureViewer {
     // Set our properties since we know config is valid
     _setProperties(config) {
         this.config = config;
+        // console.log('setting config',this.config)
         this.tracks = config["tracks"];
         this.locale = config["locale"];
     }
 
     // Creating our drawing space.
     _initViewer(svg_target) {
-        console.log("[GFCLog] Initializing for " + svg_target);
+        // console.log("[GFCLog] Initializing for " + svg_target);
         d3.select(svg_target).selectAll("*").remove();
         let viewer = d3.select(svg_target);
         let svgClass = svg_target.replace("#", '');
-        let mainViewClass = svgClass + " main-view"
+        let mainViewClass = svgClass + " main-view";
 
-        if (this.locale == "global") {
+        if (this.locale === "global") {
             let margin = {top: 8, right: 30, bottom: 30, left: 40};
             viewer.attr('width', this.width).attr("height", this.height).append('g')
                 .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')').attr("class", mainViewClass);
