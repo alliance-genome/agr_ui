@@ -27,7 +27,7 @@ let configGlobal1 = {
     ]
 };
 
-// new GenomeFeatureViewer(configGlobal1, "#viewer1", 700, 400);
+new GenomeFeatureViewer(configGlobal1, "#viewer1", 700, 500);
 
 let configGlobal2 = {
     "locale": "global",
@@ -67,7 +67,7 @@ let configGlobal2 = {
     ]
 };
 
-new GenomeFeatureViewer(configGlobal2, "#viewer2", 700, 400);
+new GenomeFeatureViewer(configGlobal2, "#viewer2", 700, 500);
 
 // Local View Example
 // Right now we enter in with a specific location, center it in the viewer.
@@ -95,4 +95,4 @@ let configLocal3 = {
  };
 
 
- // new GenomeFeatureViewer(configLocal3, "#viewer3", 900, 400)
+ new GenomeFeatureViewer(configLocal3, "#viewer3", 900, 400);

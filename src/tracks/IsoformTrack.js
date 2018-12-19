@@ -9,7 +9,6 @@ export default class IsoformTrack {
         this.viewer = viewer;
         this.width = width;
         this.height = height;
-        console.log('input types', transcriptTypes)
         this.transcriptTypes = transcriptTypes;
         this.getTrackData(track);
     }
@@ -22,7 +21,7 @@ export default class IsoformTrack {
         console.log('data', data)
         let viewer = this.viewer;
         let width = this.width;
-        let MAX_ROWS = 11;
+        let MAX_ROWS = 10;
         let calculatedHeight = 500;
 
         let UTR_feats = ["UTR", "five_prime_UTR", "three_prime_UTR"];
@@ -79,7 +78,7 @@ export default class IsoformTrack {
         // FOR NOW LETS FOCUS ON ONE GENE ISOFORM
         // **************************************
         // let feature = data[0];
-        for (let i = 0 ; i < data.length && row_count <= MAX_ROWS+1; i++) {
+        for (let i = 0 ; i < data.length && row_count < MAX_ROWS; i++) {
             let feature = data[i];
             let featureChildren = feature.children;
             if (featureChildren) {
@@ -99,13 +98,11 @@ export default class IsoformTrack {
                     //
                     let featureType = featureChild.type;
 
-                    // console.log(featur eType)
                     if (display_feats.indexOf(featureType) >= 0) {
                         //function to assign row based on available space.
                         // *** DANGER EDGE CASE ***/
                         let current_row = checkSpace(used_space, x(featureChild.fmin), x(featureChild.fmax));
-
-                        if (current_row <= MAX_ROWS) {
+                        if (row_count < MAX_ROWS) {
                             // An isoform container
                             let isoform = track.append("g").attr("class", "isoform")
                                 .attr("transform", "translate(0," + ((row_count * isoform_height) + 10) + ")")
@@ -235,15 +232,17 @@ export default class IsoformTrack {
                             });
                             row_count += 1;
                         }
-                        else if (current_row === MAX_ROWS) {
+                        if (row_count === MAX_ROWS) {
                             // *** DANGER EDGE CASE ***/
-                            console.log('current_row ',current_row)
                             ++current_row;
+                            // let isoform = track.append("g").attr("class", "isoform")
+                            //     .attr("transform", "translate(0," + ((row_count * isoform_height) + 10) + ")")
                             track.append('a')
                                 .attr('class', 'transcriptLabel')
                                 .attr('xlink:show', 'new')
                                 .append('text')
                                 .attr('x', x(feature.fmin) + 30)
+                                .attr("transform", "translate(0," + ((row_count * isoform_height)+10 ) + ")")
                                 .attr('fill', 'red')
                                 .attr('opacity', 1)
                                 .attr('height', isoform_title_height)
