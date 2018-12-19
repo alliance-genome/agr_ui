@@ -74,7 +74,7 @@ class GenomeFeatureWrapper extends Component {
 
   componentDidMount() {
     this.loadData();
-    this.loadGenomeFeature();
+    // this.loadGenomeFeature();
   }
 
   componentDidUpdate() {
@@ -107,6 +107,35 @@ class GenomeFeatureWrapper extends Component {
       });
   }
 
+  loadGenomeFeature() {
+    const {chromosome, fmin, fmax, geneSymbol, synonyms} = this.props;
+    let nameSuffix = [geneSymbol, ...synonyms];
+    let nameSuffixString = nameSuffix.join('&name=');
+    if (nameSuffixString.length > 0) {
+      nameSuffixString = `?name=${nameSuffixString}`;
+    }
+
+    const configGlobal = {
+      'locale': 'global',
+      'chromosome': chromosome,
+      'start': fmin,
+      'end': fmax,
+      'transcriptTypes':getTranscriptTypes,
+      'tracks': [
+        {
+          'id': 1,
+          'genome': this.props.species,
+          'type': 'isoform',
+          'url': [
+            process.env.APOLLO_URL + '/track/',
+            '/All%20Genes/',
+            `.json${nameSuffixString}`
+          ]
+        },
+      ]
+    };
+    new GenomeFeatureViewer(configGlobal, `#${this.props.id}`, 700, 500);
+  }
 
   render() {
     const {assembly, chromosome, fmin, fmax, strand} = this.props;
@@ -142,35 +171,6 @@ class GenomeFeatureWrapper extends Component {
   }
 
 
-  loadGenomeFeature() {
-    const {chromosome, fmin, fmax, geneSymbol, synonyms} = this.props;
-    let nameSuffix = [geneSymbol, ...synonyms];
-    let nameSuffixString = nameSuffix.join('&name=');
-    if (nameSuffixString.length > 0) {
-      nameSuffixString = `?name=${nameSuffixString}`;
-    }
-
-    const configGlobal = {
-      'locale': 'global',
-      'chromosome': chromosome,
-      'start': fmin,
-      'end': fmax,
-      'transcriptTypes':getTranscriptTypes,
-      'tracks': [
-        {
-          'id': 1,
-          'genome': this.props.species,
-          'type': 'isoform',
-          'url': [
-            process.env.APOLLO_URL + '/track/',
-            '/All%20Genes/',
-            `.json${nameSuffixString}`
-          ]
-        },
-      ]
-    };
-    new GenomeFeatureViewer(configGlobal, `#${this.props.id}`, 700, 500);
-  }
 }
 
 GenomeFeatureWrapper.propTypes = {
