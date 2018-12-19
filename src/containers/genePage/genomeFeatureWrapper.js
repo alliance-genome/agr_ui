@@ -12,6 +12,8 @@ import numeral from 'numeral';
 import ExternalLink from '../../components/externalLink';
 import GenomeFeatureViewer from 'genomefeaturecomponent';
 import {getTranscriptTypes} from '../../lib/genomeFeatureTypes';
+import LoadingSpinner from '../../components/loadingSpinner';
+import '../../style.scss';
 
 class GenomeFeatureWrapper extends Component {
 
@@ -126,7 +128,9 @@ class GenomeFeatureWrapper extends Component {
               href={this.jbrowseUrl} rel='noopener noreferrer'
               target='_blank' title='Browse Genome'
             >
-              <svg id={this.props.id}>LOAD HERE</svg>
+              <svg id={this.props.id}>
+                <LoadingSpinner/>
+              </svg>
             </a>
             {this.state.loadState === 'error' ? <div className='text-danger'>Unable to retrieve data</div> : ''}
           </div>
