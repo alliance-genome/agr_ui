@@ -71,22 +71,7 @@ function doResize(fmin_display, fmax_display, viewer, width,newx)
     }
   });
 
-  // TODO: remove unused?
-  var text_label = viewer.selectAll("text.transcriptLabel")
-    .attr("x", function(d){
-      return Number(newx(d.fmin))
-    })
-    .attr("class",function(d){
-      text_width = this.getBBox().width;
-      if((newx(d.fmin)+text_width)>width){
-        return "REMOVE";
-      }
-      else {
-        return "transcriptLabel";
-      }
-    });
-
-    viewer.selectAll("text.REMOVE").remove();
+   viewer.selectAll("text.REMOVE").remove();
 }
 
 //Function to find range
@@ -153,21 +138,21 @@ function calculateNewTrackPosition(viewer){
     return usedHeight;
 }
 // Nasty function to get translate values since d3 deprecated.
-function getTranslate(transform) 
+function getTranslate(transform)
   {
       // Create a dummy g for calculation purposes only. This will never
-      // be appended to the DOM and will be discarded once this function 
+      // be appended to the DOM and will be discarded once this function
       // returns.
       var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-      
+
       // Set the transform attribute to the provided string value.
       g.setAttributeNS(null, "transform", transform);
-      
+
       // consolidate the SVGTransformList containing all transformations
       // to a single SVGTransform of type SVG_TRANSFORM_MATRIX and get
-      // its SVGMatrix. 
+      // its SVGMatrix.
       var matrix = g.transform.baseVal.consolidate().matrix;
-      
+
       // As per definition values e and f are the ones for the translation.
       return [matrix.e, matrix.f];
   }
