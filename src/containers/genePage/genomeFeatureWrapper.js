@@ -9,9 +9,7 @@ import {
 } from '../../components/attribute';
 // import GenomeFeature from '../../components/genomeFeature/GenomeFeature';
 import numeral from 'numeral';
-// import {getTranscriptTypes} from '../../lib/genomeFeatureTypes';
 import ExternalLink from '../../components/externalLink';
-import LoadingSpinner from '../../components/loadingSpinner';
 import GenomeFeatureViewer from 'genomefeaturecomponent';
 import {getTranscriptTypes} from '../../lib/genomeFeatureTypes';
 
@@ -19,9 +17,6 @@ class GenomeFeatureWrapper extends Component {
 
   constructor(props) {
     super(props);
-
-    // this.featureTypeHandler = new FeatureTypeHandler();
-
     let defaultTrackName = 'All Genes'; // this is the generic track name
     let locationString = this.props.chromosome + ':' + this.props.fmin + '..' + this.props.fmax;
     let apolloServerPrefix = process.env.APOLLO_URL;
@@ -72,40 +67,10 @@ class GenomeFeatureWrapper extends Component {
   }
 
 
-  componentDidMount() {
-    this.loadData();
-    // this.loadGenomeFeature();
-  }
-
   componentDidUpdate() {
     this.loadGenomeFeature();
   }
 
-  loadData() {
-    this.setState({loadState: 'loading'});
-    // this.transcriptTypes = getTranscriptTypes();
-    fetch(this.trackDataUrl)
-      .then(function (response) {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-        return response;
-      })
-      .then((response) => {
-        response.json().then(data => {
-          this.setState({
-            loadState: 'loaded'
-            , loadedData: data
-          });
-          return data;
-        });
-      })
-      .catch(() => {
-        this.setState({
-          loadState: 'error'
-        });
-      });
-  }
 
   loadGenomeFeature() {
     const {chromosome, fmin, fmax, geneSymbol, synonyms} = this.props;
@@ -115,12 +80,13 @@ class GenomeFeatureWrapper extends Component {
       nameSuffixString = `?name=${nameSuffixString}`;
     }
 
+    let transcriptTypes = getTranscriptTypes();
     const configGlobal = {
       'locale': 'global',
       'chromosome': chromosome,
       'start': fmin,
       'end': fmax,
-      'transcriptTypes':getTranscriptTypes,
+      'transcriptTypes':transcriptTypes,
       'tracks': [
         {
           'id': 1,
@@ -160,8 +126,7 @@ class GenomeFeatureWrapper extends Component {
               href={this.jbrowseUrl} rel='noopener noreferrer'
               target='_blank' title='Browse Genome'
             >
-              {this.state.loadState === 'loading' ? <LoadingSpinner/> : ''}
-              <div id={this.props.id}>LOAD HERE</div>
+              <svg id={this.props.id}>LOAD HERE</svg>
             </a>
             {this.state.loadState === 'error' ? <div className='text-danger'>Unable to retrieve data</div> : ''}
           </div>
