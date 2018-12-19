@@ -20,7 +20,6 @@ export default class Drawer {
         this.drag_cx = 0;
         this.drag_prev = 0;
         this.range = [];
-        console.log('the gfc',this.gfc)
     }
 
     async draw(){
@@ -62,7 +61,6 @@ export default class Drawer {
         let end = sequenceOptions["end"];
 
         // Draw our reference if it's local for now.
-        // console.log("[GCLog] Drawing reference..");
         const referenceTrack = new ReferenceTrack(viewer,
             {"chromosome": chromosome, "start": start, "end": end, "range": sequenceOptions["range"]},
             height, width);
@@ -84,7 +82,6 @@ export default class Drawer {
 
         // Always take the start end of our view.
         // TODO: Lock view to always have some number of sequence (50, 100)?
-        // console.log("[GFCLog] Drawing tracks..");
         tracks.forEach(async function(track) {
             track["start"] = start;
             track["end"] = end;
@@ -156,7 +153,6 @@ export default class Drawer {
     */
     scrollView(direction, scrollValue)
     {
-        console.log(scrollValue);
         let ref = this;
         // We want to move the track in a direction when dragging
         // thresholds for end of the sequence
