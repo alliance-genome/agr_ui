@@ -93,7 +93,7 @@ class GenomeFeatureWrapper extends Component {
           'genome': this.props.species,
           'type': 'isoform',
           'url': [
-            process.env.APOLLO_URL + '/track/',
+            this.trackDataUrl,
             '/All%20Genes/',
             `.json${nameSuffixString}`
           ]
