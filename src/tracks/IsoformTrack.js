@@ -64,16 +64,6 @@ export default class IsoformTrack {
             sortWeight[exon_feats[i]] = 100;
         }
 
-        //Testing if the countIsoforms function is broked
-        //let numberIsoforms =2;
-        // let numberIsoforms = countIsoforms(data);
-        // console.log('number of isoforms',numberIsoforms)
-        // if (numberIsoforms > MAX_ROWS) {
-        //     calculatedHeight = (MAX_ROWS + 2) * isoform_height;
-        // }
-        // else {
-        //     calculatedHeight = (numberIsoforms + 1) * isoform_height;
-        // }
 
         data = data.sort(function (a, b) {
             if (a.selected && !b.selected) return -1;
@@ -131,7 +121,7 @@ export default class IsoformTrack {
                                         return 'translate(' + Number(x(d.fmax)) + ',0)';
                                     }
                                     else {
-                                        return 'translate(' + Number(x(d.fmin)) + ',0) rotate(180)';
+                                        return 'translate(' + Number(x(d.fmin)) + ','+arrow_height+') rotate(180)';
                                     }
                                 });
 
