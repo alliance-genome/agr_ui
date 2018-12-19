@@ -13,6 +13,7 @@ import numeral from 'numeral';
 import ExternalLink from '../../components/externalLink';
 import LoadingSpinner from '../../components/loadingSpinner';
 import GenomeFeatureViewer from 'genomefeaturecomponent';
+import {getTranscriptTypes} from '../../lib/genomeFeatureTypes';
 
 class GenomeFeatureWrapper extends Component {
 
@@ -154,6 +155,7 @@ class GenomeFeatureWrapper extends Component {
       'chromosome': chromosome,
       'start': fmin,
       'end': fmax,
+      'transcriptTypes':getTranscriptTypes,
       'tracks': [
         {
           'id': 1,
@@ -167,7 +169,7 @@ class GenomeFeatureWrapper extends Component {
         },
       ]
     };
-    new GenomeFeatureViewer(configGlobal, `#${this.props.id}`, 700, 400);
+    new GenomeFeatureViewer(configGlobal, `#${this.props.id}`, 700, 500);
   }
 }
 
