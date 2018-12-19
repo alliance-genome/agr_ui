@@ -129,25 +129,34 @@ export default class IsoformTrack {
                                 .attr("transform", "translate(" + x(featureChild.fmin) + ",0)")
                                 .attr('width', x(featureChild.fmax) - x(featureChild.fmin))
                                 .datum({fmin: featureChild.fmin, fmax: featureChild.fmax});
-
-                            var text_label = isoform.append('text')
+                            let text_string = featureChild.name + " (" + feature.name + ")";
+                            let text_label = isoform.append('text')
                                 .attr('class', 'transcriptLabel')
                                 .attr('fill', selected ? 'sandybrown' : 'gray')
                                 .attr('opacity', selected ? 1 : 0.5)
                                 .attr('height', isoform_title_height)
                                 .attr("transform", "translate(" + x(featureChild.fmin) + ",0)")
-                                .text(featureChild.name + " (" + feature.name + ")")
+                                .text(text_string)
                                 .datum({fmin: featureChild.fmin});
 
                             //Now that the label has been created we can calculate the space that
                             //this new element is taking up making sure to add in the width of
                             //the box.
-                            var text_width = text_label.node().getBBox().width;
+                            // TODO: this is just an estimate of the length
+                            let text_width = text_string.length * 2 ;
+                            let feat_end;
+
+                            // not some instances (as in reactjs?) the bounding box isn't available, so we have to guess
+                            try{
+                                text_width = text_label.node().getBBox().width;
+                            }
+                            catch(e){
+                                console.log('Not yet rendered',e)
+                            }
                             //First check to see if label goes past the end
                             if (Number(text_width + x(featureChild.fmin)) > width) {
                                 console.error(featureChild.name + " goes over the edge");
                             }
-                            let feat_end;
                             if (text_width > x(featureChild.fmax) - x(featureChild.fmin)) {
                                 feat_end = x(featureChild.fmin) + text_width;
                             }
