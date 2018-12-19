@@ -241,7 +241,7 @@ export default class IsoformTrack {
                                 .attr('class', 'transcriptLabel')
                                 .attr('xlink:show', 'new')
                                 .append('text')
-                                .attr('x', x(feature.fmin) + 30)
+                                .attr('x', 10)
                                 .attr("transform", "translate(0," + ((row_count * isoform_height)+10 ) + ")")
                                 .attr('fill', 'red')
                                 .attr('opacity', 1)
