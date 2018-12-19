@@ -18,7 +18,6 @@ export default class IsoformTrack {
     // for both testing/extensibility
     DrawTrack() {
         let data = this.trackData;
-        console.log('data', data)
         let viewer = this.viewer;
         let width = this.width;
         let MAX_ROWS = 10;
@@ -29,7 +28,6 @@ export default class IsoformTrack {
         let exon_feats = ["exon"];
         let display_feats = this.transcriptTypes;
         let dataRange = findRange(data, display_feats);
-        console.log('data range', dataRange)
 
         let view_start = dataRange.fmin;
         let view_end = dataRange.fmax;
@@ -151,11 +149,11 @@ export default class IsoformTrack {
                                 text_width = text_label.node().getBBox().width;
                             }
                             catch(e){
-                                console.log('Not yet rendered',e)
+                                // console.error('Not yet rendered',e)
                             }
                             //First check to see if label goes past the end
                             if (Number(text_width + x(featureChild.fmin)) > width) {
-                                console.error(featureChild.name + " goes over the edge");
+                                // console.error(featureChild.name + " goes over the edge");
                             }
                             if (text_width > x(featureChild.fmax) - x(featureChild.fmin)) {
                                 feat_end = x(featureChild.fmin) + text_width;
@@ -281,7 +279,6 @@ export default class IsoformTrack {
         let apolloService = new ApolloService();
         apolloService.GetIsoformTrack(dataUrl).then((data) => {
             this.trackData = data;
-            console.log('got track data', this.trackData)
             this.DrawTrack();
         });
     }
