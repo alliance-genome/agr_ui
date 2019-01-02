@@ -1,5 +1,3 @@
-/*eslint-disable react/no-set-state */
-
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -7,7 +5,6 @@ import {
   AttributeLabel,
   AttributeValue,
 } from '../../components/attribute';
-// import GenomeFeature from '../../components/genomeFeature/GenomeFeature';
 import numeral from 'numeral';
 import ExternalLink from '../../components/externalLink';
 import GenomeFeatureViewer from 'genomefeaturecomponent';
@@ -102,7 +99,7 @@ class GenomeFeatureWrapper extends Component {
         },
       ]
     };
-    new GenomeFeatureViewer(configGlobal, `#${this.props.id}`, 700, 500);
+    new GenomeFeatureViewer(configGlobal, `#${this.props.id}`, 700, 400);
   }
 
   render() {
@@ -123,7 +120,7 @@ class GenomeFeatureWrapper extends Component {
           <AttributeValue>{assembly}</AttributeValue>
         </AttributeList>
         <div className='row'>
-          <div className='col-12'>
+          <div className='overflow'>
             <a
               href={this.jbrowseUrl} rel='noopener noreferrer'
               target='_blank' title='Browse Genome'
