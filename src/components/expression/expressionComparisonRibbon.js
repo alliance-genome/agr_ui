@@ -110,7 +110,7 @@ class ExpressionComparisonRibbon extends React.Component {
                     geneId={geneId}
                     groups={groups}
                     onClick={this.handleBlockClick}
-                    overrideColor={geneTaxon === TAXON_IDS.HUMAN && '#dedede' ? 't' : 'f'}
+                    overrideColor={geneTaxon === TAXON_IDS.HUMAN && '#dedede'}
                     selectedTerm={selectedTerm}
                     showSeparatorLabels={selectedOrthologs.length === 0}
                   />
