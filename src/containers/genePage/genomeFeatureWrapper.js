@@ -11,6 +11,7 @@ import GenomeFeatureViewer from 'genomefeaturecomponent';
 import {getTranscriptTypes} from '../../lib/genomeFeatureTypes';
 import LoadingSpinner from '../../components/loadingSpinner';
 import '../../style.scss';
+import HorizontalScroll from '../../components/horizontalScroll';
 
 class GenomeFeatureWrapper extends Component {
 
@@ -99,7 +100,7 @@ class GenomeFeatureWrapper extends Component {
         },
       ]
     };
-    new GenomeFeatureViewer(configGlobal, `#${this.props.id}`, 700, 400);
+    new GenomeFeatureViewer(configGlobal, `#${this.props.id}`, 900, 500);
   }
 
   render() {
@@ -120,7 +121,7 @@ class GenomeFeatureWrapper extends Component {
           <AttributeValue>{assembly}</AttributeValue>
         </AttributeList>
         <div className='row'>
-          <div className='overflow'>
+          <HorizontalScroll width={960}>
             <a
               href={this.jbrowseUrl} rel='noopener noreferrer'
               target='_blank' title='Browse Genome'
@@ -130,7 +131,7 @@ class GenomeFeatureWrapper extends Component {
               </svg>
             </a>
             {this.state.loadState === 'error' ? <div className='text-danger'>Unable to retrieve data</div> : ''}
-          </div>
+          </HorizontalScroll>
         </div>
       </div>
     ) ;
