@@ -100,7 +100,7 @@ class GenomeFeatureWrapper extends Component {
         },
       ]
     };
-    new GenomeFeatureViewer(configGlobal, `#${this.props.id}`, 900, 500);
+    new GenomeFeatureViewer(configGlobal, `#${this.props.id}`, 900, null);
   }
 
   render() {
