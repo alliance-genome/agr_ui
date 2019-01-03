@@ -67,7 +67,7 @@ let configGlobal2 = {
     ]
 };
 
-new GenomeFeatureViewer(configGlobal2, "#viewer2", 700, 500);
+new GenomeFeatureViewer(configGlobal2, "#viewer2", 700, null);
 
 // Local View Example
 // Right now we enter in with a specific location, center it in the viewer.

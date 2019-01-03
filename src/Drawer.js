@@ -5,6 +5,8 @@ import VariantTrack from './tracks/VariantTrack';
 import VariantTrackGlobal from './tracks/VariantTrackGlobal';
 import * as d3 from "d3";
 import { getTranslate } from './RenderFunctions';
+
+const LABEL_OFFSET = 100 ;
 /*
 *   Main Drawing class
 *   @Param viewer: the entire viewer
@@ -39,7 +41,6 @@ export default class Drawer {
         if(locale === "local"){
             width  = document.body.clientWidth;
             // Other setup
-            let labelOffset = 100;
             draggingViewer = evt => this.dragged(this);
             draggingStart = evt => this.drag_start(this);
             // Setting our clip path view to enable the scrolling effect
@@ -47,14 +48,14 @@ export default class Drawer {
             .append("rect").attr("id","clip-rect")
             .attr("x", "0").attr("y", "0")
             .attr("height", height)
-            .attr("width", this.gfc["width"] - labelOffset)
-            .attr("transform", "translate(" + labelOffset + ",0)");
+            .attr("width", this.gfc["width"] - LABEL_OFFSET)
+            .attr("transform", "translate(" + LABEL_OFFSET + ",0)");
             viewer.attr("clip-path", "url(#clip)");
         }
 
         let options = this.gfc["config"];
         // Sequence information
-        let sequenceOptions = this._configureRange(options["start"], options["end"], width)
+        let sequenceOptions = this._configureRange(options["start"], options["end"], width);
         this.range = sequenceOptions["range"];
         let chromosome = options["chromosome"];
         let start = sequenceOptions["start"];
@@ -82,13 +83,16 @@ export default class Drawer {
 
         // Always take the start end of our view.
         // TODO: Lock view to always have some number of sequence (50, 100)?
+        let track_height = LABEL_OFFSET ;
         tracks.forEach(async function(track) {
             track["start"] = start;
             track["end"] = end;
             track["chromosome"] = chromosome;
             if(track.type === "isoform")
             {
-                new IsoformTrack(viewer, track, height, width,transcriptTypes);
+                const isoformTrack = new IsoformTrack(viewer, track, height, width,transcriptTypes);
+                await isoformTrack.getTrackData(track);
+                track_height += isoformTrack.DrawTrack();
             }
             else if(track.type === "variant")
             {
@@ -106,6 +110,7 @@ export default class Drawer {
             {
                 console.error("TrackType not found for " + track["id"] + "...");
             }
+            d3.select(svg_target).attr('height',track_height)
         });
     }
 
@@ -124,7 +129,7 @@ export default class Drawer {
     */
     dragged(ref){
         // Get tick size for our scroll value
-        let viewerTicks = ref.gfc["svg_target"] + " .x-local-axis .tick"
+        let viewerTicks = ref.gfc["svg_target"] + " .x-local-axis .tick";
         let scrollValue = parseInt(d3.select(viewerTicks).node().getBoundingClientRect().width) * 2;
         if(ref.drag_cx != d3.event.x){
             // Figure out which way the user wants to go.

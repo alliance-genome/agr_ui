@@ -88,17 +88,19 @@ function findRange(data, display_feats)
     for (let d in data) {
       let feature = data[d];
       let featureChildren = feature.children;
-      featureChildren.forEach(function (featureChild) {
-            if (display_feats.indexOf(featureChild.type)>=0){
-              if (fmin < 0 || featureChild.fmin < fmin) {
-                fmin = featureChild.fmin;
+      if(featureChildren){
+          featureChildren.forEach(function (featureChild) {
+              if (display_feats.indexOf(featureChild.type) >= 0) {
+                  if (fmin < 0 || featureChild.fmin < fmin) {
+                      fmin = featureChild.fmin;
+                  }
+                  if (fmax < 0 || featureChild.fmax > fmax) {
+                      fmax = featureChild.fmax;
+                  }
               }
-              if (fmax < 0 || featureChild.fmax > fmax) {
-                fmax = featureChild.fmax;
-              }
-            }
-        });//transcript level
+          });//transcript level
       }//gene level
+    }
 
     return {
       fmin: fmin,

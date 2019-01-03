@@ -10,7 +10,6 @@ export default class IsoformTrack {
         this.width = width;
         this.height = height;
         this.transcriptTypes = transcriptTypes;
-        this.getTrackData(track);
     }
 
     // Draw our track on the viewer
@@ -20,8 +19,9 @@ export default class IsoformTrack {
         let data = this.trackData;
         let viewer = this.viewer;
         let width = this.width;
+
+        // TODO: make configurable and a const / default
         let MAX_ROWS = 10;
-        let calculatedHeight = 500;
 
         let UTR_feats = ["UTR", "five_prime_UTR", "three_prime_UTR"];
         let CDS_feats = ["CDS"];
@@ -268,18 +268,19 @@ export default class IsoformTrack {
                 .attr('fill', 'orange')
                 .attr('opacity', 0.6)
                 .text('Overview of non-coding genome features unavailable at this time.');
-
         }
+        // we return the appropriate height function
+        return row_count * isoform_height ;
     }
 
+
     /* Method for isoformTrack service call */
-    getTrackData(track) {
+    async getTrackData(track) {
         let externalLocationString = track["chromosome"] + ':' + track["start"] + '..' + track["end"];
         var dataUrl = track["url"][0] + encodeURI(track["genome"]) + track["url"][1] + encodeURI(externalLocationString) + track["url"][2];
         let apolloService = new ApolloService();
-        apolloService.GetIsoformTrack(dataUrl).then((data) => {
-            this.trackData = data;
-            this.DrawTrack();
+        this.trackData = await apolloService.GetIsoformTrack(dataUrl).then((data) => {
+            return data ;
         });
     }
 }
