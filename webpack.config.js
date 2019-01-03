@@ -19,6 +19,7 @@ var libraryConfig = {
   entry: path.resolve(src, 'index.js'),
   output: {
     filename: 'index.js',
+    globalObject: 'this',
     library: 'GenomeFeatureViewer',
     libraryTarget: 'umd'
   },

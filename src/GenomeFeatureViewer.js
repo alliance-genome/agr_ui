@@ -80,7 +80,9 @@ export default class GenomeFeatureViewer {
 
         if (this.locale === "global") {
             let margin = {top: 8, right: 30, bottom: 30, left: 40};
-            viewer.attr('width', this.width).attr("height", this.height).append('g')
+            viewer.attr('width', this.width)
+                .attr("height", this.height)
+                .append('g')
                 .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')').attr("class", mainViewClass);
             this.width = this.width - margin.left - margin.right;
             this.height = this.height - margin.top - margin.bottom;

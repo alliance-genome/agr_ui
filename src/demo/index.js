@@ -27,7 +27,7 @@ let configGlobal1 = {
     ]
 };
 
-new GenomeFeatureViewer(configGlobal1, "#viewer1", 700, 500);
+new GenomeFeatureViewer(configGlobal1, "#viewer1", 700, null);
 
 let configGlobal2 = {
     "locale": "global",

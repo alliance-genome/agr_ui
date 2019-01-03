@@ -103,7 +103,7 @@ export default class IsoformTrack {
                         if (row_count < MAX_ROWS) {
                             // An isoform container
                             let isoform = track.append("g").attr("class", "isoform")
-                                .attr("transform", "translate(0," + ((row_count * isoform_height) + 10) + ")")
+                                .attr("transform", "translate(0," + ((row_count * isoform_height) + 10) + ")");
 
                             isoform.append("polygon")
                                 .datum(function () {
