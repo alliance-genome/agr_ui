@@ -22,7 +22,7 @@ import AlleleTable from '../../components/alleleTable';
 import DataLoader from '../../components/dataLoader';
 import { GenePhysicalInteractionDetailTable } from '../../components/interaction';
 
-import GenomeFeatureViewer from './genomeFeatureViewer';
+import GenomeFeatureWrapper from './genomeFeatureWrapper';
 import ExpressionLinks from './expressionLinks';
 
 import SpeciesIcon from '../../components/speciesIcon';
@@ -148,7 +148,7 @@ class GenePage extends Component {
             hasData={typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'}
             title={SEQUENCE_FEATURE_VIEWER}
           >
-            <GenomeFeatureViewer
+            <GenomeFeatureWrapper
               assembly={genomeLocation.assembly}
               biotype={data.soTermName}
               chromosome={genomeLocation.chromosome}

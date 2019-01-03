@@ -4,6 +4,7 @@ import * as analytics from './lib/analytics';
 import 'bootstrap';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import '@geneontology/ribbon/lib/index.css';
+import 'genomefeaturecomponent/src/GenomeFeatureViewer.css';
 import './style.scss';
 
 import ReactApp from './reactApplication';
