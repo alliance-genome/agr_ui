@@ -17,7 +17,7 @@
     "buildandserve": "npm run clean && webpack && http-server -c-1 dist/",
     "cleanbuild": "npm run clean && webpack",
     "build": "webpack",
-    "pack": "npm run rmdsstore && npm run build && npm pack"
+    "pack": "rm -rf dist && npm run rmdsstore && npm run build && npm pack"
   },
   "dependencies": {
     "d3": "^5.7.0",
