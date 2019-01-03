@@ -67,7 +67,7 @@ class GenomeFeatureWrapper extends Component {
   }
 
 
-  componentDidUpdate() {
+  componentDidMount() {
     this.loadGenomeFeature();
   }
 
@@ -100,7 +100,7 @@ class GenomeFeatureWrapper extends Component {
         },
       ]
     };
-    new GenomeFeatureViewer(configGlobal, `#${this.props.id}`, 900, null);
+    new GenomeFeatureViewer(configGlobal, `#${this.props.id}`, 900, undefined);
   }
 
   render() {
