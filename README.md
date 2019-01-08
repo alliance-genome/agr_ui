@@ -4,13 +4,12 @@
 [![npm package][npm-badge]][npm]
 [![Coveralls][coveralls-badge]][coveralls]
 
-Describe GenomeFeatureComponent here.
 
 [build-badge]: https://img.shields.io/travis/GMOD/GenomeFeatureComponent/master.png?style=flat-square
 [build]: https://travis-ci.org/GMOD/GenomeFeatureComponent
 
-[npm-badge]: https://img.shields.io/npm/v/@gmod/genomefeaturecomponent.png?style=flat-square
-[npm]: https://www.npmjs.com/package/@gmod/genomefeaturecomponent
+[npm-badge]: https://img.shields.io/npm/v/genomefeaturecomponent.png?style=flat-square
+[npm]: https://www.npmjs.com/package/genomefeaturecomponent
 
 [coveralls-badge]: https://img.shields.io/coveralls/GMOD/GenomeFeatureComponent/master.png?style=flat-square
 [coveralls]: https://coveralls.io/github/GMOD/GenomeFeatureComponent
