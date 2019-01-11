@@ -270,7 +270,7 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         columnClassName: style.columnGroup3,
       },
     ];
-    const data = (this.props.data || []).map((interaction = {}) => {
+    const data = (this.props.data.results || []).map((interaction = {}) => {
       const {
         // fields that might need to be rewrite
         geneA,
