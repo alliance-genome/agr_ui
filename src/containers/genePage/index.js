@@ -132,9 +132,9 @@ class GenePage extends Component {
       <DataPage data={data} title={title}>
         <PageNav
           entityName={data.symbol}
-          extra={<i>{data.species}</i>}
-          icon={<SpeciesIcon species={data.species} />}
-          link={<DataSourceLink reference={data.crossReferences.gene[0]} />}
+          extra={<i>{data.species.name}</i>}
+          icon={<SpeciesIcon species={data.species.name} />}
+          link={<DataSourceLink reference={data.crossReferences.primary} />}
           sections={SECTIONS}
         />
         <PageData>
@@ -157,8 +157,8 @@ class GenePage extends Component {
               geneSymbol={data.symbol}
               height='200px'
               id='genome-feature-location-id'
-              primaryId={data.primaryId}
-              species={data.species}
+              primaryId={data.id}
+              species={data.species.name}
               strand={genomeLocation.strand}
               synonyms={data.synonyms}
               width='600px'
@@ -166,14 +166,14 @@ class GenePage extends Component {
           </Subsection>
 
           <Subsection title={FUNCTION}>
-            <GeneOntologyRibbon id={data.primaryId} />
+            <GeneOntologyRibbon id={data.id} />
           </Subsection>
 
           <Subsection title={ORTHOLOGY}>
             <OrthologyBasicInfo
               crossReferences={data.crossReferences}
               focusGeneSymbol={data.symbol}
-              species={data.species}
+              species={data.species.name}
             />
             <Subsection hasData={(data.orthology || []).length > 0}>
               <OrthologyFilteredTable data={data.orthology} />
@@ -182,7 +182,7 @@ class GenePage extends Component {
           </Subsection>
 
           <Subsection title={PHENOTYPES}>
-            <PhenotypeTable geneId={data.primaryId} />
+            <PhenotypeTable geneId={data.id} />
           </Subsection>
 
           <Subsection isMeta title={DISEASE}>
@@ -202,31 +202,31 @@ class GenePage extends Component {
 
           <Subsection title={EXPRESSION}>
             <ExpressionLinks
-              otherSources={data.crossReferences['gene/other_expression']}
+              otherSources={[data.crossReferences.other_expression]}
               primarySources={[]
-                .concat(data.crossReferences['gene/expression'])
-                .concat(data.crossReferences['gene/wild_type_expression'])
-                .concat(data.crossReferences['gene/spell'])
+                .concat(data.crossReferences.expression)
+                .concat(data.crossReferences.wild_type_expression)
+                .concat(data.crossReferences.spell)
               }
             />
-            <ExpressionComparisonRibbon geneId={data.primaryId} geneSymbol={data.symbol} geneTaxon={data.taxonId} />
+            <ExpressionComparisonRibbon geneId={data.id} geneSymbol={data.symbol} geneTaxon={data.species.taxonId} />
           </Subsection>
 
           <Subsection title={ALLELES}>
             <AlleleTable
-              filename={`${data.symbol}-${data.primaryId}-Alleles-${date}.tsv`}
+              filename={`${data.symbol}-${data.id}-Alleles-${date}.tsv`}
               geneDataProvider={data.dataProvider}
-              geneId={data.primaryId}
+              geneId={data.id}
             />
           </Subsection>
           <Subsection title={INTERACTIONS}>
-            <DataLoader url={`/api/gene/${data.primaryId}/interactions`}>
+            <DataLoader url={`/api/gene/${data.id}/interactions`}>
               {({data: interactionData}) => (
                 <GenePhysicalInteractionDetailTable
                   data={interactionData}
-                  filename={`${data.symbol}-${data.primaryId}-Interactions-${date}.tsv`}
+                  filename={`${data.symbol}-${data.id}-Interactions-${date}.tsv`}
                   focusGeneDisplayName={data.symbol}
-                  focusGeneId={data.primaryId}
+                  focusGeneId={data.id}
                 />
               )}
             </DataLoader>

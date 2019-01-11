@@ -17,7 +17,7 @@ class BasicGeneInfo extends Component {
     return (
       <AttributeList>
         <AttributeLabel>Species</AttributeLabel>
-        <AttributeValue><i>{gene.species}</i></AttributeValue>
+        <AttributeValue><i>{gene.species.name}</i></AttributeValue>
 
         <AttributeLabel>Symbol</AttributeLabel>
         <AttributeValue>{gene.symbol}</AttributeValue>
@@ -31,7 +31,7 @@ class BasicGeneInfo extends Component {
         </AttributeValue>
 
         <AttributeLabel>Biotype</AttributeLabel>
-        <AttributeValue>{gene.soTermName.replace(/_/g, ' ')}</AttributeValue>
+        <AttributeValue>{gene.soTerm.name.replace(/_/g, ' ')}</AttributeValue>
 
         <AttributeLabel>Automated Description</AttributeLabel>
         <AttributeValue>{gene.automatedGeneSynopsis}</AttributeValue>
