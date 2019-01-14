@@ -8,26 +8,33 @@ import {
 } from '../../components/attribute';
 import CrossReferenceList from '../../components/crossReferenceList';
 
-const ExpressionLinks = ({primarySources, otherSources}) => {
-  // filter out undefined links
-  primarySources = primarySources.filter(ref => ref !== undefined);
-  otherSources = otherSources.filter(ref => ref !== undefined);
+const ExpressionLinks = ({
+  allExpressionCrossReference,
+  geneDataProvider,
+  otherExpressionCrossReferences,
+  spellCrossReference,
+  wildtypeExpressionCrossReference
+}) => {
 
   // override display name to differentiate wild type and all expression
-  const wildTypeRef = primarySources.find(ref => ref.type === 'gene/wild_type_expression');
-  const allRef = primarySources.find(ref => ref.type === 'gene/expression');
-  if (wildTypeRef) {
-    wildTypeRef.displayName = wildTypeRef.prefix + ' (wild type)';
+  if (wildtypeExpressionCrossReference) {
+    wildtypeExpressionCrossReference.displayName = geneDataProvider + ' (wild type)';
   }
-  if (allRef) {
-    allRef.displayName = allRef.prefix + (wildTypeRef ? ' (all)' : '');
+  if (allExpressionCrossReference) {
+    allExpressionCrossReference.displayName = geneDataProvider + (wildtypeExpressionCrossReference ? ' (all)' : '');
   }
 
+  const primarySources = [
+    allExpressionCrossReference,
+    wildtypeExpressionCrossReference,
+    spellCrossReference
+  ].filter(ref => ref !== undefined);
+
   // more than one GEO link? don't show any them.
-  if (otherSources) {
+  if (otherExpressionCrossReferences) {
     const linkIsGeo = link => link.displayName === 'GEO';
-    if (otherSources.filter(linkIsGeo).length > 1) {
-      otherSources = otherSources.filter(link => !linkIsGeo(link));
+    if (otherExpressionCrossReferences.filter(linkIsGeo).length > 1) {
+      otherExpressionCrossReferences = otherExpressionCrossReferences.filter(link => !linkIsGeo(link));
     }
   }
 
@@ -42,8 +49,8 @@ const ExpressionLinks = ({primarySources, otherSources}) => {
 
       <AttributeLabel>Other Sources</AttributeLabel>
       <AttributeValue placeholder='None'>
-        {otherSources && otherSources.length &&
-          <CrossReferenceList collapsible={false} crossReferences={otherSources} />
+        {otherExpressionCrossReferences && otherExpressionCrossReferences.length &&
+          <CrossReferenceList collapsible={false} crossReferences={otherExpressionCrossReferences} />
         }
       </AttributeValue>
     </AttributeList>
@@ -52,13 +59,14 @@ const ExpressionLinks = ({primarySources, otherSources}) => {
 
 
 ExpressionLinks.propTypes = {
-  otherSources: PropTypes.array,
-  primarySources: PropTypes.array,
+  allExpressionCrossReference: PropTypes.object,
+  geneDataProvider: PropTypes.string,
+  otherExpressionCrossReferences: PropTypes.array,
+  spellCrossReference: PropTypes.object,
+  wildtypeExpressionCrossReference: PropTypes.object,
 };
 
 ExpressionLinks.defaultProps = {
-  otherSources: [],
-  primarySources: [],
 };
 
 export default ExpressionLinks;
