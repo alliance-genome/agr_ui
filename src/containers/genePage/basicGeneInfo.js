@@ -46,14 +46,13 @@ class BasicGeneInfo extends Component {
 
         <AttributeLabel>Genomic Resources</AttributeLabel>
         <AttributeValue>
-          {gene.crossReferences.generic_cross_reference && <CrossReferenceList crossReferences={gene.crossReferences.generic_cross_reference} />}
+          {gene.crossReferences.other && <CrossReferenceList crossReferences={gene.crossReferences.other} />}
         </AttributeValue>
 
         <AttributeLabel>Additional Information</AttributeLabel>
         <AttributeValue>
-          {gene.crossReferences &&
-            gene.crossReferences['gene/references'] &&
-            <DataSourceLink reference={gene.crossReferences['gene/references'][0]} text='Literature' />
+          {gene.crossReferences.references &&
+            <DataSourceLink reference={gene.crossReferences.references}>Literature</DataSourceLink>
           }
         </AttributeValue>
       </AttributeList>

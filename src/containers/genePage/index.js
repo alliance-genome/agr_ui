@@ -171,8 +171,8 @@ class GenePage extends Component {
 
           <Subsection title={ORTHOLOGY}>
             <OrthologyBasicInfo
-              crossReferences={data.crossReferences}
               focusGeneSymbol={data.symbol}
+              pantherCrossReference={data.crossReferences.panther}
               species={data.species.name}
             />
             <Subsection hasData={(data.orthology || []).length > 0}>
@@ -202,12 +202,11 @@ class GenePage extends Component {
 
           <Subsection title={EXPRESSION}>
             <ExpressionLinks
-              otherSources={[data.crossReferences.other_expression]}
-              primarySources={[]
-                .concat(data.crossReferences.expression)
-                .concat(data.crossReferences.wild_type_expression)
-                .concat(data.crossReferences.spell)
-              }
+              allExpressionCrossReference={data.crossReferences.expression}
+              geneDataProvider={data.dataProvider}
+              otherExpressionCrossReferences={[data.crossReferences.other_expression]}
+              spellCrossReference={data.crossReferences.spell}
+              wildtypeExpressionCrossReference={data.crossReferences.wild_type_expression}
             />
             <ExpressionComparisonRibbon geneId={data.id} geneSymbol={data.symbol} geneTaxon={data.species.taxonId} />
           </Subsection>
