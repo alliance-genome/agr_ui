@@ -12,12 +12,15 @@ import {
 } from '../actions/genes';
 
 const DEFAULT_STATE = fromJS({
-  alleles: [],
+  alleles: {
+    data: [],
+    error: null,
+    loading: false,
+    total: 0,
+  },
   data: null,
   error: null,
   loading: false,
-  loadingAllele: false,
-  totalAlleles: 0,
   phenotypes: {
     data: [],
     error: null,
@@ -42,30 +45,35 @@ const geneReducer = function (state = DEFAULT_STATE, action) {
       .set('error', action.payload);
 
   case FETCH_ALLELE:
-    return state.set('loadingAllele', true);
+    return state.setIn(['alleles', 'loading'], true);
 
   case FETCH_ALLELE_SUCCESS:
-    return state.set('loadingAllele', false)
-      .set('alleles', fromJS(action.payload.results))
-      .set('totalAlleles', action.payload.total)
-      .set('error', null);
+    return state
+      .setIn(['alleles', 'loading'], false)
+      .setIn(['alleles', 'data'], action.payload.results)
+      .setIn(['alleles', 'total'], action.payload.total)
+      .setIn(['alleles', 'error'], null);
 
   case FETCH_ALLELE_FAILURE:
-    return state.set('loadingAllele', false)
-      .set('totalAlleles', 0)
-      .set('error', action.payload);
+    return state
+      .setIn(['alleles', 'loading'], false)
+      .setIn(['alleles', 'data'], [])
+      .setIn(['alleles', 'total'], 0)
+      .setIn(['alleles', 'error'], action.payload);
 
   case FETCH_PHENOTYPES:
     return state.setIn(['phenotypes', 'loading'], true);
 
   case FETCH_PHENOTYPES_SUCCESS:
-    return state.setIn(['phenotypes', 'loading'], false)
+    return state
+      .setIn(['phenotypes', 'loading'], false)
       .setIn(['phenotypes', 'data'], action.payload.results)
       .setIn(['phenotypes', 'total'], action.payload.total)
       .setIn(['phenotypes', 'error'], null);
 
   case FETCH_PHENOTYPES_FAILURE:
-    return state.setIn(['phenotypes', 'loading'], false)
+    return state
+      .setIn(['phenotypes', 'loading'], false)
       .setIn(['phenotypes', 'data'], [])
       .setIn(['phenotypes', 'total'], 0)
       .setIn(['phenotypes', 'error'], action.payload);

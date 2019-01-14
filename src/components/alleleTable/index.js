@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { fetchAlleles } from '../../actions/genes';
-import { selectAlleles, selectLoadingAlleles, selectTotalAlleles } from '../../selectors/geneSelectors';
+import { selectAlleles } from '../../selectors/geneSelectors';
 import { connect } from 'react-redux';
 import LocalDataTable from '../dataTable/localDataTable';
 import ExternalLink from '../externalLink';
@@ -10,6 +10,7 @@ import { compareAlphabeticalCaseInsensitive, stripHtml } from '../../lib/utils';
 import CollapsibleList from '../collapsibleList/collapsibleList';
 import SynonymList from '../synonymList';
 import NoData from '../noData';
+import LoadingSpinner from '../loadingSpinner';
 
 class AlleleTable extends Component {
   componentDidMount () {
@@ -25,13 +26,13 @@ class AlleleTable extends Component {
   }
 
   render() {
-    const { alleles, filename, geneDataProvider, loading, total } = this.props;
+    const { alleles, filename, geneDataProvider } = this.props;
 
-    if (loading) {
-      return null;
+    if (alleles.loading) {
+      return <LoadingSpinner />;
     }
 
-    if (total === 0) {
+    if (alleles.data.length === 0) {
       return <NoData />;
     }
 
@@ -69,7 +70,7 @@ class AlleleTable extends Component {
         field: 'diseases',
         label: 'Associated Human Disease',
         format: diseases => (
-          diseases && <CollapsibleList collapsedSize={diseases.length}>
+          <CollapsibleList collapsedSize={diseases.length}>
             {diseases.map(disease => <Link key={disease.id} to={`/disease/${disease.id}`}>{disease.name}</Link>)}
           </CollapsibleList>
         ),
@@ -83,40 +84,33 @@ class AlleleTable extends Component {
       },
     ];
 
-    const data = alleles.map(allele => ({
-      symbol: allele.symbol,
-      synonyms: allele.synonyms,
-      source: {
-        dataProvider: geneDataProvider,
-        url: allele.modCrossRefFullUrl,
-      },
-      diseases: allele.diseaseDocuments
-        .map(disease => ({
-          id: disease.doId,
-          name: disease.name,
-        }))
-        .sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
-    }));
+    const data = alleles.data
+      .map(allele => ({
+        symbol: allele.symbol,
+        synonyms: allele.synonyms,
+        source: {
+          dataProvider: geneDataProvider,
+          url: allele.crossReferences.primary.url,
+        },
+        diseases: allele.diseases.sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
+      }))
+      .sort(compareAlphabeticalCaseInsensitive(allele => allele.symbol));
 
     return <LocalDataTable columns={columns} data={data} filename={filename} paginated />;
   }
 }
 
 AlleleTable.propTypes = {
-  alleles: PropTypes.array,
+  alleles: PropTypes.object,
   dispatch: PropTypes.func,
   filename: PropTypes.string.isRequired,
   geneDataProvider: PropTypes.string.isRequired,
   geneId: PropTypes.string.isRequired,
-  loading: PropTypes.bool,
-  total: PropTypes.number,
 };
 
 function mapStateToProps (state) {
   return {
     alleles: selectAlleles(state),
-    loading: selectLoadingAlleles(state),
-    total: selectTotalAlleles(state),
   };
 }
 

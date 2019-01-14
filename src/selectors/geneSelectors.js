@@ -17,16 +17,6 @@ export const selectAlleles = createSelector(
   (gene) => gene.get('alleles').toJS()
 );
 
-export const selectLoadingAlleles = createSelector(
-  [selectGeneDomain],
-  (gene) => gene.get('loadingAllele')
-);
-
-export const selectTotalAlleles = createSelector(
-  [selectGeneDomain],
-  (gene) => gene.get('totalAlleles')
-);
-
 export const selectPhenotypes = createSelector(
   [selectGeneDomain],
   (gene) => gene.get('phenotypes').toJS()
