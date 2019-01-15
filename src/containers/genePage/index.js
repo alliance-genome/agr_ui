@@ -218,6 +218,7 @@ class GenePage extends Component {
               geneId={data.id}
             />
           </Subsection>
+
           <Subsection title={INTERACTIONS}>
             <DataLoader url={`/api/gene/${data.id}/interactions`}>
               {({data: interactionData}) => (

@@ -31,6 +31,7 @@ const ExpressionLinks = ({
   ].filter(ref => ref !== undefined);
 
   // more than one GEO link? don't show any them.
+  otherExpressionCrossReferences = otherExpressionCrossReferences.filter(ref => ref !== undefined);
   if (otherExpressionCrossReferences) {
     const linkIsGeo = link => link.displayName === 'GEO';
     if (otherExpressionCrossReferences.filter(linkIsGeo).length > 1) {
