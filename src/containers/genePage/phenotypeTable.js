@@ -18,13 +18,10 @@ class PhenotypeTable extends React.Component {
 
     const data = phenotypes.data && phenotypes.data.map(record => {
       return {
-        id: record.id,
+        id: record.geneticEntity.id + '-' + record.phenotype,
         phenotype: record.phenotype,
-        geneticEntity: record.featureDocument && {
-          modCrossRefFullUrl: record.featureDocument.modCrossRefFullUrl,
-          symbol: record.featureDocument.symbol,
-        },
-        geneticEntityType: record.geneticEntity,
+        geneticEntity: record.geneticEntity,
+        geneticEntityType: record.geneticEntity.type,
         reference: record.publications,
       };
     });
@@ -46,7 +43,7 @@ class PhenotypeTable extends React.Component {
       {
         field: 'geneticEntity',
         label: 'Genetic Entity',
-        format: GeneticEntityCell,
+        format: entity => entity.type === 'gene' ? null : GeneticEntityCell(entity),
         sortable: false,
         filterable: false,
         width: '185px',
