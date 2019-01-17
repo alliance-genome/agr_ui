@@ -57,7 +57,7 @@ class GenePage extends Component {
       return null;
     }
 
-    const title = `${data.symbol} | ${data.species} gene`;
+    const title = `${data.symbol} | ${data.species.name} gene`;
 
     // todo, add chromosome
     let genomeLocation = {};
