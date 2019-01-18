@@ -211,22 +211,29 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
       {
         field: 'crossReferences',
         label: 'Source ID',
+        asText: (crossReferences = []) => (
+          crossReferences.map(({displayName} = {}) => (displayName)).join(',')
+        ),
+        hidden: true,
+        export: true,
+      },
+      {
+        field: 'crossReferences',
+        label: 'Source',
         isKey: true,
-        format: (crossReferences = []) => (
+        format: (crossReferences = [], {sourceDatabase = {}} = {}) => (
           <div>
             {
               crossReferences.map(({displayName, crossRefCompleteUrl} = {}) => (
-                <div key={displayName}><ExternalLink href={crossRefCompleteUrl}>{displayName}</ExternalLink></div>
+                <div key={displayName}><ExternalLink href={crossRefCompleteUrl}>{sourceDatabase.label}: {displayName}</ExternalLink></div>
               ))
             }
           </div>
         ),
-        asText: (crossReferences = []) => (
-          crossReferences.map(({displayName} = {}) => (displayName)).join(',')
-        ),
         width: '14em',
         className: style.columnHeaderGroup0,
         columnClassName: style.columnGroup0,
+        export: false,
       },
       {
         field: 'sourceDatabase',
