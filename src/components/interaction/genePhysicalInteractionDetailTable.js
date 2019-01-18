@@ -93,7 +93,7 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         field: 'geneB',
         label: 'Interactor species',
         format: ({species} = {}) => (
-          <i>??????</i>
+          <i>{species.name}</i>
         ),
         asText: ({species} = {}) => species.name,
         width: '8em',
