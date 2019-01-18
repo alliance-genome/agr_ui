@@ -64,6 +64,8 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         width: '7em',
         className: style.columnHeaderGroup1,
         columnClassName: style.columnGroup1,
+        hidden: true,
+        export: true,
       },
       {
         field: 'geneB',
@@ -141,6 +143,8 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         width: '7em',
         className: style.columnHeaderGroup2,
         columnClassName: style.columnGroup2,
+        hidden: true,
+        export: true,
       },
       {
         field: 'interactionType',
@@ -162,6 +166,8 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         width: '8em',
         className: style.columnHeaderGroup3,
         columnClassName: style.columnGroup3,
+        hidden: true,
+        export: true,
       },
       {
         field: 'detectionsMethods',
@@ -245,6 +251,8 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         width: '10em',
         className: style.columnHeaderGroup3,
         columnClassName: style.columnGroup3,
+        hidden: true,
+        export: true,
       },
       {
         field: 'aggregationDatabase',
