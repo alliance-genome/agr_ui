@@ -240,8 +240,8 @@ class GenePhysicalInteractionDetailTable extends React.Component {
         format: (crossReferences = [], {sourceDatabase = {}, aggregationDatabase = {}} = {}) => (
           <div>
             {
-              crossReferences.map(({displayName, crossRefCompleteUrl} = {}) => (
-                <div key={displayName}><ExternalLink href={crossRefCompleteUrl}>{sourceDatabase.label}: {displayName}</ExternalLink></div>
+              crossReferences.map(({primaryKey, crossRefCompleteUrl} = {}) => (
+                <div key={primaryKey}><ExternalLink href={crossRefCompleteUrl}>{primaryKey}</ExternalLink></div>
               ))
             }
             {
