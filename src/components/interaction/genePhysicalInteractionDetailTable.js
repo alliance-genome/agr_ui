@@ -241,7 +241,9 @@ class GenePhysicalInteractionDetailTable extends React.Component {
           <div>
             {
               crossReferences.map(({primaryKey, displayName, prefix, crossRefCompleteUrl} = {}) => (
-                <div key={primaryKey}>{prefix}: <ExternalLink href={crossRefCompleteUrl}>{displayName}</ExternalLink></div>
+                <div key={primaryKey}>
+                  <ExternalLink href={crossRefCompleteUrl}>{prefix}:{displayName}</ExternalLink>
+                </div>
               ))
             }
             {
