@@ -5,11 +5,8 @@ import ExternalLink from './externalLink';
 class DataSourceLink extends Component {
   render() {
     const {children, reference} = this.props;
-    if (!reference) {
-      return null;
-    }
     return (
-      <ExternalLink href={this.props.reference.url}>
+      <ExternalLink href={reference && reference.url}>
         {children || reference.displayName || reference.name}
       </ExternalLink>
     );

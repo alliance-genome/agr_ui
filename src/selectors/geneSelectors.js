@@ -21,3 +21,13 @@ export const selectPhenotypes = createSelector(
   [selectGeneDomain],
   (gene) => gene.get('phenotypes').toJS()
 );
+
+export const selectDiseaseViaEmpirical = createSelector(
+  [selectGeneDomain],
+  (gene) => gene.get('diseaseViaEmpirical').toJS()
+);
+
+export const selectDiseaseViaOrthology = createSelector(
+  [selectGeneDomain],
+  (gene) => gene.get('diseaseViaOrthology').toJS()
+);
