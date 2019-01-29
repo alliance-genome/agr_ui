@@ -27,7 +27,7 @@ const CrossReferenceList = ({collapsible, crossReferences}) => {
       {
         crossReferences
           .sort(byWithLinkThenName)
-          .map(ref => <DataSourceLink key={`${ref.localId}-${ref.crossRefType}`} reference={ref} />)
+          .map(ref => <DataSourceLink key={ref.name} reference={ref} />)
       }
     </CollapsibleList>
   );
