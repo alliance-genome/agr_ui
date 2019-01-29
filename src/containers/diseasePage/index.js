@@ -78,7 +78,7 @@ class DiseasePage extends Component {
           </Subsection>
 
           <Subsection title='Associations'>
-            <DiseasePageAssociationsTable id={disease.doId} />
+            <DiseasePageAssociationsTable id={disease.id} />
           </Subsection>
         </PageData>
       </DataPage>

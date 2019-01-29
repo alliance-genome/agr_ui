@@ -6,7 +6,7 @@ const GeneticEntityCell = (entity) => {
     return null;
   }
   return (
-    <DataSourceLink reference={entity.crossReferences.primary}>
+    <DataSourceLink reference={entity.crossReferences && entity.crossReferences.primary}>
       <span dangerouslySetInnerHTML={{__html: entity.symbol}} />
     </DataSourceLink>
   );

@@ -27,15 +27,14 @@ class DiseasePageAssociationsTable extends Component {
 
     const columns = [
       {
-        field: 'doId',
-        label: 'DO ID',
+        field: 'id',
         isKey: true,
         hidden: true,
       },
       {
         field: 'geneName',
         label: 'Gene',
-        format: (gene) => <Link to={'/gene/' + gene.primaryId}>{gene.symbol}</Link>,
+        format: (gene) => <Link to={'/gene/' + gene.id}>{gene.symbol}</Link>,
         sortable: true,
         filterable: false,
         width: '90px',
@@ -106,18 +105,15 @@ class DiseasePageAssociationsTable extends Component {
     ];
 
     const data = associations.data && associations.data.map(association => ({
-      doId: association.diseaseID,
-      geneName: association.geneDocument,
-      species: association.disease_species.name,
-      geneticEntity: association.featureDocument && {
-        modCrossRefFullUrl: association.featureDocument.modCrossRefFullUrl,
-        symbol: association.featureDocument.symbol,
-      },
-      geneticEntityType: association.featureDocument && association.featureDocument.category,
+      id: `${association.disease.id}-${association.gene.id}-${association.associationType}`,
+      geneName: association.gene,
+      species: association.gene.species.name,
+      geneticEntity: association.allele,
+      geneticEntityType: association.geneticEntityType,
       associationType: association.associationType,
-      disease: association.diseaseName,
-      evidenceCode: association.publications,
-      source: association.source,
+      disease: association.disease,
+      evidenceCode: association.evidenceCodes,
+      source: '', //association.source,
       reference: association.publications,
     }));
 
