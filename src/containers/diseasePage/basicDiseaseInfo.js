@@ -23,7 +23,7 @@ class BasicDiseaseInfo extends Component {
       <CollapsibleList>
         {terms
           .sort(compareAlphabeticalCaseInsensitive(term => term.name))
-          .map(term => <Link key={term.primaryKey} to={`/disease/${term.id}`}>{term.name}</Link>)
+          .map(term => <Link key={term.id} to={`/disease/${term.id}`}>{term.name}</Link>)
         }
       </CollapsibleList>;
   }
