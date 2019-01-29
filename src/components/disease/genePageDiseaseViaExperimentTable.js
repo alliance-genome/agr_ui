@@ -1,37 +1,36 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {
-  LocalDataTable,
   DiseaseNameCell,
   GeneticEntityCell,
   EvidenceCodesCell,
-  ReferenceCell
+  ReferenceCell,
+  RemoteDataTable
 } from '../../components/dataTable';
-import { compareAlphabeticalCaseInsensitive, stripHtml } from '../../lib/utils';
+import { selectDiseaseViaEmpirical } from '../../selectors/geneSelectors';
+import { fetchDiseaseViaEmpirical } from '../../actions/genes';
 
 class GenePageDiseaseTable extends Component {
 
-  render() {
-    const diseases = this.props.data;
-    const filename = this.props.filename;
+  loadData(opts) {
+    const { dispatch, geneId } = this.props;
+    dispatch(fetchDiseaseViaEmpirical(geneId, opts));
+  }
 
-    let data = [];
-    diseases.forEach((disease) => {
-      disease.annotations.forEach((annotation) => {
-        data.push({
-          name: disease.name,
-          doId: disease.doId,
-          associationType: annotation.associationType.replace(/_/g, ' '),
-          entityName: annotation.featureDocument,
-          entityCategory: annotation.featureDocument ? annotation.featureDocument.category : 'gene',
-          dataProvider: annotation.source.name,
-          publications: annotation.publications,
-          refs: annotation.publications,
-        });
-      });
-    });
-    data.sort(compareAlphabeticalCaseInsensitive(row => row.name));
+  render() {
+    const { diseases, geneId } = this.props;
+
+    const data = diseases.data && diseases.data.map(annotation => ({
+      disease: annotation.disease,
+      geneticEntity: annotation.allele,
+      associationType: annotation.associationType.replace(/_/g, ' '),
+      geneticEntityType: annotation.geneticEntityType,
+      source: '', //annotation.source.name,
+      evidenceCodes: annotation.evidenceCodes,
+      publications: annotation.publications,
+    }));
 
     const refsText = (refs) => {
       return refs.map(ref => ref.pubMedId || ref.pubModId || '').join(', ');
@@ -39,7 +38,7 @@ class GenePageDiseaseTable extends Component {
 
     const columns = [
       {
-        field: 'name',
+        field: 'disease',
         label: 'Disease',
         format: DiseaseNameCell,
         isKey: true,
@@ -48,17 +47,15 @@ class GenePageDiseaseTable extends Component {
         width: '150px',
       },
       {
-        field: 'entityName',
+        field: 'geneticEntity',
         label: 'Genetic Entity',
         format: GeneticEntityCell,
         sortable: true,
         filterable: true,
-        filterText: feature => feature ? stripHtml(feature.symbol) : '',
-        asText: (featureDocument) => featureDocument ? featureDocument.symbol : '',
         width: '185px',
       },
       {
-        field: 'entityCategory',
+        field: 'geneticEntityType',
         label: 'Genetic Entity Type',
         sortable: true,
         filterable: true,
@@ -72,7 +69,7 @@ class GenePageDiseaseTable extends Component {
         width: '110px',
       },
       {
-        field: 'publications',
+        field: 'evidenceCodes',
         label: 'Evidence Code',
         format: EvidenceCodesCell,
         asText: EvidenceCodesCell,
@@ -81,14 +78,14 @@ class GenePageDiseaseTable extends Component {
         width: '75px',
       },
       {
-        field: 'dataProvider',
+        field: 'source',
         label: 'Source',
         sortable: true,
         filterable: true,
         width: '75px',
       },
       {
-        field: 'refs',
+        field: 'publications',
         label: 'References',
         format: ReferenceCell,
         asText: refsText,
@@ -99,14 +96,29 @@ class GenePageDiseaseTable extends Component {
     ];
 
     return (
-      <LocalDataTable columns={columns} data={data} filename={filename} paginated />
+      <RemoteDataTable
+        columns={columns}
+        data={data}
+        downloadUrl={`/api/gene/${geneId}/diseases-by-experiment/download`}
+        loading={diseases.loading}
+        onUpdate={this.loadData.bind(this)}
+        totalRows={diseases.total}
+      />
     );
   }
 }
 
 GenePageDiseaseTable.propTypes = {
-  data: PropTypes.array.isRequired,
+  diseases: PropTypes.object,
+  dispatch: PropTypes.func,
   filename: PropTypes.string,
+  geneId: PropTypes.string.isRequired,
 };
 
-export default GenePageDiseaseTable;
+function mapStateToProps (state) {
+  return {
+    diseases: selectDiseaseViaEmpirical(state),
+  };
+}
+
+export default connect(mapStateToProps)(GenePageDiseaseTable);

@@ -12,7 +12,6 @@ import {
   GenePageDiseaseViaExperimentTable,
   GenePageDiseaseViaOrthologyTable,
   getDiseaseAssociationViaOrthology,
-  getDiseaseAssociationViaExperiment,
 } from '../../components/disease';
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
 import LoadingPage from '../../components/loadingPage';
@@ -186,10 +185,10 @@ class GenePage extends Component {
           </Subsection>
 
           <Subsection isMeta title={DISEASE}>
-            <Subsection hasData={getDiseaseAssociationViaExperiment(data).length > 0} level={1} title={DISEASE_VIA_EXPERIMENT}>
+            <Subsection level={1} title={DISEASE_VIA_EXPERIMENT}>
               <GenePageDiseaseViaExperimentTable
-                data={getDiseaseAssociationViaExperiment(data)}
                 filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaEmpiricalData-${date}.tsv`}
+                geneId={data.id}
               />
             </Subsection>
             <Subsection hasData={getDiseaseAssociationViaOrthology(data).length > 0} level={1} title={DISEASE_VIA_ORTHOLOGY}>
