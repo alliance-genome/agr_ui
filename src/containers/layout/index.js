@@ -27,7 +27,7 @@ class Layout extends Component {
                 <Link to='/'>
                   <img className={`img-fluid ${style.agrLogo}`} src={logo} />
                 </Link>
-                <span className={style.version}>Release 2.1</span>
+                <span className={style.version}>Release {process.env.RELEASE}</span>
               </div>
               <button
                 aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation"
