@@ -11,7 +11,6 @@ import { OrthologyFilteredTable, OrthologyUserGuide, OrthologyBasicInfo } from '
 import {
   GenePageDiseaseViaExperimentTable,
   GenePageDiseaseViaOrthologyTable,
-  getDiseaseAssociationViaOrthology,
 } from '../../components/disease';
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
 import LoadingPage from '../../components/loadingPage';
@@ -191,10 +190,10 @@ class GenePage extends Component {
                 geneId={data.id}
               />
             </Subsection>
-            <Subsection hasData={getDiseaseAssociationViaOrthology(data).length > 0} level={1} title={DISEASE_VIA_ORTHOLOGY}>
+            <Subsection level={1} title={DISEASE_VIA_ORTHOLOGY}>
               <GenePageDiseaseViaOrthologyTable
-                data={getDiseaseAssociationViaOrthology(data)}
                 filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaOrthology-${date}.tsv`}
+                geneId={data.id}
               />
             </Subsection>
           </Subsection>
