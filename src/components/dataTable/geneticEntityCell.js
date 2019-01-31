@@ -1,14 +1,14 @@
 import React from 'react';
-import DataSourceLink from '../dataSourceLink';
+import ExternalLink from '../externalLink';
 
 const GeneticEntityCell = (entity) => {
   if (!entity) {
     return null;
   }
   return (
-    <DataSourceLink reference={entity.crossReferences && entity.crossReferences.primary}>
+    <ExternalLink href={entity.url}>
       <span dangerouslySetInnerHTML={{__html: entity.symbol}} />
-    </DataSourceLink>
+    </ExternalLink>
   );
 };
 

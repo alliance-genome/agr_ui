@@ -11,6 +11,7 @@ import {
 } from '../../components/dataTable';
 import { selectDiseaseViaEmpirical } from '../../selectors/geneSelectors';
 import { fetchDiseaseViaEmpirical } from '../../actions/genes';
+import ExternalLink from '../externalLink';
 
 class GenePageDiseaseTable extends Component {
 
@@ -27,7 +28,7 @@ class GenePageDiseaseTable extends Component {
       geneticEntity: annotation.allele,
       associationType: annotation.associationType.replace(/_/g, ' '),
       geneticEntityType: annotation.geneticEntityType,
-      source: '', //annotation.source.name,
+      source: annotation.source,
       evidenceCodes: annotation.evidenceCodes,
       publications: annotation.publications,
     }));
@@ -80,6 +81,7 @@ class GenePageDiseaseTable extends Component {
       {
         field: 'source',
         label: 'Source',
+        format: ({name, url}) => <ExternalLink href={url}>{name}</ExternalLink>,
         sortable: true,
         filterable: true,
         width: '75px',

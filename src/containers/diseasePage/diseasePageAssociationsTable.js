@@ -89,7 +89,7 @@ class DiseasePageAssociationsTable extends Component {
       {
         field: 'source',
         label: 'Source',
-        format: (s) => <ExternalLink href={s.diseaseUrl}>{s.name}</ExternalLink>,
+        format: ({name, url}) => <ExternalLink href={url}>{name}</ExternalLink>,
         sortable: false,
         filterable: false,
         width: '75px',
@@ -113,7 +113,7 @@ class DiseasePageAssociationsTable extends Component {
       associationType: association.associationType,
       disease: association.disease,
       evidenceCode: association.evidenceCodes,
-      source: '', //association.source,
+      source: association.source,
       reference: association.publications,
     }));
 
