@@ -62,7 +62,7 @@ class DiseasePage extends Component {
     ];
 
     const doLink = (
-      <ExternalLink href={'http://www.disease-ontology.org/?id=' + disease.id}>
+      <ExternalLink href={disease.url}>
         {disease.id}
       </ExternalLink>
     );
