@@ -22,7 +22,7 @@ const DEFAULT_STATE = fromJS({
     loading: false,
     total: 0,
   },
-  diseaesViaOrthology: {
+  diseaseViaOrthology: {
     data: [],
     error: null,
     loading: false,
@@ -43,7 +43,7 @@ const geneReducer = handleActions(DEFAULT_STATE,
   forCollectionRequestAction(FETCH_ALLELES, 'alleles'),
   forCollectionRequestAction(FETCH_PHENOTYPES, 'phenotypes'),
   forCollectionRequestAction(FETCH_DISEASE_VIA_EMPIRICAL, 'diseaseViaEmpirical'),
-  forCollectionRequestAction(FETCH_DISEASE_VIA_ORTHOLOGY, 'diseaesViaOrthology')
+  forCollectionRequestAction(FETCH_DISEASE_VIA_ORTHOLOGY, 'diseaseViaOrthology')
 );
 
 export default geneReducer;
