@@ -31,3 +31,8 @@ export const selectDiseaseViaOrthology = createSelector(
   [selectGeneDomain],
   (gene) => gene.get('diseaseViaOrthology').toJS()
 );
+
+export const selectInteractions = createSelector(
+  [selectGeneDomain],
+  (gene) => gene.get('interactions').toJS()
+);
