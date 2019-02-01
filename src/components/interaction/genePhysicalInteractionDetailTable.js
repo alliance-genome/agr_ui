@@ -8,17 +8,33 @@ import CommaSeparatedList from '../commaSeparatedList';
 import ExternalLink from '../externalLink';
 import MITerm from './MITerm';
 import style from './genePhysicalInteractionDetailTable.scss';
+import { selectInteractions } from '../../selectors/geneSelectors';
+import { connect } from 'react-redux';
+import { fetchInteractions } from '../../actions/genes';
+import LoadingSpinner from '../loadingSpinner';
+import NoData from '../noData';
 
 const DEFAULT_TABLE_KEY = 'physicalInteractionTable';
 
-export default class GenePhysicalInteractionDetailTable extends React.Component {
+class GenePhysicalInteractionDetailTable extends React.Component {
+  componentDidMount () {
+    const { dispatch, focusGeneId } = this.props;
+    dispatch(fetchInteractions(focusGeneId));
+  }
+
+  componentDidUpdate (prevProps) {
+    const { dispatch, focusGeneId } = this.props;
+    if (focusGeneId !== prevProps.focusGeneId) {
+      dispatch(fetchInteractions(focusGeneId));
+    }
+  }
 
   getCellId(fieldKey, rowIndex) {
     return `${this.props.tableKey || DEFAULT_TABLE_KEY}-${fieldKey}-${rowIndex}`;
   }
 
   render() {
-    const {focusGeneDisplayName} = this.props;
+    const {filename, focusGeneDisplayName, interactions} = this.props;
 
     const columns = [
       {
@@ -270,7 +286,7 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         columnClassName: style.columnGroup3,
       },
     ];
-    const data = (this.props.data.results || []).map((interaction = {}) => {
+    const data = (interactions.data || []).map((interaction = {}) => {
       const {
         // fields that might need to be rewrite
         geneA,
@@ -326,12 +342,20 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
       // names must be equal
       return 0;
     });
-    //    console.log(data);
+
+    if (interactions.loading) {
+      return <LoadingSpinner />;
+    }
+
+    if (interactions.data.length === 0) {
+      return <NoData />;
+    }
+
     return (
       <LocalDataTable
         columns={columns}
         data={data}
-        filename={this.props.filename}
+        filename={filename}
         paginated
       />
     );
@@ -339,9 +363,15 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
 }
 
 GenePhysicalInteractionDetailTable.propTypes = {
-  data: PropTypes.any,
   filename: PropTypes.any,
   focusGeneDisplayName: PropTypes.string,
   focusGeneId: PropTypes.string.isRequired,
+  interactions: PropTypes.object,
   tableKey: PropTypes.string,
 };
+
+const mapStateToProps = (state) => ({
+  interactions: selectInteractions(state)
+});
+
+export default connect(mapStateToProps)(GenePhysicalInteractionDetailTable);
