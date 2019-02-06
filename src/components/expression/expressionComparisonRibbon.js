@@ -63,7 +63,7 @@ class ExpressionComparisonRibbon extends React.Component {
   render() {
     const { geneId, geneSymbol, geneTaxon, orthology } = this.props;
     const { stringency, selectedOrthologs, selectedTerm } = this.state;
-    const filteredOrthology = orthology && orthology
+    const filteredOrthology = (orthology || [])
       .filter(byNotHuman)
       .filter(byStringency(stringency))
       .sort(compareBySpeciesThenAlphabetical);
@@ -91,7 +91,13 @@ class ExpressionComparisonRibbon extends React.Component {
                 />
               </div>
               <span className='px-2'>or</span>
-              <Button color='primary' onClick={() => this.setState({selectedOrthologs: filteredOrthology})}>Add all</Button>
+              <Button
+                color='primary'
+                disabled={filteredOrthology.length === 0}
+                onClick={() => this.setState({selectedOrthologs: filteredOrthology})}
+              >
+                Add all
+              </Button>
             </div>
           </ControlsContainer>
         </div>
