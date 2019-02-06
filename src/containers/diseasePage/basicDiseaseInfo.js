@@ -23,7 +23,7 @@ class BasicDiseaseInfo extends Component {
       <CollapsibleList>
         {terms
           .sort(compareAlphabeticalCaseInsensitive(term => term.name))
-          .map(term => <Link key={term.primaryKey} to={`/disease/${term.primaryKey}`}>{term.name}</Link>)
+          .map(term => <Link key={term.id} to={`/disease/${term.id}`}>{term.name}</Link>)
         }
       </CollapsibleList>;
   }
@@ -33,8 +33,8 @@ class BasicDiseaseInfo extends Component {
       <CommaSeparatedList>
         {
           sources.map((source) => (
-            <ExternalLink href={source.url} key={`source-${source.species.displayName}`}>
-              {source.species.displayName}
+            <ExternalLink href={source.url} key={`source-${source.name}`}>
+              {source.name}
             </ExternalLink>
           ))
         }
@@ -88,7 +88,7 @@ class BasicDiseaseInfo extends Component {
 
         <AttributeLabel>Cross References</AttributeLabel>
         <AttributeValue>
-          {disease.crossReferences && <CrossReferenceList crossReferences={disease.crossReferences['ontology_provided_cross_reference']} />}
+          {disease.crossReferences && <CrossReferenceList crossReferences={disease.crossReferences.other} />}
         </AttributeValue>
 
         <AttributeLabel>Parent Terms</AttributeLabel>
@@ -98,7 +98,7 @@ class BasicDiseaseInfo extends Component {
         <AttributeValue placeholder='None'>{this.renderTermList(disease.children)}</AttributeValue>
 
         <AttributeLabel>Sources of Associations</AttributeLabel>
-        <AttributeValue>{this.renderSourceList(disease.sourceList)}</AttributeValue>
+        <AttributeValue>{this.renderSourceList(disease.sources)}</AttributeValue>
       </AttributeList>
     );
   }

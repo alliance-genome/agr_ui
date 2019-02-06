@@ -5,7 +5,7 @@ import {
   AttributeLabel,
   AttributeValue,
 } from '../attribute';
-import PantherCrossRef from './pantherCrossRef';
+import DataSourceLink from '../../components/dataSourceLink';
 
 class OrthologyBasicInfo extends Component {
 
@@ -21,7 +21,7 @@ class OrthologyBasicInfo extends Component {
 
         <AttributeLabel>Gene tree</AttributeLabel>
         <AttributeValue>
-          <PantherCrossRef crossReferences={this.props.crossReferences} />
+          <DataSourceLink reference={this.props.pantherCrossReference} />
         </AttributeValue>
 
       </AttributeList>
@@ -31,8 +31,8 @@ class OrthologyBasicInfo extends Component {
 }
 
 OrthologyBasicInfo.propTypes = {
-  crossReferences: PropTypes.any,
   focusGeneSymbol: PropTypes.string,
+  pantherCrossReference: PropTypes.object,
   species: PropTypes.string,
 };
 
