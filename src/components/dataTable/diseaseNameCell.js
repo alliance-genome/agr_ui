@@ -1,8 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const DiseaseNameCell = (name, row) => (
-  <Link to={'/disease/' + row.doId}>{name}</Link>
+const DiseaseNameCell = ({id, name}) => (
+  <Link to={'/disease/' + id}>{name}</Link>
 );
+
+DiseaseNameCell.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string,
+};
 
 export default DiseaseNameCell;
