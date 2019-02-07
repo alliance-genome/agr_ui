@@ -20,3 +20,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Deprecated
 - removed panther data and loads and ui components
 - removed omim data and loads and but not ui components
+

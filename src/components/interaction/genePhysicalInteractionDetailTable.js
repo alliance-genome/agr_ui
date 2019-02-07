@@ -8,32 +8,48 @@ import CommaSeparatedList from '../commaSeparatedList';
 import ExternalLink from '../externalLink';
 import MITerm from './MITerm';
 import style from './genePhysicalInteractionDetailTable.scss';
+import { selectInteractions } from '../../selectors/geneSelectors';
+import { connect } from 'react-redux';
+import { fetchInteractions } from '../../actions/genes';
+import LoadingSpinner from '../loadingSpinner';
+import NoData from '../noData';
 
 const DEFAULT_TABLE_KEY = 'physicalInteractionTable';
 
-export default class GenePhysicalInteractionDetailTable extends React.Component {
+class GenePhysicalInteractionDetailTable extends React.Component {
+  componentDidMount () {
+    const { dispatch, focusGeneId } = this.props;
+    dispatch(fetchInteractions(focusGeneId));
+  }
+
+  componentDidUpdate (prevProps) {
+    const { dispatch, focusGeneId } = this.props;
+    if (focusGeneId !== prevProps.focusGeneId) {
+      dispatch(fetchInteractions(focusGeneId));
+    }
+  }
 
   getCellId(fieldKey, rowIndex) {
     return `${this.props.tableKey || DEFAULT_TABLE_KEY}-${fieldKey}-${rowIndex}`;
   }
 
   render() {
-    const {focusGeneDisplayName} = this.props;
+    const {filename, focusGeneDisplayName, interactions} = this.props;
 
     const columns = [
       {
-        field: 'interactionAType',
+        field: 'interactorAType',
         label: 'Focus gene molecule type ID',
         asText: ({primaryKey} = {}) => primaryKey,
         hidden: true,
         export: true,
       },
       {
-        field: 'interactionAType',
+        field: 'interactorAType',
         label: `${focusGeneDisplayName} molecule type`,
         csvHeader: 'Focus gene molecule type',
         format: (fieldData = {}, row, formatExtraData, rowIndex) => {
-          const id = this.getCellId('interactionAType', rowIndex);
+          const id = this.getCellId('interactorAType', rowIndex);
           return (
             <MITerm {...fieldData} id={id} />
           );
@@ -44,18 +60,18 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         columnClassName: style.columnGroup1,
       },
       {
-        field: 'interactionARole',
+        field: 'interactorARole',
         label: 'Focus gene experimental role ID',
         asText: ({primaryKey} = {}) => primaryKey,
         hidden: true,
         export: true,
       },
       {
-        field: 'interactionARole',
+        field: 'interactorARole',
         label: `${focusGeneDisplayName} experimental role`,
         csvHeader: 'Focus gene experimental role',
         format: (fieldData = {}, row, formatExtraData, rowIndex) => {
-          const id = this.getCellId('interactionARole', rowIndex);
+          const id = this.getCellId('interactorARole', rowIndex);
           return (
             <MITerm {...fieldData} id={id} />
           );
@@ -64,6 +80,8 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         width: '7em',
         className: style.columnHeaderGroup1,
         columnClassName: style.columnGroup1,
+        hidden: true,
+        export: true,
       },
       {
         field: 'geneB',
@@ -101,17 +119,17 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         columnClassName: style.columnGroup2,
       },
       {
-        field: 'interactionBType',
+        field: 'interactorBType',
         label: 'Interactor molecule type ID',
         asText: ({primaryKey} = {}) => primaryKey,
         hidden: true,
         export: true,
       },
       {
-        field: 'interactionBType',
+        field: 'interactorBType',
         label: 'Interactor molecule type',
         format: (fieldData = {}, row, formatExtraData, rowIndex) => {
-          const id = this.getCellId('interactionBType', rowIndex);
+          const id = this.getCellId('interactorBType', rowIndex);
           return (
             <MITerm {...fieldData} id={id} />
           );
@@ -122,17 +140,17 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         columnClassName: style.columnGroup2,
       },
       {
-        field: 'interactionBRole',
+        field: 'interactorBRole',
         label: 'Interactor experimental role ID',
         asText: ({primaryKey} = {}) => primaryKey,
         hidden: true,
         export: true,
       },
       {
-        field: 'interactionBRole',
+        field: 'interactorBRole',
         label: 'Interactor experimental role',
         format: (fieldData = {}, row, formatExtraData, rowIndex) => {
-          const id = this.getCellId('interactionBRole', rowIndex);
+          const id = this.getCellId('interactorBRole', rowIndex);
           return (
             <MITerm {...fieldData} id={id} />
           );
@@ -141,6 +159,8 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         width: '7em',
         className: style.columnHeaderGroup2,
         columnClassName: style.columnGroup2,
+        hidden: true,
+        export: true,
       },
       {
         field: 'interactionType',
@@ -162,6 +182,8 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         width: '8em',
         className: style.columnHeaderGroup3,
         columnClassName: style.columnGroup3,
+        hidden: true,
+        export: true,
       },
       {
         field: 'detectionsMethods',
@@ -205,22 +227,29 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
       {
         field: 'crossReferences',
         label: 'Source ID',
+        asText: (crossReferences = []) => (
+          crossReferences.map(({displayName} = {}) => (displayName)).join(',')
+        ),
+        hidden: true,
+        export: true,
+      },
+      {
+        field: 'crossReferences',
+        label: 'Source',
         isKey: true,
-        format: (crossReferences = []) => (
+        format: (crossReferences = [], {sourceDatabase = {}} = {}) => (
           <div>
             {
               crossReferences.map(({displayName, crossRefCompleteUrl} = {}) => (
-                <div key={displayName}><ExternalLink href={crossRefCompleteUrl}>{displayName}</ExternalLink></div>
+                <div key={displayName}><ExternalLink href={crossRefCompleteUrl}>{sourceDatabase.label}: {displayName}</ExternalLink></div>
               ))
             }
           </div>
         ),
-        asText: (crossReferences = []) => (
-          crossReferences.map(({displayName} = {}) => (displayName)).join(',')
-        ),
         width: '14em',
         className: style.columnHeaderGroup0,
         columnClassName: style.columnGroup0,
+        export: false,
       },
       {
         field: 'sourceDatabase',
@@ -245,6 +274,8 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         width: '10em',
         className: style.columnHeaderGroup3,
         columnClassName: style.columnGroup3,
+        hidden: true,
+        export: true,
       },
       {
         field: 'aggregationDatabase',
@@ -270,15 +301,15 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
         columnClassName: style.columnGroup3,
       },
     ];
-    const data = (this.props.data || []).map((interaction = {}) => {
+    const data = (interactions.data || []).map((interaction = {}) => {
       const {
         // fields that might need to be rewrite
         geneA,
-        interactionAType,
-        interactionARole,
+        interactorAType,
+        interactorARole,
         geneB,
-        interactionBType,
-        interactionBRole,
+        interactorBType,
+        interactorBRole,
 
         // other fields
         crossReferences,
@@ -290,18 +321,18 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
       } = interaction;
       const interactionRewriteFields = geneA.geneID === this.props.focusGeneId ? {
         geneA,
-        interactionAType,
-        interactionARole,
+        interactorAType,
+        interactorARole,
         geneB,
-        interactionBType,
-        interactionBRole,
+        interactorBType,
+        interactorBRole,
       } : {
         geneA: geneB,
-        interactionAType: interactionBType,
-        interactionARole: interactionBRole,
+        interactorAType: interactorBType,
+        interactorARole: interactorBRole,
         geneB: geneA,
-        interactionBType: interactionAType,
-        interactionBRole: interactionARole,
+        interactorBType: interactorAType,
+        interactorBRole: interactorARole,
       };
       return Object.assign({
         crossReferences,
@@ -326,12 +357,20 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
       // names must be equal
       return 0;
     });
-    //    console.log(data);
+
+    if (interactions.loading) {
+      return <LoadingSpinner />;
+    }
+
+    if (interactions.data.length === 0) {
+      return <NoData />;
+    }
+
     return (
       <LocalDataTable
         columns={columns}
         data={data}
-        filename={this.props.filename}
+        filename={filename}
         paginated
       />
     );
@@ -339,9 +378,16 @@ export default class GenePhysicalInteractionDetailTable extends React.Component 
 }
 
 GenePhysicalInteractionDetailTable.propTypes = {
-  data: PropTypes.any,
+  dispatch: PropTypes.func,
   filename: PropTypes.any,
   focusGeneDisplayName: PropTypes.string,
   focusGeneId: PropTypes.string.isRequired,
+  interactions: PropTypes.object,
   tableKey: PropTypes.string,
 };
+
+const mapStateToProps = (state) => ({
+  interactions: selectInteractions(state)
+});
+
+export default connect(mapStateToProps)(GenePhysicalInteractionDetailTable);

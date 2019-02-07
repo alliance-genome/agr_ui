@@ -84,7 +84,7 @@ SummaryRibbon.propTypes = {
   geneId: PropTypes.string,
   groups: PropTypes.array,
   onClick: PropTypes.func,
-  overrideColor: PropTypes.string,
+  overrideColor: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   selectedTerm: PropTypes.object,
   showBlockTitles: PropTypes.bool,
   showSeparatorLabels: PropTypes.bool,

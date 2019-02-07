@@ -8,12 +8,6 @@ import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import RobotstxtPlugin from 'robotstxt-webpack-plugin';
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 
-const API_URL = process.env.API_URL || 'http://localhost:8080';
-const DEV_SERVER_UI_PORT = process.env.DEV_SERVER_UI_PORT || '2992';
-const JBROWSE_URL = process.env.JBROWSE_URL || 'http://jbrowse.alliancegenome.org';
-const JBROWSE_PORT = process.env.JBROWSE_PORT || '8891';
-const APOLLO_URL = process.env.APOLLO_URL || 'https://agr-apollo.berkeleybop.io/apollo/';
-
 const isDev = process.env.NODE_ENV !== 'production';
 
 const robotstxtProdOptions = {
@@ -42,12 +36,12 @@ const devServer = {
   disableHostCheck: true,
   contentBase: path.resolve(__dirname, 'dist'),
   historyApiFallback: true,
-  port: DEV_SERVER_UI_PORT,
+  port: process.env.DEV_SERVER_UI_PORT || '2992',
   host: '0.0.0.0',
   hot: true,
   proxy: {
     '/api': {
-      target: API_URL,
+      target: process.env.API_URL || 'http://localhost:8080',
       secure: false,
       changeOrigin: true
     }
@@ -63,12 +57,11 @@ const plugins = [
     inject: true,
     title: 'Alliance of Genome Resources'
   }),
-  new webpack.DefinePlugin({
-    'process.env': {
-      'APOLLO_URL': JSON.stringify(APOLLO_URL),
-      'JBROWSE_URL': JSON.stringify(JBROWSE_URL),
-      'JBROWSE_PORT': JSON.stringify(JBROWSE_PORT)
-    }
+  new webpack.EnvironmentPlugin({
+    APOLLO_URL: 'https://agr-apollo.berkeleybop.io/apollo/',
+    JBROWSE_PORT: '8891',
+    JBROWSE_URL: 'http://jbrowse.alliancegenome.org',
+    RELEASE: '[dev]',
   }),
   new MiniCssExtractPlugin({
     filename: '[name].[hash].css',

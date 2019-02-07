@@ -17,7 +17,7 @@ class BasicGeneInfo extends Component {
     return (
       <AttributeList>
         <AttributeLabel>Species</AttributeLabel>
-        <AttributeValue><i>{gene.species}</i></AttributeValue>
+        <AttributeValue><i>{gene.species.name}</i></AttributeValue>
 
         <AttributeLabel>Symbol</AttributeLabel>
         <AttributeValue>{gene.symbol}</AttributeValue>
@@ -31,7 +31,7 @@ class BasicGeneInfo extends Component {
         </AttributeValue>
 
         <AttributeLabel>Biotype</AttributeLabel>
-        <AttributeValue>{gene.soTermName.replace(/_/g, ' ')}</AttributeValue>
+        <AttributeValue>{gene.soTerm.name.replace(/_/g, ' ')}</AttributeValue>
 
         <AttributeLabel>Automated Description</AttributeLabel>
         <AttributeValue>{gene.automatedGeneSynopsis}</AttributeValue>
@@ -46,14 +46,13 @@ class BasicGeneInfo extends Component {
 
         <AttributeLabel>Genomic Resources</AttributeLabel>
         <AttributeValue>
-          {gene.crossReferences.generic_cross_reference && <CrossReferenceList crossReferences={gene.crossReferences.generic_cross_reference} />}
+          {gene.crossReferences.other && <CrossReferenceList crossReferences={gene.crossReferences.other} />}
         </AttributeValue>
 
         <AttributeLabel>Additional Information</AttributeLabel>
         <AttributeValue>
-          {gene.crossReferences &&
-            gene.crossReferences['gene/references'] &&
-            <DataSourceLink reference={gene.crossReferences['gene/references'][0]} text='Literature' />
+          {gene.crossReferences.references &&
+            <DataSourceLink reference={gene.crossReferences.references}>Literature</DataSourceLink>
           }
         </AttributeValue>
       </AttributeList>

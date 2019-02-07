@@ -7,10 +7,10 @@ import { compareAlphabeticalCaseInsensitive } from '../lib/utils';
 const CrossReferenceList = ({collapsible, crossReferences}) => {
   const byName = compareAlphabeticalCaseInsensitive(xref => (xref.displayName || xref.name));
   const byWithLinkThenName = (a, b) => {
-    if (a.crossRefCompleteUrl && !b.crossRefCompleteUrl) {
+    if (a.url && !b.url) {
       return -1;
     }
-    if (!a.crossRefCompleteUrl && b.crossRefCompleteUrl) {
+    if (!a.url && b.url) {
       return 1;
     }
     return byName(a, b);
@@ -27,7 +27,7 @@ const CrossReferenceList = ({collapsible, crossReferences}) => {
       {
         crossReferences
           .sort(byWithLinkThenName)
-          .map(ref => <DataSourceLink key={`${ref.localId}-${ref.type}`} reference={ref} />)
+          .map(ref => <DataSourceLink key={ref.name} reference={ref} />)
       }
     </CollapsibleList>
   );
