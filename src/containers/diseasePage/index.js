@@ -23,8 +23,6 @@ import ExternalLink from '../../components/externalLink';
 class DiseasePage extends Component {
   constructor(props) {
     super(props);
-
-    this.titleCase = this.titleCase.bind(this);
   }
 
   componentDidMount() {
@@ -37,20 +35,6 @@ class DiseasePage extends Component {
     if (this.props.match.params.diseaseId !== prevProps.match.params.diseaseId) {
       dispatch(fetchDisease(this.props.match.params.diseaseId));
     }
-  }
-
-  renderError() {
-    let e = this.props.error;
-    if (!e) {
-      return null;
-    }
-    return <NotFound />;
-  }
-
-  titleCase(str) {
-    return str.toLowerCase().trim().split(' ').map(function (word) {
-      return word.replace(word[0], word[0].toUpperCase());
-    }).join(' ');
   }
 
   render() {
@@ -78,13 +62,13 @@ class DiseasePage extends Component {
     ];
 
     const doLink = (
-      <ExternalLink href={'http://www.disease-ontology.org/?id=' + disease.doId}>
-        {disease.doId}
+      <ExternalLink href={disease.url}>
+        {disease.id}
       </ExternalLink>
     );
 
     return (
-      <DataPage title={disease.name || disease.doId}>
+      <DataPage title={disease.name || disease.id}>
         <PageNav entityName={disease.name} link={doLink} sections={SECTIONS} />
         <PageData>
           <PageHeader entityName={disease.name} />
@@ -94,7 +78,7 @@ class DiseasePage extends Component {
           </Subsection>
 
           <Subsection title='Associations'>
-            <DiseasePageAssociationsTable id={disease.doId} />
+            <DiseasePageAssociationsTable id={disease.id} />
           </Subsection>
         </PageData>
       </DataPage>

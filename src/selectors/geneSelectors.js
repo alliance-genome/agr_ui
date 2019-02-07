@@ -17,17 +17,22 @@ export const selectAlleles = createSelector(
   (gene) => gene.get('alleles').toJS()
 );
 
-export const selectLoadingAlleles = createSelector(
-  [selectGeneDomain],
-  (gene) => gene.get('loadingAllele')
-);
-
-export const selectTotalAlleles = createSelector(
-  [selectGeneDomain],
-  (gene) => gene.get('totalAlleles')
-);
-
 export const selectPhenotypes = createSelector(
   [selectGeneDomain],
   (gene) => gene.get('phenotypes').toJS()
+);
+
+export const selectDiseaseViaEmpirical = createSelector(
+  [selectGeneDomain],
+  (gene) => gene.get('diseaseViaEmpirical').toJS()
+);
+
+export const selectDiseaseViaOrthology = createSelector(
+  [selectGeneDomain],
+  (gene) => gene.get('diseaseViaOrthology').toJS()
+);
+
+export const selectInteractions = createSelector(
+  [selectGeneDomain],
+  (gene) => gene.get('interactions').toJS()
 );

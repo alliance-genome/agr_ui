@@ -1,13 +1,13 @@
 import React from 'react';
 import ExternalLink from '../externalLink';
 
-const GeneticEntityCell = (feature) => {
-  if (!feature) {
+const GeneticEntityCell = (entity) => {
+  if (!entity) {
     return null;
   }
   return (
-    <ExternalLink href={feature.modCrossRefFullUrl}>
-      <span dangerouslySetInnerHTML={{__html: feature.symbol}} />
+    <ExternalLink href={entity.url}>
+      <span dangerouslySetInnerHTML={{__html: entity.symbol}} />
     </ExternalLink>
   );
 };

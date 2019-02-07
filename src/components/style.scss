@@ -121,6 +121,11 @@
   color: black;
 }
 
+.transcriptBackbone {
+  fill-opacity: 1.0;
+  fill: gray;
+}
+
 .axis {
   font: 14px sans-serif;
 }
@@ -153,4 +158,11 @@
   -webkit-overflow-scrolling: touch;
 
   @include webkit-scrollbar;
+}
+
+.overflow{
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
+  position: relative;
 }

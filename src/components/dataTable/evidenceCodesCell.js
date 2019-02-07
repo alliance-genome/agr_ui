@@ -1,12 +1,11 @@
 import uniq from 'lodash.uniq';
 
-const EvidenceCodesCell = (publications) => {
-  if (!publications || !publications.length) {
+const EvidenceCodesCell = (evidenceCodes) => {
+  if (!evidenceCodes || !evidenceCodes.length) {
     return '';
   }
-  const codes = publications
-    .map(publication => publication.evidenceCodes)
-    .reduce((a, b) => a.concat(b));
+  const codes = evidenceCodes
+    .map(code => code.name);
   return uniq(codes).sort().join(', ');
 };
 
