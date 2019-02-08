@@ -4,16 +4,10 @@ import ExternalLink from '../../components/externalLink';
 import Subsection from '../../components/subsection';
 import { DataPage, PageData, PageHeader, PageNav } from '../../components/dataPage';
 
+import style from './style.scss';
+
 class DownloadsPage extends React.Component {
   render() {
-    const style = {
-      backgroundColor: '#2598C5',
-      color: '#ffffff',
-      padding: '0.1rem 0.3rem',
-      borderRadius: '5px',
-      marginRight: '0.4rem',
-      fontSize: '0.8rem',
-    };
     const INTERACTIONS = 'Interactions';
     const GENE_DESCRIPTIONS = 'Gene Descriptions';
     const SECTIONS = [{name: GENE_DESCRIPTIONS}, {name: INTERACTIONS}];
@@ -35,57 +29,57 @@ class DownloadsPage extends React.Component {
                 <tr>
                   <td><i>Caenorhabditis elegans</i> genes</td>
                   <td>
-                    <a href='http://reports.alliancegenome.org/gene-descriptions/WB_gene_desc_latest.json' style={style}>JSON</a>
-                    <a href='http://reports.alliancegenome.org/gene-descriptions/WB_gene_desc_latest.tsv' style={style}>TSV</a>
-                    <a href='http://reports.alliancegenome.org/gene-descriptions/WB_gene_desc_latest.txt' style={style}>TXT</a>
+                    <a className={style.fileLink} href='http://reports.alliancegenome.org/gene-descriptions/WB_gene_desc_latest.json'>JSON</a>
+                    <a className={style.fileLink} href='http://reports.alliancegenome.org/gene-descriptions/WB_gene_desc_latest.tsv'>TSV</a>
+                    <a className={style.fileLink} href='http://reports.alliancegenome.org/gene-descriptions/WB_gene_desc_latest.txt'>TXT</a>
                   </td>
                 </tr>
                 <tr>
                   <td><i>Danio rerio</i> genes</td>
                   <td>
-                    <a href='http://reports.alliancegenome.org/gene-descriptions/ZFIN_gene_desc_latest.json' style={style}>JSON</a>
-                    <a href='http://reports.alliancegenome.org/gene-descriptions/ZFIN_gene_desc_latest.tsv' style={style}>TSV</a>
-                    <a href='http://reports.alliancegenome.org/gene-descriptions/ZFIN_gene_desc_latest.txt' style={style}>TXT</a>
+                    <a className={style.fileLink} href='http://reports.alliancegenome.org/gene-descriptions/ZFIN_gene_desc_latest.json'>JSON</a>
+                    <a className={style.fileLink} href='http://reports.alliancegenome.org/gene-descriptions/ZFIN_gene_desc_latest.tsv'>TSV</a>
+                    <a className={style.fileLink} href='http://reports.alliancegenome.org/gene-descriptions/ZFIN_gene_desc_latest.txt'>TXT</a>
                   </td>
                 </tr>
                 <tr>
                   <td><i>Drosophila melanogaster</i> genes</td>
                   <td>
-                    <a href='http://reports.alliancegenome.org/gene-descriptions/FB_gene_desc_latest.json' style={style}>JSON</a>
-                    <a href='http://reports.alliancegenome.org/gene-descriptions/FB_gene_desc_latest.tsv' style={style}>TSV</a>
-                    <a href='http://reports.alliancegenome.org/gene-descriptions/FB_gene_desc_latest.txt' style={style}>TXT</a>
+                    <a className={style.fileLink} href='http://reports.alliancegenome.org/gene-descriptions/FB_gene_desc_latest.json'>JSON</a>
+                    <a className={style.fileLink} href='http://reports.alliancegenome.org/gene-descriptions/FB_gene_desc_latest.tsv'>TSV</a>
+                    <a className={style.fileLink} href='http://reports.alliancegenome.org/gene-descriptions/FB_gene_desc_latest.txt'>TXT</a>
                   </td>
                 </tr>
                 <tr>
                   <td><i>Homo sapiens</i> genes</td>
                   <td>
-                    <a href='http://reports.alliancegenome.org/gene-descriptions/HUMAN_gene_desc_latest.json' style={style}>JSON</a>
-                    <a href='http://reports.alliancegenome.org/gene-descriptions/HUMAN_gene_desc_latest.tsv' style={style}>TSV</a>
-                    <a href='http://reports.alliancegenome.org/gene-descriptions/HUMAN_gene_desc_latest.txt' style={style}>TXT</a>
+                    <a className={style.fileLink} href='http://reports.alliancegenome.org/gene-descriptions/HUMAN_gene_desc_latest.json'>JSON</a>
+                    <a className={style.fileLink} href='http://reports.alliancegenome.org/gene-descriptions/HUMAN_gene_desc_latest.tsv'>TSV</a>
+                    <a className={style.fileLink} href='http://reports.alliancegenome.org/gene-descriptions/HUMAN_gene_desc_latest.txt'>TXT</a>
                   </td>
                 </tr>
                 <tr>
                   <td><i>Mus musculus</i> genes</td>
                   <td>
-                    <a href='http://reports.alliancegenome.org/gene-descriptions/MGI_gene_desc_latest.json' style={style}>JSON</a>
-                    <a href='http://reports.alliancegenome.org/gene-descriptions/MGI_gene_desc_latest.tsv' style={style}>TSV</a>
-                    <a href='http://reports.alliancegenome.org/gene-descriptions/MGI_gene_desc_latest.txt' style={style}>TXT</a>
+                    <a className={style.fileLink} href='http://reports.alliancegenome.org/gene-descriptions/MGI_gene_desc_latest.json'>JSON</a>
+                    <a className={style.fileLink} href='http://reports.alliancegenome.org/gene-descriptions/MGI_gene_desc_latest.tsv'>TSV</a>
+                    <a className={style.fileLink} href='http://reports.alliancegenome.org/gene-descriptions/MGI_gene_desc_latest.txt'>TXT</a>
                   </td>
                 </tr>
                 <tr>
                   <td><i>Rattus norvegicus</i> genes</td>
                   <td>
-                    <a href='http://reports.alliancegenome.org/gene-descriptions/RGD_gene_desc_latest.json' style={style}>JSON</a>
-                    <a href='http://reports.alliancegenome.org/gene-descriptions/RGD_gene_desc_latest.tsv' style={style}>TSV</a>
-                    <a href='http://reports.alliancegenome.org/gene-descriptions/RGD_gene_desc_latest.txt' style={style}>TXT</a>
+                    <a className={style.fileLink} href='http://reports.alliancegenome.org/gene-descriptions/RGD_gene_desc_latest.json'>JSON</a>
+                    <a className={style.fileLink} href='http://reports.alliancegenome.org/gene-descriptions/RGD_gene_desc_latest.tsv'>TSV</a>
+                    <a className={style.fileLink} href='http://reports.alliancegenome.org/gene-descriptions/RGD_gene_desc_latest.txt'>TXT</a>
                   </td>
                 </tr>
                 <tr>
                   <td><i>Saccharomyces cerevisiae</i> genes</td>
                   <td>
-                    <a href='http://reports.alliancegenome.org/gene-descriptions/SGD_gene_desc_latest.json' style={style}>JSON</a>
-                    <a href='http://reports.alliancegenome.org/gene-descriptions/SGD_gene_desc_latest.tsv' style={style}>TSV</a>
-                    <a href='http://reports.alliancegenome.org/gene-descriptions/SGD_gene_desc_latest.txt' style={style}>TXT</a>
+                    <a className={style.fileLink} href='http://reports.alliancegenome.org/gene-descriptions/SGD_gene_desc_latest.json'>JSON</a>
+                    <a className={style.fileLink} href='http://reports.alliancegenome.org/gene-descriptions/SGD_gene_desc_latest.tsv'>TSV</a>
+                    <a className={style.fileLink} href='http://reports.alliancegenome.org/gene-descriptions/SGD_gene_desc_latest.txt'>TXT</a>
                   </td>
                 </tr>
               </tbody>
@@ -123,7 +117,7 @@ class DownloadsPage extends React.Component {
                     </UncontrolledCollapse>
                   </td>
                   <td>
-                    <a href='https://download.alliancegenome.org/INT/Alliance_molecular_interactions.tar.gz' style={style}>TXT</a>
+                    <a className={style.fileLink} href='https://download.alliancegenome.org/INT/Alliance_molecular_interactions.tar.gz'>TXT</a>
                   </td>
                 </tr>
               </tbody>
