@@ -220,7 +220,7 @@ class GenePhysicalInteractionDetailTable extends React.Component {
             ({label} = {}) => label
           ).join(',');
         },
-        width: '12em',
+        width: '10em',
         className: style.columnHeaderGroup3,
         columnClassName: style.columnGroup3,
       },
@@ -240,9 +240,9 @@ class GenePhysicalInteractionDetailTable extends React.Component {
         format: (crossReferences = [], {sourceDatabase = {}, aggregationDatabase = {}} = {}) => (
           <div>
             {
-              crossReferences.map(({primaryKey, displayName, prefix, crossRefCompleteUrl} = {}) => (
+              crossReferences.map(({primaryKey, displayName, prefix, url} = {}) => (
                 <div key={primaryKey}>
-                  <ExternalLink href={crossRefCompleteUrl}>{prefix}:{displayName}</ExternalLink>
+                  <ExternalLink href={url}>{prefix}:{displayName}</ExternalLink>
                 </div>
               ))
             }
@@ -257,7 +257,7 @@ class GenePhysicalInteractionDetailTable extends React.Component {
             }
           </div>
         ),
-        width: '14em',
+        width: '16em',
         className: style.columnHeaderGroup0,
         columnClassName: style.columnGroup0,
         export: false,
