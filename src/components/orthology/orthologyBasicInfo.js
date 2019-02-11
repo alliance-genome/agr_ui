@@ -10,6 +10,7 @@ import DataSourceLink from '../../components/dataSourceLink';
 class OrthologyBasicInfo extends Component {
 
   render() {
+    const { pantherCrossReference } = this.props;
 
     return (
       <AttributeList>
@@ -21,7 +22,7 @@ class OrthologyBasicInfo extends Component {
 
         <AttributeLabel>Gene tree</AttributeLabel>
         <AttributeValue>
-          <DataSourceLink reference={this.props.pantherCrossReference} />
+          {pantherCrossReference && <DataSourceLink reference={pantherCrossReference} />}
         </AttributeValue>
 
       </AttributeList>
