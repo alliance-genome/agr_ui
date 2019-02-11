@@ -120,19 +120,18 @@ class GenomeFeatureWrapper extends Component {
           <AttributeLabel>Assembly version</AttributeLabel>
           <AttributeValue>{assembly}</AttributeValue>
         </AttributeList>
-        <div className='row'>
-          <HorizontalScroll width={960}>
-            <a
-              href={this.jbrowseUrl} rel='noopener noreferrer'
-              target='_blank' title='Browse Genome'
-            >
-              <svg id={this.props.id}>
-                <LoadingSpinner/>
-              </svg>
-            </a>
-            {this.state.loadState === 'error' ? <div className='text-danger'>Unable to retrieve data</div> : ''}
-          </HorizontalScroll>
-        </div>
+
+        <HorizontalScroll width={960}>
+          <a
+            href={this.jbrowseUrl} rel='noopener noreferrer'
+            target='_blank' title='Browse Genome'
+          >
+            <svg id={this.props.id}>
+              <LoadingSpinner/>
+            </svg>
+          </a>
+          {this.state.loadState === 'error' ? <div className='text-danger'>Unable to retrieve data</div> : ''}
+        </HorizontalScroll>
       </div>
     ) ;
   }
