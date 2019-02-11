@@ -15,7 +15,7 @@ class Layout extends Component {
 
   render() {
     return (
-      <div className={style.appContainer}>
+      <div>
         <div className='d-none d-md-block'>
           <TopBar />
         </div>

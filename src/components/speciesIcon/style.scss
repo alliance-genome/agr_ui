@@ -1,19 +1,7 @@
 .speciesIcon {
   background-image: url(./speciesSprite.png);
-  min-width: 78px;
-  min-height: 90px;
   background-size: 700% 100%;
   display: inline-block;
-}
-
-.speciesIcon.medium {
-  min-width: 52px;
-  min-height: 60px;
-}
-
-.speciesIcon.small {
-  min-width: 26px;
-  min-height: 30px;
 }
 
 @media (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3/2), (-webkit-min-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx) {
