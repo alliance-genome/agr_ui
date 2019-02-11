@@ -13,9 +13,11 @@ const PageNav = ({entityName, extra, icon, link, sections}) => {
     <div className={`col-md-4 col-12 ${style.pageNav}`}>
       <div className='navbar-expand-md'>
         <div className={`${style.entity}`}>
-          {icon && <span className='mr-2'>{icon}</span>}
           <span>
-            <h4>{entityName}</h4>
+            <div className='d-flex align-items-center'>
+              {icon && <span className='mr-2'>{icon}</span>}
+              <h4>{entityName}</h4>
+            </div>
             <div className='d-flex flex-column'>
               {extra}
               {link}
@@ -27,7 +29,7 @@ const PageNav = ({entityName, extra, icon, link, sections}) => {
         </div>
 
         <div className='navbar-collapse collapse' id='data-page-nav'>
-          <Scrollspy 
+          <Scrollspy
             className={`list-group list-group-flush ${style.scrollSpy}`}
             componentTag='div'
             currentClassName='active'
@@ -37,7 +39,7 @@ const PageNav = ({entityName, extra, icon, link, sections}) => {
               sections.map(({name: section, level=0}) => {
                 const style = {paddingLeft: `${level + 1}em`, border: 'none',};
                 return (
-                  <HashLink 
+                  <HashLink
                     className="list-group-item list-group-item-action"
                     key={section}
                     onClick={() => $('#data-page-nav').collapse('hide')}

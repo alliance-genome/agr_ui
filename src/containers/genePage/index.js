@@ -130,7 +130,7 @@ class GenePage extends Component {
         <PageNav
           entityName={data.symbol}
           extra={<i>{data.species.name}</i>}
-          icon={<SpeciesIcon species={data.species.name} />}
+          icon={<SpeciesIcon scale={0.5} species={data.species.name} />}
           link={<DataSourceLink reference={data.crossReferences.primary} />}
           sections={SECTIONS}
         />

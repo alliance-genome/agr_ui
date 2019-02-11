@@ -1,17 +1,16 @@
 @import "../../theme";
 @import "~bootstrap/scss/bootstrap";
 
+.dataPage {
+  max-width: 1520px;
+}
+
 .dataContainer {
   overflow-x: auto;
 
   @include media-breakpoint-up(md) {
     border-left: 1px solid $hr-border-color;
   }
-}
-
-.dataContent {
-  max-width: 1000px;
-  margin: 0 auto;
 }
 
 .pageNav {
@@ -26,8 +25,8 @@
 
   @include media-breakpoint-up(md) {
     height: 100%;
-    max-width: 18rem;
-    min-width: 18rem;
+    max-width: 220px;
+    min-width: 220px;
     box-shadow: none;
   }
 
