@@ -167,11 +167,7 @@ class GenePage extends Component {
           </Subsection>
 
           <Subsection title={ORTHOLOGY}>
-            <OrthologyBasicInfo
-              focusGeneSymbol={data.symbol}
-              pantherCrossReference={data.crossReferences.panther}
-              species={data.species.name}
-            />
+            <OrthologyBasicInfo pantherCrossReference={data.crossReferences.panther} />
             <Subsection hasData={(data.orthology || []).length > 0}>
               <OrthologyFilteredTable data={data.orthology} />
               <OrthologyUserGuide />

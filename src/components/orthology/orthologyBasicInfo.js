@@ -15,11 +15,6 @@ class OrthologyBasicInfo extends Component {
     return (
       <AttributeList>
 
-        <AttributeLabel>Focus gene</AttributeLabel>
-        <AttributeValue>
-          {this.props.focusGeneSymbol} - (Species: {this.props.species})
-        </AttributeValue>
-
         <AttributeLabel>Gene tree</AttributeLabel>
         <AttributeValue>
           {pantherCrossReference && <DataSourceLink reference={pantherCrossReference} />}
@@ -32,9 +27,7 @@ class OrthologyBasicInfo extends Component {
 }
 
 OrthologyBasicInfo.propTypes = {
-  focusGeneSymbol: PropTypes.string,
   pantherCrossReference: PropTypes.object,
-  species: PropTypes.string,
 };
 
 export default OrthologyBasicInfo;
