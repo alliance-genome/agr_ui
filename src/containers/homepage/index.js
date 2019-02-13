@@ -87,7 +87,7 @@ class Homepage extends Component {
             <div className='container'>
               <div className='row py-3'>
                 <div className='col-xs-12 col-12 col-sm-6'>
-                  <img className='img-fluid logoImg' src={item.logo} />
+                  <img className='img-fluid slideLogoImg' src={item.logo} />
                 </div>
                 <div className='col-xs-12 col-12 col-sm-6 align-self-center'>
                   <div className={style.carouselCaption} >
