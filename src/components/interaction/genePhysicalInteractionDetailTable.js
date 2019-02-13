@@ -103,7 +103,7 @@ class GenePhysicalInteractionDetailTable extends React.Component {
       {
         field: 'geneB',
         label: 'Interactor species ID',
-        asText: ({species} = {}) => species.primaryKey,
+        asText: ({species} = {}) => species.taxonId,
         hidden: true,
         export: true,
       },
