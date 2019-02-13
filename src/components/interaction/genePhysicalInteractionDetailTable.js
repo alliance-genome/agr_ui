@@ -86,7 +86,7 @@ class GenePhysicalInteractionDetailTable extends React.Component {
       {
         field: 'geneB',
         label: 'Interactor gene ID',
-        asText: ({geneID} = {}) => geneID,
+        asText: ({id} = {}) => id,
         hidden: true,
         export: true,
       },
@@ -330,7 +330,7 @@ class GenePhysicalInteractionDetailTable extends React.Component {
         aggregationDatabase,
         publication,
       } = interaction;
-      const interactionRewriteFields = geneA.geneID === this.props.focusGeneId ? {
+      const interactionRewriteFields = geneA.id === this.props.focusGeneId ? {
         geneA,
         interactorAType,
         interactorARole,
