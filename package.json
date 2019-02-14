@@ -53,11 +53,10 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.1.0",
-    "@babel/core": "^7.1.0",
-    "@babel/preset-env": "^7.1.0",
-    "@babel/preset-react": "^7.0.0",
-    "@babel/register": "^7.0.0",
+    "@babel/core": "7.2.2",
+    "@babel/register": "7.0.0",
     "babel-loader": "^8.0.2",
+    "babel-preset-react-app": "7.0.1",
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
     "eslint": "^5.6.1",
@@ -87,9 +86,9 @@
     "webpack-node-externals": "^1.7.2"
   },
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "cross-env NODE_ENV=development webpack-dev-server",
     "prestart:docker": "npm install && npm run build",
-    "start-docker": "webpack-dev-server --history-api-fallback --host 0.0.0.0 --port 2992 --hot --inline",
+    "start-docker": "cross-env NODE_ENV=development webpack-dev-server --history-api-fallback --host 0.0.0.0 --port 2992 --hot --inline",
     "prebuild": "npm run clean",
     "build": "cross-env NODE_ENV=production webpack",
     "postbuild": "npm run sitemap",
