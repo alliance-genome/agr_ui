@@ -68,7 +68,7 @@ class OrthologyFilteredTable extends Component {
       dat.predictionMethodsMatched.length > this.state.filterScoreGreaterThan &&
       (this.state.filterBest ? dat.best : true) &&
       (this.state.filterReverseBest ? dat.bestReverse : true) &&
-      (this.state.filterSpecies ? getOrthologSpeciesName(dat.homologGene) === this.state.filterSpecies : true) &&
+      (this.state.filterSpecies ? getOrthologSpeciesName(dat) === this.state.filterSpecies : true) &&
       orthologyMeetsStringency(dat, this.state.stringencyLevel)
     );
   }
@@ -217,9 +217,8 @@ class OrthologyFilteredTable extends Component {
                   <option value="all">All</option>
                   {
                     this.props.data.reduce((all_species, dat) => {
-                      const {homologGene = {}} = dat;
-                      if (all_species.indexOf(getOrthologSpeciesName(homologGene)) === -1) {
-                        return all_species.concat([getOrthologSpeciesName(homologGene)]);
+                      if (all_species.indexOf(getOrthologSpeciesName(dat)) === -1) {
+                        return all_species.concat([getOrthologSpeciesName(dat)]);
                       } else {
                         return all_species;
                       }

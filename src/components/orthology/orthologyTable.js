@@ -5,7 +5,12 @@ import MethodHeader from './methodHeader';
 import MethodCell from './methodCell';
 import BooleanCell from './booleanCell';
 import HelpIcon from './helpIcon';
-import { getOrthologSpeciesId, getOrthologSpeciesName } from './utils';
+import {
+  getOrthologSpeciesId,
+  getOrthologSpeciesName,
+  getOrthologId,
+  getOrthologSymbol,
+} from './utils';
 import { sortBy, compareByFixedOrder } from '../../lib/utils';
 import { TAXON_ORDER } from '../../constants';
 
@@ -42,24 +47,23 @@ class OrthologyTable extends Component {
         <tbody>
           {
             sortBy(this.props.data, [
-              compareByFixedOrder(TAXON_ORDER, o => getOrthologSpeciesId(o.homologGene)),
+              compareByFixedOrder(TAXON_ORDER, o => getOrthologSpeciesId(o)),
               (orthDataA, orthDataB) => orthDataB.predictionMethodsMatched.length - orthDataA.predictionMethodsMatched.length
             ]).map((orthData, idx, orthList) => {
-              const gene2 = orthData.homologGene || {};
               const scoreNumerator = orthData.predictionMethodsMatched.length;
               const scoreDemominator = scoreNumerator +
                 orthData.predictionMethodsNotMatched.length;
+              const orthId = getOrthologId(orthData);
 
-              if (idx > 0 && getOrthologSpeciesName(orthList[idx - 1].homologGene) !== getOrthologSpeciesName(gene2)) {
+              if (idx > 0 && getOrthologSpeciesName(orthList[idx - 1]) !== getOrthologSpeciesName(orthData)) {
                 rowGroup += 1;
               }
 
-              const key = gene2.id;
               return (
-                <tr key={key} style={{backgroundColor: rowGroup % 2 === 0 ? '#eee' : ''}} >
-                  <td style={{fontStyle: 'italic'}}>{getOrthologSpeciesName(gene2)}</td>
+                <tr key={orthId} style={{backgroundColor: rowGroup % 2 === 0 ? '#eee' : ''}} >
+                  <td style={{fontStyle: 'italic'}}>{getOrthologSpeciesName(orthData)}</td>
                   <td>
-                    <Link to={`/gene/${gene2.id}`}>{gene2.symbol}</Link>
+                    <Link to={`/gene/${orthId}`}>{getOrthologSymbol(orthData)}</Link>
                   </td>
                   <td>{`${scoreNumerator} of ${scoreDemominator}`}</td>
                   <BooleanCell
@@ -73,7 +77,7 @@ class OrthologyTable extends Component {
                   <MethodCell
                     predictionMethodsMatched={orthData.predictionMethodsMatched}
                     predictionMethodsNotMatched={orthData.predictionMethodsNotMatched}
-                    rowKey={key}
+                    rowKey={orthId}
                   />
                 </tr>
               );
