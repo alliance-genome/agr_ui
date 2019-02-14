@@ -8,7 +8,7 @@ import { Button } from 'reactstrap';
 import ControlsContainer from '../controlsContainer';
 import { StringencySelector } from '../orthology';
 import { STRINGENCY_HIGH } from '../orthology/constants';
-import { selectOrthology } from '../../selectors/geneSelectors';
+import { selectOrthologs } from '../../selectors/geneSelectors';
 import {
   compareAlphabeticalCaseInsensitive,
   compareByFixedOrder,
@@ -164,7 +164,7 @@ ExpressionComparisonRibbon.propTypes = {
 
 function mapStateToProps (state) {
   return {
-    orthology: selectOrthology(state),
+    orthology: selectOrthologs(state),
   };
 }
 

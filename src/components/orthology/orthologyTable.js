@@ -17,6 +17,10 @@ const columns = [
   {name: 'Method'}
 ];
 
+function getOrthologSpeciesName(homologGene = {}) {
+  return (homologGene.species || {}).name;
+}
+
 class OrthologyTable extends Component {
 
   render() {
@@ -49,16 +53,16 @@ class OrthologyTable extends Component {
               const scoreDemominator = scoreNumerator +
                 orthData.predictionMethodsNotMatched.length;
 
-              if (idx > 0 && orthList[idx - 1].gene2Species !== gene2.speciesName) {
+              if (idx > 0 && orthList[idx - 1].gene2Species !== getOrthologSpeciesName(gene2)) {
                 rowGroup += 1;
               }
 
-              const key = gene2.geneID;
+              const key = gene2.id;
               return (
                 <tr key={key} style={{backgroundColor: rowGroup % 2 === 0 ? '#eee' : ''}} >
-                  <td style={{fontStyle: 'italic'}}>{gene2.speciesName}</td>
+                  <td style={{fontStyle: 'italic'}}>{getOrthologSpeciesName(gene2)}</td>
                   <td>
-                    <Link to={`/gene/${gene2.geneID}`}>{gene2.symbol}</Link>
+                    <Link to={`/gene/${gene2.id}`}>{gene2.symbol}</Link>
                   </td>
                   <td>{`${scoreNumerator} of ${scoreDemominator}`}</td>
                   <BooleanCell
@@ -88,9 +92,11 @@ OrthologyTable.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
       gene: PropTypes.shape({
-        geneID: PropTypes.string,
+        id: PropTypes.string,
         symbol: PropTypes.string,
-        speciesName: PropTypes.string,
+        species: PropTypes.shape({
+          name: PropTypes.string,
+        }),
       }),
       predictionMethodsMatched: PropTypes.arrayOf(PropTypes.string),
       predictionMethodsNotCalled: PropTypes.arrayOf(PropTypes.string),

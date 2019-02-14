@@ -25,7 +25,7 @@ import ExpressionLinks from './expressionLinks';
 import SpeciesIcon from '../../components/speciesIcon';
 import DataSourceLink from '../../components/dataSourceLink';
 import PhenotypeTable from './phenotypeTable';
-import { ExpressionComparisonRibbon } from '../../components/expression';
+//import { ExpressionComparisonRibbon } from '../../components/expression';
 
 class GenePage extends Component {
 
@@ -168,12 +168,8 @@ class GenePage extends Component {
 
           <Subsection title={ORTHOLOGY}>
             <OrthologyBasicInfo pantherCrossReference={data.crossReferences.panther} />
-            <Subsection hasData={(data.orthology || []).length > 0}>
-              <DataLoader url={`/api/gene/${data.primaryId}/homologs?stringencyFilter=all&rows=${1000}`}>
-                {({data}) => (
-                  <OrthologyFilteredTable data={data.results} />
-                )}
-              </DataLoader>
+            <Subsection>
+              <OrthologyFilteredTable geneId={data.id} />
               <OrthologyUserGuide />
             </Subsection>
           </Subsection>
@@ -205,7 +201,8 @@ class GenePage extends Component {
               spellCrossReference={data.crossReferences.spell}
               wildtypeExpressionCrossReference={data.crossReferences.wild_type_expression}
             />
-            <ExpressionComparisonRibbon geneId={data.id} geneSymbol={data.symbol} geneTaxon={data.species.taxonId} />
+            <i>Sorry, will be back shortly</i>
+            {/* <ExpressionComparisonRibbon geneId={data.id} geneSymbol={data.symbol} geneTaxon={data.species.taxonId} /> */}
           </Subsection>
 
           <Subsection title={ALLELES}>

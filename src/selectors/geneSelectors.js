@@ -7,9 +7,9 @@ export const selectGene = createSelector(
   (gene) => gene.toJS()
 );
 
-export const selectOrthology = createSelector(
+export const selectOrthologs = createSelector(
   [selectGeneDomain],
-  (gene) => gene.toJS().data.orthology
+  (gene) => gene.get('orthologs').toJS()
 );
 
 export const selectAlleles = createSelector(
