@@ -7,7 +7,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Collapse } from 'reactstrap';
 import { OrthologyTable, StringencySelector } from '.';
+import { connect } from 'react-redux';
+import { selectOrthologs } from '../../selectors/geneSelectors';
+import { fetchOrthologs } from '../../actions/genes';
 import HorizontalScroll from '../horizontalScroll';
+import LoadingSpinner from '../loadingSpinner';
 import NoData from '../noData';
 import ControlsContainer from '../controlsContainer';
 import { STRINGENCY_HIGH } from './constants';
@@ -41,6 +45,22 @@ class OrthologyFilteredTable extends Component {
     this.state = defaultState;
   }
 
+  componentDidMount () {
+    const { geneId, fetchData } = this.props;
+    fetchData(geneId);
+  }
+
+  componentDidUpdate (prevProps) {
+    const { geneId, fetchData } = this.props;
+    if (geneId !== prevProps.geneId) {
+      fetchData(geneId);
+    }
+  }
+
+  getOrthologSpeciesName(homologGene = {}) {
+    return (homologGene.species || {}).name;
+  }
+
   filterCallback(dat) {
     const meetMethodFilter = this.state.filterMethod ?
       dat.predictionMethodsMatched.indexOf(this.state.filterMethod) > -1 :
@@ -50,7 +70,7 @@ class OrthologyFilteredTable extends Component {
       dat.predictionMethodsMatched.length > this.state.filterScoreGreaterThan &&
       (this.state.filterBest ? dat.best : true) &&
       (this.state.filterReverseBest ? dat.bestReverse : true) &&
-      (this.state.filterSpecies ? (dat.homologGene || {}).speciesName === this.state.filterSpecies : true) &&
+      (this.state.filterSpecies ? this.getOrthologSpeciesName(dat.homologGene) === this.state.filterSpecies : true) &&
       orthologyMeetsStringency(dat, this.state.stringencyLevel)
     );
   }
@@ -102,7 +122,17 @@ class OrthologyFilteredTable extends Component {
   }
 
   render() {
+
+    if (this.props.loading) {
+      return <LoadingSpinner />;
+    }
+
+    if (this.props.data.length === 0) {
+      return <NoData />;
+    }
+
     const filteredData = this.props.data.filter((dat) => this.filterCallback(dat));
+    console.log(this.props.data);
     const all_methods = this.props.data[0].predictionMethodsMatched.concat(
       this.props.data[0].predictionMethodsNotCalled,
       this.props.data[0].predictionMethodsNotMatched
@@ -185,8 +215,8 @@ class OrthologyFilteredTable extends Component {
                   {
                     this.props.data.reduce((all_species, dat) => {
                       const {homologGene = {}} = dat;
-                      if (all_species.indexOf(homologGene.speciesName) === -1) {
-                        return all_species.concat([homologGene.speciesName]);
+                      if (all_species.indexOf(this.getOrthologSpeciesName(homologGene)) === -1) {
+                        return all_species.concat([this.getOrthologSpeciesName(homologGene)]);
                       } else {
                         return all_species;
                       }
@@ -251,16 +281,40 @@ OrthologyFilteredTable.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
       homologGene: PropTypes.shape({
-        speciesName: PropTypes.string,
+        // speciesName: PropTypes.string,
+        species: PropTypes.shape({
+          name: PropTypes.string,
+        }),
       }),
-      gene2SpeciesName: PropTypes.string,
       predictionMethodsMatched: PropTypes.arrayOf(PropTypes.string),
       predictionMethodsNotCalled: PropTypes.arrayOf(PropTypes.string),
       predictionMethodsNotMatched: PropTypes.arrayOf(PropTypes.string),
       best: PropTypes.bool,
       bestReverse: PropTypes.bool,
     })
-  )
+  ),
+  loading: PropTypes.any,
+  fetchData: PropTypes.func.isRequired, // provided via connect
+  geneId: PropTypes.string.isRequired,
 };
 
-export default OrthologyFilteredTable;
+const mapStateToProps = (state) => {
+  const {data, loading, error} = selectOrthologs(state);
+  return {
+    data: data,
+    error: error,
+    loading: loading,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchData: (geneId) => {
+      console.log('gonna call fetch orthologs');
+      dispatch(fetchOrthologs(geneId));
+    },
+  };
+};
+
+export { OrthologyFilteredTable as OrthologyFilteredTable };
+export default connect(mapStateToProps, mapDispatchToProps)(OrthologyFilteredTable);
