@@ -64,8 +64,8 @@ function isHighStringency(orthology) {
   return (
     orthology.predictionMethodsMatched.indexOf('ZFIN') > -1 ||
     orthology.predictionMethodsMatched.indexOf('HGNC') > -1 ||
-    (orthology.predictionMethodsMatched.length > 2 && (orthology.isBestScore || orthology.isBestRevScore)) ||
-    (orthology.predictionMethodsMatched.length === 2 && orthology.isBestScore && orthology.isBestRevScore)
+    (orthology.predictionMethodsMatched.length > 2 && (orthology.best || orthology.bestReverse)) ||
+    (orthology.predictionMethodsMatched.length === 2 && orthology.best && orthology.bestReverse)
   );
 }
 
@@ -74,7 +74,7 @@ function isModerateStringency(orthology) {
     orthology.predictionMethodsMatched.indexOf('ZFIN') > -1 ||
     orthology.predictionMethodsMatched.indexOf('HGNC') > -1 ||
     orthology.predictionMethodsMatched.length > 2 ||
-    (orthology.predictionMethodsMatched.length === 2 && orthology.isBestScore && orthology.isBestRevScore)
+    (orthology.predictionMethodsMatched.length === 2 && orthology.best && orthology.bestReverse)
   );
 }
 
