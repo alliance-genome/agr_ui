@@ -74,7 +74,6 @@ class OrthologyFilteredTable extends Component {
   }
 
   updateStringencyLevel(level) {
-    console.log(level);
     this.setState({
       stringencyLevel: level
     });
@@ -141,8 +140,6 @@ class OrthologyFilteredTable extends Component {
       this.props.data[0].predictionMethodsNotCalled,
       this.props.data[0].predictionMethodsNotMatched
     ).sort(caseInsensitiveCompare);
-
-    console.log(this.props.filteredData);
 
     const labelStyle = {
       margin: '0em 1em 0em 0',
@@ -299,9 +296,9 @@ OrthologyFilteredTable.propTypes = {
       bestReverse: PropTypes.bool,
     })
   ),
-  loading: PropTypes.any,
   fetchData: PropTypes.func.isRequired, // provided via connect
   geneId: PropTypes.string.isRequired,
+  loading: PropTypes.any,
 };
 
 const mapStateToProps = (state) => {
