@@ -168,8 +168,8 @@ class GenePage extends Component {
 
           <Subsection title={ORTHOLOGY}>
             <OrthologyBasicInfo pantherCrossReference={data.crossReferences.panther} />
-            <Subsection hasData={(data.orthology || []).length > 0}>
-              <OrthologyFilteredTable data={data.orthology} />
+            <Subsection>
+              <OrthologyFilteredTable geneId={data.id} />
               <OrthologyUserGuide />
             </Subsection>
           </Subsection>

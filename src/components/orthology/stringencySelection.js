@@ -3,18 +3,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { STRINGENCY_HIGH, STRINGENCY_MED, STRINGNECY_LOW } from './constants';
 
-class StringencySelector extends React.Component {
+class StringencySelection extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      stringencyLevel: this.props.defaultLevel
-    };
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event) {
     const newLevel = event.target.value;
-    this.setState({stringencyLevel: newLevel});
     this.props.onChange(newLevel);
   }
 
@@ -29,7 +25,7 @@ class StringencySelector extends React.Component {
     return (
       <label style={labelStyle}>
         <input
-          checked={stringencyLevel === this.state.stringencyLevel}
+          checked={stringencyLevel === this.props.level}
           onChange={this.handleChange}
           style={inputStyle}
           type="radio"
@@ -52,9 +48,9 @@ class StringencySelector extends React.Component {
   }
 }
 
-StringencySelector.propTypes = {
-  defaultLevel: PropTypes.string,
+StringencySelection.propTypes = {
+  level: PropTypes.string,
   onChange: PropTypes.func,
 };
 
-export default StringencySelector;
+export default StringencySelection;
