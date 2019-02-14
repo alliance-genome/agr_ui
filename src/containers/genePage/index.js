@@ -25,7 +25,7 @@ import ExpressionLinks from './expressionLinks';
 import SpeciesIcon from '../../components/speciesIcon';
 import DataSourceLink from '../../components/dataSourceLink';
 import PhenotypeTable from './phenotypeTable';
-//import { ExpressionComparisonRibbon } from '../../components/expression';
+import { ExpressionComparisonRibbon } from '../../components/expression';
 
 class GenePage extends Component {
 
@@ -201,8 +201,7 @@ class GenePage extends Component {
               spellCrossReference={data.crossReferences.spell}
               wildtypeExpressionCrossReference={data.crossReferences.wild_type_expression}
             />
-            <i>Sorry, will be back shortly</i>
-            {/* <ExpressionComparisonRibbon geneId={data.id} geneSymbol={data.symbol} geneTaxon={data.species.taxonId} /> */}
+            <ExpressionComparisonRibbon geneId={data.id} geneSymbol={data.symbol} geneTaxon={data.species.taxonId} />
           </Subsection>
 
           <Subsection title={ALLELES}>

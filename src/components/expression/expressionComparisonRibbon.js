@@ -6,7 +6,12 @@ import Select from 'react-select';
 import { Button } from 'reactstrap';
 
 import ControlsContainer from '../controlsContainer';
-import { StringencySelector } from '../orthology';
+import {
+  StringencySelection,
+  getOrthologSpeciesId,
+  getOrthologId,
+  getOrthologSymbol,
+} from '../orthology';
 import { STRINGENCY_HIGH } from '../orthology/constants';
 import { selectOrthologs } from '../../selectors/geneSelectors';
 import {
@@ -27,11 +32,11 @@ import HorizontalScroll from '../horizontalScroll';
 const makeLabel = (symbol, taxonId) => `${symbol} (${shortSpeciesName(taxonId)})`;
 
 const compareBySpeciesThenAlphabetical = compareBy([
-  compareByFixedOrder(TAXON_ORDER, o => o.gene2Species),
-  compareAlphabeticalCaseInsensitive(o => o.gene2Symbol)
+  compareByFixedOrder(TAXON_ORDER, o => getOrthologSpeciesId(o)),
+  compareAlphabeticalCaseInsensitive(o => getOrthologSymbol(o))
 ]);
 
-const byNotHuman = orthology => orthology.gene2Species !== TAXON_IDS.HUMAN;
+const byNotHuman = orthology => getOrthologSpeciesId(orthology) !== TAXON_IDS.HUMAN;
 const byStringency = stringency => orthology => orthologyMeetsStringency(orthology, stringency);
 
 const ANATOMY = 'Anatomy';
@@ -67,7 +72,7 @@ class ExpressionComparisonRibbon extends React.Component {
       .filter(byNotHuman)
       .filter(byStringency(stringency))
       .sort(compareBySpeciesThenAlphabetical);
-    const genes = [geneId].concat(selectedOrthologs.map(o => o.gene2AgrPrimaryId));
+    const genes = [geneId].concat(selectedOrthologs.map(o => getOrthologId(o)));
     // if only looking at a single yeast gene, just show CC group
     const groups = (geneTaxon === TAXON_IDS.YEAST && selectedOrthologs.length === 0) ? [CC] : [ANATOMY, STAGE, CC];
     return (
@@ -75,13 +80,13 @@ class ExpressionComparisonRibbon extends React.Component {
         <div className='pb-4'>
           <ControlsContainer>
             <b>Compare to ortholog genes</b>
-            <StringencySelector defaultLevel={stringency} onChange={s => this.setState({stringency: s})} />
+            <StringencySelection level={stringency} onChange={s => this.setState({stringency: s})} />
             <div className='d-flex align-items-baseline'>
               <div className='flex-grow-1'>
                 <Select
                   closeMenuOnSelect={false}
-                  getOptionLabel={option => makeLabel(option.gene2Symbol, option.gene2Species)}
-                  getOptionValue={option => option.gene2AgrPrimaryId}
+                  getOptionLabel={option => makeLabel(getOrthologSymbol(option), getOrthologSpeciesId(option))}
+                  getOptionValue={option => getOrthologId(option)}
                   isMulti
                   maxMenuHeight={210}
                   onChange={this.handleChange}
@@ -124,16 +129,16 @@ class ExpressionComparisonRibbon extends React.Component {
               </span>
             </div>
             {selectedOrthologs.sort(compareBySpeciesThenAlphabetical).map((o, idx) => (
-              <div className='d-table-row' key={o.gene2AgrPrimaryId}>
+              <div className='d-table-row' key={getOrthologId(o)}>
                 <span className='d-table-cell text-nowrap pr-2'>
-                  {makeLabel(o.gene2Symbol, o.gene2Species)}
+                  {makeLabel(getOrthologSymbol(o), getOrthologSpeciesId(o))}
                 </span>
                 <span className='d-table-cell'>
                   <SummaryRibbon
-                    geneId={o.gene2AgrPrimaryId}
+                    geneId={getOrthologId(o)}
                     groups={groups}
-                    key={o.gene2AgrPrimaryId}
-                    label={makeLabel(o.gene2Symbol, o.gene2Species)}
+                    key={getOrthologId(o)}
+                    label={makeLabel(getOrthologSymbol(o), getOrthologSpeciesId(o))}
                     onClick={this.handleBlockClick}
                     selectedTerm={selectedTerm}
                     showBlockTitles={false}
@@ -163,8 +168,9 @@ ExpressionComparisonRibbon.propTypes = {
 };
 
 function mapStateToProps (state) {
+  const {data} = selectOrthologs(state);
   return {
-    orthology: selectOrthologs(state),
+    orthology: data,
   };
 }
 
