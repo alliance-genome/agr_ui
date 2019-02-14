@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import { Collapse } from 'reactstrap';
 import StringencySelection from './stringencySelection';
 import OrthologyTable from './orthologyTable';
+import { getOrthologSpeciesName } from './utils';
 import { connect } from 'react-redux';
 import { selectOrthologs } from '../../selectors/geneSelectors';
 import { fetchOrthologs } from '../../actions/genes';
@@ -58,10 +59,6 @@ class OrthologyFilteredTable extends Component {
     }
   }
 
-  getOrthologSpeciesName(homologGene = {}) {
-    return (homologGene.species || {}).name;
-  }
-
   filterCallback(dat) {
     const meetMethodFilter = this.state.filterMethod ?
       dat.predictionMethodsMatched.indexOf(this.state.filterMethod) > -1 :
@@ -71,7 +68,7 @@ class OrthologyFilteredTable extends Component {
       dat.predictionMethodsMatched.length > this.state.filterScoreGreaterThan &&
       (this.state.filterBest ? dat.best : true) &&
       (this.state.filterReverseBest ? dat.bestReverse : true) &&
-      (this.state.filterSpecies ? this.getOrthologSpeciesName(dat.homologGene) === this.state.filterSpecies : true) &&
+      (this.state.filterSpecies ? getOrthologSpeciesName(dat.homologGene) === this.state.filterSpecies : true) &&
       orthologyMeetsStringency(dat, this.state.stringencyLevel)
     );
   }
@@ -224,8 +221,8 @@ class OrthologyFilteredTable extends Component {
                   {
                     this.props.data.reduce((all_species, dat) => {
                       const {homologGene = {}} = dat;
-                      if (all_species.indexOf(this.getOrthologSpeciesName(homologGene)) === -1) {
-                        return all_species.concat([this.getOrthologSpeciesName(homologGene)]);
+                      if (all_species.indexOf(getOrthologSpeciesName(homologGene)) === -1) {
+                        return all_species.concat([getOrthologSpeciesName(homologGene)]);
                       } else {
                         return all_species;
                       }

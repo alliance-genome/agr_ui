@@ -5,6 +5,7 @@ import MethodHeader from './methodHeader';
 import MethodCell from './methodCell';
 import BooleanCell from './booleanCell';
 import HelpIcon from './helpIcon';
+import { getOrthologSpeciesId, getOrthologSpeciesName } from './utils';
 import { sortBy, compareByFixedOrder } from '../../lib/utils';
 import { TAXON_ORDER } from '../../constants';
 
@@ -16,10 +17,6 @@ const columns = [
   {name: 'Best reverse', help: 'Within the species of the input gene, the input gene is called as an ortholog of this gene by the highest number of algorithms.'},
   {name: 'Method'}
 ];
-
-function getOrthologSpeciesName(homologGene = {}) {
-  return (homologGene.species || {}).name;
-}
 
 class OrthologyTable extends Component {
 
@@ -45,7 +42,7 @@ class OrthologyTable extends Component {
         <tbody>
           {
             sortBy(this.props.data, [
-              compareByFixedOrder(TAXON_ORDER, o => o.gene2Species),
+              compareByFixedOrder(TAXON_ORDER, o => getOrthologSpeciesId(o.homologGene)),
               (orthDataA, orthDataB) => orthDataB.predictionMethodsMatched.length - orthDataA.predictionMethodsMatched.length
             ]).map((orthData, idx, orthList) => {
               const gene2 = orthData.homologGene || {};
@@ -53,7 +50,7 @@ class OrthologyTable extends Component {
               const scoreDemominator = scoreNumerator +
                 orthData.predictionMethodsNotMatched.length;
 
-              if (idx > 0 && orthList[idx - 1].gene2Species !== getOrthologSpeciesName(gene2)) {
+              if (idx > 0 && getOrthologSpeciesName(orthList[idx - 1].homologGene) !== getOrthologSpeciesName(gene2)) {
                 rowGroup += 1;
               }
 
