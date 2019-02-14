@@ -6,7 +6,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Collapse } from 'reactstrap';
-import { OrthologyTable, StringencySelector } from '.';
+import StringencySelection from './stringencySelection';
+import OrthologyTable from './orthologyTable';
 import { connect } from 'react-redux';
 import { selectOrthologs } from '../../selectors/geneSelectors';
 import { fetchOrthologs } from '../../actions/genes';
@@ -75,6 +76,13 @@ class OrthologyFilteredTable extends Component {
     );
   }
 
+  updateStringencyLevel(level) {
+    console.log(level);
+    this.setState({
+      stringencyLevel: level
+    });
+  }
+
   updateFilterMethod(event) {
     this.setState({
       filterMethod: event.target.value === 'all' ? null : event.target.value
@@ -132,11 +140,12 @@ class OrthologyFilteredTable extends Component {
     }
 
     const filteredData = this.props.data.filter((dat) => this.filterCallback(dat));
-    console.log(this.props.data);
     const all_methods = this.props.data[0].predictionMethodsMatched.concat(
       this.props.data[0].predictionMethodsNotCalled,
       this.props.data[0].predictionMethodsNotMatched
     ).sort(caseInsensitiveCompare);
+
+    console.log(this.props.filteredData);
 
     const labelStyle = {
       margin: '0em 1em 0em 0',
@@ -161,9 +170,9 @@ class OrthologyFilteredTable extends Component {
     return (
       <div>
         <ControlsContainer>
-          <StringencySelector
-            defaultLevel={this.state.stringencyLevel}
-            onChange={level => this.setState({stringencyLevel: level})}
+          <StringencySelection
+            level={this.state.stringencyLevel}
+            onChange={(level) => this.updateStringencyLevel(level)}
           />
           <Collapse isOpen={this.state.showFilterPanel}>
             <div>
@@ -310,7 +319,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchData: (geneId) => {
-      console.log('gonna call fetch orthologs');
       dispatch(fetchOrthologs(geneId));
     },
   };
