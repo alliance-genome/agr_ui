@@ -55,7 +55,7 @@ class AnnotationTable extends React.Component {
       {
         field: 'gene',
         label: 'Gene',
-        format: g => <Link to={'/gene/' + g.geneID}>{g.symbol}</Link>,
+        format: g => <Link to={'/gene/' + g.id}>{g.symbol}</Link>,
         filterable: true,
         width: '75px',
         hidden: genes.length < 2,
@@ -86,8 +86,8 @@ class AnnotationTable extends React.Component {
         format: refs => refs && (
           <CommaSeparatedList>
             {refs
-              .sort(compareAlphabeticalCaseInsensitive(ref => ref.displayName))
-              .map(ref => <DataSourceLink key={ref.primaryKey} reference={ref} />)}
+              .sort(compareAlphabeticalCaseInsensitive(ref => ref.name))
+              .map(ref => <DataSourceLink key={ref.name} reference={ref} />)}
           </CommaSeparatedList>
         ),
         width: '200px',
@@ -102,8 +102,8 @@ class AnnotationTable extends React.Component {
     ];
 
     const data = annotations && annotations.data && annotations.data.results.map(result => ({
-      key: `${result.gene.geneID}-${result.termName}-${result.stage ? result.stage.stageID : 'other'}`,
-      species: result.gene.speciesName,
+      key: `${result.gene.id}-${result.termName}-${result.stage ? result.stage.stageID : 'other'}`,
+      species: result.gene.species.name,
       gene: result.gene,
       term: result.termName,
       stage: result.stage && result.stage.stageID,
