@@ -11,3 +11,5 @@ export {
   OrthologyUserGuide,
   StringencySelection,
 };
+
+export * from './utils';
