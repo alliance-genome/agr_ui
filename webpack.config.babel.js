@@ -77,6 +77,7 @@ if (isDev) {
 module.exports = {
   mode: isDev ? 'development' : 'production',
   entry: {
+    polyFetch: 'whatwg-fetch',
     main: path.resolve(__dirname, 'src/index.js'),
     // style: path.resolve(__dirname, 'src/style.js')
   },
