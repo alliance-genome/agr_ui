@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { PopoverBody, UncontrolledPopover } from 'reactstrap';
+import { makeId } from '../lib/utils';
 
 const HelpPopup = ({children, id}) => {
+  id = makeId(id);
   return (
     <React.Fragment>
       <i

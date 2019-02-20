@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import MethodHeader from './methodHeader';
 import MethodCell from './methodCell';
 import BooleanCell from './booleanCell';
-import HelpIcon from './helpIcon';
 import {
   getOrthologSpeciesId,
   getOrthologSpeciesName,
@@ -13,6 +12,7 @@ import {
 } from './utils';
 import { sortBy, compareByFixedOrder } from '../../lib/utils';
 import { TAXON_ORDER } from '../../constants';
+import HelpPopup from '../helpPopup';
 
 const columns = [
   {name: 'Species'},
@@ -37,7 +37,7 @@ class OrthologyTable extends Component {
                   return (<MethodHeader key={column.name} name={column.name} />);
                 } else {
                   return (<th key={column.name}>
-                    {column.name}{column.help && <HelpIcon iconKey={`help-${column.name}`} text={column.help} />}
+                    {column.name}{column.help && <HelpPopup id={`help-${column.name}`}>{column.help}</HelpPopup>}
                   </th>);
                 }
               })
