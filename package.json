@@ -27,7 +27,7 @@
     "lodash.uniq": "^4.5.0",
     "lodash.without": "^4.4.0",
     "numeral": "^2.0.6",
-    "popper.js": "1.14.3",
+    "popper.js": "1.14.7",
     "prop-types": "^15.5.10",
     "query-string": "^5.1.1",
     "react": "^16.4.2",
