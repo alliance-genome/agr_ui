@@ -1,6 +1,7 @@
 import { fromJS } from 'immutable';
 import {
   FETCH_GENE,
+  FETCH_ORTHOLOGS,
   FETCH_ALLELES,
   FETCH_PHENOTYPES,
   FETCH_DISEASE_VIA_EMPIRICAL,
@@ -10,6 +11,12 @@ import {
 import { handleActions, forObjectRequestAction, forCollectionRequestAction } from '../lib/handleActions';
 
 const DEFAULT_STATE = fromJS({
+  orthologs: {
+    data: [],
+    error: null,
+    loading: false,
+    total: 0,
+  },
   alleles: {
     data: [],
     error: null,
@@ -47,6 +54,7 @@ const DEFAULT_STATE = fromJS({
 
 const geneReducer = handleActions(DEFAULT_STATE,
   forObjectRequestAction(FETCH_GENE),
+  forCollectionRequestAction(FETCH_ORTHOLOGS, 'orthologs'),
   forCollectionRequestAction(FETCH_ALLELES, 'alleles'),
   forCollectionRequestAction(FETCH_PHENOTYPES, 'phenotypes'),
   forCollectionRequestAction(FETCH_DISEASE_VIA_EMPIRICAL, 'diseaseViaEmpirical'),

@@ -6,8 +6,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Collapse } from 'reactstrap';
-import { OrthologyTable, StringencySelector } from '.';
+import StringencySelection from './stringencySelection';
+import OrthologyTable from './orthologyTable';
+import { getOrthologSpeciesName } from './utils';
+import { connect } from 'react-redux';
+import { selectOrthologs } from '../../selectors/geneSelectors';
+import { fetchOrthologs } from '../../actions/genes';
 import HorizontalScroll from '../horizontalScroll';
+import LoadingSpinner from '../loadingSpinner';
 import NoData from '../noData';
 import ControlsContainer from '../controlsContainer';
 import { STRINGENCY_HIGH } from './constants';
@@ -41,6 +47,18 @@ class OrthologyFilteredTable extends Component {
     this.state = defaultState;
   }
 
+  componentDidMount () {
+    const { geneId, fetchData } = this.props;
+    fetchData(geneId);
+  }
+
+  componentDidUpdate (prevProps) {
+    const { geneId, fetchData } = this.props;
+    if (geneId !== prevProps.geneId) {
+      fetchData(geneId);
+    }
+  }
+
   filterCallback(dat) {
     const meetMethodFilter = this.state.filterMethod ?
       dat.predictionMethodsMatched.indexOf(this.state.filterMethod) > -1 :
@@ -48,11 +66,17 @@ class OrthologyFilteredTable extends Component {
     return (
       meetMethodFilter &&
       dat.predictionMethodsMatched.length > this.state.filterScoreGreaterThan &&
-      (this.state.filterBest ? dat.isBestScore : true) &&
-      (this.state.filterReverseBest ? dat.isBestRevScore : true) &&
-      (this.state.filterSpecies ? dat.gene2SpeciesName === this.state.filterSpecies : true) &&
+      (this.state.filterBest ? dat.best : true) &&
+      (this.state.filterReverseBest ? dat.bestReverse : true) &&
+      (this.state.filterSpecies ? getOrthologSpeciesName(dat) === this.state.filterSpecies : true) &&
       orthologyMeetsStringency(dat, this.state.stringencyLevel)
     );
+  }
+
+  updateStringencyLevel(level) {
+    this.setState({
+      stringencyLevel: level
+    });
   }
 
   updateFilterMethod(event) {
@@ -102,6 +126,15 @@ class OrthologyFilteredTable extends Component {
   }
 
   render() {
+
+    if (this.props.loading) {
+      return <LoadingSpinner />;
+    }
+
+    if (this.props.data.length === 0) {
+      return <NoData />;
+    }
+
     const filteredData = this.props.data.filter((dat) => this.filterCallback(dat));
     const all_methods = this.props.data[0].predictionMethodsMatched.concat(
       this.props.data[0].predictionMethodsNotCalled,
@@ -131,9 +164,9 @@ class OrthologyFilteredTable extends Component {
     return (
       <div>
         <ControlsContainer>
-          <StringencySelector
-            defaultLevel={this.state.stringencyLevel}
-            onChange={level => this.setState({stringencyLevel: level})}
+          <StringencySelection
+            level={this.state.stringencyLevel}
+            onChange={(level) => this.updateStringencyLevel(level)}
           />
           <Collapse isOpen={this.state.showFilterPanel}>
             <div>
@@ -184,8 +217,8 @@ class OrthologyFilteredTable extends Component {
                   <option value="all">All</option>
                   {
                     this.props.data.reduce((all_species, dat) => {
-                      if (all_species.indexOf(dat.gene2SpeciesName) === -1) {
-                        return all_species.concat([dat.gene2SpeciesName]);
+                      if (all_species.indexOf(getOrthologSpeciesName(dat)) === -1) {
+                        return all_species.concat([getOrthologSpeciesName(dat)]);
                       } else {
                         return all_species;
                       }
@@ -249,16 +282,40 @@ OrthologyFilteredTable.propTypes = {
   // filterReverseBest: PropTypes.bool
   data: PropTypes.arrayOf(
     PropTypes.shape({
-      gene2AgrPrimaryId: PropTypes.string,
-      gene2Symbol: PropTypes.string,
-      gene2SpeciesName: PropTypes.string,
+      homologGene: PropTypes.shape({
+        // speciesName: PropTypes.string,
+        species: PropTypes.shape({
+          name: PropTypes.string,
+        }),
+      }),
       predictionMethodsMatched: PropTypes.arrayOf(PropTypes.string),
       predictionMethodsNotCalled: PropTypes.arrayOf(PropTypes.string),
       predictionMethodsNotMatched: PropTypes.arrayOf(PropTypes.string),
-      isBestScore: PropTypes.bool,
-      isBestRevScore: PropTypes.bool,
+      best: PropTypes.bool,
+      bestReverse: PropTypes.bool,
     })
-  )
+  ),
+  fetchData: PropTypes.func.isRequired, // provided via connect
+  geneId: PropTypes.string.isRequired,
+  loading: PropTypes.any,
 };
 
-export default OrthologyFilteredTable;
+const mapStateToProps = (state) => {
+  const {data, loading, error} = selectOrthologs(state);
+  return {
+    data: data,
+    error: error,
+    loading: loading,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchData: (geneId) => {
+      dispatch(fetchOrthologs(geneId));
+    },
+  };
+};
+
+export { OrthologyFilteredTable as OrthologyFilteredTable };
+export default connect(mapStateToProps, mapDispatchToProps)(OrthologyFilteredTable);

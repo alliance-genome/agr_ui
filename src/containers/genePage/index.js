@@ -130,7 +130,7 @@ class GenePage extends Component {
         <PageNav
           entityName={data.symbol}
           extra={<i>{data.species.name}</i>}
-          icon={<SpeciesIcon species={data.species.name} />}
+          icon={<SpeciesIcon scale={0.5} species={data.species.name} />}
           link={<DataSourceLink reference={data.crossReferences.primary} />}
           sections={SECTIONS}
         />
@@ -167,13 +167,9 @@ class GenePage extends Component {
           </Subsection>
 
           <Subsection title={ORTHOLOGY}>
-            <OrthologyBasicInfo
-              focusGeneSymbol={data.symbol}
-              pantherCrossReference={data.crossReferences.panther}
-              species={data.species.name}
-            />
-            <Subsection hasData={(data.orthology || []).length > 0}>
-              <OrthologyFilteredTable data={data.orthology} />
+            <OrthologyBasicInfo pantherCrossReference={data.crossReferences.panther} />
+            <Subsection>
+              <OrthologyFilteredTable geneId={data.id} />
               <OrthologyUserGuide />
             </Subsection>
           </Subsection>

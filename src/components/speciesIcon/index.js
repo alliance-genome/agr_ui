@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import style from './style.scss';
 
-const SpeciesIcon = ({species, small, iconClass}) => {
+const SpeciesIcon = ({species, scale, iconClass}) => {
   if (!species) {
     return null;
   }
@@ -11,15 +12,24 @@ const SpeciesIcon = ({species, small, iconClass}) => {
     return null;
   }
   let classes = [style.speciesIcon, speciesClass];
-  if (small) {
-    classes.push(style.small);
-  }
   if (iconClass) {
     classes.push(iconClass);
   }
-  return speciesClass && (
-    <span className={classes.join(' ')} />
-  );
+  const size = {
+    minWidth: 78 * scale,
+    minHeight: 90 * scale,
+  };
+  return <span className={classes.join(' ')} style={size} />;
+};
+
+SpeciesIcon.propTypes = {
+  iconClass: PropTypes.string,
+  scale: PropTypes.number,
+  species: PropTypes.string,
+};
+
+SpeciesIcon.defaultProps = {
+  scale: 1,
 };
 
 export default SpeciesIcon;
