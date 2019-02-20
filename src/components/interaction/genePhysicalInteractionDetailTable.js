@@ -86,7 +86,7 @@ class GenePhysicalInteractionDetailTable extends React.Component {
       {
         field: 'geneB',
         label: 'Interactor gene ID',
-        asText: ({geneID} = {}) => geneID,
+        asText: ({id} = {}) => id,
         hidden: true,
         export: true,
       },
@@ -103,7 +103,7 @@ class GenePhysicalInteractionDetailTable extends React.Component {
       {
         field: 'geneB',
         label: 'Interactor species ID',
-        asText: ({species} = {}) => species.primaryKey,
+        asText: ({species} = {}) => species.taxonId,
         hidden: true,
         export: true,
       },
@@ -220,7 +220,7 @@ class GenePhysicalInteractionDetailTable extends React.Component {
             ({label} = {}) => label
           ).join(',');
         },
-        width: '12em',
+        width: '10em',
         className: style.columnHeaderGroup3,
         columnClassName: style.columnGroup3,
       },
@@ -237,16 +237,27 @@ class GenePhysicalInteractionDetailTable extends React.Component {
         field: 'crossReferences',
         label: 'Source',
         isKey: true,
-        format: (crossReferences = [], {sourceDatabase = {}} = {}) => (
+        format: (crossReferences = [], {sourceDatabase = {}, aggregationDatabase = {}} = {}) => (
           <div>
             {
-              crossReferences.map(({displayName, crossRefCompleteUrl} = {}) => (
-                <div key={displayName}><ExternalLink href={crossRefCompleteUrl}>{sourceDatabase.label}: {displayName}</ExternalLink></div>
+              crossReferences.map(({primaryKey, displayName, prefix, url} = {}) => (
+                <div key={primaryKey}>
+                  <ExternalLink href={url}>{prefix}:{displayName}</ExternalLink>
+                </div>
               ))
+            }
+            {
+              (!aggregationDatabase || sourceDatabase.label === aggregationDatabase.label) ?
+                null :
+                <span>
+                  <ExternalLink href={sourceDatabase.url}>{sourceDatabase.label}</ExternalLink>
+                  <i><span> via </span></i>
+                  <ExternalLink href={aggregationDatabase.url}>{aggregationDatabase.label}</ExternalLink>
+                </span>
             }
           </div>
         ),
-        width: '14em',
+        width: '16em',
         className: style.columnHeaderGroup0,
         columnClassName: style.columnGroup0,
         export: false,
@@ -319,7 +330,7 @@ class GenePhysicalInteractionDetailTable extends React.Component {
         aggregationDatabase,
         publication,
       } = interaction;
-      const interactionRewriteFields = geneA.geneID === this.props.focusGeneId ? {
+      const interactionRewriteFields = geneA.id === this.props.focusGeneId ? {
         geneA,
         interactorAType,
         interactorARole,
