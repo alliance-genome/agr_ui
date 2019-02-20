@@ -1,17 +1,36 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ExternalLink from '../externalLink';
 
-class OrthologyUserGuide extends Component {
-
-  render() {
-    return (
-      <div>
-        <p>Many aspects of data integration across organisms require a common set of orthology relationships among genes for the organisms represented in the Alliance of Genome Resources. This common set is needed to facilitate comparison of biological annotations and other data across the diverse organisms represented in the Alliance: human, mouse, rat, zebrafish, fly, worm, and yeast.</p>
-        <p>The Alliance methodology for the identification of orthologs among human and Alliance organisms is currently built on the <ExternalLink href="http://www.flyrnai.org/diopt"> DRSC Integrative Ortholog Prediction Tool</ExternalLink>
-      . DIOPT integrates a number of existing approaches including Ensembl Compara, HGNC, InParanoid, OMA, PANTHER, PhylomeDB, Roundup, TreeFam, and ZFIN, and assigns a score/count based on these different methods.</p>
-      </div>
-    );
-  }
-}
+const OrthologyUserGuide = () => (
+  <div>
+    <p>
+      Many aspects of data integration presented at the Alliance require a
+      common set of orthology relationships among genes for the organisms
+      represented, including human. The Alliance provides the results of
+      all methods that have been benchmarked by the <ExternalLink href='https://questfororthologs.org/'>
+      Quest for Orthologs Consortium (QfO)</ExternalLink>, as well as curated
+      ortholog inferences from HGNC (for human, mouse and rat genes), and
+      ZFIN (relating zebrafish genes to orthologs in human and rat).
+    </p>
+    <p>
+      The ortholog inferences from the different methods have been
+      integrated using the DRSC Integrative Ortholog Prediction Tool
+      (DIOPT). DIOPT integrates a number of existing methods including
+      those used by the Alliance: Ensembl Compara, HGNC, Hieranoid,
+      InParanoid, OMA, OrthoFinder, OrthoInspector, PANTHER, PhylomeDB,
+      Roundup, TreeFam, and ZFIN. See the <ExternalLink href='https://fgr.hms.harvard.edu/diopt-documentation'>
+      DIOPT documentation</ExternalLink> for additional information and
+      references related to the included methods. DIOPT assigns a
+      score/count based on the number of methods that call a specific
+      ortholog. For noncoding RNA genes, currently only HGNC and ZFIN
+      curated orthologs are included.
+    </p>
+    <p>
+      The DIOPT approach allows flexibility in the choice of algorithms and
+      in the level of stringency applied. For the Orthology table, these
+      parameters can be specified.
+    </p>
+  </div>
+);
 
 export default OrthologyUserGuide;
