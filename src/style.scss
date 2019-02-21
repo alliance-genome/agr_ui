@@ -17,10 +17,14 @@
 
 .react-bs-table {
   overflow-x: auto;
-  > div {
-    overflow: visible;
-  }
-  th {
+
+  thead th {
+    position: sticky;
+    padding: 0.3em;
+    top: 0;
+    z-index: 10;
+    border: none;
+    outline-offset: -1px;
     vertical-align: bottom !important;
   }
   @include webkit-scrollbar;

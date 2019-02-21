@@ -57,6 +57,7 @@ class LocalDataTable extends Component {
         csvFileName={filename}
         data={data}
         exportCSV
+        maxHeight='400px'
         options={options}
         pagination={paginated}
         tableBodyClass='table-sm'

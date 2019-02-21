@@ -12,7 +12,10 @@ const configureStore = () => {
   let composeEnhancers;
   try {
     // include in try block so mocha test doesn't complain about ReferenceError
-    composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ||
+    composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+      trace: true,
+      traceLimit: 25
+    }) ||
       compose;
   } catch (e) {
     composeEnhancers = compose;

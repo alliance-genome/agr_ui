@@ -1,4 +1,5 @@
 /* eslint-disable react/no-set-state */
+/* eslint-disable no-debugger */
 import React, { Component } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import PropTypes from 'prop-types';
@@ -72,6 +73,7 @@ class RemoteDataTable extends Component {
     if (!loading && !filters.length && totalRows === 0) {
       return <NoData />;
     }
+    //debugger;
 
     const options = {
       onFilterChange: this.handleFilterChange,
@@ -89,17 +91,20 @@ class RemoteDataTable extends Component {
     };
 
     return (
-      <div style={{position: 'relative'}}>
+      <div className={'react-bootstrap-table'} style={{position: 'relative'}} >
         <LoadingOverlay loading={loading} />
         <BootstrapTable
           bordered={false}
           data={data}
           fetchInfo={{dataTotalSize: totalRows}}
+          maxHeight='400px'
           options={options}
           pagination
           remote
+          scrollTop={'Bottom'}
           tableBodyClass='table-sm'
           tableHeaderClass='table-sm'
+          tableStyle={{display: 'block'}}
           version='4'
         >
           {
