@@ -3,6 +3,7 @@ import expressionReducer from './expressionReducer';
 import geneReducer from './geneReducer';
 import wordpressReducer from './wordpressReducer';
 import searchReducer from './searchReducer';
+import metadataReducer from './metadataReducer';
 
 export default {
   disease: diseaseReducer,
@@ -10,4 +11,5 @@ export default {
   gene: geneReducer,
   wordpress: wordpressReducer,
   search: searchReducer,
+  metadata: metadataReducer
 };

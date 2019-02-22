@@ -5,12 +5,14 @@ import Subsection from '../../components/subsection';
 import { DataPage, PageData, PageHeader, PageNav } from '../../components/dataPage';
 
 import style from './style.scss';
+import SubmissionSystemFiles from './submissionSystemFiles';
 
 class DownloadsPage extends React.Component {
   render() {
     const INTERACTIONS = 'Interactions';
     const GENE_DESCRIPTIONS = 'Gene Descriptions';
-    const SECTIONS = [{name: GENE_DESCRIPTIONS}, {name: INTERACTIONS}];
+    const INGEST_FILES = 'Ingested Files';
+    const SECTIONS = [{name: GENE_DESCRIPTIONS}, {name: INTERACTIONS}, {name: INGEST_FILES}];
     const TITLE = 'Downloads';
     return (
       <DataPage title={TITLE}>
@@ -122,6 +124,10 @@ class DownloadsPage extends React.Component {
                 </tr>
               </tbody>
             </Table>
+          </Subsection>
+
+          <Subsection title={INGEST_FILES}>
+            <SubmissionSystemFiles />
           </Subsection>
         </PageData>
       </DataPage>
