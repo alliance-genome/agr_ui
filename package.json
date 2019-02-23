@@ -13,6 +13,7 @@
   "private": true,
   "dependencies": {
     "@geneontology/ribbon": "1.5.7",
+    "abortcontroller-polyfill": "^1.2.5",
     "babel-polyfill": "^6.26.0",
     "bootstrap": "4.1.2",
     "d3-axis": "^1.0.8",
@@ -20,6 +21,7 @@
     "d3-selection": "^1.1.0",
     "genomefeaturecomponent": "^0.2.6",
     "immutable": "^3.8.1",
+    "isomorphic-fetch": "^2.2.1",
     "jquery": "3.3.1",
     "lodash.assignin": "^4.2.0",
     "lodash.clone": "^4.5.0",
@@ -49,8 +51,7 @@
     "redux-thunk": "2.2.0",
     "reselect": "^2.5.4",
     "sitemap": "^1.13.0",
-    "underscore": "^1.8.3",
-    "whatwg-fetch": "^3.0.0"
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.0",
@@ -67,7 +68,6 @@
     "file-loader": "^2.0.0",
     "filemanager-webpack-plugin": "^2.0.5",
     "html-webpack-plugin": "^3.2.0",
-    "isomorphic-fetch": "^2.2.1",
     "live-server": "^1.2.1",
     "mini-css-extract-plugin": "^0.4.3",
     "mocha": "^5.2.0",
