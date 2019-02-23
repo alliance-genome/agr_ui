@@ -5,12 +5,12 @@ import PropTypes from 'prop-types';
 import { selectSnapshot } from '../../selectors/metadataSelectors';
 import { fetchSnapshot } from '../../actions/metadata';
 
-import { Table } from 'reactstrap';
 import LoadingSpinner from '../../components/loadingSpinner';
 
-import style from './style.scss';
 import { compareBy, compareByFixedOrder, compareAlphabeticalCaseInsensitive } from '../../lib/utils';
 import { TAXON_ORDER } from '../../constants';
+import DownloadFileLink from './downloadFileLink';
+import DownloadFileTable from './downloadFileTable';
 
 const humanReadableTaxon = (id) => {
   return {
@@ -35,10 +35,6 @@ const humanReadableType = (type) => {
   }[type] || type;
 };
 
-const fileExtension = (filename) => {
-  return filename.substring(filename.lastIndexOf('.') + 1).toUpperCase();
-};
-
 class SubmissionSystemFiles extends React.Component {
   componentDidMount() {
     this.props.dispatch(fetchSnapshot());
@@ -60,35 +56,25 @@ class SubmissionSystemFiles extends React.Component {
     }
 
     return (
-      <Table size='sm'>
-        <thead>
-          <tr>
-            <th>Description</th>
-            <th>Download</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            data.snapShot.dataFiles
-              .sort(compareBy([
-                compareByFixedOrder(TAXON_ORDER, f => 'NCBITaxon:' + f.taxonIDPart),
-                compareAlphabeticalCaseInsensitive(f => humanReadableType(f.dataType))
-              ]))
-              .map(file => (
-                <tr key={file.s3path}>
-                  <td>
-                    <i>{humanReadableTaxon(file.taxonIDPart)}</i> {humanReadableType(file.dataType)}
-                  </td>
-                  <td>
-                    <a className={style.fileLink} href={`http://download.alliancegenome.org/${file.s3path}`}>
-                      {fileExtension(file.s3path)}
-                    </a>
-                  </td>
-                </tr>
-              ))
-          }
-        </tbody>
-      </Table>
+      <DownloadFileTable>
+        {
+          data.snapShot.dataFiles
+            .sort(compareBy([
+              compareByFixedOrder(TAXON_ORDER, f => 'NCBITaxon:' + f.taxonIDPart),
+              compareAlphabeticalCaseInsensitive(f => humanReadableType(f.dataType))
+            ]))
+            .map(file => (
+              <tr key={file.s3path}>
+                <td>
+                  <i>{humanReadableTaxon(file.taxonIDPart)}</i> {humanReadableType(file.dataType)}
+                </td>
+                <td>
+                  <DownloadFileLink url={`http://download.alliancegenome.org/${file.s3path}`} />
+                </td>
+              </tr>
+            ))
+        }
+      </DownloadFileTable>
     );
   }
 }
