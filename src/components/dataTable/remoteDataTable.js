@@ -1,5 +1,4 @@
 /* eslint-disable react/no-set-state */
-/* eslint-disable no-debugger */
 import React, { Component } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import PropTypes from 'prop-types';
@@ -73,7 +72,6 @@ class RemoteDataTable extends Component {
     if (!loading && !filters.length && totalRows === 0) {
       return <NoData />;
     }
-    //debugger;
 
     const options = {
       onFilterChange: this.handleFilterChange,
