@@ -8,6 +8,15 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const RobotstxtPlugin = require('robotstxt-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
+const folders = {
+  NPM: path.resolve(__dirname, './node_modules'),
+  APP: path.resolve(__dirname, 'src/index.js'),
+  CONTENTBASE: path.resolve(__dirname, 'dist'),
+  TEMPLATE: path.resolve(__dirname, 'src/public/index.html'),
+  LOGO: path.resolve(__dirname, 'src/public/logo.png'),
+  STYLES: path.resolve(__dirname, 'src/style.scss'),
+  SRC: path.resolve(__dirname, 'src')
+};
 const isDev = process.env.NODE_ENV !== 'production';
 
 const robotstxtProdOptions = {
@@ -34,7 +43,7 @@ const robotstxtDevOptions = {
 
 const devServer = {
   disableHostCheck: true,
-  contentBase: path.resolve(__dirname, 'dist'),
+  contentBase: folders.CONTENTBASE,
   historyApiFallback: true,
   port: process.env.DEV_SERVER_UI_PORT || '2992',
   host: '0.0.0.0',
@@ -50,10 +59,10 @@ const devServer = {
 
 const plugins = [
   new HtmlWebpackPlugin({
-    template: path.resolve(__dirname, 'src/public/index.html')
+    template: folders.TEMPLATE
   }),
   new FaviconsWebpackPlugin({
-    logo: path.resolve(__dirname, 'src/public/logo.png'),
+    logo: folders.LOGO,
     inject: true,
     title: 'Alliance of Genome Resources'
   }),
@@ -76,15 +85,11 @@ if (isDev) {
 
 module.exports = {
   mode: isDev ? 'development' : 'production',
-  entry: {
-    polyFetch: 'whatwg-fetch',
-    main: path.resolve(__dirname, 'src/index.js'),
-    // style: path.resolve(__dirname, 'src/style.js')
-  },
+  entry:[folders.APP],
   output: {
     filename: '[name].[hash].js',
     chunkFilename: '[id].[hash].js',
-    path: path.resolve(__dirname, 'dist'),
+    path: folders.CONTENTBASE,
     publicPath: '/',
   },
   devtool: isDev ? 'eval-source-map' : 'source-map',
@@ -109,8 +114,8 @@ module.exports = {
       // transform our own sass files, except for the bootstrap and overrides file
       {
         test: /\.scss$/,
-        include: path.resolve(__dirname, 'src'),
-        exclude: path.resolve(__dirname, 'src/style.scss'),
+        include: folders.SRC,
+        exclude: folders.STYLES,
         use: [
           isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
           {
@@ -130,8 +135,8 @@ module.exports = {
       {
         test: /\.(css|sass|scss)$/,
         include: [
-          path.resolve(__dirname, 'node_modules'),
-          path.resolve(__dirname, 'src/style.scss')
+          folders.NPM,
+          folders.STYLES
         ],
         use: [
           isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
