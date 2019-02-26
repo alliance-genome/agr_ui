@@ -1,4 +1,4 @@
-import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only';
+require('abortcontroller-polyfill/dist/abortcontroller-polyfill-only');
 import 'isomorphic-fetch';
 
 
