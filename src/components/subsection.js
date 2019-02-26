@@ -13,7 +13,7 @@ class Subsection extends Component {
     const id = this.props.title && makeId(this.props.title);
     const target = <a className={style.target} id={id} />;
     const helpPopup = this.props.help && (
-      <span className='small pull-right'>
+      <span className='small ml-3'>
         <HelpPopup id={`help-${this.props.title}`}>
           {this.props.help}
         </HelpPopup>

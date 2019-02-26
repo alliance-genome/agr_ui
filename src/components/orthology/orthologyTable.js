@@ -37,7 +37,7 @@ class OrthologyTable extends Component {
                   return (<MethodHeader key={column.name} name={column.name} />);
                 } else {
                   return (<th key={column.name}>
-                    {column.name}{column.help && <HelpPopup id={`help-${column.name}`}>{column.help}</HelpPopup>}
+                    {column.name} {column.help && <HelpPopup id={`help-${column.name}`}>{column.help}</HelpPopup>}
                   </th>);
                 }
               })

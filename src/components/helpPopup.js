@@ -8,7 +8,7 @@ const HelpPopup = ({children, id}) => {
   return (
     <React.Fragment>
       <i
-        className='fa fa-fw fa-question-circle text-primary'
+        className='fa fa-question-circle text-primary'
         id={id}
         style={{cursor: 'pointer'}}
       />
