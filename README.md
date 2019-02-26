@@ -10,7 +10,7 @@ The following commands will get you inside of docker and ready to develop code
 
 ```bash
   docker pull agrdocker/agr_javascript_env
-  export API_URL=http://dev.alliancegenome.org
+  export API_URL=http://build.alliancegenome.org
   docker run -v `pwd`:/workdir/agr_ui -w /workdir/agr_ui -e API_URL -p 2992:2992 -it agrdocker/agr_javascript_env /bin/bash 
   npm run start-docker
 ```
@@ -47,7 +47,7 @@ Now you are serving the webpack from your local machine. You should be able to u
 If you are looking to develop the API locally the following defaults will work:
 
 ```bash
-	agr_ui> export API_URL=http://dev.alliancegenome.org
+	agr_ui> export API_URL=http://build.alliancegenome.org
 	agr_ui> export DEV_SERVER_UI_PORT=2992
 	agr_ui> export JBROWSE_URL=http://jbrowse.alliancegenome.org
 	agr_ui> export JBROWSE_PORT=80
@@ -58,7 +58,7 @@ If you are looking to develop the API locally the following defaults will work:
 If you don't want to run the API server locally you can point to the developement instance. Stop the running server and set these enviroment variables, first. 
 
 ```bash
-	agr_ui> export API_URL=http://dev.alliancegenome.org
+	agr_ui> export API_URL=http://build.alliancegenome.org
 ```
 
 If you needed to start your local webpack dev server on a different port set the following:
