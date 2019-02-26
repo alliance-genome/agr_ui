@@ -13,6 +13,7 @@
   "private": true,
   "dependencies": {
     "@geneontology/ribbon": "1.5.7",
+    "abortcontroller-polyfill": "^1.2.5",
     "babel-polyfill": "^6.26.0",
     "bootstrap": "4.1.2",
     "d3-axis": "^1.0.8",
@@ -20,6 +21,7 @@
     "d3-selection": "^1.1.0",
     "genomefeaturecomponent": "^0.2.6",
     "immutable": "^3.8.1",
+    "isomorphic-fetch": "^2.2.1",
     "jquery": "3.3.1",
     "lodash.assignin": "^4.2.0",
     "lodash.clone": "^4.5.0",
