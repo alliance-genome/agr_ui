@@ -13,13 +13,7 @@ class DownloadsPage extends React.Component {
     const INTERACTIONS = 'Interactions';
     const GENE_DESCRIPTIONS = 'Gene Descriptions';
     const INGEST_FILES = 'Ingested Files';
-    const DATABASE_DUMP = 'Database Dump';
-    const SECTIONS = [
-      {name: GENE_DESCRIPTIONS}, 
-      {name: INTERACTIONS}, 
-      {name: INGEST_FILES},
-      {name: DATABASE_DUMP},
-    ];
+    const SECTIONS = [{name: GENE_DESCRIPTIONS}, {name: INTERACTIONS}, {name: INGEST_FILES}];
     const TITLE = 'Downloads';
     return (
       <DataPage title={TITLE}>
@@ -118,17 +112,6 @@ class DownloadsPage extends React.Component {
 
           <Subsection title={INGEST_FILES}>
             <SubmissionSystemFiles />
-          </Subsection>
-
-          <Subsection title={DATABASE_DUMP}>
-            <DownloadFileTable>
-              <tr>
-                <td>Full Alliance database dump</td>
-                <td>
-                  <DownloadFileLink url='https://s3.amazonaws.com/agr-db-backups/alliance-prod-2.1.0-neo4j-backup.tar.gz' />
-                </td>
-              </tr>
-            </DownloadFileTable>
           </Subsection>
         </PageData>
       </DataPage>
