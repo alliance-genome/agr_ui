@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'reactstrap';
+
 import ExternalLink from '../../components/externalLink';
 import Subsection from '../../components/subsection';
 import { DataPage, PageData, PageHeader, PageNav } from '../../components/dataPage';
