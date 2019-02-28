@@ -18,6 +18,8 @@ import NoData from '../noData';
 import ControlsContainer from '../controlsContainer';
 import { STRINGENCY_HIGH } from './constants';
 import { orthologyMeetsStringency } from '../../lib/utils';
+import HelpPopup from '../helpPopup';
+import OrthologyFilterHelp from './orthologyFilterHelp';
 
 const caseInsensitiveCompare = (stringA, stringB) => {
   const stringALowerCase = stringA.toLowerCase();
@@ -164,6 +166,11 @@ class OrthologyFilteredTable extends Component {
     return (
       <div>
         <ControlsContainer>
+          <span className='pull-right'>
+            <HelpPopup id='orthology-controls-help'>
+              <OrthologyFilterHelp />
+            </HelpPopup>
+          </span>
           <StringencySelection
             level={this.state.stringencyLevel}
             onChange={(level) => this.updateStringencyLevel(level)}
