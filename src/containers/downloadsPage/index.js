@@ -1,5 +1,5 @@
 import React from 'react';
-import { UncontrolledCollapse } from 'reactstrap';
+import { Table } from 'reactstrap';
 import ExternalLink from '../../components/externalLink';
 import Subsection from '../../components/subsection';
 import { DataPage, PageData, PageHeader, PageNav } from '../../components/dataPage';
@@ -7,6 +7,7 @@ import { DataPage, PageData, PageHeader, PageNav } from '../../components/dataPa
 import SubmissionSystemFiles from './submissionSystemFiles';
 import DownloadFileTable from './downloadFileTable';
 import DownloadFileLink from './downloadFileLink';
+import HelpPopup from '../../components/helpPopup';
 
 class DownloadsPage extends React.Component {
   render() {
@@ -85,23 +86,15 @@ class DownloadsPage extends React.Component {
             <DownloadFileTable>
               <tr>
                 <td>
-                  Molecular interactions
-                  <i
-                    className='fa fa-fw fa-question-circle text-primary'
-                    id='interactions-help'
-                    style={{cursor: 'pointer', marginLeft: '1rem'}}
-                  />
-                  <UncontrolledCollapse toggler='#interactions-help'>
-                    <p>
-                      This file provides a set of annotations of molecular interactions for
-                      genes and gene products for all Alliance species (human, rat, mouse, zebrafish, fruit fly, nematode, and
-                      yeast). The file is in the <ExternalLink href='https://github.com/HUPO-PSI/miTab'>PSI-MI TAB format</ExternalLink>,
-                      a tab-delimited format established by the <ExternalLink href='http://www.psidev.info'>HUPO Proteomics Standards
-                      Initiative</ExternalLink> Molecular Interactions (PSI-MI) working group. The interaction data is sourced from
-                      Alliance members WormBase and FlyBase, as well as the <ExternalLink href='http://www.imexconsortium.org'>IMEx
-                      consortium</ExternalLink> and the <ExternalLink href='https://thebiogrid.org'>BioGRID database</ExternalLink>.
-                    </p>
-                  </UncontrolledCollapse>
+                  Molecular interactions <HelpPopup id='interactions-help'>
+                    This file provides a set of annotations of molecular interactions for
+                    genes and gene products for all Alliance species (human, rat, mouse, zebrafish, fruit fly, nematode, and
+                    yeast). The file is in the <ExternalLink href='https://github.com/HUPO-PSI/miTab'>PSI-MI TAB format</ExternalLink>,
+                    a tab-delimited format established by the <ExternalLink href='http://www.psidev.info'>HUPO Proteomics Standards
+                    Initiative</ExternalLink> Molecular Interactions (PSI-MI) working group. The interaction data is sourced from
+                    Alliance members WormBase and FlyBase, as well as the <ExternalLink href='http://www.imexconsortium.org'>IMEx
+                    consortium</ExternalLink> and the <ExternalLink href='https://thebiogrid.org'>BioGRID database</ExternalLink>.
+                  </HelpPopup>
                 </td>
                 <td>
                   <DownloadFileLink fileType='TXT' url='https://download.alliancegenome.org/INT/Alliance_molecular_interactions.tar.gz' />

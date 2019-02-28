@@ -1,6 +1,5 @@
 import fetchData from '../lib/fetchData';
 import { buildTableQueryString } from '../lib/utils';
-import { selectAnnotations } from '../selectors/expressionSelectors';
 
 export const FETCH_SUMMARY = 'FETCH_SUMMARY';
 export const FETCH_SUMMARY_SUCCESS = 'FETCH_SUMMARY_SUCCESS';
@@ -35,11 +34,7 @@ const fetchExpressionSummaryFailure = (id, error) => ({
 });
 
 export const fetchExpressionAnnotations = (genes, term, opts) => {
-  return (dispatch, getState) => {
-    const pendingRequest = selectAnnotations(getState()).request;
-    if (pendingRequest) {
-      pendingRequest.abort();
-    }
+  return (dispatch) => {
     const geneParams = genes.map(gene => `geneID=${gene}`).join('&');
     const tableQuery = buildTableQueryString(opts, 'filter.');
     const request = fetchData(`/api/expression?termID=${term}&${geneParams}&${tableQuery}`);
