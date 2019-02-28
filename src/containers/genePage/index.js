@@ -17,8 +17,7 @@ import LoadingPage from '../../components/loadingPage';
 import NotFound from '../../components/notFound';
 import Subsection from '../../components/subsection';
 import AlleleTable from '../../components/alleleTable';
-import { GenePhysicalInteractionDetailTable } from '../../components/interaction';
-
+import { GenePhysicalInteractionDetailTable, GeneInteractionCrossReference } from '../../components/interaction';
 import GenomeFeatureWrapper from './genomeFeatureWrapper';
 import ExpressionLinks from './expressionLinks';
 
@@ -212,6 +211,7 @@ class GenePage extends Component {
           </Subsection>
 
           <Subsection title={INTERACTIONS}>
+            <GeneInteractionCrossReference crossReference={data.crossReferences.MODinteractions} />
             <GenePhysicalInteractionDetailTable
               filename={`${data.symbol}-${data.id}-Interactions-${date}.tsv`}
               focusGeneDisplayName={data.symbol}
