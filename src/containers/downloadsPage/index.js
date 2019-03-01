@@ -4,7 +4,6 @@ import ExternalLink from '../../components/externalLink';
 import Subsection from '../../components/subsection';
 import { DataPage, PageData, PageHeader, PageNav } from '../../components/dataPage';
 
-import SubmissionSystemFiles from './submissionSystemFiles';
 import DownloadFileTable from './downloadFileTable';
 import DownloadFileLink from './downloadFileLink';
 import HelpPopup from '../../components/helpPopup';
@@ -13,8 +12,7 @@ class DownloadsPage extends React.Component {
   render() {
     const INTERACTIONS = 'Interactions';
     const GENE_DESCRIPTIONS = 'Gene Descriptions';
-    const INGEST_FILES = 'Ingested Files';
-    const SECTIONS = [{name: GENE_DESCRIPTIONS}, {name: INTERACTIONS}, {name: INGEST_FILES}];
+    const SECTIONS = [{name: GENE_DESCRIPTIONS}, {name: INTERACTIONS}];
     const TITLE = 'Downloads';
     return (
       <DataPage title={TITLE}>
@@ -97,14 +95,10 @@ class DownloadsPage extends React.Component {
                   </HelpPopup>
                 </td>
                 <td>
-                  <DownloadFileLink fileType='TXT' url='https://download.alliancegenome.org/INT/Alliance_molecular_interactions.tar.gz' />
+                  <DownloadFileLink fileType='TSV' url='https://download.alliancegenome.org/INT/Alliance_molecular_interactions.tar.gz' />
                 </td>
               </tr>
             </DownloadFileTable>
-          </Subsection>
-
-          <Subsection title={INGEST_FILES}>
-            <SubmissionSystemFiles />
           </Subsection>
         </PageData>
       </DataPage>
