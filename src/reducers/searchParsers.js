@@ -231,7 +231,7 @@ function parseHomologyGroupResult(_d) {
 }
 
 function parseAlleleResult(_d) {
-  let speciesKey = _d.geneDocument.species;
+  let speciesKey = _d.species;
   let d = injectHighlightIntoResponse(_d);
   return {
     category: d.category,
@@ -241,10 +241,10 @@ function parseAlleleResult(_d) {
     highlight: d.highlights,
     name: d.symbol,
     synonyms: d.synonym,
-    species: d.geneDocument.species,
+    species: d.species,
     speciesKey: speciesKey,
-    diseases: d.diseaseDocuments.map(x => x.name_key),
-    gene: d.geneDocument.name_key,
+    diseases: d.diseases,
+    gene: d.genes,
     relatedData: d.relatedData,
     missing: d.missingTerms,
     explanation: d.explanation,
