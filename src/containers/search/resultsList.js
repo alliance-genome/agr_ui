@@ -64,7 +64,7 @@ class ResultsList extends Component {
       const label = x.label || CATEGORIES.find(cat => cat.name === x.category).displayName;
       const href = {pathname:'/search', search: stringify(queryParams)};
 
-      return <li className='list-inline-item' key={x.category}><Link to={href}>{label} ({x.count})</Link></li>;
+      return <li className='list-inline-item' key={label}><Link to={href}>{label} ({x.count})</Link></li>;
     });
 
     return (
