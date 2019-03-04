@@ -1,4 +1,4 @@
-FROM gocd.alliancegenome.org:5000/agr_javascript_env:latest
+FROM agrdocker/agr_javascript_env:latest
 
 WORKDIR /workdir/agr_ui
 
