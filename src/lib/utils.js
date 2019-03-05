@@ -49,15 +49,16 @@ export function sortBy(array, compareFunctions) {
   return array.sort(compareBy(compareFunctions));
 }
 
-export function buildTableQueryString(options, filterPrefix) {
+export function buildTableQueryString(options) {
   if (!options) {
     options = DEFAULT_TABLE_STATE;
   }
-  filterPrefix = filterPrefix || '';
-  const filterQueries = options.filters.length ?
-    ('&' + options.filters.map(filter => `${filterPrefix}${filter.name}=${filter.value}`).join('&')) : '';
-  const sortOrderQuery = options.sort.order ? `&asc=${options.sort.order === 'asc'}` : '';
-  return `page=${options.page}&limit=${options.limit}&sortBy=${options.sort.name}${sortOrderQuery}${filterQueries}`;
+  // filterPrefix = filterPrefix || '';
+  // const filterQueries = options.filters.length ?
+  //   ('&' + options.filters.map(filter => `${filterPrefix}${filter.name}=${filter.value}`).join('&')) : '';
+  const filterQueries = '';
+  const sortOrderQuery = ''; // options.sortOrder ? `&asc=${options.sortOrder === 'asc'}` : '';
+  return `page=${options.page}&limit=${options.sizePerPage}&sortBy=${options.sortField}${sortOrderQuery}${filterQueries}`;
 }
 
 function isHighStringency(orthology) {

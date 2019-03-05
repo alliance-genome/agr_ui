@@ -28,40 +28,33 @@ class PhenotypeTable extends React.Component {
 
     const columns = [
       {
-        field: 'id',
-        isKey: true,
+        dataField: 'id',
+        text: 'id',
         hidden: true,
       },
       {
-        field: 'phenotype',
-        label: 'Phenotype Term',
-        format: (term) => <span dangerouslySetInnerHTML={{__html: term}} />,
-        sortable: false,
-        filterable: false,
-        width: '120px',
+        dataField: 'phenotype',
+        text: 'Phenotype Term',
+        formatter: (term) => <span dangerouslySetInnerHTML={{__html: term}} />,
+        // style: {width: '120px'},
+        headerStyle: {width: '120px'}
       },
       {
-        field: 'geneticEntity',
-        label: 'Genetic Entity',
-        format: entity => entity.type === 'gene' ? null : GeneticEntityCell(entity),
-        sortable: false,
-        filterable: false,
-        width: '185px',
+        dataField: 'geneticEntity',
+        text: 'Genetic Entity',
+        formatter: entity => entity.type === 'gene' ? null : GeneticEntityCell(entity),
+        headerStyle: {width: '185px'},
       },
       {
-        field: 'geneticEntityType',
-        label: 'Genetic Entity Type',
-        sortable: false,
-        filterable: false,
-        width: '100px',
+        dataField: 'geneticEntityType',
+        text: 'Genetic Entity Type',
+        headerStyle: {width: '100px'},
       },
       {
-        field: 'reference',
-        label: 'References',
-        format: ReferenceCell,
-        sortable: false,
-        filterable: false,
-        width: '150px',
+        dataField: 'reference',
+        text: 'References',
+        formatter: ReferenceCell,
+        headerStyle: {width: '150px'},
       },
     ];
     return (
@@ -69,6 +62,7 @@ class PhenotypeTable extends React.Component {
         columns={columns}
         data={data}
         downloadUrl={`/api/gene/${geneId}/phenotypes/download`}
+        keyField='id'
         loading={phenotypes.loading}
         onUpdate={this.loadPhenotypes.bind(this)}
         totalRows={phenotypes.total}

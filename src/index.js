@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import * as analytics from './lib/analytics';
 import 'bootstrap';
-import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
+import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import '@geneontology/ribbon/lib/index.css';
 import 'genomefeaturecomponent/src/GenomeFeatureViewer.css';
 import './style.scss';
