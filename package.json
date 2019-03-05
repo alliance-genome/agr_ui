@@ -12,7 +12,7 @@
   },
   "private": true,
   "dependencies": {
-    "@geneontology/ribbon": "1.5.7",
+    "@geneontology/ribbon": "^1.9.4",
     "abortcontroller-polyfill": "^1.2.5",
     "babel-polyfill": "^6.26.0",
     "bootstrap": "4.3.1",
