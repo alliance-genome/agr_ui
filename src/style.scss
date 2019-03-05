@@ -75,3 +75,21 @@ Ribbon includes.
 .ontology-ribbon__block {
   font-size: 0.72rem !important;
 }
+
+
+$ribbon-species-icon: './components/speciesIcon/speciesSprite.png';
+$ribbon-table-header-color: black;
+$ribbon-table-header-bgcolor: white;
+$ribbon-table-header-border-radius: 0px;
+$ribbon-table-headline-font-size: 1.5rem;
+
+$ribbon-table-filter-bgcolor: white;
+$ribbon-table-filter-icon-color: rgb(24, 73, 180);
+
+$ribbon-strip-tile-tile-width: 15px;
+
+//$ribbon-table-filter-checkbox-bgcolor: $ribbon-primary-color !default;
+//$ribbon-table-filter-checkbox-color: white !default;
+
+@import "~@geneontology/ribbon/lib/main";
+
