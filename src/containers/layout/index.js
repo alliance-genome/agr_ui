@@ -23,9 +23,12 @@ class Layout extends Component {
         <div className='container-fluid'>
           <div className='row align-items-center'>
             <div className='col-md d-flex justify-content-between'>
-              <Link className='navbar-brand' to='/'>
-                <img className={`img-fluid ${style.agrLogo}`} src={logo} />
-              </Link>
+              <div className='navbar-brand d-flex align-items-end'>
+                <Link to='/'>
+                  <img className={`img-fluid ${style.agrLogo}`} src={logo} />
+                </Link>
+                <span className={style.version}>Release 2.0.0</span>
+              </div>
               <button aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation"
                       className="navbar-toggler d-md-none" data-target="#exCollapsingNavbar2"
                       data-toggle="collapse" type="button"
