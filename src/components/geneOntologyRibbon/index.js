@@ -40,6 +40,7 @@ class GeneOntologyRibbon extends Component {
                   config={config}
                   entities={entities}
                   entityLabel={POSITION.NONE}
+                  maxColor={[37, 152, 197]}
                   oddEvenColor={false}
                   showing={false}
                   subject={id}
