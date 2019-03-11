@@ -212,8 +212,8 @@ class GenePage extends Component {
 
           <Subsection title={INTERACTIONS}>
             <GeneInteractionCrossReference
-              geneDataProvider={data.dataProvider}
               crossReference={data.crossReferences.MODinteractions}
+              geneDataProvider={data.dataProvider}
             />
             <GenePhysicalInteractionDetailTable
               filename={`${data.symbol}-${data.id}-Interactions-${date}.tsv`}
