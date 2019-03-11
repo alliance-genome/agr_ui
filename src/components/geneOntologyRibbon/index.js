@@ -27,24 +27,24 @@ class GeneOntologyRibbon extends Component {
             if (!dataReceived) {
               return <LoadingSpinner />;
             }
-            // if (dataError || !GeneOntologyRibbon.hasBlockData(entities)) {
-            //   return <NoData />;
-            // }
             if (dataError) {
               return <NoData />;
             }
             return (
               <HorizontalScroll width={800}>
-                <Ribbon 
-                  borderBottom
-                  config={config}
-                  entities={entities}
-                  entityLabel={POSITION.NONE}
-                  maxColor={[37, 152, 197]}
-                  oddEvenColor={false}
-                  showing={false}
-                  subject={id}
-                />
+                <div className='pb-4'>
+                  <Ribbon
+                    borderBottom
+                    config={config}
+                    entities={entities}
+                    entityLabel={POSITION.NONE}
+                    maxColor={[37, 152, 197]}
+                    oddEvenColor={false}
+                    showing={false}
+                    subject={id}
+                    tableLabel=''
+                  />
+                </div>
               </HorizontalScroll>
             );
           }

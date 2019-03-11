@@ -1,3 +1,4 @@
+// bootstrap overrides
 $primary: #2598C5;
 $secondary: #7f7f7f;
 $link-color: #247BBD;
@@ -8,3 +9,18 @@ $font-size-base: 0.9rem;
 $hr-border-color: rgba(0, 0, 0, 0.125);
 
 $popover-max-width: 400px;
+
+// ribbon overrides
+$ribbon-species-icon: './components/speciesIcon/speciesSprite.png';
+$ribbon-table-header-color: black;
+$ribbon-table-header-bgcolor: white;
+$ribbon-table-header-border-radius: 0px;
+$ribbon-table-headline-font-size: 1.5rem;
+
+$ribbon-table-filter-bgcolor: white;
+$ribbon-table-filter-icon-color: #1849b4;
+
+$ribbon-strip-tile-tile-width: 15px;
+$ribbon-table-evidence-hover-color: rgba(75, 124, 231, 0.4);
+
+$ribbon-strip-tile-border-radius: 0px;

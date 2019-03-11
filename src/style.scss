@@ -1,6 +1,7 @@
 @import "theme";
 @import "mixins";
 @import "~bootstrap/scss/bootstrap";
+@import "~@geneontology/ribbon/lib/main";
 
 .react-bs-table table, .table {
   margin-bottom: 0;
@@ -25,73 +26,3 @@
   }
   @include webkit-scrollbar;
 }
-
-/**
-Ribbon includes.
- */
-.ontology-ribbon__header {
-  display: flex;
-  padding: 4px 4px;
-  font-size: .8rem;
-  background-color: rgb(6, 100, 100);
-  color: white;
-}
-
-.go-link {
-  text-decoration: none;
-  color: #247BBD;
-}
-
-.go-link:visited {
-  text-decoration: none;
-  color: purple;
-}
-
-.link {
-  text-decoration: none;
-  color: #247BBD;
-  display: inline;
-}
-
-.link:visited {
-  text-decoration: none;
-  color: purple;
-  display: inline;
-}
-
-.ontology-ribbon__block-tile {
-  border: 1px solid silver;
-  width: 0.75rem;
-  height: 0.75rem;
-  margin-right: -1px;
-  position: relative;
-  text-align: center;
-  vertical-align: middle;
-  text-shadow: -1px 0 silver, 0 1px silver, 1px 0 silver, 0 -1px silver;
-  cursor: pointer;
-  line-height: 1.0em;
-}
-
-.ontology-ribbon__block {
-  font-size: 0.72rem !important;
-}
-
-
-$ribbon-species-icon: './components/speciesIcon/speciesSprite.png';
-$ribbon-table-header-color: black;
-$ribbon-table-header-bgcolor: white;
-$ribbon-table-header-border-radius: 0px;
-$ribbon-table-headline-font-size: 1.5rem;
-
-$ribbon-table-filter-bgcolor: white;
-$ribbon-table-filter-icon-color: #1849b4;
-
-$ribbon-strip-tile-tile-width: 15px;
-
-//$ribbon-table-filter-checkbox-bgcolor: $ribbon-primary-color !default;
-//$ribbon-table-filter-checkbox-color: white !default;
-
-$ribbon-table-evidence-hover-color: rgba(75, 124, 231, 0.4);
-
-@import "~@geneontology/ribbon/lib/main";
-
