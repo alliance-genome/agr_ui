@@ -51,13 +51,6 @@ const makeBlocks = (summary, groups, overrideColor) => {
 
 class SummaryRibbon extends React.Component {
 
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     entity : { }
-  //   };
-  // }
-
   componentDidMount() {
     const { dispatch, geneId, summary } = this.props;
     if (!summary) {
@@ -92,6 +85,7 @@ class SummaryRibbon extends React.Component {
             currentblock={selectedTerm}
             entity={entity}
             entityLabel={POSITION.NONE}
+            maxColor={[37, 152, 197]}
             onSlimEnter={() => {}}
             onSlimLeave={() => {}}
             onSlimSelect={onClick}
