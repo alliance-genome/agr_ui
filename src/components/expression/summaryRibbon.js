@@ -5,6 +5,8 @@ import * as d3 from 'd3-scale';
 import { selectSummary } from '../../selectors/expressionSelectors';
 import { fetchExpressionSummary } from '../../actions/expression';
 import { RibbonBase } from '@geneontology/ribbon';
+import { POSITION } from '@geneontology/ribbon/lib/enums';
+
 import { compareByFixedOrder, compareAlphabeticalCaseInsensitive, sortBy } from '../../lib/utils';
 import LoadingSpinner from '../loadingSpinner';
 
@@ -48,6 +50,7 @@ const makeBlocks = (summary, groups, overrideColor) => {
 };
 
 class SummaryRibbon extends React.Component {
+
   componentDidMount() {
     const { dispatch, geneId, summary } = this.props;
     if (!summary) {
@@ -58,20 +61,38 @@ class SummaryRibbon extends React.Component {
   render() {
     const { groups, onClick, overrideColor, selectedTerm, showBlockTitles, showSeparatorLabels, summary } = this.props;
     const { data, error, loading } = summary || {};
+
+    var entity = { };
+    if(data && groups) {
+
+      entity = {
+        subject : this.props.geneId,
+        label : this.props.geneId,
+        taxon : 'N/A',
+        filters : []
+      };
+      entity.blocks = makeBlocks(data, groups, overrideColor);
+    }
+
     return (
       <React.Fragment>
         {loading && <LoadingSpinner />}
         {error && <span className='text-danger'>Could not fetch data. Try again later.</span>}
         {data &&
           <RibbonBase
-            blocks={makeBlocks(data, groups, overrideColor)}
+            blocks={entity.blocks}
+            currentEntity={entity}
             currentblock={selectedTerm}
+            entity={entity}
+            entityLabel={POSITION.NONE}
+            maxColor={[37, 152, 197]}
             onSlimEnter={() => {}}
             onSlimLeave={() => {}}
             onSlimSelect={onClick}
             showBlockTitles={showBlockTitles}
             showSeparatorLabelPrefixes={false}
             showSeparatorLabels={showSeparatorLabels}
+            title={entity.label}
           />
         }
       </React.Fragment>
