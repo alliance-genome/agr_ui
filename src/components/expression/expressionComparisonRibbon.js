@@ -59,7 +59,7 @@ class ExpressionComparisonRibbon extends React.Component {
     this.setState({selectedOrthologs: values});
   }
 
-  handleBlockClick(block) {
+  handleBlockClick(entity, block) {
     let { selectedTerm } = this.state;
     selectedTerm = (selectedTerm && selectedTerm.class_id === block.class_id) ? undefined : block;
     this.setState({selectedTerm});

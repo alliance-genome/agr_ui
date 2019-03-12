@@ -42,22 +42,26 @@ class HeadMetaTags extends Component {
 
 
     if (data) {
-      let keywords = ['gene', data.dataProvider.replace('\n', ' '), data.symbol, ...data.synonyms, data.species, data.primaryId];
+      let keywords = ['gene', data.dataProvider.replace('\n', ' '), data.symbol, ...data.synonyms, data.species.name, data.id];
 
       schemas.push({
         type: 'application/ld+json',
         innerHTML: JSON.stringify({
           '@context': 'http://schema.org',
           '@type': 'Dataset',
-          '@id': data.primaryId,
+          '@id': data.id,
           name: data.symbol,
           dateCreated: new Date(data.dateProduced),
           datePublished: new Date(data.dateProduced),
           dateModified: new Date(data.dateProduced),
-          description: data.automatedGeneSynopsis + ' ' + (data.geneSynopsis || data.geneSynopsisUrl || ''),
-          url: 'http://www.alliancegenome.org/gene/' + data.primaryId,
+          description: [
+            data.automatedGeneSynopsis,
+            data.geneSynopsis,
+            data.geneSynopsisUrl
+          ].filter(a => !!a).join(' '),
+          url: 'https://www.alliancegenome.org/gene/' + data.id,
           keywords: keywords.join(' '),
-          includedInDataCatalog: 'http://www.alliancegenome.org',
+          includedInDataCatalog: 'https://www.alliancegenome.org',
           creator: {
             '@type': 'Organization',
             'name': 'Alliance of Genome Resources'
