@@ -6,43 +6,68 @@ import { selectSummary } from '../../selectors/expressionSelectors';
 import { fetchExpressionSummary } from '../../actions/expression';
 import { RibbonBase } from '@geneontology/ribbon';
 import { POSITION } from '@geneontology/ribbon/lib/enums';
+import { SlimType } from '@geneontology/ribbon/lib/dataHelpers';
+
 
 import { compareByFixedOrder, compareAlphabeticalCaseInsensitive, sortBy } from '../../lib/utils';
 import LoadingSpinner from '../loadingSpinner';
 
 const makeBlocks = (summary, groups, overrideColor) => {
   const blocks = [];
+
   blocks.push({
     class_id: 'All annotations',
     class_label: 'All annotations',
     color: overrideColor || (summary.totalAnnotations ? '#8BC34A' : '#ffffff'),
     uniqueAssocs: new Array(summary.totalAnnotations),
-    uniqueIDs: []
+    uniqueIDs: [],
+    type : SlimType.All,
   });
+
   sortBy(summary.groups, [
     compareByFixedOrder(groups, g => g.name),
     compareAlphabeticalCaseInsensitive(g => g.name)
+    
   ]).forEach(group => {
     if (groups.indexOf(group.name) < 0) {
       return;
     }
+    
     blocks.push({
-      class_id: group.name,
+      aspect : group.name,
+      class_id: group.name + ' aspect',
       class_label: group.name,
       color: '#fff',
       no_data: false,
       separator: true,
+      uniqueAssocs: [],
+      uniqueIDs: [],
+      nbAnnotations : 0,
+      type : SlimType.Aspect
+    });
+    blocks.push({
+      aspect : group.name,
+      class_id: group.name + ' all',
+      class_label: 'All ' + group.name,
+      color: '#fff',
+      no_data: false,
       uniqueAssocs: new Array(group.totalAnnotations),
       uniqueIDs: [],
+      type : SlimType.AllFromAspect
     });
+
     const scale = d3.scaleLog().domain([1, group.totalAnnotations + 1]).range(['#ffffff', '#066464']);
     group.terms.forEach(term => {
+      let isOtherType = term.name.toLowerCase().includes('other');
       blocks.push({
         class_id: term.id,
         class_label: term.name,
         color: overrideColor || (term.numberOfAnnotations === 0 ? '#ffffff' : scale(term.numberOfAnnotations + 1)),
         uniqueAssocs: new Array(term.numberOfAnnotations),
         uniqueIDs: [],
+        nbAnnotations : term.numberOfAnnotations,
+        type : isOtherType ? SlimType.Other : SlimType.Item,
+        aspect : group.name
       });
     });
   });
