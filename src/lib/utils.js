@@ -54,11 +54,11 @@ export function buildTableQueryString(options) {
     options = DEFAULT_TABLE_STATE;
   }
   // filterPrefix = filterPrefix || '';
-  // const filterQueries = options.filters.length ?
-  //   ('&' + options.filters.map(filter => `${filterPrefix}${filter.name}=${filter.value}`).join('&')) : '';
-  const filterQueries = '';
-  const sortOrderQuery = ''; // options.sortOrder ? `&asc=${options.sortOrder === 'asc'}` : '';
-  return `page=${options.page}&limit=${options.sizePerPage}&sortBy=${options.sortField}${sortOrderQuery}${filterQueries}`;
+  const filterQueries = options.filters ? '&' + Object.entries(options.filters)
+    .map(([field, filter]) => `${field}=${filter.filterVal}`)
+    .join('&') : '';
+  const sortQuery = ''; // options.sortOrder ? `&asc=${options.sortOrder === 'asc'}` : '';
+  return `page=${options.page}&limit=${options.sizePerPage}${sortQuery}${filterQueries}`;
 }
 
 function isHighStringency(orthology) {

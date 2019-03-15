@@ -8,6 +8,7 @@ import paginationFactory, {
   SizePerPageDropdownStandalone,
   PaginationTotalStandalone
 } from 'react-bootstrap-table2-paginator';
+import filterFactory from 'react-bootstrap-table2-filter';
 
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
@@ -103,18 +104,15 @@ class RemoteDataTable extends Component {
                   columns={columns}
                   condensed
                   data={data}
+                  filter={filterFactory()}
                   keyField={keyField}
                   onTableChange={this.handleTableChange}
-                  remote
+                  remote={{filter: true}}
                   {...paginationTableProps}
                 />
                 <span className='text-muted'>
                   <PaginationTotalStandalone {...paginationProps} />
-                  <SizePerPageDropdownStandalone
-                    {...paginationProps}
-                    btnContextual='btn-outline-secondary'
-                    className='mx-1'
-                  />
+                  <SizePerPageDropdownStandalone {...paginationProps} />
                   per page
                 </span>
 
