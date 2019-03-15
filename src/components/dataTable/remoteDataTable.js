@@ -19,6 +19,7 @@ import Utils from './utils';
 import { DEFAULT_TABLE_STATE } from '../../constants';
 import LoadingOverlay from './loadingOverlay';
 import PerPageSizeSelector from './pagePerSizeSelector';
+import NoData from '../noData';
 
 class RemoteDataTable extends Component {
   constructor(props) {
@@ -58,9 +59,9 @@ class RemoteDataTable extends Component {
     const { columns, data, downloadUrl, keyField, loading, totalRows } = this.props;
     const { page, sizePerPage } = this.state;
 
-    // if (!loading && filters !== null && totalRows === 0) {
-    //   return <NoData />;
-    // }
+    if (!loading && totalRows === 0) {
+      return <NoData />;
+    }
 
     // const options = {
     //   onFilterChange: this.handleFilterChange,

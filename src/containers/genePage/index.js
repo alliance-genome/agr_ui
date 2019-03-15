@@ -8,10 +8,10 @@ import { selectGene } from '../../selectors/geneSelectors';
 import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPage';
 import BasicGeneInfo from './basicGeneInfo';
 import { OrthologyFilteredTable, OrthologyUserGuide, OrthologyBasicInfo } from '../../components/orthology';
-// import {
-//   GenePageDiseaseViaExperimentTable,
-//   GenePageDiseaseViaOrthologyTable,
-// } from '../../components/disease';
+import {
+  GenePageDiseaseViaExperimentTable,
+  // GenePageDiseaseViaOrthologyTable,
+} from '../../components/disease';
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
 import LoadingPage from '../../components/loadingPage';
 import NotFound from '../../components/notFound';
@@ -176,20 +176,20 @@ class GenePage extends Component {
             <PhenotypeTable geneId={data.id} />
           </Subsection>
 
-          {/* <Subsection isMeta title={DISEASE}>
+          <Subsection isMeta title={DISEASE}>
             <Subsection level={1} title={DISEASE_VIA_EXPERIMENT}>
               <GenePageDiseaseViaExperimentTable
                 filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaEmpiricalData-${date}.tsv`}
                 geneId={data.id}
               />
             </Subsection>
-            <Subsection level={1} title={DISEASE_VIA_ORTHOLOGY}>
+            {/* <Subsection level={1} title={DISEASE_VIA_ORTHOLOGY}>
               <GenePageDiseaseViaOrthologyTable
                 filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaOrthology-${date}.tsv`}
                 geneId={data.id}
               />
-            </Subsection>
-          </Subsection> */}
+            </Subsection> */}
+          </Subsection>
 
           <Subsection title={EXPRESSION}>
             <ExpressionLinks

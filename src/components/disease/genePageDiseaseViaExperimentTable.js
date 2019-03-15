@@ -24,6 +24,7 @@ class GenePageDiseaseTable extends Component {
     const { diseases, geneId } = this.props;
 
     const data = diseases.data && diseases.data.map(annotation => ({
+      id: `${annotation.disease.id}-${annotation.allele ? annotation.allele.id : ''}`,
       disease: annotation.disease,
       geneticEntity: annotation.allele,
       associationType: annotation.associationType.replace(/_/g, ' '),
@@ -39,61 +40,64 @@ class GenePageDiseaseTable extends Component {
 
     const columns = [
       {
-        field: 'disease',
-        label: 'Disease',
-        format: DiseaseNameCell,
-        isKey: true,
-        sortable: true,
-        filterable: true,
-        width: '150px',
+        dataField: 'id',
+        text: 'id',
+        hidden: true,
       },
       {
-        field: 'geneticEntity',
-        label: 'Genetic Entity',
-        format: GeneticEntityCell,
+        dataField: 'disease',
+        text: 'Disease',
+        formatter: DiseaseNameCell,
         sortable: true,
         filterable: true,
-        width: '185px',
+        headerStyle: {width: '150px'},
       },
       {
-        field: 'geneticEntityType',
-        label: 'Genetic Entity Type',
+        dataField: 'geneticEntity',
+        text: 'Genetic Entity',
+        formatter: GeneticEntityCell,
         sortable: true,
         filterable: true,
-        width: '110px',
+        headerStyle: {width: '185px'},
       },
       {
-        field: 'associationType',
-        label: 'Association',
+        dataField: 'geneticEntityType',
+        text: 'Genetic Entity Type',
         sortable: true,
         filterable: true,
-        width: '110px',
+        headerStyle: {width: '110px'},
       },
       {
-        field: 'evidenceCodes',
-        label: 'Evidence Code',
-        format: EvidenceCodesCell,
-        asText: EvidenceCodesCell,
+        dataField: 'associationType',
+        text: 'Association',
         sortable: true,
         filterable: true,
-        width: '75px',
+        headerStyle: {width: '110px'},
       },
       {
-        field: 'source',
-        label: 'Source',
-        format: ({name, url}) => <ExternalLink href={url}>{name}</ExternalLink>,
+        dataField: 'evidenceCodes',
+        text: 'Evidence Code',
+        formatter: EvidenceCodesCell,
         sortable: true,
         filterable: true,
-        width: '75px',
+        headerStyle: {width: '75px'},
       },
       {
-        field: 'publications',
-        label: 'References',
-        format: ReferenceCell,
+        dataField: 'source',
+        text: 'Source',
+        formatter: ({name, url}) => <ExternalLink href={url}>{name}</ExternalLink>,
+        sortable: true,
+        filterable: true,
+        headerStyle: {width: '75px'},
+      },
+      {
+        dataField: 'publications',
+        text: 'References',
+        formatter: ReferenceCell,
         asText: refsText,
         sortable: true,
         filterable: true,
-        width: '150px',
+        headerStyle: {width: '150px'},
       }
     ];
 
@@ -102,6 +106,7 @@ class GenePageDiseaseTable extends Component {
         columns={columns}
         data={data}
         downloadUrl={`/api/gene/${geneId}/diseases-by-experiment/download`}
+        keyField='id'
         loading={diseases.loading}
         onUpdate={this.loadData.bind(this)}
         totalRows={diseases.total}
