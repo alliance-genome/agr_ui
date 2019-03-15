@@ -6,18 +6,19 @@ import paginationFactory, {
   PaginationProvider,
   PaginationListStandalone,
   SizePerPageDropdownStandalone,
-  // PaginationTotalStandalone
+  PaginationTotalStandalone
 } from 'react-bootstrap-table2-paginator';
 
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 
 import DownloadButton from './downloadButton';
-// import Utils from './utils';
+import Utils from './utils';
 // import * as analytics from '../../lib/analytics';
 // import PaginationPanel from './paginationPanel';
 import { DEFAULT_TABLE_STATE } from '../../constants';
 import LoadingOverlay from './loadingOverlay';
+import PerPageSizeSelector from './pagePerSizeSelector';
 
 class RemoteDataTable extends Component {
   constructor(props) {
@@ -76,71 +77,25 @@ class RemoteDataTable extends Component {
     //   sizePerPageList: [10, 25, 100],
     // };
 
-    // const pagination = paginationFactory({
-    //   custom: true,
-    //   page,
-    //   sizePerPage,
-    //   totalSize: totalRows,
-    //   // sizePerPageList: [10, 25, 100],
-    //   // showTotal: true
-    // });
+    const pagination = paginationFactory({
+      custom: true,
+      page,
+      paginationTotalRenderer: Utils.renderPaginationShowsTotal,
+      sizePerPage,
+      showTotal: true,
+      totalSize: totalRows,
+      sizePerPageList: [10, 25, 100],
+      sizePerPageRenderer: PerPageSizeSelector,
+    });
 
     return (
       <div style={{position: 'relative'}}>
         <LoadingOverlay loading={loading} />
 
-        {/* <PaginationProvider pagination={paginationFactory(pagination)}>
+        <PaginationProvider pagination={pagination}>
           {
             ({paginationProps, paginationTableProps}) => (
               <div>
-                <SizePerPageDropdownStandalone {...paginationProps} />
-                <PaginationTotalStandalone {...paginationProps} />
-                <BootstrapTable
-                  bootstrap4
-                  bordered={false}
-                  columns={columns}
-                  condensed
-                  data={data}
-                  keyField={keyField}
-                  loading={loading}
-                  onTableChange={this.handleTableChange}
-                  // pagination={pagination}
-                  // remote
-                  {...paginationTableProps}
-                />
-                <PaginationListStandalone {...paginationProps} />
-              </div>
-            )
-          }
-        </PaginationProvider> */}
-
-        <PaginationProvider
-          pagination={
-            paginationFactory({
-              custom: true,
-              page,
-              sizePerPage,
-              totalSize: totalRows,
-              sizePerPageList: [10, 25, 100]
-            })
-          }
-        >
-          {
-            ({
-              paginationProps,
-              paginationTableProps
-            }) => (
-              <div>
-                <div>
-                  <p>Current Page: { paginationProps.page }</p>
-                  <p>Current SizePerPage: { paginationProps.sizePerPage }</p>
-                </div>
-                <SizePerPageDropdownStandalone {...paginationProps} btnContextual='btn-outline-secondary' />
-                <div>
-                  <PaginationListStandalone
-                    {...paginationProps}
-                  />
-                </div>
                 <BootstrapTable
                   bootstrap4
                   bordered={false}
@@ -152,6 +107,17 @@ class RemoteDataTable extends Component {
                   remote
                   {...paginationTableProps}
                 />
+                <span className='text-muted'>
+                  <PaginationTotalStandalone {...paginationProps} />
+                  <SizePerPageDropdownStandalone
+                    {...paginationProps}
+                    btnContextual='btn-outline-secondary'
+                    className='mx-1'
+                  />
+                  per page
+                </span>
+
+                <PaginationListStandalone {...paginationProps} />
               </div>
             )
           }
