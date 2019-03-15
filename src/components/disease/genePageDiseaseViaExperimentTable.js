@@ -9,6 +9,7 @@ import {
   ReferenceCell,
   RemoteDataTable
 } from '../../components/dataTable';
+import { textFilter } from 'react-bootstrap-table2-filter';
 import { selectDiseaseViaEmpirical } from '../../selectors/geneSelectors';
 import { fetchDiseaseViaEmpirical } from '../../actions/genes';
 import ExternalLink from '../externalLink';
@@ -48,46 +49,35 @@ class GenePageDiseaseTable extends Component {
         dataField: 'disease',
         text: 'Disease',
         formatter: DiseaseNameCell,
-        sortable: true,
-        filterable: true,
+        filter: textFilter(),
         headerStyle: {width: '150px'},
       },
       {
         dataField: 'geneticEntity',
         text: 'Genetic Entity',
         formatter: GeneticEntityCell,
-        sortable: true,
-        filterable: true,
         headerStyle: {width: '185px'},
       },
       {
         dataField: 'geneticEntityType',
         text: 'Genetic Entity Type',
-        sortable: true,
-        filterable: true,
         headerStyle: {width: '110px'},
       },
       {
         dataField: 'associationType',
         text: 'Association',
-        sortable: true,
-        filterable: true,
         headerStyle: {width: '110px'},
       },
       {
         dataField: 'evidenceCodes',
         text: 'Evidence Code',
         formatter: EvidenceCodesCell,
-        sortable: true,
-        filterable: true,
         headerStyle: {width: '75px'},
       },
       {
         dataField: 'source',
         text: 'Source',
         formatter: ({name, url}) => <ExternalLink href={url}>{name}</ExternalLink>,
-        sortable: true,
-        filterable: true,
         headerStyle: {width: '75px'},
       },
       {
@@ -95,8 +85,6 @@ class GenePageDiseaseTable extends Component {
         text: 'References',
         formatter: ReferenceCell,
         asText: refsText,
-        sortable: true,
-        filterable: true,
         headerStyle: {width: '150px'},
       }
     ];
