@@ -8,7 +8,7 @@ import paginationFactory, {
   SizePerPageDropdownStandalone,
   PaginationTotalStandalone
 } from 'react-bootstrap-table2-paginator';
-import filterFactory from 'react-bootstrap-table2-filter';
+import filterFactory, { customFilter } from 'react-bootstrap-table2-filter';
 
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
@@ -22,6 +22,7 @@ import LoadingOverlay from './loadingOverlay';
 import PerPageSizeSelector from './pagePerSizeSelector';
 import NoData from '../noData';
 import ColumnHeader from './columnHeader';
+import DropdownTextFilter from './dropdownTextFilter';
 
 class RemoteDataTable extends Component {
   constructor(props) {
@@ -91,11 +92,15 @@ class RemoteDataTable extends Component {
       sizePerPageRenderer: PerPageSizeSelector,
     });
 
-    columns.forEach(column => (
+    columns.forEach(column => {
       column.headerFormatter = (column, _, {filterElement}) => (
         <ColumnHeader column={column} filterElement={filterElement} />
-      )
-    ));
+      );
+      if (column.filterable) {
+        column.filter = customFilter();
+        column.filterRenderer = (onFilter, column) => <DropdownTextFilter column={column} onFilter={onFilter} />;
+      }
+    });
 
     return (
       <div style={{position: 'relative'}}>
