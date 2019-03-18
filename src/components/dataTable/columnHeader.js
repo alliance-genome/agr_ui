@@ -19,7 +19,7 @@ class ColumnHeader extends React.Component {
   render() {
     const {column, filterElement} = this.props;
     const augmentedFilter = filterElement && React.cloneElement(filterElement, {onApply: this.handleApply});
-    const iconClass = this.state.filterValue ? '' : 'text-muted';
+    const iconClass = this.state.filterValue ? 'text-primary' : 'text-muted';
     const classes = '';
     return (
       <div className={classes}>
