@@ -1,3 +1,4 @@
+/* eslint-disable react/no-set-state */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Form, FormGroup, Input } from 'reactstrap';
@@ -9,26 +10,36 @@ class DropdownTextFilter extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleClear = this.handleClear.bind(this);
+  }
+
+  fireCallbacks() {
+    this.props.onFilter(this.state.value);
+    this.props.onApply(this.state.value);
   }
 
   handleChange(event) {
-    // eslint-disable-next-line react/no-set-state
     this.setState({value: event.target.value});
   }
 
   handleClick(event) {
     event.preventDefault();
-    this.props.onFilter(this.state.value);
-    this.props.onApply(this.state.value);
+    this.fireCallbacks();
+  }
+
+  handleClear(event) {
+    event.preventDefault();
+    this.setState({value: ''}, () => this.fireCallbacks());
   }
 
   render() {
     return (
-      <Form>
+      <Form onSubmit={this.handleClick}>
         <FormGroup row>
-          <Input onChange={this.handleChange} style={{width: '200px'}} type='text' value={this.state.value} />
+          <Input onChange={this.handleChange} placeholder={`Filter ${this.props.column.text}...`} style={{width: '200px'}} type='text' value={this.state.value} />
         </FormGroup>
-        <FormGroup row>
+        <FormGroup className='d-flex justify-content-between' row>
+          <Button onClick={this.handleClear} outline>Clear</Button>
           <Button color='primary' onClick={this.handleClick}>Apply</Button>
         </FormGroup>
       </Form>
