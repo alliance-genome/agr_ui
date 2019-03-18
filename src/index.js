@@ -1,4 +1,5 @@
 import '@babel/polyfill';
+import 'custom-event-polyfill';
 
 import React from 'react';
 import { render } from 'react-dom';
