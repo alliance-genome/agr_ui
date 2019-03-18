@@ -9,10 +9,11 @@ import {
   ReferenceCell,
   RemoteDataTable
 } from '../../components/dataTable';
-import { textFilter } from 'react-bootstrap-table2-filter';
+import { customFilter } from 'react-bootstrap-table2-filter';
 import { selectDiseaseViaEmpirical } from '../../selectors/geneSelectors';
 import { fetchDiseaseViaEmpirical } from '../../actions/genes';
 import ExternalLink from '../externalLink';
+import DropdownTextFilter from '../dataTable/dropdownTextFilter';
 
 class GenePageDiseaseTable extends Component {
 
@@ -49,7 +50,8 @@ class GenePageDiseaseTable extends Component {
         dataField: 'disease',
         text: 'Disease',
         formatter: DiseaseNameCell,
-        filter: textFilter(),
+        filter: customFilter(),
+        filterRenderer: (onFilter, column) => <DropdownTextFilter column={column} onFilter={onFilter} />,
         headerStyle: {width: '150px'},
       },
       {

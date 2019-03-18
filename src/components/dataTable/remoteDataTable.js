@@ -21,6 +21,7 @@ import { DEFAULT_TABLE_STATE } from '../../constants';
 import LoadingOverlay from './loadingOverlay';
 import PerPageSizeSelector from './pagePerSizeSelector';
 import NoData from '../noData';
+import ColumnHeader from './columnHeader';
 
 class RemoteDataTable extends Component {
   constructor(props) {
@@ -89,6 +90,12 @@ class RemoteDataTable extends Component {
       sizePerPageList: [10, 25, 100],
       sizePerPageRenderer: PerPageSizeSelector,
     });
+
+    columns.forEach(column => (
+      column.headerFormatter = (column, _, {filterElement}) => (
+        <ColumnHeader column={column} filterElement={filterElement} />
+      )
+    ));
 
     return (
       <div style={{position: 'relative'}}>
