@@ -6,7 +6,7 @@ import { Button, Form, FormGroup, Input } from 'reactstrap';
 class DropdownTextFilter extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: ''};
+    this.state = {value: props.defaultFilter || ''};
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -15,7 +15,6 @@ class DropdownTextFilter extends React.Component {
 
   fireCallbacks() {
     this.props.onFilter(this.state.value);
-    this.props.onApply(this.state.value);
   }
 
   handleChange(event) {
@@ -49,7 +48,7 @@ class DropdownTextFilter extends React.Component {
 
 DropdownTextFilter.propTypes = {
   column: PropTypes.object,
-  onApply: PropTypes.func,
+  defaultFilter: PropTypes.string,
   onFilter: PropTypes.func
 };
 

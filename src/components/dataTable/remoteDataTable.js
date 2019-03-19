@@ -106,15 +106,36 @@ class RemoteDataTable extends Component {
     });
 
     columns.forEach(column => {
+      const columnFilter = this.state.filters &&
+        this.state.filters[column.dataField] &&
+        this.state.filters[column.dataField].filterVal;
       column.headerFormatter = (column, _, {filterElement}) => (
-        <ColumnHeader column={column} filterElement={filterElement} />
+        <ColumnHeader
+          column={column}
+          containerRef={this.containerRef.current}
+          filter={columnFilter}
+          filterElement={filterElement}
+        />
       );
       if (column.filterable) {
         column.filter = customFilter();
         if (Array.isArray(column.filterable)) {
-          column.filterRenderer = (onFilter, column) => <DropdownCheckboxFilter column={column} onFilter={onFilter} options={column.filterable} />;
+          column.filterRenderer = (onFilter, column) => (
+            <DropdownCheckboxFilter
+              column={column}
+              defaultFilter={columnFilter}
+              onFilter={onFilter}
+              options={column.filterable}
+            />
+          );
         } else {
-          column.filterRenderer = (onFilter, column) => <DropdownTextFilter column={column} onFilter={onFilter} />;
+          column.filterRenderer = (onFilter, column) => (
+            <DropdownTextFilter
+              column={column}
+              defaultFilter={columnFilter}
+              onFilter={onFilter}
+            />
+          );
         }
       }
     });
