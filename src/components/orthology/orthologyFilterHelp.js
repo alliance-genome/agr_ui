@@ -14,7 +14,7 @@ const OrthologyFilterHelp = () => (
       Primary criterion: An ortholog called by 3 or more methods is included
       if it is a best count OR a best reverse count.<br />
       Secondary criteria: An ortholog predicted by ZFIN or HGNC is always
-      included, regardless of count.An ortholog called by 2 methods is
+      included, regardless of count. An ortholog called by 2 methods is
       included if it is both a best count AND a best reverse count.
     </p>
 
