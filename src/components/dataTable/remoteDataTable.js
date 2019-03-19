@@ -32,8 +32,10 @@ class RemoteDataTable extends Component {
 
     this.state = DEFAULT_TABLE_STATE;
     this.columnRefs = new Map();
+    this.containerRef = React.createRef();
 
     this.handleTableChange = this.handleTableChange.bind(this);
+    this.scrollIntoView = this.scrollIntoView.bind(this);
   }
 
   componentDidMount() {
@@ -53,6 +55,13 @@ class RemoteDataTable extends Component {
   reset() {
     this.setState(DEFAULT_TABLE_STATE);
     this.columnRefs.forEach(ref => ref && ref.cleanFiltered());
+  }
+
+  scrollIntoView() {
+    this.containerRef.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
   }
 
   handleTableChange(type, newState) {
@@ -92,6 +101,8 @@ class RemoteDataTable extends Component {
       totalSize: totalRows,
       sizePerPageList: [10, 25, 100],
       sizePerPageRenderer: PerPageSizeSelector,
+      onPageChange: this.scrollIntoView,
+      onSizePerPageChange: this.scrollIntoView
     });
 
     columns.forEach(column => {
@@ -109,7 +120,7 @@ class RemoteDataTable extends Component {
     });
 
     return (
-      <div style={{position: 'relative'}}>
+      <div ref={this.containerRef} style={{position: 'relative'}}>
         <LoadingOverlay loading={loading} />
         <PaginationProvider pagination={pagination}>
           {
