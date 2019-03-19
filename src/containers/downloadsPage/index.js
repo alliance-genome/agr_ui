@@ -10,15 +10,24 @@ import HelpPopup from '../../components/helpPopup';
 
 class DownloadsPage extends React.Component {
   render() {
+    const DISEASE = 'Disease';
     const INTERACTIONS = 'Interactions';
     const GENE_DESCRIPTIONS = 'Gene Descriptions';
-    const SECTIONS = [{name: GENE_DESCRIPTIONS}, {name: INTERACTIONS}];
+    const SECTIONS = [{name: DISEASE}, {name: GENE_DESCRIPTIONS}, {name: INTERACTIONS}];
     const TITLE = 'Downloads';
     return (
       <DataPage title={TITLE}>
         <PageNav entityName={TITLE} sections={SECTIONS} />
         <PageData>
           <PageHeader entityName={TITLE} />
+          <Subsection title={DISEASE}>
+            <DownloadFileTable>
+              <tr>
+                <td>Disease associations</td>
+                <td><DownloadFileLink url='http://download.alliancegenome.org/disease-annotations-DOID-4.tsv' /></td>
+              </tr>
+            </DownloadFileTable>
+          </Subsection>
           <Subsection title={GENE_DESCRIPTIONS}>
             <DownloadFileTable>
               <tr>
