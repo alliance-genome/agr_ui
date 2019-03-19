@@ -24,6 +24,7 @@ import NoData from '../noData';
 import ColumnHeader from './columnHeader';
 import DropdownTextFilter from './dropdownTextFilter';
 import DropdownCheckboxFilter from './dropdownCheckboxFilter';
+import HorizontalScroll from '../horizontalScroll';
 
 class RemoteDataTable extends Component {
   constructor(props) {
@@ -110,23 +111,24 @@ class RemoteDataTable extends Component {
     return (
       <div style={{position: 'relative'}}>
         <LoadingOverlay loading={loading} />
-
         <PaginationProvider pagination={pagination}>
           {
             ({paginationProps, paginationTableProps}) => (
               <div>
-                <BootstrapTable
-                  bootstrap4
-                  bordered={false}
-                  columns={columns}
-                  condensed
-                  data={data}
-                  filter={filterFactory()}
-                  keyField={keyField}
-                  onTableChange={this.handleTableChange}
-                  remote
-                  {...paginationTableProps}
-                />
+                <HorizontalScroll>
+                  <BootstrapTable
+                    bootstrap4
+                    bordered={false}
+                    columns={columns}
+                    condensed
+                    data={data}
+                    filter={filterFactory()}
+                    keyField={keyField}
+                    onTableChange={this.handleTableChange}
+                    remote
+                    {...paginationTableProps}
+                  />
+                </HorizontalScroll>
                 <span className='text-muted'>
                   <PaginationTotalStandalone {...paginationProps} />
                   <SizePerPageDropdownStandalone {...paginationProps} />
@@ -137,8 +139,6 @@ class RemoteDataTable extends Component {
             )
           }
         </PaginationProvider>
-
-
         <DownloadButton downloadUrl={downloadUrl} />
       </div>
     );
