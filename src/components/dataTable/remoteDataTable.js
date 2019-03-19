@@ -124,7 +124,7 @@ class RemoteDataTable extends Component {
                   filter={filterFactory()}
                   keyField={keyField}
                   onTableChange={this.handleTableChange}
-                  remote={{filter: true}}
+                  remote
                   {...paginationTableProps}
                 />
                 <span className='text-muted'>
@@ -132,7 +132,6 @@ class RemoteDataTable extends Component {
                   <SizePerPageDropdownStandalone {...paginationProps} />
                   per page
                 </span>
-
                 <PaginationListStandalone {...paginationProps} />
               </div>
             )
