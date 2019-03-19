@@ -23,6 +23,7 @@ import PerPageSizeSelector from './pagePerSizeSelector';
 import NoData from '../noData';
 import ColumnHeader from './columnHeader';
 import DropdownTextFilter from './dropdownTextFilter';
+import DropdownCheckboxFilter from './dropdownCheckboxFilter';
 
 class RemoteDataTable extends Component {
   constructor(props) {
@@ -98,7 +99,11 @@ class RemoteDataTable extends Component {
       );
       if (column.filterable) {
         column.filter = customFilter();
-        column.filterRenderer = (onFilter, column) => <DropdownTextFilter column={column} onFilter={onFilter} />;
+        if (Array.isArray(column.filterable)) {
+          column.filterRenderer = (onFilter, column) => <DropdownCheckboxFilter column={column} onFilter={onFilter} options={column.filterable} />;
+        } else {
+          column.filterRenderer = (onFilter, column) => <DropdownTextFilter column={column} onFilter={onFilter} />;
+        }
       }
     });
 

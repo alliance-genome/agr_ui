@@ -61,6 +61,7 @@ class GenePageDiseaseTable extends Component {
       {
         dataField: 'geneticEntityType',
         text: 'Genetic Entity Type',
+        filterable: ['allele', 'gene'],
         headerStyle: {width: '110px'},
       },
       {

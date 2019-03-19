@@ -35,10 +35,10 @@ class DropdownTextFilter extends React.Component {
   render() {
     return (
       <Form onSubmit={this.handleClick}>
-        <FormGroup row>
+        <FormGroup>
           <Input onChange={this.handleChange} placeholder={`Filter ${this.props.column.text}...`} style={{width: '200px'}} type='text' value={this.state.value} />
         </FormGroup>
-        <FormGroup className='d-flex justify-content-between' row>
+        <FormGroup className='d-flex justify-content-between'>
           <Button onClick={this.handleClear} outline>Clear</Button>
           <Button color='primary' onClick={this.handleClick}>Apply</Button>
         </FormGroup>
