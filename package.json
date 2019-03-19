@@ -12,10 +12,12 @@
   },
   "private": true,
   "dependencies": {
-    "@geneontology/ribbon": "^1.9.6",
+    "@babel/polyfill": "^7.2.5",
+    "@geneontology/ribbon": "^1.9.9",
     "abortcontroller-polyfill": "^1.2.5",
-    "babel-polyfill": "^6.26.0",
     "bootstrap": "4.3.1",
+    "core-js": "^2.6.5",
+    "custom-event-polyfill": "^1.0.6",
     "d3-axis": "^1.0.8",
     "d3-scale": "^1.0.6",
     "d3-selection": "^1.1.0",
@@ -56,6 +58,7 @@
   "devDependencies": {
     "@babel/cli": "^7.1.0",
     "@babel/core": "7.2.2",
+    "@babel/preset-env": "^7.3.4",
     "@babel/register": "7.0.0",
     "babel-loader": "^8.0.2",
     "babel-preset-react-app": "7.0.1",
