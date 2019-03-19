@@ -34,10 +34,6 @@ class GenePageDiseaseTable extends Component {
       publications: annotation.publications,
     }));
 
-    const refsText = (refs) => {
-      return refs.map(ref => ref.pubMedId || ref.pubModId || '').join(', ');
-    };
-
     const columns = [
       {
         dataField: 'id',
@@ -67,25 +63,28 @@ class GenePageDiseaseTable extends Component {
       {
         dataField: 'associationType',
         text: 'Association',
+        filterable: true,
         headerStyle: {width: '110px'},
       },
       {
         dataField: 'evidenceCodes',
         text: 'Evidence Code',
         formatter: EvidenceCodesCell,
+        filterable: true,
         headerStyle: {width: '75px'},
       },
       {
         dataField: 'source',
         text: 'Source',
         formatter: ({name, url}) => <ExternalLink href={url}>{name}</ExternalLink>,
+        filterable: true,
         headerStyle: {width: '75px'},
       },
       {
         dataField: 'publications',
         text: 'References',
         formatter: ReferenceCell,
-        asText: refsText,
+        filterable: true,
         headerStyle: {width: '150px'},
       }
     ];

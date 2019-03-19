@@ -5,21 +5,9 @@ import { UncontrolledButtonDropdown, DropdownMenu, DropdownToggle } from 'reacts
 import style from './style.scss';
 
 class ColumnHeader extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {filterValue: ''};
-    this.handleApply = this.handleApply.bind(this);
-  }
-
-  handleApply(filterValue) {
-    // eslint-disable-next-line react/no-set-state
-    this.setState({filterValue});
-  }
-
   render() {
-    const {column, filterElement} = this.props;
-    const augmentedFilter = filterElement && React.cloneElement(filterElement, {onApply: this.handleApply});
-    const iconClass = this.state.filterValue ? 'text-primary' : 'text-muted';
+    const {column, containerRef, filter, filterElement} = this.props;
+    const iconClass = filter ? 'text-primary' : 'text-muted';
     const classes = '';
     return (
       <div className={classes}>
@@ -29,8 +17,8 @@ class ColumnHeader extends React.Component {
             <DropdownToggle className={style.filterToggle} color='link' tag='span'>
               <i className={`fa fa-filter ${iconClass}`} />
             </DropdownToggle>
-            <DropdownMenu className='px-4 py-3' persist>
-              {augmentedFilter}
+            <DropdownMenu className='px-4 py-3' modifiers={{preventOverflow: {boundariesElement: containerRef}}}>
+              {filterElement}
             </DropdownMenu>
           </UncontrolledButtonDropdown>
         }
@@ -41,6 +29,8 @@ class ColumnHeader extends React.Component {
 
 ColumnHeader.propTypes = {
   column: PropTypes.object,
+  containerRef: PropTypes.instanceOf(Element),
+  filter: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   filterElement: PropTypes.node,
 };
 

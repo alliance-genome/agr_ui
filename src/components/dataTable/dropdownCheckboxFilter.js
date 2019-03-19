@@ -6,7 +6,7 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 class DropdownCheckboxFilter extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: []};
+    this.state = {value: props.defaultFilter || []};
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -14,8 +14,7 @@ class DropdownCheckboxFilter extends React.Component {
   }
 
   fireCallbacks() {
-    this.props.onFilter(this.state.value[0]);
-    this.props.onApply(this.state.value[0]);
+    this.props.onFilter(this.state.value);
   }
 
   handleChange(event) {
@@ -66,7 +65,7 @@ class DropdownCheckboxFilter extends React.Component {
 
 DropdownCheckboxFilter.propTypes = {
   column: PropTypes.object,
-  onApply: PropTypes.func,
+  defaultFilter: PropTypes.array,
   onFilter: PropTypes.func,
   options: PropTypes.array,
 };
