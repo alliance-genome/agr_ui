@@ -88,9 +88,9 @@ class HeadMetaTags extends Component {
           '@type': [
             'bs:Gene'
           ],
-          identifier: data.primaryId,
+          identifier: data.id,
           name: data.symbol,
-          url: `https://www.alliancegenome.org/gene/${data.primaryId}`,
+          url: `https://www.alliancegenome.org/gene/${data.id}`,
           dateCreated: new Date(data.dateProduced),
           datePublished: new Date(data.dateProduced),
           dateModified: new Date(data.dateProduced),
