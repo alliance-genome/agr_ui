@@ -40,69 +40,69 @@ class AnnotationTable extends React.Component {
 
     const columns = [
       {
-        field: 'key',
-        isKey: true,
+        dataField: 'key',
+        text: 'key',
         hidden: true,
       },
       {
-        field: 'species',
-        label: 'Species',
-        format: s => <i>{s}</i>,
+        dataField: 'species',
+        text: 'Species',
+        formatter: s => <i>{s}</i>,
         filterable: true,
-        width: '100px',
+        headerStyle: {width: '100px'},
         hidden: genes.length < 2,
       },
       {
-        field: 'gene',
-        label: 'Gene',
-        format: g => <Link to={'/gene/' + g.id}>{g.symbol}</Link>,
+        dataField: 'gene',
+        text: 'Gene',
+        formatter: g => <Link to={'/gene/' + g.id}>{g.symbol}</Link>,
         filterable: true,
-        width: '75px',
+        headerStyle: {width: '75px'},
         hidden: genes.length < 2,
       },
       {
-        field: 'term',
-        label: 'Location',
+        dataField: 'term',
+        text: 'Location',
         filterable: true,
-        width: '150px',
+        headerStyle: {width: '150px'},
       },
       {
-        field: 'stage',
-        label: 'Stage',
+        dataField: 'stage',
+        text: 'Stage',
         filterable: true,
-        width: '130px'
+        headerStyle: {width: '130px'},
       },
       {
-        field: 'assay',
-        label: 'Assay',
-        format: a => <span title={a.name}>{a.displaySynonym}</span>,
+        dataField: 'assay',
+        text: 'Assay',
+        formatter: a => <span title={a.name}>{a.displaySynonym}</span>,
         filterable: true,
-        width: '150px',
+        headerStyle: {width: '150px'},
       },
       {
-        field: 'source',
-        label: 'Sources',
+        dataField: 'source',
+        text: 'Sources',
         filterable: true,
-        format: refs => refs && (
+        formatter: refs => refs && (
           <CommaSeparatedList>
             {refs
               .sort(compareAlphabeticalCaseInsensitive(ref => ref.name))
               .map(ref => <DataSourceLink key={ref.name} reference={ref} />)}
           </CommaSeparatedList>
         ),
-        width: '200px',
+        headerStyle: {width: '200px'},
       },
       {
-        field: 'reference',
-        label: 'References',
-        format: ReferenceCell,
+        dataField: 'reference',
+        text: 'References',
+        formatter: ReferenceCell,
         filterable: true,
-        width: '150px',
+        headerStyle: {width: '150px'},
       }
     ];
 
     const data = annotations && annotations.data && annotations.data.results.map(result => ({
-      key: `${result.gene.id}-${result.termName}-${result.stage ? result.stage.stageID : 'other'}`,
+      key: `${result.gene.id}-${result.termName}-${result.stage ? result.stage.stageID : 'other'}-${result.assay.name}`,
       species: result.gene.species.name,
       gene: result.gene,
       term: result.termName,
@@ -119,6 +119,7 @@ class AnnotationTable extends React.Component {
         columns={columns}
         data={data}
         downloadUrl={downloadUrl}
+        keyField='key'
         loading={annotations.loading}
         onUpdate={this.handleUpdate}
         ref={this.tableRef}

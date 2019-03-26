@@ -70,7 +70,7 @@ class RemoteDataTable extends Component {
   }
 
   render() {
-    const { columns, data, downloadUrl, keyField, loading, totalRows } = this.props;
+    const { columns, data = [], downloadUrl, keyField, loading, totalRows } = this.props;
     const { filters, page, sizePerPage } = this.state;
 
     if (!loading && filters == null && totalRows === 0) {
