@@ -64,7 +64,7 @@ class GenePageDiseaseTable extends Component {
         dataField: 'associationType',
         text: 'Association',
         filterable: true,
-        headerStyle: {width: '110px'},
+        headerStyle: {width: '120px'},
       },
       {
         dataField: 'evidenceCodes',
@@ -78,7 +78,7 @@ class GenePageDiseaseTable extends Component {
         text: 'Source',
         formatter: ({name, url}) => <ExternalLink href={url}>{name}</ExternalLink>,
         filterable: true,
-        headerStyle: {width: '75px'},
+        headerStyle: {width: '85px'},
       },
       {
         dataField: 'publications',

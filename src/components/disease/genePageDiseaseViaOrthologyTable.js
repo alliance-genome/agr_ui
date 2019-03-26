@@ -23,6 +23,7 @@ class GenePageDiseaseTable extends Component {
     const { diseases, geneId } = this.props;
 
     const data = diseases.data && diseases.data.map(annotation => ({
+      id: `${annotation.disease.id}-${annotation.associationType}-${annotation.orthologyGene.id}`,
       disease: annotation.disease,
       associationType: annotation.associationType.replace(/_/g, ' '),
       orthologyGene: annotation.orthologyGene,
@@ -34,60 +35,57 @@ class GenePageDiseaseTable extends Component {
 
     const columns = [
       {
-        field: 'disease',
-        label: 'Disease',
-        format: DiseaseNameCell,
-        isKey: true,
-        sortable: true,
-        filterable: true,
-        width: '150px',
+        dataField: 'id',
+        text: 'id',
+        hidden: true,
       },
       {
-        field: 'associationType',
-        label: 'Association',
-        sortable: true,
+        dataField: 'disease',
+        text: 'Disease',
+        formatter: DiseaseNameCell,
         filterable: true,
-        width: '110px',
+        headerStyle: {width: '150px'},
       },
       {
-        field: 'orthologyGene',
-        label: 'Ortholog',
-        format: ({id, symbol}) => <Link to={`/gene/${id}`}>{symbol}</Link>,
-        sortable: true,
+        dataField: 'associationType',
+        text: 'Association',
         filterable: true,
-        width: '110px',
+        headerStyle: {width: '120px'},
       },
       {
-        field: 'orthologyGeneSpecies',
-        label: 'Ortholog Species',
-        format: (species) => species ? <i>{species}</i> : '',
-        sortable: true,
+        dataField: 'orthologyGene',
+        text: 'Ortholog',
+        formatter: ({id, symbol}) => <Link to={`/gene/${id}`}>{symbol}</Link>,
         filterable: true,
-        width: '150px',
+        headerStyle: {width: '110px'},
       },
       {
-        field: 'evidenceCodes',
-        label: 'Evidence Code',
-        format: EvidenceCodesCell,
-        sortable: true,
+        dataField: 'orthologyGeneSpecies',
+        text: 'Ortholog Species',
+        formatter: (species) => species ? <i>{species}</i> : '',
         filterable: true,
-        width: '75px',
+        headerStyle: {width: '150px'},
       },
       {
-        field: 'source',
-        label: 'Source',
-        format: ({name, url}) => <ExternalLink href={url}>{name}</ExternalLink>,
-        sortable: true,
+        dataField: 'evidenceCodes',
+        text: 'Evidence Code',
+        formatter: EvidenceCodesCell,
         filterable: true,
-        width: '75px',
+        headerStyle: {width: '75px'},
       },
       {
-        field: 'publications',
-        label: 'References',
-        format: ReferenceCell,
-        sortable: true,
+        dataField: 'source',
+        text: 'Source',
+        formatter: ({name, url}) => <ExternalLink href={url}>{name}</ExternalLink>,
         filterable: true,
-        width: '150px',
+        headerStyle: {width: '85px'},
+      },
+      {
+        dataField: 'publications',
+        text: 'References',
+        formatter: ReferenceCell,
+        filterable: true,
+        headerStyle: {width: '150px'},
       }
     ];
 
@@ -96,6 +94,7 @@ class GenePageDiseaseTable extends Component {
         columns={columns}
         data={data}
         downloadUrl={`/api/gene/${geneId}/diseases-via-orthology/download`}
+        keyField='id'
         loading={diseases.loading}
         onUpdate={this.loadData.bind(this)}
         totalRows={diseases.total}
