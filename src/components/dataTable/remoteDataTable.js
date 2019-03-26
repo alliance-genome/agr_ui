@@ -71,9 +71,9 @@ class RemoteDataTable extends Component {
 
   render() {
     const { columns, data, downloadUrl, keyField, loading, totalRows } = this.props;
-    const { page, sizePerPage } = this.state;
+    const { filters, page, sizePerPage } = this.state;
 
-    if (!loading && totalRows === 0) {
+    if (!loading && filters == null && totalRows === 0) {
       return <NoData />;
     }
 
@@ -106,13 +106,12 @@ class RemoteDataTable extends Component {
     });
 
     columns.forEach(column => {
-      const columnFilter = this.state.filters &&
-        this.state.filters[column.dataField] &&
-        this.state.filters[column.dataField].filterVal;
+      const columnFilter = filters &&
+        filters[column.dataField] &&
+        filters[column.dataField].filterVal;
       column.headerFormatter = (column, _, {filterElement}) => (
         <ColumnHeader
           column={column}
-          containerRef={this.containerRef.current}
           filter={columnFilter}
           filterElement={filterElement}
         />
@@ -156,6 +155,7 @@ class RemoteDataTable extends Component {
                     data={data}
                     filter={filterFactory()}
                     keyField={keyField}
+                    noDataIndication={() => <span>No records match query. Try removing filters.</span>}
                     onTableChange={this.handleTableChange}
                     remote
                     {...paginationTableProps}

@@ -6,9 +6,14 @@ import style from './style.scss';
 
 class ColumnHeader extends React.Component {
   render() {
-    const {column, containerRef, filter, filterElement} = this.props;
+    const {column, filter, filterElement} = this.props;
     const iconClass = filter ? 'text-primary' : 'text-muted';
     const classes = '';
+    const popperModifiers = {
+      preventOverflow: {
+        boundariesElement: 'window',
+      }
+    };
     return (
       <div className={classes}>
         {column.text}
@@ -17,7 +22,7 @@ class ColumnHeader extends React.Component {
             <DropdownToggle className={style.filterToggle} color='link' tag='span'>
               <i className={`fa fa-filter ${iconClass}`} />
             </DropdownToggle>
-            <DropdownMenu className='px-4 py-3' modifiers={{preventOverflow: {boundariesElement: containerRef}}}>
+            <DropdownMenu className='px-4 py-3' modifiers={popperModifiers} positionFixed>
               {filterElement}
             </DropdownMenu>
           </UncontrolledButtonDropdown>
@@ -29,7 +34,6 @@ class ColumnHeader extends React.Component {
 
 ColumnHeader.propTypes = {
   column: PropTypes.object,
-  containerRef: PropTypes.instanceOf(Element),
   filter: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   filterElement: PropTypes.node,
 };
