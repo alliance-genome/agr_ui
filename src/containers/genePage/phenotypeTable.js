@@ -36,7 +36,6 @@ class PhenotypeTable extends React.Component {
         dataField: 'phenotype',
         text: 'Phenotype Term',
         formatter: (term) => <span dangerouslySetInnerHTML={{__html: term}} />,
-        // style: {width: '120px'},
         headerStyle: {width: '120px'}
       },
       {
