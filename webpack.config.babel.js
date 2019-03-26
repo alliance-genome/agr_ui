@@ -69,7 +69,7 @@ const plugins = [
   new webpack.EnvironmentPlugin({
     APOLLO_URL: 'https://agr-apollo.berkeleybop.io/apollo/',
     JBROWSE_PORT: '8891',
-    JBROWSE_URL: 'http://jbrowse.alliancegenome.org',
+    JBROWSE_URL: 'http://jbrowse-dev.alliancegenome.org',
     RELEASE: '[dev]',
   }),
   new MiniCssExtractPlugin({
