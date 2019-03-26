@@ -53,9 +53,8 @@ export function buildTableQueryString(options) {
   if (!options) {
     options = DEFAULT_TABLE_STATE;
   }
-  // filterPrefix = filterPrefix || '';
   const filterQueries = options.filters ? '&' + Object.entries(options.filters)
-    .map(([field, filter]) => `${field}=${filter.filterVal}`)
+    .map(([field, filter]) => `filter.${field}=${filter.filterVal}`)
     .join('&') : '';
   const sortQuery = ''; // options.sortOrder ? `&asc=${options.sortOrder === 'asc'}` : '';
   return `page=${options.page}&limit=${options.sizePerPage}${sortQuery}${filterQueries}`;
