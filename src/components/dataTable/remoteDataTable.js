@@ -30,7 +30,6 @@ class RemoteDataTable extends Component {
     super(props);
 
     this.state = DEFAULT_TABLE_STATE;
-    this.columnRefs = new Map();
     this.containerRef = React.createRef();
 
     this.handleTableChange = this.handleTableChange.bind(this);
@@ -48,13 +47,8 @@ class RemoteDataTable extends Component {
     }
   }
 
-  setColumnRef(key, ref) {
-    this.columnRefs.set(key, ref);
-  }
-
   reset() {
     this.setState(DEFAULT_TABLE_STATE);
-    this.columnRefs.forEach(ref => ref && ref.cleanFiltered());
   }
 
   scrollIntoView() {
