@@ -89,6 +89,11 @@ class GenePageDiseaseTable extends Component {
       }
     ];
 
+    const sortOptions = [
+      {value: 'disease', label: 'Disease'},
+      {value: 'geneticEntity', label: 'Genetic Entity'}
+    ];
+
     return (
       <RemoteDataTable
         columns={columns}
@@ -97,6 +102,7 @@ class GenePageDiseaseTable extends Component {
         keyField='id'
         loading={diseases.loading}
         onUpdate={this.loadData.bind(this)}
+        sortOptions={sortOptions}
         totalRows={diseases.total}
       />
     );
