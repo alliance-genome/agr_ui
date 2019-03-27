@@ -161,12 +161,14 @@ class RemoteDataTable extends Component {
                     {...paginationTableProps}
                   />
                 </HorizontalScroll>
-                <span className='text-muted'>
-                  <PaginationTotalStandalone {...paginationProps} />
-                  <SizePerPageDropdownStandalone {...paginationProps} />
-                  per page
-                </span>
-                <PaginationListStandalone {...paginationProps} />
+                <div className='my-2'>
+                  <span className='text-muted'>
+                    <PaginationTotalStandalone {...paginationProps} />
+                    <SizePerPageDropdownStandalone {...paginationProps} />
+                    per page
+                  </span>
+                  <PaginationListStandalone {...paginationProps} />
+                </div>
               </div>
             )
           }
