@@ -56,7 +56,7 @@ export function buildTableQueryString(options) {
   const filterQueries = options.filters ? '&' + Object.entries(options.filters)
     .map(([field, filter]) => `filter.${field}=${filter.filterVal}`)
     .join('&') : '';
-  const sortQuery = ''; // options.sortOrder ? `&asc=${options.sortOrder === 'asc'}` : '';
+  const sortQuery = options.sort ? `&sortBy=${options.sort}` : '';
   return `page=${options.page}&limit=${options.sizePerPage}${sortQuery}${filterQueries}`;
 }
 

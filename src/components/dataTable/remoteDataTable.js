@@ -1,7 +1,7 @@
 /* eslint-disable react/no-set-state */
 import React, { Component } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
-
+import { Form, Input, Label } from 'reactstrap';
 import paginationFactory, {
   PaginationProvider,
   PaginationListStandalone,
@@ -16,7 +16,6 @@ import isEqual from 'lodash.isequal';
 import DownloadButton from './downloadButton';
 import Utils from './utils';
 // import * as analytics from '../../lib/analytics';
-// import PaginationPanel from './paginationPanel';
 import { DEFAULT_TABLE_STATE } from '../../constants';
 import LoadingOverlay from './loadingOverlay';
 import PerPageSizeSelector from './pagePerSizeSelector';
@@ -35,6 +34,7 @@ class RemoteDataTable extends Component {
     this.containerRef = React.createRef();
 
     this.handleTableChange = this.handleTableChange.bind(this);
+    this.handleSortChange = this.handleSortChange.bind(this);
     this.scrollIntoView = this.scrollIntoView.bind(this);
   }
 
@@ -69,28 +69,17 @@ class RemoteDataTable extends Component {
     this.setState(newState);
   }
 
+  handleSortChange(event) {
+    this.setState({sort: event.target.value});
+  }
+
   render() {
-    const { columns, data = [], downloadUrl, keyField, loading, totalRows } = this.props;
-    const { filters, page, sizePerPage } = this.state;
+    const { columns, data = [], downloadUrl, keyField, loading, sortOptions, totalRows } = this.props;
+    const { filters, page, sizePerPage, sort } = this.state;
 
     if (!loading && filters == null && totalRows === 0) {
       return <NoData />;
     }
-
-    // const options = {
-    //   onFilterChange: this.handleFilterChange,
-    //   onPageChange: this.handlePageChange,
-    //   onSizePerPageList: this.handleSizeChange,
-    //   sortName: sort.name,
-    //   sortOrder: sort.order,
-    //   onSortChange: this.handleSortChange,
-    //   paginationPanel: PaginationPanel,
-    //   paginationShowsTotal: Utils.renderPaginationShowsTotal,
-    //   page: page,
-    //   sizePerPage: limit,
-    //   sizePerPageDropDown: Utils.renderSizePerPageDropDown,
-    //   sizePerPageList: [10, 25, 100],
-    // };
 
     const pagination = paginationFactory({
       custom: true,
@@ -146,6 +135,17 @@ class RemoteDataTable extends Component {
           {
             ({paginationProps, paginationTableProps}) => (
               <div>
+                {sortOptions && sortOptions.length &&
+                  <Form className='pull-right' inline>
+                    <Label className="mr-1">Sort by</Label>
+                    <Input onChange={this.handleSortChange} type='select' value={sort}>
+                      <option value=''>Default</option>
+                      {sortOptions.map(sort => (
+                        <option key={sort.value} value={sort.value}>{sort.label}</option>
+                      ))}
+                    </Input>
+                  </Form>
+                }
                 <HorizontalScroll>
                   <BootstrapTable
                     bootstrap4
@@ -184,6 +184,7 @@ RemoteDataTable.propTypes = {
   keyField: PropTypes.string,
   loading: PropTypes.bool,
   onUpdate: PropTypes.func,
+  sortOptions: PropTypes.array,
   totalRows: PropTypes.number,
 };
 
