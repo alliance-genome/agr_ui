@@ -11,7 +11,7 @@ class GeneOntologyRibbon extends Component {
 
   static hasBlockData(entities){
     for (let entity of entities) {
-      if (entity.blocks.uniqueIDs.length > 0) {
+      if(entity.blocks && entity.blocks.length > 0) {
         return true;
       }
     }
@@ -27,7 +27,7 @@ class GeneOntologyRibbon extends Component {
             if (!dataReceived) {
               return <LoadingSpinner />;
             }
-            if (dataError) {
+            if (dataError || !GeneOntologyRibbon.hasBlockData(entities)) {
               return <NoData />;
             }
             return (
