@@ -369,6 +369,10 @@ class GenePhysicalInteractionDetailTable extends React.Component {
       return 0;
     });
 
+    if (interactions.error) {
+      throw new Error(interactions.error.msg);
+    }
+
     if (interactions.loading) {
       return <LoadingSpinner />;
     }

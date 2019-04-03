@@ -2,7 +2,7 @@ require('abortcontroller-polyfill/dist/abortcontroller-polyfill-only');
 import 'isomorphic-fetch';
 
 
-const TIMEOUT = 30000;
+const TIMEOUT = 300000;
 const CONTROLLER = new AbortController();
 
 //resolve promise
