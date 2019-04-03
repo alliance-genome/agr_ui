@@ -54,7 +54,10 @@ export function buildTableQueryString(options) {
     options = DEFAULT_TABLE_STATE;
   }
   const filterQueries = options.filters ? '&' + Object.entries(options.filters)
-    .map(([field, filter]) => `filter.${field}=${filter.filterVal}`)
+    .map(([field, filter]) => {
+      const value = Array.isArray(filter.filterVal) ? filter.filterVal.join('|') : filter.filterVal;
+      return `filter.${field}=${value}`;
+    })
     .join('&') : '';
   const sortQuery = options.sort ? `&sortBy=${options.sort}` : '';
   return `page=${options.page}&limit=${options.sizePerPage}${sortQuery}${filterQueries}`;
