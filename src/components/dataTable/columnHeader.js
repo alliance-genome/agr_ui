@@ -7,7 +7,6 @@ import style from './style.scss';
 class ColumnHeader extends React.Component {
   render() {
     const {column, filter, filterElement} = this.props;
-    const iconClass = filter ? 'text-primary' : 'text-muted';
     const classes = '';
     const popperModifiers = {
       preventOverflow: {
@@ -19,8 +18,8 @@ class ColumnHeader extends React.Component {
         {column.text}
         {filterElement &&
           <UncontrolledButtonDropdown>
-            <DropdownToggle className={style.filterToggle} color='link' tag='span'>
-              <i className={`fa fa-filter ${iconClass}`} />
+            <DropdownToggle className={`${style.filterToggle} ${filter ? style.active : ''}`} color='link' tag='span'>
+              <i className={'fa fa-filter'} />
             </DropdownToggle>
             <DropdownMenu className='px-4 py-3' modifiers={popperModifiers} positionFixed>
               {filterElement}
