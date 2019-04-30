@@ -72,6 +72,8 @@ class GenePage extends Component {
       }
     }
 
+    console.log('input gene data',data);
+
     let now = new Date();
     let date = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
 

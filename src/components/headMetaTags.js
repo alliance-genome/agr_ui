@@ -4,6 +4,146 @@ import Helmet from 'react-helmet';
 
 class HeadMetaTags extends Component {
 
+  getSchemasForData(schemas,data){
+    let dataType = this.getDataType(data);
+    if(dataType==='gene'){
+      return this.produceSchemaForGene(schemas,data);
+    }
+    else
+    if(dataType==='disease'){
+      return this.produceSchemaForDisease(schemas,data);
+    }
+    else{
+      console.error('unknown data type',dataType,' for ',data);
+      return [];
+    }
+  }
+
+  getDataType(data){
+    if(data.id.indexOf('DOID')===0) return 'disease';
+    if(data['automatedGeneSynopsis']) return 'gene';
+    return 'unknown type';
+  }
+
+  produceSchemaForGene(schemas,data){
+    let keywords = ['gene', data.dataProvider.replace('\n', ' '), data.symbol, ...data.synonyms, data.species.name, data.id];
+
+    schemas.push({
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'http://schema.org',
+        '@type': 'Dataset',
+        '@id': data.id,
+        name: data.symbol,
+        dateCreated: new Date(data.dateProduced),
+        datePublished: new Date(data.dateProduced),
+        dateModified: new Date(data.dateProduced),
+        description: [
+          data.automatedGeneSynopsis,
+          data.geneSynopsis,
+          data.geneSynopsisUrl
+        ].filter(a => !!a).join(' '),
+        url: 'https://www.alliancegenome.org/gene/' + data.id,
+        keywords: keywords.join(' '),
+        includedInDataCatalog: 'https://www.alliancegenome.org',
+        creator: {
+          '@type': 'Organization',
+          'name': 'Alliance of Genome Resources'
+        },
+        version: '2.0',
+        license: 'CC BY 4.0',
+      }),
+    });
+
+    // based on this: https://github.com/BioSchemas/specifications/tree/master/Gene/examples
+    // bioschemas section
+    schemas.push({
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': [
+          {
+            'bs': 'http://bioschemas.org/'
+          },
+          'http://schema.org',
+          {
+            '@base': 'http://schema.org'
+          }
+        ],
+        '@type': [
+          'bs:Gene'
+        ],
+        identifier: data.id,
+        name: data.symbol,
+        url: `https://www.alliancegenome.org/gene/${data.id}`,
+        dateCreated: new Date(data.dateProduced),
+        datePublished: new Date(data.dateProduced),
+        dateModified: new Date(data.dateProduced),
+        description: data.automatedGeneSynopsis + ' ' + (data.geneSynopsis || data.geneSynopsisUrl || ''),
+        // 'sameAs': `https://zfin.org/ZDB-GENE-001103-2`, // TODO: add resolver here
+      }),
+    });
+    return schemas;
+  }
+
+  produceSchemaForDisease(schemas,data){
+    let keywords = ['gene', data.dataProvider.replace('\n', ' '), data.symbol, ...data.synonyms, data.species.name, data.id];
+
+    schemas.push({
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'http://schema.org',
+        '@type': 'Dataset',
+        '@id': data.id,
+        name: data.symbol,
+        dateCreated: new Date(data.dateProduced),
+        datePublished: new Date(data.dateProduced),
+        dateModified: new Date(data.dateProduced),
+        description: [
+          data.automatedGeneSynopsis,
+          data.geneSynopsis,
+          data.geneSynopsisUrl
+        ].filter(a => !!a).join(' '),
+        url: 'https://www.alliancegenome.org/gene/' + data.id,
+        keywords: keywords.join(' '),
+        includedInDataCatalog: 'https://www.alliancegenome.org',
+        creator: {
+          '@type': 'Organization',
+          'name': 'Alliance of Genome Resources'
+        },
+        version: '2.0',
+        license: 'CC BY 4.0',
+      }),
+    });
+
+    // based on this: https://github.com/BioSchemas/specifications/tree/master/Gene/examples
+    // bioschemas section
+    schemas.push({
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': [
+          {
+            'bs': 'http://bioschemas.org/'
+          },
+          'http://schema.org',
+          {
+            '@base': 'http://schema.org'
+          }
+        ],
+        '@type': [
+          'bs:Gene'
+        ],
+        identifier: data.id,
+        name: data.symbol,
+        url: `https://www.alliancegenome.org/gene/${data.id}`,
+        dateCreated: new Date(data.dateProduced),
+        datePublished: new Date(data.dateProduced),
+        dateModified: new Date(data.dateProduced),
+        description: data.automatedGeneSynopsis + ' ' + (data.geneSynopsis || data.geneSynopsisUrl || ''),
+        // 'sameAs': `https://zfin.org/ZDB-GENE-001103-2`, // TODO: add resolver here
+      }),
+    });
+    return schemas ;
+  }
 
   render() {
 
@@ -42,62 +182,7 @@ class HeadMetaTags extends Component {
 
 
     if (data) {
-      let keywords = ['gene', data.dataProvider.replace('\n', ' '), data.symbol, ...data.synonyms, data.species.name, data.id];
-
-      schemas.push({
-        type: 'application/ld+json',
-        innerHTML: JSON.stringify({
-          '@context': 'http://schema.org',
-          '@type': 'Dataset',
-          '@id': data.id,
-          name: data.symbol,
-          dateCreated: new Date(data.dateProduced),
-          datePublished: new Date(data.dateProduced),
-          dateModified: new Date(data.dateProduced),
-          description: [
-            data.automatedGeneSynopsis,
-            data.geneSynopsis,
-            data.geneSynopsisUrl
-          ].filter(a => !!a).join(' '),
-          url: 'https://www.alliancegenome.org/gene/' + data.id,
-          keywords: keywords.join(' '),
-          includedInDataCatalog: 'https://www.alliancegenome.org',
-          creator: {
-            '@type': 'Organization',
-            'name': 'Alliance of Genome Resources'
-          },
-          version: '2.0',
-          license: 'CC BY 4.0',
-        }),
-      });
-
-      // based on this: https://github.com/BioSchemas/specifications/tree/master/Gene/examples
-      // bioschemas section
-      schemas.push({
-        type: 'application/ld+json',
-        innerHTML: JSON.stringify({
-          '@context': [
-            {
-              'bs': 'http://bioschemas.org/'
-            },
-            'http://schema.org',
-            {
-              '@base': 'http://schema.org'
-            }
-          ],
-          '@type': [
-            'bs:Gene'
-          ],
-          identifier: data.id,
-          name: data.symbol,
-          url: `https://www.alliancegenome.org/gene/${data.id}`,
-          dateCreated: new Date(data.dateProduced),
-          datePublished: new Date(data.dateProduced),
-          dateModified: new Date(data.dateProduced),
-          description: data.automatedGeneSynopsis + ' ' + (data.geneSynopsis || data.geneSynopsisUrl || ''),
-          // 'sameAs': `https://zfin.org/ZDB-GENE-001103-2`, // TODO: add resolver here
-        }),
-      });
+      this.getSchemasForData(schemas,data);
     }
 
     return (

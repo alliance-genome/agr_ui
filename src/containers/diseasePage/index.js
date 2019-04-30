@@ -67,8 +67,10 @@ class DiseasePage extends Component {
       </ExternalLink>
     );
 
+    console.log('input disease data',data);
+
     return (
-      <DataPage title={disease.name || disease.id}>
+      <DataPage data={data} title={disease.name || disease.id}>
         <PageNav entityName={disease.name} link={doLink} sections={SECTIONS} />
         <PageData>
           <PageHeader entityName={disease.name} />
