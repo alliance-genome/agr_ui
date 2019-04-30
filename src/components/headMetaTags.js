@@ -14,7 +14,6 @@ class HeadMetaTags extends Component {
       return this.produceSchemaForDisease(schemas,data);
     }
     else{
-      console.error('unknown data type',dataType,' for ',data);
       return [];
     }
   }
@@ -86,24 +85,21 @@ class HeadMetaTags extends Component {
   }
 
   produceSchemaForDisease(schemas,data){
-    let keywords = ['gene', data.dataProvider.replace('\n', ' '), data.symbol, ...data.synonyms, data.species.name, data.id];
+    let keywords = ['disease', data.id, data.name, ...data.synonyms, data.definition];
 
+    let definitions = [data.definition];
+    if(data.definitionLinks && data.definitionLinks.length>0){
+      definitions.push(data.definitionLinks[0]);
+    }
     schemas.push({
       type: 'application/ld+json',
       innerHTML: JSON.stringify({
         '@context': 'http://schema.org',
         '@type': 'Dataset',
         '@id': data.id,
-        name: data.symbol,
-        dateCreated: new Date(data.dateProduced),
-        datePublished: new Date(data.dateProduced),
-        dateModified: new Date(data.dateProduced),
-        description: [
-          data.automatedGeneSynopsis,
-          data.geneSynopsis,
-          data.geneSynopsisUrl
-        ].filter(a => !!a).join(' '),
-        url: 'https://www.alliancegenome.org/gene/' + data.id,
+        name: data.name,
+        description: [ definitions ].filter(a => !!a).join(' '),
+        url: 'https://www.alliancegenome.org/disease/' + data.id,
         keywords: keywords.join(' '),
         includedInDataCatalog: 'https://www.alliancegenome.org',
         creator: {
@@ -120,26 +116,14 @@ class HeadMetaTags extends Component {
     schemas.push({
       type: 'application/ld+json',
       innerHTML: JSON.stringify({
-        '@context': [
-          {
-            'bs': 'http://bioschemas.org/'
-          },
-          'http://schema.org',
-          {
-            '@base': 'http://schema.org'
-          }
-        ],
-        '@type': [
-          'bs:Gene'
-        ],
+        '@context': 'http://schema.org',
+        '@type': 'MedicalCondition',
+        '@id': data.id,
         identifier: data.id,
-        name: data.symbol,
-        url: `https://www.alliancegenome.org/gene/${data.id}`,
-        dateCreated: new Date(data.dateProduced),
-        datePublished: new Date(data.dateProduced),
-        dateModified: new Date(data.dateProduced),
-        description: data.automatedGeneSynopsis + ' ' + (data.geneSynopsis || data.geneSynopsisUrl || ''),
-        // 'sameAs': `https://zfin.org/ZDB-GENE-001103-2`, // TODO: add resolver here
+        name: data.name,
+        url: `https://www.alliancegenome.org/disease/${data.id}`,
+        description: data.description,
+        'sameAs': data.url, // TODO: add resolver here
       }),
     });
     return schemas ;
