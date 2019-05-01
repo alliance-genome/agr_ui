@@ -18,11 +18,6 @@ class HeadMetaTags extends Component {
     schemas.push(getSearchSchema());
 
 
-    // specify actions
-    schemas.push(
-    );
-
-
     if (data) {
       getSchemasForData(schemas,data);
     }
