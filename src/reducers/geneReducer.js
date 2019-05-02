@@ -7,11 +7,18 @@ import {
   FETCH_DISEASE_VIA_EMPIRICAL,
   FETCH_DISEASE_VIA_ORTHOLOGY,
   FETCH_INTERACTIONS,
+  FETCH_ORTHOLOGS_WITH_EXPRESSION,
 } from '../actions/genes';
 import { handleActions, forObjectRequestAction, forCollectionRequestAction } from '../lib/handleActions';
 
 const DEFAULT_STATE = fromJS({
   orthologs: {
+    data: [],
+    error: null,
+    loading: false,
+    total: 0,
+  },
+  orthologsWithExpression: {
     data: [],
     error: null,
     loading: false,
@@ -55,6 +62,7 @@ const DEFAULT_STATE = fromJS({
 const geneReducer = handleActions(DEFAULT_STATE,
   forObjectRequestAction(FETCH_GENE),
   forCollectionRequestAction(FETCH_ORTHOLOGS, 'orthologs'),
+  forCollectionRequestAction(FETCH_ORTHOLOGS_WITH_EXPRESSION, 'orthologsWithExpression'),
   forCollectionRequestAction(FETCH_ALLELES, 'alleles'),
   forCollectionRequestAction(FETCH_PHENOTYPES, 'phenotypes'),
   forCollectionRequestAction(FETCH_DISEASE_VIA_EMPIRICAL, 'diseaseViaEmpirical'),
