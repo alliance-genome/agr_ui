@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import HeadMetaTags from '../headMetaTags';
 import ErrorBoundary from '../errorBoundary';
 
 import style from './style.scss';
 
-const DataPage = ({children, data, title}) => {
+const DataPage = ({children}) => {
   return (
     <div className='container-fluid'>
-      <HeadMetaTags data={data} title={title} />
       <div className={`row ${style.dataPage}`}>
         <ErrorBoundary>
           {children}
