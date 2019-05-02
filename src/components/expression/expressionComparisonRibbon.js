@@ -28,6 +28,8 @@ import {
 import SummaryRibbon from './summaryRibbon';
 import AnnotationTable from './annotationTable';
 import HorizontalScroll from '../horizontalScroll';
+import HelpPopup from '../helpPopup';
+import ExpressionControlsHelp from './expressionControlsHelp';
 
 const makeLabel = (symbol, taxonId) => `${symbol} (${shortSpeciesName(taxonId)})`;
 
@@ -79,6 +81,11 @@ class ExpressionComparisonRibbon extends React.Component {
       <React.Fragment>
         <div className='pb-4'>
           <ControlsContainer>
+            <span className='pull-right'>
+              <HelpPopup id='expression-controls-help'>
+                <ExpressionControlsHelp />
+              </HelpPopup>
+            </span>
             <b>Compare to ortholog genes</b>
             <StringencySelection level={stringency} onChange={s => this.setState({stringency: s})} />
             <div className='d-flex align-items-baseline'>
