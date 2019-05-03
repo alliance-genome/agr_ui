@@ -19,6 +19,7 @@ import BasicDiseaseInfo from './basicDiseaseInfo';
 import DiseasePageAssociationsTable from './diseasePageAssociationsTable';
 import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPage';
 import ExternalLink from '../../components/externalLink';
+import HeadMetaTags from '../../components/headMetaTags';
 
 class DiseasePage extends Component {
   constructor(props) {
@@ -67,8 +68,11 @@ class DiseasePage extends Component {
       </ExternalLink>
     );
 
+    const title = disease.name || disease.id;
+
     return (
-      <DataPage title={disease.name || disease.id}>
+      <DataPage>
+        <HeadMetaTags title={title} />
         <PageNav entityName={disease.name} link={doLink} sections={SECTIONS} />
         <PageData>
           <PageHeader entityName={disease.name} />
