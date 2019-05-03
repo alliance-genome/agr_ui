@@ -19,6 +19,7 @@ import BasicDiseaseInfo from './basicDiseaseInfo';
 import DiseasePageAssociationsTable from './diseasePageAssociationsTable';
 import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPage';
 import ExternalLink from '../../components/externalLink';
+import HeadMetaTags from '../../components/headMetaTags';
 
 class DiseasePage extends Component {
   constructor(props) {
@@ -67,8 +68,48 @@ class DiseasePage extends Component {
       </ExternalLink>
     );
 
+    const title = disease.name || disease.id;
+
+    let keywords = ['disease', data.id, data.name, ...data.synonyms, data.definition];
+
+    let definitions = [data.definition];
+    if (data.definitionLinks && data.definitionLinks.length > 0) {
+      definitions.push(data.definitionLinks[0]);
+    }
+
+    const jsonLd = [
+      {
+        '@context': 'http://schema.org',
+        '@type': 'Dataset',
+        '@id': data.id,
+        name: data.name,
+        description: [definitions].filter(a => !!a).join(' '),
+        url: 'https://www.alliancegenome.org/disease/' + data.id,
+        keywords: keywords.join(' '),
+        includedInDataCatalog: 'https://www.alliancegenome.org',
+        creator: {
+          '@type': 'Organization',
+          'name': 'Alliance of Genome Resources'
+        },
+        version: '2.0',
+        license: 'CC BY 4.0',
+      },
+      {
+        '@context': 'http://schema.org',
+        '@type': 'MedicalCondition',
+        '@id': data.id,
+        identifier: data.id,
+        name: data.name,
+        url: `https://www.alliancegenome.org/disease/${data.id}`,
+        description: data.description,
+        'sameAs': data.url, // TODO: add resolver here
+      }
+    ];
+
+
     return (
-      <DataPage data={data} title={disease.name || disease.id}>
+      <DataPage>
+        <HeadMetaTags jsonLd={jsonLd} title={title} />
         <PageNav entityName={disease.name} link={doLink} sections={SECTIONS} />
         <PageData>
           <PageHeader entityName={disease.name} />
