@@ -18,8 +18,8 @@ class PhenotypeTable extends React.Component {
 
     const data = phenotypes.data && phenotypes.data.map(record => {
       return {
-        id: record.geneticEntity.id + '-' + record.phenotype,
-        phenotype: record.phenotype,
+        id: `${record.geneticEntity.id}-${record.phenotype}`,
+        termName: record.phenotype,
         geneticEntity: record.geneticEntity,
         geneticEntityType: record.geneticEntity.type,
         reference: record.publications,
@@ -33,7 +33,7 @@ class PhenotypeTable extends React.Component {
         hidden: true,
       },
       {
-        dataField: 'phenotype',
+        dataField: 'termName',
         text: 'Phenotype Term',
         formatter: (term) => <span dangerouslySetInnerHTML={{__html: term}} />,
         headerStyle: {width: '120px'},
@@ -49,7 +49,7 @@ class PhenotypeTable extends React.Component {
       {
         dataField: 'geneticEntityType',
         text: 'Genetic Entity Type',
-        headerStyle: {width: '100px'},
+        headerStyle: {width: '110px'},
         filterable: ['allele', 'gene'],
       },
       {
