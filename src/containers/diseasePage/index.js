@@ -70,7 +70,10 @@ class DiseasePage extends Component {
 
     const title = disease.name || disease.id;
 
-    let keywords = ['disease', data.id, data.name, ...data.synonyms, data.definition];
+    let keywords = ['disease', data.id, data.name, data.definition];
+    if(data.synonyms){
+      keywords.push(data.synonyms);
+    }
 
     let definitions = [data.definition];
     if (data.definitionLinks && data.definitionLinks.length > 0) {
