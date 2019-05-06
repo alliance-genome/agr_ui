@@ -9,14 +9,15 @@ import {
 
 export default function GeneInteractionCrossReference(props) {
   const {
-    crossReference
+    crossReference,
+    geneDataProvider,
   } = props;
 
   return crossReference ? (
     <AttributeList>
       <AttributeLabel>Primary Sources</AttributeLabel>
       <AttributeValue>
-        <CrossReferenceList collapsible={false} crossReferences={[crossReference]} />
+        <CrossReferenceList collapsible={false} crossReferences={[{...crossReference, displayName: geneDataProvider}]} />
       </AttributeValue>
     </AttributeList>
   ) : null;
@@ -24,4 +25,5 @@ export default function GeneInteractionCrossReference(props) {
 
 GeneInteractionCrossReference.propTypes = {
   crossReference: PropTypes.any,
+  geneDataProvider: PropTypes.any,
 };
