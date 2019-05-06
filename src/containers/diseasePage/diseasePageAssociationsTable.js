@@ -84,7 +84,7 @@ class DiseasePageAssociationsTable extends Component {
         text: 'Source',
         formatter: ({name, url}) => <ExternalLink href={url}>{name}</ExternalLink>,
         filterable: true,
-        headerStyle: {width: '75px'},
+        headerStyle: {width: '85px'},
       },
       {
         dataField: 'reference',
@@ -96,7 +96,7 @@ class DiseasePageAssociationsTable extends Component {
     ];
 
     const data = associations.data && associations.data.map(association => ({
-      id: `${association.disease.id}-${association.gene.id}-${association.associationType}`,
+      id: `${association.disease.id}-${association.gene.id}-${association.allele ? association.allele.id : ''}-${association.associationType}`,
       geneName: association.gene,
       species: association.gene.species.name,
       geneticEntity: association.allele,
