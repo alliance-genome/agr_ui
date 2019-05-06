@@ -1,3 +1,6 @@
+import '@babel/polyfill';
+import 'custom-event-polyfill';
+
 import React from 'react';
 import { render } from 'react-dom';
 import * as analytics from './lib/analytics';
@@ -11,28 +14,12 @@ import './style.scss';
 
 import ReactApp from './reactApplication';
 
-function main() {
-  render(
-    <ReactApp />,
-    document.getElementById('app')
-  );
-}
-
-function browserSupportsAllFeatures() {
-  return window.Promise && window.fetch && window.Symbol;
-}
-
 analytics.initialize();
 
-if (browserSupportsAllFeatures()) {
-  // Browsers that support all features run `main()` immediately.
-  main();
-} else {
-  // All other browsers loads polyfills and then run `main()`.
-  require(['babel-polyfill'], () => {
-    main();
-  });
-}
+render(
+  <ReactApp />,
+  document.getElementById('app')
+);
 
 if (module.hot) {
   module.hot.accept();
