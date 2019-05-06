@@ -31,6 +31,7 @@
 
   &.active {
     color: white;
-    background: $primary
+    background: $primary;
+    border-radius: 3px;
   }
 }
