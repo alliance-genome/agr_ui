@@ -36,24 +36,28 @@ class PhenotypeTable extends React.Component {
         dataField: 'phenotype',
         text: 'Phenotype Term',
         formatter: (term) => <span dangerouslySetInnerHTML={{__html: term}} />,
-        headerStyle: {width: '120px'}
+        headerStyle: {width: '120px'},
+        filterable: true,
       },
       {
         dataField: 'geneticEntity',
         text: 'Genetic Entity',
         formatter: entity => entity.type === 'gene' ? null : GeneticEntityCell(entity),
         headerStyle: {width: '185px'},
+        filterable: true,
       },
       {
         dataField: 'geneticEntityType',
         text: 'Genetic Entity Type',
         headerStyle: {width: '100px'},
+        filterable: ['allele', 'gene'],
       },
       {
         dataField: 'reference',
         text: 'References',
         formatter: ReferenceCell,
         headerStyle: {width: '150px'},
+        filterable: true,
       },
     ];
     return (
