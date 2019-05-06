@@ -7,10 +7,15 @@ class DropdownTextFilter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {value: props.defaultFilter || ''};
+    this.inputRef = React.createRef();
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleClear = this.handleClear.bind(this);
+  }
+
+  componentDidMount() {
+    this.inputRef.current.focus();
   }
 
   fireCallbacks() {
@@ -35,7 +40,14 @@ class DropdownTextFilter extends React.Component {
     return (
       <Form onSubmit={this.handleClick}>
         <FormGroup>
-          <Input onChange={this.handleChange} placeholder={`Filter ${this.props.column.text}...`} style={{width: '200px'}} type='text' value={this.state.value} />
+          <Input
+            innerRef={this.inputRef}
+            onChange={this.handleChange}
+            placeholder={`Filter ${this.props.column.text}...`}
+            style={{width: '200px'}}
+            type='text'
+            value={this.state.value}
+          />
         </FormGroup>
         <FormGroup className='d-flex justify-content-between'>
           <Button onClick={this.handleClear} outline>Clear</Button>
