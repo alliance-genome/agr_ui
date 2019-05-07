@@ -72,7 +72,7 @@ class DiseasePage extends Component {
 
     let keywords = ['disease', data.id, data.name, data.definition];
     if(data.synonyms){
-      keywords.push(data.synonyms);
+      keywords.push(...data.synonyms);
     }
 
     let definitions = [data.definition];
