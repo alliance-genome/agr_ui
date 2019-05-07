@@ -29,7 +29,7 @@ class AlleleTable extends Component {
         isKey: true,
       },
       {
-        dataField: 'synonyms',
+        dataField: 'synonym',
         text: 'Synonyms',
         formatter: synonyms => <SynonymList synonyms={synonyms} />,
         headerStyle: {width: '200px'},
@@ -43,7 +43,7 @@ class AlleleTable extends Component {
         filterable: true,
       },
       {
-        dataField: 'diseases',
+        dataField: 'disease',
         text: 'Associated Human Disease',
         formatter: diseases => (
           <CollapsibleList collapsedSize={diseases.length}>
@@ -58,12 +58,12 @@ class AlleleTable extends Component {
     const data = alleles.data
       .map(allele => ({
         symbol: allele.symbol,
-        synonyms: allele.synonyms,
+        synonym: allele.synonyms,
         source: {
           dataProvider: geneDataProvider,
           url: allele.crossReferences.primary.url,
         },
-        diseases: allele.diseases.sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
+        disease: allele.diseases.sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
       }));
 
     return (
