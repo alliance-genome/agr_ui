@@ -56,7 +56,7 @@ export function buildTableQueryString(options) {
   const filterQueries = options.filters ? '&' + Object.entries(options.filters)
     .map(([field, filter]) => {
       const value = Array.isArray(filter.filterVal) ? filter.filterVal.join('|') : filter.filterVal;
-      return `filter.${field}=${value}`;
+      return `filter.${field}=${encodeURIComponent(value)}`;
     })
     .join('&') : '';
   const sortQuery = options.sort ? `&sortBy=${options.sort}` : '';
