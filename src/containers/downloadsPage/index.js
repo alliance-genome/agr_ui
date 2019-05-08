@@ -8,6 +8,7 @@ import DownloadFileTable from './downloadFileTable';
 import DownloadFileLink from './downloadFileLink';
 import HelpPopup from '../../components/helpPopup';
 import GeneDescriptionsHelp from './geneDescriptionsHelp';
+import HeadMetaTags from '../../components/headMetaTags';
 
 class DownloadsPage extends React.Component {
   render() {
@@ -17,7 +18,8 @@ class DownloadsPage extends React.Component {
     const SECTIONS = [{name: DISEASE}, {name: GENE_DESCRIPTIONS}, {name: INTERACTIONS}];
     const TITLE = 'Downloads';
     return (
-      <DataPage title={TITLE}>
+      <DataPage>
+        <HeadMetaTags title={TITLE} />
         <PageNav entityName={TITLE} sections={SECTIONS} />
         <PageData>
           <PageHeader entityName={TITLE} />

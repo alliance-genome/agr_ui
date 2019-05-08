@@ -25,6 +25,7 @@ import SpeciesIcon from '../../components/speciesIcon';
 import DataSourceLink from '../../components/dataSourceLink';
 import PhenotypeTable from './phenotypeTable';
 import { ExpressionComparisonRibbon } from '../../components/expression';
+import HeadMetaTags from '../../components/headMetaTags';
 
 class GenePage extends Component {
 
@@ -124,8 +125,60 @@ class GenePage extends Component {
       },
     ];
 
+    const keywords = ['gene', data.dataProvider.replace('\n', ' '), data.symbol, ...data.synonyms, data.species.name, data.id];
+    const jsonLd = [
+      {
+        '@context': 'http://schema.org',
+        '@type': 'Dataset',
+        '@id': data.id,
+        name: data.symbol,
+        dateCreated: new Date(data.dateProduced),
+        datePublished: new Date(data.dateProduced),
+        dateModified: new Date(data.dateProduced),
+        description: [
+          data.automatedGeneSynopsis,
+          data.geneSynopsis,
+          data.geneSynopsisUrl
+        ].filter(a => !!a).join(' '),
+        url: 'https://www.alliancegenome.org/gene/' + data.id,
+        keywords: keywords.join(' '),
+        includedInDataCatalog: 'https://www.alliancegenome.org',
+        creator: {
+          '@type': 'Organization',
+          'name': 'Alliance of Genome Resources'
+        },
+        version: '2.0',
+        license: 'CC BY 4.0',
+      },
+      // based on this: https://github.com/BioSchemas/specifications/tree/master/Gene/examples
+      // bioschemas section
+      {
+        '@context': [
+          {
+            'bs': 'http://bioschemas.org/'
+          },
+          'http://schema.org',
+          {
+            '@base': 'http://schema.org'
+          }
+        ],
+        '@type': [
+          'bs:Gene'
+        ],
+        identifier: data.id,
+        name: data.symbol,
+        url: `https://www.alliancegenome.org/gene/${data.id}`,
+        dateCreated: new Date(data.dateProduced),
+        datePublished: new Date(data.dateProduced),
+        dateModified: new Date(data.dateProduced),
+        description: data.automatedGeneSynopsis + ' ' + (data.geneSynopsis || data.geneSynopsisUrl || ''),
+        // 'sameAs': `https://zfin.org/ZDB-GENE-001103-2`, // TODO: add resolver here
+      }
+    ];
+
     return (
-      <DataPage data={data} title={title}>
+      <DataPage>
+        <HeadMetaTags jsonLd={jsonLd} title={title} />
         <PageNav
           entityName={data.symbol}
           extra={<i>{data.species.name}</i>}
