@@ -7,6 +7,7 @@ import { DataPage, PageData, PageHeader, PageNav } from '../../components/dataPa
 import DownloadFileTable from './downloadFileTable';
 import DownloadFileLink from './downloadFileLink';
 import HelpPopup from '../../components/helpPopup';
+import GeneDescriptionsHelp from './geneDescriptionsHelp';
 import HeadMetaTags from '../../components/headMetaTags';
 
 class DownloadsPage extends React.Component {
@@ -30,7 +31,7 @@ class DownloadsPage extends React.Component {
               </tr>
             </DownloadFileTable>
           </Subsection>
-          <Subsection title={GENE_DESCRIPTIONS}>
+          <Subsection help={<GeneDescriptionsHelp />} title={GENE_DESCRIPTIONS}>
             <DownloadFileTable>
               <tr>
                 <td><i>Caenorhabditis elegans</i> genes</td>
