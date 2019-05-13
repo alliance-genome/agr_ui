@@ -27,4 +27,7 @@ export const fetchDiseaseViaOrthology = createFetchAction(
   FETCH_DISEASE_VIA_ORTHOLOGY,
   (id, opts) => `/api/gene/${id}/diseases-via-orthology?${buildTableQueryString(opts)}`
 );
-export const fetchInteractions = createFetchAction(FETCH_INTERACTIONS, id => `/api/gene/${id}/interactions`);
+export const fetchInteractions = createFetchAction(
+  FETCH_INTERACTIONS,
+  (id, opts) => `/api/gene/${id}/interactions?${buildTableQueryString(opts)}`
+);
