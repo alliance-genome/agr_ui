@@ -6,7 +6,6 @@ import ReferenceCell from './referenceCell';
 
 import CellTooltip from './CellTooltip';
 
-import LocalDataTable from './localDataTable';
 import RemoteDataTable from './remoteDataTable';
 
 export {
@@ -16,6 +15,5 @@ export {
   GeneticEntityCell,
   ReferenceCell,
   CellTooltip,
-  LocalDataTable,
   RemoteDataTable
 };

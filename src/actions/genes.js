@@ -11,8 +11,14 @@ export const FETCH_INTERACTIONS = 'FETCH_INTERACTIONS';
 
 export const fetchGene = createFetchAction(FETCH_GENE, id => `/api/gene/${id}`);
 export const fetchOrthologs =createFetchAction(FETCH_ORTHOLOGS, id => `/api/gene/${id}/homologs?stringencyFilter=all`);
-export const fetchAlleles = createFetchAction(FETCH_ALLELES, id => `/api/gene/${id}/alleles`);
-export const fetchPhenotypes = createFetchAction(FETCH_PHENOTYPES, (id, opts) => `/api/gene/${id}/phenotypes?${buildTableQueryString(opts)}`);
+export const fetchAlleles = createFetchAction(
+  FETCH_ALLELES,
+  (id, opts) => `/api/gene/${id}/alleles?${buildTableQueryString(opts)}`
+);
+export const fetchPhenotypes = createFetchAction(
+  FETCH_PHENOTYPES,
+  (id, opts) => `/api/gene/${id}/phenotypes?${buildTableQueryString(opts)}`
+);
 export const fetchDiseaseViaEmpirical = createFetchAction(
   FETCH_DISEASE_VIA_EMPIRICAL,
   (id, opts) => `/api/gene/${id}/diseases-by-experiment?${buildTableQueryString(opts)}`
@@ -21,4 +27,7 @@ export const fetchDiseaseViaOrthology = createFetchAction(
   FETCH_DISEASE_VIA_ORTHOLOGY,
   (id, opts) => `/api/gene/${id}/diseases-via-orthology?${buildTableQueryString(opts)}`
 );
-export const fetchInteractions = createFetchAction(FETCH_INTERACTIONS, id => `/api/gene/${id}/interactions`);
+export const fetchInteractions = createFetchAction(
+  FETCH_INTERACTIONS,
+  (id, opts) => `/api/gene/${id}/interactions?${buildTableQueryString(opts)}`
+);

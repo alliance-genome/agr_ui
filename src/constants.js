@@ -128,13 +128,10 @@ export const NAV_MENU = [
 ];
 
 export const DEFAULT_TABLE_STATE = {
-  limit: 10,
   page: 1,
-  sort: {
-    name: '',
-    order: '',
-  },
-  filters: []
+  sizePerPage: 10,
+  sort: null,
+  filters: null,
 };
 
 export const TAXON_IDS = {
