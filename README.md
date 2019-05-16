@@ -30,12 +30,13 @@ Ensure you've installed [nodejs][1].
 ## Getting started
 
 ### Setting up a local agr UI instance - or on a dev machine
-* Clone your agr copy and checkout the development branch
+* Clone your agr copy and checkout the master branch
 
 ```bash
 	> git clone https://github.com/alliance-genome/agr_ui.git
+	[Note: for ssh keys] > git clone git@github.com:alliance-genome/agr_ui.git
 	> cd agr_ui
-	> git status   #should show current branch being development if not git checkout development
+	> git status   #should show current branch being master if not git checkout master
 	agr_ui> make      #( to Setup dev working platform )
 	agr_ui> make run  #( to start your local agr UI instance default: localhost:2992 )
 ```

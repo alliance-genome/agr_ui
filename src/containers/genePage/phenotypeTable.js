@@ -18,8 +18,8 @@ class PhenotypeTable extends React.Component {
 
     const data = phenotypes.data && phenotypes.data.map(record => {
       return {
-        id: record.geneticEntity.id + '-' + record.phenotype,
-        phenotype: record.phenotype,
+        id: `${record.geneticEntity.id}-${record.phenotype}`,
+        termName: record.phenotype,
         geneticEntity: record.geneticEntity,
         geneticEntityType: record.geneticEntity.type,
         reference: record.publications,
@@ -28,40 +28,36 @@ class PhenotypeTable extends React.Component {
 
     const columns = [
       {
-        field: 'id',
-        isKey: true,
+        dataField: 'id',
+        text: 'id',
         hidden: true,
       },
       {
-        field: 'phenotype',
-        label: 'Phenotype Term',
-        format: (term) => <span dangerouslySetInnerHTML={{__html: term}} />,
-        sortable: false,
-        filterable: false,
-        width: '120px',
+        dataField: 'termName',
+        text: 'Phenotype Term',
+        formatter: (term) => <span dangerouslySetInnerHTML={{__html: term}} />,
+        headerStyle: {width: '120px'},
+        filterable: true,
       },
       {
-        field: 'geneticEntity',
-        label: 'Genetic Entity',
-        format: entity => entity.type === 'gene' ? null : GeneticEntityCell(entity),
-        sortable: false,
-        filterable: false,
-        width: '185px',
+        dataField: 'geneticEntity',
+        text: 'Genetic Entity',
+        formatter: entity => entity.type === 'gene' ? null : GeneticEntityCell(entity),
+        headerStyle: {width: '185px'},
+        filterable: true,
       },
       {
-        field: 'geneticEntityType',
-        label: 'Genetic Entity Type',
-        sortable: false,
-        filterable: false,
-        width: '100px',
+        dataField: 'geneticEntityType',
+        text: 'Genetic Entity Type',
+        headerStyle: {width: '110px'},
+        filterable: ['allele', 'gene'],
       },
       {
-        field: 'reference',
-        label: 'References',
-        format: ReferenceCell,
-        sortable: false,
-        filterable: false,
-        width: '150px',
+        dataField: 'reference',
+        text: 'References',
+        formatter: ReferenceCell,
+        headerStyle: {width: '150px'},
+        filterable: true,
       },
     ];
     return (
@@ -69,6 +65,7 @@ class PhenotypeTable extends React.Component {
         columns={columns}
         data={data}
         downloadUrl={`/api/gene/${geneId}/phenotypes/download`}
+        keyField='id'
         loading={phenotypes.loading}
         onUpdate={this.loadPhenotypes.bind(this)}
         totalRows={phenotypes.total}
