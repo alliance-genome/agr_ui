@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  LocalDataTable,
   GeneCell,
+  RemoteDataTable,
 } from '../dataTable';
 import CommaSeparatedList from '../commaSeparatedList';
 import ExternalLink from '../externalLink';
@@ -11,22 +11,13 @@ import style from './genePhysicalInteractionDetailTable.scss';
 import { selectInteractions } from '../../selectors/geneSelectors';
 import { connect } from 'react-redux';
 import { fetchInteractions } from '../../actions/genes';
-import LoadingSpinner from '../loadingSpinner';
-import NoData from '../noData';
 
 const DEFAULT_TABLE_KEY = 'physicalInteractionTable';
 
 class GenePhysicalInteractionDetailTable extends React.Component {
-  componentDidMount () {
+  loadInteractions (opts) {
     const { dispatch, focusGeneId } = this.props;
-    dispatch(fetchInteractions(focusGeneId));
-  }
-
-  componentDidUpdate (prevProps) {
-    const { dispatch, focusGeneId } = this.props;
-    if (focusGeneId !== prevProps.focusGeneId) {
-      dispatch(fetchInteractions(focusGeneId));
-    }
+    dispatch(fetchInteractions(focusGeneId, opts));
   }
 
   getCellId(fieldKey, rowIndex) {
@@ -34,172 +25,77 @@ class GenePhysicalInteractionDetailTable extends React.Component {
   }
 
   render() {
-    const {filename, focusGeneDisplayName, interactions} = this.props;
+    const {focusGeneDisplayName, focusGeneId, interactions} = this.props;
+
+    const data = (interactions.data || []).map((interaction = {}) => ({
+      id: interaction.primaryKey,
+      moleculeType: interaction.interactorAType,
+      interactorGeneSymbol: interaction.geneB,
+      interactorSpecies: interaction.geneB.species,
+      interactorMoleculeType: interaction.interactorBType,
+      detectionMethod: interaction.detectionsMethods,
+      source: interaction.crossReferences,
+      aggregationDatabase: interaction.aggregationDatabase,
+      sourceDatabase: interaction.sourceDatabase,
+      reference: interaction.publication,
+    }));
 
     const columns = [
       {
-        field: 'interactorAType',
-        label: 'Focus gene molecule type ID',
-        asText: ({primaryKey} = {}) => primaryKey,
+        dataField: 'id',
+        text: 'id',
         hidden: true,
-        export: true,
       },
       {
-        field: 'interactorAType',
-        label: `${focusGeneDisplayName} molecule type`,
-        csvHeader: 'Focus gene molecule type',
-        format: (fieldData = {}, row, formatExtraData, rowIndex) => {
+        dataField: 'moleculeType',
+        text: `${focusGeneDisplayName} molecule type`,
+        formatter: (fieldData = {}, row, formatExtraData, rowIndex) => {
           const id = this.getCellId('interactorAType', rowIndex);
           return (
             <MITerm {...fieldData} id={id} />
           );
         },
-        asText: ({label} = {}) => label,
-        width: '6em',
-        className: style.columnHeaderGroup1,
-        columnClassName: style.columnGroup1,
+        headerStyle: {width: '6em'},
+        headerClasses: style.columnHeaderGroup1,
+        classes: style.columnGroup1,
+        filterable: true,
       },
       {
-        field: 'interactorARole',
-        label: 'Focus gene experimental role ID',
-        asText: ({primaryKey} = {}) => primaryKey,
-        hidden: true,
-        export: true,
+        dataField: 'interactorGeneSymbol',
+        text: 'Interactor gene',
+        formatter: GeneCell,
+        headerStyle: {width: '6em'},
+        headerClasses: style.columnHeaderGroup2,
+        classes: style.columnGroup2,
+        filterable: true,
       },
       {
-        field: 'interactorARole',
-        label: `${focusGeneDisplayName} experimental role`,
-        csvHeader: 'Focus gene experimental role',
-        format: (fieldData = {}, row, formatExtraData, rowIndex) => {
-          const id = this.getCellId('interactorARole', rowIndex);
-          return (
-            <MITerm {...fieldData} id={id} />
-          );
-        },
-        asText: ({label} = {}) => label,
-        width: '7em',
-        className: style.columnHeaderGroup1,
-        columnClassName: style.columnGroup1,
-        hidden: true,
-        export: true,
+        dataField: 'interactorSpecies',
+        text: 'Interactor species',
+        formatter: species => <i>{species.name}</i>,
+        headerStyle: {width: '8em'},
+        headerClasses: style.columnHeaderGroup2,
+        classes: style.columnGroup2,
+        filterable: true,
       },
       {
-        field: 'geneB',
-        label: 'Interactor gene ID',
-        asText: ({id} = {}) => id,
-        hidden: true,
-        export: true,
-      },
-      {
-        field: 'geneB',
-        label: 'Interactor gene',
-        csvHeader: 'Interactor gene',
-        format: GeneCell,
-        asText: ({symbol} = {}) => symbol,
-        width: '6em',
-        className: style.columnHeaderGroup2,
-        columnClassName: style.columnGroup2,
-      },
-      {
-        field: 'geneB',
-        label: 'Interactor species ID',
-        asText: ({species} = {}) => species.taxonId,
-        hidden: true,
-        export: true,
-      },
-      {
-        field: 'geneB',
-        label: 'Interactor species',
-        format: ({species} = {}) => (
-          <i>{species.name}</i>
-        ),
-        asText: ({species} = {}) => species.name,
-        width: '8em',
-        className: style.columnHeaderGroup2,
-        columnClassName: style.columnGroup2,
-      },
-      {
-        field: 'interactorBType',
-        label: 'Interactor molecule type ID',
-        asText: ({primaryKey} = {}) => primaryKey,
-        hidden: true,
-        export: true,
-      },
-      {
-        field: 'interactorBType',
-        label: 'Interactor molecule type',
-        format: (fieldData = {}, row, formatExtraData, rowIndex) => {
+        dataField: 'interactorMoleculeType',
+        text: 'Interactor molecule type',
+        formatter: (fieldData = {}, row, formatExtraData, rowIndex) => {
           const id = this.getCellId('interactorBType', rowIndex);
           return (
             <MITerm {...fieldData} id={id} />
           );
         },
-        asText: ({label} = {}) => label,
-        width: '6em',
-        className: style.columnHeaderGroup2,
-        columnClassName: style.columnGroup2,
+        headerStyle: {width: '6em'},
+        headerClasses: style.columnHeaderGroup2,
+        classes: style.columnGroup2,
+        filterable: true,
       },
       {
-        field: 'interactorBRole',
-        label: 'Interactor experimental role ID',
-        asText: ({primaryKey} = {}) => primaryKey,
-        hidden: true,
-        export: true,
-      },
-      {
-        field: 'interactorBRole',
-        label: 'Interactor experimental role',
-        format: (fieldData = {}, row, formatExtraData, rowIndex) => {
-          const id = this.getCellId('interactorBRole', rowIndex);
-          return (
-            <MITerm {...fieldData} id={id} />
-          );
-        },
-        asText: ({label} = {}) => label,
-        width: '7em',
-        className: style.columnHeaderGroup2,
-        columnClassName: style.columnGroup2,
-        hidden: true,
-        export: true,
-      },
-      {
-        field: 'interactionType',
-        label: 'Interaction type ID',
-        asText: ({primaryKey} = {}) => primaryKey,
-        hidden: true,
-        export: true,
-      },
-      {
-        field: 'interactionType',
-        label: 'Interaction type',
-        format: (fieldData = {}, row, formatExtraData, rowIndex) => {
-          const id = this.getCellId('interactionType', rowIndex);
-          return (
-            <MITerm {...fieldData} id={id} />
-          );
-        },
-        asText: ({label} = {}) => label,
-        width: '8em',
-        className: style.columnHeaderGroup3,
-        columnClassName: style.columnGroup3,
-        hidden: true,
-        export: true,
-      },
-      {
-        field: 'detectionsMethods',
-        label: 'Detection method IDs',
-        asText: (items = []) => {
-          return items.map(
-            ({primaryKey} = {}) => primaryKey
-          ).join(',');
-        },
-        hidden: true,
-        export: true,
-      },
-      {
-        field: 'detectionsMethods',
-        label: 'Detection methods',
-        format: (items = [], row, formatExtraData, rowIndex) => {
+        dataField: 'detectionMethod',
+        text: 'Detection methods',
+        formatter: (items = [], row, formatExtraData, rowIndex) => {
           return (
             <CommaSeparatedList>
               {
@@ -215,29 +111,15 @@ class GenePhysicalInteractionDetailTable extends React.Component {
             </CommaSeparatedList>
           );
         },
-        asText: (items = []) => {
-          return items.map(
-            ({label} = {}) => label
-          ).join(',');
-        },
-        width: '10em',
-        className: style.columnHeaderGroup3,
-        columnClassName: style.columnGroup3,
+        headerStyle: {width: '12em'},
+        headerClasses: style.columnHeaderGroup3,
+        classes: style.columnGroup3,
+        filterable: true,
       },
       {
-        field: 'crossReferences',
-        label: 'Source ID',
-        asText: (crossReferences = []) => (
-          crossReferences.map(({displayName} = {}) => (displayName)).join(',')
-        ),
-        hidden: true,
-        export: true,
-      },
-      {
-        field: 'crossReferences',
-        label: 'Source',
-        isKey: true,
-        format: (crossReferences = [], {sourceDatabase = {}, aggregationDatabase = {}} = {}) => (
+        dataField: 'source',
+        text: 'Source',
+        formatter: (crossReferences = [], {sourceDatabase = {}, aggregationDatabase = {}} = {}) => (
           <div>
             {
               crossReferences.map(({primaryKey, displayName, prefix, url} = {}) => (
@@ -257,132 +139,31 @@ class GenePhysicalInteractionDetailTable extends React.Component {
             }
           </div>
         ),
-        width: '16em',
-        className: style.columnHeaderGroup0,
-        columnClassName: style.columnGroup0,
-        export: false,
+        headerStyle: {width: '16em'},
+        headerClasses: style.columnHeaderGroup0,
+        classes: style.columnGroup0,
+        filterable: true,
       },
       {
-        field: 'sourceDatabase',
-        label: 'Source DB ID',
-        asText: ({primaryKey} = {}) => primaryKey,
-        hidden: true,
-        export: true,
-      },
-      {
-        field: 'sourceDatabase',
-        label: 'Source DB',
-        format: ({label, url} = {}, row) => {
-          return (!row.aggregationDatabase || label === row.aggregationDatabase.label) ?
-            <span><ExternalLink href={url}>{label}</ExternalLink></span> :
-            <span>
-              <ExternalLink href={url}>{label}</ExternalLink>
-              <i><span> via </span></i>
-              <ExternalLink href={row.aggregationDatabase.url}>{row.aggregationDatabase.label}</ExternalLink>
-            </span>;
-        },
-        asText: ({label} = {}) => label,
-        width: '10em',
-        className: style.columnHeaderGroup3,
-        columnClassName: style.columnGroup3,
-        hidden: true,
-        export: true,
-      },
-      {
-        field: 'aggregationDatabase',
-        label: 'Aggregation DB ID',
-        asText: ({primaryKey} = {}) => primaryKey,
-        hidden: true,
-        export: true,
-      },
-      {
-        field: 'aggregationDatabase',
-        label: 'Aggregation DB',
-        asText: ({label} = {}) => label,
-        hidden: true,
-        export: true,
-      },
-      {
-        field: 'publication',
-        label: 'Reference',
-        format: ({pubMedUrl, primaryKey} = {}) => <ExternalLink href={pubMedUrl}>{primaryKey}</ExternalLink>,
-        asText: ({primaryKey} = {}) => primaryKey,
-        width: '10em',
-        className: style.columnHeaderGroup3,
-        columnClassName: style.columnGroup3,
+        dataField: 'reference',
+        text: 'Reference',
+        formatter: ({pubMedUrl, primaryKey} = {}) => <ExternalLink href={pubMedUrl}>{primaryKey}</ExternalLink>,
+        headerStyle: {width: '10em'},
+        headerClasses: style.columnHeaderGroup3,
+        classes: style.columnGroup3,
+        filterable: true,
       },
     ];
-    const data = (interactions.data || []).map((interaction = {}) => {
-      const {
-        // fields that might need to be rewrite
-        geneA,
-        interactorAType,
-        interactorARole,
-        geneB,
-        interactorBType,
-        interactorBRole,
-
-        // other fields
-        crossReferences,
-        interactionType,
-        detectionsMethods,
-        sourceDatabase,
-        aggregationDatabase,
-        publication,
-      } = interaction;
-      const interactionRewriteFields = geneA.id === this.props.focusGeneId ? {
-        geneA,
-        interactorAType,
-        interactorARole,
-        geneB,
-        interactorBType,
-        interactorBRole,
-      } : {
-        geneA: geneB,
-        interactorAType: interactorBType,
-        interactorARole: interactorBRole,
-        geneB: geneA,
-        interactorBType: interactorAType,
-        interactorBRole: interactorARole,
-      };
-      return Object.assign({
-        crossReferences,
-        interactionType,
-        detectionsMethods,
-        sourceDatabase,
-        aggregationDatabase,
-        publication,
-      }, interactionRewriteFields);
-    }).sort(({geneB: geneX} = {}, {geneB: geneY} = {}) => {
-      const getGeneName = ({symbol} = {}) => ((symbol || '').toUpperCase());
-      const nameX = getGeneName(geneX);
-      const nameY = getGeneName(geneY);
-
-      if (nameX < nameY) {
-        return -1;
-      }
-      if (nameX > nameY) {
-        return 1;
-      }
-
-      // names must be equal
-      return 0;
-    });
-
-    if (interactions.loading) {
-      return <LoadingSpinner />;
-    }
-
-    if (interactions.data.length === 0) {
-      return <NoData />;
-    }
 
     return (
-      <LocalDataTable
+      <RemoteDataTable
         columns={columns}
         data={data}
-        filename={filename}
-        paginated
+        downloadUrl={`/api/disease/${focusGeneId}/interactions/download`}
+        keyField='id'
+        loading={interactions.loading}
+        onUpdate={this.loadInteractions.bind(this)}
+        totalRows={interactions.total}
       />
     );
   }

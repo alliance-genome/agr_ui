@@ -257,7 +257,6 @@ class GenePage extends Component {
 
           <Subsection title={ALLELES}>
             <AlleleTable
-              filename={`${data.symbol}-${data.id}-Alleles-${date}.tsv`}
               geneDataProvider={data.dataProvider}
               geneId={data.id}
             />

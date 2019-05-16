@@ -1,3 +1,5 @@
+@import "../../theme";
+
 .loadingOverlay {
   position: absolute;
   top: 0;
@@ -18,5 +20,18 @@
   &.loading {
     opacity: 0.7;
     transition: opacity 300ms ease-in;
+  }
+}
+
+.filterToggle {
+  cursor: pointer;
+  margin-left: 5px;
+  padding: 0 0.3rem;
+  color: $primary;
+
+  &.active {
+    color: white;
+    background: $primary;
+    border-radius: 3px;
   }
 }
