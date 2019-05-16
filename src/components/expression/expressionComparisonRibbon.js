@@ -13,7 +13,7 @@ import {
   getOrthologSymbol,
 } from '../orthology';
 import { STRINGENCY_HIGH } from '../orthology/constants';
-import { selectOrthologs } from '../../selectors/geneSelectors';
+import { selectOrthologsWithExpression } from '../../selectors/geneSelectors';
 import {
   compareAlphabeticalCaseInsensitive,
   compareByFixedOrder,
@@ -28,6 +28,7 @@ import {
 import SummaryRibbon from './summaryRibbon';
 import AnnotationTable from './annotationTable';
 import HorizontalScroll from '../horizontalScroll';
+import { fetchOrthologsWithExpression } from '../../actions/genes';
 import HelpPopup from '../helpPopup';
 import ExpressionControlsHelp from './expressionControlsHelp';
 
@@ -57,6 +58,18 @@ class ExpressionComparisonRibbon extends React.Component {
     this.handleBlockClick = this.handleBlockClick.bind(this);
   }
 
+  componentDidMount() {
+    const { dispatch, geneId } = this.props;
+    dispatch(fetchOrthologsWithExpression(geneId));
+  }
+
+  componentDidUpdate(prevProps) {
+    const { dispatch, geneId } = this.props;
+    if (prevProps.geneId !== geneId) {
+      dispatch(fetchOrthologsWithExpression(geneId));
+    }
+  }
+
   handleChange(values) {
     this.setState({selectedOrthologs: values});
   }
@@ -70,7 +83,7 @@ class ExpressionComparisonRibbon extends React.Component {
   render() {
     const { geneId, geneSymbol, geneTaxon, orthology } = this.props;
     const { stringency, selectedOrthologs, selectedTerm } = this.state;
-    const filteredOrthology = (orthology || [])
+    const filteredOrthology = (orthology.data || [])
       .filter(byNotHuman)
       .filter(byStringency(stringency))
       .sort(compareBySpeciesThenAlphabetical);
@@ -171,14 +184,11 @@ ExpressionComparisonRibbon.propTypes = {
   geneId: PropTypes.string.isRequired,
   geneSymbol: PropTypes.string.isRequired,
   geneTaxon: PropTypes.string.isRequired,
-  orthology: PropTypes.array,
+  orthology: PropTypes.object,
 };
 
-function mapStateToProps (state) {
-  const {data} = selectOrthologs(state);
-  return {
-    orthology: data,
-  };
-}
+const mapStateToProps = state => ({
+  orthology: selectOrthologsWithExpression(state),
+});
 
 export default connect(mapStateToProps)(ExpressionComparisonRibbon);
