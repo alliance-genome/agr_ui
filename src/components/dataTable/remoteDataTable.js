@@ -1,28 +1,40 @@
 /* eslint-disable react/no-set-state */
 import React, { Component } from 'react';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import BootstrapTable from 'react-bootstrap-table-next';
+import { Form, Input, Label } from 'reactstrap';
+import paginationFactory, {
+  PaginationProvider,
+  PaginationListStandalone,
+  SizePerPageDropdownStandalone,
+  PaginationTotalStandalone
+} from 'react-bootstrap-table2-paginator';
+import filterFactory, { customFilter } from 'react-bootstrap-table2-filter';
+
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 
 import DownloadButton from './downloadButton';
 import Utils from './utils';
-import * as analytics from '../../lib/analytics';
-import PaginationPanel from './paginationPanel';
-import NoData from '../noData';
+// import * as analytics from '../../lib/analytics';
 import { DEFAULT_TABLE_STATE } from '../../constants';
 import LoadingOverlay from './loadingOverlay';
+import PerPageSizeSelector from './pagePerSizeSelector';
+import NoData from '../noData';
+import ColumnHeader from './columnHeader';
+import DropdownTextFilter from './dropdownTextFilter';
+import DropdownCheckboxFilter from './dropdownCheckboxFilter';
+import HorizontalScroll from '../horizontalScroll';
 
 class RemoteDataTable extends Component {
   constructor(props) {
     super(props);
 
     this.state = DEFAULT_TABLE_STATE;
-    this.columnRefs = new Map();
+    this.containerRef = React.createRef();
 
-    this.handleFilterChange = this.handleFilterChange.bind(this);
-    this.handlePageChange = this.handlePageChange.bind(this);
-    this.handleSizeChange = this.handleSizeChange.bind(this);
+    this.handleTableChange = this.handleTableChange.bind(this);
     this.handleSortChange = this.handleSortChange.bind(this);
+    this.scrollIntoView = this.scrollIntoView.bind(this);
   }
 
   componentDidMount() {
@@ -35,91 +47,126 @@ class RemoteDataTable extends Component {
     }
   }
 
-  setColumnRef(key, ref) {
-    this.columnRefs.set(key, ref);
+  reset() {
+    this.setState(DEFAULT_TABLE_STATE);
   }
 
-  handleFilterChange(filter) {
-    this.setState({
-      filters: Object.keys(filter).map(key => ({name: key, value: filter[key].value})),
-      page: 1,
+  scrollIntoView() {
+    this.containerRef.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
     });
   }
 
-  handlePageChange(page, size, title) {
-    analytics.logTablePageEvent(title);
-    this.setState({page});
+  handleTableChange(type, newState) {
+    // TODO: GA calls
+    this.setState(newState);
   }
 
-  handleSizeChange(limit) {
-    analytics.logTableSizeEvent(limit);
-    this.setState({limit});
-  }
-
-  handleSortChange(name, order) {
-    this.setState({sort: {name, order}});
-  }
-
-  reset() {
-    this.setState(DEFAULT_TABLE_STATE);
-    this.columnRefs.forEach(ref => ref && ref.cleanFiltered());
+  handleSortChange(event) {
+    this.setState({sort: event.target.value});
   }
 
   render() {
-    const { columns, data, downloadUrl, loading, totalRows } = this.props;
-    const { page, limit, sort, filters } = this.state;
+    const { columns, data = [], downloadUrl, keyField, loading, sortOptions, totalRows } = this.props;
+    const { filters, page, sizePerPage, sort } = this.state;
 
-    if (!loading && !filters.length && totalRows === 0) {
+    if (!loading && filters == null && totalRows === 0) {
       return <NoData />;
     }
 
-    const options = {
-      onFilterChange: this.handleFilterChange,
-      onPageChange: this.handlePageChange,
-      onSizePerPageList: this.handleSizeChange,
-      sortName: sort.name,
-      sortOrder: sort.order,
-      onSortChange: this.handleSortChange,
-      paginationPanel: PaginationPanel,
-      paginationShowsTotal: Utils.renderPaginationShowsTotal,
-      page: page,
-      sizePerPage: limit,
-      sizePerPageDropDown: Utils.renderSizePerPageDropDown,
+    const pagination = paginationFactory({
+      custom: true,
+      page,
+      paginationTotalRenderer: Utils.renderPaginationShowsTotal,
+      sizePerPage,
+      showTotal: true,
+      totalSize: totalRows,
       sizePerPageList: [10, 25, 100],
-    };
+      sizePerPageRenderer: PerPageSizeSelector,
+      onPageChange: this.scrollIntoView,
+      onSizePerPageChange: this.scrollIntoView
+    });
+
+    columns.forEach(column => {
+      const columnFilter = filters &&
+        filters[column.dataField] &&
+        filters[column.dataField].filterVal;
+      column.headerFormatter = (column, _, {filterElement}) => (
+        <ColumnHeader
+          column={column}
+          filter={columnFilter}
+          filterElement={filterElement}
+        />
+      );
+      if (column.filterable) {
+        column.filter = customFilter();
+        if (Array.isArray(column.filterable)) {
+          column.filterRenderer = (onFilter, column) => (
+            <DropdownCheckboxFilter
+              column={column}
+              defaultFilter={columnFilter}
+              onFilter={onFilter}
+              options={column.filterable}
+            />
+          );
+        } else {
+          column.filterRenderer = (onFilter, column) => (
+            <DropdownTextFilter
+              column={column}
+              defaultFilter={columnFilter}
+              onFilter={onFilter}
+            />
+          );
+        }
+      }
+    });
 
     return (
-      <div style={{position: 'relative'}}>
+      <div ref={this.containerRef} style={{position: 'relative'}}>
         <LoadingOverlay loading={loading} />
-        <BootstrapTable
-          bordered={false}
-          data={data}
-          fetchInfo={{dataTotalSize: totalRows}}
-          options={options}
-          pagination
-          remote
-          tableBodyClass='table-sm'
-          tableHeaderClass='table-sm'
-          version='4'
-        >
+        <PaginationProvider pagination={pagination}>
           {
-            columns.map((col, idx) => (
-              <TableHeaderColumn
-                dataField={col.field}
-                dataFormat={col.format}
-                dataSort={col.sortable}
-                filter={Utils.getTextFilter(col)}
-                hidden={col.hidden}
-                isKey={col.isKey}
-                key={idx}
-                ref={ref => this.setColumnRef(col.field, ref)}
-                width={col.width}
-              >
-                {col.label}
-              </TableHeaderColumn>
-            ))
+            ({paginationProps, paginationTableProps}) => (
+              <div>
+                {sortOptions && sortOptions.length &&
+                  <Form className='pull-right' inline>
+                    <Label className="mr-1">Sort by</Label>
+                    <Input onChange={this.handleSortChange} type='select' value={sort}>
+                      <option value=''>Default</option>
+                      {sortOptions.map(sort => (
+                        <option key={sort.value} value={sort.value}>{sort.label}</option>
+                      ))}
+                    </Input>
+                  </Form>
+                }
+                <HorizontalScroll>
+                  <BootstrapTable
+                    bootstrap4
+                    bordered={false}
+                    columns={columns}
+                    condensed
+                    data={data}
+                    filter={filterFactory()}
+                    keyField={keyField}
+                    noDataIndication={() => <span>No records match query. Try removing filters.</span>}
+                    onTableChange={this.handleTableChange}
+                    remote
+                    {...paginationTableProps}
+                  />
+                </HorizontalScroll>
+                <div className='my-2'>
+                  <span className='text-muted'>
+                    <PaginationTotalStandalone {...paginationProps} />
+                    <SizePerPageDropdownStandalone {...paginationProps} />
+                    per page
+                  </span>
+                  <PaginationListStandalone {...paginationProps} />
+                </div>
+              </div>
+            )
           }
-        </BootstrapTable>
+        </PaginationProvider>
         <DownloadButton downloadUrl={downloadUrl} />
       </div>
     );
@@ -130,8 +177,10 @@ RemoteDataTable.propTypes = {
   columns: PropTypes.array,
   data: PropTypes.arrayOf(PropTypes.object),
   downloadUrl: PropTypes.string,
+  keyField: PropTypes.string,
   loading: PropTypes.bool,
   onUpdate: PropTypes.func,
+  sortOptions: PropTypes.array,
   totalRows: PropTypes.number,
 };
 

@@ -41,13 +41,6 @@ export const fetchDiseaseFailure = function (error) {
 export const fetchAssociations = function (id, opts) {
   return (dispatch) => {
     dispatch(fetchAssociationsRequest());
-
-    // compensate for the fact that we replace underscore in this field for display
-    let associationTypeFilter = opts.filters.find(filter => filter.name === 'associationType');
-    if (associationTypeFilter) {
-      associationTypeFilter.value = associationTypeFilter.value.replace(/ /g, '_');
-    }
-
     return fetchData(`/api/disease/${id}/associations?${buildTableQueryString(opts)}`)
       .then((data) => dispatch(fetchAssociationsSuccess(data)))
       .catch((error) => dispatch(fetchAssociationsFailure(error)));

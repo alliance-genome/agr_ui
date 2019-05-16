@@ -3,115 +3,92 @@ import PropTypes from 'prop-types';
 import { fetchAlleles } from '../../actions/genes';
 import { selectAlleles } from '../../selectors/geneSelectors';
 import { connect } from 'react-redux';
-import LocalDataTable from '../dataTable/localDataTable';
 import ExternalLink from '../externalLink';
 import { Link } from 'react-router-dom';
-import { compareAlphabeticalCaseInsensitive, stripHtml } from '../../lib/utils';
+import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
 import CollapsibleList from '../collapsibleList/collapsibleList';
 import SynonymList from '../synonymList';
-import NoData from '../noData';
-import LoadingSpinner from '../loadingSpinner';
+import { RemoteDataTable } from '../dataTable';
 
 class AlleleTable extends Component {
-  componentDidMount () {
+  loadData (opts) {
     const { dispatch, geneId } = this.props;
-    dispatch(fetchAlleles(geneId));
-  }
-
-  componentDidUpdate (prevProps) {
-    const { dispatch, geneId } = this.props;
-    if (geneId !== prevProps.geneId) {
-      dispatch(fetchAlleles(geneId));
-    }
+    dispatch(fetchAlleles(geneId, opts));
   }
 
   render() {
-    const { alleles, filename, geneDataProvider } = this.props;
-
-    if (alleles.loading) {
-      return <LoadingSpinner />;
-    }
-
-    if (alleles.data.length === 0) {
-      return <NoData />;
-    }
+    const { alleles, geneId, geneDataProvider } = this.props;
 
     const columns = [
       {
-        field: 'symbol',
-        label: 'Symbol',
-        format: symbol => <span dangerouslySetInnerHTML={{ __html: symbol }} />,
-        width: '185px',
-        sortable: true,
+        dataField: 'symbol',
+        text: 'Symbol',
+        formatter: symbol => <span dangerouslySetInnerHTML={{ __html: symbol }} />,
+        headerStyle: {width: '185px'},
         filterable: true,
-        filterText: symbol => stripHtml(symbol),
         isKey: true,
       },
       {
-        field: 'synonyms',
-        label: 'Synonyms',
-        format: synonyms => <SynonymList synonyms={synonyms} />,
-        width: '200px',
-        sortable: true,
+        dataField: 'synonym',
+        text: 'Synonyms',
+        formatter: synonyms => <SynonymList synonyms={synonyms} />,
+        headerStyle: {width: '200px'},
         filterable: true,
-        filterText: synonyms => synonyms.map(s => stripHtml(s)).join(' '),
       },
       {
-        field: 'source',
-        label: 'Source',
-        format: source => <ExternalLink href={source.url}>{source.dataProvider}</ExternalLink>,
-        asText: source => source.url,
-        width: '75px',
-        sortable: true,
+        dataField: 'source',
+        text: 'Source',
+        formatter: source => <ExternalLink href={source.url}>{source.dataProvider}</ExternalLink>,
+        headerStyle: {width: '75px'},
         filterable: true,
-        filterText: source => source.dataProvider
       },
       {
-        field: 'diseases',
-        label: 'Associated Human Disease',
-        format: diseases => (
+        dataField: 'disease',
+        text: 'Associated Human Disease',
+        formatter: diseases => (
           <CollapsibleList collapsedSize={diseases.length}>
             {diseases.map(disease => <Link key={disease.id} to={`/disease/${disease.id}`}>{disease.name}</Link>)}
           </CollapsibleList>
         ),
-        asText: diseases => diseases
-          .map(disease => `${disease.name} [${disease.id}]`)
-          .join(', '),
-        width: '275px',
-        sortable: true,
+        headerStyle: {width: '275px'},
         filterable: true,
-        filterText: diseases => diseases.map(d => d.name).join(' '),
       },
     ];
 
     const data = alleles.data
       .map(allele => ({
         symbol: allele.symbol,
-        synonyms: allele.synonyms,
+        synonym: allele.synonyms,
         source: {
           dataProvider: geneDataProvider,
           url: allele.crossReferences.primary.url,
         },
-        diseases: allele.diseases.sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
-      }))
-      .sort(compareAlphabeticalCaseInsensitive(allele => allele.symbol));
+        disease: allele.diseases.sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
+      }));
 
-    return <LocalDataTable columns={columns} data={data} filename={filename} paginated />;
+    return (
+      <RemoteDataTable
+        columns={columns}
+        data={data}
+        downloadUrl={`/api/gene/${geneId}/alleles/download`}
+        keyField='symbol'
+        loading={alleles.loading}
+        onUpdate={this.loadData.bind(this)}
+        totalRows={alleles.total}
+      />
+    );
   }
 }
 
 AlleleTable.propTypes = {
   alleles: PropTypes.object,
   dispatch: PropTypes.func,
-  filename: PropTypes.string.isRequired,
   geneDataProvider: PropTypes.string.isRequired,
   geneId: PropTypes.string.isRequired,
 };
 
-function mapStateToProps (state) {
-  return {
-    alleles: selectAlleles(state),
-  };
-}
+const mapStateToProps = state => ({
+  alleles: selectAlleles(state),
+});
 
 export default connect(mapStateToProps)(AlleleTable);
