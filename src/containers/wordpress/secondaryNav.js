@@ -15,6 +15,8 @@ class SecondaryNav extends Component {
       return style.contactMenuContainer;
     case 257:
       return style.projectsMenuContainer;
+    case 473:
+      return style.postMenuContainer;
     case 'post':
       return style.postMenuContainer;
     }
