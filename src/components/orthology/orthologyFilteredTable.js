@@ -7,7 +7,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Collapse } from 'reactstrap';
 import StringencySelection from './stringencySelection';
-import OrthologyTable from './orthologyTable';
+import OrthologyTable, { isBest } from './orthologyTable';
 import { getOrthologSpeciesName } from './utils';
 import { connect } from 'react-redux';
 import { selectOrthologs } from '../../selectors/geneSelectors';
@@ -68,8 +68,8 @@ class OrthologyFilteredTable extends Component {
     return (
       meetMethodFilter &&
       dat.predictionMethodsMatched.length > this.state.filterScoreGreaterThan &&
-      (this.state.filterBest ? dat.best : true) &&
-      (this.state.filterReverseBest ? dat.bestReverse : true) &&
+      (this.state.filterBest ? isBest(dat.best) : true) &&
+      (this.state.filterReverseBest ? isBest(dat.bestReverse) : true) &&
       (this.state.filterSpecies ? getOrthologSpeciesName(dat) === this.state.filterSpecies : true) &&
       orthologyMeetsStringency(dat, this.state.stringencyLevel)
     );
@@ -298,8 +298,8 @@ OrthologyFilteredTable.propTypes = {
       predictionMethodsMatched: PropTypes.arrayOf(PropTypes.string),
       predictionMethodsNotCalled: PropTypes.arrayOf(PropTypes.string),
       predictionMethodsNotMatched: PropTypes.arrayOf(PropTypes.string),
-      best: PropTypes.bool,
-      bestReverse: PropTypes.bool,
+      best: PropTypes.any,
+      bestReverse: PropTypes.any,
     })
   ),
   fetchData: PropTypes.func.isRequired, // provided via connect
