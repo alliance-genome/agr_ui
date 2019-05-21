@@ -117,8 +117,18 @@ export const NAV_MENU = [
     ]
   },
   {
-    label: 'News & Events',
-    route: '/news',
+    label: 'News',
+    wordpressId: 473,
+    sub: [
+      {
+        label: 'News & Events',
+        route: '/news'
+      },
+      {
+        label: 'Release Notes',
+        route: '/release-notes'
+      }
+    ]
   },
   {
     label: 'Contact Us',
