@@ -23,6 +23,10 @@ const columns = [
   {name: 'Method'}
 ];
 
+export function isBest(value = '') {
+  return typeof value === 'boolean' ? value : value.match(/yes/i);
+}
+
 class OrthologyTable extends Component {
 
   render() {
@@ -67,11 +71,11 @@ class OrthologyTable extends Component {
                   </td>
                   <td>{`${scoreNumerator} of ${scoreDemominator}`}</td>
                   <BooleanCell
-                    isTrueFunc={(value) => value === 'Yes'}
+                    isTrueFunc={isBest}
                     value={orthData.best}
                   />
                   <BooleanCell
-                    isTrueFunc={(value) => value === 'Yes'}
+                    isTrueFunc={isBest}
                     value={orthData.bestReverse}
                   />
                   <MethodCell
@@ -102,8 +106,14 @@ OrthologyTable.propTypes = {
       predictionMethodsMatched: PropTypes.arrayOf(PropTypes.string),
       predictionMethodsNotCalled: PropTypes.arrayOf(PropTypes.string),
       predictionMethodsNotMatched: PropTypes.arrayOf(PropTypes.string),
-      best: PropTypes.bool,
-      bestReverse: PropTypes.bool,
+      best: PropTypes.oneOfType([
+        PropTypes.bool,
+        PropTypes.string
+      ]),
+      bestReverse: PropTypes.oneOfType([
+        PropTypes.bool,
+        PropTypes.string
+      ]),
     })
   )
 };
