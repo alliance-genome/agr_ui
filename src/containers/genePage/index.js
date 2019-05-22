@@ -25,6 +25,7 @@ import SpeciesIcon from '../../components/speciesIcon';
 import DataSourceLink from '../../components/dataSourceLink';
 import PhenotypeTable from './phenotypeTable';
 import { ExpressionComparisonRibbon } from '../../components/expression';
+import { DiseaseAnnotationTable } from '../../components/disease';
 import HeadMetaTags from '../../components/headMetaTags';
 
 class GenePage extends Component {
@@ -83,6 +84,8 @@ class GenePage extends Component {
     const DISEASE = 'Disease Associations';
     const DISEASE_VIA_EXPERIMENT = 'Disease Associations Via Empirical Data';
     const DISEASE_VIA_ORTHOLOGY = 'Disease Associations Via Orthology';
+    const DISEASE_ANNOTATION = 'Disease Annotation';
+
     const EXPRESSION = 'Expression';
     const ALLELES = 'Alleles';
     const PHENOTYPES = 'Phenotypes';
@@ -112,6 +115,10 @@ class GenePage extends Component {
       },
       {
         name: DISEASE_VIA_ORTHOLOGY,
+        level: 1,
+      },
+      {
+        name: DISEASE_ANNOTATION,
         level: 1,
       },
       {
@@ -241,6 +248,9 @@ class GenePage extends Component {
                 filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaOrthology-${date}.tsv`}
                 geneId={data.id}
               />
+            </Subsection>
+            <Subsection level={1} title={DISEASE_ANNOTATION}>
+              <DiseaseAnnotationTable geneId={data.id} geneSymbol={data.symbol} />
             </Subsection>
           </Subsection>
 

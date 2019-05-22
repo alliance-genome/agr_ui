@@ -6,7 +6,12 @@ import {
   FETCH_ASSOCIATIONS,
   FETCH_ASSOCIATIONS_SUCCESS,
   FETCH_ASSOCIATIONS_FAILURE,
+  FETCH_DISEASE_ANNOTATIONS_SUCCESS,
+  FETCH_DISEASE_ANNOTATIONS_FAILURE
+
 } from '../actions/disease';
+
+/* eslint-disable no-debugger */
 
 export const DEFAULT_STATE = fromJS({
   data: null,
@@ -18,6 +23,12 @@ export const DEFAULT_STATE = fromJS({
     error: null,
     total: 0,
   },
+  diseaseAnnotations:{
+    data: [],
+    loading: false,
+    error: null,
+    total: 0
+  }
 });
 
 const diseaseReducer = function (state = DEFAULT_STATE, action) {
@@ -51,6 +62,18 @@ const diseaseReducer = function (state = DEFAULT_STATE, action) {
       .setIn(['associations', 'total'], 0)
       .setIn(['associations', 'error'], action.payload);
 
+
+  case FETCH_DISEASE_ANNOTATIONS_SUCCESS:
+    return state.setIn(['diseaseAnnotations', 'loading'], false)
+      .setIn(['diseaseAnnotations', 'data'], action.payload.results)
+      .setIn(['diseaseAnnotations', 'total'], action.payload.total)
+      .setIn(['diseaseAnnotations'], action.payload);
+
+  case FETCH_DISEASE_ANNOTATIONS_FAILURE:
+    return state.setIn(['diseaseAnnotations', 'loading'], false)
+      .setIn(['diseaseAnnotations', 'data'], [])
+      .setIn(['diseaseAnnotations', 'total'], 0)
+      .setIn(['diseaseAnnotations', 'error'], action.payload);
   default:
     return state;
   }
