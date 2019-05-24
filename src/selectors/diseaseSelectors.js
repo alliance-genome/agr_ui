@@ -6,7 +6,6 @@ export const selectSummary = geneId => {
   return createSelector(
     [selectDiseaseDomain],
     disease => {
-      console.log('disease selector: ' , disease);
       const summary = disease.get('summaries').get(geneId);
       if (!summary) {
         return undefined;

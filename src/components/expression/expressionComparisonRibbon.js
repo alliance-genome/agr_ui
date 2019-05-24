@@ -44,7 +44,7 @@ const byStringency = stringency => orthology => orthologyMeetsStringency(ortholo
 
 const ANATOMY = 'Anatomy';
 const STAGE = 'Stage';
-const CC = 'Cellular Component';
+const CC = 'Subcellular';
 
 class ExpressionComparisonRibbon extends React.Component {
   constructor(props) {

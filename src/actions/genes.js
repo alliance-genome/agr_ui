@@ -6,7 +6,6 @@ export const FETCH_ORTHOLOGS = 'FETCH_ORTHOLOGS';
 export const FETCH_ORTHOLOGS_WITH_EXPRESSION = 'FETCH_ORTHOLOGS_WITH_EXPRESSION';
 export const FETCH_ALLELES = 'FETCH_ALLELES';
 export const FETCH_PHENOTYPES = 'FETCH_PHENOTYPES';
-export const FETCH_DISEASE_RIBBON = 'FETCH_DISEASE_RIBBON';
 export const FETCH_DISEASE_VIA_EMPIRICAL = 'FETCH_DISEASE_VIA_EMPIRICAL';
 export const FETCH_DISEASE_VIA_ORTHOLOGY = 'FETCH_DISEASE_VIA_ORTHOLOGY';
 export const FETCH_INTERACTIONS = 'FETCH_INTERACTIONS';
@@ -36,8 +35,4 @@ export const fetchDiseaseViaOrthology = createFetchAction(
 export const fetchInteractions = createFetchAction(
   FETCH_INTERACTIONS,
   (id, opts) => `/api/gene/${id}/interactions?${buildTableQueryString(opts)}`
-);
-export const fetchDiseaseRibbon = createFetchAction(
-  FETCH_DISEASE_RIBBON,
-  (id) => `/api/gene/${id}/disease-ribbon-summary`
 );
