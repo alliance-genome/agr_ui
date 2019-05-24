@@ -33,7 +33,8 @@ class GenePageDiseaseTable extends Component {
   }
 
   diseaseGroupClicked(gene, disease) {
-    console.log('ITEM CLICK: ', gene , disease);
+    // console.log('ITEM CLICK: ', gene , disease);
+    return { gene , disease };
   }
 
   render() {
