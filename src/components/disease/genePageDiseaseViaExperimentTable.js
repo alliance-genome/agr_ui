@@ -13,11 +13,28 @@ import { selectDiseaseViaEmpirical } from '../../selectors/geneSelectors';
 import { fetchDiseaseViaEmpirical } from '../../actions/genes';
 import ExternalLink from '../externalLink';
 
+import { fetchDiseaseSummary } from '../../actions/disease';
+import { selectSummary } from '../../selectors/diseaseSelectors';
+import GenericRibbon from '@geneontology/ribbon/lib/components/GenericRibbon';
+import { POSITION, COLOR_BY } from '@geneontology/ribbon/lib/enums';
+
 class GenePageDiseaseTable extends Component {
+
+  componentDidMount() {
+    const { dispatch, geneId, summary } = this.props;
+    if (!summary) {
+      dispatch(fetchDiseaseSummary(geneId));
+    }
+  }    
 
   loadData(opts) {
     const { dispatch, geneId } = this.props;
     dispatch(fetchDiseaseViaEmpirical(geneId, opts));
+  }
+
+  diseaseGroupClicked(gene, disease) {
+    // console.log('ITEM CLICK: ', gene , disease);
+    return { gene , disease };
   }
 
   render() {
@@ -95,18 +112,34 @@ class GenePageDiseaseTable extends Component {
     ];
 
     return (
-      <RemoteDataTable
-        columns={columns}
-        data={data}
-        downloadUrl={`/api/gene/${geneId}/diseases-by-experiment/download`}
-        keyField='id'
-        loading={diseases.loading}
-        onUpdate={this.loadData.bind(this)}
-        sortOptions={sortOptions}
-        totalRows={diseases.total}
-      />
+      <div>
+        <div style={{ display: 'inline-block' }}>
+          { 
+            (this.props.summary && this.props.summary.data) ? 
+              <GenericRibbon  
+                categories={this.props.summary.data.categories} 
+                colorBy={COLOR_BY.CLASS_COUNT}
+                itemClick={this.diseaseGroupClicked.bind(this)}
+                subjectLabelPosition={POSITION.NONE}
+                subjects={this.props.summary.data.subjects} 
+              />        
+              : ''
+          }
+        </div>
+        <RemoteDataTable
+          columns={columns}
+          data={data}
+          downloadUrl={`/api/gene/${geneId}/diseases-by-experiment/download`}
+          keyField='id'
+          loading={diseases.loading}
+          onUpdate={this.loadData.bind(this)}
+          sortOptions={sortOptions}
+          totalRows={diseases.total}
+        />
+      </div>
     );
   }
+
 }
 
 GenePageDiseaseTable.propTypes = {
@@ -114,12 +147,12 @@ GenePageDiseaseTable.propTypes = {
   dispatch: PropTypes.func,
   filename: PropTypes.string,
   geneId: PropTypes.string.isRequired,
+  summary: PropTypes.object,
 };
 
-function mapStateToProps (state) {
-  return {
-    diseases: selectDiseaseViaEmpirical(state),
-  };
-}
+const mapStateToProps = (state, props) => ({
+  diseases: selectDiseaseViaEmpirical(state),
+  summary: selectSummary(props.geneId)(state)
+});
 
 export default connect(mapStateToProps)(GenePageDiseaseTable);
