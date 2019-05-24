@@ -11,17 +11,43 @@ import {
 } from '../../components/dataTable';
 import { selectDiseaseViaEmpirical } from '../../selectors/geneSelectors';
 import { fetchDiseaseViaEmpirical } from '../../actions/genes';
+import { fetchDiseaseSummary } from '../../actions/disease';
+import { selectSummary } from '../../selectors/diseaseSelectors';
 import ExternalLink from '../externalLink';
+
+// import GenericRibbon from '@geneontology/ribbon';
+// import axios from 'axios';
 
 class GenePageDiseaseTable extends Component {
 
   loadData(opts) {
     const { dispatch, geneId } = this.props;
     dispatch(fetchDiseaseViaEmpirical(geneId, opts));
+    // this.fetchData(geneId)
+    //   .then(data => {
+    //     console.log('retrieved: ', data);
+    //   });
   }
+
+  // fetchData(geneId) {
+  //   let query = 'https://build.alliancegenome.org/api/gene/' + geneId + '/disease-ribbon-summary';
+  //   console.log('Query is ' + query);
+  //   return axios.get(query);
+  // }
+
+  componentDidMount() {
+    const { dispatch, geneId, summary } = this.props;
+    if (!summary) {
+      dispatch(fetchDiseaseSummary(geneId));
+      console.log('disease - summary: ' , this.props);
+    }
+  }
+    
 
   render() {
     const { diseases, geneId } = this.props;
+
+    console.log('disease - render: ' , this.props);
 
     const data = diseases.data && diseases.data.map(annotation => ({
       id: `${annotation.disease.id}-${annotation.allele ? annotation.allele.id : ''}`,
@@ -116,10 +142,9 @@ GenePageDiseaseTable.propTypes = {
   geneId: PropTypes.string.isRequired,
 };
 
-function mapStateToProps (state) {
-  return {
-    diseases: selectDiseaseViaEmpirical(state),
-  };
-}
+const mapStateToProps = (state, props) => ({
+  diseases: selectDiseaseViaEmpirical(state),
+  summary: selectSummary(props.geneId)(state)
+});
 
 export default connect(mapStateToProps)(GenePageDiseaseTable);
