@@ -141,8 +141,9 @@ SummaryRibbon.defaultProps = {
   showSeparatorLabels: true,
 };
 
-const mapStateToProps = (state, props) => ({
-  summary: selectSummary(props.geneId)(state)
-});
+const mapStateToProps = (state, props) => (
+  {
+    summary: selectSummary(props.geneId)(state)
+  });
 
 export default connect(mapStateToProps)(SummaryRibbon);
