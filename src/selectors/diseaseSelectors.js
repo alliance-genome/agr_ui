@@ -2,6 +2,20 @@ import { createSelector } from 'reselect';
 
 export const selectDiseaseDomain = (state) => state.disease;
 
+export const selectSummary = geneId => {
+  return createSelector(
+    [selectDiseaseDomain],
+    disease => {
+      console.log('disease selector: ' , disease);
+      const summary = disease.get('summaries').get(geneId);
+      if (!summary) {
+        return undefined;
+      }
+      return summary.toJS();
+    }
+  );
+};
+
 export const selectData = createSelector(
   [selectDiseaseDomain],
   (disease) => disease.get('data')

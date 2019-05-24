@@ -80,12 +80,15 @@ class SummaryRibbon extends React.Component {
     const { dispatch, geneId, summary } = this.props;
     if (!summary) {
       dispatch(fetchExpressionSummary(geneId));
+      console.log('expression - summary: ', this.props);
     }
   }
 
   render() {
     const { groups, onClick, overrideColor, selectedTerm, showBlockTitles, showSeparatorLabels, summary } = this.props;
     const { data, error, loading } = summary || {};
+
+    // console.log('expression - render: ' , this.props);
 
     var entity = { };
     if(data && groups) {
@@ -141,8 +144,8 @@ SummaryRibbon.defaultProps = {
   showSeparatorLabels: true,
 };
 
-const mapStateToProps = (state, props) => ({
-  summary: selectSummary(props.geneId)(state)
-});
+const mapStateToProps = (state, props) => (
+  console.log('summary - mapstate: ', state),
+  {summary: selectSummary(props.geneId)(state)});
 
 export default connect(mapStateToProps)(SummaryRibbon);
