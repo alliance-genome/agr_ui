@@ -1,9 +1,9 @@
 import fetchData from '../lib/fetchData';
 import { buildTableQueryString } from '../lib/utils';
 
-export const FETCH_SUMMARY = 'FETCH_SUMMARY';
-export const FETCH_SUMMARY_SUCCESS = 'FETCH_SUMMARY_SUCCESS';
-export const FETCH_SUMMARY_FAILURE = 'FETCH_SUMMARY_FAILURE';
+export const FETCH_DISEASE_SUMMARY = 'FETCH_DISEASE_SUMMARY';
+export const FETCH_DISEASE_SUMMARY_SUCCESS = 'FETCH_DISEASE_SUMMARY_SUCCESS';
+export const FETCH_DISEASE_SUMMARY_FAILURE = 'FETCH_DISEASE_SUMMARY_FAILURE';
 
 export const FETCH_DISEASE = 'FETCH_DISEASE';
 export const FETCH_DISEASE_SUCCESS = 'FETCH_DISEASE_SUCCESS';
@@ -16,7 +16,7 @@ export const FETCH_ASSOCIATIONS_FAILURE = 'FETCH_ASSOCIATIONS_FAILURE';
 export const fetchDiseaseSummary = (id) => {
   return (dispatch) => {
     dispatch({
-      type: FETCH_SUMMARY,
+      type: FETCH_DISEASE_SUMMARY,
       id,
     });
     return fetchData(`/api/gene/${id}/disease-ribbon-summary`)
@@ -26,13 +26,13 @@ export const fetchDiseaseSummary = (id) => {
 };
 
 const fetchDiseaseSummarySuccess = (id, summary) => ({
-  type: FETCH_SUMMARY_SUCCESS,
+  type: FETCH_DISEASE_SUMMARY_SUCCESS,
   id,
   summary,
 });
 
 const fetchDiseaseSummaryFailure = (id, error) => ({
-  type: FETCH_SUMMARY_FAILURE,
+  type: FETCH_DISEASE_SUMMARY_FAILURE,
   id,
   error,
 });

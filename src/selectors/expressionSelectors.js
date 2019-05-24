@@ -6,7 +6,6 @@ export const selectSummary = geneId => {
   return createSelector(
     [selectExpressionDomain],
     expression => {
-      console.log('expr selector: ' , expression);
       const summary = expression.get('summaries').get(geneId);
       if (!summary) {
         return undefined;
