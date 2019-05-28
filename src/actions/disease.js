@@ -12,17 +12,21 @@ export const FETCH_DISEASE_FAILURE = 'FETCH_DISEASE_FAILURE';
 export const FETCH_ASSOCIATIONS = 'FETCH_ASSOCIATIONS';
 export const FETCH_ASSOCIATIONS_SUCCESS = 'FETCH_ASSOCIATIONS_SUCCESS';
 export const FETCH_ASSOCIATIONS_FAILURE = 'FETCH_ASSOCIATIONS_FAILURE';
-
+/* eslint-disable no-debugger */
 export const FETCH_DISEASE_ANNOTATIONS = 'FETCH_DISEASE_ANNOTATIONS';
 export const FETCH_DISEASE_ANNOTATIONS_SUCCESS = 'FETCH_DISEASE_ANNOTATIONS_SUCCESS';
 export const FETCH_DISEASE_ANNOTATIONS_FAILURE = 'FETCH_DISEASE_ANNOTATIONS_FAILURE';
-export const fetchDiseaseSummary = (id) => {
+export const fetchDiseaseSummary = (id, opts=[]) => {
+  let urlStr = `/api/gene/${id}/disease-ribbon-summary`;
+  if(opts){
+    urlStr += ('?' + opts.join('&'));
+  }
   return (dispatch) => {
     dispatch({
       type: FETCH_DISEASE_SUMMARY,
       id,
     });
-    return fetchData(`/api/gene/${id}/disease-ribbon-summary`)
+    return fetchData(urlStr)
       .then(data => dispatch(fetchDiseaseSummarySuccess(id, data)))
       .catch(error => dispatch(fetchDiseaseSummaryFailure(id, error)));
   };
@@ -99,10 +103,10 @@ export const fetchAssociationsFailure = function (error) {
   };
 };
 
-export const fetchDiseaseAnnotation = function(id, termId){
+export const fetchDiseaseAnnotation = function(genes, termId){
   return (dispatch) => {
     return fetchData(
-      `/api/disease?geneID=${id}&termID=${termId}`)
+      `/api/disease?${genes}&termID=${termId}`)
       .then((data) => dispatch(fetchDiseaseAnnotationSuccess(data)))
       .catch((error) => dispatch(fetchDiseaseAnnotationFailure(error)));
   };

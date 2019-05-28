@@ -19,8 +19,8 @@ class DiseaseAnnotationTable extends Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchDiseaseAnnotation('MGI:109583', 'DOID:162'));
+    const { dispatch, genes, termId } = this.props;
+    dispatch(fetchDiseaseAnnotation(genes, termId));
   }
 
   render() {
@@ -68,6 +68,8 @@ class DiseaseAnnotationTable extends Component {
 DiseaseAnnotationTable.propTypes = {
   dispatch: PropTypes.func,
   geneId: PropTypes.string.isRequired,
+  genes: PropTypes.array,
+  termId: PropTypes.string
 };
 
 const mapStateToProps = state => {

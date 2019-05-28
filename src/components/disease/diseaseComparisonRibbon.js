@@ -11,6 +11,7 @@ import { fetchOrthologsWithExpression } from '../../actions/genes';
 import { fetchDiseaseSummary} from '../../actions/disease';
 import { selectOrthologsWithExpression } from '../../selectors/geneSelectors';
 import OrthPicker from '../orthPicker';
+import DiseaseAnnotationTable from './DiseaseAnnotationTable';
 import { STRINGENCY_HIGH } from '../orthology/constants';
 import { TAXON_IDS, TAXON_ORDER } from '../../constants';
 import {
@@ -61,20 +62,44 @@ class DiseaseComparisonRibbon extends Component {
     this.handleDiseaseGroupClicked = this.handleDiseaseGroupClicked.bind(this);
   }
 
+
+
   componentDidMount(){
     const { dispatch, geneId, summary} = this.props;
+    const { selectedOrthologs } = this.state;
+    let result = this.getOrthologGeneIds(selectedOrthologs);
     dispatch(fetchOrthologsWithExpression(geneId));
     if(!summary){
-      dispatch(fetchDiseaseSummary(geneId));
+      dispatch(fetchDiseaseSummary(geneId, result));
+    }
+  }
+
+
+  handleLocalStateChangeSummary(){
+    const { selectedOrthologs } = this.state;
+    const { dispatch, geneId } = this.props;
+    let geneIdList = this.getOrthologGeneIds(selectedOrthologs);
+    dispatch(fetchDiseaseSummary(geneId, geneIdList));
+  }
+
+
+  getOrthologGeneIds(values) {
+    if (values) {
+      return values.map( item => {
+        return `geneID=${item.homologGene.id}`;
+      });
+    }
+    else{
+      return [];
     }
   }
 
   handleOrthologPickerChange(values){
-    this.setState({selectedOrthologs: values });
+    this.setState({selectedOrthologs: values }, () => this.handleLocalStateChangeSummary());
   }
 
   handleOrthologBtnChange(values) {
-    this.setState({selectedOrthologs: values});
+    this.setState({selectedOrthologs: values}, () => this.handleLocalStateChangeSummary());
   }
 
   handleStringencychange(strValue){
@@ -86,22 +111,20 @@ class DiseaseComparisonRibbon extends Component {
   }
 
   handleDiseaseGroupClicked(gene, disease){
-    console.log('ITEM CLICK: ', gene, disease);
+   /* get list of genes
+   * get termId
+   * dipatch to get data for the table
+   */
   }
 
   render(){
-    const { orthology, summary } = this.props;
+    const { orthology, summary, geneId } = this.props;
     const { selectedOrthologs, stringency } = this.state;
     const filteredOrthology = (orthology.data || [])
       .filter(byNotHuman)
       .filter(byStringency(stringency))
       .sort(compareBySpeciesThenAlphabetical);
-    let subjectsData = selectedOrthologs.map( item => {
-      let newObj = Object.assign({},item );
-      newObj.homologGene['label'] = item.homologGene.symbol;
-      newObj.homologGene['taxon_label'] = item.homologGene.taxonId;
-      return newObj.homologGene;
-    });
+
     return (
       <div>
         <div>
@@ -128,10 +151,14 @@ class DiseaseComparisonRibbon extends Component {
                 colorBy={COLOR_BY.CLASS_COUNT}
                 itemClick={() => this.handleDiseaseGroupClicked}
                 subjectLabelPosition={POSITION.NONE}
-                subjects={subjectsData ? subjectsData : []}
+                subjects={summary.data.subjects}
               />
               : <div>No data</div>
           }
+        </div>
+
+        <div>
+          <DiseaseAnnotationTable geneId={geneId} genes={} termId={} />
         </div>
 
       </div>
@@ -145,7 +172,7 @@ DiseaseComparisonRibbon.propTypes = {
   geneSymbol: PropTypes.string,
   geneTaxon: PropTypes.string,
   orthology: PropTypes.object,
-  summary: PropTypes.array
+  summary: PropTypes.object
 };
 
 const mapStateToProps = (state, props) => ({
