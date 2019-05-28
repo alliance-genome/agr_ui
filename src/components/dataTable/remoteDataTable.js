@@ -132,7 +132,7 @@ class RemoteDataTable extends Component {
                 {sortOptions && sortOptions.length &&
                   <Form className='pull-right' inline>
                     <Label className="mr-1">Sort by</Label>
-                    <Input onChange={this.handleSortChange} type='select' value={sort}>
+                    <Input onChange={this.handleSortChange} type='select' value={sort || ''}>
                       <option value=''>Default</option>
                       {sortOptions.map(sort => (
                         <option key={sort.value} value={sort.value}>{sort.label}</option>
