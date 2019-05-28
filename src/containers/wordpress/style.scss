@@ -14,7 +14,7 @@
 
 .postMenuContainer, .homeMenuContainer,
 .aboutMenuContainer, .projectsMenuContainer,
-.contactMenuContainer {
+.contactMenuContainer, .helpMenuContainer {
   background-size: cover;
   background: #222222 no-repeat center center;
   margin-bottom: 1.3em;
@@ -22,16 +22,23 @@
 }
 
 .postMenuContainer {
-  background-image: url('https://alliancegenome.files.wordpress.com/2019/04/news.png');
+  background-image: url('https://alliancegenome.files.wordpress.com/2019/05/news.png');
 }
 
-.aboutMenuContainer,
-.contactMenuContainer {
+.aboutMenuContainer {
   background-image: url('https://alliancegenome.files.wordpress.com/2018/06/allbanners-45621.jpg');
+}
+
+.contactMenuContainer {
+  background-image: url('https://alliancegenome.files.wordpress.com/2019/05/contact-6.jpg');
 }
 
 .projectsMenuContainer {
   background-image: url('http://alliancegenome.files.wordpress.com/2016/11/contact_banner.jpg');
+}
+
+.helpMenuContainer {
+  background-image: url('https://alliancegenome.files.wordpress.com/2019/05/user-documentation-3.jpg');
 }
 
 .secondaryNavEmptyRow, .postMenuContainer.secondaryNav {
@@ -46,7 +53,7 @@
 
 .secondaryNav {
   color: #2598c5;
-  background-color: #000000;
+  background-color: #222222;
   bottom: 0;
 }
 
