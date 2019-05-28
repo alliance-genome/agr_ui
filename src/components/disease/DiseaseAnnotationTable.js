@@ -1,10 +1,8 @@
 
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getColumns } from './tableColumns';
 import { RemoteDataTable} from '../dataTable';
-import { fetchDiseaseAnnotation } from '../../actions/disease';
 /* eslint-disable no-debugger */
 /* eslint-disable no-debugger */
 
@@ -18,15 +16,10 @@ class DiseaseAnnotationTable extends Component {
     this.tableRef = React.createRef();
   }
 
-  componentDidMount() {
-    const { dispatch, genes, termId } = this.props;
-    dispatch(fetchDiseaseAnnotation(genes, termId));
-  }
-
   render() {
     /* eslint-disable no-unused-vars */
-    const annotations = this.props.diseaseAnnotations[1].results;
-    const dObj = this.props.diseaseAnnotations[1];
+    const {annotations, annotationObj, geneId} = this.props; //this.props.diseaseAnnotations[1].results;
+    const dObj = annotationObj[1];
     const gene_id = this.props.geneId;
     //debugger;
     let columns = [];
@@ -66,17 +59,13 @@ class DiseaseAnnotationTable extends Component {
 }
 
 DiseaseAnnotationTable.propTypes = {
+  annotationObj: PropTypes.obj,
+  annotations: PropTypes.array,
   dispatch: PropTypes.func,
   geneId: PropTypes.string.isRequired,
   genes: PropTypes.array,
-  termId: PropTypes.string
-};
-
-const mapStateToProps = state => {
-  return {
-    diseaseAnnotations: state.disease._root.entries[4]
-  };
+  termId: PropTypes.string,
 
 };
 
-export default connect(mapStateToProps)(DiseaseAnnotationTable);
+export default DiseaseAnnotationTable;

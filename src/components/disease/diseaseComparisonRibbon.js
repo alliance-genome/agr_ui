@@ -5,10 +5,9 @@ import PropTypes from 'prop-types';
 //import GenericRibbon from '@geneontology/ribbon/lib/components/GenericRibbon';
 
 //import { getColumns } from './tableColumns';
-//import { fetchDiseaseAnnotation, fetchDiseaseSummary } from '../../actions/disease';
+import { fetchDiseaseAnnotation, fetchDiseaseSummary } from '../../actions/disease';
 
 import { fetchOrthologsWithExpression } from '../../actions/genes';
-import { fetchDiseaseSummary} from '../../actions/disease';
 import { selectOrthologsWithExpression } from '../../selectors/geneSelectors';
 import OrthPicker from '../orthPicker';
 import DiseaseAnnotationTable from './DiseaseAnnotationTable';
@@ -110,15 +109,23 @@ class DiseaseComparisonRibbon extends Component {
     e.preventDefault();
   }
 
-  handleDiseaseGroupClicked(gene, disease){
-   /* get list of genes
-   * get termId
-   * dipatch to get data for the table
-   */
+  onDiseaseGroupClicked(gene, disease) {
+    const { dispatch } = this.props;
+    const { selectedOrthologs } = this.state;
+    let geneIdList = this.getOrthologGeneIds(selectedOrthologs);
+    let geneId = 'geneID:' + gene.id;
+    geneIdList.push(geneId);
+    if (disease.type == 'Term'){
+      dispatch(fetchDiseaseAnnotation(geneIdList, disease.id));
+    }
+    else{
+      dispatch(fetchDiseaseAnnotation(geneIdList, disease.type));
+
+    }
   }
 
   render(){
-    const { orthology, summary, geneId } = this.props;
+    const { orthology, summary, geneId, diseaseAnnotations } = this.props;
     const { selectedOrthologs, stringency } = this.state;
     const filteredOrthology = (orthology.data || [])
       .filter(byNotHuman)
@@ -149,7 +156,7 @@ class DiseaseComparisonRibbon extends Component {
               <GenericRibbon
                 categories={summary.data.categories}
                 colorBy={COLOR_BY.CLASS_COUNT}
-                itemClick={() => this.handleDiseaseGroupClicked}
+                itemClick={this.onDiseaseGroupClicked}
                 subjectLabelPosition={POSITION.NONE}
                 subjects={summary.data.subjects}
               />
@@ -158,7 +165,11 @@ class DiseaseComparisonRibbon extends Component {
         </div>
 
         <div>
-          <DiseaseAnnotationTable geneId={geneId} genes={} termId={} />
+          <DiseaseAnnotationTable
+            annotationObj={diseaseAnnotations[1]}
+            annotations={diseaseAnnotations[1].results}
+            geneId={geneId}
+          />
         </div>
 
       </div>
@@ -167,6 +178,7 @@ class DiseaseComparisonRibbon extends Component {
 }
 
 DiseaseComparisonRibbon.propTypes = {
+  diseaseAnnotations: PropTypes.array,
   dispatch: PropTypes.func,
   geneId: PropTypes.string,
   geneSymbol: PropTypes.string,
@@ -177,7 +189,8 @@ DiseaseComparisonRibbon.propTypes = {
 
 const mapStateToProps = (state, props) => ({
   orthology: selectOrthologsWithExpression(state),
-  summary: selectSummary(props.geneId)(state)
+  summary: selectSummary(props.geneId)(state),
+  diseaseAnnotations: state.disease._root.entries[4]
 });
 
 export default connect(mapStateToProps)(DiseaseComparisonRibbon);
