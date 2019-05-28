@@ -155,6 +155,25 @@ class GenePhysicalInteractionDetailTable extends React.Component {
       },
     ];
 
+    const sortOptions = [
+      {
+        value: 'moleculeType',
+        label: `${focusGeneDisplayName} molecule type`,
+      },
+      {
+        value: 'interactorGeneSymbol',
+        label: 'Interactor gene',
+      },
+      {
+        value: 'interactorDetectionMethod',
+        label: 'Detection method',
+      },
+      {
+        value: 'interactorSpecies',
+        label: 'Interactor species',
+      }
+    ];
+
     return (
       <RemoteDataTable
         columns={columns}
@@ -163,6 +182,7 @@ class GenePhysicalInteractionDetailTable extends React.Component {
         keyField='id'
         loading={interactions.loading}
         onUpdate={this.loadInteractions.bind(this)}
+        sortOptions={sortOptions}
         totalRows={interactions.total}
       />
     );
