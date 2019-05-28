@@ -124,6 +124,21 @@ class DiseasePageAssociationsTable extends Component {
       basedOnGeneSymbol: association.orthologyGenes,
     }));
 
+    const sortOptions = [
+      {
+        value: 'disease',
+        label: 'Disease',
+      },
+      {
+        value: 'gene',
+        label: 'Gene',
+      },
+      {
+        value: 'species',
+        label: 'Species',
+      },
+    ];
+
     return (
       <div>
         <RemoteDataTable
@@ -133,6 +148,7 @@ class DiseasePageAssociationsTable extends Component {
           keyField='id'
           loading={associations.loading}
           onUpdate={this.loadAssociations.bind(this)}
+          sortOptions={sortOptions}
           totalRows={associations.total}
         />
       </div>
