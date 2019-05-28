@@ -16,7 +16,6 @@ export const FETCH_ASSOCIATIONS_FAILURE = 'FETCH_ASSOCIATIONS_FAILURE';
 export const FETCH_DISEASE_ANNOTATIONS = 'FETCH_DISEASE_ANNOTATIONS';
 export const FETCH_DISEASE_ANNOTATIONS_SUCCESS = 'FETCH_DISEASE_ANNOTATIONS_SUCCESS';
 export const FETCH_DISEASE_ANNOTATIONS_FAILURE = 'FETCH_DISEASE_ANNOTATIONS_FAILURE';
-
 export const fetchDiseaseSummary = (id) => {
   return (dispatch) => {
     dispatch({
@@ -103,7 +102,7 @@ export const fetchAssociationsFailure = function (error) {
 export const fetchDiseaseAnnotation = function(id, termId){
   return (dispatch) => {
     return fetchData(
-      `https://build.alliancegenome.org/api/disease?geneID=${id}&limit=5&termID=${termId}`)
+      `/api/disease?geneID=${id}&termID=${termId}`)
       .then((data) => dispatch(fetchDiseaseAnnotationSuccess(data)))
       .catch((error) => dispatch(fetchDiseaseAnnotationFailure(error)));
   };

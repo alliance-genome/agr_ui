@@ -53,7 +53,7 @@ class DiseaseAnnotationTable extends Component {
           downloadUrl={downloadUrl}
           keyField='id'
           loading={dObj.loading}
-          onUpdate={ () => Math.random()}
+          onUpdate={() => Math.random()}
           ref={this.tableRef}
           totalRows={annotations ? annotations.length: 0}
         />

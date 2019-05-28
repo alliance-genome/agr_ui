@@ -8,10 +8,7 @@ import { selectGene } from '../../selectors/geneSelectors';
 import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPage';
 import BasicGeneInfo from './basicGeneInfo';
 import { OrthologyFilteredTable, OrthologyUserGuide, OrthologyBasicInfo } from '../../components/orthology';
-import {
-  GenePageDiseaseViaExperimentTable,
-  GenePageDiseaseViaOrthologyTable,
-} from '../../components/disease';
+
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
 import LoadingPage from '../../components/loadingPage';
 import NotFound from '../../components/notFound';
@@ -25,7 +22,7 @@ import SpeciesIcon from '../../components/speciesIcon';
 import DataSourceLink from '../../components/dataSourceLink';
 import PhenotypeTable from './phenotypeTable';
 import { ExpressionComparisonRibbon } from '../../components/expression';
-import { DiseaseAnnotationTable } from '../../components/disease';
+import { DiseaseComparisonRibbon } from '../../components/disease';
 import HeadMetaTags from '../../components/headMetaTags';
 
 class GenePage extends Component {
@@ -82,9 +79,6 @@ class GenePage extends Component {
     const FUNCTION = 'Function - GO Annotations';
     const ORTHOLOGY = 'Orthology';
     const DISEASE = 'Disease Associations';
-    const DISEASE_VIA_EXPERIMENT = 'Disease Associations Via Empirical Data';
-    const DISEASE_VIA_ORTHOLOGY = 'Disease Associations Via Orthology';
-    const DISEASE_ANNOTATION = 'Disease Annotation';
 
     const EXPRESSION = 'Expression';
     const ALLELES = 'Alleles';
@@ -108,18 +102,6 @@ class GenePage extends Component {
       },
       {
         name: DISEASE,
-      },
-      {
-        name: DISEASE_VIA_EXPERIMENT,
-        level: 1,
-      },
-      {
-        name: DISEASE_VIA_ORTHOLOGY,
-        level: 1,
-      },
-      {
-        name: DISEASE_ANNOTATION,
-        level: 1,
       },
       {
         name: EXPRESSION,
@@ -236,22 +218,8 @@ class GenePage extends Component {
             <PhenotypeTable geneId={data.id} />
           </Subsection>
 
-          <Subsection isMeta title={DISEASE}>
-            <Subsection level={1} title={DISEASE_VIA_EXPERIMENT}>
-              <GenePageDiseaseViaExperimentTable
-                filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaEmpiricalData-${date}.tsv`}
-                geneId={data.id}
-              />
-            </Subsection>
-            <Subsection level={1} title={DISEASE_VIA_ORTHOLOGY}>
-              <GenePageDiseaseViaOrthologyTable
-                filename={`${data.symbol}-${data.primaryId}-DiseaseAssociationsViaOrthology-${date}.tsv`}
-                geneId={data.id}
-              />
-            </Subsection>
-            <Subsection level={1} title={DISEASE_ANNOTATION}>
-              <DiseaseAnnotationTable geneId={data.id} geneSymbol={data.symbol} />
-            </Subsection>
+          <Subsection title={DISEASE}>
+            <DiseaseComparisonRibbon geneId={data.id} geneSymbol={data.symbol} geneTaxon={data.species.taxonId} />
           </Subsection>
 
           <Subsection title={EXPRESSION}>
