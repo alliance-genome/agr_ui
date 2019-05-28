@@ -24,6 +24,7 @@ import ColumnHeader from './columnHeader';
 import DropdownTextFilter from './dropdownTextFilter';
 import DropdownCheckboxFilter from './dropdownCheckboxFilter';
 import HorizontalScroll from '../horizontalScroll';
+import { buildTableQueryString } from '../../lib/utils';
 
 class RemoteDataTable extends Component {
   constructor(props) {
@@ -167,7 +168,7 @@ class RemoteDataTable extends Component {
             )
           }
         </PaginationProvider>
-        <DownloadButton downloadUrl={downloadUrl} />
+        <DownloadButton downloadUrl={`${downloadUrl}?${buildTableQueryString({sort, filters})}`} />
       </div>
     );
   }
