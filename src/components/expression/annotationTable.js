@@ -20,7 +20,7 @@ class AnnotationTable extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { dispatch, genes, term } = this.props;
-    if (term && ((prevProps.term && term !== prevProps.term) || !isEqual(genes, prevProps.genes))) {
+    if (term !== undefined && ((prevProps.term !== undefined && term !== prevProps.term) || !isEqual(genes, prevProps.genes))) {
       this.tableRef.current && this.tableRef.current.reset();
       dispatch(fetchExpressionAnnotations(genes, term));
     }
@@ -34,7 +34,7 @@ class AnnotationTable extends React.Component {
   render() {
     const { annotations, genes, term } = this.props;
 
-    if (!term) {
+    if (term === undefined) {
       return null;
     }
 
