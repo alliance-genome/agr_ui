@@ -12,27 +12,24 @@ import style from './style.scss';
 
 const items = [
   {
-    background: 'https://i0.wp.com/alliancegenome.files.wordpress.com/2016/11/banner1.jpg',
     logo: 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner_1_flyin_logo.png',
-    captionHeader: 'The Gene Ontology Consortium and Six Model Organism Databases have joined together to form the Alliance of Genome Resources',
-    captionText: 'MORE INFORMATION ',
-    link: '/about-us',
+    captionHeader: 'The Alliance 2.2 Release is available now.',
+    captionText: 'NEW FEATURES ',
+    link: '/release-notes',
     className: 'slide1',
   },
   {
-    background: 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner2.jpg',
+    logo: 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner_1_flyin_logo.png',
+    captionHeader: 'Learn about the Alliance through our publications.',
+    captionText: 'READ MORE ',
+    link: '/publications',
+    className: 'slide2',
+  },
+  {
     logo: 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner_1_flyin_logo.png',
     captionHeader: 'Have questions about the Alliance of Genome Resources?',
     captionText: 'CONTACT US ',
     link: '/contact-us',
-    className: 'slide2',
-  },
-  {
-    background: 'https://i2.wp.com/alliancegenome.files.wordpress.com/2016/11/banner3.jpg',
-    logo: 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner_1_flyin_logo.png',
-    captionHeader: 'The Alliance Orthology Working Group is developing a gold standard set of orthologs to support comparative genomics across multiple model organisms.\n',
-    captionText: 'CLICK HERE FOR MORE INFO ',
-    link: '/orthology',
     className: 'slide3',
   },
 ];
