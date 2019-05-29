@@ -158,7 +158,7 @@ class DiseaseComparisonRibbon extends Component {
                 subjectLabelPosition={POSITION.RIGHT}
                 subjects={summary.data.subjects}
               />
-              : <div></div>
+              : ''
           }
         </div>
 
@@ -168,7 +168,7 @@ class DiseaseComparisonRibbon extends Component {
               annotationObj={diseaseAnnotations[1]}
               annotations={diseaseAnnotations[1].results}
               geneId={geneId}
-            /> : <div></div>
+            /> : ''
           }
         </div>
 
