@@ -159,7 +159,7 @@ class GenePhysicalInteractionDetailTable extends React.Component {
       <RemoteDataTable
         columns={columns}
         data={data}
-        downloadUrl={`/api/disease/${focusGeneId}/interactions/download`}
+        downloadUrl={`/api/gene/${focusGeneId}/interactions/download`}
         keyField='id'
         loading={interactions.loading}
         onUpdate={this.loadInteractions.bind(this)}
