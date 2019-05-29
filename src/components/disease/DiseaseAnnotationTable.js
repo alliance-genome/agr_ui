@@ -53,13 +53,13 @@ class DiseaseAnnotationTable extends Component {
       );
     }
     else{
-      return(<p>No data</p>);
+      return(<p></p>);
     }
   }
 }
 
 DiseaseAnnotationTable.propTypes = {
-  annotationObj: PropTypes.obj,
+  annotationObj: PropTypes.object,
   annotations: PropTypes.array,
   dispatch: PropTypes.func,
   geneId: PropTypes.string.isRequired,

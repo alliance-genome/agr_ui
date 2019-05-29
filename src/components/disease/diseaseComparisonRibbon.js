@@ -1,3 +1,9 @@
+/**
+ * This component will render the following child components
+ * OrthologPicker, DiseaseRibbon, DiseaseAssociationTable
+ * OthologPicker talks to cc and DiseaseRibbonTalks to DiseaseAssociation Table
+ */
+
 /* eslint-disable react/no-set-state */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -40,13 +46,6 @@ const compareBySpeciesThenAlphabetical = compareBy([
 
 /* eslint-disable no-debugger */
 
-/**
-* This component will render the following child components
-* OrthologPicker, DiseaseRibbon, DiseaseAssociationTable
-* OthologPicker talks to Disease-Ribbon and DiseaseRibbonTalks to DiseaseAssociation Table
-*/
-
-
 class DiseaseComparisonRibbon extends Component {
   constructor(props){
     super(props);
@@ -58,7 +57,7 @@ class DiseaseComparisonRibbon extends Component {
     this.handleOrthologPickerChange = this.handleOrthologPickerChange.bind(this);
     this.handleOrthologBtnChange = this.handleOrthologBtnChange.bind(this);
     this.handleStringencychange = this.handleStringencychange.bind(this);
-    this.handleDiseaseGroupClicked = this.handleDiseaseGroupClicked.bind(this);
+    this.onDiseaseGroupClicked = this.onDiseaseGroupClicked.bind(this);
   }
 
 
@@ -131,7 +130,6 @@ class DiseaseComparisonRibbon extends Component {
       .filter(byNotHuman)
       .filter(byStringency(stringency))
       .sort(compareBySpeciesThenAlphabetical);
-
     return (
       <div>
         <div>
@@ -157,19 +155,21 @@ class DiseaseComparisonRibbon extends Component {
                 categories={summary.data.categories}
                 colorBy={COLOR_BY.CLASS_COUNT}
                 itemClick={this.onDiseaseGroupClicked}
-                subjectLabelPosition={POSITION.NONE}
+                subjectLabelPosition={POSITION.RIGHT}
                 subjects={summary.data.subjects}
               />
-              : <div>No data</div>
+              : <div></div>
           }
         </div>
 
         <div>
-          <DiseaseAnnotationTable
-            annotationObj={diseaseAnnotations[1]}
-            annotations={diseaseAnnotations[1].results}
-            geneId={geneId}
-          />
+          {(diseaseAnnotations) ?
+            <DiseaseAnnotationTable
+              annotationObj={diseaseAnnotations[1]}
+              annotations={diseaseAnnotations[1].results}
+              geneId={geneId}
+            /> : <div></div>
+          }
         </div>
 
       </div>
