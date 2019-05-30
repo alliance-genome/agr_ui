@@ -18,7 +18,7 @@ import { fetchDiseaseAnnotation, fetchDiseaseSummary } from '../../actions/disea
 import { fetchOrthologsWithExpression } from '../../actions/genes';
 import { selectOrthologsWithExpression } from '../../selectors/geneSelectors';
 import { selectDiseaseAnnotation } from '../../selectors/diseaseSelectors';
-//import DiseaseAnnotationTable from './DiseaseAnnotationTable';
+import DiseaseAnnotationTable from './DiseaseAnnotationTable';
 import { STRINGENCY_HIGH } from '../orthology/constants';
 import { TAXON_IDS, TAXON_ORDER } from '../../constants';
 import {
@@ -61,11 +61,12 @@ class DiseaseComparisonRibbon extends Component {
       stringency: STRINGENCY_HIGH,
       selectedOrthologs: [],
       selectedTerm: undefined,
-      //diseaseAnnotations: undefined,
       summary : {}
     };
     this.onDiseaseGroupClicked = this.onDiseaseGroupClicked.bind(this);
     this.onOrthologyChange = this.onOrthologyChange.bind(this);
+    this.onTableUpdate = this.onTableUpdate.bind(this);
+    this.getGeneListForDispatch = this.getGeneListForDispatch.bind(this);
   }
 
 
@@ -83,10 +84,19 @@ class DiseaseComparisonRibbon extends Component {
     }
   }
 
-  componentDidUpdate() {
+  getGeneListForDispatch(){
+    const { geneId } = this.props;
+    const { selectedOrthologs } = this.state;
+    let geneIdList = this.getOrthologGeneIds(selectedOrthologs);
+    geneIdList.push(`geneID=${geneId}`);
+    return geneIdList;
   }
 
-
+  onTableUpdate(){
+    const { dispatch } = this.props;
+    let geneIdList = this.getGeneListForDispatch();
+    //dispatch(fetchDiseaseAnnotation(geneIdList));
+  }
 
   getOrthologGeneIds(values) {
     if (values) {
@@ -113,9 +123,7 @@ class DiseaseComparisonRibbon extends Component {
 
   onDiseaseGroupClicked(gene, disease) {
     const { dispatch } = this.props;
-    const { selectedOrthologs } = this.state;
-    let geneIdList = this.getOrthologGeneIds(selectedOrthologs);
-
+    let geneIdList = this.getGeneListForDispatch();
     if (disease.type == 'GlobalAll'){
       dispatch(fetchDiseaseAnnotation(geneIdList));
     }
@@ -187,13 +195,13 @@ class DiseaseComparisonRibbon extends Component {
         {/* <button onClick={this.testButton.bind(this)}>Test Button</button> */}
 
         <div>
-          {/*(this.state.diseaseAnnotations) ?
+          {(diseaseAnnotations.data.length > 0) ?
             <DiseaseAnnotationTable
-              annotationObj={diseaseAnnotations}
-              annotations={diseaseAnnotations.results}
-          geneId={geneId}
-            />
-          */}
+              annotations={diseaseAnnotations}
+              geneId={geneId}
+              onUpdate={this.onTableUpdate}
+            />: ''
+          }
         </div>
 
       </div>
