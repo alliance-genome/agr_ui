@@ -18,15 +18,14 @@ class DiseaseAnnotationTable extends Component {
 
   render() {
     /* eslint-disable no-unused-vars */
-    const {annotations, annotationObj, geneId} = this.props; //this.props.diseaseAnnotations[1].results;
-    const dObj = annotationObj[1];
+    const {annotations, geneId} = this.props; //this.props.diseaseAnnotations[1].results;
     const gene_id = this.props.geneId;
     //debugger;
     let columns = [];
     let data = [];
-    if (annotations) {
-      columns = getColumns(annotations);
-      data = annotations
+    if (annotations.data.length > 0) {
+      columns = getColumns(annotations.data);
+      data = annotations.data
         .map(result => ({
           id: `${result.disease.id}`,
           gene: result.gene,
@@ -37,18 +36,20 @@ class DiseaseAnnotationTable extends Component {
           geneticEntityType: result.geneticEntityType,
           associationType: result.associationType
         }));
-      const geneIdParams = annotations.map(g => `geneID=${g.gene.id}`).join('&');
+      const geneIdParams = annotations.data.map(g => `geneID=${g.gene.id}`).join('&');
       const downloadUrl = `/api/expression/download?termID=${gene_id}&${geneIdParams}`;
+      console.log('ANNOATATION IS VALID: ', annotations);
       return (
+
         <RemoteDataTable
           columns={columns}
           data={data || []}
           downloadUrl={downloadUrl}
           keyField='id'
-          loading={false}
-          onUpdate={() => Math.random()}
+          loading={annotations.loading}
+          onUpdate={this.props.onUpdate}
           ref={this.tableRef}
-          totalRows={annotations ? annotations.length: 0}
+          totalRows={annotations.data.total? annotations.data.total: 0}
         />
       );
     }
@@ -59,12 +60,13 @@ class DiseaseAnnotationTable extends Component {
 }
 
 DiseaseAnnotationTable.propTypes = {
-  annotationObj: PropTypes.object,
   annotations: PropTypes.object,
   dispatch: PropTypes.func,
   geneId: PropTypes.string.isRequired,
   genes: PropTypes.array,
+  onUpdate: PropTypes.func,
   termId: PropTypes.string,
+
 
 };
 
