@@ -8,9 +8,9 @@ function pluralize(word = '', count = 2) {
   }
 }
 
-function TableSummary({ numberOfEntities, numberOfAnnotations, entityType }) {
+function TableSummary({ style, numberOfEntities, numberOfAnnotations, entityType }) {
   return numberOfEntities ? (
-    <div>
+    <div style={style}>
       <span className="badge badge-secondary">
         {numberOfEntities} {pluralize(entityType, numberOfEntities)}
       </span>{' '}

@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 
 import DownloadButton from './downloadButton';
+import TableSummary from './tableSummary';
 import Utils from './utils';
 // import * as analytics from '../../lib/analytics';
 import { DEFAULT_TABLE_STATE } from '../../constants';
@@ -69,7 +70,7 @@ class RemoteDataTable extends Component {
   }
 
   render() {
-    const { columns, data = [], downloadUrl, keyField, loading, sortOptions, totalRows } = this.props;
+    const { columns, data = [], downloadUrl, keyField, loading, sortOptions, summaryProps, totalRows } = this.props;
     const { filters, page, sizePerPage, sort } = this.state;
 
     if (!loading && filters == null && totalRows === 0) {
@@ -130,6 +131,11 @@ class RemoteDataTable extends Component {
           {
             ({paginationProps, paginationTableProps}) => (
               <div>
+                {
+                  summaryProps ?
+                    <TableSummary style={{display: 'inline-block'}} {...summaryProps} /> :
+                    null
+                }
                 {sortOptions && sortOptions.length &&
                   <Form className='pull-right' inline>
                     <Label className="mr-1">Sort by</Label>
@@ -184,6 +190,7 @@ RemoteDataTable.propTypes = {
   loading: PropTypes.bool,
   onUpdate: PropTypes.func,
   sortOptions: PropTypes.array,
+  summaryProps: PropTypes.object,
   totalRows: PropTypes.number,
 };
 
