@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {
   GeneCell,
   RemoteDataTable,
-  TableSummary,
 } from '../dataTable';
 import CommaSeparatedList from '../commaSeparatedList';
 import ExternalLink from '../externalLink';
@@ -177,12 +176,6 @@ class GenePhysicalInteractionDetailTable extends React.Component {
 
     return (
       <React.Fragment>
-        {
-          interactions.supplementalData ? <TableSummary
-            {...interactions.supplementalData.annotationSummary}
-            entityType="interactor gene"
-          /> : null
-        }
         <RemoteDataTable
           columns={columns}
           data={data}
@@ -191,6 +184,12 @@ class GenePhysicalInteractionDetailTable extends React.Component {
           loading={interactions.loading}
           onUpdate={this.loadInteractions.bind(this)}
           sortOptions={sortOptions}
+          summaryProps={
+            interactions.supplementalData ? {
+              ...interactions.supplementalData.annotationSummary,
+              entityType: 'interactor gene'
+            } : null
+          }
           totalRows={interactions.total}
         />
       </React.Fragment>
