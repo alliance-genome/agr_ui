@@ -18,7 +18,7 @@ const columns = [
   {name: 'Species'},
   {name: 'Gene symbol'},
   {name: 'Count'},
-  {name: 'Best', help: 'Within this species, this gene is called as an ortholog of the input gene by the highest number of algorithms.'},
+  {name: 'Best', help: <span>Within this species, this gene is called as an ortholog of the input gene by the highest number of algorithms.<br/> In specific cases, ZFIN curators have asserted reliable orthology to the gene called by the second highest number of algorithms. These are denoted <strong>Yes *</strong>.</span>},
   {name: 'Best reverse', help: 'Within the species of the input gene, the input gene is called as an ortholog of this gene by the highest number of algorithms.'},
   {name: 'Method'}
 ];
@@ -73,6 +73,11 @@ class OrthologyTable extends Component {
                   <BooleanCell
                     isTrueFunc={isBest}
                     value={orthData.best}
+                    render={
+                      orthData.best === 'Yes_Adjusted' ?
+                        () => 'Yes *' :
+                        null
+                    }
                   />
                   <BooleanCell
                     isTrueFunc={isBest}
