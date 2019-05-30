@@ -176,16 +176,24 @@ class GenePhysicalInteractionDetailTable extends React.Component {
     ];
 
     return (
-      <RemoteDataTable
-        columns={columns}
-        data={data}
-        downloadUrl={`/api/gene/${focusGeneId}/interactions/download`}
-        keyField='id'
-        loading={interactions.loading}
-        onUpdate={this.loadInteractions.bind(this)}
-        sortOptions={sortOptions}
-        totalRows={interactions.total}
-      />
+      <React.Fragment>
+        <RemoteDataTable
+          columns={columns}
+          data={data}
+          downloadUrl={`/api/gene/${focusGeneId}/interactions/download`}
+          keyField='id'
+          loading={interactions.loading}
+          onUpdate={this.loadInteractions.bind(this)}
+          sortOptions={sortOptions}
+          summaryProps={
+            interactions.supplementalData ? {
+              ...interactions.supplementalData.annotationSummary,
+              entityType: 'interactor gene'
+            } : null
+          }
+          totalRows={interactions.total}
+        />
+      </React.Fragment>
     );
   }
 }
