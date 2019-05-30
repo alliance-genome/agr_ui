@@ -15,6 +15,7 @@ import { fetchDiseaseAnnotation, fetchDiseaseSummary } from '../../actions/disea
 
 import { fetchOrthologsWithExpression } from '../../actions/genes';
 import { selectOrthologsWithExpression } from '../../selectors/geneSelectors';
+import { selectDiseaseAnnotation } from '../../selectors/diseaseSelectors';
 import DiseaseAnnotationTable from './DiseaseAnnotationTable';
 import { STRINGENCY_HIGH } from '../orthology/constants';
 import { TAXON_IDS, TAXON_ORDER } from '../../constants';
@@ -194,8 +195,8 @@ class DiseaseComparisonRibbon extends Component {
         <div>
           {(diseaseAnnotations) ?
             <DiseaseAnnotationTable
-              annotationObj={diseaseAnnotations[1]}
-              annotations={diseaseAnnotations[1].results}
+              annotationObj={diseaseAnnotations}
+              annotations={diseaseAnnotations.results}
               geneId={geneId}
             /> : ''
           }
@@ -225,7 +226,7 @@ DiseaseComparisonRibbon.propTypes = {
 const mapStateToProps = (state, props) => ({
   orthology: selectOrthologsWithExpression(state),
   summary: selectSummary(props.geneId)(state),
-  diseaseAnnotations: state.disease._root.entries[5]
+  diseaseAnnotations: selectDiseaseAnnotation(state)
 });
 
 export default connect(mapStateToProps)(DiseaseComparisonRibbon);

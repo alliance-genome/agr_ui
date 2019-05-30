@@ -110,6 +110,9 @@ export const fetchDiseaseAnnotation = function(genes, termId=undefined){
     if(termId){
       qString += `&termID=${termId}`;
     }
+    dispatch({
+      type: FETCH_DISEASE_ANNOTATIONS
+    });
     return fetchData(
       `/api/disease?${qString}`)
       .then((data) => dispatch(fetchDiseaseAnnotationSuccess(data)))
