@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function pluralize(word = '', count = 2) {
   if (count < 2) {
@@ -21,4 +22,12 @@ function TableSummary({ style, numberOfEntities, numberOfAnnotations, entityType
     </div>
   ) : null;
 }
+
+TableSummary.propTypes = {
+  entityType: PropTypes.string,
+  numberOfAnnotations: PropTypes.number,
+  numberOfEntities: PropTypes.number,
+  style: PropTypes.any,
+};
+
 export default TableSummary;
