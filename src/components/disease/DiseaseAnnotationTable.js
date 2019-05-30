@@ -53,7 +53,7 @@ class DiseaseAnnotationTable extends Component {
       );
     }
     else{
-      return(<p></p>);
+      return('');
     }
   }
 }
