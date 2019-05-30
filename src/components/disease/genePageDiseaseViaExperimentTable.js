@@ -135,6 +135,12 @@ class GenePageDiseaseTable extends Component {
           loading={diseases.loading}
           onUpdate={this.loadData.bind(this)}
           sortOptions={sortOptions}
+          summaryProps={
+            diseases.supplementalData ? {
+              ...diseases.supplementalData.annotationSummary,
+              entityType: 'disease'
+            } : null
+          }
           totalRows={diseases.total}
         />
       </div>
