@@ -8,6 +8,8 @@ import CellTooltip from './CellTooltip';
 
 import RemoteDataTable from './remoteDataTable';
 
+import TableSummary from './tableSummary';
+
 export {
   DiseaseNameCell,
   GeneCell,
@@ -15,5 +17,6 @@ export {
   GeneticEntityCell,
   ReferenceCell,
   CellTooltip,
-  RemoteDataTable
+  RemoteDataTable,
+  TableSummary
 };
