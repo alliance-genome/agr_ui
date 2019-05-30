@@ -72,7 +72,6 @@ class DiseaseComparisonRibbon extends Component {
     let result = this.getOrthologGeneIds(selectedOrthologs);
     result.push(`geneID=${geneId}`);
     dispatch(fetchOrthologsWithExpression(geneId));
-    dispatch(fetchDiseaseAnnotation(result, 'DOID:162'));
     if(!summary){
       dispatch(fetchDiseaseSummary(geneId, result)).then(data => {
         this.setState({summary : data.summary });
@@ -97,7 +96,7 @@ class DiseaseComparisonRibbon extends Component {
     // const { dispatch } = this.props;
     // let geneId = 'MGI:98834';
     // let geneIdList = '';
-  
+
   }
 
 
@@ -123,11 +122,11 @@ class DiseaseComparisonRibbon extends Component {
     let geneId = 'geneID=' + gene.id;
     geneIdList.push(geneId);
 
-    if (disease.type == 'Term'){
-      dispatch(fetchDiseaseAnnotation(geneIdList, disease.id));
+    if (disease.id == 'all'){
+      dispatch(fetchDiseaseAnnotation(geneIdList));
     }
     else{
-      dispatch(fetchDiseaseAnnotation(geneIdList, disease.type));
+      dispatch(fetchDiseaseAnnotation(geneIdList, disease.id));
     }
   }
 
