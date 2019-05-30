@@ -21,7 +21,7 @@ class ColumnHeader extends React.Component {
             <DropdownToggle className={`${style.filterToggle} ${filter ? style.active : ''}`} color='link' tag='span'>
               <i className={'fa fa-filter'} />
             </DropdownToggle>
-            <DropdownMenu className='px-4 py-3' modifiers={popperModifiers} positionFixed>
+            <DropdownMenu className='px-4 py-3' modifiers={popperModifiers}>
               {filterElement}
             </DropdownMenu>
           </UncontrolledButtonDropdown>

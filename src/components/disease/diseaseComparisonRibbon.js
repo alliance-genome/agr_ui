@@ -15,7 +15,6 @@ import { fetchDiseaseAnnotation, fetchDiseaseSummary } from '../../actions/disea
 
 import { fetchOrthologsWithExpression } from '../../actions/genes';
 import { selectOrthologsWithExpression } from '../../selectors/geneSelectors';
-import OrthPicker from '../orthPicker';
 import DiseaseAnnotationTable from './DiseaseAnnotationTable';
 import { STRINGENCY_HIGH } from '../orthology/constants';
 import { TAXON_IDS, TAXON_ORDER } from '../../constants';
@@ -27,14 +26,19 @@ import {
   compareBy
 } from '../../lib/utils';
 import {
+  StringencySelection,
   getOrthologSpeciesId,
   getOrthologId,
-  getOrthologSymbol
+  getOrthologSymbol,
 } from '../orthology';
 import { selectSummary } from '../../selectors/diseaseSelectors';
 import { GenericRibbon } from '@geneontology/ribbon';
 import { POSITION, COLOR_BY } from '@geneontology/ribbon/lib/enums';
-
+import HelpPopup from '../helpPopup';
+import ExpressionControlsHelp from '../expression/expressionControlsHelp';
+import ControlsContainer from '../controlsContainer';
+import Select from 'react-select';
+import { Button } from 'reactstrap';
 
 const makeLabel = (symbol, taxonId) => `${symbol} (${shortSpeciesName(taxonId)})`;
 const byNotHuman = orthology => getOrthologSpeciesId(orthology) !== TAXON_IDS.HUMAN;
@@ -47,19 +51,18 @@ const compareBySpeciesThenAlphabetical = compareBy([
 /* eslint-disable no-debugger */
 
 class DiseaseComparisonRibbon extends Component {
+
   constructor(props){
     super(props);
     this.state = {
       stringency: STRINGENCY_HIGH,
       selectedOrthologs: [],
-      selectedTerm: undefined
+      selectedTerm: undefined,
+      summary : {}
     };
-    this.handleOrthologPickerChange = this.handleOrthologPickerChange.bind(this);
-    this.handleOrthologBtnChange = this.handleOrthologBtnChange.bind(this);
-    this.handleStringencychange = this.handleStringencychange.bind(this);
-    this.onDiseaseGroupClicked = this.onDiseaseGroupClicked.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleLocalStateChangeSummary = this.handleLocalStateChangeSummary.bind(this);
   }
-
 
 
   componentDidMount(){
@@ -68,16 +71,30 @@ class DiseaseComparisonRibbon extends Component {
     let result = this.getOrthologGeneIds(selectedOrthologs);
     dispatch(fetchOrthologsWithExpression(geneId));
     if(!summary){
-      dispatch(fetchDiseaseSummary(geneId, result));
+      dispatch(fetchDiseaseSummary(geneId, result)).then(data => {
+        this.setState({summary : data.summary });
+      });
     }
   }
 
+  componentDidUpdate() {
+  }
 
   handleLocalStateChangeSummary(){
     const { selectedOrthologs } = this.state;
     const { dispatch, geneId } = this.props;
     let geneIdList = this.getOrthologGeneIds(selectedOrthologs);
-    dispatch(fetchDiseaseSummary(geneId, geneIdList));
+    dispatch(fetchDiseaseSummary(geneId, geneIdList)).then(data => {
+      var newSummary = this.state.summary;
+      newSummary.subjects = this.state.summary.subjects.concat(data.summary.subjects);
+      this.setState({summary : newSummary });
+    });
+
+    // BASIC TEST
+    // const { dispatch } = this.props;
+    // let geneId = 'MGI:98834';
+    // let geneIdList = '';
+  
   }
 
 
@@ -92,20 +109,8 @@ class DiseaseComparisonRibbon extends Component {
     }
   }
 
-  handleOrthologPickerChange(values){
-    this.setState({selectedOrthologs: values }, () => this.handleLocalStateChangeSummary());
-  }
-
-  handleOrthologBtnChange(values) {
+  handleChange(values) {
     this.setState({selectedOrthologs: values}, () => this.handleLocalStateChangeSummary());
-  }
-
-  handleStringencychange(strValue){
-    this.setState({stringency: strValue });
-  }
-
-  handleRibbonChange(e){
-    e.preventDefault();
   }
 
   onDiseaseGroupClicked(gene, disease) {
@@ -114,17 +119,17 @@ class DiseaseComparisonRibbon extends Component {
     let geneIdList = this.getOrthologGeneIds(selectedOrthologs);
     let geneId = 'geneID:' + gene.id;
     geneIdList.push(geneId);
+
     if (disease.type == 'Term'){
       dispatch(fetchDiseaseAnnotation(geneIdList, disease.id));
     }
     else{
       dispatch(fetchDiseaseAnnotation(geneIdList, disease.type));
-
     }
   }
 
   render(){
-    const { orthology, summary, geneId, diseaseAnnotations } = this.props;
+    const { orthology, geneId, diseaseAnnotations } = this.props;
     const { selectedOrthologs, stringency } = this.state;
     const filteredOrthology = (orthology.data || [])
       .filter(byNotHuman)
@@ -132,35 +137,56 @@ class DiseaseComparisonRibbon extends Component {
       .sort(compareBySpeciesThenAlphabetical);
     return (
       <div>
-        <div>
-          <OrthPicker
-            closeMenuOnSelect={false}
-            getOptionLabel={option => makeLabel(getOrthologSymbol(option), getOrthologSpeciesId(option))}
-            getOptionValue={option => getOrthologId(option)}
-            isMulti
-            maxMenuHeight={210}
-            onBtnChange={this.handleOrthologBtnChange}
-            onPickerChange={this.handleOrthologPickerChange}
-            onStringencyChange={this.handleStringencychange}
-            options={filteredOrthology}
-            placeholder={'Select orthologs...'}
-            selectedOrthologs={selectedOrthologs}
-            stringency={stringency}
-          />
+        <div className='pb-4'>
+          <ControlsContainer>
+            <span className='pull-right'>
+              <HelpPopup id='disease-controls-help'>
+                <ExpressionControlsHelp />
+              </HelpPopup>
+            </span>
+            <b>Compare to ortholog genes</b>
+            <StringencySelection level={stringency} onChange={s => this.setState({stringency: s})} />
+            <div className='d-flex align-items-baseline'>
+              <div className='flex-grow-1'>
+                <Select
+                  closeMenuOnSelect={false}
+                  getOptionLabel={option => makeLabel(getOrthologSymbol(option), getOrthologSpeciesId(option))}
+                  getOptionValue={option => getOrthologId(option)}
+                  isMulti
+                  maxMenuHeight={210}
+                  onChange={this.handleChange}
+                  options={filteredOrthology}
+                  placeholder='Select orthologs...'
+                  value={selectedOrthologs}
+                />
+              </div>
+              <span className='px-2'>or</span>
+              <Button
+                color='primary'
+                disabled={filteredOrthology.length === 0}
+                onClick={() => this.setState({selectedOrthologs: filteredOrthology})}
+              >
+                Add all
+              </Button>
+            </div>
+          </ControlsContainer>
         </div>
+
+
         <div style={{display: 'inline-block' }}>
           {
-            (summary && summary.data) ?
+            (this.state.summary && this.state.summary.subjects) ?
               <GenericRibbon
-                categories={summary.data.categories}
+                categories={this.state.summary.categories}
                 colorBy={COLOR_BY.CLASS_COUNT}
                 itemClick={this.onDiseaseGroupClicked}
-                subjectLabelPosition={POSITION.RIGHT}
-                subjects={summary.data.subjects}
+                subjectLabelPosition={POSITION.LEFT}
+                subjects={this.state.summary.subjects}
               />
               : ''
           }
         </div>
+        {/* <button onClick={this.testButton.bind(this)}>Test Button</button> */}
 
         <div>
           {(diseaseAnnotations) ?
@@ -175,6 +201,12 @@ class DiseaseComparisonRibbon extends Component {
       </div>
     );
   }
+
+  // testButton() {
+  //   // console.log('Test button activated');
+  //   this.handleLocalStateChangeSummary.call();
+  // }
+
 }
 
 DiseaseComparisonRibbon.propTypes = {
