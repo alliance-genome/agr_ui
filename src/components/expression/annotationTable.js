@@ -114,6 +114,25 @@ class AnnotationTable extends React.Component {
 
     const geneIdParams = genes.map(g => `geneID=${g}`).join('&');
     const downloadUrl = `/api/expression/download?termID=${term}&${geneIdParams}`;
+    const sortOptions = [
+      {
+        value: 'species',
+        label: 'Species',
+      },
+      {
+        value: 'location',
+        label: 'Location',
+      },
+      {
+        value: 'assay',
+        label: 'Assay',
+      },
+      {
+        value: 'stage',
+        label: 'Stage',
+      },
+    ];
+
     return (
       <RemoteDataTable
         columns={columns}
@@ -123,6 +142,7 @@ class AnnotationTable extends React.Component {
         loading={annotations.loading}
         onUpdate={this.handleUpdate}
         ref={this.tableRef}
+        sortOptions={sortOptions}
         totalRows={annotations.data ? annotations.data.total : 0}
       />
     );
