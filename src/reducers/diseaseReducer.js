@@ -90,7 +90,7 @@ const diseaseReducer = function (state = DEFAULT_STATE, action) {
     return state.setIn(['diseaseAnnotations', 'loading'], false)
       .setIn(['diseaseAnnotations', 'data'], action.payload.results)
       .setIn(['diseaseAnnotations', 'total'], action.payload.total)
-      .setIn(['diseaseAnnotations'], action.payload);
+      .setIn(['diseaseAnnotations', 'error'], null);
 
   case FETCH_DISEASE_ANNOTATIONS_FAILURE:
     return state.setIn(['diseaseAnnotations', 'loading'], false)
