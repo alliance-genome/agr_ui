@@ -10,7 +10,8 @@ import {
   FETCH_ASSOCIATIONS_SUCCESS,
   FETCH_ASSOCIATIONS_FAILURE,
   FETCH_DISEASE_ANNOTATIONS_SUCCESS,
-  FETCH_DISEASE_ANNOTATIONS_FAILURE
+  FETCH_DISEASE_ANNOTATIONS_FAILURE,
+  FETCH_DISEASE_ANNOTATIONS
 
 } from '../actions/disease';
 
@@ -81,6 +82,9 @@ const diseaseReducer = function (state = DEFAULT_STATE, action) {
       .setIn(['associations', 'total'], 0)
       .setIn(['associations', 'error'], action.payload);
 
+  case FETCH_DISEASE_ANNOTATIONS:
+    return state
+      .setIn(['diseaseAnnotations', 'loading'], true);
 
   case FETCH_DISEASE_ANNOTATIONS_SUCCESS:
     return state.setIn(['diseaseAnnotations', 'loading'], false)
