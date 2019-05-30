@@ -72,12 +72,12 @@ class OrthologyTable extends Component {
                   <td>{`${scoreNumerator} of ${scoreDemominator}`}</td>
                   <BooleanCell
                     isTrueFunc={isBest}
-                    value={orthData.best}
                     render={
                       orthData.best === 'Yes_Adjusted' ?
                         () => 'Yes *' :
                         null
                     }
+                    value={orthData.best}
                   />
                   <BooleanCell
                     isTrueFunc={isBest}

@@ -19,8 +19,8 @@ const BooleanCell = ({value, isTrueFunc, render}) => {
 
 BooleanCell.propTypes = {
   isTrueFunc: PropTypes.func.isRequired,
-  value: PropTypes.any,
   render: PropTypes.func.isRequired,
+  value: PropTypes.any,
 };
 
 export default BooleanCell;
