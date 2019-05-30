@@ -97,6 +97,12 @@ class GenePageDiseaseTable extends Component {
         keyField='id'
         loading={diseases.loading}
         onUpdate={this.loadData.bind(this)}
+        summaryProps={
+          diseases.supplementalData ? {
+            ...diseases.supplementalData.annotationSummary,
+            entityType: 'disease'
+          } : null
+        }
         totalRows={diseases.total}
       />
     );
@@ -117,4 +123,3 @@ function mapStateToProps (state) {
 }
 
 export default connect(mapStateToProps)(GenePageDiseaseTable);
-
