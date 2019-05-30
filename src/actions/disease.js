@@ -104,10 +104,14 @@ export const fetchAssociationsFailure = function (error) {
   };
 };
 
-export const fetchDiseaseAnnotation = function(genes, termId){
+export const fetchDiseaseAnnotation = function(genes, termId=undefined){
   return (dispatch) => {
+    let qString = `${genes}`;
+    if(termId){
+      qString += `&termID=${termId}`;
+    }
     return fetchData(
-      `/api/disease?${genes}&termID=${termId}`)
+      `/api/disease?${qString}`)
       .then((data) => dispatch(fetchDiseaseAnnotationSuccess(data)))
       .catch((error) => dispatch(fetchDiseaseAnnotationFailure(error)));
   };
