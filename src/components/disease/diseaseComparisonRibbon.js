@@ -72,7 +72,7 @@ class DiseaseComparisonRibbon extends Component {
     const { selectedOrthologs } = this.state;
 
     let result = this.getOrthologGeneIds(selectedOrthologs);
-    result.push(`geneID=${geneId}`);
+    //result.push(`geneID=${geneId}`);
     dispatch(fetchOrthologsWithExpression(geneId));
     if(!summary){
       dispatch(fetchDiseaseSummary(geneId, result)).then(data => {
@@ -121,8 +121,6 @@ class DiseaseComparisonRibbon extends Component {
     const { dispatch } = this.props;
     const { selectedOrthologs } = this.state;
     let geneIdList = this.getOrthologGeneIds(selectedOrthologs);
-    let geneId = 'geneID=' + gene.id;
-    geneIdList.push(geneId);
 
     if (disease.id == 'all'){
       dispatch(fetchDiseaseAnnotation(geneIdList));
