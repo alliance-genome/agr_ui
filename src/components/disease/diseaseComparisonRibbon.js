@@ -60,6 +60,7 @@ class DiseaseComparisonRibbon extends Component {
       selectedTerm: undefined,
       summary : {}
     };
+    this.onDiseaseGroupClicked = this.onDiseaseGroupClicked.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleLocalStateChangeSummary = this.handleLocalStateChangeSummary.bind(this);
   }
