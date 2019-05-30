@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   GeneCell,
   RemoteDataTable,
+  FilterSets,
 } from '../dataTable';
 import CommaSeparatedList from '../commaSeparatedList';
 import ExternalLink from '../externalLink';
@@ -58,7 +59,7 @@ class GenePhysicalInteractionDetailTable extends React.Component {
         headerStyle: {width: '6em'},
         headerClasses: style.columnHeaderGroup1,
         classes: style.columnGroup1,
-        filterable: true,
+        filterable: FilterSets.moleculeTypes,
       },
       {
         dataField: 'interactorGeneSymbol',
@@ -76,7 +77,7 @@ class GenePhysicalInteractionDetailTable extends React.Component {
         headerStyle: {width: '8em'},
         headerClasses: style.columnHeaderGroup2,
         classes: style.columnGroup2,
-        filterable: true,
+        filterable: FilterSets.species,
       },
       {
         dataField: 'interactorMoleculeType',
@@ -90,7 +91,7 @@ class GenePhysicalInteractionDetailTable extends React.Component {
         headerStyle: {width: '6em'},
         headerClasses: style.columnHeaderGroup2,
         classes: style.columnGroup2,
-        filterable: true,
+        filterable: FilterSets.moleculeTypes,
       },
       {
         dataField: 'detectionMethod',

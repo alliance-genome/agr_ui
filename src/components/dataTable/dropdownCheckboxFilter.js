@@ -2,11 +2,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { List } from 'immutable';
 
 class DropdownCheckboxFilter extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: props.defaultFilter || []};
+    this.state = {value: props.defaultFilter || List()};
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -18,13 +19,13 @@ class DropdownCheckboxFilter extends React.Component {
   }
 
   handleChange(event) {
-    const { value } = this.state;
+    let { value } = this.state;
     if (event.target.checked) {
-      value.push(event.target.value);
+      value = value.push(event.target.value);
     } else {
-      value.splice(value.indexOf(event.target.value), 1);
+      value = value.delete(value.indexOf(event.target.value));
     }
-    this.setState({value});
+    this.setState({value}, () => this.fireCallbacks());
   }
 
   handleClick(event) {
@@ -34,7 +35,7 @@ class DropdownCheckboxFilter extends React.Component {
 
   handleClear(event) {
     event.preventDefault();
-    this.setState({value: []}, () => this.fireCallbacks());
+    this.setState({value: List()}, () => this.fireCallbacks());
   }
 
   render() {
@@ -56,7 +57,6 @@ class DropdownCheckboxFilter extends React.Component {
         </FormGroup>
         <FormGroup className='d-flex justify-content-between'>
           <Button onClick={this.handleClear} outline>Clear</Button>
-          <Button color='primary' onClick={this.handleClick}>Apply</Button>
         </FormGroup>
       </Form>
     );
@@ -65,7 +65,7 @@ class DropdownCheckboxFilter extends React.Component {
 
 DropdownCheckboxFilter.propTypes = {
   column: PropTypes.object,
-  defaultFilter: PropTypes.array,
+  defaultFilter: PropTypes.instanceOf(List),
   onFilter: PropTypes.func,
   options: PropTypes.array,
 };

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import { fetchPhenotypes } from '../../actions/genes';
 import { selectPhenotypes } from '../../selectors/geneSelectors';
-import { RemoteDataTable, ReferenceCell, GeneticEntityCell } from '../../components/dataTable';
+import { RemoteDataTable, ReferenceCell, GeneticEntityCell, FilterSets } from '../../components/dataTable';
 
 class PhenotypeTable extends React.Component {
   loadPhenotypes(opts) {
@@ -50,7 +50,7 @@ class PhenotypeTable extends React.Component {
         dataField: 'geneticEntityType',
         text: 'Genetic Entity Type',
         headerStyle: {width: '110px'},
-        filterable: ['allele', 'gene'],
+        filterable: FilterSets.geneticEntityTypes,
       },
       {
         dataField: 'reference',

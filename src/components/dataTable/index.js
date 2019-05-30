@@ -3,10 +3,9 @@ import GeneCell from './geneCell';
 import EvidenceCodesCell from './evidenceCodesCell';
 import GeneticEntityCell from './geneticEntityCell';
 import ReferenceCell from './referenceCell';
-
 import CellTooltip from './CellTooltip';
-
 import RemoteDataTable from './remoteDataTable';
+import FilterSets from './filterSets';
 
 export {
   DiseaseNameCell,
@@ -15,5 +14,6 @@ export {
   GeneticEntityCell,
   ReferenceCell,
   CellTooltip,
-  RemoteDataTable
+  RemoteDataTable,
+  FilterSets,
 };
