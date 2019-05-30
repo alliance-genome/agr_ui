@@ -183,6 +183,7 @@ class DiseaseComparisonRibbon extends Component {
               <GenericRibbon
                 categories={this.state.summary.categories}
                 colorBy={COLOR_BY.CLASS_COUNT}
+                hideFirstSubjectLabel={true}
                 itemClick={this.onDiseaseGroupClicked}
                 subjectLabelPosition={POSITION.LEFT}
                 subjects={this.state.summary.subjects}
