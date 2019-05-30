@@ -1,25 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const DownloadButton = ({buttonText, downloadUrl, onClick}) => {
+const DownloadButton = ({downloadUrl, text}) => {
   return(
     <button
       className={'btn btn-outline-secondary'}
-      onClick={(downloadUrl && (() => window.location.replace(downloadUrl))) || onClick}
+      onClick={() => window.location.replace(downloadUrl)}
     >
-      {buttonText}
+      {text}
     </button>
   );
 };
 
 DownloadButton.propTypes = {
-  buttonText: PropTypes.string,
-  downloadUrl: PropTypes.string,
-  onClick: PropTypes.func,
+  downloadUrl: PropTypes.string.isRequired,
+  text: PropTypes.string,
 };
 
 DownloadButton.defaultProps = {
-  buttonText: 'Download',
+  text: 'Download',
 };
 
 export default DownloadButton;
