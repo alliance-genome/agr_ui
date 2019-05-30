@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const BooleanCell = ({value, isTrueFunc}) => {
+const BooleanCell = ({value, isTrueFunc, render}) => {
   const backgroundColor = isTrueFunc(value) ? '#dff0d8' : 'transparent';
+  const rendered = render ? render(value) : value;
   return (
     <td
       style={{
@@ -10,7 +11,7 @@ const BooleanCell = ({value, isTrueFunc}) => {
       }}
     >
       {
-        typeof value === 'boolean' ? value ? 'Yes' : 'No' : value
+        typeof value === 'boolean' ? value ? 'Yes' : 'No' : rendered
       }
     </td>
   );
@@ -18,6 +19,7 @@ const BooleanCell = ({value, isTrueFunc}) => {
 
 BooleanCell.propTypes = {
   isTrueFunc: PropTypes.func.isRequired,
+  render: PropTypes.func.isRequired,
   value: PropTypes.any,
 };
 
