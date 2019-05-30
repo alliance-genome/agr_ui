@@ -16,6 +16,7 @@ export const FETCH_ASSOCIATIONS_FAILURE = 'FETCH_ASSOCIATIONS_FAILURE';
 export const FETCH_DISEASE_ANNOTATIONS = 'FETCH_DISEASE_ANNOTATIONS';
 export const FETCH_DISEASE_ANNOTATIONS_SUCCESS = 'FETCH_DISEASE_ANNOTATIONS_SUCCESS';
 export const FETCH_DISEASE_ANNOTATIONS_FAILURE = 'FETCH_DISEASE_ANNOTATIONS_FAILURE';
+
 export const fetchDiseaseSummary = (id, opts=[]) => {
   let urlStr = `/api/gene/${id}/disease-ribbon-summary`;
   if(opts.length > 0){
