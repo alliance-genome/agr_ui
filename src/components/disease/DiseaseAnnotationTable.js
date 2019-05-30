@@ -28,7 +28,7 @@ class DiseaseAnnotationTable extends Component {
       columns = getColumns(annotations);
       data = annotations
         .map(result => ({
-          id: `${result.gene.id}`,
+          id: `${result.disease.id}`,
           gene: result.gene,
           species: result.gene.species,
           based_on: result.gene.symbol,
@@ -45,7 +45,7 @@ class DiseaseAnnotationTable extends Component {
           data={data || []}
           downloadUrl={downloadUrl}
           keyField='id'
-          loading={dObj.loading}
+          loading={false}
           onUpdate={() => Math.random()}
           ref={this.tableRef}
           totalRows={annotations ? annotations.length: 0}

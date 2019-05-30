@@ -65,8 +65,11 @@ class DiseaseComparisonRibbon extends Component {
   componentDidMount(){
     const { dispatch, geneId, summary} = this.props;
     const { selectedOrthologs } = this.state;
+
     let result = this.getOrthologGeneIds(selectedOrthologs);
+    result.push(`geneID=${geneId}`);
     dispatch(fetchOrthologsWithExpression(geneId));
+    dispatch(fetchDiseaseAnnotation(result, 'DOID:162'));
     if(!summary){
       dispatch(fetchDiseaseSummary(geneId, result));
     }
@@ -112,7 +115,7 @@ class DiseaseComparisonRibbon extends Component {
     const { dispatch } = this.props;
     const { selectedOrthologs } = this.state;
     let geneIdList = this.getOrthologGeneIds(selectedOrthologs);
-    let geneId = 'geneID:' + gene.id;
+    let geneId = 'geneID=' + gene.id;
     geneIdList.push(geneId);
     if (disease.type == 'Term'){
       dispatch(fetchDiseaseAnnotation(geneIdList, disease.id));
@@ -190,7 +193,7 @@ DiseaseComparisonRibbon.propTypes = {
 const mapStateToProps = (state, props) => ({
   orthology: selectOrthologsWithExpression(state),
   summary: selectSummary(props.geneId)(state),
-  diseaseAnnotations: state.disease._root.entries[4]
+  diseaseAnnotations: state.disease._root.entries[5]
 });
 
 export default connect(mapStateToProps)(DiseaseComparisonRibbon);
