@@ -76,7 +76,7 @@ class ExpressionComparisonRibbon extends React.Component {
 
   handleBlockClick(entity, block) {
     let { selectedTerm } = this.state;
-    selectedTerm = (selectedTerm && selectedTerm.class_id === block.class_id) ? undefined : block;
+    selectedTerm = (selectedTerm !== undefined && selectedTerm.class_id === block.class_id) ? undefined : block;
     this.setState({selectedTerm});
   }
 
@@ -169,7 +169,7 @@ class ExpressionComparisonRibbon extends React.Component {
             ))}
           </div>
         </HorizontalScroll>
-        {selectedTerm &&
+        {selectedTerm !== undefined &&
           <div className='pt-4'>
             <AnnotationTable genes={genes} term={selectedTerm.class_id} />
           </div>
