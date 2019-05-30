@@ -66,6 +66,13 @@ class AlleleTable extends Component {
         disease: allele.diseases.sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
       }));
 
+    const sortOptions = [
+      {
+        value: 'disease',
+        label: 'Associated Human Disease',
+      }
+    ];
+
     return (
       <RemoteDataTable
         columns={columns}
@@ -74,6 +81,7 @@ class AlleleTable extends Component {
         keyField='symbol'
         loading={alleles.loading}
         onUpdate={this.loadData.bind(this)}
+        sortOptions={sortOptions}
         totalRows={alleles.total}
       />
     );
