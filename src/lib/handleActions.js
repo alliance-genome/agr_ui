@@ -23,14 +23,17 @@ export const forObjectRequestAction = (type, path) => {
 export const forCollectionRequestAction = (type, path) => {
   const splitPath = path ? path.split('.') : [];
   return {
-    [type + '_REQUEST']: (state) => {
-      return state
-        .setIn(splitPath.concat('loading'), true);
+    [type + '_REQUEST']: state => {
+      return state.setIn(splitPath.concat('loading'), true);
     },
     [type + '_SUCCESS']: (state, action) => {
       return state
         .setIn(splitPath.concat('loading'), false)
         .setIn(splitPath.concat('data'), action.payload.results)
+        .setIn(
+          splitPath.concat('supplementalData'),
+          action.payload.supplementalData
+        )
         .setIn(splitPath.concat('total'), action.payload.total)
         .setIn(splitPath.concat('error'), null);
     },
@@ -38,6 +41,7 @@ export const forCollectionRequestAction = (type, path) => {
       return state
         .setIn(splitPath.concat('loading'), false)
         .setIn(splitPath.concat('data'), [])
+        .setIn(splitPath.concat('supplementalData'), {})
         .setIn(splitPath.concat('total'), 0)
         .setIn(splitPath.concat('error'), action.payload);
     }
