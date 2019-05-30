@@ -36,8 +36,9 @@ const fetchExpressionSummaryFailure = (id, error) => ({
 export const fetchExpressionAnnotations = (genes, term, opts) => {
   return (dispatch) => {
     const geneParams = genes.map(gene => `geneID=${gene}`).join('&');
+    const termParam = term ? `termID=${term}&` : '';
     const tableQuery = buildTableQueryString(opts);
-    const request = fetchData(`/api/expression?termID=${term}&${geneParams}&${tableQuery}`);
+    const request = fetchData(`/api/expression?${termParam}${geneParams}&${tableQuery}`);
     request
       .then(data => dispatch(fetchExpressionAnnotationsSuccess(data)))
       .catch(error => {
