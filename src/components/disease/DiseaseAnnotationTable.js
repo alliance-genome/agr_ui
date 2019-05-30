@@ -60,7 +60,7 @@ class DiseaseAnnotationTable extends Component {
 
 DiseaseAnnotationTable.propTypes = {
   annotationObj: PropTypes.object,
-  annotations: PropTypes.array,
+  annotations: PropTypes.object,
   dispatch: PropTypes.func,
   geneId: PropTypes.string.isRequired,
   genes: PropTypes.array,

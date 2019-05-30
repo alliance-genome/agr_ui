@@ -5,6 +5,8 @@
  */
 
 /* eslint-disable react/no-set-state */
+/* eslint-disable no-consle */
+/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -16,7 +18,7 @@ import { fetchDiseaseAnnotation, fetchDiseaseSummary } from '../../actions/disea
 import { fetchOrthologsWithExpression } from '../../actions/genes';
 import { selectOrthologsWithExpression } from '../../selectors/geneSelectors';
 import { selectDiseaseAnnotation } from '../../selectors/diseaseSelectors';
-import DiseaseAnnotationTable from './DiseaseAnnotationTable';
+//import DiseaseAnnotationTable from './DiseaseAnnotationTable';
 import { STRINGENCY_HIGH } from '../orthology/constants';
 import { TAXON_IDS, TAXON_ORDER } from '../../constants';
 import {
@@ -59,11 +61,11 @@ class DiseaseComparisonRibbon extends Component {
       stringency: STRINGENCY_HIGH,
       selectedOrthologs: [],
       selectedTerm: undefined,
+      //diseaseAnnotations: undefined,
       summary : {}
     };
     this.onDiseaseGroupClicked = this.onDiseaseGroupClicked.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleLocalStateChangeSummary = this.handleLocalStateChangeSummary.bind(this);
+    this.onOrthologyChange = this.onOrthologyChange.bind(this);
   }
 
 
@@ -84,22 +86,6 @@ class DiseaseComparisonRibbon extends Component {
   componentDidUpdate() {
   }
 
-  handleLocalStateChangeSummary(){
-    const { selectedOrthologs } = this.state;
-    const { dispatch, geneId } = this.props;
-    let geneIdList = this.getOrthologGeneIds(selectedOrthologs);
-    dispatch(fetchDiseaseSummary(geneId, geneIdList)).then(data => {
-      var newSummary = this.state.summary;
-      newSummary.subjects = this.state.summary.subjects.concat(data.summary.subjects);
-      this.setState({summary : newSummary });
-    });
-
-    // BASIC TEST
-    // const { dispatch } = this.props;
-    // let geneId = 'MGI:98834';
-    // let geneIdList = '';
-
-  }
 
 
   getOrthologGeneIds(values) {
@@ -113,8 +99,16 @@ class DiseaseComparisonRibbon extends Component {
     }
   }
 
-  handleChange(values) {
-    this.setState({selectedOrthologs: values}, () => this.handleLocalStateChangeSummary());
+  onOrthologyChange(selectedOrthologs) {
+    const { dispatch, geneId } = this.props;
+    let geneIdList = this.getOrthologGeneIds(selectedOrthologs);
+    dispatch(fetchDiseaseSummary(geneId, geneIdList)).then(data => {
+      this.setState({ summary: {}});
+      this.setState({
+        selectedOrthologs: selectedOrthologs,
+        summary : data.summary
+      });
+    });
   }
 
   onDiseaseGroupClicked(gene, disease) {
@@ -122,7 +116,7 @@ class DiseaseComparisonRibbon extends Component {
     const { selectedOrthologs } = this.state;
     let geneIdList = this.getOrthologGeneIds(selectedOrthologs);
 
-    if (disease.id == 'all'){
+    if (disease.type == 'GlobalAll'){
       dispatch(fetchDiseaseAnnotation(geneIdList));
     }
     else{
@@ -137,6 +131,7 @@ class DiseaseComparisonRibbon extends Component {
       .filter(byNotHuman)
       .filter(byStringency(stringency))
       .sort(compareBySpeciesThenAlphabetical);
+    console.log('d_annotations: ', diseaseAnnotations);
     return (
       <div>
         <div className='pb-4'>
@@ -156,7 +151,7 @@ class DiseaseComparisonRibbon extends Component {
                   getOptionValue={option => getOrthologId(option)}
                   isMulti
                   maxMenuHeight={210}
-                  onChange={this.handleChange}
+                  onChange={this.onOrthologyChange}
                   options={filteredOrthology}
                   placeholder='Select orthologs...'
                   value={selectedOrthologs}
@@ -166,7 +161,7 @@ class DiseaseComparisonRibbon extends Component {
               <Button
                 color='primary'
                 disabled={filteredOrthology.length === 0}
-                onClick={() => this.setState({selectedOrthologs: filteredOrthology})}
+                onClick={() => this.onOrthologyChange(filteredOrthology) }
               >
                 Add all
               </Button>
@@ -192,13 +187,13 @@ class DiseaseComparisonRibbon extends Component {
         {/* <button onClick={this.testButton.bind(this)}>Test Button</button> */}
 
         <div>
-          {(diseaseAnnotations) ?
+          {/*(this.state.diseaseAnnotations) ?
             <DiseaseAnnotationTable
               annotationObj={diseaseAnnotations}
               annotations={diseaseAnnotations.results}
-              geneId={geneId}
-            /> : ''
-          }
+          geneId={geneId}
+            />
+          */}
         </div>
 
       </div>
@@ -213,7 +208,7 @@ class DiseaseComparisonRibbon extends Component {
 }
 
 DiseaseComparisonRibbon.propTypes = {
-  diseaseAnnotations: PropTypes.array,
+  diseaseAnnotations: PropTypes.object,
   dispatch: PropTypes.func,
   geneId: PropTypes.string,
   geneSymbol: PropTypes.string,
