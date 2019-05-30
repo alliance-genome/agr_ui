@@ -59,11 +59,11 @@ class DiseaseComparisonRibbon extends Component {
       stringency: STRINGENCY_HIGH,
       selectedOrthologs: [],
       selectedTerm: undefined,
+      diseaseAnnotations: undefined,
       summary : {}
     };
     this.onDiseaseGroupClicked = this.onDiseaseGroupClicked.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleLocalStateChangeSummary = this.handleLocalStateChangeSummary.bind(this);
+    this.onOrthologyChange = this.onOrthologyChange.bind(this);
   }
 
 
@@ -72,7 +72,6 @@ class DiseaseComparisonRibbon extends Component {
     const { selectedOrthologs } = this.state;
 
     let result = this.getOrthologGeneIds(selectedOrthologs);
-    result.push(`geneID=${geneId}`);
     dispatch(fetchOrthologsWithExpression(geneId));
     if(!summary){
       dispatch(fetchDiseaseSummary(geneId, result)).then(data => {
@@ -84,22 +83,6 @@ class DiseaseComparisonRibbon extends Component {
   componentDidUpdate() {
   }
 
-  handleLocalStateChangeSummary(){
-    const { selectedOrthologs } = this.state;
-    const { dispatch, geneId } = this.props;
-    let geneIdList = this.getOrthologGeneIds(selectedOrthologs);
-    dispatch(fetchDiseaseSummary(geneId, geneIdList)).then(data => {
-      var newSummary = this.state.summary;
-      newSummary.subjects = this.state.summary.subjects.concat(data.summary.subjects);
-      this.setState({summary : newSummary });
-    });
-
-    // BASIC TEST
-    // const { dispatch } = this.props;
-    // let geneId = 'MGI:98834';
-    // let geneIdList = '';
-
-  }
 
 
   getOrthologGeneIds(values) {
@@ -113,8 +96,16 @@ class DiseaseComparisonRibbon extends Component {
     }
   }
 
-  handleChange(values) {
-    this.setState({selectedOrthologs: values}, () => this.handleLocalStateChangeSummary());
+  onOrthologyChange(selectedOrthologs) {
+    const { dispatch, geneId } = this.props;
+    let geneIdList = this.getOrthologGeneIds(selectedOrthologs);
+    dispatch(fetchDiseaseSummary(geneId, geneIdList)).then(data => {
+      this.setState({ summary: {}});
+      this.setState({
+        selectedOrthologs: selectedOrthologs,
+        summary : data.summary
+      });
+    });
   }
 
   onDiseaseGroupClicked(gene, disease) {
@@ -124,7 +115,7 @@ class DiseaseComparisonRibbon extends Component {
     let geneId = 'geneID=' + gene.id;
     geneIdList.push(geneId);
 
-    if (disease.id == 'all'){
+    if (disease.type == 'GlobalAll'){
       dispatch(fetchDiseaseAnnotation(geneIdList));
     }
     else{
@@ -133,7 +124,7 @@ class DiseaseComparisonRibbon extends Component {
   }
 
   render(){
-    const { orthology, geneId, diseaseAnnotations } = this.props;
+    const { orthology, geneId } = this.props;
     const { selectedOrthologs, stringency } = this.state;
     const filteredOrthology = (orthology.data || [])
       .filter(byNotHuman)
@@ -158,7 +149,7 @@ class DiseaseComparisonRibbon extends Component {
                   getOptionValue={option => getOrthologId(option)}
                   isMulti
                   maxMenuHeight={210}
-                  onChange={this.handleChange}
+                  onChange={this.onOrthologyChange}
                   options={filteredOrthology}
                   placeholder='Select orthologs...'
                   value={selectedOrthologs}
@@ -168,7 +159,7 @@ class DiseaseComparisonRibbon extends Component {
               <Button
                 color='primary'
                 disabled={filteredOrthology.length === 0}
-                onClick={() => this.setState({selectedOrthologs: filteredOrthology})}
+                onClick={() => this.onOrthologyChange(filteredOrthology) }
               >
                 Add all
               </Button>
@@ -194,10 +185,10 @@ class DiseaseComparisonRibbon extends Component {
         {/* <button onClick={this.testButton.bind(this)}>Test Button</button> */}
 
         <div>
-          {(diseaseAnnotations) ?
+          {(this.state.diseaseAnnotations) ?
             <DiseaseAnnotationTable
-              annotationObj={diseaseAnnotations}
-              annotations={diseaseAnnotations.results}
+              annotationObj={this.state.diseaseAnnotations}
+              annotations={this.state.diseaseAnnotations.results}
               geneId={geneId}
             /> : ''
           }
