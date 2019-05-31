@@ -12,11 +12,17 @@ import { SlimType } from '@geneontology/ribbon/lib/dataHelpers';
 import { compareByFixedOrder, compareAlphabeticalCaseInsensitive, sortBy } from '../../lib/utils';
 import LoadingSpinner from '../loadingSpinner';
 
+const highLevelTermIds = {
+  Anatomy: 'UBERON:0001062',
+  Stage: 'UBERON:0000000',
+  Subcellular: 'GO:0005575',
+};
+
 const makeBlocks = (summary, groups, overrideColor) => {
   const blocks = [];
 
   blocks.push({
-    class_id: 'All annotations',
+    class_id: '',
     class_label: 'All annotations',
     color: overrideColor || (summary.totalAnnotations ? '#8BC34A' : '#ffffff'),
     uniqueAssocs: new Array(summary.totalAnnotations),
@@ -27,12 +33,12 @@ const makeBlocks = (summary, groups, overrideColor) => {
   sortBy(summary.groups, [
     compareByFixedOrder(groups, g => g.name),
     compareAlphabeticalCaseInsensitive(g => g.name)
-    
+
   ]).forEach(group => {
     if (groups.indexOf(group.name) < 0) {
       return;
     }
-    
+
     blocks.push({
       aspect : group.name,
       class_id: group.name + ' aspect',
@@ -47,7 +53,7 @@ const makeBlocks = (summary, groups, overrideColor) => {
     });
     blocks.push({
       aspect : group.name,
-      class_id: group.name + ' all',
+      class_id: highLevelTermIds[group.name] || '',
       class_label: 'All ' + group.name,
       color: '#fff',
       no_data: false,

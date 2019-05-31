@@ -155,16 +155,44 @@ class GenePhysicalInteractionDetailTable extends React.Component {
       },
     ];
 
+    const sortOptions = [
+      {
+        value: 'moleculeType',
+        label: `${focusGeneDisplayName} molecule type`,
+      },
+      {
+        value: 'interactorGeneSymbol',
+        label: 'Interactor gene',
+      },
+      {
+        value: 'interactorDetectionMethod',
+        label: 'Detection method',
+      },
+      {
+        value: 'interactorSpecies',
+        label: 'Interactor species',
+      }
+    ];
+
     return (
-      <RemoteDataTable
-        columns={columns}
-        data={data}
-        downloadUrl={`/api/disease/${focusGeneId}/interactions/download`}
-        keyField='id'
-        loading={interactions.loading}
-        onUpdate={this.loadInteractions.bind(this)}
-        totalRows={interactions.total}
-      />
+      <React.Fragment>
+        <RemoteDataTable
+          columns={columns}
+          data={data}
+          downloadUrl={`/api/gene/${focusGeneId}/interactions/download`}
+          keyField='id'
+          loading={interactions.loading}
+          onUpdate={this.loadInteractions.bind(this)}
+          sortOptions={sortOptions}
+          summaryProps={
+            interactions.supplementalData ? {
+              ...interactions.supplementalData.annotationSummary,
+              entityType: 'interactor gene'
+            } : null
+          }
+          totalRows={interactions.total}
+        />
+      </React.Fragment>
     );
   }
 }

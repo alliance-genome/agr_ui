@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
 
 import DownloadButton from './downloadButton';
+import TableSummary from './tableSummary';
 import Utils from './utils';
 // import * as analytics from '../../lib/analytics';
 import { DEFAULT_TABLE_STATE } from '../../constants';
@@ -24,6 +25,7 @@ import ColumnHeader from './columnHeader';
 import DropdownTextFilter from './dropdownTextFilter';
 import DropdownCheckboxFilter from './dropdownCheckboxFilter';
 import HorizontalScroll from '../horizontalScroll';
+import { buildTableQueryString } from '../../lib/utils';
 
 class RemoteDataTable extends Component {
   constructor(props) {
@@ -68,7 +70,7 @@ class RemoteDataTable extends Component {
   }
 
   render() {
-    const { columns, data = [], downloadUrl, keyField, loading, sortOptions, totalRows } = this.props;
+    const { columns, data = [], downloadUrl, keyField, loading, sortOptions, summaryProps, totalRows } = this.props;
     const { filters, page, sizePerPage, sort } = this.state;
 
     if (!loading && filters == null && totalRows === 0) {
@@ -129,10 +131,15 @@ class RemoteDataTable extends Component {
           {
             ({paginationProps, paginationTableProps}) => (
               <div>
+                {
+                  summaryProps ?
+                    <TableSummary style={{display: 'inline-block'}} {...summaryProps} /> :
+                    null
+                }
                 {sortOptions && sortOptions.length &&
                   <Form className='pull-right' inline>
                     <Label className="mr-1">Sort by</Label>
-                    <Input onChange={this.handleSortChange} type='select' value={sort}>
+                    <Input onChange={this.handleSortChange} type='select' value={sort || ''}>
                       <option value=''>Default</option>
                       {sortOptions.map(sort => (
                         <option key={sort.value} value={sort.value}>{sort.label}</option>
@@ -167,7 +174,9 @@ class RemoteDataTable extends Component {
             )
           }
         </PaginationProvider>
-        <DownloadButton downloadUrl={downloadUrl} />
+        <DownloadButton
+          downloadUrl={`${downloadUrl}${downloadUrl.indexOf('?') < 0 ? '?' : '&'}${buildTableQueryString({sort, filters})}`}
+        />
       </div>
     );
   }
@@ -181,6 +190,7 @@ RemoteDataTable.propTypes = {
   loading: PropTypes.bool,
   onUpdate: PropTypes.func,
   sortOptions: PropTypes.array,
+  summaryProps: PropTypes.object,
   totalRows: PropTypes.number,
 };
 

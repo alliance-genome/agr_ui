@@ -73,10 +73,6 @@ export const NAV_MENU = [
         route: '/about-us',
       },
       {
-        label: 'Frequently Asked Questions',
-        route: '/frequently-asked-questions'
-      },
-      {
         label: 'Funding',
         route: '/funding'
       },
@@ -128,6 +124,28 @@ export const NAV_MENU = [
         label: 'Release Notes',
         route: '/release-notes'
       }
+    ]
+  },
+  {
+    label: 'Help',
+    wordpressId: 179,
+    sub: [
+      {
+        label: 'Frequently Asked Questions',
+        route: '/frequently-asked-questions'
+      },
+      {
+        label: 'Glossary',
+        route: '/glossary'
+      },
+      {
+        label: 'Tutorials',
+        route: '/tutorials'
+      },
+      {
+        label: 'User Documentation',
+        route: '/user-documentation'
+      },
     ]
   },
   {
