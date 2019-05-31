@@ -61,6 +61,7 @@ class DiseaseComparisonRibbon extends Component {
       stringency: STRINGENCY_HIGH,
       selectedOrthologs: [],
       selectedTerm: undefined,
+      selectedDisease : undefined,
       summary : {}
     };
     this.onDiseaseGroupClicked = this.onDiseaseGroupClicked.bind(this);
@@ -92,10 +93,24 @@ class DiseaseComparisonRibbon extends Component {
     return geneIdList;
   }
 
-  onTableUpdate(){
+  onTableUpdate(opts){
     const { dispatch } = this.props;
     let geneIdList = this.getGeneListForDispatch();
-    //dispatch(fetchDiseaseAnnotation(geneIdList));
+    console.log('onTableUpdate (opts): ', opts);
+    console.log('onTableUpdate: ', geneIdList);
+
+    if (this.state.selectedDisease.type == 'GlobalAll'){
+      dispatch(fetchDiseaseAnnotation(geneIdList, undefined, opts)).then(data => {
+        console.log('onTableUpdate::retrieve: ', data);
+      });
+    }
+    else{
+      dispatch(fetchDiseaseAnnotation(geneIdList, this.state.selectedDisease.id, opts)).then(data => {
+        console.log('onTableUpdate::retrieve: ', data);
+      });
+    }
+
+
   }
 
   getOrthologGeneIds(values) {
@@ -119,6 +134,17 @@ class DiseaseComparisonRibbon extends Component {
         summary : data.summary
       });
     });
+
+    console.log('onOrthologyChange: ', geneIdList);
+    // update the table
+    if(this.state.selectedDisease) {
+      if (this.state.selectedDisease.type == 'GlobalAll'){
+        dispatch(fetchDiseaseAnnotation(geneIdList));
+      }
+      else{
+        dispatch(fetchDiseaseAnnotation(geneIdList, this.state.selectedDisease.id));
+      }
+    }
   }
 
   onDiseaseGroupClicked(gene, disease) {
@@ -130,6 +156,7 @@ class DiseaseComparisonRibbon extends Component {
     else{
       dispatch(fetchDiseaseAnnotation(geneIdList, disease.id));
     }
+    this.setState({ selectedDisease : disease });
   }
 
   render(){
@@ -201,6 +228,7 @@ class DiseaseComparisonRibbon extends Component {
               annotations={diseaseAnnotations}
               geneId={geneId}
               onUpdate={this.onTableUpdate}
+              termId={this.state.selectedDisease}
             />: ''
           }
         </div>
