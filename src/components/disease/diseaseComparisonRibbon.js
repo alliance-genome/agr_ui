@@ -35,7 +35,7 @@ import { GenericRibbon } from '@geneontology/ribbon';
 import { POSITION, COLOR_BY } from '@geneontology/ribbon/lib/enums';
 
 import HelpPopup from '../helpPopup';
-import DiseaseControlsHelp from '. /diseaseControlsHelp';
+import DiseaseControlsHelp from './diseaseControlsHelp';
 import ControlsContainer from '../controlsContainer';
 import Select from 'react-select';
 import { Button } from 'reactstrap';
