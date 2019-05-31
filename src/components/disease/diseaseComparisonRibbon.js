@@ -18,7 +18,7 @@ import { fetchDiseaseAnnotation, fetchDiseaseSummary } from '../../actions/disea
 import { fetchOrthologsWithExpression } from '../../actions/genes';
 import { selectOrthologsWithExpression } from '../../selectors/geneSelectors';
 import { selectDiseaseAnnotation } from '../../selectors/diseaseSelectors';
-import DiseaseAnnotationTable from './DiseaseAnnotationTable';
+import DiseaseAnnotationTable from './diseaseAnnotationTable';
 import { STRINGENCY_HIGH } from '../orthology/constants';
 import { TAXON_IDS, TAXON_ORDER } from '../../constants';
 import {
@@ -65,8 +65,8 @@ class DiseaseComparisonRibbon extends Component {
       summary : {}
     };
     this.onDiseaseGroupClicked = this.onDiseaseGroupClicked.bind(this);
-    this.onOrthologyChange = this.onOrthologyChange.bind(this);
-    this.onTableUpdate = this.onTableUpdate.bind(this);
+    this.handleOrthologyChange = this.handleOrthologyChange.bind(this);
+    this.handleTableUpdate = this.handleTableUpdate.bind(this);
     this.getGeneListForDispatch = this.getGeneListForDispatch.bind(this);
   }
 
@@ -85,46 +85,28 @@ class DiseaseComparisonRibbon extends Component {
     }
   }
 
-  getGeneListForDispatch(){
-    const { geneId } = this.props;
-    const { selectedOrthologs } = this.state;
-    let geneIdList = this.getOrthologGeneIds(selectedOrthologs);
-    geneIdList.push(`geneID=${geneId}`);
-    return geneIdList;
-  }
 
-  onTableUpdate(opts){
+  handleTableUpdate(opts){
     const { dispatch } = this.props;
     let geneIdList = this.getGeneListForDispatch();
-    // console.log('onTableUpdate (opts): ', opts);
-    // console.log('onTableUpdate: ', geneIdList);
+    // console.log('handleTableUpdate (opts): ', opts);
+    // console.log('handleTableUpdate: ', geneIdList);
 
     if (this.state.selectedDisease.type == 'GlobalAll'){
       dispatch(fetchDiseaseAnnotation(geneIdList, undefined, opts)).then(data => {
-        // console.log('onTableUpdate::retrieve: ', data);
+        // console.log('handleTableUpdate::retrieve: ', data);
       });
     }
     else{
       dispatch(fetchDiseaseAnnotation(geneIdList, this.state.selectedDisease.id, opts)).then(data => {
-        // console.log('onTableUpdate::retrieve: ', data);
+        // console.log('handleTableUpdate::retrieve: ', data);
       });
     }
 
 
   }
 
-  getOrthologGeneIds(values) {
-    if (values) {
-      return values.map( item => {
-        return `geneID=${item.homologGene.id}`;
-      });
-    }
-    else{
-      return [];
-    }
-  }
-
-  onOrthologyChange(selectedOrthologs) {
+  handleOrthologyChange(selectedOrthologs) {
     const { dispatch, geneId } = this.props;
     let geneIdList = this.getOrthologGeneIds(selectedOrthologs);
     dispatch(fetchDiseaseSummary(geneId, geneIdList)).then(data => {
@@ -135,7 +117,7 @@ class DiseaseComparisonRibbon extends Component {
       });
     });
 
-    console.log('onOrthologyChange: ', geneIdList);
+    // console.log('handleOrthologyChange: ', geneIdList);
     // update the table
     if(this.state.selectedDisease) {
       if (this.state.selectedDisease.type == 'GlobalAll'){
@@ -151,13 +133,39 @@ class DiseaseComparisonRibbon extends Component {
     const { dispatch } = this.props;
     let geneIdList = this.getGeneListForDispatch();
     if (disease.type == 'GlobalAll'){
-      dispatch(fetchDiseaseAnnotation(geneIdList));
+      dispatch(fetchDiseaseAnnotation(geneIdList)).then(data=> {
+        // console.log('onDiseaseGroupClicked(ALL): ' , data);
+      });
     }
     else{
-      dispatch(fetchDiseaseAnnotation(geneIdList, disease.id));
+      dispatch(fetchDiseaseAnnotation(geneIdList, disease.id)).then(data=> {
+        // console.log('onDiseaseGroupClicked(' + disease.id + '): ' , data);
+      });
     }
     this.setState({ selectedDisease : disease });
   }
+
+
+
+  getOrthologGeneIds(values) {
+    if (values) {
+      return values.map( item => {
+        return `geneID=${item.homologGene.id}`;
+      });
+    }
+    else{
+      return [];
+    }
+  }
+
+  getGeneListForDispatch(){
+    const { geneId } = this.props;
+    const { selectedOrthologs } = this.state;
+    let geneIdList = this.getOrthologGeneIds(selectedOrthologs);
+    geneIdList.push(`geneID=${geneId}`);
+    return geneIdList;
+  }
+  
 
   render(){
     const { orthology, geneId, diseaseAnnotations } = this.props;
@@ -174,10 +182,10 @@ class DiseaseComparisonRibbon extends Component {
       }
     }
 
-    console.log('DCR::render: ', this.state);
+    // console.log('DCR::render: ', this.state);
     return (
       <div>
-        <div className='pb-4'>
+        <div>
           <ControlsContainer>
             <span className='pull-right'>
               <HelpPopup id='disease-controls-help'>
@@ -194,7 +202,7 @@ class DiseaseComparisonRibbon extends Component {
                   getOptionValue={option => getOrthologId(option)}
                   isMulti
                   maxMenuHeight={210}
-                  onChange={this.onOrthologyChange}
+                  onChange={this.handleOrthologyChange}
                   options={filteredOrthology}
                   placeholder='Select orthologs...'
                   value={this.state.selectedOrthologs}
@@ -204,7 +212,7 @@ class DiseaseComparisonRibbon extends Component {
               <Button
                 color='primary'
                 disabled={filteredOrthology.length === 0}
-                onClick={() => this.onOrthologyChange(filteredOrthology) }
+                onClick={() => this.handleOrthologyChange(filteredOrthology)}
               >
                 Add all
               </Button>
@@ -234,7 +242,7 @@ class DiseaseComparisonRibbon extends Component {
               annotations={diseaseAnnotations}
               geneId={geneId}
               genes={genes}
-              onUpdate={this.onTableUpdate}
+              onUpdate={this.handleTableUpdate}
               termId={this.state.selectedDisease}
             />: ''
           }

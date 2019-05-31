@@ -48,12 +48,11 @@ class DiseaseAnnotationTable extends Component {
     const annotations = this.state.annotations;
     const gene_id = this.state.geneId;
     const diseaseTerm = this.state.termId;
-    console.log('DAT::render: ', this.state);
+    // console.log('DAT::render: ', this.state);
 
     if(!this.state.genes) {
       return(<div></div>);
     }
-
 
     let columns = [
       {
@@ -159,7 +158,7 @@ class DiseaseAnnotationTable extends Component {
       }
         
       return (
-        <div>
+        <div style={{marginTop : '20px'}}>
           {(annotations) ?
             <RemoteDataTable
               columns={columns}
@@ -186,7 +185,7 @@ DiseaseAnnotationTable.propTypes = {
   geneId: PropTypes.string.isRequired,
   genes: PropTypes.array,
   onUpdate: PropTypes.func,
-  termId: PropTypes.string,
+  termId: PropTypes.object,
 
 
 };

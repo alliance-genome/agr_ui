@@ -114,13 +114,14 @@ export const fetchDiseaseAnnotation = function(genes, termId=undefined, opts){
         qString += `&termID=${termId}`;
       }
     }
-    console.log('qstring:', qString);
+    //    console.log('qstring:', qString);
 
     const tableQuery = buildTableQueryString(opts);
 
     dispatch({
       type: FETCH_DISEASE_ANNOTATIONS
     });
+    // console.log('fetchDiseaseAnnotation: ' , `/api/disease${qString}&${tableQuery}`);
     return fetchData(
       `/api/disease${qString}&${tableQuery}`)
       .then((data) => dispatch(fetchDiseaseAnnotationSuccess(data)))
