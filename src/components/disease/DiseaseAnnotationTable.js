@@ -20,6 +20,8 @@ class DiseaseAnnotationTable extends Component {
     /* eslint-disable no-unused-vars */
     const {annotations, geneId} = this.props; //this.props.diseaseAnnotations[1].results;
     const gene_id = this.props.geneId;
+    console.log('annotation table: ', annotations);
+
     //debugger;
     let columns = [];
     let data = [];
@@ -28,7 +30,7 @@ class DiseaseAnnotationTable extends Component {
       console.log('columns: ', columns);
       data = annotations.data
         .map((result, index) => ({
-          key: `${result.disease.id}_${index}`,
+          key: `disease_row_${index}`,
           gene: result.gene,
           species: result.gene.species,
           based_on: result.gene.symbol,
@@ -47,11 +49,11 @@ class DiseaseAnnotationTable extends Component {
               columns={columns}
               data={data || []}
               downloadUrl={downloadUrl}
-              keyField='id'
+              keyField='key'
               loading={annotations.loading}
               onUpdate={this.props.onUpdate}
               ref={this.tableRef}
-              totalRows={annotations.data.length > 0 ? annotations.data.total: 0}
+              totalRows={annotations.total > 0 ? annotations.total: 0}
             />: ''
           }
         </div>

@@ -140,6 +140,7 @@ class DiseaseComparisonRibbon extends Component {
       .filter(byStringency(stringency))
       .sort(compareBySpeciesThenAlphabetical);
     console.log('d_annotations: ', diseaseAnnotations);
+    console.log(this.state);
     return (
       <div>
         <div className='pb-4'>
