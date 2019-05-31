@@ -23,6 +23,6 @@ export {
   RemoteDataTable,
   AssayCell,
   SpeciesCell,
-  SourceCell
+  SourceCell,
   TableSummary
 };
