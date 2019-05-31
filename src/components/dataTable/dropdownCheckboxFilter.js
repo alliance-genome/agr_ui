@@ -7,7 +7,7 @@ import { List } from 'immutable';
 class DropdownCheckboxFilter extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: props.defaultFilter || List()};
+    this.state = {value: List(props.defaultFilter)};
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -15,7 +15,7 @@ class DropdownCheckboxFilter extends React.Component {
   }
 
   fireCallbacks() {
-    this.props.onFilter(this.state.value);
+    this.props.onFilter(this.state.value.toArray());
   }
 
   handleChange(event) {
@@ -65,9 +65,13 @@ class DropdownCheckboxFilter extends React.Component {
 
 DropdownCheckboxFilter.propTypes = {
   column: PropTypes.object,
-  defaultFilter: PropTypes.instanceOf(List),
+  defaultFilter: PropTypes.array,
   onFilter: PropTypes.func,
   options: PropTypes.array,
+};
+
+DropdownCheckboxFilter.defaultProps = {
+  defaultFilter: [],
 };
 
 export default DropdownCheckboxFilter;
