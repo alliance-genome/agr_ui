@@ -11,14 +11,12 @@ import {
   EvidenceCodesCell
 } from '../dataTable';
 
-/* eslint-disable no-debugger */
-/* eslint-disable no-debugger */
-
 /*
  * Disease ribbon-table
  * Listens to events in the disease-ribbon component
  */
-class DiseaseAnnotationTable extends Component {
+export class DiseaseAnnotationTable extends Component {
+
   constructor(props){
     super(props);
     this.tableRef = React.createRef();
@@ -27,28 +25,24 @@ class DiseaseAnnotationTable extends Component {
       geneId: props.geneId,
       genes: props.genes,
       onUpdate: props.onUpdate,
-      termId: props.termId
+      term: props.term
     };
   }
 
   UNSAFE_componentWillReceiveProps(nextProps){
-    // console.log("GRSS::componentWillReceiveProps: " , nextProps);
     this.setState({
       annotations: nextProps.annotations,
       geneId: nextProps.geneId,
       genes: nextProps.genes,
       onUpdate: nextProps.onUpdate,
-      termId: nextProps.termId
+      term: nextProps.term
     });
   }
 
 
   render() {
-    /* eslint-disable no-unused-vars */
     const annotations = this.state.annotations;
-    const gene_id = this.state.geneId;
-    const diseaseTerm = this.state.termId;
-    // console.log('DAT::render: ', this.state);
+    const diseaseTerm = this.state.term;
 
     if(!this.state.genes) {
       return('');
@@ -156,7 +150,7 @@ class DiseaseAnnotationTable extends Component {
         const geneIdParams = this.state.genes.map(g => `geneID=${g}`).join('&');
         downloadUrl = '/api/disease/download?' + geneIdParams + (diseaseTerm.type == 'GlobalAll' ? '' : '&termID=' + diseaseTerm.id);
       }
-        
+
       return (
         <div style={{marginTop : '20px'}}>
           {(annotations) ?
@@ -181,13 +175,11 @@ class DiseaseAnnotationTable extends Component {
 }
 
 DiseaseAnnotationTable.propTypes = {
-  annotations: PropTypes.object,
+  annotations: PropTypes.object.isRequired,
   geneId: PropTypes.string.isRequired,
   genes: PropTypes.array,
   onUpdate: PropTypes.func,
-  termId: PropTypes.object,
-
-
+  term: PropTypes.object
 };
 
 export default DiseaseAnnotationTable;

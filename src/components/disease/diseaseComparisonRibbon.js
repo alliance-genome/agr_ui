@@ -4,23 +4,19 @@
  * OthologPicker talks to cc and DiseaseRibbonTalks to DiseaseAssociation Table
  */
 
-/* eslint-disable react/no-set-state */
-/* eslint-disable no-consle */
-/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-//import GenericRibbon from '@geneontology/ribbon/lib/components/GenericRibbon';
 
-//import { getColumns } from './tableColumns';
+
 import { fetchDiseaseAnnotation, fetchDiseaseSummary } from '../../actions/disease';
 
-import { fetchOrthologsWithExpression } from '../../actions/genes';
-import { selectOrthologsWithExpression } from '../../selectors/geneSelectors';
-import { selectDiseaseAnnotation } from '../../selectors/diseaseSelectors';
-import DiseaseAnnotationTable from './diseaseAnnotationTable';
+import { selectDiseaseAnnotation, selectSummary } from '../../selectors/diseaseSelectors';
+import { selectOrthologs } from '../../selectors/geneSelectors';
+
+import { DiseaseAnnotationTable } from './diseaseAnnotationTable';
 import { STRINGENCY_HIGH } from '../orthology/constants';
-import { TAXON_IDS, TAXON_ORDER } from '../../constants';
+import { TAXON_ORDER } from '../../constants';
 import {
   compareAlphabeticalCaseInsensitive,
   compareByFixedOrder,
@@ -34,24 +30,22 @@ import {
   getOrthologId,
   getOrthologSymbol,
 } from '../orthology';
-import { selectSummary } from '../../selectors/diseaseSelectors';
+
 import { GenericRibbon } from '@geneontology/ribbon';
 import { POSITION, COLOR_BY } from '@geneontology/ribbon/lib/enums';
+
 import HelpPopup from '../helpPopup';
-import ExpressionControlsHelp from '../expression/expressionControlsHelp';
+import DiseaseControlsHelp from '. /diseaseControlsHelp';
 import ControlsContainer from '../controlsContainer';
 import Select from 'react-select';
 import { Button } from 'reactstrap';
 
 const makeLabel = (symbol, taxonId) => `${symbol} (${shortSpeciesName(taxonId)})`;
-const byNotHuman = orthology => getOrthologSpeciesId(orthology) !== TAXON_IDS.HUMAN;
 const byStringency = stringency => orthology => orthologyMeetsStringency(orthology, stringency);
 const compareBySpeciesThenAlphabetical = compareBy([
   compareByFixedOrder(TAXON_ORDER, o => getOrthologSpeciesId(o)),
   compareAlphabeticalCaseInsensitive(o => getOrthologSymbol(o))
 ]);
-
-/* eslint-disable no-debugger */
 
 class DiseaseComparisonRibbon extends Component {
 
@@ -59,9 +53,8 @@ class DiseaseComparisonRibbon extends Component {
     super(props);
     this.state = {
       stringency: STRINGENCY_HIGH,
-      selectedOrthologs: [],
-      selectedTerm: undefined,
       selectedDisease : undefined,
+      selectedOrthologs: [],
       summary : {}
     };
     this.onDiseaseGroupClicked = this.onDiseaseGroupClicked.bind(this);
@@ -76,8 +69,6 @@ class DiseaseComparisonRibbon extends Component {
     const { selectedOrthologs } = this.state;
 
     let result = this.getOrthologGeneIds(selectedOrthologs);
-    //result.push(`geneID=${geneId}`);
-    dispatch(fetchOrthologsWithExpression(geneId));
     if(!summary){
       dispatch(fetchDiseaseSummary(geneId, result)).then(data => {
         this.setState({summary : data.summary });
@@ -89,21 +80,13 @@ class DiseaseComparisonRibbon extends Component {
   handleTableUpdate(opts){
     const { dispatch } = this.props;
     let geneIdList = this.getGeneListForDispatch();
-    // console.log('handleTableUpdate (opts): ', opts);
-    // console.log('handleTableUpdate: ', geneIdList);
 
     if (this.state.selectedDisease.type == 'GlobalAll'){
-      dispatch(fetchDiseaseAnnotation(geneIdList, undefined, opts)).then(data => {
-        // console.log('handleTableUpdate::retrieve: ', data);
-      });
+      dispatch(fetchDiseaseAnnotation(geneIdList, undefined, opts));
     }
     else{
-      dispatch(fetchDiseaseAnnotation(geneIdList, this.state.selectedDisease.id, opts)).then(data => {
-        // console.log('handleTableUpdate::retrieve: ', data);
-      });
+      dispatch(fetchDiseaseAnnotation(geneIdList, this.state.selectedDisease.id, opts));
     }
-
-
   }
 
   handleOrthologyChange(selectedOrthologs) {
@@ -117,8 +100,6 @@ class DiseaseComparisonRibbon extends Component {
       });
     });
 
-    // console.log('handleOrthologyChange: ', geneIdList);
-    // update the table
     if(this.state.selectedDisease) {
       if (this.state.selectedDisease.type == 'GlobalAll'){
         dispatch(fetchDiseaseAnnotation(geneIdList));
@@ -133,14 +114,10 @@ class DiseaseComparisonRibbon extends Component {
     const { dispatch } = this.props;
     let geneIdList = this.getGeneListForDispatch();
     if (disease.type == 'GlobalAll'){
-      dispatch(fetchDiseaseAnnotation(geneIdList)).then(data=> {
-        // console.log('onDiseaseGroupClicked(ALL): ' , data);
-      });
+      dispatch(fetchDiseaseAnnotation(geneIdList));
     }
     else{
-      dispatch(fetchDiseaseAnnotation(geneIdList, disease.id)).then(data=> {
-        // console.log('onDiseaseGroupClicked(' + disease.id + '): ' , data);
-      });
+      dispatch(fetchDiseaseAnnotation(geneIdList, disease.id));
     }
     this.setState({ selectedDisease : disease });
   }
@@ -168,9 +145,8 @@ class DiseaseComparisonRibbon extends Component {
   
 
   render(){
-    const { orthology, geneId, diseaseAnnotations } = this.props;
+    const { orthology, geneId } = this.props;
     const filteredOrthology = (orthology.data || [])
-      .filter(byNotHuman)
       .filter(byStringency(this.state.stringency))
       .sort(compareBySpeciesThenAlphabetical);
 
@@ -182,14 +158,13 @@ class DiseaseComparisonRibbon extends Component {
       }
     }
 
-    // console.log('DCR::render: ', this.state);
     return (
       <div>
         <div>
           <ControlsContainer>
             <span className='pull-right'>
               <HelpPopup id='disease-controls-help'>
-                <ExpressionControlsHelp />
+                <DiseaseControlsHelp />
               </HelpPopup>
             </span>
             <b>Compare to ortholog genes</b>
@@ -237,13 +212,13 @@ class DiseaseComparisonRibbon extends Component {
         </div>
 
         <div>
-          {(diseaseAnnotations.data.length > 0) ?
+          {(this.props.diseaseAnnotations.data.length > 0) ?
             <DiseaseAnnotationTable
-              annotations={diseaseAnnotations}
+              annotations={this.props.diseaseAnnotations}
               geneId={geneId}
               genes={genes}
               onUpdate={this.handleTableUpdate}
-              termId={this.state.selectedDisease}
+              term={this.state.selectedDisease}
             />: ''
           }
         </div>
@@ -265,7 +240,7 @@ DiseaseComparisonRibbon.propTypes = {
 };
 
 const mapStateToProps = (state, props) => ({
-  orthology: selectOrthologsWithExpression(state),
+  orthology: selectOrthologs(state),
   summary: selectSummary(props.geneId)(state),
   diseaseAnnotations: selectDiseaseAnnotation(state)
 });

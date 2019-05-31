@@ -15,8 +15,6 @@ import {
 
 } from '../actions/disease';
 
-/* eslint-disable no-debugger */
-
 export const DEFAULT_STATE = fromJS({
   summaries : {},
   data: null,
