@@ -12,14 +12,23 @@ export const FETCH_DISEASE_FAILURE = 'FETCH_DISEASE_FAILURE';
 export const FETCH_ASSOCIATIONS = 'FETCH_ASSOCIATIONS';
 export const FETCH_ASSOCIATIONS_SUCCESS = 'FETCH_ASSOCIATIONS_SUCCESS';
 export const FETCH_ASSOCIATIONS_FAILURE = 'FETCH_ASSOCIATIONS_FAILURE';
+/* eslint-disable no-debugger */
+export const FETCH_DISEASE_ANNOTATIONS = 'FETCH_DISEASE_ANNOTATIONS';
+export const FETCH_DISEASE_ANNOTATIONS_SUCCESS = 'FETCH_DISEASE_ANNOTATIONS_SUCCESS';
+export const FETCH_DISEASE_ANNOTATIONS_FAILURE = 'FETCH_DISEASE_ANNOTATIONS_FAILURE';
 
-export const fetchDiseaseSummary = (id) => {
+export const fetchDiseaseSummary = (id, opts=[]) => {
+  let urlStr = `/api/gene/${id}/disease-ribbon-summary`;
+  if(opts.length > 0){
+    urlStr += ('?' + opts.join('&'));
+  }
+
   return (dispatch) => {
     dispatch({
       type: FETCH_DISEASE_SUMMARY,
       id,
     });
-    return fetchData(`/api/gene/${id}/disease-ribbon-summary`)
+    return fetchData(urlStr)
       .then(data => dispatch(fetchDiseaseSummarySuccess(id, data)))
       .catch(error => dispatch(fetchDiseaseSummaryFailure(id, error)));
   };
@@ -36,6 +45,7 @@ const fetchDiseaseSummaryFailure = (id, error) => ({
   id,
   error,
 });
+
 
 export const fetchDisease = function (id) {
   return (dispatch) => {
@@ -94,4 +104,42 @@ export const fetchAssociationsFailure = function (error) {
     payload: error,
   };
 };
+
+export const fetchDiseaseAnnotation = function(genes, termId=undefined, opts){
+  return (dispatch) => {
+    let qString =  '?';
+    if(genes.length > 0){
+      qString += genes.join('&');
+      if (termId) {
+        qString += `&termID=${termId}`;
+      }
+    }
+
+    const tableQuery = buildTableQueryString(opts);
+
+    dispatch({
+      type: FETCH_DISEASE_ANNOTATIONS
+    });
+    // console.log('fetchDiseaseAnnotation: ' , `/api/disease${qString}&${tableQuery}`);
+    return fetchData(
+      `/api/disease${qString}&${tableQuery}`)
+      .then((data) => dispatch(fetchDiseaseAnnotationSuccess(data)))
+      .catch((error) => dispatch(fetchDiseaseAnnotationFailure(error)));
+  };
+};
+
+export const fetchDiseaseAnnotationSuccess = function(diseaseAnnotations){
+  return {
+    type: FETCH_DISEASE_ANNOTATIONS_SUCCESS,
+    payload: diseaseAnnotations
+  };
+};
+
+export const fetchDiseaseAnnotationFailure = function (error) {
+  return {
+    type: FETCH_DISEASE_ANNOTATIONS_FAILURE,
+    payload: error
+  };
+};
+
 
