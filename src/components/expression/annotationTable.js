@@ -6,7 +6,7 @@ import isEqual from 'lodash.isequal';
 
 import { selectAnnotations } from '../../selectors/expressionSelectors';
 import { fetchExpressionAnnotations } from '../../actions/expression';
-import { RemoteDataTable, ReferenceCell } from '../dataTable';
+import { RemoteDataTable, ReferenceCell, FilterSets } from '../dataTable';
 import CommaSeparatedList from '../commaSeparatedList';
 import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
 import DataSourceLink from '../dataSourceLink';
@@ -48,7 +48,7 @@ class AnnotationTable extends React.Component {
         dataField: 'species',
         text: 'Species',
         formatter: s => <i>{s}</i>,
-        filterable: true,
+        filterable: FilterSets.species,
         headerStyle: {width: '100px'},
         hidden: genes.length < 2,
       },
