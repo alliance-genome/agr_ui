@@ -14,7 +14,8 @@ import {
   DiseaseNameCell,
   ReferenceCell,
   GeneticEntityCell,
-  EvidenceCodesCell
+  EvidenceCodesCell,
+  FilterSets
 } from '../../components/dataTable';
 import { shortSpeciesName } from '../../lib/utils';
 
@@ -57,14 +58,14 @@ class DiseasePageAssociationsTable extends Component {
       {
         dataField: 'geneticEntityType',
         text: 'Genetic Entity Type',
-        filterable: ['allele', 'gene'],
+        filterable: FilterSets.geneticEntityTypes,
         headerStyle: {width: '105px'},
       },
       {
         dataField: 'associationType',
         text: 'Association Type',
         formatter: (type) => type.replace(/_/g, ' '),
-        filterable: true,
+        filterable: FilterSets.associationTypesWithOrthology,
         headerStyle: {width: '110px'},
       },
       {
