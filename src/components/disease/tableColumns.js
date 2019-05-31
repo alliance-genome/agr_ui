@@ -15,7 +15,7 @@ let columns = [
   {
     dataField: 'key',
     text: 'key',
-    hidden: true
+    hidden: true,
   },
   {
     dataField: 'species',
