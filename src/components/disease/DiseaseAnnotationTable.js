@@ -14,12 +14,32 @@ class DiseaseAnnotationTable extends Component {
   constructor(props){
     super(props);
     this.tableRef = React.createRef();
+    this.state = {
+      annotations: props.annotations,
+      geneId: props.geneId,
+      genes: props.genes,
+      onUpdate: props.onUpdate,
+      termId: props.termId
+    };
   }
+
+  componentWillReceiveProps(nextProps){
+    // console.log("GRSS::componentWillReceiveProps: " , nextProps);
+    this.setState({
+      annotations: nextProps.annotations,
+      geneId: nextProps.geneId,
+      genes: nextProps.genes,
+      onUpdate: nextProps.onUpdate,
+      termId: nextProps.termId
+    });
+  }
+
 
   render() {
     /* eslint-disable no-unused-vars */
-    const {annotations, geneId} = this.props; //this.props.diseaseAnnotations[1].results;
-    const gene_id = this.props.geneId;
+    const annotations = this.state.annotations;
+    const gene_id = this.state.geneId;
+    const term_id = this.state.termId;
     console.log('annotation table: ', annotations);
 
     //debugger;
@@ -40,8 +60,9 @@ class DiseaseAnnotationTable extends Component {
           associationType: result.associationType
         }));
       const geneIdParams = annotations.data.map(g => `geneID=${g.gene.id}`).join('&');
-      const downloadUrl = `/api/expression/download?termID=${gene_id}&${geneIdParams}`;
-      console.log('ANNOATATION IS VALID: ', annotations);
+      const downloadUrl = '/api/disease/download?' + (term_id ? 'termID=' + term_id : '') + '&' + geneIdParams;
+      console.log('ANNOATATION IS VALID: ', downloadUrl);
+        
       return (
         <div>
           {(annotations) ?
@@ -67,7 +88,6 @@ class DiseaseAnnotationTable extends Component {
 
 DiseaseAnnotationTable.propTypes = {
   annotations: PropTypes.object,
-  dispatch: PropTypes.func,
   geneId: PropTypes.string.isRequired,
   genes: PropTypes.array,
   onUpdate: PropTypes.func,

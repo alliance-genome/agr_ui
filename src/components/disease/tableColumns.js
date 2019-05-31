@@ -87,7 +87,7 @@ let columns = [
 const getColumns = (genesData) => {
   genesData = genesData || [];
   columns = columns.map((item) => {
-    if (item.dataField == 'gene' || item.dataField == 'species' || item) {
+    if (item.dataField == 'gene' || item.dataField == 'species') {
       item.hidden = genesData.length < 2 ? true : false;
     }
     return item;

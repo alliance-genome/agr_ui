@@ -105,21 +105,24 @@ export const fetchAssociationsFailure = function (error) {
   };
 };
 
-export const fetchDiseaseAnnotation = function(genes, termId=undefined){
+export const fetchDiseaseAnnotation = function(genes, termId=undefined, opts){
   return (dispatch) => {
     let qString =  '?';
     if(genes.length > 0){
-      qString += `${genes}`;
+      qString += genes.join('&');
       if (termId) {
         qString += `&termID=${termId}`;
       }
     }
+    console.log('qstring:', qString);
+
+    const tableQuery = buildTableQueryString(opts);
 
     dispatch({
       type: FETCH_DISEASE_ANNOTATIONS
     });
     return fetchData(
-      `/api/disease${qString}`)
+      `/api/disease${qString}&${tableQuery}`)
       .then((data) => dispatch(fetchDiseaseAnnotationSuccess(data)))
       .catch((error) => dispatch(fetchDiseaseAnnotationFailure(error)));
   };
