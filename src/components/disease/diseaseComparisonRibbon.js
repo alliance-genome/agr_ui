@@ -96,17 +96,17 @@ class DiseaseComparisonRibbon extends Component {
   onTableUpdate(opts){
     const { dispatch } = this.props;
     let geneIdList = this.getGeneListForDispatch();
-    console.log('onTableUpdate (opts): ', opts);
-    console.log('onTableUpdate: ', geneIdList);
+    // console.log('onTableUpdate (opts): ', opts);
+    // console.log('onTableUpdate: ', geneIdList);
 
     if (this.state.selectedDisease.type == 'GlobalAll'){
       dispatch(fetchDiseaseAnnotation(geneIdList, undefined, opts)).then(data => {
-        console.log('onTableUpdate::retrieve: ', data);
+        // console.log('onTableUpdate::retrieve: ', data);
       });
     }
     else{
       dispatch(fetchDiseaseAnnotation(geneIdList, this.state.selectedDisease.id, opts)).then(data => {
-        console.log('onTableUpdate::retrieve: ', data);
+        // console.log('onTableUpdate::retrieve: ', data);
       });
     }
 
@@ -161,13 +161,20 @@ class DiseaseComparisonRibbon extends Component {
 
   render(){
     const { orthology, geneId, diseaseAnnotations } = this.props;
-    const { selectedOrthologs, stringency } = this.state;
     const filteredOrthology = (orthology.data || [])
       .filter(byNotHuman)
-      .filter(byStringency(stringency))
+      .filter(byStringency(this.state.stringency))
       .sort(compareBySpeciesThenAlphabetical);
-    console.log('d_annotations: ', diseaseAnnotations);
-    console.log(this.state);
+
+    var genes = undefined;
+    if(this.state.summary.subjects) {
+      genes = [];
+      for(var sub of this.state.summary.subjects) {
+        genes.push(sub.id);
+      }
+    }
+
+    console.log('DCR::render: ', this.state);
     return (
       <div>
         <div className='pb-4'>
@@ -178,7 +185,7 @@ class DiseaseComparisonRibbon extends Component {
               </HelpPopup>
             </span>
             <b>Compare to ortholog genes</b>
-            <StringencySelection level={stringency} onChange={s => this.setState({stringency: s})} />
+            <StringencySelection level={this.state.stringency} onChange={s => this.setState({stringency: s})} />
             <div className='d-flex align-items-baseline'>
               <div className='flex-grow-1'>
                 <Select
@@ -190,7 +197,7 @@ class DiseaseComparisonRibbon extends Component {
                   onChange={this.onOrthologyChange}
                   options={filteredOrthology}
                   placeholder='Select orthologs...'
-                  value={selectedOrthologs}
+                  value={this.state.selectedOrthologs}
                 />
               </div>
               <span className='px-2'>or</span>
@@ -220,13 +227,13 @@ class DiseaseComparisonRibbon extends Component {
               : ''
           }
         </div>
-        {/* <button onClick={this.testButton.bind(this)}>Test Button</button> */}
 
         <div>
           {(diseaseAnnotations.data.length > 0) ?
             <DiseaseAnnotationTable
               annotations={diseaseAnnotations}
               geneId={geneId}
+              genes={genes}
               onUpdate={this.onTableUpdate}
               termId={this.state.selectedDisease}
             />: ''
@@ -236,11 +243,6 @@ class DiseaseComparisonRibbon extends Component {
       </div>
     );
   }
-
-  // testButton() {
-  //   // console.log('Test button activated');
-  //   this.handleLocalStateChangeSummary.call();
-  // }
 
 }
 
