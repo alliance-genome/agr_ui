@@ -13,8 +13,8 @@ import {
 
 let columns = [
   {
-    dataField: 'id',
-    text: 'id',
+    dataField: 'key',
+    text: 'key',
     hidden: true
   },
   {
@@ -31,14 +31,14 @@ let columns = [
     filterable: true,
     headerStyle: {width: '100px'},
     formatter: DiseaseNameCell,
-    hidden: false
+    hidden: true
   },
   {
     dataField: 'geneticEntity',
     text: 'Genetic Entity',
     filterable: true,
     headerStyle: {width: '105px'},
-    hidden: false
+    hidden: true
 
   },
   {
