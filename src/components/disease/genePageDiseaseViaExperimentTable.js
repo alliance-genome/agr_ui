@@ -7,7 +7,8 @@ import {
   GeneticEntityCell,
   EvidenceCodesCell,
   ReferenceCell,
-  RemoteDataTable
+  RemoteDataTable,
+  FilterSets
 } from '../../components/dataTable';
 import { selectDiseaseViaEmpirical } from '../../selectors/geneSelectors';
 import { fetchDiseaseViaEmpirical } from '../../actions/genes';
@@ -25,7 +26,7 @@ class GenePageDiseaseTable extends Component {
     if (!summary) {
       dispatch(fetchDiseaseSummary(geneId));
     }
-  }    
+  }
 
   loadData(opts) {
     const { dispatch, geneId } = this.props;
@@ -74,7 +75,7 @@ class GenePageDiseaseTable extends Component {
       {
         dataField: 'geneticEntityType',
         text: 'Genetic Entity Type',
-        filterable: ['allele', 'gene'],
+        filterable: FilterSets.geneticEntityTypes,
         headerStyle: {width: '110px'},
       },
       {
@@ -114,16 +115,16 @@ class GenePageDiseaseTable extends Component {
     return (
       <div>
         <div style={{ display: 'inline-block' }}>
-          { 
-            (this.props.summary && this.props.summary.data) ? 
-              <GenericRibbon  
+          {
+            (this.props.summary && this.props.summary.data) ?
+              <GenericRibbon
                 categories={this.props.summary.data.categories}
                 classLabels={['disease','diseases']}
                 colorBy={COLOR_BY.CLASS_COUNT}
                 itemClick={this.diseaseGroupClicked.bind(this)}
                 subjectLabelPosition={POSITION.NONE}
-                subjects={this.props.summary.data.subjects} 
-              />        
+                subjects={this.props.summary.data.subjects}
+              />
               : ''
           }
         </div>
