@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { UncontrolledButtonDropdown, DropdownMenu, DropdownToggle } from 'reactstrap';
-import { List } from 'immutable';
 
 import style from './style.scss';
 
@@ -14,7 +13,7 @@ class ColumnHeader extends React.Component {
         boundariesElement: 'window',
       }
     };
-    const active = List.isList(filter) ? !filter.isEmpty() : filter;
+    const active = Array.isArray(filter) ? filter.length > 0 : filter;
     return (
       <div className={classes}>
         {column.text}
@@ -35,7 +34,7 @@ class ColumnHeader extends React.Component {
 
 ColumnHeader.propTypes = {
   column: PropTypes.object,
-  filter: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(List)]),
+  filter: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   filterElement: PropTypes.node,
 };
 

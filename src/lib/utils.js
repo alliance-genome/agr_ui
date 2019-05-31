@@ -1,6 +1,5 @@
 import { STRINGENCY_HIGH, STRINGENCY_MED } from '../components/orthology/constants';
 import { DEFAULT_TABLE_STATE, TAXON_IDS } from '../constants';
-import { List } from 'immutable';
 
 export function makeId(string) {
   return string.toLowerCase().replace(/[^A-Za-z0-9]/g, '-');
@@ -57,13 +56,13 @@ export function buildTableQueryString(options) {
   const queryParams = [];
   Object.entries(options.filters || {})
     .forEach(([field, filter]) => {
-      let value = List.isList(filter.filterVal) ? filter.filterVal.join('|') : filter.filterVal;
+      let value = Array.isArray(filter.filterVal) ? filter.filterVal.join('|') : filter.filterVal;
 
       // TODO: should be handled by the API
       if (field === 'associationType') {
         value = value.replace(/ /g, '_');
       }
-      
+
       queryParams.push({
         name: `filter.${field}`,
         value: encodeURIComponent(value)
