@@ -34,3 +34,8 @@ export const selectAssociations = createSelector(
   [selectDiseaseDomain],
   (disease) => disease.get('associations').toJS()
 );
+
+export const selectDiseaseAnnotation = createSelector(
+  [selectDiseaseDomain],
+  (disease) => disease.get('diseaseAnnotations').toJS()
+);

@@ -1,7 +1,4 @@
-import GenePageDiseaseViaExperimentTable from './genePageDiseaseViaExperimentTable';
-import GenePageDiseaseViaOrthologyTable from './genePageDiseaseViaOrthologyTable';
-
+import DiseaseComparisonRibbon from './diseaseComparisonRibbon';
 export {
-  GenePageDiseaseViaExperimentTable,
-  GenePageDiseaseViaOrthologyTable,
+  DiseaseComparisonRibbon
 };
