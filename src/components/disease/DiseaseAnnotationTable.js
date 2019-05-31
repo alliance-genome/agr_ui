@@ -31,7 +31,7 @@ class DiseaseAnnotationTable extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps){
+  UNSAFE_componentWillReceiveProps(nextProps){
     // console.log("GRSS::componentWillReceiveProps: " , nextProps);
     this.setState({
       annotations: nextProps.annotations,
@@ -51,7 +51,7 @@ class DiseaseAnnotationTable extends Component {
     // console.log('DAT::render: ', this.state);
 
     if(!this.state.genes) {
-      return(<div></div>);
+      return('');
     }
 
     let columns = [
