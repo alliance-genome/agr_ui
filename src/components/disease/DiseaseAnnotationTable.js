@@ -1,8 +1,16 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { getColumns } from './tableColumns';
 import { RemoteDataTable} from '../dataTable';
+
+import {
+  SpeciesCell,
+  GeneCell,
+  ReferenceCell,
+  DiseaseNameCell,
+  EvidenceCodesCell
+} from '../dataTable';
+
 /* eslint-disable no-debugger */
 /* eslint-disable no-debugger */
 
@@ -39,29 +47,116 @@ class DiseaseAnnotationTable extends Component {
     /* eslint-disable no-unused-vars */
     const annotations = this.state.annotations;
     const gene_id = this.state.geneId;
-    const term_id = this.state.termId;
-    console.log('annotation table: ', annotations);
+    const diseaseTerm = this.state.termId;
+    console.log('DAT::render: ', this.state);
 
-    //debugger;
-    let columns = [];
+    if(!this.state.genes) {
+      return(<div></div>);
+    }
+
+
+    let columns = [
+      {
+        dataField: 'key',
+        text: 'key',
+        hidden: true,
+      },
+      {
+        dataField: 'species',
+        text: 'Species',
+        filterable: true,
+        headerStyle: {width: '100px'},
+        formatter: SpeciesCell,
+        hidden: this.state.genes.length < 2
+      },
+      {
+        dataField: 'gene',
+        text: 'Gene',
+        formatter: GeneCell,
+        filterable: true,
+        headerStyle: {width: '75px'},
+        hidden: this.state.genes.length < 2
+      },
+      {
+        dataField: 'disease',
+        text: 'Disease',
+        filterable: true,
+        headerStyle: {width: '100px'},
+        formatter: DiseaseNameCell,
+        hidden: false
+      },
+      {
+        dataField: 'geneticEntity',
+        text: 'Genetic Entity',
+        filterable: true,
+        headerStyle: {width: '105px'},
+        hidden: true
+    
+      },
+      {
+        dataField: 'associationType',
+        text: 'Association',
+        formatter: (type) => type.replace(/_/g, ' '),
+        filterable: true,
+        headerStyle: {width: '120px'},
+        hidden: false
+      },
+      {
+        dataField: 'evidenceCode',
+        text: 'Evidence',
+        filterable: true,
+        headerStyle: {width: '100px'},
+        formatter: EvidenceCodesCell,
+        hidden: false
+    
+      },
+      {
+        dataField: 'source',
+        text: 'Source',
+        filterable: true,
+        headerStyle: {width: '100px'},
+        hidden: false
+    
+      },
+      {
+        dataField: 'based_on',
+        text: 'Based On',
+        filterable: true,
+        headerStyle: {width: '100px'},
+        hidden: false
+      },
+      {
+        dataField: 'reference',
+        text: 'References',
+        filterable: true,
+        headerStyle: {width: '150px'},
+        formatter: ReferenceCell,
+        hidden: false
+      }
+    
+    ];
+    
     let data = [];
     if (annotations.data.length > 0) {
-      columns = getColumns(annotations.data);
-      console.log('columns: ', columns);
       data = annotations.data
         .map((result, index) => ({
           key: `disease_row_${index}`,
+          evidenceCode : result.evidenceCodes,
           gene: result.gene,
           species: result.gene.species,
           based_on: result.gene.symbol,
           reference: result.publications,
           disease: result.disease,
           geneticEntityType: result.geneticEntityType,
+          source : result.source.name,
           associationType: result.associationType
         }));
-      const geneIdParams = annotations.data.map(g => `geneID=${g.gene.id}`).join('&');
-      const downloadUrl = '/api/disease/download?' + (term_id ? 'termID=' + term_id : '') + '&' + geneIdParams;
-      console.log('ANNOATATION IS VALID: ', downloadUrl);
+
+      var downloadUrl = undefined;
+      if(this.state.genes) {
+        const geneIdParams = this.state.genes.map(g => `geneID=${g}`).join('&');
+        downloadUrl = '/api/disease/download?' + geneIdParams + (diseaseTerm.type == 'GlobalAll' ? '' : '&termID=' + diseaseTerm.id);
+      }
         
       return (
         <div>

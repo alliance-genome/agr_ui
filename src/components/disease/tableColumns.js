@@ -26,12 +26,20 @@ let columns = [
     hidden: false
   },
   {
+    dataField: 'gene',
+    text: 'Gene',
+    formatter: GeneCell,
+    filterable: true,
+    headerStyle: {width: '75px'},
+    hidden: false
+  },
+  {
     dataField: 'disease',
     text: 'Disease',
     filterable: true,
     headerStyle: {width: '100px'},
     formatter: DiseaseNameCell,
-    hidden: true
+    hidden: false
   },
   {
     dataField: 'geneticEntity',
@@ -42,8 +50,16 @@ let columns = [
 
   },
   {
+    dataField: 'associationType',
+    text: 'Association',
+    formatter: (type) => type.replace(/_/g, ' '),
+    filterable: true,
+    headerStyle: {width: '120px'},
+    hidden: false
+  },
+  {
     dataField: 'evidenceCode',
-    text: 'Evidence Code',
+    text: 'Evidence',
     filterable: true,
     headerStyle: {width: '100px'},
     formatter: EvidenceCodesCell,
@@ -51,26 +67,18 @@ let columns = [
 
   },
   {
-    dataField: 'associationType',
-    text: 'Association Type',
-    formatter: (type) => type.replace(/_/g, ' '),
+    dataField: 'source',
+    text: 'Source',
     filterable: true,
     headerStyle: {width: '100px'},
     hidden: false
+
   },
   {
     dataField: 'based_on',
     text: 'Based On',
     filterable: true,
     headerStyle: {width: '100px'},
-    hidden: false
-  },
-  {
-    dataField: 'gene',
-    text: 'Gene',
-    formatter: GeneCell,
-    filterable: true,
-    headerStyle: {width: '75px'},
     hidden: false
   },
   {
