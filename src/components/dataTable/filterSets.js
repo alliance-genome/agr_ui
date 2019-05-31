@@ -1,14 +1,14 @@
 export default {
   moleculeTypes: [
-    'deoxyribonucleic acid',
-    'double stranded deoxyribonucleic acid',
-    'double stranded ribonucleic acid',
+    'DNA',
+    'dsDNA',
+    'dsRNA',
     'gene',
-    'messenger rna',
+    'mRNA',
     'nucleic acid',
     'peptide',
     'protein',
-    'ribonucleic acid',
+    'RNA',
   ],
   species: [
     'Homo sapiens',
