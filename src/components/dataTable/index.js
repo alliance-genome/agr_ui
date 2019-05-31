@@ -8,8 +8,8 @@ import AssayCell from './assayCell';
 import SourceCell from './sourceCell';
 
 import CellTooltip from './CellTooltip';
-
 import RemoteDataTable from './remoteDataTable';
+import FilterSets from './filterSets';
 
 import TableSummary from './tableSummary';
 
@@ -24,5 +24,6 @@ export {
   AssayCell,
   SpeciesCell,
   SourceCell,
+  FilterSets,
   TableSummary
 };
