@@ -117,7 +117,8 @@ class GenePageDiseaseTable extends Component {
           { 
             (this.props.summary && this.props.summary.data) ? 
               <GenericRibbon  
-                categories={this.props.summary.data.categories} 
+                categories={this.props.summary.data.categories}
+                classLabels={['disease','diseases']}
                 colorBy={COLOR_BY.CLASS_COUNT}
                 itemClick={this.diseaseGroupClicked.bind(this)}
                 subjectLabelPosition={POSITION.NONE}
@@ -134,6 +135,12 @@ class GenePageDiseaseTable extends Component {
           loading={diseases.loading}
           onUpdate={this.loadData.bind(this)}
           sortOptions={sortOptions}
+          summaryProps={
+            diseases.supplementalData ? {
+              ...diseases.supplementalData.annotationSummary,
+              entityType: 'disease'
+            } : null
+          }
           totalRows={diseases.total}
         />
       </div>

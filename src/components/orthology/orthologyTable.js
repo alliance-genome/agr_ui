@@ -18,10 +18,14 @@ const columns = [
   {name: 'Species'},
   {name: 'Gene symbol'},
   {name: 'Count'},
-  {name: 'Best', help: 'Within this species, this gene is called as an ortholog of the input gene by the highest number of algorithms.'},
+  {name: 'Best', help: <span>Within this species, this gene is called as an ortholog of the input gene by the highest number of algorithms.<br/> In specific cases, ZFIN curators have asserted reliable orthology to the gene called by the second highest number of algorithms. These are denoted <strong>Yes *</strong>.</span>},
   {name: 'Best reverse', help: 'Within the species of the input gene, the input gene is called as an ortholog of this gene by the highest number of algorithms.'},
   {name: 'Method'}
 ];
+
+export function isBest(value = '') {
+  return typeof value === 'boolean' ? value : value.match(/yes/i);
+}
 
 class OrthologyTable extends Component {
 
@@ -67,11 +71,16 @@ class OrthologyTable extends Component {
                   </td>
                   <td>{`${scoreNumerator} of ${scoreDemominator}`}</td>
                   <BooleanCell
-                    isTrueFunc={(value) => value === 'Yes'}
+                    isTrueFunc={isBest}
+                    render={
+                      orthData.best === 'Yes_Adjusted' ?
+                        () => 'Yes *' :
+                        null
+                    }
                     value={orthData.best}
                   />
                   <BooleanCell
-                    isTrueFunc={(value) => value === 'Yes'}
+                    isTrueFunc={isBest}
                     value={orthData.bestReverse}
                   />
                   <MethodCell
@@ -102,8 +111,14 @@ OrthologyTable.propTypes = {
       predictionMethodsMatched: PropTypes.arrayOf(PropTypes.string),
       predictionMethodsNotCalled: PropTypes.arrayOf(PropTypes.string),
       predictionMethodsNotMatched: PropTypes.arrayOf(PropTypes.string),
-      best: PropTypes.bool,
-      bestReverse: PropTypes.bool,
+      best: PropTypes.oneOfType([
+        PropTypes.bool,
+        PropTypes.string
+      ]),
+      bestReverse: PropTypes.oneOfType([
+        PropTypes.bool,
+        PropTypes.string
+      ]),
     })
   )
 };

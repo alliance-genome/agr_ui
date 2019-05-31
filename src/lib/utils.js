@@ -53,35 +53,31 @@ export function buildTableQueryString(options) {
   if (!options) {
     options = DEFAULT_TABLE_STATE;
   }
-  const filterQueries = options.filters ? '&' + Object.entries(options.filters)
-    .map(([field, filter]) => {
+  const queryParams = [];
+  Object.entries(options.filters || {})
+    .forEach(([field, filter]) => {
       const value = Array.isArray(filter.filterVal) ? filter.filterVal.join('|') : filter.filterVal;
-      return `filter.${field}=${encodeURIComponent(value)}`;
-    })
-    .join('&') : '';
-  const sortQuery = options.sort ? `&sortBy=${options.sort}` : '';
-  return `page=${options.page}&limit=${options.sizePerPage}${sortQuery}${filterQueries}`;
+      queryParams.push({
+        name: `filter.${field}`,
+        value: encodeURIComponent(value)
+      });
+    });
+  queryParams.push({name: 'page', value: options.page});
+  queryParams.push({name: 'limit', value: options.sizePerPage});
+  queryParams.push({name: 'sortBy', value: options.sort});
+  return queryParams
+    .filter(qp => !!qp.value)
+    .map(qp => `${qp.name}=${qp.value}`)
+    .join('&');
 }
 
 function isHighStringency(orthology) {
   return orthology.stringencyFilter === 'stringent';
-  // return (
-  //   orthology.predictionMethodsMatched.indexOf('ZFIN') > -1 ||
-  //   orthology.predictionMethodsMatched.indexOf('HGNC') > -1 ||
-  //   (orthology.predictionMethodsMatched.length > 2 && (orthology.best || orthology.bestReverse)) ||
-  //   (orthology.predictionMethodsMatched.length === 2 && orthology.best && orthology.bestReverse)
-  // );
 }
 
 function isModerateStringency(orthology) {
   return orthology.stringencyFilter === 'stringent' ||
     orthology.stringencyFilter === 'moderate';
-  // return (
-  //   orthology.predictionMethodsMatched.indexOf('ZFIN') > -1 ||
-  //   orthology.predictionMethodsMatched.indexOf('HGNC') > -1 ||
-  //   orthology.predictionMethodsMatched.length > 2 ||
-  //   (orthology.predictionMethodsMatched.length === 2 && orthology.best && orthology.bestReverse)
-  // );
 }
 
 export function orthologyMeetsStringency(orthology, stringency) {

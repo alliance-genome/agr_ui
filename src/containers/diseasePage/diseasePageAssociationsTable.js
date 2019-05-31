@@ -8,6 +8,7 @@ import { fetchAssociations } from '../../actions/disease';
 import { selectAssociations } from '../../selectors/diseaseSelectors';
 
 import ExternalLink from '../../components/externalLink';
+import { CollapsibleList } from '../../components/collapsibleList';
 import {
   RemoteDataTable,
   DiseaseNameCell,
@@ -15,6 +16,7 @@ import {
   GeneticEntityCell,
   EvidenceCodesCell
 } from '../../components/dataTable';
+import { shortSpeciesName } from '../../lib/utils';
 
 class DiseasePageAssociationsTable extends Component {
   loadAssociations(opts) {
@@ -74,10 +76,23 @@ class DiseasePageAssociationsTable extends Component {
       },
       {
         dataField: 'evidenceCode',
-        text: 'Evidence Code',
+        text: 'Evidence',
         formatter: EvidenceCodesCell,
         filterable: true,
-        headerStyle: {width: '75px'},
+        headerStyle: {width: '95px'},
+      },
+      {
+        dataField: 'basedOnGeneSymbol',
+        text: 'Based On',
+        formatter: genes => genes && (
+          <CollapsibleList collapsedSize={genes.length}>
+            {genes.map(gene => (<Link key={gene.id} to={`/gene/${gene.id}`}>
+              {gene.symbol} ({shortSpeciesName(gene.species.taxonId)})
+            </Link>))}
+          </CollapsibleList>
+        ),
+        filterable: true,
+        headerStyle: {width: '120px'},
       },
       {
         dataField: 'source',
@@ -106,7 +121,23 @@ class DiseasePageAssociationsTable extends Component {
       evidenceCode: association.evidenceCodes,
       source: association.source,
       reference: association.publications,
+      basedOnGeneSymbol: association.orthologyGenes,
     }));
+
+    const sortOptions = [
+      {
+        value: 'disease',
+        label: 'Disease',
+      },
+      {
+        value: 'gene',
+        label: 'Gene',
+      },
+      {
+        value: 'species',
+        label: 'Species',
+      },
+    ];
 
     return (
       <div>
@@ -117,6 +148,7 @@ class DiseasePageAssociationsTable extends Component {
           keyField='id'
           loading={associations.loading}
           onUpdate={this.loadAssociations.bind(this)}
+          sortOptions={sortOptions}
           totalRows={associations.total}
         />
       </div>

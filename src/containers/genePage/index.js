@@ -165,6 +165,11 @@ class GenePage extends Component {
       }
     ];
 
+    // TODO: this name should come directly from the API
+    if (data.crossReferences['expression-atlas']) {
+      data.crossReferences['expression-atlas'].name = 'Expression Atlas';
+    }
+
     return (
       <DataPage>
         <HeadMetaTags jsonLd={jsonLd} title={title} />
@@ -226,7 +231,7 @@ class GenePage extends Component {
             <ExpressionLinks
               allExpressionCrossReference={data.crossReferences.expression}
               geneDataProvider={data.dataProvider}
-              otherExpressionCrossReferences={[data.crossReferences.other_expression]}
+              otherExpressionCrossReferences={[data.crossReferences.other_expression, data.crossReferences['expression-atlas']]}
               spellCrossReference={data.crossReferences.spell}
               wildtypeExpressionCrossReference={data.crossReferences.wild_type_expression}
             />

@@ -60,6 +60,14 @@ class PhenotypeTable extends React.Component {
         filterable: true,
       },
     ];
+
+    const sortOptions = [
+      {
+        value: 'geneticEntity',
+        label: 'Genetic Entity',
+      }
+    ];
+
     return (
       <RemoteDataTable
         columns={columns}
@@ -68,6 +76,13 @@ class PhenotypeTable extends React.Component {
         keyField='id'
         loading={phenotypes.loading}
         onUpdate={this.loadPhenotypes.bind(this)}
+        sortOptions={sortOptions}
+        summaryProps={
+          phenotypes.supplementalData ? {
+            ...phenotypes.supplementalData.annotationSummary,
+            entityType: 'phenotype'
+          } : null
+        }
         totalRows={phenotypes.total}
       />
     );
