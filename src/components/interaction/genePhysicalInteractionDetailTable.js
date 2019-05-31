@@ -166,13 +166,17 @@ class GenePhysicalInteractionDetailTable extends React.Component {
         label: 'Interactor gene',
       },
       {
+        value: 'interactorSpecies',
+        label: 'Interactor species',
+      },
+      {
+        value: 'interactorMoleculeType',
+        label: 'Interactor molecule type',
+      },
+      {
         value: 'interactorDetectionMethod',
         label: 'Detection method',
       },
-      {
-        value: 'interactorSpecies',
-        label: 'Interactor species',
-      }
     ];
 
     return (
