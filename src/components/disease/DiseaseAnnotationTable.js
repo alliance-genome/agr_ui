@@ -25,9 +25,10 @@ class DiseaseAnnotationTable extends Component {
     let data = [];
     if (annotations.data.length > 0) {
       columns = getColumns(annotations.data);
+      console.log('columns: ', columns);
       data = annotations.data
-        .map(result => ({
-          id: `${result.disease.id}`,
+        .map((result, index) => ({
+          key: `${result.disease.id}_${index}`,
           gene: result.gene,
           species: result.gene.species,
           based_on: result.gene.symbol,
@@ -40,17 +41,20 @@ class DiseaseAnnotationTable extends Component {
       const downloadUrl = `/api/expression/download?termID=${gene_id}&${geneIdParams}`;
       console.log('ANNOATATION IS VALID: ', annotations);
       return (
-
-        <RemoteDataTable
-          columns={columns}
-          data={data || []}
-          downloadUrl={downloadUrl}
-          keyField='id'
-          loading={annotations.loading}
-          onUpdate={this.props.onUpdate}
-          ref={this.tableRef}
-          totalRows={annotations.data.total? annotations.data.total: 0}
-        />
+        <div>
+          {(annotations) ?
+            <RemoteDataTable
+              columns={columns}
+              data={data || []}
+              downloadUrl={downloadUrl}
+              keyField='id'
+              loading={annotations.loading}
+              onUpdate={this.props.onUpdate}
+              ref={this.tableRef}
+              totalRows={annotations.data.length > 0 ? annotations.data.total: 0}
+            />: ''
+          }
+        </div>
       );
     }
     else{
