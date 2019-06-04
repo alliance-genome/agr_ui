@@ -45,7 +45,7 @@ class DiseasePageAssociationsTable extends Component {
         dataField: 'species',
         text: 'Species',
         formatter: (species) => <i>{species}</i>,
-        filterable: true,
+        filterable: FilterSets.species,
         headerStyle: {width: '105px'},
       },
       {
