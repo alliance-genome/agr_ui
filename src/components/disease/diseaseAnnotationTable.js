@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { RemoteDataTable} from '../dataTable';
+import hash from 'object-hash';
 
 import {
   SpeciesCell,
@@ -84,7 +85,7 @@ export class DiseaseAnnotationTable extends Component {
         filterable: true,
         headerStyle: {width: '105px'},
         hidden: true
-    
+
       },
       {
         dataField: 'associationType',
@@ -101,7 +102,7 @@ export class DiseaseAnnotationTable extends Component {
         headerStyle: {width: '100px'},
         formatter: EvidenceCodesCell,
         hidden: false
-    
+
       },
       {
         dataField: 'source',
@@ -109,7 +110,7 @@ export class DiseaseAnnotationTable extends Component {
         filterable: true,
         headerStyle: {width: '100px'},
         hidden: false
-    
+
       },
       {
         dataField: 'based_on',
@@ -126,14 +127,14 @@ export class DiseaseAnnotationTable extends Component {
         formatter: ReferenceCell,
         hidden: false
       }
-    
+
     ];
-    
+
     let data = [];
     if (annotations.data.length > 0) {
       data = annotations.data
-        .map((result, index) => ({
-          key: `disease_row_${index}`,
+        .map(result => ({
+          key: hash(result),
           evidenceCode : result.evidenceCodes,
           gene: result.gene,
           species: result.gene.species,
