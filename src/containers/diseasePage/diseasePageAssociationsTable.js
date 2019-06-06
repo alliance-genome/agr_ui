@@ -15,7 +15,8 @@ import {
   ReferenceCell,
   GeneticEntityCell,
   EvidenceCodesCell,
-  FilterSets
+  FilterSets,
+  GeneCell
 } from '../../components/dataTable';
 import { shortSpeciesName } from '../../lib/utils';
 
@@ -37,9 +38,9 @@ class DiseasePageAssociationsTable extends Component {
       {
         dataField: 'geneName',
         text: 'Gene',
-        formatter: (gene) => <Link to={'/gene/' + gene.id}>{gene.symbol}</Link>,
+        formatter: GeneCell,
         filterable: true,
-        headerStyle: {width: '90px'},
+        headerStyle: {width: '120px'},
       },
       {
         dataField: 'species',
