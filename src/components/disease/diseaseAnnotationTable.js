@@ -1,8 +1,9 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { RemoteDataTable} from '../dataTable';
 import hash from 'object-hash';
+
+import { RemoteDataTable, FilterSets} from '../dataTable';
 
 import {
   SpeciesCell,
@@ -43,11 +44,21 @@ export class DiseaseAnnotationTable extends Component {
 
   render() {
     const annotations = this.state.annotations;
-    const diseaseTerm = this.state.term;
+
+    if(!this.state.term) {
+      return('');
+    }
 
     if(!this.state.genes) {
       return('');
     }
+
+    if(!annotations || !annotations.data || annotations.data.length == 0) {
+      return(
+        <div><i>No data available for {this.state.term.label}</i></div>
+      );
+    }
+
 
     let columns = [
       {
@@ -58,7 +69,7 @@ export class DiseaseAnnotationTable extends Component {
       {
         dataField: 'species',
         text: 'Species',
-        filterable: true,
+        filterable: FilterSets.species,
         headerStyle: {width: '100px'},
         formatter: SpeciesCell,
         hidden: this.state.genes.length < 2
@@ -91,7 +102,7 @@ export class DiseaseAnnotationTable extends Component {
         dataField: 'associationType',
         text: 'Association',
         formatter: (type) => type.replace(/_/g, ' '),
-        filterable: true,
+        filterable: FilterSets.associationTypes,
         headerStyle: {width: '120px'},
         hidden: false
       },
@@ -146,11 +157,8 @@ export class DiseaseAnnotationTable extends Component {
           associationType: result.associationType
         }));
 
-      var downloadUrl = undefined;
-      if(this.state.genes) {
-        const geneIdParams = this.state.genes.map(g => `geneID=${g}`).join('&');
-        downloadUrl = '/api/disease/download?' + geneIdParams + (diseaseTerm.type == 'GlobalAll' ? '' : '&termID=' + diseaseTerm.id);
-      }
+      const geneIdParams = this.state.genes.map(g => `geneID=${g}`).join('&');
+      const downloadUrl = '/api/disease/download?' + geneIdParams + (this.state.term.type == 'GlobalAll' ? '' : '&termID=' + this.state.term.id);
 
       return (
         <div style={{marginTop : '20px'}}>
