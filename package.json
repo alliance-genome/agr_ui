@@ -13,7 +13,7 @@
   "private": true,
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
-    "@geneontology/ribbon": "^1.9.28",
+    "@geneontology/ribbon": "^1.9.30",
     "abortcontroller-polyfill": "^1.2.5",
     "bootstrap": "4.3.1",
     "core-js": "^2.6.5",
