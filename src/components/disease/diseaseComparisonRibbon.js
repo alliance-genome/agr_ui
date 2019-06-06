@@ -55,7 +55,13 @@ class DiseaseComparisonRibbon extends Component {
       stringency: STRINGENCY_HIGH,
       selectedDisease : undefined,
       selectedOrthologs: [],
-      summary : {}
+      summary : {},
+      selected : {
+        subject : null,
+        group : null,
+        data : null,
+        ready : false,
+      }
     };
     this.onDiseaseGroupClicked = this.onDiseaseGroupClicked.bind(this);
     this.handleOrthologyChange = this.handleOrthologyChange.bind(this);
@@ -120,6 +126,14 @@ class DiseaseComparisonRibbon extends Component {
       dispatch(fetchDiseaseAnnotation(geneIdList, disease.id));
     }
     this.setState({ selectedDisease : disease });
+
+    this.setState({ selected : {
+      subject : gene,
+      group : disease,
+      data : null,
+      ready : false
+    }});
+
   }
 
 
@@ -144,18 +158,28 @@ class DiseaseComparisonRibbon extends Component {
   }
   
 
+  hasAnnotations() {
+    for(var sub of this.state.summary.subjects) {
+      if(sub.nb_annotations > 0)
+        return true;
+    }
+    return false;
+  }
+
   render(){
     const { orthology, geneId } = this.props;
     const filteredOrthology = (orthology.data || [])
       .filter(byStringency(this.state.stringency))
       .sort(compareBySpeciesThenAlphabetical);
 
+    if(!this.state.summary || !this.state.summary.subjects) {
+      return('');
+    }
+
     var genes = undefined;
-    if(this.state.summary.subjects) {
-      genes = [];
-      for(var sub of this.state.summary.subjects) {
-        genes.push(sub.id);
-      }
+    genes = [];
+    for(var sub of this.state.summary.subjects) {
+      genes.push(sub.id);
     }
 
     return (
@@ -201,9 +225,11 @@ class DiseaseComparisonRibbon extends Component {
             (this.state.summary && this.state.summary.subjects) ?
               <GenericRibbon
                 categories={this.state.summary.categories}
+                selected={this.state.selected}
                 colorBy={COLOR_BY.CLASS_COUNT}
                 hideFirstSubjectLabel
                 itemClick={this.onDiseaseGroupClicked}
+                subjectBaseURL={'/gene/'}
                 subjectLabelPosition={POSITION.LEFT}
                 subjects={this.state.summary.subjects}
               />
@@ -212,14 +238,15 @@ class DiseaseComparisonRibbon extends Component {
         </div>
 
         <div>
-          {(this.props.diseaseAnnotations.data.length > 0) ?
+          {(this.hasAnnotations()) ?
             <DiseaseAnnotationTable
               annotations={this.props.diseaseAnnotations}
               geneId={geneId}
               genes={genes}
               onUpdate={this.handleTableUpdate}
               term={this.state.selectedDisease}
-            />: ''
+            />: <div><i>No data available</i></div>
+
           }
         </div>
 
