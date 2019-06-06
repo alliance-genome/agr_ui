@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { RemoteDataTable} from '../dataTable';
+import { RemoteDataTable, FilterSets} from '../dataTable';
 
 import {
   SpeciesCell,
@@ -67,7 +67,7 @@ export class DiseaseAnnotationTable extends Component {
       {
         dataField: 'species',
         text: 'Species',
-        filterable: true,
+        filterable: FilterSets.species,
         headerStyle: {width: '100px'},
         formatter: SpeciesCell,
         hidden: this.state.genes.length < 2
@@ -94,13 +94,13 @@ export class DiseaseAnnotationTable extends Component {
         filterable: true,
         headerStyle: {width: '105px'},
         hidden: true
-    
+
       },
       {
         dataField: 'associationType',
         text: 'Association',
         formatter: (type) => type.replace(/_/g, ' '),
-        filterable: true,
+        filterable: FilterSets.associationTypes,
         headerStyle: {width: '120px'},
         hidden: false
       },
@@ -111,7 +111,7 @@ export class DiseaseAnnotationTable extends Component {
         headerStyle: {width: '100px'},
         formatter: EvidenceCodesCell,
         hidden: false
-    
+
       },
       {
         dataField: 'source',
@@ -119,7 +119,7 @@ export class DiseaseAnnotationTable extends Component {
         filterable: true,
         headerStyle: {width: '100px'},
         hidden: false
-    
+
       },
       {
         dataField: 'based_on',
@@ -136,9 +136,9 @@ export class DiseaseAnnotationTable extends Component {
         formatter: ReferenceCell,
         hidden: false
       }
-    
+
     ];
-    
+
     let data = [];
     if (annotations.data.length > 0) {
       data = annotations.data
