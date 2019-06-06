@@ -55,7 +55,13 @@ class DiseaseComparisonRibbon extends Component {
       stringency: STRINGENCY_HIGH,
       selectedDisease : undefined,
       selectedOrthologs: [],
-      summary : {}
+      summary : {},
+      selected : {
+        subject : null,
+        group : null,
+        data : null,
+        ready : false,
+      }
     };
     this.onDiseaseGroupClicked = this.onDiseaseGroupClicked.bind(this);
     this.handleOrthologyChange = this.handleOrthologyChange.bind(this);
@@ -120,6 +126,14 @@ class DiseaseComparisonRibbon extends Component {
       dispatch(fetchDiseaseAnnotation(geneIdList, disease.id));
     }
     this.setState({ selectedDisease : disease });
+
+    this.setState({ selected : {
+      subject : gene,
+      group : disease,
+      data : null,
+      ready : false
+    }});
+
   }
 
 
@@ -211,9 +225,11 @@ class DiseaseComparisonRibbon extends Component {
             (this.state.summary && this.state.summary.subjects) ?
               <GenericRibbon
                 categories={this.state.summary.categories}
+                selected={this.state.selected}
                 colorBy={COLOR_BY.CLASS_COUNT}
                 hideFirstSubjectLabel
                 itemClick={this.onDiseaseGroupClicked}
+                subjectBaseURL={'/gene/'}
                 subjectLabelPosition={POSITION.LEFT}
                 subjects={this.state.summary.subjects}
               />
