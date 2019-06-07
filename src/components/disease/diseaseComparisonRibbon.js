@@ -105,15 +105,6 @@ class DiseaseComparisonRibbon extends Component {
         summary : data.summary
       });
     });
-
-    if(this.state.selectedDisease) {
-      if (this.state.selectedDisease.type == 'GlobalAll'){
-        dispatch(fetchDiseaseAnnotation(geneIdList));
-      }
-      else{
-        dispatch(fetchDiseaseAnnotation(geneIdList, this.state.selectedDisease.id));
-      }
-    }
   }
 
   onDiseaseGroupClicked(gene, disease) {
