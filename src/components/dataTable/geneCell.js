@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const GeneCell = (props) => {
-  const {id, symbol} = props;
+import style from './style.scss';
+
+const GeneCell = ({id, symbol}) => {
   return (
-    <Link to={'/gene/' + id}>{symbol}</Link>
+    <Link className={style.breakWords} to={'/gene/' + id}>{symbol}</Link>
   );
 };
 
