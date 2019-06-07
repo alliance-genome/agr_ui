@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
+import hash from 'object-hash';
 
 import { selectAnnotations } from '../../selectors/expressionSelectors';
 import { fetchExpressionAnnotations } from '../../actions/expression';
@@ -102,7 +103,7 @@ class AnnotationTable extends React.Component {
     ];
 
     const data = annotations && annotations.data && annotations.data.results.map(result => ({
-      key: `${result.gene.id}-${result.termName}-${result.stage ? result.stage.stageID : 'other'}-${result.assay.name}`,
+      key: hash(result),
       species: result.gene.species.name,
       gene: result.gene,
       term: result.termName,

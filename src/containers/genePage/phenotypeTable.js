@@ -2,6 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import hash from 'object-hash';
 
 import { fetchPhenotypes } from '../../actions/genes';
 import { selectPhenotypes } from '../../selectors/geneSelectors';
@@ -18,7 +19,7 @@ class PhenotypeTable extends React.Component {
 
     const data = phenotypes.data && phenotypes.data.map(record => {
       return {
-        id: `${record.geneticEntity.id}-${record.phenotype}`,
+        id: hash(record),
         termName: record.phenotype,
         geneticEntity: record.geneticEntity,
         geneticEntityType: record.geneticEntity.type,
