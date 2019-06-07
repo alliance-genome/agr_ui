@@ -1,6 +1,8 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import hash from 'object-hash';
+
 import { RemoteDataTable, FilterSets} from '../dataTable';
 
 import {
@@ -142,8 +144,8 @@ export class DiseaseAnnotationTable extends Component {
     let data = [];
     if (annotations.data.length > 0) {
       data = annotations.data
-        .map((result, index) => ({
-          key: `disease_row_${index}`,
+        .map(result => ({
+          key: hash(result),
           evidenceCode : result.evidenceCodes,
           gene: result.gene,
           species: result.gene.species,

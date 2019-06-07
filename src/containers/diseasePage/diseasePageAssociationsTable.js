@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import hash from 'object-hash';
 
 import { fetchAssociations } from '../../actions/disease';
 import { selectAssociations } from '../../selectors/diseaseSelectors';
@@ -112,7 +113,7 @@ class DiseasePageAssociationsTable extends Component {
     ];
 
     const data = associations.data && associations.data.map(association => ({
-      id: `${association.disease.id}-${association.gene.id}-${association.allele ? association.allele.id : ''}-${association.associationType}`,
+      id: hash(association),
       geneName: association.gene,
       species: association.gene.species.name,
       geneticEntity: association.allele,
