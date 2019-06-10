@@ -216,10 +216,10 @@ class DiseaseComparisonRibbon extends Component {
             (this.state.summary && this.state.summary.subjects) ?
               <GenericRibbon
                 categories={this.state.summary.categories}
-                selected={this.state.selected}
                 colorBy={COLOR_BY.CLASS_COUNT}
                 hideFirstSubjectLabel
                 itemClick={this.onDiseaseGroupClicked}
+                selected={this.state.selected}
                 subjectBaseURL={'/gene/'}
                 subjectLabelPosition={POSITION.LEFT}
                 subjects={this.state.summary.subjects}
