@@ -53,13 +53,6 @@ export class DiseaseAnnotationTable extends Component {
       return('');
     }
 
-    if(!annotations || !annotations.data || annotations.data.length == 0) {
-      return(
-        <div><i>No data available for {this.state.term.label}</i></div>
-      );
-    }
-
-
     let columns = [
       {
         dataField: 'key',
@@ -141,46 +134,39 @@ export class DiseaseAnnotationTable extends Component {
 
     ];
 
-    let data = [];
-    if (annotations.data.length > 0) {
-      data = annotations.data
-        .map(result => ({
-          key: hash(result),
-          evidenceCode : result.evidenceCodes,
-          gene: result.gene,
-          species: result.gene.species,
-          based_on: result.gene.symbol,
-          reference: result.publications,
-          disease: result.disease,
-          geneticEntityType: result.geneticEntityType,
-          source : result.source.name,
-          associationType: result.associationType
-        }));
+    const data = annotations && annotations.data && annotations.data.map(result => ({
+      key: hash(result),
+      evidenceCode : result.evidenceCodes,
+      gene: result.gene,
+      species: result.gene.species,
+      based_on: result.gene.symbol,
+      reference: result.publications,
+      disease: result.disease,
+      geneticEntityType: result.geneticEntityType,
+      source : result.source.name,
+      associationType: result.associationType
+    }));
+    
 
-      const geneIdParams = this.state.genes.map(g => `geneID=${g}`).join('&');
-      const downloadUrl = '/api/disease/download?' + geneIdParams + (this.state.term.type == 'GlobalAll' ? '' : '&termID=' + this.state.term.id);
+    const geneIdParams = this.state.genes.map(g => `geneID=${g}`).join('&');
+    const downloadUrl = '/api/disease/' + (this.state.term.type == 'GlobalAll' ? '*' : this.state.term.id) + '/associations/download?' +  + geneIdParams;
 
-      return (
-        <div style={{marginTop : '20px'}}>
-          {(annotations) ?
-            <RemoteDataTable
-              columns={columns}
-              data={data || []}
-              downloadUrl={downloadUrl}
-              keyField='key'
-              loading={annotations.loading}
-              onUpdate={this.props.onUpdate}
-              ref={this.tableRef}
-              totalRows={annotations.total > 0 ? annotations.total: 0}
-            />: ''
-          }
-        </div>
-      );
-    }
-    else{
-      return('');
-    }
+    return (
+      <div style={{marginTop : '20px'}}>
+        <RemoteDataTable
+          columns={columns}
+          data={data}
+          downloadUrl={downloadUrl}
+          keyField='key'
+          loading={annotations.loading}
+          onUpdate={this.props.onUpdate}
+          ref={this.tableRef}
+          totalRows={annotations.total > 0 ? annotations.total: 0}
+        />
+      </div>
+    );
   }
+  
 }
 
 DiseaseAnnotationTable.propTypes = {
