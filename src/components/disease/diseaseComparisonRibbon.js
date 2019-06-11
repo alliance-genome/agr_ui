@@ -100,7 +100,6 @@ class DiseaseComparisonRibbon extends Component {
 
     let geneIdList = ['geneID=' + geneId].concat(this.getOrthologGeneIds(selectedOrthologs));
     dispatch(fetchDiseaseSummary('*', geneIdList)).then(data => {
-      this.setState({ summary: {} });
       this.setState({
         selectedOrthologs: selectedOrthologs,
         summary : data.summary
@@ -159,7 +158,6 @@ class DiseaseComparisonRibbon extends Component {
   }
 
   render(){
-    console.log('DCR: ', this.state);
     const { orthology, geneId } = this.props;
     const filteredOrthology = (orthology.data || [])
       .filter(byStringency(this.state.stringency))
