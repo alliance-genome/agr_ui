@@ -74,9 +74,9 @@ class DiseaseComparisonRibbon extends Component {
     const { dispatch, geneId, summary} = this.props;
     const { selectedOrthologs } = this.state;
 
-    let result = this.getOrthologGeneIds(selectedOrthologs);
+    let geneIdList = ['geneID=' + geneId].concat(this.getOrthologGeneIds(selectedOrthologs));
     if(!summary){
-      dispatch(fetchDiseaseSummary(geneId, result)).then(data => {
+      dispatch(fetchDiseaseSummary('*', geneIdList)).then(data => {
         this.setState({summary : data.summary });
       });
     }
@@ -97,9 +97,10 @@ class DiseaseComparisonRibbon extends Component {
 
   handleOrthologyChange(selectedOrthologs) {
     const { dispatch, geneId } = this.props;
-    let geneIdList = this.getOrthologGeneIds(selectedOrthologs);
-    dispatch(fetchDiseaseSummary(geneId, geneIdList)).then(data => {
-      this.setState({ summary: {}});
+
+    let geneIdList = ['geneID=' + geneId].concat(this.getOrthologGeneIds(selectedOrthologs));
+    dispatch(fetchDiseaseSummary('*', geneIdList)).then(data => {
+      this.setState({ summary: {} });
       this.setState({
         selectedOrthologs: selectedOrthologs,
         summary : data.summary
@@ -158,6 +159,7 @@ class DiseaseComparisonRibbon extends Component {
   }
 
   render(){
+    console.log('DCR: ', this.state);
     const { orthology, geneId } = this.props;
     const filteredOrthology = (orthology.data || [])
       .filter(byStringency(this.state.stringency))
