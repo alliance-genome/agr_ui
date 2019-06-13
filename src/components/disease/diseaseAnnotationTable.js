@@ -149,7 +149,7 @@ export class DiseaseAnnotationTable extends Component {
     
 
     const geneIdParams = this.state.genes.map(g => `geneID=${g}`).join('&');
-    const downloadUrl = '/api/disease/' + (this.state.term.type == 'GlobalAll' ? '*' : this.state.term.id) + '/associations/download?' +  + geneIdParams;
+    const downloadUrl = '/api/disease/download?' + geneIdParams + (this.state.term.type != 'GlobalAll' ? '&termID=' + this.state.term.id : '');
 
     return (
       <div style={{marginTop : '20px'}}>
