@@ -35,7 +35,7 @@
     "popper.js": "1.14.7",
     "prop-types": "^15.5.10",
     "query-string": "^5.1.1",
-    "react": "^16.4.2",
+    "react": "^16.8.6",
     "react-autosuggest": "^9.3.4",
     "react-bootstrap-table-next": "^3.0.1",
     "react-bootstrap-table2-filter": "1.1.5",
