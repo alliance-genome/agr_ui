@@ -100,6 +100,7 @@ class DiseaseComparisonRibbon extends Component {
 
     let geneIdList = ['geneID=' + geneId].concat(this.getOrthologGeneIds(selectedOrthologs));
     dispatch(fetchDiseaseSummary('*', geneIdList)).then(data => {
+      this.setState( { summary : { } });
       this.setState({
         selectedOrthologs: selectedOrthologs,
         summary : data.summary
