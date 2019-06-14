@@ -48,7 +48,7 @@ Now you are serving the webpack from your local machine. You should be able to u
 If you are looking to develop the API locally the following defaults will work:
 
 ```bash
-	agr_ui> export API_URL=http://build.alliancegenome.org
+	agr_ui> export API_URL=https://build.alliancegenome.org
 	agr_ui> export DEV_SERVER_UI_PORT=2992
 	agr_ui> export JBROWSE_URL=http://jbrowse.alliancegenome.org
 	agr_ui> export JBROWSE_PORT=80
