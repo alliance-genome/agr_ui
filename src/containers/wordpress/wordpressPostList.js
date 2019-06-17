@@ -25,7 +25,7 @@ class WordpressPostList extends Component {
   }
 
   render() {
-    const title = 'News & Events';
+    const title = 'News and Events';
     const { loading, postList } = this.props;
 
     if (loading) {
