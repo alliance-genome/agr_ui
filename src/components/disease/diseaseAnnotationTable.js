@@ -10,7 +10,8 @@ import {
   GeneCell,
   ReferenceCell,
   DiseaseNameCell,
-  EvidenceCodesCell
+  EvidenceCodesCell,
+  BasedOnGeneCell
 } from '../dataTable';
 
 /*
@@ -132,6 +133,7 @@ export class DiseaseAnnotationTable extends Component {
         text: 'Based On',
         filterable: true,
         headerStyle: {width: '100px'},
+        formatter: BasedOnGeneCell,
         hidden: false
       },
       {
@@ -150,7 +152,7 @@ export class DiseaseAnnotationTable extends Component {
       evidenceCode : result.evidenceCodes,
       gene: result.gene,
       species: result.gene.species,
-      based_on: result.gene.symbol,
+      based_on: result.gene,
       reference: result.publications,
       disease: result.disease,
       geneticEntityType: result.geneticEntityType,
