@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import hash from 'object-hash';
 
-import { RemoteDataTable, FilterSets} from '../dataTable';
+import { RemoteDataTable, FilterSets, GeneticEntityCell} from '../dataTable';
 
 import {
   SpeciesCell,
@@ -84,12 +84,23 @@ export class DiseaseAnnotationTable extends Component {
         hidden: false
       },
       {
-        dataField: 'geneticEntity',
-        text: 'Genetic Entity',
+        dataField: 'geneticEntityType',
+        text: 'Genetic entity type',
         filterable: true,
-        headerStyle: {width: '105px'},
-        hidden: true
-
+        headerStyle: {
+          width: '110px'
+        },
+        hidden: false
+      },
+      {
+        dataField: 'geneticEntity',
+        text: 'Genetic entity',
+        filterable: true,
+        headerStyle: {
+          width: '110px'
+        },
+        formatter: entity => entity ? GeneticEntityCell(entity): null,
+        hidden: false
       },
       {
         dataField: 'associationType',
@@ -143,10 +154,11 @@ export class DiseaseAnnotationTable extends Component {
       reference: result.publications,
       disease: result.disease,
       geneticEntityType: result.geneticEntityType,
+      geneticEntity: result.allele? result.allele: null,
       source : result.source.name,
       associationType: result.associationType
     }));
-    
+
 
     const geneIdParams = this.state.genes.map(g => `geneID=${g}`).join('&');
     const downloadUrl = '/api/disease/' + (this.state.term.type == 'GlobalAll' ? '*' : this.state.term.id) + '/associations/download?' +  + geneIdParams;
@@ -166,7 +178,7 @@ export class DiseaseAnnotationTable extends Component {
       </div>
     );
   }
-  
+
 }
 
 DiseaseAnnotationTable.propTypes = {
