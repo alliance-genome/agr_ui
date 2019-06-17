@@ -6,6 +6,7 @@ import ReferenceCell from './referenceCell';
 import SpeciesCell from './speciesCell';
 import AssayCell from './assayCell';
 import SourceCell from './sourceCell';
+import BasedOnGeneCell from './basedOnGeneCell';
 
 import CellTooltip from './CellTooltip';
 import RemoteDataTable from './remoteDataTable';
@@ -25,5 +26,6 @@ export {
   SpeciesCell,
   SourceCell,
   FilterSets,
-  TableSummary
+  TableSummary,
+  BasedOnGeneCell
 };
