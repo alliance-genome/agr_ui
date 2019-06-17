@@ -91,8 +91,8 @@ export const NAV_MENU = [
     wordpressId: 257,
     sub: [
       {
-        label: 'Projects, Work Products, and Publications',
-        route: '/projects-work-products-publications',
+        label: 'Working Groups',
+        route: '/working-groups',
       },
       {
         label: 'Administrative Supplement',
@@ -107,7 +107,7 @@ export const NAV_MENU = [
         route: '/orthology'
       },
       {
-        label: 'Phenotypes And Disease Models',
+        label: 'Phenotypes and Disease Models',
         route: '/phenotypes-and-disease-models'
       }
     ]
@@ -117,7 +117,7 @@ export const NAV_MENU = [
     wordpressId: 473,
     sub: [
       {
-        label: 'News & Events',
+        label: 'News and Events',
         route: '/news'
       },
       {
@@ -132,7 +132,7 @@ export const NAV_MENU = [
     sub: [
       {
         label: 'Frequently Asked Questions',
-        route: '/frequently-asked-questions'
+        route: '/faq'
       },
       {
         label: 'Glossary',
@@ -143,8 +143,8 @@ export const NAV_MENU = [
         route: '/tutorials'
       },
       {
-        label: 'User Documentation',
-        route: '/user-documentation'
+        label: 'Help and User Documentation',
+        route: '/help'
       },
     ]
   },
