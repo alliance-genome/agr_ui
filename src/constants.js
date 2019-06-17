@@ -95,10 +95,6 @@ export const NAV_MENU = [
         route: '/working-groups',
       },
       {
-        label: 'Administrative Supplement',
-        route: '/administrative-supplement'
-      },
-      {
         label: 'Genome Features',
         route: '/genome-features'
       },
