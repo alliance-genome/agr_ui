@@ -219,6 +219,7 @@ class DiseaseComparisonRibbon extends Component {
                 colorBy={COLOR_BY.CLASS_COUNT}
                 hideFirstSubjectLabel
                 itemClick={this.onDiseaseGroupClicked}
+                newTab={false}
                 selected={this.state.selected}
                 subjectBaseURL={'/gene/'}
                 subjectLabelPosition={POSITION.LEFT}
