@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import style from './style.scss';
@@ -10,12 +11,22 @@ import FooterBar from './footerBar';
 import SiteMap from './siteMap';
 import AgrTweets from './twitterWidget';
 import { MenuItems } from './navigation';
+import { selectWarningBanner } from '../../selectors/wordpressSelectors';
+import { fetchWarningBanner } from '../../actions/wordpress';
 
 class Layout extends Component {
+  componentDidMount() {
+    this.props.dispatch(fetchWarningBanner());
+  }
 
   render() {
+    const { children, location, warningBanner } = this.props;
     return (
       <div>
+        {warningBanner &&
+          <div className={style.warningBar} dangerouslySetInnerHTML={{ __html: warningBanner.content.rendered}} />
+        }
+
         <div className='d-none d-md-block'>
           <TopBar />
         </div>
@@ -43,13 +54,13 @@ class Layout extends Component {
           </div>
         </div>
 
-        <MenuItems currentRoute={this.props.location.pathname} />
+        <MenuItems currentRoute={location.pathname} />
 
         <div className={style.loaderContentContainer}>
           <div className={style.content}>
             <Loader />
             <div className={style.contentContainer}>
-              {this.props.children}
+              {children}
             </div>
           </div>
         </div>
@@ -79,7 +90,13 @@ class Layout extends Component {
 
 Layout.propTypes = {
   children: PropTypes.node,
+  dispatch: PropTypes.func,
   location: PropTypes.object,
+  warningBanner: PropTypes.object,
 };
 
-export default Layout;
+const mapStateToProps = state => ({
+  warningBanner: selectWarningBanner(state),
+});
+
+export default connect(mapStateToProps)(Layout);
