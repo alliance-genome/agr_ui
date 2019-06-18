@@ -194,4 +194,15 @@
   padding-bottom: 1px;
 }
 
+.warningBar {
+  overflow: auto;
+  background: orange;
+  padding: 1rem;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.warningBar > p:last-of-type {
+  margin: 0
+}
 
