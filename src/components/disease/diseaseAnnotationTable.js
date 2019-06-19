@@ -148,7 +148,6 @@ export class DiseaseAnnotationTable extends Component {
       }
 
     ];
-    /* eslint-disable no-debugger */
 
     const data = annotations && annotations.data && annotations.data.map(result => ({
       key: hash(result),
