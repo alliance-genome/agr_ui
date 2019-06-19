@@ -152,7 +152,7 @@ export class DiseaseAnnotationTable extends Component {
       evidenceCode : result.evidenceCodes,
       gene: result.gene,
       species: result.gene.species,
-      based_on: result.gene,
+      based_on: result.orthologyGenes ? result.orthologyGenes : null,
       reference: result.publications,
       disease: result.disease,
       geneticEntityType: result.geneticEntityType,
