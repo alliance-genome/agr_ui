@@ -7,6 +7,7 @@ export const WORDPRESS_REST_API_BASE = 'https://public-api.wordpress.com/wp/v2/s
 export const WORDPRESS_PAGE_BASE_URL = WORDPRESS_REST_API_BASE + '/pages?slug=';
 export const WORDPRESS_POST_BASE_URL = WORDPRESS_REST_API_BASE + '/posts';
 export const WORDPRESS_POST_URL = WORDPRESS_POST_BASE_URL + '?slug=';
+export const WARNING_BANNER_SLUG = 'warning-banner';
 
 //the order in this array matters for the category icons
 export const CATEGORIES = [
