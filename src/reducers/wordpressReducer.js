@@ -9,6 +9,8 @@ import {
   FETCH_WORDPRESS_POST,
   FETCH_WORDPRESS_POST_SUCCESS,
   FETCH_WORDPRESS_POST_FAILURE,
+  FETCH_WARNING_BANNER_SUCCESS,
+  FETCH_WARNING_BANNER_FAILURE,
 } from '../actions/wordpress';
 
 const DEFAULT_STATE = fromJS({
@@ -17,6 +19,7 @@ const DEFAULT_STATE = fromJS({
   postList: null,
   error: null,
   loading: false,
+  warningBanner: null,
 });
 
 const wordpressReducer = function (state = DEFAULT_STATE, action) {
@@ -59,6 +62,12 @@ const wordpressReducer = function (state = DEFAULT_STATE, action) {
     return state.set('loading', false)
       .set('page', null)
       .set('error', action.payload);
+
+  case FETCH_WARNING_BANNER_SUCCESS:
+    return state.set('warningBanner', action.payload);
+
+  case FETCH_WARNING_BANNER_FAILURE:
+    return state.set('warningBanner', null);
 
   default:
     return state;

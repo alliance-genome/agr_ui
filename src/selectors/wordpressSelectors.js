@@ -21,3 +21,8 @@ export const selectPost = createSelector(
   [selectWordpressDomain],
   (wordpress) => wordpress.get('post')
 );
+
+export const selectWarningBanner = createSelector(
+  [selectWordpressDomain],
+  (wordpress) => wordpress.get('warningBanner')
+);
