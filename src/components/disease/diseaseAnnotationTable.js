@@ -3,15 +3,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import hash from 'object-hash';
 
-import { RemoteDataTable, FilterSets, GeneticEntityCell} from '../dataTable';
-
 import {
   SpeciesCell,
   GeneCell,
   ReferenceCell,
   DiseaseNameCell,
   EvidenceCodesCell,
-  BasedOnGeneCell
+  BasedOnGeneCell,
+  RemoteDataTable,
+  FilterSets,
+  GeneticEntityCell
+
 } from '../dataTable';
 
 /*
@@ -87,7 +89,7 @@ export class DiseaseAnnotationTable extends Component {
       {
         dataField: 'geneticEntityType',
         text: 'Genetic entity type',
-        filterable: true,
+        filterable: FilterSets.geneticEntityTypes,
         headerStyle: {
           width: '110px'
         },
@@ -146,6 +148,7 @@ export class DiseaseAnnotationTable extends Component {
       }
 
     ];
+    /* eslint-disable no-debugger */
 
     const data = annotations && annotations.data && annotations.data.map(result => ({
       key: hash(result),
