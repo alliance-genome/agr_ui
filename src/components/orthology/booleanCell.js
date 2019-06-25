@@ -19,7 +19,7 @@ const BooleanCell = ({value, isTrueFunc, render}) => {
 
 BooleanCell.propTypes = {
   isTrueFunc: PropTypes.func.isRequired,
-  render: PropTypes.func.isRequired,
+  render: PropTypes.func,
   value: PropTypes.any,
 };
 
