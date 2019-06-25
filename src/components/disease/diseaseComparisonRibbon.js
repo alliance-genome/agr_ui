@@ -15,6 +15,7 @@ import { selectDiseaseAnnotation, selectSummary } from '../../selectors/diseaseS
 import { selectOrthologs } from '../../selectors/geneSelectors';
 
 import { DiseaseAnnotationTable } from './diseaseAnnotationTable';
+import HorizontalScroll from '../horizontalScroll';
 import { STRINGENCY_HIGH } from '../orthology/constants';
 import { TAXON_ORDER } from '../../constants';
 import {
@@ -74,9 +75,9 @@ class DiseaseComparisonRibbon extends Component {
     const { dispatch, geneId, summary} = this.props;
     const { selectedOrthologs } = this.state;
 
-    let result = this.getOrthologGeneIds(selectedOrthologs);
+    let geneIdList = ['geneID=' + geneId].concat(this.getOrthologGeneIds(selectedOrthologs));
     if(!summary){
-      dispatch(fetchDiseaseSummary(geneId, result)).then(data => {
+      dispatch(fetchDiseaseSummary('*', geneIdList)).then(data => {
         this.setState({summary : data.summary });
       });
     }
@@ -97,9 +98,10 @@ class DiseaseComparisonRibbon extends Component {
 
   handleOrthologyChange(selectedOrthologs) {
     const { dispatch, geneId } = this.props;
-    let geneIdList = this.getOrthologGeneIds(selectedOrthologs);
-    dispatch(fetchDiseaseSummary(geneId, geneIdList)).then(data => {
-      this.setState({ summary: {}});
+
+    let geneIdList = ['geneID=' + geneId].concat(this.getOrthologGeneIds(selectedOrthologs));
+    dispatch(fetchDiseaseSummary('*', geneIdList)).then(data => {
+      this.setState( { summary : { } });
       this.setState({
         selectedOrthologs: selectedOrthologs,
         summary : data.summary
@@ -214,16 +216,25 @@ class DiseaseComparisonRibbon extends Component {
         <div style={{display: 'inline-block' }}>
           {
             (this.state.summary && this.state.summary.subjects) ?
-              <GenericRibbon
-                categories={this.state.summary.categories}
-                colorBy={COLOR_BY.CLASS_COUNT}
-                hideFirstSubjectLabel
-                itemClick={this.onDiseaseGroupClicked}
-                selected={this.state.selected}
-                subjectBaseURL={'/gene/'}
-                subjectLabelPosition={POSITION.LEFT}
-                subjects={this.state.summary.subjects}
-              />
+              <HorizontalScroll>
+                <div className='d-table pb-4' style={{width: '950px'}}>
+                  <div className='d-table-row'>
+                    <span style={{display: 'inline-block'}}>
+                      <GenericRibbon
+                        categories={this.state.summary.categories}
+                        colorBy={COLOR_BY.CLASS_COUNT}
+                        hideFirstSubjectLabel
+                        itemClick={this.onDiseaseGroupClicked}
+                        newTab={false}
+                        selected={this.state.selected}
+                        subjectBaseURL={'/gene/'}
+                        subjectLabelPosition={POSITION.LEFT}
+                        subjects={this.state.summary.subjects}
+                      />
+                    </span>
+                  </div>
+                </div>
+              </HorizontalScroll>
               : ''
           }
         </div>

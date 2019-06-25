@@ -7,6 +7,7 @@ export const WORDPRESS_REST_API_BASE = 'https://public-api.wordpress.com/wp/v2/s
 export const WORDPRESS_PAGE_BASE_URL = WORDPRESS_REST_API_BASE + '/pages?slug=';
 export const WORDPRESS_POST_BASE_URL = WORDPRESS_REST_API_BASE + '/posts';
 export const WORDPRESS_POST_URL = WORDPRESS_POST_BASE_URL + '?slug=';
+export const WARNING_BANNER_SLUG = 'warning-banner';
 
 //the order in this array matters for the category icons
 export const CATEGORIES = [
@@ -91,12 +92,8 @@ export const NAV_MENU = [
     wordpressId: 257,
     sub: [
       {
-        label: 'Projects, Work Products, and Publications',
-        route: '/projects-work-products-publications',
-      },
-      {
-        label: 'Administrative Supplement',
-        route: '/administrative-supplement'
+        label: 'Working Groups',
+        route: '/working-groups',
       },
       {
         label: 'Genome Features',
@@ -107,7 +104,7 @@ export const NAV_MENU = [
         route: '/orthology'
       },
       {
-        label: 'Phenotypes And Disease Models',
+        label: 'Phenotypes and Disease Models',
         route: '/phenotypes-and-disease-models'
       }
     ]
@@ -117,7 +114,7 @@ export const NAV_MENU = [
     wordpressId: 473,
     sub: [
       {
-        label: 'News & Events',
+        label: 'News and Events',
         route: '/news'
       },
       {
@@ -132,7 +129,7 @@ export const NAV_MENU = [
     sub: [
       {
         label: 'Frequently Asked Questions',
-        route: '/frequently-asked-questions'
+        route: '/faq'
       },
       {
         label: 'Glossary',
@@ -143,8 +140,8 @@ export const NAV_MENU = [
         route: '/tutorials'
       },
       {
-        label: 'User Documentation',
-        route: '/user-documentation'
+        label: 'Help and User Documentation',
+        route: '/help'
       },
     ]
   },
