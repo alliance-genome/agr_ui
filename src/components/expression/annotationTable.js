@@ -104,8 +104,12 @@ class AnnotationTable extends React.Component {
       reference: result.publications,
     }));
 
-    const geneIdParams = genes.map(g => `geneID=${g}`).join('&');
-    const downloadUrl = `/api/expression/download?termID=${term}&${geneIdParams}`;
+    const params = genes.map(g => ({name: 'geneID', value: g}))
+      .concat({name: 'termID', value: term})
+      .filter(p => !!p.value)
+      .map(p => `${p.name}=${p.value}`)
+      .join('&');
+    const downloadUrl = `/api/expression/download?${params}`;
     const sortOptions = [
       {
         value: 'species',
