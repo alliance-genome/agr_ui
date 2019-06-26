@@ -8,6 +8,8 @@ import { selectAnnotations } from '../../selectors/expressionSelectors';
 import { fetchExpressionAnnotations } from '../../actions/expression';
 import { RemoteDataTable, ReferenceCell, FilterSets, GeneCell } from '../dataTable';
 import DataSourceLink from '../dataSourceLink';
+import CommaSeparatedList from '../commaSeparatedList';
+import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
 
 class AnnotationTable extends React.Component {
   constructor(props) {
@@ -81,7 +83,13 @@ class AnnotationTable extends React.Component {
         dataField: 'source',
         text: 'Source',
         filterable: true,
-        formatter: source => source ? (<DataSourceLink key={source.name} reference={source} />): null,
+        formatter: refs => refs && (
+          <CommaSeparatedList>
+            {refs
+              .sort(compareAlphabeticalCaseInsensitive(ref => ref.name))
+              .map(ref => <DataSourceLink key={ref.name} reference={ref} />)}
+          </CommaSeparatedList>
+        ),
         headerStyle: {width: '200px'},
       },
       {
@@ -92,7 +100,8 @@ class AnnotationTable extends React.Component {
         headerStyle: {width: '150px'},
       }
     ];
-    /* eslint-disable no-debugger */
+
+
     const data = annotations && annotations.data && annotations.data.results.map(result => ({
       key: hash(result),
       species: result.gene.species.name,
@@ -100,7 +109,7 @@ class AnnotationTable extends React.Component {
       term: result.termName,
       stage: result.stage && result.stage.stageID,
       assay: result.assay,
-      source: result ? result.crossReference: null,
+      source: result ? result.crossReferences: null,
       reference: result.publications,
     }));
 
