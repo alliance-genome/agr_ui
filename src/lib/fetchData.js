@@ -7,7 +7,6 @@ const CONTROLLER = new AbortController();
 
 //resolve promise
 function fetchWrapper(url, options){
-  /* eslint-disable no-debugger */
   return fetch(url, options).then(handleResponse, handleNetworkError);
 }
 
