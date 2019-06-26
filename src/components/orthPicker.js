@@ -1,5 +1,4 @@
 /* eslint-disable react/no-set-state */
-/* eslint-disable no-debugger */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
