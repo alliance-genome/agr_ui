@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
+import { HELP_EMAIL } from '../constants';
 
 class HeadMetaTags extends Component {
   render() {
@@ -16,7 +17,7 @@ class HeadMetaTags extends Component {
         '@type': 'Organization',
         'url': 'https://www.alliancegenome.org',
         'logo': 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner_1_flyin_logo.png',
-        'email': 'alliance-helpdesk@lists.stanford.edu'
+        'email': HELP_EMAIL
       },
 
       // specify actions
