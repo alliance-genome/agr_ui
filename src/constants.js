@@ -44,7 +44,7 @@ export const NON_HIGHLIGHTED_FIELDS = [
   'homologs.panther_family'
 ];
 
-export const HELP_EMAIL = 'alliance-helpdesk@lists.stanford.edu';
+export const HELP_EMAIL = 'help@alliancegeome.org';
 
 export const NAV_MENU = [
   {
