@@ -1,10 +1,6 @@
 import fetchData from '../lib/fetchData';
 import { buildTableQueryString } from '../lib/utils';
 
-export const FETCH_DISEASE_SUMMARY = 'FETCH_DISEASE_SUMMARY';
-export const FETCH_DISEASE_SUMMARY_SUCCESS = 'FETCH_DISEASE_SUMMARY_SUCCESS';
-export const FETCH_DISEASE_SUMMARY_FAILURE = 'FETCH_DISEASE_SUMMARY_FAILURE';
-
 export const FETCH_DISEASE = 'FETCH_DISEASE';
 export const FETCH_DISEASE_SUCCESS = 'FETCH_DISEASE_SUCCESS';
 export const FETCH_DISEASE_FAILURE = 'FETCH_DISEASE_FAILURE';
@@ -15,36 +11,6 @@ export const FETCH_ASSOCIATIONS_FAILURE = 'FETCH_ASSOCIATIONS_FAILURE';
 export const FETCH_DISEASE_ANNOTATIONS = 'FETCH_DISEASE_ANNOTATIONS';
 export const FETCH_DISEASE_ANNOTATIONS_SUCCESS = 'FETCH_DISEASE_ANNOTATIONS_SUCCESS';
 export const FETCH_DISEASE_ANNOTATIONS_FAILURE = 'FETCH_DISEASE_ANNOTATIONS_FAILURE';
-
-export const fetchDiseaseSummary = (id, opts=[]) => {
-  let urlStr = `/api/gene/${id}/disease-ribbon-summary`;
-  if(opts.length > 0){
-    urlStr += ('?' + opts.join('&'));
-  }
-
-  return (dispatch) => {
-    dispatch({
-      type: FETCH_DISEASE_SUMMARY,
-      id,
-    });
-    return fetchData(urlStr)
-      .then(data => dispatch(fetchDiseaseSummarySuccess(id, data)))
-      .catch(error => dispatch(fetchDiseaseSummaryFailure(id, error)));
-  };
-};
-
-const fetchDiseaseSummarySuccess = (id, summary) => ({
-  type: FETCH_DISEASE_SUMMARY_SUCCESS,
-  id,
-  summary,
-});
-
-const fetchDiseaseSummaryFailure = (id, error) => ({
-  type: FETCH_DISEASE_SUMMARY_FAILURE,
-  id,
-  error,
-});
-
 
 export const fetchDisease = function (id) {
   return (dispatch) => {

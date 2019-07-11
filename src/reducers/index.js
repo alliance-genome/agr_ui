@@ -1,15 +1,17 @@
 import diseaseReducer from './diseaseReducer';
+import diseaseRibbonReducer from './diseaseRibbonReducer';
 import expressionReducer from './expressionReducer';
 import geneReducer from './geneReducer';
-import wordpressReducer from './wordpressReducer';
-import searchReducer from './searchReducer';
 import metadataReducer from './metadataReducer';
+import searchReducer from './searchReducer';
+import wordpressReducer from './wordpressReducer';
 
 export default {
   disease: diseaseReducer,
+  diseaseRibbon: diseaseRibbonReducer,
   expression: expressionReducer,
   gene: geneReducer,
-  wordpress: wordpressReducer,
+  metadata: metadataReducer,
   search: searchReducer,
-  metadata: metadataReducer
+  wordpress: wordpressReducer,
 };
