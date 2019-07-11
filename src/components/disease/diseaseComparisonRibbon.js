@@ -1,3 +1,4 @@
+/* eslint-disable react/no-set-state */
 /**
  * This component will render the following child components
  * OrthologPicker, DiseaseRibbon, DiseaseAssociationTable
@@ -8,10 +9,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { fetchDiseaseAnnotation } from '../../actions/disease';
 
-import { fetchDiseaseAnnotation, fetchDiseaseSummary } from '../../actions/disease';
-
-import { selectDiseaseAnnotation, selectSummary } from '../../selectors/diseaseSelectors';
+import { selectDiseaseAnnotation } from '../../selectors/diseaseSelectors';
 import { selectOrthologs } from '../../selectors/geneSelectors';
 
 import { DiseaseAnnotationTable } from './diseaseAnnotationTable';
@@ -40,6 +40,9 @@ import DiseaseControlsHelp from './diseaseControlsHelp';
 import ControlsContainer from '../controlsContainer';
 import Select from 'react-select';
 import { Button } from 'reactstrap';
+import { selectDiseaseRibbonSummary } from '../../selectors/diseaseRibbonSelectors';
+import { fetchDiseaseRibbonSummary } from '../../actions/diseaseRibbonActions';
+import LoadingSpinner from '../loadingSpinner';
 
 const makeLabel = (symbol, taxonId) => `${symbol} (${shortSpeciesName(taxonId)})`;
 const byStringency = stringency => orthology => orthologyMeetsStringency(orthology, stringency);
@@ -56,7 +59,6 @@ class DiseaseComparisonRibbon extends Component {
       stringency: STRINGENCY_HIGH,
       selectedDisease : undefined,
       selectedOrthologs: [],
-      summary : {},
       selected : {
         subject : null,
         group : null,
@@ -71,18 +73,21 @@ class DiseaseComparisonRibbon extends Component {
   }
 
 
-  componentDidMount(){
-    const { dispatch, geneId, summary} = this.props;
-    const { selectedOrthologs } = this.state;
+  componentDidMount() {
+    this.fetchData();
+  }
 
-    let geneIdList = ['geneID=' + geneId].concat(this.getOrthologGeneIds(selectedOrthologs));
-    if(!summary){
-      dispatch(fetchDiseaseSummary('*', geneIdList)).then(data => {
-        this.setState({summary : data.summary });
-      });
+  componentDidUpdate(prevProps) {
+    if (this.props.geneId !== prevProps.geneId) {
+      this.fetchData();
     }
   }
 
+  fetchData() {
+    const { dispatch, geneId } = this.props;
+    const { selectedOrthologs } = this.state;
+    dispatch(fetchDiseaseRibbonSummary([geneId].concat(selectedOrthologs.map(getOrthologId))));
+  }
 
   handleTableUpdate(opts){
     const { dispatch } = this.props;
@@ -97,16 +102,7 @@ class DiseaseComparisonRibbon extends Component {
   }
 
   handleOrthologyChange(selectedOrthologs) {
-    const { dispatch, geneId } = this.props;
-
-    let geneIdList = ['geneID=' + geneId].concat(this.getOrthologGeneIds(selectedOrthologs));
-    dispatch(fetchDiseaseSummary('*', geneIdList)).then(data => {
-      this.setState( { summary : { } });
-      this.setState({
-        selectedOrthologs: selectedOrthologs,
-        summary : data.summary
-      });
-    });
+    this.setState({selectedOrthologs}, () => this.fetchData());
   }
 
   onDiseaseGroupClicked(gene, disease) {
@@ -149,10 +145,10 @@ class DiseaseComparisonRibbon extends Component {
     geneIdList.push(`geneID=${geneId}`);
     return geneIdList;
   }
-  
+
 
   hasAnnotations() {
-    for(var sub of this.state.summary.subjects) {
+    for(var sub of this.props.summary.data.subjects) {
       if(sub.nb_annotations > 0)
         return true;
     }
@@ -160,18 +156,28 @@ class DiseaseComparisonRibbon extends Component {
   }
 
   render(){
-    const { orthology, geneId } = this.props;
+    const { orthology, geneId, summary } = this.props;
     const filteredOrthology = (orthology.data || [])
       .filter(byStringency(this.state.stringency))
       .sort(compareBySpeciesThenAlphabetical);
 
-    if(!this.state.summary || !this.state.summary.subjects) {
-      return('');
+    if (!summary) {
+      return null;
+    }
+
+    if (summary.error) {
+      // eslint-disable-next-line no-console
+      console.log(this.props.summary.error);
+      return <span className='text-danger'>Error fetching disease annotation summary</span>;
+    }
+
+    if (!summary.data.subjects || !summary.data.categories) {
+      return null;
     }
 
     var genes = undefined;
     genes = [];
-    for(var sub of this.state.summary.subjects) {
+    for(var sub of summary.data.subjects) {
       genes.push(sub.id);
     }
 
@@ -212,32 +218,22 @@ class DiseaseComparisonRibbon extends Component {
           </ControlsContainer>
         </div>
 
-
-        <div style={{display: 'inline-block' }}>
-          {
-            (this.state.summary && this.state.summary.subjects) ?
-              <HorizontalScroll>
-                <div className='d-table pb-4' style={{width: '950px'}}>
-                  <div className='d-table-row'>
-                    <span style={{display: 'inline-block'}}>
-                      <GenericRibbon
-                        categories={this.state.summary.categories}
-                        colorBy={COLOR_BY.CLASS_COUNT}
-                        hideFirstSubjectLabel
-                        itemClick={this.onDiseaseGroupClicked}
-                        newTab={false}
-                        selected={this.state.selected}
-                        subjectBaseURL={'/gene/'}
-                        subjectLabelPosition={POSITION.LEFT}
-                        subjects={this.state.summary.subjects}
-                      />
-                    </span>
-                  </div>
-                </div>
-              </HorizontalScroll>
-              : ''
-          }
-        </div>
+        <HorizontalScroll width={660}>
+          <span style={{display: 'inline-block'}}>
+            <GenericRibbon
+              categories={summary.data.categories}
+              colorBy={COLOR_BY.CLASS_COUNT}
+              hideFirstSubjectLabel
+              itemClick={this.onDiseaseGroupClicked}
+              newTab={false}
+              selected={this.state.selected}
+              subjectBaseURL={'/gene/'}
+              subjectLabelPosition={POSITION.LEFT}
+              subjects={summary.data.subjects}
+            />
+          </span>
+          <div>{summary.loading && <LoadingSpinner />}</div>
+        </HorizontalScroll>
 
         <div>
           {(this.hasAnnotations()) ?
@@ -268,9 +264,9 @@ DiseaseComparisonRibbon.propTypes = {
   summary: PropTypes.object
 };
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
   orthology: selectOrthologs(state),
-  summary: selectSummary(props.geneId)(state),
+  summary: selectDiseaseRibbonSummary(state),
   diseaseAnnotations: selectDiseaseAnnotation(state)
 });
 

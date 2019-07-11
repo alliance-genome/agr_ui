@@ -1,8 +1,5 @@
 import { fromJS } from 'immutable';
 import {
-  FETCH_DISEASE_SUMMARY,
-  FETCH_DISEASE_SUMMARY_FAILURE,
-  FETCH_DISEASE_SUMMARY_SUCCESS,
   FETCH_DISEASE,
   FETCH_DISEASE_SUCCESS,
   FETCH_DISEASE_FAILURE,
@@ -16,7 +13,6 @@ import {
 } from '../actions/disease';
 
 export const DEFAULT_STATE = fromJS({
-  summaries : {},
   data: null,
   error: null,
   loading: false,
@@ -36,22 +32,6 @@ export const DEFAULT_STATE = fromJS({
 
 const diseaseReducer = function (state = DEFAULT_STATE, action) {
   switch(action.type) {
-  case FETCH_DISEASE_SUMMARY:
-    return state
-      .setIn(['summaries', action.id, 'loading'], true);
-
-  case FETCH_DISEASE_SUMMARY_SUCCESS:
-    return state
-      .setIn(['summaries', action.id, 'loading'], false)
-      .setIn(['summaries', action.id, 'data'], action.summary)
-      .setIn(['summaries', action.id, 'error'], null);
-
-  case FETCH_DISEASE_SUMMARY_FAILURE:
-    return state
-      .setIn(['summaries', action.id, 'loading'], false)
-      .setIn(['summaries', action.id, 'data'], null)
-      .setIn(['summaries', action.id, 'error'], action.error);
-
   case FETCH_DISEASE:
     return state.set('loading', true);
 
