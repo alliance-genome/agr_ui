@@ -2,12 +2,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Select from 'react-select';
-import { Button } from 'reactstrap';
 
 import ControlsContainer from '../controlsContainer';
 import {
-  StringencySelection,
   getOrthologSpeciesId,
   getOrthologId,
   getOrthologSymbol,
@@ -17,7 +14,6 @@ import { selectOrthologsWithExpression } from '../../selectors/geneSelectors';
 import {
   compareAlphabeticalCaseInsensitive,
   compareByFixedOrder,
-  orthologyMeetsStringency,
   shortSpeciesName,
   compareBy,
 } from '../../lib/utils';
@@ -31,6 +27,7 @@ import HorizontalScroll from '../horizontalScroll';
 import { fetchOrthologsWithExpression } from '../../actions/genes';
 import HelpPopup from '../helpPopup';
 import ExpressionControlsHelp from './expressionControlsHelp';
+import OrthologPicker from '../OrthologPicker';
 
 const makeLabel = (symbol, taxonId) => `${symbol} (${shortSpeciesName(taxonId)})`;
 
@@ -38,9 +35,6 @@ const compareBySpeciesThenAlphabetical = compareBy([
   compareByFixedOrder(TAXON_ORDER, o => getOrthologSpeciesId(o)),
   compareAlphabeticalCaseInsensitive(o => getOrthologSymbol(o))
 ]);
-
-const byNotHuman = orthology => getOrthologSpeciesId(orthology) !== TAXON_IDS.HUMAN;
-const byStringency = stringency => orthology => orthologyMeetsStringency(orthology, stringency);
 
 const ANATOMY = 'Anatomy';
 const STAGE = 'Stage';
@@ -82,11 +76,8 @@ class ExpressionComparisonRibbon extends React.Component {
 
   render() {
     const { geneId, geneSymbol, geneTaxon, orthology } = this.props;
-    const { stringency, selectedOrthologs, selectedTerm } = this.state;
-    const filteredOrthology = (orthology.data || [])
-      .filter(byNotHuman)
-      .filter(byStringency(stringency))
-      .sort(compareBySpeciesThenAlphabetical);
+    const { selectedOrthologs, selectedTerm } = this.state;
+
     const genes = [geneId].concat(selectedOrthologs.map(o => getOrthologId(o)));
     // if only looking at a single yeast gene, just show CC group
     const groups = (geneTaxon === TAXON_IDS.YEAST && selectedOrthologs.length === 0) ? [CC] : [ANATOMY, STAGE, CC];
@@ -99,31 +90,12 @@ class ExpressionComparisonRibbon extends React.Component {
                 <ExpressionControlsHelp />
               </HelpPopup>
             </span>
-            <b>Compare to ortholog genes</b>
-            <StringencySelection level={stringency} onChange={s => this.setState({stringency: s})} />
-            <div className='d-flex align-items-baseline'>
-              <div className='flex-grow-1'>
-                <Select
-                  closeMenuOnSelect={false}
-                  getOptionLabel={option => makeLabel(getOrthologSymbol(option), getOrthologSpeciesId(option))}
-                  getOptionValue={option => getOrthologId(option)}
-                  isMulti
-                  maxMenuHeight={210}
-                  onChange={this.handleChange}
-                  options={filteredOrthology}
-                  placeholder='Select orthologs...'
-                  value={selectedOrthologs}
-                />
-              </div>
-              <span className='px-2'>or</span>
-              <Button
-                color='primary'
-                disabled={filteredOrthology.length === 0}
-                onClick={() => this.setState({selectedOrthologs: filteredOrthology})}
-              >
-                Add all
-              </Button>
-            </div>
+            <OrthologPicker
+              defaultStringency={STRINGENCY_HIGH}
+              onChange={this.handleChange}
+              orthology={orthology}
+              value={selectedOrthologs}
+            />
           </ControlsContainer>
         </div>
         <HorizontalScroll>
