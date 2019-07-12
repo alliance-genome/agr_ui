@@ -2,19 +2,6 @@ import { createSelector } from 'reselect';
 
 export const selectDiseaseDomain = (state) => state.disease;
 
-export const selectSummary = geneId => {
-  return createSelector(
-    [selectDiseaseDomain],
-    disease => {
-      const summary = disease.get('summaries').get(geneId);
-      if (!summary) {
-        return undefined;
-      }
-      return summary.toJS();
-    }
-  );
-};
-
 export const selectData = createSelector(
   [selectDiseaseDomain],
   (disease) => disease.get('data')
@@ -33,9 +20,4 @@ export const selectError = createSelector(
 export const selectAssociations = createSelector(
   [selectDiseaseDomain],
   (disease) => disease.get('associations').toJS()
-);
-
-export const selectDiseaseAnnotation = createSelector(
-  [selectDiseaseDomain],
-  (disease) => disease.get('diseaseAnnotations').toJS()
 );
