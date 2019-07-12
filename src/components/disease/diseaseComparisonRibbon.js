@@ -4,17 +4,13 @@
  * OrthologPicker, DiseaseRibbon, DiseaseAssociationTable
  * OthologPicker talks to cc and DiseaseRibbonTalks to DiseaseAssociation Table
  */
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { fetchDiseaseAnnotation } from '../../actions/disease';
-
-import { selectDiseaseAnnotation } from '../../selectors/diseaseSelectors';
 import { selectOrthologs } from '../../selectors/geneSelectors';
 
-import { DiseaseAnnotationTable } from './diseaseAnnotationTable';
+import DiseaseAnnotationTable from './diseaseAnnotationTable';
 import HorizontalScroll from '../horizontalScroll';
 import { STRINGENCY_HIGH } from '../orthology/constants';
 import { TAXON_ORDER } from '../../constants';
@@ -57,21 +53,15 @@ class DiseaseComparisonRibbon extends Component {
     super(props);
     this.state = {
       stringency: STRINGENCY_HIGH,
-      selectedDisease : undefined,
       selectedOrthologs: [],
-      selected : {
+      selectedBlock : {
         subject : null,
         group : null,
-        data : null,
-        ready : false,
       }
     };
     this.onDiseaseGroupClicked = this.onDiseaseGroupClicked.bind(this);
     this.handleOrthologyChange = this.handleOrthologyChange.bind(this);
-    this.handleTableUpdate = this.handleTableUpdate.bind(this);
-    this.getGeneListForDispatch = this.getGeneListForDispatch.bind(this);
   }
-
 
   componentDidMount() {
     this.fetchData();
@@ -84,79 +74,33 @@ class DiseaseComparisonRibbon extends Component {
   }
 
   fetchData() {
-    const { dispatch, geneId } = this.props;
-    const { selectedOrthologs } = this.state;
-    dispatch(fetchDiseaseRibbonSummary([geneId].concat(selectedOrthologs.map(getOrthologId))));
-  }
-
-  handleTableUpdate(opts){
-    const { dispatch } = this.props;
-    let geneIdList = this.getGeneListForDispatch();
-
-    if (this.state.selectedDisease.type == 'GlobalAll'){
-      dispatch(fetchDiseaseAnnotation(geneIdList, undefined, opts));
-    }
-    else{
-      dispatch(fetchDiseaseAnnotation(geneIdList, this.state.selectedDisease.id, opts));
-    }
+    this.props.dispatch(fetchDiseaseRibbonSummary(this.getGeneIdList()));
   }
 
   handleOrthologyChange(selectedOrthologs) {
     this.setState({selectedOrthologs}, () => this.fetchData());
   }
 
+  getGeneIdList() {
+    return [this.props.geneId].concat(this.state.selectedOrthologs.map(getOrthologId));
+  }
+
   onDiseaseGroupClicked(gene, disease) {
-    const { dispatch } = this.props;
-    let geneIdList = this.getGeneListForDispatch();
-    if (disease.type == 'GlobalAll'){
-      dispatch(fetchDiseaseAnnotation(geneIdList));
-    }
-    else{
-      dispatch(fetchDiseaseAnnotation(geneIdList, disease.id));
-    }
-    this.setState({ selectedDisease : disease });
-
-    this.setState({ selected : {
-      subject : gene,
-      group : disease,
-      data : null,
-      ready : false
-    }});
-
-  }
-
-
-
-  getOrthologGeneIds(values) {
-    if (values) {
-      return values.map( item => {
-        return `geneID=${item.homologGene.id}`;
-      });
-    }
-    else{
-      return [];
-    }
-  }
-
-  getGeneListForDispatch(){
-    const { geneId } = this.props;
-    const { selectedOrthologs } = this.state;
-    let geneIdList = this.getOrthologGeneIds(selectedOrthologs);
-    geneIdList.push(`geneID=${geneId}`);
-    return geneIdList;
-  }
-
-
-  hasAnnotations() {
-    for(var sub of this.props.summary.data.subjects) {
-      if(sub.nb_annotations > 0)
-        return true;
-    }
-    return false;
+    this.setState(state => {
+      const current = state.selectedBlock;
+      return {
+        selectedBlock: {
+          subject: (current.subject && current.subject.id === gene.id) ? null : gene,
+          group: (current.group && current.group.id === disease.id) ? null : disease,
+        }
+      };
+    });
   }
 
   render(){
-    const { orthology, geneId, summary } = this.props;
+    const { orthology, summary } = this.props;
+    const { selectedBlock, selectedOrthologs, stringency } = this.state;
+
     const filteredOrthology = (orthology.data || [])
       .filter(byStringency(this.state.stringency))
       .sort(compareBySpeciesThenAlphabetical);
@@ -175,12 +119,6 @@ class DiseaseComparisonRibbon extends Component {
       return null;
     }
 
-    var genes = undefined;
-    genes = [];
-    for(var sub of summary.data.subjects) {
-      genes.push(sub.id);
-    }
-
     return (
       <div>
         <div>
@@ -191,7 +129,7 @@ class DiseaseComparisonRibbon extends Component {
               </HelpPopup>
             </span>
             <b>Compare to ortholog genes</b>
-            <StringencySelection level={this.state.stringency} onChange={s => this.setState({stringency: s})} />
+            <StringencySelection level={stringency} onChange={stringency => this.setState({stringency})} />
             <div className='d-flex align-items-baseline'>
               <div className='flex-grow-1'>
                 <Select
@@ -203,7 +141,7 @@ class DiseaseComparisonRibbon extends Component {
                   onChange={this.handleOrthologyChange}
                   options={filteredOrthology}
                   placeholder='Select orthologs...'
-                  value={this.state.selectedOrthologs}
+                  value={selectedOrthologs}
                 />
               </div>
               <span className='px-2'>or</span>
@@ -226,7 +164,7 @@ class DiseaseComparisonRibbon extends Component {
               hideFirstSubjectLabel
               itemClick={this.onDiseaseGroupClicked}
               newTab={false}
-              selected={this.state.selected}
+              selected={selectedBlock}
               subjectBaseURL={'/gene/'}
               subjectLabelPosition={POSITION.LEFT}
               subjects={summary.data.subjects}
@@ -235,18 +173,9 @@ class DiseaseComparisonRibbon extends Component {
           <div>{summary.loading && <LoadingSpinner />}</div>
         </HorizontalScroll>
 
-        <div>
-          {(this.hasAnnotations()) ?
-            <DiseaseAnnotationTable
-              annotations={this.props.diseaseAnnotations}
-              geneId={geneId}
-              genes={genes}
-              onUpdate={this.handleTableUpdate}
-              term={this.state.selectedDisease}
-            />: <div><i>No data available</i></div>
-
-          }
-        </div>
+        {selectedBlock.group && <div className='pt-4'>
+          <DiseaseAnnotationTable genes={this.getGeneIdList()} term={selectedBlock.group.id} />
+        </div>}
 
       </div>
     );
@@ -267,7 +196,6 @@ DiseaseComparisonRibbon.propTypes = {
 const mapStateToProps = (state) => ({
   orthology: selectOrthologs(state),
   summary: selectDiseaseRibbonSummary(state),
-  diseaseAnnotations: selectDiseaseAnnotation(state)
 });
 
 export default connect(mapStateToProps)(DiseaseComparisonRibbon);

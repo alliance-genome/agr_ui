@@ -1,12 +1,12 @@
 import fetchData from './fetchData';
 
 export const createFetchAction = (type, url) => {
-  return (id, opts) => {
+  return (...params) => {
     return (dispatch) => {
       dispatch({
         type: type + '_REQUEST',
       });
-      fetchData(url(id, opts))
+      fetchData(url(...params))
         .then((data) => dispatch({
           type: type + '_SUCCESS',
           payload: data,

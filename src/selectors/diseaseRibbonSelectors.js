@@ -7,3 +7,7 @@ export const selectDiseaseRibbonSummary = createSelector(
   diseaseRibbon => diseaseRibbon.get('summary').toJS()
 );
 
+export const selectDiseaseRibbonAnnotations = createSelector(
+  [selectDiseaseRibbon],
+  diseaseRibbon => diseaseRibbon.get('annotations').toJS()
+);
