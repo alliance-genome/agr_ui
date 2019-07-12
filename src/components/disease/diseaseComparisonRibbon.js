@@ -8,44 +8,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { selectOrthologs } from '../../selectors/geneSelectors';
-
 import DiseaseAnnotationTable from './diseaseAnnotationTable';
 import HorizontalScroll from '../horizontalScroll';
 import { STRINGENCY_HIGH } from '../orthology/constants';
-import { TAXON_ORDER } from '../../constants';
-import {
-  compareAlphabeticalCaseInsensitive,
-  compareByFixedOrder,
-  shortSpeciesName,
-  orthologyMeetsStringency,
-  compareBy
-} from '../../lib/utils';
-import {
-  StringencySelection,
-  getOrthologSpeciesId,
-  getOrthologId,
-  getOrthologSymbol,
-} from '../orthology';
+import { getOrthologId } from '../orthology';
 
 import { GenericRibbon } from '@geneontology/ribbon';
 import { POSITION, COLOR_BY } from '@geneontology/ribbon/lib/enums';
-
 import HelpPopup from '../helpPopup';
 import DiseaseControlsHelp from './diseaseControlsHelp';
 import ControlsContainer from '../controlsContainer';
-import Select from 'react-select';
-import { Button } from 'reactstrap';
+import { selectOrthologs } from '../../selectors/geneSelectors';
 import { selectDiseaseRibbonSummary } from '../../selectors/diseaseRibbonSelectors';
 import { fetchDiseaseRibbonSummary } from '../../actions/diseaseRibbonActions';
 import LoadingSpinner from '../loadingSpinner';
-
-const makeLabel = (symbol, taxonId) => `${symbol} (${shortSpeciesName(taxonId)})`;
-const byStringency = stringency => orthology => orthologyMeetsStringency(orthology, stringency);
-const compareBySpeciesThenAlphabetical = compareBy([
-  compareByFixedOrder(TAXON_ORDER, o => getOrthologSpeciesId(o)),
-  compareAlphabeticalCaseInsensitive(o => getOrthologSymbol(o))
-]);
+import OrthologPicker from '../OrthologPicker';
 
 class DiseaseComparisonRibbon extends Component {
 
@@ -99,11 +76,7 @@ class DiseaseComparisonRibbon extends Component {
 
   render(){
     const { orthology, summary } = this.props;
-    const { selectedBlock, selectedOrthologs, stringency } = this.state;
-
-    const filteredOrthology = (orthology.data || [])
-      .filter(byStringency(this.state.stringency))
-      .sort(compareBySpeciesThenAlphabetical);
+    const { selectedBlock, selectedOrthologs } = this.state;
 
     if (!summary) {
       return null;
@@ -128,31 +101,12 @@ class DiseaseComparisonRibbon extends Component {
                 <DiseaseControlsHelp />
               </HelpPopup>
             </span>
-            <b>Compare to ortholog genes</b>
-            <StringencySelection level={stringency} onChange={stringency => this.setState({stringency})} />
-            <div className='d-flex align-items-baseline'>
-              <div className='flex-grow-1'>
-                <Select
-                  closeMenuOnSelect={false}
-                  getOptionLabel={option => makeLabel(getOrthologSymbol(option), getOrthologSpeciesId(option))}
-                  getOptionValue={option => getOrthologId(option)}
-                  isMulti
-                  maxMenuHeight={210}
-                  onChange={this.handleOrthologyChange}
-                  options={filteredOrthology}
-                  placeholder='Select orthologs...'
-                  value={selectedOrthologs}
-                />
-              </div>
-              <span className='px-2'>or</span>
-              <Button
-                color='primary'
-                disabled={filteredOrthology.length === 0}
-                onClick={() => this.handleOrthologyChange(filteredOrthology)}
-              >
-                Add all
-              </Button>
-            </div>
+            <OrthologPicker
+              defaultStringency={STRINGENCY_HIGH}
+              onChange={this.handleOrthologyChange}
+              orthology={orthology}
+              value={selectedOrthologs}
+            />
           </ControlsContainer>
         </div>
 
