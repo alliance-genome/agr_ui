@@ -182,11 +182,13 @@ export const TAXON_ORDER = [
 export const GA_PROPERTY_ID = 'UA-98765810-1';
 
 export const GA_EVENT_CATEGORY = {
+  AUTOCOMPLETE: 'Autocomplete',
   TABLE: 'Table',
 };
 
 export const GA_EVENT_ACTION = {
   GO_TO_PAGE: 'Go to page',
+  GO_TO_SEARCH_RESULTS: 'Go to search results',
   SET_PAGE_SIZE: 'Set page size'
 };
 
