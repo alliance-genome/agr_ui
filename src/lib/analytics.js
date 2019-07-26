@@ -7,6 +7,22 @@ export const initialize = () => {
   }
 };
 
+export const autocompleteSearchEvent = (query) => {
+  ReactGA.event({
+    category: GA_EVENT_CATEGORY.AUTOCOMPLETE,
+    action: GA_EVENT_ACTION.GO_TO_SEARCH_RESULTS,
+    label: query
+  });
+};
+
+export const autocompleteGoToPageEvent = (id) => {
+  ReactGA.event({
+    category: GA_EVENT_CATEGORY.AUTOCOMPLETE,
+    action: GA_EVENT_ACTION.GO_TO_PAGE,
+    label: id
+  });
+};
+
 export const logPageView = (location) => {
   const page = location.pathname + location.search;
   ReactGA.set({ page: page });
