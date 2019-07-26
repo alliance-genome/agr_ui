@@ -15,6 +15,7 @@ import { CATEGORIES } from '../../../constants';
 const AUTO_BASE_URL = '/api/search_autocomplete';
 const DEFAULT_CAT = CATEGORIES[0];
 
+import { autocompleteGoToPageEvent, autocompleteSearchEvent } from '../../../lib/analytics.js';
 
 class SearchBarComponent extends Component {
   constructor(props) {
@@ -48,6 +49,7 @@ class SearchBarComponent extends Component {
     let newQp = { q: query };
     if (query === '') newQp = {};
     if (newCat !== 'all') newQp.category = newCat;
+    autocompleteSearchEvent(query);
     this.props.history.push({ pathname: '/search', search: stringifyQuery(newQp) });
   }
 
@@ -71,11 +73,14 @@ class SearchBarComponent extends Component {
     //gene and disease will go to the pages and skip search results,
     //go terms and alleles will just go to regular search pages as the query
     if (item.method == 'click') {
+      let id = item.suggestion.primaryId;
       if (item.suggestion.category == 'gene') {
-        let href = '/gene/' + item.suggestion.primaryId;
+        let href = '/gene/' + id;
+        autocompleteGoToPageEvent(id);
         this.props.history.push({ pathname: href});
       } else if (item.suggestion.category == 'disease') {
-        let href = '/disease/' + item.suggestion.primaryId;
+        let href = '/disease/' + id;
+        autocompleteGoToPageEvent(id);
         this.props.history.push({ pathname: href});
       } else {
         this.setState({ value: item.suggestion.name_key });
@@ -84,6 +89,7 @@ class SearchBarComponent extends Component {
         let newQp = { q: query };
         if (query === '') newQp = {};
         if (newCat !== 'all') newQp.category = newCat;
+        autocompleteSearchEvent(query);
         this.props.history.push({ pathname: '/search', search: stringifyQuery(newQp) });
       }
     }
