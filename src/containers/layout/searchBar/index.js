@@ -22,6 +22,7 @@ class SearchBarComponent extends Component {
     super(props);
     let initValue = parseQueryString(this.props.location.search).q || '';
     this.state = {
+      abortController: null,
       autoOptions: [],
       catOption: DEFAULT_CAT,
       value: initValue
@@ -62,10 +63,24 @@ class SearchBarComponent extends Component {
     let cat = this.state.catOption.name;
     let catSegment = cat === DEFAULT_CAT.name ? '' : ('&category=' + cat);
     let url = AUTO_BASE_URL + '?q=' + query + catSegment;
-    fetchData(url)
-      .then( (data) => {
+    if (this.state.abortController) {
+      this.state.abortController.abort();
+    }
+    const abortController = new AbortController();
+    this.setState({abortController});
+    fetchData(url, {signal: abortController.signal})
+      .then(data => {
         let newOptions = data.results || [];
-        this.setState({ autoOptions: newOptions });
+        this.setState({
+          autoOptions: newOptions,
+          abortController: null,
+        });
+      })
+      .catch(error => {
+        if (error.name === 'AbortError') {
+          return;
+        }
+        throw error;
       });
   }
 
