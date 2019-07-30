@@ -1,72 +1,53 @@
-require('abortcontroller-polyfill/dist/abortcontroller-polyfill-only');
+import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only';
 import 'isomorphic-fetch';
 
-
 const TIMEOUT = 30000;
-const CONTROLLER = new AbortController();
 
-//resolve promise
-function fetchWrapper(url, options){
-  return fetch(url, options).then(handleResponse, handleNetworkError);
+class ApiError extends Error {
+  constructor(json) {
+    super(json.errors || json.errorMessage);
+    this.name = 'ApiError';
+  }
 }
 
-//reject promise
-function fetchTimeout(timeoutValue, signalFlag=false){
-  return new Promise((resolve,reject)=>{
-    let timeOut= setTimeout(()=>{
-      if(signalFlag){
-        CONTROLLER.abort;
-      }
-      clearTimeout(timeOut);
+function timeoutPromise(timeout, promise) {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
       reject(new Error('request timed out'));
-    }, timeoutValue);
+    }, timeout);
+    promise.then(
+      (res) => {
+        clearTimeout(timer);
+        resolve(res);
+      },
+      (err) => {
+        clearTimeout(timer);
+        reject(err);
+      }
+    );
   });
 }
 
-function handleResponse(response){
-  if(response.ok){
-    return response.json();
-  }
-  else{
-    return response.json().then(function(error){
-      throw {
-        msg: error.message};
-    });
-  }
-}
-
-function handleNetworkError(error){
-  throw {
-    msg: error.message
-  };
-}
-
-export default function fetchData(_url, options = {}) {
-  const VERBS = ['POST', 'PUT', 'DELETE'];
-  const SIGNAL = CONTROLLER.signal;
-
-  let _type = options.type || 'GET';
-  let headers ={
-    'Content-type': 'application/json'
+export default async function fetchData(url, options = {}) {
+  const _type = options.type || 'GET';
+  const headers = {
+    'Content-Type': 'application/json'
   };
   let requestOptions= {
     method: _type,
     mode: 'cors',
     headers: headers,
-    signal: SIGNAL
+    signal: options.signal
   };
 
-  if(VERBS.indexOf(_type) > -1){
-    requestOptions = {
-      method: _type,
-      mode: 'cors',
-      body: JSON.stringify(options.data),
-      headers: headers,
-      signal: SIGNAL
-    };
+  if (options.data) {
+    requestOptions.body = JSON.stringify(options.data);
   }
 
-  let promiseRace = Promise.race([fetchTimeout(TIMEOUT, true), fetchWrapper(_url,requestOptions)]);
-  return promiseRace.then((res) => {return res;}).catch(handleNetworkError);
-
+  const response = await timeoutPromise(TIMEOUT, fetch(url, requestOptions));
+  const body = await response.json();
+  if (!response.ok) {
+    throw new ApiError(body);
+  }
+  return body;
 }
