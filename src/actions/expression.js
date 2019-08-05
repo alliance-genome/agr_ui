@@ -1,65 +1,23 @@
-import fetchData from '../lib/fetchData';
 import { buildTableQueryString } from '../lib/utils';
+import { createFetchAction } from '../lib/createActions';
 
-export const FETCH_SUMMARY = 'FETCH_SUMMARY';
-export const FETCH_SUMMARY_SUCCESS = 'FETCH_SUMMARY_SUCCESS';
-export const FETCH_SUMMARY_FAILURE = 'FETCH_SUMMARY_FAILURE';
-
+export const FETCH_EXPRESSION_RIBBON_SUMMARY = 'FETCH_EXPRESSION_RIBBON_SUMMARY';
 export const FETCH_EXPRESSION_ANNOTATIONS = 'FETCH_EXPRESSION_ANNOTATIONS';
-export const FETCH_EXPRESSION_ANNOTATIONS_SUCCESS = 'FETCH_EXPRESSION_ANNOTATIONS_SUCCESS';
-export const FETCH_EXPRESSION_ANNOTATIONS_FAILURE = 'FETCH_EXPRESSION_ANNOTATIONS_FAILURE';
 
-export const fetchExpressionSummary = (id) => {
-  return (dispatch) => {
-    dispatch({
-      type: FETCH_SUMMARY,
-      id,
-    });
-    return fetchData(`/api/gene/${id}/expression-summary`)
-      .then(data => dispatch(fetchExpressionSummarySuccess(id, data)))
-      .catch(error => dispatch(fetchExpressionSummaryFailure(id, error)));
-  };
-};
+export const fetchExpressionRibbonSummary = createFetchAction(
+  FETCH_EXPRESSION_RIBBON_SUMMARY,
+  geneIds => {
+    const geneIdList = geneIds.map(id => `geneID=${id}`).join('&');
+    return`/api/expression/ribbon-summary?${geneIdList}`;
+  }
+);
 
-const fetchExpressionSummarySuccess = (id, summary) => ({
-  type: FETCH_SUMMARY_SUCCESS,
-  id,
-  summary,
-});
-
-const fetchExpressionSummaryFailure = (id, error) => ({
-  type: FETCH_SUMMARY_FAILURE,
-  id,
-  error,
-});
-
-export const fetchExpressionAnnotations = (genes, term, opts) => {
-  return (dispatch) => {
-    const geneParams = genes.map(gene => `geneID=${gene}`).join('&');
-    const termParam = term ? `termID=${term}&` : '';
-    const tableQuery = buildTableQueryString(opts);
-    const request = fetchData(`/api/expression?${termParam}${geneParams}&${tableQuery}`);
-    request
-      .then(data => dispatch(fetchExpressionAnnotationsSuccess(data)))
-      .catch(error => {
-        if (error.statusText === 'abort') {
-          return;
-        }
-        dispatch(fetchExpressionAnnotationsFailure(error));
-      });
-    dispatch({
-      type: FETCH_EXPRESSION_ANNOTATIONS,
-      payload: request,
-    });
-  };
-};
-
-const fetchExpressionAnnotationsSuccess = (annotations) => ({
-  type: FETCH_EXPRESSION_ANNOTATIONS_SUCCESS,
-  annotations
-});
-
-const fetchExpressionAnnotationsFailure = (error) => ({
-  type: FETCH_EXPRESSION_ANNOTATIONS_FAILURE,
-  error
-});
+export const fetchExpressionAnnotations = createFetchAction(
+  FETCH_EXPRESSION_ANNOTATIONS,
+  (geneIds, termId, options) => {
+    const geneParams = geneIds.map(gene => `geneID=${gene}`).join('&');
+    const termParam = (termId && termId !== 'all') ? `termID=${termId}&` : '';
+    const tableQuery = buildTableQueryString(options);
+    return `/api/expression?${termParam}${geneParams}&${tableQuery}`;
+  }
+);
