@@ -4,41 +4,20 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import ControlsContainer from '../controlsContainer';
-import {
-  getOrthologSpeciesId,
-  getOrthologId,
-  getOrthologSymbol,
-} from '../orthology';
+import { getOrthologId } from '../orthology';
 import { STRINGENCY_HIGH } from '../orthology/constants';
 import { selectOrthologsWithExpression } from '../../selectors/geneSelectors';
-import {
-  compareAlphabeticalCaseInsensitive,
-  compareByFixedOrder,
-  shortSpeciesName,
-  compareBy,
-} from '../../lib/utils';
-import {
-  TAXON_IDS,
-  TAXON_ORDER
-} from '../../constants';
-import SummaryRibbon from './summaryRibbon';
 import AnnotationTable from './annotationTable';
 import HorizontalScroll from '../horizontalScroll';
 import { fetchOrthologsWithExpression } from '../../actions/genes';
 import HelpPopup from '../helpPopup';
 import ExpressionControlsHelp from './expressionControlsHelp';
 import OrthologPicker from '../OrthologPicker';
-
-const makeLabel = (symbol, taxonId) => `${symbol} (${shortSpeciesName(taxonId)})`;
-
-const compareBySpeciesThenAlphabetical = compareBy([
-  compareByFixedOrder(TAXON_ORDER, o => getOrthologSpeciesId(o)),
-  compareAlphabeticalCaseInsensitive(o => getOrthologSymbol(o))
-]);
-
-const ANATOMY = 'Anatomy';
-const STAGE = 'Stage';
-const CC = 'Subcellular';
+import { selectExpressionRibbonSummary } from '../../selectors/expressionSelectors';
+import { fetchExpressionRibbonSummary } from '../../actions/expression';
+import { GenericRibbon } from '@geneontology/ribbon';
+import { POSITION, COLOR_BY } from '@geneontology/ribbon/lib/enums';
+import LoadingSpinner from '../loadingSpinner';
 
 class ExpressionComparisonRibbon extends React.Component {
   constructor(props) {
@@ -46,41 +25,82 @@ class ExpressionComparisonRibbon extends React.Component {
     this.state = {
       stringency: STRINGENCY_HIGH,
       selectedOrthologs: [],
-      selectedTerm: undefined,
+      selectedBlock : {
+        subject : null,
+        group : null,
+      }
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleBlockClick = this.handleBlockClick.bind(this);
+    this.handleOrthologChange = this.handleOrthologChange.bind(this);
+    this.updateSelectedBlock = this.updateSelectedBlock.bind(this);
   }
 
   componentDidMount() {
     const { dispatch, geneId } = this.props;
     dispatch(fetchOrthologsWithExpression(geneId));
+    this.dispatchFetchSummary();
   }
 
   componentDidUpdate(prevProps) {
     const { dispatch, geneId } = this.props;
     if (prevProps.geneId !== geneId) {
       dispatch(fetchOrthologsWithExpression(geneId));
+      this.dispatchFetchSummary();
     }
   }
 
-  handleChange(values) {
-    this.setState({selectedOrthologs: values});
+  dispatchFetchSummary() {
+    this.props.dispatch(fetchExpressionRibbonSummary(this.getGeneIdList()));
   }
 
-  handleBlockClick(entity, block) {
-    let { selectedTerm } = this.state;
-    selectedTerm = (selectedTerm !== undefined && selectedTerm.class_id === block.class_id) ? undefined : block;
-    this.setState({selectedTerm});
+  getGeneIdList() {
+    return [this.props.geneId].concat(this.state.selectedOrthologs.map(getOrthologId));
+  }
+
+  handleOrthologChange(values) {
+    this.setState({selectedOrthologs: values}, () => this.dispatchFetchSummary());
+  }
+
+  updateSelectedBlock(gene, term) {
+    this.setState(state => {
+      const current = state.selectedBlock;
+      return {
+        selectedBlock: {
+          subject: (current.subject && current.subject.id === gene.id) ? null : gene,
+          group: (current.group && current.group.id === term.id) ? null : term,
+        }
+      };
+    });
   }
 
   render() {
-    const { geneId, geneSymbol, geneTaxon, orthology } = this.props;
-    const { selectedOrthologs, selectedTerm } = this.state;
+    const { orthology, summary } = this.props;
+    const { selectedOrthologs, selectedBlock } = this.state;
 
-    const genes = [geneId].concat(selectedOrthologs.map(o => getOrthologId(o)));
+    // const genes = [geneId].concat(selectedOrthologs.map(o => getOrthologId(o)));
     // if only looking at a single yeast gene, just show CC group
-    const groups = (geneTaxon === TAXON_IDS.YEAST && selectedOrthologs.length === 0) ? [CC] : [ANATOMY, STAGE, CC];
+    // const groups = (geneTaxon === TAXON_IDS.YEAST && selectedOrthologs.length === 0) ? [CC] : [ANATOMY, STAGE, CC];
+    if (!summary) {
+      return null;
+    }
+
+    if (summary.error) {
+      // eslint-disable-next-line no-console
+      console.log(this.props.summary.error);
+      return <span className='text-danger'>Error fetching disease annotation summary</span>;
+    }
+
+    if (!summary.data.subjects || !summary.data.categories) {
+      return null;
+    }
+
+    // we should only show the GO CC category if only a yeast gene is being shown but the
+    // GenericRibbon component gets messed up if you do that and then add an ortholog
+    // const categories = summary.data.categories.filter(category => !(
+    //   selectedOrthologs.length === 0 &&
+    //   geneTaxon === TAXON_IDS.YEAST &&
+    //   category.id.startsWith('UBERON:')
+    // ));
+
     return (
       <React.Fragment>
         <div className='pb-4'>
@@ -92,58 +112,33 @@ class ExpressionComparisonRibbon extends React.Component {
             </span>
             <OrthologPicker
               defaultStringency={STRINGENCY_HIGH}
-              onChange={this.handleChange}
+              onChange={this.handleOrthologChange}
               orthology={orthology}
               value={selectedOrthologs}
             />
           </ControlsContainer>
         </div>
-        <HorizontalScroll>
-          <div className='d-table pb-4'>
-            <div className='d-table-row'>
-              {selectedOrthologs.length > 0 &&
-                <span className='d-table-cell text-nowrap pr-2'>
-                  {makeLabel(geneSymbol, geneTaxon)}
-                </span>
-              }
-              <span className='d-table-cell'>
-                {geneTaxon === TAXON_IDS.HUMAN && selectedOrthologs.length === 0 ?
-                  <i className='text-muted'>Expression data not available for human genes</i> :
-                  <SummaryRibbon
-                    geneId={geneId}
-                    groups={groups}
-                    onClick={this.handleBlockClick}
-                    overrideColor={geneTaxon === TAXON_IDS.HUMAN && '#dedede'}
-                    selectedTerm={selectedTerm}
-                    showSeparatorLabels={selectedOrthologs.length === 0}
-                  />
-                }
-              </span>
-            </div>
-            {selectedOrthologs.sort(compareBySpeciesThenAlphabetical).map((o, idx) => (
-              <div className='d-table-row' key={getOrthologId(o)}>
-                <span className='d-table-cell text-nowrap pr-2'>
-                  {makeLabel(getOrthologSymbol(o), getOrthologSpeciesId(o))}
-                </span>
-                <span className='d-table-cell'>
-                  <SummaryRibbon
-                    geneId={getOrthologId(o)}
-                    groups={groups}
-                    key={getOrthologId(o)}
-                    label={makeLabel(getOrthologSymbol(o), getOrthologSpeciesId(o))}
-                    onClick={this.handleBlockClick}
-                    selectedTerm={selectedTerm}
-                    showBlockTitles={false}
-                    showSeparatorLabels={idx === selectedOrthologs.length - 1}
-                  />
-                </span>
-              </div>
-            ))}
-          </div>
+
+        <HorizontalScroll width={1100}>
+          <span className="d-inline-block">
+            <GenericRibbon
+              categories={summary.data.categories}
+              colorBy={COLOR_BY.CLASS_COUNT}
+              hideFirstSubjectLabel
+              itemClick={this.updateSelectedBlock}
+              newTab={false}
+              selected={selectedBlock}
+              subjectBaseURL={'/gene/'}
+              subjectLabelPosition={POSITION.LEFT}
+              subjects={summary.data.subjects}
+            />
+          </span>
+          <div>{summary.loading && <LoadingSpinner />}</div>
         </HorizontalScroll>
-        {selectedTerm !== undefined &&
+
+        {selectedBlock.group &&
           <div className='pt-4'>
-            <AnnotationTable genes={genes} term={selectedTerm.class_id} />
+            <AnnotationTable genes={this.getGeneIdList()} term={selectedBlock.group.id} />
           </div>
         }
       </React.Fragment>
@@ -157,10 +152,12 @@ ExpressionComparisonRibbon.propTypes = {
   geneSymbol: PropTypes.string.isRequired,
   geneTaxon: PropTypes.string.isRequired,
   orthology: PropTypes.object,
+  summary: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   orthology: selectOrthologsWithExpression(state),
+  summary: selectExpressionRibbonSummary(state),
 });
 
 export default connect(mapStateToProps)(ExpressionComparisonRibbon);
