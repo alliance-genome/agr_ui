@@ -1,94 +1,58 @@
-[![Build Status](https://travis-ci.org/alliance-genome/agr_ui.svg?branch=master)](https://travis-ci.org/alliance-genome/agr_ui)
+![project logo](https://raw.githubusercontent.com/alliance-genome/agr_ui/master/src/containers/layout/agrLogo.png)
 
 # Alliance of Genome Resources UI
 
-The web UI portal of the Alliance of Genome Resources.
-
-## Developing with Docker
-
-The following commands will get you inside of docker and ready to develop code
-
-```bash
-  docker pull agrdocker/agr_javascript_env
-  export API_URL=http://build.alliancegenome.org
-  docker run -v `pwd`:/workdir/agr_ui -w /workdir/agr_ui -e API_URL -p 2992:2992 -it agrdocker/agr_javascript_env /bin/bash 
-  npm run start-docker
-```
+Front-end code for the Alliance of Genome Resources website.
 
 ## Prerequisites
 
-Ensure you've installed [nodejs][1].
-```bash
-  Install NodeJS, npm, etc.
+Install the latest LTS version of Node.js either directly from [the official site](https://nodejs.org/en/download/) or using a version manager such as [nvm](https://github.com/nvm-sh/nvm), [n](https://github.com/tj/n), or [fnm](https://github.com/Schniz/fnm).
 
-  make sure the executables npm, and node are accessible from /usr/local/bin  (MAC, Linux)
-  if not create symbolic links as needed
-  
-  Make sure /usr/local/bin is in your PATH (MAC, Linux)
-```
+It is not strictly required, but highly recommended that you have configured your development environment to use [EditorConfig](https://editorconfig.org/) and [ESLint](https://eslint.org/docs/user-guide/integrations).
 
-## Getting started
+## Installation
 
-### Setting up a local agr UI instance - or on a dev machine
-* Clone your agr copy and checkout the master branch
+To install dependencies after first cloning the repository or after pulling in new changes to `package.json`:
 
 ```bash
-	> git clone https://github.com/alliance-genome/agr_ui.git
-	[Note: for ssh keys] > git clone git@github.com:alliance-genome/agr_ui.git
-	> cd agr_ui
-	> git status   #should show current branch being master if not git checkout master
-	agr_ui> make      #( to Setup dev working platform )
-	agr_ui> make run  #( to start your local agr UI instance default: localhost:2992 )
+npm install
 ```
 
-Now you are serving the webpack from your local machine. You should be able to use the UI and the URL would be: http://localhost:2992/ If you want to run this in a docker container vs running locally, see the [running docker][2] for more info. See also [starting local API][3] for more information.
+## Development
 
-### Local API instance
-
-If you are looking to develop the API locally the following defaults will work:
+Most development will be done using [webpack-dev-server](https://webpack.js.org/configuration/dev-server/). API requests will be proxied to separate server if a `API_URL` environment variable is set. Otherwise, it is expected that an API server is running on `localhost:8080`:
 
 ```bash
-	agr_ui> export API_URL=https://build.alliancegenome.org
-	agr_ui> export DEV_SERVER_UI_PORT=2992
-	agr_ui> export JBROWSE_URL=http://jbrowse.alliancegenome.org
-	agr_ui> export JBROWSE_PORT=80
+# if not running API locally
+export API_URL=https://build.alliancegenome.org 
 ```
 
-### Point to remote API instance
-
-If you don't want to run the API server locally you can point to the developement instance. Stop the running server and set these enviroment variables, first. 
+To start webpack-dev-server:
 
 ```bash
-	agr_ui> export API_URL=http://build.alliancegenome.org
+npm start
 ```
 
-If you needed to start your local webpack dev server on a different port set the following:
+Once webpack-dev-server is running visit `http://localhost:2992` to see your development site. When you edit source files, the changes will automatically be compiled and updated in your browser.
+
+In rare cases where you need to specifically test the application as a production bundle run:
 
 ```bash
-	agr_ui> export DEV_SERVER_UI_PORT=2992
+npm run serve
 ```
 
-### To run tests
+This will produce a production webpack bundle and [serve](https://github.com/tapio/live-server) it on `http://localhost:8080`.
+
+## Tests
+To run ESLint on source files and execute Mocha tests:
 ```bash
-	make test
+npm test
 ```
 
-## Development Environment Pro Tips
-Assets are compiled using [webpack][4]. 
-To enable [hot module replacement][5] in your development environment,
-run `npm start` while the dev server is running and refresh the page.
-Subsequent JavaScript changes will go to your browser as a "hot
-update" without refreshing.
+## Frameworks & Tools
 
-You can run JavaScript unit tests automatically on each file change by
-running `npm run test:watch`.
-
-JavaScript coding style is enforced with [ESLint][6].
-The rules are configured in the .eslintrc file.
-
-[1]: https://docs.npmjs.com/getting-started/installing-node
-[2]: ../doc/DOCKER.md
-[3]: https://github.com/alliance-genome/agr_api
-[4]: https://webpack.github.io/
-[5]: https://webpack.github.io/docs/hot-module-replacement.html
-[6]: http://eslint.org/
+* [React](https://reactjs.org/) for routing and building user interface components
+* [Redux](https://redux.js.org/) and [Immutable](https://immutable-js.github.io/immutable-js/) for state management
+* [Bootstrap](https://getbootstrap.com/), [reactstrap](https://reactstrap.github.io), [Sass](https://sass-lang.com/), [CSS Modules](https://github.com/css-modules/css-modules) for styling
+* [Mocha](https://mochajs.org/) for testing
+* [Webpack](https://webpack.js.org/) and [Babel](https://babeljs.io/) for compiling and bundling
