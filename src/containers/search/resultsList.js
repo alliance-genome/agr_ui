@@ -137,7 +137,7 @@ class ResultsList extends Component {
       } else if (d.category === 'go') {
         return this.renderEntry(d, i, ['id', 'collapsible_synonyms', 'go_branch']);
       } else if (d.category === 'allele') {
-        return this.renderEntry(d, i, ['id','gene', 'synonyms', 'diseases']);
+        return this.renderEntry(d, i, ['id','gene', 'synonyms','variantTypes', 'diseases']);
       } else {
         return this.renderEntry(d,i, ['id','synonyms']);
       }
