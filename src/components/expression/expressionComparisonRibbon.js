@@ -7,7 +7,7 @@ import ControlsContainer from '../controlsContainer';
 import { getOrthologId } from '../orthology';
 import { STRINGENCY_HIGH } from '../orthology/constants';
 import { selectOrthologsWithExpression } from '../../selectors/geneSelectors';
-import AnnotationTable from './annotationTable';
+import ExpressionAnnotationTable from './expressionAnnotationTable';
 import HorizontalScroll from '../horizontalScroll';
 import { fetchOrthologsWithExpression } from '../../actions/genes';
 import HelpPopup from '../helpPopup';
@@ -138,7 +138,7 @@ class ExpressionComparisonRibbon extends React.Component {
 
         {selectedBlock.group &&
           <div className='pt-4'>
-            <AnnotationTable genes={this.getGeneIdList()} term={selectedBlock.group.id} />
+            <ExpressionAnnotationTable genes={this.getGeneIdList()} term={selectedBlock.group.id} />
           </div>
         }
       </React.Fragment>
