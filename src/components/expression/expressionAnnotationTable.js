@@ -11,7 +11,7 @@ import DataSourceLink from '../dataSourceLink';
 import CommaSeparatedList from '../commaSeparatedList';
 import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
 
-class AnnotationTable extends React.Component {
+class ExpressionAnnotationTable extends React.Component {
   constructor(props) {
     super(props);
     this.tableRef = React.createRef();
@@ -154,7 +154,7 @@ class AnnotationTable extends React.Component {
   }
 }
 
-AnnotationTable.propTypes = {
+ExpressionAnnotationTable.propTypes = {
   annotations: PropTypes.object,
   dispatch: PropTypes.func,
   genes: PropTypes.array,
@@ -165,4 +165,4 @@ const mapStateToProps = state => ({
   annotations: selectAnnotations(state),
 });
 
-export default connect(mapStateToProps)(AnnotationTable);
+export default connect(mapStateToProps)(ExpressionAnnotationTable);
