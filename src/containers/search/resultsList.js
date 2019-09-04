@@ -11,6 +11,8 @@ import { Link } from 'react-router-dom';
 import SpeciesIcon from '../../components/speciesIcon';
 import { getLinkForEntry } from '../../lib/searchHelpers';
 import { stringify } from 'query-string';
+import {UncontrolledTooltip} from 'reactstrap';
+import hash from 'object-hash';
 
 const DEFAULT_FIELDS = ['symbol', 'name', 'synonyms', 'sourceHref', 'id', 'type'];
 
@@ -63,8 +65,23 @@ class ResultsList extends Component {
       };
       const label = x.label || CATEGORIES.find(cat => cat.name === x.category).displayName;
       const href = {pathname:'/search', search: stringify(queryParams)};
+      const id = 'X' + hash(x);
 
-      return <li className='list-inline-item' key={label}><Link to={href}>{label} ({x.count})</Link></li>;
+      let tip = '';
+      if (d.category === 'go' && x.category === 'gene') {
+        tip = (
+          <UncontrolledTooltip delay={{hide: 150, show: 300}} placement='top' target={id}>
+            Includes direct and child annotations
+          </UncontrolledTooltip>
+        );
+      }
+
+      return (
+        <li className='list-inline-item' id={id} key={label}>
+          <Link to={href}>{label} ({x.count})</Link>
+          {tip}
+        </li>
+      );
     });
 
     return (
