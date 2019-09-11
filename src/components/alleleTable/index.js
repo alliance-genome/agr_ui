@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { fetchAlleles } from '../../actions/genes';
 import { selectAlleles } from '../../selectors/geneSelectors';
 import { connect } from 'react-redux';
-import ExternalLink from '../externalLink';
+// import ExternalLink from '../externalLink';
 import { Link } from 'react-router-dom';
 import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
 import CollapsibleList from '../collapsibleList/collapsibleList';
@@ -19,12 +19,16 @@ class AlleleTable extends Component {
   render() {
     const { alleles, geneId, geneDataProvider } = this.props;
 
+    const variantNameColWidth = 300;
+    const variantTypeColWidth = 150;
+    const variantConsequenceColWidth = 150;
+
     const columns = [
       {
         dataField: 'symbol',
         text: 'Symbol',
         formatter: symbol => <span dangerouslySetInnerHTML={{ __html: symbol }} />,
-        headerStyle: {width: '185px'},
+        headerStyle: {width: '85px'},
         filterable: true,
         isKey: true,
       },
@@ -32,14 +36,7 @@ class AlleleTable extends Component {
         dataField: 'synonym',
         text: 'Synonyms',
         formatter: synonyms => <SynonymList synonyms={synonyms} />,
-        headerStyle: {width: '200px'},
-        filterable: true,
-      },
-      {
-        dataField: 'source',
-        text: 'Source',
-        formatter: source => <ExternalLink href={source.url}>{source.dataProvider}</ExternalLink>,
-        headerStyle: {width: '75px'},
+        headerStyle: {width: '120px'},
         filterable: true,
       },
       {
@@ -50,13 +47,91 @@ class AlleleTable extends Component {
             {diseases.map(disease => <Link key={disease.id} to={`/disease/${disease.id}`}>{disease.name}</Link>)}
           </CollapsibleList>
         ),
-        headerStyle: {width: '275px'},
+        headerStyle: {width: '225px'},
         filterable: true,
       },
+      {
+        dataField: 'phenotypes',
+        text: 'Phenotype',
+        formatter: phenotypes => (
+          <CollapsibleList collapsedSize={2}>
+            {phenotypes.map(({phenotypeStatement}) => phenotypeStatement)}
+          </CollapsibleList>
+        ),
+        headerStyle: {width: '225px'},
+      },
+      {
+        dataField: 'variants',
+        text: 'Variant',
+        formatter: (variants) => (
+          <div>
+            {
+              variants.map((variant) => (
+                <div key={variant.id} style={{display: 'flex'}}>
+                  <div
+                    style={{
+                      width: variantNameColWidth,
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      padding: `0px ${5}px`,
+                      flex: '1 0 auto',
+                    }}
+                  >
+                    {variant.id}
+                  </div>
+                  <div
+                    style={{
+                      width: variantTypeColWidth,
+                      padding: `0px ${5}px`,
+                      flex: '1 0 auto',
+                    }}
+                  >
+                    {variant.type && variant.type.name}
+                  </div>
+                  <div
+                    style={{
+                      width: variantConsequenceColWidth,
+                      padding: `0px ${5}px`,
+                      flex: '1 0 auto',
+                    }}
+                  >
+                    N/A
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        ),
+        attrs: {
+          colspan: 3
+        },
+        headerStyle: {width: variantNameColWidth},
+        //style: {width: variantNameColWidth + variantTypeColWidth + variantConsequenceColWidth + 50},
+        filterable: false,
+      },
+      {
+        dataField: 'variantType',
+        text: 'Variant type',
+        headerStyle: {width: variantTypeColWidth},
+        filterable: true,
+      },
+      {
+        dataField: 'molecularConsequence',
+        text: 'Molecular consequence',
+        headerStyle: {width: variantConsequenceColWidth},
+        filterable: true,
+      },
+      // {
+      //   dataField: 'source',
+      //   text: 'Source',
+      //   formatter: source => <ExternalLink href={source.url}>{source.dataProvider}</ExternalLink>,
+      //   filterable: true,
+      // },
     ];
 
     const data = alleles.data
       .map(allele => ({
+        ...allele,
         symbol: allele.symbol,
         synonym: allele.synonyms,
         source: {
