@@ -1,5 +1,5 @@
 .wordPressContainer {
-  margin-top: -1rem;
+  margin-top: -.5rem;
 }
 
 .postContainer {
@@ -13,7 +13,7 @@
 }
 
 .postMenuContainer, .homeMenuContainer,
-.aboutMenuContainer, .projectsMenuContainer,
+.aboutMenuContainer, .workingGroupsMenuContainer,
 .contactMenuContainer, .helpMenuContainer {
   background-size: cover;
   background: #222222 no-repeat center center;
@@ -33,8 +33,8 @@
   background-image: url('https://alliancegenome.files.wordpress.com/2019/05/contact-6.jpg');
 }
 
-.projectsMenuContainer {
-  background-image: url('http://alliancegenome.files.wordpress.com/2016/11/contact_banner.jpg');
+.workingGroupsMenuContainer {
+  background-image: url('https://alliancegenome.files.wordpress.com/2019/09/working-groups.jpg');
 }
 
 .helpMenuContainer {
