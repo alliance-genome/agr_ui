@@ -92,26 +92,9 @@ export const NAV_MENU = [
     ]
   },
   {
-    label: 'Work Products',
-    wordpressId: 257,
-    sub: [
-      {
-        label: 'Working Groups',
-        route: '/working-groups',
-      },
-      {
-        label: 'Genome Features',
-        route: '/genome-features'
-      },
-      {
-        label: 'Orthology',
-        route: '/orthology'
-      },
-      {
-        label: 'Phenotypes and Disease Models',
-        route: '/phenotypes-and-disease-models'
-      }
-    ]
+    label: 'Working Groups',
+    route: '/working-groups',
+    wordpressId: 1184,
   },
   {
     label: 'News',
