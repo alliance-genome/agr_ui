@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import {fetchGeneAssociations} from '../../actions/diseaseActions';
-import {selectAssociations} from '../../selectors/diseaseSelectors';
+import { selectGeneAssociations } from '../../selectors/diseaseSelectors';
 
 import ExternalLink from '../../components/externalLink';
 import {CollapsibleList} from '../../components/collapsibleList';
@@ -146,7 +146,7 @@ DiseaseToGeneTable.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  associations: selectAssociations(state),
+  associations: selectGeneAssociations(state),
 });
 
 const mapDispatchToProps = (dispatch, props) => ({

@@ -21,6 +21,7 @@ import ExternalLink from '../../components/externalLink';
 import HeadMetaTags from '../../components/headMetaTags';
 import DiseaseToAlleleTable from './DiseaseToAlleleTable';
 import DiseaseToGeneTable from './DiseaseToGeneTable';
+import DiseaseToModelTable from './DiseaseToModelTable';
 
 class DiseasePage extends Component {
   constructor(props) {
@@ -59,10 +60,12 @@ class DiseasePage extends Component {
     const SUMMARY = 'Summary';
     const GENES = 'Associated Genes';
     const ALLELES = 'Associated Alleles';
+    const MODELS = 'Associated Genomic Models';
     const SECTIONS = [
       {name: SUMMARY},
       {name: GENES},
-      {name: ALLELES}
+      {name: ALLELES},
+      {name: MODELS},
     ];
 
     const doLink = (
@@ -130,6 +133,10 @@ class DiseasePage extends Component {
 
           <Subsection title={ALLELES}>
             <DiseaseToAlleleTable id={disease.id} />
+          </Subsection>
+
+          <Subsection title={MODELS}>
+            <DiseaseToModelTable id={disease.id} />
           </Subsection>
         </PageData>
       </DataPage>
