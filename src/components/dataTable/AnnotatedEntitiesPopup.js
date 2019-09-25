@@ -26,8 +26,8 @@ function AnnotatedEntitiesPopup(props) {
       <DropdownToggle tag='span'>
         <a href='#' onClick={e => e.preventDefault()}>{children || 'View'}</a>
       </DropdownToggle>
-      <DropdownMenu modifiers={popperModifiers} positionFixed>
-        <div style={{maxWidth: '400px'}}>
+      <DropdownMenu className='shadow-sm' modifiers={popperModifiers} positionFixed style={{maxHeight: '500px', overflowY: 'scroll'}}>
+        <div style={{width: '400px'}}>
           <table className='table table-sm'>
             <thead>
               <tr>
