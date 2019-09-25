@@ -45,12 +45,29 @@ class RemoteDataTable extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (!isEqual(this.state, prevState)) {
-      this.props.onUpdate(this.state);
+      this.props.onUpdate(this.translateFilterNames(this.state));
     }
   }
 
   reset() {
     this.setState(DEFAULT_TABLE_STATE);
+  }
+
+  translateFilterNames(tableOpts) {
+    let filters = {...tableOpts.filters};
+    const renameProp = (oldProp, newProp, { [oldProp]: old, ...others }) => ({
+      [newProp]: old,
+      ...others
+    });
+    this.props.columns.forEach(column => {
+      if (column.filterName && column.dataField in filters) {
+        filters = renameProp(column.dataField, column.filterName, filters);
+      }
+    });
+    return {
+      ...tableOpts,
+      filters,
+    };
   }
 
   scrollIntoView() {

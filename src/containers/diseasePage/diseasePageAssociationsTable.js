@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import hash from 'object-hash';
 
-import { fetchAssociations } from '../../actions/disease';
+import { fetchGeneAssociations } from '../../actions/diseaseActions';
 import { selectAssociations } from '../../selectors/diseaseSelectors';
 
 import ExternalLink from '../../components/externalLink';
@@ -24,7 +24,7 @@ import { shortSpeciesName } from '../../lib/utils';
 class DiseasePageAssociationsTable extends Component {
   loadAssociations(opts) {
     const { dispatch, id } = this.props;
-    dispatch(fetchAssociations(id, opts));
+    dispatch(fetchGeneAssociations(id, opts));
   }
 
   render() {

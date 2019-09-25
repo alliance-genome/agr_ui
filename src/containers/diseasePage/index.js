@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import {
   fetchDisease,
-} from '../../actions/disease';
+} from '../../actions/diseaseActions';
 
 import {
   selectData,
@@ -20,6 +20,7 @@ import DiseasePageAssociationsTable from './diseasePageAssociationsTable';
 import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPage';
 import ExternalLink from '../../components/externalLink';
 import HeadMetaTags from '../../components/headMetaTags';
+import DiseaseToAlleleTable from './DiseaseToAlleleTable';
 
 class DiseasePage extends Component {
   constructor(props) {
@@ -57,9 +58,11 @@ class DiseasePage extends Component {
 
     const SUMMARY = 'Summary';
     const ASSOCIATIONS = 'Associations';
+    const ALLELES = 'Associated Alleles';
     const SECTIONS = [
       {name: SUMMARY},
-      {name: ASSOCIATIONS}
+      {name: ASSOCIATIONS},
+      {name: ALLELES}
     ];
 
     const doLink = (
@@ -123,6 +126,10 @@ class DiseasePage extends Component {
 
           <Subsection title='Associations'>
             <DiseasePageAssociationsTable id={disease.id} />
+          </Subsection>
+
+          <Subsection title={ALLELES}>
+            <DiseaseToAlleleTable id={disease.id} />
           </Subsection>
         </PageData>
       </DataPage>
