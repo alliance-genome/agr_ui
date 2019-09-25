@@ -114,16 +114,32 @@ a > span > .sprite {
 	background-position-x: -2.25rem;
 }
 
-.sprite {
-	background-image: url(./agrSprite.png);
-	width: 1rem;
-	height: 1rem;
-	display: inline-block;
-	background-size: 335%;
-	background-repeat: no-repeat;
-	position: relative;
-	top: 0.25rem;
+.categoryIcon {
+  position: relative;
+  bottom: 0.10rem;
 }
+
+/*
+Category colors (from SGD) that aren't used yet
+.reference{background:#ff7f0e}
+.biological_process{background:#2ca02c}
+.molecular_function{background:#8c564b}
+.phenotype{background:#e377c2}
+.resource{background:#17becf}
+.contig{background:#7f7f7f}
+.download{background:#d62728}
+.colleague{background:#ffbb78}
+.observable{background:#f7b6d2}
+.reserved_name{background:#aec7e8}
+.chemical{background:#ff9896}
+.complex{background:#E6AB03}
+ */
+
+.categoryIcon.go { color: #9467bd; }
+.categoryIcon.gene { color: #1f77b4; }
+.categoryIcon.disease { color: #D95F02; }
+.categoryIcon.model { color: #bcbd22; }
+.categoryIcon.allele { color: #8c564b; }
 
 .resultSpeciesIcon {
   float: right;

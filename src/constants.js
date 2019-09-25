@@ -30,6 +30,10 @@ export const CATEGORIES = [
   {
     name: 'allele',
     displayName: 'Allele'
+  },
+  {
+    name: 'model',
+    displayName: 'Model'
   }
 ];
 

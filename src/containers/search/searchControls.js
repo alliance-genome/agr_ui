@@ -66,7 +66,6 @@ class SearchControlsComponent extends Component {
   render() {
     return (
       <div className='d-flex'>
-        <div>{this.renderViewAs()}</div>
         <div className='ml-auto'>{this.renderNonViewAs()}</div>
       </div>
     );
