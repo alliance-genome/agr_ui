@@ -33,6 +33,7 @@ const DiseaseToModelTable = ({associations, fetchAssociations, id}) => {
         </React.Fragment>
       ),
       filterable: true,
+      filterName: 'modelName',
     },
     {
       dataField: 'species',

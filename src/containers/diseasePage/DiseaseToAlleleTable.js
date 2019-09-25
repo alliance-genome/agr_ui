@@ -31,6 +31,7 @@ const DiseaseToAlleleTable = ({associations, fetchAssociations, id}) => {
       ),
       headerStyle: {width: '185px'},
       filterable: true,
+      filterName: 'alleleName',
     },
     {
       dataField: 'gene',
