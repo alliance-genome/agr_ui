@@ -60,6 +60,7 @@ const DiseaseToAlleleTable = ({associations, fetchAssociations, id}) => {
       formatter: EvidenceCodesCell,
       headerStyle: {width: '100px'},
       filterable: true,
+      filterName: 'evidenceCode',
     },
     {
       dataField: 'source',
@@ -74,6 +75,7 @@ const DiseaseToAlleleTable = ({associations, fetchAssociations, id}) => {
       formatter: ReferenceCell,
       headerStyle: {width: '150px'},
       filterable: true,
+      filterName: 'reference',
     }
   ];
   return (
