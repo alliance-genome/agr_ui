@@ -1,7 +1,9 @@
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import hash from 'object-hash';
+import isEqual from 'lodash.isequal';
 
 import {
   SpeciesCell,
@@ -15,45 +17,44 @@ import {
   GeneticEntityCell
 
 } from '../dataTable';
+import { selectDiseaseRibbonAnnotations } from '../../selectors/diseaseRibbonSelectors';
+import { fetchDiseaseRibbonAnnotations } from '../../actions/diseaseRibbonActions';
 
 /*
  * Disease ribbon-table
  * Listens to events in the disease-ribbon component
  */
-export class DiseaseAnnotationTable extends Component {
+class DiseaseAnnotationTable extends Component {
 
   constructor(props){
     super(props);
     this.tableRef = React.createRef();
-    this.state = {
-      annotations: props.annotations,
-      geneId: props.geneId,
-      genes: props.genes,
-      onUpdate: props.onUpdate,
-      term: props.term
-    };
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps){
-    this.setState({
-      annotations: nextProps.annotations,
-      geneId: nextProps.geneId,
-      genes: nextProps.genes,
-      onUpdate: nextProps.onUpdate,
-      term: nextProps.term
-    });
+  componentDidMount() {
+    const { dispatch, genes, term } = this.props;
+    dispatch(fetchDiseaseRibbonAnnotations(genes, term));
   }
 
+  componentDidUpdate(prevProps) {
+    const { dispatch, genes, term } = this.props;
+    if (term !== undefined && ((prevProps.term !== undefined && term !== prevProps.term) || !isEqual(genes, prevProps.genes))) {
+      this.tableRef.current && this.tableRef.current.reset();
+      dispatch(fetchDiseaseRibbonAnnotations(genes, term));
+    }
+  }
+
+  handleUpdate(opts) {
+    const { dispatch, genes, term } = this.props;
+    dispatch(fetchDiseaseRibbonAnnotations(genes, term, opts));
+  }
 
   render() {
-    const annotations = this.state.annotations;
+    const { annotations, genes, term } = this.props;
 
-    if(!this.state.term) {
-      return('');
-    }
-
-    if(!this.state.genes) {
-      return('');
+    if (!term) {
+      return null;
     }
 
     let columns = [
@@ -68,7 +69,7 @@ export class DiseaseAnnotationTable extends Component {
         filterable: FilterSets.species,
         headerStyle: {width: '100px'},
         formatter: SpeciesCell,
-        hidden: this.state.genes.length < 2
+        hidden: genes.length < 2
       },
       {
         dataField: 'gene',
@@ -76,7 +77,7 @@ export class DiseaseAnnotationTable extends Component {
         formatter: GeneCell,
         filterable: true,
         headerStyle: {width: '75px'},
-        hidden: this.state.genes.length < 2
+        hidden: genes.length < 2
       },
       {
         dataField: 'disease',
@@ -102,7 +103,7 @@ export class DiseaseAnnotationTable extends Component {
         headerStyle: {
           width: '110px'
         },
-        formatter: entity => entity ? GeneticEntityCell(entity): null,
+        formatter: GeneticEntityCell,
         hidden: false
       },
       {
@@ -164,33 +165,34 @@ export class DiseaseAnnotationTable extends Component {
     }));
 
 
-    const geneIdParams = this.state.genes.map(g => `geneID=${g}`).join('&');
-    const downloadUrl = '/api/disease/download?' + geneIdParams + (this.state.term.type != 'GlobalAll' ? '&termID=' + this.state.term.id : '');
+    const geneIdParams = genes.map(g => `geneID=${g}`).join('&');
+    const downloadUrl = '/api/disease/download?' + geneIdParams + (term.type !== 'GlobalAll' ? ('&termID=' + term.id) : '');
 
     return (
-      <div style={{marginTop : '20px'}}>
-        <RemoteDataTable
-          columns={columns}
-          data={data}
-          downloadUrl={downloadUrl}
-          keyField='key'
-          loading={annotations.loading}
-          onUpdate={this.props.onUpdate}
-          ref={this.tableRef}
-          totalRows={annotations.total > 0 ? annotations.total: 0}
-        />
-      </div>
+      <RemoteDataTable
+        columns={columns}
+        data={data}
+        downloadUrl={downloadUrl}
+        keyField='key'
+        loading={annotations.loading}
+        onUpdate={this.handleUpdate}
+        ref={this.tableRef}
+        totalRows={annotations.total}
+      />
     );
   }
 
 }
 
 DiseaseAnnotationTable.propTypes = {
-  annotations: PropTypes.object.isRequired,
-  geneId: PropTypes.string.isRequired,
+  annotations: PropTypes.object,
+  dispatch: PropTypes.func,
   genes: PropTypes.array,
-  onUpdate: PropTypes.func,
-  term: PropTypes.object
+  term: PropTypes.string
 };
 
-export default DiseaseAnnotationTable;
+const mapStateToProps = state => ({
+  annotations: selectDiseaseRibbonAnnotations(state),
+});
+
+export default connect(mapStateToProps)(DiseaseAnnotationTable);

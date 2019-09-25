@@ -1,22 +1,15 @@
 import { fromJS } from 'immutable';
 import {
-  FETCH_DISEASE_SUMMARY,
-  FETCH_DISEASE_SUMMARY_FAILURE,
-  FETCH_DISEASE_SUMMARY_SUCCESS,
   FETCH_DISEASE,
   FETCH_DISEASE_SUCCESS,
   FETCH_DISEASE_FAILURE,
   FETCH_ASSOCIATIONS,
   FETCH_ASSOCIATIONS_SUCCESS,
   FETCH_ASSOCIATIONS_FAILURE,
-  FETCH_DISEASE_ANNOTATIONS_SUCCESS,
-  FETCH_DISEASE_ANNOTATIONS_FAILURE,
-  FETCH_DISEASE_ANNOTATIONS
 
 } from '../actions/disease';
 
 export const DEFAULT_STATE = fromJS({
-  summaries : {},
   data: null,
   error: null,
   loading: false,
@@ -36,22 +29,6 @@ export const DEFAULT_STATE = fromJS({
 
 const diseaseReducer = function (state = DEFAULT_STATE, action) {
   switch(action.type) {
-  case FETCH_DISEASE_SUMMARY:
-    return state
-      .setIn(['summaries', action.id, 'loading'], true);
-
-  case FETCH_DISEASE_SUMMARY_SUCCESS:
-    return state
-      .setIn(['summaries', action.id, 'loading'], false)
-      .setIn(['summaries', action.id, 'data'], action.summary)
-      .setIn(['summaries', action.id, 'error'], null);
-
-  case FETCH_DISEASE_SUMMARY_FAILURE:
-    return state
-      .setIn(['summaries', action.id, 'loading'], false)
-      .setIn(['summaries', action.id, 'data'], null)
-      .setIn(['summaries', action.id, 'error'], action.error);
-
   case FETCH_DISEASE:
     return state.set('loading', true);
 
@@ -80,21 +57,6 @@ const diseaseReducer = function (state = DEFAULT_STATE, action) {
       .setIn(['associations', 'total'], 0)
       .setIn(['associations', 'error'], action.payload);
 
-  case FETCH_DISEASE_ANNOTATIONS:
-    return state
-      .setIn(['diseaseAnnotations', 'loading'], true);
-
-  case FETCH_DISEASE_ANNOTATIONS_SUCCESS:
-    return state.setIn(['diseaseAnnotations', 'loading'], false)
-      .setIn(['diseaseAnnotations', 'data'], action.payload.results)
-      .setIn(['diseaseAnnotations', 'total'], action.payload.total)
-      .setIn(['diseaseAnnotations', 'error'], null);
-
-  case FETCH_DISEASE_ANNOTATIONS_FAILURE:
-    return state.setIn(['diseaseAnnotations', 'loading'], false)
-      .setIn(['diseaseAnnotations', 'data'], [])
-      .setIn(['diseaseAnnotations', 'total'], 0)
-      .setIn(['diseaseAnnotations', 'error'], action.payload);
   default:
     return state;
   }
