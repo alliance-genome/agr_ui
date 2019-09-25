@@ -11,13 +11,24 @@ import {
 } from '../../components/dataTable';
 import {fetchAlleleAssociations} from '../../actions/diseaseActions';
 import {selectAlleleAssociations} from '../../selectors/diseaseSelectors';
+import AnnotatedEntitiesPopup
+  from '../../components/dataTable/AnnotatedEntitiesPopup';
 
-const DiseaseToAlleleTable = ({associations, fetchAssociations}) => {
+const DiseaseToAlleleTable = ({associations, fetchAssociations, id}) => {
   const columns = [
     {
       dataField: 'allele',
       text: 'Allele',
-      formatter: allele => <AlleleCell allele={allele}/>,
+      formatter: (allele, row) => (
+        <React.Fragment>
+          <div><AlleleCell allele={allele}/></div>
+          <small>
+            <AnnotatedEntitiesPopup entities={row.primaryAnnotatedEntities}>
+              Based on inferences
+            </AnnotatedEntitiesPopup>
+          </small>
+        </React.Fragment>
+      ),
       headerStyle: {width: '185px'},
       filterable: true,
     },
@@ -59,7 +70,7 @@ const DiseaseToAlleleTable = ({associations, fetchAssociations}) => {
     },
     {
       dataField: 'publications',
-      text: 'Reference',
+      text: 'References',
       formatter: ReferenceCell,
       headerStyle: {width: '150px'},
       filterable: true,
@@ -69,7 +80,7 @@ const DiseaseToAlleleTable = ({associations, fetchAssociations}) => {
     <RemoteDataTable
       columns={columns}
       data={associations.data}
-      downloadUrl=''
+      downloadUrl={`/api/disease/${id}/alleles/download`}
       keyField='primaryKey'
       loading={associations.loading}
       onUpdate={fetchAssociations}
