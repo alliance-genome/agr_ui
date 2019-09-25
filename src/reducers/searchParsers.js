@@ -261,7 +261,7 @@ function parseDefaultResult(_d) {
     id: d.id,
     display_name: d.name,
     highlight: d.highlights,
-    href: d.href,
+    href: _d.modCrossRefFullUrl,
     name: d.name,
     synonyms: d.synonym,
     missing: d.missingTerms,
