@@ -68,6 +68,7 @@ const DiseaseToModelTable = ({associations, fetchAssociations, id}) => {
       formatter: ReferenceCell,
       headerStyle: {width: '150px'},
       filterable: true,
+      filterName: 'reference'
     }
   ];
 
