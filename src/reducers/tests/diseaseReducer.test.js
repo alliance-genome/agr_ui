@@ -1,5 +1,4 @@
 import assert from 'assert';
-import * as actionsAndTypes from '../../actions/disease';
 import reducer, {DEFAULT_STATE} from '../diseaseReducer';
 
 describe('Disease reducer', () => {
@@ -18,11 +17,11 @@ describe('Disease reducer', () => {
     };
 
     const action = {
-      type: actionsAndTypes.FETCH_ASSOCIATIONS_SUCCESS,
+      type: 'FETCH_GENE_ASSOCIATIONS_SUCCESS',
       payload: jsonResult
     };
     const returnedState = reducer(undefined, action);
-    const associations = returnedState.get('associations').toJS();
+    const associations = returnedState.get('geneAssociations').toJS();
     assert.equal(associations.total, jsonResult.total);
     assert.equal(associations.error, null);
     assert.deepEqual(associations.data, jsonResult.results);
@@ -32,10 +31,10 @@ describe('Disease reducer', () => {
   it('fetchAssociationsFailure', () => {
     const errorMsg = 'Request failed';
     const action = {
-      type: actionsAndTypes.FETCH_ASSOCIATIONS_FAILURE,
+      type: 'FETCH_GENE_ASSOCIATIONS_FAILURE',
       payload: errorMsg
     };
     const returnedState = reducer(undefined, action);
-    assert.equal(returnedState.get('associations').toJS().error, errorMsg);
+    assert.equal(returnedState.get('geneAssociations').toJS().error, errorMsg);
   });
 });

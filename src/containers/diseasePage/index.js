@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import {
   fetchDisease,
-} from '../../actions/disease';
+} from '../../actions/diseaseActions';
 
 import {
   selectData,
@@ -16,10 +16,12 @@ import LoadingPage from '../../components/loadingPage';
 import Subsection from '../../components/subsection';
 import NotFound from '../../components/notFound';
 import BasicDiseaseInfo from './basicDiseaseInfo';
-import DiseasePageAssociationsTable from './diseasePageAssociationsTable';
 import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPage';
 import ExternalLink from '../../components/externalLink';
 import HeadMetaTags from '../../components/headMetaTags';
+import DiseaseToAlleleTable from './DiseaseToAlleleTable';
+import DiseaseToGeneTable from './DiseaseToGeneTable';
+import DiseaseToModelTable from './DiseaseToModelTable';
 
 class DiseasePage extends Component {
   constructor(props) {
@@ -56,10 +58,14 @@ class DiseasePage extends Component {
     const disease = this.props.data;
 
     const SUMMARY = 'Summary';
-    const ASSOCIATIONS = 'Associations';
+    const GENES = 'Associated Genes';
+    const ALLELES = 'Associated Alleles';
+    const MODELS = 'Associated Genomic Models';
     const SECTIONS = [
       {name: SUMMARY},
-      {name: ASSOCIATIONS}
+      {name: GENES},
+      {name: ALLELES},
+      {name: MODELS},
     ];
 
     const doLink = (
@@ -121,8 +127,16 @@ class DiseasePage extends Component {
             <BasicDiseaseInfo disease={disease} />
           </Subsection>
 
-          <Subsection title='Associations'>
-            <DiseasePageAssociationsTable id={disease.id} />
+          <Subsection title={GENES}>
+            <DiseaseToGeneTable id={disease.id} />
+          </Subsection>
+
+          <Subsection title={ALLELES}>
+            <DiseaseToAlleleTable id={disease.id} />
+          </Subsection>
+
+          <Subsection title={MODELS}>
+            <DiseaseToModelTable id={disease.id} />
           </Subsection>
         </PageData>
       </DataPage>
