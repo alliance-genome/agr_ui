@@ -142,25 +142,45 @@ export const DEFAULT_TABLE_STATE = {
   filters: null,
 };
 
-export const TAXON_IDS = {
-  HUMAN: 'NCBITaxon:9606',
-  MOUSE: 'NCBITaxon:10090',
-  RAT: 'NCBITaxon:10116',
-  FISH: 'NCBITaxon:7955',
-  FLY: 'NCBITaxon:7227',
-  WORM: 'NCBITaxon:6239',
-  YEAST: 'NCBITaxon:559292'
-};
-
-export const TAXON_ORDER = [
-  TAXON_IDS.HUMAN,
-  TAXON_IDS.MOUSE,
-  TAXON_IDS.RAT,
-  TAXON_IDS.FISH,
-  TAXON_IDS.FLY,
-  TAXON_IDS.WORM,
-  TAXON_IDS.YEAST,
+export const SPECIES = [
+  {
+    taxonId: 'NCBITaxon:9606',
+    fullName: 'Homo sapiens',
+    shortName: 'Hsa',
+  },
+  {
+    taxonId: 'NCBITaxon:10090',
+    fullName: 'Mus musculus',
+    shortName: 'Mmu',
+  },
+  {
+    taxonId: 'NCBITaxon:10116',
+    fullName: 'Rattus norvegicus',
+    shortName: 'Rno',
+  },
+  {
+    taxonId: 'NCBITaxon:7955',
+    fullName: 'Danio rerio',
+    shortName: 'Dre',
+  },
+  {
+    taxonId: 'NCBITaxon:7227',
+    fullName: 'Drosophila melanogaster',
+    shortName: 'Dme',
+  },
+  {
+    taxonId: 'NCBITaxon:6239',
+    fullName: 'Caenorhabditis elegans',
+    shortName: 'Cel',
+  },
+  {
+    taxonId: 'NCBITaxon:559292',
+    fullName: 'Saccharomyces cerevisiae',
+    shortName: 'Sce',
+  },
 ];
+
+export const TAXON_ORDER = SPECIES.map(s => s.taxonId);
 
 export const GA_PROPERTY_ID = 'UA-98765810-1';
 
