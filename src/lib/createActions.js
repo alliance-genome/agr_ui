@@ -6,7 +6,7 @@ export const createFetchAction = (type, url) => {
       dispatch({
         type: type + '_REQUEST',
       });
-      fetchData(url(...params))
+      return fetchData(url(...params))
         .then((data) => dispatch({
           type: type + '_SUCCESS',
           payload: data,

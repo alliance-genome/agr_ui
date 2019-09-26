@@ -68,7 +68,7 @@ class DiseaseAnnotationTable extends Component {
         text: 'Species',
         filterable: FilterSets.species,
         headerStyle: {width: '100px'},
-        formatter: SpeciesCell,
+        formatter: species => <SpeciesCell species={species} />,
         hidden: genes.length < 2
       },
       {

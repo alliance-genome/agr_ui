@@ -5,7 +5,7 @@ import { DEFAULT_STATE as diseaseState } from '../../reducers/diseaseReducer';
 import {
   selectDiseaseDomain,
   selectData,
-  selectAssociations,
+  selectGeneAssociations,
 } from '../diseaseSelectors';
 
 describe('diseaseSelectors', () => {
@@ -26,10 +26,10 @@ describe('diseaseSelectors', () => {
   });
 
   it('selectAssociations', () => {
-    const diseaseState = { associations: [{ diseaseName: 'blah1'}, { diseaseName: 'blah2'}] };
+    const diseaseState = { geneAssociations: [{ diseaseName: 'blah1'}, { diseaseName: 'blah2'}] };
     const mockedState = {
       disease: fromJS(diseaseState),
     };
-    assert.deepEqual(selectAssociations(mockedState), diseaseState.associations);
+    assert.deepEqual(selectGeneAssociations(mockedState), diseaseState.geneAssociations);
   });
 });
