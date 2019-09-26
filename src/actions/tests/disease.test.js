@@ -1,46 +1,58 @@
 import assert from 'assert';
-import * as actionsAndTypes from '../disease';
+import thunk from 'redux-thunk';
+import configureMockStore from 'redux-mock-store';
+import fetchMock from 'fetch-mock';
+import * as actionsAndTypes from '../diseaseActions';
+
+const mockStore = configureMockStore([thunk]);
+const mockPayload = {
+  body: {
+    results: [
+      { disease: 'disease1' },
+      { disease: 'disease2' },
+    ],
+    total: 2,
+    errorMessage: '',
+  },
+  headers: { 'content-type': 'application/json' }
+};
 
 describe('Disease actions', () => {
+  afterEach(() => fetchMock.restore());
 
-  /*
-  TODO - Write tests for fetchAssociations()
-  We should really test the fetchAssociations() function using a mock API response
-  along the lines of
-  http://redux.js.org/docs/recipes/WritingTests.html#async-action-creators.
-
-  The current fetchData function relies on jQuery to make ajax calls, which makes
-  mocking an API response difficult in our current environment.  Switching to
-  isomorphic-fetch or superagent would allow use of API mocking libraries such as nock.
-   */
-
-  it('fetchAssociationsRequest()', () => {
-    assert.deepEqual(actionsAndTypes.fetchAssociationsRequest(), { type: actionsAndTypes.FETCH_ASSOCIATIONS});
-  });
-
-  it('fetchAssociationsSuccess()', () => {
-    const associations = [
-      {
-        geneDocument: {
-          symbol: 'Adk1'
-        },
-        associationType: 'is_implicated_in',
-        id: 'DOID:9452:MGI:87930',
-        disease_id: 'DOID:9452'
-      },
-      {
-        geneDocument: {
-          symbol: 'Adk2'
-        },
-        associationType: 'is_implicated_in',
-        id: 'DOID:9452:MGI:87930',
-        disease_id: 'DOID:9452'
-      }
+  it('fetch gene associations', () => {
+    fetchMock.getOnce('express:/api/disease/:id/genes', mockPayload);
+    const expectedActions = [
+      { type: actionsAndTypes.FETCH_GENE_ASSOCIATIONS + '_REQUEST' },
+      { type: actionsAndTypes.FETCH_GENE_ASSOCIATIONS + '_SUCCESS', payload: mockPayload.body },
     ];
-    assert.deepEqual(actionsAndTypes.fetchAssociationsSuccess(associations), { type: actionsAndTypes.FETCH_ASSOCIATIONS_SUCCESS, payload: associations});
+    const store = mockStore({});
+    return store.dispatch(actionsAndTypes.fetchGeneAssociations()).then(() => {
+      assert.deepEqual(store.getActions(), expectedActions);
+    });
   });
 
-  it('fetchAssociationsFailure()', () => {
-    assert.deepEqual(actionsAndTypes.fetchAssociationsFailure('I failed :-('), { type: actionsAndTypes.FETCH_ASSOCIATIONS_FAILURE, payload: 'I failed :-('});
+  it('fetch allele associations', () => {
+    fetchMock.getOnce('express:/api/disease/:id/alleles', mockPayload);
+    const expectedActions = [
+      { type: actionsAndTypes.FETCH_ALLELE_ASSOCIATIONS + '_REQUEST' },
+      { type: actionsAndTypes.FETCH_ALLELE_ASSOCIATIONS + '_SUCCESS', payload: mockPayload.body },
+    ];
+    const store = mockStore({});
+    return store.dispatch(actionsAndTypes.fetchAlleleAssociations()).then(() => {
+      assert.deepEqual(store.getActions(), expectedActions);
+    });
+  });
+
+  it('fetch model associations', () => {
+    fetchMock.getOnce('express:/api/disease/:id/models', mockPayload);
+    const expectedActions = [
+      { type: actionsAndTypes.FETCH_MODEL_ASSOCIATIONS + '_REQUEST' },
+      { type: actionsAndTypes.FETCH_MODEL_ASSOCIATIONS + '_SUCCESS', payload: mockPayload.body },
+    ];
+    const store = mockStore({});
+    return store.dispatch(actionsAndTypes.fetchModelAssociations()).then(() => {
+      assert.deepEqual(store.getActions(), expectedActions);
+    });
   });
 });
