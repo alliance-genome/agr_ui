@@ -1,3 +1,5 @@
+import {SPECIES} from '../../constants';
+
 export default {
   moleculeTypes: [
     'DNA',
@@ -10,15 +12,7 @@ export default {
     'protein',
     'RNA',
   ],
-  species: [
-    'Homo sapiens',
-    'Rattus norvegicus',
-    'Mus musculus',
-    'Danio rerio',
-    'Drosophila melanogaster',
-    'Caenorhabditis elegans',
-    'Saccharomyces cerevisiae',
-  ],
+  species: SPECIES.map(s => s.fullName),
   associationTypesWithOrthology: [
     'biomarker via orthology',
     'implicated via orthology',

@@ -1,5 +1,5 @@
 import { STRINGENCY_HIGH, STRINGENCY_MED } from '../components/orthology/constants';
-import { DEFAULT_TABLE_STATE, TAXON_IDS } from '../constants';
+import { DEFAULT_TABLE_STATE, SPECIES } from '../constants';
 
 export function makeId(string) {
   return string.toLowerCase().replace(/[^A-Za-z0-9]/g, '-');
@@ -101,15 +101,10 @@ export function filterOrthologyByStringency(orthologyList, stringency) {
   return orthologyList.filter(o => orthologyMeetsStringency(o, stringency));
 }
 
-export function shortSpeciesName(taxonId) {
-  const shortNames = {
-    [TAXON_IDS.HUMAN]: 'Hsa',
-    [TAXON_IDS.RAT]: 'Rno',
-    [TAXON_IDS.MOUSE]: 'Mmu',
-    [TAXON_IDS.FISH]: 'Dre',
-    [TAXON_IDS.FLY]: 'Dme',
-    [TAXON_IDS.WORM]: 'Cel',
-    [TAXON_IDS.YEAST]: 'Sce',
-  };
-  return shortNames[taxonId];
-}
+export const shortSpeciesName = taxonId => {
+  return (SPECIES.find(s => s.taxonId === taxonId) || {}).shortName;
+};
+
+export const fullSpeciesName = taxonId => {
+  return (SPECIES.find(s => s.taxonId === taxonId) || {}).fullName;
+};
