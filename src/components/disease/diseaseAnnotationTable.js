@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import hash from 'object-hash';
 import isEqual from 'lodash.isequal';
 
 import {
@@ -30,11 +29,6 @@ class DiseaseAnnotationTable extends Component {
     super(props);
     this.tableRef = React.createRef();
     this.handleUpdate = this.handleUpdate.bind(this);
-  }
-
-  componentDidMount() {
-    const { dispatch, genes, term } = this.props;
-    dispatch(fetchDiseaseRibbonAnnotations(genes, term));
   }
 
   componentDidUpdate(prevProps) {
@@ -151,7 +145,7 @@ class DiseaseAnnotationTable extends Component {
     ];
 
     const data = annotations && annotations.data && annotations.data.map(result => ({
-      key: hash(result),
+      key: result.primaryKey,
       evidenceCode : result.evidenceCodes,
       gene: result.gene,
       species: result.gene.species,
