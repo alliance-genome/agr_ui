@@ -147,36 +147,43 @@ export const SPECIES = [
     taxonId: 'NCBITaxon:9606',
     fullName: 'Homo sapiens',
     shortName: 'Hsa',
+    vertebrate: true,
   },
   {
     taxonId: 'NCBITaxon:10090',
     fullName: 'Mus musculus',
     shortName: 'Mmu',
+    vertebrate: true,
   },
   {
     taxonId: 'NCBITaxon:10116',
     fullName: 'Rattus norvegicus',
     shortName: 'Rno',
+    vertebrate: true,
   },
   {
     taxonId: 'NCBITaxon:7955',
     fullName: 'Danio rerio',
     shortName: 'Dre',
+    vertebrate: true,
   },
   {
     taxonId: 'NCBITaxon:7227',
     fullName: 'Drosophila melanogaster',
     shortName: 'Dme',
+    vertebrate: false,
   },
   {
     taxonId: 'NCBITaxon:6239',
     fullName: 'Caenorhabditis elegans',
     shortName: 'Cel',
+    vertebrate: false,
   },
   {
     taxonId: 'NCBITaxon:559292',
     fullName: 'Saccharomyces cerevisiae',
     shortName: 'Sce',
+    vertebrate: false,
   },
 ];
 

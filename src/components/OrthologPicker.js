@@ -1,75 +1,274 @@
 /* eslint-disable react/no-set-state */
+/* eslint-disable react/no-did-update-set-state */
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import Select from 'react-select';
-import { Button } from 'reactstrap';
-
+import isEqual from 'lodash.isequal';
 import {
-  StringencySelection,
-  getOrthologSpeciesId,
-  getOrthologId,
-  getOrthologSymbol,
-} from './orthology';
+  STRINGENCY_HIGH,
+  STRINGENCY_MED,
+  STRINGNECY_LOW
+} from './orthology/constants';
+import {
+  DropdownMenu,
+  DropdownToggle,
+  UncontrolledDropdown,
+  UncontrolledTooltip
+} from 'reactstrap';
+import {SPECIES, TAXON_ORDER} from '../constants';
 import {
   compareAlphabeticalCaseInsensitive,
   compareBy,
   compareByFixedOrder,
-  orthologyMeetsStringency,
-  shortSpeciesName,
+  makeId,
+  orthologyMeetsStringency
 } from '../lib/utils';
-import { TAXON_ORDER } from '../constants';
+import {getOrthologSpeciesId, getOrthologSymbol} from './orthology';
 
-const makeLabel = (symbol, taxonId) => `${symbol} (${shortSpeciesName(taxonId)})`;
+const bySpecies = species => orthology => species
+  .map(s => s.taxonId)
+  .indexOf(getOrthologSpeciesId(orthology)) >= 0;
 const byStringency = stringency => orthology => orthologyMeetsStringency(orthology, stringency);
 const compareBySpeciesThenAlphabetical = compareBy([
   compareByFixedOrder(TAXON_ORDER, o => getOrthologSpeciesId(o)),
   compareAlphabeticalCaseInsensitive(o => getOrthologSymbol(o))
 ]);
 
+const STRINGENCY_OPTIONS = [
+  {
+    label: 'Stringent',
+    value: STRINGENCY_HIGH,
+  },
+  {
+    label: 'Moderate',
+    value: STRINGENCY_MED,
+  },
+  {
+    label: 'Any',
+    value: STRINGNECY_LOW,
+  },
+];
+
 class OrthologPicker extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      stringency: props.defaultStringency
+      enabled: !!props.defaultStringency,
+      stringency: STRINGENCY_OPTIONS.find(o => o.value === props.defaultStringency),
+      allVertebrates: false,
+      allInvertebrates: false,
+      selectedSpecies: [],
     };
+    this.handleClearSpecies = this.handleClearSpecies.bind(this);
+  }
+
+  componentDidMount() {
+    this.fireChangeCallback();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { allVertebrates, allInvertebrates, stringency, enabled, selectedSpecies } = this.state;
+    const speciesChanged = !isEqual(prevState.selectedSpecies, selectedSpecies);
+    if (prevState.stringency !== stringency || speciesChanged) {
+      this.fireChangeCallback();
+      if (stringency || selectedSpecies.length) {
+        this.setState({enabled: true});
+      } else {
+        this.setState({enabled: false});
+      }
+    }
+    if (speciesChanged && allVertebrates === prevState.allVertebrates) {
+      this.setState({allVertebrates: false});
+    }
+    if (speciesChanged && allInvertebrates === prevState.allInvertebrates) {
+      this.setState({allInvertebrates: false});
+    }
+    if (!prevState.enabled && enabled) {
+      if (!stringency && !selectedSpecies.length) {
+        this.setState({stringency: STRINGENCY_OPTIONS[0]});
+      }
+    }
+    if (prevState.enabled && !enabled) {
+      this.setState({
+        stringency: null,
+        selectedSpecies: []
+      });
+    }
+  }
+
+  fireChangeCallback() {
+    const { orthology, onChange } = this.props;
+    const { stringency, selectedSpecies } = this.state;
+    const filteredOrthology = orthology.sort(compareBySpeciesThenAlphabetical);
+    let selectedOrthologs = (stringency || selectedSpecies.length) ? filteredOrthology : [];
+    if (stringency) {
+      selectedOrthologs = selectedOrthologs.filter(byStringency(stringency));
+    }
+    if (selectedSpecies.length) {
+      selectedOrthologs = selectedOrthologs.filter(bySpecies(selectedSpecies));
+    }
+    onChange(selectedOrthologs);
+  }
+
+  toggleVertebrates(checked) {
+    this.setState({allVertebrates: checked});
+    if (checked) {
+      this.setState(state => ({
+        selectedSpecies: [...state.selectedSpecies, ...SPECIES.filter(s => s.vertebrate)],
+      }));
+    } else {
+      this.setState(state => ({
+        selectedSpecies: state.selectedSpecies.filter(s => !s.vertebrate)
+      }));
+    }
+  }
+
+  toggleInvertebrates(checked) {
+    this.setState({allInvertebrates: checked});
+    if (checked) {
+      this.setState(state => ({
+        selectedSpecies: [...state.selectedSpecies, ...SPECIES.filter(s => !s.vertebrate)],
+      }));
+    } else {
+      this.setState(state => ({
+        selectedSpecies: state.selectedSpecies.filter(s => s.vertebrate)
+      }));
+    }
+  }
+
+  handleClearSpecies() {
+    this.setState({
+      selectedSpecies: [],
+      allVertebrates: false,
+      allInvertebrates: false,
+    });
   }
 
   render() {
-    const { onChange, orthology, value } = this.props;
-    const { stringency } = this.state;
-
-    const filteredOrthology = (orthology.data || [])
-      .filter(byStringency(this.state.stringency))
-      .sort(compareBySpeciesThenAlphabetical);
+    const { disabledSpeciesMessage, id, orthology } = this.props;
+    const { allInvertebrates, allVertebrates, enabled, selectedSpecies, stringency } = this.state;
 
     return (
       <React.Fragment>
-        <b>Compare to ortholog genes</b>
-        <StringencySelection level={stringency} onChange={stringency => this.setState({stringency})} />
-        <div className='d-flex align-items-baseline'>
-          <div className='flex-grow-1'>
-            <Select
-              closeMenuOnSelect={false}
-              getOptionLabel={option => makeLabel(getOrthologSymbol(option), getOrthologSpeciesId(option))}
-              getOptionValue={option => getOrthologId(option)}
-              isLoading={orthology.loading}
-              isMulti
-              maxMenuHeight={210}
-              onChange={onChange}
-              options={filteredOrthology}
-              placeholder='Select orthologs...'
-              value={value}
+        <div className='form-check'>
+          <label>
+            <input
+              checked={enabled}
+              className='form-check-input'
+              onChange={e => this.setState({enabled: e.target.checked})}
+              type='checkbox'
             />
-          </div>
-          <span className='px-2'>or</span>
-          <Button
-            color='primary'
-            disabled={filteredOrthology.length === 0}
-            onClick={() => onChange(filteredOrthology)}
-          >
-            Add all
-          </Button>
+            <b>Compare ortholog genes</b>
+          </label>
+        </div>
+        <div>
+          <UncontrolledDropdown className='pr-2' tag='span'>
+            <DropdownToggle caret className='align-baseline' color='primary' outline={!stringency}>
+              <span>Stringency{stringency && `: ${stringency.label}`}</span>
+            </DropdownToggle>
+            <DropdownMenu>
+              <form className="px-4 py-3" style={{minWidth: '300px'}}>
+                <div className='form-group'>
+                  {STRINGENCY_OPTIONS.map(option => (
+                    <div className='form-check' key={option.value}>
+                      <label className='form-check-label'>
+                        <input
+                          checked={!!stringency && stringency.value === option.value}
+                          className='form-check-input'
+                          name='stringency'
+                          onChange={() => this.setState({stringency: option})}
+                          type='radio'
+                        />
+                        {option.label}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+                <button
+                  className='btn btn-outline-secondary'
+                  onClick={() => this.setState({stringency: null})}
+                  type='button'
+                >
+                  Clear
+                </button>
+              </form>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+          <UncontrolledDropdown className='pr-2' tag='span'>
+            <DropdownToggle caret className='align-baseline' color='primary' outline={!selectedSpecies.length}>
+              Species
+              {selectedSpecies.length > 0 && `: ${selectedSpecies[0].fullName}`}
+              {selectedSpecies.length > 1 && ` +${selectedSpecies.length - 1}`}
+            </DropdownToggle>
+            <DropdownMenu>
+              <form className="px-4 py-3" style={{minWidth: '300px'}}>
+                <div className='form-group'>
+                  <div className='form-check'>
+                    <label className='form-check-label'>
+                      <input
+                        checked={allVertebrates}
+                        className='form-check-input'
+                        onChange={e => this.toggleVertebrates(e.target.checked)}
+                        type='checkbox'
+                      />
+                      All vertebrates
+                    </label>
+                  </div>
+                  <div className='form-check'>
+                    <label className='form-check-label'>
+                      <input
+                        checked={allInvertebrates}
+                        className='form-check-input'
+                        onChange={e => this.toggleInvertebrates(e.target.checked)}
+                        type='checkbox'
+                      />
+                      All invertebrates
+                    </label>
+                  </div>
+                </div>
+                <hr />
+                <div className='form-group'>
+                  {SPECIES.map(species => {
+                    const checkId = id + makeId(species.taxonId);
+                    const disabled = orthology.findIndex(o => getOrthologSpeciesId(o) === species.taxonId) < 0;
+                    return (
+                      <div key={species.taxonId}>
+                        <div className={`form-check form-check-inline ${disabled ? 'disabled' : ''}`} id={checkId}>
+                          <label className='form-check-label'>
+                            <input
+                              checked={!!selectedSpecies.find(s => s.taxonId === species.taxonId)}
+                              className='form-check-input'
+                              disabled={disabled}
+                              onChange={e => {
+                                if (e.target.checked) {
+                                  this.setState({selectedSpecies: [...selectedSpecies, species]});
+                                } else {
+                                  this.setState({selectedSpecies: selectedSpecies.filter(s => s.taxonId !== species.taxonId)});
+                                }
+                              }}
+                              type='checkbox'
+                            />
+                            {species.fullName}
+                          </label>
+                        </div>
+                        {disabled &&
+                          <UncontrolledTooltip delay={{show: 200, hide: 0}} placement='bottom' target={checkId}>
+                            {disabledSpeciesMessage}
+                          </UncontrolledTooltip>
+                        }
+                      </div>
+                    );
+                  })}
+                </div>
+                <button
+                  className='btn btn-outline-secondary'
+                  onClick={this.handleClearSpecies}
+                  type='button'
+                >
+                  Clear
+                </button>
+              </form>
+            </DropdownMenu>
+          </UncontrolledDropdown>
         </div>
       </React.Fragment>
     );
@@ -78,9 +277,15 @@ class OrthologPicker extends React.Component {
 
 OrthologPicker.propTypes = {
   defaultStringency: PropTypes.string,
+  disabledSpeciesMessage: PropTypes.string,
+  id: PropTypes.string.isRequired,
   onChange: PropTypes.func,
-  orthology: PropTypes.object,
+  orthology: PropTypes.array,
   value: PropTypes.array,
+};
+
+OrthologPicker.defaultProps = {
+  orthology: [],
 };
 
 export default OrthologPicker;
