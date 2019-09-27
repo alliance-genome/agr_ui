@@ -79,6 +79,22 @@ const DiseaseToAlleleTable = ({associations, fetchAssociations, id}) => {
       filterName: 'reference',
     }
   ];
+
+  const sortOptions = [
+    {
+      value: 'disease',
+      label: 'Disease',
+    },
+    {
+      value: 'allele',
+      label: 'Allele',
+    },
+    {
+      value: 'species',
+      label: 'Species',
+    },
+  ];
+
   return (
     <RemoteDataTable
       columns={columns}
@@ -87,6 +103,7 @@ const DiseaseToAlleleTable = ({associations, fetchAssociations, id}) => {
       keyField='primaryKey'
       loading={associations.loading}
       onUpdate={fetchAssociations}
+      sortOptions={sortOptions}
       totalRows={associations.total}
     />
   );
