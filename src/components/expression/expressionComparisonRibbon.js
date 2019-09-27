@@ -73,7 +73,7 @@ class ExpressionComparisonRibbon extends React.Component {
   }
 
   render() {
-    const { orthology, summary } = this.props;
+    const { geneSymbol, orthology, summary } = this.props;
     const { selectedOrthologs, selectedBlock } = this.state;
 
     // const genes = [geneId].concat(selectedOrthologs.map(o => getOrthologId(o)));
@@ -86,7 +86,7 @@ class ExpressionComparisonRibbon extends React.Component {
     if (summary.error) {
       // eslint-disable-next-line no-console
       console.log(this.props.summary.error);
-      return <span className='text-danger'>Error fetching disease annotation summary</span>;
+      return <span className='text-danger'>Error fetching expression annotation summary</span>;
     }
 
     if (!summary.data.subjects || !summary.data.categories) {
@@ -111,9 +111,10 @@ class ExpressionComparisonRibbon extends React.Component {
               </HelpPopup>
             </span>
             <OrthologPicker
-              defaultStringency={STRINGENCY_HIGH}
+              disabledSpeciesMessage={`${geneSymbol} has no ortholog genes or no ortholog genes with expression annotations in this species`}
+              id='expression-ortho-picker'
               onChange={this.handleOrthologChange}
-              orthology={orthology}
+              orthology={orthology.data}
               value={selectedOrthologs}
             />
           </ControlsContainer>

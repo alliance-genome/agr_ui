@@ -26,3 +26,10 @@
   }
   @include webkit-scrollbar;
 }
+
+.form-check.disabled > .form-check-label {
+  color: $text-muted;
+}
+input[type='checkbox'][disabled] {
+  pointer-events: none;
+}

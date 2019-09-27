@@ -41,7 +41,16 @@ class DiseaseComparisonRibbon extends Component {
   }
 
   componentDidMount() {
-    this.fetchData();
+    this.fetchData()
+      .then(() => this.setState({
+        selectedBlock: {
+          group: {
+            id: 'all',
+            type: 'GlobalAll',
+          },
+          block: null,
+        }
+      }));
   }
 
   componentDidUpdate(prevProps) {
@@ -51,7 +60,7 @@ class DiseaseComparisonRibbon extends Component {
   }
 
   fetchData() {
-    this.props.dispatch(fetchDiseaseRibbonSummary(this.getGeneIdList()));
+    return this.props.dispatch(fetchDiseaseRibbonSummary(this.getGeneIdList()));
   }
 
   handleOrthologyChange(selectedOrthologs) {
@@ -75,7 +84,7 @@ class DiseaseComparisonRibbon extends Component {
   }
 
   render(){
-    const { orthology, summary } = this.props;
+    const { geneSymbol, orthology, summary } = this.props;
     const { selectedBlock, selectedOrthologs } = this.state;
 
     if (!summary) {
@@ -103,8 +112,10 @@ class DiseaseComparisonRibbon extends Component {
             </span>
             <OrthologPicker
               defaultStringency={STRINGENCY_HIGH}
+              disabledSpeciesMessage={`${geneSymbol} has no ortholog genes in this species`}
+              id='disease-ortho-picker'
               onChange={this.handleOrthologyChange}
-              orthology={orthology}
+              orthology={orthology.data}
               value={selectedOrthologs}
             />
           </ControlsContainer>
