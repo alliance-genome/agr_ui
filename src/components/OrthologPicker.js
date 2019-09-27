@@ -68,29 +68,41 @@ class OrthologPicker extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const { allVertebrates, allInvertebrates, stringency, enabled, selectedSpecies } = this.state;
     const speciesChanged = !isEqual(prevState.selectedSpecies, selectedSpecies);
+
+    // if the stringency or species filters have changed...
     if (prevState.stringency !== stringency || speciesChanged) {
+      // ...fire the parent component change callback...
       this.fireChangeCallback();
+      // ...and enable or disable the main compare checkbox (may be a no-op in some cases)
       if (stringency || selectedSpecies.length) {
         this.setState({enabled: true});
       } else {
         this.setState({enabled: false});
       }
     }
+
+    // if the user changed the species, clear the vertebrate/invertebrate checkboxes
     if (speciesChanged && allVertebrates === prevState.allVertebrates) {
       this.setState({allVertebrates: false});
     }
     if (speciesChanged && allInvertebrates === prevState.allInvertebrates) {
       this.setState({allInvertebrates: false});
     }
+
+    // if the user checked the compare checkbox, start them with the stringent orthologs
     if (!prevState.enabled && enabled) {
       if (!stringency && !selectedSpecies.length) {
         this.setState({stringency: STRINGENCY_OPTIONS[0]});
       }
     }
+
+    // if the user unchecked the compare checkbox, clear everything
     if (prevState.enabled && !enabled) {
       this.setState({
         stringency: null,
-        selectedSpecies: []
+        selectedSpecies: [],
+        allVertebrates: false,
+        allInvertebrates: false,
       });
     }
   }
