@@ -80,6 +80,18 @@ const DiseaseToModelTable = ({associations, fetchAssociations, id}) => {
     ...association,
   }));
 
+  const sortOptions = [
+    {
+      value: 'model',
+      label: 'Model',
+    },
+    {
+      value: 'disease',
+      label: 'Disease',
+    },
+  ];
+
+
   return (
     <RemoteDataTable
       columns={columns}
@@ -88,6 +100,7 @@ const DiseaseToModelTable = ({associations, fetchAssociations, id}) => {
       keyField='primaryKey'
       loading={associations.loading}
       onUpdate={fetchAssociations}
+      sortOptions={sortOptions}
       totalRows={associations.total}
     />
   );
