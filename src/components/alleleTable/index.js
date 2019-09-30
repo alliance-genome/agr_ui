@@ -9,6 +9,7 @@ import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
 import CollapsibleList from '../collapsibleList/collapsibleList';
 import SynonymList from '../synonymList';
 import { RemoteDataTable } from '../dataTable';
+import ExternalLink from '../externalLink';
 
 class AlleleTable extends Component {
   loadData (opts) {
@@ -17,7 +18,7 @@ class AlleleTable extends Component {
   }
 
   render() {
-    const { alleles, geneId, geneDataProvider } = this.props;
+    const { alleles, geneId, geneSymbol, species, geneDataProvider } = this.props;
 
     const variantNameColWidth = 300;
     const variantTypeColWidth = 150;
@@ -74,8 +75,8 @@ class AlleleTable extends Component {
         formatter: (variants) => (
           <div>
             {
-              variants.map((variant) => (
-                <div key={variant.id} style={{display: 'flex'}}>
+              variants.map(({id, type = {}, location = {}}) => (
+                <div key={id} style={{display: 'flex'}}>
                   <div
                     style={{
                       width: variantNameColWidth,
@@ -85,7 +86,9 @@ class AlleleTable extends Component {
                       flex: '1 0 auto',
                     }}
                   >
-                    {variant.id}
+                    <ExternalLink href={`${process.env.JBROWSE_URL || ''}/jbrowse/?data=data/${species}&&loc=${geneSymbol}&tracks=Phenotypic Variants,All Genes,DNA&highlight=${location.chromosome}:${location.start || location.end}..${location.end}`}>
+                      {id}
+                    </ExternalLink>
                   </div>
                   <div
                     style={{
@@ -94,7 +97,7 @@ class AlleleTable extends Component {
                       flex: '1 0 auto',
                     }}
                   >
-                    {variant.type && variant.type.name}
+                    {type && type.name}
                   </div>
                   <div
                     style={{
@@ -128,7 +131,7 @@ class AlleleTable extends Component {
         text: 'Molecular consequence',
         helpPopupProps: {
           id: 'gene-page--alleles-table--molecular-consequence-help',
-          children: <span>Variant consequences were predicted by the <a href="https://uswest.ensembl.org/info/docs/tools/vep/index.html" target="_blank">Ensembl Variant Effect Predictor (VEP) tool</a> based on Alliance variants information.</span>,
+          children: <span>Variant consequences were predicted by the <ExternalLink href="https://uswest.ensembl.org/info/docs/tools/vep/index.html" target="_blank">Ensembl Variant Effect Predictor (VEP) tool</ExternalLink> based on Alliance variants information.</span>,
         },
         headerStyle: {width: variantConsequenceColWidth},
         filterable: true,
@@ -180,6 +183,8 @@ AlleleTable.propTypes = {
   dispatch: PropTypes.func,
   geneDataProvider: PropTypes.string.isRequired,
   geneId: PropTypes.string.isRequired,
+  geneSymbol: PropTypes.string.isRequired,
+  species: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
