@@ -9,6 +9,7 @@ import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPa
 import BasicGeneInfo from './basicGeneInfo';
 import { OrthologyFilteredTable, OrthologyUserGuide, OrthologyBasicInfo } from '../../components/orthology';
 
+
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
 import LoadingPage from '../../components/loadingPage';
 import NotFound from '../../components/notFound';
@@ -24,6 +25,67 @@ import PhenotypeTable from './phenotypeTable';
 import { ExpressionComparisonRibbon } from '../../components/expression';
 import { DiseaseComparisonRibbon } from '../../components/disease';
 import HeadMetaTags from '../../components/headMetaTags';
+import { ProteinWidget } from '@gmod/jbrowse-protein-widget';
+import SimpleFeature from '@gmod/jbrowse-core/dist/util/simpleFeature';
+
+
+const data  = { 'protein': { 'name': 'KRAS', 'sequences': { 'aminoAcid': 'MTEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQEEYSAMRDQYMRTGEGFLCVFAINNTKSFEDIHHYREQIKRVKDSEDVPMVLVGNKCDLPSRTVDTKQAQDLARSYGIPFIETSAKTRQGVDDAFYTLVREIRKHKEKMSKDGKKKKKKSKTKCVIM', 'translatedDna': 'ATGACTGAATATAAACTTGTGGTAGTTGGAGCTGGTGGCGTAGGCAAGAGTGCCTTGACGATACAGCTAATTCAGAATCATTTTGTGGACGAATATGATCCAACAATAGAGGATTCCTACAGGAAGCAAGTAGTAATTGATGGAGAAACCTGTCTCTTGGATATTCTCGACACAGCAGGTCAAGAGGAGTACAGTGCAATGAGGGACCAGTACATGAGGACTGGGGAGGGCTTTCTTTGTGTATTTGCCATAAATAATACTAAATCATTTGAAGATATTCACCATTATAGAGAACAAATTAAAAGAGTTAAGGACTCTGAAGATGTACCTATGGTCCTAGTAGGAAATAAATGTGATTTGCCTTCTAGAACAGTAGACACAAAACAGGCTCAGGACTTAGCAAGAAGTTATGGAATTCCTTTTATTGAAACATCAGCAAAGACAAGACAGGGTGTTGATGATGCCTTCTATACATTAGTTCGAGAAATTCGAAAACATAAAGAAAAGATGAGCAAAGATGGTAAAAAGAAGAAAAAGAAGTCAAAGACAAAGTGTGTAATTATG' } }, 'domains': [ { 'uniqueId': 'IPR001806_5_164', 'start': 5, 'end': 164, 'refName': 'KRAS', 'type': 'Small_GTPase' }, { 'uniqueId': 'IPR005225_1_159', 'start': 1, 'end': 159, 'refName': 'KRAS', 'type': 'Small_GTP-bd_dom' }, { 'uniqueId': 'IPR020849_1_188', 'start': 1, 'end': 188, 'refName': 'KRAS', 'type': 'Small_GTPase_Ras-type' }, { 'uniqueId': 'IPR027417_3_181', 'start': 3, 'end': 181, 'refName': 'KRAS', 'type': 'P-loop_NTPase' } ], 'variants': [ { 'uniqueId': 'COSM4413602', 'start': 188, 'end': 189, 'refName': 'KRAS', 'score': 1 }, { 'uniqueId': 'COSM1256062', 'start': 185, 'end': 186, 'refName': 'KRAS', 'score': 1 }, { 'uniqueId': 'COSM1562192', 'start': 117, 'end': 118, 'refName': 'KRAS', 'score': 24 }, { 'uniqueId': 'COSM19940', 'start': 117, 'end': 118, 'refName': 'KRAS', 'score': 20 }, { 'uniqueId': 'COSM28519', 'start': 117, 'end': 118, 'refName': 'KRAS', 'score': 35 }, { 'uniqueId': 'COSM4696721', 'start': 117, 'end': 118, 'refName': 'KRAS', 'score': 3 }, { 'uniqueId': 'COSM4696722', 'start': 117, 'end': 118, 'refName': 'KRAS', 'score': 3 }, { 'uniqueId': 'COSM6854421', 'start': 117, 'end': 118, 'refName': 'KRAS', 'score': 3 }, { 'uniqueId': 'COSM5882217', 'start': 116, 'end': 117, 'refName': 'KRAS', 'score': 1 }, { 'uniqueId': 'COSM5882218', 'start': 116, 'end': 117, 'refName': 'KRAS', 'score': 1 }, { 'uniqueId': 'COSM6438035', 'start': 115, 'end': 116, 'refName': 'KRAS', 'score': 1 }, { 'uniqueId': 'COSM6474356', 'start': 114, 'end': 115, 'refName': 'KRAS', 'score': 1 }, { 'uniqueId': 'COSM6474357', 'start': 114, 'end': 115, 'refName': 'KRAS', 'score': 1 }, { 'uniqueId': 'COSM6963380', 'start': 110, 'end': 112, 'refName': 'KRAS', 'score': 1 }, { 'uniqueId': 'COSM6963381', 'start': 110, 'end': 112, 'refName': 'KRAS', 'score': 1 }, { 'uniqueId': 'COSM6921567', 'start': 111, 'end': 112, 'refName': 'KRAS', 'score': 1 }, { 'uniqueId': 'COSM6921568', 'start': 111, 'end': 112, 'refName': 'KRAS', 'score': 1 }, { 'uniqueId': 'COSM7288840', 'start': 111, 'end': 112, 'refName': 'KRAS', 'score': 1 }, { 'uniqueId': 'COSM7288841', 'start': 111, 'end': 112, 'refName': 'KRAS', 'score': 1 }, { 'uniqueId': 'COSM1586382', 'start': 110, 'end': 111, 'refName': 'KRAS', 'score': 1 }, { 'uniqueId': 'COSM938159', 'start': 110, 'end': 111, 'refName': 'KRAS', 'score': 1 }, { 'uniqueId': 'COSM6845113', 'start': 109, 'end': 110, 'refName': 'KRAS', 'score': 1 }, { 'uniqueId': 'COSM6438041', 'start': 108, 'end': 109, 'refName': 'KRAS', 'score': 2 }, { 'uniqueId': 'COSM6438037', 'start': 107, 'end': 108, 'refName': 'KRAS', 'score': 1 }, { 'uniqueId': 'COSM504059', 'start': 101, 'end': 103, 'refName': 'KRAS', 'score': 1 }, { 'uniqueId': 'COSM6986186', 'start': 99, 'end': 100, 'refName': 'KRAS', 'score': 1 }, ] };
+const TestGenomeApp = () => {
+  const widget = new ProteinWidget(data);
+  console.log('widget imported and in theory rendering',widget);
+  return (
+    <>
+      <h1>Demo of manually calling feature renderer with supplied JSON</h1>
+      <ExampleFeatureRendering />
+      {/*<h1>Demo of manually calling feature renderer with NCList source data</h1>*/}
+      {/*<NclistFeatureRendering />*/}
+    </>
+  );
+};
+
+// const FeatureRendering = ({ features, region, width, height }) => (
+//   <Rendering
+//     width={width}
+//     height={height}
+//     region={region}
+//     layout={new GranularRectLayout({ pitchX: 1, pitchY: 1 })}
+//     features={features}
+//     config={SvgRendererConfigSchema.create({})}
+//     bpPerPx={(region.end - region.start) / width}
+//   />
+// )
+//
+function ExampleFeatureRendering() {
+  // const region = {
+  //   refName: 'chr1',
+  //   start: 1,
+  //   end: 100,
+  // };
+  const feat1 = new SimpleFeature({
+    id: 'feat1',
+    data: {
+      refName: 'chr1',
+      name: 'BRCA1',
+      start: 5,
+      end: 90,
+    },
+  });
+  const feat2 = new SimpleFeature({
+    id: 'feat2',
+    data: {
+      refName: 'chr1',
+      name: 'BRCA2',
+      start: 30,
+      end: 95,
+    },
+  });
+
+  console.log([feat1, feat2]);
+
+  return (
+    <div>asdfasdfadsf</div>
+  );
+}
 
 class GenePage extends Component {
 
@@ -191,6 +253,8 @@ class GenePage extends Component {
             hasData={typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'}
             title={SEQUENCE_FEATURE_VIEWER}
           >
+            <TestGenomeApp/>
+
             <GenomeFeatureWrapper
               assembly={genomeLocation.assembly}
               biotype={data.soTermName}
