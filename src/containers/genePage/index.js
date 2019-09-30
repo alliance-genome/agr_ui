@@ -231,6 +231,7 @@ class GenePage extends Component {
             <ExpressionLinks
               allExpressionCrossReference={data.crossReferences.expression}
               geneDataProvider={data.dataProvider}
+              imagesCrossReference={data.crossReferences.expression_images}
               otherExpressionCrossReferences={[data.crossReferences.other_expression, data.crossReferences['expression-atlas']]}
               spellCrossReference={data.crossReferences.spell}
               wildtypeExpressionCrossReference={data.crossReferences.wild_type_expression}
