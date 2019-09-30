@@ -22,7 +22,11 @@ import {
   makeId,
   orthologyMeetsStringency
 } from '../lib/utils';
-import {getOrthologSpeciesId, getOrthologSymbol} from './orthology';
+import {
+  getOrthologId,
+  getOrthologSpeciesId,
+  getOrthologSymbol
+} from './orthology';
 
 const bySpecies = species => orthology => species
   .map(s => s.taxonId)
@@ -108,12 +112,14 @@ class OrthologPicker extends React.Component {
   }
 
   fireChangeCallback() {
-    const { orthology, onChange } = this.props;
+    const { orthology, onChange, genesWithData } = this.props;
     const { stringency, selectedSpecies } = this.state;
-    const filteredOrthology = orthology.sort(compareBySpeciesThenAlphabetical);
+    const filteredOrthology = orthology
+      .sort(compareBySpeciesThenAlphabetical)
+      .filter(o => genesWithData ? genesWithData[getOrthologId(o)] : true);
     let selectedOrthologs = (stringency || selectedSpecies.length) ? filteredOrthology : [];
     if (stringency) {
-      selectedOrthologs = selectedOrthologs.filter(byStringency(stringency));
+      selectedOrthologs = selectedOrthologs.filter(byStringency(stringency.value));
     }
     if (selectedSpecies.length) {
       selectedOrthologs = selectedOrthologs.filter(bySpecies(selectedSpecies));
@@ -155,8 +161,20 @@ class OrthologPicker extends React.Component {
     });
   }
 
+  speciesHasOrthologsWithData(species) {
+    const { genesWithData, orthology } = this.props;
+    if (!genesWithData) {
+      return true;
+    }
+    return orthology
+      .filter(bySpecies([species]))
+      .map(getOrthologId)
+      .filter(id => genesWithData[id])
+      .length > 0;
+  }
+
   render() {
-    const { disabledSpeciesMessage, id, orthology } = this.props;
+    const { id, orthology } = this.props;
     const { allInvertebrates, allVertebrates, enabled, selectedSpecies, stringency } = this.state;
 
     return (
@@ -241,7 +259,9 @@ class OrthologPicker extends React.Component {
                 <div className='form-group'>
                   {SPECIES.map(species => {
                     const checkId = id + makeId(species.taxonId);
-                    const disabled = orthology.findIndex(o => getOrthologSpeciesId(o) === species.taxonId) < 0;
+                    const hasOrthologs = orthology.findIndex(o => getOrthologSpeciesId(o) === species.taxonId) >= 0;
+                    const hasOrthologsWithData = this.speciesHasOrthologsWithData(species);
+                    const disabled = !hasOrthologs || !hasOrthologsWithData;
                     return (
                       <div key={species.taxonId}>
                         <div className={`form-check form-check-inline ${disabled ? 'disabled' : ''}`} id={checkId}>
@@ -259,13 +279,18 @@ class OrthologPicker extends React.Component {
                               }}
                               type='checkbox'
                             />
-                            {species.fullName}
+                            <i>{species.fullName}</i>
                           </label>
                         </div>
                         {disabled &&
-                          <UncontrolledTooltip delay={{show: 200, hide: 0}} placement='bottom' target={checkId}>
-                            {disabledSpeciesMessage}
-                          </UncontrolledTooltip>
+                        <UncontrolledTooltip delay={{show: 200, hide: 0}} placement='bottom' target={checkId}>
+                          <span dangerouslySetInnerHTML={{
+                            __html: !hasOrthologs ?
+                              `No <i>${species.fullName}</i> orthologs of this gene` :
+                              (!hasOrthologsWithData && `No <i>${species.fullName}</i> orthologs of this gene have annotations`)
+                          }}
+                          />
+                        </UncontrolledTooltip>
                         }
                       </div>
                     );
@@ -289,7 +314,7 @@ class OrthologPicker extends React.Component {
 
 OrthologPicker.propTypes = {
   defaultStringency: PropTypes.string,
-  disabledSpeciesMessage: PropTypes.string,
+  genesWithData: PropTypes.object,
   id: PropTypes.string.isRequired,
   onChange: PropTypes.func,
   orthology: PropTypes.array,
