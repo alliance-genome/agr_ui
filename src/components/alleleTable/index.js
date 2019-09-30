@@ -42,17 +42,25 @@ class AlleleTable extends Component {
       {
         dataField: 'disease',
         text: 'Associated Human Disease',
+        helpPopupProps: {
+          id: 'gene-page--alleles-table--disease-help',
+          children: 'Associated human diseases shown in this table were independently annotated to the Alleles, and are not necessarily related to the phenotype annotations.'
+        },
         formatter: diseases => (
           <CollapsibleList collapsedSize={diseases.length}>
             {diseases.map(disease => <Link key={disease.id} to={`/disease/${disease.id}`}>{disease.name}</Link>)}
           </CollapsibleList>
         ),
-        headerStyle: {width: '225px'},
+        headerStyle: {width: '250px'},
         filterable: true,
       },
       {
         dataField: 'phenotypes',
-        text: 'Phenotype',
+        text: 'Associated phenotype',
+        helpPopupProps: {
+          id: 'gene-page--alleles-table--phenotype-help',
+          children: 'Associated phenotypes shown in this table were independently annotated to the Alleles, and are are not necessarily related to the human disease annotations.'
+        },
         formatter: phenotypes => (
           <CollapsibleList collapsedSize={2}>
             {phenotypes.map(({phenotypeStatement}) => phenotypeStatement)}
@@ -118,6 +126,10 @@ class AlleleTable extends Component {
       {
         dataField: 'molecularConsequence',
         text: 'Molecular consequence',
+        helpPopupProps: {
+          id: 'gene-page--alleles-table--molecular-consequence-help',
+          children: <span>Variant consequences were predicted by the <a href="https://uswest.ensembl.org/info/docs/tools/vep/index.html" target="_blank">Ensembl Variant Effect Predictor (VEP) tool</a> based on Alliance variants information.</span>,
+        },
         headerStyle: {width: variantConsequenceColWidth},
         filterable: true,
       },
