@@ -97,6 +97,9 @@ class ExpressionComparisonRibbon extends React.Component {
     //   category.id.startsWith('UBERON:')
     // ));
 
+    const genesWithData = Object.entries(orthology.supplementalData)
+      .reduce((prev, [geneId, data]) => ({...prev, [geneId]: data.hasExpressionAnnotations}), {});
+
     return (
       <React.Fragment>
         <div className='pb-4'>
@@ -108,6 +111,7 @@ class ExpressionComparisonRibbon extends React.Component {
             </span>
             <OrthologPicker
               disabledSpeciesMessage={`${geneSymbol} has no ortholog genes or no ortholog genes with expression annotations in this species`}
+              genesWithData={genesWithData}
               id='expression-ortho-picker'
               onChange={this.handleOrthologChange}
               orthology={orthology.data}
