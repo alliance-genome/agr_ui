@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import isEqual from 'lodash.isequal';
 
 import ControlsContainer from '../controlsContainer';
 import { getOrthologId } from '../orthology';
@@ -37,9 +38,9 @@ class ExpressionComparisonRibbon extends React.Component {
     this.dispatchFetchSummary();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     const { geneId } = this.props;
-    if (prevProps.geneId !== geneId) {
+    if (prevProps.geneId !== geneId || !isEqual(prevState.selectedOrthologs, this.state.selectedOrthologs)) {
       this.dispatchFetchSummary();
     }
   }
@@ -53,7 +54,7 @@ class ExpressionComparisonRibbon extends React.Component {
   }
 
   handleOrthologChange(values) {
-    this.setState({selectedOrthologs: values}, () => this.dispatchFetchSummary());
+    this.setState({selectedOrthologs: values});
   }
 
   updateSelectedBlock(gene, term) {
