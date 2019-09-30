@@ -75,7 +75,7 @@ class AlleleTable extends Component {
         formatter: (variants) => (
           <div>
             {
-              variants.map(({id, type = {}, location = {}}) => (
+              variants.map(({ id, type = {}, location = {}, consequence }) => (
                 <div key={id} style={{display: 'flex'}}>
                   <div
                     style={{
@@ -97,7 +97,7 @@ class AlleleTable extends Component {
                       flex: '1 0 auto',
                     }}
                   >
-                    {type && type.name}
+                    {type && type.name && type.name.replace(/_/g, ' ')}
                   </div>
                   <div
                     style={{
@@ -106,7 +106,7 @@ class AlleleTable extends Component {
                       flex: '1 0 auto',
                     }}
                   >
-                    N/A
+                    {consequence && consequence.replace(/_/g, ' ')}
                   </div>
                 </div>
               ))
