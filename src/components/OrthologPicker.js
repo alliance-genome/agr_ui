@@ -72,9 +72,10 @@ class OrthologPicker extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const { allVertebrates, allInvertebrates, stringency, enabled, selectedSpecies } = this.state;
     const speciesChanged = !isEqual(prevState.selectedSpecies, selectedSpecies);
+    const orthologyChanged = !isEqual(prevProps.orthology, this.props.orthology);
 
-    // if the stringency or species filters have changed...
-    if (prevState.stringency !== stringency || speciesChanged) {
+    // if the filters or orthology itself have changed...
+    if (prevState.stringency !== stringency || speciesChanged || orthologyChanged) {
       // ...fire the parent component change callback...
       this.fireChangeCallback();
       // ...and enable or disable the main compare checkbox (may be a no-op in some cases)
