@@ -29,7 +29,7 @@ class AlleleTable extends Component {
         dataField: 'symbol',
         text: 'Symbol',
         formatter: symbol => <span dangerouslySetInnerHTML={{ __html: symbol }} />,
-        headerStyle: {width: '85px'},
+        headerStyle: {width: '125px'},
         filterable: true,
         isKey: true,
       },
@@ -37,7 +37,7 @@ class AlleleTable extends Component {
         dataField: 'synonym',
         text: 'Synonyms',
         formatter: synonyms => <SynonymList synonyms={synonyms} />,
-        headerStyle: {width: '120px'},
+        headerStyle: {width: '125px'},
         filterable: true,
       },
       {
@@ -52,7 +52,7 @@ class AlleleTable extends Component {
             {diseases.map(disease => <Link key={disease.id} to={`/disease/${disease.id}`}>{disease.name}</Link>)}
           </CollapsibleList>
         ),
-        headerStyle: {width: '175px'},
+        headerStyle: {width: '150px'},
         filterable: true,
       },
       {
