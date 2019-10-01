@@ -124,7 +124,7 @@ class AlleleTable extends Component {
         filterable: true,
       },
       {
-        dataField: 'molecularConsequence',
+        dataField: 'variantConsequence',
         text: 'Molecular consequence',
         helpPopupProps: {
           id: 'gene-page--alleles-table--molecular-consequence-help',
