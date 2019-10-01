@@ -2,14 +2,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import isEqual from 'lodash.isequal';
 
 import ControlsContainer from '../controlsContainer';
 import { getOrthologId } from '../orthology';
 import { STRINGENCY_HIGH } from '../orthology/constants';
-import { selectOrthologsWithExpression } from '../../selectors/geneSelectors';
+import { selectOrthologs } from '../../selectors/geneSelectors';
 import ExpressionAnnotationTable from './expressionAnnotationTable';
 import HorizontalScroll from '../horizontalScroll';
-import { fetchOrthologsWithExpression } from '../../actions/genes';
 import HelpPopup from '../helpPopup';
 import ExpressionControlsHelp from './expressionControlsHelp';
 import OrthologPicker from '../OrthologPicker';
@@ -35,15 +35,12 @@ class ExpressionComparisonRibbon extends React.Component {
   }
 
   componentDidMount() {
-    const { dispatch, geneId } = this.props;
-    dispatch(fetchOrthologsWithExpression(geneId));
     this.dispatchFetchSummary();
   }
 
-  componentDidUpdate(prevProps) {
-    const { dispatch, geneId } = this.props;
-    if (prevProps.geneId !== geneId) {
-      dispatch(fetchOrthologsWithExpression(geneId));
+  componentDidUpdate(prevProps, prevState) {
+    const { geneId } = this.props;
+    if (prevProps.geneId !== geneId || !isEqual(prevState.selectedOrthologs, this.state.selectedOrthologs)) {
       this.dispatchFetchSummary();
     }
   }
@@ -57,7 +54,7 @@ class ExpressionComparisonRibbon extends React.Component {
   }
 
   handleOrthologChange(values) {
-    this.setState({selectedOrthologs: values}, () => this.dispatchFetchSummary());
+    this.setState({selectedOrthologs: values});
   }
 
   updateSelectedBlock(gene, term) {
@@ -101,6 +98,9 @@ class ExpressionComparisonRibbon extends React.Component {
     //   category.id.startsWith('UBERON:')
     // ));
 
+    const genesWithData = Object.entries(orthology.supplementalData)
+      .reduce((prev, [geneId, data]) => ({...prev, [geneId]: data.hasExpressionAnnotations}), {});
+
     return (
       <React.Fragment>
         <div className='pb-4'>
@@ -112,6 +112,7 @@ class ExpressionComparisonRibbon extends React.Component {
             </span>
             <OrthologPicker
               disabledSpeciesMessage={`${geneSymbol} has no ortholog genes or no ortholog genes with expression annotations in this species`}
+              genesWithData={genesWithData}
               id='expression-ortho-picker'
               onChange={this.handleOrthologChange}
               orthology={orthology.data}
@@ -157,7 +158,7 @@ ExpressionComparisonRibbon.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  orthology: selectOrthologsWithExpression(state),
+  orthology: selectOrthologs(state),
   summary: selectExpressionRibbonSummary(state),
 });
 

@@ -3,7 +3,6 @@ import { createFetchAction } from '../lib/createActions';
 
 export const FETCH_GENE = 'FETCH_GENE';
 export const FETCH_ORTHOLOGS = 'FETCH_ORTHOLOGS';
-export const FETCH_ORTHOLOGS_WITH_EXPRESSION = 'FETCH_ORTHOLOGS_WITH_EXPRESSION';
 export const FETCH_ALLELES = 'FETCH_ALLELES';
 export const FETCH_PHENOTYPES = 'FETCH_PHENOTYPES';
 export const FETCH_DISEASE_VIA_EMPIRICAL = 'FETCH_DISEASE_VIA_EMPIRICAL';
@@ -12,10 +11,6 @@ export const FETCH_INTERACTIONS = 'FETCH_INTERACTIONS';
 
 export const fetchGene = createFetchAction(FETCH_GENE, id => `/api/gene/${id}`);
 export const fetchOrthologs = createFetchAction(FETCH_ORTHOLOGS, id => `/api/gene/${id}/homologs?stringencyFilter=all`);
-export const fetchOrthologsWithExpression = createFetchAction(
-  FETCH_ORTHOLOGS_WITH_EXPRESSION,
-  id => `/api/gene/${id}/homologs-with-expression?stringencyFilter=all`
-);
 export const fetchAlleles = createFetchAction(
   FETCH_ALLELES,
   (id, opts) => `/api/gene/${id}/alleles?${buildTableQueryString(opts)}`
