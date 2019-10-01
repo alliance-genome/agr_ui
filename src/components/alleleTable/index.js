@@ -85,7 +85,7 @@ class AlleleTable extends Component {
                       flex: '1 0 auto',
                     }}
                   >
-                    <ExternalLink href={`${process.env.JBROWSE_URL || ''}/jbrowse/?data=data/${species}&&loc=${geneSymbol}&tracks=Phenotypic Variants,All Genes,DNA&highlight=${location.chromosome}:${location.start || location.end}..${location.end}`}>
+                    <ExternalLink href={`${process.env.JBROWSE_URL || ''}/jbrowse/?data=data/${species}&&loc=${geneSymbol}&tracks=Phenotypic Variants,All Genes,DNA&highlight=${location.chromosome}:${typeof location.start === 'number' ? location.start : location.end}..${location.end}`}>
                       {id}
                     </ExternalLink>
                   </div>
