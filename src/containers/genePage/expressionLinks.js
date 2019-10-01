@@ -65,7 +65,7 @@ const ExpressionLinks = ({
       <AttributeLabel>Other Sources</AttributeLabel>
       <AttributeValue placeholder='None'>
         {otherExpressionCrossReferences && otherExpressionCrossReferences.length &&
-          <CrossReferenceList collapsible={false} crossReferences={otherExpressionCrossReferences} />
+          <CrossReferenceList collapsible={false} crossReferences={otherExpressionCrossReferences} sort={false} />
         }
       </AttributeValue>
     </AttributeList>
