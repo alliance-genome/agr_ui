@@ -1,57 +1,360 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Ribbon, {RibbonDataProvider} from '@geneontology/ribbon';
-import { POSITION } from '@geneontology/ribbon/lib/enums';
+import { POSITION, COLOR_BY } from '@geneontology/ribbon/lib/enums';
 import HorizontalScroll from '../horizontalScroll';
-import NoData from '../noData';
-import LoadingSpinner from '../loadingSpinner';
+// import NoData from '../noData';
+// import LoadingSpinner from '../loadingSpinner';
+
+import GenericRibbon from '@geneontology/ribbon/lib/components/GenericRibbon';
+import AssociationsView from '@geneontology/ribbon/lib/view/AssociationsView';
+
+import axios from 'axios';
+
+const goApiUrl = 'http://api.geneontology.org/api/';
 
 
 class GeneOntologyRibbon extends Component {
 
-  static hasBlockData(entities){
-    for (let entity of entities) {
-      if(entity.blocks && entity.blocks.length > 0) {
-        return true;
-      }
-    }
-    return false;
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading : true,
+      subjectBaseURL : '/gene/',
+      selected : {
+        subject : null,
+        group : null,
+        data : null,
+        ready : false,
+      },
+      search : ''
+    };
   }
 
-  render() {
-    const { id } = this.props;
-    return (
-      <RibbonDataProvider subject={id}>
-        {
-          ({entities, config, dataError, dataReceived}) => {
-            if (!dataReceived) {
-              return <LoadingSpinner />;
-            }
-            if (dataError || !GeneOntologyRibbon.hasBlockData(entities)) {
-              return <NoData />;
-            }
-            return (
-              <HorizontalScroll width={800}>
-                <div className='pb-4'>
-                  <Ribbon
-                    borderBottom
-                    config={config}
-                    entities={entities}
-                    entityLabel={POSITION.NONE}
-                    maxColor={[37, 152, 197]}
-                    oddEvenColor={false}
-                    showing={false}
-                    subject={id}
-                    tableLabel=''
-                  />
-                </div>
-              </HorizontalScroll>
-            );
+
+  componentDidMount() {
+    if (this.state.loading) {
+      this.fetchData('goslim_agr', this.props.id).then(data => {
+        this.setState({ loading : false, ribbon : data.data });
+      });
+    }
+  }  
+
+  fetchData(subset, subjects) {
+    if(subjects instanceof Array) {
+      subjects = subjects.join('&subject=');
+    }
+    let query = goApiUrl + 'ontology/ribbon/?subset=' + subset + '&subject=' + subjects;
+    console.log('Query is ' + query);
+    return axios.get(query);
+  }
+
+  fetchAssociationData(subject, group) {
+    if(group == 'all') {
+      var groups = this.state.ribbon.categories.map(elt => {
+        return elt.id;
+      });
+      group = groups.join('&slim=');
+    }
+    let query = goApiUrl + 'bioentityset/slimmer/function?slim=' + group + '&subject=' + subject + '&rows=-1';
+    return axios.get(query);
+  }
+
+  /** 
+   * building the filters from the keys contained in the subject.groups field of the data response
+  */
+  buildFilters() {
+    var filters = new Map();
+    for(var subject of this.state.ribbon.subjects) {
+      for (var group in subject.groups) {
+        for(var eco in subject.groups[group]) {
+          if(eco.toLowerCase() != 'all') {
+            filters.set(eco, true);
           }
         }
-      </RibbonDataProvider>
+      }
+    }
+    return filters;
+  }
+
+  sameEntity(entity1, entity2) {
+    return  entity1.id == entity2.id && 
+            entity1.iri == entity2.iri &&
+            JSON.stringify(entity1.category) == JSON.stringify(entity2.category);
+  }
+
+  sameEvidences(assoc1, assoc2) {
+    if(assoc1.evidence != assoc2.evidence || assoc1.evidence_type != assoc2.evidence_type)
+      return false;
+    if(JSON.stringify(assoc1.evidence_closure) != JSON.stringify(assoc2.evidence_closure))
+      return false;
+    if(JSON.stringify(assoc1.evidence_subset_closure) != JSON.stringify(assoc2.evidence_subset_closure))
+      return false;
+    if(JSON.stringify(assoc1.evidence_type_closure) != JSON.stringify(assoc2.evidence_type_closure))
+      return false;
+    if(JSON.stringify(assoc1.publications) != JSON.stringify(assoc2.publications))
+      return false;
+    if(assoc1.reference && assoc2.reference)
+      if(JSON.stringify(assoc1.reference) != JSON.stringify(assoc2.reference))
+        return false;
+    if(JSON.stringify(assoc1.provided_by) != JSON.stringify(assoc2.provided_by))
+      return false;
+    if(assoc1.evidence_with && assoc2.evidence_with) 
+      return JSON.stringify(assoc1.evidence_with) != JSON.stringify(assoc2.evidence_with);
+    return true;
+  }
+
+  sameAssociation(assoc1, assoc2) {
+    if(!this.sameEntity(assoc1.subject, assoc2.subject))
+      return false;
+    if(!this.sameEntity(assoc1.object, assoc2.object))
+      return false;
+    if(assoc1.negated != assoc2.negated)
+      return false;
+    if(assoc1.qualifier && assoc2.qualifier)
+      return JSON.stringify(assoc1.qualifier) == JSON.stringify(assoc2.qualifier);
+    if(assoc1.slim && assoc2.slim)
+      return JSON.stringify(assoc1.slim) == JSON.stringify(assoc2.slim);
+    return true;
+  }
+
+  evidenceAssociationKey(assoc) {
+    return this.associationKey(assoc) + '@' + assoc.evidence_type;    
+  }
+  
+  associationKey(assoc) {
+    if(assoc.qualifier) {
+      return assoc.subject.id + '@' + assoc.object.id + '@' + assoc.negated + '@' + assoc.qualifier.join('-');      
+    }
+    return assoc.subject.id + '@' + assoc.object.id + '@' + assoc.negated;
+  }
+
+  /**
+   * Group association based on the keys (subject , object) and (optional) qualifier
+   * @param {*} assoc_data 
+   */
+  groupAssociations(assoc_data) {
+    var grouped_map = new Map();
+    for(var assoc of assoc_data) {
+      var key = this.associationKey(assoc);
+      var array = [];
+      if(grouped_map.has(key)) {
+        array = grouped_map.get(key);
+      } else {
+        grouped_map.set(key, array);
+      }
+      array.push(assoc);
+    }
+    return grouped_map;
+  }
+
+  concatMaps(map1, map2) {
+    var map = new Map();
+    for(let key of map1.keys()) {
+      map.set(key, map1.get(key));
+    }
+    for(let key of map2.keys()) {
+      if(map.has(key)) {
+        var current = map.get(key);
+        var array = map2.get(key);
+        for(var item of array) {
+          current.push(item);
+        }
+        // console.log("concatenated map: (" , key , "): ", current);
+      } else {
+        map.set(key, map2.get(key));
+      }
+    }
+    return map;
+  }
+
+  mergeEvidences(grouped_map) {
+    var merged = [];
+    for(var group of grouped_map.values()) {
+    // for(var [key, group] of grouped_map.entries()) {
+    // console.log("group: ", group);
+      if(group.length == 1) {
+        merged.push(group[0]);
+      } else {
+        // merge evidences
+        var evidence_map = new Map();
+        for(var i = 0; i < group.length; i++) {
+          // console.log("group(" + i + "): ", group[i].evidence_map);
+          evidence_map = this.concatMaps(evidence_map, group[i].evidence_map);
+        }
+        
+        // console.log("group-0: ", group[0]);
+        // console.log("using: ", evidence_map);
+        group[0].evidence_map = evidence_map;
+        // console.log("group-0-a: ", group[0]);
+
+        // merge publications
+        var pubs = new Set();
+        for(let i = 0; i < group.length; i++) {
+          if(group[i].publications) {
+            for(var pub of group[i].publications) {
+              pubs.add(pub);
+            }
+          }
+        }
+        group[0].publications = Array.from(pubs);
+
+        // merge references
+        var refs = new Set();
+        for(let i = 0; i < group.length; i++) {
+          if(group[i].reference) {
+            for(var ref of group[i].reference) {
+              refs.add(ref);
+            }
+          }
+        }
+        group[0].reference = Array.from(refs);
+
+        merged.push(group[0]);
+      }
+    }
+    return merged;
+  }
+
+
+
+  /** 
+   * build from the association response of BioLink
+  */
+  buildEvidenceMap() {
+    console.log('assoc_data: ', this.state.selected.data);
+    for(var assoc of this.state.selected.data) {
+      assoc.evidence_map = new Map();
+      assoc.evidence_map.set(assoc.evidence, [
+        {
+          evidence_id : assoc.evidence,
+          evidence_type : assoc.evidence_type,
+          evidence_label : assoc.evidence_label,
+          evidence_qualifier : assoc.evidence_qualifier ? assoc.evidence_qualifier : [],
+          evidence_with : assoc.evidence_with ? assoc.evidence_with : [],
+          evidence_refs : assoc.reference ? assoc.reference.filter(ref => ref.startsWith('PMID:')) : []
+        }
+      ]);
+    }
+
+    var grouped_map = this.groupAssociations(this.state.selected.data);
+    // console.log("grouped map: ", grouped_map);
+    var merged_map = this.mergeEvidences(grouped_map);
+
+    this.setState({ 
+      selected : {
+        subject : this.state.selected.subject,
+        group : this.state.selected.group,
+        data : merged_map,
+        ready : true
+      }
+    });
+  }
+
+
+
+  itemEnter() {
+    // console.log("ITEM ENTER: ", subject , group);
+  }
+
+  itemLeave() {
+    // console.log("ITEM LEAVE: ", subject , group);
+  }
+
+  itemOver() {
+    // console.log("ITEM OVER: ", subject , group);
+  }
+
+  itemClick(subject, group) {
+    if(this.state.selected.group) {
+      var sameGroupID = group.id == this.state.selected.group.id;
+      var sameGroupType = group.type == this.state.selected.group.type;
+      var sameSubject = subject.id == this.state.selected.subject.id;
+      if(sameGroupID && sameGroupType && sameSubject) {
+        group = undefined;
+      }
+    }
+
+    this.setState({ selected : {
+      subject : subject,
+      group : group,
+      data : null,
+      ready : false
+    }});
+
+    if(group) {
+      this.fetchAssociationData(subject.id, group.id).then(data => {
+        var sorted_assocs = data.data[0].assocs;
+        sorted_assocs.sort((a, b)=> a.object.label.localeCompare(b.object.label));
+        console.log('retrieved data: ', data);
+        this.setState({ selected : {
+          subject : subject,
+          group : group,
+          data : sorted_assocs, // assoc data from BioLink
+          ready : false
+        }});
+        this.buildEvidenceMap();
+      });
+    }
+  }
+
+  defaultConfig() {
+    return {
+      termUrlFormatter : this.state.subjectBaseURL
+    };
+  }  
+
+  render() {
+    return (
+      <div>
+        <HorizontalScroll width={1200}>
+          {
+            <div style={{ marginTop: '2rem' }}>{
+              (this.state.loading)
+                ? 'Loading...'
+                :
+
+                <GenericRibbon 
+                  categories={this.state.ribbon.categories}
+                  colorBy={COLOR_BY.CLASS_COUNT}
+
+                  hideFirstSubjectLabel={false}
+
+                  itemClick={this.itemClick.bind(this)}
+                  itemEnter={this.itemEnter}
+                  itemLeave={this.itemLeave}
+                  itemOver={this.itemOver}
+
+                  selected={this.state.selected}
+                  subjectBaseURL={this.state.subjectBaseURL}
+                  subjectLabelPosition={POSITION.LEFT}
+                  subjectUseTaxonIcon={true}
+                  subjects={this.state.ribbon.subjects}
+                />
+            }
+            {
+              (this.state.selected.data && this.state.selected.ready) ? 
+                <AssociationsView 
+                  blocks={null}
+                  borderBottom={true}
+                  config={this.defaultConfig()}
+                  currentblock={null}
+                  filters={this.buildFilters()}
+                  focalblock={null}
+                  oddEvenColor={false}
+                  provided_list={this.state.selected.data}
+                  tableLabel={''}
+                  termInNewPage={true}
+                  termURL={'http://amigo.geneontology.org/amigo/term/'}
+                />
+                : ''
+            }
+            </div>
+          }
+        </HorizontalScroll>
+      </div>
     );
   }
+
 }
 
 GeneOntologyRibbon.propTypes = {
