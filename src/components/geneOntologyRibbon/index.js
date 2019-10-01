@@ -59,7 +59,12 @@ class GeneOntologyRibbon extends Component {
         for(var sub of data.data.subjects) {
           oldSubs.push(sub);
         }
-        this.setState({ loading : false, ribbon : data.data, subjects : oldSubs });
+        this.setState({ loading : false, ribbon : data.data, subjects : oldSubs,selected : {
+          subject : null,
+          group : null,
+          data : null,
+          ready : false,
+        } });
       });
     });
   }
