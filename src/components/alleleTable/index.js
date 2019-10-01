@@ -52,7 +52,7 @@ class AlleleTable extends Component {
             {diseases.map(disease => <Link key={disease.id} to={`/disease/${disease.id}`}>{disease.name}</Link>)}
           </CollapsibleList>
         ),
-        headerStyle: {width: '250px'},
+        headerStyle: {width: '175px'},
         filterable: true,
       },
       {
@@ -67,7 +67,7 @@ class AlleleTable extends Component {
             {phenotypes.map(({phenotypeStatement}) => phenotypeStatement)}
           </CollapsibleList>
         ),
-        headerStyle: {width: '225px'},
+        headerStyle: {width: '275px'},
       },
       {
         dataField: 'variants',
@@ -82,7 +82,6 @@ class AlleleTable extends Component {
                       width: variantNameColWidth,
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
-                      padding: `0px ${5}px`,
                       flex: '1 0 auto',
                     }}
                   >
@@ -93,7 +92,6 @@ class AlleleTable extends Component {
                   <div
                     style={{
                       width: variantTypeColWidth,
-                      padding: `0px ${5}px`,
                       flex: '1 0 auto',
                     }}
                   >
@@ -102,7 +100,6 @@ class AlleleTable extends Component {
                   <div
                     style={{
                       width: variantConsequenceColWidth,
-                      padding: `0px ${5}px`,
                       flex: '1 0 auto',
                     }}
                   >
