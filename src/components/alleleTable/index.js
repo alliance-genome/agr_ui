@@ -82,6 +82,7 @@ class AlleleTable extends Component {
                       width: variantNameColWidth,
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
+                      paddingRight: 5,
                       flex: '1 0 auto',
                     }}
                   >
