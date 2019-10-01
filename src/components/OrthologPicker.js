@@ -180,16 +180,18 @@ class OrthologPicker extends React.Component {
 
     return (
       <React.Fragment>
-        <div className='form-check'>
-          <label>
-            <input
-              checked={enabled}
-              className='form-check-input'
-              onChange={e => this.setState({enabled: e.target.checked})}
-              type='checkbox'
-            />
-            <b>Compare ortholog genes</b>
-          </label>
+        <div className='form-group'>
+          <div className='form-check form-check-inline'>
+            <label className='form-check-label'>
+              <input
+                checked={enabled}
+                className='form-check-input'
+                onChange={e => this.setState({enabled: e.target.checked})}
+                type='checkbox'
+              />
+              <b>Compare ortholog genes</b>
+            </label>
+          </div>
         </div>
         <div>
           <UncontrolledDropdown className='pr-2' tag='span'>
