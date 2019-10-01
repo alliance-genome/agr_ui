@@ -7,6 +7,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import isEqual from 'lodash.isequal';
 
 import DiseaseAnnotationTable from './diseaseAnnotationTable';
 import HorizontalScroll from '../horizontalScroll';
@@ -53,8 +54,9 @@ class DiseaseComparisonRibbon extends Component {
       }));
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.geneId !== prevProps.geneId) {
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.geneId !== prevProps.geneId ||
+      !isEqual(this.state.selectedOrthologs, prevState.selectedOrthologs)) {
       this.fetchData();
     }
   }
@@ -64,7 +66,7 @@ class DiseaseComparisonRibbon extends Component {
   }
 
   handleOrthologyChange(selectedOrthologs) {
-    this.setState({selectedOrthologs}, () => this.fetchData());
+    this.setState({selectedOrthologs});
   }
 
   getGeneIdList() {

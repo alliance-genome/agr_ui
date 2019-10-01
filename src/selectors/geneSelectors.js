@@ -12,11 +12,6 @@ export const selectOrthologs = createSelector(
   (gene) => gene.get('orthologs').toJS()
 );
 
-export const selectOrthologsWithExpression = createSelector(
-  [selectGeneDomain],
-  (gene) => gene.get('orthologsWithExpression').toJS()
-);
-
 export const selectAlleles = createSelector(
   [selectGeneDomain],
   (gene) => gene.get('alleles').toJS()
