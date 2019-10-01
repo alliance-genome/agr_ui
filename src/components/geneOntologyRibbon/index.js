@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { POSITION, COLOR_BY } from '@geneontology/ribbon/lib/enums';
 import HorizontalScroll from '../horizontalScroll';
-// import NoData from '../noData';
-// import LoadingSpinner from '../loadingSpinner';
 
 import GenericRibbon from '@geneontology/ribbon/lib/components/GenericRibbon';
 import AssociationsView from '@geneontology/ribbon/lib/view/AssociationsView';
@@ -76,14 +74,9 @@ class GeneOntologyRibbon extends Component {
     });
   }
 
-  // multipleGenes() {
-  //   return this.getGeneIdList().length > 1;
-  // }
-  
   ribbonOptions(subjects) {
     var excludeIBA = this.state.excludeIBA && subjects.length > 1;
     var exps = '';
-    // if(subjects.length > 1 && this.state.onlyEXPWhenMulti) {
     if(this.state.onlyEXP) {
       for(var exp of exp_codes) {
         exps += '&ecodes=' + exp;
