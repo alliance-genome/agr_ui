@@ -159,12 +159,13 @@ class AlleleTable extends Component {
         disease: allele.diseases.sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
       }));
 
-    const sortOptions = [
-      {
-        value: 'disease',
-        label: 'Associated Human Disease',
-      }
-    ];
+    const sortOptions = null;
+    // const sortOptions = [
+    //   {
+    //     value: 'disease',
+    //     label: 'Associated Human Disease',
+    //   }
+    // ];
 
     return (
       <RemoteDataTable
