@@ -5,6 +5,7 @@ import { selectAlleles } from '../../selectors/geneSelectors';
 import { connect } from 'react-redux';
 // import ExternalLink from '../externalLink';
 import { Link } from 'react-router-dom';
+import { stringify as stringifyQuery } from 'query-string';
 import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
 import CollapsibleList from '../collapsibleList/collapsibleList';
 import SynonymList from '../synonymList';
@@ -19,7 +20,7 @@ class AlleleTable extends Component {
   }
 
   render() {
-    const { alleles, geneId, geneSymbol, species, geneDataProvider } = this.props;
+    const { alleles, geneId, geneSymbol, geneLocation = {}, species, geneDataProvider } = this.props;
 
     const variantNameColWidth = 300;
     const variantTypeColWidth = 150;
@@ -91,7 +92,14 @@ class AlleleTable extends Component {
                       flex: '1 0 auto',
                     }}
                   >
-                    <ExternalLink href={`${process.env.JBROWSE_URL || ''}/jbrowse/?data=data/${species}&&loc=${geneSymbol}&tracks=Phenotypic Variants,All Genes,DNA&highlight=${location.chromosome}:${typeof location.start === 'number' ? location.start : location.end}..${location.end}`}>
+                    <ExternalLink href={`${process.env.JBROWSE_URL || ''}/jbrowse/?` + stringifyQuery({
+                      data: `data/${species}`,
+                      loc: (geneLocation.start && geneLocation.end) ?
+                        `${geneLocation.chromosome || location.chromosome}:${geneLocation.start || 0}..${geneLocation.end || 0}` :
+                        geneSymbol,
+                      tracks: ['Phenotypic Variants', 'All Genes', 'DNA'].join(','),
+                      highlight: `${location.chromosome}:${typeof location.start === 'number' ? location.start : location.end}..${location.end}`,
+                    })}>
                       {id}
                     </ExternalLink>
                   </div>
@@ -188,6 +196,11 @@ AlleleTable.propTypes = {
   geneDataProvider: PropTypes.string.isRequired,
   geneId: PropTypes.string.isRequired,
   geneSymbol: PropTypes.string.isRequired,
+  geneLocation: PropTypes.shape({
+    start: PropTypes.number,
+    end: PropTypes.number,
+    chromosome: PropTypes.string,
+  }),
   species: PropTypes.string.isRequired,
 };
 
