@@ -103,7 +103,6 @@ class RemoteDataTable extends Component {
       );
       if (column.filterable) {
         column.filter = customFilter();
-        column.attrs ={'data-a': 'a'};
         if (Array.isArray(column.filterable)) {
           column.filterRenderer = (onFilter, column) => (
             <DropdownCheckboxFilter
