@@ -237,7 +237,7 @@ function parseAlleleResult(_d) {
     category: d.category,
     id: d.id,
     display_name: d.symbol,
-    href: _d.modCrossRefFullUrl,
+    href: _d.modCrossRefCompleteUrl,
     highlight: d.highlights,
     name: d.symbol,
     synonyms: d.synonym,
@@ -261,11 +261,12 @@ function parseDefaultResult(_d) {
     id: d.id,
     display_name: d.name,
     highlight: d.highlights,
-    href: _d.modCrossRefFullUrl,
+    href: _d.modCrossRefCompleteUrl,
     name: d.name,
     synonyms: d.synonym,
     missing: d.missingTerms,
     explanation: d.explanation,
+    relatedData: d.relatedData,
     score: d.score
   };
 }
