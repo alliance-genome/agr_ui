@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { fetchAlleles } from '../../actions/genes';
 import { selectAlleles } from '../../selectors/geneSelectors';
 import { connect } from 'react-redux';
-// import ExternalLink from '../externalLink';
 import { Link } from 'react-router-dom';
 import { stringify as stringifyQuery } from 'query-string';
 import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
