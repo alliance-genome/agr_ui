@@ -24,6 +24,7 @@ import PhenotypeTable from './phenotypeTable';
 import { ExpressionComparisonRibbon, ExpressionUserGuide } from '../../components/expression';
 import { DiseaseComparisonRibbon } from '../../components/disease';
 import HeadMetaTags from '../../components/headMetaTags';
+import GeneModelsTable from './GeneModelsTable';
 
 class GenePage extends Component {
 
@@ -79,39 +80,23 @@ class GenePage extends Component {
     const FUNCTION = 'Function - GO Annotations';
     const ORTHOLOGY = 'Orthology';
     const DISEASE = 'Disease Associations';
-
     const EXPRESSION = 'Expression';
     const ALLELES = 'Alleles';
     const PHENOTYPES = 'Phenotypes';
     const INTERACTIONS = 'Molecular Interactions';
+    const MODELS = 'Models';
+
     const SECTIONS = [
-      {
-        name: SUMMARY,
-      },
-      {
-        name: SEQUENCE_FEATURE_VIEWER,
-      },
-      {
-        name: FUNCTION,
-      },
-      {
-        name: ORTHOLOGY,
-      },
-      {
-        name: PHENOTYPES,
-      },
-      {
-        name: DISEASE,
-      },
-      {
-        name: EXPRESSION,
-      },
-      {
-        name: ALLELES,
-      },
-      {
-        name: INTERACTIONS,
-      },
+      {name: SUMMARY},
+      {name: SEQUENCE_FEATURE_VIEWER},
+      {name: FUNCTION},
+      {name: ORTHOLOGY},
+      {name: PHENOTYPES},
+      {name: DISEASE},
+      {name: EXPRESSION},
+      {name: ALLELES},
+      {name: MODELS},
+      {name: INTERACTIONS},
     ];
 
     const keywords = ['gene', data.dataProvider.replace('\n', ' '), data.symbol, ...data.synonyms, data.species.name, data.id];
@@ -257,6 +242,10 @@ class GenePage extends Component {
               geneSymbol={data.symbol}
               species={data.species.name}
             />
+          </Subsection>
+
+          <Subsection title={MODELS}>
+            <GeneModelsTable id={data.id} />
           </Subsection>
 
           <Subsection help={<InteractionUserGuide />} title={INTERACTIONS}>

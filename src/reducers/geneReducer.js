@@ -6,7 +6,7 @@ import {
   FETCH_PHENOTYPES,
   FETCH_DISEASE_VIA_EMPIRICAL,
   FETCH_DISEASE_VIA_ORTHOLOGY,
-  FETCH_INTERACTIONS,
+  FETCH_INTERACTIONS, FETCH_MODELS,
 } from '../actions/geneActions';
 import { handleActions, forObjectRequestAction, forCollectionRequestAction } from '../lib/handleActions';
 
@@ -50,6 +50,12 @@ const DEFAULT_STATE = fromJS({
     loading: false,
     total: 0,
   },
+  models: {
+    data: [],
+    error: null,
+    loading: false,
+    total: 0,
+  }
 });
 
 const geneReducer = handleActions(DEFAULT_STATE,
@@ -59,7 +65,8 @@ const geneReducer = handleActions(DEFAULT_STATE,
   forCollectionRequestAction(FETCH_PHENOTYPES, 'phenotypes'),
   forCollectionRequestAction(FETCH_DISEASE_VIA_EMPIRICAL, 'diseaseViaEmpirical'),
   forCollectionRequestAction(FETCH_DISEASE_VIA_ORTHOLOGY, 'diseaseViaOrthology'),
-  forCollectionRequestAction(FETCH_INTERACTIONS, 'interactions')
+  forCollectionRequestAction(FETCH_INTERACTIONS, 'interactions'),
+  forCollectionRequestAction(FETCH_MODELS, 'models')
 );
 
 export default geneReducer;
