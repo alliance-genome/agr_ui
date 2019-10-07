@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { fetchAlleles } from '../../actions/genes';
+import { fetchAlleles } from '../../actions/geneActions';
 import { selectAlleles } from '../../selectors/geneSelectors';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -98,7 +98,8 @@ class AlleleTable extends Component {
                         geneSymbol,
                       tracks: ['Phenotypic Variants', 'All Genes', 'DNA'].join(','),
                       highlight: `${location.chromosome}:${typeof location.start === 'number' ? location.start : location.end}..${location.end}`,
-                    })}>
+                    })}
+                    >
                       {id}
                     </ExternalLink>
                   </div>
@@ -194,12 +195,12 @@ AlleleTable.propTypes = {
   dispatch: PropTypes.func,
   geneDataProvider: PropTypes.string.isRequired,
   geneId: PropTypes.string.isRequired,
-  geneSymbol: PropTypes.string.isRequired,
   geneLocation: PropTypes.shape({
     start: PropTypes.number,
     end: PropTypes.number,
     chromosome: PropTypes.string,
   }),
+  geneSymbol: PropTypes.string.isRequired,
   species: PropTypes.string.isRequired,
 };
 

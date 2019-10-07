@@ -7,7 +7,7 @@ import {
   FETCH_DISEASE_VIA_EMPIRICAL,
   FETCH_DISEASE_VIA_ORTHOLOGY,
   FETCH_INTERACTIONS,
-} from '../actions/genes';
+} from '../actions/geneActions';
 import { handleActions, forObjectRequestAction, forCollectionRequestAction } from '../lib/handleActions';
 
 const DEFAULT_STATE = fromJS({

@@ -11,7 +11,7 @@ import OrthologyTable, { isBest } from './orthologyTable';
 import { getOrthologSpeciesName } from './utils';
 import { connect } from 'react-redux';
 import { selectOrthologs } from '../../selectors/geneSelectors';
-import { fetchOrthologs } from '../../actions/genes';
+import { fetchOrthologs } from '../../actions/geneActions';
 import HorizontalScroll from '../horizontalScroll';
 import LoadingSpinner from '../loadingSpinner';
 import NoData from '../noData';

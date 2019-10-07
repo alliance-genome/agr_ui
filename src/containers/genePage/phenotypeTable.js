@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import hash from 'object-hash';
 
-import { fetchPhenotypes } from '../../actions/genes';
+import { fetchPhenotypes } from '../../actions/geneActions';
 import { selectPhenotypes } from '../../selectors/geneSelectors';
 import { RemoteDataTable, ReferenceCell, GeneticEntityCell, FilterSets } from '../../components/dataTable';
 

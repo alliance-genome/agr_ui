@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { fetchGene } from '../../actions/genes';
+import { fetchGene } from '../../actions/geneActions';
 import { selectGene } from '../../selectors/geneSelectors';
 
 import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPage';
