@@ -21,7 +21,7 @@ import ExpressionLinks from './expressionLinks';
 import SpeciesIcon from '../../components/speciesIcon';
 import DataSourceLink from '../../components/dataSourceLink';
 import PhenotypeTable from './phenotypeTable';
-import { ExpressionComparisonRibbon } from '../../components/expression';
+import { ExpressionComparisonRibbon, ExpressionUserGuide } from '../../components/expression';
 import { DiseaseComparisonRibbon } from '../../components/disease';
 import HeadMetaTags from '../../components/headMetaTags';
 
@@ -227,7 +227,7 @@ class GenePage extends Component {
             <DiseaseComparisonRibbon geneId={data.id} geneSymbol={data.symbol} geneTaxon={data.species.taxonId} />
           </Subsection>
 
-          <Subsection title={EXPRESSION}>
+          <Subsection help={<ExpressionUserGuide />} title={EXPRESSION}>
             <ExpressionLinks
               allExpressionCrossReference={data.crossReferences.expression}
               geneDataProvider={data.dataProvider}

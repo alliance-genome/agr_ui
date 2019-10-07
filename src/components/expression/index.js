@@ -1,5 +1,7 @@
 import ExpressionComparisonRibbon from './expressionComparisonRibbon';
+import ExpressionUserGuide from './expressionUserGuide';
 
 export {
-  ExpressionComparisonRibbon
+  ExpressionComparisonRibbon,
+  ExpressionUserGuide,
 };
