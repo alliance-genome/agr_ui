@@ -167,8 +167,14 @@ class GenePage extends Component {
 
     // TODO: this name should come directly from the API
     if (data.crossReferences['expression-atlas']) {
-      data.crossReferences['expression-atlas'].name = 'Expression Atlas';
+      data.crossReferences['expression-atlas'].displayName = 'Expression Atlas';
     }
+    // manufacture a single cell atlas cross reference since this isn't stored
+    // in the database (see AGR-1406)
+    const singleCellAtlasXRef = {
+      name: 'Single Cell Expression Atlas',
+      url: `https://www.ebi.ac.uk/gxa/sc/search?q=${data.symbol}&species=${data.species.name}`,
+    };
 
     return (
       <DataPage>
@@ -231,7 +237,12 @@ class GenePage extends Component {
             <ExpressionLinks
               allExpressionCrossReference={data.crossReferences.expression}
               geneDataProvider={data.dataProvider}
-              otherExpressionCrossReferences={[data.crossReferences.other_expression, data.crossReferences['expression-atlas']]}
+              imagesCrossReference={data.crossReferences.expression_images}
+              otherExpressionCrossReferences={[
+                data.crossReferences.other_expression,
+                singleCellAtlasXRef,
+                data.crossReferences['expression-atlas']
+              ]}
               spellCrossReference={data.crossReferences.spell}
               wildtypeExpressionCrossReference={data.crossReferences.wild_type_expression}
             />
