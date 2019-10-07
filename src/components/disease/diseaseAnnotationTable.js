@@ -13,11 +13,11 @@ import {
   BasedOnGeneCell,
   RemoteDataTable,
   FilterSets,
-  GeneticEntityCell
 
 } from '../dataTable';
 import { selectDiseaseRibbonAnnotations } from '../../selectors/diseaseRibbonSelectors';
 import { fetchDiseaseRibbonAnnotations } from '../../actions/diseaseRibbonActions';
+import AnnotatedEntitiesPopup from '../dataTable/AnnotatedEntitiesPopup';
 
 /*
  * Disease ribbon-table
@@ -53,11 +53,6 @@ class DiseaseAnnotationTable extends Component {
 
     let columns = [
       {
-        dataField: 'key',
-        text: 'key',
-        hidden: true,
-      },
-      {
         dataField: 'species',
         text: 'Species',
         filterable: FilterSets.species,
@@ -68,10 +63,18 @@ class DiseaseAnnotationTable extends Component {
       {
         dataField: 'gene',
         text: 'Gene',
-        formatter: GeneCell,
+        formatter:  (gene, row) => (
+          <React.Fragment>
+            <div>{GeneCell(gene)}</div>
+            <small>
+              <AnnotatedEntitiesPopup entities={row.primaryAnnotatedEntities}>
+                Based on inferences
+              </AnnotatedEntitiesPopup>
+            </small>
+          </React.Fragment>
+        ),
         filterable: true,
         headerStyle: {width: '75px'},
-        hidden: genes.length < 2
       },
       {
         dataField: 'disease',
@@ -79,26 +82,6 @@ class DiseaseAnnotationTable extends Component {
         filterable: true,
         headerStyle: {width: '100px'},
         formatter: DiseaseNameCell,
-        hidden: false
-      },
-      {
-        dataField: 'geneticEntityType',
-        text: 'Genetic entity type',
-        filterable: FilterSets.geneticEntityTypes,
-        headerStyle: {
-          width: '110px'
-        },
-        hidden: false
-      },
-      {
-        dataField: 'geneticEntity',
-        text: 'Genetic entity',
-        filterable: true,
-        headerStyle: {
-          width: '110px'
-        },
-        formatter: GeneticEntityCell,
-        hidden: false
       },
       {
         dataField: 'associationType',
@@ -106,56 +89,43 @@ class DiseaseAnnotationTable extends Component {
         formatter: (type) => type.replace(/_/g, ' '),
         filterable: FilterSets.associationTypes,
         headerStyle: {width: '120px'},
-        hidden: false
       },
       {
-        dataField: 'evidenceCode',
+        dataField: 'evidenceCodes',
         text: 'Evidence',
         filterable: true,
         headerStyle: {width: '100px'},
         formatter: EvidenceCodesCell,
-        hidden: false
-
+        filterName: 'evidenceCode',
       },
       {
         dataField: 'source',
         text: 'Source',
+        formatter: source => source.name,
         filterable: true,
         headerStyle: {width: '100px'},
-        hidden: false
-
       },
       {
-        dataField: 'basedOnGeneSymbol',
+        dataField: 'orthologyGenes',
         text: 'Based On',
         filterable: true,
+        filterName: 'basedOnGeneSymbol',
         headerStyle: {width: '100px'},
         formatter: BasedOnGeneCell,
-        hidden: false
       },
       {
-        dataField: 'reference',
+        dataField: 'publications',
         text: 'References',
         filterable: true,
+        filterName: 'reference',
         headerStyle: {width: '150px'},
         formatter: ReferenceCell,
-        hidden: false
       }
-
     ];
 
-    const data = annotations && annotations.data && annotations.data.map(result => ({
-      key: result.primaryKey,
-      evidenceCode : result.evidenceCodes,
-      gene: result.gene,
-      species: result.gene.species,
-      basedOnGeneSymbol: result.orthologyGenes ? result.orthologyGenes : null,
-      reference: result.publications,
-      disease: result.disease,
-      geneticEntityType: result.geneticEntityType,
-      geneticEntity: result.allele? result.allele: null,
-      source : result.source.name,
-      associationType: result.associationType
+    const data = annotations.data.map(annotation => ({
+      species: annotation.gene.species,
+      ...annotation,
     }));
 
 
@@ -167,7 +137,7 @@ class DiseaseAnnotationTable extends Component {
         columns={columns}
         data={data}
         downloadUrl={downloadUrl}
-        keyField='key'
+        keyField='primaryKey'
         loading={annotations.loading}
         onUpdate={this.handleUpdate}
         ref={this.tableRef}
