@@ -242,6 +242,9 @@ class GenePage extends Component {
             <AlleleTable
               geneDataProvider={data.dataProvider}
               geneId={data.id}
+              geneLocation={genomeLocation}
+              geneSymbol={data.symbol}
+              species={data.species.name}
             />
           </Subsection>
 

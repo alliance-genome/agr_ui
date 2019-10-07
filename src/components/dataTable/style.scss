@@ -26,7 +26,6 @@
 .filterToggle {
   cursor: pointer;
   margin-left: 5px;
-  padding: 0 0.3rem;
   color: $primary;
 
   &.active {
@@ -38,4 +37,8 @@
 
 .breakWords {
   overflow-wrap: break-word;
+}
+
+.helpIconWrapper {
+  margin-left: 5px;
 }
