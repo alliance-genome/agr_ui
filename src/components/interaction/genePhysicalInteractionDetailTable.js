@@ -50,7 +50,7 @@ class GenePhysicalInteractionDetailTable extends React.Component {
       {
         dataField: 'moleculeType',
         text: `${focusGeneDisplayName} molecule type`,
-        formatter: (fieldData = {}, row, formatExtraData, rowIndex) => {
+        formatter: (fieldData = {}, row, rowIndex) => {
           const id = this.getCellId('interactorAType', rowIndex);
           return (
             <MITerm {...fieldData} id={id} />
@@ -82,7 +82,7 @@ class GenePhysicalInteractionDetailTable extends React.Component {
       {
         dataField: 'interactorMoleculeType',
         text: 'Interactor molecule type',
-        formatter: (fieldData = {}, row, formatExtraData, rowIndex) => {
+        formatter: (fieldData = {}, row, rowIndex) => {
           const id = this.getCellId('interactorBType', rowIndex);
           return (
             <MITerm {...fieldData} id={id} />
@@ -96,7 +96,7 @@ class GenePhysicalInteractionDetailTable extends React.Component {
       {
         dataField: 'detectionMethod',
         text: 'Detection methods',
-        formatter: (items = [], row, formatExtraData, rowIndex) => {
+        formatter: (items = [], row, rowIndex) => {
           return (
             <CommaSeparatedList>
               {
