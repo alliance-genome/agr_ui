@@ -26,7 +26,6 @@
 .filterToggle {
   cursor: pointer;
   margin-left: 5px;
-  padding: 0 0.3rem;
   color: $primary;
 
   &.active {
@@ -47,4 +46,8 @@
   .tablePopupInner {
     width: 400px;
   }
+}
+
+.helpIconWrapper {
+  margin-left: 5px;
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { UncontrolledButtonDropdown, DropdownMenu, DropdownToggle } from 'reactstrap';
+import HelpPopup from '../helpPopup';
 
 import style from './style.scss';
 
@@ -14,6 +15,7 @@ class ColumnHeader extends React.Component {
       }
     };
     const active = Array.isArray(filter) ? filter.length > 0 : filter;
+    const { helpPopupProps } = column;
     return (
       <div className={classes}>
         {column.text}
@@ -26,6 +28,9 @@ class ColumnHeader extends React.Component {
               {filterElement}
             </DropdownMenu>
           </UncontrolledButtonDropdown>
+        }
+        {
+          helpPopupProps ? <div className="btn-group"><span className={style.helpIconWrapper}><HelpPopup {...helpPopupProps} /></span></div> : null
         }
       </div>
     );

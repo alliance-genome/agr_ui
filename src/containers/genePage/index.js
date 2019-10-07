@@ -21,7 +21,7 @@ import ExpressionLinks from './expressionLinks';
 import SpeciesIcon from '../../components/speciesIcon';
 import DataSourceLink from '../../components/dataSourceLink';
 import PhenotypeTable from './phenotypeTable';
-import { ExpressionComparisonRibbon } from '../../components/expression';
+import { ExpressionComparisonRibbon, ExpressionUserGuide } from '../../components/expression';
 import { DiseaseComparisonRibbon } from '../../components/disease';
 import HeadMetaTags from '../../components/headMetaTags';
 
@@ -167,8 +167,14 @@ class GenePage extends Component {
 
     // TODO: this name should come directly from the API
     if (data.crossReferences['expression-atlas']) {
-      data.crossReferences['expression-atlas'].name = 'Expression Atlas';
+      data.crossReferences['expression-atlas'].displayName = 'Expression Atlas';
     }
+    // manufacture a single cell atlas cross reference since this isn't stored
+    // in the database (see AGR-1406)
+    const singleCellAtlasXRef = {
+      name: 'Single Cell Expression Atlas',
+      url: `https://www.ebi.ac.uk/gxa/sc/search?q=${data.symbol}&species=${data.species.name}`,
+    };
 
     return (
       <DataPage>
@@ -227,11 +233,16 @@ class GenePage extends Component {
             <DiseaseComparisonRibbon geneId={data.id} geneSymbol={data.symbol} geneTaxon={data.species.taxonId} />
           </Subsection>
 
-          <Subsection title={EXPRESSION}>
+          <Subsection help={<ExpressionUserGuide />} title={EXPRESSION}>
             <ExpressionLinks
               allExpressionCrossReference={data.crossReferences.expression}
               geneDataProvider={data.dataProvider}
-              otherExpressionCrossReferences={[data.crossReferences.other_expression, data.crossReferences['expression-atlas']]}
+              imagesCrossReference={data.crossReferences.expression_images}
+              otherExpressionCrossReferences={[
+                data.crossReferences.other_expression,
+                singleCellAtlasXRef,
+                data.crossReferences['expression-atlas']
+              ]}
               spellCrossReference={data.crossReferences.spell}
               wildtypeExpressionCrossReference={data.crossReferences.wild_type_expression}
             />
@@ -242,6 +253,9 @@ class GenePage extends Component {
             <AlleleTable
               geneDataProvider={data.dataProvider}
               geneId={data.id}
+              geneLocation={genomeLocation}
+              geneSymbol={data.symbol}
+              species={data.species.name}
             />
           </Subsection>
 

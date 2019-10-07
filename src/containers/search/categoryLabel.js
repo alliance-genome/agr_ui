@@ -11,24 +11,7 @@ class CategoryLabel extends Component {
   }
 
   renderSprite() {
-    const current = this.getCurrentOption();
-    const yOffset = Math.max(0, CATEGORIES.indexOf(current)) - 1;
-    const yOffsetStyle = `-${yOffset}rem`;
-    let xOffset = 0;
-    switch (this.props.spriteColor) {
-    case 'white':
-      xOffset = 1;
-      break;
-    case 'blue':
-      xOffset = 2;
-      break;
-    }
-    const xOffsetStyle = `-${xOffset * 1.15}rem`;
-    const positions = {
-      backgroundPositionX: xOffsetStyle,
-      backgroundPositionY: yOffsetStyle
-    };
-    return <span className={`${this.props.category} ${style.sprite}`} style={positions} />;
+    return <span className={`${style[this.props.category]} ${style.categoryIcon}`}>&#x2B22;</span>;
   }
 
   render() {
@@ -44,7 +27,6 @@ CategoryLabel.propTypes = {
   category: PropTypes.string,
   hideImage: PropTypes.bool,
   hideLabel: PropTypes.bool,
-  spriteColor: PropTypes.string,
 };
 
 CategoryLabel.defaultProps = {
