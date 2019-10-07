@@ -26,7 +26,7 @@ class SearchBreadcrumbsComponent extends Component {
       }
       else if (key === 'category') {
         fieldLabel = '';
-        labelNode = <CategoryLabel category={d} spriteColor='white' />;
+        labelNode = <CategoryLabel category={d} hideImage='true' />;
       }
       return (
         <Link className={`btn btn-primary ${style.sortLabel}`} key={`bc${key}.${i}`} to={newPath}><span>{fieldLabel} {labelNode} <i className='fa fa-times' /></span></Link>
@@ -39,11 +39,13 @@ class SearchBreadcrumbsComponent extends Component {
     let keys = Object.keys(qp).filter( d => IGNORED_PARAMS.indexOf(d) < 0);
     // make sure they are sorted
     keys = keys.sort( (a, b) => (SORT_PRIORITY.indexOf(a) < SORT_PRIORITY.indexOf(b)) );
-    return keys.map( d => {
+    let crumbs = keys.map( d => {
       let values = qp[d];
       if (typeof values !== 'object') values = [values];
       return this.renderCrumbValues(d, values);
     });
+    crumbs = (crumbs == '') ? crumbs : <span> for {crumbs} </span>;
+    return crumbs;
   }
 
   renderTotalNode() {
@@ -54,7 +56,7 @@ class SearchBreadcrumbsComponent extends Component {
   render() {
     return (
       <div>
-        <p>{this.renderTotalNode()} results for {this.renderCrumbs()}</p>
+        <p>{this.renderTotalNode()} results {this.renderCrumbs()}</p>
       </div>
     );
   }
