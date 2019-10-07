@@ -39,6 +39,15 @@
   overflow-wrap: break-word;
 }
 
+.tablePopup {
+  max-height: 500px;
+  overflow-y: scroll;
+
+  .tablePopupInner {
+    width: 400px;
+  }
+}
+
 .helpIconWrapper {
   margin-left: 5px;
 }

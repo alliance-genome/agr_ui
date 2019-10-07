@@ -7,6 +7,8 @@ import {
 } from 'reactstrap';
 import {ReferenceCell} from './index';
 
+import style from './style.scss';
+
 
 function AnnotatedEntitiesPopup(props) {
   const {children, entities} = props;
@@ -26,8 +28,8 @@ function AnnotatedEntitiesPopup(props) {
       <DropdownToggle tag='span'>
         <a href='#' onClick={e => e.preventDefault()}>{children || 'View'}</a>
       </DropdownToggle>
-      <DropdownMenu className='shadow-sm' modifiers={popperModifiers} positionFixed style={{maxHeight: '500px', overflowY: 'scroll'}}>
-        <div style={{width: '400px'}}>
+      <DropdownMenu className={`shadow-sm ${style.tablePopup}`} modifiers={popperModifiers} positionFixed>
+        <div className={style.tablePopupInner}>
           <table className='table table-sm'>
             <thead>
               <tr>
