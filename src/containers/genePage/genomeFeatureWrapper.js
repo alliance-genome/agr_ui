@@ -73,7 +73,7 @@ class GenomeFeatureWrapper extends Component {
 
 
   loadGenomeFeature() {
-    const {chromosome, fmin, fmax, geneSymbol, synonyms} = this.props;
+    const {chromosome, fmin, fmax, geneSymbol, synonyms = []} = this.props;
     let nameSuffix = [geneSymbol, ...synonyms];
     let nameSuffixString = nameSuffix.join('&name=');
     if (nameSuffixString.length > 0) {

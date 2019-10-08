@@ -114,7 +114,7 @@ class GenePage extends Component {
       },
     ];
 
-    const keywords = ['gene', data.dataProvider.replace('\n', ' '), data.symbol, ...data.synonyms, data.species.name, data.id];
+    const keywords = ['gene', data.dataProvider.replace('\n', ' '), data.symbol, ...(data.synonyms || []), data.species.name, data.id];
     const jsonLd = [
       {
         '@context': 'http://schema.org',
