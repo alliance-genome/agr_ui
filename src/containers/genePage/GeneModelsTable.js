@@ -24,7 +24,7 @@ const GeneModelsTable = ({dispatchFetchModels, id, models}) => {
     {
       dataField: 'diseases',
       text: 'Associated Human Diseases',
-      formatter: diseases => (
+      formatter: diseases => diseases && (
         <CollapsibleList collapsedSize={diseases.length}>
           {diseases.map(disease => <Link key={disease.id} to={`/disease/${disease.id}`}>{disease.name}</Link>)}
         </CollapsibleList>
@@ -32,6 +32,13 @@ const GeneModelsTable = ({dispatchFetchModels, id, models}) => {
       filterable: true,
       filterName: 'disease',
     },
+    {
+      dataField: 'phenotypes',
+      text: 'Associated Phenotypes',
+      formatter: phenotypes => (
+        <CollapsibleList collapsedSize={2}>{phenotypes}</CollapsibleList>
+      ),
+    }
   ];
 
   const sortOptions = [
