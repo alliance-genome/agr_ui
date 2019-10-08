@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import ExternalLink from '../../components/externalLink';
 import Subsection from '../../components/subsection';
@@ -9,13 +11,34 @@ import DownloadFileLink from './downloadFileLink';
 import HelpPopup from '../../components/helpPopup';
 import GeneDescriptionsHelp from './geneDescriptionsHelp';
 import HeadMetaTags from '../../components/headMetaTags';
+import {selectFiles} from '../../selectors/fileManagementSystemSelectors';
+import {fetchReleaseFiles} from '../../actions/fileManagementSystemActions';
+
+const DOWNLOAD_HOST = 'http://download.alliancegenome.org';
 
 class DownloadsPage extends React.Component {
+  componentDidMount() {
+    this.props.dispatchFetchFiles();
+  }
+
+  getUrlForDataType(dataType, dataSubType) {
+    const file = this.props.files.data.find(file => (
+      file.dataType.name === dataType && file.dataSubType.name === dataSubType
+    ));
+    return file ? DOWNLOAD_HOST + '/' + file.s3Path : undefined;
+  }
+
   render() {
     const DISEASE = 'Disease';
     const INTERACTIONS = 'Interactions';
     const GENE_DESCRIPTIONS = 'Gene Descriptions';
-    const SECTIONS = [{name: DISEASE}, {name: GENE_DESCRIPTIONS}, {name: INTERACTIONS}];
+    const VARIANTS = 'Variants';
+    const SECTIONS = [
+      {name: DISEASE},
+      {name: GENE_DESCRIPTIONS},
+      {name: INTERACTIONS},
+      {name: VARIANTS},
+    ];
     const TITLE = 'Downloads';
     return (
       <DataPage>
@@ -23,14 +46,16 @@ class DownloadsPage extends React.Component {
         <PageNav entityName={TITLE} sections={SECTIONS} />
         <PageData>
           <PageHeader entityName={TITLE} />
+
           <Subsection title={DISEASE}>
             <DownloadFileTable>
               <tr>
                 <td>Disease associations</td>
-                <td><DownloadFileLink url='http://download.alliancegenome.org/disease-annotations-DOID-4.tsv' /></td>
+                <td><DownloadFileLink url={this.getUrlForDataType('DISEASE-ALLIANCE', 'COMBINED')} /></td>
               </tr>
             </DownloadFileTable>
           </Subsection>
+
           <Subsection help={<GeneDescriptionsHelp />} title={GENE_DESCRIPTIONS}>
             <DownloadFileTable>
               <tr>
@@ -112,10 +137,48 @@ class DownloadsPage extends React.Component {
               </tr>
             </DownloadFileTable>
           </Subsection>
+
+          <Subsection title={VARIANTS}>
+            <DownloadFileTable>
+              <tr>
+                <td><i>Caenorhabditis elegans</i> VCF</td>
+                <td><DownloadFileLink url={this.getUrlForDataType('VCF', 'WBcel235')} /></td>
+              </tr>
+              <tr>
+                <td><i>Danio rerio</i> VCF</td>
+                <td><DownloadFileLink url={this.getUrlForDataType('VCF', 'GRCz11')} /></td>
+              </tr>
+              <tr>
+                <td><i>Drosophila melanogaster</i> VCF</td>
+                <td><DownloadFileLink url={this.getUrlForDataType('VCF', 'R6')} /></td>
+              </tr>
+              <tr>
+                <td><i>Mus musculus</i> VCF</td>
+                <td><DownloadFileLink url={this.getUrlForDataType('VCF', 'GRCm38')} /></td>
+              </tr>
+              <tr>
+                <td><i>Rattus norvegicus</i> VCF</td>
+                <td><DownloadFileLink url={this.getUrlForDataType('VCF', 'Rnor60')} /></td>
+              </tr>
+            </DownloadFileTable>
+          </Subsection>
         </PageData>
       </DataPage>
     );
   }
 }
 
-export default DownloadsPage;
+DownloadsPage.propTypes = {
+  dispatchFetchFiles: PropTypes.func,
+  files: PropTypes.object,
+};
+
+const mapStateToProps = state => ({
+  files: selectFiles(state),
+});
+
+const mapDispatchToProps = dispatch => ({
+  dispatchFetchFiles: () => dispatch(fetchReleaseFiles(process.env.RELEASE)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DownloadsPage);
