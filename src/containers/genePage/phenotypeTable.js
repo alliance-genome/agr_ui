@@ -22,7 +22,7 @@ class PhenotypeTable extends React.Component {
         id: hash(record),
         termName: record.phenotype,
         geneticEntity: record.geneticEntity,
-        geneticEntityType: record.geneticEntity.type,
+        geneticEntityType: record.geneticEntity && record.geneticEntity.type,
         reference: record.publications,
       };
     });
@@ -43,7 +43,7 @@ class PhenotypeTable extends React.Component {
       {
         dataField: 'geneticEntity',
         text: 'Genetic Entity',
-        formatter: entity => entity.type === 'gene' ? null : GeneticEntityCell(entity),
+        formatter: entity => entity ? entity.type === 'gene' ? null : GeneticEntityCell(entity) : null,
         headerStyle: {width: '185px'},
         filterable: true,
       },
