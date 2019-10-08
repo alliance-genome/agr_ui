@@ -30,11 +30,13 @@ class DownloadsPage extends React.Component {
 
   render() {
     const DISEASE = 'Disease';
+    const EXPRESSION = 'Expression';
     const INTERACTIONS = 'Interactions';
     const GENE_DESCRIPTIONS = 'Gene Descriptions';
     const VARIANTS = 'Variants';
     const SECTIONS = [
       {name: DISEASE},
+      {name: EXPRESSION},
       {name: GENE_DESCRIPTIONS},
       {name: INTERACTIONS},
       {name: VARIANTS},
@@ -52,6 +54,15 @@ class DownloadsPage extends React.Component {
               <tr>
                 <td>Disease associations</td>
                 <td><DownloadFileLink url={this.getUrlForDataType('DISEASE-ALLIANCE', 'COMBINED')} /></td>
+              </tr>
+            </DownloadFileTable>
+          </Subsection>
+
+          <Subsection title={EXPRESSION}>
+            <DownloadFileTable>
+              <tr>
+                <td>Expression annotations</td>
+                <td><DownloadFileLink url={this.getUrlForDataType('EXPRESSION-ALLIANCE', 'COMBINED')} /></td>
               </tr>
             </DownloadFileTable>
           </Subsection>
