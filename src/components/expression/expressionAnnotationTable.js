@@ -136,6 +136,10 @@ class ExpressionAnnotationTable extends React.Component {
         value: 'stage',
         label: 'Stage',
       },
+      {
+        value: 'gene',
+        label: 'Gene',
+      },
     ];
 
     return (
