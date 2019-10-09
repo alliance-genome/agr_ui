@@ -24,6 +24,7 @@ import { selectDiseaseRibbonSummary } from '../../selectors/diseaseRibbonSelecto
 import { fetchDiseaseRibbonSummary } from '../../actions/diseaseRibbonActions';
 import LoadingSpinner from '../loadingSpinner';
 import OrthologPicker from '../OrthologPicker';
+import RibbonGeneSubjectLabel from '../RibbonGeneSubjectLabel';
 
 class DiseaseComparisonRibbon extends Component {
 
@@ -132,7 +133,7 @@ class DiseaseComparisonRibbon extends Component {
               itemClick={this.onDiseaseGroupClicked}
               newTab={false}
               selected={selectedBlock}
-              subjectBaseURL={'/gene/'}
+              subjectLabel={subject => <RibbonGeneSubjectLabel subject={subject} />}
               subjectLabelPosition={POSITION.LEFT}
               subjects={summary.data.subjects}
             />
