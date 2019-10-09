@@ -122,21 +122,22 @@ class ExpressionComparisonRibbon extends React.Component {
           </ControlsContainer>
         </div>
 
-        <HorizontalScroll width={1100}>
-          <span className="d-inline-block">
-            <GenericRibbon
-              categories={summary.data.categories}
-              colorBy={COLOR_BY.CLASS_COUNT}
-              hideFirstSubjectLabel
-              itemClick={this.updateSelectedBlock}
-              newTab={false}
-              selected={selectedBlock}
-              subjectLabel={subject => <RibbonGeneSubjectLabel subject={subject} />}
-              subjectLabelPosition={POSITION.LEFT}
-              subjects={summary.data.subjects}
-            />
-          </span>
+        <HorizontalScroll width={970}>
+          <GenericRibbon
+            categories={summary.data.categories}
+            colorBy={COLOR_BY.CLASS_COUNT}
+            hideFirstSubjectLabel
+            itemClick={this.updateSelectedBlock}
+            newTab={false}
+            selected={selectedBlock}
+            subjectLabel={subject => <RibbonGeneSubjectLabel subject={subject} />}
+            subjectLabelPosition={POSITION.LEFT}
+            subjects={summary.data.subjects}
+          />
           <div>{summary.loading && <LoadingSpinner />}</div>
+          <div className='text-muted mt-2'>
+            <i>Cell color indicative of annotation volume</i>
+          </div>
         </HorizontalScroll>
 
         {selectedBlock.group &&
