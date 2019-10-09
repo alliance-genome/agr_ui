@@ -153,7 +153,7 @@ class RemoteDataTable extends Component {
                     <TableSummary style={{display: 'inline-block'}} {...summaryProps} /> :
                     null
                 }
-                {sortOptions && sortOptions.length &&
+                {sortOptions && sortOptions.length > 0 &&
                   <Form className='pull-right' inline>
                     <Label className="mr-1">Sort by</Label>
                     <Input onChange={this.handleSortChange} type='select' value={sort || ''}>

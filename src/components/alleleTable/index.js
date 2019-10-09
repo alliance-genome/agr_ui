@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { fetchAlleles } from '../../actions/genes';
+import { fetchAlleles } from '../../actions/geneActions';
 import { selectAlleles } from '../../selectors/geneSelectors';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
