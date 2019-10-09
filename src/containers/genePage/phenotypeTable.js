@@ -6,7 +6,9 @@ import hash from 'object-hash';
 
 import { fetchPhenotypes } from '../../actions/genes';
 import { selectPhenotypes } from '../../selectors/geneSelectors';
-import { RemoteDataTable, ReferenceCell, GeneticEntityCell, FilterSets } from '../../components/dataTable';
+import { RemoteDataTable, ReferenceCell } from '../../components/dataTable';
+import AnnotatedEntitiesPopup
+  from '../../components/dataTable/AnnotatedEntitiesPopup';
 
 class PhenotypeTable extends React.Component {
   loadPhenotypes(opts) {
@@ -17,48 +19,35 @@ class PhenotypeTable extends React.Component {
   render() {
     const { geneId, phenotypes } = this.props;
 
-    const data = phenotypes.data && phenotypes.data.map(record => {
-      return {
+    const data = phenotypes.data && phenotypes.data.map(record => (
+      {
+        ...record,
         id: hash(record),
-        termName: record.phenotype,
-        geneticEntity: record.geneticEntity,
-        geneticEntityType: record.geneticEntity && record.geneticEntity.type,
-        reference: record.publications,
-      };
-    });
+      }
+    ));
 
     const columns = [
       {
-        dataField: 'id',
-        text: 'id',
-        hidden: true,
-      },
-      {
-        dataField: 'termName',
+        dataField: 'phenotype',
         text: 'Phenotype Term',
         formatter: (term) => <span dangerouslySetInnerHTML={{__html: term}} />,
         headerStyle: {width: '120px'},
         filterable: true,
+        filterName: 'termName',
       },
       {
-        dataField: 'geneticEntity',
-        text: 'Genetic Entity',
-        formatter: entity => entity ? entity.type === 'gene' ? null : GeneticEntityCell(entity) : null,
-        headerStyle: {width: '185px'},
-        filterable: true,
+        dataField: 'primaryAnnotatedEntities',
+        text: 'Based on Inferences',
+        formatter: entities => <AnnotatedEntitiesPopup entities={entities} />,
+        headerStyle: {width: '90px'},
       },
       {
-        dataField: 'geneticEntityType',
-        text: 'Genetic Entity Type',
-        headerStyle: {width: '110px'},
-        filterable: FilterSets.geneticEntityTypes,
-      },
-      {
-        dataField: 'reference',
+        dataField: 'publications',
         text: 'References',
         formatter: ReferenceCell,
         headerStyle: {width: '150px'},
         filterable: true,
+        filterName: 'reference',
       },
     ];
 

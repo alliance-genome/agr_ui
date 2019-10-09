@@ -45,7 +45,7 @@ function AnnotatedEntitiesPopup(props) {
                     <td><span dangerouslySetInnerHTML={{__html: entity.name}}/>
                     </td>
                     <td>{entity.type}</td>
-                    <td>{ReferenceCell(entity.publicationEvidenceCodes.map(pec => pec.publication))}</td>
+                    <td>{entity.publicationEvidenceCodes && ReferenceCell(entity.publicationEvidenceCodes.map(pec => pec.publication))}</td>
                   </tr>
                 ))
               }
