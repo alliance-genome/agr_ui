@@ -88,7 +88,7 @@ class SearchBarComponent extends Component {
     //gene and disease will go to the pages and skip search results,
     //go terms and alleles will just go to regular search pages as the query
     if (item.method == 'click') {
-      let id = item.suggestion.primaryId;
+      let id = item.suggestion.primaryKey;
       if (item.suggestion.category == 'gene') {
         let href = '/gene/' + id;
         autocompleteGoToPageEvent(id);

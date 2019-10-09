@@ -43,7 +43,7 @@ const DiseaseToAlleleTable = ({associations, fetchAssociations, id}) => {
     },
     {
       dataField: 'associationType',
-      text: 'Association Type',
+      text: 'Association',
       formatter: (type) => type.replace(/_/g, ' '),
       headerStyle: {width: '110px'},
       filterable: FilterSets.associationTypes,

@@ -91,17 +91,21 @@ class AlleleTable extends Component {
                       flex: '1 0 auto',
                     }}
                   >
-                    <ExternalLink href={`${process.env.JBROWSE_URL || ''}/jbrowse/?` + stringifyQuery({
-                      data: `data/${species}`,
-                      loc: (geneLocation.start && geneLocation.end) ?
-                        `${geneLocation.chromosome || location.chromosome}:${geneLocation.start || 0}..${geneLocation.end || 0}` :
-                        geneSymbol,
-                      tracks: ['Phenotypic Variants', 'All Genes', 'DNA'].join(','),
-                      highlight: `${location.chromosome}:${typeof location.start === 'number' ? location.start : location.end}..${location.end}`,
-                    })}
-                    >
-                      {id}
-                    </ExternalLink>
+                    {
+                      location ?
+                        <ExternalLink
+                          href={`${process.env.JBROWSE_URL || ''}/jbrowse/?` + stringifyQuery({
+                            data: `data/${species}`,
+                            loc: (geneLocation && geneLocation.start && geneLocation.end) ?
+                              `${geneLocation.chromosome || location.chromosome}:${geneLocation.start || 0}..${geneLocation.end || 0}` :
+                              geneSymbol,
+                            tracks: ['Phenotypic Variants', 'All Genes', 'DNA'].join(','),
+                            highlight: `${location.chromosome}:${typeof location.start === 'number' ? location.start : location.end}..${location.end}`,
+                          })}
+                        >
+                          {id}
+                        </ExternalLink> : id
+                    }
                   </div>
                   <div
                     style={{
