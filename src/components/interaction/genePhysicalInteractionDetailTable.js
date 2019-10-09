@@ -11,7 +11,7 @@ import MITerm from './MITerm';
 import style from './genePhysicalInteractionDetailTable.scss';
 import { selectInteractions } from '../../selectors/geneSelectors';
 import { connect } from 'react-redux';
-import { fetchInteractions } from '../../actions/genes';
+import { fetchInteractions } from '../../actions/geneActions';
 
 const DEFAULT_TABLE_KEY = 'physicalInteractionTable';
 

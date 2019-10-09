@@ -36,3 +36,8 @@ export const selectInteractions = createSelector(
   [selectGeneDomain],
   (gene) => gene.get('interactions').toJS()
 );
+
+export const selectModels = createSelector(
+  [selectGeneDomain],
+  gene => gene.get('models').toJS()
+);
