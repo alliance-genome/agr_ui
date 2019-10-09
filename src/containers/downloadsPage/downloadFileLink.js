@@ -8,13 +8,16 @@ const fileExtension = (filename) => {
 };
 
 const DownloadFileLink = ({url, fileType}) => {
+  if (!url) {
+    return null;
+  }
   fileType = fileType || fileExtension(url);
   return <a className={style.fileLink} href={url}>{fileType}</a>;
 };
 
 DownloadFileLink.propTypes = {
   fileType: PropTypes.string,
-  url: PropTypes.string.isRequired
+  url: PropTypes.string,
 };
 
 export default DownloadFileLink;
