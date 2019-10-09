@@ -56,6 +56,17 @@ class DownloadsPage extends React.Component {
       {name: VARIANTS},
     ];
     const TITLE = 'Downloads';
+
+    const speciesSubTypes = [
+      {species: 'Caenorhabditis elegans', subType: 'WB'},
+      {species: 'Danio rerio', subType: 'ZFIN'},
+      {species: 'Drosophila melanogaster', subType: 'FB'},
+      {species: 'Homo sapiens', subType: 'HUMAN'},
+      {species: 'Mus musculus', subType: 'MGI'},
+      {species: 'Rattus norvegicus', subType: 'RGD'},
+      {species: 'Saccharomyces cerevisiae', subType: 'SGD'}
+    ];
+
     return (
       <DataPage>
         <HeadMetaTags title={TITLE} />
@@ -83,62 +94,17 @@ class DownloadsPage extends React.Component {
 
           <Subsection help={<GeneDescriptionsHelp />} title={GENE_DESCRIPTIONS}>
             <DownloadFileTable>
-              <DownloadFileRow
-                description={<span><i>Caenorhabditis elegans</i> genes</span>}
-                url={[
-                  'http://reports.alliancegenome.org/gene-descriptions/WB_gene_desc_latest.json',
-                  'http://reports.alliancegenome.org/gene-descriptions/WB_gene_desc_latest.tsv',
-                  'http://reports.alliancegenome.org/gene-descriptions/WB_gene_desc_latest.txt',
-                ]}
-              />
-              <DownloadFileRow
-                description={<span><i>Danio rerio</i> genes</span>}
-                url={[
-                  'http://reports.alliancegenome.org/gene-descriptions/ZFIN_gene_desc_latest.json',
-                  'http://reports.alliancegenome.org/gene-descriptions/ZFIN_gene_desc_latest.tsv',
-                  'http://reports.alliancegenome.org/gene-descriptions/ZFIN_gene_desc_latest.txt',
-                ]}
-              />
-              <DownloadFileRow
-                description={<span><i>Drosophila melanogaster</i> genes</span>}
-                url={[
-                  'http://reports.alliancegenome.org/gene-descriptions/FB_gene_desc_latest.json',
-                  'http://reports.alliancegenome.org/gene-descriptions/FB_gene_desc_latest.tsv',
-                  'http://reports.alliancegenome.org/gene-descriptions/FB_gene_desc_latest.txt',
-                ]}
-              />
-              <DownloadFileRow
-                description={<span><i>Homo sapiens</i> genes</span>}
-                url={[
-                  'http://reports.alliancegenome.org/gene-descriptions/HUMAN_gene_desc_latest.json',
-                  'http://reports.alliancegenome.org/gene-descriptions/HUMAN_gene_desc_latest.tsv',
-                  'http://reports.alliancegenome.org/gene-descriptions/HUMAN_gene_desc_latest.txt',
-                ]}
-              />
-              <DownloadFileRow
-                description={<span><i>Mus musculus</i> genes</span>}
-                url={[
-                  'http://reports.alliancegenome.org/gene-descriptions/MGI_gene_desc_latest.json',
-                  'http://reports.alliancegenome.org/gene-descriptions/MGI_gene_desc_latest.tsv',
-                  'http://reports.alliancegenome.org/gene-descriptions/MGI_gene_desc_latest.txt',
-                ]}
-              />
-              <DownloadFileRow
-                description={<span><i>Rattus norvegicus</i> genes</span>}
-                url={[
-                  'http://reports.alliancegenome.org/gene-descriptions/RGD_gene_desc_latest.json',
-                  'http://reports.alliancegenome.org/gene-descriptions/RGD_gene_desc_latest.tsv',
-                  'http://reports.alliancegenome.org/gene-descriptions/RGD_gene_desc_latest.txt',
-                ]}
-              />
-              <DownloadFileRow
-                description={<span><i>Saccharomyces cerevisiae</i> genes</span>}
-                url={[
-                  'http://reports.alliancegenome.org/gene-descriptions/SGD_gene_desc_latest.json',
-                  'http://reports.alliancegenome.org/gene-descriptions/SGD_gene_desc_latest.tsv',
-                  'http://reports.alliancegenome.org/gene-descriptions/SGD_gene_desc_latest.txt',
-                ]}
-              />
+              {speciesSubTypes.map(speciesSubType => (
+                <DownloadFileRow
+                  description={<span><i>{speciesSubType.species}</i> genes</span>}
+                  key={speciesSubType.species}
+                  url={[
+                    `http://reports.alliancegenome.org/gene-descriptions/${speciesSubType.subType}_gene_desc_latest.json`,
+                    `http://reports.alliancegenome.org/gene-descriptions/${speciesSubType.subType}_gene_desc_latest.tsv`,
+                    `http://reports.alliancegenome.org/gene-descriptions/${speciesSubType.subType}_gene_desc_latest.txt`,
+                  ]}
+                />
+              ))}
             </DownloadFileTable>
           </Subsection>
 
@@ -146,7 +112,7 @@ class DownloadsPage extends React.Component {
             <DownloadFileTable>
               <DownloadFileRow
                 description={
-                  <span>Molecular interactions <HelpPopup id='interactions-help'>
+                  <span>Molecular interactions, all species combined <HelpPopup id='interactions-help'>
                     This file provides a set of annotations of molecular interactions for
                     genes and gene products for all Alliance species (human, rat, mouse, zebrafish, fruit fly, nematode, and
                     yeast). The file is in the <ExternalLink href='https://github.com/HUPO-PSI/miTab'>PSI-MI TAB format</ExternalLink>,
@@ -156,8 +122,16 @@ class DownloadsPage extends React.Component {
                     consortium</ExternalLink> and the <ExternalLink href='https://thebiogrid.org'>BioGRID database</ExternalLink>.
                   </HelpPopup></span>}
                 fileType='TSV'
-                url='https://download.alliancegenome.org/INT/Alliance_molecular_interactions.tar.gz'
+                url={this.getUrlForDataType('INTERACTION', 'COMBINED')}
               />
+              {speciesSubTypes.map(speciesSubType => (
+                <DownloadFileRow
+                  description={<span><i>{speciesSubType.species}</i> molecular interactions</span>}
+                  fileType='TSV'
+                  key={speciesSubType.species}
+                  url={this.getUrlForDataType('INTERACTION', speciesSubType.subType)}
+                />
+              ))}
             </DownloadFileTable>
           </Subsection>
 
