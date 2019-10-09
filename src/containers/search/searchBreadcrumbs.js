@@ -26,7 +26,7 @@ class SearchBreadcrumbsComponent extends Component {
       }
       else if (key === 'category') {
         fieldLabel = '';
-        labelNode = <CategoryLabel category={d} hideImage='true' />;
+        labelNode = <CategoryLabel category={d} />;
       }
       return (
         <Link className={`btn btn-primary ${style.sortLabel}`} key={`bc${key}.${i}`} to={newPath}><span>{fieldLabel} {labelNode} <i className='fa fa-times' /></span></Link>
