@@ -18,6 +18,7 @@ import { fetchExpressionRibbonSummary } from '../../actions/expression';
 import { GenericRibbon } from '@geneontology/ribbon';
 import { POSITION, COLOR_BY } from '@geneontology/ribbon/lib/enums';
 import LoadingSpinner from '../loadingSpinner';
+import RibbonGeneSubjectLabel from '../RibbonGeneSubjectLabel';
 
 class ExpressionComparisonRibbon extends React.Component {
   constructor(props) {
@@ -98,7 +99,7 @@ class ExpressionComparisonRibbon extends React.Component {
     //   category.id.startsWith('UBERON:')
     // ));
 
-    const genesWithData = Object.entries(orthology.supplementalData)
+    const genesWithData = orthology.supplementalData && Object.entries(orthology.supplementalData)
       .reduce((prev, [geneId, data]) => ({...prev, [geneId]: data.hasExpressionAnnotations}), {});
 
     return (
@@ -130,7 +131,7 @@ class ExpressionComparisonRibbon extends React.Component {
               itemClick={this.updateSelectedBlock}
               newTab={false}
               selected={selectedBlock}
-              subjectBaseURL={'/gene/'}
+              subjectLabel={subject => <RibbonGeneSubjectLabel subject={subject} />}
               subjectLabelPosition={POSITION.LEFT}
               subjects={summary.data.subjects}
             />
