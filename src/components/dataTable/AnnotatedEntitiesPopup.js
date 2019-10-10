@@ -8,6 +8,7 @@ import {
 import {ReferenceCell} from './index';
 
 import style from './style.scss';
+import ExternalLink from '../externalLink';
 
 
 function AnnotatedEntitiesPopup(props) {
@@ -42,9 +43,12 @@ function AnnotatedEntitiesPopup(props) {
               {
                 entities.map(entity => (
                   <tr key={entity.id}>
-                    <td><span dangerouslySetInnerHTML={{__html: entity.name}}/>
+                    <td>
+                      <ExternalLink href={entity.url}>
+                        <span dangerouslySetInnerHTML={{__html: entity.name}}/>
+                      </ExternalLink>
                     </td>
-                    <td>{entity.type}</td>
+                    <td className='text-capitalize'>{(entity.type || '').toLowerCase()}</td>
                     <td>{entity.publicationEvidenceCodes && ReferenceCell(entity.publicationEvidenceCodes.map(pec => pec.publication))}</td>
                   </tr>
                 ))
