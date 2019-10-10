@@ -67,6 +67,15 @@ class DownloadsPage extends React.Component {
       {species: 'Saccharomyces cerevisiae', subType: 'SGD'}
     ];
 
+    const variantsHelp = (
+      <span>
+        These files contain curated SNVs for alleles that have known phenotypic
+        consequences for all organisms represented in the Alliance for which
+        data are available. Expert curation for these data are ongoing and files
+        will be updated on a regular basis.
+      </span>
+    );
+
     return (
       <DataPage>
         <HeadMetaTags title={TITLE} />
@@ -135,26 +144,26 @@ class DownloadsPage extends React.Component {
             </DownloadFileTable>
           </Subsection>
 
-          <Subsection title={VARIANTS}>
+          <Subsection help={variantsHelp} title={VARIANTS}>
             <DownloadFileTable>
               <DownloadFileRow
-                description={<span><i>Caenorhabditis elegans</i> VCF</span>}
+                description={<span><i>Caenorhabditis elegans</i> variants</span>}
                 url={this.getUrlForDataType('VCF', 'WBcel235')}
               />
               <DownloadFileRow
-                description={<span><i>Danio rerio</i> VCF</span>}
+                description={<span><i>Danio rerio</i> variants</span>}
                 url={this.getUrlForDataType('VCF', 'GRCz11')}
               />
               <DownloadFileRow
-                description={<span><i>Drosophila melanogaster</i> VCF</span>}
+                description={<span><i>Drosophila melanogaster</i> variants</span>}
                 url={this.getUrlForDataType('VCF', 'R6')}
               />
               <DownloadFileRow
-                description={<span><i>Mus musculus</i> VCF</span>}
+                description={<span><i>Mus musculus</i> variants</span>}
                 url={this.getUrlForDataType('VCF', 'GRCm38')}
               />
               <DownloadFileRow
-                description={<span><i>Rattus norvegicus</i> VCF</span>}
+                description={<span><i>Rattus norvegicus</i> variants</span>}
                 url={this.getUrlForDataType('VCF', 'Rnor60')}
               />
             </DownloadFileTable>
