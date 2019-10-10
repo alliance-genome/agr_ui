@@ -38,7 +38,14 @@ const GeneModelsTable = ({dispatchFetchModels, id, models}) => {
       formatter: phenotypes => (
         <CollapsibleList collapsedSize={2}>{phenotypes}</CollapsibleList>
       ),
-    }
+    },
+    {
+      dataField: 'source',
+      text: 'Source',
+      formatter: source => source && source.name,
+      headerStyle: {width: '100px'},
+      filterable: true,
+    },
   ];
 
   const sortOptions = [
