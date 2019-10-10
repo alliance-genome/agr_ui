@@ -47,12 +47,14 @@ class DownloadsPage extends React.Component {
     const EXPRESSION = 'Expression';
     const INTERACTIONS = 'Interactions';
     const GENE_DESCRIPTIONS = 'Gene Descriptions';
+    const ORTHOLOGY = 'Orthology';
     const VARIANTS = 'Variants';
     const SECTIONS = [
       {name: DISEASE},
       {name: EXPRESSION},
       {name: GENE_DESCRIPTIONS},
       {name: INTERACTIONS},
+      {name: ORTHOLOGY},
       {name: VARIANTS},
     ];
     const TITLE = 'Downloads';
@@ -141,6 +143,15 @@ class DownloadsPage extends React.Component {
                   url={this.getUrlForDataType('INTERACTION', speciesSubType.subType)}
                 />
               ))}
+            </DownloadFileTable>
+          </Subsection>
+
+          <Subsection title={ORTHOLOGY}>
+            <DownloadFileTable>
+              <DownloadFileRow
+                description='Alliance combined orthology data'
+                url={this.getUrlForDataType('ORTHOLOGY-ALLIANCE', 'COMBINED')}
+              />
             </DownloadFileTable>
           </Subsection>
 
