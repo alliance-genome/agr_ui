@@ -47,12 +47,14 @@ class DownloadsPage extends React.Component {
     const EXPRESSION = 'Expression';
     const INTERACTIONS = 'Interactions';
     const GENE_DESCRIPTIONS = 'Gene Descriptions';
+    const ORTHOLOGY = 'Orthology';
     const VARIANTS = 'Variants';
     const SECTIONS = [
       {name: DISEASE},
       {name: EXPRESSION},
       {name: GENE_DESCRIPTIONS},
       {name: INTERACTIONS},
+      {name: ORTHOLOGY},
       {name: VARIANTS},
     ];
     const TITLE = 'Downloads';
@@ -66,6 +68,15 @@ class DownloadsPage extends React.Component {
       {species: 'Rattus norvegicus', subType: 'RGD'},
       {species: 'Saccharomyces cerevisiae', subType: 'SGD'}
     ];
+
+    const variantsHelp = (
+      <span>
+        These files contain curated SNVs for alleles that have known phenotypic
+        consequences for all organisms represented in the Alliance for which
+        data are available. Expert curation for these data are ongoing and files
+        will be updated on a regular basis.
+      </span>
+    );
 
     return (
       <DataPage>
@@ -135,26 +146,35 @@ class DownloadsPage extends React.Component {
             </DownloadFileTable>
           </Subsection>
 
-          <Subsection title={VARIANTS}>
+          <Subsection title={ORTHOLOGY}>
             <DownloadFileTable>
               <DownloadFileRow
-                description={<span><i>Caenorhabditis elegans</i> VCF</span>}
+                description='Alliance combined orthology data'
+                url={this.getUrlForDataType('ORTHOLOGY-ALLIANCE', 'COMBINED')}
+              />
+            </DownloadFileTable>
+          </Subsection>
+
+          <Subsection help={variantsHelp} title={VARIANTS}>
+            <DownloadFileTable>
+              <DownloadFileRow
+                description={<span><i>Caenorhabditis elegans</i> variants</span>}
                 url={this.getUrlForDataType('VCF', 'WBcel235')}
               />
               <DownloadFileRow
-                description={<span><i>Danio rerio</i> VCF</span>}
+                description={<span><i>Danio rerio</i> variants</span>}
                 url={this.getUrlForDataType('VCF', 'GRCz11')}
               />
               <DownloadFileRow
-                description={<span><i>Drosophila melanogaster</i> VCF</span>}
+                description={<span><i>Drosophila melanogaster</i> variants</span>}
                 url={this.getUrlForDataType('VCF', 'R6')}
               />
               <DownloadFileRow
-                description={<span><i>Mus musculus</i> VCF</span>}
+                description={<span><i>Mus musculus</i> variants</span>}
                 url={this.getUrlForDataType('VCF', 'GRCm38')}
               />
               <DownloadFileRow
-                description={<span><i>Rattus norvegicus</i> VCF</span>}
+                description={<span><i>Rattus norvegicus</i> variants</span>}
                 url={this.getUrlForDataType('VCF', 'Rnor60')}
               />
             </DownloadFileTable>
