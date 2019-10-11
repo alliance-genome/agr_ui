@@ -67,9 +67,9 @@ const plugins = [
     title: 'Alliance of Genome Resources'
   }),
   new webpack.EnvironmentPlugin({
-    APOLLO_URL: process.env.APOLLO_URL ||'https://agr-apollo.berkeleybop.io/apollo/',
+    APOLLO_URL: 'https://agr-apollo.berkeleybop.io/apollo/',
     JBROWSE_PORT: '8891',
-    JBROWSE_URL: process.env.JBROWSE_URL ||'http://jbrowse-dev.alliancegenome.org',
+    JBROWSE_URL: 'http://jbrowse-dev.alliancegenome.org',
     RELEASE: '[dev]',
   }),
   new MiniCssExtractPlugin({
