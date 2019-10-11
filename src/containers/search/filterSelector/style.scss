@@ -45,14 +45,12 @@
 }
 
 .mobileToolbar{
-  min-height: 44px;
-  padding-top: 6px;
-  padding-bottom: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
   background-color: #fff;
   border-bottom: 2px solid #ddd;
   border-top: 2px solid #ddd;
   transition: .2s linear;
-  float: right !important;
 }
 
 .mobileToolbarFilter{
@@ -70,5 +68,5 @@
 }
 
 .mobileToolbar .textAction .filterCaret {
-  padding: 0.5rem;
+  padding: 0 0.5rem;
 }
