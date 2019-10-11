@@ -58,13 +58,12 @@ class GenomeFeatureWrapper extends Component {
     if (nameSuffixString.length > 0) {
       nameSuffixString = `?name=${nameSuffixString}`;
     }
-    // resolved in widget as:
+
+    // https://agr-jira.atlassian.net/browse/AGR-1731
+    // resolved in GenomeFeaturesViewer widget as:
+    //
     // var dataUrl = track["url"][0] + encodeURI(track["genome"]) + track["url"][1] + encodeURI(externalLocationString) + track["url"][2];
-    // https://agr-apollo.berkeleybop.io/apollo/track/Mus%20musculus/All%20Genes/2:105668900..105697364.json?name=97490&name=Pax6Mus%20musculus/All%20Genes/2:105668900..105697364.jsonPax6
-    //
-    // should be:
-    //
-    // https://agr-apollo.berkeleybop.io/apollo/track/Mus%20musculus/All%20Genes/2:105668900..105697364.json?name=97490&name=Pax6
+    // https://agr-apollo.berkeleybop.io/apollo/track/Mus%20musculus/All%20Genes/2:105668900..105697364.json?name=MGI:97490&name=Pax6
     // [0] should be apollo_url: https://agr-apollo.berkeleybop.io/apollo/track
     // [1] should be track name : ALL_Genes
     // [2] should be track name : name suffix string
