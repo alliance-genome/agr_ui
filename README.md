@@ -1,5 +1,6 @@
 ![project logo](https://raw.githubusercontent.com/alliance-genome/agr_ui/master/src/containers/layout/agrLogo.png)
 
+
 # Alliance of Genome Resources UI
 
 Front-end code for the Alliance of Genome Resources website.
