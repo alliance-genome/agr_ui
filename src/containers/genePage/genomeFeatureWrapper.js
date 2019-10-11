@@ -43,7 +43,7 @@ class GenomeFeatureWrapper extends Component {
 
     // TODO: Still some inconsistencies with SGD data
     // else
-    // trackDataWithHighlight += '&ignoreCache=true';
+    trackDataWithHighlight += '&ignoreCache=true';
 
     let geneSymbolUrl = '&lookupSymbol=' + this.props.geneSymbol;
     let externalJBrowsePrefix = process.env.JBROWSE_URL + '/jbrowse/index.html?data=data%2F' + encodeURI(this.props.species);
@@ -62,6 +62,7 @@ class GenomeFeatureWrapper extends Component {
       loadState: 'loading'
     };
 
+    console.log('track data url',trackDataWithHighlight);
     this.trackDataUrl = trackDataWithHighlight;
     this.jbrowseUrl = externalJbrowseUrl;
   }
@@ -75,11 +76,7 @@ class GenomeFeatureWrapper extends Component {
   loadGenomeFeature() {
     const {chromosome, fmin, fmax, geneSymbol, synonyms = []} = this.props;
     let nameSuffix = [geneSymbol, ...synonyms];
-    let nameSuffixString = nameSuffix.join('&name=');
-    if (nameSuffixString.length > 0) {
-      nameSuffixString = `?name=${nameSuffixString}`;
-    }
-
+    let nameSuffixString = nameSuffix.length ===0 ? '': nameSuffix.join('&name=');
     let transcriptTypes = getTranscriptTypes();
     const configGlobal = {
       'locale': 'global',
@@ -93,13 +90,12 @@ class GenomeFeatureWrapper extends Component {
           'genome': this.props.species,
           'type': 'isoform',
           'url': [
-            this.trackDataUrl,
-            '/All%20Genes/',
-            `.json${nameSuffixString}`
+            this.trackDataUrl,nameSuffixString
           ]
         },
       ]
     };
+    console.log('this pros id',this.props.id)
     new GenomeFeatureViewer(configGlobal, `#${this.props.id}`, 900, undefined);
   }
 
