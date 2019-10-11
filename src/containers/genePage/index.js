@@ -81,7 +81,7 @@ class GenePage extends Component {
     const ORTHOLOGY = 'Orthology';
     const DISEASE = 'Disease Associations';
     const EXPRESSION = 'Expression';
-    const ALLELES = 'Alleles';
+    const ALLELES = 'Alleles and Variants';
     const PHENOTYPES = 'Phenotypes';
     const INTERACTIONS = 'Molecular Interactions';
     const MODELS = 'Models';
