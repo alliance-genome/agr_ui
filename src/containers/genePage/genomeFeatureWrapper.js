@@ -88,7 +88,6 @@ class GenomeFeatureWrapper extends Component {
         },
       ]
     };
-    console.log('this pros id',this.props.id, configGlobal.tracks[0]);
     new GenomeFeatureViewer(configGlobal, `#${this.props.id}`, 900, undefined);
   }
 
