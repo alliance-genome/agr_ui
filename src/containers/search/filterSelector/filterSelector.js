@@ -57,12 +57,12 @@ class FilterSelectorComponent extends Component {
 
   render() {
     return (
-      <div className='row'>
+      <div>
         <div className={`d-none d-md-block ${style.aggContainer}`}>
           {this.renderCatSelector()}
           {this.renderFilters()}
         </div>
-        <div className={`col-sm-12 d-block d-md-none ${style.aggContainer}`}>
+        <div className={`d-block d-md-none ${style.aggContainer}`}>
           <CollapsibleFacet label='Filter'>
             <div className={style.mobileFacetList}>
               {this.renderCatSelector()}

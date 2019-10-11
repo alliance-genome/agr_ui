@@ -1,3 +1,4 @@
+/*eslint-disable react/no-set-state*/
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import style from './style.scss';
@@ -28,13 +29,11 @@ class CollapsibleFacet extends Component {
     let actionText = !this.state.isCollapsed ? this.props.label : 'Hide';
     return(
       <div className='row'>
-        <div className={`col-sm-12 ${style.mobileToolbar}`}>
+        <div className={`col-md-12 ${style.mobileToolbar}`}>
           <a className={`${style.textAction} font-weight-bold`} onClick={() => this.handleToggle()}>
             {actionText}
             {actionText==='Hide' ? '': <i className={`fa fa-angle-down ${style.filterCaret}`} />}
           </a>
-        </div>
-        <div className='col-sm-12'>
           {this.state.isCollapsed ? this.renderActiveNode() : this.renderInactiveNode()}
         </div>
       </div>
