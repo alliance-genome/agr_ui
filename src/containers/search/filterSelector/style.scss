@@ -43,3 +43,30 @@
 	border-radius: 0.25rem;
 	margin-right: 0.25rem;
 }
+
+.mobileToolbar{
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  border-bottom: 2px solid #ddd;
+  border-top: 2px solid #ddd;
+  transition: .2s linear;
+}
+
+.mobileToolbarFilter{
+  padding: 6px 8px 0;
+  float: right !important;
+  margin-bottom: 1.3rem;
+}
+
+.mobileFacetList{
+  margin-top: 0.5rem;
+}
+
+.mobileToolbar .textAction{
+  float: right !important;
+}
+
+.mobileToolbar .textAction .filterCaret {
+  padding: 0 0.5rem;
+}

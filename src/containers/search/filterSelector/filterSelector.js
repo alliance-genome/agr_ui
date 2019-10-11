@@ -8,6 +8,7 @@ import SingleFilterSelector from './singleFilterSelector';
 import { getQueryParamWithValueChanged } from '../../../lib/searchHelpers';
 import CategoryLabel from '../categoryLabel';
 import { stringify } from 'query-string';
+import CollapsibleFacet from './collapsibleFacet';
 
 import {
   selectActiveCategory,
@@ -56,9 +57,19 @@ class FilterSelectorComponent extends Component {
 
   render() {
     return (
-      <div className={style.aggContainer} >
-        {this.renderCatSelector()}
-        {this.renderFilters()}
+      <div>
+        <div className={`d-none d-md-block ${style.aggContainer}`}>
+          {this.renderCatSelector()}
+          {this.renderFilters()}
+        </div>
+        <div className={`d-block d-md-none ${style.aggContainer}`}>
+          <CollapsibleFacet label='Filter'>
+            <div className={style.mobileFacetList}>
+              {this.renderCatSelector()}
+              {this.renderFilters()}
+            </div>
+          </CollapsibleFacet>
+        </div>
       </div>
     );
   }
