@@ -53,7 +53,7 @@ class AlleleTable extends Component {
           children: 'Associated human diseases shown in this table were independently annotated to the Alleles, and are not necessarily related to the phenotype annotations.'
         },
         formatter: diseases => (
-          <CollapsibleList collapsedSize={diseases.length}>
+          <CollapsibleList collapsedSize={2}>
             {diseases.map(disease => <Link key={disease.id} to={`/disease/${disease.id}`}>{disease.name}</Link>)}
           </CollapsibleList>
         ),
@@ -62,7 +62,7 @@ class AlleleTable extends Component {
       },
       {
         dataField: 'phenotypes',
-        text: 'Associated phenotype',
+        text: 'Associated phenotypes',
         helpPopupProps: {
           id: 'gene-page--alleles-table--phenotype-help',
           children: 'Associated phenotypes shown in this table were independently annotated to the Alleles, and are are not necessarily related to the human disease annotations.'
@@ -73,6 +73,8 @@ class AlleleTable extends Component {
           </CollapsibleList>
         ),
         headerStyle: {width: '275px'},
+        filterable: true,
+        filterName: 'phenotype',
       },
       {
         dataField: 'variants',
@@ -129,7 +131,7 @@ class AlleleTable extends Component {
           </div>
         ),
         attrs: {
-          colspan: 3
+          colSpan: 3
         },
         headerStyle: {width: variantNameColWidth},
         //style: {width: variantNameColWidth + variantTypeColWidth + variantConsequenceColWidth + 50},
