@@ -114,6 +114,7 @@ class DiseaseComparisonRibbon extends Component {
               </HelpPopup>
             </span>
             <OrthologPicker
+              defaultEnabled
               defaultStringency={STRINGENCY_HIGH}
               disabledSpeciesMessage={`${geneSymbol} has no ortholog genes in this species`}
               id='disease-ortho-picker'
