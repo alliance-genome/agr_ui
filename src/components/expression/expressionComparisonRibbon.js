@@ -16,7 +16,7 @@ import OrthologPicker from '../OrthologPicker';
 import { selectExpressionRibbonSummary } from '../../selectors/expressionSelectors';
 import { fetchExpressionRibbonSummary } from '../../actions/expression';
 import { GenericRibbon } from '@geneontology/ribbon';
-import { POSITION, COLOR_BY } from '@geneontology/ribbon/lib/enums';
+import { POSITION, COLOR_BY, SELECTION } from '@geneontology/ribbon/lib/enums';
 import LoadingSpinner from '../loadingSpinner';
 import RibbonGeneSubjectLabel from '../RibbonGeneSubjectLabel';
 
@@ -130,6 +130,7 @@ class ExpressionComparisonRibbon extends React.Component {
             itemClick={this.updateSelectedBlock}
             newTab={false}
             selected={selectedBlock}
+            selectionMode={SELECTION.COLUMN}
             subjectLabel={subject => <RibbonGeneSubjectLabel subject={subject} />}
             subjectLabelPosition={POSITION.LEFT}
             subjects={summary.data.subjects}
