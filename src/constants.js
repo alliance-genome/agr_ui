@@ -127,7 +127,7 @@ export const NAV_MENU = [
         route: '/tutorials'
       },
       {
-        label: 'Help and User Documentation',
+        label: 'User Documentation',
         route: '/help'
       },
     ]
