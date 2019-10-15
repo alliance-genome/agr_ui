@@ -123,7 +123,7 @@ class ExpressionComparisonRibbon extends React.Component {
           </ControlsContainer>
         </div>
 
-        <HorizontalScroll width={970}>
+        <HorizontalScroll width={1000}>
           <GenericRibbon
             categories={summary.data.categories}
             colorBy={COLOR_BY.CLASS_COUNT}
