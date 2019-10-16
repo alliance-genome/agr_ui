@@ -112,6 +112,7 @@ class ExpressionComparisonRibbon extends React.Component {
               </HelpPopup>
             </span>
             <OrthologPicker
+              defaultStringency={STRINGENCY_HIGH}
               disabledSpeciesMessage={`${geneSymbol} has no ortholog genes or no ortholog genes with expression annotations in this species`}
               genesWithData={genesWithData}
               id='expression-ortho-picker'
@@ -122,7 +123,7 @@ class ExpressionComparisonRibbon extends React.Component {
           </ControlsContainer>
         </div>
 
-        <HorizontalScroll width={970}>
+        <HorizontalScroll width={1000}>
           <GenericRibbon
             categories={summary.data.categories}
             colorBy={COLOR_BY.CLASS_COUNT}
