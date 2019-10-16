@@ -69,7 +69,7 @@ class AlleleTable extends Component {
         },
         formatter: phenotypes => (
           <CollapsibleList collapsedSize={2}>
-            {phenotypes.map(({phenotypeStatement}) => phenotypeStatement)}
+            {phenotypes.map(({phenotypeStatement}) => <span dangerouslySetInnerHTML={{__html: phenotypeStatement}} />)}
           </CollapsibleList>
         ),
         headerStyle: {width: '275px'},
