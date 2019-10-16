@@ -17,7 +17,7 @@ import { getOrthologId } from '../orthology';
 
 import fetchData from '../../lib/fetchData';
 
-const goApiUrl = 'http://api.geneontology.org/api/';
+const goApiUrl = 'https://api.geneontology.org/api/';
 
 const exp_codes = ['EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP'];
 
