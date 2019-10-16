@@ -397,7 +397,7 @@ class GeneOntologyRibbon extends Component {
             </span>
             <OrthologPicker
               defaultStringency={STRINGENCY_HIGH}
-              disabledSpeciesMessage={ this.props.id + ' has no ortholog genes in this species'}
+              disabledSpeciesMessage={this.props.id + ' has no ortholog genes in this species'}
               id='go-ortho-picker'
               onChange={this.handleOrthologyChange}
               orthology={orthology.data}
@@ -409,10 +409,12 @@ class GeneOntologyRibbon extends Component {
         <HorizontalScroll width={1200}>
 
           <div>
-            <Checkbox style={{ margin: '10px' }} 
+            <Checkbox 
               checked={this.state.onlyEXP} 
               onChange={this.showExperimentalAnnotations.bind(this)}
-              title='When showing the GO functions for multiple orthologs, we recommend switching this on as a number of GO functions are inferred through phylogeny (see PAINT tool)' /> Show only experimental annotations
+              style={{ margin: '10px' }} 
+              title='When showing the GO functions for multiple orthologs, we recommend switching this on as a number of GO functions are inferred through phylogeny (see PAINT tool)' 
+            /> Show only experimental annotations
           </div>
         
           {
@@ -467,6 +469,7 @@ class GeneOntologyRibbon extends Component {
 
 GeneOntologyRibbon.propTypes = {
   id: PropTypes.string.isRequired,
+  orthology: PropTypes.object
 };
 
 const mapStateToProps = (state) => ({
