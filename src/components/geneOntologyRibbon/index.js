@@ -396,6 +396,7 @@ class GeneOntologyRibbon extends Component {
               </HelpPopup>
             </span>
             <OrthologPicker
+              enabled={false}
               defaultStringency={STRINGENCY_HIGH}
               disabledSpeciesMessage={this.props.id + ' has no ortholog genes in this species'}
               id='go-ortho-picker'
