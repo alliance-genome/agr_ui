@@ -6,8 +6,6 @@ import HorizontalScroll from '../horizontalScroll';
 import GenericRibbon from '@geneontology/ribbon/lib/components/GenericRibbon';
 import AssociationsView from '@geneontology/ribbon/lib/view/AssociationsView';
 
-import axios from 'axios';
-
 import { STRINGENCY_HIGH } from '../orthology/constants';
 import HelpPopup from '../helpPopup';
 import GoControlsHelp from './goControlsHelp';
@@ -16,6 +14,8 @@ import { selectOrthologs } from '../../selectors/geneSelectors';
 import OrthologPicker from '../OrthologPicker';
 import { connect } from 'react-redux';
 import { getOrthologId } from '../orthology';
+
+import fetchData from '../../lib/fetchData';
 
 const goApiUrl = 'http://api.geneontology.org/api/';
 
@@ -56,15 +56,15 @@ class GeneOntologyRibbon extends Component {
 
   handleOrthologyChange(selectedOrthologs) {
     this.setState({selectedOrthologs}, () => {
-      this.fetchData('goslim_agr', this.getGeneIdList()).then(data => {
+      this.fetchSummaryData('goslim_agr', this.getGeneIdList()).then(data => {
         var oldSubs = [];
         if(this.state.ribbon) {
           oldSubs = this.state.ribbon.subjects;
         }
-        for(var sub of data.data.subjects) {
+        for(var sub of data.subjects) {
           oldSubs.push(sub);
         }
-        this.setState({ loading : false, ribbon : data.data, subjects : oldSubs,selected : {
+        this.setState({ loading : false, ribbon : data, subjects : oldSubs,selected : {
           subject : null,
           group : null,
           data : null,
@@ -85,14 +85,14 @@ class GeneOntologyRibbon extends Component {
     return '&exclude_PB=' + this.state.excludePB + '&exclude_IBA=' + excludeIBA + exps;
   }
 
-  fetchData(subset, subjects) {
+  fetchSummaryData(subset, subjects) {
     var subs = '';
     if(subjects instanceof Array) {
       subs = subjects.join('&subject=');
     }
     let query = goApiUrl + 'ontology/ribbon/?subset=' + subset + '&subject=' + subs + this.ribbonOptions(subjects);
     // console.log('Query is ' + query);
-    return axios.get(query);
+    return fetchData(query);
   }
 
   fetchAssociationData(subject, group) {
@@ -103,7 +103,8 @@ class GeneOntologyRibbon extends Component {
       group = groups.join('&slim=');
     }
     let query = goApiUrl + 'bioentityset/slimmer/function?slim=' + group + '&subject=' + subject + '&rows=-1';
-    return axios.get(query);
+    // console.log('Query is ' + query);
+    return fetchData(query);
   }
 
   /** 
@@ -363,15 +364,15 @@ class GeneOntologyRibbon extends Component {
     this.setState({'onlyEXP' : event.target.checked}, () => {
       // console.log('show only experimental annotations:'  , this.state.onlyEXP);
 
-      this.fetchData('goslim_agr', this.getGeneIdList()).then(data => {
+      this.fetchSummaryData('goslim_agr', this.getGeneIdList()).then(data => {
         var oldSubs = [];
         if(this.state.ribbon) {
           oldSubs = this.state.ribbon.subjects;
         }
-        for(var sub of data.data.subjects) {
+        for(var sub of data.subjects) {
           oldSubs.push(sub);
         }
-        this.setState({ loading : false, ribbon : data.data, subjects : oldSubs,selected : {
+        this.setState({ loading : false, ribbon : data, subjects : oldSubs,selected : {
           subject : null,
           group : null,
           data : null,
