@@ -28,21 +28,21 @@ class AlleleTable extends Component {
     const columns = [
       {
         dataField: 'symbol',
-        text: 'Symbol',
+        text: 'Allele Symbol',
         formatter: (symbol, {crossReferences = {}}) => (
           <DataSourceLink reference={crossReferences.primary}>
             <span dangerouslySetInnerHTML={{ __html: symbol }} />
           </DataSourceLink>
         ),
-        headerStyle: {width: '125px'},
+        headerStyle: {width: '145px'},
         filterable: true,
         isKey: true,
       },
       {
         dataField: 'synonym',
-        text: 'Synonyms',
+        text: 'Allele Synonyms',
         formatter: synonyms => <SynonymList synonyms={synonyms} />,
-        headerStyle: {width: '125px'},
+        headerStyle: {width: '135px'},
         filterable: true,
       },
       {
