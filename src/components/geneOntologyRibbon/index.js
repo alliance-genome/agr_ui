@@ -313,7 +313,7 @@ class GeneOntologyRibbon extends Component {
 
     if(group) {
       this.fetchAssociationData(subject.id, group.id).then(data => {
-        var sorted_assocs = data.data[0].assocs;
+        var sorted_assocs = data[0].assocs;
         sorted_assocs.sort((a, b)=> a.object.label.localeCompare(b.object.label));
         var filtered = sorted_assocs;
         if(this.state.excludePB) {
@@ -396,9 +396,9 @@ class GeneOntologyRibbon extends Component {
               </HelpPopup>
             </span>
             <OrthologPicker
-              enabled={false}
               defaultStringency={STRINGENCY_HIGH}
               disabledSpeciesMessage={this.props.id + ' has no ortholog genes in this species'}
+              enabled={false}
               id='go-ortho-picker'
               onChange={this.handleOrthologyChange}
               orthology={orthology.data}
@@ -438,7 +438,7 @@ class GeneOntologyRibbon extends Component {
                   selectionMode={SELECTION.CELL}
                   subjectBaseURL={this.state.subjectBaseURL}
                   subjectLabelPosition={POSITION.LEFT}
-                  subjectUseTaxonIcon={true}
+                  subjectUseTaxonIcon
                   subjects={this.state.ribbon.subjects}
                 />
             }
@@ -446,7 +446,7 @@ class GeneOntologyRibbon extends Component {
               (this.state.selected.data && this.state.selected.ready) ? 
                 <AssociationsView 
                   blocks={null}
-                  borderBottom={true}
+                  borderBottom
                   config={this.defaultConfig()}
                   currentblock={null}
                   filters={this.buildFilters()}
@@ -454,7 +454,7 @@ class GeneOntologyRibbon extends Component {
                   oddEvenColor={false}
                   provided_list={this.state.selected.data}
                   tableLabel={''}
-                  termInNewPage={true}
+                  termInNewPage
                   termURL={'http://amigo.geneontology.org/amigo/term/'}
                 />
                 : ''
