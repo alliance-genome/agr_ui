@@ -67,9 +67,11 @@ class AlleleTable extends Component {
           id: 'gene-page--alleles-table--phenotype-help',
           children: 'Associated phenotypes shown in this table were independently annotated to the Alleles, and are are not necessarily related to the human disease annotations.'
         },
-        formatter: phenotypes => (
-          <CollapsibleList collapsedSize={2}>
-            {phenotypes.map(({phenotypeStatement}) => <span dangerouslySetInnerHTML={{__html: phenotypeStatement}} />)}
+        formatter: phenotypes => phenotypes && (
+          <CollapsibleList collapsedSize={2} showBullets>
+            {phenotypes.map(({phenotypeStatement}) => (
+              <span dangerouslySetInnerHTML={{__html: phenotypeStatement}} key={phenotypeStatement} />
+            ))}
           </CollapsibleList>
         ),
         headerStyle: {width: '275px'},
