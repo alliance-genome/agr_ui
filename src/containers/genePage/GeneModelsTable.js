@@ -35,9 +35,11 @@ const GeneModelsTable = ({dispatchFetchModels, id, models}) => {
     {
       dataField: 'phenotypes',
       text: 'Associated Phenotypes',
-      formatter: phenotypes => (
-        <CollapsibleList collapsedSize={2}>
-          {phenotypes.map(phenotype => <span dangerouslySetInnerHTML={{__html: phenotype}} />)}
+      formatter: phenotypes => phenotypes && (
+        <CollapsibleList collapsedSize={2} showBullets>
+          {phenotypes.map(phenotype => (
+            <span dangerouslySetInnerHTML={{__html: phenotype}} key={phenotype} />
+          ))}
         </CollapsibleList>
       ),
       filterable: true,
