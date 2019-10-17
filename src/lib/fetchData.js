@@ -31,7 +31,7 @@ function timeoutPromise(timeout, promise) {
 export default async function fetchData(url, options = {}) {
   const _type = options.type || 'GET';
   const headers = {
-    'Content-Type': 'application/json'
+    // 'Content-Type': 'application/json'
   };
   let requestOptions= {
     method: _type,

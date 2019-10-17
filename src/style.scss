@@ -3,8 +3,9 @@
 @import "~bootstrap/scss/bootstrap";
 @import "~@geneontology/ribbon/lib/main";
 
-.react-bs-table table, .table {
+.react-bootstrap-table table, .table {
   margin-bottom: 0;
+  table-layout: auto;
 
   td, th {
     white-space: normal;
@@ -16,7 +17,11 @@
   }
 }
 
-.react-bs-table {
+.react-bootstrap-table > table {
+  table-layout: fixed;
+}
+
+.react-bootstrap-table {
   overflow-x: auto;
   > div {
     overflow: visible;
