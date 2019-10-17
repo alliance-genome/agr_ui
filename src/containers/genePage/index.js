@@ -8,6 +8,7 @@ import { selectGene } from '../../selectors/geneSelectors';
 import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPage';
 import BasicGeneInfo from './basicGeneInfo';
 import { OrthologyFilteredTable, OrthologyUserGuide, OrthologyBasicInfo } from '../../components/orthology';
+import GoUserGuide from '../../components/geneOntologyRibbon/goUserGuide';
 
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
 import LoadingPage from '../../components/loadingPage';
@@ -199,7 +200,7 @@ class GenePage extends Component {
             />
           </Subsection>
 
-          <Subsection title={FUNCTION}>
+          <Subsection help={<GoUserGuide />} title={FUNCTION}>
             <GeneOntologyRibbon id={data.id} />
           </Subsection>
 
