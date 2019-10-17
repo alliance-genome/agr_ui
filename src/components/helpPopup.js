@@ -5,6 +5,11 @@ import { makeId } from '../lib/utils';
 
 const HelpPopup = ({children, id}) => {
   id = makeId(id);
+  const popperModifiers = {
+    preventOverflow: {
+      boundariesElement: 'window',
+    }
+  };
   return (
     <React.Fragment>
       <i
@@ -12,7 +17,7 @@ const HelpPopup = ({children, id}) => {
         id={id}
         style={{cursor: 'pointer'}}
       />
-      <UncontrolledPopover placement='top-start' target={id} trigger='legacy'>
+      <UncontrolledPopover modifiers={popperModifiers} placement='top-start' target={id} trigger='legacy'>
         <PopoverBody>{children}</PopoverBody>
       </UncontrolledPopover>
     </React.Fragment>

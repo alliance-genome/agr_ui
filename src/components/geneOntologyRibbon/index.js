@@ -1,3 +1,4 @@
+/* eslint-disable react/no-set-state */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { POSITION, COLOR_BY, SELECTION } from '@geneontology/ribbon/lib/enums';
@@ -107,7 +108,7 @@ class GeneOntologyRibbon extends Component {
     return fetchData(query);
   }
 
-  /** 
+  /**
    * building the filters from the keys contained in the subject.groups field of the data response
   */
   buildFilters() {
@@ -125,7 +126,7 @@ class GeneOntologyRibbon extends Component {
   }
 
   sameEntity(entity1, entity2) {
-    return  entity1.id == entity2.id && 
+    return  entity1.id == entity2.id &&
             entity1.iri == entity2.iri &&
             JSON.stringify(entity1.category) == JSON.stringify(entity2.category);
   }
@@ -146,7 +147,7 @@ class GeneOntologyRibbon extends Component {
         return false;
     if(JSON.stringify(assoc1.provided_by) != JSON.stringify(assoc2.provided_by))
       return false;
-    if(assoc1.evidence_with && assoc2.evidence_with) 
+    if(assoc1.evidence_with && assoc2.evidence_with)
       return JSON.stringify(assoc1.evidence_with) != JSON.stringify(assoc2.evidence_with);
     return true;
   }
@@ -166,19 +167,19 @@ class GeneOntologyRibbon extends Component {
   }
 
   evidenceAssociationKey(assoc) {
-    return this.associationKey(assoc) + '@' + assoc.evidence_type;    
+    return this.associationKey(assoc) + '@' + assoc.evidence_type;
   }
-  
+
   associationKey(assoc) {
     if(assoc.qualifier) {
-      return assoc.subject.id + '@' + assoc.object.id + '@' + assoc.negated + '@' + assoc.qualifier.join('-');      
+      return assoc.subject.id + '@' + assoc.object.id + '@' + assoc.negated + '@' + assoc.qualifier.join('-');
     }
     return assoc.subject.id + '@' + assoc.object.id + '@' + assoc.negated;
   }
 
   /**
    * Group association based on the keys (subject , object) and (optional) qualifier
-   * @param {*} assoc_data 
+   * @param {*} assoc_data
    */
   groupAssociations(assoc_data) {
     var grouped_map = new Map();
@@ -260,7 +261,7 @@ class GeneOntologyRibbon extends Component {
 
 
 
-  /** 
+  /**
    * build from the association response of BioLink
   */
   buildEvidenceMap() {
@@ -282,7 +283,7 @@ class GeneOntologyRibbon extends Component {
     var grouped_map = this.groupAssociations(this.state.selected.data);
     var merged_map = this.mergeEvidences(grouped_map);
 
-    this.setState({ 
+    this.setState({
       selected : {
         subject : this.state.selected.subject,
         group : this.state.selected.group,
@@ -358,7 +359,7 @@ class GeneOntologyRibbon extends Component {
     return {
       termUrlFormatter : this.state.subjectBaseURL
     };
-  }  
+  }
 
   showExperimentalAnnotations(event) {
     this.setState({'onlyEXP' : event.target.checked}, () => {
@@ -410,25 +411,25 @@ class GeneOntologyRibbon extends Component {
         <HorizontalScroll width={1200}>
 
           <div>
-            <Checkbox 
-              checked={this.state.onlyEXP} 
+            <Checkbox
+              checked={this.state.onlyEXP}
               onChange={this.showExperimentalAnnotations.bind(this)}
-              style={{ margin: '10px' }} 
-              title='When showing the GO functions for multiple orthologs, we recommend switching this on as a number of GO functions are inferred through phylogeny (see PAINT tool)' 
+              style={{ margin: '10px' }}
+              title='When showing the GO functions for multiple orthologs, we recommend switching this on as a number of GO functions are inferred through phylogeny (see PAINT tool)'
             /> Show only experimental annotations
           </div>
-        
+
           {
             <div style={{ marginTop: '2rem' }}>{
               (this.state.loading)
                 ? 'Loading...'
                 :
 
-                <GenericRibbon 
+                <GenericRibbon
                   categories={this.state.ribbon.categories}
                   classLabels={['term', 'terms']}
                   colorBy={COLOR_BY.CLASS_COUNT}
-                  
+
                   hideFirstSubjectLabel={false}
 
                   itemClick={this.itemClick.bind(this)}
@@ -443,8 +444,8 @@ class GeneOntologyRibbon extends Component {
                 />
             }
             {
-              (this.state.selected.data && this.state.selected.ready) ? 
-                <AssociationsView 
+              (this.state.selected.data && this.state.selected.ready) ?
+                <AssociationsView
                   blocks={null}
                   borderBottom
                   config={this.defaultConfig()}
