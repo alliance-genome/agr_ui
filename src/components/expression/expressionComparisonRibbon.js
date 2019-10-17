@@ -16,7 +16,7 @@ import OrthologPicker from '../OrthologPicker';
 import { selectExpressionRibbonSummary } from '../../selectors/expressionSelectors';
 import { fetchExpressionRibbonSummary } from '../../actions/expression';
 import { GenericRibbon } from '@geneontology/ribbon';
-import { POSITION, COLOR_BY } from '@geneontology/ribbon/lib/enums';
+import { POSITION, COLOR_BY, SELECTION } from '@geneontology/ribbon/lib/enums';
 import LoadingSpinner from '../loadingSpinner';
 import RibbonGeneSubjectLabel from '../RibbonGeneSubjectLabel';
 
@@ -112,6 +112,7 @@ class ExpressionComparisonRibbon extends React.Component {
               </HelpPopup>
             </span>
             <OrthologPicker
+              defaultStringency={STRINGENCY_HIGH}
               disabledSpeciesMessage={`${geneSymbol} has no ortholog genes or no ortholog genes with expression annotations in this species`}
               genesWithData={genesWithData}
               id='expression-ortho-picker'
@@ -122,7 +123,7 @@ class ExpressionComparisonRibbon extends React.Component {
           </ControlsContainer>
         </div>
 
-        <HorizontalScroll width={970}>
+        <HorizontalScroll width={1000}>
           <GenericRibbon
             categories={summary.data.categories}
             colorBy={COLOR_BY.CLASS_COUNT}
@@ -130,6 +131,7 @@ class ExpressionComparisonRibbon extends React.Component {
             itemClick={this.updateSelectedBlock}
             newTab={false}
             selected={selectedBlock}
+            selectionMode={SELECTION.COLUMN}
             subjectLabel={subject => <RibbonGeneSubjectLabel subject={subject} />}
             subjectLabelPosition={POSITION.LEFT}
             subjects={summary.data.subjects}

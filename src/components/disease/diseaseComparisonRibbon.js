@@ -15,7 +15,7 @@ import { STRINGENCY_HIGH } from '../orthology/constants';
 import { getOrthologId } from '../orthology';
 
 import { GenericRibbon } from '@geneontology/ribbon';
-import { POSITION, COLOR_BY } from '@geneontology/ribbon/lib/enums';
+import { POSITION, COLOR_BY, SELECTION } from '@geneontology/ribbon/lib/enums';
 import HelpPopup from '../helpPopup';
 import DiseaseControlsHelp from './diseaseControlsHelp';
 import ControlsContainer from '../controlsContainer';
@@ -114,6 +114,7 @@ class DiseaseComparisonRibbon extends Component {
               </HelpPopup>
             </span>
             <OrthologPicker
+              defaultEnabled
               defaultStringency={STRINGENCY_HIGH}
               disabledSpeciesMessage={`${geneSymbol} has no ortholog genes in this species`}
               id='disease-ortho-picker'
@@ -133,6 +134,7 @@ class DiseaseComparisonRibbon extends Component {
               itemClick={this.onDiseaseGroupClicked}
               newTab={false}
               selected={selectedBlock}
+              selectionMode={SELECTION.COLUMN}
               subjectLabel={subject => <RibbonGeneSubjectLabel subject={subject} />}
               subjectLabelPosition={POSITION.LEFT}
               subjects={summary.data.subjects}
