@@ -20,7 +20,7 @@ class CollapsibleList extends Component {
   }
 
   render() {
-    const { children, collapsedSize } = this.props;
+    const { children, collapsedSize, showBullets } = this.props;
     const { collapsed } = this.state;
     if (!children) {
       return null;
@@ -28,7 +28,7 @@ class CollapsibleList extends Component {
     const childCount = React.Children.count(children);
     return (
       <div>
-        <ul className={style.collapsibleList}>
+        <ul className={`${style.collapsibleList} ${showBullets ? style.bulleted : ''}`}>
           {React.Children.map(children, (child, idx) => {
             if (collapsed && idx >= collapsedSize) return;
             return <li>{child}</li>;
@@ -50,10 +50,12 @@ class CollapsibleList extends Component {
 CollapsibleList.propTypes = {
   children: PropTypes.node,
   collapsedSize: PropTypes.number,
+  showBullets: PropTypes.bool,
 };
 
 CollapsibleList.defaultProps = {
   collapsedSize: 2,
+  showBullets: false,
 };
 
 export default CollapsibleList;
