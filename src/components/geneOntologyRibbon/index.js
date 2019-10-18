@@ -76,7 +76,8 @@ class GeneOntologyRibbon extends Component {
   }
 
   ribbonOptions(subjects) {
-    var excludeIBA = this.state.excludeIBA && subjects.length > 1;
+    // var excludeIBA = this.state.excludeIBA && subjects.length > 1;
+    var excludeIBA = false;
     var exps = '';
     if(this.state.onlyEXP) {
       for(var exp of exp_codes) {
