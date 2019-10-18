@@ -69,7 +69,9 @@ class AlleleTable extends Component {
         },
         formatter: phenotypes => (
           <CollapsibleList collapsedSize={2}>
-            {phenotypes.map(({phenotypeStatement}) => phenotypeStatement)}
+            {phenotypes
+               .sort(compareAlphabeticalCaseInsensitive(({phenotypeStatement}) => phenotypeStatement))
+               .map(({phenotypeStatement}) => phenotypeStatement)}
           </CollapsibleList>
         ),
         headerStyle: {width: '275px'},
