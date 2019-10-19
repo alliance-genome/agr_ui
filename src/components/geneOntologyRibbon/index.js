@@ -75,7 +75,7 @@ class GeneOntologyRibbon extends Component {
     });
   }
 
-  ribbonOptions(subjects) {
+  ribbonOptions() {
     // var excludeIBA = this.state.excludeIBA && subjects.length > 1;
     var excludeIBA = false;
     var exps = '';
@@ -316,7 +316,10 @@ class GeneOntologyRibbon extends Component {
 
     if(group) {
       this.fetchAssociationData(subject.id, group.id).then(data => {
-        var sorted_assocs = data[0].assocs;
+        var sorted_assocs = [];
+        for(let array of data) {
+          sorted_assocs = sorted_assocs.concat(array.assocs);
+        }
         sorted_assocs.sort((a, b)=> a.object.label.localeCompare(b.object.label));
         var filtered = sorted_assocs;
         if(this.state.excludePB) {
@@ -359,6 +362,10 @@ class GeneOntologyRibbon extends Component {
     return list;
   }
 
+  /**
+   * returns undefined for "ALL" slim term
+   * @param {*} group 
+   */
   getAspect(group) {
     for(let cat of this.state.ribbon.categories) {
       let found = cat.groups.filter(elt => {
@@ -376,7 +383,7 @@ class GeneOntologyRibbon extends Component {
     var aspect = this.getAspect(group);
     for(var assoc of assocs) {
       let cat = assoc.object.category[0] == 'molecular_activity' ? 'molecular_function' : assoc.object.category[0];
-      if(cat == aspect[1]) {
+      if(aspect == undefined || cat == aspect[1]) {
         list.push(assoc);
       }
     }
