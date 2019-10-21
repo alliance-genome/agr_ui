@@ -17,6 +17,8 @@ import { connect } from 'react-redux';
 import { getOrthologId } from '../orthology';
 
 import fetchData from '../../lib/fetchData';
+import RibbonGeneSubjectLabel from '../RibbonGeneSubjectLabel';
+import NoData from '../noData';
 
 const goApiUrl = 'https://api.geneontology.org/api/';
 
@@ -87,7 +89,7 @@ class GeneOntologyRibbon extends Component {
         exps += '&ecodes=' + exp;
       }
     }
-    return  '&exclude_PB=' + this.state.excludePB + '&exclude_IBA=' + excludeIBA + 
+    return  '&exclude_PB=' + this.state.excludePB + '&exclude_IBA=' + excludeIBA +
             '&cross_aspect=' + this.state.crossAspect + exps;
   }
 
@@ -367,7 +369,7 @@ class GeneOntologyRibbon extends Component {
 
   /**
    * returns undefined for "ALL" slim term
-   * @param {*} group 
+   * @param {*} group
    */
   getAspect(group) {
     for(let cat of this.state.ribbon.categories) {
@@ -480,14 +482,15 @@ class GeneOntologyRibbon extends Component {
 
                     selected={this.state.selected}
                     selectionMode={SELECTION.CELL}
-                    subjectBaseURL={this.state.subjectBaseURL}
+                    subjectLabel={subject => <RibbonGeneSubjectLabel subject={subject} />}
                     subjectLabelPosition={POSITION.LEFT}
                     subjectUseTaxonIcon
                     subjects={this.state.ribbon.subjects}
                   />
             }
             {
-              (this.state.noData) ? 'No data available' : 
+              (this.state.noData) ?
+                <NoData /> :
                 (this.state.selected.data && this.state.selected.ready) ?
                   <AssociationsView
                     blocks={null}
