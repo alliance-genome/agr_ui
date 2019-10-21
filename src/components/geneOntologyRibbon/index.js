@@ -32,6 +32,7 @@ class GeneOntologyRibbon extends Component {
     super(props);
     this.state = {
       loading : true,
+      noData : false,
       subjectBaseURL : '/gene/',
       stringency: STRINGENCY_HIGH,
       selectedOrthologs: [],
@@ -71,6 +72,8 @@ class GeneOntologyRibbon extends Component {
           data : null,
           ready : false,
         } });
+      }).catch(() => {
+        this.setState({ noData: true, loading : false });
       });
     });
   }
@@ -415,6 +418,8 @@ class GeneOntologyRibbon extends Component {
           data : null,
           ready : false,
         } });
+      }).catch(() => {
+        this.setState({ noData: true, loading : false });
       });
 
     });
@@ -461,40 +466,43 @@ class GeneOntologyRibbon extends Component {
                 ? 'Loading...'
                 :
 
-                <GenericRibbon
-                  categories={this.state.ribbon.categories}
-                  classLabels={['term', 'terms']}
-                  colorBy={COLOR_BY.CLASS_COUNT}
+                (this.state.noData) ?
+                  '' :
+                  <GenericRibbon
+                    categories={this.state.ribbon.categories}
+                    classLabels={['term', 'terms']}
+                    colorBy={COLOR_BY.CLASS_COUNT}
 
-                  hideFirstSubjectLabel={false}
+                    hideFirstSubjectLabel={false}
 
-                  itemClick={this.itemClick.bind(this)}
-                  newTab={false}
+                    itemClick={this.itemClick.bind(this)}
+                    newTab={false}
 
-                  selected={this.state.selected}
-                  selectionMode={SELECTION.CELL}
-                  subjectBaseURL={this.state.subjectBaseURL}
-                  subjectLabelPosition={POSITION.LEFT}
-                  subjectUseTaxonIcon
-                  subjects={this.state.ribbon.subjects}
-                />
+                    selected={this.state.selected}
+                    selectionMode={SELECTION.CELL}
+                    subjectBaseURL={this.state.subjectBaseURL}
+                    subjectLabelPosition={POSITION.LEFT}
+                    subjectUseTaxonIcon
+                    subjects={this.state.ribbon.subjects}
+                  />
             }
             {
-              (this.state.selected.data && this.state.selected.ready) ?
-                <AssociationsView
-                  blocks={null}
-                  borderBottom
-                  config={this.defaultConfig()}
-                  currentblock={null}
-                  filters={this.buildFilters()}
-                  focalblock={null}
-                  oddEvenColor={false}
-                  provided_list={this.state.selected.data}
-                  tableLabel={''}
-                  termInNewPage
-                  termURL={'http://amigo.geneontology.org/amigo/term/'}
-                />
-                : ''
+              (this.state.noData) ? 'No data available' : 
+                (this.state.selected.data && this.state.selected.ready) ?
+                  <AssociationsView
+                    blocks={null}
+                    borderBottom
+                    config={this.defaultConfig()}
+                    currentblock={null}
+                    filters={this.buildFilters()}
+                    focalblock={null}
+                    oddEvenColor={false}
+                    provided_list={this.state.selected.data}
+                    tableLabel={''}
+                    termInNewPage
+                    termURL={'http://amigo.geneontology.org/amigo/term/'}
+                  />
+                  : ''
             }
             </div>
           }
