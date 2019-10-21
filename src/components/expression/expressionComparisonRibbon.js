@@ -63,7 +63,7 @@ class ExpressionComparisonRibbon extends React.Component {
       const current = state.selectedBlock;
       return {
         selectedBlock: {
-          subject: (current.subject && current.subject.id === gene.id) ? null : gene,
+          subject: gene,
           group: (current.group && current.group.id === term.id) ? null : term,
         }
       };
