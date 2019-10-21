@@ -50,7 +50,9 @@ class DiseaseComparisonRibbon extends Component {
             id: 'all',
             type: 'GlobalAll',
           },
-          block: null,
+          subject: {
+            id: this.props.geneId,
+          }
         }
       }));
   }
@@ -79,7 +81,7 @@ class DiseaseComparisonRibbon extends Component {
       const current = state.selectedBlock;
       return {
         selectedBlock: {
-          subject: (current.subject && current.subject.id === gene.id) ? null : gene,
+          subject: gene,
           group: (current.group && current.group.id === disease.id) ? null : disease,
         }
       };
