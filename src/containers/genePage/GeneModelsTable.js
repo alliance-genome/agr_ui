@@ -62,7 +62,7 @@ const GeneModelsTable = ({dispatchFetchModels, id, models}) => {
     <RemoteDataTable
       columns={columns}
       data={models.data}
-      downloadUrl={`/api/gene/${id}/alleles/download`}
+      downloadUrl={`/api/gene/${id}/models/download`}
       keyField='id'
       loading={models.loading}
       onUpdate={dispatchFetchModels}
