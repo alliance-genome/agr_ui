@@ -358,7 +358,7 @@ class GeneOntologyRibbon extends Component {
   getEXP(assocs) {
     var list = [];
     for(var assoc of assocs) {
-      if(assoc.evidence_type in exp_codes) {
+      if(exp_codes.includes(assoc.evidence_type)) {
         list.push(assoc);
       }
     }
