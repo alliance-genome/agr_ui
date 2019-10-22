@@ -127,7 +127,7 @@ class DiseaseComparisonRibbon extends Component {
           </ControlsContainer>
         </div>
 
-        <HorizontalScroll width={660}>
+        <HorizontalScroll width={800}>
           <span style={{display: 'inline-block'}}>
             <GenericRibbon
               categories={summary.data.categories}
