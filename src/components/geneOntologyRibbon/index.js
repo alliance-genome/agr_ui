@@ -473,7 +473,7 @@ class GeneOntologyRibbon extends Component {
                     classLabels={['term', 'terms']}
                     colorBy={COLOR_BY.CLASS_COUNT}
 
-                    hideFirstSubjectLabel={false}
+                    hideFirstSubjectLabel
 
                     itemClick={this.itemClick.bind(this)}
                     newTab={false}
