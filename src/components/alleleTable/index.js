@@ -32,7 +32,7 @@ class AlleleTable extends Component {
   }
 
   render() {
-    const { alleles, geneId, geneSymbol, geneLocation = {}, species, geneDataProvider } = this.props;
+    const { alleles, geneSymbol, geneLocation = {}, species, geneDataProvider } = this.props;
 
     const variantNameColWidth = 300;
     const variantTypeColWidth = 150;
@@ -200,7 +200,6 @@ class AlleleTable extends Component {
       <RemoteDataTable
         columns={columns}
         data={data}
-        downloadUrl={`/api/gene/${geneId}/alleles/download`}
         keyField='symbol'
         loading={alleles.loading}
         onUpdate={this.loadData.bind(this)}
