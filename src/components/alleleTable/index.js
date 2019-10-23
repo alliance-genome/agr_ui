@@ -47,7 +47,7 @@ class AlleleTable extends Component {
             <span dangerouslySetInnerHTML={{ __html: symbol }} />
           </DataSourceLink>
         ),
-        headerStyle: {width: '145px'},
+        headerStyle: {width: '185px'},
         filterable: true,
         isKey: true,
       },
@@ -55,7 +55,7 @@ class AlleleTable extends Component {
         dataField: 'synonym',
         text: 'Allele Synonyms',
         formatter: synonyms => <SynonymList synonyms={synonyms} />,
-        headerStyle: {width: '135px'},
+        headerStyle: {width: '165px'},
         filterable: true,
       },
       {
