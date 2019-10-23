@@ -18,6 +18,19 @@ class AlleleTable extends Component {
     dispatch(fetchAlleles(geneId, opts));
   }
 
+
+  calculateHighlight(location, type) {
+    switch(type){
+    case 'insertion':
+      return `${location.chromosome}:${typeof location.start === 'number' ? location.start : location.end}..${location.end-1}`;
+    case 'deletion':
+      return `${location.chromosome}:${typeof location.start === 'number' ? location.start-1 : location.end}..${location.end}`;
+    default:
+    case 'point_mutation':
+      return `${location.chromosome}:${typeof location.start === 'number' ? location.start-1 : location.end}..${location.end}`;
+    }
+  }
+
   render() {
     const { alleles, geneId, geneSymbol, geneLocation = {}, species, geneDataProvider } = this.props;
 
@@ -104,7 +117,7 @@ class AlleleTable extends Component {
                               `${geneLocation.chromosome || location.chromosome}:${geneLocation.start || 0}..${geneLocation.end || 0}` :
                               geneSymbol,
                             tracks: ['Phenotypic Variants', 'All Genes', 'DNA'].join(','),
-                            highlight: `${location.chromosome}:${typeof location.start === 'number' ? location.start : location.end}..${location.end}`,
+                            highlight: this.calculateHighlight(location,type.name)
                           })}
                         >
                           {id}
