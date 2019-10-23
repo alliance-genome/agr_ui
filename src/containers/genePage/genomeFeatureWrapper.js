@@ -24,7 +24,7 @@ class GenomeFeatureWrapper extends Component {
     let trackDataWithHighlight = apolloServerPrefix + 'track/' ;
 
     let geneSymbolUrl = '&lookupSymbol=' + this.props.geneSymbol;
-    let externalJBrowsePrefix = process.env.JBROWSE_URL + '/jbrowse/index.html?data=data%2F' + encodeURI(this.props.species);
+    let externalJBrowsePrefix = process.env.JBROWSE_URL + '/jbrowse/index.html?data=data%2F' + encodeURIComponent(this.props.species);
 
     let linkBuffer = 1.2;
     let linkLength = this.props.fmax - this.props.fmin;
@@ -33,7 +33,11 @@ class GenomeFeatureWrapper extends Component {
     let bufferedMax = Math.round(this.props.fmax + (linkLength * linkBuffer / 2.0));
     let externalLocationString = this.props.chromosome + ':' + bufferedMin + '..' + bufferedMax;
     // TODO: handle bufferedMax exceeding chromosome length, though I think it has a good default.
-    let externalJbrowseUrl = externalJBrowsePrefix + '&tracks=All%20Genes&highlight=' + geneSymbolUrl + '&loc=' + encodeURI(externalLocationString);
+    const tracks = ['All Genes', 'Phenotypic Variants'];
+    let externalJbrowseUrl = externalJBrowsePrefix +
+      '&tracks=' + encodeURIComponent(tracks.join(',')) +
+      '&highlight=' + geneSymbolUrl +
+      '&loc=' + encodeURIComponent(externalLocationString);
 
 
     this.state = {
