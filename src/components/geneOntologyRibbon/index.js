@@ -109,7 +109,9 @@ class GeneOntologyRibbon extends Component {
         return elt.id;
       });
       group = groups.join('&slim=');
-    }
+    } else if (group instanceof Array) {
+      group = group.join('&slim=');
+    } 
     let query = goApiUrl + 'bioentityset/slimmer/function?slim=' + group + '&subject=' + subject + '&rows=-1';
     // console.log('Query is ' + query);
     return fetchData(query);
@@ -184,6 +186,30 @@ class GeneOntologyRibbon extends Component {
     return assoc.subject.id + '@' + assoc.object.id + '@' + assoc.negated;
   }
 
+  fullAssociationKey(assoc) {
+    var key = this.associationKey(assoc) + '@' + assoc.evidence_type + '@' + assoc.provided_by + '@' + assoc.reference.join('#');
+    return key;
+  }
+
+  diffAssociations(assocs_all, assocs_exclude) {
+    var list = [];
+    for(let assoc of assocs_all) {
+      let found = false;
+      let key_all = this.fullAssociationKey(assoc);
+      for(let exclude of assocs_exclude) {
+        let key_exclude= this.fullAssociationKey(exclude);
+        if(key_all == key_exclude) {
+          found = true;
+          break;
+        }
+      }
+      if(!found) {
+        list.push(assoc);
+      }
+    }
+    return list;
+  }
+  
   /**
    * Group association based on the keys (subject , object) and (optional) qualifier
    * @param {*} assoc_data
@@ -320,30 +346,78 @@ class GeneOntologyRibbon extends Component {
     }});
 
     if(group) {
-      this.fetchAssociationData(subject.id, group.id).then(data => {
-        var sorted_assocs = [];
-        for(let array of data) {
-          sorted_assocs = sorted_assocs.concat(array.assocs);
-        }
-        sorted_assocs.sort((a, b)=> a.object.label.localeCompare(b.object.label));
-        var filtered = sorted_assocs;
-        if(this.state.excludePB) {
-          filtered = this.filterPB(filtered);
-        }
-        if(this.state.onlyEXP) {
-          filtered = this.getEXP(filtered);
-        }
-        if(!this.state.crossAspect) {
-          filtered = this.filterCrossAspect(group, filtered);
-        }
-        this.setState({ selected : {
-          subject : subject,
-          group : group,
-          data : filtered, // assoc data from BioLink
-          ready : false
-        }});
-        this.buildEvidenceMap();
-      });
+      if(group.type == 'Other') {
+        let aspect = this.getAspect(group);
+        var terms = aspect.groups.filter(elt => {
+          return elt.type == 'Term';
+        });
+        terms = terms.map(elt => { return elt.id; });
+        this.fetchAssociationData(subject.id, group.id)
+          .then(data_all => {
+            var sorted_all = [];
+            for(let array of data_all) {
+              sorted_all = sorted_all.concat(array.assocs);
+            }
+              
+            this.fetchAssociationData(subject.id, terms)
+              .then(data_terms => {
+                var sorted_terms = [];
+                for(let array of data_terms) {
+                  sorted_terms = sorted_terms.concat(array.assocs);
+                }
+
+                var other_assocs = this.diffAssociations(sorted_all, sorted_terms);
+
+                var filtered = other_assocs;
+                if(this.state.excludePB) {
+                  filtered = this.filterPB(filtered);
+                }
+                if(this.state.onlyEXP) {
+                  filtered = this.getEXP(filtered);
+                }
+                if(!this.state.crossAspect) {
+                  filtered = this.filterCrossAspect(group, filtered);
+                }
+                this.setState({ selected : {
+                  subject : subject,
+                  group : group,
+                  data : filtered, // assoc data from BioLink
+                  ready : false
+                }});
+                this.buildEvidenceMap();
+
+                
+              });
+
+          });
+      } else {
+
+        this.fetchAssociationData(subject.id, group.id)
+          .then(data => {
+            var sorted_assocs = [];
+            for(let array of data) {
+              sorted_assocs = sorted_assocs.concat(array.assocs);
+            }
+            sorted_assocs.sort((a, b)=> a.object.label.localeCompare(b.object.label));
+            var filtered = sorted_assocs;
+            if(this.state.excludePB) {
+              filtered = this.filterPB(filtered);
+            }
+            if(this.state.onlyEXP) {
+              filtered = this.getEXP(filtered);
+            }
+            if(!this.state.crossAspect) {
+              filtered = this.filterCrossAspect(group, filtered);
+            }
+            this.setState({ selected : {
+              subject : subject,
+              group : group,
+              data : filtered, // assoc data from BioLink
+              ready : false
+            }});
+            this.buildEvidenceMap();
+          });
+      }
     }
   }
 
@@ -377,6 +451,18 @@ class GeneOntologyRibbon extends Component {
         return elt.id == group.id;
       });
       if(found.length > 0) {
+        return cat;
+      }
+    }
+    return undefined;
+  }
+
+  getAspectIdLabel(group) {
+    for(let cat of this.state.ribbon.categories) {
+      let found = cat.groups.filter(elt => {
+        return elt.id == group.id;
+      });
+      if(found.length > 0) {
         return [ cat.id , cat.label ];
       }
     }
@@ -385,7 +471,7 @@ class GeneOntologyRibbon extends Component {
 
   filterCrossAspect(group, assocs) {
     var list = [];
-    var aspect = this.getAspect(group);
+    var aspect = this.getAspectIdLabel(group);
     for(var assoc of assocs) {
       let cat = assoc.object.category[0] == 'molecular_activity' ? 'molecular_function' : assoc.object.category[0];
       if(aspect == undefined || cat == aspect[1]) {
