@@ -114,7 +114,7 @@ class ExpressionAnnotationTable extends React.Component {
     }));
 
     const params = genes.map(g => ({name: 'geneID', value: g}))
-      .concat({name: 'termID', value: term})
+      .concat({name: 'termID', value: term === 'all' ? '' : term})
       .filter(p => !!p.value)
       .map(p => `${p.name}=${p.value}`)
       .join('&');
