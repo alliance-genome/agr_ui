@@ -130,7 +130,7 @@ class DiseaseAnnotationTable extends Component {
 
 
     const geneIdParams = genes.map(g => `geneID=${g}`).join('&');
-    const downloadUrl = '/api/disease/download?' + geneIdParams + (term.type !== 'GlobalAll' ? ('&termID=' + term.id) : '');
+    const downloadUrl = '/api/disease/download?' + geneIdParams + (term !== 'all' ? ('&termID=' + term) : '');
 
     return (
       <RemoteDataTable

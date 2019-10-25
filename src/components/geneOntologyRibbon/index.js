@@ -17,6 +17,8 @@ import { connect } from 'react-redux';
 import { getOrthologId } from '../orthology';
 
 import fetchData from '../../lib/fetchData';
+import RibbonGeneSubjectLabel from '../RibbonGeneSubjectLabel';
+import NoData from '../noData';
 
 const goApiUrl = 'https://api.geneontology.org/api/';
 
@@ -32,12 +34,13 @@ class GeneOntologyRibbon extends Component {
     super(props);
     this.state = {
       loading : true,
+      noData : false,
       subjectBaseURL : '/gene/',
       stringency: STRINGENCY_HIGH,
       selectedOrthologs: [],
+      crossAspect : false,
       excludePB : true,
       excludeIBA : true,
-      // onlyEXPWhenMulti : true,
       onlyEXP : false,
       selected : {
         subject : null,
@@ -71,19 +74,23 @@ class GeneOntologyRibbon extends Component {
           data : null,
           ready : false,
         } });
+      }).catch(() => {
+        this.setState({ noData: true, loading : false });
       });
     });
   }
 
-  ribbonOptions(subjects) {
-    var excludeIBA = this.state.excludeIBA && subjects.length > 1;
+  ribbonOptions() {
+    // var excludeIBA = this.state.excludeIBA && subjects.length > 1;
+    var excludeIBA = false;
     var exps = '';
     if(this.state.onlyEXP) {
       for(var exp of exp_codes) {
         exps += '&ecodes=' + exp;
       }
     }
-    return '&exclude_PB=' + this.state.excludePB + '&exclude_IBA=' + excludeIBA + exps;
+    return  '&exclude_PB=' + this.state.excludePB + '&exclude_IBA=' + excludeIBA +
+            '&cross_aspect=' + this.state.crossAspect + exps;
   }
 
   fetchSummaryData(subset, subjects) {
@@ -102,7 +109,9 @@ class GeneOntologyRibbon extends Component {
         return elt.id;
       });
       group = groups.join('&slim=');
-    }
+    } else if (group instanceof Array) {
+      group = group.join('&slim=');
+    } 
     let query = goApiUrl + 'bioentityset/slimmer/function?slim=' + group + '&subject=' + subject + '&rows=-1';
     // console.log('Query is ' + query);
     return fetchData(query);
@@ -177,6 +186,30 @@ class GeneOntologyRibbon extends Component {
     return assoc.subject.id + '@' + assoc.object.id + '@' + assoc.negated;
   }
 
+  fullAssociationKey(assoc) {
+    var key = this.associationKey(assoc) + '@' + assoc.evidence_type + '@' + assoc.provided_by + '@' + assoc.reference.join('#');
+    return key;
+  }
+
+  diffAssociations(assocs_all, assocs_exclude) {
+    var list = [];
+    for(let assoc of assocs_all) {
+      let found = false;
+      let key_all = this.fullAssociationKey(assoc);
+      for(let exclude of assocs_exclude) {
+        let key_exclude= this.fullAssociationKey(exclude);
+        if(key_all == key_exclude) {
+          found = true;
+          break;
+        }
+      }
+      if(!found) {
+        list.push(assoc);
+      }
+    }
+    return list;
+  }
+  
   /**
    * Group association based on the keys (subject , object) and (optional) qualifier
    * @param {*} assoc_data
@@ -313,24 +346,78 @@ class GeneOntologyRibbon extends Component {
     }});
 
     if(group) {
-      this.fetchAssociationData(subject.id, group.id).then(data => {
-        var sorted_assocs = data[0].assocs;
-        sorted_assocs.sort((a, b)=> a.object.label.localeCompare(b.object.label));
-        var filtered = sorted_assocs;
-        if(this.state.excludePB) {
-          filtered = this.filterPB(filtered);
-        }
-        if(this.state.onlyEXP) {
-          filtered = this.getEXP(filtered);
-        }
-        this.setState({ selected : {
-          subject : subject,
-          group : group,
-          data : filtered, // assoc data from BioLink
-          ready : false
-        }});
-        this.buildEvidenceMap();
-      });
+      if(group.type == 'Other') {
+        let aspect = this.getAspect(group);
+        var terms = aspect.groups.filter(elt => {
+          return elt.type == 'Term';
+        });
+        terms = terms.map(elt => { return elt.id; });
+        this.fetchAssociationData(subject.id, group.id)
+          .then(data_all => {
+            var sorted_all = [];
+            for(let array of data_all) {
+              sorted_all = sorted_all.concat(array.assocs);
+            }
+              
+            this.fetchAssociationData(subject.id, terms)
+              .then(data_terms => {
+                var sorted_terms = [];
+                for(let array of data_terms) {
+                  sorted_terms = sorted_terms.concat(array.assocs);
+                }
+
+                var other_assocs = this.diffAssociations(sorted_all, sorted_terms);
+
+                var filtered = other_assocs;
+                if(this.state.excludePB) {
+                  filtered = this.filterPB(filtered);
+                }
+                if(this.state.onlyEXP) {
+                  filtered = this.getEXP(filtered);
+                }
+                if(!this.state.crossAspect) {
+                  filtered = this.filterCrossAspect(group, filtered);
+                }
+                this.setState({ selected : {
+                  subject : subject,
+                  group : group,
+                  data : filtered, // assoc data from BioLink
+                  ready : false
+                }});
+                this.buildEvidenceMap();
+
+                
+              });
+
+          });
+      } else {
+
+        this.fetchAssociationData(subject.id, group.id)
+          .then(data => {
+            var sorted_assocs = [];
+            for(let array of data) {
+              sorted_assocs = sorted_assocs.concat(array.assocs);
+            }
+            sorted_assocs.sort((a, b)=> a.object.label.localeCompare(b.object.label));
+            var filtered = sorted_assocs;
+            if(this.state.excludePB) {
+              filtered = this.filterPB(filtered);
+            }
+            if(this.state.onlyEXP) {
+              filtered = this.getEXP(filtered);
+            }
+            if(!this.state.crossAspect) {
+              filtered = this.filterCrossAspect(group, filtered);
+            }
+            this.setState({ selected : {
+              subject : subject,
+              group : group,
+              data : filtered, // assoc data from BioLink
+              ready : false
+            }});
+            this.buildEvidenceMap();
+          });
+      }
     }
   }
 
@@ -347,7 +434,47 @@ class GeneOntologyRibbon extends Component {
   getEXP(assocs) {
     var list = [];
     for(var assoc of assocs) {
-      if(assoc.evidence_type in exp_codes) {
+      if(exp_codes.includes(assoc.evidence_type)) {
+        list.push(assoc);
+      }
+    }
+    return list;
+  }
+
+  /**
+   * returns undefined for "ALL" slim term
+   * @param {*} group
+   */
+  getAspect(group) {
+    for(let cat of this.state.ribbon.categories) {
+      let found = cat.groups.filter(elt => {
+        return elt.id == group.id;
+      });
+      if(found.length > 0) {
+        return cat;
+      }
+    }
+    return undefined;
+  }
+
+  getAspectIdLabel(group) {
+    for(let cat of this.state.ribbon.categories) {
+      let found = cat.groups.filter(elt => {
+        return elt.id == group.id;
+      });
+      if(found.length > 0) {
+        return [ cat.id , cat.label ];
+      }
+    }
+    return undefined;
+  }
+
+  filterCrossAspect(group, assocs) {
+    var list = [];
+    var aspect = this.getAspectIdLabel(group);
+    for(var assoc of assocs) {
+      let cat = assoc.object.category[0] == 'molecular_activity' ? 'molecular_function' : assoc.object.category[0];
+      if(aspect == undefined || cat == aspect[1]) {
         list.push(assoc);
       }
     }
@@ -379,6 +506,8 @@ class GeneOntologyRibbon extends Component {
           data : null,
           ready : false,
         } });
+      }).catch(() => {
+        this.setState({ noData: true, loading : false });
       });
 
     });
@@ -425,40 +554,44 @@ class GeneOntologyRibbon extends Component {
                 ? 'Loading...'
                 :
 
-                <GenericRibbon
-                  categories={this.state.ribbon.categories}
-                  classLabels={['term', 'terms']}
-                  colorBy={COLOR_BY.CLASS_COUNT}
+                (this.state.noData) ?
+                  '' :
+                  <GenericRibbon
+                    categories={this.state.ribbon.categories}
+                    classLabels={['term', 'terms']}
+                    colorBy={COLOR_BY.CLASS_COUNT}
 
-                  hideFirstSubjectLabel={false}
+                    hideFirstSubjectLabel
 
-                  itemClick={this.itemClick.bind(this)}
-                  newTab={false}
+                    itemClick={this.itemClick.bind(this)}
+                    newTab={false}
 
-                  selected={this.state.selected}
-                  selectionMode={SELECTION.CELL}
-                  subjectBaseURL={this.state.subjectBaseURL}
-                  subjectLabelPosition={POSITION.LEFT}
-                  subjectUseTaxonIcon
-                  subjects={this.state.ribbon.subjects}
-                />
+                    selected={this.state.selected}
+                    selectionMode={SELECTION.CELL}
+                    subjectLabel={subject => <RibbonGeneSubjectLabel subject={subject} />}
+                    subjectLabelPosition={POSITION.LEFT}
+                    subjectUseTaxonIcon
+                    subjects={this.state.ribbon.subjects}
+                  />
             }
             {
-              (this.state.selected.data && this.state.selected.ready) ?
-                <AssociationsView
-                  blocks={null}
-                  borderBottom
-                  config={this.defaultConfig()}
-                  currentblock={null}
-                  filters={this.buildFilters()}
-                  focalblock={null}
-                  oddEvenColor={false}
-                  provided_list={this.state.selected.data}
-                  tableLabel={''}
-                  termInNewPage
-                  termURL={'http://amigo.geneontology.org/amigo/term/'}
-                />
-                : ''
+              (this.state.noData) ?
+                <NoData /> :
+                (this.state.selected.data && this.state.selected.ready) ?
+                  <AssociationsView
+                    blocks={null}
+                    borderBottom
+                    config={this.defaultConfig()}
+                    currentblock={null}
+                    filters={this.buildFilters()}
+                    focalblock={null}
+                    oddEvenColor={false}
+                    provided_list={this.state.selected.data}
+                    tableLabel={''}
+                    termInNewPage
+                    termURL={'http://amigo.geneontology.org/amigo/term/'}
+                  />
+                  : ''
             }
             </div>
           }
