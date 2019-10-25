@@ -17,7 +17,7 @@ class PhenotypeTable extends React.Component {
   }
 
   render() {
-    const { geneId, phenotypes } = this.props;
+    const { phenotypes } = this.props;
 
     const data = phenotypes.data && phenotypes.data.map(record => (
       {
@@ -62,7 +62,6 @@ class PhenotypeTable extends React.Component {
       <RemoteDataTable
         columns={columns}
         data={data}
-        downloadUrl={`/api/gene/${geneId}/phenotypes/download`}
         keyField='id'
         loading={phenotypes.loading}
         onUpdate={this.loadPhenotypes.bind(this)}

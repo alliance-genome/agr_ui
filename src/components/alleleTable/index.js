@@ -32,7 +32,7 @@ class AlleleTable extends Component {
   }
 
   render() {
-    const { alleles, geneId, geneSymbol, geneLocation = {}, species, geneDataProvider } = this.props;
+    const { alleles, geneSymbol, geneLocation = {}, species, geneDataProvider } = this.props;
 
     const variantNameColWidth = 300;
     const variantTypeColWidth = 150;
@@ -47,7 +47,7 @@ class AlleleTable extends Component {
             <span dangerouslySetInnerHTML={{ __html: symbol }} />
           </DataSourceLink>
         ),
-        headerStyle: {width: '145px'},
+        headerStyle: {width: '185px'},
         filterable: true,
         isKey: true,
       },
@@ -55,7 +55,7 @@ class AlleleTable extends Component {
         dataField: 'synonym',
         text: 'Allele Synonyms',
         formatter: synonyms => <SynonymList synonyms={synonyms} />,
-        headerStyle: {width: '135px'},
+        headerStyle: {width: '165px'},
         filterable: true,
       },
       {
@@ -200,7 +200,6 @@ class AlleleTable extends Component {
       <RemoteDataTable
         columns={columns}
         data={data}
-        downloadUrl={`/api/gene/${geneId}/alleles/download`}
         keyField='symbol'
         loading={alleles.loading}
         onUpdate={this.loadData.bind(this)}
