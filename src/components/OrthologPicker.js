@@ -47,7 +47,7 @@ const STRINGENCY_OPTIONS = [
     value: STRINGENCY_MED,
   },
   {
-    label: 'Any',
+    label: 'No filter',
     value: STRINGNECY_LOW,
   },
 ];
