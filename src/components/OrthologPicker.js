@@ -173,7 +173,7 @@ class OrthologPicker extends React.Component {
   }
 
   render() {
-    const { id, orthology } = this.props;
+    const { focusTaxonId, id, orthology } = this.props;
     const { allInvertebrates, allVertebrates, enabled, selectedSpecies, stringency } = this.state;
 
     return (
@@ -258,47 +258,50 @@ class OrthologPicker extends React.Component {
                 </div>
                 <hr />
                 <div className='form-group'>
-                  {SPECIES.map(species => {
-                    const checkId = id + makeId(species.taxonId);
-                    const hasOrthologs = orthology.findIndex(o => getOrthologSpeciesId(o) === species.taxonId) >= 0;
-                    const hasOrthologsWithData = this.speciesHasOrthologsWithData(species);
-                    const hasOrthologsMeetingStringency = this.speciesHasOrthologsMeetingStringency(species);
-                    const disabled = !hasOrthologs || !hasOrthologsWithData || !hasOrthologsMeetingStringency;
-                    return (
-                      <div key={species.taxonId}>
-                        <div className={`form-check form-check-inline ${disabled ? 'disabled' : ''}`} id={checkId}>
-                          <label className='form-check-label'>
-                            <input
-                              checked={!!selectedSpecies.find(s => s.taxonId === species.taxonId)}
-                              className='form-check-input'
-                              disabled={disabled}
-                              onChange={e => {
-                                if (e.target.checked) {
-                                  this.setState({selectedSpecies: [...selectedSpecies, species]});
-                                } else {
-                                  this.setState({selectedSpecies: selectedSpecies.filter(s => s.taxonId !== species.taxonId)});
-                                }
-                              }}
-                              type='checkbox'
+                  {SPECIES
+                    .filter(species => focusTaxonId ? species.taxonId !== focusTaxonId : true)
+                    .map(species => {
+                      const checkId = id + makeId(species.taxonId);
+                      const hasOrthologs = orthology.findIndex(o => getOrthologSpeciesId(o) === species.taxonId) >= 0;
+                      const hasOrthologsWithData = this.speciesHasOrthologsWithData(species);
+                      const hasOrthologsMeetingStringency = this.speciesHasOrthologsMeetingStringency(species);
+                      const disabled = !hasOrthologs || !hasOrthologsWithData || !hasOrthologsMeetingStringency;
+                      return (
+                        <div key={species.taxonId}>
+                          <div className={`form-check form-check-inline ${disabled ? 'disabled' : ''}`} id={checkId}>
+                            <label className='form-check-label'>
+                              <input
+                                checked={!!selectedSpecies.find(s => s.taxonId === species.taxonId)}
+                                className='form-check-input'
+                                disabled={disabled}
+                                onChange={e => {
+                                  if (e.target.checked) {
+                                    this.setState({selectedSpecies: [...selectedSpecies, species]});
+                                  } else {
+                                    this.setState({selectedSpecies: selectedSpecies.filter(s => s.taxonId !== species.taxonId)});
+                                  }
+                                }}
+                                type='checkbox'
+                              />
+                              <i>{species.fullName}</i>
+                            </label>
+                          </div>
+                          {disabled &&
+                          <UncontrolledTooltip delay={{show: 200, hide: 0}} placement='bottom' target={checkId}>
+                            <span dangerouslySetInnerHTML={{
+                              __html: (
+                                (!hasOrthologs && `No <i>${species.fullName}</i> orthologs of this gene`) ||
+                                (!hasOrthologsWithData && `No <i>${species.fullName}</i> orthologs of this gene have annotations`) ||
+                                (!hasOrthologsMeetingStringency && `No <i>${species.fullName}</i> orthologs of this gene meet selected Stringency filter`)
+                              )
+                            }}
                             />
-                            <i>{species.fullName}</i>
-                          </label>
+                          </UncontrolledTooltip>
+                          }
                         </div>
-                        {disabled &&
-                        <UncontrolledTooltip delay={{show: 200, hide: 0}} placement='bottom' target={checkId}>
-                          <span dangerouslySetInnerHTML={{
-                            __html: (
-                              (!hasOrthologs && `No <i>${species.fullName}</i> orthologs of this gene`) ||
-                              (!hasOrthologsWithData && `No <i>${species.fullName}</i> orthologs of this gene have annotations`) ||
-                              (!hasOrthologsMeetingStringency && `No <i>${species.fullName}</i> orthologs of this gene meet selected Stringency filter`)
-                            )
-                          }}
-                          />
-                        </UncontrolledTooltip>
-                        }
-                      </div>
-                    );
-                  })}
+                      );
+                    })
+                  }
                 </div>
                 <button
                   className='btn btn-outline-secondary'
@@ -319,6 +322,7 @@ class OrthologPicker extends React.Component {
 OrthologPicker.propTypes = {
   defaultEnabled: PropTypes.bool,
   defaultStringency: PropTypes.string,
+  focusTaxonId: PropTypes.string,
   genesWithData: PropTypes.object,
   id: PropTypes.string.isRequired,
   onChange: PropTypes.func,
