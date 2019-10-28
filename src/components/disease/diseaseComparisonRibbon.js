@@ -89,7 +89,7 @@ class DiseaseComparisonRibbon extends Component {
   }
 
   render(){
-    const { geneSymbol, orthology, summary } = this.props;
+    const { geneTaxon, orthology, summary } = this.props;
     const { selectedBlock, selectedOrthologs } = this.state;
 
     if (!summary) {
@@ -118,7 +118,7 @@ class DiseaseComparisonRibbon extends Component {
             <OrthologPicker
               defaultEnabled
               defaultStringency={STRINGENCY_HIGH}
-              disabledSpeciesMessage={`${geneSymbol} has no ortholog genes in this species`}
+              focusTaxonId={geneTaxon}
               id='disease-ortho-picker'
               onChange={this.handleOrthologyChange}
               orthology={orthology.data}
