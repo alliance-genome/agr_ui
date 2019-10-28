@@ -71,7 +71,7 @@ class ExpressionComparisonRibbon extends React.Component {
   }
 
   render() {
-    const { geneSymbol, orthology, summary } = this.props;
+    const { geneTaxon, orthology, summary } = this.props;
     const { selectedOrthologs, selectedBlock } = this.state;
 
     // const genes = [geneId].concat(selectedOrthologs.map(o => getOrthologId(o)));
@@ -113,7 +113,7 @@ class ExpressionComparisonRibbon extends React.Component {
             </span>
             <OrthologPicker
               defaultStringency={STRINGENCY_HIGH}
-              disabledSpeciesMessage={`${geneSymbol} has no ortholog genes or no ortholog genes with expression annotations in this species`}
+              focusTaxonId={geneTaxon}
               genesWithData={genesWithData}
               id='expression-ortho-picker'
               onChange={this.handleOrthologChange}
