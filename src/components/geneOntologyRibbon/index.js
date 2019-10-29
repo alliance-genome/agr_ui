@@ -308,7 +308,7 @@ class GeneOntologyRibbon extends Component {
           evidence_label : assoc.evidence_label,
           evidence_qualifier : assoc.evidence_qualifier ? assoc.evidence_qualifier : [],
           evidence_with : assoc.evidence_with ? assoc.evidence_with : [],
-          evidence_refs : assoc.reference ? assoc.reference.filter(ref => ref.startsWith('PMID:')) : []
+          evidence_refs : assoc.reference ? assoc.reference.filter(ref => ref.startsWith('PMID:') || ref.startsWith('GO_REF:') || ref.startsWith('Reactome:')) : []
         }
       ]);
     }
@@ -385,7 +385,6 @@ class GeneOntologyRibbon extends Component {
                   ready : false
                 }});
                 this.buildEvidenceMap();
-
 
               });
 
