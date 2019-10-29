@@ -300,7 +300,6 @@ class GeneOntologyRibbon extends Component {
   buildEvidenceMap() {
     // console.log('assoc_data: ', this.state.selected.data);
     for(var assoc of this.state.selected.data) {
-      console.log(assoc.reference);
       assoc.evidence_map = new Map();
       assoc.evidence_map.set(assoc.evidence, [
         {
