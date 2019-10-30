@@ -128,15 +128,10 @@ class DiseaseAnnotationTable extends Component {
       ...annotation,
     }));
 
-
-    const geneIdParams = genes.map(g => `geneID=${g}`).join('&');
-    const downloadUrl = '/api/disease/download?' + geneIdParams + (term !== 'all' ? ('&termID=' + term) : '');
-
     return (
       <RemoteDataTable
         columns={columns}
         data={data}
-        downloadUrl={downloadUrl}
         keyField='primaryKey'
         loading={annotations.loading}
         onUpdate={this.handleUpdate}
@@ -145,7 +140,6 @@ class DiseaseAnnotationTable extends Component {
       />
     );
   }
-
 }
 
 DiseaseAnnotationTable.propTypes = {
