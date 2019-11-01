@@ -193,7 +193,7 @@ class RemoteDataTable extends Component {
         </PaginationProvider>
         {downloadUrl &&
           <DownloadButton
-            downloadUrl={`${downloadUrl}${downloadUrl.indexOf('?') < 0 ? '?' : '&'}${buildTableQueryString({sort, filters})}`}
+            downloadUrl={`${downloadUrl}${downloadUrl.indexOf('?') < 0 ? '?' : '&'}${buildTableQueryString(this.translateFilterNames({sort, filters}))}`}
           />
         }
       </div>
