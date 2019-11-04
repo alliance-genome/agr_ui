@@ -117,7 +117,7 @@ class AlleleTable extends Component {
                             loc: (geneLocation && geneLocation.start && geneLocation.end) ?
                               `${geneLocation.chromosome || location.chromosome}:${geneLocation.start || 0}..${geneLocation.end || 0}` :
                               geneSymbol,
-                            tracks: ['Phenotypic Variants', 'All Genes', 'DNA'].join(','),
+                            tracks: ['Variants', 'All Genes', 'DNA'].join(','),
                             highlight: this.calculateHighlight(location,type.name)
                           })}
                         >
