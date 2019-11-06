@@ -60,7 +60,7 @@ class DiseasePage extends Component {
     const SUMMARY = 'Summary';
     const GENES = 'Associated Genes';
     const ALLELES = 'Associated Alleles';
-    const MODELS = 'Associated Genomic Models';
+    const MODELS = 'Associated Models';
     const SECTIONS = [
       {name: SUMMARY},
       {name: GENES},
