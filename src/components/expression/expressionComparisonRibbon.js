@@ -93,11 +93,12 @@ class ExpressionComparisonRibbon extends React.Component {
 
     // we should only show the GO CC category if only a yeast gene is being shown but the
     // GenericRibbon component gets messed up if you do that and then add an ortholog
-    // const categories = summary.data.categories.filter(category => !(
-    //   selectedOrthologs.length === 0 &&
-    //   geneTaxon === TAXON_IDS.YEAST &&
-    //   category.id.startsWith('UBERON:')
-    // ));
+    const taxonIdYeast = 'NCBITaxon:559292';
+    const categories = summary.data.categories.filter(category => !(
+      selectedOrthologs.length === 0 &&
+      geneTaxon === taxonIdYeast &&
+      category.id.startsWith('UBERON:')
+    ));
 
     const genesWithData = orthology.supplementalData && Object.entries(orthology.supplementalData)
       .reduce((prev, [geneId, data]) => ({...prev, [geneId]: data.hasExpressionAnnotations}), {});
@@ -125,7 +126,7 @@ class ExpressionComparisonRibbon extends React.Component {
 
         <HorizontalScroll width={1000}>
           <GenericRibbon
-            categories={summary.data.categories}
+            categories={categories}
             colorBy={COLOR_BY.CLASS_COUNT}
             hideFirstSubjectLabel
             itemClick={this.updateSelectedBlock}
