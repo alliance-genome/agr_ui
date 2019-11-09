@@ -100,8 +100,6 @@ class GeneOntologyRibbon extends Component {
         }, () => {
           if(subject && group) {
             this.itemClick(subject, group);
-          } else {
-            console.log('nothing for ', subject , group , this.state);
           }
         });
       }).catch(() => {
