@@ -499,12 +499,20 @@ class GeneOntologyRibbon extends Component {
         for(var sub of data.subjects) {
           oldSubs.push(sub);
         }
-        this.setState({ loading : false, ribbon : data, subjects : oldSubs,selected : {
-          subject : null,
-          group : null,
-          data : null,
-          ready : false,
-        } });
+        const subject = this.state.selected.subject;
+        const group = this.state.selected.group;
+        this.setState({ loading : false, ribbon : data, subjects : oldSubs,
+          selected : {
+            subject : null,
+            group : null,
+            data : null,
+            ready : false,
+          } 
+        } , () => {
+          if(subject && group) {
+            this.itemClick(subject, group);
+          }
+        });
       }).catch(() => {
         this.setState({ noData: true, loading : false });
       });
