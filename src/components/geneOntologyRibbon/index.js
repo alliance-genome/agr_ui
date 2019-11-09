@@ -79,7 +79,6 @@ class GeneOntologyRibbon extends Component {
         if(subject) {
           var found = false;
           for(let sub of data.subjects) {
-            console.log(subject.id , sub.id);
             if(subject.id == sub.id) {
               found = true;
             } 
