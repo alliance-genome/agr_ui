@@ -68,12 +68,42 @@ class GeneOntologyRibbon extends Component {
         for(var sub of data.subjects) {
           oldSubs.push(sub);
         }
-        this.setState({ loading : false, ribbon : data, subjects : oldSubs,selected : {
-          subject : null,
-          group : null,
-          data : null,
-          ready : false,
-        } });
+      
+        var subject = null, group = null;
+        if(this.state.selected) {
+          subject = this.state.selected.subject;
+          group = this.state.selected.group;
+        }
+
+        // Check if the subject exists and if it's still in the list of species to show
+        if(subject) {
+          var found = false;
+          for(let sub of data.subjects) {
+            console.log(subject.id , sub.id);
+            if(subject.id == sub.id) {
+              found = true;
+            } 
+          }
+          if(!found) {
+            subject = null;
+            group = null;
+          }    
+        }
+
+        this.setState({ loading : false, ribbon : data, subjects : oldSubs,
+          selected : {
+            subject : null,
+            group : null,
+            data : null,
+            ready : false,
+          }
+        }, () => {
+          if(subject && group) {
+            this.itemClick(subject, group);
+          } else {
+            console.log('nothing for ', subject , group , this.state);
+          }
+        });
       }).catch(() => {
         this.setState({ noData: true, loading : false });
       });
