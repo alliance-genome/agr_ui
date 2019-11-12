@@ -14,7 +14,7 @@ import {selectAlleleAssociations} from '../../selectors/diseaseSelectors';
 import AnnotatedEntitiesPopup
   from '../../components/dataTable/AnnotatedEntitiesPopup';
 
-const DiseaseToAlleleTable = ({associations, fetchAssociations, id}) => {
+const DiseaseToAlleleTable = ({associations, fetchAssociations}) => {
   const columns = [
     {
       dataField: 'allele',
@@ -99,7 +99,6 @@ const DiseaseToAlleleTable = ({associations, fetchAssociations, id}) => {
     <RemoteDataTable
       columns={columns}
       data={associations.data}
-      downloadUrl={`/api/disease/${id}/alleles/download`}
       keyField='primaryKey'
       loading={associations.loading}
       onUpdate={fetchAssociations}
