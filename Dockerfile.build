@@ -14,5 +14,8 @@ ENV LIVE_UI ${LIVE_UI}
 ARG RELEASE=0.0.0
 ENV RELEASE ${RELEASE}
 
+ARG JBROWSE_URL=http://jbrowse-build.alliancegenome.org
+ENV JBROWSE_URL ${JBROWSE_URL}
+
 RUN npm run build
 RUN npm test

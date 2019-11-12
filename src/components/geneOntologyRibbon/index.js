@@ -55,7 +55,7 @@ class GeneOntologyRibbon extends Component {
 
 
   getGeneIdList() {
-    return [this.props.id].concat(this.state.selectedOrthologs.map(getOrthologId));
+    return [this.props.geneId].concat(this.state.selectedOrthologs.map(getOrthologId));
   }
 
   handleOrthologyChange(selectedOrthologs) {
@@ -68,12 +68,39 @@ class GeneOntologyRibbon extends Component {
         for(var sub of data.subjects) {
           oldSubs.push(sub);
         }
-        this.setState({ loading : false, ribbon : data, subjects : oldSubs,selected : {
-          subject : null,
-          group : null,
-          data : null,
-          ready : false,
-        } });
+      
+        var subject = null, group = null;
+        if(this.state.selected) {
+          subject = this.state.selected.subject;
+          group = this.state.selected.group;
+        }
+
+        // Check if the subject exists and if it's still in the list of species to show
+        if(subject) {
+          var found = false;
+          for(let sub of data.subjects) {
+            if(subject.id == sub.id) {
+              found = true;
+            } 
+          }
+          if(!found) {
+            subject = null;
+            group = null;
+          }    
+        }
+
+        this.setState({ loading : false, ribbon : data, subjects : oldSubs,
+          selected : {
+            subject : null,
+            group : null,
+            data : null,
+            ready : false,
+          }
+        }, () => {
+          if(subject && group) {
+            this.itemClick(subject, group);
+          }
+        });
       }).catch(() => {
         this.setState({ noData: true, loading : false });
       });
@@ -111,7 +138,7 @@ class GeneOntologyRibbon extends Component {
       group = groups.join('&slim=');
     } else if (group instanceof Array) {
       group = group.join('&slim=');
-    } 
+    }
     let query = goApiUrl + 'bioentityset/slimmer/function?slim=' + group + '&subject=' + subject + '&rows=-1';
     // console.log('Query is ' + query);
     return fetchData(query);
@@ -209,7 +236,7 @@ class GeneOntologyRibbon extends Component {
     }
     return list;
   }
-  
+
   /**
    * Group association based on the keys (subject , object) and (optional) qualifier
    * @param {*} assoc_data
@@ -308,7 +335,7 @@ class GeneOntologyRibbon extends Component {
           evidence_label : assoc.evidence_label,
           evidence_qualifier : assoc.evidence_qualifier ? assoc.evidence_qualifier : [],
           evidence_with : assoc.evidence_with ? assoc.evidence_with : [],
-          evidence_refs : assoc.reference ? assoc.reference.filter(ref => ref.startsWith('PMID:')) : []
+          evidence_refs : assoc.reference ? assoc.reference.filter(ref => ref.startsWith('PMID:') || ref.startsWith('GO_REF:') || ref.startsWith('Reactome:')) : []
         }
       ]);
     }
@@ -358,7 +385,7 @@ class GeneOntologyRibbon extends Component {
             for(let array of data_all) {
               sorted_all = sorted_all.concat(array.assocs);
             }
-              
+
             this.fetchAssociationData(subject.id, terms)
               .then(data_terms => {
                 var sorted_terms = [];
@@ -386,7 +413,6 @@ class GeneOntologyRibbon extends Component {
                 }});
                 this.buildEvidenceMap();
 
-                
               });
 
           });
@@ -500,12 +526,20 @@ class GeneOntologyRibbon extends Component {
         for(var sub of data.subjects) {
           oldSubs.push(sub);
         }
-        this.setState({ loading : false, ribbon : data, subjects : oldSubs,selected : {
-          subject : null,
-          group : null,
-          data : null,
-          ready : false,
-        } });
+        const subject = this.state.selected.subject;
+        const group = this.state.selected.group;
+        this.setState({ loading : false, ribbon : data, subjects : oldSubs,
+          selected : {
+            subject : null,
+            group : null,
+            data : null,
+            ready : false,
+          } 
+        } , () => {
+          if(subject && group) {
+            this.itemClick(subject, group);
+          }
+        });
       }).catch(() => {
         this.setState({ noData: true, loading : false });
       });
@@ -514,7 +548,7 @@ class GeneOntologyRibbon extends Component {
   }
 
   render() {
-    const { orthology } = this.props;
+    const { geneTaxon, orthology } = this.props;
     const { selectedOrthologs } = this.state;
     return (
       <div>
@@ -527,8 +561,8 @@ class GeneOntologyRibbon extends Component {
             </span>
             <OrthologPicker
               defaultStringency={STRINGENCY_HIGH}
-              disabledSpeciesMessage={this.props.id + ' has no ortholog genes in this species'}
               enabled={false}
+              focusTaxonId={geneTaxon}
               id='go-ortho-picker'
               onChange={this.handleOrthologyChange}
               orthology={orthology.data}
@@ -603,8 +637,9 @@ class GeneOntologyRibbon extends Component {
 }
 
 GeneOntologyRibbon.propTypes = {
-  id: PropTypes.string.isRequired,
-  orthology: PropTypes.object
+  geneId: PropTypes.string.isRequired,
+  geneTaxon: PropTypes.string,
+  orthology: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({

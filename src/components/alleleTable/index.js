@@ -22,12 +22,13 @@ class AlleleTable extends Component {
   calculateHighlight(location, type) {
     switch(type){
     case 'insertion':
-      return `${location.chromosome}:${typeof location.start === 'number' ? location.start : location.end}..${location.end-1}`;
+      return `${location.chromosome}:${typeof location.start === 'number' ? location.start : location.start}..${location.start}`;
     case 'deletion':
+    case 'delins':
       return `${location.chromosome}:${typeof location.start === 'number' ? location.start-1 : location.end}..${location.end}`;
     default:
     case 'point_mutation':
-      return `${location.chromosome}:${typeof location.start === 'number' ? location.start-1 : location.end}..${location.end}`;
+      return `${location.chromosome}:${typeof location.start === 'number' ? location.start : location.end}..${location.end}`;
     }
   }
 
@@ -116,7 +117,7 @@ class AlleleTable extends Component {
                             loc: (geneLocation && geneLocation.start && geneLocation.end) ?
                               `${geneLocation.chromosome || location.chromosome}:${geneLocation.start || 0}..${geneLocation.end || 0}` :
                               geneSymbol,
-                            tracks: ['Phenotypic Variants', 'All Genes', 'DNA'].join(','),
+                            tracks: ['Variants', 'All Genes', 'DNA'].join(','),
                             highlight: this.calculateHighlight(location,type.name)
                           })}
                         >
