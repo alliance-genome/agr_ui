@@ -28,8 +28,8 @@ const robotstxtProdOptions = {
     },
   ],
   sitemap: [
-    'http://www.alliancegenome.org/sitemap.xml',
-    'http://www.alliancegenome.org/api/sitemap.xml',
+    'https://www.alliancegenome.org/sitemap.xml',
+    'https://www.alliancegenome.org/api/sitemap.xml',
   ],
 };
 const robotstxtDevOptions = {
