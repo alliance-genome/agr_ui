@@ -86,6 +86,10 @@ export function makeFieldDisplayName(unformattedName) {
     return 'Allele';
   case 'allele.name':
     return 'Allele';
+  case 'nameText':
+    return 'Name';
+  case 'symbolText':
+    return 'Symbol';
   default:
     //replace fix both camel case and underscores, capitalize the first letter
     return unformattedName
