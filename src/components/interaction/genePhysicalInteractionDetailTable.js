@@ -204,7 +204,6 @@ class GenePhysicalInteractionDetailTable extends React.Component {
 
 GenePhysicalInteractionDetailTable.propTypes = {
   dispatch: PropTypes.func,
-  filename: PropTypes.any,
   focusGeneDisplayName: PropTypes.string,
   focusGeneId: PropTypes.string.isRequired,
   interactions: PropTypes.object,

@@ -73,9 +73,6 @@ class GenePage extends Component {
       }
     }
 
-    let now = new Date();
-    let date = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
-
     const SUMMARY = 'Summary';
     const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
     const FUNCTION = 'Function - GO Annotations';
@@ -255,7 +252,6 @@ class GenePage extends Component {
               geneDataProvider={data.dataProvider}
             />
             <GenePhysicalInteractionDetailTable
-              filename={`${data.symbol}-${data.id}-Interactions-${date}.tsv`}
               focusGeneDisplayName={data.symbol}
               focusGeneId={data.id}
             />
