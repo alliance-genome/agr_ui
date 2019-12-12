@@ -26,6 +26,7 @@ import { ExpressionComparisonRibbon, ExpressionUserGuide } from '../../component
 import { DiseaseComparisonRibbon } from '../../components/disease';
 import HeadMetaTags from '../../components/headMetaTags';
 import GeneModelsTable from './GeneModelsTable';
+import GeneMetaTags from './GeneMetaTags';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
@@ -78,8 +79,6 @@ class GenePage extends Component {
       return null;
     }
 
-    const title = `${data.symbol} | ${data.species.name} gene`;
-
     // todo, add chromosome
     let genomeLocation = {};
     if (data.genomeLocations) {
@@ -97,61 +96,11 @@ class GenePage extends Component {
       }
     }
 
-    const keywords = ['gene', data.dataProvider.replace('\n', ' '), data.symbol, ...(data.synonyms || []), data.species.name, data.id];
-    const jsonLd = [
-      {
-        '@context': 'http://schema.org',
-        '@type': 'Dataset',
-        '@id': data.id,
-        name: data.symbol,
-        dateCreated: new Date(data.dateProduced),
-        datePublished: new Date(data.dateProduced),
-        dateModified: new Date(data.dateProduced),
-        description: [
-          data.automatedGeneSynopsis,
-          data.geneSynopsis,
-          data.geneSynopsisUrl
-        ].filter(a => !!a).join(' '),
-        url: 'https://www.alliancegenome.org/gene/' + data.id,
-        keywords: keywords.join(' '),
-        includedInDataCatalog: 'https://www.alliancegenome.org',
-        creator: {
-          '@type': 'Organization',
-          'name': 'Alliance of Genome Resources'
-        },
-        version: '2.0',
-        license: 'CC BY 4.0',
-      },
-      // based on this: https://github.com/BioSchemas/specifications/tree/master/Gene/examples
-      // bioschemas section
-      {
-        '@context': [
-          {
-            'bs': 'http://bioschemas.org/'
-          },
-          'http://schema.org',
-          {
-            '@base': 'http://schema.org'
-          }
-        ],
-        '@type': [
-          'bs:Gene'
-        ],
-        identifier: data.id,
-        name: data.symbol,
-        url: `https://www.alliancegenome.org/gene/${data.id}`,
-        dateCreated: new Date(data.dateProduced),
-        datePublished: new Date(data.dateProduced),
-        dateModified: new Date(data.dateProduced),
-        description: data.automatedGeneSynopsis + ' ' + (data.geneSynopsis || data.geneSynopsisUrl || ''),
-        // 'sameAs': `https://zfin.org/ZDB-GENE-001103-2`, // TODO: add resolver here
-      }
-    ];
-
     // TODO: this name should come directly from the API
     if (data.crossReferences['expression-atlas']) {
       data.crossReferences['expression-atlas'].displayName = 'Expression Atlas';
     }
+
     // manufacture a single cell atlas cross reference since this isn't stored
     // in the database (see AGR-1406)
     const singleCellAtlasXRef = {
@@ -161,7 +110,7 @@ class GenePage extends Component {
 
     return (
       <DataPage>
-        <HeadMetaTags jsonLd={jsonLd} title={title} />
+        <GeneMetaTags gene={data} />
         <PageNav
           entityName={data.symbol}
           extra={<i>{data.species.name}</i>}
