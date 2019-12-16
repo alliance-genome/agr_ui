@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import parse, { domToReact } from 'html-react-parser';
 
 import style from './style.scss';
 import HeadMetaTags from '../../components/headMetaTags';
@@ -14,6 +15,8 @@ import {
   selectPage
 } from '../../selectors/wordpressSelectors';
 import NotFound from '../../components/notFound';
+import { HashLink } from 'react-router-hash-link';
+import {Link} from 'react-router-dom';
 
 class WordpressPage extends Component {
   componentDidMount() {
@@ -48,7 +51,20 @@ class WordpressPage extends Component {
       <div className={style.wordPressContainer}>
         <HeadMetaTags title={title} />
         {slug !== 'home' && <SecondaryNav parent={parentId} title={title} type='page' />}
-        {slug !== 'home' && <div dangerouslySetInnerHTML={{ __html: page.content.rendered}} />}
+        {slug !== 'home' && <div>
+          {parse(page.content.rendered, {
+            replace: node => {
+              if (node.name === 'a' && node.attribs.href) {
+                if (node.attribs.href.charAt(0) === '#') {
+                  return <HashLink to={node.attribs.href}>{domToReact(node.children)}</HashLink>;
+                }
+                if (node.attribs.href.charAt(0) === '/' && (!node.attribs.target || node.attribs.target === '_self')) {
+                  return <Link to={node.attribs.href}>{domToReact(node.children)}</Link>;
+                }
+              }
+            }
+          })}
+        </div>}
       </div>
     );
   }
