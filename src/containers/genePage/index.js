@@ -24,7 +24,6 @@ import DataSourceLink from '../../components/dataSourceLink';
 import PhenotypeTable from './phenotypeTable';
 import { ExpressionComparisonRibbon, ExpressionUserGuide } from '../../components/expression';
 import { DiseaseComparisonRibbon } from '../../components/disease';
-import HeadMetaTags from '../../components/headMetaTags';
 import GeneModelsTable from './GeneModelsTable';
 import GeneMetaTags from './GeneMetaTags';
 

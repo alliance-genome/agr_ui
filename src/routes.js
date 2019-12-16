@@ -38,17 +38,13 @@ export default (
             />
 
             <Route
-              component={
-                ({match}) => (
-                  <Redirect to={`/${match.params.id}`} />
-                )} path='/wordpress/:id'
+              path='/wordpress/:id'
+              render={({match}) => <Redirect to={`/${match.params.id}`} />}
             />
             {/* before links within user edited WordPress content is fixed, this path rewrite is necessary */}
             <Route
-              component={
-                ({match}) =>
-                  <WordpressPage slug={match.params.slug} />
-              } path='/:slug'
+              path='/:slug'
+              render={({match}) => <WordpressPage key={match.params.slug} slug={match.params.slug} />}
             />
             <Route component={NotFound} />
           </Switch>
