@@ -9,7 +9,16 @@ import {ReferenceCell} from './index';
 
 import style from './style.scss';
 import ExternalLink from '../externalLink';
+import {Link} from 'react-router-dom';
 
+function renderLink(entity) {
+  const inner = <span dangerouslySetInnerHTML={{__html: entity.name}} />;
+  if (entity.type === 'ALLELE') {
+    return <Link to={`/allele/${entity.id}`}>{inner}</Link>;
+  } else {
+    return <ExternalLink href={entity.url}>{inner}</ExternalLink>;
+  }
+}
 
 function AnnotatedEntitiesPopup(props) {
   const {children, entities} = props;
@@ -43,11 +52,7 @@ function AnnotatedEntitiesPopup(props) {
               {
                 entities.map(entity => (
                   <tr key={entity.id}>
-                    <td>
-                      <ExternalLink href={entity.url}>
-                        <span dangerouslySetInnerHTML={{__html: entity.name}}/>
-                      </ExternalLink>
-                    </td>
+                    <td>{renderLink(entity)}</td>
                     <td className='text-capitalize'>{(entity.type || '').toLowerCase()}</td>
                     <td>{entity.publicationEvidenceCodes && ReferenceCell(entity.publicationEvidenceCodes.map(pec => pec.publication))}</td>
                   </tr>
