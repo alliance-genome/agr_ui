@@ -13,6 +13,7 @@ import GenePage from './containers/genePage';
 import DiseasePage from './containers/diseasePage';
 import NotFound from './components/notFound';
 import DownloadsPage from './containers/downloadsPage';
+import AllelePage from './containers/allelePage';
 
 export default (
   <Route
@@ -24,6 +25,7 @@ export default (
             <Route component={Search} path='/search' />
             <Route component={GenePage} path='/gene/:geneId' />
             <Route component={DiseasePage} path='/disease/:diseaseId' />
+            <Route component={AllelePage} path='/allele/:alleleId' />
             <Route component={WordpressPost} path='/news/:slug' />
             <Route component={WordpressPostList} path='/news' />
             <Route component={DownloadsPage} path='/downloads' />
