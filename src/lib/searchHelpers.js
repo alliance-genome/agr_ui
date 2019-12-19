@@ -146,6 +146,8 @@ export function getLinkForEntry(entry) {
     return <Link to={`/gene/${entry.id}`}>{inner}</Link>;
   case 'disease':
     return <Link to={`/disease/${entry.id}`}>{inner}</Link>;
+  case 'allele':
+    return <Link to={`/allele/${entry.id}`}>{inner}</Link>;
   default:
     return <ExternalLink href={entry.href}>{inner}</ExternalLink>;
   }
