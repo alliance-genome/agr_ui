@@ -1,3 +1,5 @@
+// make the routes easier to read
+/*eslint react/jsx-sort-props:0*/
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
@@ -17,29 +19,27 @@ import DownloadsPage from './containers/downloadsPage';
 export default (
   <Layout>
     <Switch>
-      <Route component={Homepage} exact path='/' />
-      <Route component={Search} exact path='/search' />
-      <Route component={GenePage} exact path='/gene/:geneId' />
-      <Route component={DiseasePage} exact path='/disease/:diseaseId' />
-      <Route component={WordpressPost} exact path='/news/:slug' />
-      <Route component={WordpressPostList} exact path='/news' />
-      <Route component={DownloadsPage} exact path='/downloads' />
+      <Route exact path='/' component={Homepage} />
+      <Route exact path='/search' component={Search} />
+      <Route exact path='/gene/:id' render={({match}) => <GenePage geneId={match.params.id} />} />
+      <Route exact path='/disease/:id' render={({match}) => <DiseasePage diseaseId={match.params.id} />} />
+      <Route exact path='/news/:slug' render={({match}) => <WordpressPost slug={match.params.slug} />} />
+      <Route exact path='/news' component={WordpressPostList} />
+      <Route exact path='/downloads' component={DownloadsPage} />
 
       {/* this one needs to be handled outside of the main application */}
       <Route
-        exact path='/api/swagger-ui' render={
-          () => {
-            window.location.href = '/api/swagger-ui';
-            return null;
-          }}
+        exact
+        path='/api/swagger-ui'
+        render={() => {
+          window.location.href = '/api/swagger-ui';
+          return null;
+        }}
       />
 
       <Redirect exact from='/wordpress/:slug' to='/:slug' />
-      <Route
-        path='/:slug'
-        render={({match}) => <WordpressPage key={match.params.slug} slug={match.params.slug} />}
-      />
-      
+      <Route path='/:slug' render={({match}) => <WordpressPage slug={match.params.slug} />} />
+
       <Route component={NotFound} />
     </Switch>
   </Layout>
