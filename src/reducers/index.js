@@ -5,6 +5,7 @@ import geneReducer from './geneReducer';
 import searchReducer from './searchReducer';
 import wordpressReducer from './wordpressReducer';
 import fileManagementSystemReducer from './fileManagementSystemReducer';
+import loadingReducer from './loadingReducer';
 
 export default {
   disease: diseaseReducer,
@@ -14,4 +15,5 @@ export default {
   gene: geneReducer,
   search: searchReducer,
   wordpress: wordpressReducer,
+  loading: loadingReducer,
 };
