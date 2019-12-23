@@ -24,14 +24,14 @@ class WordpressPost extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.match.params.slug !== prevProps.match.params.slug) {
+    if (this.props.slug !== prevProps.slug) {
       this.fetch();
     }
   }
 
   fetch() {
-    const { dispatch } = this.props;
-    dispatch(fetchWordpressPost(this.props.match.params.slug));
+    const { dispatch, slug } = this.props;
+    dispatch(fetchWordpressPost(slug));
   }
 
   render() {
@@ -66,10 +66,8 @@ class WordpressPost extends Component {
 WordpressPost.propTypes = {
   dispatch: PropTypes.func,
   loading: PropTypes.bool,
-  match: PropTypes.shape({
-    params: PropTypes.object,
-  }).isRequired,
   post: PropTypes.object,
+  slug: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => {

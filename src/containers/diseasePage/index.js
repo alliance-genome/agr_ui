@@ -29,14 +29,14 @@ class DiseasePage extends Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchDisease(this.props.match.params.diseaseId));
+    const { diseaseId, dispatch } = this.props;
+    dispatch(fetchDisease(diseaseId));
   }
 
   componentDidUpdate(prevProps) {
-    const { dispatch } = this.props;
-    if (this.props.match.params.diseaseId !== prevProps.match.params.diseaseId) {
-      dispatch(fetchDisease(this.props.match.params.diseaseId));
+    const { diseaseId, dispatch } = this.props;
+    if (diseaseId !== prevProps.diseaseId) {
+      dispatch(fetchDisease(diseaseId));
     }
   }
 
@@ -146,12 +146,10 @@ class DiseasePage extends Component {
 
 DiseasePage.propTypes = {
   data: PropTypes.object,
+  diseaseId: PropTypes.string.isRequired,
   dispatch: PropTypes.func,
   error: PropTypes.string,
   loading: PropTypes.bool,
-  match: PropTypes.shape({
-    params: PropTypes.object,
-  }).isRequired,
 };
 
 const mapStateToProps = (state) => {

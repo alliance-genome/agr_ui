@@ -54,12 +54,14 @@ const SECTIONS = [
 class GenePage extends Component {
 
   componentDidMount () {
-    this.props.dispatch(fetchGene(this.props.match.params.geneId));
+    const { dispatch, geneId } = this.props;
+    dispatch(fetchGene(geneId));
   }
 
   componentDidUpdate (prevProps) {
-    if (this.props.match.params.geneId !== prevProps.match.params.geneId) {
-      this.props.dispatch(fetchGene(this.props.match.params.geneId));
+    const { dispatch, geneId } = this.props;
+    if (geneId !== prevProps.geneId) {
+      dispatch(fetchGene(geneId));
     }
   }
 
@@ -214,10 +216,8 @@ GenePage.propTypes = {
   data: PropTypes.object,
   dispatch: PropTypes.func,
   error: PropTypes.object,
+  geneId: PropTypes.string.isRequired,
   loading: PropTypes.bool,
-  match: PropTypes.shape({
-    params: PropTypes.object,
-  }).isRequired,
 };
 
 function mapStateToProps (state) {
