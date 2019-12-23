@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import style from './style.scss';
 import Loader from './loader/index';
 import logo from './agrLogo.png';
@@ -99,4 +99,4 @@ const mapStateToProps = state => ({
   warningBanner: selectWarningBanner(state),
 });
 
-export default connect(mapStateToProps)(Layout);
+export default withRouter(connect(mapStateToProps)(Layout));
