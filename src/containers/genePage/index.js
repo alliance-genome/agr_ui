@@ -11,7 +11,6 @@ import { OrthologyFilteredTable, OrthologyUserGuide, OrthologyBasicInfo } from '
 import GoUserGuide from '../../components/geneOntologyRibbon/goUserGuide';
 
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
-import LoadingPage from '../../components/loadingPage';
 import NotFound from '../../components/notFound';
 import Subsection from '../../components/subsection';
 import AlleleTable from '../../components/alleleTable';
@@ -26,6 +25,7 @@ import { ExpressionComparisonRibbon, ExpressionUserGuide } from '../../component
 import { DiseaseComparisonRibbon } from '../../components/disease';
 import GeneModelsTable from './GeneModelsTable';
 import GeneMetaTags from './GeneMetaTags';
+import {setPageLoading} from '../../actions/loadingActions';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
@@ -54,23 +54,23 @@ const SECTIONS = [
 class GenePage extends Component {
 
   componentDidMount () {
-    const { dispatch, geneId } = this.props;
-    dispatch(fetchGene(geneId));
+    this.fetchGeneData();
   }
 
   componentDidUpdate (prevProps) {
-    const { dispatch, geneId } = this.props;
-    if (geneId !== prevProps.geneId) {
-      dispatch(fetchGene(geneId));
+    if (this.props.geneId !== prevProps.geneId) {
+      this.fetchGeneData();
     }
   }
 
-  render () {
-    const {data, error, loading} = this.props;
+  fetchGeneData() {
+    const { dispatch, geneId } = this.props;
+    dispatch(setPageLoading(true));
+    dispatch(fetchGene(geneId)).finally(() => dispatch(setPageLoading(false)));
+  }
 
-    if (loading) {
-      return <LoadingPage />;
-    }
+  render () {
+    const {data, error} = this.props;
 
     if (error) {
       return <NotFound />;

@@ -12,7 +12,6 @@ import {
   selectLoading,
 } from '../../selectors/diseaseSelectors';
 
-import LoadingPage from '../../components/loadingPage';
 import Subsection from '../../components/subsection';
 import NotFound from '../../components/notFound';
 import BasicDiseaseInfo from './basicDiseaseInfo';
@@ -22,6 +21,7 @@ import HeadMetaTags from '../../components/headMetaTags';
 import DiseaseToAlleleTable from './DiseaseToAlleleTable';
 import DiseaseToGeneTable from './DiseaseToGeneTable';
 import DiseaseToModelTable from './DiseaseToModelTable';
+import {setPageLoading} from '../../actions/loadingActions';
 
 class DiseasePage extends Component {
   constructor(props) {
@@ -29,23 +29,23 @@ class DiseasePage extends Component {
   }
 
   componentDidMount() {
-    const { diseaseId, dispatch } = this.props;
-    dispatch(fetchDisease(diseaseId));
+    this.fetchDiseaseData();
   }
 
   componentDidUpdate(prevProps) {
-    const { diseaseId, dispatch } = this.props;
-    if (diseaseId !== prevProps.diseaseId) {
-      dispatch(fetchDisease(diseaseId));
+    if (this.props.diseaseId !== prevProps.diseaseId) {
+      this.fetchDiseaseData();
     }
   }
 
-  render() {
-    const {data, error, loading} = this.props;
+  fetchDiseaseData() {
+    const { diseaseId, dispatch } = this.props;
+    dispatch(setPageLoading(true));
+    dispatch(fetchDisease(diseaseId)).finally(() => dispatch(setPageLoading(false)));
+  }
 
-    if (loading) {
-      return <LoadingPage />;
-    }
+  render() {
+    const {data, error} = this.props;
 
     if (error) {
       return <NotFound />;
