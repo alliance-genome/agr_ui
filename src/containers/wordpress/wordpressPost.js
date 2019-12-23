@@ -14,6 +14,7 @@ import {
   selectPost
 } from '../../selectors/wordpressSelectors';
 import ReplaceLinks from './ReplaceLinks';
+import {setPageLoading} from '../../actions/loadingActions';
 
 class WordpressPost extends Component {
   constructor(props) {
@@ -32,7 +33,8 @@ class WordpressPost extends Component {
 
   fetch() {
     const { dispatch, slug } = this.props;
-    dispatch(fetchWordpressPost(slug));
+    dispatch(setPageLoading(true));
+    dispatch(fetchWordpressPost(slug)).finally(() => dispatch(setPageLoading(false)));
   }
 
   render() {

@@ -14,10 +14,21 @@ import { MenuItems } from './navigation';
 import { selectWarningBanner } from '../../selectors/wordpressSelectors';
 import { fetchWarningBanner } from '../../actions/wordpress';
 import ReplaceLinks from '../wordpress/ReplaceLinks';
+import { selectPageLoading } from '../../selectors/loadingSelector';
 
 class Layout extends Component {
   componentDidMount() {
     this.props.dispatch(fetchWarningBanner());
+  }
+
+  componentDidUpdate(prevProps) {
+    const { location, pageLoading } = this.props;
+    if (location.hash && prevProps.pageLoading && !pageLoading) {
+      const element = document.getElementById(location.hash.substr(1));
+      if (element) {
+        setTimeout(() => element.scrollIntoView(), 0);
+      }
+    }
   }
 
   render() {
@@ -93,11 +104,13 @@ Layout.propTypes = {
   children: PropTypes.node,
   dispatch: PropTypes.func,
   location: PropTypes.object,
+  pageLoading: PropTypes.bool,
   warningBanner: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   warningBanner: selectWarningBanner(state),
+  pageLoading: selectPageLoading(state),
 });
 
 export default withRouter(connect(mapStateToProps)(Layout));

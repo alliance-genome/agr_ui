@@ -15,6 +15,7 @@ import {
 } from '../../selectors/wordpressSelectors';
 import NotFound from '../../components/notFound';
 import ReplaceLinks from './ReplaceLinks';
+import {setPageLoading} from '../../actions/loadingActions';
 
 class WordpressPage extends Component {
   componentDidMount() {
@@ -29,7 +30,8 @@ class WordpressPage extends Component {
 
   fetchPage() {
     const { dispatch, slug } = this.props;
-    dispatch(fetchWordpressPage(slug));
+    dispatch(setPageLoading(true));
+    dispatch(fetchWordpressPage(slug)).finally(() => dispatch(setPageLoading(false)));
   }
 
   render() {

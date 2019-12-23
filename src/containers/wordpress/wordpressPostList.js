@@ -14,6 +14,7 @@ import {
   selectPostList
 } from '../../selectors/wordpressSelectors';
 import LoadingPage from '../../components/loadingPage';
+import {setPageLoading} from '../../actions/loadingActions';
 
 class WordpressPostList extends Component {
   constructor(props) {
@@ -21,7 +22,9 @@ class WordpressPostList extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchWordpressPostList());
+    const { dispatch } = this.props;
+    dispatch(setPageLoading(true));
+    dispatch(fetchWordpressPostList()).finally(() => dispatch(setPageLoading(false)));
   }
 
   render() {
