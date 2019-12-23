@@ -13,6 +13,7 @@ import AgrTweets from './twitterWidget';
 import { MenuItems } from './navigation';
 import { selectWarningBanner } from '../../selectors/wordpressSelectors';
 import { fetchWarningBanner } from '../../actions/wordpress';
+import ReplaceLinks from '../wordpress/ReplaceLinks';
 
 class Layout extends Component {
   componentDidMount() {
@@ -24,7 +25,7 @@ class Layout extends Component {
     return (
       <div>
         {warningBanner &&
-          <div className={style.warningBar} dangerouslySetInnerHTML={{ __html: warningBanner.content.rendered}} />
+          <div className={style.warningBar}><ReplaceLinks html={warningBanner.content.rendered} /></div>
         }
 
         <div className='d-none d-md-block'>

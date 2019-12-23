@@ -13,6 +13,7 @@ import {
   selectLoading,
   selectPost
 } from '../../selectors/wordpressSelectors';
+import ReplaceLinks from './ReplaceLinks';
 
 class WordpressPost extends Component {
   constructor(props) {
@@ -52,10 +53,10 @@ class WordpressPost extends Component {
         <SecondaryNav  title={title} type='post' />
         <div className='container'>
           <div className='row'>
-            <div className={`col-12 col-sm-5 ${style.floatLeft}`}>
+            {post.featured_media_url && <div className={`col-12 col-sm-5 ${style.floatLeft}`}>
               <img className='img-fluid' src={post.featured_media_url}  />
-            </div>
-            <div dangerouslySetInnerHTML={{ __html: post.content.rendered}} />
+            </div>}
+            <ReplaceLinks html={post.content.rendered} />
           </div>
         </div>
       </div>
