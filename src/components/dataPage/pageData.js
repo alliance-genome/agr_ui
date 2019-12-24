@@ -5,7 +5,7 @@ import style from './style.scss';
 
 const PageData = ({children}) => {
   return (
-    <div className={`col-md col-12 ${style.dataContainer}`}>
+    <div className={style.dataContainer}>
       {children}
     </div>
   );
