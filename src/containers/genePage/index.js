@@ -153,9 +153,7 @@ class GenePage extends Component {
 
           <Subsection help={<OrthologyUserGuide />} title={ORTHOLOGY}>
             <OrthologyBasicInfo pantherCrossReference={data.crossReferences.panther} />
-            <Subsection>
-              <OrthologyFilteredTable geneId={data.id} />
-            </Subsection>
+            <OrthologyFilteredTable geneId={data.id} />
           </Subsection>
 
           <Subsection title={PHENOTYPES}>

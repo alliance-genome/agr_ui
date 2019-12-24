@@ -18,16 +18,27 @@ import { selectPageLoading } from '../../selectors/loadingSelector';
 
 class Layout extends Component {
   componentDidMount() {
-    this.props.dispatch(fetchWarningBanner());
+    const { dispatch, location } = this.props;
+    dispatch(fetchWarningBanner());
+    if (location.hash) {
+      this.scrollToAnchor();
+    }
   }
 
   componentDidUpdate(prevProps) {
     const { location, pageLoading } = this.props;
     if (location.hash && prevProps.pageLoading && !pageLoading) {
-      const element = document.getElementById(location.hash.substr(1));
-      if (element) {
-        setTimeout(() => element.scrollIntoView(), 0);
-      }
+      this.scrollToAnchor();
+    }
+  }
+
+  scrollToAnchor() {
+    const element = document.getElementById(this.props.location.hash.substr(1));
+    if (element) {
+      // chrome works well without the timeout because it has a good scroll anchoring
+      // implementation. the timeout helps other browsers get the scroll position right
+      // a little more consistently
+      setTimeout(() => element.scrollIntoView(), 400);
     }
   }
 
