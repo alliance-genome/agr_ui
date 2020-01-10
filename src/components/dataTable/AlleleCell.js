@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ExternalLink from '../externalLink';
+import {Link} from 'react-router-dom';
 
 const AlleleCell = ({allele}) => {
   return (
-    <ExternalLink href={allele.crossReferences.primary.url}>
+    <Link to={`/allele/${allele.id}`}>
       <span dangerouslySetInnerHTML={{__html: allele.symbol}} />
-    </ExternalLink>
+    </Link>
   );
 };
 

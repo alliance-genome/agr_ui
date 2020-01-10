@@ -10,7 +10,6 @@ import CollapsibleList from '../collapsibleList/collapsibleList';
 import SynonymList from '../synonymList';
 import { RemoteDataTable } from '../dataTable';
 import ExternalLink from '../externalLink';
-import DataSourceLink from '../dataSourceLink';
 
 class AlleleTable extends Component {
   loadData (opts) {
@@ -43,10 +42,10 @@ class AlleleTable extends Component {
       {
         dataField: 'symbol',
         text: 'Allele Symbol',
-        formatter: (symbol, {crossReferences = {}}) => (
-          <DataSourceLink reference={crossReferences.primary}>
+        formatter: (symbol, {id}) => (
+          <Link to={`/allele/${id}`}>
             <span dangerouslySetInnerHTML={{ __html: symbol }} />
-          </DataSourceLink>
+          </Link>
         ),
         headerStyle: {width: '185px'},
         filterable: true,

@@ -16,6 +16,7 @@ const AUTO_BASE_URL = '/api/search_autocomplete';
 const DEFAULT_CAT = CATEGORIES[0];
 
 import { autocompleteGoToPageEvent, autocompleteSearchEvent } from '../../../lib/analytics.js';
+import {getURLForEntry} from '../../../lib/searchHelpers';
 
 class SearchBarComponent extends Component {
   constructor(props) {
@@ -45,13 +46,7 @@ class SearchBarComponent extends Component {
 
   handleSubmit(e) {
     if (e) e.preventDefault();
-    let query = this.state.value;
-    let newCat = this.state.catOption.name;
-    let newQp = { q: query };
-    if (query === '') newQp = {};
-    if (newCat !== 'all') newQp.category = newCat;
-    autocompleteSearchEvent(query);
-    this.props.history.push({ pathname: '/search', search: stringifyQuery(newQp) });
+    this.doQuery(this.state.value);
   }
 
   handleTyping(e, { newValue }) {
@@ -88,26 +83,30 @@ class SearchBarComponent extends Component {
     //gene and disease will go to the pages and skip search results,
     //go terms and alleles will just go to regular search pages as the query
     if (item.method == 'click') {
-      let id = item.suggestion.primaryKey;
-      if (item.suggestion.category == 'gene') {
-        let href = '/gene/' + id;
+      const id = item.suggestion.primaryKey;
+      const url = getURLForEntry(item.suggestion.category, id);
+      if (url) {
         autocompleteGoToPageEvent(id);
-        this.props.history.push({ pathname: href});
-      } else if (item.suggestion.category == 'disease') {
-        let href = '/disease/' + id;
-        autocompleteGoToPageEvent(id);
-        this.props.history.push({ pathname: href});
+        this.props.history.push({ pathname: url});
       } else {
         this.setState({ value: item.suggestion.name_key });
         let query = item.suggestion.name_key;
-        let newCat = this.state.catOption.name;
-        let newQp = { q: query };
-        if (query === '') newQp = {};
-        if (newCat !== 'all') newQp.category = newCat;
-        autocompleteSearchEvent(query);
-        this.props.history.push({ pathname: '/search', search: stringifyQuery(newQp) });
+        this.doQuery(query);
       }
     }
+  }
+
+  doQuery(query) {
+    const newCat = this.state.catOption.name;
+    let newQp = { q: query };
+    if (query === '') {
+      newQp = {};
+    }
+    if (newCat !== 'all') {
+      newQp.category = newCat;
+    }
+    autocompleteSearchEvent(query);
+    this.props.history.push({ pathname: '/search', search: stringifyQuery(newQp) });
   }
 
   renderDropdown() {

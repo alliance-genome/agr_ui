@@ -143,14 +143,23 @@ export function getQueryParamWithValueChanged(key, val, queryParams, isClear=fal
   return qp;
 }
 
+export const getURLForEntry = (category, id) => {
+  switch (category) {
+  case 'gene':
+    return `/gene/${id}`;
+  case 'disease':
+    return `/disease/${id}`;
+  case 'allele':
+    return `/allele/${id}`;
+  }
+};
+
 export function getLinkForEntry(entry) {
   const inner = <span dangerouslySetInnerHTML={{ __html: entry.display_name }} />;
-  switch (entry.category) {
-  case 'gene':
-    return <Link to={`/gene/${entry.id}`}>{inner}</Link>;
-  case 'disease':
-    return <Link to={`/disease/${entry.id}`}>{inner}</Link>;
-  default:
+  const url = getURLForEntry(entry.category, entry.id);
+  if (url) {
+    return <Link to={url}>{inner}</Link>;
+  } else {
     return <ExternalLink href={entry.href}>{inner}</ExternalLink>;
   }
 }
