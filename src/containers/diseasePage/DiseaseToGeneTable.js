@@ -22,7 +22,7 @@ import {shortSpeciesName} from '../../lib/utils';
 import AnnotatedEntitiesPopup
   from '../../components/dataTable/AnnotatedEntitiesPopup';
 
-const DiseaseToGeneTable = ({associations, fetchAssociations}) => {
+const DiseaseToGeneTable = ({associations, fetchAssociations, id}) => {
   const columns = [
     {
       dataField: 'gene',
@@ -124,17 +124,16 @@ const DiseaseToGeneTable = ({associations, fetchAssociations}) => {
   ];
 
   return (
-    <div>
-      <RemoteDataTable
-        columns={columns}
-        data={data}
-        keyField='primaryKey'
-        loading={associations.loading}
-        onUpdate={fetchAssociations}
-        sortOptions={sortOptions}
-        totalRows={associations.total}
-      />
-    </div>
+    <RemoteDataTable
+      columns={columns}
+      data={data}
+      downloadUrl={`/api/disease/${id}/genes/download`}
+      keyField='primaryKey'
+      loading={associations.loading}
+      onUpdate={fetchAssociations}
+      sortOptions={sortOptions}
+      totalRows={associations.total}
+    />
   );
 };
 
