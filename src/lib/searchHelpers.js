@@ -156,7 +156,7 @@ export function getLinkForEntry(entry) {
   if (url) {
     return <Link to={url}>{inner}</Link>;
   } else {
-    return <ExternalLink href={url}>{inner}</ExternalLink>;
+    return <ExternalLink href={entry.href}>{inner}</ExternalLink>;
   }
 }
 
