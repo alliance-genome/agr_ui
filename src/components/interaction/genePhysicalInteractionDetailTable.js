@@ -49,7 +49,10 @@ class GenePhysicalInteractionDetailTable extends React.Component {
       },
       {
         dataField: 'moleculeType',
-        text: `${focusGeneDisplayName} molecule type`,
+        text:
+          <React.Fragment>
+            <span className="text-transfom-none">{focusGeneDisplayName}</span> molecule type
+          </React.Fragment>,
         formatter: (fieldData = {}, row, rowIndex) => {
           const id = this.getCellId('interactorAType', rowIndex);
           return (

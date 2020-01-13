@@ -12,6 +12,10 @@
     text-overflow: clip;
   }
 
+  thead {
+    text-transform: capitalize;
+  }
+
   th {
     border-top: none;
   }
@@ -37,4 +41,16 @@
 }
 input[type='checkbox'][disabled] {
   pointer-events: none;
+}
+
+.form-check-label {
+  text-transform: capitalize;
+}
+
+.col-md-3 {
+  text-transform: capitalize;
+}
+
+.text-transfom-none {
+  text-transform: none !important;
 }
