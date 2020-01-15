@@ -26,6 +26,7 @@ import { ExpressionComparisonRibbon, ExpressionUserGuide } from '../../component
 import { DiseaseComparisonRibbon } from '../../components/disease';
 import HeadMetaTags from '../../components/headMetaTags';
 import GeneModelsTable from './GeneModelsTable';
+import PageNavEntity from '../../components/dataPage/PageNavEntity';
 
 class GenePage extends Component {
 
@@ -165,13 +166,12 @@ class GenePage extends Component {
     return (
       <DataPage>
         <HeadMetaTags jsonLd={jsonLd} title={title} />
-        <PageNav
-          entityName={data.symbol}
-          extra={<i>{data.species.name}</i>}
-          icon={<SpeciesIcon scale={0.5} species={data.species.name} />}
-          link={<DataSourceLink reference={data.crossReferences.primary} />}
-          sections={SECTIONS}
-        />
+        <PageNav sections={SECTIONS}>
+          <PageNavEntity entityName={data.symbol} icon={<SpeciesIcon scale={0.5} species={data.species.name} />}>
+            <i>{data.species.name}</i>
+            <DataSourceLink reference={data.crossReferences.primary} />
+          </PageNavEntity>
+        </PageNav>
         <PageData>
           <PageHeader entityName={data.symbol} />
 
