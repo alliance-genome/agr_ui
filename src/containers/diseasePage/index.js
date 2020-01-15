@@ -115,7 +115,7 @@ class DiseasePage extends Component {
       <DataPage>
         <HeadMetaTags jsonLd={jsonLd} title={title} />
         <PageNav sections={SECTIONS}>
-          <PageNavEntity entityName={disease.name}>
+          <PageNavEntity entityName={<span className='hyphenate'>{disease.name}</span>}>
             <ExternalLink href={disease.url}>{disease.id}</ExternalLink>
           </PageNavEntity>
         </PageNav>

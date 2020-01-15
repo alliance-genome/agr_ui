@@ -6,8 +6,8 @@ const PageNavEntity = ({children, entityName, icon}) => {
   return (
     <div className={`${style.entity}`}>
       <div className='w-100'>
-        <div className='d-flex flex-md-column align-items-center'>
-          {icon && <span className='mb-md-2 mr-2'>{icon}</span>}
+        <div className='d-flex flex-md-column align-items-center mb-md-2'>
+          {icon && <span className='mb-md-1 mr-2 mr-md-0'>{icon}</span>}
           <h5>{entityName}</h5>
         </div>
         <div className='d-flex flex-column'>
