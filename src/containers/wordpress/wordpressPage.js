@@ -14,6 +14,8 @@ import {
   selectPage
 } from '../../selectors/wordpressSelectors';
 import NotFound from '../../components/notFound';
+import ReplaceLinks from './ReplaceLinks';
+import {setPageLoading} from '../../actions/loadingActions';
 
 class WordpressPage extends Component {
   componentDidMount() {
@@ -28,7 +30,8 @@ class WordpressPage extends Component {
 
   fetchPage() {
     const { dispatch, slug } = this.props;
-    dispatch(fetchWordpressPage(slug));
+    dispatch(setPageLoading(true));
+    dispatch(fetchWordpressPage(slug)).finally(() => dispatch(setPageLoading(false)));
   }
 
   render() {
@@ -48,7 +51,7 @@ class WordpressPage extends Component {
       <div className={style.wordPressContainer}>
         <HeadMetaTags title={title} />
         {slug !== 'home' && <SecondaryNav parent={parentId} title={title} type='page' />}
-        {slug !== 'home' && <div dangerouslySetInnerHTML={{ __html: page.content.rendered}} />}
+        {slug !== 'home' && <ReplaceLinks html={page.content.rendered} />}
       </div>
     );
   }

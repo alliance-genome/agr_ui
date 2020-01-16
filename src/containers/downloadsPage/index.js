@@ -14,12 +14,15 @@ import HeadMetaTags from '../../components/headMetaTags';
 import {selectFiles} from '../../selectors/fileManagementSystemSelectors';
 import {fetchReleaseFiles} from '../../actions/fileManagementSystemActions';
 import DownloadFileRow from './DownloadFileRow';
+import {setPageLoading} from '../../actions/loadingActions';
 
 const DOWNLOAD_HOST = 'http://download.alliancegenome.org';
 
 class DownloadsPage extends React.Component {
   componentDidMount() {
-    this.props.dispatchFetchFiles();
+    const { dispatchFetchFiles, setPageLoading } = this.props;
+    setPageLoading(true);
+    dispatchFetchFiles().finally(() => setPageLoading(false));
   }
 
   getUrlForDataType(dataType, dataSubType) {
@@ -188,6 +191,7 @@ class DownloadsPage extends React.Component {
 DownloadsPage.propTypes = {
   dispatchFetchFiles: PropTypes.func,
   files: PropTypes.object,
+  setPageLoading: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -196,6 +200,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   dispatchFetchFiles: () => dispatch(fetchReleaseFiles(process.env.RELEASE)),
+  setPageLoading: loading => dispatch(setPageLoading(loading)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DownloadsPage);

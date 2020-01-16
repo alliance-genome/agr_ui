@@ -1,3 +1,5 @@
+// make the routes easier to read
+/*eslint react/jsx-sort-props:0*/
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
@@ -16,47 +18,31 @@ import DownloadsPage from './containers/downloadsPage';
 import AllelePage from './containers/allelePage';
 
 export default (
-  <Route
-    component={
-      (props) => (
-        <Layout {...props}>
-          <Switch>
-            <Route component={Homepage} exact path='/' />
-            <Route component={Search} path='/search' />
-            <Route component={GenePage} path='/gene/:geneId' />
-            <Route component={DiseasePage} path='/disease/:diseaseId' />
-            <Route component={AllelePage} path='/allele/:alleleId' />
-            <Route component={WordpressPost} path='/news/:slug' />
-            <Route component={WordpressPostList} path='/news' />
-            <Route component={DownloadsPage} path='/downloads' />
+  <Layout>
+    <Switch>
+      <Route exact path='/' component={Homepage} />
+      <Route exact path='/search' component={Search} />
+      <Route exact path='/gene/:id' render={({match}) => <GenePage geneId={match.params.id} />} />
+      <Route exact path='/disease/:id' render={({match}) => <DiseasePage diseaseId={match.params.id} />} />
+      <Route exact path='/allele/:id' render={({match}) => <AllelePage alleleId={match.params.id} />} />
+      <Route exact path='/news/:slug' render={({match}) => <WordpressPost slug={match.params.slug} />} />
+      <Route exact path='/news' component={WordpressPostList} />
+      <Route exact path='/downloads' component={DownloadsPage} />
 
-            {/* this one needs to be handled outside of the main application */}
-            <Route
-              exact path='/api/swagger-ui' render={
-                () => {
-                  window.location.href = '/api/swagger-ui';
-                  return null;
-                }}
-            />
+      {/* this one needs to be handled outside of the main application */}
+      <Route
+        exact
+        path='/api/swagger-ui'
+        render={() => {
+          window.location.href = '/api/swagger-ui';
+          return null;
+        }}
+      />
 
-            <Route
-              component={
-                ({match}) => (
-                  <Redirect to={`/${match.params.id}`} />
-                )} path='/wordpress/:id'
-            />
-            {/* before links within user edited WordPress content is fixed, this path rewrite is necessary */}
-            <Route
-              component={
-                ({match}) =>
-                  <WordpressPage slug={match.params.slug} />
-              } path='/:slug'
-            />
-            <Route component={NotFound} />
-          </Switch>
-        </Layout>
-      )}
-    path='/'
-  />
+      <Redirect exact from='/wordpress/:slug' to='/:slug' />
+      <Route path='/:slug' render={({match}) => <WordpressPage slug={match.params.slug} />} />
 
+      <Route component={NotFound} />
+    </Switch>
+  </Layout>
 );

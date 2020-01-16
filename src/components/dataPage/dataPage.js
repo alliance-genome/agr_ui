@@ -6,12 +6,10 @@ import style from './style.scss';
 
 const DataPage = ({children}) => {
   return (
-    <div className='container-fluid'>
-      <div className={`row ${style.dataPage}`}>
-        <ErrorBoundary>
-          {children}
-        </ErrorBoundary>
-      </div>
+    <div className={style.dataPage}>
+      <ErrorBoundary>
+        {children}
+      </ErrorBoundary>
     </div>
   );
 };

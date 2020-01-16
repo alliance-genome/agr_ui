@@ -44,7 +44,7 @@ class RemoteDataTable extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (!isEqual(this.state, prevState)) {
+    if (!isEqual(this.state, prevState) || this.props.onUpdate !== prevProps.onUpdate) {
       this.props.onUpdate(this.translateFilterNames(this.state));
     }
   }
