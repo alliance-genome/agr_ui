@@ -9,7 +9,6 @@ import CollapsibleList from '../collapsibleList/collapsibleList';
 import SynonymList from '../synonymList';
 import {RemoteDataTable} from '../dataTable';
 import ExternalLink from '../externalLink';
-import DataSourceLink from '../dataSourceLink';
 import {fetchAlleles} from '../../actions/geneActions';
 
 const calculateHighlight = (location, type) => {
