@@ -7,14 +7,12 @@ import { logPageView } from './lib/analytics';
 import RouteListener from './components/routeListener';
 import routes from './routes';
 import { ScrollContext } from 'react-router-scroll-4';
-import ScrollToTop from './components/scrollToTop';
 
 const isBrowser = (typeof window !== 'undefined');
 
 class ReactApp extends Component {
   render() {
     let store = configureStore();
-    const ChosenScrollContext = isBrowser && window.chrome ? ScrollContext : ScrollToTop;
 
     const Router = this.props.router || BrowserRouter;
     return (
@@ -22,11 +20,11 @@ class ReactApp extends Component {
         <Router>
           {
             isBrowser ?
-              <ChosenScrollContext>
+              <ScrollContext>
                 <RouteListener onRouteChange={logPageView}>
                   {routes}
                 </RouteListener>
-              </ChosenScrollContext> :
+              </ScrollContext> :
               routes
           }
         </Router>

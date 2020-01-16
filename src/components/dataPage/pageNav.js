@@ -10,7 +10,7 @@ import style from './style.scss';
 
 const PageNav = ({children, sections}) => {
   return (
-    <div className={`col-md-4 col-12 ${style.pageNav}`}>
+    <div className={style.pageNav}>
       <div className='navbar-expand-md'>
         {children}
         <div className='navbar-collapse collapse' id='data-page-nav'>
