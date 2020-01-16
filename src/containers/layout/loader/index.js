@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import style from './style.scss';
-import { selectIsPending } from '../../../selectors/searchSelectors';
+import {selectPageLoading} from '../../../selectors/loadingSelector';
 
 const FINISH_INTERVAL = 250;
 
@@ -54,7 +54,7 @@ Loader.propTypes = {
 
 
 function mapStateToProps(state) {
-  return { isPending: selectIsPending(state) };
+  return { isPending: selectPageLoading(state) };
 }
 
 export default connect(mapStateToProps)(Loader);

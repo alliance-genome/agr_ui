@@ -12,7 +12,7 @@ import SearchControls from './searchControls';
 import ResultsList from './resultsList';
 import ResultsTable from './resultsTable';
 import { SMALL_COL_CLASS, LARGE_COL_CLASS, SEARCH_API_ERROR_MESSAGE } from '../../constants';
-import { receiveResponse, setError, setPending } from '../../actions/search';
+import { receiveResponse, setError } from '../../actions/search';
 import LoadingPage from '../../components/loadingPage';
 import HeadMetaTags from '../../components/headMetaTags';
 
@@ -28,6 +28,7 @@ import {
   selectResults,
   selectPageSize
 } from '../../selectors/searchSelectors';
+import {setPageLoading} from '../../actions/loadingActions';
 
 const BASE_SEARCH_URL = '/api/search';
 
@@ -48,7 +49,7 @@ class SearchComponent extends Component {
   fetchFixtureData() {
     this.props.dispatch(receiveResponse(fixtureResponse, this.props.queryParams));
     this.props.dispatch(setError(false));
-    this.props.dispatch(setPending(false));
+    this.props.dispatch(setPageLoading(false));
   }
 
   fetchSearchData() {
@@ -60,15 +61,15 @@ class SearchComponent extends Component {
     qp.limit = _limit;
     qp.offset = _offset;
     const searchUrl = `${BASE_SEARCH_URL}?${stringifyQuery(qp)}`;
-    this.props.dispatch(setPending(true));
+    this.props.dispatch(setPageLoading(true));
     fetchData(searchUrl)
       .then( (data) => {
         this.props.dispatch(receiveResponse(data, this.props.queryParams));
         this.props.dispatch(setError(false));
-        this.props.dispatch(setPending(false));
+        this.props.dispatch(setPageLoading(false));
       })
       .catch( (e) => {
-        this.props.dispatch(setPending(false));
+        this.props.dispatch(setPageLoading(false));
         if (process.env.NODE_ENV === 'production') {
           this.props.dispatch(setError(SEARCH_API_ERROR_MESSAGE));
         } else {
