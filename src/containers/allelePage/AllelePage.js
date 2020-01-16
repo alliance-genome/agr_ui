@@ -16,7 +16,6 @@ import {
   selectLoading
 } from '../../selectors/alleleSelectors';
 import {fetchAllele} from '../../actions/alleleActions';
-import LoadingPage from '../../components/loadingPage';
 import NotFound from '../../components/notFound';
 import AlleleSummary from './AlleleSummary';
 import AlleleSymbol from './AlleleSymbol';
@@ -24,6 +23,7 @@ import SpeciesIcon from '../../components/speciesIcon';
 import PageNavEntity from '../../components/dataPage/PageNavEntity';
 import DataSourceLink from '../../components/dataSourceLink';
 import {Link} from 'react-router-dom';
+import {setPageLoading} from '../../actions/loadingActions';
 
 const SUMMARY = 'Summary';
 const SECTIONS = [
@@ -36,20 +36,15 @@ class AllelePage extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.match.params.alleleId !== prevProps.match.params.alleleId) {
+    if (this.props.alleleId !== prevProps.alleleId) {
       this.props.dispatchFetchAllele();
     }
   }
 
   render() {
-    const {data, loading, error} = this.props;
-
-    if (loading) {
-      return <LoadingPage/>;
-    }
+    const {data, error} = this.props;
 
     if (error) {
-      console.error(error);
       return <NotFound/>;
     }
 
@@ -82,11 +77,11 @@ class AllelePage extends Component {
 }
 
 AllelePage.propTypes = {
+  alleleId: PropTypes.string.isRequired,
   data: PropTypes.object,
   dispatchFetchAllele: PropTypes.func,
   error: PropTypes.object,
   loading: PropTypes.bool,
-  match: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
@@ -96,7 +91,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch, props) => ({
-  dispatchFetchAllele: () => dispatch(fetchAllele(props.match.params.alleleId)),
+  dispatchFetchAllele: () => {
+    dispatch(setPageLoading(true));
+    dispatch(fetchAllele(props.alleleId)).finally(() => dispatch(setPageLoading(false)));
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllelePage);
