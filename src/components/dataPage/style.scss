@@ -1,15 +1,25 @@
 @import "../../theme";
 @import "~bootstrap/scss/bootstrap";
 
+$page-nav-width: 220px;
+
 .dataPage {
   max-width: 1520px;
+  display: flex;
+  flex-direction: column;
+
+  @include media-breakpoint-up(md) {
+    flex-direction: row;
+  }
 }
 
 .dataContainer {
-  overflow-x: auto;
+  max-width: 100%;
+  padding: 0 15px;
 
   @include media-breakpoint-up(md) {
     border-left: 1px solid $hr-border-color;
+    max-width: calc(100vw - #{$page-nav-width});
   }
 }
 
@@ -25,8 +35,8 @@
 
   @include media-breakpoint-up(md) {
     height: 100%;
-    max-width: 220px;
-    min-width: 220px;
+    max-width: $page-nav-width;
+    min-width: $page-nav-width;
     box-shadow: none;
   }
 

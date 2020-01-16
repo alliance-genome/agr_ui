@@ -14,6 +14,7 @@ import {
   selectPostList
 } from '../../selectors/wordpressSelectors';
 import LoadingPage from '../../components/loadingPage';
+import {setPageLoading} from '../../actions/loadingActions';
 
 class WordpressPostList extends Component {
   constructor(props) {
@@ -21,7 +22,9 @@ class WordpressPostList extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchWordpressPostList());
+    const { dispatch } = this.props;
+    dispatch(setPageLoading(true));
+    dispatch(fetchWordpressPostList()).finally(() => dispatch(setPageLoading(false)));
   }
 
   render() {
@@ -47,12 +50,12 @@ class WordpressPostList extends Component {
               const link = `/news/${post.slug}`;
               return (
                 <div className={`row ${style.postContainer}`} key={post.id}>
-                  <div className='col-12 col-sm-4'>
+                  {post.featured_media_url && <div className='col-12 col-sm-4'>
                     <Link to={link}>
                       <img className='img-fluid' src={post.featured_media_url} />
                     </Link>
-                  </div>
-                  <div className='col-12 col-sm-8'>
+                  </div>}
+                  <div className={`col-12 ${post.featured_media_url ? 'col-sm-8' : ''}`}>
                     <Link to={link}>
                       <h3 dangerouslySetInnerHTML={{ __html: post.title.rendered}} />
                     </Link>

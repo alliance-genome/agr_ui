@@ -20,10 +20,3 @@ export function setError (message) {
     payload: message
   };
 }
-
-export function setPending (isPending) {
-  return {
-    type: 'SEARCH_SET_PENDING',
-    payload: isPending
-  };
-}
