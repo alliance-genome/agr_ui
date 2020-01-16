@@ -52,7 +52,7 @@ class AllelePage extends Component {
       return null;
     }
 
-    const title = `${data.symbolText} allele`;
+    const title = `${data.symbolText} | ${data.species.name} allele`;
 
     return (
       <DataPage>
