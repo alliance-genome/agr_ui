@@ -15,6 +15,7 @@ import GenePage from './containers/genePage';
 import DiseasePage from './containers/diseasePage';
 import NotFound from './components/notFound';
 import DownloadsPage from './containers/downloadsPage';
+import AllelePage from './containers/allelePage';
 
 export default (
   <Layout>
@@ -23,6 +24,7 @@ export default (
       <Route exact path='/search' component={Search} />
       <Route exact path='/gene/:id' render={({match}) => <GenePage geneId={match.params.id} />} />
       <Route exact path='/disease/:id' render={({match}) => <DiseasePage diseaseId={match.params.id} />} />
+      <Route exact path='/allele/:id' render={({match}) => <AllelePage alleleId={match.params.id} />} />
       <Route exact path='/news/:slug' render={({match}) => <WordpressPost slug={match.params.slug} />} />
       <Route exact path='/news' component={WordpressPostList} />
       <Route exact path='/downloads' component={DownloadsPage} />

@@ -35,10 +35,10 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, geneSymbol, geneLocation = 
     {
       dataField: 'symbol',
       text: 'Allele Symbol',
-      formatter: (symbol, {crossReferences = {}}) => (
-        <DataSourceLink reference={crossReferences.primary}>
-          <span dangerouslySetInnerHTML={{__html: symbol}}/>
-        </DataSourceLink>
+      formatter: (symbol, {id}) => (
+        <Link to={`/allele/${id}`}>
+          <span dangerouslySetInnerHTML={{ __html: symbol }} />
+        </Link>
       ),
       headerStyle: {width: '185px'},
       filterable: true,
