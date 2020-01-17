@@ -9,7 +9,7 @@ import {
 } from '../../components/dataPage';
 import HeadMetaTags from '../../components/headMetaTags';
 import Subsection from '../../components/subsection';
-import {connect} from 'react-redux/src';
+import {connect} from 'react-redux';
 import {
   selectData,
   selectError,
