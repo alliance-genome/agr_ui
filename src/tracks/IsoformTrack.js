@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import {countIsoforms, findRange, checkSpace, calculateNewTrackPosition} from '../RenderFunctions';
-import {ApolloService} from '../services/services';
+import {ApolloService} from '../services/ApolloService';
 
 export default class IsoformTrack {
 

@@ -1,9 +1,9 @@
-import * as d3 from "d3"; 
-import { ApolloService } from '../services/services';
+import * as d3 from "d3";
+import { ApolloService } from '../services/ApolloService';
 import d3Tip from "d3-tip";
 import {calculateNewTrackPosition} from '../RenderFunctions';
 
-export default class VariantTrack { 
+export default class VariantTrack {
 
     constructor(viewer, track, height, width){
         this.variants = [];
@@ -25,19 +25,19 @@ export default class VariantTrack {
         .domain([this.track["start"], this.track["end"] + 1])
         .range(this.track["range"]);
         let triangle = d3.symbol().type(d3.symbolTriangle).size(20);
-    
+
         // Tooltip configuration
         let tooltip = d3Tip();
         tooltip.attr('class', 'd3-tip').html(function(d) {
             let title = "Case Variant"
-            let tipHtml = 
-            '<table>' + 
+            let tipHtml =
+            '<table>' +
                 '<th colspan="2">' + title.toUpperCase() + '</th>' +
                 '<tr><td>Position</td> <td>' +  d["position"] + '</td></tr>' +
                 '<tr><td>Mutation</td> <td>' +  d["ref"] + ' > ' + d["mutant"] + '</td></tr>'
             '</table>';
-            return tipHtml; 
-        
+            return tipHtml;
+
         }).offset([10,0]).direction('s');
         viewer.call(tooltip);
 
@@ -64,21 +64,19 @@ export default class VariantTrack {
             .attr("transform", function(d) {
                 return "translate(" + x(d.position) + "," + 10 + ")";
             }).on('mouseenter', tooltip.show).on('mouseout', tooltip.hide);
-        
+
         // Track Label Boxes currently 100px
         let labelOffset = 25;
         let trackLabel = d3.select("#viewer2").append("g").attr('transform', 'translate(' + labelOffset +',' + newTrackPosition + ')')
-        .attr("class", "track-label");        
+        .attr("class", "track-label");
         trackLabel.append("line").attr("x1", 75).attr("y1", 0).attr("x2", 75).attr("y2", trackHeight).attr("stroke-width", 3)
         .attr("stroke", "#609C9C");
         trackLabel.append("text").text(this.track["label"].toUpperCase()).attr("y", 12);
-        
+
     }
 
     /* Method to get reference label */
-    async getTrackData()
-    {
-        let apolloService = new ApolloService()
-        this.variants =  await apolloService.GetFakeVariants();
+    async getTrackData() {
+        this.variants =  await new ApolloService().GetFakeVariants();
     }
 }

@@ -1,9 +1,8 @@
-import * as d3 from "d3"; 
-import { ApolloService } from '../services/services';
-import d3Tip from "d3-tip";
+import * as d3 from "d3";
+import { ApolloService } from '../services/ApolloService';
 import {calculateNewTrackPosition} from '../RenderFunctions';
 
-export default class VariantTrack { 
+export default class VariantTrack {
 
     constructor(viewer, track, height, width){
         this.variants = [];
@@ -25,19 +24,19 @@ export default class VariantTrack {
         .domain([this.track["start"], this.track["end"]])
         .range(this.track["range"]);
         let triangle = d3.symbol().type(d3.symbolTriangle).size(20);
-    
+
         /*
         let tooltip = d3Tip();
         tooltip.attr('class', 'd3-tip').html(function(d) {
             let title = "Case Variant"
-            let tipHtml = 
-            '<table>' + 
+            let tipHtml =
+            '<table>' +
                 '<th colspan="2">' + title.toUpperCase() + '</th>' +
                 '<tr><td>Position</td> <td>' +  d["position"] + '</td></tr>' +
                 '<tr><td>Mutation</td> <td>' +  d["ref"] + ' > ' + d["mutant"] + '</td></tr>'
             '</table>';
-            return tipHtml; 
-        
+            return tipHtml;
+
         }).offset([10,0]).direction('s');
         viewer.call(tooltip);
         */
@@ -67,13 +66,12 @@ export default class VariantTrack {
             .attr("transform", function(d) {
                 return "translate(" + x(d.position) + "," + 10 + ")";
             });
-        
+
     }
 
     /* Method to get reference label */
     async getTrackData()
     {
-        let apolloService = new ApolloService()
-        this.variants =  await apolloService.GetFakeGlobalVariants();
+        this.variants =  await new ApolloService().GetFakeGlobalVariants();
     }
 }

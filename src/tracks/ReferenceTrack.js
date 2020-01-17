@@ -1,11 +1,11 @@
 import * as d3 from "d3";
-import { ApolloService } from '../services/services';
+import { ApolloService } from '../services/ApolloService';
 
 
 /*
     The reference sequence label track.
 */
-export default class ReferenceTrack { 
+export default class ReferenceTrack {
 
     constructor(viewer, track, height, width){
         this.refSeq = "";
@@ -14,7 +14,7 @@ export default class ReferenceTrack {
         this.height = height;
         this.track = track;
     }
-    
+
     DrawScrollableTrack()
     {
         let viewer = this.viewer;
@@ -44,16 +44,16 @@ export default class ReferenceTrack {
             .attr('width', this.track["range"][1])
             .attr('transform', 'translate(0, 20)')
             .call(xAxisNumerical);
-        
+
         let numericTickLabel = d3.selectAll(".x-local-numerical .tick text");
         numericTickLabel.first().attr("text-anchor", "start");
         numericTickLabel.last().attr("text-anchor", "end");
-        
-        // For each tick 
+
+        // For each tick
         d3.selectAll(".x-local-axis .tick text").each(function(d, i){
             // Get the current tick
             var tick = d3.select(this);
-            var text = tick.text(); // Figure out what nucleotide we have 
+            var text = tick.text(); // Figure out what nucleotide we have
             var rectClass = "nucleotide nt-a";
             if(text == "T")
             {
@@ -73,7 +73,7 @@ export default class ReferenceTrack {
             .attr("class", rectClass).attr("transform", "translate(-8,8)");
 
         });
-            
+
     }
 
     DrawOverviewTrack(){
@@ -85,13 +85,13 @@ export default class ReferenceTrack {
         let x = d3.scaleLinear()
         .domain([view_start, view_end])
         .range(this.track["range"]);
-    
+
         let viewLength = view_end - view_start;
        // let resolution = Math.round(30 / Math.log(viewLength)) ;
         //let resolutionString = '.'+resolution + 's';
         //let tickFormat = x.tickFormat(5, resolutionString);
 
-       
+
 
         let xAxis = d3.axisTop(x)
             .ticks(8, 's')

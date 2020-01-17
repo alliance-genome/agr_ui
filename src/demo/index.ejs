@@ -5,6 +5,111 @@
     <link rel="stylesheet" href="GenomeFeatureViewer.css">
 </head>
 <body>
+
+
+
+<h1>Fly (No Label)</h1>
+
+<div class="viewer-border">
+    <h3>  <a href="https://www.alliancegenome.org/gene/FB:FBgn0005612">Sox14</a> </h3>
+    <svg className="viewer" id="viewerFlyExample2NoLabel"/>
+</div>
+
+<div class="viewer-border">
+    <h3>  <a href="https://www.alliancegenome.org/gene/FB:FBgn0005612">Sox14 (filtered for a single snp like an allele)</a> </h3>
+    <svg className="viewer" id="viewerFlyExample3NoLabel"/>
+</div>
+
+<div class="viewer-border">
+    <h3>  <a href="https://www.alliancegenome.org/gene/FB:FBgn0001142">Gs1-RC</a> </h3>
+    <svg className="viewer" id="viewerFlyExample1NoLabel"/>
+</div>
+
+<h1>Mouse (No Label)</h1>
+<div class="viewer-border">
+    <h3> <a href="https://www.alliancegenome.org/gene/MGI:103223">Vh1</a></h3>
+    <svg className="viewer" id="viewerMouseExample1NoLabel"/>
+</div>
+
+
+<h1>Rat (No Label)</h1>
+<div class="viewer-border">
+    <h3> <a href="https://www.alliancegenome.org/gene/RGD:1310046">Adamts16</a></h3>
+    <svg className="viewer" id="viewerRatExample1NoLabel"/>
+</div>
+
+
+<h1>Worm (No Label)</h1>
+<div class="viewer-border">
+    <h3>Egl8</h3>
+    <a href="http://dev.wormbase.org:9020/jbrowse/?data=data%2FCaenorhabditis%20elegans&loc=V%3A16238..48260&tracks=DNA%2CUCSC%20Conservation%2CAll%20Genes%2CPhenotypic%20Variants&highlight=">Working example</a></p>
+    <svg className="viewer" id="viewerWormEgl8NoLabel"/>
+</div>
+
+<h1>Fish (No Label)</h1>
+<div class="viewer-border">
+    <h3><a href="https://zfin.org/ZDB-ALT-161103-7">Lbx2</a> </h3>
+    <svg className="viewer" id="viewerFishLbx2NoLabel"/>
+</div>
+<div class="viewer-border">
+    <h3><a href="https://zfin.org/ZDB-ALT-181010-2">Myl7</a> </h3>
+    <svg className="viewer" id="viewerFishMyl7NoLabel"/>
+</div>
+
+<hr/>
+
+<h1>Code with Labels</h1>
+
+<h1>Fly</h1>
+<div class="viewer-border">
+    <h3>  <a href="https://www.alliancegenome.org/gene/FB:FBgn0001142">Gs1-RC</a> </h3>
+    <svg className="viewer" id="viewerFlyExample1"/>
+</div>
+
+<div class="viewer-border">
+    <h3>  <a href="https://www.alliancegenome.org/gene/FB:FBgn0005612">Sox14</a> </h3>
+    <svg className="viewer" id="viewerFlyExample3"/>
+</div>
+
+<div class="viewer-border">
+    <h3>  <a href="https://www.alliancegenome.org/gene/FB:FBgn0005612">Sox14</a> </h3>
+    <svg className="viewer" id="viewerFlyExample2"/>
+</div>
+
+<h1>Mouse</h1>
+<div class="viewer-border">
+    <h3> <a href="https://www.alliancegenome.org/gene/MGI:103223">Vh1</a></h3>
+    <svg className="viewer" id="viewerMouseExample1"/>
+</div>
+
+<h1>Rat</h1>
+<div class="viewer-border">
+    <h3> <a href="https://www.alliancegenome.org/gene/RGD:1310046">Adamts16</a></h3>
+    <svg className="viewer" id="viewerRatExample1"/>
+</div>
+
+<h1>Worm</h1>
+<div class="viewer-border">
+    <h3>Egl8</h3>
+    <a href="http://dev.wormbase.org:9020/jbrowse/?data=data%2FCaenorhabditis%20elegans&loc=V%3A16238..48260&tracks=DNA%2CUCSC%20Conservation%2CAll%20Genes%2CPhenotypic%20Variants&highlight=">Working example</a></p>
+    <svg className="viewer" id="viewerWormEgl8"/>
+</div>
+
+
+<h1>Fish</h1>
+<div class="viewer-border">
+    <h3><a href="https://zfin.org/ZDB-ALT-161103-7">Lbx2</a> </h3>
+    <svg className="viewer" id="viewerFishLbx2"/>
+</div>
+<div class="viewer-border">
+    <h3><a href="https://zfin.org/ZDB-ALT-181010-2">Myl7</a> </h3>
+    <svg className="viewer" id="viewerFishMyl7"/>
+</div>
+
+
+
+<hr/>
+<h1>Other Demos</h1>
 <p>Basic Demo</p>
 <form id="theForm">
     Genome : <input type="text" name="genome"><br>
@@ -14,17 +119,17 @@
     <input type="submit" value="submit">
 </form>
 <div class="viewer-border">
-    <h3>Overview</h3>
+    <h1>Overview</h1>
     <svg className="viewer" id="viewer1"/>
 </div>
 <br>
 <div class="viewer-border">
-    <h3>View 2</h3>
+    <h1>View 2</h1>
     <svg className="viewer" id="viewer2"/>
     <br>
 </div>
 
-<h3>Scrollable</h3>
+<h1>Scrollable</h1>
 <svg className="viewer" id="viewer3"/>
 
 <script src="index.js"></script>

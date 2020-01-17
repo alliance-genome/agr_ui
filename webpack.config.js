@@ -44,6 +44,10 @@ var libraryConfig = {
       }
     ]
   },
+  devServer: {
+    open: true,
+    port: 9000
+  },
 };
 
 
@@ -84,10 +88,10 @@ var demoConfig = {
       }
     ]
   },
-
   devServer: {
     contentBase: dist,
-    open: true
+    open: true,
+    port: 9000
   },
 };
 

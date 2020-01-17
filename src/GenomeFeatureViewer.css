@@ -21,6 +21,45 @@ html, body {
   stroke: black;
 }
 
+.tooltip-table{
+  text-align: left;
+}
+
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  width: 60px;
+  height: 28px;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: 0;
+  border-radius: 8px;
+  /*pointer-events: none;*/
+  z-index: 100;
+}
+
+.variant-label {
+  stroke-width: 1px;
+  color: black;
+}
+
+.variant-insertion{
+  fill-opacity: 1.0;
+}
+
+.variant-delins{
+  fill-opacity: 1.0;
+}
+
+.variant-SNV {
+  fill-opacity: 1.0;
+}
+
+.variant-deletion{
+  fill-opacity: 1.0;
+}
+
 .transcriptBackbone {
   fill-opacity: 1.0;
   fill: gray;
@@ -76,14 +115,24 @@ html, body {
 }
 
 .geneLabel {
-  stroke: 2px;
+  stroke-width: 2px;
   color: black;
   font-style: italic;
 }
 
 .transcriptLabel {
-  stroke: 1px;
+  stroke-width: 1px;
   color: black;
+}
+
+.geneLabel{
+  stroke-width: 1px;
+  color: black;
+  font-size: 20px;
+}
+
+.isoform{
+  cursor: pointer;
 }
 
 .axis {
@@ -92,7 +141,7 @@ html, body {
 
 .x-local-axis {
   font: 10px sans-serif;
-  stroke-width: 0px;
+  stroke-width: 0;
   fill:none;
 }
 
@@ -119,6 +168,7 @@ html, body {
   font-family: Garamond, sans-serif;
   font-weight: 600;
   fill: black;
+  cursor: pointer;
 }
 
 
