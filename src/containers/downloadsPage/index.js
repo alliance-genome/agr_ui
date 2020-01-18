@@ -84,7 +84,7 @@ class DownloadsPage extends React.Component {
     return (
       <DataPage>
         <HeadMetaTags title={TITLE} />
-        <PageNav entityName={TITLE} sections={SECTIONS} />
+        <PageNav sections={SECTIONS} />
         <PageData>
           <PageHeader entityName={TITLE} />
 

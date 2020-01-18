@@ -6,8 +6,10 @@ import searchReducer from './searchReducer';
 import wordpressReducer from './wordpressReducer';
 import fileManagementSystemReducer from './fileManagementSystemReducer';
 import loadingReducer from './loadingReducer';
+import alleleReducer from './alleleReducer';
 
 export default {
+  allele: alleleReducer,
   disease: diseaseReducer,
   diseaseRibbon: diseaseRibbonReducer,
   expression: expressionReducer,
