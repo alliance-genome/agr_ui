@@ -22,6 +22,7 @@ import DiseaseToAlleleTable from './DiseaseToAlleleTable';
 import DiseaseToGeneTable from './DiseaseToGeneTable';
 import DiseaseToModelTable from './DiseaseToModelTable';
 import {setPageLoading} from '../../actions/loadingActions';
+import PageNavEntity from '../../components/dataPage/PageNavEntity';
 
 class DiseasePage extends Component {
   constructor(props) {
@@ -68,12 +69,6 @@ class DiseasePage extends Component {
       {name: MODELS},
     ];
 
-    const doLink = (
-      <ExternalLink href={disease.url}>
-        {disease.id}
-      </ExternalLink>
-    );
-
     const title = disease.name || disease.id;
 
     let keywords = ['disease', data.id, data.name, data.definition];
@@ -119,7 +114,11 @@ class DiseasePage extends Component {
     return (
       <DataPage>
         <HeadMetaTags jsonLd={jsonLd} title={title} />
-        <PageNav entityName={disease.name} link={doLink} sections={SECTIONS} />
+        <PageNav sections={SECTIONS}>
+          <PageNavEntity entityName={<span className='hyphenate'>{disease.name}</span>}>
+            <ExternalLink href={disease.url}>{disease.id}</ExternalLink>
+          </PageNavEntity>
+        </PageNav>
         <PageData>
           <PageHeader entityName={disease.name} />
 

@@ -26,6 +26,7 @@ import { DiseaseComparisonRibbon } from '../../components/disease';
 import GeneModelsTable from './GeneModelsTable';
 import GeneMetaTags from './GeneMetaTags';
 import {setPageLoading} from '../../actions/loadingActions';
+import PageNavEntity from '../../components/dataPage/PageNavEntity';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
@@ -112,13 +113,12 @@ class GenePage extends Component {
     return (
       <DataPage>
         <GeneMetaTags gene={data} />
-        <PageNav
-          entityName={<span className='text-break'>{data.symbol}</span>}
-          extra={<i>{data.species.name}</i>}
-          icon={<SpeciesIcon scale={0.5} species={data.species.name} />}
-          link={<DataSourceLink reference={data.crossReferences.primary} />}
-          sections={SECTIONS}
-        />
+        <PageNav sections={SECTIONS}>
+          <PageNavEntity entityName={<span className='text-break'>{data.symbol}</span>} icon={<SpeciesIcon scale={0.5} species={data.species.name} />}>
+            <i>{data.species.name}</i>
+            <DataSourceLink reference={data.crossReferences.primary} />
+          </PageNavEntity>
+        </PageNav>
         <PageData>
           <PageHeader entityName={data.symbol} />
 

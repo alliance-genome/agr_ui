@@ -8,26 +8,11 @@ import { makeId } from '../../lib/utils';
 
 import style from './style.scss';
 
-const PageNav = ({entityName, extra, icon, link, sections}) => {
+const PageNav = ({children, sections}) => {
   return (
     <div className={style.pageNav}>
       <div className='navbar-expand-md'>
-        <div className={`${style.entity}`}>
-          <span>
-            <div className='d-flex align-items-center'>
-              {icon && <span className='mr-2'>{icon}</span>}
-              <h4>{entityName}</h4>
-            </div>
-            <div className='d-flex flex-column'>
-              {extra}
-              {link}
-            </div>
-          </span>
-          <button className='navbar-toggler ml-auto' data-target='#data-page-nav' data-toggle='collapse' type='button'>
-            <i className='fa fa-fw fa-bars' />
-          </button>
-        </div>
-
+        {children}
         <div className='navbar-collapse collapse' id='data-page-nav'>
           <Scrollspy
             className={`list-group list-group-flush ${style.scrollSpy}`}
@@ -59,10 +44,7 @@ const PageNav = ({entityName, extra, icon, link, sections}) => {
 };
 
 PageNav.propTypes = {
-  entityName: PropTypes.string.isRequired,
-  extra: PropTypes.node,
-  icon: PropTypes.node,
-  link: PropTypes.node,
+  children: PropTypes.node,
   sections: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     level: PropTypes.number,
