@@ -53,6 +53,12 @@ class GenomeFeatureWrapper extends Component {
     this.loadGenomeFeature();
   }
 
+  getChromosome(chromosome,species){
+    if(species==='Saccharomyces cerevisiae'){
+      return `chr${chromosome}`;
+    }
+    else{ return chromosome;}
+  }
 
   loadGenomeFeature() {
     const {chromosome, fmin, fmax, primaryId,geneSymbol, synonyms = []} = this.props;
@@ -73,7 +79,7 @@ class GenomeFeatureWrapper extends Component {
     let transcriptTypes = getTranscriptTypes();
     const configGlobal = {
       'locale': 'global',
-      'chromosome': chromosome,
+      'chromosome': this.getChromosome(chromosome,this.props.species),
       'start': fmin,
       'end': fmax,
       'transcriptTypes':transcriptTypes,
