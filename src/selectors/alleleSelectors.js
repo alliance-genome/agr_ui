@@ -4,15 +4,20 @@ export const selectAlleleDomain = (state) => state.allele;
 
 export const selectData = createSelector(
   [selectAlleleDomain],
-  (disease) => disease.get('data')
+  allele => allele.get('data')
 );
 
 export const selectLoading = createSelector(
   [selectAlleleDomain],
-  (disease) => disease.get('loading')
+  allele => allele.get('loading')
 );
 
 export const selectError = createSelector(
   [selectAlleleDomain],
-  (disease) => disease.get('error')
+  allele => allele.get('error')
+);
+
+export const selectPhenotypes = createSelector(
+  [selectAlleleDomain],
+  allele => allele.get('phenotypes').toJS()
 );

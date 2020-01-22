@@ -1,15 +1,26 @@
 import {fromJS} from 'immutable';
-import {forObjectRequestAction, handleActions} from '../lib/handleActions';
-import {FETCH_ALLELE} from '../actions/alleleActions';
+import {
+  forCollectionRequestAction,
+  forObjectRequestAction,
+  handleActions
+} from '../lib/handleActions';
+import {FETCH_ALLELE, FETCH_ALLELE_PHENOTYPES} from '../actions/alleleActions';
 
 const DEFAULT_STATE = fromJS({
   data: null,
   error: null,
   loading: false,
+  phenotypes: {
+    data: [],
+    loading: false,
+    error: null,
+    total: 0,
+  }
 });
 
 const alleleReducer = handleActions(DEFAULT_STATE,
-  forObjectRequestAction(FETCH_ALLELE)
+  forObjectRequestAction(FETCH_ALLELE),
+  forCollectionRequestAction(FETCH_ALLELE_PHENOTYPES, 'phenotypes')
 );
 
 export default alleleReducer;
