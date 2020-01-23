@@ -33,7 +33,7 @@ class OrthologyTable extends Component {
     let rowGroup = 0;
     return(
       <table className='table'>
-        <thead>
+        <thead className='text-capitalize'>
           <tr>
             {
               columns.map((column) => {
