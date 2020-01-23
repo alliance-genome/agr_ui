@@ -1,12 +1,12 @@
 import GenomeFeatureViewer from 'GenomeFeatureViewer';
-import {FakeAgrDataService} from "./FakeAgrDataService";
 
-// import {ApolloService} from "../services/ApolloService";
-// let apolloService = new ApolloService();
+// const BASE_URL = 'http://localhost:8080/apollo';
+// const BASE_URL = 'http://54.91.83.120:8080/apollo';
+const BASE_URL = 'https://agr-apollo.berkeleybop.io/apollo';
 
 // Global View Example
-let fakeAgrDataService = new FakeAgrDataService();
 
+networkExample();
 oldExamples();
 wormExamples();
 fishExamples();
@@ -14,7 +14,7 @@ ratExamples();
 mouseExamples();
 flyExamples();
 
-function createExample(isoformDataFunction,variantDataFunction,divId,showLabel,variantFilter){
+function createExample(divId,showLabel,variantFilter){
   let configGlobal1 = {
     "locale": "global",
     "chromosome": '2L',
@@ -27,15 +27,13 @@ function createExample(isoformDataFunction,variantDataFunction,divId,showLabel,v
         "id": 12,
         "genome":"Fly",
         "type": "isoform_variant",
-        "isoformFunction": isoformDataFunction,
         "isoform_url": [
-          "https://agr-apollo.berkeleybop.io/apollo/track/",
+          `${BASE_URL}/track/`,
           "/All%20Genes/",
           ".json"
         ],
-        "variantFunction": variantDataFunction,
         "variant_url": [
-          "https://agr-apollo.berkeleybop.io/apollo/vcf/",
+          `${BASE_URL}/vcf/`,
           "/Phenotypic%20Variants/",
           ".json"
         ],
@@ -47,42 +45,79 @@ function createExample(isoformDataFunction,variantDataFunction,divId,showLabel,v
   new GenomeFeatureViewer(configGlobal1, `#${divId}`, 900, 500);
 }
 
+function networkExample(){
+  createNetworkExample("10:94485648..94489071","rat","networkExampleRat1",false,null);
+  createNetworkExample("V:7114..57432","worm","networkExampleWorm1",false,null);
+}
+
+function createNetworkExample(range,genome,divId,showLabel,variantFilter){
+  const chromosome = range.split(":")[0];
+  const [start,end] = range.split(":")[1].split("..");
+  let configGlobal1 = {
+    "locale": "global",
+    "chromosome": chromosome,
+    "start": start,
+    "end": end,
+    "showVariantLabel": showLabel,
+    "variantFilter": variantFilter ? variantFilter : [],
+    "tracks": [
+      {
+        "id": 12,
+        "genome": genome,
+        "type": "isoform_variant",
+        "isoform_url": [
+          `${BASE_URL}/track/`,
+          "/All%20Genes/",
+          ".json"
+        ],
+        "variant_url": [
+          `${BASE_URL}/vcf/`,
+          "/Variants/",
+          ".json"
+        ],
+
+      },
+    ]
+  };
+    new GenomeFeatureViewer(configGlobal1, `#${divId}`, 900, 500);
+}
+
 function flyExamples(){
   // 2L:132412..230018
 // http://localhost:8080/apollo/vcf/remotefly/Phenotypic%20Variants/2L:132412..230018.json?includeGenotypes=false&ignoreCache=true
 // http://localhost:8080/apollo/track/remotefly/All%20Genes/2L:132412..230018.json?includeGenotypes=false&ignoreCache=true
-  createExample(fakeAgrDataService.GetFakeFlyGeneExample1(),fakeAgrDataService.GetFakeFlyVariantExample1(),"viewerFlyExample1",true);
-  createExample(fakeAgrDataService.GetFakeFlyGeneExample2(),fakeAgrDataService.GetFakeFlyVariantExample2(),"viewerFlyExample3",true,['NT_033778.4:g.23975146T>C']);
-  createExample(fakeAgrDataService.GetFakeFlyGeneExample2(),fakeAgrDataService.GetFakeFlyVariantExample2(),"viewerFlyExample2",true);
-  createExample(fakeAgrDataService.GetFakeFlyGeneExample1(),fakeAgrDataService.GetFakeFlyVariantExample1(),"viewerFlyExample1NoLabel",false);
-  createExample(fakeAgrDataService.GetFakeFlyGeneExample2(),fakeAgrDataService.GetFakeFlyVariantExample2(),"viewerFlyExample3NoLabel",false,['NT_033778.4:g.23975146T>C']);
-  createExample(fakeAgrDataService.GetFakeFlyGeneExample2(),fakeAgrDataService.GetFakeFlyVariantExample2(),"viewerFlyExample2NoLabel",false);
+  createNetworkExample("2L:130639..135911","fly","viewerFlyExample1",true);
+  createNetworkExample("2R:23974973..23989002","fly","viewerFlyExample3",true,['NT_033778.4:g.23975146T>C']);
+  createNetworkExample("2R:23974973..23989002","fly","viewerFlyExample2",true);
+  createNetworkExample("2L:130639..135911","fly","viewerFlyExample1NoLabel",false);
+  createNetworkExample("2R:23974973..23989002","fly","viewerFlyExample3NoLabel",false,['NT_033778.4:g.23975146T>C']);
+  createNetworkExample("2R:23974973..23989002","fly","viewerFlyExample2NoLabel",false);
 }
 
 function ratExamples(){
   // http://localhost:8080/apollo/vcf/remotemouse/Phenotypic%20Variants/6:113619452..113636198.json?includeGenotypes=false&ignoreCache=true
   // http://localhost:8080/apollo/track/remotemouse/All%20Genes/6:113619452..113636198.json?includeGenotypes=false&ignoreCache=true  let configGlobal1 = {
-  createExample(fakeAgrDataService.GetFakeRatGeneExample1(),fakeAgrDataService.GetFakeRatVariantExample1(),"viewerRatExample1",true);
-  createExample(fakeAgrDataService.GetFakeRatGeneExample1(),fakeAgrDataService.GetFakeRatVariantExample1(),"viewerRatExample1NoLabel",false);
+  createNetworkExample("1:34987290..35280466","rat","viewerRatExample1",true);
+  createNetworkExample("1:34987290..35280466","rat","viewerRatExample1NoLabel",false);
 }
 function mouseExamples(){
   // http://localhost:8080/apollo/vcf/remotemouse/Phenotypic%20Variants/6:113619452..113636198.json?includeGenotypes=false&ignoreCache=true
   // http://localhost:8080/apollo/track/remotemouse/All%20Genes/6:113619452..113636198.json?includeGenotypes=false&ignoreCache=true  let configGlobal1 = {
-  createExample(fakeAgrDataService.GetFakeMouseGeneExample1(),fakeAgrDataService.GetFakeMouseVariantExample1(),"viewerMouseExample1",true);
-  createExample(fakeAgrDataService.GetFakeMouseGeneExample1(),fakeAgrDataService.GetFakeMouseVariantExample1(),"viewerMouseExample1NoLabel",false);
+  createNetworkExample("6:113619452..113636198","mouse","viewerMouseExample1",true);
+  createNetworkExample("6:113619452..113636198","mouse","viewerMouseExample1NoLabel",false);
 }
 
 function fishExamples(){
-  createExample(fakeAgrDataService.GetFakeFishGeneDataLbx2(),fakeAgrDataService.GetFakeFishVariantDataLbx2(),"viewerFishLbx2",true);
-  createExample(fakeAgrDataService.GetFakeFishGeneDataMyl7(),fakeAgrDataService.GetFakeFishVariantDataMyl7(),"viewerFishMyl7",true);
-  createExample(fakeAgrDataService.GetFakeFishGeneDataLbx2(),fakeAgrDataService.GetFakeFishVariantDataLbx2(),"viewerFishLbx2NoLabel",false);
-  createExample(fakeAgrDataService.GetFakeFishGeneDataMyl7(),fakeAgrDataService.GetFakeFishVariantDataMyl7(),"viewerFishMyl7NoLabel",false);
+  createNetworkExample("14:5383966..5390885","zebrafish","viewerFishLbx2",true);
+  createNetworkExample("8:40452405..40469627","zebrafish","viewerFishMyl7",true);
+  createNetworkExample("14:5383966..5390885","zebrafish","viewerFishLbx2NoLabel",false);
+  createNetworkExample("8:40452405..40469627","zebrafish","viewerFishMyl7NoLabel",false);
 }
 
 
 function wormExamples(){
-  createExample(fakeAgrDataService.GetFakeWormGeneDataEgl8(),fakeAgrDataService.GetFakeWormVariantDataEgl8(),"viewerWormEgl8",true);
-  createExample(fakeAgrDataService.GetFakeWormGeneDataEgl8(),fakeAgrDataService.GetFakeWormVariantDataEgl8(),"viewerWormEgl8NoLabel",false);
+  createNetworkExample("V:7106..57424","worm","viewerWormEgl8",true);
+  createNetworkExample("V:7106..57424","worm","viewerWormEgl8NoLabel",false);
 }
 
 

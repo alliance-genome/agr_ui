@@ -53,7 +53,7 @@ export function getColorForConsequence(consequence) {
     return consequenceLookup.color;
   }
   else{
-    log.warn('Consequence ',consequence,'not found')
+    console.warn('Consequence ',consequence,'not found')
   }
 
 }

@@ -45,7 +45,6 @@ export function generateVariantBins(variantData){
       const relativeMin = fb.fmin;
       const relativeMax = fb.fmax;
 
-      // console.log(fb,adjustedFmin,adjustedFmax,type);
       if(fb.type !== type) return false ;
       if(fb.consequence !== consequence ) return false ;
 
@@ -68,17 +67,11 @@ export function generateVariantBins(variantData){
     if(foundVariantBinIndex >=0 ){
       // add variant to this bin and adust the min and max
       let foundBin = variantBins[foundVariantBinIndex];
-      // console.log('found',variantBins[foundVariantBinIndex]);
       const foundMatchingVariantSetIndex = variantBins[foundVariantBinIndex].variantSet ? variantBins[foundVariantBinIndex].variantSet.findIndex( b => b.type === type && b.consequence === consequence) : -1 ;
       if(foundMatchingVariantSetIndex>=0){
-        // console.log('found  and adding to ',foundVariantBinIndex[foundMatchingVariantSet].variantSet)
-        // foundVariantBinIndex[foundMatchingVariantSet].variantSet.push(variant);
         variantBins[foundMatchingVariantSetIndex].variantSet.push(variant);
-        // console.log('pushed found adding to ',foundVariantBinIndex[foundMatchingVariantSet].variantSet)
-        // foundMatchingVariantSet.variants.push(variant);
       }
       else{
-        // console.log('found for other ',foundVariantBinIndex,variant)
         variantBins[foundVariantBinIndex].variantSet = [{
           variants: [variant],
           type,
@@ -87,11 +80,8 @@ export function generateVariantBins(variantData){
       }
 
       foundBin.variants.push(variant);
-      // console.log(foundBin.fmin,adjustedFmin,x(variant.fmin))
-      // console.log(foundBin.fmax,adjustedFmax,x(variant.fmax))
       foundBin.fmin = Math.min(fmin,foundBin.fmin);
       foundBin.fmax = Math.max(fmax,foundBin.fmax);
-      // console.log('final',JSON.stringify([foundBin.fmin,foundBin.fmax]))
       variantBins[foundVariantBinIndex] = foundBin;
     }
     else{
@@ -105,10 +95,7 @@ export function generateVariantBins(variantData){
         variants: [variant]
       };
       variantBins.push( newBin);
-      // console.log('pushed! ',JSON.stringify(variantBins.length))
     }
-    // console.log('pushing ',JSON.stringify(foundVariantBins[0]),'into ',JSON.stringify(variantBins));
-    // console.log('result',JSON.stringify(variantBins),variantBins.length);
   });
   return variantBins;
 }
@@ -121,7 +108,6 @@ export function generateVariantDataBinsAndDataSets(variantData){
     // we should ONLY ever find one or zero
 
     let foundVariantBinIndex = findVariantBinIndexForPosition(variantBins,variant);
-    console.log('variant',variant,type,fmax,fmin,consequence,foundVariantBinIndex,variantBins);
 
     // if a variant is found within a position bin
     if(foundVariantBinIndex >=0 ){
@@ -129,29 +115,19 @@ export function generateVariantDataBinsAndDataSets(variantData){
       // add variant to this bin and adjust the min and max
       let foundBin = variantBins[foundVariantBinIndex];
       const foundMatchingVariantSetIndex = foundBin.variantSet ? foundBin.variantSet.findIndex( b => b.type === type && b.consequence === consequence) : -1 ;
-
-      console.log('found variant bin and index',foundBin,foundBin.variantSet,foundMatchingVariantSetIndex);
-
       // TODO:
       // if matching type and consequence, add the variant to the found variant set
       // adjust the bin min and max though
       if(foundMatchingVariantSetIndex>=0){
-        console.log('found  matching variant index set',foundBin.variantSet[foundMatchingVariantSetIndex]);
-        // foundVariantBinIndex[foundMatchingVariantSet].variantSet.push(variant);
         let foundFmin = Math.min(foundBin.variantSet[foundMatchingVariantSetIndex].fmin,fmin) ;
         let foundFmax = Math.max(foundBin.variantSet[foundMatchingVariantSetIndex].fmax,fmax) ;
         foundBin.fmin = foundFmin ;
         foundBin.fmax = foundFmax ;
         foundBin.variantSet[foundMatchingVariantSetIndex].fmin = foundFmin ;
         foundBin.variantSet[foundMatchingVariantSetIndex].fmax = foundFmax ;
-        // console.log('trying to add a variant to the variants',foundBin,foundBin.variantSet,foundBin.variantSet.variants,JSON.stringify('forced'));
         foundBin.variantSet[foundMatchingVariantSetIndex].variants.push(variant);
-        console.log('final bin setting for variant set',variantBins[foundVariantBinIndex],foundBin,JSON.stringify('forced'));
-        // console.log('pushed found adding to ',foundVariantBinIndex[foundMatchingVariantSet].variantSet)
-        // foundMatchingVariantSet.variants.push(variant);
       }
       else{
-        // console.log('found for other ',foundVariantBinIndex,variant)
         let foundMin = Math.min(foundBin.fmin,fmin) ;
         let foundMax = Math.max(foundBin.fmax,fmax) ;
 
@@ -164,19 +140,14 @@ export function generateVariantDataBinsAndDataSets(variantData){
           fmin,
           fmax,
         });
-        console.log('new variant set to add',variantBins[foundVariantBinIndex],foundBin,JSON.stringify('forced'));
       }
 
       foundBin.variants.push(variant);
-      // console.log(foundBin.fmin,adjustedFmin,x(variant.fmin))
-      // console.log(foundBin.fmax,adjustedFmax,x(variant.fmax))
       foundBin.fmin = Math.min(fmin,foundBin.fmin);
       foundBin.fmax = Math.max(fmax,foundBin.fmax);
       variantBins[foundVariantBinIndex] = foundBin;
-      console.log('found bin is being updated again',JSON.stringify([foundBin.fmin,foundBin.fmax]),foundBin)
     }
     else{
-      console.log('no bin found so adding',variant,fmin,fmax)
       const newBin = {
         fmin, fmax, type, consequence,
         variantSet: [{
@@ -187,12 +158,8 @@ export function generateVariantDataBinsAndDataSets(variantData){
         }],
         variants: [variant]
       };
-      console.log('new bin to add',newBin);
       variantBins.push( newBin);
-      console.log('pushed! ',JSON.stringify(variantBins.length),variantBins);
     }
-    // console.log('pushing ',JSON.stringify(foundVariantBins[0]),'into ',JSON.stringify(variantBins));
-    // console.log('result',JSON.stringify(variantBins),variantBins.length);
   });
   return variantBins;
 }

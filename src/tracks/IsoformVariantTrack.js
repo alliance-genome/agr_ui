@@ -11,6 +11,8 @@ import {
 import {getColorForConsequence} from "../services/ConsequenceService";
 import {renderTrackDescription} from "../services/TrackService";
 // import {description} from "d3/dist/package";
+import {ApolloService} from "../services/ApolloService";
+let apolloService = new ApolloService();
 
 export default class IsoformVariantTrack {
 
@@ -168,15 +170,12 @@ export default class IsoformVariantTrack {
                 geneList[feature.name] = 'Green';
               }
 
-              // console.log(featureChild)
-
               let isoform = track.append("g").attr("class", "isoform")
                 .attr("transform", "translate(0," + ((row_count * ISOFORM_HEIGHT) + 10 + heightBuffer) + ")")
               ;
 
               if(addingGeneLabel){
                 text_string = feature.name;
-                // console.log('feature',feature)
                 text_label = isoform.append('text')
                   .attr('class', 'geneLabel')
                   .attr('fill', selected ? 'sandybrown' : 'black')
@@ -278,171 +277,170 @@ export default class IsoformVariantTrack {
               }
 
               // have to sort this so we draw the exons BEFORE the CDS
-              featureChild.children = featureChild.children.sort(function (a, b) {
+              if(featureChild.children){
 
-                let sortAValue = sortWeight[a.type];
-                let sortBValue = sortWeight[b.type];
+                featureChild.children = featureChild.children.sort(function (a, b) {
 
-                if (typeof sortAValue === 'number' && typeof sortBValue === 'number') {
-                  return sortAValue - sortBValue;
-                }
-                if (typeof sortAValue === 'number' && typeof sortBValue !== 'number') {
-                  return -1;
-                }
-                if (typeof sortAValue !== 'number' && typeof sortBValue === 'number') {
-                  return 1;
-                }
-                // NOTE: type not found and weighted
-                return a.type - b.type;
-              });
+                  let sortAValue = sortWeight[a.type];
+                  let sortBValue = sortWeight[b.type];
 
-              featureChild.children.forEach(function (innerChild) {
-                let innerType = innerChild.type;
-
-
-                let validInnerType = false;
-                if (exon_feats.indexOf(innerType) >= 0) {
-                  validInnerType = true;
-                  isoform.append('rect')
-                    .attr('class', 'exon')
-                    .attr('x', x(innerChild.fmin))
-                    .attr('transform', 'translate(0,' + (EXON_HEIGHT - TRANSCRIPT_BACKBONE_HEIGHT) + ')')
-                    .attr('height', EXON_HEIGHT)
-                    .attr('z-index', 10)
-                    .attr('width', x(innerChild.fmax) - x(innerChild.fmin))
-                    .on("click", d => {
-                      renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
-                    })
-                    .datum({fmin: innerChild.fmin, fmax: innerChild.fmax});
-                } else if (CDS_feats.indexOf(innerType) >= 0) {
-                  validInnerType = true;
-                  isoform.append('rect')
-                    .attr('class', 'CDS')
-                    .attr('x', x(innerChild.fmin))
-                    .attr('transform', 'translate(0,' + (CDS_HEIGHT - TRANSCRIPT_BACKBONE_HEIGHT) + ')')
-                    .attr('z-index', 20)
-                    .attr('height', CDS_HEIGHT)
-                    .attr('width', x(innerChild.fmax) - x(innerChild.fmin))
-                    .on("click", d => {
-                      renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
-                    })
-                    .datum({fmin: innerChild.fmin, fmax: innerChild.fmax});
-                } else if (UTR_feats.indexOf(innerType) >= 0) {
-                  validInnerType = true;
-                  isoform.append('rect')
-                    .attr('class', 'UTR')
-                    .attr('x', x(innerChild.fmin))
-                    .attr('transform', 'translate(0,' + (UTR_HEIGHT - TRANSCRIPT_BACKBONE_HEIGHT) + ')')
-                    .attr('z-index', 20)
-                    .attr('height', UTR_HEIGHT)
-                    .attr('width', x(innerChild.fmax) - x(innerChild.fmin))
-                    .on("click", d => {
-                      renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
-                    })
-                    .datum({fmin: innerChild.fmin, fmax: innerChild.fmax});
-                }
-                if (validInnerType) {
-
-                  console.log('INPUT VARIANT DATA',variantData);
-                  let variantBins = generateVariantDataBinsAndDataSets(variantData);
-                  console.log('OUTPUT VARIANT DATA',generateVariantBins(variantData),variantBins);
-
-                  // 12 if all have 1
-                  // console.log('variant bins, ',variantBins)
-                  variantBins.forEach(variant => {
-                    let {type, fmax, fmin} = variant;
-                    // console.log('regular data, ',x(fmin),x(fmax),type)
-                    if (
-                      (fmin < innerChild.fmin && fmax > innerChild.fmin)
-                      || (fmax > innerChild.fmax && fmin < innerChild.fmax)
-                      || (fmax <= innerChild.fmax && fmin >= innerChild.fmin)
-                    ) {
-                      let drawnVariant = true;
-                      const descriptions = getVariantDescriptions(variant);
-                      // const consequence = description.consequence ? description.consequence : "UNKNOWN";
-                      const consequenceColor = getColorsForConsequences(descriptions)[0];
-                      let descriptionHtml = renderVariantDescriptions(descriptions);
-                      const width = Math.ceil(x(fmax)-x(fmin)) < MIN_WIDTH ? MIN_WIDTH : Math.ceil(x(fmax)-x(fmin));
-                      // console.log('type type',type,`${variant.seqId}:${variant.fmin}..${variant.fmax}`,`${x(fmax)},${x(fmin)}`);
-                      if (type.toLowerCase() === 'deletion' || type.toLowerCase() === 'mnv') {
-                        isoform.append('rect')
-                          .attr('class', 'variant-deletion')
-                          .attr('x', x(fmin))
-                          .attr('transform', 'translate(0,' + (VARIANT_OFFSET - TRANSCRIPT_BACKBONE_HEIGHT) + ')')
-                          .attr('z-index', 30)
-                          .attr('fill', consequenceColor)
-                          .attr('height', VARIANT_HEIGHT)
-                          .attr('width', width)
-                          .on("click", d => {
-                            renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
-                          })
-                          .datum({fmin: fmin, fmax: fmax});
-                      } else if (type.toLowerCase() === 'snv' || type.toLowerCase() === 'point_mutation') {
-                        isoform.append('polygon')
-                          .attr('class', 'variant-SNV')
-                          .attr('points', snv_points(x(fmin)))
-                          .attr('fill', consequenceColor)
-                          .attr('x', x(fmin))
-                          .attr('transform', 'translate(0,' + (VARIANT_OFFSET - TRANSCRIPT_BACKBONE_HEIGHT) + ')')
-                          .attr('z-index', 30)
-                          .on("click", d => {
-                            renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
-                          })
-                          .datum({fmin: fmin, fmax: fmax});
-                      }
-                      else if (type.toLowerCase() === 'insertion') {
-                        isoform.append('polygon')
-                          .attr('class', 'variant-insertion')
-                          .attr('points', insertion_points(x(fmin)))
-                          .attr('fill', consequenceColor)
-                          .attr('x', x(fmin))
-                          .attr('transform', 'translate(0,' + (VARIANT_OFFSET - TRANSCRIPT_BACKBONE_HEIGHT) + ')')
-                          .attr('z-index', 30)
-                          .on("click", d => {
-                            renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
-                          })
-                          .datum({fmin: fmin, fmax: fmax});
-                      }
-                      else if (type.toLowerCase() === 'delins'
-                        || type.toLowerCase() === 'substitution'
-                        || type.toLowerCase() === 'indel'
-                      ) {
-                        isoform.append('polygon')
-                          .attr('class', 'variant-delins')
-                          .attr('points', delins_points(x(fmin)))
-                          .attr('x', x(fmin))
-                          .attr('transform', 'translate(0,' + (VARIANT_OFFSET - TRANSCRIPT_BACKBONE_HEIGHT) + ')')
-                          .attr('fill', consequenceColor)
-                          .attr('z-index', 30)
-                          .on("click", d => {
-                            renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
-                          })
-                          .datum({fmin: fmin, fmax: fmax});
-                      }
-                      else{
-                        console.warn("type not found",type,variant);
-                        drawnVariant = false ;
-                      }
-                      if(drawnVariant && showVariantLabel){
-                        let symbol_string = getVariantSymbol(variant);
-                        const symbol_string_length = symbol_string.length ? symbol_string.length : 1;
-                        // console.log('symbold string',symbol_string,symbol_string_length,fmin)
-                        isoform.append('text')
-                          .attr('class', 'variantLabel')
-                          .attr('fill', selected ? 'sandybrown' : consequenceColor)
-                          .attr('opacity', selected ? 1 : 0.5)
-                          .attr('height', ISOFORM_TITLE_HEIGHT)
-                          .attr("transform", `translate(${x(fmin-(symbol_string_length/2.0*100))},${(VARIANT_OFFSET*2.2)- TRANSCRIPT_BACKBONE_HEIGHT})`)
-                          .html(symbol_string)
-                          .on("click", d => {
-                            renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
-                          })
-                          .datum({fmin: featureChild.fmin});
-                      }
+                  if (typeof sortAValue === 'number' && typeof sortBValue === 'number') {
+                    return sortAValue - sortBValue;
                   }
-                  });
-                }
-              });
+                  if (typeof sortAValue === 'number' && typeof sortBValue !== 'number') {
+                    return -1;
+                  }
+                  if (typeof sortAValue !== 'number' && typeof sortBValue === 'number') {
+                    return 1;
+                  }
+                  // NOTE: type not found and weighted
+                  return a.type - b.type;
+                });
+
+                featureChild.children.forEach(function (innerChild) {
+                  let innerType = innerChild.type;
+
+
+                  let validInnerType = false;
+                  if (exon_feats.indexOf(innerType) >= 0) {
+                    validInnerType = true;
+                    isoform.append('rect')
+                      .attr('class', 'exon')
+                      .attr('x', x(innerChild.fmin))
+                      .attr('transform', 'translate(0,' + (EXON_HEIGHT - TRANSCRIPT_BACKBONE_HEIGHT) + ')')
+                      .attr('height', EXON_HEIGHT)
+                      .attr('z-index', 10)
+                      .attr('width', x(innerChild.fmax) - x(innerChild.fmin))
+                      .on("click", d => {
+                        renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
+                      })
+                      .datum({fmin: innerChild.fmin, fmax: innerChild.fmax});
+                  } else if (CDS_feats.indexOf(innerType) >= 0) {
+                    validInnerType = true;
+                    isoform.append('rect')
+                      .attr('class', 'CDS')
+                      .attr('x', x(innerChild.fmin))
+                      .attr('transform', 'translate(0,' + (CDS_HEIGHT - TRANSCRIPT_BACKBONE_HEIGHT) + ')')
+                      .attr('z-index', 20)
+                      .attr('height', CDS_HEIGHT)
+                      .attr('width', x(innerChild.fmax) - x(innerChild.fmin))
+                      .on("click", d => {
+                        renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
+                      })
+                      .datum({fmin: innerChild.fmin, fmax: innerChild.fmax});
+                  } else if (UTR_feats.indexOf(innerType) >= 0) {
+                    validInnerType = true;
+                    isoform.append('rect')
+                      .attr('class', 'UTR')
+                      .attr('x', x(innerChild.fmin))
+                      .attr('transform', 'translate(0,' + (UTR_HEIGHT - TRANSCRIPT_BACKBONE_HEIGHT) + ')')
+                      .attr('z-index', 20)
+                      .attr('height', UTR_HEIGHT)
+                      .attr('width', x(innerChild.fmax) - x(innerChild.fmin))
+                      .on("click", d => {
+                        renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
+                      })
+                      .datum({fmin: innerChild.fmin, fmax: innerChild.fmax});
+                  }
+                  if (validInnerType) {
+
+                    let variantBins = generateVariantDataBinsAndDataSets(variantData);
+                    // TODO: remove this once no longer needed
+                    generateVariantBins(variantData)
+
+                    // 12 if all have 1
+                    variantBins.forEach(variant => {
+                      let {type, fmax, fmin} = variant;
+                      if (
+                        (fmin < innerChild.fmin && fmax > innerChild.fmin)
+                        || (fmax > innerChild.fmax && fmin < innerChild.fmax)
+                        || (fmax <= innerChild.fmax && fmin >= innerChild.fmin)
+                      ) {
+                        let drawnVariant = true;
+                        const descriptions = getVariantDescriptions(variant);
+                        // const consequence = description.consequence ? description.consequence : "UNKNOWN";
+                        const consequenceColor = getColorsForConsequences(descriptions)[0];
+                        let descriptionHtml = renderVariantDescriptions(descriptions);
+                        const width = Math.ceil(x(fmax)-x(fmin)) < MIN_WIDTH ? MIN_WIDTH : Math.ceil(x(fmax)-x(fmin));
+                        if (type.toLowerCase() === 'deletion' || type.toLowerCase() === 'mnv') {
+                          isoform.append('rect')
+                            .attr('class', 'variant-deletion')
+                            .attr('x', x(fmin))
+                            .attr('transform', 'translate(0,' + (VARIANT_OFFSET - TRANSCRIPT_BACKBONE_HEIGHT) + ')')
+                            .attr('z-index', 30)
+                            .attr('fill', consequenceColor)
+                            .attr('height', VARIANT_HEIGHT)
+                            .attr('width', width)
+                            .on("click", d => {
+                              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
+                            })
+                            .datum({fmin: fmin, fmax: fmax});
+                        } else if (type.toLowerCase() === 'snv' || type.toLowerCase() === 'point_mutation') {
+                          isoform.append('polygon')
+                            .attr('class', 'variant-SNV')
+                            .attr('points', snv_points(x(fmin)))
+                            .attr('fill', consequenceColor)
+                            .attr('x', x(fmin))
+                            .attr('transform', 'translate(0,' + (VARIANT_OFFSET - TRANSCRIPT_BACKBONE_HEIGHT) + ')')
+                            .attr('z-index', 30)
+                            .on("click", d => {
+                              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
+                            })
+                            .datum({fmin: fmin, fmax: fmax});
+                        }
+                        else if (type.toLowerCase() === 'insertion') {
+                          isoform.append('polygon')
+                            .attr('class', 'variant-insertion')
+                            .attr('points', insertion_points(x(fmin)))
+                            .attr('fill', consequenceColor)
+                            .attr('x', x(fmin))
+                            .attr('transform', 'translate(0,' + (VARIANT_OFFSET - TRANSCRIPT_BACKBONE_HEIGHT) + ')')
+                            .attr('z-index', 30)
+                            .on("click", d => {
+                              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
+                            })
+                            .datum({fmin: fmin, fmax: fmax});
+                        }
+                        else if (type.toLowerCase() === 'delins'
+                          || type.toLowerCase() === 'substitution'
+                          || type.toLowerCase() === 'indel'
+                        ) {
+                          isoform.append('polygon')
+                            .attr('class', 'variant-delins')
+                            .attr('points', delins_points(x(fmin)))
+                            .attr('x', x(fmin))
+                            .attr('transform', 'translate(0,' + (VARIANT_OFFSET - TRANSCRIPT_BACKBONE_HEIGHT) + ')')
+                            .attr('fill', consequenceColor)
+                            .attr('z-index', 30)
+                            .on("click", d => {
+                              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
+                            })
+                            .datum({fmin: fmin, fmax: fmax});
+                        }
+                        else{
+                          console.warn("type not found",type,variant);
+                          drawnVariant = false ;
+                        }
+                        if(drawnVariant && showVariantLabel){
+                          let symbol_string = getVariantSymbol(variant);
+                          const symbol_string_length = symbol_string.length ? symbol_string.length : 1;
+                          isoform.append('text')
+                            .attr('class', 'variantLabel')
+                            .attr('fill', selected ? 'sandybrown' : consequenceColor)
+                            .attr('opacity', selected ? 1 : 0.5)
+                            .attr('height', ISOFORM_TITLE_HEIGHT)
+                            .attr("transform", `translate(${x(fmin-(symbol_string_length/2.0*100))},${(VARIANT_OFFSET*2.2)- TRANSCRIPT_BACKBONE_HEIGHT})`)
+                            .html(symbol_string)
+                            .on("click", d => {
+                              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
+                            })
+                            .datum({fmin: featureChild.fmin});
+                        }
+                    }
+                    });
+                  }
+                });
+              }
               row_count += 1;
 
             }
@@ -506,18 +504,24 @@ export default class IsoformVariantTrack {
 
   }
 
-  async populateTrack(track,geneCallbackFunction,variantCallbackFunction) {
-    await this.getTrackData(track,geneCallbackFunction);
-    await this.getVariantData(track,variantCallbackFunction);
+  async populateTrack(track) {
+    await this.getTrackData(track);
+    await this.getVariantData(track);
   }
 
   /* Method for isoformTrack service call */
-  async getVariantData(track,callbackFunction) {
-    this.variantData = await callbackFunction();
+  async getTrackData(track) {
+    let externalLocationString = track["chromosome"] + ':' + track["start"] + '..' + track["end"];
+    const isoformUrl = track["isoform_url"];
+    const dataUrl = isoformUrl[0] + encodeURI(track["genome"]) + isoformUrl[1] + encodeURI(externalLocationString) + isoformUrl[2];
+    this.trackData= await apolloService.fetchDataFromUrl(dataUrl);
   }
 
   /* Method for isoformTrack service call */
-  async getTrackData(track,callbackFunction) {
-    this.trackData = await callbackFunction();
+  async getVariantData(track) {
+    const externalLocationString = track["chromosome"] + ':' + track["start"] + '..' + track["end"];
+    const variantUrl = track["variant_url"];
+    const dataUrl = variantUrl[0] + encodeURI(track["genome"]) + variantUrl[1] + encodeURI(externalLocationString) + variantUrl[2];
+    this.variantData = await apolloService.fetchDataFromUrl(dataUrl);
   }
 }

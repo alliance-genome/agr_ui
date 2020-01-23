@@ -279,7 +279,7 @@ export default class IsoformTrack {
         let externalLocationString = track["chromosome"] + ':' + track["start"] + '..' + track["end"];
         var dataUrl = track["url"][0] + encodeURI(track["genome"]) + track["url"][1] + encodeURI(externalLocationString) + track["url"][2];
         let apolloService = new ApolloService();
-        this.trackData = await apolloService.GetIsoformTrack(dataUrl).then((data) => {
+        this.trackData = await apolloService.fetchDataFromUrl(dataUrl).then((data) => {
             return data ;
         });
     }

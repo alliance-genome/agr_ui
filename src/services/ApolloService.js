@@ -6,7 +6,7 @@ export class ApolloService
     */
     constructor(){ }
 
-    GetIsoformTrack(url){
+    fetchDataFromUrl(url){
         return new Promise((resolve, reject) =>{
             fetch(url).then((response) => {
                 resolve(response.json())
@@ -16,7 +16,7 @@ export class ApolloService
         });
     }
 
-    GetLocalSequence(build, chromosome, start, end){
+  GetLocalSequence(build, chromosome, start, end){
         let url = "http://demo.genomearchitect.org/Apollo2/sequence/Human-Hg38/chr" + chromosome + ":" + start + ".." + end
         return new Promise((resolve, reject)=>{
             fetch(url).then((response) =>{
