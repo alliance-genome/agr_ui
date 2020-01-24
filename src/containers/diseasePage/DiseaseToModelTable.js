@@ -97,6 +97,7 @@ const DiseaseToModelTable = ({associations, fetchAssociations, id}) => {
       columns={columns}
       data={data}
       downloadUrl={`/api/disease/${id}/models/download`}
+      key={id}
       keyField='primaryKey'
       loading={associations.loading}
       onUpdate={fetchAssociations}

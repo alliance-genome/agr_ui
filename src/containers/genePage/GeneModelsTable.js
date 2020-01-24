@@ -8,7 +8,7 @@ import ExternalLink from '../../components/externalLink';
 import CollapsibleList from '../../components/collapsibleList/collapsibleList';
 import {Link} from 'react-router-dom';
 
-const GeneModelsTable = ({dispatchFetchModels, models}) => {
+const GeneModelsTable = ({dispatchFetchModels, id, models}) => {
   const columns = [
     {
       dataField: 'name',
@@ -62,6 +62,7 @@ const GeneModelsTable = ({dispatchFetchModels, models}) => {
     <RemoteDataTable
       columns={columns}
       data={models.data}
+      key={id}
       keyField='id'
       loading={models.loading}
       onUpdate={dispatchFetchModels}
