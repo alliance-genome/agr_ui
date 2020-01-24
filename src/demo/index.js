@@ -1,4 +1,5 @@
 import GenomeFeatureViewer from 'GenomeFeatureViewer';
+import {TRACK_TYPE} from "../tracks/TrackTypeEnum";
 
 // const BASE_URL = 'http://localhost:8080/apollo';
 // const BASE_URL = 'http://54.91.83.120:8080/apollo';
@@ -13,37 +14,6 @@ fishExamples();
 ratExamples();
 mouseExamples();
 flyExamples();
-
-function createExample(divId,showLabel,variantFilter){
-  let configGlobal1 = {
-    "locale": "global",
-    "chromosome": '2L',
-    "start": 132412,
-    "end": 230018,
-    "showVariantLabel":showLabel ,
-    "variantFilter":variantFilter ? variantFilter : [],
-    "tracks": [
-      {
-        "id": 12,
-        "genome":"Fly",
-        "type": "isoform_variant",
-        "isoform_url": [
-          `${BASE_URL}/track/`,
-          "/All%20Genes/",
-          ".json"
-        ],
-        "variant_url": [
-          `${BASE_URL}/vcf/`,
-          "/Phenotypic%20Variants/",
-          ".json"
-        ],
-
-      },
-    ]
-  };
-
-  new GenomeFeatureViewer(configGlobal1, `#${divId}`, 900, 500);
-}
 
 function networkExample(){
   createNetworkExample("10:94485648..94489071","rat","networkExampleRat1",false,null);
@@ -64,7 +34,7 @@ function createNetworkExample(range,genome,divId,showLabel,variantFilter){
       {
         "id": 12,
         "genome": genome,
-        "type": "isoform_variant",
+        "type": TRACK_TYPE.ISOFORM_EMBEDDED_VARIANT,
         "isoform_url": [
           `${BASE_URL}/track/`,
           "/All%20Genes/",
@@ -139,7 +109,7 @@ function oldExamples(){
       {
         "id": 1,
         "genome":"Mus musculus",
-        "type": "isoform",
+        "type": TRACK_TYPE.ISOFORM,
         "url": [
           "https://agr-apollo.berkeleybop.io/apollo/track/",
           "/All%20Genes/",
@@ -179,7 +149,7 @@ function oldExamples(){
       {
         "id": 1,
         "genome":"Drosophila melanogaster",
-        "type": "isoform",
+        "type": TRACK_TYPE.ISOFORM,
         "url": [
           "https://agr-apollo.berkeleybop.io/apollo/track/",
           "/All%20Genes/",

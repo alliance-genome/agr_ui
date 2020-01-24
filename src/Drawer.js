@@ -5,7 +5,8 @@ import VariantTrack from './tracks/VariantTrack';
 import VariantTrackGlobal from './tracks/VariantTrackGlobal';
 import * as d3 from "d3";
 import { getTranslate } from './RenderFunctions';
-import IsoformVariantTrack from "./tracks/IsoformVariantTrack";
+import IsoformEmbeddedVariantTrack from "./tracks/IsoformEmbeddedVariantTrack";
+import {TRACK_TYPE} from "./tracks/TrackTypeEnum";
 
 const LABEL_OFFSET = 100 ;
 /*
@@ -94,25 +95,25 @@ export default class Drawer {
             track["end"] = end;
             track["chromosome"] = chromosome;
           track["variant_filter"] = variantFilter;
-          if(track.type === "isoform_variant")
+          if(track.type === TRACK_TYPE.ISOFORM_EMBEDDED_VARIANT)
           {
-            const isoformVariantTrack = new IsoformVariantTrack(viewer, track, height, width,transcriptTypes,variantTypes,showVariantLabel,variantFilter);
+            const isoformVariantTrack = new IsoformEmbeddedVariantTrack(viewer, track, height, width,transcriptTypes,variantTypes,showVariantLabel,variantFilter);
             await isoformVariantTrack.populateTrack(track,() => track.isoformFunction,() => track.variantFunction);
             track_height += isoformVariantTrack.DrawTrack();
           }
-          else if(track.type === "isoform")
+          else if(track.type === TRACK_TYPE.ISOFORM)
             {
                 const isoformTrack = new IsoformTrack(viewer, track, height, width,transcriptTypes);
                 await isoformTrack.getTrackData(track);
                 track_height += isoformTrack.DrawTrack();
             }
-            else if(track.type === "variant")
+            else if(track.type === TRACK_TYPE.VARIANT)
             {
                 track["range"] = sequenceOptions["range"];
                 const variantTrack = new VariantTrack(viewer, track, height, width);
                 await variantTrack.getTrackData();
                 variantTrack.DrawTrack();
-            }else if(track.type === "variant-global"){
+            }else if(track.type === TRACK_TYPE.VARIANT_GLOBAL){
                 track["range"] = sequenceOptions["range"];
                 const variantTrack = new VariantTrackGlobal(viewer, track, height, width);
                 await variantTrack.getTrackData();

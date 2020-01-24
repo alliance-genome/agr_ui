@@ -14,7 +14,7 @@ import {renderTrackDescription} from "../services/TrackService";
 import {ApolloService} from "../services/ApolloService";
 let apolloService = new ApolloService();
 
-export default class IsoformVariantTrack {
+export default class IsoformEmbeddedVariantTrack {
 
   constructor(viewer, track, height, width, transcriptTypes, variantTypes,showVariantLabel,variantFilter) {
     this.trackData = {};

@@ -57,7 +57,7 @@ From an example ReactJS environment (also working in VueJS and demo is in Vanill
         {
           'id': 1,
           'genome': this.props.species,
-          'type': 'isoform',
+          'type': 'ISOFORM',
           'url': [
             this.trackDataUrl,
             '/All%20Genes/',
