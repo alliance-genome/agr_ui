@@ -24,7 +24,7 @@ const calculateHighlight = (location, type) => {
   }
 };
 
-const AlleleTable = ({alleles, dispatchFetchAlleles, geneSymbol, geneLocation = {}, species, geneDataProvider}) => {
+const AlleleTable = ({alleles, dispatchFetchAlleles, geneId, geneSymbol, geneLocation = {}, species, geneDataProvider}) => {
 
   const variantNameColWidth = 300;
   const variantTypeColWidth = 150;
@@ -192,6 +192,7 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, geneSymbol, geneLocation = 
     <RemoteDataTable
       columns={columns}
       data={data}
+      key={geneId}
       keyField='symbol'
       loading={alleles.loading}
       onUpdate={dispatchFetchAlleles}

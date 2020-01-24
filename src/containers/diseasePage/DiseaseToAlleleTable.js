@@ -100,6 +100,7 @@ const DiseaseToAlleleTable = ({associations, fetchAssociations, id}) => {
       columns={columns}
       data={associations.data}
       downloadUrl={`/api/disease/${id}/alleles/download`}
+      key={id}
       keyField='primaryKey'
       loading={associations.loading}
       onUpdate={fetchAssociations}
