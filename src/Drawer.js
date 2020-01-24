@@ -1,4 +1,3 @@
-"use strict"
 import IsoformTrack from './tracks/IsoformTrack';
 import ReferenceTrack from './tracks/ReferenceTrack';
 import VariantTrack from './tracks/VariantTrack';
@@ -7,6 +6,7 @@ import * as d3 from "d3";
 import { getTranslate } from './RenderFunctions';
 import IsoformEmbeddedVariantTrack from "./tracks/IsoformEmbeddedVariantTrack";
 import {TRACK_TYPE} from "./tracks/TrackTypeEnum";
+import IsoformAndVariantTrack from "./tracks/IsoformAndVariantTrack";
 
 const LABEL_OFFSET = 100 ;
 /*
@@ -95,6 +95,12 @@ export default class Drawer {
             track["end"] = end;
             track["chromosome"] = chromosome;
           track["variant_filter"] = variantFilter;
+          if(track.type === TRACK_TYPE.ISOFORM_AND_VARIANT)
+          {
+            const isoformVariantTrack = new IsoformAndVariantTrack(viewer, track, height, width,transcriptTypes,variantTypes,showVariantLabel,variantFilter);
+            await isoformVariantTrack.populateTrack(track,() => track.isoformFunction,() => track.variantFunction);
+            track_height += isoformVariantTrack.DrawTrack();
+          }
           if(track.type === TRACK_TYPE.ISOFORM_EMBEDDED_VARIANT)
           {
             const isoformVariantTrack = new IsoformEmbeddedVariantTrack(viewer, track, height, width,transcriptTypes,variantTypes,showVariantLabel,variantFilter);
