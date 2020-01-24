@@ -29,7 +29,7 @@ function createEmbeddedExample(range,genome,divId,showLabel,variantFilter){
       {
         "id": 12,
         "genome": genome,
-        "type": TRACK_TYPE.ISOFORM_EMBEDDED_VARIANT,
+        "type": TRACK_TYPE.ISOFORM_AND_VARIANT,
         "isoform_url": [
           `${BASE_URL}/track/`,
           "/All%20Genes/",
