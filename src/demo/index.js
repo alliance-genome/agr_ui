@@ -7,7 +7,6 @@ const BASE_URL = 'https://agr-apollo.berkeleybop.io/apollo';
 
 // Global View Example
 
-networkExample();
 oldExamples();
 wormExamples();
 fishExamples();
@@ -15,12 +14,8 @@ ratExamples();
 mouseExamples();
 flyExamples();
 
-function networkExample(){
-  createNetworkExample("10:94485648..94489071","rat","networkExampleRat1",false,null);
-  createNetworkExample("V:7114..57432","worm","networkExampleWorm1",false,null);
-}
 
-function createNetworkExample(range,genome,divId,showLabel,variantFilter){
+function createEmbeddedExample(range,genome,divId,showLabel,variantFilter){
   const chromosome = range.split(":")[0];
   const [start,end] = range.split(":")[1].split("..");
   let configGlobal1 = {
@@ -56,38 +51,40 @@ function flyExamples(){
   // 2L:132412..230018
 // http://localhost:8080/apollo/vcf/remotefly/Phenotypic%20Variants/2L:132412..230018.json?includeGenotypes=false&ignoreCache=true
 // http://localhost:8080/apollo/track/remotefly/All%20Genes/2L:132412..230018.json?includeGenotypes=false&ignoreCache=true
-  createNetworkExample("2L:130639..135911","fly","viewerFlyExample1",true);
-  createNetworkExample("2R:23974973..23989002","fly","viewerFlyExample3",true,['NT_033778.4:g.23975146T>C']);
-  createNetworkExample("2R:23974973..23989002","fly","viewerFlyExample2",true);
-  createNetworkExample("2L:130639..135911","fly","viewerFlyExample1NoLabel",false);
-  createNetworkExample("2R:23974973..23989002","fly","viewerFlyExample3NoLabel",false,['NT_033778.4:g.23975146T>C']);
-  createNetworkExample("2R:23974973..23989002","fly","viewerFlyExample2NoLabel",false);
+  createEmbeddedExample("2L:130639..135911","fly","viewerFlyExample1",true);
+  createEmbeddedExample("2R:23974973..23989002","fly","viewerFlyExample3",true,['NT_033778.4:g.23975146T>C']);
+  createEmbeddedExample("2R:23974973..23989002","fly","viewerFlyExample2",true);
+  createEmbeddedExample("2L:130639..135911","fly","viewerFlyExample1NoLabel",false);
+  createEmbeddedExample("2R:23974973..23989002","fly","viewerFlyExample3NoLabel",false,['NT_033778.4:g.23975146T>C']);
+  createEmbeddedExample("2R:23974973..23989002","fly","viewerFlyExample2NoLabel",false);
 }
 
 function ratExamples(){
   // http://localhost:8080/apollo/vcf/remotemouse/Phenotypic%20Variants/6:113619452..113636198.json?includeGenotypes=false&ignoreCache=true
   // http://localhost:8080/apollo/track/remotemouse/All%20Genes/6:113619452..113636198.json?includeGenotypes=false&ignoreCache=true  let configGlobal1 = {
-  createNetworkExample("1:34987290..35280466","rat","viewerRatExample1",true);
-  createNetworkExample("1:34987290..35280466","rat","viewerRatExample1NoLabel",false);
+  createEmbeddedExample("10:94485648..94489071","rat","networkExampleRat1",false,null);
+  createEmbeddedExample("1:34987290..35280466","rat","viewerRatExample1",true);
+  createEmbeddedExample("1:34987290..35280466","rat","viewerRatExample1NoLabel",false);
 }
 function mouseExamples(){
   // http://localhost:8080/apollo/vcf/remotemouse/Phenotypic%20Variants/6:113619452..113636198.json?includeGenotypes=false&ignoreCache=true
   // http://localhost:8080/apollo/track/remotemouse/All%20Genes/6:113619452..113636198.json?includeGenotypes=false&ignoreCache=true  let configGlobal1 = {
-  createNetworkExample("6:113619452..113636198","mouse","viewerMouseExample1",true);
-  createNetworkExample("6:113619452..113636198","mouse","viewerMouseExample1NoLabel",false);
+  createEmbeddedExample("6:113619452..113636198","mouse","viewerMouseExample1",true);
+  createEmbeddedExample("6:113619452..113636198","mouse","viewerMouseExample1NoLabel",false);
 }
 
 function fishExamples(){
-  createNetworkExample("14:5383966..5390885","zebrafish","viewerFishLbx2",true);
-  createNetworkExample("8:40452405..40469627","zebrafish","viewerFishMyl7",true);
-  createNetworkExample("14:5383966..5390885","zebrafish","viewerFishLbx2NoLabel",false);
-  createNetworkExample("8:40452405..40469627","zebrafish","viewerFishMyl7NoLabel",false);
+  createEmbeddedExample("14:5383966..5390885","zebrafish","viewerFishLbx2",true);
+  createEmbeddedExample("8:40452405..40469627","zebrafish","viewerFishMyl7",true);
+  createEmbeddedExample("14:5383966..5390885","zebrafish","viewerFishLbx2NoLabel",false);
+  createEmbeddedExample("8:40452405..40469627","zebrafish","viewerFishMyl7NoLabel",false);
 }
 
 
 function wormExamples(){
-  createNetworkExample("V:7106..57424","worm","viewerWormEgl8",true);
-  createNetworkExample("V:7106..57424","worm","viewerWormEgl8NoLabel",false);
+  createEmbeddedExample("V:7106..57424","worm","viewerWormEgl8",true);
+  createEmbeddedExample("V:7106..57424","worm","viewerWormEgl8NoLabel",false);
+  createEmbeddedExample("V:7114..57432","worm","networkExampleWorm1",false,null);
 }
 
 
