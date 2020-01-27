@@ -10,7 +10,7 @@ import { RemoteDataTable, ReferenceCell } from '../../components/dataTable';
 import AnnotatedEntitiesPopup
   from '../../components/dataTable/AnnotatedEntitiesPopup';
 
-const PhenotypeTable = ({phenotypes, dispatchFetchPhenotypes}) => {
+const PhenotypeTable = ({phenotypes, dispatchFetchPhenotypes, geneId}) => {
   const data = phenotypes.data && phenotypes.data.map(record => (
     {
       ...record,
@@ -54,6 +54,7 @@ const PhenotypeTable = ({phenotypes, dispatchFetchPhenotypes}) => {
     <RemoteDataTable
       columns={columns}
       data={data}
+      downloadUrl={`/api/gene/${geneId}/phenotypes/download`}
       keyField='id'
       loading={phenotypes.loading}
       onUpdate={dispatchFetchPhenotypes}
