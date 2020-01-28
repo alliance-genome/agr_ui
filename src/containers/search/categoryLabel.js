@@ -8,7 +8,7 @@ const CategoryLabel = ({category, hideImage, hideLabel}) => {
   let current = CATEGORIES.find(cat => cat.name === category);
   return (
     <span className={`${style.categoryLabel} ${style[category]} ${hideImage ? style.noIcon : ''}`}>
-      {!hideLabel && current.displayName}
+      {!hideLabel && current && current.displayName}
     </span>
   );
 };
