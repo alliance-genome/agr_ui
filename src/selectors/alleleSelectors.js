@@ -16,3 +16,8 @@ export const selectError = createSelector(
   [selectAlleleDomain],
   (disease) => disease.get('error')
 );
+
+export const selectDiseaseAssociations = createSelector(
+  [selectAlleleDomain],
+  allele => allele.get('diseaseAssociations').toJS()
+);
