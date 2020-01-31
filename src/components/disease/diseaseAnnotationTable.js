@@ -8,7 +8,6 @@ import {
   SpeciesCell,
   GeneCell,
   ReferenceCell,
-  DiseaseNameCell,
   EvidenceCodesCell,
   BasedOnGeneCell,
   RemoteDataTable,
@@ -18,6 +17,7 @@ import {
 import { selectDiseaseRibbonAnnotations } from '../../selectors/diseaseRibbonSelectors';
 import { fetchDiseaseRibbonAnnotations } from '../../actions/diseaseRibbonActions';
 import AnnotatedEntitiesPopup from '../dataTable/AnnotatedEntitiesPopup';
+import DiseaseLink from './DiseaseLink';
 
 /*
  * Disease ribbon-table
@@ -80,8 +80,8 @@ class DiseaseAnnotationTable extends Component {
         dataField: 'disease',
         text: 'Disease',
         filterable: true,
-        headerStyle: {width: '100px'},
-        formatter: DiseaseNameCell,
+        headerStyle: {width: '150px'},
+        formatter: disease => <DiseaseLink disease={disease} />,
       },
       {
         dataField: 'associationType',

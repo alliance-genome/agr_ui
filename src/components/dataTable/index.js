@@ -1,5 +1,4 @@
 import AlleleCell from './AlleleCell';
-import DiseaseNameCell from './diseaseNameCell';
 import GeneCell from './geneCell';
 import EvidenceCodesCell from './evidenceCodesCell';
 import GeneticEntityCell from './geneticEntityCell';
@@ -17,7 +16,6 @@ import TableSummary from './tableSummary';
 
 export {
   AlleleCell,
-  DiseaseNameCell,
   GeneCell,
   EvidenceCodesCell,
   GeneticEntityCell,
