@@ -53,6 +53,7 @@ const PhenotypeTable = ({geneId, phenotypes, dispatchFetchPhenotypes}) => {
     <RemoteDataTable
       columns={columns}
       data={data}
+      downloadUrl={`/api/gene/${geneId}/phenotypes/download`}
       key={geneId}
       keyField='id'
       loading={phenotypes.loading}
