@@ -6,7 +6,6 @@ import {fetchModels} from '../../actions/geneActions';
 import {RemoteDataTable} from '../../components/dataTable';
 import ExternalLink from '../../components/externalLink';
 import CollapsibleList from '../../components/collapsibleList/collapsibleList';
-import {Link} from 'react-router-dom';
 import DiseaseLink from '../../components/disease/DiseaseLink';
 
 const GeneModelsTable = ({dispatchFetchModels, id, models}) => {
