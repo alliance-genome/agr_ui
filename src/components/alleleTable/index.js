@@ -10,6 +10,7 @@ import SynonymList from '../synonymList';
 import {RemoteDataTable} from '../dataTable';
 import ExternalLink from '../externalLink';
 import {fetchAlleles} from '../../actions/geneActions';
+import DiseaseLink from '../disease/DiseaseLink';
 
 const calculateHighlight = (location, type) => {
   switch(type){
@@ -59,7 +60,7 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, geneId, geneSymbol, geneLoc
       },
       formatter: diseases => (
         <CollapsibleList collapsedSize={2}>
-          {diseases.map(disease => <Link key={disease.id} to={`/disease/${disease.id}`}>{disease.name}</Link>)}
+          {diseases.map(disease => <DiseaseLink key={disease.id} disease={disease} />)}
         </CollapsibleList>
       ),
       headerStyle: {width: '150px'},

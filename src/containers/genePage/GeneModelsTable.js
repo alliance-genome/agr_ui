@@ -7,6 +7,7 @@ import {RemoteDataTable} from '../../components/dataTable';
 import ExternalLink from '../../components/externalLink';
 import CollapsibleList from '../../components/collapsibleList/collapsibleList';
 import {Link} from 'react-router-dom';
+import DiseaseLink from '../../components/disease/DiseaseLink';
 
 const GeneModelsTable = ({dispatchFetchModels, id, models}) => {
   const columns = [
@@ -26,7 +27,7 @@ const GeneModelsTable = ({dispatchFetchModels, id, models}) => {
       text: 'Associated Human Diseases',
       formatter: diseases => diseases && (
         <CollapsibleList collapsedSize={diseases.length}>
-          {diseases.map(disease => <Link key={disease.id} to={`/disease/${disease.id}`}>{disease.name}</Link>)}
+          {diseases.map(disease => <DiseaseLink disease={disease} key={disease.id} />)}
         </CollapsibleList>
       ),
       filterable: true,
