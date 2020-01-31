@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {
   GeneCell,
   RemoteDataTable,
-  FilterSets,
 } from '../dataTable';
 import CommaSeparatedList from '../commaSeparatedList';
 import ExternalLink from '../externalLink';
@@ -33,6 +32,8 @@ const GenePhysicalInteractionDetailTable = ({dispatchFetchInteractions, focusGen
     reference: interaction.publication,
   }));
 
+  const {supplementalData: {distinctFieldValues = {}} = {}} = interactions;
+
   const columns = [
     {
       dataField: 'id',
@@ -54,7 +55,7 @@ const GenePhysicalInteractionDetailTable = ({dispatchFetchInteractions, focusGen
       headerStyle: {width: '6em'},
       headerClasses: style.columnHeaderGroup1,
       classes: style.columnGroup1,
-      filterable: FilterSets.moleculeTypes,
+      filterable: distinctFieldValues['filter.moleculeType'],
     },
     {
       dataField: 'interactorGeneSymbol',
@@ -72,7 +73,7 @@ const GenePhysicalInteractionDetailTable = ({dispatchFetchInteractions, focusGen
       headerStyle: {width: '8em'},
       headerClasses: style.columnHeaderGroup2,
       classes: style.columnGroup2,
-      filterable: FilterSets.species,
+      filterable: distinctFieldValues['filter.interactorSpecies'],
     },
     {
       dataField: 'interactorMoleculeType',
@@ -86,7 +87,7 @@ const GenePhysicalInteractionDetailTable = ({dispatchFetchInteractions, focusGen
       headerStyle: {width: '6em'},
       headerClasses: style.columnHeaderGroup2,
       classes: style.columnGroup2,
-      filterable: FilterSets.moleculeTypes,
+      filterable: distinctFieldValues['filter.interactorMoleculeType'],
     },
     {
       dataField: 'detectionMethod',
