@@ -60,7 +60,7 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, geneId, geneSymbol, geneLoc
       },
       formatter: diseases => (
         <CollapsibleList collapsedSize={2}>
-          {diseases.map(disease => <DiseaseLink key={disease.id} disease={disease} />)}
+          {diseases.map(disease => <DiseaseLink disease={disease} key={disease.id} />)}
         </CollapsibleList>
       ),
       headerStyle: {width: '150px'},
