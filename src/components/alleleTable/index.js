@@ -7,7 +7,7 @@ import {stringify as stringifyQuery} from 'query-string';
 import {compareAlphabeticalCaseInsensitive} from '../../lib/utils';
 import CollapsibleList from '../collapsibleList/collapsibleList';
 import SynonymList from '../synonymList';
-import {RemoteDataTable} from '../dataTable';
+import {AlleleCell, RemoteDataTable} from '../dataTable';
 import ExternalLink from '../externalLink';
 import {fetchAlleles} from '../../actions/geneActions';
 import DiseaseLink from '../disease/DiseaseLink';
@@ -35,11 +35,7 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, geneId, geneSymbol, geneLoc
     {
       dataField: 'symbol',
       text: 'Allele Symbol',
-      formatter: (symbol, {id}) => (
-        <Link to={`/allele/${id}`}>
-          <span dangerouslySetInnerHTML={{ __html: symbol }} />
-        </Link>
-      ),
+      formatter: (_, allele) => <AlleleCell allele={allele} />,
       headerStyle: {width: '185px'},
       filterable: true,
       isKey: true,
