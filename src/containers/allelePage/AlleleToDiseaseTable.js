@@ -4,19 +4,19 @@ import { connect } from 'react-redux';
 import {selectDiseaseAssociations} from '../../selectors/alleleSelectors';
 import {fetchAlleleDisease} from '../../actions/alleleActions';
 import {
-  DiseaseNameCell,
   ReferenceCell,
   RemoteDataTable
 } from '../../components/dataTable';
 import AnnotatedEntitiesPopup
   from '../../components/dataTable/AnnotatedEntitiesPopup';
+import DiseaseLink from '../../components/disease/DiseaseLink';
 
 const AlleleToDiseaseTable = ({alleleId, diseaseAssociations, dispatchFetchDiseaseAssociations}) => {
   const columns = [
     {
       dataField: 'disease',
       text: 'Disease',
-      formatter: DiseaseNameCell,
+      formatter: disease => <DiseaseLink disease={disease} />,
       headerStyle: {width: '100px'},
       filterable: true,
     },
