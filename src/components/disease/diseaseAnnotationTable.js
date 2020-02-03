@@ -12,12 +12,13 @@ import {
   EvidenceCodesCell,
   BasedOnGeneCell,
   RemoteDataTable,
-  FilterSets,
-
 } from '../dataTable';
 import { selectDiseaseRibbonAnnotations } from '../../selectors/diseaseRibbonSelectors';
 import { fetchDiseaseRibbonAnnotations } from '../../actions/diseaseRibbonActions';
 import AnnotatedEntitiesPopup from '../dataTable/AnnotatedEntitiesPopup';
+import {getDistinctFieldValue} from '../dataTable/utils';
+import {compareByFixedOrder} from '../../lib/utils';
+import {SPECIES_NAME_ORDER} from '../../constants';
 
 /*
  * Disease ribbon-table
@@ -55,7 +56,7 @@ class DiseaseAnnotationTable extends Component {
       {
         dataField: 'species',
         text: 'Species',
-        filterable: FilterSets.species,
+        filterable: getDistinctFieldValue(annotations, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
         headerStyle: {width: '100px'},
         formatter: species => <SpeciesCell species={species} />,
         hidden: genes.length < 2
@@ -87,7 +88,7 @@ class DiseaseAnnotationTable extends Component {
         dataField: 'associationType',
         text: 'Association',
         formatter: (type) => type.replace(/_/g, ' '),
-        filterable: FilterSets.associationTypes,
+        filterable: getDistinctFieldValue(annotations, 'associationType').map(type => type.replace(/_/g, ' ')),
         headerStyle: {width: '120px'},
       },
       {

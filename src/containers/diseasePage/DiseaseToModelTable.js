@@ -4,14 +4,18 @@ import PropTypes from 'prop-types';
 import {selectModelAssociations} from '../../selectors/diseaseSelectors';
 import {fetchModelAssociations} from '../../actions/diseaseActions';
 import {
-  DiseaseNameCell, EvidenceCodesCell,
-  FilterSets, ReferenceCell,
+  DiseaseNameCell,
+  EvidenceCodesCell,
+  ReferenceCell,
   RemoteDataTable,
   SpeciesCell
 } from '../../components/dataTable';
 import AnnotatedEntitiesPopup
   from '../../components/dataTable/AnnotatedEntitiesPopup';
 import ExternalLink from '../../components/externalLink';
+import {getDistinctFieldValue} from '../../components/dataTable/utils';
+import {compareByFixedOrder} from '../../lib/utils';
+import {SPECIES_NAME_ORDER} from '../../constants';
 
 const DiseaseToModelTable = ({associations, fetchAssociations, id}) => {
   const columns = [
@@ -39,7 +43,7 @@ const DiseaseToModelTable = ({associations, fetchAssociations, id}) => {
       dataField: 'species',
       text: 'Species',
       formatter: species => <SpeciesCell species={species} />,
-      filterable: FilterSets.species,
+      filterable: getDistinctFieldValue(associations, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       headerStyle: {width: '105px'},
     },
     {
