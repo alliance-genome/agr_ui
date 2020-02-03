@@ -53,6 +53,7 @@ const AlleleToPhenotypeTable = ({alleleId, fetchPhenotypes, phenotypes}) => {
       columns={columns}
       data={data}
       downloadUrl={`/api/allele/${alleleId}/phenotypes/download`}
+      key={alleleId}
       keyField='id'
       loading={phenotypes.loading}
       onUpdate={fetchPhenotypes}
