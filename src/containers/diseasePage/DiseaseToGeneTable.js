@@ -11,16 +11,20 @@ import ExternalLink from '../../components/externalLink';
 import {CollapsibleList} from '../../components/collapsibleList';
 import {
   EvidenceCodesCell,
-  FilterSets,
   GeneCell,
   ReferenceCell,
   RemoteDataTable,
   SpeciesCell
 } from '../../components/dataTable';
-import {shortSpeciesName} from '../../lib/utils';
+import {
+  compareByFixedOrder,
+  shortSpeciesName
+} from '../../lib/utils';
 import AnnotatedEntitiesPopup
   from '../../components/dataTable/AnnotatedEntitiesPopup';
 import DiseaseLink from '../../components/disease/DiseaseLink';
+import {getDistinctFieldValue} from '../../components/dataTable/utils';
+import {SPECIES_NAME_ORDER} from '../../constants';
 
 const DiseaseToGeneTable = ({associations, fetchAssociations, id}) => {
   const columns = [
@@ -45,14 +49,14 @@ const DiseaseToGeneTable = ({associations, fetchAssociations, id}) => {
       dataField: 'species',
       text: 'Species',
       formatter: species => <SpeciesCell species={species} />,
-      filterable: FilterSets.species,
+      filterable: getDistinctFieldValue(associations, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       headerStyle: {width: '105px'},
     },
     {
       dataField: 'associationType',
       text: 'Association',
       formatter: (type) => type.replace(/_/g, ' '),
-      filterable: FilterSets.associationTypesWithOrthology,
+      filterable: getDistinctFieldValue(associations, 'associationType').map(type => type.replace(/_/g, ' ')),
       headerStyle: {width: '110px'},
     },
     {
