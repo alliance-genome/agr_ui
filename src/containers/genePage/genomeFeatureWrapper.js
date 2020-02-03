@@ -12,6 +12,7 @@ import {getTranscriptTypes} from '../../lib/genomeFeatureTypes';
 import LoadingSpinner from '../../components/loadingSpinner';
 import '../../style.scss';
 import HorizontalScroll from '../../components/horizontalScroll';
+import {SPECIES} from '../../constants';
 
 class GenomeFeatureWrapper extends Component {
 
@@ -53,6 +54,10 @@ class GenomeFeatureWrapper extends Component {
     this.loadGenomeFeature();
   }
 
+  getSpeciesString(species){
+    return SPECIES.find( s => s.fullName===species).apolloName;
+  }
+
 
   loadGenomeFeature() {
     const {chromosome, fmin, fmax, primaryId,geneSymbol, synonyms = []} = this.props;
@@ -80,7 +85,7 @@ class GenomeFeatureWrapper extends Component {
       'tracks': [
         {
           'id': 1,
-          'genome': this.props.species,
+          'genome': this.getSpeciesString(this.props.species),
           'type': 'isoform',
           'url': [
             this.trackDataUrl,
