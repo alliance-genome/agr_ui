@@ -24,6 +24,7 @@ import PageNavEntity from '../../components/dataPage/PageNavEntity';
 import DataSourceLink from '../../components/dataSourceLink';
 import {Link} from 'react-router-dom';
 import {setPageLoading} from '../../actions/loadingActions';
+import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
 import AlleleToDiseaseTable from './AlleleToDiseaseTable';
 
 const SUMMARY = 'Summary';
@@ -68,6 +69,7 @@ class AllelePage extends Component {
           </PageNavEntity>
         </PageNav>
         <PageData>
+          <PageCategoryLabel category='allele' />
           <PageHeader entityName={<AlleleSymbol allele={data} />}/>
 
           <Subsection hideTitle title={SUMMARY}>
