@@ -8,7 +8,7 @@ import ExternalLink from '../../components/externalLink';
 import CollapsibleList from '../../components/collapsibleList/collapsibleList';
 import {Link} from 'react-router-dom';
 
-const GeneModelsTable = ({dispatchFetchModels, models}) => {
+const GeneModelsTable = ({dispatchFetchModels, id, models}) => {
   const columns = [
     {
       dataField: 'name',
