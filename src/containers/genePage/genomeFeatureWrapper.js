@@ -53,6 +53,28 @@ class GenomeFeatureWrapper extends Component {
     this.loadGenomeFeature();
   }
 
+  getSpeciesString(species){
+    switch (species) {
+    case 'Danio rerio':
+      return 'zebrafish';
+    case 'Caenorhabditis elegans':
+      return 'worm';
+    case 'Drosophila melanogaster':
+      return 'fly';
+    case 'Homo sapiens':
+      return 'human';
+    case 'Mus musculus':
+      return 'mouse';
+    case 'Rattus norvegicus':
+      return 'rat';
+    case 'Saccharomyces cerevisiae':
+      return 'yeast';
+    default:
+      console.error('Species not found',species);
+      return null ;
+    }
+  }
+
 
   loadGenomeFeature() {
     const {chromosome, fmin, fmax, primaryId,geneSymbol, synonyms = []} = this.props;
@@ -80,7 +102,7 @@ class GenomeFeatureWrapper extends Component {
       'tracks': [
         {
           'id': 1,
-          'genome': this.props.species,
+          'genome': this.getSpeciesString(this.props.species),
           'type': 'isoform',
           'url': [
             this.trackDataUrl,
