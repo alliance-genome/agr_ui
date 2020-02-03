@@ -115,7 +115,7 @@ class GenePage extends Component {
       <DataPage>
         <GeneMetaTags gene={data} />
         <PageNav sections={SECTIONS}>
-          <PageNavEntity entityName={<span className='text-break'>{data.symbol}</span>} icon={<SpeciesIcon scale={0.5} species={data.species.name} />}>
+          <PageNavEntity entityName={data.symbol} icon={<SpeciesIcon scale={0.5} species={data.species.name} />} truncateName>
             <i>{data.species.name}</i>
             <DataSourceLink reference={data.crossReferences.primary} />
           </PageNavEntity>
