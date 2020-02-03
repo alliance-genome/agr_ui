@@ -25,10 +25,13 @@ import DataSourceLink from '../../components/dataSourceLink';
 import {Link} from 'react-router-dom';
 import {setPageLoading} from '../../actions/loadingActions';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
+import AlleleToDiseaseTable from './AlleleToDiseaseTable';
 
 const SUMMARY = 'Summary';
+const DISEASE = 'Disease Associations';
 const SECTIONS = [
   {name: SUMMARY},
+  {name: DISEASE},
 ];
 
 class AllelePage extends Component {
@@ -43,7 +46,7 @@ class AllelePage extends Component {
   }
 
   render() {
-    const {data, error} = this.props;
+    const {alleleId, data, error} = this.props;
 
     if (error) {
       return <NotFound/>;
@@ -71,6 +74,10 @@ class AllelePage extends Component {
 
           <Subsection hideTitle title={SUMMARY}>
             <AlleleSummary allele={data} />
+          </Subsection>
+
+          <Subsection title={DISEASE}>
+            <AlleleToDiseaseTable alleleId={alleleId} />
           </Subsection>
         </PageData>
       </DataPage>
