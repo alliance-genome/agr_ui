@@ -29,7 +29,7 @@ import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
 import AlleleToDiseaseTable from './AlleleToDiseaseTable';
 
 const SUMMARY = 'Summary';
-const PHENOTYPES = 'Phenotype Associations';
+const PHENOTYPES = 'Phenotypes';
 const DISEASE = 'Disease Associations';
 const SECTIONS = [
   {name: SUMMARY},
@@ -79,12 +79,12 @@ class AllelePage extends Component {
             <AlleleSummary allele={data} />
           </Subsection>
 
-          <Subsection title={DISEASE}>
-            <AlleleToDiseaseTable alleleId={alleleId} />
-          </Subsection>
-
           <Subsection title={PHENOTYPES}>
             <AlleleToPhenotypeTable alleleId={alleleId} />
+          </Subsection>
+
+          <Subsection title={DISEASE}>
+            <AlleleToDiseaseTable alleleId={alleleId} />
           </Subsection>
         </PageData>
       </DataPage>
