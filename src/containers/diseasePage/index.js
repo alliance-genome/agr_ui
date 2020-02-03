@@ -23,6 +23,7 @@ import DiseaseToGeneTable from './DiseaseToGeneTable';
 import DiseaseToModelTable from './DiseaseToModelTable';
 import {setPageLoading} from '../../actions/loadingActions';
 import PageNavEntity from '../../components/dataPage/PageNavEntity';
+import DiseaseName from '../../components/disease/DiseaseName';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
 
 class DiseasePage extends Component {
@@ -116,7 +117,7 @@ class DiseasePage extends Component {
       <DataPage>
         <HeadMetaTags jsonLd={jsonLd} title={title} />
         <PageNav sections={SECTIONS}>
-          <PageNavEntity entityName={<span className='hyphenate'>{disease.name}</span>}>
+          <PageNavEntity entityName={<DiseaseName disease={disease} />}>
             <ExternalLink href={disease.url}>{disease.id}</ExternalLink>
           </PageNavEntity>
         </PageNav>

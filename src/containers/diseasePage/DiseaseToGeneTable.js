@@ -10,7 +10,6 @@ import { selectGeneAssociations } from '../../selectors/diseaseSelectors';
 import ExternalLink from '../../components/externalLink';
 import {CollapsibleList} from '../../components/collapsibleList';
 import {
-  DiseaseNameCell,
   EvidenceCodesCell,
   FilterSets,
   GeneCell,
@@ -21,6 +20,7 @@ import {
 import {shortSpeciesName} from '../../lib/utils';
 import AnnotatedEntitiesPopup
   from '../../components/dataTable/AnnotatedEntitiesPopup';
+import DiseaseLink from '../../components/disease/DiseaseLink';
 
 const DiseaseToGeneTable = ({associations, fetchAssociations, id}) => {
   const columns = [
@@ -58,9 +58,9 @@ const DiseaseToGeneTable = ({associations, fetchAssociations, id}) => {
     {
       dataField: 'disease',
       text: 'Disease',
-      formatter: DiseaseNameCell,
+      formatter: disease => <DiseaseLink disease={disease} />,
       filterable: true,
-      headerStyle: {width: '175px'},
+      headerStyle: {width: '150px'},
     },
     {
       dataField: 'evidenceCodes',
@@ -128,6 +128,7 @@ const DiseaseToGeneTable = ({associations, fetchAssociations, id}) => {
       columns={columns}
       data={data}
       downloadUrl={`/api/disease/${id}/genes/download`}
+      key={id}
       keyField='primaryKey'
       loading={associations.loading}
       onUpdate={fetchAssociations}
