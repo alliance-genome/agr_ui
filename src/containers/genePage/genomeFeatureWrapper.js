@@ -12,6 +12,7 @@ import {getTranscriptTypes} from '../../lib/genomeFeatureTypes';
 import LoadingSpinner from '../../components/loadingSpinner';
 import '../../style.scss';
 import HorizontalScroll from '../../components/horizontalScroll';
+import {SPECIES} from '../../constants';
 
 class GenomeFeatureWrapper extends Component {
 
@@ -54,26 +55,7 @@ class GenomeFeatureWrapper extends Component {
   }
 
   getSpeciesString(species){
-    switch (species) {
-    case 'Danio rerio':
-      return 'zebrafish';
-    case 'Caenorhabditis elegans':
-      return 'worm';
-    case 'Drosophila melanogaster':
-      return 'fly';
-    case 'Homo sapiens':
-      return 'human';
-    case 'Mus musculus':
-      return 'mouse';
-    case 'Rattus norvegicus':
-      return 'rat';
-    case 'Saccharomyces cerevisiae':
-      return 'yeast';
-    default:
-      // eslint-disable-next-line no-console
-      console.error('Species not found, so returning same',species);
-      return species;
-    }
+    return SPECIES.find( s => s.fullName===species).apolloName;
   }
 
 
