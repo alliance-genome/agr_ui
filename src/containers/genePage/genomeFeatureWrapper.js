@@ -70,6 +70,7 @@ class GenomeFeatureWrapper extends Component {
     case 'Saccharomyces cerevisiae':
       return 'yeast';
     default:
+      // eslint-disable-next-line no-console
       console.error('Species not found, so returning same',species);
       return species;
     }
