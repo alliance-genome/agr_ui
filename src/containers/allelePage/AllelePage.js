@@ -24,13 +24,16 @@ import PageNavEntity from '../../components/dataPage/PageNavEntity';
 import DataSourceLink from '../../components/dataSourceLink';
 import {Link} from 'react-router-dom';
 import {setPageLoading} from '../../actions/loadingActions';
+import AlleleToPhenotypeTable from './AlleleToPhenotypeTable';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
 import AlleleToDiseaseTable from './AlleleToDiseaseTable';
 
 const SUMMARY = 'Summary';
+const PHENOTYPES = 'Phenotypes';
 const DISEASE = 'Disease Associations';
 const SECTIONS = [
   {name: SUMMARY},
+  {name: PHENOTYPES},
   {name: DISEASE},
 ];
 
@@ -74,6 +77,10 @@ class AllelePage extends Component {
 
           <Subsection hideTitle title={SUMMARY}>
             <AlleleSummary allele={data} />
+          </Subsection>
+
+          <Subsection title={PHENOTYPES}>
+            <AlleleToPhenotypeTable alleleId={alleleId} />
           </Subsection>
 
           <Subsection title={DISEASE}>
