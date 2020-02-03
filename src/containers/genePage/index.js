@@ -27,6 +27,7 @@ import GeneModelsTable from './GeneModelsTable';
 import GeneMetaTags from './GeneMetaTags';
 import {setPageLoading} from '../../actions/loadingActions';
 import PageNavEntity from '../../components/dataPage/PageNavEntity';
+import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
@@ -120,6 +121,7 @@ class GenePage extends Component {
           </PageNavEntity>
         </PageNav>
         <PageData>
+          <PageCategoryLabel category='gene' />
           <PageHeader entityName={data.symbol} />
 
           <Subsection hideTitle title={SUMMARY}>

@@ -3,10 +3,6 @@ import PropTypes from 'prop-types';
 import DownloadFileLink from './downloadFileLink';
 
 const DownloadFileRow = ({description, url, fileType}) => {
-  if (!url) {
-    return null;
-  }
-
   if (!Array.isArray(url)) {
     url = [url];
   }
