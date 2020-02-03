@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {
   AlleleCell,
-  DiseaseNameCell,
   EvidenceCodesCell, FilterSets,
   ReferenceCell,
   RemoteDataTable,
@@ -13,6 +12,7 @@ import {fetchAlleleAssociations} from '../../actions/diseaseActions';
 import {selectAlleleAssociations} from '../../selectors/diseaseSelectors';
 import AnnotatedEntitiesPopup
   from '../../components/dataTable/AnnotatedEntitiesPopup';
+import DiseaseLink from '../../components/disease/DiseaseLink';
 
 const DiseaseToAlleleTable = ({associations, fetchAssociations, id}) => {
   const columns = [
@@ -51,8 +51,8 @@ const DiseaseToAlleleTable = ({associations, fetchAssociations, id}) => {
     {
       dataField: 'disease',
       text: 'Disease',
-      formatter: DiseaseNameCell,
-      headerStyle: {width: '100px'},
+      formatter: disease => <DiseaseLink disease={disease} />,
+      headerStyle: {width: '150px'},
       filterable: true,
     },
     {
@@ -100,6 +100,7 @@ const DiseaseToAlleleTable = ({associations, fetchAssociations, id}) => {
       columns={columns}
       data={associations.data}
       downloadUrl={`/api/disease/${id}/alleles/download`}
+      key={id}
       keyField='primaryKey'
       loading={associations.loading}
       onUpdate={fetchAssociations}

@@ -180,6 +180,7 @@ const GenePhysicalInteractionDetailTable = ({dispatchFetchInteractions, focusGen
         columns={columns}
         data={data}
         downloadUrl={`/api/gene/${focusGeneId}/interactions/download`}
+        key={focusGeneId}
         keyField='id'
         loading={interactions.loading}
         onUpdate={dispatchFetchInteractions}
