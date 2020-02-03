@@ -11,6 +11,9 @@ import style from './genePhysicalInteractionDetailTable.scss';
 import { selectInteractions } from '../../selectors/geneSelectors';
 import { connect } from 'react-redux';
 import { fetchInteractions } from '../../actions/geneActions';
+import {getDistinctFieldValue} from '../dataTable/utils';
+import {compareByFixedOrder} from '../../lib/utils';
+import {SPECIES_NAME_ORDER} from '../../constants';
 
 const DEFAULT_TABLE_KEY = 'physicalInteractionTable';
 
@@ -31,8 +34,6 @@ const GenePhysicalInteractionDetailTable = ({dispatchFetchInteractions, focusGen
     sourceDatabase: interaction.sourceDatabase,
     reference: interaction.publication,
   }));
-
-  const {supplementalData: {distinctFieldValues = {}} = {}} = interactions;
 
   const columns = [
     {
@@ -55,7 +56,7 @@ const GenePhysicalInteractionDetailTable = ({dispatchFetchInteractions, focusGen
       headerStyle: {width: '6em'},
       headerClasses: style.columnHeaderGroup1,
       classes: style.columnGroup1,
-      filterable: distinctFieldValues['filter.moleculeType'],
+      filterable: getDistinctFieldValue(interactions, 'filter.moleculeType'),
     },
     {
       dataField: 'interactorGeneSymbol',
@@ -73,7 +74,7 @@ const GenePhysicalInteractionDetailTable = ({dispatchFetchInteractions, focusGen
       headerStyle: {width: '8em'},
       headerClasses: style.columnHeaderGroup2,
       classes: style.columnGroup2,
-      filterable: distinctFieldValues['filter.interactorSpecies'],
+      filterable: getDistinctFieldValue(interactions, 'filter.interactorSpecies').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
     },
     {
       dataField: 'interactorMoleculeType',
@@ -87,7 +88,7 @@ const GenePhysicalInteractionDetailTable = ({dispatchFetchInteractions, focusGen
       headerStyle: {width: '6em'},
       headerClasses: style.columnHeaderGroup2,
       classes: style.columnGroup2,
-      filterable: distinctFieldValues['filter.interactorMoleculeType'],
+      filterable: getDistinctFieldValue(interactions, 'filter.interactorMoleculeType'),
     },
     {
       dataField: 'detectionMethod',
