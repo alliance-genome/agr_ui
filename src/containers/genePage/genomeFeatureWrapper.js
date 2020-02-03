@@ -70,8 +70,8 @@ class GenomeFeatureWrapper extends Component {
     case 'Saccharomyces cerevisiae':
       return 'yeast';
     default:
-      console.error('Species not found',species);
-      return null ;
+      console.error('Species not found, so returning same',species);
+      return species;
     }
   }
 
