@@ -10,6 +10,7 @@ import SynonymList from '../synonymList';
 import {RemoteDataTable} from '../dataTable';
 import ExternalLink from '../externalLink';
 import {fetchAlleles} from '../../actions/geneActions';
+import DiseaseLink from '../disease/DiseaseLink';
 
 const calculateHighlight = (location, type) => {
   switch(type){
@@ -24,7 +25,7 @@ const calculateHighlight = (location, type) => {
   }
 };
 
-const AlleleTable = ({alleles, dispatchFetchAlleles, geneSymbol, geneLocation = {}, species, geneDataProvider}) => {
+const AlleleTable = ({alleles, dispatchFetchAlleles, geneId, geneSymbol, geneLocation = {}, species, geneDataProvider}) => {
 
   const variantNameColWidth = 300;
   const variantTypeColWidth = 150;
@@ -59,7 +60,7 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, geneSymbol, geneLocation = 
       },
       formatter: diseases => (
         <CollapsibleList collapsedSize={2}>
-          {diseases.map(disease => <Link key={disease.id} to={`/disease/${disease.id}`}>{disease.name}</Link>)}
+          {diseases.map(disease => <DiseaseLink disease={disease} key={disease.id} />)}
         </CollapsibleList>
       ),
       headerStyle: {width: '150px'},
@@ -192,6 +193,7 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, geneSymbol, geneLocation = 
     <RemoteDataTable
       columns={columns}
       data={data}
+      key={geneId}
       keyField='symbol'
       loading={alleles.loading}
       onUpdate={dispatchFetchAlleles}

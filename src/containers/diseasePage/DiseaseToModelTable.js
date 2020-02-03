@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import {selectModelAssociations} from '../../selectors/diseaseSelectors';
 import {fetchModelAssociations} from '../../actions/diseaseActions';
 import {
-  DiseaseNameCell,
   EvidenceCodesCell,
   ReferenceCell,
   RemoteDataTable,
@@ -13,6 +12,7 @@ import {
 import AnnotatedEntitiesPopup
   from '../../components/dataTable/AnnotatedEntitiesPopup';
 import ExternalLink from '../../components/externalLink';
+import DiseaseLink from '../../components/disease/DiseaseLink';
 import {getDistinctFieldValue} from '../../components/dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
@@ -49,9 +49,9 @@ const DiseaseToModelTable = ({associations, fetchAssociations, id}) => {
     {
       dataField: 'disease',
       text: 'Disease',
-      formatter: DiseaseNameCell,
+      formatter: disease => <DiseaseLink disease={disease} />,
       filterable: true,
-      headerStyle: {width: '175px'},
+      headerStyle: {width: '150px'},
     },
     {
       dataField: 'evidenceCodes',
@@ -101,6 +101,7 @@ const DiseaseToModelTable = ({associations, fetchAssociations, id}) => {
       columns={columns}
       data={data}
       downloadUrl={`/api/disease/${id}/models/download`}
+      key={id}
       keyField='primaryKey'
       loading={associations.loading}
       onUpdate={fetchAssociations}

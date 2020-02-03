@@ -8,7 +8,6 @@ import {
   SpeciesCell,
   GeneCell,
   ReferenceCell,
-  DiseaseNameCell,
   EvidenceCodesCell,
   BasedOnGeneCell,
   RemoteDataTable,
@@ -16,6 +15,7 @@ import {
 import { selectDiseaseRibbonAnnotations } from '../../selectors/diseaseRibbonSelectors';
 import { fetchDiseaseRibbonAnnotations } from '../../actions/diseaseRibbonActions';
 import AnnotatedEntitiesPopup from '../dataTable/AnnotatedEntitiesPopup';
+import DiseaseLink from './DiseaseLink';
 import {getDistinctFieldValue} from '../dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
@@ -81,8 +81,8 @@ class DiseaseAnnotationTable extends Component {
         dataField: 'disease',
         text: 'Disease',
         filterable: true,
-        headerStyle: {width: '100px'},
-        formatter: DiseaseNameCell,
+        headerStyle: {width: '150px'},
+        formatter: disease => <DiseaseLink disease={disease} />,
       },
       {
         dataField: 'associationType',
@@ -128,11 +128,14 @@ class DiseaseAnnotationTable extends Component {
       species: annotation.gene.species,
       ...annotation,
     }));
+    const geneIdParams = genes.map(g => `geneID=${g}`).join('&');
+    const downloadUrl = '/api/disease/download?' + geneIdParams + (term !== 'all' ? ('&termID=' + term) : '');
 
     return (
       <RemoteDataTable
         columns={columns}
         data={data}
+        downloadUrl={downloadUrl}
         keyField='primaryKey'
         loading={annotations.loading}
         onUpdate={this.handleUpdate}
