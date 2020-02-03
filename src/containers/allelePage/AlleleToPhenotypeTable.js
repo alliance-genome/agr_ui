@@ -25,6 +25,13 @@ const AlleleToPhenotypeTable = ({alleleId, fetchPhenotypes, phenotypes}) => {
       headerStyle: {width: '90px'},
     },
     {
+      dataField: 'source',
+      text: 'Source',
+      formatter: source => source && source.name,
+      headerStyle: {width: '100px'},
+      filterable: true,
+    },
+    {
       dataField: 'publications',
       text: 'References',
       formatter: ReferenceCell,
