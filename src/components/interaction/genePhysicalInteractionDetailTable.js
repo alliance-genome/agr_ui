@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {
   GeneCell,
   RemoteDataTable,
-  FilterSets,
 } from '../dataTable';
 import CommaSeparatedList from '../commaSeparatedList';
 import ExternalLink from '../externalLink';
@@ -12,6 +11,9 @@ import style from './genePhysicalInteractionDetailTable.scss';
 import { selectInteractions } from '../../selectors/geneSelectors';
 import { connect } from 'react-redux';
 import { fetchInteractions } from '../../actions/geneActions';
+import {getDistinctFieldValue} from '../dataTable/utils';
+import {compareByFixedOrder} from '../../lib/utils';
+import {SPECIES_NAME_ORDER} from '../../constants';
 
 const DEFAULT_TABLE_KEY = 'physicalInteractionTable';
 
@@ -41,7 +43,10 @@ const GenePhysicalInteractionDetailTable = ({dispatchFetchInteractions, focusGen
     },
     {
       dataField: 'moleculeType',
-      text: `${focusGeneDisplayName} molecule type`,
+      text:
+        <React.Fragment>
+          <span className="text-transform-none">{focusGeneDisplayName}</span> molecule type
+        </React.Fragment>,
       formatter: (fieldData = {}, row, rowIndex) => {
         const id = getCellId('interactorAType', rowIndex);
         return (
@@ -51,7 +56,7 @@ const GenePhysicalInteractionDetailTable = ({dispatchFetchInteractions, focusGen
       headerStyle: {width: '6em'},
       headerClasses: style.columnHeaderGroup1,
       classes: style.columnGroup1,
-      filterable: FilterSets.moleculeTypes,
+      filterable: getDistinctFieldValue(interactions, 'filter.moleculeType'),
     },
     {
       dataField: 'interactorGeneSymbol',
@@ -69,7 +74,7 @@ const GenePhysicalInteractionDetailTable = ({dispatchFetchInteractions, focusGen
       headerStyle: {width: '8em'},
       headerClasses: style.columnHeaderGroup2,
       classes: style.columnGroup2,
-      filterable: FilterSets.species,
+      filterable: getDistinctFieldValue(interactions, 'filter.interactorSpecies').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
     },
     {
       dataField: 'interactorMoleculeType',
@@ -83,7 +88,7 @@ const GenePhysicalInteractionDetailTable = ({dispatchFetchInteractions, focusGen
       headerStyle: {width: '6em'},
       headerClasses: style.columnHeaderGroup2,
       classes: style.columnGroup2,
-      filterable: FilterSets.moleculeTypes,
+      filterable: getDistinctFieldValue(interactions, 'filter.interactorMoleculeType'),
     },
     {
       dataField: 'detectionMethod',
@@ -177,6 +182,7 @@ const GenePhysicalInteractionDetailTable = ({dispatchFetchInteractions, focusGen
         columns={columns}
         data={data}
         downloadUrl={`/api/gene/${focusGeneId}/interactions/download`}
+        key={focusGeneId}
         keyField='id'
         loading={interactions.loading}
         onUpdate={dispatchFetchInteractions}

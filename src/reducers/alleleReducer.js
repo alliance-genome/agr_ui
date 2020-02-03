@@ -4,7 +4,11 @@ import {
   forObjectRequestAction,
   handleActions
 } from '../lib/handleActions';
-import {FETCH_ALLELE, FETCH_ALLELE_PHENOTYPES} from '../actions/alleleActions';
+import {
+  FETCH_ALLELE,
+  FETCH_ALLELE_PHENOTYPES,
+  FETCH_ALLELE_DISEASE
+} from '../actions/alleleActions';
 
 const DEFAULT_STATE = fromJS({
   data: null,
@@ -15,12 +19,19 @@ const DEFAULT_STATE = fromJS({
     loading: false,
     error: null,
     total: 0,
-  }
+  },
+  diseaseAssociations: {
+    data: [],
+    loading: false,
+    error: null,
+    total: 0
+  },
 });
 
 const alleleReducer = handleActions(DEFAULT_STATE,
   forObjectRequestAction(FETCH_ALLELE),
-  forCollectionRequestAction(FETCH_ALLELE_PHENOTYPES, 'phenotypes')
+  forCollectionRequestAction(FETCH_ALLELE_PHENOTYPES, 'phenotypes'),
+  forCollectionRequestAction(FETCH_ALLELE_DISEASE, 'diseaseAssociations'),
 );
 
 export default alleleReducer;

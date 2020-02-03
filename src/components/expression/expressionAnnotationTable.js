@@ -6,10 +6,15 @@ import hash from 'object-hash';
 
 import { selectAnnotations } from '../../selectors/expressionSelectors';
 import { fetchExpressionAnnotations } from '../../actions/expression';
-import { RemoteDataTable, ReferenceCell, FilterSets, GeneCell } from '../dataTable';
+import { RemoteDataTable, ReferenceCell, GeneCell } from '../dataTable';
 import DataSourceLink from '../dataSourceLink';
 import CommaSeparatedList from '../commaSeparatedList';
-import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
+import {
+  compareAlphabeticalCaseInsensitive,
+  compareByFixedOrder
+} from '../../lib/utils';
+import {getDistinctFieldValue} from '../dataTable/utils';
+import {SPECIES_NAME_ORDER} from '../../constants';
 
 class ExpressionAnnotationTable extends React.Component {
   constructor(props) {
@@ -48,7 +53,7 @@ class ExpressionAnnotationTable extends React.Component {
         dataField: 'species',
         text: 'Species',
         formatter: s => <i>{s}</i>,
-        filterable: FilterSets.species,
+        filterable: getDistinctFieldValue(annotations, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
         headerStyle: {width: '100px'},
         hidden: genes.length < 2,
       },

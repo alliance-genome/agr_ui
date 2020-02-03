@@ -21,3 +21,8 @@ export const selectPhenotypes = createSelector(
   [selectAlleleDomain],
   allele => allele.get('phenotypes').toJS()
 );
+
+export const selectDiseaseAssociations = createSelector(
+  [selectAlleleDomain],
+  allele => allele.get('diseaseAssociations').toJS()
+);
