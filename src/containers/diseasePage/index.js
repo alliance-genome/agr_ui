@@ -23,6 +23,7 @@ import DiseaseToGeneTable from './DiseaseToGeneTable';
 import DiseaseToModelTable from './DiseaseToModelTable';
 import {setPageLoading} from '../../actions/loadingActions';
 import PageNavEntity from '../../components/dataPage/PageNavEntity';
+import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
 
 class DiseasePage extends Component {
   constructor(props) {
@@ -120,6 +121,7 @@ class DiseasePage extends Component {
           </PageNavEntity>
         </PageNav>
         <PageData>
+          <PageCategoryLabel category='disease' />
           <PageHeader entityName={disease.name} />
 
           <Subsection hideTitle title={SUMMARY}>
