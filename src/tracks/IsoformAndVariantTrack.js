@@ -84,6 +84,10 @@ export default class IsoformEmbeddedVariantTrack {
       .domain([view_start, view_end])
       .range([0, width]);
 
+    //Lets put this here so that the "track" part will give us extra space automagically
+    let variantContainer = viewer.append("g").attr("class", "variants track")
+      .attr("transform", "translate(0,25)");
+
     // Calculate where this track should go and translate it
     let newTrackPosition = calculateNewTrackPosition(this.viewer);
     let track = viewer.append("g").attr('transform', 'translate(0,' + newTrackPosition + ')').attr("class", "track");
@@ -123,7 +127,89 @@ export default class IsoformEmbeddedVariantTrack {
           .style("opacity", 10)
           .style("visibility","hidden");
     };
+    // **************************************
+    // Seperate isoform and variant render
+    // **************************************
+      let variantBins = generateVariantDataBinsAndDataSets(variantData);
 
+      variantBins.forEach(variant => {
+        let {type, fmax, fmin} = variant;
+        let drawnVariant = true;
+        const descriptions = getVariantDescriptions(variant);
+        let descriptionHtml = renderVariantDescriptions(descriptions);
+        const consequenceColor = getColorsForConsequences(descriptions)[0];
+        const width = Math.ceil(x(fmax)-x(fmin)) < MIN_WIDTH ? MIN_WIDTH : Math.ceil(x(fmax)-x(fmin));
+        if (type.toLowerCase() === 'deletion' || type.toLowerCase() === 'mnv') {
+          variantContainer.append('rect')
+            .attr('class', 'variant-deletion')
+            .attr('x', x(fmin))
+            .attr('transform', 'translate(0,0)')
+            .attr('z-index', 30)
+            .attr('fill', consequenceColor)
+            .attr('height', VARIANT_HEIGHT)
+            .attr('width', width)
+            .on("click", d => {
+              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
+            })
+            .datum({fmin: fmin, fmax: fmax});
+        } else if (type.toLowerCase() === 'snv' || type.toLowerCase() === 'point_mutation') {
+          variantContainer.append('polygon')
+            .attr('class', 'variant-SNV')
+            .attr('points', snv_points(x(fmin)))
+            .attr('fill', consequenceColor)
+            .attr('x', x(fmin))
+            .attr('transform', 'translate(0,0)')
+            .attr('z-index', 30)
+            .on("click", d => {
+              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
+            })
+            .datum({fmin: fmin, fmax: fmax});
+        } else if (type.toLowerCase() === 'insertion') {
+            variantContainer.append('polygon')
+              .attr('class', 'variant-insertion')
+              .attr('points', insertion_points(x(fmin)))
+              .attr('fill', consequenceColor)
+              .attr('x', x(fmin))
+              .attr('transform', 'translate(0,0)')
+              .attr('z-index', 30)
+              .on("click", d => {
+                renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
+              })
+              .datum({fmin: fmin, fmax: fmax});
+        } else if (type.toLowerCase() === 'delins' || type.toLowerCase() === 'substitution' || type.toLowerCase() === 'indel') {
+          variantContainer.append('polygon')
+            .attr('class', 'variant-delins')
+            .attr('points', delins_points(x(fmin)))
+            .attr('x', x(fmin))
+            .attr('transform', 'translate(0,0)')
+            .attr('fill', consequenceColor)
+            .attr('z-index', 30)
+            .on("click", d => {
+              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
+            })
+            .datum({fmin: fmin, fmax: fmax});
+        }
+        else{
+          console.warn("type not found",type,variant);
+          drawnVariant = false ;
+        }
+
+        if(drawnVariant){
+          let symbol_string = getVariantSymbol(variant);
+          const symbol_string_length = symbol_string.length ? symbol_string.length : 1;
+          variantContainer.append('text')
+            .attr('class', 'variantLabel')
+            .attr('fill', consequenceColor)
+            .attr('opacity', 1)
+            .attr('height', ISOFORM_TITLE_HEIGHT)
+            .attr("transform", `translate(${x(fmin-(symbol_string_length/2.0*100))},${(VARIANT_OFFSET*2.2)- TRANSCRIPT_BACKBONE_HEIGHT})`)
+            .html(symbol_string)
+            .on("click", d => {
+              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
+            })
+            .datum({fmin: 0});
+        }
+      });
     let row_count = 0;
     let used_space = [];
     let fmin_display = -1;
@@ -342,8 +428,8 @@ export default class IsoformEmbeddedVariantTrack {
                       })
                       .datum({fmin: innerChild.fmin, fmax: innerChild.fmax});
                   }
-                  if (validInnerType) {
-
+                  if (false) {
+                    //TODO: Remove this whole section of code... it now runs above and only once.
                     let variantBins = generateVariantDataBinsAndDataSets(variantData);
                     // TODO: remove this once no longer needed
                     generateVariantBins(variantData)
