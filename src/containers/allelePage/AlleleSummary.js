@@ -15,11 +15,11 @@ const AlleleSummary = ({allele}) => {
       <AttributeLabel>Species</AttributeLabel>
       <AttributeValue><i>{allele.species.name}</i></AttributeValue>
 
-      <AttributeLabel>Gene</AttributeLabel>
-      <AttributeValue><Link to={`/gene/${allele.gene.id}`}>{allele.gene.symbol}</Link></AttributeValue>
-
       <AttributeLabel>Symbol</AttributeLabel>
       <AttributeValue><AlleleSymbol allele={allele} /></AttributeValue>
+
+      <AttributeLabel>Allele of gene</AttributeLabel>
+      <AttributeValue><Link to={`/gene/${allele.gene.id}`}>{allele.gene.symbol}</Link></AttributeValue>
 
       <AttributeLabel>Synonyms</AttributeLabel>
       <AttributeValue placeholder='None'>

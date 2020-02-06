@@ -151,47 +151,56 @@ export const SPECIES = [
     taxonId: 'NCBITaxon:9606',
     fullName: 'Homo sapiens',
     shortName: 'Hsa',
+    apolloName: 'human',
     vertebrate: true,
   },
   {
     taxonId: 'NCBITaxon:10090',
     fullName: 'Mus musculus',
     shortName: 'Mmu',
+    apolloName: 'mouse',
     vertebrate: true,
   },
   {
     taxonId: 'NCBITaxon:10116',
     fullName: 'Rattus norvegicus',
     shortName: 'Rno',
+    apolloName: 'rat',
     vertebrate: true,
   },
   {
     taxonId: 'NCBITaxon:7955',
     fullName: 'Danio rerio',
     shortName: 'Dre',
+    apolloName: 'zebrafish',
     vertebrate: true,
   },
   {
     taxonId: 'NCBITaxon:7227',
     fullName: 'Drosophila melanogaster',
     shortName: 'Dme',
+    apolloName: 'fly',
     vertebrate: false,
   },
   {
     taxonId: 'NCBITaxon:6239',
     fullName: 'Caenorhabditis elegans',
     shortName: 'Cel',
+    apolloName: 'worm',
     vertebrate: false,
   },
   {
     taxonId: 'NCBITaxon:559292',
     fullName: 'Saccharomyces cerevisiae',
     shortName: 'Sce',
+    apolloName: 'yeast',
     vertebrate: false,
   },
 ];
 
 export const TAXON_ORDER = SPECIES.map(s => s.taxonId);
+
+export const SPECIES_NAME_ORDER = SPECIES.map(s => s.fullName);
 
 export const GA_PROPERTY_ID = 'UA-98765810-1';
 

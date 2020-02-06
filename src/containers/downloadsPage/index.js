@@ -113,9 +113,9 @@ class DownloadsPage extends React.Component {
                   description={<span><i>{speciesSubType.species}</i> genes</span>}
                   key={speciesSubType.species}
                   url={[
-                    `http://reports.alliancegenome.org/gene-descriptions/${speciesSubType.subType}_gene_desc_latest.json`,
-                    `http://reports.alliancegenome.org/gene-descriptions/${speciesSubType.subType}_gene_desc_latest.tsv`,
-                    `http://reports.alliancegenome.org/gene-descriptions/${speciesSubType.subType}_gene_desc_latest.txt`,
+                    this.getUrlForDataType('GENE-DESCRIPTION-JSON', speciesSubType.subType),
+                    this.getUrlForDataType('GENE-DESCRIPTION-TSV', speciesSubType.subType),
+                    this.getUrlForDataType('GENE-DESCRIPTION-TXT', speciesSubType.subType),
                   ]}
                 />
               ))}

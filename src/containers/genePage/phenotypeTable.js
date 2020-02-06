@@ -1,4 +1,3 @@
-/* eslint-disable react/no-set-state */
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
@@ -10,7 +9,7 @@ import { RemoteDataTable, ReferenceCell } from '../../components/dataTable';
 import AnnotatedEntitiesPopup
   from '../../components/dataTable/AnnotatedEntitiesPopup';
 
-const PhenotypeTable = ({phenotypes, dispatchFetchPhenotypes, geneId}) => {
+const PhenotypeTable = ({geneId, phenotypes, dispatchFetchPhenotypes}) => {
   const data = phenotypes.data && phenotypes.data.map(record => (
     {
       ...record,
@@ -55,6 +54,7 @@ const PhenotypeTable = ({phenotypes, dispatchFetchPhenotypes, geneId}) => {
       columns={columns}
       data={data}
       downloadUrl={`/api/gene/${geneId}/phenotypes/download`}
+      key={geneId}
       keyField='id'
       loading={phenotypes.loading}
       onUpdate={dispatchFetchPhenotypes}

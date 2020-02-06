@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {
   AlleleCell,
-  DiseaseNameCell,
-  EvidenceCodesCell, FilterSets,
+  EvidenceCodesCell,
   ReferenceCell,
   RemoteDataTable,
   SpeciesCell
@@ -13,6 +12,10 @@ import {fetchAlleleAssociations} from '../../actions/diseaseActions';
 import {selectAlleleAssociations} from '../../selectors/diseaseSelectors';
 import AnnotatedEntitiesPopup
   from '../../components/dataTable/AnnotatedEntitiesPopup';
+import DiseaseLink from '../../components/disease/DiseaseLink';
+import {getDistinctFieldValue} from '../../components/dataTable/utils';
+import {compareByFixedOrder} from '../../lib/utils';
+import {SPECIES_NAME_ORDER} from '../../constants';
 
 const DiseaseToAlleleTable = ({associations, fetchAssociations, id}) => {
   const columns = [
@@ -37,7 +40,7 @@ const DiseaseToAlleleTable = ({associations, fetchAssociations, id}) => {
       dataField: 'gene',
       text: 'Species',
       formatter: gene => <SpeciesCell species={gene.species}/>,
-      filterable: FilterSets.species,
+      filterable: getDistinctFieldValue(associations, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       headerStyle: {width: '105px'},
       filterName: 'species',
     },
@@ -46,13 +49,13 @@ const DiseaseToAlleleTable = ({associations, fetchAssociations, id}) => {
       text: 'Association',
       formatter: (type) => type.replace(/_/g, ' '),
       headerStyle: {width: '110px'},
-      filterable: FilterSets.associationTypes,
+      filterable: getDistinctFieldValue(associations, 'associationType').map(type => type.replace(/_/g, ' ')),
     },
     {
       dataField: 'disease',
       text: 'Disease',
-      formatter: DiseaseNameCell,
-      headerStyle: {width: '100px'},
+      formatter: disease => <DiseaseLink disease={disease} />,
+      headerStyle: {width: '150px'},
       filterable: true,
     },
     {
@@ -100,6 +103,7 @@ const DiseaseToAlleleTable = ({associations, fetchAssociations, id}) => {
       columns={columns}
       data={associations.data}
       downloadUrl={`/api/disease/${id}/alleles/download`}
+      key={id}
       keyField='primaryKey'
       loading={associations.loading}
       onUpdate={fetchAssociations}
