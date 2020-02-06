@@ -24,10 +24,17 @@ import PageNavEntity from '../../components/dataPage/PageNavEntity';
 import DataSourceLink from '../../components/dataSourceLink';
 import {Link} from 'react-router-dom';
 import {setPageLoading} from '../../actions/loadingActions';
+import AlleleToPhenotypeTable from './AlleleToPhenotypeTable';
+import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
+import AlleleToDiseaseTable from './AlleleToDiseaseTable';
 
 const SUMMARY = 'Summary';
+const PHENOTYPES = 'Phenotypes';
+const DISEASE = 'Disease Associations';
 const SECTIONS = [
   {name: SUMMARY},
+  {name: PHENOTYPES},
+  {name: DISEASE},
 ];
 
 class AllelePage extends Component {
@@ -42,7 +49,7 @@ class AllelePage extends Component {
   }
 
   render() {
-    const {data, error} = this.props;
+    const {alleleId, data, error} = this.props;
 
     if (error) {
       return <NotFound/>;
@@ -58,17 +65,26 @@ class AllelePage extends Component {
       <DataPage>
         <HeadMetaTags title={title}/>
         <PageNav sections={SECTIONS}>
-          <PageNavEntity entityName={<AlleleSymbol allele={data} />} icon={<SpeciesIcon scale={0.5} species={data.species.name} />}>
+          <PageNavEntity entityName={<AlleleSymbol allele={data} />} icon={<SpeciesIcon scale={0.5} species={data.species.name} />} truncateName>
             <DataSourceLink reference={data.crossReferences.primary} />
-            <div>Gene: <Link to={`/gene/${data.gene.id}`}>{data.gene.symbol}</Link></div>
+            <div>Allele of <Link to={`/gene/${data.gene.id}`}>{data.gene.symbol}</Link></div>
             <i>{data.species.name}</i>
           </PageNavEntity>
         </PageNav>
         <PageData>
+          <PageCategoryLabel category='allele' />
           <PageHeader entityName={<AlleleSymbol allele={data} />}/>
 
           <Subsection hideTitle title={SUMMARY}>
             <AlleleSummary allele={data} />
+          </Subsection>
+
+          <Subsection title={PHENOTYPES}>
+            <AlleleToPhenotypeTable alleleId={alleleId} />
+          </Subsection>
+
+          <Subsection title={DISEASE}>
+            <AlleleToDiseaseTable alleleId={alleleId} />
           </Subsection>
         </PageData>
       </DataPage>

@@ -15,7 +15,7 @@ import isEqual from 'lodash.isequal';
 
 import DownloadButton from './downloadButton';
 import TableSummary from './tableSummary';
-import Utils from './utils';
+import { renderPaginationShowsTotal } from './utils';
 // import * as analytics from '../../lib/analytics';
 import { DEFAULT_TABLE_STATE } from '../../constants';
 import LoadingOverlay from './loadingOverlay';
@@ -44,7 +44,7 @@ class RemoteDataTable extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (!isEqual(this.state, prevState) || this.props.onUpdate !== prevProps.onUpdate) {
+    if (!isEqual(this.state, prevState)) {
       this.props.onUpdate(this.translateFilterNames(this.state));
     }
   }
@@ -97,7 +97,7 @@ class RemoteDataTable extends Component {
     const pagination = paginationFactory({
       custom: true,
       page,
-      paginationTotalRenderer: Utils.renderPaginationShowsTotal,
+      paginationTotalRenderer: renderPaginationShowsTotal,
       sizePerPage,
       showTotal: true,
       totalSize: totalRows,
