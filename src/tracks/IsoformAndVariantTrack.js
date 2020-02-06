@@ -86,12 +86,8 @@ export default class IsoformEmbeddedVariantTrack {
 
     //Lets put this here so that the "track" part will give us extra space automagically
     let variantContainer = viewer.append("g").attr("class", "variants track")
-      .attr("transform", "translate(0,25)");
-
-    // Calculate where this track should go and translate it
-    let newTrackPosition = calculateNewTrackPosition(this.viewer);
-    let track = viewer.append("g").attr('transform', 'translate(0,' + newTrackPosition + ')').attr("class", "track");
-
+      .attr("transform", "translate(0,22.5)")
+      .attr("height", 40);
 
     //need to build a new sortWeight since these can be dynamic
     let sortWeight = {};
@@ -135,6 +131,8 @@ export default class IsoformEmbeddedVariantTrack {
       variantBins.forEach(variant => {
         let {type, fmax, fmin} = variant;
         let drawnVariant = true;
+        let isPoints = false;
+        let symbol_string = getVariantSymbol(variant);
         const descriptions = getVariantDescriptions(variant);
         let descriptionHtml = renderVariantDescriptions(descriptions);
         const consequenceColor = getColorsForConsequences(descriptions)[0];
@@ -151,8 +149,24 @@ export default class IsoformEmbeddedVariantTrack {
             .on("click", d => {
               renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
             })
-            .datum({fmin: fmin, fmax: fmax});
+            .on("mouseover", function(d){
+              let theVariant = d.variant;
+              d3.selectAll(".variant-deletion")
+                .filter(function(d){return d.variant == theVariant})
+                .style("stroke" , "black");
+              d3.select(this.parentNode).raise().selectAll(".variantLabel,.variantLabelBackround")
+                .filter(function(d){return d.variant == theVariant})
+                .style("opacity", 1);
+            })
+            .on("mouseout", function(d){
+              d3.selectAll(".variant-deletion")
+                .style("stroke" , null);
+              d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackround")
+                .style("opacity",0);
+            })
+            .datum({fmin: fmin, fmax: fmax, variant: symbol_string});
         } else if (type.toLowerCase() === 'snv' || type.toLowerCase() === 'point_mutation') {
+          isPoints = true;
           variantContainer.append('polygon')
             .attr('class', 'variant-SNV')
             .attr('points', snv_points(x(fmin)))
@@ -163,8 +177,24 @@ export default class IsoformEmbeddedVariantTrack {
             .on("click", d => {
               renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
             })
-            .datum({fmin: fmin, fmax: fmax});
+            .on("mouseover", function(d){
+              let theVariant = d.variant;
+              d3.selectAll(".variant-SNV")
+                .filter(function(d){return d.variant == theVariant})
+                .style("stroke" , "black");
+              d3.select(this.parentNode).raise().selectAll(".variantLabel,.variantLabelBackround")
+                .filter(function(d){return d.variant == theVariant})
+                .style("opacity", 1);
+            })
+            .on("mouseout", function(d){
+              d3.selectAll(".variant-SNV")
+                .style("stroke" , null);
+              d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackround")
+                .style("opacity",0);
+            })
+            .datum({fmin: fmin, fmax: fmax, variant: symbol_string});
         } else if (type.toLowerCase() === 'insertion') {
+          isPoints = true;
             variantContainer.append('polygon')
               .attr('class', 'variant-insertion')
               .attr('points', insertion_points(x(fmin)))
@@ -175,8 +205,24 @@ export default class IsoformEmbeddedVariantTrack {
               .on("click", d => {
                 renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
               })
-              .datum({fmin: fmin, fmax: fmax});
+              .on("mouseover", function(d){
+                let theVariant = d.variant;
+                d3.selectAll(".variant-insertion")
+                  .filter(function(d){return d.variant == theVariant})
+                  .style("stroke" , "black");
+                d3.select(this.parentNode).raise().selectAll(".variantLabel,.variantLabelBackround")
+                  .filter(function(d){return d.variant == theVariant})
+                  .style("opacity", 1);
+              })
+              .on("mouseout", function(d){
+                d3.selectAll(".variant-insertion")
+                  .style("stroke" , null);
+                d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackround")
+                  .style("opacity",0);
+              })
+              .datum({fmin: fmin, fmax: fmax, variant: symbol_string});
         } else if (type.toLowerCase() === 'delins' || type.toLowerCase() === 'substitution' || type.toLowerCase() === 'indel') {
+          isPoints=true;
           variantContainer.append('polygon')
             .attr('class', 'variant-delins')
             .attr('points', delins_points(x(fmin)))
@@ -187,7 +233,22 @@ export default class IsoformEmbeddedVariantTrack {
             .on("click", d => {
               renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
             })
-            .datum({fmin: fmin, fmax: fmax});
+            .on("mouseover", function(d){
+              let theVariant = d.variant;
+              d3.selectAll(".variant-delins")
+                .filter(function(d){return d.variant == theVariant})
+                .style("stroke" , "black");
+              d3.select(this.parentNode).raise().selectAll(".variantLabel,.variantLabelBackround")
+                .filter(function(d){return d.variant == theVariant})
+                .style("opacity", 1);
+            })
+            .on("mouseout", function(d){
+              d3.selectAll(".variant-delins")
+                .style("stroke" , null);
+              d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackround")
+                .style("opacity",0);
+            })
+            .datum({fmin: fmin, fmax: fmax, variant: symbol_string});
         }
         else{
           console.warn("type not found",type,variant);
@@ -195,21 +256,32 @@ export default class IsoformEmbeddedVariantTrack {
         }
 
         if(drawnVariant){
-          let symbol_string = getVariantSymbol(variant);
+          let label_offset=0;
+          if(isPoints){
+            label_offset = x(fmin)-SNV_WIDTH/2;
+          }else {
+            label_offset = x(fmin);}
+
           const symbol_string_length = symbol_string.length ? symbol_string.length : 1;
+          console.log(symbol_string,fmin);
           variantContainer.append('text')
             .attr('class', 'variantLabel')
             .attr('fill', consequenceColor)
-            .attr('opacity', 1)
+            .attr('opacity', 0)
             .attr('height', ISOFORM_TITLE_HEIGHT)
-            .attr("transform", `translate(${x(fmin-(symbol_string_length/2.0*100))},${(VARIANT_OFFSET*2.2)- TRANSCRIPT_BACKBONE_HEIGHT})`)
+            .attr("transform", "translate("+label_offset+",30)")
             .html(symbol_string)
             .on("click", d => {
               renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
             })
-            .datum({fmin: 0});
+            .datum({fmin: fmin, variant: symbol_string});
         }
       });
+
+    // Calculate where this track should go and translate it, must be after the variant lables are added
+    let newTrackPosition = calculateNewTrackPosition(this.viewer);
+    let track = viewer.append("g").attr('transform', 'translate(0,' + newTrackPosition + ')').attr("class", "track");
+
     let row_count = 0;
     let used_space = [];
     let fmin_display = -1;

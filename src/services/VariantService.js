@@ -319,5 +319,6 @@ export function getVariantSymbol(variant){
     symbol = variant.symbol.values[0];
   }
   // return  (symbol.length>20 ? symbol.substr(0,20) : symbol).replace(/"/g,"");
-  return symbol.replace(/"/g,"");
+  symbol = symbol.replace (/<sup>/," ");
+  return symbol.replace(/"|<\/sup>/g,"");
 }

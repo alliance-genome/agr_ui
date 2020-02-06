@@ -134,7 +134,7 @@ function calculateNewTrackPosition(viewer){
         let usedHeight = 0;
         let numTracks = 0; //Number of tracks including axis
         nodes.forEach(node => {
-                usedHeight += node.getBoundingClientRect().height + 10;
+                usedHeight += node.getBoundingClientRect().height + 1;
                 numTracks++;
         });
     return usedHeight;
