@@ -160,7 +160,7 @@ div.tooltip {
 }
 
 .main-view{
-  cursor: all-scroll;
+  cursor: pointer;
 }
 
 .track-label{

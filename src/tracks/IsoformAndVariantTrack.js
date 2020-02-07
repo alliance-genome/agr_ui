@@ -84,10 +84,10 @@ export default class IsoformEmbeddedVariantTrack {
       .domain([view_start, view_end])
       .range([0, width]);
 
-    // Calculate where this track should go and translate it
-    let newTrackPosition = calculateNewTrackPosition(this.viewer);
-    let track = viewer.append("g").attr('transform', 'translate(0,' + newTrackPosition + ')').attr("class", "track");
-
+    //Lets put this here so that the "track" part will give us extra space automagically
+    let variantContainer = viewer.append("g").attr("class", "variants track")
+      .attr("transform", "translate(0,22.5)")
+      .attr("height", 40);
 
     //need to build a new sortWeight since these can be dynamic
     let sortWeight = {};
@@ -123,6 +123,163 @@ export default class IsoformEmbeddedVariantTrack {
           .style("opacity", 10)
           .style("visibility","hidden");
     };
+    // **************************************
+    // Seperate isoform and variant render
+    // **************************************
+      let variantBins = generateVariantDataBinsAndDataSets(variantData);
+
+      variantBins.forEach(variant => {
+        let {type, fmax, fmin} = variant;
+        let drawnVariant = true;
+        let isPoints = false;
+        let symbol_string = getVariantSymbol(variant);
+        const descriptions = getVariantDescriptions(variant);
+        let descriptionHtml = renderVariantDescriptions(descriptions);
+        const consequenceColor = getColorsForConsequences(descriptions)[0];
+        const width = Math.ceil(x(fmax)-x(fmin)) < MIN_WIDTH ? MIN_WIDTH : Math.ceil(x(fmax)-x(fmin));
+        if (type.toLowerCase() === 'deletion' || type.toLowerCase() === 'mnv') {
+          variantContainer.append('rect')
+            .attr('class', 'variant-deletion')
+            .attr('x', x(fmin))
+            .attr('transform', 'translate(0,0)')
+            .attr('z-index', 30)
+            .attr('fill', consequenceColor)
+            .attr('height', VARIANT_HEIGHT)
+            .attr('width', width)
+            .on("click", d => {
+              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
+            })
+            .on("mouseover", function(d){
+              let theVariant = d.variant;
+              d3.selectAll(".variant-deletion")
+                .filter(function(d){return d.variant == theVariant})
+                .style("stroke" , "black");
+              d3.select(this.parentNode).raise().selectAll(".variantLabel,.variantLabelBackround")
+                .filter(function(d){return d.variant == theVariant})
+                .style("opacity", 1);
+            })
+            .on("mouseout", function(d){
+              d3.selectAll(".variant-deletion")
+                .style("stroke" , null);
+              d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackround")
+                .style("opacity",0);
+            })
+            .datum({fmin: fmin, fmax: fmax, variant: symbol_string});
+        } else if (type.toLowerCase() === 'snv' || type.toLowerCase() === 'point_mutation') {
+          isPoints = true;
+          variantContainer.append('polygon')
+            .attr('class', 'variant-SNV')
+            .attr('points', snv_points(x(fmin)))
+            .attr('fill', consequenceColor)
+            .attr('x', x(fmin))
+            .attr('transform', 'translate(0,0)')
+            .attr('z-index', 30)
+            .on("click", d => {
+              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
+            })
+            .on("mouseover", function(d){
+              let theVariant = d.variant;
+              d3.selectAll(".variant-SNV")
+                .filter(function(d){return d.variant == theVariant})
+                .style("stroke" , "black");
+              d3.select(this.parentNode).raise().selectAll(".variantLabel,.variantLabelBackround")
+                .filter(function(d){return d.variant == theVariant})
+                .style("opacity", 1);
+            })
+            .on("mouseout", function(d){
+              d3.selectAll(".variant-SNV")
+                .style("stroke" , null);
+              d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackround")
+                .style("opacity",0);
+            })
+            .datum({fmin: fmin, fmax: fmax, variant: symbol_string});
+        } else if (type.toLowerCase() === 'insertion') {
+          isPoints = true;
+            variantContainer.append('polygon')
+              .attr('class', 'variant-insertion')
+              .attr('points', insertion_points(x(fmin)))
+              .attr('fill', consequenceColor)
+              .attr('x', x(fmin))
+              .attr('transform', 'translate(0,0)')
+              .attr('z-index', 30)
+              .on("click", d => {
+                renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
+              })
+              .on("mouseover", function(d){
+                let theVariant = d.variant;
+                d3.selectAll(".variant-insertion")
+                  .filter(function(d){return d.variant == theVariant})
+                  .style("stroke" , "black");
+                d3.select(this.parentNode).raise().selectAll(".variantLabel,.variantLabelBackround")
+                  .filter(function(d){return d.variant == theVariant})
+                  .style("opacity", 1);
+              })
+              .on("mouseout", function(d){
+                d3.selectAll(".variant-insertion")
+                  .style("stroke" , null);
+                d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackround")
+                  .style("opacity",0);
+              })
+              .datum({fmin: fmin, fmax: fmax, variant: symbol_string});
+        } else if (type.toLowerCase() === 'delins' || type.toLowerCase() === 'substitution' || type.toLowerCase() === 'indel') {
+          isPoints=true;
+          variantContainer.append('polygon')
+            .attr('class', 'variant-delins')
+            .attr('points', delins_points(x(fmin)))
+            .attr('x', x(fmin))
+            .attr('transform', 'translate(0,0)')
+            .attr('fill', consequenceColor)
+            .attr('z-index', 30)
+            .on("click", d => {
+              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
+            })
+            .on("mouseover", function(d){
+              let theVariant = d.variant;
+              d3.selectAll(".variant-delins")
+                .filter(function(d){return d.variant == theVariant})
+                .style("stroke" , "black");
+              d3.select(this.parentNode).raise().selectAll(".variantLabel,.variantLabelBackround")
+                .filter(function(d){return d.variant == theVariant})
+                .style("opacity", 1);
+            })
+            .on("mouseout", function(d){
+              d3.selectAll(".variant-delins")
+                .style("stroke" , null);
+              d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackround")
+                .style("opacity",0);
+            })
+            .datum({fmin: fmin, fmax: fmax, variant: symbol_string});
+        }
+        else{
+          console.warn("type not found",type,variant);
+          drawnVariant = false ;
+        }
+
+        if(drawnVariant){
+          let label_offset=0;
+          if(isPoints){
+            label_offset = x(fmin)-SNV_WIDTH/2;
+          }else {
+            label_offset = x(fmin);}
+
+          const symbol_string_length = symbol_string.length ? symbol_string.length : 1;
+          variantContainer.append('text')
+            .attr('class', 'variantLabel')
+            .attr('fill', consequenceColor)
+            .attr('opacity', 0)
+            .attr('height', ISOFORM_TITLE_HEIGHT)
+            .attr("transform", "translate("+label_offset+",30)")
+            .html(symbol_string)
+            .on("click", d => {
+              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
+            })
+            .datum({fmin: fmin, variant: symbol_string});
+        }
+      });
+
+    // Calculate where this track should go and translate it, must be after the variant lables are added
+    let newTrackPosition = calculateNewTrackPosition(this.viewer);
+    let track = viewer.append("g").attr('transform', 'translate(0,' + newTrackPosition + ')').attr("class", "track");
 
     let row_count = 0;
     let used_space = [];
@@ -341,103 +498,6 @@ export default class IsoformEmbeddedVariantTrack {
                         renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
                       })
                       .datum({fmin: innerChild.fmin, fmax: innerChild.fmax});
-                  }
-                  if (validInnerType) {
-
-                    let variantBins = generateVariantDataBinsAndDataSets(variantData);
-                    // TODO: remove this once no longer needed
-                    generateVariantBins(variantData)
-
-                    // 12 if all have 1
-                    variantBins.forEach(variant => {
-                      let {type, fmax, fmin} = variant;
-                      if (
-                        (fmin < innerChild.fmin && fmax > innerChild.fmin)
-                        || (fmax > innerChild.fmax && fmin < innerChild.fmax)
-                        || (fmax <= innerChild.fmax && fmin >= innerChild.fmin)
-                      ) {
-                        let drawnVariant = true;
-                        const descriptions = getVariantDescriptions(variant);
-                        // const consequence = description.consequence ? description.consequence : "UNKNOWN";
-                        const consequenceColor = getColorsForConsequences(descriptions)[0];
-                        let descriptionHtml = renderVariantDescriptions(descriptions);
-                        const width = Math.ceil(x(fmax)-x(fmin)) < MIN_WIDTH ? MIN_WIDTH : Math.ceil(x(fmax)-x(fmin));
-                        if (type.toLowerCase() === 'deletion' || type.toLowerCase() === 'mnv') {
-                          isoform.append('rect')
-                            .attr('class', 'variant-deletion')
-                            .attr('x', x(fmin))
-                            .attr('transform', 'translate(0,' + (VARIANT_OFFSET - TRANSCRIPT_BACKBONE_HEIGHT) + ')')
-                            .attr('z-index', 30)
-                            .attr('fill', consequenceColor)
-                            .attr('height', VARIANT_HEIGHT)
-                            .attr('width', width)
-                            .on("click", d => {
-                              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
-                            })
-                            .datum({fmin: fmin, fmax: fmax});
-                        } else if (type.toLowerCase() === 'snv' || type.toLowerCase() === 'point_mutation') {
-                          isoform.append('polygon')
-                            .attr('class', 'variant-SNV')
-                            .attr('points', snv_points(x(fmin)))
-                            .attr('fill', consequenceColor)
-                            .attr('x', x(fmin))
-                            .attr('transform', 'translate(0,' + (VARIANT_OFFSET - TRANSCRIPT_BACKBONE_HEIGHT) + ')')
-                            .attr('z-index', 30)
-                            .on("click", d => {
-                              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
-                            })
-                            .datum({fmin: fmin, fmax: fmax});
-                        }
-                        else if (type.toLowerCase() === 'insertion') {
-                          isoform.append('polygon')
-                            .attr('class', 'variant-insertion')
-                            .attr('points', insertion_points(x(fmin)))
-                            .attr('fill', consequenceColor)
-                            .attr('x', x(fmin))
-                            .attr('transform', 'translate(0,' + (VARIANT_OFFSET - TRANSCRIPT_BACKBONE_HEIGHT) + ')')
-                            .attr('z-index', 30)
-                            .on("click", d => {
-                              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
-                            })
-                            .datum({fmin: fmin, fmax: fmax});
-                        }
-                        else if (type.toLowerCase() === 'delins'
-                          || type.toLowerCase() === 'substitution'
-                          || type.toLowerCase() === 'indel'
-                        ) {
-                          isoform.append('polygon')
-                            .attr('class', 'variant-delins')
-                            .attr('points', delins_points(x(fmin)))
-                            .attr('x', x(fmin))
-                            .attr('transform', 'translate(0,' + (VARIANT_OFFSET - TRANSCRIPT_BACKBONE_HEIGHT) + ')')
-                            .attr('fill', consequenceColor)
-                            .attr('z-index', 30)
-                            .on("click", d => {
-                              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
-                            })
-                            .datum({fmin: fmin, fmax: fmax});
-                        }
-                        else{
-                          console.warn("type not found",type,variant);
-                          drawnVariant = false ;
-                        }
-                        if(drawnVariant && showVariantLabel){
-                          let symbol_string = getVariantSymbol(variant);
-                          const symbol_string_length = symbol_string.length ? symbol_string.length : 1;
-                          isoform.append('text')
-                            .attr('class', 'variantLabel')
-                            .attr('fill', selected ? 'sandybrown' : consequenceColor)
-                            .attr('opacity', selected ? 1 : 0.5)
-                            .attr('height', ISOFORM_TITLE_HEIGHT)
-                            .attr("transform", `translate(${x(fmin-(symbol_string_length/2.0*100))},${(VARIANT_OFFSET*2.2)- TRANSCRIPT_BACKBONE_HEIGHT})`)
-                            .html(symbol_string)
-                            .on("click", d => {
-                              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
-                            })
-                            .datum({fmin: featureChild.fmin});
-                        }
-                    }
-                    });
                   }
                 });
               }
