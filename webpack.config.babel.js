@@ -68,7 +68,8 @@ const plugins = [
   }),
   new webpack.EnvironmentPlugin({
     APOLLO_URL: 'https://agr-apollo.berkeleybop.io/apollo/',
-    JBROWSE_URL: '',
+    // APOLLO_URL: 'http://build.alliancegenome.org/apollo/',
+    JBROWSE_URL: 'https://build.alliancegenome.org/',
     RELEASE: '[dev]',
   }),
   new MiniCssExtractPlugin({
