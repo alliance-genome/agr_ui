@@ -115,7 +115,7 @@ class GenomeFeatureWrapper extends Component {
   loadGenomeFeature() {
     const {chromosome, fmin, fmax, species,id,primaryId,geneSymbol, synonyms = []} = this.props;
     // provide unique names
-    let nameSuffix = [geneSymbol, ...synonyms,primaryId].filter((x, i, a) => a.indexOf(x) === i);
+    let nameSuffix = [geneSymbol, ...synonyms,primaryId].filter((x, i, a) => a.indexOf(x) === i).map( x => encodeURI(x));
     let nameSuffixString = nameSuffix.length ===0 ? '': nameSuffix.join('&name=');
     if (nameSuffixString.length > 0) {
       nameSuffixString = `?name=${nameSuffixString}`;
