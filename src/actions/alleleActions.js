@@ -4,6 +4,7 @@ import {buildTableQueryString} from '../lib/utils';
 export const FETCH_ALLELE = 'FETCH_ALLELE';
 export const FETCH_ALLELE_PHENOTYPES = 'FETCH_ALLELE_PHENOTYPES';
 export const FETCH_ALLELE_DISEASE = 'FETCH_ALLELE_DISEASE';
+export const FETCH_ALLELE_VARIANTS = 'FETCH_ALLELE_VARIANTS';
 
 export const fetchAllele = createFetchAction(FETCH_ALLELE, id => `/api/allele/${id}`);
 export const fetchAllelePhenotypes = createFetchAction(
@@ -13,4 +14,8 @@ export const fetchAllelePhenotypes = createFetchAction(
 export const fetchAlleleDisease = createFetchAction(
   FETCH_ALLELE_DISEASE,
   (id, opts) => `/api/allele/${id}/diseases?${buildTableQueryString(opts)}`
+);
+export const fetchAlleleVariants = createFetchAction(
+  FETCH_ALLELE_VARIANTS,
+  (id, opts) => `/api/allele/${id}/variants?${buildTableQueryString(opts)}`
 );
