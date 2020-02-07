@@ -263,7 +263,6 @@ export default class IsoformEmbeddedVariantTrack {
             label_offset = x(fmin);}
 
           const symbol_string_length = symbol_string.length ? symbol_string.length : 1;
-          console.log(symbol_string,fmin);
           variantContainer.append('text')
             .attr('class', 'variantLabel')
             .attr('fill', consequenceColor)
@@ -499,103 +498,6 @@ export default class IsoformEmbeddedVariantTrack {
                         renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
                       })
                       .datum({fmin: innerChild.fmin, fmax: innerChild.fmax});
-                  }
-                  if (false) {
-                    //TODO: Remove this whole section of code... it now runs above and only once.
-                    let variantBins = generateVariantDataBinsAndDataSets(variantData);
-                    // TODO: remove this once no longer needed
-                    generateVariantBins(variantData)
-
-                    // 12 if all have 1
-                    variantBins.forEach(variant => {
-                      let {type, fmax, fmin} = variant;
-                      if (
-                        (fmin < innerChild.fmin && fmax > innerChild.fmin)
-                        || (fmax > innerChild.fmax && fmin < innerChild.fmax)
-                        || (fmax <= innerChild.fmax && fmin >= innerChild.fmin)
-                      ) {
-                        let drawnVariant = true;
-                        const descriptions = getVariantDescriptions(variant);
-                        // const consequence = description.consequence ? description.consequence : "UNKNOWN";
-                        const consequenceColor = getColorsForConsequences(descriptions)[0];
-                        let descriptionHtml = renderVariantDescriptions(descriptions);
-                        const width = Math.ceil(x(fmax)-x(fmin)) < MIN_WIDTH ? MIN_WIDTH : Math.ceil(x(fmax)-x(fmin));
-                        if (type.toLowerCase() === 'deletion' || type.toLowerCase() === 'mnv') {
-                          isoform.append('rect')
-                            .attr('class', 'variant-deletion')
-                            .attr('x', x(fmin))
-                            .attr('transform', 'translate(0,' + (VARIANT_OFFSET - TRANSCRIPT_BACKBONE_HEIGHT) + ')')
-                            .attr('z-index', 30)
-                            .attr('fill', consequenceColor)
-                            .attr('height', VARIANT_HEIGHT)
-                            .attr('width', width)
-                            .on("click", d => {
-                              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
-                            })
-                            .datum({fmin: fmin, fmax: fmax});
-                        } else if (type.toLowerCase() === 'snv' || type.toLowerCase() === 'point_mutation') {
-                          isoform.append('polygon')
-                            .attr('class', 'variant-SNV')
-                            .attr('points', snv_points(x(fmin)))
-                            .attr('fill', consequenceColor)
-                            .attr('x', x(fmin))
-                            .attr('transform', 'translate(0,' + (VARIANT_OFFSET - TRANSCRIPT_BACKBONE_HEIGHT) + ')')
-                            .attr('z-index', 30)
-                            .on("click", d => {
-                              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
-                            })
-                            .datum({fmin: fmin, fmax: fmax});
-                        }
-                        else if (type.toLowerCase() === 'insertion') {
-                          isoform.append('polygon')
-                            .attr('class', 'variant-insertion')
-                            .attr('points', insertion_points(x(fmin)))
-                            .attr('fill', consequenceColor)
-                            .attr('x', x(fmin))
-                            .attr('transform', 'translate(0,' + (VARIANT_OFFSET - TRANSCRIPT_BACKBONE_HEIGHT) + ')')
-                            .attr('z-index', 30)
-                            .on("click", d => {
-                              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
-                            })
-                            .datum({fmin: fmin, fmax: fmax});
-                        }
-                        else if (type.toLowerCase() === 'delins'
-                          || type.toLowerCase() === 'substitution'
-                          || type.toLowerCase() === 'indel'
-                        ) {
-                          isoform.append('polygon')
-                            .attr('class', 'variant-delins')
-                            .attr('points', delins_points(x(fmin)))
-                            .attr('x', x(fmin))
-                            .attr('transform', 'translate(0,' + (VARIANT_OFFSET - TRANSCRIPT_BACKBONE_HEIGHT) + ')')
-                            .attr('fill', consequenceColor)
-                            .attr('z-index', 30)
-                            .on("click", d => {
-                              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
-                            })
-                            .datum({fmin: fmin, fmax: fmax});
-                        }
-                        else{
-                          console.warn("type not found",type,variant);
-                          drawnVariant = false ;
-                        }
-                        if(drawnVariant && showVariantLabel){
-                          let symbol_string = getVariantSymbol(variant);
-                          const symbol_string_length = symbol_string.length ? symbol_string.length : 1;
-                          isoform.append('text')
-                            .attr('class', 'variantLabel')
-                            .attr('fill', selected ? 'sandybrown' : consequenceColor)
-                            .attr('opacity', selected ? 1 : 0.5)
-                            .attr('height', ISOFORM_TITLE_HEIGHT)
-                            .attr("transform", `translate(${x(fmin-(symbol_string_length/2.0*100))},${(VARIANT_OFFSET*2.2)- TRANSCRIPT_BACKBONE_HEIGHT})`)
-                            .html(symbol_string)
-                            .on("click", d => {
-                              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
-                            })
-                            .datum({fmin: featureChild.fmin});
-                        }
-                    }
-                    });
                   }
                 });
               }
