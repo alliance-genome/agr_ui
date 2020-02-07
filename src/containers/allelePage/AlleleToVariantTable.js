@@ -6,7 +6,10 @@ import { connect } from 'react-redux';
 import { RemoteDataTable } from '../../components/dataTable';
 
 const AlleleToVariantTable = ({alleleId, fetchVariants, variants}) => {
-  const { data, loading, total} = variants;
+  const { data = [], loading, total} = variants;
+  const [variant1 = {}] = data;
+  const {location: locationVariant1 = {}} = variant1;
+
   const columns = [
     {
       dataField: 'displayName',
@@ -22,7 +25,13 @@ const AlleleToVariantTable = ({alleleId, fetchVariants, variants}) => {
     },
     {
       dataField: 'location',
-      text: 'Chromosome:position',
+      headerFormatter: () => (
+        <React.Fragment>
+          Chromosome:position
+          <br/>
+          <span className="text-muted">(Assembly: {locationVariant1.assembly})</span>
+        </React.Fragment>
+      ),
       formatter: ({chromosome = '', start = '', end = ''} = {}) => {
         return (start !== end) ? `${chromosome}:${start}-${end}` : `${chromosome}:${start}`;
       },
