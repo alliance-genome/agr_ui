@@ -35,9 +35,9 @@ const DISEASE = 'Disease Associations';
 const VARIANTS = 'Variants';
 const SECTIONS = [
   {name: SUMMARY},
+  {name: VARIANTS},
   {name: PHENOTYPES},
-  {name: DISEASE},
-  {name: VARIANTS}
+  {name: DISEASE}
 ];
 
 class AllelePage extends Component {
@@ -82,16 +82,16 @@ class AllelePage extends Component {
             <AlleleSummary allele={data} />
           </Subsection>
 
+          <Subsection title={VARIANTS}>
+            <AlleleToVariantTable alleleId={alleleId} />
+          </Subsection>
+
           <Subsection title={PHENOTYPES}>
             <AlleleToPhenotypeTable alleleId={alleleId} />
           </Subsection>
 
           <Subsection title={DISEASE}>
             <AlleleToDiseaseTable alleleId={alleleId} />
-          </Subsection>
-
-          <Subsection title={VARIANTS}>
-            <AlleleToVariantTable alleleId={alleleId} />
           </Subsection>
 
         </PageData>
