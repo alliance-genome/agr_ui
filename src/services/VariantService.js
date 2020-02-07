@@ -256,13 +256,9 @@ export function getVariantDescription(variant){
   let returnObject = {} ;
   returnObject.symbol=variantSymbol ;
   returnObject.location = `${variant.seqId}:${variant.fmin}..${variant.fmax}`;
-
-  let consequence = getConsequence(variant);
-
-  returnObject.consequence =  consequence;
+  returnObject.consequence =  getConsequence(variant);
   returnObject.type =  variant.type;
   returnObject.name =  variant.name;
-
   returnObject.description =  variant.description;
 
   if(variant.allele_of_genes){

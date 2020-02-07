@@ -542,9 +542,15 @@ export default class IsoformAndVariantTrack {
 
   filterVariantData(variantData, variantFilter) {
     if(variantFilter.length===0) return variantData ;
-    return variantData.filter( v => {
-      return variantFilter.indexOf(v.name)>=0;
-    });
+    try {
+      return variantData.filter(v => {
+        const variantName = v.name;
+        const variantSymbol = v.symbol.values[0].replace(/\"/g, ""); // has to be filtered
+        return variantFilter.indexOf(variantName) >= 0 || variantFilter.indexOf(variantSymbol) >= 0;
+      });
+    } catch (e) {
+      console.warn('problem filtering variant data',variantData,variantFilter);
+    }
   }
 
   renderTooltipDescription(tooltipDiv, descriptionHtml,closeFunction) {

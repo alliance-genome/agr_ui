@@ -101,6 +101,7 @@ export default class Drawer {
             await isoformVariantTrack.populateTrack(track,() => track.isoformFunction,() => track.variantFunction);
             track_height += isoformVariantTrack.DrawTrack();
           }
+          else
           if(track.type === TRACK_TYPE.ISOFORM_EMBEDDED_VARIANT)
           {
             const isoformVariantTrack = new IsoformEmbeddedVariantTrack(viewer, track, height, width,transcriptTypes,variantTypes,showVariantLabel,variantFilter);
@@ -127,7 +128,7 @@ export default class Drawer {
             }
             else
             {
-                console.error("TrackType not found for " + track["id"] + "...");
+                console.error("TrackType not found for " + track["id"] + "...",track.type);
             }
             d3.select(svg_target).attr('height',track_height)
         });

@@ -52,7 +52,7 @@ function flyExamples(){
 // http://localhost:8080/apollo/vcf/remotefly/Phenotypic%20Variants/2L:132412..230018.json?includeGenotypes=false&ignoreCache=true
 // http://localhost:8080/apollo/track/remotefly/All%20Genes/2L:132412..230018.json?includeGenotypes=false&ignoreCache=true
   createExample("2L:130639..135911","fly","viewerFlyExample1",TRACK_TYPE.ISOFORM_EMBEDDED_VARIANT,true);
-  createExample("2R:23974973..23989002","fly","viewerFlyExample3",TRACK_TYPE.ISOFORM_EMBEDDED_VARIANT,true['NT_033778.4:g.23975146T>C']);
+  createExample("2R:23974973..23989002","fly","viewerFlyExample3",TRACK_TYPE.ISOFORM_EMBEDDED_VARIANT,true,['NT_033778.4:g.23975146T>C']);
   createExample("2R:23974973..23989002","fly","viewerFlyExample2",TRACK_TYPE.ISOFORM_EMBEDDED_VARIANT,true);
   createExample("2L:130639..135911","fly","viewerFlyExample1NoLabel",TRACK_TYPE.ISOFORM_EMBEDDED_VARIANT,false);
   createExample("2R:23974973..23989002","fly","viewerFlyExample3NoLabel",TRACK_TYPE.ISOFORM_EMBEDDED_VARIANT,false,['NT_033778.4:g.23975146T>C']);
@@ -81,6 +81,8 @@ function fishExamples(){
   createExample("8:40452405..40469627","zebrafish","viewerFishMyl7",TRACK_TYPE.ISOFORM_EMBEDDED_VARIANT,true);
   createExample("14:5383966..5390885","zebrafish","viewerFishLbx2NoLabel",TRACK_TYPE.ISOFORM_EMBEDDED_VARIANT,false);
   createExample("14:5383966..5390885","zebrafish","viewerFishLbx2NoLabelAnd",TRACK_TYPE.ISOFORM_AND_VARIANT,false);
+  createExample("14:5383966..5390885","zebrafish","viewerFishLbx2NoLabelAndNameOnly",TRACK_TYPE.ISOFORM_AND_VARIANT,false,['NC_007125.7:g.5388210A>T']);
+  createExample("14:5383966..5390885","zebrafish","viewerFishLbx2NoLabelAndSymbolOnly",TRACK_TYPE.ISOFORM_AND_VARIANT,false,['hu3336']);
   createExample("8:40452405..40469627","zebrafish","viewerFishMyl7NoLabel",TRACK_TYPE.ISOFORM_EMBEDDED_VARIANT,false);
 }
 
@@ -106,7 +108,7 @@ function oldExamples(){
       {
         id:2,
         "genome":"Mus musculus",
-        "type": "variant-global",
+        "type": TRACK_TYPE.VARIANT_GLOBAL,
       },
       {
         "id": 1,
@@ -176,13 +178,13 @@ function oldExamples(){
       {
         "id": 1,
         "label": "Case Variants",
-        "type": "variant",
+        "type": TRACK_TYPE.VARIANT,
         "chromosome": 5,
       },
       {
         "id": 2,
         "label": "ClinVar Cases",
-        "type": "variant",
+        "type": TRACK_TYPE.VARIANT,
         "chromosome": 5,
       }
     ]
