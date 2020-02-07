@@ -65,7 +65,7 @@ class GenomeFeatureWrapper extends Component {
     if(species==='Saccharomyces cerevisiae' || species ==='Homo sapiens'){
       return {
         'locale': 'global',
-        'chromosome': chromosome,
+        'chromosome':  species==='Saccharomyces cerevisiae' ? 'chr'+chromosome : chromosome ,
         'start': fmin,
         'end': fmax,
         'transcriptTypes':transcriptTypes,
@@ -151,14 +151,9 @@ class GenomeFeatureWrapper extends Component {
         </AttributeList>
 
         <HorizontalScroll width={960}>
-          <a
-            href={this.jbrowseUrl} rel='noopener noreferrer'
-            target='_blank' title='Browse Genome'
-          >
-            <svg id={id}>
-              <LoadingSpinner/>
-            </svg>
-          </a>
+          <svg id={id}>
+            <LoadingSpinner/>
+          </svg>
           {this.state.loadState === 'error' ? <div className='text-danger'>Unable to retrieve data</div> : ''}
         </HorizontalScroll>
       </div>
