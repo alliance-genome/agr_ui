@@ -27,14 +27,17 @@ import {setPageLoading} from '../../actions/loadingActions';
 import AlleleToPhenotypeTable from './AlleleToPhenotypeTable';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
 import AlleleToDiseaseTable from './AlleleToDiseaseTable';
+import AlleleToVariantTable from './AlleleToVariantTable';
 
 const SUMMARY = 'Summary';
 const PHENOTYPES = 'Phenotypes';
 const DISEASE = 'Disease Associations';
+const VARIANTS = 'Variants';
 const SECTIONS = [
   {name: SUMMARY},
+  {name: VARIANTS},
   {name: PHENOTYPES},
-  {name: DISEASE},
+  {name: DISEASE}
 ];
 
 class AllelePage extends Component {
@@ -79,6 +82,10 @@ class AllelePage extends Component {
             <AlleleSummary allele={data} />
           </Subsection>
 
+          <Subsection title={VARIANTS}>
+            <AlleleToVariantTable alleleId={alleleId} />
+          </Subsection>
+
           <Subsection title={PHENOTYPES}>
             <AlleleToPhenotypeTable alleleId={alleleId} />
           </Subsection>
@@ -86,6 +93,7 @@ class AllelePage extends Component {
           <Subsection title={DISEASE}>
             <AlleleToDiseaseTable alleleId={alleleId} />
           </Subsection>
+
         </PageData>
       </DataPage>
     );

@@ -111,13 +111,16 @@ class RemoteDataTable extends Component {
       const columnFilter = filters &&
         filters[column.dataField] &&
         filters[column.dataField].filterVal;
-      column.headerFormatter = (column, _, {filterElement}) => (
-        <ColumnHeader
-          column={column}
-          filter={columnFilter}
-          filterElement={filterElement}
-        />
-      );
+      if (!column.headerFormatter) {
+        column.headerFormatter = (column, _, {filterElement}) => (
+          <ColumnHeader
+            column={column}
+            filter={columnFilter}
+            filterElement={filterElement}
+          />
+        );
+      }
+
       if (column.filterable) {
         column.filter = customFilter();
         if (Array.isArray(column.filterable)) {
