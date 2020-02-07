@@ -113,7 +113,7 @@ class GenomeFeatureWrapper extends Component {
   }
 
   loadGenomeFeature() {
-    const {chromosome, fmin, fmax, species,id,primaryId,geneSymbol, synonyms = []} = this.props;
+    const {chromosome, fmin, fmax, species,id,primaryId,geneSymbol, synonyms = [],variant} = this.props;
     // provide unique names
     let nameSuffix = [geneSymbol, ...synonyms,primaryId].filter((x, i, a) => a.indexOf(x) === i).map( x => encodeURI(x));
     let nameSuffixString = nameSuffix.length ===0 ? '': nameSuffix.join('&name=');
@@ -128,7 +128,7 @@ class GenomeFeatureWrapper extends Component {
     // [0] should be apollo_url: https://agr-apollo.berkeleybop.io/apollo/track
     // [1] should be track name : ALL_Genes
     // [2] should be track name : name suffix string
-    const trackConfig = this.generateTrackConfig(fmin,fmax,chromosome,species,nameSuffixString,undefined);
+    const trackConfig = this.generateTrackConfig(fmin,fmax,chromosome,species,nameSuffixString,variant);
     new GenomeFeatureViewer(trackConfig, `#${id}`, 900, undefined);
   }
 
@@ -176,6 +176,7 @@ GenomeFeatureWrapper.propTypes = {
   species: PropTypes.string.isRequired,
   strand: PropTypes.string,
   synonyms: PropTypes.array,
+  variant: PropTypes.string,
   width: PropTypes.string,
 };
 
