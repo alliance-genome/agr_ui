@@ -20,8 +20,8 @@ const AlleleToVariantTable = ({alleleId, fetchVariants, variants}) => {
     {
       dataField: 'type',
       text: 'Variant type',
-      formatter: ({name} = {}) => name,
-      headerStyle: {width: '120px'},
+      formatter: ({name = ''} = {}) => name.replace(/_/g, ''),
+      headerStyle: {width: '100px'},
     },
     {
       dataField: 'location',
@@ -44,13 +44,13 @@ const AlleleToVariantTable = ({alleleId, fetchVariants, variants}) => {
         genomicVariantSequence ?
           <span className="text-break">{`${row.genomicReferenceSequence}>${genomicVariantSequence}`}</span> :
           null,
-      headerStyle: {width: '200px'},
+      headerStyle: {width: '160px'},
     },
     {
       dataField: 'consequence',
       text: 'Most severe consequence',
-      formatter: (term) => term,
-      headerStyle: {width: '120px'},
+      formatter: (term = '') => term.replace(/_/g, ' '),
+      headerStyle: {width: '150px'},
     },
   ];
 
