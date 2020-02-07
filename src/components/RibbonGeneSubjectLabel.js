@@ -2,15 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {shortSpeciesName} from '../lib/utils';
 import {Link} from 'react-router-dom';
+import style from './style.scss';
 
-const RibbonGeneSubjectLabel = ({subject}) => (
-  <Link style={{fontSize: '0.9rem', marginRight: '0.25rem'}} to={`/gene/${subject.id}`}>
-    {subject.label} ({shortSpeciesName(subject.taxon_id)})
+const RibbonGeneSubjectLabel = ({isFocusGene, gene}) => (
+  <Link className={`${style.ribbonSubjectLabel} ${isFocusGene ? 'font-weight-bold' : ''}`} to={`/gene/${gene.id}`}>
+    {gene.label} ({shortSpeciesName(gene.taxon_id)})
   </Link>
 );
 
 RibbonGeneSubjectLabel.propTypes = {
-  subject: PropTypes.object,
+  gene: PropTypes.object,
+  isFocusGene: PropTypes.bool,
 };
 
 export default RibbonGeneSubjectLabel;
