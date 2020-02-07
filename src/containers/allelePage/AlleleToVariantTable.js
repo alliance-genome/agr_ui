@@ -24,14 +24,17 @@ const AlleleToVariantTable = ({alleleId, fetchVariants, variants}) => {
       dataField: 'location',
       text: 'Chromosome:position',
       formatter: ({chromosome = '', start = '', end = ''} = {}) => {
-        return `${chromosome}:${start}-${end}`;
+        return (start !== end) ? `${chromosome}:${start}-${end}` : `${chromosome}:${start}`;
       },
-      headerStyle: {width: '200px'},
+      headerStyle: {width: '160px'},
     },
     {
       dataField: 'genomicVariantSequence',
       text: 'Nucleotide change',
-      formatter: (genomicVariantSequence, row) => `${row.genomicReferenceSequence}>${genomicVariantSequence}`,
+      formatter: (genomicVariantSequence, row) =>
+        genomicVariantSequence ?
+          `${row.genomicReferenceSequence}>${genomicVariantSequence}` :
+          null,
       headerStyle: {width: '200px'},
     },
     {
