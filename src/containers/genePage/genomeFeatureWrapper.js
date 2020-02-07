@@ -61,6 +61,7 @@ class GenomeFeatureWrapper extends Component {
   }
 
   generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString,variantFilter) {
+    console.log('generating with variant filter',variantFilter);
     let transcriptTypes = getTranscriptTypes();
     if(species==='Saccharomyces cerevisiae' || species ==='Homo sapiens'){
       return {
@@ -90,7 +91,7 @@ class GenomeFeatureWrapper extends Component {
       'start': fmin,
       'end': fmax,
       'showVariantLabel': false,
-      'variantFilter': variantFilter ? variantFilter : [],
+      'variantFilter': variantFilter ? [variantFilter] : [],
       'tracks': [
         {
           'id': 1,
