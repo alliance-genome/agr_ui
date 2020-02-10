@@ -1,15 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { selectVariants } from '../../selectors/alleleSelectors';
+import { connect } from 'react-redux';
 import GenomeFeatureWrapper from '../genePage/genomeFeatureWrapper';
 // import GenomeFeatureWrapper from '../genePage/genomeFeatureWrapper';
 
-const AlleleSequenceView = ({allele}) => {
+const AlleleSequenceView = ({allele, variants = {}}) => {
   console.log('allele',allele);
 
   // myl7
   // http://localhost:2992/gene/ZFIN:ZDB-GENE-991019-3#alleles-and-variants
   // az2
   // http://localhost:2992/allele/ZFIN:ZDB-ALT-181010-2
+
+  const { data:variantsData = []} = variants;
 
 
   let genomeLocation = {
@@ -23,6 +27,9 @@ const AlleleSequenceView = ({allele}) => {
     <div>
       Allele viewer here
       {/*{allele}*/}
+      <pre>
+        {JSON.stringify(variantsData, null,4)}
+      </pre>
       <ul>
         <li>assembly: N/A fake {genomeLocation.assembly}</li>
         <li>fmin : N/A fake {genomeLocation.start}</li>
@@ -57,6 +64,13 @@ const AlleleSequenceView = ({allele}) => {
 
 AlleleSequenceView.propTypes = {
   allele: PropTypes.object,
+  variants: PropTypes.shape({
+    data: PropTypes.any,
+  }),
 };
 
-export default AlleleSequenceView;
+const mapStateToProps = state => ({
+  variants: selectVariants(state),
+});
+
+export default connect(mapStateToProps)(AlleleSequenceView);
