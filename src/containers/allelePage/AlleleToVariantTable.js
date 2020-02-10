@@ -20,7 +20,7 @@ const AlleleToVariantTable = ({alleleId, fetchVariants, variants}) => {
     {
       dataField: 'type',
       text: 'Variant type',
-      formatter: ({name = ''} = {}) => name.replace(/_/g, ''),
+      formatter: ({name = ''} = {}) => name.replace(/_/g, ' '),
       headerStyle: {width: '100px'},
     },
     {
