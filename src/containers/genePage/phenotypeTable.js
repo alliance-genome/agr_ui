@@ -42,13 +42,6 @@ const PhenotypeTable = ({geneId, phenotypes, dispatchFetchPhenotypes}) => {
     },
   ];
 
-  const sortOptions = [
-    {
-      value: 'geneticEntity',
-      label: 'Genetic Entity',
-    }
-  ];
-
   return (
     <RemoteDataTable
       columns={columns}
@@ -58,7 +51,6 @@ const PhenotypeTable = ({geneId, phenotypes, dispatchFetchPhenotypes}) => {
       keyField='id'
       loading={phenotypes.loading}
       onUpdate={dispatchFetchPhenotypes}
-      sortOptions={sortOptions}
       summaryProps={
         phenotypes.supplementalData ? {
           ...phenotypes.supplementalData.annotationSummary,
