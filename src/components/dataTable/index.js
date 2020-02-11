@@ -1,7 +1,6 @@
 import AlleleCell from './AlleleCell';
 import GeneCell from './geneCell';
 import EvidenceCodesCell from './evidenceCodesCell';
-// import GeneticEntityCell from './geneticEntityCell';
 import ReferenceCell from './referenceCell';
 import SpeciesCell from './SpeciesCell';
 import AssayCell from './assayCell';
@@ -17,7 +16,6 @@ export {
   AlleleCell,
   GeneCell,
   EvidenceCodesCell,
-  // GeneticEntityCell,
   ReferenceCell,
   CellTooltip,
   RemoteDataTable,
