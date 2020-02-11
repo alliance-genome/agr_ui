@@ -99,7 +99,7 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, geneId, geneSymbol, geneLoc
                   {
                     location ?
                       <ExternalLink
-                        href={`${process.env.JBROWSE_URL || ''}/jbrowse/?` + stringifyQuery({
+                        href={'/jbrowse/?' + stringifyQuery({
                           data: `data/${species}`,
                           loc: (geneLocation && geneLocation.start && geneLocation.end) ?
                             `${geneLocation.chromosome || location.chromosome}:${geneLocation.start || 0}..${geneLocation.end || 0}` :
