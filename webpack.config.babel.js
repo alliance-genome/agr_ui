@@ -53,6 +53,16 @@ const devServer = {
       target: process.env.API_URL || 'http://localhost:8080',
       secure: false,
       changeOrigin: true
+    },
+    '/apollo': {
+      target: process.env.APOLLO_URL || process.env.API_URL,
+      secure: false,
+      changeOrigin: true
+    },
+    '/jbrowse': {
+      target: process.env.JBROWSE_URL || process.env.API_URL,
+      secure: false,
+      changeOrigin: true
     }
   }
 };
@@ -67,9 +77,6 @@ const plugins = [
     title: 'Alliance of Genome Resources'
   }),
   new webpack.EnvironmentPlugin({
-    // APOLLO_URL: 'https://agr-apollo.berkeleybop.io/apollo/',
-    APOLLO_URL: 'https://build.alliancegenome.org/apollo/',
-    JBROWSE_URL: 'https://build.alliancegenome.org/',
     RELEASE: '[dev]',
   }),
   new MiniCssExtractPlugin({

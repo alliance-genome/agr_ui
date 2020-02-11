@@ -24,7 +24,7 @@ Most development will be done using [webpack-dev-server](https://webpack.js.org/
 
 ```bash
 # if not running API locally
-export API_URL=https://build.alliancegenome.org 
+export API_URL=https://build.alliancegenome.org
 ```
 
 To start webpack-dev-server:

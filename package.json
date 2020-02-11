@@ -22,7 +22,7 @@
     "d3-axis": "^1.0.8",
     "d3-scale": "^1.0.6",
     "d3-selection": "^1.1.0",
-    "genomefeaturecomponent": "^0.2.8",
+    "genomefeaturecomponent": "^0.2.0",
     "html-react-parser": "^0.10.0",
     "immutable": "^3.8.1",
     "isomorphic-fetch": "^2.2.1",
