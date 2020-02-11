@@ -13,7 +13,7 @@ import style from './style.scss';
 const items = [
   {
     logo: 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner_1_flyin_logo.png',
-    captionHeader: 'The Alliance 2.3 Release is available now.',
+    captionHeader: 'The Alliance 3.0 Release is available now.',
     captionText: 'NEW FEATURES ',
     link: '/release-notes',
     className: 'slide1',
