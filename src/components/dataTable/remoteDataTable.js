@@ -15,7 +15,7 @@ import isEqual from 'lodash.isequal';
 
 import DownloadButton from './downloadButton';
 import TableSummary from './tableSummary';
-import Utils from './utils';
+import { renderPaginationShowsTotal } from './utils';
 // import * as analytics from '../../lib/analytics';
 import { DEFAULT_TABLE_STATE } from '../../constants';
 import LoadingOverlay from './loadingOverlay';
@@ -97,7 +97,7 @@ class RemoteDataTable extends Component {
     const pagination = paginationFactory({
       custom: true,
       page,
-      paginationTotalRenderer: Utils.renderPaginationShowsTotal,
+      paginationTotalRenderer: renderPaginationShowsTotal,
       sizePerPage,
       showTotal: true,
       totalSize: totalRows,
@@ -111,13 +111,16 @@ class RemoteDataTable extends Component {
       const columnFilter = filters &&
         filters[column.dataField] &&
         filters[column.dataField].filterVal;
-      column.headerFormatter = (column, _, {filterElement}) => (
-        <ColumnHeader
-          column={column}
-          filter={columnFilter}
-          filterElement={filterElement}
-        />
-      );
+      if (!column.headerFormatter) {
+        column.headerFormatter = (column, _, {filterElement}) => (
+          <ColumnHeader
+            column={column}
+            filter={columnFilter}
+            filterElement={filterElement}
+          />
+        );
+      }
+
       if (column.filterable) {
         column.filter = customFilter();
         if (Array.isArray(column.filterable)) {

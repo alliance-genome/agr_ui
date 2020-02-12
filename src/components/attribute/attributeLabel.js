@@ -5,10 +5,12 @@ class AttributeLabel extends Component {
 
   render() {
     const { style, children, bsClassName } = this.props;
+    const styleWithTextTransform={...style, ...{textTransform: 'capitalize'}};
+
     return (
       <dt
         className={bsClassName}
-        style={style}
+        style={styleWithTextTransform}
       >
         {children}
       </dt>

@@ -1,15 +1,26 @@
 @import "../../theme";
 @import "~bootstrap/scss/bootstrap";
 
+$page-nav-width: 220px;
+
 .dataPage {
   max-width: 1520px;
+  display: flex;
+  flex-direction: column;
+
+  @include media-breakpoint-up(md) {
+    flex-direction: row;
+  }
 }
 
 .dataContainer {
-  overflow-x: auto;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 15px;
 
   @include media-breakpoint-up(md) {
     border-left: 1px solid $hr-border-color;
+    max-width: calc(100vw - #{$page-nav-width});
   }
 }
 
@@ -25,8 +36,8 @@
 
   @include media-breakpoint-up(md) {
     height: 100%;
-    max-width: 220px;
-    min-width: 220px;
+    max-width: $page-nav-width;
+    min-width: $page-nav-width;
     box-shadow: none;
   }
 
@@ -41,7 +52,7 @@
   .entity {
     display: flex;
     align-items: center;
-    margin: 0 1.25rem;
+    margin: 0 0.75rem;
     padding: 0.75rem 0;
     color: #495057;
 
@@ -58,4 +69,16 @@
     flex-grow: 1;
     width: 100%;
   }
+}
+
+.titleTooltip {
+  max-width: 100%;
+  font-size: 1rem;
+}
+
+.pageCategory {
+  font-size: 0.8rem;
+  color: $gray-600;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
 }

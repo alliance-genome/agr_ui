@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import style from './style.scss';
 import Loader from './loader/index';
 import logo from './agrLogo.png';
@@ -13,10 +13,33 @@ import AgrTweets from './twitterWidget';
 import { MenuItems } from './navigation';
 import { selectWarningBanner } from '../../selectors/wordpressSelectors';
 import { fetchWarningBanner } from '../../actions/wordpress';
+import ReplaceLinks from '../wordpress/ReplaceLinks';
+import { selectPageLoading } from '../../selectors/loadingSelector';
 
 class Layout extends Component {
   componentDidMount() {
-    this.props.dispatch(fetchWarningBanner());
+    const { dispatch, location } = this.props;
+    dispatch(fetchWarningBanner());
+    if (location.hash) {
+      this.scrollToAnchor();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { location, pageLoading } = this.props;
+    if (location.hash && prevProps.pageLoading && !pageLoading) {
+      this.scrollToAnchor();
+    }
+  }
+
+  scrollToAnchor() {
+    const element = document.getElementById(this.props.location.hash.substr(1));
+    if (element) {
+      // chrome works well without the timeout because it has a good scroll anchoring
+      // implementation. the timeout helps other browsers get the scroll position right
+      // a little more consistently
+      setTimeout(() => element.scrollIntoView(), 400);
+    }
   }
 
   render() {
@@ -24,7 +47,7 @@ class Layout extends Component {
     return (
       <div>
         {warningBanner &&
-          <div className={style.warningBar} dangerouslySetInnerHTML={{ __html: warningBanner.content.rendered}} />
+          <div className={style.warningBar}><ReplaceLinks html={warningBanner.content.rendered} /></div>
         }
 
         <div className='d-none d-md-block'>
@@ -92,11 +115,13 @@ Layout.propTypes = {
   children: PropTypes.node,
   dispatch: PropTypes.func,
   location: PropTypes.object,
+  pageLoading: PropTypes.bool,
   warningBanner: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   warningBanner: selectWarningBanner(state),
+  pageLoading: selectPageLoading(state),
 });
 
-export default connect(mapStateToProps)(Layout);
+export default withRouter(connect(mapStateToProps)(Layout));

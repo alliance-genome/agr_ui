@@ -13,7 +13,7 @@ const PageHeader = ({entityName}) => {
 };
 
 PageHeader.propTypes = {
-  entityName: PropTypes.string
+  entityName: PropTypes.node
 };
 
 export default PageHeader;

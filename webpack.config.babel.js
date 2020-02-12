@@ -5,8 +5,8 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const RobotstxtPlugin = require('robotstxt-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const folders = {
   NPM: path.resolve(__dirname, './node_modules'),
@@ -53,6 +53,16 @@ const devServer = {
       target: process.env.API_URL || 'http://localhost:8080',
       secure: false,
       changeOrigin: true
+    },
+    '/apollo': {
+      target: process.env.APOLLO_URL || process.env.API_URL,
+      secure: false,
+      changeOrigin: true
+    },
+    '/jbrowse': {
+      target: process.env.JBROWSE_URL || process.env.API_URL,
+      secure: false,
+      changeOrigin: true
     }
   }
 };
@@ -67,8 +77,6 @@ const plugins = [
     title: 'Alliance of Genome Resources'
   }),
   new webpack.EnvironmentPlugin({
-    APOLLO_URL: 'https://agr-apollo.berkeleybop.io/apollo/',
-    JBROWSE_URL: '',
     RELEASE: '[dev]',
   }),
   new MiniCssExtractPlugin({
@@ -165,11 +173,7 @@ module.exports = {
   },
   optimization: {
     minimizer: [
-      new UglifyJsPlugin({
-        cache: true,
-        parallel: true,
-        sourceMap: true
-      }),
+      new TerserPlugin(),
       new OptimizeCSSAssetsPlugin(),
     ]
   },
