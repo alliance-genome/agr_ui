@@ -28,6 +28,7 @@ import AlleleToPhenotypeTable from './AlleleToPhenotypeTable';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
 import AlleleToDiseaseTable from './AlleleToDiseaseTable';
 import AlleleToVariantTable from './AlleleToVariantTable';
+import AlleleSequenceView from './AlleleSequenceView';
 
 const SUMMARY = 'Summary';
 const PHENOTYPES = 'Phenotypes';
@@ -83,6 +84,7 @@ class AllelePage extends Component {
           </Subsection>
 
           <Subsection title={VARIANTS}>
+            <AlleleSequenceView allele={data} />
             <AlleleToVariantTable alleleId={alleleId} />
           </Subsection>
 
