@@ -29,9 +29,11 @@ export function injectHighlightIntoResponse(responseObj) {
       return prev + current + suffix;
     }, '');
     simpleHighObj[key] = highStr;
-    // don't highlight some fields
+    // if it's not excluded from highlighting, add the highlighting and swap
+    // it into the original object
     if (NON_HIGHLIGHTED_FIELDS.indexOf(key) < 0) {
       responseObj[key] = injectHighlightingIntoValue(highStr, responseObj[key]);
+      delete simpleHighObj[key];
     }
   });
   responseObj.highlights = flattenWithPrettyFieldNames(simpleHighObj);
@@ -145,25 +147,17 @@ function parseGeneResult(_d) {
   let speciesKey = _d.species;
   let d = injectHighlightIntoResponse(_d);
   return {
+    ...d,
     symbol: d.symbol || '(no symbol)',
-    category: d.category || 'gene',
     display_name: d.symbol,
-    href: d.href,
-    name: d.name,
-    id: d.id || '(no ID)',
     sourceHref: d.href,
-    synonyms: d.synonyms,
     biotype: makeValueDisplayName(d.soTermName),
-    species: d.species,
     speciesKey: speciesKey,  //capture species from before highlighting
     highlight: d.highlights,
     homologs: parseLogs(d.homologs),
     paralogs: parseLogs(d.paralogs),
     genomic_coordinates: parseCoordinates(_d),
-    relatedData: d.relatedData,
-    missing: d.missingTerms,
-    explanation: d.explanation,
-    score: d.score
+    missing: d.missingTerms
   };
 }
 
@@ -180,39 +174,25 @@ function parseLogs(logs) {
 function parseGoResult(_d) {
   let d = injectHighlightIntoResponse(_d);
   return {
-    category: d.category,
+    ...d,
     display_name: d.name,
     go_branch: makeValueDisplayName(d.go_type),
-    id: d.id,
     highlight: d.highlights,
-    href: d.href,
-    name: d.name,
     collapsible_synonyms: d.synonyms, //not just named synonyms,
     //so that it can be collapsible when others aren't
-    relatedData: d.relatedData,
-    missing: d.missingTerms,
-    explanation: d.explanation,
-    score: d.score
+    missing: d.missingTerms
   };
 }
 
 function parseDiseaseResult(_d) {
   let d = injectHighlightIntoResponse(_d);
   return {
-    associated_genes: d.associated_genes,
-    category: d.category,
+    ...d,
     display_name: d.name,
-    definition: d.definition,
     external_ids: parseCrossReferences(d),
     highlight: d.highlights,
     href: '/disease/' + d.id,
-    name: d.name,
-    id: d.id,
-    synonyms: d.synonyms,
-    relatedData: d.relatedData,
-    missing: d.missingTerms,
-    explanation: d.explanation,
-    score: d.score
+    missing: d.missingTerms
   };
 }
 
@@ -234,23 +214,13 @@ function parseAlleleResult(_d) {
   let speciesKey = _d.species;
   let d = injectHighlightIntoResponse(_d);
   return {
-    category: d.category,
-    id: d.id,
+    ...d,
     display_name: d.symbol,
     href: _d.modCrossRefCompleteUrl,
     highlight: d.highlights,
     name: d.symbol,
-    synonyms: d.synonyms,
-    species: d.species,
     speciesKey: speciesKey,
-    diseases: d.diseases,
-    genes: d.genes,
-    variantTypes: d.variantTypes,
-    molecularConsequence: d.molecularConsequence,
-    relatedData: d.relatedData,
-    missing: d.missingTerms,
-    explanation: d.explanation,
-    score: d.score
+    missing: d.missingTerms
   };
 }
 
@@ -258,17 +228,10 @@ function parseAlleleResult(_d) {
 function parseDefaultResult(_d) {
   let d = injectHighlightIntoResponse(_d);
   return {
-    associated_genes: d.associated_genes,
-    category: d.category,
-    id: d.id,
+    ...d,
     display_name: d.name,
     highlight: d.highlights,
     href: _d.modCrossRefCompleteUrl,
-    name: d.name,
-    synonyms: d.synonym,
     missing: d.missingTerms,
-    explanation: d.explanation,
-    relatedData: d.relatedData,
-    score: d.score
   };
 }
