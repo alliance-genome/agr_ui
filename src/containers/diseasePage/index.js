@@ -12,7 +12,6 @@ import {
   selectLoading,
 } from '../../selectors/diseaseSelectors';
 
-import LoadingPage from '../../components/loadingPage';
 import Subsection from '../../components/subsection';
 import NotFound from '../../components/notFound';
 import BasicDiseaseInfo from './basicDiseaseInfo';
@@ -22,6 +21,10 @@ import HeadMetaTags from '../../components/headMetaTags';
 import DiseaseToAlleleTable from './DiseaseToAlleleTable';
 import DiseaseToGeneTable from './DiseaseToGeneTable';
 import DiseaseToModelTable from './DiseaseToModelTable';
+import {setPageLoading} from '../../actions/loadingActions';
+import PageNavEntity from '../../components/dataPage/PageNavEntity';
+import DiseaseName from '../../components/disease/DiseaseName';
+import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
 
 class DiseasePage extends Component {
   constructor(props) {
@@ -29,23 +32,23 @@ class DiseasePage extends Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchDisease(this.props.match.params.diseaseId));
+    this.fetchDiseaseData();
   }
 
   componentDidUpdate(prevProps) {
-    const { dispatch } = this.props;
-    if (this.props.match.params.diseaseId !== prevProps.match.params.diseaseId) {
-      dispatch(fetchDisease(this.props.match.params.diseaseId));
+    if (this.props.diseaseId !== prevProps.diseaseId) {
+      this.fetchDiseaseData();
     }
   }
 
-  render() {
-    const {data, error, loading} = this.props;
+  fetchDiseaseData() {
+    const { diseaseId, dispatch } = this.props;
+    dispatch(setPageLoading(true));
+    dispatch(fetchDisease(diseaseId)).finally(() => dispatch(setPageLoading(false)));
+  }
 
-    if (loading) {
-      return <LoadingPage />;
-    }
+  render() {
+    const {data, error} = this.props;
 
     if (error) {
       return <NotFound />;
@@ -67,12 +70,6 @@ class DiseasePage extends Component {
       {name: ALLELES},
       {name: MODELS},
     ];
-
-    const doLink = (
-      <ExternalLink href={disease.url}>
-        {disease.id}
-      </ExternalLink>
-    );
 
     const title = disease.name || disease.id;
 
@@ -119,8 +116,13 @@ class DiseasePage extends Component {
     return (
       <DataPage>
         <HeadMetaTags jsonLd={jsonLd} title={title} />
-        <PageNav entityName={disease.name} link={doLink} sections={SECTIONS} />
+        <PageNav sections={SECTIONS}>
+          <PageNavEntity entityName={<DiseaseName disease={disease} />}>
+            <ExternalLink href={disease.url}>{disease.id}</ExternalLink>
+          </PageNavEntity>
+        </PageNav>
         <PageData>
+          <PageCategoryLabel category='disease' />
           <PageHeader entityName={disease.name} />
 
           <Subsection hideTitle title={SUMMARY}>
@@ -146,12 +148,10 @@ class DiseasePage extends Component {
 
 DiseasePage.propTypes = {
   data: PropTypes.object,
+  diseaseId: PropTypes.string.isRequired,
   dispatch: PropTypes.func,
   error: PropTypes.string,
   loading: PropTypes.bool,
-  match: PropTypes.shape({
-    params: PropTypes.object,
-  }).isRequired,
 };
 
 const mapStateToProps = (state) => {

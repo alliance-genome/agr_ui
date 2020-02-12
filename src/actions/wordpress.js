@@ -6,28 +6,28 @@ import {
   WARNING_BANNER_SLUG
 } from '../constants';
 
-export const FETCH_WORDPRESS_POST_LIST = 'FETCH_WORDPRESS_POST_LIST';
+export const FETCH_WORDPRESS_POST_LIST = 'FETCH_WORDPRESS_POST_LIST_REQUEST';
 export const FETCH_WORDPRESS_POST_LIST_SUCCESS = 'FETCH_WORDPRESS_POST_LIST_SUCCESS';
 export const FETCH_WORDPRESS_POST_LIST_FAILURE = 'FETCH_WORDPRESS_POST_LIST_FAILURE';
 
-export const FETCH_WORDPRESS_POST = 'FETCH_WORDPRESS_POST';
+export const FETCH_WORDPRESS_POST = 'FETCH_WORDPRESS_POST_REQUEST';
 export const FETCH_WORDPRESS_POST_SUCCESS = 'FETCH_WORDPRESS_POST_SUCCESS';
 export const FETCH_WORDPRESS_POST_FAILURE = 'FETCH_WORDPRESS_POST_FAILURE';
 
-export const FETCH_WORDPRESS_PAGE = 'FETCH_WORDPRESS_PAGE';
+export const FETCH_WORDPRESS_PAGE = 'FETCH_WORDPRESS_PAGE_REQUEST';
 export const FETCH_WORDPRESS_PAGE_SUCCESS = 'FETCH_WORDPRESS_PAGE_SUCCESS';
 export const FETCH_WORDPRESS_PAGE_FAILURE = 'FETCH_WORDPRESS_PAGE_FAILURE';
 
-export const FETCH_WARNING_BANNER = 'FETCH_WARNING_BANNER';
-export const FETCH_WARNING_BANNER_SUCCESS = 'FETCH_WORDPRESS_WARNING_SUCCESS';
-export const FETCH_WARNING_BANNER_FAILURE = 'FETCH_WORDPRESS_WARNING_FAILURE';
+export const FETCH_WARNING_BANNER = 'FETCH_WARNING_BANNER_REQUEST';
+export const FETCH_WARNING_BANNER_SUCCESS = 'FETCH_WARNING_BANNER_SUCCESS';
+export const FETCH_WARNING_BANNER_FAILURE = 'FETCH_WARNING_BANNER_FAILURE';
 
 export const fetchWordpressPostList = function () {
   return (dispatch) => {
     dispatch({
       type: FETCH_WORDPRESS_POST_LIST
     });
-    fetchData(WORDPRESS_POST_BASE_URL)
+    return fetchData(WORDPRESS_POST_BASE_URL)
       .then(data => dispatch(fetchWordpressPostListSuccess(data)))
       .catch(error => dispatch(fetchWordpressPostListFailure(error)));
   };
@@ -52,7 +52,7 @@ export const fetchWordpressPost = function (slug) {
     dispatch({
       type: FETCH_WORDPRESS_POST
     });
-    fetchData(WORDPRESS_POST_URL + slug)
+    return fetchData(WORDPRESS_POST_URL + slug)
       .then(data => dispatch(fetchWordpressPostSuccess(data)))
       .catch(error => dispatch(fetchWordpressPostFailure(error)));
   };
@@ -86,7 +86,7 @@ export const fetchWordpressPage = function (slug) {
     dispatch({
       type: FETCH_WORDPRESS_PAGE
     });
-    fetchData(WORDPRESS_PAGE_BASE_URL + slug)
+    return fetchData(WORDPRESS_PAGE_BASE_URL + slug)
       .then(handlePagePayload)
       .then(data => dispatch(fetchWordpressPageSuccess(data)))
       .catch(error => dispatch(fetchWordpressPageFailure(error)));
@@ -110,7 +110,7 @@ export const fetchWordpressPageFailure = function (error) {
 export const fetchWarningBanner = () => {
   return (dispatch) => {
     dispatch({type: FETCH_WARNING_BANNER});
-    fetchData(WORDPRESS_PAGE_BASE_URL + WARNING_BANNER_SLUG)
+    return fetchData(WORDPRESS_PAGE_BASE_URL + WARNING_BANNER_SLUG)
       .then(handlePagePayload)
       .then(data => dispatch(fetchWarningBannerSuccess(data)))
       .catch(error => dispatch(fetchWarningBannerFailure(error)));

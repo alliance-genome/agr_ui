@@ -13,6 +13,8 @@ import {
   selectLoading,
   selectPost
 } from '../../selectors/wordpressSelectors';
+import ReplaceLinks from './ReplaceLinks';
+import {setPageLoading} from '../../actions/loadingActions';
 
 class WordpressPost extends Component {
   constructor(props) {
@@ -24,14 +26,15 @@ class WordpressPost extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.match.params.slug !== prevProps.match.params.slug) {
+    if (this.props.slug !== prevProps.slug) {
       this.fetch();
     }
   }
 
   fetch() {
-    const { dispatch } = this.props;
-    dispatch(fetchWordpressPost(this.props.match.params.slug));
+    const { dispatch, slug } = this.props;
+    dispatch(setPageLoading(true));
+    dispatch(fetchWordpressPost(slug)).finally(() => dispatch(setPageLoading(false)));
   }
 
   render() {
@@ -52,10 +55,10 @@ class WordpressPost extends Component {
         <SecondaryNav  title={title} type='post' />
         <div className='container'>
           <div className='row'>
-            <div className={`col-12 col-sm-5 ${style.floatLeft}`}>
+            {post.featured_media_url && <div className={`col-12 col-sm-5 ${style.floatLeft}`}>
               <img className='img-fluid' src={post.featured_media_url}  />
-            </div>
-            <div dangerouslySetInnerHTML={{ __html: post.content.rendered}} />
+            </div>}
+            <ReplaceLinks html={post.content.rendered} />
           </div>
         </div>
       </div>
@@ -66,10 +69,8 @@ class WordpressPost extends Component {
 WordpressPost.propTypes = {
   dispatch: PropTypes.func,
   loading: PropTypes.bool,
-  match: PropTypes.shape({
-    params: PropTypes.object,
-  }).isRequired,
   post: PropTypes.object,
+  slug: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => {

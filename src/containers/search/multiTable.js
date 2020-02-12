@@ -11,7 +11,7 @@ import ResultsTable from './resultsTable';
 import CategoryLabel from './categoryLabel';
 import fetchData from '../../lib/fetchData';
 import { SEARCH_API_ERROR_MESSAGE } from '../../constants';
-import { receiveResponse, setError, setPending } from '../../actions/search';
+import { receiveResponse, setError } from '../../actions/search';
 import { getQueryParamWithValueChanged } from '../../lib/searchHelpers';
 
 
@@ -26,6 +26,7 @@ import {
   selectAlleleTotal,
   selectHomologyGroupTotal,
 } from '../../selectors/searchSelectors';
+import {setPageLoading} from '../../actions/loadingActions';
 
 const BASE_SEARCH_URL = '/api/search';
 const PAGE_SIZE = 5;
@@ -63,7 +64,7 @@ class MultiTableComponent extends Component {
     let goUrl = this.getUrlByCategory('go');
     let diseaseUrl = this.getUrlByCategory('disease');
     let alleleUrl = this.getUrlByCategory('allele');
-    this.props.dispatch(setPending(true));
+    this.props.dispatch(setPageLoading(true));
     fetchData(geneUrl)
       .then( (geneData) => {
         this.props.dispatch(receiveResponse(geneData, this.props.queryParams, 'gene'));
@@ -82,7 +83,7 @@ class MultiTableComponent extends Component {
           })
       )
       .catch( (e) => {
-        this.props.dispatch(setPending(false));
+        this.props.dispatch(setPageLoading(false));
         if (process.env.NODE_ENV === 'production') {
           this.props.dispatch(setError(SEARCH_API_ERROR_MESSAGE));
         } else {

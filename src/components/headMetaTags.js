@@ -42,15 +42,13 @@ class HeadMetaTags extends Component {
     }));
 
     return (
-      <div>
-        <Helmet
-          meta={[
-            {property: 'og:title', content: {title}}
-          ]}
-          script={scripts}
-          title={title}
-        />
-      </div>
+      <Helmet
+        meta={[
+          {property: 'og:title', content: {title}}
+        ]}
+        script={scripts}
+        title={title}
+      />
     );
   }
 }
