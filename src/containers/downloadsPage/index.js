@@ -48,7 +48,8 @@ class DownloadsPage extends React.Component {
   render() {
     const DISEASE = 'Disease';
     const EXPRESSION = 'Expression';
-    const INTERACTIONS = 'Interactions';
+    const MOLECULAR_INTERACTIONS = 'Molecular Interactions';
+    const GENETIC_INTERACTIONS = 'Genetic Interactions';
     const GENE_DESCRIPTIONS = 'Gene Descriptions';
     const ORTHOLOGY = 'Orthology';
     const VARIANTS = 'Variants';
@@ -56,7 +57,8 @@ class DownloadsPage extends React.Component {
       {name: DISEASE},
       {name: EXPRESSION},
       {name: GENE_DESCRIPTIONS},
-      {name: INTERACTIONS},
+      {name: MOLECULAR_INTERACTIONS},
+      {name: GENETIC_INTERACTIONS},
       {name: ORTHOLOGY},
       {name: VARIANTS},
     ];
@@ -135,11 +137,11 @@ class DownloadsPage extends React.Component {
             </DownloadFileTable>
           </Subsection>
 
-          <Subsection title={INTERACTIONS}>
+          <Subsection title={MOLECULAR_INTERACTIONS}>
             <DownloadFileTable>
               <DownloadFileRow
                 description={
-                  <span>Molecular interactions, all species combined <HelpPopup id='interactions-help'>
+                  <span>All molecular interactions <HelpPopup id='interactions-help'>
                     This file provides a set of annotations of molecular interactions for
                     genes and gene products for all Alliance species (human, rat, mouse, zebrafish, fruit fly, nematode, and
                     yeast). The file is in the <ExternalLink href='https://github.com/HUPO-PSI/miTab/blob/master/PSI-MITAB27Format.md'>PSI-MI TAB 2.7 format</ExternalLink>,
@@ -148,15 +150,29 @@ class DownloadsPage extends React.Component {
                     Alliance members WormBase and FlyBase, as well as the <ExternalLink href='http://www.imexconsortium.org'>IMEx
                     consortium</ExternalLink> and the <ExternalLink href='https://thebiogrid.org'>BioGRID database</ExternalLink>.
                   </HelpPopup></span>}
-                fileType='TSV'
-                url={this.getUrlForDataType('INTERACTION', 'COMBINED')}
+                url={this.getUrlForDataType('INTERACTION-MOL', 'COMBINED')}
               />
               {speciesSubTypes.map(speciesSubType => (
                 <DownloadFileRow
                   description={<span><i>{speciesSubType.species}</i> molecular interactions</span>}
-                  fileType='TSV'
                   key={speciesSubType.species}
-                  url={this.getUrlForDataType('INTERACTION', speciesSubType.subType)}
+                  url={this.getUrlForDataType('INTERACTION-MOL', speciesSubType.subType)}
+                />
+              ))}
+            </DownloadFileTable>
+          </Subsection>
+
+          <Subsection title={GENETIC_INTERACTIONS}>
+            <DownloadFileTable>
+              <DownloadFileRow
+                description='All genetic interactions'
+                url={this.getUrlForDataType('INTERACTION-GEN', 'COMBINED')}
+              />
+              {speciesSubTypes.map(speciesSubType => (
+                <DownloadFileRow
+                  description={<span><i>{speciesSubType.species}</i> genetic interactions</span>}
+                  key={speciesSubType.species}
+                  url={this.getUrlForDataType('INTERACTION-GEN', speciesSubType.subType)}
                 />
               ))}
             </DownloadFileTable>
