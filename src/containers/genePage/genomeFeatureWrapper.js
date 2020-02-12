@@ -18,7 +18,7 @@ class GenomeFeatureWrapper extends Component {
 
   constructor(props) {
     super(props);
-    let apolloServerPrefix = process.env.APOLLO_URL;
+    let apolloServerPrefix = '/apollo/';
 
     // TODO: this is a hack to fix inconsistencies in JBrowse
     // let trackDataWithHighlight = apolloServerPrefix + 'track/' + encodeURI(this.props.species) + '/' + defaultTrackName + '/' + encodeURI(locationString) + '.json';
@@ -26,7 +26,7 @@ class GenomeFeatureWrapper extends Component {
     let variantDataWithHighlight = apolloServerPrefix + 'vcf/' ;
 
     let geneSymbolUrl = '&lookupSymbol=' + this.props.geneSymbol;
-    let externalJBrowsePrefix = process.env.JBROWSE_URL + '/jbrowse/index.html?data=data%2F' + encodeURIComponent(this.props.species);
+    let externalJBrowsePrefix = '/jbrowse/?' + 'data=data%2F' + encodeURIComponent(this.props.species);
 
     let linkBuffer = 1.2;
     let linkLength = this.props.fmax - this.props.fmin;
