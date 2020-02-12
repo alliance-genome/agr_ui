@@ -61,7 +61,7 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
     {
       dataField: 'consequence',
       text: 'Most severe consequence',
-      formatter: (term = '') => term.replace(/_/g, ' '),
+      formatter: term => term && term.replace(/_/g, ' '),
       headerStyle: {width: '150px'},
     },
   ];
