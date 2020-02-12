@@ -71,7 +71,7 @@ class ExpressionComparisonRibbon extends React.Component {
   }
 
   render() {
-    const { geneTaxon, orthology, summary } = this.props;
+    const { geneId, geneTaxon, orthology, summary } = this.props;
     const { selectedOrthologs, selectedBlock } = this.state;
 
     // const genes = [geneId].concat(selectedOrthologs.map(o => getOrthologId(o)));
@@ -113,6 +113,7 @@ class ExpressionComparisonRibbon extends React.Component {
               </HelpPopup>
             </span>
             <OrthologPicker
+              defaultEnabled
               defaultStringency={STRINGENCY_HIGH}
               focusTaxonId={geneTaxon}
               genesWithData={genesWithData}
@@ -133,7 +134,7 @@ class ExpressionComparisonRibbon extends React.Component {
             newTab={false}
             selected={selectedBlock}
             selectionMode={SELECTION.COLUMN}
-            subjectLabel={subject => <RibbonGeneSubjectLabel subject={subject} />}
+            subjectLabel={subject => <RibbonGeneSubjectLabel gene={subject} isFocusGene={subject.id === geneId} />}
             subjectLabelPosition={POSITION.LEFT}
             subjects={summary.data.subjects}
           />
