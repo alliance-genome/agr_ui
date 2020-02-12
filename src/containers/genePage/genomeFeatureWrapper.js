@@ -51,8 +51,14 @@ class GenomeFeatureWrapper extends Component {
     this.jbrowseUrl = externalJbrowseUrl;
   }
 
-  componentDidUpdate() {
+  componentDidMount() {
     this.loadGenomeFeature();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.primaryId !== prevProps.primaryId) {
+      this.loadGenomeFeature();
+    }
   }
 
   getSpeciesString(species){
