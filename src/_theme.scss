@@ -22,7 +22,12 @@ $ribbon-table-filter-bgcolor: white;
 $ribbon-table-filter-icon-color: #1849b4;
 
 $ribbon-strip-tile-tile-width: 15px;
-$ribbon-strip-tile-tile-empty-width: 17px;
 $ribbon-table-evidence-hover-color: rgba(75, 124, 231, 0.4);
 
 $ribbon-strip-tile-border-radius: 0px;
+
+.ontology-ribbon {
+  &, & * {
+    box-sizing: content-box;
+  }
+}
