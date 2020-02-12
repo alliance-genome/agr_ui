@@ -51,8 +51,7 @@ class GenomeFeatureWrapper extends Component {
     this.jbrowseUrl = externalJbrowseUrl;
   }
 
-
-  componentDidMount() {
+  componentDidUpdate() {
     this.loadGenomeFeature();
   }
 
@@ -62,7 +61,7 @@ class GenomeFeatureWrapper extends Component {
 
   generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString,variantFilter) {
     let transcriptTypes = getTranscriptTypes();
-    if(species==='Saccharomyces cerevisiae' || species ==='Homo sapiens'){
+    if(species==='Saccharomyces cerevisiae' || species ==='Homo sapiens' || variantFilter === undefined){
       return {
         'locale': 'global',
         'chromosome':  species==='Saccharomyces cerevisiae' ? 'chr'+chromosome : chromosome ,
@@ -90,7 +89,7 @@ class GenomeFeatureWrapper extends Component {
       'start': fmin,
       'end': fmax,
       'showVariantLabel': false,
-      'variantFilter': variantFilter ? [variantFilter] : [],
+      'variantFilter': [variantFilter] ,
       'tracks': [
         {
           'id': 1,
