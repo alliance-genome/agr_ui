@@ -91,9 +91,22 @@ class DownloadsPage extends React.Component {
           <Subsection title={DISEASE}>
             <DownloadFileTable>
               <DownloadFileRow
-                description='Disease associations'
-                url={this.getUrlForDataType('DISEASE-ALLIANCE', 'COMBINED')}
+                description='All annotations'
+                url={[
+                  this.getUrlForDataType('DISEASE-ALLIANCE-JSON', 'COMBINED'),
+                  this.getUrlForDataType('DISEASE-ALLIANCE', 'COMBINED'),
+                ]}
               />
+              {speciesSubTypes.map(speciesSubType => (
+                <DownloadFileRow
+                  description={<span><i>{speciesSubType.species}</i> gene annotations</span>}
+                  key={speciesSubType.species}
+                  url={[
+                    this.getUrlForDataType('DISEASE-ALLIANCE-JSON', speciesSubType.subType),
+                    this.getUrlForDataType('DISEASE-ALLIANCE', speciesSubType.subType),
+                  ]}
+                />
+              ))}
             </DownloadFileTable>
           </Subsection>
 
