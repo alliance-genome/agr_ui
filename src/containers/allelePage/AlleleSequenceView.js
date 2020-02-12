@@ -16,6 +16,7 @@ const AlleleSequenceView = ({allele}) => {
           assembly={genomeLocation.assembly}
           biotype='gene'
           chromosome={genomeLocation.chromosome}
+          displayType='ISOFORM_AND_VARIANT'
           fmax={genomeLocation.end}
           fmin={genomeLocation.start}
           geneSymbol={allele.symbol}
