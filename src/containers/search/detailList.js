@@ -31,9 +31,7 @@ class DetailList extends Component {
       if (value && field === 'species') {
         valueNode = <span><i dangerouslySetInnerHTML={{ __html: value }} /></span>;
       } else {
-        //        if (!COLLAPSIBLE_FIELDS.includes(field)) {
         valueNode = <span dangerouslySetInnerHTML={{ __html: value }} />;
-        //        }
       }
 
       if (!value) {
