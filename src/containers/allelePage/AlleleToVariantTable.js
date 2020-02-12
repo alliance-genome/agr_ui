@@ -17,7 +17,7 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
     {
       dataField: 'displayName',
       text: 'Variant name',
-      formatter: (name, {location, type}) => (
+      formatter: (name, {location, type = {}}) => (
         <VariantJBrowseLink
           geneLocation={geneLocation}
           location={location}
@@ -91,7 +91,7 @@ AlleleToVariantTable.propTypes = {
   alleleId: PropTypes.any,
   fetchVariants: PropTypes.func.isRequired,
   variants: PropTypes.shape({
-    data: PropTypes.any,
+    data: PropTypes.arrayOf(PropTypes.object),
     loading: PropTypes.any,
     total: PropTypes.any,
   }),
