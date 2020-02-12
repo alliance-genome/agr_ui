@@ -85,11 +85,8 @@ class AllelePage extends Component {
             <AlleleSummary allele={data} />
           </Subsection>
 
-          <Subsection title={SEQUENCE_VIEW}>
-            <AlleleSequenceView allele={data} />
-          </Subsection>
-
           <Subsection title={VARIANTS}>
+            <AlleleSequenceView allele={data} />
             <AlleleToVariantTable alleleId={alleleId} />
           </Subsection>
 
