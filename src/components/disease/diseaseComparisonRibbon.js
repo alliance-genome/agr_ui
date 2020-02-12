@@ -89,7 +89,7 @@ class DiseaseComparisonRibbon extends Component {
   }
 
   render(){
-    const { geneTaxon, orthology, summary } = this.props;
+    const { geneId, geneTaxon, orthology, summary } = this.props;
     const { selectedBlock, selectedOrthologs } = this.state;
 
     if (!summary) {
@@ -137,7 +137,7 @@ class DiseaseComparisonRibbon extends Component {
               newTab={false}
               selected={selectedBlock}
               selectionMode={SELECTION.COLUMN}
-              subjectLabel={subject => <RibbonGeneSubjectLabel subject={subject} />}
+              subjectLabel={subject => <RibbonGeneSubjectLabel gene={subject} isFocusGene={subject.id === geneId} />}
               subjectLabelPosition={POSITION.LEFT}
               subjects={summary.data.subjects}
             />

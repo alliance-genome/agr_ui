@@ -68,7 +68,7 @@ class GeneOntologyRibbon extends Component {
         for(var sub of data.subjects) {
           oldSubs.push(sub);
         }
-      
+
         var subject = null, group = null;
         if(this.state.selected) {
           subject = this.state.selected.subject;
@@ -81,12 +81,12 @@ class GeneOntologyRibbon extends Component {
           for(let sub of data.subjects) {
             if(subject.id == sub.id) {
               found = true;
-            } 
+            }
           }
           if(!found) {
             subject = null;
             group = null;
-          }    
+          }
         }
 
         this.setState({ loading : false, ribbon : data, subjects : oldSubs,
@@ -534,7 +534,7 @@ class GeneOntologyRibbon extends Component {
             group : null,
             data : null,
             ready : false,
-          } 
+          }
         } , () => {
           if(subject && group) {
             this.itemClick(subject, group);
@@ -548,7 +548,7 @@ class GeneOntologyRibbon extends Component {
   }
 
   render() {
-    const { geneTaxon, orthology } = this.props;
+    const { geneId, geneTaxon, orthology } = this.props;
     const { selectedOrthologs } = this.state;
     return (
       <div>
@@ -602,7 +602,7 @@ class GeneOntologyRibbon extends Component {
 
                     selected={this.state.selected}
                     selectionMode={SELECTION.CELL}
-                    subjectLabel={subject => <RibbonGeneSubjectLabel subject={subject} />}
+                    subjectLabel={subject => <RibbonGeneSubjectLabel gene={subject} isFocusGene={subject.id === geneId} />}
                     subjectLabelPosition={POSITION.LEFT}
                     subjectUseTaxonIcon
                     subjects={this.state.ribbon.subjects}
