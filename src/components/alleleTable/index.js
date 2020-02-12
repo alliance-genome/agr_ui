@@ -176,13 +176,28 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, geneId, geneSymbol, geneLoc
       disease: allele.diseases.sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
     }));
 
-  const sortOptions = null;
-  // const sortOptions = [
-  //   {
-  //     value: 'disease',
-  //     label: 'Associated Human Disease',
-  //   }
-  // ];
+  const sortOptions = [
+    // {
+    //   value: 'alleleSymbol',
+    //   label: 'Allele symbol',
+    // }, // default
+    {
+      value: 'disease',
+      label: 'Associated Human Disease',
+    },
+    {
+      value: 'variant',
+      label: 'Variant',
+    },
+    {
+      value: 'variantType',
+      label: 'Variant type',
+    },
+    {
+      value: 'variantConsequence',
+      label: 'Molecular consequence',
+    },
+  ];
 
   return (
     <RemoteDataTable
