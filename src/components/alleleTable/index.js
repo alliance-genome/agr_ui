@@ -203,3 +203,7 @@ const mapDispatchToProps = (dispatch, props) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AlleleTable);
+
+export {
+  VariantJBrowseLink
+};
