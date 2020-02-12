@@ -31,14 +31,12 @@ import AlleleToVariantTable from './AlleleToVariantTable';
 import AlleleSequenceView from './AlleleSequenceView';
 
 const SUMMARY = 'Summary';
-const SEQUENCE_VIEW = 'Sequence View';
 const PHENOTYPES = 'Phenotypes';
 const DISEASE = 'Disease Associations';
 const VARIANTS = 'Variants';
 const SECTIONS = [
   {name: SUMMARY},
   {name: VARIANTS},
-  {name: SEQUENCE_VIEW},
   {name: PHENOTYPES},
   {name: DISEASE}
 ];
