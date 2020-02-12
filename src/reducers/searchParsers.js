@@ -29,9 +29,11 @@ export function injectHighlightIntoResponse(responseObj) {
       return prev + current + suffix;
     }, '');
     simpleHighObj[key] = highStr;
-    // don't highlight some fields
+    // if it's not excluded from highlighting, add the highlighting and swap
+    // it into the original object
     if (NON_HIGHLIGHTED_FIELDS.indexOf(key) < 0) {
       responseObj[key] = injectHighlightingIntoValue(highStr, responseObj[key]);
+      delete simpleHighObj[key];
     }
   });
   responseObj.highlights = flattenWithPrettyFieldNames(simpleHighObj);
@@ -247,6 +249,7 @@ function parseAlleleResult(_d) {
     genes: d.genes,
     variantTypes: d.variantTypes,
     molecularConsequence: d.molecularConsequence,
+    relatedVariants: d.relatedVariants,
     relatedData: d.relatedData,
     missing: d.missingTerms,
     explanation: d.explanation,

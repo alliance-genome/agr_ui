@@ -6,7 +6,7 @@ import { makeFieldDisplayName } from '../../lib/searchHelpers';
 import NoData from '../../components/noData';
 import { CollapsibleList } from '../../components/collapsibleList';
 
-const COLLAPSIBLE_FIELDS = ['external_ids', 'collapsible_synonyms'];
+const COLLAPSIBLE_FIELDS = ['external_ids', 'collapsible_synonyms','relatedVariants'];
 
 const JOIN_CHAR = ', ';
 
@@ -31,9 +31,9 @@ class DetailList extends Component {
       if (value && field === 'species') {
         valueNode = <span><i dangerouslySetInnerHTML={{ __html: value }} /></span>;
       } else {
-        if (!COLLAPSIBLE_FIELDS.includes(field)) {
-          valueNode = <span dangerouslySetInnerHTML={{ __html: value }} />;
-        }
+        //        if (!COLLAPSIBLE_FIELDS.includes(field)) {
+        valueNode = <span dangerouslySetInnerHTML={{ __html: value }} />;
+        //        }
       }
 
       if (!value) {
