@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {selectAlleles} from '../../selectors/geneSelectors';
 import {connect} from 'react-redux';
-import {stringify as stringifyQuery} from 'query-string';
 import {compareAlphabeticalCaseInsensitive} from '../../lib/utils';
 import CollapsibleList from '../collapsibleList/collapsibleList';
 import SynonymList from '../synonymList';
@@ -10,19 +9,8 @@ import {AlleleCell, RemoteDataTable} from '../dataTable';
 import ExternalLink from '../externalLink';
 import {fetchAlleles} from '../../actions/geneActions';
 import DiseaseLink from '../disease/DiseaseLink';
+import VariantJBrowseLink from './VariantJBrowseLink';
 
-const calculateHighlight = (location, type) => {
-  switch(type){
-  case 'insertion':
-    return `${location.chromosome}:${typeof location.start === 'number' ? location.start : location.start}..${location.start}`;
-  case 'deletion':
-  case 'delins':
-    return `${location.chromosome}:${typeof location.start === 'number' ? location.start-1 : location.end}..${location.end}`;
-  default:
-  case 'point_mutation':
-    return `${location.chromosome}:${typeof location.start === 'number' ? location.start : location.end}..${location.end}`;
-  }
-};
 
 const AlleleTable = ({alleles, dispatchFetchAlleles, geneId, geneSymbol, geneLocation = {}, species, geneDataProvider}) => {
 
@@ -97,19 +85,13 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, geneId, geneSymbol, geneLoc
                   }}
                 >
                   {
-                    location ?
-                      <ExternalLink
-                        href={'/jbrowse/?' + stringifyQuery({
-                          data: `data/${species}`,
-                          loc: (geneLocation && geneLocation.start && geneLocation.end) ?
-                            `${geneLocation.chromosome || location.chromosome}:${geneLocation.start || 0}..${geneLocation.end || 0}` :
-                            geneSymbol,
-                          tracks: ['Variants', 'All Genes', 'DNA'].join(','),
-                          highlight: calculateHighlight(location, type.name)
-                        })}
-                      >
-                        {id}
-                      </ExternalLink> : id
+                    <VariantJBrowseLink
+                      geneLocation={geneLocation}
+                      geneSymbol={geneSymbol}
+                      location={location}
+                      species={species}
+                      type={type.name}
+                    >{id}</VariantJBrowseLink>
                   }
                 </div>
                 <div
