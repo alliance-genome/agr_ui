@@ -112,8 +112,8 @@ export default class IsoformEmbeddedVariantTrack {
     let heightBuffer = 0 ;
 
     let tooltipDiv = d3.select("body").append("div")
-      .attr("class", "tooltip")
-      .attr("id", "tooltip")
+      .attr("class", "gfc-tooltip")
+      .attr("id", "gfc-tooltip")
       .style('visibility', 'visible')
       .style("opacity", 0);
 
