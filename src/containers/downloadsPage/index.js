@@ -93,7 +93,7 @@ class DownloadsPage extends React.Component {
           <Subsection title={DISEASE}>
             <DownloadFileTable>
               <DownloadFileRow
-                description='All annotations'
+                description='All disease associations'
                 url={[
                   this.getUrlForDataType('DISEASE-ALLIANCE-JSON', 'COMBINED'),
                   this.getUrlForDataType('DISEASE-ALLIANCE', 'COMBINED'),
@@ -101,7 +101,7 @@ class DownloadsPage extends React.Component {
               />
               {speciesSubTypes.map(speciesSubType => (
                 <DownloadFileRow
-                  description={<span><i>{speciesSubType.species}</i> gene annotations</span>}
+                  description={<span><i>{speciesSubType.species}</i> associations</span>}
                   key={speciesSubType.species}
                   url={[
                     this.getUrlForDataType('DISEASE-ALLIANCE-JSON', speciesSubType.subType),
@@ -115,9 +115,22 @@ class DownloadsPage extends React.Component {
           <Subsection title={EXPRESSION}>
             <DownloadFileTable>
               <DownloadFileRow
-                description='Expression annotations'
-                url={this.getUrlForDataType('EXPRESSION-ALLIANCE', 'COMBINED')}
+                description='All expression annotations'
+                url={[
+                  this.getUrlForDataType('EXPRESSION-ALLIANCE-JSON', 'COMBINED'),
+                  this.getUrlForDataType('EXPRESSION-ALLIANCE', 'COMBINED'),
+                ]}
               />
+              {speciesSubTypes.filter(({subType}) => subType !== 'HUMAN').map(speciesSubType => (
+                <DownloadFileRow
+                  description={<span><i>{speciesSubType.species}</i> annotations</span>}
+                  key={speciesSubType.species}
+                  url={[
+                    this.getUrlForDataType('EXPRESSION-ALLIANCE-JSON', speciesSubType.subType),
+                    this.getUrlForDataType('EXPRESSION-ALLIANCE', speciesSubType.subType),
+                  ]}
+                />
+              ))}
             </DownloadFileTable>
           </Subsection>
 
