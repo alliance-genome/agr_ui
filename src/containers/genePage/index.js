@@ -136,6 +136,7 @@ class GenePage extends Component {
               assembly={genomeLocation.assembly}
               biotype={data.soTermName}
               chromosome={genomeLocation.chromosome}
+              displayType='ISOFORM'
               fmax={genomeLocation.end}
               fmin={genomeLocation.start}
               geneSymbol={data.symbol}
@@ -183,6 +184,22 @@ class GenePage extends Component {
           </Subsection>
 
           <Subsection title={ALLELES}>
+            <GenomeFeatureWrapper
+              assembly={genomeLocation.assembly}
+              biotype={data.soTermName}
+              chromosome={genomeLocation.chromosome}
+              displayType='ISOFORM_AND_VARIANT'
+              fmax={genomeLocation.end}
+              fmin={genomeLocation.start}
+              geneSymbol={data.symbol}
+              height='200px'
+              id='genome-feature-allele-location-id'
+              primaryId={data.id}
+              species={data.species.name}
+              strand={genomeLocation.strand}
+              synonyms={data.synonyms}
+              width='600px'
+            />
             <AlleleTable
               geneDataProvider={data.dataProvider}
               geneId={data.id}
