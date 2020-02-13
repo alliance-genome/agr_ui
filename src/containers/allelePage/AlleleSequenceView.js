@@ -9,27 +9,32 @@ const AlleleSequenceView = ({allele}) => {
 
   const genomeLocations = allele.gene.genomeLocations;
   const genomeLocation = genomeLocations && genomeLocations.length > 0 ? genomeLocations[0] : null ;
-
-  return (
-    <div>
-      <GenomeFeatureWrapper
-        assembly={genomeLocation.assembly}
-        biotype='gene'
-        chromosome={genomeLocation.chromosome}
-        fmax={genomeLocation.end}
-        fmin={genomeLocation.start}
-        geneSymbol={allele.symbol}
-        height='200px'
-        id='genome-feature-location-id'
-        primaryId={allele.id}
-        species={allele.species.name}
-        strand={genomeLocation.strand}
-        synonyms={allele.synonyms}
-        variant={allele.symbol}
-        width='600px'
-      />
-    </div>
-  );
+  if(genomeLocation) {
+    return (
+      <div>
+        <GenomeFeatureWrapper
+          assembly={genomeLocation.assembly}
+          biotype='gene'
+          chromosome={genomeLocation.chromosome}
+          displayType='ISOFORM_AND_VARIANT'
+          fmax={genomeLocation.end}
+          fmin={genomeLocation.start}
+          geneSymbol={allele.symbol}
+          height='200px'
+          id='genome-feature-location-id'
+          primaryId={allele.id}
+          species={allele.species.name}
+          strand={genomeLocation.strand}
+          synonyms={allele.synonyms}
+          variant={allele.symbol}
+          width='600px'
+        />
+      </div>
+    );
+  }
+  else{
+    return <div />;
+  }
 };
 
 AlleleSequenceView.propTypes = {

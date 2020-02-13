@@ -51,18 +51,24 @@ class GenomeFeatureWrapper extends Component {
     this.jbrowseUrl = externalJbrowseUrl;
   }
 
-
   componentDidMount() {
     this.loadGenomeFeature();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.primaryId !== prevProps.primaryId) {
+      this.loadGenomeFeature();
+    }
   }
 
   getSpeciesString(species){
     return SPECIES.find( s => s.fullName===species).apolloName;
   }
 
-  generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString,variantFilter) {
+  generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString,variantFilter,displayType) {
     let transcriptTypes = getTranscriptTypes();
-    if(species==='Saccharomyces cerevisiae' || species ==='Homo sapiens'){
+    if(displayType === 'ISOFORM'){
+    // if(species==='Saccharomyces cerevisiae' || species ==='Homo sapiens' || variantFilter === undefined){
       return {
         'locale': 'global',
         'chromosome':  species==='Saccharomyces cerevisiae' ? 'chr'+chromosome : chromosome ,
@@ -83,37 +89,43 @@ class GenomeFeatureWrapper extends Component {
         ]
       };
     }
-    // else
-    return {
-      'locale': 'global',
-      'chromosome': chromosome,
-      'start': fmin,
-      'end': fmax,
-      'showVariantLabel': false,
-      'variantFilter': variantFilter ? [variantFilter] : [],
-      'tracks': [
-        {
-          'id': 1,
-          'genome': this.getSpeciesString(species),
-          'type': 'ISOFORM_AND_VARIANT',
-          'isoform_url': [
-            this.trackDataUrl,
-            '/All%20Genes/',
-            `.json${nameSuffixString}`
-          ],
-          'variant_url': [
-            this.variantDataUrl,
-            '/Variants/',
-            '.json'
-          ],
+    else
+    if(displayType === 'ISOFORM_AND_VARIANT'){
+      return {
+        'locale': 'global',
+        'chromosome': chromosome,
+        'start': fmin,
+        'end': fmax,
+        'showVariantLabel': false,
+        'variantFilter': variantFilter ? [variantFilter]  : [],
+        'tracks': [
+          {
+            'id': 1,
+            'genome': this.getSpeciesString(species),
+            'type': 'ISOFORM_AND_VARIANT',
+            'isoform_url': [
+              this.trackDataUrl,
+              '/All%20Genes/',
+              `.json${nameSuffixString}`
+            ],
+            'variant_url': [
+              this.variantDataUrl,
+              '/Variants/',
+              '.json'
+            ],
 
-        },
-      ]
-    };
+          },
+        ]
+      };
+    }
+    else{
+      // eslint-disable-next-line no-console
+      console.error('Undefined displayType',displayType);
+    }
   }
 
   loadGenomeFeature() {
-    const {chromosome, fmin, fmax, species,id,primaryId,geneSymbol, synonyms = [],variant} = this.props;
+    const {chromosome, fmin, fmax, species,id,primaryId,geneSymbol, displayType,synonyms = [],variant} = this.props;
     // provide unique names
     let nameSuffix = [geneSymbol, ...synonyms,primaryId].filter((x, i, a) => a.indexOf(x) === i).map( x => encodeURI(x));
     let nameSuffixString = nameSuffix.length ===0 ? '': nameSuffix.join('&name=');
@@ -127,7 +139,7 @@ class GenomeFeatureWrapper extends Component {
     // [0] should be apollo_url: https://agr-apollo.berkeleybop.io/apollo/track
     // [1] should be track name : ALL_Genes
     // [2] should be track name : name suffix string
-    const trackConfig = this.generateTrackConfig(fmin,fmax,chromosome,species,nameSuffixString,variant);
+    const trackConfig = this.generateTrackConfig(fmin,fmax,chromosome,species,nameSuffixString,variant,displayType);
     new GenomeFeatureViewer(trackConfig, `#${id}`, 900, undefined);
   }
 
@@ -166,6 +178,7 @@ GenomeFeatureWrapper.propTypes = {
   assembly: PropTypes.string,
   biotype: PropTypes.string,
   chromosome: PropTypes.string,
+  displayType: PropTypes.string,
   fmax: PropTypes.number,
   fmin: PropTypes.number,
   geneSymbol: PropTypes.string.isRequired,
