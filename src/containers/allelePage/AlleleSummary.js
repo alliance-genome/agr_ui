@@ -8,6 +8,7 @@ import {
 import {Link} from 'react-router-dom';
 import AlleleSymbol from './AlleleSymbol';
 import SynonymList from '../../components/synonymList';
+import DataSourceLink from '../../components/dataSourceLink';
 
 const AlleleSummary = ({allele}) => {
   return (
@@ -27,10 +28,14 @@ const AlleleSummary = ({allele}) => {
       </AttributeValue>
 
       <AttributeLabel>Description</AttributeLabel>
-      <AttributeValue />
+      <AttributeValue>{allele.description && <span dangerouslySetInnerHTML={{__html: allele.description}} />}</AttributeValue>
 
       <AttributeLabel>Additional Information</AttributeLabel>
-      <AttributeValue />
+      <AttributeValue>
+        {allele.crossReferences.references &&
+          <DataSourceLink reference={allele.crossReferences.references}>Literature</DataSourceLink>
+        }
+      </AttributeValue>
     </AttributeList>
   );
 };
