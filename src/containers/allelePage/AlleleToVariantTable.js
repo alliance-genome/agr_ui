@@ -52,10 +52,11 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
     {
       dataField: 'genomicVariantSequence',
       text: 'Nucleotide change',
-      formatter: (genomicVariantSequence, row) =>
-        genomicVariantSequence ?
-          <span className="text-break">{`${row.genomicReferenceSequence}>${genomicVariantSequence}`}</span> :
-          null,
+      formatter: (genomicVariantSequence, row) => (
+        <span className="text-break">
+          {row.genomicReferenceSequence || '-'}>{genomicVariantSequence || '-'}
+        </span>
+      ),
       headerStyle: {width: '160px'},
     },
     {
