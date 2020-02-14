@@ -9,11 +9,15 @@ export function getDescriptionDimensions(description){
   return {descriptionWidth,descriptionHeight};
 }
 
+// we have to guard for type
 function findVariantBinIndexForPosition(variantBins,variant) {
-  let {fmax, fmin} = variant;
+  let {fmax, fmin, type} = variant;
   return variantBins.findIndex( fb => {
     const relativeMin = fb.fmin;
     const relativeMax = fb.fmax;
+
+    // they can share type so long as neither is a deletion
+    if( (type==='deletion' || fb.type ==='deletion') && type !== fb.type ) return false ;
 
     // if we overlap thAe min edge then take the minimum and whatever the maximum and add
     if(relativeMin <= fmin && relativeMax >= fmin){
