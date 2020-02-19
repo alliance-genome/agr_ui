@@ -14,51 +14,49 @@ import '../../style.scss';
 import HorizontalScroll from '../../components/horizontalScroll';
 import {SPECIES} from '../../constants';
 
+const APOLLO_SERVER_PREFIX = '/apollo/';
+const LINK_BUFFER = 1.2 ;
+
 class GenomeFeatureWrapper extends Component {
 
   constructor(props) {
     super(props);
-    let apolloServerPrefix = '/apollo/';
-
-    // TODO: this is a hack to fix inconsistencies in JBrowse
-    // let trackDataWithHighlight = apolloServerPrefix + 'track/' + encodeURI(this.props.species) + '/' + defaultTrackName + '/' + encodeURI(locationString) + '.json';
-    let trackDataWithHighlight = apolloServerPrefix + 'track/' ;
-    let variantDataWithHighlight = apolloServerPrefix + 'vcf/' ;
-
-    let geneSymbolUrl = '&lookupSymbol=' + this.props.geneSymbol;
-    let externalJBrowsePrefix = '/jbrowse/?' + 'data=data%2F' + encodeURIComponent(this.props.species);
-
-    let linkBuffer = 1.2;
-    let linkLength = this.props.fmax - this.props.fmin;
-    let bufferedMin = Math.round(this.props.fmin - (linkLength * linkBuffer / 2.0));
-    bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
-    let bufferedMax = Math.round(this.props.fmax + (linkLength * linkBuffer / 2.0));
-    let externalLocationString = this.props.chromosome + ':' + bufferedMin + '..' + bufferedMax;
-    // TODO: handle bufferedMax exceeding chromosome length, though I think it has a good default.
-    const tracks = ['Variants','All Genes'];
-    let externalJbrowseUrl = externalJBrowsePrefix +
-      '&tracks=' + encodeURIComponent(tracks.join(',')) +
-      '&highlight=' + geneSymbolUrl +
-      '&loc=' + encodeURIComponent(externalLocationString);
-
 
     this.state = {
       loadState: 'loading'
     };
 
-    this.trackDataUrl = trackDataWithHighlight;
-    this.variantDataUrl = variantDataWithHighlight;
-    this.jbrowseUrl = externalJbrowseUrl;
+    this.trackDataUrl = APOLLO_SERVER_PREFIX + 'track/';
+    this.variantDataUrl = APOLLO_SERVER_PREFIX + 'vcf/';
   }
+
 
   componentDidMount() {
     this.loadGenomeFeature();
+    this.generateJBrowseLink();
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.primaryId !== prevProps.primaryId) {
       this.loadGenomeFeature();
+      this.generateJBrowseLink();
     }
+  }
+
+  generateJBrowseLink() {
+    const geneSymbolUrl = '&lookupSymbol=' + this.props.geneSymbol;
+    const externalJBrowsePrefix = '/jbrowse/?' + 'data=data%2F' + encodeURIComponent(this.props.species);
+    const linkLength = this.props.fmax - this.props.fmin;
+    let bufferedMin = Math.round(this.props.fmin - (linkLength * LINK_BUFFER / 2.0));
+    bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
+    const bufferedMax = Math.round(this.props.fmax + (linkLength * LINK_BUFFER / 2.0));
+    const externalLocationString = this.props.chromosome + ':' + bufferedMin + '..' + bufferedMax;
+    // TODO: handle bufferedMax exceeding chromosome length, though I think it has a good default.
+    const tracks = ['Variants','All Genes'];
+    this.jbrowseUrl = externalJBrowsePrefix +
+      '&tracks=' + encodeURIComponent(tracks.join(',')) +
+      '&highlight=' + geneSymbolUrl +
+      '&loc=' + encodeURIComponent(externalLocationString);
   }
 
   getSpeciesString(species){
