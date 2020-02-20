@@ -189,11 +189,65 @@ export function renderVariantDescriptions(descriptions){
 }
 
 export function renderVariantDescription(description){
-  let {descriptionHeight, descriptionWidth} = getDescriptionDimensions(description);
+  let {descriptionWidth} = getDescriptionDimensions(description);
   let returnString = '';
   const location = description.location ;
-  const chromosome = location.split(':')[0];
   const [start,stop] = location.split(':')[1].split('..');
+  let alt_allele = description.alternative_alleles;
+  let ref_allele = description.reference_allele;
+  let length
+  if(description.type === 'SNV'){
+    length = "1bp";
+  }
+  else if (description.type === 'deletion'){
+    length = ref_allele.length-1+'bp deleted';
+  }
+  else if(description.type === 'insertion'){
+    if(alt_allele === 'ALT_MISSING'){length = "unknown length inserted";alt_allele = 'n+';}
+    else{length = alt_allele.length-1 +"bp inserted";}
+  }
+  else if(description.type === 'MNV'){
+    length = ref_allele.length +"bp";
+
+  }
+  else if(description.type === 'delins'){
+    var del = ref_allele.length-1+"bp deleted";
+    var ins;
+    if(alt_allele === 'ALT_MISSING'){ins="unknown length inserted";alt_allele = 'n+';}
+    else{
+      ins = alt_allele.length -1+"bp inserted";
+    }
+    length = del + "; "+ins;
+  }
+  else{
+    length = stop-start + "bp";
+  }
+  if (ref_allele.length > 20) {
+      ref_allele = ref_allele.substring(0,1).toLowerCase()+ref_allele.substring(1,8).toUpperCase()+ '...' +ref_allele.substring(ref_allele.length-8).toUpperCase();
+  }
+  else {
+      ref_allele = ref_allele.substring(0,1).toLowerCase()+ref_allele.substring(1).toUpperCase();
+  }
+  if(alt_allele.length >20){
+    alt_allele=alt_allele.substring(0,1).toLowerCase()+alt_allele.substring(1,8).toUpperCase()+"..."+alt_allele.substring(alt_allele.length-8).toUpperCase();
+  }
+  else {
+    alt_allele = alt_allele.substring(0,1).toLowerCase()+alt_allele.substring(1).toUpperCase();
+  }
+  if(description.type === 'SNV' || description.type === 'MNV'){
+    alt_allele = alt_allele.toUpperCase();
+    ref_allele = ref_allele.toUpperCase();
+  }
+  let change='';
+  if (description.type === 'insertion') {
+       change = 'ins: '+alt_allele;
+  }
+  else if (description.type === 'deletion') {
+       change = 'del: '+ref_allele;
+  }
+  else {
+       change = ref_allele + '->' + alt_allele;
+  }
   returnString += `<table class="tooltip-table"><tbody>`;
   returnString += `<tr><th>Symbol</th><td>${description.symbol}</td></tr>`;
   returnString += `<tr><th>Type</th><td>${description.type}</td></tr>`;
@@ -201,7 +255,7 @@ export function renderVariantDescription(description){
   if(description.impact){
     returnString += `<tr><th>Impact</th><td>${description.impact.length>descriptionWidth ? description.impact.substr(0,descriptionWidth) : description.impact}</td></tr>`;
   }
-  returnString += `<tr><th>Length</th><td>${stop-start} bp</td></tr>`;
+  returnString += `<tr><th>Length</th><td>${length}</td></tr>`;
   if(description.name!==description.symbol){
     returnString += `<tr><th>Name</th><td>${description.name}</td></tr>`;
   }
@@ -212,7 +266,8 @@ export function renderVariantDescription(description){
     returnString += `<tr><th>Alleles</th><td>${description.alleles.length>descriptionWidth ? description.alleles.substr(0,descriptionWidth) : description.alleles}</td></tr>`;
   }
   if(description.alternative_alleles){
-    returnString += `<tr><th>Alternative Alleles</th><td>${description.alternative_alleles.length>descriptionWidth ? description.alternative_alleles.substr(0,descriptionWidth) : description.alternative_alleles}</td></tr>`;
+    returnString += `<tr><th>Sequence Change</th><td>${change}</td></tr>`;
+    // returnString += `<tr><th>Alternative Alleles</th><td>${description.alternative_alleles.length>descriptionWidth ? description.alternative_alleles.substr(0,descriptionWidth) : description.alternative_alleles}</td></tr>`;
   }
 
 
@@ -265,6 +320,7 @@ export function getVariantDescription(variant){
   returnObject.type =  variant.type;
   returnObject.name =  variant.name;
   returnObject.description =  variant.description;
+  returnObject.reference_allele =  variant.reference_allele;
 
   if(variant.allele_of_genes){
     if(variant.allele_of_genes.values && variant.allele_of_genes.values.length>0){
