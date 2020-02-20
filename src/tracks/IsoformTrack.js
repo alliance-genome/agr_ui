@@ -1,6 +1,7 @@
 import * as d3 from "d3";
 import {countIsoforms, findRange, checkSpace, calculateNewTrackPosition} from '../RenderFunctions';
 import {ApolloService} from '../services/ApolloService';
+import {renderTrackDescription} from "../services/TrackService";
 
 export default class IsoformTrack {
 
@@ -12,8 +13,24 @@ export default class IsoformTrack {
         this.transcriptTypes = transcriptTypes;
     }
 
-    // Draw our track on the viewer
-    // TODO: Potentially seperate this large section of code
+  renderTooltipDescription(tooltipDiv, descriptionHtml,closeFunction){
+    tooltipDiv.transition()
+      .duration(200)
+      .style("width", 'auto')
+      .style("height", 'auto')
+      .style("opacity", .9)
+      .style('visibility', 'visible');
+    tooltipDiv.html(descriptionHtml)
+      .style("left", (d3.event.pageX+10) + "px")
+      .style("top", (d3.event.pageY +10) + "px")
+      .append('button')
+      .attr("type","button")
+      .text('Close')
+      .on('click', () => closeFunction());
+
+  }
+  // Draw our track on the viewer
+  // TODO: Potentially seperate this large section of code
     // for both testing/extensibility
     DrawTrack() {
         let data = this.trackData;
@@ -40,6 +57,7 @@ export default class IsoformTrack {
         let arrow_height = 20;
         let arrow_width = 10;
         let arrow_points = '0,0 0,' + arrow_height + ' ' + arrow_width + ',' + arrow_width;
+        let renderTooltipDescription = this.renderTooltipDescription;
 
         let x = d3.scaleLinear()
             .domain([view_start, view_end])
@@ -67,6 +85,20 @@ export default class IsoformTrack {
             if (!a.selected && b.selected) return 1;
             return a.name - b.name;
         });
+
+      let tooltipDiv = d3.select("body").append("div")
+        .attr("class", "gfc-tooltip")
+        .attr("id", "gfc-tooltip")
+        .style('visibility', 'visible')
+        .style("opacity", 0);
+
+      const closeToolTip = () => {
+        tooltipDiv.transition()
+          .duration(100)
+          .style("opacity", 10)
+          .style("visibility","hidden");
+      };
+
 
         let row_count = 0;
         let used_space = [];
@@ -118,7 +150,11 @@ export default class IsoformTrack {
                                     else {
                                         return 'translate(' + Number(x(d.fmin)) + ','+arrow_height+') rotate(180)';
                                     }
-                                });
+                                })
+                              .on("click", d => {
+                                renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
+                              })
+                            ;
 
                             isoform.append('rect')
                                 .attr('class', 'transcriptBackbone')
@@ -126,7 +162,11 @@ export default class IsoformTrack {
                                 .attr('height', transcript_backbone_height)
                                 .attr("transform", "translate(" + x(featureChild.fmin) + ",0)")
                                 .attr('width', x(featureChild.fmax) - x(featureChild.fmin))
-                                .datum({fmin: featureChild.fmin, fmax: featureChild.fmax});
+                                .datum({fmin: featureChild.fmin, fmax: featureChild.fmax})
+                              .on("click", d => {
+                                renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
+                              })
+                            ;
                             let text_string = featureChild.name + " (" + feature.name + ")";
                             let text_label = isoform.append('text')
                                 .attr('class', 'transcriptLabel')
@@ -135,7 +175,11 @@ export default class IsoformTrack {
                                 .attr('height', isoform_title_height)
                                 .attr("transform", "translate(" + x(featureChild.fmin) + ",0)")
                                 .text(text_string)
-                                .datum({fmin: featureChild.fmin});
+                                .datum({fmin: featureChild.fmin})
+                              .on("click", d => {
+                                renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
+                              })
+                            ;
 
                             //Now that the label has been created we can calculate the space that
                             //this new element is taking up making sure to add in the width of
@@ -214,7 +258,10 @@ export default class IsoformTrack {
                                         .attr('height', exon_height)
                                         .attr('z-index', 10)
                                         .attr('width', x(innerChild.fmax) - x(innerChild.fmin))
-                                        .datum({fmin: innerChild.fmin, fmax: innerChild.fmax});
+                                        .datum({fmin: innerChild.fmin, fmax: innerChild.fmax})
+                                        .on("click", d => {
+                                            renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
+                                          });
                                 }
                                 else if (CDS_feats.indexOf(innerType) >= 0) {
                                     isoform.append('rect')
@@ -224,7 +271,10 @@ export default class IsoformTrack {
                                         .attr('z-index', 20)
                                         .attr('height', cds_height)
                                         .attr('width', x(innerChild.fmax) - x(innerChild.fmin))
-                                        .datum({fmin: innerChild.fmin, fmax: innerChild.fmax});
+                                        .datum({fmin: innerChild.fmin, fmax: innerChild.fmax})
+                                        .on("click", d => {
+                                            renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
+                                          });
                                 }
                                 else if (UTR_feats.indexOf(innerType) >= 0) {
                                     isoform.append('rect')
@@ -234,7 +284,11 @@ export default class IsoformTrack {
                                         .attr('z-index', 20)
                                         .attr('height', utr_height)
                                         .attr('width', x(innerChild.fmax) - x(innerChild.fmin))
-                                        .datum({fmin: innerChild.fmin, fmax: innerChild.fmax});
+                                        .datum({fmin: innerChild.fmin, fmax: innerChild.fmax})
+                                        .on("click", d => {
+                                          renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
+                                        })
+                                    ;
                                 }
                             });
                             row_count += 1;

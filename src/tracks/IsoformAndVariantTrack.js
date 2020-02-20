@@ -1,14 +1,12 @@
 import * as d3 from "d3";
 import {calculateNewTrackPosition, checkSpace, findRange} from '../RenderFunctions';
 import {
-  generateVariantBins,
   generateVariantDataBinsAndDataSets,
-  getColorsForConsequences, getConsequence,
-  getVariantDescription, getVariantDescriptions,
-  getVariantSymbol, mergeConsequenceColors,
-  renderVariantDescription, renderVariantDescriptions
+  getColorsForConsequences,
+  getVariantDescriptions,
+  getVariantSymbol,
+  renderVariantDescriptions,
 } from "../services/VariantService";
-import {getColorForConsequence} from "../services/ConsequenceService";
 import {renderTrackDescription} from "../services/TrackService";
 // import {description} from "d3/dist/package";
 import {ApolloService} from "../services/ApolloService";
@@ -136,6 +134,7 @@ export default class IsoformAndVariantTrack {
         let isPoints = false;
         let viewerWidth = this.width;
         let symbol_string = getVariantSymbol(variant);
+        console.log('variant feedback',variant);
         const descriptions = getVariantDescriptions(variant);
         let descriptionHtml = renderVariantDescriptions(descriptions);
         const consequenceColor = getColorsForConsequences(descriptions)[0];

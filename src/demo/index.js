@@ -9,6 +9,7 @@ const BASE_URL = 'https://build.alliancegenome.org/apollo';
 // Global View Example
 
 oldExamples();
+isoformExamples();
 wormExamples();
 fishExamples();
 ratExamples();
@@ -16,37 +17,6 @@ mouseExamples();
 flyExamples();
 
 
-function createExample(range,genome,divId,type,showLabel,variantFilter){
-  const chromosome = range.split(":")[0];
-  const [start,end] = range.split(":")[1].split("..");
-  let configGlobal1 = {
-    "locale": "global",
-    "chromosome": chromosome,
-    "start": start,
-    "end": end,
-    "showVariantLabel": showLabel,
-    "variantFilter": variantFilter ? variantFilter : [],
-    "tracks": [
-      {
-        "id": 12,
-        "genome": genome,
-        "type": type,
-        "isoform_url": [
-          `${BASE_URL}/track/`,
-          "/All%20Genes/",
-          ".json"
-        ],
-        "variant_url": [
-          `${BASE_URL}/vcf/`,
-          "/Variants/",
-          ".json"
-        ],
-
-      },
-    ]
-  };
-    new GenomeFeatureViewer(configGlobal1, `#${divId}`, 900, 500);
-}
 
 function flyExamples(){
   // 2L:132412..230018
@@ -96,6 +66,69 @@ function wormExamples(){
 }
 
 
+function isoformExamples(){
+  createIsoformExample("chrIV:1276345..1277478","yeast","yeastExampleIsoformOnly",TRACK_TYPE.ISOFORM,true);
+  createIsoformExample("25:15029041..15049781","zebrafish","zebrafishExampleIsoformOnly",TRACK_TYPE.ISOFORM,true);
+}
+
+function createExample(range,genome,divId,type,showLabel,variantFilter){
+  const chromosome = range.split(":")[0];
+  const [start,end] = range.split(":")[1].split("..");
+  let configGlobal1 = {
+    "locale": "global",
+    "chromosome": chromosome,
+    "start": start,
+    "end": end,
+    "showVariantLabel": showLabel,
+    "variantFilter": variantFilter ? variantFilter : [],
+    "tracks": [
+      {
+        "id": 12,
+        "genome": genome,
+        "type": type,
+        "isoform_url": [
+          `${BASE_URL}/track/`,
+          "/All%20Genes/",
+          ".json"
+        ],
+        "variant_url": [
+          `${BASE_URL}/vcf/`,
+          "/Variants/",
+          ".json"
+        ],
+
+      },
+    ]
+  };
+  new GenomeFeatureViewer(configGlobal1, `#${divId}`, 900, 500);
+}
+
+function createIsoformExample(range,genome,divId,type,showLabel,variantFilter) {
+
+  const chromosome = range.split(":")[0];
+  const [start,end] = range.split(":")[1].split("..");
+  let configGlobal1 = {
+    "locale": "global",
+    "chromosome": chromosome,
+    "start": start,
+    "end": end,
+    "showVariantLabel": showLabel,
+    "variantFilter": variantFilter ? variantFilter : [],
+    "tracks": [
+      {
+        "id": 12,
+        "genome": genome,
+        "type": type,
+        "url": [
+          `${BASE_URL}/track/`,
+          "/All%20Genes/",
+          ".json"
+        ],
+      },
+    ]
+  };
+  new GenomeFeatureViewer(configGlobal1, `#${divId}`, 900, 500);
+}
 
 
 function oldExamples(){

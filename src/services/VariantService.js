@@ -186,18 +186,22 @@ export function renderVariantDescriptions(descriptions){
   else{
     return 'No data available';
   }
-
-
-  return returnString;
 }
 
 export function renderVariantDescription(description){
   let {descriptionHeight, descriptionWidth} = getDescriptionDimensions(description);
   let returnString = '';
+  const location = description.location ;
+  const chromosome = location.split(':')[0];
+  const [start,stop] = location.split(':')[1].split('..');
   returnString += `<table class="tooltip-table"><tbody>`;
-  returnString += `<tr><th>${description.symbol}</th><td>${description.location}</td></tr>`;
+  returnString += `<tr><th>Symbol</th><td>${description.symbol}</td></tr>`;
   returnString += `<tr><th>Type</th><td>${description.type}</td></tr>`;
   returnString += `<tr><th>Consequence</th><td>${description.consequence }</td></tr>`;
+  if(description.impact){
+    returnString += `<tr><th>Impact</th><td>${description.impact.length>descriptionWidth ? description.impact.substr(0,descriptionWidth) : description.impact}</td></tr>`;
+  }
+  returnString += `<tr><th>Length</th><td>${stop-start} bp</td></tr>`;
   if(description.name!==description.symbol){
     returnString += `<tr><th>Name</th><td>${description.name}</td></tr>`;
   }
@@ -209,9 +213,6 @@ export function renderVariantDescription(description){
   }
   if(description.alternative_alleles){
     returnString += `<tr><th>Alternative Alleles</th><td>${description.alternative_alleles.length>descriptionWidth ? description.alternative_alleles.substr(0,descriptionWidth) : description.alternative_alleles}</td></tr>`;
-  }
-  if(description.impact){
-    returnString += `<tr><th>Impact</th><td>${description.impact.length>descriptionWidth ? description.impact.substr(0,descriptionWidth) : description.impact}</td></tr>`;
   }
 
 
