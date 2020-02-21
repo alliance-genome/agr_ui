@@ -11,7 +11,8 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
   const [ variant1 = {} ] = data;
   const { location: locationVariant1 = {} } = variant1;
   const { gene = {}, species = {}} = allele;
-  const { genomeLocation: geneLocation } = gene;
+  const { genomeLocations: geneLocations } = gene;
+  const [geneLocation] = geneLocations || [];
 
   const columns = [
     {
@@ -69,6 +70,7 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
 
   return (
     <RemoteDataTable
+      key={alleleId}
       columns={columns}
       data={data}
       downloadUrl={`/api/allele/${alleleId}/variants/download`}
