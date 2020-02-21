@@ -38,9 +38,14 @@ class GenomeFeatureWrapper extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.primaryId !== prevProps.primaryId) {
+      this.closeTooltipTable();
       this.loadGenomeFeature();
       this.generateJBrowseLink();
     }
+  }
+
+  closeTooltipTable(){
+    document.getElementById('gfc-tooltip').style.display = 'none';
   }
 
   generateJBrowseLink() {
