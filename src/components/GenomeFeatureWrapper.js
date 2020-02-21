@@ -4,15 +4,15 @@ import {
   AttributeList,
   AttributeLabel,
   AttributeValue,
-} from '../../components/attribute';
+} from './attribute';
 import numeral from 'numeral';
-import ExternalLink from '../../components/externalLink';
+import ExternalLink from './externalLink';
 import GenomeFeatureViewer from 'genomefeaturecomponent';
-import {getTranscriptTypes} from '../../lib/genomeFeatureTypes';
-import LoadingSpinner from '../../components/loadingSpinner';
-import '../../style.scss';
-import HorizontalScroll from '../../components/horizontalScroll';
-import {SPECIES} from '../../constants';
+import {getTranscriptTypes} from '../lib/genomeFeatureTypes';
+import LoadingSpinner from './loadingSpinner';
+import '../style.scss';
+import HorizontalScroll from './horizontalScroll';
+import {SPECIES} from '../constants';
 
 const APOLLO_SERVER_PREFIX = '/apollo/';
 const LINK_BUFFER = 1.2 ;
@@ -182,6 +182,7 @@ GenomeFeatureWrapper.propTypes = {
   geneSymbol: PropTypes.string.isRequired,
   height: PropTypes.string,
   id: PropTypes.string,
+  key: PropTypes.string,
   primaryId: PropTypes.string,
   species: PropTypes.string.isRequired,
   strand: PropTypes.string,

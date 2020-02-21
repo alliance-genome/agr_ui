@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {selectVariants} from '../../selectors/alleleSelectors';
 import {connect} from 'react-redux';
-import GenomeFeatureWrapper from '../genePage/genomeFeatureWrapper';
+import GenomeFeatureWrapper from '../../components/GenomeFeatureWrapper';
 
 const AlleleSequenceView = ({allele, variants}) => {
 
@@ -23,6 +23,7 @@ const AlleleSequenceView = ({allele, variants}) => {
       geneSymbol={allele.symbol}
       height='200px'
       id='genome-feature-location-id'
+      key={allele.id}
       primaryId={allele.id}
       species={allele.species.name}
       strand={genomeLocation.strand}

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import GenomeFeatureWrapper from './genomeFeatureWrapper';
+import GenomeFeatureWrapper from '../../components/GenomeFeatureWrapper';
 import {selectAlleles} from '../../selectors/geneSelectors';
 
 const VariantsSequenceViewer = ({alleles, gene, genomeLocation}) => {
@@ -25,6 +25,7 @@ const VariantsSequenceViewer = ({alleles, gene, genomeLocation}) => {
       geneSymbol={gene.symbol}
       height='200px'
       id='genome-feature-allele-location-id'
+      key={gene.id}
       primaryId={gene.id}
       species={gene.species.name}
       strand={genomeLocation.strand}

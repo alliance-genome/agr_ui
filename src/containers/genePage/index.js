@@ -15,7 +15,7 @@ import NotFound from '../../components/notFound';
 import Subsection from '../../components/subsection';
 import AlleleTable from '../../components/alleleTable';
 import { GenePhysicalInteractionDetailTable, GeneInteractionCrossReference, InteractionUserGuide } from '../../components/interaction';
-import GenomeFeatureWrapper from './genomeFeatureWrapper';
+import GenomeFeatureWrapper from '../../components/GenomeFeatureWrapper';
 import ExpressionLinks from './expressionLinks';
 
 import SpeciesIcon from '../../components/speciesIcon';
@@ -143,6 +143,7 @@ class GenePage extends Component {
               geneSymbol={data.symbol}
               height='200px'
               id='genome-feature-location-id'
+              key={data.id}
               primaryId={data.id}
               species={data.species.name}
               strand={genomeLocation.strand}
