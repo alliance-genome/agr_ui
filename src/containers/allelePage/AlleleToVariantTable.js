@@ -7,17 +7,24 @@ import { RemoteDataTable } from '../../components/dataTable';
 import { VariantJBrowseLink } from '../../components/alleleTable';
 
 const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) => {
-  const { data = [], loading, total} = variants;
-  const [ variant1 = {} ] = data;
+  const { data:dataRaw = [], loading, total} = variants;
+  const [ variant1 = {} ] = dataRaw;
   const { location: locationVariant1 = {} } = variant1;
-  const { gene = {}, species = {}} = allele;
-  const { genomeLocation: geneLocation } = gene;
+  const { gene = {}} = allele;
+  const { genomeLocations: geneLocations } = gene;
+  const [geneLocation] = geneLocations || [];
+
+  const data = dataRaw.map((variant) => ({
+    ...variant,
+    geneLocation,
+    species: allele.species
+  }));
 
   const columns = [
     {
       dataField: 'displayName',
       text: 'Variant name',
-      formatter: (name, {location, type = {}}) => (
+      formatter: (name, {location, type = {}, geneLocation = {}, species = {}}) => (
         <VariantJBrowseLink
           geneLocation={geneLocation}
           location={location}
