@@ -113,7 +113,7 @@ class GenePage extends Component {
     };
 
     return (
-      <DataPage>
+      <DataPage key={data.id}>
         <GeneMetaTags gene={data} />
         <PageNav sections={SECTIONS}>
           <PageNavEntity entityName={data.symbol} icon={<SpeciesIcon scale={0.5} species={data.species.name} />} truncateName>
