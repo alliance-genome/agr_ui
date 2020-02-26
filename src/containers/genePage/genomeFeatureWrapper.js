@@ -43,6 +43,10 @@ class GenomeFeatureWrapper extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.gfc.closeModal();
+  }
+
   generateJBrowseLink() {
     const geneSymbolUrl = '&lookupSymbol=' + this.props.geneSymbol;
     const externalJBrowsePrefix = '/jbrowse/?' + 'data=data%2F' + encodeURIComponent(this.props.species);
@@ -138,7 +142,7 @@ class GenomeFeatureWrapper extends Component {
     // [1] should be track name : ALL_Genes
     // [2] should be track name : name suffix string
     const trackConfig = this.generateTrackConfig(fmin,fmax,chromosome,species,nameSuffixString,variant,displayType);
-    new GenomeFeatureViewer(trackConfig, `#${id}`, 900, undefined);
+    this.gfc = new GenomeFeatureViewer(trackConfig, `#${id}`, 900, undefined);
   }
 
   render() {
