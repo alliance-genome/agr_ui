@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import {countIsoforms, findRange, checkSpace, calculateNewTrackPosition} from '../RenderFunctions';
+import {findRange, checkSpace, calculateNewTrackPosition} from '../RenderFunctions';
 import {ApolloService} from '../services/ApolloService';
 import {renderTrackDescription} from "../services/TrackService";
 
@@ -88,7 +88,6 @@ export default class IsoformTrack {
 
       let tooltipDiv = d3.select("body").append("div")
         .attr("class", "gfc-tooltip")
-        .attr("id", "gfc-tooltip")
         .style('visibility', 'visible')
         .style("opacity", 0);
 

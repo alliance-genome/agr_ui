@@ -113,7 +113,6 @@ export default class IsoformAndVariantTrack {
 
     let tooltipDiv = d3.select("body").append("div")
       .attr("class", "gfc-tooltip")
-      .attr("id", "gfc-tooltip")
       .style('visibility', 'visible')
       .style("opacity", 0);
 

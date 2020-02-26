@@ -31,6 +31,13 @@ export default class GenomeFeatureViewer {
         this.drawer.draw();
     }
 
+    closeModal(){
+      const elements = document.getElementsByClassName('gfc-tooltip');
+      for( let tooltipDiv of elements){
+        tooltipDiv.style.visibility = 'hidden';
+      }
+    }
+
     // Check configuration files
     _checkConfig(config) {
         // Ensure we have config type

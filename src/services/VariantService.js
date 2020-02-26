@@ -195,7 +195,7 @@ export function renderVariantDescription(description){
   const [start,stop] = location.split(':')[1].split('..');
   let alt_allele = description.alternative_alleles;
   let ref_allele = description.reference_allele;
-  let length
+  let length;
   if(description.type === 'SNV'){
     length = "1bp";
   }
@@ -208,11 +208,10 @@ export function renderVariantDescription(description){
   }
   else if(description.type === 'MNV'){
     length = ref_allele.length +"bp";
-
   }
   else if(description.type === 'delins'){
-    var del = ref_allele.length-1+"bp deleted";
-    var ins;
+    let del = ref_allele.length-1+"bp deleted";
+    let ins;
     if(alt_allele === 'ALT_MISSING'){ins="unknown length inserted";alt_allele = 'n+';}
     else{
       ins = alt_allele.length -1+"bp inserted";

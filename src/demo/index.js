@@ -4,7 +4,8 @@ import {TRACK_TYPE} from "../tracks/TrackTypeEnum";
 // const BASE_URL = 'http://localhost:8080/apollo';
 // const BASE_URL = 'http://54.91.83.120:8080/apollo';
 // const BASE_URL = 'https://agr-apollo.berkeleybop.io/apollo';
-const BASE_URL = 'https://build.alliancegenome.org/apollo';
+// const BASE_URL = 'https://build.alliancegenome.org/apollo';
+const BASE_URL = 'https://stage.alliancegenome.org/apollo';
 
 // Global View Example
 
@@ -15,6 +16,10 @@ fishExamples();
 ratExamples();
 mouseExamples();
 flyExamples();
+
+function closeButton(){
+  alert('close')
+}
 
 
 
@@ -100,7 +105,16 @@ function createExample(range,genome,divId,type,showLabel,variantFilter){
       },
     ]
   };
-  new GenomeFeatureViewer(configGlobal1, `#${divId}`, 900, 500);
+  const gfc = new GenomeFeatureViewer(configGlobal1, `#${divId}`, 900, 500);
+
+  const closeButton = document.getElementById(divId+'Button');
+  if(closeButton){
+    closeButton.addEventListener( 'click', () => {
+      console.log('a')
+      gfc.closeModal();
+      console.log('b')
+    })
+  }
 }
 
 function createIsoformExample(range,genome,divId,type,showLabel,variantFilter) {
