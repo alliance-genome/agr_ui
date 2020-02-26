@@ -1,5 +1,7 @@
 import {getColorForConsequence} from "./ConsequenceService";
 
+const BIN_BUFFER_PCT = 0.01 ;
+
 export function getDescriptionDimensions(description){
   const descriptionHeight = Object.keys(description).length;
   const descriptionWidth = Object.entries(description)
@@ -10,11 +12,11 @@ export function getDescriptionDimensions(description){
 }
 
 // we have to guard for type
-function findVariantBinIndexForPosition(variantBins,variant) {
+function findVariantBinIndexForPosition(variantBins,variant,buffer) {
   let {fmax, fmin, type} = variant;
   return variantBins.findIndex( fb => {
-    const relativeMin = fb.fmin;
-    const relativeMax = fb.fmax;
+    const relativeMin = fb.fmin + buffer;
+    const relativeMax = fb.fmax - buffer;
 
     // they can share type so long as neither is a deletion
     if( (type==='deletion' || fb.type ==='deletion') && type !== fb.type ) return false ;
@@ -104,14 +106,14 @@ export function generateVariantBins(variantData){
   return variantBins;
 }
 
-export function generateVariantDataBinsAndDataSets(variantData){
+export function generateVariantDataBinsAndDataSets(variantData,ratio){
   let variantBins = [];
   variantData.forEach(variant => {
     let consequence = getConsequence(variant);
     let {type, fmax, fmin} = variant;
     // we should ONLY ever find one or zero
 
-    let foundVariantBinIndex = findVariantBinIndexForPosition(variantBins,variant);
+    let foundVariantBinIndex = findVariantBinIndexForPosition(variantBins,variant,ratio);
 
     // if a variant is found within a position bin
     if(foundVariantBinIndex >=0 ){

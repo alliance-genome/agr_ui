@@ -12,9 +12,12 @@ import {renderTrackDescription} from "../services/TrackService";
 import {ApolloService} from "../services/ApolloService";
 let apolloService = new ApolloService();
 
+// TODO: make configurable and a const / default
+let MAX_ROWS = 9;
+
 export default class IsoformAndVariantTrack {
 
-  constructor(viewer, track, height, width, transcriptTypes, variantTypes,showVariantLabel,variantFilter) {
+  constructor(viewer, track, height, width, transcriptTypes, variantTypes,showVariantLabel,variantFilter,binRatio) {
     this.trackData = {};
     this.variantData = {};
     this.viewer = viewer;
@@ -23,6 +26,7 @@ export default class IsoformAndVariantTrack {
     this.height = height;
     this.transcriptTypes = transcriptTypes;
     this.variantTypes = variantTypes;
+    this.binRatio = binRatio ;
     this.showVariantLabel = showVariantLabel!==undefined ? showVariantLabel : true ;
   }
 
@@ -35,9 +39,8 @@ export default class IsoformAndVariantTrack {
     let viewer = this.viewer;
     let width = this.width;
     let showVariantLabel = this.showVariantLabel;
+    let binRatio = this.binRatio;
 
-    // TODO: make configurable and a const / default
-    let MAX_ROWS = 9;
 
     let UTR_feats = ["UTR", "five_prime_UTR", "three_prime_UTR"];
     let CDS_feats = ["CDS"];
@@ -45,8 +48,8 @@ export default class IsoformAndVariantTrack {
     let display_feats = this.transcriptTypes;
     let dataRange = findRange(isoformData, display_feats);
 
-    let view_start = dataRange.fmin;
-    let view_end = dataRange.fmax;
+    let viewStart = dataRange.fmin;
+    let viewEnd = dataRange.fmax;
 
     // constants
     const EXON_HEIGHT = 10; // will be white / transparent
@@ -80,7 +83,7 @@ export default class IsoformAndVariantTrack {
     };
 
     let x = d3.scaleLinear()
-      .domain([view_start, view_end])
+      .domain([viewStart, viewEnd])
       .range([0, width]);
 
     //Lets put this here so that the "track" part will give us extra space automagically
@@ -125,7 +128,7 @@ export default class IsoformAndVariantTrack {
     // **************************************
     // Seperate isoform and variant render
     // **************************************
-      let variantBins = generateVariantDataBinsAndDataSets(variantData);
+      let variantBins = generateVariantDataBinsAndDataSets(variantData,(viewEnd-viewStart)*binRatio);
 
       variantBins.forEach(variant => {
         let {type, fmax, fmin} = variant;
@@ -133,7 +136,6 @@ export default class IsoformAndVariantTrack {
         let isPoints = false;
         let viewerWidth = this.width;
         let symbol_string = getVariantSymbol(variant);
-        console.log('variant feedback',variant);
         const descriptions = getVariantDescriptions(variant);
         let descriptionHtml = renderVariantDescriptions(descriptions);
         const consequenceColor = getColorsForConsequences(descriptions)[0];
@@ -153,16 +155,16 @@ export default class IsoformAndVariantTrack {
             .on("mouseover", function(d){
               let theVariant = d.variant;
               d3.selectAll(".variant-deletion")
-                .filter(function(d){return d.variant == theVariant})
+                .filter(function(d){return d.variant === theVariant})
                 .style("stroke" , "black");
-              d3.select(this.parentNode).raise().selectAll(".variantLabel,.variantLabelBackround")
-                .filter(function(d){return d.variant == theVariant})
+              d3.select(this.parentNode).raise().selectAll(".variantLabel,.variantLabelBackground")
+                .filter(function(d){return d.variant === theVariant})
                 .style("opacity", 1);
             })
             .on("mouseout", function(d){
               d3.selectAll(".variant-deletion")
                 .style("stroke" , null);
-              d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackround")
+              d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground")
                 .style("opacity",0);
             })
             .datum({fmin: fmin, fmax: fmax, variant: symbol_string});
@@ -181,16 +183,16 @@ export default class IsoformAndVariantTrack {
             .on("mouseover", function(d){
               let theVariant = d.variant;
               d3.selectAll(".variant-SNV")
-                .filter(function(d){return d.variant == theVariant})
+                .filter(function(d){return d.variant === theVariant})
                 .style("stroke" , "black");
-              d3.select(this.parentNode).raise().selectAll(".variantLabel,.variantLabelBackround")
-                .filter(function(d){return d.variant == theVariant})
+              d3.select(this.parentNode).raise().selectAll(".variantLabel,.variantLabelBackground")
+                .filter(function(d){return d.variant === theVariant})
                 .style("opacity", 1);
             })
             .on("mouseout", function(d){
               d3.selectAll(".variant-SNV")
                 .style("stroke" , null);
-              d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackround")
+              d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground")
                 .style("opacity",0);
             })
             .datum({fmin: fmin, fmax: fmax, variant: symbol_string});
@@ -209,16 +211,16 @@ export default class IsoformAndVariantTrack {
               .on("mouseover", function(d){
                 let theVariant = d.variant;
                 d3.selectAll(".variant-insertion")
-                  .filter(function(d){return d.variant == theVariant})
+                  .filter(function(d){return d.variant === theVariant})
                   .style("stroke" , "black");
-                d3.select(this.parentNode).raise().selectAll(".variantLabel,.variantLabelBackround")
-                  .filter(function(d){return d.variant == theVariant})
+                d3.select(this.parentNode).raise().selectAll(".variantLabel,.variantLabelBackground")
+                  .filter(function(d){return d.variant === theVariant})
                   .style("opacity", 1);
               })
               .on("mouseout", function(d){
                 d3.selectAll(".variant-insertion")
                   .style("stroke" , null);
-                d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackround")
+                d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground")
                   .style("opacity",0);
               })
               .datum({fmin: fmin, fmax: fmax, variant: symbol_string});
@@ -237,16 +239,16 @@ export default class IsoformAndVariantTrack {
             .on("mouseover", function(d){
               let theVariant = d.variant;
               d3.selectAll(".variant-delins")
-                .filter(function(d){return d.variant == theVariant})
+                .filter(function(d){return d.variant === theVariant})
                 .style("stroke" , "black");
-              d3.select(this.parentNode).raise().selectAll(".variantLabel,.variantLabelBackround")
-                .filter(function(d){return d.variant == theVariant})
+              d3.select(this.parentNode).raise().selectAll(".variantLabel,.variantLabelBackground")
+                .filter(function(d){return d.variant === theVariant})
                 .style("opacity", 1);
             })
             .on("mouseout", function(d){
               d3.selectAll(".variant-delins")
                 .style("stroke" , null);
-              d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackround")
+              d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground")
                 .style("opacity",0);
             })
             .datum({fmin: fmin, fmax: fmax, variant: symbol_string});
@@ -270,7 +272,7 @@ export default class IsoformAndVariantTrack {
             .attr('fill', consequenceColor)
             .attr('opacity', 0)
             .attr('height', ISOFORM_TITLE_HEIGHT)
-            .attr("transform", "translate("+label_offset+",35)")
+            .attr("transform", "translate("+label_offset+",45)")
             .html(symbol_string)
             .on("click", d => {
               renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);

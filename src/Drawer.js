@@ -37,6 +37,7 @@ export default class Drawer {
         let transcriptTypes = this.gfc.config.transcriptTypes ? this.gfc.config.transcriptTypes : ['mRNA'];
         let variantTypes = this.gfc.config.variantTypes ? this.gfc.config.variantTypes : ['point_mutation','MNV','Deletion','Insertion','Delins'];
         let svg_target = this.gfc["svg_target"];
+        let binRatio = this.gfc.config.binRatio ? this.gfc.config.binRatio : 0.01;
         let draggingViewer = null;
         let draggingStart = null;
 
@@ -66,7 +67,7 @@ export default class Drawer {
         let start = sequenceOptions["start"];
         let end = sequenceOptions["end"];
 
-        // Draw our reference if it's local for now.
+      // Draw our reference if it's local for now.
         const referenceTrack = new ReferenceTrack(viewer,
             {"chromosome": chromosome, "start": start, "end": end, "range": sequenceOptions["range"]},
             height, width);
@@ -91,20 +92,20 @@ export default class Drawer {
         let track_height = LABEL_OFFSET ;
         // TODO: refactor so that both come in and are re-ordered
         tracks.forEach(async function(track) {
-            track["start"] = start;
-            track["end"] = end;
-            track["chromosome"] = chromosome;
+          track["start"] = start;
+          track["end"] = end;
+          track["chromosome"] = chromosome;
           track["variant_filter"] = variantFilter;
           if(track.type === TRACK_TYPE.ISOFORM_AND_VARIANT)
           {
-            const isoformVariantTrack = new IsoformAndVariantTrack(viewer, track, height, width,transcriptTypes,variantTypes,showVariantLabel,variantFilter);
+            const isoformVariantTrack = new IsoformAndVariantTrack(viewer, track, height, width,transcriptTypes,variantTypes,showVariantLabel,variantFilter,binRatio);
             await isoformVariantTrack.populateTrack(track,() => track.isoformFunction,() => track.variantFunction);
             track_height += isoformVariantTrack.DrawTrack();
           }
           else
           if(track.type === TRACK_TYPE.ISOFORM_EMBEDDED_VARIANT)
           {
-            const isoformVariantTrack = new IsoformEmbeddedVariantTrack(viewer, track, height, width,transcriptTypes,variantTypes,showVariantLabel,variantFilter);
+            const isoformVariantTrack = new IsoformEmbeddedVariantTrack(viewer, track, height, width,transcriptTypes,variantTypes,showVariantLabel,variantFilter,binRatio);
             await isoformVariantTrack.populateTrack(track,() => track.isoformFunction,() => track.variantFunction);
             track_height += isoformVariantTrack.DrawTrack();
           }
