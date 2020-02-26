@@ -28,6 +28,7 @@ import GeneMetaTags from './GeneMetaTags';
 import {setPageLoading} from '../../actions/loadingActions';
 import PageNavEntity from '../../components/dataPage/PageNavEntity';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
+import VariantsSequenceViewer from './VariantsSequenceViewer';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
@@ -184,22 +185,7 @@ class GenePage extends Component {
           </Subsection>
 
           <Subsection title={ALLELES}>
-            <GenomeFeatureWrapper
-              assembly={genomeLocation.assembly}
-              biotype={data.soTermName}
-              chromosome={genomeLocation.chromosome}
-              displayType='ISOFORM_AND_VARIANT'
-              fmax={genomeLocation.end}
-              fmin={genomeLocation.start}
-              geneSymbol={data.symbol}
-              height='200px'
-              id='genome-feature-allele-location-id'
-              primaryId={data.id}
-              species={data.species.name}
-              strand={genomeLocation.strand}
-              synonyms={data.synonyms}
-              width='600px'
-            />
+            <VariantsSequenceViewer gene={data} genomeLocation={genomeLocation} />
             <AlleleTable
               geneDataProvider={data.dataProvider}
               geneId={data.id}
