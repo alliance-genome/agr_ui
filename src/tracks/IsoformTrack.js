@@ -18,8 +18,9 @@ export default class IsoformTrack {
       .duration(200)
       .style("width", 'auto')
       .style("height", 'auto')
-      .style("opacity", .9)
+      .style("opacity", 1)
       .style('visibility', 'visible');
+
     tooltipDiv.html(descriptionHtml)
       .style("left", (d3.event.pageX+10) + "px")
       .style("top", (d3.event.pageY +10) + "px")
@@ -28,6 +29,11 @@ export default class IsoformTrack {
       .text('Close')
       .on('click', () => closeFunction());
 
+    tooltipDiv.append('button')
+      .attr("type", 'button')
+      .html('&times;')
+      .attr('class', "tooltipDivX")
+      .on('click' , () => closeFunction());
   }
   // Draw our track on the viewer
   // TODO: Potentially seperate this large section of code
