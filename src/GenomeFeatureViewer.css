@@ -37,6 +37,13 @@ html, body {
   border-radius: 10px;
 }
 
+.tooltipDivX{
+  position:absolute;
+  top:0;
+  right:0;
+  font: 20px sans-serif;
+}
+
 div.gfc-tooltip {
   position: absolute;
   text-align: center;
