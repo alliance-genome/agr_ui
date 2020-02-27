@@ -172,18 +172,19 @@ export function generateVariantDataBinsAndDataSets(variantData,ratio){
 
 export function renderVariantDescriptions(descriptions){
   if(descriptions.length===1){
-    return renderVariantDescription(descriptions[0]);
+    let stringBuffer = `<div style="margin-top: 30px;">`;
+    stringBuffer += `${renderVariantDescription(descriptions[0])}`;
+    stringBuffer += '</div>';
+    return stringBuffer;
   }
   else
   if(descriptions.length>1){
-    let stringBuffer = '<ul style="list-style-type: none;">';
+    let stringBuffer = '<ul style="list-style-type: none; margin-top: 30px;">';
     for(let d of descriptions){
       stringBuffer += `<li style="border-bottom: solid 1px black;">${renderVariantDescription(d)}</li>`;
     }
-
     stringBuffer += '</ul>';
     return stringBuffer;
-
   }
   else{
     return 'No data available';

@@ -6,7 +6,7 @@ function renderStrand(strand) {
 
 export function renderTrackDescription(feature){
   let returnString = '';
-  returnString += `<table class="tooltip-table"><tbody>`;
+  returnString += `<table class="tooltip-table" style="margin-top: 30px;"><tbody>`;
   if(feature.id.indexOf('http')<0){
     returnString += `<tr><th>ID</th><td>${feature.id}</td></tr>`;
   }
