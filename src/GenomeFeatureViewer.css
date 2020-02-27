@@ -23,6 +23,7 @@ html, body {
 
 .tooltip-table{
   text-align: left;
+  padding-top: 30px;
 }
 
 .tooltipDivX{
@@ -30,6 +31,10 @@ html, body {
   top:0;
   right:0;
   font: 20px sans-serif;
+  cursor: pointer;
+  margin-right: 5px;
+  margin-top: 5px;
+  border-radius: 10px;
 }
 
 div.gfc-tooltip {

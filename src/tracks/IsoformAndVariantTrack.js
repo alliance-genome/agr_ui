@@ -571,6 +571,7 @@ export default class IsoformAndVariantTrack {
       .style("height", 'auto')
       .style("opacity", 1)
       .style('visibility', 'visible');
+
     tooltipDiv.html(descriptionHtml)
       .style("left", (d3.event.pageX+10) + "px")
       .style("top", (d3.event.pageY +10) + "px")
