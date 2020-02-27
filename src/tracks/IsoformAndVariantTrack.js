@@ -569,7 +569,7 @@ export default class IsoformAndVariantTrack {
       .duration(200)
       .style("width", 'auto')
       .style("height", 'auto')
-      .style("opacity", .9)
+      .style("opacity", 1)
       .style('visibility', 'visible');
     tooltipDiv.html(descriptionHtml)
       .style("left", (d3.event.pageX+10) + "px")
@@ -578,6 +578,12 @@ export default class IsoformAndVariantTrack {
       .attr("type","button")
       .text('Close')
       .on('click', () => closeFunction());
+
+    tooltipDiv.append('button')
+      .attr("type", 'button')
+      .html('&times;')
+      .attr('class', "tooltipDivX")
+      .on('click' , () => closeFunction());
 
   }
 
