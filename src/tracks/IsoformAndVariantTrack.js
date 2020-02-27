@@ -585,8 +585,6 @@ export default class IsoformAndVariantTrack {
       .attr('class', "tooltipDivX")
       .on('click' , () => closeFunction());
 
-      console.log(descriptionHtml);
-
   }
 
   async populateTrack(track) {
