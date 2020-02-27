@@ -71,7 +71,7 @@ class Layout extends Component {
                 <i className='fa fa-fw fa-bars' />
               </button>
             </div>
-            <div className='col-md'>
+            <div className='col-md d-flex justify-content-md-end'>
               <SearchBar />
             </div>
           </div>
