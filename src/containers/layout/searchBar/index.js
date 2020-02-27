@@ -120,8 +120,8 @@ class SearchBarComponent extends Component {
       );
     });
     return (
-      <UncontrolledDropdown className={`input-group-prepend ${style.searchBtns}`}>
-        <DropdownToggle caret color='secondary' outline>
+      <UncontrolledDropdown className='input-group-prepend'>
+        <DropdownToggle caret className={`${style.searchButton} border-right-0`} color='secondary' outline>
           {_title}
         </DropdownToggle>
         <DropdownMenu>
@@ -147,7 +147,7 @@ class SearchBarComponent extends Component {
     let _inputProps = {
       placeholder: 'search: RPB7, kinase, asthma, liver',
       value: this.state.value,
-      onChange: this.handleTyping.bind(this)
+      onChange: this.handleTyping.bind(this),
     };
     let _theme = {
       container: style.autoContainer,
@@ -159,11 +159,10 @@ class SearchBarComponent extends Component {
       suggestionHighlighted: style.suggestionHighlighted
     };
     return (
-      <form onSubmit={this.handleSubmit.bind(this)}>
+      <form className={style.searchBar} onSubmit={this.handleSubmit.bind(this)}>
         <div className='input-group'>
           {this.renderDropdown()}
           <Autosuggest
-            className='form-control'
             getSuggestionValue={_getSuggestionValue}
             inputProps={_inputProps}
             onSuggestionSelected={this.handleSelected.bind(this)}
@@ -174,7 +173,7 @@ class SearchBarComponent extends Component {
             theme={_theme}
           />
           <div className='input-group-append'>
-            <button className={`btn btn-primary ${style.searchBtns}`} type='submit'>
+            <button className={`btn text-primary border-left-0 ${style.searchButton}`} type='submit'>
               <i className='fa fa-search' />
             </button>
           </div>

@@ -1,19 +1,12 @@
 @import "../../../theme";
+@import "~bootstrap/scss/bootstrap";
 
-.container {
-	float: left;
-	width: 100%;
-  margin-top: 25px;
-}
+.searchBar {
+  width: 100%;
 
-.container form {
-	float: right;
-}
-
-.dropdown {
-	border-radius: 0.25rem 0 0 0.25rem;
-  min-width: 6rem;
-  height:3rem;
+  @include media-breakpoint-up(md) {
+    max-width: 500px;
+  }
 }
 
 .dropdownItem {
@@ -35,14 +28,16 @@
 }
 
 .autoInput {
-  height: 3rem;
+  height: 100%;
   padding: 0 5px;
   width: 100%;
   border: 1px solid $secondary;
 }
 
-.searchBtns{
-  height:3rem
+.searchButton {
+  font-size: inherit;
+  background-color: white;
+  border-color: $secondary;
 }
 
 .autoInput:focus {
@@ -85,18 +80,4 @@
 
 .suggestionHighlighted {
 	background: #E8F2FE;
-}
-
-.search .fa-search {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-}
-
-.dropdown.dropdownBtn{
-  border: 1px solid #cccccc;
-}
-
-.searchForm {
-  width: 300px;
 }
