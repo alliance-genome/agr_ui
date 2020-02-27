@@ -130,7 +130,7 @@ class GenePage extends Component {
           </Subsection>
 
           <Subsection
-            hasData={typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'}
+            hasData={typeof genomeLocation.chromosome!== 'undefined' && typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'}
             title={SEQUENCE_FEATURE_VIEWER}
           >
             <GenomeFeatureWrapper
