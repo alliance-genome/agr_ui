@@ -10,7 +10,7 @@ const VariantsSequenceViewer = ({alleles, gene, genomeLocation}) => {
   }
 
   const anyVariantData = alleles.data.some(allele => allele.variants.length > 0);
-  if (!anyVariantData) {
+  if (!anyVariantData || !genomeLocation.chromosome) {
     return null;
   }
 
