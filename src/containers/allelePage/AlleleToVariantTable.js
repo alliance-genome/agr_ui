@@ -10,7 +10,7 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
   const { data:dataRaw = [], loading, total} = variants;
   const [ variant1 = {} ] = dataRaw;
   const { location: locationVariant1 = {} } = variant1;
-  const { gene = {}} = allele;
+  const gene = allele.gene || {};
   const { genomeLocations: geneLocations } = gene;
   const [geneLocation] = geneLocations || [];
 
