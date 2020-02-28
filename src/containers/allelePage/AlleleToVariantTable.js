@@ -82,6 +82,7 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
       key={alleleId}
       keyField='id'
       loading={loading}
+      noDataMessage='No mapped variant information available'
       onUpdate={fetchVariants}
       totalRows={total}
     />
