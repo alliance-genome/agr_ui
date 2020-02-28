@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import GenomeFeatureWrapper from './genomeFeatureWrapper';
 import {selectAlleles} from '../../selectors/geneSelectors';
+import NoData from '../../components/noData';
 
 const VariantsSequenceViewer = ({alleles, gene, genomeLocation}) => {
-  if (alleles.loading || alleles.error) {
+  if (alleles.loading || alleles.error || alleles.data.length === 0 || !genomeLocation.chromosome) {
     return null;
   }
 
   const anyVariantData = alleles.data.some(allele => allele.variants.length > 0);
-  if (!anyVariantData || !genomeLocation.chromosome) {
-    return null;
+  if (!anyVariantData) {
+    return <NoData>No mapped variant information available</NoData>;
   }
 
   return (
