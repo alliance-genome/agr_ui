@@ -72,7 +72,9 @@ class Layout extends Component {
               </button>
             </div>
             <div className='col-md d-flex justify-content-md-end'>
-              <SearchBar />
+              <div className={style.headerSearchContainer}>
+                <SearchBar />
+              </div>
             </div>
           </div>
         </div>

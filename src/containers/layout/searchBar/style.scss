@@ -1,13 +1,4 @@
 @import "../../../theme";
-@import "~bootstrap/scss/bootstrap";
-
-.searchBar {
-  width: 100%;
-
-  @include media-breakpoint-up(md) {
-    max-width: 500px;
-  }
-}
 
 .dropdownItem {
 	padding-left: 0.5rem;
@@ -52,6 +43,7 @@
   border-top-width: 0;
   width: 100%;
 	z-index: 102;
+  font-size: $font-size-base;
 }
 
 .suggestionsList {

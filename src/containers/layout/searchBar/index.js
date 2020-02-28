@@ -159,8 +159,8 @@ class SearchBarComponent extends Component {
       suggestionHighlighted: style.suggestionHighlighted
     };
     return (
-      <form className={style.searchBar} onSubmit={this.handleSubmit.bind(this)}>
-        <div className='input-group'>
+      <form onSubmit={this.handleSubmit.bind(this)}>
+        <div className='input-group flex-nowrap'>
           {this.renderDropdown()}
           <Autosuggest
             getSuggestionValue={_getSuggestionValue}
