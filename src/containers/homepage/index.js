@@ -13,7 +13,7 @@ const Homepage = () => {
         <h1 className='display-4 mb-4'>Big Call to Action</h1>
         <h3 className='mb-4'>A smaller subheading with more text about whatever</h3>
         <div className={style.searchBarContainer}>
-          <SearchBarComponent/>
+          <SearchBarComponent autoFocus />
         </div>
       </section>
     </div>

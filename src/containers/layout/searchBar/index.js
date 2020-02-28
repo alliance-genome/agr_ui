@@ -145,6 +145,7 @@ class SearchBarComponent extends Component {
   render() {
     let _getSuggestionValue = ( d => d.name_key );
     let _inputProps = {
+      autoFocus: this.props.autoFocus,
       placeholder: 'search: RPB7, kinase, asthma, liver',
       value: this.state.value,
       onChange: this.handleTyping.bind(this),
@@ -184,6 +185,7 @@ class SearchBarComponent extends Component {
 }
 
 SearchBarComponent.propTypes = {
+  autoFocus: PropTypes.bool,
   dispatch: PropTypes.func,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
