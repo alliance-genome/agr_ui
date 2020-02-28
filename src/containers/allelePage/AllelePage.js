@@ -71,7 +71,7 @@ class AllelePage extends Component {
         <PageNav sections={SECTIONS}>
           <PageNavEntity entityName={<AlleleSymbol allele={data} />} icon={<SpeciesIcon scale={0.5} species={data.species.name} />} truncateName>
             <DataSourceLink reference={data.crossReferences.primary} />
-            <div>Allele of <Link to={`/gene/${data.gene.id}`}>{data.gene.symbol}</Link></div>
+            {data.gene && <div>Allele of <Link to={`/gene/${data.gene.id}`}>{data.gene.symbol}</Link></div>}
             <i>{data.species.name}</i>
           </PageNavEntity>
         </PageNav>

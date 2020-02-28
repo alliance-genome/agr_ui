@@ -20,7 +20,9 @@ const AlleleSummary = ({allele}) => {
       <AttributeValue><AlleleSymbol allele={allele} /></AttributeValue>
 
       <AttributeLabel>Allele of gene</AttributeLabel>
-      <AttributeValue><Link to={`/gene/${allele.gene.id}`}>{allele.gene.symbol}</Link></AttributeValue>
+      <AttributeValue placeholder='None'>
+        {allele.gene && <Link to={`/gene/${allele.gene.id}`}>{allele.gene.symbol}</Link>}
+      </AttributeValue>
 
       <AttributeLabel>Synonyms</AttributeLabel>
       <AttributeValue placeholder='None'>
