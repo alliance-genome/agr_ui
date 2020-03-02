@@ -4,6 +4,7 @@ import HeadMetaTags from '../../components/headMetaTags';
 import style from './style.scss';
 import {SearchBarComponent} from '../layout/searchBar';
 import SearchExample from './SearchExample';
+import ActionButton from './ActionButton';
 
 const Homepage = () => {
   return (
@@ -24,6 +25,17 @@ const Homepage = () => {
             <li><SearchExample term='asthma' /></li>
             <li><SearchExample term='liver' /></li>
           </ul>
+          <div className='d-flex justify-content-around'>
+            <ActionButton icon='fa-download' to='/downloads'>
+              Download Data
+            </ActionButton>
+            <ActionButton icon='fa-code' to='/api/swagger-ui'>
+              Browse APIs
+            </ActionButton>
+            <ActionButton icon='fa-book' to='/publications'>
+              Alliance Publications
+            </ActionButton>
+          </div>
         </div>
       </section>
     </div>
