@@ -10,12 +10,27 @@
   padding: 3rem 1rem;
 }
 
+.searchSectionInner {
+  width: 100%;
+
+  @include media-breakpoint-up(md) {
+    max-width: breakpoint-min(md);
+  }
+}
+
 .searchBarContainer {
   font-size: 150%;
   width: 100%;
 
   @include media-breakpoint-up(md) {
     font-size: 200%;
-    max-width: breakpoint-min(md);
   }
+}
+
+.searchExampleList {
+  padding-left: 0;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
 }
