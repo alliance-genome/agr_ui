@@ -13,7 +13,6 @@ import LoadingSpinner from '../../components/loadingSpinner';
 import '../../style.scss';
 import HorizontalScroll from '../../components/horizontalScroll';
 import {SPECIES} from '../../constants';
-import style from '../../components/dataTable/style.scss';
 import HelpPopup from '../../components/helpPopup';
 
 const APOLLO_SERVER_PREFIX = '/apollo/';
@@ -150,12 +149,6 @@ class GenomeFeatureWrapper extends Component {
     const {assembly, chromosome, fmin, fmax, id, strand} = this.props;
     const lengthValue = numeral((fmax - fmin) / 1000.0).format('0,0.00');
 
-
-    const helpPopupProps = {
-      id: 'variant-legend',
-      children: <span dangerouslySetInnerHTML={{__html: this.helpText}}/>
-    };
-
     return (
       <div id='genomeViewer'>
         <AttributeList>
@@ -172,14 +165,15 @@ class GenomeFeatureWrapper extends Component {
         </AttributeList>
 
         <HorizontalScroll width={960}>
-          <h3>Variant Types and Consequences
-            <div className="btn-group"><span
-              className={style.helpIconWrapper}><HelpPopup {...helpPopupProps} /></span>
-            </div>
-          </h3>
-          <svg id={id}>
-            <LoadingSpinner/>
-          </svg>
+          <div>
+            <svg id={id}>
+              <LoadingSpinner/>
+            </svg>
+          </div>
+          <span className='mr-1'>Variant Types and Consequences</span>
+          <HelpPopup id='variant-legend' placement='bottom-start'>
+            <span dangerouslySetInnerHTML={{__html: this.helpText}}/>
+          </HelpPopup>
           {this.state.loadState === 'error' ?
             <div className='text-danger'>Unable to retrieve data</div> : ''}
         </HorizontalScroll>
