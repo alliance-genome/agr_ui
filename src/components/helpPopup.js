@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { PopoverBody, UncontrolledPopover } from 'reactstrap';
 import { makeId } from '../lib/utils';
 
-const HelpPopup = ({children, id}) => {
+const HelpPopup = ({children, id, placement='top-start'}) => {
   id = makeId(id);
   const popperModifiers = {
     preventOverflow: {
@@ -17,7 +17,7 @@ const HelpPopup = ({children, id}) => {
         id={id}
         style={{cursor: 'pointer'}}
       />
-      <UncontrolledPopover modifiers={popperModifiers} placement='top-start' target={id} trigger='legacy'>
+      <UncontrolledPopover modifiers={popperModifiers} placement={placement} target={id} trigger='legacy'>
         <PopoverBody>{children}</PopoverBody>
       </UncontrolledPopover>
     </React.Fragment>
@@ -26,7 +26,8 @@ const HelpPopup = ({children, id}) => {
 
 HelpPopup.propTypes = {
   children: PropTypes.node,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  placement: PropTypes.string,
 };
 
 export default HelpPopup;
