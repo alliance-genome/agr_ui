@@ -144,7 +144,6 @@ class GenomeFeatureWrapper extends Component {
     const trackConfig = this.generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, variant, displayType);
     this.gfc = new GenomeFeatureViewer(trackConfig, `#${id}`, 900, undefined);
     this.helpText = this.gfc.generateLegend();
-    this.helpDom = new DOMParser().parseFromString(this.helpText, 'text/xml');
   }
 
   render() {
@@ -154,7 +153,7 @@ class GenomeFeatureWrapper extends Component {
 
     const helpPopupProps = {
       id: 'variant-legend',
-      children: <span dangerouslySetInnerHTML={{ __html: this.helpText}}/>
+      children: <span dangerouslySetInnerHTML={{__html: this.helpText}}/>
     };
 
     return (
@@ -169,14 +168,15 @@ class GenomeFeatureWrapper extends Component {
 
           <AttributeLabel>Assembly version</AttributeLabel>
           <AttributeValue>{assembly}
-            <div className="btn-group"><span
-              className={style.helpIconWrapper}><HelpPopup {...helpPopupProps} /></span>
-            </div>
-            : null
           </AttributeValue>
         </AttributeList>
 
         <HorizontalScroll width={960}>
+          <h3>Variant Types and Consequences
+            <div className="btn-group"><span
+              className={style.helpIconWrapper}><HelpPopup {...helpPopupProps} /></span>
+            </div>
+          </h3>
           <svg id={id}>
             <LoadingSpinner/>
           </svg>
