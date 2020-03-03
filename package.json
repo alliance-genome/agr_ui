@@ -1,5 +1,5 @@
 {
-  "name": "genomefeaturecomponent",
+  "name": "agr_genomefeaturecomponent",
   "version": "0.2.18",
   "description": "Provides SVG View for Genome Features rendered with the Apollo Track Web Service via JBrowse",
   "main": "dist/index.js",
