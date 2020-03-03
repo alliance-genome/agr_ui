@@ -3,6 +3,7 @@
 import 'babel-polyfill';
 import Drawer from "./Drawer";
 import * as d3 from "d3";
+import {createLegendBox, generateLegend} from "./services/LegenedService";
 
 /*
  * Main viewer.
@@ -29,6 +30,10 @@ export default class GenomeFeatureViewer {
         this.viewer = this._initViewer(svg_target);
         this.drawer = new Drawer(this);
         this.drawer.draw();
+    }
+
+    generateLegend(){
+        return createLegendBox();
     }
 
     closeModal(){

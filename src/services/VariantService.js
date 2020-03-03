@@ -1,6 +1,22 @@
 import {getColorForConsequence} from "./ConsequenceService";
 
 const BIN_BUFFER_PCT = 0.01 ;
+const SNV_HEIGHT = 10;
+const SNV_WIDTH = 10;
+
+export function generateSnvPoints(x){
+  return `${x},${SNV_HEIGHT} ${x+(SNV_WIDTH/2.0)},${SNV_HEIGHT/2.0} ${x},${0} ${x-(SNV_WIDTH/2.0)},${SNV_HEIGHT/2.0}`;
+}
+export function generateInsertionPoint(x) {
+  return `${x-(SNV_WIDTH/2.0)},${SNV_HEIGHT} ${x},0 ${x+(SNV_WIDTH/2.0)},${SNV_HEIGHT}`;
+}
+// export function generateDeletion(x)  {
+//   return `${x-(SNV_WIDTH/2.0)},${SNV_HEIGHT} ${x+(SNV_WIDTH/2.0)},${SNV_HEIGHT} ${x-(SNV_WIDTH/2.0)},${0} ${x+(SNV_WIDTH/2.0)},${0}`;
+// };
+
+export function generateDelinsPoint(x)  {
+  return `${x-(SNV_WIDTH/2.0)},${SNV_HEIGHT} ${x+(SNV_WIDTH/2.0)},${SNV_HEIGHT} ${x-(SNV_WIDTH/2.0)},${0} ${x+(SNV_WIDTH/2.0)},${0}`;
+};
 
 export function getDescriptionDimensions(description){
   const descriptionHeight = Object.keys(description).length;

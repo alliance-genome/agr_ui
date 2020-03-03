@@ -1,6 +1,9 @@
 import * as d3 from "d3";
 import {calculateNewTrackPosition, checkSpace, findRange} from '../RenderFunctions';
 import {
+  generateDelinsPoint,
+  generateInsertionPoint,
+  generateSnvPoints,
   generateVariantDataBinsAndDataSets,
   getColorsForConsequences,
   getVariantDescriptions,
@@ -76,10 +79,6 @@ export default class IsoformAndVariantTrack {
     const delins_points = (x) => {
       // const delins_strings = `${x-(snv_width/2.0)},${snv_height} ${x},0 ${x+(snv_width/2.0)},${snv_height}`;
       return `${x-(SNV_WIDTH/2.0)},${SNV_HEIGHT} ${x+(SNV_WIDTH/2.0)},${SNV_HEIGHT} ${x-(SNV_WIDTH/2.0)},${0} ${x+(SNV_WIDTH/2.0)},${0}`;
-    };
-
-    const snv_points = (x) => {
-      return `${x},${SNV_HEIGHT} ${x+(SNV_WIDTH/2.0)},${SNV_HEIGHT/2.0} ${x},${0} ${x-(SNV_WIDTH/2.0)},${SNV_HEIGHT/2.0}`;
     };
 
     let x = d3.scaleLinear()
@@ -172,7 +171,7 @@ export default class IsoformAndVariantTrack {
           isPoints = true;
           variantContainer.append('polygon')
             .attr('class', 'variant-SNV')
-            .attr('points', snv_points(x(fmin)))
+            .attr('points', generateSnvPoints(x(fmin)))
             .attr('fill', consequenceColor)
             .attr('x', x(fmin))
             .attr('transform', 'translate(0,'+VARIANT_HEIGHT+')')
@@ -200,7 +199,7 @@ export default class IsoformAndVariantTrack {
           isPoints = true;
             variantContainer.append('polygon')
               .attr('class', 'variant-insertion')
-              .attr('points', insertion_points(x(fmin)))
+              .attr('points', generateInsertionPoint(x(fmin)))
               .attr('fill', consequenceColor)
               .attr('x', x(fmin))
               .attr('transform', 'translate(0,'+VARIANT_HEIGHT+')')
@@ -228,7 +227,7 @@ export default class IsoformAndVariantTrack {
           isPoints=true;
           variantContainer.append('polygon')
             .attr('class', 'variant-delins')
-            .attr('points', delins_points(x(fmin)))
+            .attr('points', generateDelinsPoint(x(fmin)))
             .attr('x', x(fmin))
             .attr('transform', 'translate(0,0)')
             .attr('fill', consequenceColor)
