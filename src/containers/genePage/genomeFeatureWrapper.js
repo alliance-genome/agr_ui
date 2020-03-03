@@ -150,12 +150,11 @@ class GenomeFeatureWrapper extends Component {
   render() {
     const {assembly, chromosome, fmin, fmax, id, strand} = this.props;
     const lengthValue = numeral((fmax - fmin) / 1000.0).format('0,0.00');
-    // children: <span>Variant consequences were predicted by the <ExternalLink href="https://uswest.ensembl.org/info/docs/tools/vep/index.html" target="_blank">Ensembl Variant Effect Predictor (VEP) tool</ExternalLink> based on Alliance variants information.</span>,
+
 
     const helpPopupProps = {
       id: 'variant-legend',
-      // children: <span>Variant Legend <div>{text}</div></span>
-      children: this.helpText
+      children: <span dangerouslySetInnerHTML={{ __html: this.helpText}}/>
     };
 
     return (
