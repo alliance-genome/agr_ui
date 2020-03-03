@@ -7,15 +7,18 @@ import {
 } from '../../components/attribute';
 import numeral from 'numeral';
 import ExternalLink from '../../components/externalLink';
-import GenomeFeatureViewer from 'genomefeaturecomponent';
+import GenomeFeatureViewer from 'agr_genomefeaturecomponent';
 import {getTranscriptTypes} from '../../lib/genomeFeatureTypes';
 import LoadingSpinner from '../../components/loadingSpinner';
 import '../../style.scss';
 import HorizontalScroll from '../../components/horizontalScroll';
 import {SPECIES} from '../../constants';
+import HelpPopup from '../../components/helpPopup';
+
+import style from './style.scss';
 
 const APOLLO_SERVER_PREFIX = '/apollo/';
-const LINK_BUFFER = 1.2 ;
+const LINK_BUFFER = 1.2;
 
 class GenomeFeatureWrapper extends Component {
 
@@ -56,27 +59,27 @@ class GenomeFeatureWrapper extends Component {
     const bufferedMax = Math.round(this.props.fmax + (linkLength * LINK_BUFFER / 2.0));
     const externalLocationString = this.props.chromosome + ':' + bufferedMin + '..' + bufferedMax;
     // TODO: handle bufferedMax exceeding chromosome length, though I think it has a good default.
-    const tracks = ['Variants','All Genes'];
+    const tracks = ['Variants', 'All Genes'];
     this.jbrowseUrl = externalJBrowsePrefix +
       '&tracks=' + encodeURIComponent(tracks.join(',')) +
       '&highlight=' + geneSymbolUrl +
       '&loc=' + encodeURIComponent(externalLocationString);
   }
 
-  getSpeciesString(species){
-    return SPECIES.find( s => s.fullName===species).apolloName;
+  getSpeciesString(species) {
+    return SPECIES.find(s => s.fullName === species).apolloName;
   }
 
-  generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString,variantFilter,displayType) {
+  generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, variantFilter, displayType) {
     let transcriptTypes = getTranscriptTypes();
-    if(displayType === 'ISOFORM'){
-    // if(species==='Saccharomyces cerevisiae' || species ==='Homo sapiens' || variantFilter === undefined){
+    if (displayType === 'ISOFORM') {
+      // if(species==='Saccharomyces cerevisiae' || species ==='Homo sapiens' || variantFilter === undefined){
       return {
         'locale': 'global',
-        'chromosome':  species==='Saccharomyces cerevisiae' ? 'chr'+chromosome : chromosome ,
+        'chromosome': species === 'Saccharomyces cerevisiae' ? 'chr' + chromosome : chromosome,
         'start': fmin,
         'end': fmax,
-        'transcriptTypes':transcriptTypes,
+        'transcriptTypes': transcriptTypes,
         'tracks': [
           {
             'id': 1,
@@ -90,17 +93,15 @@ class GenomeFeatureWrapper extends Component {
           },
         ]
       };
-    }
-    else
-    if(displayType === 'ISOFORM_AND_VARIANT'){
+    } else if (displayType === 'ISOFORM_AND_VARIANT') {
       return {
         'locale': 'global',
         'chromosome': chromosome,
         'start': fmin,
         'end': fmax,
         'showVariantLabel': false,
-        'variantFilter': variantFilter ? [variantFilter]  : [],
-        'binRatio':0.01,
+        'variantFilter': variantFilter ? [variantFilter] : [],
+        'binRatio': 0.01,
         'tracks': [
           {
             'id': 1,
@@ -120,18 +121,17 @@ class GenomeFeatureWrapper extends Component {
           },
         ]
       };
-    }
-    else{
+    } else {
       // eslint-disable-next-line no-console
-      console.error('Undefined displayType',displayType);
+      console.error('Undefined displayType', displayType);
     }
   }
 
   loadGenomeFeature() {
-    const {chromosome, fmin, fmax, species,id,primaryId,geneSymbol, displayType,synonyms = [],variant} = this.props;
+    const {chromosome, fmin, fmax, species, id, primaryId, geneSymbol, displayType, synonyms = [], variant} = this.props;
     // provide unique names
-    let nameSuffix = [geneSymbol, ...synonyms,primaryId].filter((x, i, a) => a.indexOf(x) === i).map( x => encodeURI(x));
-    let nameSuffixString = nameSuffix.length ===0 ? '': nameSuffix.join('&name=');
+    let nameSuffix = [geneSymbol, ...synonyms, primaryId].filter((x, i, a) => a.indexOf(x) === i).map(x => encodeURI(x));
+    let nameSuffixString = nameSuffix.length === 0 ? '' : nameSuffix.join('&name=');
     if (nameSuffixString.length > 0) {
       nameSuffixString = `?name=${nameSuffixString}`;
     }
@@ -142,8 +142,9 @@ class GenomeFeatureWrapper extends Component {
     // [0] should be apollo_url: https://agr-apollo.berkeleybop.io/apollo/track
     // [1] should be track name : ALL_Genes
     // [2] should be track name : name suffix string
-    const trackConfig = this.generateTrackConfig(fmin,fmax,chromosome,species,nameSuffixString,variant,displayType);
+    const trackConfig = this.generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, variant, displayType);
     this.gfc = new GenomeFeatureViewer(trackConfig, `#${id}`, 900, undefined);
+    this.helpText = this.gfc.generateLegend();
   }
 
   render() {
@@ -161,17 +162,25 @@ class GenomeFeatureWrapper extends Component {
           </AttributeValue>
 
           <AttributeLabel>Assembly version</AttributeLabel>
-          <AttributeValue>{assembly}</AttributeValue>
+          <AttributeValue>{assembly}
+          </AttributeValue>
         </AttributeList>
 
         <HorizontalScroll width={960}>
-          <svg id={id}>
-            <LoadingSpinner/>
-          </svg>
-          {this.state.loadState === 'error' ? <div className='text-danger'>Unable to retrieve data</div> : ''}
+          <div>
+            <svg id={id}>
+              <LoadingSpinner/>
+            </svg>
+          </div>
+          <span className='mr-1'>Variant Types and Consequences</span>
+          <HelpPopup id='variant-legend' placement='bottom-start' popperClassName={style.variantLegendPopper}>
+            <span dangerouslySetInnerHTML={{__html: this.helpText}}/>
+          </HelpPopup>
+          {this.state.loadState === 'error' ?
+            <div className='text-danger'>Unable to retrieve data</div> : ''}
         </HorizontalScroll>
       </div>
-    ) ;
+    );
   }
 
 
