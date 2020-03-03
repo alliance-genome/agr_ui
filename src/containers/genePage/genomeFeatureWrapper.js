@@ -15,6 +15,8 @@ import HorizontalScroll from '../../components/horizontalScroll';
 import {SPECIES} from '../../constants';
 import HelpPopup from '../../components/helpPopup';
 
+import style from './style.scss';
+
 const APOLLO_SERVER_PREFIX = '/apollo/';
 const LINK_BUFFER = 1.2;
 
@@ -171,7 +173,7 @@ class GenomeFeatureWrapper extends Component {
             </svg>
           </div>
           <span className='mr-1'>Variant Types and Consequences</span>
-          <HelpPopup id='variant-legend' placement='bottom-start'>
+          <HelpPopup id='variant-legend' placement='bottom-start' popperClassName={style.variantLegendPopper}>
             <span dangerouslySetInnerHTML={{__html: this.helpText}}/>
           </HelpPopup>
           {this.state.loadState === 'error' ?
