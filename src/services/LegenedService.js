@@ -36,7 +36,6 @@ export function createLegendBox() {
     returnString += `<li>${drawDeletionForConsequence('inframe_insertion')}</li>`;
     returnString += `<li>${drawDeletionForConsequence('inframe_deletion')}</li>`;
     returnString += `<li>${drawDeletionForConsequence('missense_variant')}</li>`;
-    returnString += `<li>splice acceptor variant</li>`;
     returnString += `</ul></td>`;
     returnString += `<td valign="top" ><ul style="list-style-type:none;">`;
     returnString += `<li>${drawDeletionForConsequence('protein_altering_variant')}</li>`;
