@@ -6,7 +6,6 @@ function drawDeletion  (color,label) {
 };
 
 function drawDeletionForConsequence  (consequencesName) {
-    console.log('name',consequencesName)
     // let consequence = CONSEQUENCES_ENUM[consequencesName];
     // console.log(consequnece,Object.getOwnPropertyNames(consequnece),Object.getOwnPropertyNames(CONSEQUENCES_ENUM))
     return drawDeletion(CONSEQUENCES_ENUM[consequencesName].color,consequencesName.replace(/_/g," "));

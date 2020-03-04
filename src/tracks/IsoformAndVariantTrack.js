@@ -128,7 +128,6 @@ export default class IsoformAndVariantTrack {
     // Seperate isoform and variant render
     // **************************************
       let variantBins = generateVariantDataBinsAndDataSets(variantData,(viewEnd-viewStart)*binRatio);
-
       variantBins.forEach(variant => {
         let {type, fmax, fmin} = variant;
         let drawnVariant = true;
@@ -166,7 +165,7 @@ export default class IsoformAndVariantTrack {
               d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground")
                 .style("opacity",0);
             })
-            .datum({fmin: fmin, fmax: fmax, variant: symbol_string});
+            .datum({fmin: fmin, fmax: fmax, variant: symbol_string+fmin});
         } else if (type.toLowerCase() === 'snv' || type.toLowerCase() === 'point_mutation') {
           isPoints = true;
           variantContainer.append('polygon')
@@ -194,7 +193,7 @@ export default class IsoformAndVariantTrack {
               d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground")
                 .style("opacity",0);
             })
-            .datum({fmin: fmin, fmax: fmax, variant: symbol_string});
+            .datum({fmin: fmin, fmax: fmax, variant: symbol_string+fmin});
         } else if (type.toLowerCase() === 'insertion') {
           isPoints = true;
             variantContainer.append('polygon')
@@ -222,7 +221,7 @@ export default class IsoformAndVariantTrack {
                 d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground")
                   .style("opacity",0);
               })
-              .datum({fmin: fmin, fmax: fmax, variant: symbol_string});
+              .datum({fmin: fmin, fmax: fmax, variant: symbol_string+fmin});
         } else if (type.toLowerCase() === 'delins' || type.toLowerCase() === 'substitution' || type.toLowerCase() === 'indel') {
           isPoints=true;
           variantContainer.append('polygon')
@@ -250,7 +249,7 @@ export default class IsoformAndVariantTrack {
               d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground")
                 .style("opacity",0);
             })
-            .datum({fmin: fmin, fmax: fmax, variant: symbol_string});
+            .datum({fmin: fmin, fmax: fmax, variant: symbol_string+fmin});
         }
         else{
           console.warn("type not found",type,variant);
@@ -276,7 +275,7 @@ export default class IsoformAndVariantTrack {
             .on("click", d => {
               renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
             })
-            .datum({fmin: fmin, variant: symbol_string});
+            .datum({fmin: fmin, variant: symbol_string+fmin});
 
             let symbol_string_width = variant_label.node().getBBox().width;
             if(parseFloat(symbol_string_width+label_offset)>viewerWidth){

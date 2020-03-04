@@ -1,6 +1,6 @@
 /**
  * https://uswest.ensembl.org/info/genome/variation/prediction/predicted_data.html#consequences
- * @type {Readonly<{start_retained_variant: {impact: string}, intergenic_variant: {impact: string}, frameshift_variant: {impact: string}, splice_acceptor_variant: {impact: string}, intron_variant: {impact: string}, splice_region_variant: {impact: string}, transcript_amplification: {impact: string}, upstream_gene_variant: {impact: string}, stop_gained: {impact: string}, non_coding_transcript_exon_variant: {impact: string}, non_coding_transcript_variant: {impact: string}, regulatory_region_amplification: {impact: string}, start_lost: {impact: string}, transcript_ablation: {impact: string}, splice_donor_variant: {impact: string}, NMD_transcript_variant: {impact: string}, synonymous_variant: {impact: string}, TFBS_amplification: {impact: string}, missense_variant: {impact: string}, regulatory_region_ablation: {impact: string}, feature_elongation: {impact: string}, mature_miRNA_variant: {impact: string}, stop_lost: {impact: string}, five_prime_UTR_variant: {impact: string}, feature_truncation: {impact: string}, three_prime_UTR_variant: {impact: string}, regulatory_region_variant: {impact: string}, downstream_gene_variant: {impact: string}, TFBS_ablation: {impact: string}, stop_retained_variant: {impact: string}, TF_binding_site_variant: {impact: string}, coding_sequence_variant: {impact: string}, inframe_deletion: {impact: string}, protein_altering_variant: {impact: string}, inframe_insertion: {impact: string}, incomplete_terminal_codon_variant: {impact: string}}>}
+ * @type {Readonly<{start_retained_variant: {impact: string}, intergenic_variant: {impact: string}, frameshift_variant: {impact: string}, splice_acceptor_variant: {impact: string}, intron_variant: {impact: string}, splice_region_variant: {impact: string}, transcript_amplification: {impact: string}, upstream_gene_variant: {impact: string}, stop_gained: {impact: string}, non_coding_transcript_exon_variant: {impact: string}, non_coding_transcript_variant: {impact: string}, regulatory_region_amplification: {impact: string}, start_lost: {impact: string}, transcript_ablation: {impact: string}, splice_donor_variant: {impact: string}, NMD_transcript_variant: {impact: string}, synonymous_variant: {impact: string}, TFBS_amplification: {impact: string}, missense_variant: {impact: string}, regulatory_region_ablation: {impact: string}, feature_elongation: {impact: string}, mature_miRNA_variant: {impact: string}, stop_lost: {impact: string}, 5_prime_UTR_variant: {impact: string}, feature_truncation: {impact: string}, 3_prime_UTR_variant: {impact: string}, regulatory_region_variant: {impact: string}, downstream_gene_variant: {impact: string}, TFBS_ablation: {impact: string}, stop_retained_variant: {impact: string}, TF_binding_site_variant: {impact: string}, coding_sequence_variant: {impact: string}, inframe_deletion: {impact: string}, protein_altering_variant: {impact: string}, inframe_insertion: {impact: string}, incomplete_terminal_codon_variant: {impact: string}}>}
  */
 
 export const CONSEQUENCES_ENUM = Object.freeze({
@@ -52,9 +52,14 @@ export function getColorForConsequence(consequence) {
   if(consequenceLookup){
     return consequenceLookup.color;
   }
+  else if(consequence === '5_prime_UTR_variant'){
+    return CONSEQUENCES_ENUM['five_prime_UTR_variant'].color;
+  }
+  else if(consequence === '3_prime_UTR_variant'){
+    return CONSEQUENCES_ENUM['three_prime_UTR_variant'].color;
+  }
   else{
     console.warn('Consequence ',consequence,'not found')
   }
 
 }
-
