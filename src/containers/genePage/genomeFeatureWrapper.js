@@ -148,7 +148,7 @@ class GenomeFeatureWrapper extends Component {
   }
 
   render() {
-    const {assembly, chromosome, fmin, fmax, id, strand} = this.props;
+    const {assembly, chromosome, fmin, fmax, id, strand, displayType} = this.props;
     const lengthValue = numeral((fmax - fmin) / 1000.0).format('0,0.00');
 
     return (
@@ -172,10 +172,15 @@ class GenomeFeatureWrapper extends Component {
               <LoadingSpinner/>
             </svg>
           </div>
-          <span className='mr-1'>Variant Types and Consequences</span>
-          <HelpPopup id='variant-legend' placement='bottom-start' popperClassName={style.variantLegendPopper}>
-            <span dangerouslySetInnerHTML={{__html: this.helpText}}/>
-          </HelpPopup>
+          {displayType === 'ISOFORM_AND_VARIANT' &&
+          <div>
+            <span className='mr-1'>Variant Types and Consequences</span>
+            <HelpPopup id='variant-legend' placement='bottom-start'
+              popperClassName={style.variantLegendPopper} >
+              <span dangerouslySetInnerHTML={{__html: this.helpText}}/>
+            </HelpPopup>
+          </div>
+          }
           {this.state.loadState === 'error' ?
             <div className='text-danger'>Unable to retrieve data</div> : ''}
         </HorizontalScroll>
