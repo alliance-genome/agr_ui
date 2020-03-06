@@ -2,16 +2,17 @@
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
 
-.searchSection {
-  background-color: hotpink;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.section {
   padding: 3rem 1rem;
 }
 
-.searchSectionInner {
+.searchBackground {
+  background-color: hotpink;
+}
+
+.contentContainer {
   width: 100%;
+  margin: 0 auto;
 
   @include media-breakpoint-up(md) {
     max-width: breakpoint-min(md);
