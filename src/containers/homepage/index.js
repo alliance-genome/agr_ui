@@ -26,15 +26,9 @@ const Homepage = () => {
             <li><SearchExample term='liver' /></li>
           </ul>
           <div className='d-flex justify-content-around'>
-            <ActionButton icon='fa-download' to='/downloads'>
-              Download Data
-            </ActionButton>
-            <ActionButton icon='fa-code' to='/api/swagger-ui'>
-              Browse APIs
-            </ActionButton>
-            <ActionButton icon='fa-book' to='/publications'>
-              Alliance Publications
-            </ActionButton>
+            <ActionButton icon='fa-download' to='/downloads'>Download Data</ActionButton>
+            <ActionButton icon='fa-code' to='/api/swagger-ui'>Browse APIs</ActionButton>
+            <ActionButton icon='fa-book' to='/publications'>Alliance Publications</ActionButton>
           </div>
         </div>
       </section>
