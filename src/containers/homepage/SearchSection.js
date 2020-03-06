@@ -6,8 +6,8 @@ import ActionButton from './ActionButton';
 
 const SearchSection = () => {
   return (
-    <section className={style.searchSection}>
-      <div className={style.searchSectionInner}>
+    <section className={`${style.section} ${style.searchBackground}`}>
+      <div className={style.contentContainer}>
         <h1 className='display-4 mb-4 text-center'>Big Call to Action</h1>
         <h3 className='mb-4 text-center'>A smaller subheading with more text about whatever</h3>
         <div className={style.searchBarContainer}>
