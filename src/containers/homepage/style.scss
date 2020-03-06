@@ -33,6 +33,10 @@
   display: flex;
   justify-content: space-between;
   font-size: 1rem;
+
+  li {
+    padding: 0.25rem;
+  }
 }
 
 .actionButton {
