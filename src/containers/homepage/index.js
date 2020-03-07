@@ -2,6 +2,7 @@ import React from 'react';
 import HeadMetaTags from '../../components/headMetaTags';
 import SearchSection from './SearchSection';
 import AboutSection from './AboutSection';
+import MembersSection from './MembersSection';
 
 const Homepage = () => {
   return (
@@ -9,6 +10,7 @@ const Homepage = () => {
       <HeadMetaTags title='Home' />
       <SearchSection />
       <AboutSection />
+      <MembersSection />
     </div>
   );
 };
