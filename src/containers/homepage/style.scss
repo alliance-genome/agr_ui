@@ -8,7 +8,9 @@
 }
 
 .searchBackground {
-  background-color: hotpink;
+  background: #12bbe9;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(13deg, #ffab55 0%, #cfa3e4 25%, #12bbe9 100%);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(13deg, #ffab55 0%, #cfa3e4 25%, #12bbe9 100%);
 }
 
 .contentContainer {
