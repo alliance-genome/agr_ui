@@ -1,7 +1,10 @@
 const JOIN_HIGHLIGHT_BY = '...';
 
 import { makeFieldDisplayName, makeValueDisplayName } from '../lib/searchHelpers';
-import { NON_HIGHLIGHTED_FIELDS } from '../constants';
+import {
+  DUPLICATE_HIGHLIGHTED_FIELDS,
+  NON_HIGHLIGHTED_FIELDS
+} from '../constants';
 
 function flattenWithPrettyFieldNames(highlights) {
   if (highlights === undefined) { return highlights; }
@@ -31,9 +34,11 @@ export function injectHighlightIntoResponse(responseObj) {
     simpleHighObj[key] = highStr;
     // if it's not excluded from highlighting, add the highlighting and swap
     // it into the original object
-    if (NON_HIGHLIGHTED_FIELDS.indexOf(key) < 0) {
+    if (!NON_HIGHLIGHTED_FIELDS.includes(key)) {
       responseObj[key] = injectHighlightingIntoValue(highStr, responseObj[key]);
-      delete simpleHighObj[key];
+      if (!DUPLICATE_HIGHLIGHTED_FIELDS.includes(key)) {
+        delete simpleHighObj[key];
+      }
     }
   });
   responseObj.highlights = flattenWithPrettyFieldNames(simpleHighObj);
@@ -176,7 +181,7 @@ function parseGoResult(_d) {
   return {
     ...d,
     display_name: d.name,
-    go_branch: makeValueDisplayName(d.go_type),
+    branch: makeValueDisplayName(_d.branch),
     highlight: d.highlights,
     collapsible_synonyms: d.synonyms, //not just named synonyms,
     //so that it can be collapsible when others aren't

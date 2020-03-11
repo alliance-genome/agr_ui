@@ -152,7 +152,7 @@ class ResultsList extends Component {
       } else if (d.category === 'disease') {
         return this.renderDiseaseEntry(d, i);
       } else if (d.category === 'go') {
-        return this.renderEntry(d, i, ['id', 'collapsible_synonyms', 'go_branch']);
+        return this.renderEntry(d, i, ['id', 'collapsible_synonyms', 'branch']);
       } else if (d.category === 'allele') {
         return this.renderEntry(d, i, ['id','genes', 'synonyms','variantTypes','relatedVariants','molecularConsequence', 'diseases']);
       } else {
