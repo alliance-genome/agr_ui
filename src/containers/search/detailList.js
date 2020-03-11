@@ -24,14 +24,14 @@ class DetailList extends Component {
             <CollapsibleList>{value.sort().map(val => <span dangerouslySetInnerHTML={{ __html: val }} key={val} />)}</CollapsibleList>
           );
         } else { //everything else just gets joined
-          value = value.join(JOIN_CHAR);
+          valueNode = <span dangerouslySetInnerHTML={{ __html: value.join(JOIN_CHAR) }} />;
         }
-      }
-
-      if (value && field === 'species') {
-        valueNode = <span><i dangerouslySetInnerHTML={{ __html: value }} /></span>;
       } else {
-        valueNode = <span dangerouslySetInnerHTML={{ __html: value }} />;
+        if (value && field === 'species') {
+          valueNode = <span><i dangerouslySetInnerHTML={{ __html: value }} /></span>;
+        } else {
+          valueNode = <span dangerouslySetInnerHTML={{ __html: value }} />;
+        }
       }
 
       if (!value) {
