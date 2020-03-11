@@ -43,9 +43,15 @@ export const NON_HIGHLIGHTED_FIELDS = [
   'category',
   'homologs',
   'paralogs',
+  'primaryKey',
   'orthologs',
   'homologs.symbol',
   'homologs.panther_family'
+];
+
+//show these fields in both the highlight section and their normal spot
+export const DUPLICATE_HIGHLIGHTED_FIELDS = [
+  'synonyms'
 ];
 
 export const HELP_EMAIL = 'help@alliancegenome.org';
