@@ -14,7 +14,7 @@ const SearchSection = () => {
           <SearchBarComponent autoFocus placeholder='Search' />
         </div>
         <ul className={style.searchExampleList}>
-          <li>Examples</li>
+          <li>Examples:</li>
           <li><SearchExample term='RPB7' /></li>
           <li><SearchExample term='kinase' /></li>
           <li><SearchExample term='asthma' /></li>
