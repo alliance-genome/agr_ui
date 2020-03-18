@@ -7,7 +7,7 @@ const MembersSection = () => {
     <section className={style.section}>
       <div className={style.contentContainer}>
         <h1>Members</h1>
-        <div className='d-flex justify-content-between'>
+        <div className='d-flex flex-wrap'>
           <a className={style.member} href='https://flybase.org/'>
             <img src='https://alliancegenome.files.wordpress.com/2016/11/logo_flybase.png' />
             Flybase

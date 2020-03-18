@@ -46,25 +46,34 @@
 .actionButton {
   color: inherit;
   display: inline-flex;
-  font-size: 1.25rem;
+  flex: 1 0 0;
+  font-size: 1rem;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   padding: 1rem;
 
   &:hover {
     text-decoration: none;
   }
 
+  @include media-breakpoint-up(md) {
+    font-size: 1.25rem;
+  }
+
   .icon {
-    font-size: 4rem;
+    font-size: 250%;
   }
 }
 
 .member {
   width: 12.5%;
+  min-width: 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 auto;
+  padding: 0.25rem;
 
   img {
     max-width: 100%;
