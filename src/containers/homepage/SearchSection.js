@@ -23,7 +23,8 @@ const SearchSection = () => {
         <div className='d-flex justify-content-around'>
           <ActionButton icon='fa-download' to='/downloads'>Download Data</ActionButton>
           <ActionButton icon='fa-code' to='/api/swagger-ui'>Browse APIs</ActionButton>
-          <ActionButton icon='fa-book' to='/publications'>Alliance Publications</ActionButton>
+          <ActionButton icon='fa-book' to='/publications'>View Publications</ActionButton>
+          <ActionButton icon='fa-lightbulb-o' to='/tutorials'>Learn More</ActionButton>
         </div>
       </div>
     </section>
