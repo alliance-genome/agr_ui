@@ -1,7 +1,6 @@
 /*eslint-disable react/no-set-state */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import Autosuggest from 'react-autosuggest';
 import { parse as parseQueryString, stringify as stringifyQuery} from 'query-string';
 import { withRouter } from 'react-router-dom';
@@ -146,7 +145,7 @@ class SearchBarComponent extends Component {
     let _getSuggestionValue = ( d => d.name_key );
     let _inputProps = {
       autoFocus: this.props.autoFocus,
-      placeholder: 'search: RPB7, kinase, asthma, liver',
+      placeholder: this.props.placeholder,
       value: this.state.value,
       onChange: this.handleTyping.bind(this),
     };
@@ -193,14 +192,14 @@ SearchBarComponent.propTypes = {
   location: PropTypes.shape({
     search: PropTypes.string.isRequired,
   }).isRequired,
+  placeholder: PropTypes.string,
 };
 
-function mapStateToProps() {
-  return {
-  };
-}
+SearchBarComponent.defaultProps = {
+  placeholder: 'search: RPB7, kinase, asthma, liver',
+};
 
 const SearchBarComponentWithHistory = withRouter(SearchBarComponent);
 
 export { SearchBarComponentWithHistory as SearchBarComponent };
-export default connect(mapStateToProps)(SearchBarComponentWithHistory);
+export default SearchBarComponentWithHistory;

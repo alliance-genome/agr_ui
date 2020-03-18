@@ -11,7 +11,7 @@ const SearchSection = () => {
         <h1 className='display-4 mb-4 text-center'>Big Call to Action</h1>
         <h3 className='mb-4 text-center'>A smaller subheading with more text about whatever</h3>
         <div className={style.searchBarContainer}>
-          <SearchBarComponent autoFocus />
+          <SearchBarComponent autoFocus placeholder='Search' />
         </div>
         <ul className={style.searchExampleList}>
           <li>Examples</li>
