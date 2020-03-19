@@ -6,6 +6,9 @@ import { HELP_EMAIL } from '../constants';
 class HeadMetaTags extends Component {
   render() {
     const title = `${this.props.title} | Alliance of Genome Resources`;
+    const logo = 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner_1_flyin_logo.png';
+    const description = 'I thought we already set this';
+    const url = 'https://alliancegenome.org';
     let jsonLd = this.props.jsonLd || [];
     if (!Array.isArray(jsonLd)) {
       jsonLd = [jsonLd];
@@ -44,10 +47,16 @@ class HeadMetaTags extends Component {
     return (
       <Helmet
         meta={[
-          {property: 'og:title', content: {title}, property: 'og:image', content: {logo}, property: 'og:description', content: {description}, property: 'og:url', content: {url},}
+          {property: 'og:title', content: {title}},
+          {property: 'og:image', content: {logo}},
+          {property: 'og:description', content: {description}},
+          {property: 'og:url', content: {url}}
         ]}
         script={scripts}
         title={title}
+        logo={logo}
+        description={description}
+        url={url}
       />
     );
   }
