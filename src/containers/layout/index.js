@@ -7,14 +7,12 @@ import Loader from './loader/index';
 import logo from './agrLogo.png';
 import SearchBar from './searchBar';
 import TopBar from './topBar';
-import FooterBar from './footerBar';
-import SiteMap from './siteMap';
-import AgrTweets from './twitterWidget';
 import { MenuItems } from './navigation';
 import { selectWarningBanner } from '../../selectors/wordpressSelectors';
 import { fetchWarningBanner } from '../../actions/wordpress';
 import ReplaceLinks from '../wordpress/ReplaceLinks';
 import { selectPageLoading } from '../../selectors/loadingSelector';
+import Footer from './Footer';
 
 class Layout extends Component {
   componentDidMount() {
@@ -90,24 +88,7 @@ class Layout extends Component {
           </div>
         </div>
 
-        <div className={style.siteMapContainer}>
-          <div className='container'>
-            <div className='row'>
-              <div className='col-sm-6 col-md-6 col-12'>
-                <div>
-                  <h4>Recent Tweets</h4>
-                </div>
-                <div id='tweets'>
-                  <AgrTweets />
-                </div>
-              </div>
-              <div className='col-sm-6 col-md-6 col-12'>
-                <SiteMap />
-              </div>
-            </div>
-          </div>
-        </div>
-        <FooterBar />
+        <Footer />
       </div>
     );
   }
