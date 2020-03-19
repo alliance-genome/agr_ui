@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import { HELP_EMAIL } from '../../constants';
-import SocialMedia from './socialMedia';
+import SocialMedia from './SocialMedia';
 
 import style from './style.scss';
 

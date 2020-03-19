@@ -3,10 +3,10 @@
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
 
-.socialLinks a {
+.socialLinks i {
   padding-left: 0.3rem;
-  color: white;
   font-size: 20px;
+  vertical-align: middle;
 }
 
 .content {
@@ -22,39 +22,6 @@
   }
 }
 
-.site_map {
-  margin: 0;
-  padding: 0;
-}
-
-.site_map .navContainer {
-  border-bottom: solid 1px rgba(255, 255, 255, 0.15);
-}
-
-.site_map .navLink {
-  color: #ffffff !important;
-  padding: 0.5rem;
-  text-align: left;
-}
-
-.site_map .sub_nav {
-  margin-left: 1.5em;
-}
-
-.site_map .sub_nav > ul {
-  margin: 0;
-}
-
-.site_map .subMenuListItem {
-  background: transparent;
-  border-top: solid 1px rgba(255, 255, 255, 0.15);
-  padding: 0.5rem;
-}
-
-.site_map .sub_nav_link {
-  color: #efefef;
-}
-
 .loaderContentContainer {
   position: relative;
 }
@@ -62,23 +29,6 @@
 .contentContainer {
   min-height: 400px;
   padding-top: 1rem;
-}
-
-.siteMapContainer {
-  background: #3E82BF;
-  color: #ffffff;
-  padding-top: 1.5em;
-  padding-bottom: 2.5em;
-}
-
-.siteMapContainer .sectionHeader {
-  border-bottom: solid 1px #eee;
-  padding: 0;
-}
-
-.footerBar {
-  padding: 1rem;
-  background: #2F72B5;
 }
 
 .agrLogo {
@@ -108,5 +58,30 @@
 
   @include media-breakpoint-up(md) {
     max-width: 500px;
+  }
+}
+
+.footer {
+  background-color: $primary;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  color: white;
+
+  @include media-breakpoint-up(md) {
+    flex-direction: row;
+  }
+
+  a {
+    color: white;
+  }
+
+  .siteMapHeader {
+    font-weight: bold;
+  }
+
+  .socialLinks {
+    display: flex;
+    flex-direction: column;
   }
 }
