@@ -7,7 +7,7 @@ class HeadMetaTags extends Component {
   render() {
     const title = `${this.props.title} | Alliance of Genome Resources`;
     const logo = 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner_1_flyin_logo.png';
-    const description = 'I thought we already set this';
+    const description = 'The primary mission of the Alliance of Genome Resources (the Alliance) is to develop and maintain sustainable genome information resources that facilitate the use of diverse model organisms in understanding the genetic and genomic basis of human biology, health and disease. This understanding is fundamental for advancing genome biology research and for translating human genome data into clinical utility.';
     const url = 'https://alliancegenome.org';
     let jsonLd = this.props.jsonLd || [];
     if (!Array.isArray(jsonLd)) {
