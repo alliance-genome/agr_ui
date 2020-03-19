@@ -44,7 +44,7 @@ class HeadMetaTags extends Component {
     return (
       <Helmet
         meta={[
-          {property: 'og:title', content: {title}}
+          {property: 'og:title', content: {title}, property: 'og:image', content: {logo}, property: 'og:description', content: {description}, property: 'og:url', content: {url},}
         ]}
         script={scripts}
         title={title}
