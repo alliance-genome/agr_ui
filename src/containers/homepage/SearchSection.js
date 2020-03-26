@@ -20,7 +20,7 @@ const SearchSection = () => {
           <li><SearchExample term='asthma' /></li>
           <li><SearchExample term='liver' /></li>
         </ul>
-        <div className='d-flex justify-content-around'>
+        <div className='d-flex justify-content-around flex-wrap'>
           <ActionButton icon='fa-download' to='/downloads'>Download Data</ActionButton>
           <ActionButton icon='fa-code' to='/api/swagger-ui'>Browse APIs</ActionButton>
           <ActionButton icon='fa-book' to='/publications'>View Publications</ActionButton>
