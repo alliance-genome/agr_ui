@@ -76,6 +76,36 @@
     color: white;
   }
 
+  .footerLogo {
+    margin-right: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .siteMapContainer {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 255px;
+
+    @include media-breakpoint-up(md) {
+      height: 210px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      height: 190px;
+    }
+  }
+
+  .siteMapGroup {
+    margin-bottom: 0.5rem;
+    width: 50%;
+
+    @include media-breakpoint-up(md) {
+      width: 33%;
+    }
+  }
+
   .siteMapHeader {
     font-weight: bold;
   }

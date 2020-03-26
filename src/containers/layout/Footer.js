@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import logo from './logofooter-1.png';
+import logo from './alliance-logo-white.png';
 import SocialMedia from './SocialMedia';
 import SiteMap from './SiteMap';
 
@@ -9,15 +9,19 @@ import style from './style.scss';
 const Footer = () => {
   return (
     <footer className={style.footer}>
-      <Link className='mr-2 mb-2' to='/'>
-        <img alt='Alliance of Genome Resources logo' height='50' src={logo} />
-      </Link>
+      <div className='container d-flex flex-column flex-lg-row'>
+        <div className={style.footerLogo}>
+          <Link to='/'>
+            <img alt='Alliance of Genome Resources logo' height='50' src={logo} />
+          </Link>
+        </div>
 
-      <SiteMap />
+        <SiteMap />
 
-      <div className='flex-shrink-0 px-md-3'>
-        <span className={style.siteMapHeader}>Connect With Us</span>
-        <SocialMedia showText />
+        <div className='flex-shrink-0 px-lg-3'>
+          <span className={style.siteMapHeader}>Connect With Us</span>
+          <SocialMedia showText />
+        </div>
       </div>
     </footer>
   );
