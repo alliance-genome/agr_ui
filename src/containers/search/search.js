@@ -102,6 +102,7 @@ class SearchComponent extends Component {
   }
 
   render() {
+    const { queryParams } = this.props;
     if (!this.props.isReady) return <LoadingPage />;
     let title = 'Search ' + (this.props.queryParams.q || '');
     return (
@@ -110,15 +111,16 @@ class SearchComponent extends Component {
         <HeadMetaTags title={title} />
         <div className='row'>
           <div className={SMALL_COL_CLASS}>
-            <FilterSelector queryParams={this.props.queryParams} />
+            <FilterSelector queryParams={queryParams} />
           </div>
           <div className={LARGE_COL_CLASS}>
-            <p>
-              <TotalCount /> results <SearchBreadcrumbs queryParams={this.props.queryParams} />
-            </p>
-            <SearchControls queryParams={this.props.queryParams} />
+            <div className='mb-2'>
+              <TotalCount /> results {queryParams.q && <span>for <b>{queryParams.q}</b></span>}
+            </div>
+            <SearchBreadcrumbs queryParams={queryParams} />
+            <SearchControls queryParams={queryParams} />
             {this.renderResultsNode()}
-            <SearchControls queryParams={this.props.queryParams} />
+            <SearchControls queryParams={queryParams} />
           </div>
         </div>
       </div>
