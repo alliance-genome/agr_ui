@@ -13,8 +13,8 @@ import CollapsibleFacet from './collapsibleFacet';
 import {
   selectActiveCategory,
   selectAggregations,
-  selectIsPending,
 } from '../../../selectors/searchSelectors';
+import {selectPageLoading} from '../../../selectors/loadingSelector';
 
 class FilterSelectorComponent extends Component {
   renderFilters() {
@@ -86,7 +86,7 @@ function mapStateToProps(state) {
   return {
     activeCategory:  selectActiveCategory(state),
     aggregations: selectAggregations(state),
-    isPending: selectIsPending(state),
+    isPending: selectPageLoading(state),
   };
 }
 
