@@ -29,6 +29,7 @@ import {
   selectPageSize
 } from '../../selectors/searchSelectors';
 import {setPageLoading} from '../../actions/loadingActions';
+import TotalCount from './TotalCount';
 
 const BASE_SEARCH_URL = '/api/search';
 
@@ -112,7 +113,9 @@ class SearchComponent extends Component {
             <FilterSelector queryParams={this.props.queryParams} />
           </div>
           <div className={LARGE_COL_CLASS}>
-            <SearchBreadcrumbs queryParams={this.props.queryParams} />
+            <p>
+              <TotalCount /> results <SearchBreadcrumbs queryParams={this.props.queryParams} />
+            </p>
             <SearchControls queryParams={this.props.queryParams} />
             {this.renderResultsNode()}
             <SearchControls queryParams={this.props.queryParams} />

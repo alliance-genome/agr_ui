@@ -5,15 +5,16 @@ import { connect } from 'react-redux';
 
 import style from './style.scss';
 import { getQueryParamWithoutPage, makeValueDisplayName, makeTitleCaseFieldDisplayName } from '../../lib/searchHelpers';
-import { selectIsPending, selectTotal } from '../../selectors/searchSelectors.js';
+import { selectTotal } from '../../selectors/searchSelectors.js';
 import { stringify } from 'query-string';
 
 import CategoryLabel from './categoryLabel.js';
+import {selectPageLoading} from '../../selectors/loadingSelector';
 
 const IGNORED_PARAMS = ['page', 'mode'];
 const SORT_PRIORITY = ['category', 'q'];
 
-class SearchBreadcrumbsComponent extends Component {
+class SearchBreadcrumbs extends Component {
   renderCrumbValues(key, values) {
     return values.map( (d, i) => {
       let newQp = getQueryParamWithoutPage(key,d,this.props.queryParams);
@@ -48,21 +49,12 @@ class SearchBreadcrumbsComponent extends Component {
     return crumbs;
   }
 
-  renderTotalNode() {
-    if (this.props.isPending) return <span className={style.totalPending} />;
-    return <span>{this.props.total.toLocaleString()}</span>;
-  }
-
   render() {
-    return (
-      <div>
-        <p>{this.renderTotalNode()} results {this.renderCrumbs()}</p>
-      </div>
-    );
+    return this.renderCrumbs();
   }
 }
 
-SearchBreadcrumbsComponent.propTypes = {
+SearchBreadcrumbs.propTypes = {
   isPending: PropTypes.bool,
   queryParams: PropTypes.object,
   total: PropTypes.number
@@ -70,10 +62,9 @@ SearchBreadcrumbsComponent.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    isPending: selectIsPending(state),
+    isPending: selectPageLoading(state),
     total: selectTotal(state)
   };
 }
 
-export { SearchBreadcrumbsComponent as SearchBreadcrumbsComponent };
-export default connect(mapStateToProps)(SearchBreadcrumbsComponent);
+export default connect(mapStateToProps)(SearchBreadcrumbs);
