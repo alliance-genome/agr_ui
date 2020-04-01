@@ -11,7 +11,7 @@ export const FETCH_INTERACTIONS = 'FETCH_INTERACTIONS';
 export const FETCH_MODELS = 'FETCH_MODELS';
 
 export const fetchGene = createFetchAction(FETCH_GENE, id => `/api/gene/${id}`);
-export const fetchOrthologs = createFetchAction(FETCH_ORTHOLOGS, id => `/api/gene/${id}/homologs?stringencyFilter=all`);
+export const fetchOrthologs = createFetchAction(FETCH_ORTHOLOGS, id => `/api/gene/${id}/homologs?filter.stringency=all&limit=10000`);
 export const fetchAlleles = createFetchAction(
   FETCH_ALLELES,
   (id, opts) => `/api/gene/${id}/alleles?${buildTableQueryString(opts)}`

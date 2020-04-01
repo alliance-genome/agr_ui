@@ -87,11 +87,11 @@ class RemoteDataTable extends Component {
   }
 
   render() {
-    const { columns, data = [], downloadUrl, keyField, loading, sortOptions, summaryProps, totalRows } = this.props;
+    const { columns, data = [], downloadUrl, keyField, loading, noDataMessage, sortOptions, summaryProps, totalRows } = this.props;
     const { filters, page, sizePerPage, sort } = this.state;
 
     if (!loading && filters == null && totalRows === 0) {
-      return <NoData />;
+      return <NoData>{noDataMessage}</NoData>;
     }
 
     const pagination = paginationFactory({
@@ -210,6 +210,7 @@ RemoteDataTable.propTypes = {
   downloadUrl: PropTypes.string,
   keyField: PropTypes.string,
   loading: PropTypes.bool,
+  noDataMessage: PropTypes.string,
   onUpdate: PropTypes.func,
   sortOptions: PropTypes.array,
   summaryProps: PropTypes.object,

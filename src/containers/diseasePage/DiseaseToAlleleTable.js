@@ -37,9 +37,9 @@ const DiseaseToAlleleTable = ({associations, fetchAssociations, id}) => {
       filterName: 'alleleName',
     },
     {
-      dataField: 'gene',
+      dataField: 'allele',
       text: 'Species',
-      formatter: gene => <SpeciesCell species={gene.species}/>,
+      formatter: allele => <SpeciesCell species={allele.species}/>,
       filterable: getDistinctFieldValue(associations, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       headerStyle: {width: '105px'},
       filterName: 'species',

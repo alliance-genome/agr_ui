@@ -6,6 +6,9 @@ import GenomeFeatureWrapper from '../genePage/genomeFeatureWrapper';
 
 const AlleleSequenceView = ({allele, variants}) => {
 
+  if (!allele.gene) {
+    return null;
+  }
 
   const genomeLocations = allele.gene.genomeLocations;
   const genomeLocation = genomeLocations && genomeLocations.length > 0 ? genomeLocations[0] : null;
