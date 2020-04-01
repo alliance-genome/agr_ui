@@ -35,7 +35,7 @@ const VariantJBrowseLink = ({children, location, type, geneSymbol, geneLocation,
 };
 
 VariantJBrowseLink.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.node,
   geneLocation: PropTypes.shape({
     start: PropTypes.number,
     end: PropTypes.number,
