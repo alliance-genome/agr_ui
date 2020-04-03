@@ -8,7 +8,12 @@ function drawDeletion  (color,label) {
 function drawDeletionForConsequence  (consequencesName) {
     // let consequence = CONSEQUENCES_ENUM[consequencesName];
     // console.log(consequnece,Object.getOwnPropertyNames(consequnece),Object.getOwnPropertyNames(CONSEQUENCES_ENUM))
-    return drawDeletion(CONSEQUENCES_ENUM[consequencesName].color,consequencesName.replace(/_/g," "));
+    if(consequencesName == 'unknown'){
+      return drawDeletion('grey',consequencesName.replace(/_/g," "));
+    }
+    else{
+      return drawDeletion(CONSEQUENCES_ENUM[consequencesName].color,consequencesName.replace(/_/g," "));
+    }
 };
 
 export function createLegendBox() {
@@ -47,6 +52,7 @@ export function createLegendBox() {
     returnString += `<li>${drawDeletionForConsequence('three_prime_UTR_variant')}</li>`;
     returnString += `<li>${drawDeletionForConsequence('intron_variant')}</li>`;
     returnString += `<li>${drawDeletionForConsequence('non_coding_transcript_variant')}</li>`;
+    returnString += `<li>${drawDeletionForConsequence('unknown')}</li>`;
     returnString += `</ul></td>`;
     returnString += `</tr>`;
     returnString += `<tr>`;
