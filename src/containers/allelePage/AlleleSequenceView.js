@@ -4,6 +4,8 @@ import {selectVariants} from '../../selectors/alleleSelectors';
 import {connect} from 'react-redux';
 import GenomeFeatureWrapper from '../genePage/genomeFeatureWrapper';
 
+
+
 const AlleleSequenceView = ({allele, variants}) => {
 
   if (!allele.gene) {
@@ -15,14 +17,34 @@ const AlleleSequenceView = ({allele, variants}) => {
   if (!genomeLocation || variants.loading || variants.error || variants.data.length === 0) {
     return null;
   }
+
+  let fmax = genomeLocation.end;
+  let fmin = genomeLocation.start;
+
+  try{
+    if(variants && variants.data){
+      for(let variant of variants.data){
+        if(variant.location.start < fmin ){
+          fmin = variant.location.start ;
+        }
+        if(variant.location.end  > fmax ){
+          fmax = variant.location.end ;
+        }
+      }
+    }
+  }
+  catch(e){
+    console.error(e);
+  }
+
   return (
     <GenomeFeatureWrapper
       assembly={genomeLocation.assembly}
       biotype='gene'
       chromosome={genomeLocation.chromosome}
       displayType='ISOFORM_AND_VARIANT'
-      fmax={genomeLocation.end}
-      fmin={genomeLocation.start}
+      fmax={fmax}
+      fmin={fmin}
       geneSymbol={allele.symbol}
       height='200px'
       id='genome-feature-location-id'
