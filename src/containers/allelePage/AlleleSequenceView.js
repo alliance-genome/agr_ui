@@ -5,18 +5,7 @@ import {connect} from 'react-redux';
 import GenomeFeatureWrapper from '../genePage/genomeFeatureWrapper';
 
 
-
-const AlleleSequenceView = ({allele, variants}) => {
-
-  if (!allele.gene) {
-    return null;
-  }
-
-  const genomeLocations = allele.gene.genomeLocations;
-  const genomeLocation = genomeLocations && genomeLocations.length > 0 ? genomeLocations[0] : null;
-  if (!genomeLocation || variants.loading || variants.error || variants.data.length === 0) {
-    return null;
-  }
+function findFminFmax(genomeLocation,variants){
 
   let fmax = genomeLocation.end;
   let fmin = genomeLocation.start;
@@ -36,6 +25,22 @@ const AlleleSequenceView = ({allele, variants}) => {
   catch(e){
     console.error(e);
   }
+  return {fmin,fmax};
+}
+
+const AlleleSequenceView = ({allele, variants}) => {
+
+  if (!allele.gene) {
+    return null;
+  }
+
+  const genomeLocations = allele.gene.genomeLocations;
+  const genomeLocation = genomeLocations && genomeLocations.length > 0 ? genomeLocations[0] : null;
+  if (!genomeLocation || variants.loading || variants.error || variants.data.length === 0) {
+    return null;
+  }
+
+  const {fmin,fmax} = findFminFmax(genomeLocation,variants)
 
   return (
     <GenomeFeatureWrapper
