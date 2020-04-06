@@ -83,31 +83,36 @@ export function parseResults(results) {
 }
 
 export function parseAggs(rawAggs, queryObject) {
-  return rawAggs.map( d => {
-    let _values = d.values.map( _d => {
-      let currentValue = queryObject[d.key];
-      let _isActive;
-      // look at array fields differently
-      if (typeof currentValue === 'object') {
-        _isActive = (currentValue.indexOf(_d.key) >= 0);
-      } else {
-        _isActive = _d.key === currentValue;
-      }
-      return {
-        name: _d.key,
-        displayName: makeValueDisplayName(_d.key),
-        key: _d.key,
-        total: _d.total,
-        isActive: _isActive
-      };
-    });
-    return {
-      name: d.key,
-      displayName: makeFieldDisplayName(d.key),
-      key: d.key,
-      values: _values
-    };
-  });
+  return rawAggs.map( d => parseAgg(d, queryObject));
+}
+
+function parseAgg(agg, queryObject) {
+  let currentValue = queryObject[agg.key];
+  let _values = agg.values.map( value => parseValue(value, currentValue));
+  return {
+    name: agg.key,
+    displayName: makeFieldDisplayName(agg.key),
+    key: agg.key,
+    values: _values
+  };
+}
+
+function parseValue(value, currentValue) {
+  let _isActive;
+  // look at array fields differently
+  if (typeof currentValue === 'object') {
+    _isActive = (currentValue.indexOf(value.key) >= 0);
+  } else {
+    _isActive = value.key === currentValue;
+  }
+  return {
+    name: value.key,
+    displayName: makeValueDisplayName(value.key),
+    key: value.key,
+    total: value.total,
+    values: value.values.map( v => parseValue(v, currentValue)),
+    isActive: _isActive
+  };
 }
 
 function parseCoordinates(d) {

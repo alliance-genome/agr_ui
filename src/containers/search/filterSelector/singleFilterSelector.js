@@ -8,7 +8,6 @@ import { stringify as stringifyQuery } from 'query-string';
 
 import style from './style.scss';
 import {getQueryParamWithoutPage} from '../../../lib/searchHelpers';
-import getSpeciesColorScale from '../../../lib/getSpeciesColorScale';
 import CategoryLabel from '../categoryLabel';
 
 const DELIMITER = '@@';
@@ -41,35 +40,33 @@ class SingleFilterSelector extends Component {
 
   renderFilterValues() {
     let values = this.props.values.slice(0, this.state.numVisible);
-    let mode = this.props.queryParams.mode;
-    let isGraphMode = (this.props.name === 'species' && (mode === 'graph' || mode === 'chord'));
-    return values.map( d => {
-      let classSuffix = d.isActive ? ' active' : '';
-      let _key = `fv.${this.props.name}.${d.name}`;
-      let nameNode;
-      if (this.props.name.match('species')) {
-        nameNode = <i>{d.displayName}</i>;
-      } else if (this.props.name === 'category') {
-        nameNode = <CategoryLabel category={d.name} />;
-      } else {
-        nameNode = <span>{d.displayName}</span>;
-      }
-      let dotNode = null;
-      if (isGraphMode) {
-        let color = getSpeciesColorScale()(d.name);
-        dotNode = <span className={style.colorDot} style={{ background: color }} />;
-      }
-      let newQueryObj = getQueryParamWithoutPage(this.props.name, d.key, this.props.queryParams);
-      return (
-        <li className='nav-item' key={_key}>
-          <Link className={`nav-link${classSuffix}`} to={{ pathname: SEARCH_PATH, search: stringifyQuery(newQueryObj) }}>
-            <span className={style.aggLink}>
-              <span className={style.aggLinkLabel}>{dotNode}{nameNode}</span><span>{d.total.toLocaleString()}</span>
-            </span>
-          </Link>
-        </li>
-      );
-    });
+    return values.map( value => this.renderValue(value));
+  }
+
+  renderValue(value) {
+    let classSuffix = value.isActive ? ' active' : '';
+    let _key = `fv.${this.props.name}.${value.name}`;
+    let nameNode;
+    if (this.props.name.match('species')) {
+      nameNode = <i>{value.displayName}</i>;
+    } else if (this.props.name === 'category') {
+      nameNode = <CategoryLabel category={value.name} />;
+    } else {
+      nameNode = <span>{value.displayName}</span>;
+    }
+    let dotNode = null;
+    let newQueryObj = getQueryParamWithoutPage(this.props.name, value.key, this.props.queryParams);
+    let values = value.values.map (v => this.renderValue(v));
+    return (
+      <li className='nav-item' key={_key}>
+        <Link className={`nav-link${classSuffix}`} to={{ pathname: SEARCH_PATH, search: stringifyQuery(newQueryObj) }}>
+          <span className={style.aggLink}>
+            <span className={style.aggLinkLabel}>{dotNode}{nameNode}</span><span>{value.total.toLocaleString()}</span>
+          </span>
+        </Link>
+        {values}
+      </li>
+    );
   }
 
   handleControlClick(e) {
