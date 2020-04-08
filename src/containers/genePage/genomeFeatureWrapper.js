@@ -175,8 +175,11 @@ class GenomeFeatureWrapper extends Component {
           {displayType === 'ISOFORM_AND_VARIANT' &&
           <div>
             <span className='mr-1'>Variant Types and Consequences</span>
-            <HelpPopup id='variant-legend' placement='bottom-start'
-              popperClassName={style.variantLegendPopper} >
+            <HelpPopup
+              id='variant-legend'
+              placement='bottom-start'
+              popperClassName={style.variantLegendPopper}
+            >
               <span dangerouslySetInnerHTML={{__html: this.helpText}}/>
             </HelpPopup>
           </div>
