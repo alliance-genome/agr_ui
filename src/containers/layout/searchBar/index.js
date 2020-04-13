@@ -29,6 +29,20 @@ class SearchBarComponent extends Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    const { location } = this.props;
+    if (location.search && location.search !== prevProps.location.search) {
+      const queryOptions = parseQueryString(location.search);
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        value: queryOptions.q || '',
+        catOption: queryOptions.category ?
+          CATEGORIES.find(cat => cat.name === queryOptions.category) :
+          DEFAULT_CAT,
+      });
+    }
+  }
+
   handleClear() {
     this.setState({ autoOptions: [] });
   }
@@ -81,7 +95,7 @@ class SearchBarComponent extends Component {
   handleSelected(event, item) {
     //gene and disease will go to the pages and skip search results,
     //go terms and alleles will just go to regular search pages as the query
-    if (item.method == 'click') {
+    if (item.method === 'click') {
       const id = item.suggestion.primaryKey;
       const url = getURLForEntry(item.suggestion.category, id);
       if (url) {
