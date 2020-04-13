@@ -30,6 +30,9 @@ import {
 } from '../../selectors/searchSelectors';
 import {setPageLoading} from '../../actions/loadingActions';
 import TotalCount from './TotalCount';
+import {SearchBarComponent} from '../layout/searchBar';
+
+import homeStyle from '../homepage/style.scss';
 
 const BASE_SEARCH_URL = '/api/search';
 
@@ -106,24 +109,32 @@ class SearchComponent extends Component {
     if (!this.props.isReady) return <LoadingPage />;
     let title = 'Search ' + (this.props.queryParams.q || '');
     return (
-      <div className='container'>
-        {this.renderErrorNode()}
-        <HeadMetaTags title={title} />
-        <div className='row'>
-          <div className={SMALL_COL_CLASS}>
-            <FilterSelector queryParams={queryParams} />
-          </div>
-          <div className={LARGE_COL_CLASS}>
-            <div className='mb-2'>
-              <TotalCount /> results {queryParams.q && <span>for <b>{queryParams.q}</b></span>}
-            </div>
-            <SearchBreadcrumbs queryParams={queryParams} />
-            <SearchControls queryParams={queryParams} />
-            {this.renderResultsNode()}
-            <SearchControls queryParams={queryParams} />
+      <React.Fragment>
+        <div className={homeStyle.contentContainer}>
+          <div style={{fontSize: '150%', padding: '2rem'}}>
+            <SearchBarComponent />
           </div>
         </div>
-      </div>
+
+        <div className='container'>
+          {this.renderErrorNode()}
+          <HeadMetaTags title={title} />
+          <div className='row mb-3'>
+            <div className={SMALL_COL_CLASS}>
+              <FilterSelector queryParams={queryParams} />
+            </div>
+            <div className={LARGE_COL_CLASS}>
+              <div className='d-flex justify-content-between'>
+                <span><TotalCount /> results {queryParams.q && <span>for <b>{queryParams.q}</b></span>}</span>
+                <SearchControls queryParams={queryParams} />
+              </div>
+              <SearchBreadcrumbs queryParams={queryParams} />
+              {this.renderResultsNode()}
+              <SearchControls queryParams={queryParams} />
+            </div>
+          </div>
+        </div>
+      </React.Fragment>
     );
   }
 }
