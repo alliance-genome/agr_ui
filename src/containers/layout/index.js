@@ -6,7 +6,6 @@ import style from './style.scss';
 import Loader from './loader/index';
 import logo from './agrLogo.png';
 import SearchBar from './searchBar';
-import TopBar from './topBar';
 import { MenuItems } from './navigation';
 import { selectWarningBanner } from '../../selectors/wordpressSelectors';
 import { fetchWarningBanner } from '../../actions/wordpress';
@@ -47,10 +46,6 @@ class Layout extends Component {
         {warningBanner &&
           <div className={style.warningBar}><ReplaceLinks html={warningBanner.content.rendered} /></div>
         }
-
-        <div className='d-none d-md-block'>
-          <TopBar />
-        </div>
 
         <div className='container-fluid'>
           <div className='row align-items-center'>
