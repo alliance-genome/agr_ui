@@ -1,16 +1,16 @@
+@import "../../theme";
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
 
 .section {
   padding: 3rem 1rem;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid $border-color;
 }
 
 .searchBackground {
-  background: #12bbe9;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(13deg, #ffab55 0%, #cfa3e4 25%, #12bbe9 100%);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(13deg, #ffab55 0%, #cfa3e4 25%, #12bbe9 100%);
+  background: $primary-400;  /* fallback for old browsers */
+  background: linear-gradient(13deg, $accent-400 0%, $tertiary-400 25%, $primary-400 100%);
 }
 
 .contentContainer {
