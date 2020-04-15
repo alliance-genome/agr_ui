@@ -21,7 +21,7 @@ $page-nav-width: 220px;
   padding: 0 15px;
 
   @include media-breakpoint-up(md) {
-    border-left: 1px solid $hr-border-color;
+    border-left: 1px solid $border-color;
     max-width: calc(100vw - #{$page-nav-width});
   }
 }
@@ -59,7 +59,7 @@ $page-nav-width: 220px;
     color: $gray-700;
 
     @include media-breakpoint-up(md) {
-      border-bottom: 1px solid $hr-border-color;
+      border-bottom: 1px solid $border-color;
     }
 
     h4 {

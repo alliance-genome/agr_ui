@@ -59,12 +59,11 @@ $boolean-true-green: #dff0d8;
 $font-family-sans-serif: Lato, Helvetica, sans-serif;
 $font-size-base: 0.9rem;
 
-$hr-border-color: rgba(0, 0, 0, 0.125);
-
 $popover-max-width: 400px;
 
 $navbar-dark-color: rgba(white, 0.8);
 $navbar-dark-hover-color: rgba(white, 0.95);
+$card-border-color: $border-color;
 
 // ribbon overrides
 $ribbon-species-icon: './components/speciesIcon/speciesSprite.png';
