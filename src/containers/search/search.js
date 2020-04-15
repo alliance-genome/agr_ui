@@ -16,6 +16,8 @@ import { receiveResponse, setError } from '../../actions/search';
 import LoadingPage from '../../components/loadingPage';
 import HeadMetaTags from '../../components/headMetaTags';
 
+import style from './style.scss';
+
 // used to test rendering fixture response
 import fixtureResponse from './tests/fixtureResponse';
 
@@ -31,8 +33,6 @@ import {
 import {setPageLoading} from '../../actions/loadingActions';
 import TotalCount from './TotalCount';
 import {SearchBarComponent} from '../layout/searchBar';
-
-import homeStyle from '../homepage/style.scss';
 
 const BASE_SEARCH_URL = '/api/search';
 
@@ -110,9 +110,11 @@ class SearchComponent extends Component {
     let title = 'Search ' + (this.props.queryParams.q || '');
     return (
       <React.Fragment>
-        <div className={homeStyle.contentContainer}>
-          <div style={{fontSize: '150%', padding: '2rem'}}>
-            <SearchBarComponent />
+        <div className={style.searchBarBackground}>
+          <div className='container'>
+            <div className={style.searchBarContainer}>
+              <SearchBarComponent />
+            </div>
           </div>
         </div>
 

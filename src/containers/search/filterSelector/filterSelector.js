@@ -58,11 +58,11 @@ class FilterSelectorComponent extends Component {
   render() {
     return (
       <div>
-        <div className={`d-none d-md-block ${style.aggContainer}`}>
+        <div className='d-none d-md-block'>
           {this.renderCatSelector()}
           {this.renderFilters()}
         </div>
-        <div className={`d-block d-md-none ${style.aggContainer}`}>
+        <div className='d-block d-md-none'>
           <CollapsibleFacet label='Filter'>
             <div className={style.mobileFacetList}>
               {this.renderCatSelector()}

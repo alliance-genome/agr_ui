@@ -1,12 +1,33 @@
 @import "../../theme";
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
 
 .controlContainer {
 	float: right;
 	margin-top: 0.25rem;
 	display: flex;
 	justify-content: space-between;
+}
+
+.searchBarBackground {
+  background: $primary-200;  /* fallback for old browsers */
+  background: linear-gradient(7deg, $accent-200 -20%, $tertiary-200 25%, $primary-200 100%);
+  border-bottom: 1px solid $border-color;
+
+  @include media-breakpoint-up(md) {
+    margin-bottom: 2rem;
+  }
+}
+
+.searchBarContainer {
+  font-size: 100%;
+  padding: 1rem 0;
+
+  @include media-breakpoint-up(md) {
+    font-size: 150%;
+    padding: 2rem 0;
+  }
 }
 
 .searchLabel {

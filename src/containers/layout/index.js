@@ -66,7 +66,7 @@ class Layout extends Component {
             </div>
             <div className='col-md d-flex justify-content-md-end'>
               <div className={style.headerSearchContainer}>
-                {location.pathname !== '/' && <SearchBar />}
+                {location.pathname !== '/' && location.pathname !== '/search' && <SearchBar />}
               </div>
             </div>
           </div>

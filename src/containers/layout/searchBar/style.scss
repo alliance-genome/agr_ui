@@ -1,4 +1,11 @@
 @import "../../../theme";
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+.searchBarOuter {
+  border-radius: $border-radius;
+  box-shadow: 0 .075em .075em rgba(black, .3);
+}
 
 .dropdownItem {
 	padding-left: 0.5rem;
