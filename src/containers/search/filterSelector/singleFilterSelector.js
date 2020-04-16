@@ -56,7 +56,7 @@ class SingleFilterSelector extends Component {
     }
     let dotNode = null;
     let newQueryObj = getQueryParamWithoutPage(this.props.name, value.key, this.props.queryParams);
-    let values = value.values.map (v => this.renderValue(v));
+    let values = <ul class={style.filterList}>{value.values.map (v => this.renderValue(v))}</ul>;
     return (
       <li className='nav-item' key={_key}>
         <Link className={`nav-link${classSuffix}`} to={{ pathname: SEARCH_PATH, search: stringifyQuery(newQueryObj) }}>
