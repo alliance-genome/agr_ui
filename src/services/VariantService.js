@@ -34,8 +34,8 @@ function findVariantBinIndexForPosition(variantBins,variant,buffer) {
     const relativeMin = fb.fmin + buffer;
     const relativeMax = fb.fmax - buffer;
 
-    // they can share type so long as neither is a deletion
-    if( (type==='deletion' || fb.type ==='deletion') && type !== fb.type ) return false ;
+    // They cannot share a bin if they are different types.
+    if( type !== fb.type ) return false ;
 
     // if we overlap thAe min edge then take the minimum and whatever the maximum and add
     if(relativeMin <= fmin && relativeMax >= fmin){
@@ -396,4 +396,24 @@ export function getVariantSymbol(variant){
   // return  (symbol.length>20 ? symbol.substr(0,20) : symbol).replace(/"/g,"");
   symbol = symbol.replace (/<sup>/," ");
   return symbol.replace(/"|<\/sup>/g,"");
+}
+
+export function getVariantTrackPositions(variantData){
+  let presentVariants=[];
+  for (var variant of variantData){
+    if (variant.type.toLowerCase() === 'deletion') {
+      presentVariants.push('deletion');
+    }
+    else if (variant.type.toLowerCase() === 'snv' || variant.type.toLowerCase() === 'point_mutation') {
+      presentVariants.push('snv');
+    }
+    else if (variant.type.toLowerCase() === 'insertion') {
+      presentVariants.push('insertion');
+    }
+    else if (variant.type.toLowerCase() === 'delins' || variant.type.toLowerCase() === 'substitution' || variant.type.toLowerCase() === 'indel' || variant.type.toLowerCase() === 'mnv') {
+      presentVariants.push('delins');
+    }
+  }
+  let distinctVariants = [...new Set(presentVariants)];
+  return distinctVariants.sort();
 }

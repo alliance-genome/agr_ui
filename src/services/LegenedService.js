@@ -24,10 +24,10 @@ export function createLegendBox() {
     returnString += `</tr>`;
     returnString += `<tr>`;
     returnString += `<td valign="top" ><ul style="list-style-type:none;">`;
-    returnString += `<li><svg width="15" top="3" viewBox="-7 -2 15 15" style="display: inline;" xmlns="http://www.w3.org/2000/svg"><polygon stroke="black" fill="black" points="${generateSnvPoints(0)}"></svg>point mutation / MNV </polygons></svg></li>`;
+    returnString += `<li><svg width="15" top="3" viewBox="-7 -2 15 15" style="display: inline;" xmlns="http://www.w3.org/2000/svg"><polygon stroke="black" fill="black" points="${generateSnvPoints(0)}"></svg>point mutation</polygons></svg></li>`;
     returnString += `<li>${drawDeletion('black','deletion')}</li>`;
     returnString += `<li><svg width="15" top="3" viewBox="-7 -2 15 15" style="display: inline;" xmlns="http://www.w3.org/2000/svg"><polygon stroke="black" fill="black" points="${generateInsertionPoint(0)}"></svg>insertion</polygons></svg></li>`;
-    returnString += `<li><svg width="15" top="3" viewBox="-7 -2 15 15" style="display: inline;" xmlns="http://www.w3.org/2000/svg"><polygon stroke="black" fill="black" points="${generateDelinsPoint(0)}"></svg>delins </polygons></svg></li>`;
+    returnString += `<li><svg width="15" top="3" viewBox="-7 -2 15 15" style="display: inline;" xmlns="http://www.w3.org/2000/svg"><polygon stroke="black" fill="black" points="${generateDelinsPoint(0)}"></svg>delins/MNV </polygons></svg></li>`;
     returnString += `</ul></td>`;
     returnString += `<td valign="top" ><ul style="list-style-type:none;">`;
     returnString += `<li>${drawDeletionForConsequence('transcript_ablation')}</li>`;
