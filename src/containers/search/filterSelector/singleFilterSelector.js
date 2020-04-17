@@ -54,14 +54,13 @@ class SingleFilterSelector extends Component {
     } else {
       nameNode = <span>{value.displayName}</span>;
     }
-    let dotNode = null;
     let newQueryObj = getQueryParamWithoutPage(this.props.name, value.key, this.props.queryParams);
-    let values = <ul class={style.filterList}>{value.values.map (v => this.renderValue(v))}</ul>;
+    let values = <ul className={style.filterList}>{value.values.map (v => this.renderValue(v))}</ul>;
     return (
       <li className='nav-item' key={_key}>
         <Link className={`nav-link${classSuffix}`} to={{ pathname: SEARCH_PATH, search: stringifyQuery(newQueryObj) }}>
           <span className={style.aggLink}>
-            <span className={style.aggLinkLabel}>{dotNode}{nameNode}</span><span>{value.total.toLocaleString()}</span>
+            <span className={style.aggLinkLabel}>{nameNode}</span><span>{value.total.toLocaleString()}</span>
           </span>
         </Link>
         {values}
