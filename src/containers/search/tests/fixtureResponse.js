@@ -6,7 +6,8 @@ export default {
       "values": [
         {
           "key": "gene",
-          "total": 322
+          "total": 322,
+          "values": [ ]
         }
       ]
     }
