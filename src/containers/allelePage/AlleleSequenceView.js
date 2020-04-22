@@ -6,24 +6,17 @@ import GenomeFeatureWrapper from '../genePage/genomeFeatureWrapper';
 
 
 function findFminFmax(genomeLocation,variants){
-
   let fmax = genomeLocation.end;
   let fmin = genomeLocation.start;
-
-  try{
-    if(variants && variants.data){
-      for(let variant of variants.data){
-        if(variant.location.start < fmin ){
-          fmin = variant.location.start ;
-        }
-        if(variant.location.end  > fmax ){
-          fmax = variant.location.end ;
-        }
+  if(variants && variants.data){
+    for(let variant of variants.data){
+      if(variant.location.start < fmin ){
+        fmin = variant.location.start ;
+      }
+      if(variant.location.end  > fmax ){
+        fmax = variant.location.end ;
       }
     }
-  }
-  catch(e){
-    console.error(e);
   }
   return {fmin,fmax};
 }
@@ -40,8 +33,7 @@ const AlleleSequenceView = ({allele, variants}) => {
     return null;
   }
 
-  const {fmin,fmax} = findFminFmax(genomeLocation,variants)
-
+  const {fmin,fmax} = findFminFmax(genomeLocation,variants);
   return (
     <GenomeFeatureWrapper
       assembly={genomeLocation.assembly}
