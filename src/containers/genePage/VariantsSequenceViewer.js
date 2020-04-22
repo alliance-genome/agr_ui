@@ -6,26 +6,23 @@ import {selectAlleles} from '../../selectors/geneSelectors';
 import NoData from '../../components/noData';
 
 export function findFminFmax(genomeLocation,variants){
-
-  console.log('input variants',variants);
-
   let fmax = genomeLocation.end;
   let fmin = genomeLocation.start;
-
-  try{
-    if(variants && variants.data){
-      for(let variant of variants.data){
-        if(variant.location.start < fmin ){
-          fmin = variant.location.start ;
-        }
-        if(variant.location.end  > fmax ){
-          fmax = variant.location.end ;
+  if(variants && variants.data){
+    for(let variant of variants.data){
+      if(variant.variants){
+        for(let innerVariant of variant.variants){
+          if(innerVariant.location){
+            if(innerVariant.location.start < fmin ){
+              fmin = innerVariant.location.start ;
+            }
+            if(innerVariant.location.end  > fmax ){
+              fmax = innerVariant.location.end ;
+            }
+          }
         }
       }
     }
-  }
-  catch(e){
-    console.error(e);
   }
   return {fmin,fmax};
 }
@@ -41,9 +38,7 @@ const VariantsSequenceViewer = ({alleles, gene, genomeLocation}) => {
     return <NoData>No mapped variant information available</NoData>;
   }
 
-  console.log('alleles')
   const {fmin,fmax} = findFminFmax(genomeLocation,alleles);
-
   return (
     <GenomeFeatureWrapper
       assembly={genomeLocation.assembly}
