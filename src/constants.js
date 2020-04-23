@@ -51,7 +51,7 @@ export const NON_HIGHLIGHTED_FIELDS = [
 
 //show these fields in both the highlight section and their normal spot
 export const DUPLICATE_HIGHLIGHTED_FIELDS = [
-  'crossReferences.generic_cross_reference.localId',
+  'crossReferences',
   'synonyms'
 ];
 
