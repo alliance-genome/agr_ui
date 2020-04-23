@@ -141,17 +141,6 @@ function parseCoordinates(d) {
   return `chr${chrom}:${d.gene_chromosome_starts}-${d.gene_chromosome_ends}`;
 }
 
-function parseCrossReferences(d) {
-  if (!d || !d.crossReferences) {
-    return null;
-  }
-
-  return Object.keys(d.crossReferences)
-    .map(k => { return d.crossReferences[k]; } )
-    .reduce(function (a, b) { return a.concat(b); }, [])
-    .map(function (r) { return r.name; });
-}
-
 // search result individual entry parsers
 function parseGeneResult(_d) {
   let speciesKey = _d.species;
@@ -199,7 +188,6 @@ function parseDiseaseResult(_d) {
   return {
     ...d,
     display_name: d.name,
-    external_ids: parseCrossReferences(d),
     highlight: d.highlights,
     href: '/disease/' + d.id,
     missing: d.missingTerms
