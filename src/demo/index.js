@@ -4,8 +4,8 @@ import {TRACK_TYPE} from "../tracks/TrackTypeEnum";
 // const BASE_URL = 'http://localhost:8080/apollo';
 // const BASE_URL = 'http://54.91.83.120:8080/apollo';
 // const BASE_URL = 'https://agr-apollo.berkeleybop.io/apollo';
-// const BASE_URL = 'https://build.alliancegenome.org/apollo';
-const BASE_URL = 'https://stage.alliancegenome.org/apollo';
+const BASE_URL = 'https://build.alliancegenome.org/apollo';
+// const BASE_URL = 'https://stage.alliancegenome.org/apollo';
 
 // Global View Example
 
@@ -17,6 +17,9 @@ ratExamples();
 mouseExamples();
 flyExamples();
 
+function getTranscriptTypes(){
+ return ['mRNA', 'ncRNA', 'piRNA', 'lincRNA', 'miRNA', 'pre_miRNA', 'snoRNA', 'lnc_RNA', 'tRNA', 'snRNA', 'rRNA', 'ARS', 'antisense_RNA', 'C_gene_segment', 'V_gene_segment', 'pseudogene_attribute','snoRNA_gene'];
+}
 
 function flyExamples() {
     // 2L:132412..230018
@@ -43,9 +46,11 @@ function ratExamples() {
 function mouseExamples() {
     // http://localhost:8080/apollo/vcf/remotemouse/Phenotypic%20Variants/6:113619452..113636198.json?includeGenotypes=false&ignoreCache=true
     // http://localhost:8080/apollo/track/remotemouse/All%20Genes/6:113619452..113636198.json?includeGenotypes=false&ignoreCache=true  let configGlobal1 = {
-    createExample("3:115707662..115717830", "mouse", "viewerMouseExample2", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
-    createExample("11:69550420..69563869", "mouse", "viewerMouseExample3", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
+  createExample("18:11035719..11058885", "mouse", "viewerMouseExample6", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
+  createIsoformExample("18:11042037..11052567", "mouse", "viewerMouseExample5", TRACK_TYPE.ISOFORM, false);
     createExample("17:46007760..46041588", "mouse", "viewerMouseExample4", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
+    createExample("11:69550420..69563869", "mouse", "viewerMouseExample3", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
+    createExample("3:115707662..115717830", "mouse", "viewerMouseExample2", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
     createExample("6:113619452..113636198", "mouse", "viewerMouseExample1", TRACK_TYPE.ISOFORM_EMBEDDED_VARIANT, true);
     createExample("6:113619452..113636198", "mouse", "viewerMouseExample1NoLabel", TRACK_TYPE.ISOFORM_EMBEDDED_VARIANT, false);
     createExample("6:113619452..113636198", "mouse", "viewerMouseExample1NoLabelAnd", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
@@ -85,7 +90,8 @@ function createExample(range, genome, divId, type, showLabel, variantFilter) {
         "start": start,
         "end": end,
         "showVariantLabel": showLabel,
-        "variantFilter": variantFilter ? variantFilter : [],
+      "transcriptTypes": getTranscriptTypes(),
+      "variantFilter": variantFilter || [],
         "binRatio": ratio,
         "tracks": [
             {
@@ -127,6 +133,7 @@ function createExample(range, genome, divId, type, showLabel, variantFilter) {
     }
 }
 
+
 function createIsoformExample(range, genome, divId, type, showLabel, variantFilter) {
 
     const chromosome = range.split(":")[0];
@@ -136,8 +143,9 @@ function createIsoformExample(range, genome, divId, type, showLabel, variantFilt
         "chromosome": chromosome,
         "start": start,
         "end": end,
+        "transcriptTypes": getTranscriptTypes(),
         "showVariantLabel": showLabel,
-        "variantFilter": variantFilter ? variantFilter : [],
+        "variantFilter": variantFilter || [],
         "tracks": [
             {
                 "id": 12,
@@ -189,23 +197,23 @@ function oldExamples() {
         "start": 19400752,
         "end": 19426596,
         "transcriptTypes": [
-            'mRNA', 'ncRNA', 'piRNA'
-            , 'lincRNA'
-            , 'miRNA'
-            , 'pre_miRNA'
-            , 'snoRNA'
-            , 'lnc_RNA'
-            , 'tRNA'
-            , 'snRNA'
-            , 'rRNA'
-            , 'ARS'
-            , 'antisense_RNA'
+            'mRNA', 'ncRNA', 'piRNA',
+             'lincRNA',
+             'miRNA',
+             'pre_miRNA',
+             'snoRNA',
+             'lnc_RNA',
+             'tRNA',
+             'snRNA',
+             'rRNA',
+             'ARS',
+             'antisense_RNA',
 
 
-            , 'C_gene_segment'
-            , 'V_gene_segment'
-            , 'pseudogene_attribute'
-            , 'snoRNA_gene'
+             'C_gene_segment',
+             'V_gene_segment',
+             'pseudogene_attribute',
+             'snoRNA_gene'
         ],
         "tracks": [
             {
