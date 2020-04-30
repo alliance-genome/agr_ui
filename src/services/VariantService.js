@@ -267,7 +267,7 @@ export function renderVariantDescription(description){
        change = ref_allele + '->' + alt_allele;
   }
   returnString += `<table class="tooltip-table"><tbody>`;
-  returnString += `<tr><th>Symbol</th><td>${description.symbol}</td></tr>`;
+  returnString += `<tr><th>Symbol</th><td>${description.symbol} (${description.alleles})</td></tr>`;
   returnString += `<tr><th>Type</th><td>${description.type}</td></tr>`;
   returnString += `<tr><th>Consequence</th><td>${description.consequence }</td></tr>`;
   if(description.impact){
@@ -277,12 +277,16 @@ export function renderVariantDescription(description){
   if(description.name!==description.symbol){
     returnString += `<tr><th>Name</th><td>${description.name}</td></tr>`;
   }
+  if(description.geneId && description.geneSymbol){
+    returnString += `<tr><th>Allele of Genes</th><td> ${description.geneSymbol>descriptionWidth ? description.geneSymbol.substr(0,descriptionWidth) : description.geneSymbol} (${description.geneId})</td></tr>`;
+  }
+  else
   if(description.allele_of_genes){
     returnString += `<tr><th>Allele of Genes</th><td>${description.allele_of_genes.length>descriptionWidth ? description.allele_of_genes.substr(0,descriptionWidth) : description.allele_of_genes}</td></tr>`;
   }
-  if(description.alleles){
-    returnString += `<tr><th>Alleles</th><td>${description.alleles.length>descriptionWidth ? description.alleles.substr(0,descriptionWidth) : description.alleles}</td></tr>`;
-  }
+  // if(description.alleles){
+  //   returnString += `<tr><th>Alleles</th><td>${description.alleles.length>descriptionWidth ? description.alleles.substr(0,descriptionWidth) : description.alleles}</td></tr>`;
+  // }
   if(description.alternative_alleles){
     returnString += `<tr><th>Sequence Change</th><td>${change}</td></tr>`;
     // returnString += `<tr><th>Alternative Alleles</th><td>${description.alternative_alleles.length>descriptionWidth ? description.alternative_alleles.substr(0,descriptionWidth) : description.alternative_alleles}</td></tr>`;
@@ -339,6 +343,12 @@ export function getVariantDescription(variant){
   returnObject.name =  variant.name;
   returnObject.description =  variant.description;
   returnObject.reference_allele =  variant.reference_allele;
+
+  returnObject.geneId = variant.allele_of_gene_ids ? variant.allele_of_gene_ids.values[0].replace(/"/g,"") : undefined
+  returnObject.geneSymbol  = variant.allele_of_gene_symbols ? variant.allele_of_gene_symbols.values[0].replace(/"/g,"") : undefined
+  // console.log('gene id',geneId,geneSymbol)
+  // returnString += `<tr><th>Allele of Genes</th><td>${description.allele_of_genes.length>descriptionWidth ? description.allele_of_genes.substr(0,descriptionWidth) : description.allele_of_genes}</td></tr>`;
+
 
   if(variant.allele_of_genes){
     if(variant.allele_of_genes.values && variant.allele_of_genes.values.length>0){
