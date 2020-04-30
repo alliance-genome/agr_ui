@@ -8,9 +8,10 @@ const AboutSection = () => {
       <div className={style.contentContainer}>
         <h1>What is the Alliance of Genome Resources?</h1>
         <p className='lead'>
-          A consortium of 6 MODs and the Gene Ontology (GO) Consortium whose
-          goal is to provide an integrated view of their data to all biologists,
-          clinicians and other interested parties.
+          A consortium of 6 model organism databases (MODs) and the Gene
+          Ontology (GO) Consortium whose goal is to provide an integrated view
+          of their data to all biologists, clinicians and other interested
+          parties.
         </p>
 
         <p className='lead'>
