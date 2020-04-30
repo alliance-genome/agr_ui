@@ -3,16 +3,17 @@ import PropTypes from 'prop-types';
 import {selectAlleles} from '../../selectors/geneSelectors';
 import {connect} from 'react-redux';
 import {compareAlphabeticalCaseInsensitive} from '../../lib/utils';
-import CollapsibleList from '../collapsibleList/collapsibleList';
-import SynonymList from '../synonymList';
-import {AlleleCell, RemoteDataTable} from '../dataTable';
-import ExternalLink from '../externalLink';
+import CollapsibleList from '../../components/collapsibleList/collapsibleList';
+import SynonymList from '../../components/SynonymList';
+import {AlleleCell, RemoteDataTable} from '../../components/dataTable';
+import ExternalLink from '../../components/externalLink';
 import {fetchAlleles} from '../../actions/geneActions';
-import DiseaseLink from '../disease/DiseaseLink';
-import VariantJBrowseLink from './VariantJBrowseLink';
+import DiseaseLink from '../../components/disease/DiseaseLink';
+import {VariantJBrowseLink} from '../../components/variant';
+import VariantsSequenceViewer from './VariantsSequenceViewer';
 
 
-const AlleleTable = ({alleles, dispatchFetchAlleles, geneId, geneSymbol, geneLocation = {}, species, geneDataProvider}) => {
+const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, geneLocation = {}, species, geneDataProvider}) => {
 
   const variantNameColWidth = 300;
   const variantTypeColWidth = 150;
@@ -182,16 +183,19 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, geneId, geneSymbol, geneLoc
   ];
 
   return (
-    <RemoteDataTable
-      columns={columns}
-      data={data}
-      key={geneId}
-      keyField='symbol'
-      loading={alleles.loading}
-      onUpdate={dispatchFetchAlleles}
-      sortOptions={sortOptions}
-      totalRows={alleles.total}
-    />
+    <>
+      <VariantsSequenceViewer gene={gene} genomeLocation={geneLocation} />
+      <RemoteDataTable
+        columns={columns}
+        data={data}
+        key={geneId}
+        keyField='symbol'
+        loading={alleles.loading}
+        onUpdate={dispatchFetchAlleles}
+        sortOptions={sortOptions}
+        totalRows={alleles.total}
+      />
+    </>
   );
 };
 
@@ -204,6 +208,9 @@ AlleleTable.propTypes = {
     start: PropTypes.number,
     end: PropTypes.number,
     chromosome: PropTypes.string,
+  }),
+  gene: PropTypes.shape({
+
   }),
   geneSymbol: PropTypes.string.isRequired,
   species: PropTypes.string.isRequired,
@@ -218,7 +225,3 @@ const mapDispatchToProps = (dispatch, props) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AlleleTable);
-
-export {
-  VariantJBrowseLink
-};
