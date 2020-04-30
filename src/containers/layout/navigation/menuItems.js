@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Collapse } from 'reactstrap';
 
 import { NAV_MENU } from '../../../constants';
 
-import { NavItem } from '.';
+import { MenuItem } from '.';
 import style from './style.scss';
 
 class MenuItems extends Component {
   render () {
+    const { currentRoute, menuOpen } = this.props;
     return (
       <nav className={`navbar navbar-expand-md ${style.topnav}`}>
         <div className='container-fluid'>
-          <div className={`collapse navbar-collapse ${style.inner}`} id='exCollapsingNavbar2'>
+          <Collapse className={style.inner} isOpen={menuOpen} navbar>
             <ul className='navbar-nav'>
-              {NAV_MENU.map(page => <NavItem currentRoute={this.props.currentRoute} key={page.label} page={page} />)}
+              {NAV_MENU.map(page => <MenuItem currentRoute={currentRoute} key={page.label} page={page} />)}
             </ul>
-          </div>
+          </Collapse>
         </div>
       </nav>
     );
@@ -24,6 +26,7 @@ class MenuItems extends Component {
 
 MenuItems.propTypes = {
   currentRoute: PropTypes.string,
+  menuOpen: PropTypes.bool,
 };
 
 export default MenuItems;

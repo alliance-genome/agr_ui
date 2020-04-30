@@ -1,7 +1,7 @@
 import MenuItems from './menuItems';
-import NavItem from './navItem';
+import MenuItem from './MenuItem';
 
 export {
   MenuItems,
-  NavItem,
+  MenuItem,
 };
