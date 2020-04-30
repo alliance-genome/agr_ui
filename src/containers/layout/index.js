@@ -17,6 +17,13 @@ import ReplaceLinks from '../wordpress/ReplaceLinks';
 import { selectPageLoading } from '../../selectors/loadingSelector';
 
 class Layout extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      menuOpen: false,
+    };
+  }
+
   componentDidMount() {
     const { dispatch, location } = this.props;
     dispatch(fetchWarningBanner());
@@ -44,6 +51,8 @@ class Layout extends Component {
 
   render() {
     const { children, location, warningBanner } = this.props;
+    const { menuOpen } = this.state;
+
     return (
       <div>
         {warningBanner &&
@@ -63,11 +72,8 @@ class Layout extends Component {
                 </Link>
                 <span className={style.version}>Release {process.env.RELEASE}</span>
               </div>
-              <button
-                aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation"
-                className="navbar-toggler d-md-none" data-target="#exCollapsingNavbar2"
-                data-toggle="collapse" type="button"
-              >
+              {/* eslint-disable-next-line react/no-set-state */}
+              <button className="navbar-toggler d-md-none" onClick={() => this.setState({menuOpen: !menuOpen})} type="button">
                 <i className='fa fa-fw fa-bars' />
               </button>
             </div>
@@ -77,7 +83,7 @@ class Layout extends Component {
           </div>
         </div>
 
-        <MenuItems currentRoute={location.pathname} />
+        <MenuItems currentRoute={location.pathname} menuOpen={menuOpen} />
 
         <div className={style.loaderContentContainer}>
           <div className={style.content}>
