@@ -4,7 +4,7 @@ import { selectVariants } from '../../selectors/alleleSelectors';
 import { fetchAlleleVariants } from '../../actions/alleleActions';
 import { connect } from 'react-redux';
 import { RemoteDataTable } from '../../components/dataTable';
-import { VariantJBrowseLink } from '../../components/alleleTable';
+import { VariantJBrowseLink } from '../../components/variant';
 
 const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) => {
   const { data:dataRaw = [], loading, total} = variants;
