@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {selectAlleles} from '../../selectors/geneSelectors';
 import {connect} from 'react-redux';
 import {compareAlphabeticalCaseInsensitive} from '../../lib/utils';
 import CollapsibleList from '../../components/collapsibleList/collapsibleList';
-import SynonymList from '../../components/SynonymList';
+import SynonymList from '../../components/synonymList';
 import {AlleleCell, RemoteDataTable} from '../../components/dataTable';
 import ExternalLink from '../../components/externalLink';
 import {fetchAlleles} from '../../actions/geneActions';
@@ -21,12 +21,17 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
 
   const columns = [
     {
+      dataField: 'id',
+      text: 'Allele ID',
+      hidden: true,
+      isKey: true,
+    },
+    {
       dataField: 'symbol',
       text: 'Allele Symbol',
       formatter: (_, allele) => <AlleleCell allele={allele} />,
       headerStyle: {width: '185px'},
       filterable: true,
-      isKey: true,
     },
     {
       dataField: 'synonym',
@@ -182,16 +187,47 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
     },
   ];
 
+  const [alleleIdsSelected, setAleleIdsSelected] = useState([]);
+
+
+  const allelesSelected = useMemo(() => {
+    /*
+       Warning!
+       The data format here should be agreed upon by the maintainers of the VariantsSequenceViewer.
+       Changes might break the VariantsSequenceViewer.
+    */
+    return alleleIdsSelected.map(alleleId => (
+      {
+        id: alleleId,
+      }
+    ));
+  });
+
+  const selectRow = useMemo(() => ({
+    mode: 'checkbox',
+    clickToSelect: true,
+    hideSelectColumn: true,
+    selected: alleleIdsSelected,
+    onSelect: (row) => setAleleIdsSelected([row.id]),
+    style: { backgroundColor: '#ffffd4' },
+  }), [alleleIdsSelected, setAleleIdsSelected]);
+
   return (
     <>
-      <VariantsSequenceViewer gene={gene} genomeLocation={geneLocation} />
+      <VariantsSequenceViewer
+        allelesSelected={allelesSelected}
+        gene={gene}
+        genomeLocation={geneLocation}
+        onAllelesSelect={setAleleIdsSelected}
+      />
       <RemoteDataTable
         columns={columns}
         data={data}
         key={geneId}
-        keyField='symbol'
+        keyField='id'
         loading={alleles.loading}
         onUpdate={dispatchFetchAlleles}
+        selectRow={selectRow}
         sortOptions={sortOptions}
         totalRows={alleles.total}
       />
@@ -202,15 +238,14 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
 AlleleTable.propTypes = {
   alleles: PropTypes.object,
   dispatchFetchAlleles: PropTypes.func,
+  gene: PropTypes.shape({
+  }),
   geneDataProvider: PropTypes.string.isRequired,
   geneId: PropTypes.string.isRequired,
   geneLocation: PropTypes.shape({
     start: PropTypes.number,
     end: PropTypes.number,
     chromosome: PropTypes.string,
-  }),
-  gene: PropTypes.shape({
-
   }),
   geneSymbol: PropTypes.string.isRequired,
   species: PropTypes.string.isRequired,
