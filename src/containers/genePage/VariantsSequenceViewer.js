@@ -42,6 +42,11 @@ VariantsSequenceViewer.propTypes = {
       id: PropTypes.string.isRequired,
     })
   ).isRequired,
+  allelesVisible: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    })
+  ).isRequired,
   gene: PropTypes.object,
   genomeLocation: PropTypes.shape({
     assembly: PropTypes.string,

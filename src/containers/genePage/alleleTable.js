@@ -152,18 +152,6 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
     // },
   ];
 
-  const data = alleles.data
-    .map(allele => ({
-      ...allele,
-      symbol: allele.symbol,
-      synonym: allele.synonyms,
-      source: {
-        dataProvider: geneDataProvider,
-        url: allele.crossReferences.primary.url,
-      },
-      disease: allele.diseases.sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
-    }));
-
   const sortOptions = [
     // {
     //   value: 'alleleSymbol',
@@ -187,21 +175,39 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
     },
   ];
 
+  const data = useMemo(() => {
+    return alleles.data.map(allele => ({
+      ...allele,
+      symbol: allele.symbol,
+      synonym: allele.synonyms,
+      source: {
+        dataProvider: geneDataProvider,
+        url: allele.crossReferences.primary.url,
+      },
+      disease: allele.diseases.sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
+    }));
+  }, [alleles]);
+
   const [alleleIdsSelected, setAleleIdsSelected] = useState([]);
 
 
-  const allelesSelected = useMemo(() => {
+  const variantsSequenceViewerProps = useMemo(() => {
     /*
        Warning!
        The data format here should be agreed upon by the maintainers of the VariantsSequenceViewer.
        Changes might break the VariantsSequenceViewer.
     */
-    return alleleIdsSelected.map(alleleId => (
+    const formatAllele = alleleId => (
       {
         id: alleleId,
       }
-    ));
-  });
+    );
+    return {
+      allelesSelected: alleleIdsSelected.map(formatAllele),
+      allelesVisible: data.map(({id}) => formatAllele(id)),
+      onAllelesSelect: setAleleIdsSelected,
+    };
+  }, [data, alleleIdsSelected, setAleleIdsSelected]);
 
   const selectRow = useMemo(() => ({
     mode: 'checkbox',
@@ -215,10 +221,9 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
   return (
     <>
       <VariantsSequenceViewer
-        allelesSelected={allelesSelected}
         gene={gene}
         genomeLocation={geneLocation}
-        onAllelesSelect={setAleleIdsSelected}
+        {...variantsSequenceViewerProps}
       />
       <RemoteDataTable
         columns={columns}
