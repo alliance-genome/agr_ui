@@ -102,6 +102,7 @@ class GenomeFeatureWrapper extends Component {
         'showVariantLabel': false,
         'variantFilter': variantFilter ? [variantFilter] : [],
         'binRatio': 0.01,
+        'transcriptTypes': transcriptTypes,
         'tracks': [
           {
             'id': 1,
