@@ -1,6 +1,6 @@
 // TODO: make a call to an SO provider
 export const getTranscriptTypes = function () {
-  let transcriptTypes = [
+  return [
     'mRNA', 'ncRNA', 'piRNA'
     , 'lincRNA'
     , 'miRNA'
@@ -12,15 +12,11 @@ export const getTranscriptTypes = function () {
     , 'rRNA'
     , 'ARS'
     , 'antisense_RNA'
-
-
     , 'C_gene_segment'
     , 'V_gene_segment'
     , 'pseudogene_attribute'
     ,'snoRNA_gene'
   ];
-
-  return transcriptTypes;
 };
 
 
