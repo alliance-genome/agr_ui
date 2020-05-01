@@ -18,6 +18,10 @@ import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
 
 const DiseaseToAlleleTable = ({associations, fetchAssociations, id}) => {
+  const data = associations.data.map(association => ({
+    ...association,
+    species: association.allele.species,
+  }));
   const columns = [
     {
       dataField: 'allele',
@@ -37,12 +41,11 @@ const DiseaseToAlleleTable = ({associations, fetchAssociations, id}) => {
       filterName: 'alleleName',
     },
     {
-      dataField: 'gene',
+      dataField: 'species',
       text: 'Species',
-      formatter: gene => <SpeciesCell species={gene.species}/>,
+      formatter: species => <SpeciesCell species={species}/>,
       filterable: getDistinctFieldValue(associations, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       headerStyle: {width: '105px'},
-      filterName: 'species',
     },
     {
       dataField: 'associationType',
@@ -101,7 +104,7 @@ const DiseaseToAlleleTable = ({associations, fetchAssociations, id}) => {
   return (
     <RemoteDataTable
       columns={columns}
-      data={associations.data}
+      data={data}
       downloadUrl={`/api/disease/${id}/alleles/download`}
       key={id}
       keyField='primaryKey'

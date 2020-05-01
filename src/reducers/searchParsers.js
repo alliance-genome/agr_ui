@@ -1,7 +1,10 @@
 const JOIN_HIGHLIGHT_BY = '...';
 
 import { makeFieldDisplayName, makeValueDisplayName } from '../lib/searchHelpers';
-import { NON_HIGHLIGHTED_FIELDS } from '../constants';
+import {
+  DUPLICATE_HIGHLIGHTED_FIELDS,
+  NON_HIGHLIGHTED_FIELDS
+} from '../constants';
 
 function flattenWithPrettyFieldNames(highlights) {
   if (highlights === undefined) { return highlights; }
@@ -31,9 +34,11 @@ export function injectHighlightIntoResponse(responseObj) {
     simpleHighObj[key] = highStr;
     // if it's not excluded from highlighting, add the highlighting and swap
     // it into the original object
-    if (NON_HIGHLIGHTED_FIELDS.indexOf(key) < 0) {
+    if (!NON_HIGHLIGHTED_FIELDS.includes(key)) {
       responseObj[key] = injectHighlightingIntoValue(highStr, responseObj[key]);
-      delete simpleHighObj[key];
+      if (!DUPLICATE_HIGHLIGHTED_FIELDS.includes(key)) {
+        delete simpleHighObj[key];
+      }
     }
   });
   responseObj.highlights = flattenWithPrettyFieldNames(simpleHighObj);
@@ -83,31 +88,36 @@ export function parseResults(results) {
 }
 
 export function parseAggs(rawAggs, queryObject) {
-  return rawAggs.map( d => {
-    let _values = d.values.map( _d => {
-      let currentValue = queryObject[d.key];
-      let _isActive;
-      // look at array fields differently
-      if (typeof currentValue === 'object') {
-        _isActive = (currentValue.indexOf(_d.key) >= 0);
-      } else {
-        _isActive = _d.key === currentValue;
-      }
-      return {
-        name: _d.key,
-        displayName: makeValueDisplayName(_d.key),
-        key: _d.key,
-        total: _d.total,
-        isActive: _isActive
-      };
-    });
-    return {
-      name: d.key,
-      displayName: makeFieldDisplayName(d.key),
-      key: d.key,
-      values: _values
-    };
-  });
+  return rawAggs.map( d => parseAgg(d, queryObject));
+}
+
+function parseAgg(agg, queryObject) {
+  let currentValue = queryObject[agg.key];
+  let _values = agg.values.map( value => parseValue(value, currentValue));
+  return {
+    name: agg.key,
+    displayName: makeFieldDisplayName(agg.key),
+    key: agg.key,
+    values: _values
+  };
+}
+
+function parseValue(value, currentValue) {
+  let _isActive;
+  // look at array fields differently
+  if (typeof currentValue === 'object') {
+    _isActive = (currentValue.indexOf(value.key) >= 0);
+  } else {
+    _isActive = value.key === currentValue;
+  }
+  return {
+    name: value.key,
+    displayName: makeValueDisplayName(value.key),
+    key: value.key,
+    total: value.total,
+    values: value.values.map( v => parseValue(v, currentValue)),
+    isActive: _isActive
+  };
 }
 
 function parseCoordinates(d) {
@@ -129,17 +139,6 @@ function parseCoordinates(d) {
   }
   // only render what you can
   return `chr${chrom}:${d.gene_chromosome_starts}-${d.gene_chromosome_ends}`;
-}
-
-function parseCrossReferences(d) {
-  if (!d || !d.crossReferences) {
-    return null;
-  }
-
-  return Object.keys(d.crossReferences)
-    .map(k => { return d.crossReferences[k]; } )
-    .reduce(function (a, b) { return a.concat(b); }, [])
-    .map(function (r) { return r.name; });
 }
 
 // search result individual entry parsers
@@ -176,7 +175,7 @@ function parseGoResult(_d) {
   return {
     ...d,
     display_name: d.name,
-    go_branch: makeValueDisplayName(d.go_type),
+    branch: makeValueDisplayName(_d.branch),
     highlight: d.highlights,
     collapsible_synonyms: d.synonyms, //not just named synonyms,
     //so that it can be collapsible when others aren't
@@ -189,7 +188,6 @@ function parseDiseaseResult(_d) {
   return {
     ...d,
     display_name: d.name,
-    external_ids: parseCrossReferences(d),
     highlight: d.highlights,
     href: '/disease/' + d.id,
     missing: d.missingTerms

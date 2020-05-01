@@ -4,13 +4,13 @@ import { selectVariants } from '../../selectors/alleleSelectors';
 import { fetchAlleleVariants } from '../../actions/alleleActions';
 import { connect } from 'react-redux';
 import { RemoteDataTable } from '../../components/dataTable';
-import { VariantJBrowseLink } from '../../components/alleleTable';
+import { VariantJBrowseLink } from '../../components/variant';
 
 const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) => {
   const { data:dataRaw = [], loading, total} = variants;
   const [ variant1 = {} ] = dataRaw;
   const { location: locationVariant1 = {} } = variant1;
-  const { gene = {}} = allele;
+  const gene = allele.gene || {};
   const { genomeLocations: geneLocations } = gene;
   const [geneLocation] = geneLocations || [];
 
@@ -82,6 +82,7 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
       key={alleleId}
       keyField='id'
       loading={loading}
+      noDataMessage='No mapped variant information available'
       onUpdate={fetchVariants}
       totalRows={total}
     />
