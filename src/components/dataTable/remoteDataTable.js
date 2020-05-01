@@ -87,7 +87,7 @@ class RemoteDataTable extends Component {
   }
 
   render() {
-    const { columns, data = [], downloadUrl, keyField, loading, noDataMessage, sortOptions, summaryProps, totalRows } = this.props;
+    const { columns, data = [], downloadUrl, keyField, loading, noDataMessage, sortOptions, summaryProps, totalRows, ...bootstrapTableProps } = this.props;
     const { filters, page, sizePerPage, sort } = this.state;
 
     if (!loading && filters == null && totalRows === 0) {
@@ -169,6 +169,7 @@ class RemoteDataTable extends Component {
                 }
                 <HorizontalScroll>
                   <BootstrapTable
+                    {...bootstrapTableProps}
                     bootstrap4
                     bordered={false}
                     columns={columns}
