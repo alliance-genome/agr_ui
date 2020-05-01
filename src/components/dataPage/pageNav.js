@@ -18,11 +18,11 @@ const PageNav = ({children, sections}) => {
           <div className='w-100'>
             {children}
           </div>
-          <button className='ml-auto' onClick={() => setIsOpen(!isOpen)} type='button'>
+          <button className='navbar-toggler ml-auto' onClick={() => setIsOpen(!isOpen)} type='button'>
             <i className='fa fa-fw fa-bars' />
           </button>
         </div>
-        <Collapse isOpen={isOpen}>
+        <Collapse isOpen={isOpen} navbar>
           <Scrollspy
             className={`list-group list-group-flush ${style.scrollSpy}`}
             componentTag='div'
