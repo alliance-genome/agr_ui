@@ -1,55 +1,67 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {
+  Dropdown,
   DropdownMenu,
   DropdownToggle,
   NavItem,
   NavLink,
-  UncontrolledDropdown
 } from 'reactstrap';
 
 import style from './style.scss';
 
-class MenuItem extends Component {
-  render() {
-    const { currentRoute, page } = this.props;
-    const isActive = route => route === currentRoute ? style.active : '';
-    let item;
-    if (typeof page.sub === 'undefined') {
-      item = (
-        <NavItem>
-          <NavLink className={`${style.menuItem} ${isActive(page.route)}`} tag={Link} to={page.route}>
-            {page.label}
-          </NavLink>
-        </NavItem>
-      );
-    } else {
-      item = (
-        <UncontrolledDropdown inNavbar nav>
-          <DropdownToggle caret nav>
-            {page.label}
-          </DropdownToggle>
-          <DropdownMenu>
-            {
-              page.sub.map(sub => (
-                <Link
-                  className={`dropdown-item ${isActive(sub.route)}`}
-                  key={sub.route}
-                  to={sub.route}
-                >
-                  {sub.label}
-                </Link>
-              ))
-            }
-          </DropdownMenu>
-        </UncontrolledDropdown>
-      );
+const MenuItem = ({currentRoute, page, onClick}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen(prevState => !prevState);
+  const close = () => setIsOpen(false);
+  const handleClick = () => {
+    close();
+    if (typeof onClick === 'function') {
+      onClick();
     }
-
-    return item;
+  };
+  const isActive = route => route === currentRoute ? style.active : '';
+  let item;
+  if (typeof page.sub === 'undefined') {
+    item = (
+      <NavItem>
+        <NavLink
+          className={`${style.menuItem} ${isActive(page.route)}`}
+          onClick={handleClick}
+          tag={Link}
+          to={page.route}
+        >
+          {page.label}
+        </NavLink>
+      </NavItem>
+    );
+  } else {
+    item = (
+      <Dropdown inNavbar isOpen={isOpen} nav toggle={toggle}>
+        <DropdownToggle caret nav>
+          {page.label}
+        </DropdownToggle>
+        <DropdownMenu>
+          {
+            page.sub.map(sub => (
+              <Link
+                className={`dropdown-item ${isActive(sub.route)}`}
+                key={sub.route}
+                onClick={handleClick}
+                to={sub.route}
+              >
+                {sub.label}
+              </Link>
+            ))
+          }
+        </DropdownMenu>
+      </Dropdown>
+    );
   }
-}
+
+  return item;
+};
 
 MenuItem.propTypes = {
   currentRoute: PropTypes.string,
@@ -58,6 +70,7 @@ MenuItem.propTypes = {
     route: PropTypes.string,
     sub: PropTypes.array,
   }),
+  onClick: PropTypes.func,
 };
 
 export default MenuItem;

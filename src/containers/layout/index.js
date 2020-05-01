@@ -1,3 +1,4 @@
+{/* eslint-disable react/no-set-state */}
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -72,7 +73,6 @@ class Layout extends Component {
                 </Link>
                 <span className={style.version}>Release {process.env.RELEASE}</span>
               </div>
-              {/* eslint-disable-next-line react/no-set-state */}
               <button className="navbar-toggler d-md-none" onClick={() => this.setState({menuOpen: !menuOpen})} type="button">
                 <i className='fa fa-fw fa-bars' />
               </button>
@@ -83,7 +83,11 @@ class Layout extends Component {
           </div>
         </div>
 
-        <MenuItems currentRoute={location.pathname} menuOpen={menuOpen} />
+        <MenuItems
+          currentRoute={location.pathname}
+          menuOpen={menuOpen}
+          onItemClick={() => this.setState({menuOpen: false})}
+        />
 
         <div className={style.loaderContentContainer}>
           <div className={style.content}>
