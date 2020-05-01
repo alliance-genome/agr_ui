@@ -1,18 +1,19 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {selectAlleles} from '../../selectors/geneSelectors';
 import {connect} from 'react-redux';
 import {compareAlphabeticalCaseInsensitive} from '../../lib/utils';
-import CollapsibleList from '../collapsibleList/collapsibleList';
-import SynonymList from '../synonymList';
-import {AlleleCell, RemoteDataTable} from '../dataTable';
-import ExternalLink from '../externalLink';
+import CollapsibleList from '../../components/collapsibleList/collapsibleList';
+import SynonymList from '../../components/synonymList';
+import {AlleleCell, RemoteDataTable} from '../../components/dataTable';
+import ExternalLink from '../../components/externalLink';
 import {fetchAlleles} from '../../actions/geneActions';
-import DiseaseLink from '../disease/DiseaseLink';
-import VariantJBrowseLink from './VariantJBrowseLink';
+import DiseaseLink from '../../components/disease/DiseaseLink';
+import {VariantJBrowseLink} from '../../components/variant';
+import VariantsSequenceViewer from './VariantsSequenceViewer';
 
 
-const AlleleTable = ({alleles, dispatchFetchAlleles, geneId, geneSymbol, geneLocation = {}, species, geneDataProvider}) => {
+const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, geneLocation = {}, species, geneDataProvider}) => {
 
   const variantNameColWidth = 300;
   const variantTypeColWidth = 150;
@@ -20,12 +21,17 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, geneId, geneSymbol, geneLoc
 
   const columns = [
     {
+      dataField: 'id',
+      text: 'Allele ID',
+      hidden: true,
+      isKey: true,
+    },
+    {
       dataField: 'symbol',
       text: 'Allele Symbol',
       formatter: (_, allele) => <AlleleCell allele={allele} />,
       headerStyle: {width: '185px'},
       filterable: true,
-      isKey: true,
     },
     {
       dataField: 'synonym',
@@ -146,18 +152,6 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, geneId, geneSymbol, geneLoc
     // },
   ];
 
-  const data = alleles.data
-    .map(allele => ({
-      ...allele,
-      symbol: allele.symbol,
-      synonym: allele.synonyms,
-      source: {
-        dataProvider: geneDataProvider,
-        url: allele.crossReferences.primary.url,
-      },
-      disease: allele.diseases.sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
-    }));
-
   const sortOptions = [
     // {
     //   value: 'alleleSymbol',
@@ -181,23 +175,90 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, geneId, geneSymbol, geneLoc
     },
   ];
 
+  const data = useMemo(() => {
+    return alleles.data.map(allele => ({
+      ...allele,
+      symbol: allele.symbol,
+      synonym: allele.synonyms,
+      source: {
+        dataProvider: geneDataProvider,
+        url: allele.crossReferences.primary.url,
+      },
+      disease: allele.diseases.sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
+    }));
+  }, [alleles]);
+
+  const [alleleIdsSelected, setAleleIdsSelected] = useState([]);
+
+
+  const variantsSequenceViewerProps = useMemo(() => {
+    /*
+       Warning!
+       The data format here should be agreed upon by the maintainers of the VariantsSequenceViewer.
+       Changes might break the VariantsSequenceViewer.
+    */
+    const formatAllele = alleleId => (
+      {
+        id: alleleId,
+      }
+    );
+    return {
+      allelesSelected: alleleIdsSelected.map(formatAllele),
+      allelesVisible: data.map(({id}) => formatAllele(id)),
+      onAllelesSelect: setAleleIdsSelected,
+    };
+  }, [data, alleleIdsSelected, setAleleIdsSelected]);
+
+  const selectRow = useMemo(() => ({
+    mode: 'checkbox',
+    clickToSelect: true,
+    hideSelectColumn: true,
+    selected: alleleIdsSelected,
+    onSelect: (row) => {
+      const alleleIdRow = row.id;
+      setAleleIdsSelected(alleleIdsSelectedPrev => {
+        if (alleleIdsSelectedPrev.includes(alleleIdRow)) {
+          const indexAlleleId = alleleIdsSelectedPrev.indexOf(alleleIdRow);
+          return [
+            ...alleleIdsSelectedPrev.slice(0, indexAlleleId),
+            ...alleleIdsSelectedPrev.slice(indexAlleleId + 1)
+          ];
+        } else {
+          return [...alleleIdsSelectedPrev, alleleIdRow];
+        }
+      });
+    },
+    style: { backgroundColor: '#ffffd4' },
+  }), [alleleIdsSelected, setAleleIdsSelected]);
+
   return (
-    <RemoteDataTable
-      columns={columns}
-      data={data}
-      key={geneId}
-      keyField='symbol'
-      loading={alleles.loading}
-      onUpdate={dispatchFetchAlleles}
-      sortOptions={sortOptions}
-      totalRows={alleles.total}
-    />
+    <>
+      <VariantsSequenceViewer
+        gene={gene}
+        genomeLocation={geneLocation}
+        {...variantsSequenceViewerProps}
+      />
+      <RemoteDataTable
+        columns={columns}
+        data={data}
+        key={geneId}
+        keyField='id'
+        loading={alleles.loading}
+        onUpdate={dispatchFetchAlleles}
+        rowStyle={{cursor: 'pointer'}}
+        selectRow={selectRow}
+        sortOptions={sortOptions}
+        totalRows={alleles.total}
+      />
+    </>
   );
 };
 
 AlleleTable.propTypes = {
   alleles: PropTypes.object,
   dispatchFetchAlleles: PropTypes.func,
+  gene: PropTypes.shape({
+  }),
   geneDataProvider: PropTypes.string.isRequired,
   geneId: PropTypes.string.isRequired,
   geneLocation: PropTypes.shape({
@@ -218,7 +279,3 @@ const mapDispatchToProps = (dispatch, props) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AlleleTable);
-
-export {
-  VariantJBrowseLink
-};

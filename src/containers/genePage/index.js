@@ -13,7 +13,7 @@ import GoUserGuide from '../../components/geneOntologyRibbon/goUserGuide';
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
 import NotFound from '../../components/notFound';
 import Subsection from '../../components/subsection';
-import AlleleTable from '../../components/alleleTable';
+import AlleleTable from './alleleTable';
 import { GenePhysicalInteractionDetailTable, GeneInteractionCrossReference, InteractionUserGuide } from '../../components/interaction';
 import GenomeFeatureWrapper from './genomeFeatureWrapper';
 import ExpressionLinks from './expressionLinks';
@@ -28,7 +28,6 @@ import GeneMetaTags from './GeneMetaTags';
 import {setPageLoading} from '../../actions/loadingActions';
 import PageNavEntity from '../../components/dataPage/PageNavEntity';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
-import VariantsSequenceViewer from './VariantsSequenceViewer';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
@@ -185,8 +184,8 @@ class GenePage extends Component {
           </Subsection>
 
           <Subsection title={ALLELES}>
-            <VariantsSequenceViewer gene={data} genomeLocation={genomeLocation} />
             <AlleleTable
+              gene={data}
               geneDataProvider={data.dataProvider}
               geneId={data.id}
               geneLocation={genomeLocation}

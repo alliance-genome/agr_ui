@@ -19,6 +19,7 @@ import DiseaseLink from './DiseaseLink';
 import {getDistinctFieldValue} from '../dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
+import ProvidersCell from '../dataTable/ProvidersCell';
 
 /*
  * Disease ribbon-table
@@ -100,9 +101,9 @@ class DiseaseAnnotationTable extends Component {
         filterName: 'evidenceCode',
       },
       {
-        dataField: 'source',
+        dataField: 'providers',
         text: 'Source',
-        formatter: source => source.name,
+        formatter: providers => providers && <ProvidersCell providers={providers} />,
         filterable: true,
         headerStyle: {width: '100px'},
       },
