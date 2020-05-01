@@ -61,6 +61,16 @@ const VariantsSequenceViewer = ({alleles, gene, genomeLocation}) => {
 
 VariantsSequenceViewer.propTypes = {
   alleles: PropTypes.object,
+  allelesSelected: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  allelesVisible: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    })
+  ).isRequired,
   gene: PropTypes.object,
   genomeLocation: PropTypes.shape({
     assembly: PropTypes.string,
@@ -69,6 +79,7 @@ VariantsSequenceViewer.propTypes = {
     chromosome: PropTypes.string,
     strand: PropTypes.string,
   }),
+  onAllelesSelect: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
