@@ -112,8 +112,8 @@ class SummaryRibbon extends React.Component {
         {data &&
           <RibbonBase
             blocks={entity.blocks}
-            currentEntity={entity}
             currentblock={selectedTerm}
+            currentEntity={entity}
             entity={entity}
             entityLabel={POSITION.NONE}
             maxColor={[37, 152, 197]}
