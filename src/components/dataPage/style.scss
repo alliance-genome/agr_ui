@@ -12,6 +12,7 @@ $page-nav-width: 220px;
 
   @include media-breakpoint-up(md) {
     flex-direction: row;
+    padding-top: 1rem;
   }
 }
 

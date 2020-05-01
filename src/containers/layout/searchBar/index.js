@@ -174,7 +174,7 @@ class SearchBarComponent extends Component {
     };
     return (
       <form onSubmit={this.handleSubmit.bind(this)}>
-        <div className={`input-group flex-nowrap ${style.searchBarOuter}`}>
+        <div className={`input-group flex-nowrap my-1 my-md-0 ${style.searchBarOuter}`}>
           {this.renderDropdown()}
           <Autosuggest
             getSuggestionValue={_getSuggestionValue}
