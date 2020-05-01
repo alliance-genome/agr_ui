@@ -205,11 +205,11 @@ class OrthologyFilteredTable extends Component {
                   style={inputStyle}
                   value={this.state.filterScoreGreaterThan}
                 >
-                  <option value={0}>> 0</option>
+                  <option value={0}>&gt; 0</option>
                   {
                     all_methods.map((method, index) => {
                       const scoreGreaterThanValue = index + 1;
-                      return <option key={scoreGreaterThanValue} value={scoreGreaterThanValue}>> {scoreGreaterThanValue}</option>;
+                      return <option key={scoreGreaterThanValue} value={scoreGreaterThanValue}>&gt; {scoreGreaterThanValue}</option>;
                     })
                   }
                 </select>

@@ -594,18 +594,15 @@ class GeneOntologyRibbon extends Component {
                     categories={this.state.ribbon.categories}
                     classLabels={['term', 'terms']}
                     colorBy={COLOR_BY.CLASS_COUNT}
-
                     hideFirstSubjectLabel
-
                     itemClick={this.itemClick.bind(this)}
                     newTab={false}
-
                     selected={this.state.selected}
                     selectionMode={SELECTION.CELL}
                     subjectLabel={subject => <RibbonGeneSubjectLabel gene={subject} isFocusGene={subject.id === geneId} />}
                     subjectLabelPosition={POSITION.LEFT}
-                    subjectUseTaxonIcon
                     subjects={this.state.ribbon.subjects}
+                    subjectUseTaxonIcon
                   />
             }
             {
