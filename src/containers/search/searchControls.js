@@ -24,7 +24,7 @@ const SearchControlsComponent = (props) => {
   let isNextDisabled = curPage >= totPage;
 
   return (
-    <div className='d-flex align-items-center justify-content-end'>
+    <div className='d-flex align-items-baseline justify-content-end'>
       <label className={`${style.searchLabel}`}>
         Page {curPage.toLocaleString()} of {totPage.toLocaleString()}
       </label>
