@@ -65,12 +65,12 @@ const MenuItem = ({currentRoute, page, onClick}) => {
 
 MenuItem.propTypes = {
   currentRoute: PropTypes.string,
+  onClick: PropTypes.func,
   page: PropTypes.shape({
     label: PropTypes.string,
     route: PropTypes.string,
     sub: PropTypes.array,
   }),
-  onClick: PropTypes.func,
 };
 
 export default MenuItem;
