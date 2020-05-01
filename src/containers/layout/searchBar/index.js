@@ -165,8 +165,8 @@ class SearchBarComponent extends Component {
             className='form-control'
             getSuggestionValue={_getSuggestionValue}
             inputProps={_inputProps}
-            onSuggestionSelected={this.handleSelected.bind(this)}
             onSuggestionsClearRequested={this.handleClear.bind(this)}
+            onSuggestionSelected={this.handleSelected.bind(this)}
             onSuggestionsFetchRequested={this.handleFetchData.bind(this)}
             renderSuggestion={this.renderSuggestion}
             suggestions={this.state.autoOptions}
