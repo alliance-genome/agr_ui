@@ -214,7 +214,20 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
     clickToSelect: true,
     hideSelectColumn: true,
     selected: alleleIdsSelected,
-    onSelect: (row) => setAleleIdsSelected([row.id]),
+    onSelect: (row) => {
+      const alleleIdRow = row.id;
+      setAleleIdsSelected(alleleIdsSelectedPrev => {
+        if (alleleIdsSelectedPrev.includes(alleleIdRow)) {
+          const indexAlleleId = alleleIdsSelectedPrev.indexOf(alleleIdRow);
+          return [
+            ...alleleIdsSelectedPrev.slice(0, indexAlleleId),
+            ...alleleIdsSelectedPrev.slice(indexAlleleId + 1)
+          ];
+        } else {
+          return [...alleleIdsSelectedPrev, alleleIdRow];
+        }
+      });
+    },
     style: { backgroundColor: '#ffffd4' },
   }), [alleleIdsSelected, setAleleIdsSelected]);
 
