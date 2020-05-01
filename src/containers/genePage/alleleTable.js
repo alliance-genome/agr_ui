@@ -245,6 +245,7 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
         keyField='id'
         loading={alleles.loading}
         onUpdate={dispatchFetchAlleles}
+        rowStyle={{cursor: 'pointer'}}
         selectRow={selectRow}
         sortOptions={sortOptions}
         totalRows={alleles.total}
