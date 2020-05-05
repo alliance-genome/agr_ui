@@ -16,9 +16,10 @@
 .aboutMenuContainer, .workingGroupsMenuContainer,
 .contactMenuContainer, .helpMenuContainer {
   background-size: cover;
-  background: #222222 no-repeat center center;
+  background-color: #222222;
+  background-repeat: no-repeat;
+  background-position: center;
   margin-bottom: 1.3em;
-  clear: both;
 }
 
 .postMenuContainer {
