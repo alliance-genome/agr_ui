@@ -47,9 +47,9 @@ const SECTIONS = [
   {name: PHENOTYPES},
   {name: DISEASE},
   {name: ALLELES},
+  {name: MODELS},
   {name: SEQUENCE_FEATURE_VIEWER},
   {name: EXPRESSION},
-  {name: MODELS},
   {name: INTERACTIONS},
 ];
 
@@ -156,6 +156,10 @@ class GenePage extends Component {
             />
           </Subsection>
 
+          <Subsection title={MODELS}>
+            <GeneModelsTable id={data.id} />
+          </Subsection>
+
           <Subsection
             hasData={typeof genomeLocation.chromosome!== 'undefined' && typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'}
             title={SEQUENCE_FEATURE_VIEWER}
@@ -192,10 +196,6 @@ class GenePage extends Component {
               wildtypeExpressionCrossReference={data.crossReferences.wild_type_expression}
             />
             <ExpressionComparisonRibbon geneId={data.id} geneSymbol={data.symbol} geneTaxon={data.species.taxonId} />
-          </Subsection>
-
-          <Subsection title={MODELS}>
-            <GeneModelsTable id={data.id} />
           </Subsection>
 
           <Subsection help={<InteractionUserGuide />} title={INTERACTIONS}>
