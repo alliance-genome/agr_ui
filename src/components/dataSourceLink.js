@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import ExternalLink from './externalLink';
+import {dataSourceType} from '../lib/types';
 
 class DataSourceLink extends Component {
   render() {
@@ -15,11 +16,7 @@ class DataSourceLink extends Component {
 
 DataSourceLink.propTypes = {
   children: PropTypes.node,
-  reference: PropTypes.shape({
-    url: PropTypes.string,
-    name: PropTypes.string,
-    displayName: PropTypes.string,
-  }),
+  reference: dataSourceType,
 };
 
 export default DataSourceLink;

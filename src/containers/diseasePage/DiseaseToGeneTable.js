@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import {fetchGeneAssociations} from '../../actions/diseaseActions';
 import { selectGeneAssociations } from '../../selectors/diseaseSelectors';
 
-import ExternalLink from '../../components/externalLink';
 import {CollapsibleList} from '../../components/collapsibleList';
 import {
   EvidenceCodesCell,
@@ -25,6 +24,7 @@ import AnnotatedEntitiesPopup
 import DiseaseLink from '../../components/disease/DiseaseLink';
 import {getDistinctFieldValue} from '../../components/dataTable/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
+import ProvidersCell from '../../components/dataTable/ProvidersCell';
 
 const DiseaseToGeneTable = ({associations, fetchAssociations, id}) => {
   const columns = [
@@ -89,9 +89,9 @@ const DiseaseToGeneTable = ({associations, fetchAssociations, id}) => {
       headerStyle: {width: '120px'},
     },
     {
-      dataField: 'source',
+      dataField: 'providers',
       text: 'Source',
-      formatter: source => <ExternalLink href={source.url}>{source.name}</ExternalLink>,
+      formatter: providers => providers && <ProvidersCell providers={providers} />,
       filterable: true,
       headerStyle: {width: '85px'},
     },
