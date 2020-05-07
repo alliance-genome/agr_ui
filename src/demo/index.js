@@ -101,7 +101,7 @@ function createExample(range, genome, divId, type, showLabel, variantFilter) {
                 "isoform_url": [
                     `${BASE_URL}/track/`,
                     "/All%20Genes/",
-                    ".json"
+                    ".json?ignoreCache=true"
                 ],
                 "variant_url": [
                     `${BASE_URL}/vcf/`,
