@@ -43,6 +43,13 @@ export default class GenomeFeatureViewer {
       }
     }
 
+
+    setSelectedAlleles(selectedAlleles){
+      // TODO: for @pjhale
+       // console.log('selected alleles are being set',selectedAlleles)
+    }
+
+
     // Check configuration files
     _checkConfig(config) {
         // Ensure we have config type

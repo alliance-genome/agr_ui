@@ -131,6 +131,10 @@ function createExample(range, genome, divId, type, showLabel, variantFilter) {
         //   console.log('2')
         // })
     }
+
+    if(divId==='viewerMouseExample6'){
+      gfc.setSelectedAlleles(["MGI:6366485"])
+    }
 }
 
 
