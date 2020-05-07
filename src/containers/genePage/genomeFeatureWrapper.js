@@ -41,8 +41,6 @@ class GenomeFeatureWrapper extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log('prev props',prevProps.allelesSelected);
-    console.log('this props',this.props.allelesSelected);
     if (this.props.primaryId !== prevProps.primaryId) {
       this.loadGenomeFeature();
       this.generateJBrowseLink();
