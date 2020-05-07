@@ -46,7 +46,7 @@ export default class GenomeFeatureViewer {
 
     setSelectedAlleles(selectedAlleles){
       // TODO: for @pjhale
-       // console.log('selected alleles are being set',selectedAlleles)
+       console.log('selected alleles are being set',selectedAlleles)
     }
 
 
