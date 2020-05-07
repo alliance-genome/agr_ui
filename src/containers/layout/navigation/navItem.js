@@ -1,41 +1,34 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
-import style from './style.scss';
-
-class NavItem extends Component {
-  render() {
-    const { currentRoute, page } = this.props;
-    const isParent = typeof page.sub !== 'undefined';
-    const isActive = route => route === currentRoute ? style.active : '';
-    const menuItem = isParent ?
-      <a className='nav-link dropdown-toggle' data-toggle='dropdown' href='#' role='button'>{page.label}</a> :
-      <Link className={`nav-link ${isActive(page.route)} ${style.menuItem}`} to={page.route}>{page.label}</Link>;
-    return (
-      <li className={`nav-item ${isParent ? ' dropdown' : ''}`}>
-        <div className='btn-group'>
-          {menuItem}
-          {page.sub && (
-            <div className='dropdown-menu' key role='menu'>
-              {
-                page.sub.map(sub => (
-                  <Link
-                    className={`dropdown-item sub-menu ${isActive(sub.route)}`}
-                    key={sub.route}
-                    to={sub.route}
-                  >
-                    {sub.label}
-                  </Link>
-                ))
-              }
-            </div>
-          )}
+const NavItem = ({currentRoute, page}) => {
+  const isParent = typeof page.sub !== 'undefined';
+  const isActive = page.route === currentRoute ? 'active' : '';
+  const menuItem = isParent ?
+    <a className='nav-link dropdown-toggle mr-3' data-toggle='dropdown' href='#' role='button'>{page.label}</a> :
+    <Link className={`nav-link mr-3 ${isActive}`} to={page.route}>{page.label}</Link>;
+  return (
+    <li className={`nav-item ${isParent ? ' dropdown' : ''}`}>
+      {menuItem}
+      {page.sub && (
+        <div className='dropdown-menu' key role='menu'>
+          {
+            page.sub.map(sub => (
+              <Link
+                className={'dropdown-item'}
+                key={sub.route}
+                to={sub.route}
+              >
+                {sub.label}
+              </Link>
+            ))
+          }
         </div>
-      </li>
-    );
-  }
-}
+      )}
+    </li>
+  );
+};
 
 NavItem.propTypes = {
   currentRoute: PropTypes.string,

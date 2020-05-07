@@ -1,5 +1,7 @@
 @import "../../theme";
-@import "~bootstrap/scss/bootstrap";
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
 
 $page-nav-width: 220px;
 
@@ -10,6 +12,7 @@ $page-nav-width: 220px;
 
   @include media-breakpoint-up(md) {
     flex-direction: row;
+    padding-top: 1rem;
   }
 }
 
@@ -19,7 +22,7 @@ $page-nav-width: 220px;
   padding: 0 15px;
 
   @include media-breakpoint-up(md) {
-    border-left: 1px solid $hr-border-color;
+    border-left: 1px solid $border-color;
     max-width: calc(100vw - #{$page-nav-width});
   }
 }
@@ -54,14 +57,14 @@ $page-nav-width: 220px;
     align-items: center;
     margin: 0 0.75rem;
     padding: 0.75rem 0;
-    color: #495057;
+    color: $gray-700;
 
     @include media-breakpoint-up(md) {
-      border-bottom: 1px solid $hr-border-color;
+      border-bottom: 1px solid $border-color;
     }
 
     h4 {
-      color: #495057;
+      color: $gray-700;
     }
   }
 

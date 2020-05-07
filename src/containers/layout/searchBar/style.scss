@@ -1,19 +1,10 @@
 @import "../../../theme";
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
 
-.container {
-	float: left;
-	width: 100%;
-  margin-top: 25px;
-}
-
-.container form {
-	float: right;
-}
-
-.dropdown {
-	border-radius: 0.25rem 0 0 0.25rem;
-  min-width: 6rem;
-  height:3rem;
+.searchBarOuter {
+  border-radius: $border-radius;
+  box-shadow: 0 .075em .075em rgba(black, .3);
 }
 
 .dropdownItem {
@@ -35,14 +26,17 @@
 }
 
 .autoInput {
-  height: 3rem;
+  height: 100%;
   padding: 0 5px;
   width: 100%;
   border: 1px solid $secondary;
 }
 
-.searchBtns{
-  height:3rem
+.searchButton {
+  font-size: inherit;
+  background-color: white;
+  border-color: $secondary;
+  padding: 0.375em 0.75em;
 }
 
 .autoInput:focus {
@@ -57,6 +51,7 @@
   border-top-width: 0;
   width: 100%;
 	z-index: 102;
+  font-size: $font-size-base;
 }
 
 .suggestionsList {
@@ -84,19 +79,5 @@
 }
 
 .suggestionHighlighted {
-	background: #E8F2FE;
-}
-
-.search .fa-search {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-}
-
-.dropdown.dropdownBtn{
-  border: 1px solid #cccccc;
-}
-
-.searchForm {
-  width: 300px;
+	background: $primary-100;
 }
