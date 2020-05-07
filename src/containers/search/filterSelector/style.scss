@@ -1,6 +1,5 @@
-.aggContainer {
-	margin-top: 0.25rem;
-}
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
 
 .aggValContainer {
 	margin-bottom: 1rem;
@@ -55,9 +54,8 @@ ul.filterList li {
 .mobileToolbar{
   padding: 10px;
   margin-bottom: 10px;
-  background-color: #fff;
-  border-bottom: 2px solid #ddd;
-  border-top: 2px solid #ddd;
+  background-color: white;
+  border-bottom: 2px solid $border-color;
   transition: .2s linear;
 }
 

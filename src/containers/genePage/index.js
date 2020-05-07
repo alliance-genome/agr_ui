@@ -42,14 +42,14 @@ const MODELS = 'Models';
 
 const SECTIONS = [
   {name: SUMMARY},
-  {name: SEQUENCE_FEATURE_VIEWER},
-  {name: FUNCTION},
   {name: ORTHOLOGY},
+  {name: FUNCTION},
   {name: PHENOTYPES},
   {name: DISEASE},
-  {name: EXPRESSION},
   {name: ALLELES},
   {name: MODELS},
+  {name: SEQUENCE_FEATURE_VIEWER},
+  {name: EXPRESSION},
   {name: INTERACTIONS},
 ];
 
@@ -128,6 +128,38 @@ class GenePage extends Component {
             <BasicGeneInfo gene={data} />
           </Subsection>
 
+          <Subsection help={<OrthologyUserGuide />} title={ORTHOLOGY}>
+            <OrthologyBasicInfo pantherCrossReference={data.crossReferences.panther} />
+            <OrthologyFilteredTable geneId={data.id} />
+          </Subsection>
+
+          <Subsection help={<GoUserGuide />} title={FUNCTION}>
+            <GeneOntologyRibbon geneId={data.id} geneTaxon={data.species.taxonId} />
+          </Subsection>
+
+          <Subsection title={PHENOTYPES}>
+            <PhenotypeTable geneId={data.id} />
+          </Subsection>
+
+          <Subsection title={DISEASE}>
+            <DiseaseComparisonRibbon geneId={data.id} geneSymbol={data.symbol} geneTaxon={data.species.taxonId} />
+          </Subsection>
+
+          <Subsection title={ALLELES}>
+            <AlleleTable
+              gene={data}
+              geneDataProvider={data.dataProvider}
+              geneId={data.id}
+              geneLocation={genomeLocation}
+              geneSymbol={data.symbol}
+              species={data.species.name}
+            />
+          </Subsection>
+
+          <Subsection title={MODELS}>
+            <GeneModelsTable id={data.id} />
+          </Subsection>
+
           <Subsection
             hasData={typeof genomeLocation.chromosome!== 'undefined' && typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'}
             title={SEQUENCE_FEATURE_VIEWER}
@@ -150,23 +182,6 @@ class GenePage extends Component {
             />
           </Subsection>
 
-          <Subsection help={<GoUserGuide />} title={FUNCTION}>
-            <GeneOntologyRibbon geneId={data.id} geneTaxon={data.species.taxonId} />
-          </Subsection>
-
-          <Subsection help={<OrthologyUserGuide />} title={ORTHOLOGY}>
-            <OrthologyBasicInfo pantherCrossReference={data.crossReferences.panther} />
-            <OrthologyFilteredTable geneId={data.id} />
-          </Subsection>
-
-          <Subsection title={PHENOTYPES}>
-            <PhenotypeTable geneId={data.id} />
-          </Subsection>
-
-          <Subsection title={DISEASE}>
-            <DiseaseComparisonRibbon geneId={data.id} geneSymbol={data.symbol} geneTaxon={data.species.taxonId} />
-          </Subsection>
-
           <Subsection help={<ExpressionUserGuide />} title={EXPRESSION}>
             <ExpressionLinks
               allExpressionCrossReference={data.crossReferences.expression}
@@ -181,21 +196,6 @@ class GenePage extends Component {
               wildtypeExpressionCrossReference={data.crossReferences.wild_type_expression}
             />
             <ExpressionComparisonRibbon geneId={data.id} geneSymbol={data.symbol} geneTaxon={data.species.taxonId} />
-          </Subsection>
-
-          <Subsection title={ALLELES}>
-            <AlleleTable
-              gene={data}
-              geneDataProvider={data.dataProvider}
-              geneId={data.id}
-              geneLocation={genomeLocation}
-              geneSymbol={data.symbol}
-              species={data.species.name}
-            />
-          </Subsection>
-
-          <Subsection title={MODELS}>
-            <GeneModelsTable id={data.id} />
           </Subsection>
 
           <Subsection help={<InteractionUserGuide />} title={INTERACTIONS}>

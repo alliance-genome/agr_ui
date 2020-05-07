@@ -61,7 +61,6 @@ export const NAV_MENU = [
   {
     label: 'Home',
     route: '/',
-    wordpressId: 16,
   },
   {
     label: 'Data',
@@ -78,7 +77,6 @@ export const NAV_MENU = [
   },
   {
     label: 'About',
-    wordpressId: 2,
     sub: [
       {
         label: 'About Us',
@@ -101,11 +99,9 @@ export const NAV_MENU = [
   {
     label: 'Working Groups',
     route: '/working-groups',
-    wordpressId: 1184,
   },
   {
     label: 'News',
-    wordpressId: 473,
     sub: [
       {
         label: 'News and Events',
@@ -119,7 +115,6 @@ export const NAV_MENU = [
   },
   {
     label: 'Help',
-    wordpressId: 179,
     sub: [
       {
         label: 'Frequently Asked Questions',
@@ -142,7 +137,6 @@ export const NAV_MENU = [
   {
     label: 'Contact Us',
     route: '/contact-us',
-    wordpressId: 3,
   },
 ];
 
