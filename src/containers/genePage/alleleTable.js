@@ -188,7 +188,7 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
     }));
   }, [alleles]);
 
-  const [alleleIdsSelected, setAleleIdsSelected] = useState([]);
+  const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
 
 
   const variantsSequenceViewerProps = useMemo(() => {
@@ -205,9 +205,9 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
     return {
       allelesSelected: alleleIdsSelected.map(formatAllele),
       allelesVisible: data.map(({id}) => formatAllele(id)),
-      onAllelesSelect: setAleleIdsSelected,
+      onAllelesSelect: setAlleleIdsSelected,
     };
-  }, [data, alleleIdsSelected, setAleleIdsSelected]);
+  }, [data, alleleIdsSelected, setAlleleIdsSelected]);
 
   const selectRow = useMemo(() => ({
     mode: 'checkbox',
@@ -216,7 +216,7 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
     selected: alleleIdsSelected,
     onSelect: (row) => {
       const alleleIdRow = row.id;
-      setAleleIdsSelected(alleleIdsSelectedPrev => {
+      setAlleleIdsSelected(alleleIdsSelectedPrev => {
         if (alleleIdsSelectedPrev.includes(alleleIdRow)) {
           const indexAlleleId = alleleIdsSelectedPrev.indexOf(alleleIdRow);
           return [
@@ -229,7 +229,7 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
       });
     },
     style: { backgroundColor: '#ffffd4' },
-  }), [alleleIdsSelected, setAleleIdsSelected]);
+  }), [alleleIdsSelected, setAlleleIdsSelected]);
 
   return (
     <>
