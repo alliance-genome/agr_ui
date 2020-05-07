@@ -14,6 +14,7 @@ import '../../style.scss';
 import HorizontalScroll from '../../components/horizontalScroll';
 import {SPECIES} from '../../constants';
 import HelpPopup from '../../components/helpPopup';
+import {isEqual} from 'underscore';
 
 import style from './style.scss';
 
@@ -43,6 +44,11 @@ class GenomeFeatureWrapper extends Component {
     if (this.props.primaryId !== prevProps.primaryId) {
       this.loadGenomeFeature();
       this.generateJBrowseLink();
+      this.gfc.setSelectedAlleles(this.props.allelesSelected);
+    }
+    else
+    if(!isEqual(prevProps.allelesSelected,this.props.allelesSelected)) {
+      this.gfc.setSelectedAlleles(this.props.allelesSelected);
     }
   }
 
@@ -196,6 +202,7 @@ class GenomeFeatureWrapper extends Component {
 }
 
 GenomeFeatureWrapper.propTypes = {
+  allelesSelected: PropTypes.string,
   assembly: PropTypes.string,
   biotype: PropTypes.string,
   chromosome: PropTypes.string,
