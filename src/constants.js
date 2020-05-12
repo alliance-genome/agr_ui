@@ -76,6 +76,19 @@ export const NAV_MENU = [
     ]
   },
   {
+    label: 'News',
+    sub: [
+      {
+        label: 'News and Events',
+        route: '/news'
+      },
+      {
+        label: 'Release Notes',
+        route: '/release-notes'
+      }
+    ]
+  },
+  {
     label: 'About',
     sub: [
       {
@@ -91,6 +104,10 @@ export const NAV_MENU = [
         route: '/organization-and-governance'
       },
       {
+        label: 'Privacy, Warranty, and Licensing',
+        route: '/privacy-warranty-licensing'
+      },
+      {
         label: 'Publications',
         route: '/publications',
       }
@@ -99,19 +116,6 @@ export const NAV_MENU = [
   {
     label: 'Working Groups',
     route: '/working-groups',
-  },
-  {
-    label: 'News',
-    sub: [
-      {
-        label: 'News and Events',
-        route: '/news'
-      },
-      {
-        label: 'Release Notes',
-        route: '/release-notes'
-      }
-    ]
   },
   {
     label: 'Help',
