@@ -6,7 +6,7 @@ import AlleleSymbol from '../../containers/allelePage/AlleleSymbol';
 const AlleleCell = ({allele}) => {
   return (
     <Link to={`/allele/${allele.id}`}>
-      <AlleleSymbol allele={allele} />
+      <AlleleSymbol allele={allele} wrap />
     </Link>
   );
 };
