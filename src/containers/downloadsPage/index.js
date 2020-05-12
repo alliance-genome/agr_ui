@@ -195,7 +195,10 @@ class DownloadsPage extends React.Component {
             <DownloadFileTable>
               <DownloadFileRow
                 description='Alliance combined orthology data'
-                url={this.getUrlForDataType('ORTHOLOGY-ALLIANCE', 'COMBINED')}
+                url={[
+                  this.getUrlForDataType('ORTHOLOGY-ALLIANCE', 'COMBINED'),
+                  this.getUrlForDataType('ORTHOLOGY-ALLIANCE-JSON', 'COMBINED'),
+                ]}
               />
             </DownloadFileTable>
           </Subsection>
