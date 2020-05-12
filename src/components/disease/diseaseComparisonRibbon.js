@@ -127,8 +127,8 @@ class DiseaseComparisonRibbon extends Component {
           </ControlsContainer>
         </div>
 
-        <HorizontalScroll width={800}>
-          <span style={{display: 'inline-block'}}>
+        <HorizontalScroll>
+          <div className='text-nowrap'>
             <GenericRibbon
               categories={summary.data.categories}
               colorBy={COLOR_BY.CLASS_COUNT}
@@ -141,7 +141,7 @@ class DiseaseComparisonRibbon extends Component {
               subjectLabelPosition={POSITION.LEFT}
               subjects={summary.data.subjects}
             />
-          </span>
+          </div>
           <div>{summary.loading && <LoadingSpinner />}</div>
         </HorizontalScroll>
 
