@@ -604,8 +604,8 @@ class GeneOntologyRibbon extends Component {
                     selectionMode={SELECTION.CELL}
                     subjectLabel={subject => <RibbonGeneSubjectLabel gene={subject} isFocusGene={subject.id === geneId} />}
                     subjectLabelPosition={POSITION.LEFT}
-                    subjectUseTaxonIcon
                     subjects={this.state.ribbon.subjects}
+                    subjectUseTaxonIcon
                   />
             }
             {
