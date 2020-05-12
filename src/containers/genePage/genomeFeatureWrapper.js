@@ -14,7 +14,7 @@ import '../../style.scss';
 import HorizontalScroll from '../../components/horizontalScroll';
 import {SPECIES} from '../../constants';
 import HelpPopup from '../../components/helpPopup';
-import {isEqual} from 'underscore';
+import isEqual from 'lodash.isequal';
 
 import style from './style.scss';
 
