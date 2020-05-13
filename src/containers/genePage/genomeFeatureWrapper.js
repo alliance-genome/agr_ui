@@ -45,10 +45,15 @@ class GenomeFeatureWrapper extends Component {
       this.loadGenomeFeature();
       this.generateJBrowseLink();
       this.gfc.setSelectedAlleles(this.props.allelesSelected);
+      this.gfc.setVisibleAlleles(this.props.allelesVisible);
     }
     else
     if(!isEqual(prevProps.allelesSelected,this.props.allelesSelected)) {
       this.gfc.setSelectedAlleles(this.props.allelesSelected);
+    }
+    else
+    if(!isEqual(prevProps.allelesVisible,this.props.allelesVisible)) {
+      this.gfc.setVisibleAlleles(this.props.allelesVisible);
     }
   }
 
@@ -202,7 +207,8 @@ class GenomeFeatureWrapper extends Component {
 }
 
 GenomeFeatureWrapper.propTypes = {
-  allelesSelected: PropTypes.string,
+  allelesSelected: PropTypes.array,
+  allelesVisible: PropTypes.array,
   assembly: PropTypes.string,
   biotype: PropTypes.string,
   chromosome: PropTypes.string,
