@@ -21,7 +21,7 @@ let MAX_ROWS = 9;
 
 export default class IsoformAndVariantTrack {
 
-  constructor(viewer, track, height, width, transcriptTypes, variantTypes,showVariantLabel,variantFilter,binRatio) {
+  constructor(viewer, track, height, width, transcriptTypes, variantTypes,showVariantLabel,variantFilter,binRatio,visibleVariants) {
     this.trackData = {};
     this.variantData = {};
     this.viewer = viewer;
@@ -31,6 +31,7 @@ export default class IsoformAndVariantTrack {
     this.transcriptTypes = transcriptTypes;
     this.variantTypes = variantTypes;
     this.binRatio = binRatio ;
+    this.visibleVariants = visibleVariants ;
     this.showVariantLabel = showVariantLabel!==undefined ? showVariantLabel : true ;
   }
 
@@ -39,10 +40,11 @@ export default class IsoformAndVariantTrack {
   // for both testing/extensibility
   DrawTrack() {
     let isoformData = this.trackData;
-    let variantData = this.filterVariantData(this.variantData,this.variantFilter);
+    let variantData = this.filterVariantData(this.variantData,this.variantFilter,this.visibleVariants);
     let viewer = this.viewer;
     let width = this.width;
     let showVariantLabel = this.showVariantLabel;
+    let visibleVariants = this.visibleVariants;
     let binRatio = this.binRatio;
 
     let distinctVariants= getVariantTrackPositions(variantData);
@@ -554,16 +556,30 @@ export default class IsoformAndVariantTrack {
     return (row_count * ISOFORM_HEIGHT) + heightBuffer + VARIANT_TRACK_HEIGHT;
   }
 
-  filterVariantData(variantData, variantFilter) {
-    if(variantFilter.length===0) return variantData ;
+  filterVariantData(variantData, variantFilter,visibleVariants) {
+    if(variantFilter.length===0 && (visibleVariants===undefined || visibleVariants.length===0)) return variantData ;
     try {
       return variantData.filter(v => {
+        if(visibleVariants && visibleVariants.length>0){
+          try{
+            const variantId = v.alleles.values[0].replace(/"/g,"")
+            const symbol = v.symbol.values[0].replace(/"/g,"")
+            return (
+              visibleVariants.indexOf(variantId)>=0 ||
+              visibleVariants.indexOf(symbol)>=0
+            )
+          }
+          catch(e){
+            console.error('problem extracting symbol',e)
+            return true
+          }
+        }
         const variantName = v.name;
         const variantSymbol = v.symbol.values[0].replace(/\"/g, ""); // has to be filtered
         return variantFilter.indexOf(variantName) >= 0 || variantFilter.indexOf(variantSymbol) >= 0;
       });
     } catch (e) {
-      console.warn('problem filtering variant data',variantData,variantFilter);
+      console.warn('problem filtering variant data',variantData,variantFilter,e);
     }
   }
 

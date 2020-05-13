@@ -32,6 +32,7 @@ function flyExamples() {
     createExample("2R:23974973..23989002", "fly", "viewerFlyExample3NoLabel", TRACK_TYPE.ISOFORM_EMBEDDED_VARIANT, false, ['NT_033778.4:g.23975146T>C']);
     createExample("2R:23974973..23989002", "fly", "viewerFlyExample2NoLabel", TRACK_TYPE.ISOFORM_EMBEDDED_VARIANT, false);
     createExample("2R:23974973..23989002", "fly", "viewerFlyExample2NoLabelAnd", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
+    createExample("2R:23974973..23989002", "fly", "viewerFlyExample2NoLabelAndFilterTest", TRACK_TYPE.ISOFORM_AND_VARIANT, false,[],["FB:FBal0161449","FB:FBal0216624","FB:FBal0242676"]);
 }
 
 function ratExamples() {
@@ -80,7 +81,7 @@ function isoformExamples() {
     createIsoformExample("25:15029041..15049781", "zebrafish", "zebrafishExampleIsoformOnly", TRACK_TYPE.ISOFORM, true);
 }
 
-function createExample(range, genome, divId, type, showLabel, variantFilter) {
+function createExample(range, genome, divId, type, showLabel, variantFilter,visibleVariants) {
     const chromosome = range.split(":")[0];
     const [start, end] = range.split(":")[1].split("..");
     const ratio = 0.01;
@@ -92,6 +93,7 @@ function createExample(range, genome, divId, type, showLabel, variantFilter) {
         "showVariantLabel": showLabel,
       "transcriptTypes": getTranscriptTypes(),
       "variantFilter": variantFilter || [],
+      "visibleVariants": visibleVariants || [],
         "binRatio": ratio,
         "tracks": [
             {
