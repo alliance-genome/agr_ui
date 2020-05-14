@@ -51,7 +51,7 @@ class GenomeFeatureWrapper extends Component {
       this.gfc.setSelectedAlleles(this.props.allelesSelected);
     }
     else
-    if(!isEqual(prevProps.allelesVisible,this.props.allelesVisible)) {
+    if(!isEqual(prevProps.visibleVariants,this.props.visibleVariants)) {
       this.loadGenomeFeature();
     }
   }
@@ -80,7 +80,7 @@ class GenomeFeatureWrapper extends Component {
     return SPECIES.find(s => s.fullName === species).apolloName;
   }
 
-  generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, variantFilter, displayType,visibleVariants) {
+  generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, variantFilter, displayType) {
     let transcriptTypes = getTranscriptTypes();
     if (displayType === 'ISOFORM') {
       // if(species==='Saccharomyces cerevisiae' || species ==='Homo sapiens' || variantFilter === undefined){
@@ -110,8 +110,8 @@ class GenomeFeatureWrapper extends Component {
         'start': fmin,
         'end': fmax,
         'showVariantLabel': false,
-        'variantFilter': variantFilter ? [variantFilter] : [],
-        'visibleVariants': visibleVariants,
+        'variantFilter': variantFilter ? variantFilter : [],
+        'visibleVariants': undefined,
         'binRatio': 0.01,
         'transcriptTypes': transcriptTypes,
         'tracks': [
@@ -140,7 +140,7 @@ class GenomeFeatureWrapper extends Component {
   }
 
   loadGenomeFeature() {
-    const {chromosome, allelesVisible, fmin, fmax, species, id, primaryId, geneSymbol, displayType, synonyms = [], variant} = this.props;
+    const {chromosome, fmin, fmax, species, id, primaryId, geneSymbol, displayType, synonyms = [], visibleVariants} = this.props;
     // provide unique names
     let nameSuffix = [geneSymbol, ...synonyms, primaryId].filter((x, i, a) => a.indexOf(x) === i).map(x => encodeURI(x));
     let nameSuffixString = nameSuffix.length === 0 ? '' : nameSuffix.join('&name=');
@@ -154,8 +154,9 @@ class GenomeFeatureWrapper extends Component {
     // [0] should be apollo_url: https://agr-apollo.berkeleybop.io/apollo/track
     // [1] should be track name : ALL_Genes
     // [2] should be track name : name suffix string
-    const visibleVariants = allelesVisible && allelesVisible.length>0 ? allelesVisible.map( a => a.id ) : undefined;
-    const trackConfig = this.generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, variant, displayType,visibleVariants);
+    // const visibleVariants = allelesVisible && allelesVisible.length>0 ? allelesVisible.map( a => a.id ) : undefined;
+    console.log('visible variants: ',visibleVariants);
+    const trackConfig = this.generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, visibleVariants, displayType);
     this.gfc = new GenomeFeatureViewer(trackConfig, `#${id}`, 900, undefined);
     this.helpText = this.gfc.generateLegend();
   }
@@ -209,7 +210,6 @@ class GenomeFeatureWrapper extends Component {
 
 GenomeFeatureWrapper.propTypes = {
   allelesSelected: PropTypes.array,
-  allelesVisible: PropTypes.array,
   assembly: PropTypes.string,
   biotype: PropTypes.string,
   chromosome: PropTypes.string,
@@ -223,7 +223,7 @@ GenomeFeatureWrapper.propTypes = {
   species: PropTypes.string.isRequired,
   strand: PropTypes.string,
   synonyms: PropTypes.array,
-  variant: PropTypes.string,
+  visibleVariants: PropTypes.array,
   width: PropTypes.string,
 };
 
