@@ -558,9 +558,15 @@ export default class IsoformAndVariantTrack {
     if(variantFilter.length===0) return variantData ;
     try {
       return variantData.filter(v => {
-        const variantName = v.name;
-        const variantSymbol = v.symbol.values[0].replace(/\"/g, ""); // has to be filtered
-        return variantFilter.indexOf(variantName) >= 0 || variantFilter.indexOf(variantSymbol) >= 0;
+        try {
+          if (variantFilter.indexOf(v.name) >= 0) return true
+          if (variantFilter.indexOf(v.symbol.values[0].replace(/"/g, "")) >= 0) return true
+          if (variantFilter.indexOf(v.alleles.values[0].replace(/"/g, "")) >= 0) return true
+        } catch (e) {
+          log.error('error processing filter with so returning anyway',variantFilter,v,e)
+          return true
+        }
+        return false
       });
     } catch (e) {
       console.warn('problem filtering variant data',variantData,variantFilter);
