@@ -155,7 +155,6 @@ class GenomeFeatureWrapper extends Component {
     // [1] should be track name : ALL_Genes
     // [2] should be track name : name suffix string
     // const visibleVariants = allelesVisible && allelesVisible.length>0 ? allelesVisible.map( a => a.id ) : undefined;
-    console.log('visible variants: ',visibleVariants);
     const trackConfig = this.generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, visibleVariants, displayType);
     this.gfc = new GenomeFeatureViewer(trackConfig, `#${id}`, 900, undefined);
     this.helpText = this.gfc.generateLegend();
