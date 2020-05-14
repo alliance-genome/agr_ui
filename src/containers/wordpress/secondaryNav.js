@@ -25,14 +25,24 @@ class SecondaryNav extends Component {
   }
 
   render () {
-    const { parent, title, type } = this.props;
+    const { parent, slug, title, type } = this.props;
 
     let menuCat = (type === 'post') ? 'post' : parent;
     let menuContainer = this.getStyle(menuCat);
 
+    // background image is typically decided by the parent page, but this one
+    // is a special case for now.
+    // TODO: should all banner images be determined by slug instead of parent? can it come from wordpress instead of hardcoded?
+    let menuStyle;
+    if (slug === 'coronavirus-resources') {
+      menuStyle = {
+        backgroundImage: 'url(\'https://alliancegenome.files.wordpress.com/2020/05/covid19.png\')'
+      };
+    }
+
     return (
       <div>
-        <div className={menuContainer}>
+        <div className={menuContainer} style={menuStyle}>
           <div className='container-fluid'>
             <div className={style.secondaryNavEmptyRow} />
             <div className={`row ${style.secondaryNav}`}>
@@ -49,6 +59,7 @@ class SecondaryNav extends Component {
 
 SecondaryNav.propTypes = {
   parent: PropTypes.number,
+  slug: PropTypes.string,
   title: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
 };
