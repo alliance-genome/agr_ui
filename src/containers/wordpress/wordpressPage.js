@@ -50,7 +50,7 @@ class WordpressPage extends Component {
     return (
       <div className={style.wordPressContainer}>
         <HeadMetaTags title={title} />
-        {slug !== 'home' && <SecondaryNav parent={parentId} title={title} type='page' />}
+        {slug !== 'home' && <SecondaryNav parent={parentId} slug={slug} title={title} type='page' />}
         {slug !== 'home' && <ReplaceLinks html={page.content.rendered} />}
       </div>
     );
