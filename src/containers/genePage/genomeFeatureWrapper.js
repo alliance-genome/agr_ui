@@ -52,7 +52,7 @@ class GenomeFeatureWrapper extends Component {
     }
     else
     if(!isEqual(prevProps.allelesVisible,this.props.allelesVisible)) {
-      this.gfc.setVisibleAlleles(this.props.allelesVisible);
+      this.loadGenomeFeature();
     }
   }
 
@@ -154,7 +154,8 @@ class GenomeFeatureWrapper extends Component {
     // [0] should be apollo_url: https://agr-apollo.berkeleybop.io/apollo/track
     // [1] should be track name : ALL_Genes
     // [2] should be track name : name suffix string
-    const trackConfig = this.generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, variant, displayType,allelesVisible);
+    const visibleVariants = allelesVisible && allelesVisible.length>0 ? allelesVisible.map( a => a.id ) : undefined;
+    const trackConfig = this.generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, variant, displayType,visibleVariants);
     this.gfc = new GenomeFeatureViewer(trackConfig, `#${id}`, 900, undefined);
     this.helpText = this.gfc.generateLegend();
   }
