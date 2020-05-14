@@ -145,6 +145,7 @@ const GenePhysicalInteractionDetailTable = ({dispatchFetchInteractions, focusGen
     {
       dataField: 'reference',
       text: 'Reference',
+      // eslint-disable-next-line react/prop-types
       formatter: ({pubMedUrl, primaryKey} = {}) => <ExternalLink href={pubMedUrl}>{primaryKey}</ExternalLink>,
       headerStyle: {width: '10em'},
       headerClasses: style.columnHeaderGroup3,
