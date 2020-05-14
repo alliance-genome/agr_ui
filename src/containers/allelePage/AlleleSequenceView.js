@@ -49,7 +49,7 @@ const AlleleSequenceView = ({allele, variants}) => {
       species={allele.species.name}
       strand={genomeLocation.strand}
       synonyms={allele.synonyms}
-      variant={allele.symbol}
+      visibleVariants={[allele.symbol]}
       width='600px'
     />
   );
