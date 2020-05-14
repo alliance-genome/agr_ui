@@ -34,7 +34,6 @@ export default class Drawer {
         let viewer = this.gfc["viewer"];
         let tracks = this.gfc["tracks"];
         let showVariantLabel = this.gfc.config["showVariantLabel"] ;
-        let visibleVariants = this.gfc.config.visibleVariants ;
         let transcriptTypes = this.gfc.config.transcriptTypes ? this.gfc.config.transcriptTypes : ['mRNA'];
         let variantTypes = this.gfc.config.variantTypes ? this.gfc.config.variantTypes : ['point_mutation','MNV','Deletion','Insertion','Delins'];
         let svg_target = this.gfc["svg_target"];
@@ -99,14 +98,14 @@ export default class Drawer {
           track["variant_filter"] = variantFilter;
           if(track.type === TRACK_TYPE.ISOFORM_AND_VARIANT)
           {
-            const isoformVariantTrack = new IsoformAndVariantTrack(viewer, track, height, width,transcriptTypes,variantTypes,showVariantLabel,variantFilter,binRatio,visibleVariants);
+            const isoformVariantTrack = new IsoformAndVariantTrack(viewer, track, height, width,transcriptTypes,variantTypes,showVariantLabel,variantFilter,binRatio);
             await isoformVariantTrack.populateTrack(track,() => track.isoformFunction,() => track.variantFunction);
             track_height += isoformVariantTrack.DrawTrack();
           }
           else
           if(track.type === TRACK_TYPE.ISOFORM_EMBEDDED_VARIANT)
           {
-            const isoformVariantTrack = new IsoformEmbeddedVariantTrack(viewer, track, height, width,transcriptTypes,variantTypes,showVariantLabel,variantFilter,binRatio,visibleVariants);
+            const isoformVariantTrack = new IsoformEmbeddedVariantTrack(viewer, track, height, width,transcriptTypes,variantTypes,showVariantLabel,variantFilter,binRatio);
             await isoformVariantTrack.populateTrack(track,() => track.isoformFunction,() => track.variantFunction);
             track_height += isoformVariantTrack.DrawTrack();
           }

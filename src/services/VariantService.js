@@ -386,7 +386,6 @@ export function getVariantDescription(variant){
   return returnObject ;
 }
 
-
 export function getVariantSymbol(variant){
   if(variant.variants){
     if(variant.variants.length!==1){

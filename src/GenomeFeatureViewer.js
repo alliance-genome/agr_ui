@@ -50,7 +50,7 @@ export default class GenomeFeatureViewer {
     }
 
 
-  // Check configuration files
+    // Check configuration files
     _checkConfig(config) {
         // Ensure we have config type
         // TODO: Make sure we have top label information
