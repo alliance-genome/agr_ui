@@ -5,6 +5,7 @@ import { fetchAlleleVariants } from '../../actions/alleleActions';
 import { connect } from 'react-redux';
 import { RemoteDataTable } from '../../components/dataTable';
 import { VariantJBrowseLink } from '../../components/variant';
+import VariantToTranscriptTable from './VariantToTranscriptTable';
 
 const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) => {
   const { data:dataRaw = [], loading, total} = variants;
@@ -75,17 +76,20 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
   ];
 
   return (
-    <RemoteDataTable
-      columns={columns}
-      data={data}
-      downloadUrl={`/api/allele/${alleleId}/variants/download`}
-      key={alleleId}
-      keyField='id'
-      loading={loading}
-      noDataMessage='No mapped variant information available'
-      onUpdate={fetchVariants}
-      totalRows={total}
-    />
+    <>
+      <RemoteDataTable
+        columns={columns}
+        data={data}
+        downloadUrl={`/api/allele/${alleleId}/variants/download`}
+        key={alleleId}
+        keyField='id'
+        loading={loading}
+        noDataMessage='No mapped variant information available'
+        onUpdate={fetchVariants}
+        totalRows={total}
+      />
+      <VariantToTranscriptTable />
+    </>
   );
 };
 AlleleToVariantTable.propTypes = {
