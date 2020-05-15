@@ -135,6 +135,7 @@ VariantToTranscriptTable.propTypes = {
     loading: PropTypes.any,
     total: PropTypes.any,
   }),
+  variantId: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = () => ({
