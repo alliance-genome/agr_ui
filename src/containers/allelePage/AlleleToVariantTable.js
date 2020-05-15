@@ -4,6 +4,12 @@ import { selectVariants } from '../../selectors/alleleSelectors';
 import { fetchAlleleVariants } from '../../actions/alleleActions';
 import { connect } from 'react-redux';
 import { RemoteDataTable } from '../../components/dataTable';
+import Subsection from '../../components/subsection';
+import {
+  AttributeLabel,
+  AttributeList,
+  AttributeValue
+} from '../../components/attribute';
 import { VariantJBrowseLink } from '../../components/variant';
 import VariantToTranscriptTable from './VariantToTranscriptTable';
 
@@ -88,7 +94,36 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
         onUpdate={fetchVariants}
         totalRows={total}
       />
-      <VariantToTranscriptTable />
+      <br />
+      <br />
+      <Subsection title="Molecular consequences">
+        {
+          data.map(({id: variantId, location, type = {}, geneLocation = {}, species = {}}) => (
+            <React.Fragment key={variantId}>
+              <AttributeList>
+                <AttributeLabel>Variant:</AttributeLabel>
+                <AttributeValue>
+                  <VariantJBrowseLink
+                    geneLocation={geneLocation}
+                    location={location}
+                    species={species.name}
+                    type={type.name}
+                  >
+                    <span className="text-break">{variantId}</span>
+                  </VariantJBrowseLink>
+                </AttributeValue>
+                <AttributeLabel>
+                  Variant type:
+                </AttributeLabel>
+                <AttributeValue>
+                  {type.name}
+                </AttributeValue>
+              </AttributeList>
+              <VariantToTranscriptTable variantId={variantId} />
+            </React.Fragment>
+          ))
+        }
+      </Subsection>
     </>
   );
 };
