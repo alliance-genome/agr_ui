@@ -6,18 +6,20 @@ import { connect } from 'react-redux';
 import { RemoteDataTable } from '../../components/dataTable';
 import translationStyles from './translation.scss';
 
-const Translation = ({aminoAcids: aminoAcidsRaw = [], codons = []}) => {
+const Translation = ({aminoAcids: aminoAcidsRaw = [], codons = [], isReference = false}) => {
   const [lastAminoAcid] = aminoAcidsRaw.slice(-1);
   const isFrameshift = lastAminoAcid === 'X';
   const aminoAcids = isFrameshift ? aminoAcidsRaw.slice(0, -1) : aminoAcidsRaw;
   return (
     <>
       <div>
+        {isReference && codons.length ? <a style={{fontFamily: 'monospace'}}>## - ##&nbsp;&nbsp;</a> : null}
         {codons.map((codon, index) => (
           <span className={translationStyles.codon} key={index}>{codon}</span>
         ))}
       </div>
       <div>
+        {isReference && aminoAcids.length ? <a style={{fontFamily: 'monospace'}}>## - ##&nbsp;&nbsp;</a> : null}
         {aminoAcids.map((aa, index) => (
           <span className={translationStyles.aminoAcid} key={index}>{aa}</span>
         ))}
@@ -30,6 +32,7 @@ const Translation = ({aminoAcids: aminoAcidsRaw = [], codons = []}) => {
 Translation.propTypes = {
   aminoAcids: PropTypes.arrayOf(PropTypes.string),
   codons: PropTypes.arrayOf(PropTypes.string),
+  isReference: PropTypes.bool,
 };
 
 const VariantToTranscriptTable = ({fetchTranscripts, transcripts}) => {
@@ -78,13 +81,13 @@ const VariantToTranscriptTable = ({fetchTranscripts, transcripts}) => {
                   <div className={`row no-gutters align-items-center ${translationStyles.row}`} key={index}>
                     <div className='col-2'>N/A</div>
                     <div className='col-3'>{transcriptLevelConsequence}</div>
-                    <div className='col-3' style={{textAlign: 'right'}}>
-                      <Translation aminoAcids={aminoAcidReference.split('')} codons={codonReference.split('')} />
+                    <div className='col-4' style={{textAlign: 'right'}}>
+                      <Translation aminoAcids={aminoAcidReference.split('')} codons={codonReference.split('')} isReference />
                     </div>
                     <div className='col-1' style={{textAlign: 'center'}}>
                       {codonChange ? '=>' : null}
                     </div>
-                    <div className='col-3'>
+                    <div className='col-2'>
                       <Translation aminoAcids={aminoAcidVariation.split('')} codons={codonVariation.split('')} />
                     </div>
                   </div>
