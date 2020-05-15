@@ -44,13 +44,17 @@ const VariantToTranscriptTable = ({fetchTranscripts, transcripts}) => {
     {
       dataField: 'name',
       text: 'Sequence feature',
-      headerStyle: {width: '100px'},
+      headerStyle: {width: '160px'},
     },
     {
-      text: 'Sequence feature type'
+      text: 'Sequence feature type',
+      formatter: () => 'N/A',
+      headerStyle: {width: '120px'}
     },
     {
-      text: 'Associated gene'
+      text: 'Associated gene',
+      formatter: () => 'N/A',
+      headerStyle: {width: '150px'}
     },
     {
       text: 'Location',
@@ -58,7 +62,7 @@ const VariantToTranscriptTable = ({fetchTranscripts, transcripts}) => {
         colSpan: 3
       },
       dataField: 'consequences',
-      headerStyle: {width: '100px'},
+      headerStyle: {width: '140px'},
       formatter: (consequences = []) => {
         return (
           <div>
@@ -93,14 +97,18 @@ const VariantToTranscriptTable = ({fetchTranscripts, transcripts}) => {
     },
     {
       text: 'Molecular consequence',
-      headerStyle: {width: '150px'}
+      dataField: 'x',
+      headerStyle: {width: '210px'}
     },
     {
       text: 'Codon change',
-      headerStyle: {width: '350px'}
+      dataField: 'y',
+      headerStyle: {width: '490px'}
     },
     {
-      text: 'Pathogenicity'
+      text: 'Pathogenicity',
+      formatter: () => 'N/A',
+      hidden: true
     }
   ];
 
