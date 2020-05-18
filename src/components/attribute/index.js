@@ -1,6 +1,6 @@
-import AttributeList from './attributeList';
-import AttributeLabel from './attributeLabel';
-import AttributeValue from './attributeValue';
+import AttributeList from './AttributeList';
+import AttributeLabel from './AttributeLabel';
+import AttributeValue from './AttributeValue';
 
 export {
   AttributeList,

@@ -29,13 +29,16 @@ import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
 import AlleleToDiseaseTable from './AlleleToDiseaseTable';
 import AlleleToVariantTable from './AlleleToVariantTable';
 import AlleleSequenceView from './AlleleSequenceView';
+import AlleleTransgenicConstructs from './AlleleTransgenicConstructs';
 
 const SUMMARY = 'Summary';
 const PHENOTYPES = 'Phenotypes';
 const DISEASE = 'Disease Associations';
 const VARIANTS = 'Variants';
+const CONSTRUCTS = 'Transgenic Constructs';
 const SECTIONS = [
   {name: SUMMARY},
+  {name: CONSTRUCTS},
   {name: VARIANTS},
   {name: PHENOTYPES},
   {name: DISEASE}
@@ -81,6 +84,10 @@ class AllelePage extends Component {
 
           <Subsection hideTitle title={SUMMARY}>
             <AlleleSummary allele={data} />
+          </Subsection>
+
+          <Subsection title={CONSTRUCTS}>
+            <AlleleTransgenicConstructs constructs={data.constructs} />
           </Subsection>
 
           <Subsection title={VARIANTS}>
