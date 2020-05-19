@@ -199,8 +199,8 @@ class OrthologPicker extends React.Component {
     const { allInvertebrates, allVertebrates, enabled, selectedSpecies, stringency } = this.state;
 
     return (
-      <React.Fragment>
-        <div className='form-group'>
+      <div className='mb-3'>
+        <div className='form-group mb-1'>
           <div className='form-check form-check-inline'>
             <label className='form-check-label'>
               <input
@@ -213,7 +213,7 @@ class OrthologPicker extends React.Component {
             </label>
           </div>
         </div>
-        <div>
+        <div className='ml-3'>
           <UncontrolledDropdown className='pr-2' tag='span'>
             <DropdownToggle caret className='align-baseline' color='primary' outline={!enabled || !stringency}>
               <span>Stringency{stringency && `: ${stringency.label}`}</span>
@@ -330,7 +330,7 @@ class OrthologPicker extends React.Component {
             </DropdownMenu>
           </UncontrolledDropdown>
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }

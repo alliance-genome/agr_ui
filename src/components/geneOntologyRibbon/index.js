@@ -24,10 +24,6 @@ const goApiUrl = 'https://api.geneontology.org/api/';
 
 const exp_codes = ['EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP'];
 
-const Checkbox = props => (
-  <input type="checkbox" {...props} />
-);
-
 class GeneOntologyRibbon extends Component {
 
   constructor(props) {
@@ -568,28 +564,31 @@ class GeneOntologyRibbon extends Component {
               orthology={orthology.data}
               value={selectedOrthologs}
             />
+
+            <div className='form-check form-check-inline'>
+              <label className='form-check-label'>
+                <input
+                  checked={this.state.onlyEXP}
+                  className='form-check-input'
+                  onChange={this.showExperimentalAnnotations.bind(this)}
+                  title='When showing the GO functions for multiple orthologs, we recommend switching this on as a number of GO functions are inferred through phylogeny (see PAINT tool)'
+                  type='checkbox'
+                />
+                <b>Show only experimental annotations</b>
+              </label>
+            </div>
           </ControlsContainer>
         </div>
 
-        <HorizontalScroll width={1200}>
-
-          <div>
-            <Checkbox
-              checked={this.state.onlyEXP}
-              onChange={this.showExperimentalAnnotations.bind(this)}
-              style={{ margin: '10px' }}
-              title='When showing the GO functions for multiple orthologs, we recommend switching this on as a number of GO functions are inferred through phylogeny (see PAINT tool)'
-            /> Show only experimental annotations
-          </div>
-
+        <HorizontalScroll>
           {
-            <div style={{ marginTop: '2rem' }}>{
-              (this.state.loading)
-                ? 'Loading...'
-                :
+            (this.state.loading)
+              ? 'Loading...'
+              :
 
-                (this.state.noData) ?
-                  '' :
+              (this.state.noData) ?
+                '' :
+                <div className='text-nowrap'>
                   <GenericRibbon
                     categories={this.state.ribbon.categories}
                     classLabels={['term', 'terms']}
@@ -604,30 +603,29 @@ class GeneOntologyRibbon extends Component {
                     selectionMode={SELECTION.CELL}
                     subjectLabel={subject => <RibbonGeneSubjectLabel gene={subject} isFocusGene={subject.id === geneId} />}
                     subjectLabelPosition={POSITION.LEFT}
-                    subjectUseTaxonIcon
                     subjects={this.state.ribbon.subjects}
+                    subjectUseTaxonIcon
                   />
-            }
-            {
-              (this.state.noData) ?
-                <NoData /> :
-                (this.state.selected.data && this.state.selected.ready) ?
-                  <AssociationsView
-                    blocks={null}
-                    borderBottom
-                    config={this.defaultConfig()}
-                    currentblock={null}
-                    filters={this.buildFilters()}
-                    focalblock={null}
-                    oddEvenColor={false}
-                    provided_list={this.state.selected.data}
-                    tableLabel={''}
-                    termInNewPage
-                    termURL={'http://amigo.geneontology.org/amigo/term/'}
-                  />
-                  : ''
-            }
-            </div>
+                </div>
+          }
+          {
+            (this.state.noData) ?
+              <NoData /> :
+              (this.state.selected.data && this.state.selected.ready) ?
+                <AssociationsView
+                  blocks={null}
+                  borderBottom
+                  config={this.defaultConfig()}
+                  currentblock={null}
+                  filters={this.buildFilters()}
+                  focalblock={null}
+                  oddEvenColor={false}
+                  provided_list={this.state.selected.data}
+                  tableLabel={''}
+                  termInNewPage
+                  termURL={'http://amigo.geneontology.org/amigo/term/'}
+                />
+                : ''
           }
         </HorizontalScroll>
       </div>

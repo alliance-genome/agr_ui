@@ -87,6 +87,28 @@
   }
 }
 
+$shadow-color: rgba(black, 0.25);
+$shadow-width: 20px;
+.shadow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: $shadow-width;
+  z-index: 2;
+  pointer-events: none;
+  transition: opacity 250ms ease-out;
+
+  &.left {
+    left: 0;
+    background: radial-gradient(ellipse $shadow-width 60% at left, $shadow-color, transparent)
+  }
+
+  &.right {
+    right: 0;
+    background: radial-gradient(ellipse $shadow-width 60% at right, $shadow-color, transparent)
+  }
+}
+
 .hScrollOuter {
   width: 100%;
   overflow-x: auto;
