@@ -54,7 +54,7 @@ $max-width: 800px;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 1rem;
+  margin: 1rem;
   white-space: nowrap;
   position: relative;
   transition: transform 100ms ease-out;
@@ -71,6 +71,7 @@ $max-width: 800px;
 
   .icon {
     font-size: 250%;
+    pointer-events: none;
   }
 }
 

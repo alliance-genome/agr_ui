@@ -23,10 +23,38 @@ const SearchSection = () => {
           <li><Link to='/help#how'>More...</Link></li>
         </ul>
         <div className='d-flex justify-content-around flex-wrap'>
-          <ActionButton icon='fa-download' to='/downloads'>Download Data</ActionButton>
-          <ActionButton icon='fa-code' to='/api/swagger-ui'>Browse APIs</ActionButton>
-          <ActionButton icon='fa-book' to='/publications'>View Publications <small>about the Alliance</small></ActionButton>
-          <ActionButton icon='fa-lightbulb-o' to='/tutorials'>Learn More <small>about the Alliance</small></ActionButton>
+          <ActionButton
+            icon='fa-download'
+            id='action-download'
+            to='/downloads'
+            tooltip='Access downloadable bulk data files by species or combined for a variety of data types'
+          >
+            Download Data
+          </ActionButton>
+          <ActionButton
+            icon='fa-code'
+            id='action-api'
+            to='/api/swagger-ui'
+            tooltip='Read documentation for accessing Alliance data programmatically via REST APIs'
+          >
+            Browse APIs
+          </ActionButton>
+          <ActionButton
+            icon='fa-book'
+            id='action-pubs'
+            to='/publications'
+            tooltip='See publications about the Alliance written by Alliance members'
+          >
+            View Publications
+          </ActionButton>
+          <ActionButton
+            icon='fa-lightbulb-o'
+            id='action-tutorial'
+            to='/tutorials'
+            tooltip='Dive deeper into using the Alliance with video and text-based tutorials'
+          >
+            Learn More
+          </ActionButton>
         </div>
       </div>
     </section>
