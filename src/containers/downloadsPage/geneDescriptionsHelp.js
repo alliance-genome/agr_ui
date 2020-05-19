@@ -11,7 +11,7 @@ const GeneDescriptionsHelp = () => (
     descriptions along with metadata such as total numbers of: genes with
     descriptions (non-null), ontology terms for each data type and average
     number of terms per description. The complete JSON schema with the
-    documented list of fields can be found at <a href="https://github.com/alliance-genome/agr_schemas/tree/master/genedescription">GitHub</a>.
+    documented list of fields can be found at <a href="https://github.com/alliance-genome/agr_schemas/tree/master/ingest/genedescription">GitHub</a>.
   </p>
 );
 
