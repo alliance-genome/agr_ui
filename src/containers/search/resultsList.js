@@ -94,7 +94,7 @@ class ResultsList extends Component {
   }
 
   renderDiseaseEntry(d, i) {
-    let fields = ['id', 'definition'];
+    let fields = CATEGORIES.find(cat => cat.name === d.category).displayFields;
     return (
       <div className={style.resultContainer} key={`sr${i}`}>
         {this.renderHeader(d)}
@@ -124,18 +124,12 @@ class ResultsList extends Component {
   }
 
   renderGeneEntry(d, i) {
-    let topFields = ['name', 'synonyms'];
-    let bottomFields = ['biotype'];
+    let fields = CATEGORIES.find(cat => cat.name === d.category).displayFields;
     return (
       <div className={style.resultContainer} key={`sr${i}`}>
         {this.renderHeader(d)}
         <SpeciesIcon iconClass={style.resultSpeciesIcon} species={d.speciesKey} />
-        {this.renderDetailFromFields(d, topFields)}
-        <div className={style.detailContainer}>
-          <span className={style.detailLabel}><strong>Source:</strong> </span>
-          <span><a className='primary-id' dangerouslySetInnerHTML={{ __html: d.id }} href={d.sourceHref} target='_new' /></span>
-        </div>
-        {this.renderDetailFromFields(d, bottomFields)}
+        {this.renderDetailFromFields(d, fields)}
         {this.renderHighlightedValues(d.highlight)}
         {this.renderRelatedData(d)}
         {this.renderMissingTerms(d)}
@@ -152,9 +146,9 @@ class ResultsList extends Component {
       } else if (d.category === 'disease') {
         return this.renderDiseaseEntry(d, i);
       } else if (d.category === 'go') {
-        return this.renderEntry(d, i, ['id', 'collapsible_synonyms', 'branch']);
+        return this.renderEntry(d, i, CATEGORIES.find(cat => cat.name === d.category).displayFields);
       } else if (d.category === 'allele') {
-        return this.renderEntry(d, i, ['id','genes', 'synonyms','variantTypes','relatedVariants','molecularConsequence', 'diseases']);
+        return this.renderEntry(d, i, CATEGORIES.find(cat => cat.name === d.category).displayFields);
       } else {
         return this.renderEntry(d,i, ['id','synonyms']);
       }

@@ -17,23 +17,28 @@ export const CATEGORIES = [
   },
   {
     name: 'gene',
-    displayName: 'Gene'
+    displayName: 'Gene',
+    displayFields: ['name', 'synonyms', 'id', 'biotype'],
   },
   {
     name: 'go',
-    displayName: 'Gene Ontology'
+    displayName: 'Gene Ontology',
+    displayFields: ['id', 'collapsible_synonyms', 'branch']
   },
   {
     name: 'disease',
-    displayName: 'Disease'
+    displayName: 'Disease',
+    displayFields: ['id', 'definition'],
   },
   {
     name: 'allele',
-    displayName: 'Allele'
+    displayName: 'Allele',
+    displayFields: ['id','genes', 'synonyms','variantTypes','relatedVariants','molecularConsequence', 'diseases'],
   },
   {
     name: 'model',
-    displayName: 'Model'
+    displayName: 'Model',
+    displayFields: ['id','synonyms'],
   }
 ];
 
