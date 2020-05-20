@@ -85,14 +85,10 @@
     flex-grow: 1;
     flex-direction: column;
     flex-wrap: wrap;
-    height: 255px;
+    height: 325px;
 
     @include media-breakpoint-up(md) {
-      height: 210px;
-    }
-
-    @include media-breakpoint-up(xl) {
-      height: 190px;
+      height: 180px;
     }
   }
 
