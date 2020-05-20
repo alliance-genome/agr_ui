@@ -10,6 +10,7 @@ import {
   getVariantSymbol,
   renderVariantDescriptions,
   getVariantTrackPositions,
+  getVariantAlleles,
 } from "../services/VariantService";
 import {renderTrackDescription} from "../services/TrackService";
 // import {description} from "d3/dist/package";
@@ -140,6 +141,7 @@ export default class IsoformAndVariantTrack {
         let viewerWidth = this.width;
         let symbol_string = getVariantSymbol(variant);
         const descriptions = getVariantDescriptions(variant);
+        let variant_alleles = getVariantAlleles(variant);
         let descriptionHtml = renderVariantDescriptions(descriptions);
         const consequenceColor = getColorsForConsequences(descriptions)[0];
         const width = Math.ceil(x(fmax)-x(fmin)) < MIN_WIDTH ? MIN_WIDTH : Math.ceil(x(fmax)-x(fmin));
@@ -166,11 +168,12 @@ export default class IsoformAndVariantTrack {
             })
             .on("mouseout", function(d){
               d3.selectAll(".variant-deletion")
+                .filter(function(d){return d.selected != "true"})
                 .style("stroke" , null);
               d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground")
                 .style("opacity",0);
             })
-            .datum({fmin: fmin, fmax: fmax, variant: symbol_string+fmin});
+            .datum({fmin: fmin, fmax: fmax, variant: symbol_string+fmin, alleles: variant_alleles});
         } else if (type.toLowerCase() === 'snv' || type.toLowerCase() === 'point_mutation') {
           isPoints = true;
           variantContainer.append('polygon')

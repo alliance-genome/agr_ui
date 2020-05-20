@@ -306,6 +306,16 @@ export function getVariantDescriptions(variant){
   })
 }
 
+export function getVariantAlleles(variant){
+  let returnObj=[];
+
+  variant.variants.forEach((val) => {
+    let allele = val.alleles.values[0].replace(/"/g,"");
+    returnObj.push(allele);
+  });
+  return returnObj;
+}
+
 export function mergeConsequenceColors(colors){
   return 'hotpink';
   // return colors.map( d => {

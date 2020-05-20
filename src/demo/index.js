@@ -132,8 +132,12 @@ function createExample(range, genome, divId, type, showLabel, variantFilter) {
         // })
     }
 
-    if(divId==='viewerMouseExample6'){
-      gfc.setSelectedAlleles(["MGI:6366485"])
+
+
+    if(divId==='networkExampleWorm1And'){
+      document.getElementById("wormbutton").addEventListener("click", function(){
+          gfc.setSelectedAlleles(["WB:WBVar00089535"]);
+      });
     }
 }
 

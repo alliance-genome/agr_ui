@@ -47,6 +47,25 @@ export default class GenomeFeatureViewer {
     setSelectedAlleles(selectedAlleles){
       // TODO: for @pjhale
        console.log('selected alleles are being set',selectedAlleles)
+       d3.selectAll(".variant-deletion")
+         .filter(function(d){
+           let returnVal=false;
+           if(d.alleles){
+             d.alleles.forEach((val) => {
+               if (selectedAlleles.includes(val)){
+                 returnVal=true;}
+             })
+           }
+           return returnVal;
+         })
+         .datum(function(d){
+           d.selected="true";
+           return d;
+         })
+         .style("stroke" , "black")
+         .append('rect')
+         .attr('x', this.parentNode.x);
+
     }
 
 
