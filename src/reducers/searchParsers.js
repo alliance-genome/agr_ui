@@ -2,6 +2,7 @@ const JOIN_HIGHLIGHT_BY = '...';
 
 import { makeFieldDisplayName, makeValueDisplayName } from '../lib/searchHelpers';
 import {
+  CATEGORIES,
   DUPLICATE_HIGHLIGHTED_FIELDS,
   NON_HIGHLIGHTED_FIELDS
 } from '../constants';
@@ -24,6 +25,7 @@ function flattenWithPrettyFieldNames(highlights) {
 export function injectHighlightIntoResponse(responseObj) {
   let high = responseObj.highlights || {};
   let highKeys = Object.keys(high);
+  let displayFields = CATEGORIES.find(cat => cat.name === responseObj.category).displayFields;
   let simpleHighObj = {};
   highKeys.forEach( key => {
     let highArr = high[key];
@@ -36,7 +38,7 @@ export function injectHighlightIntoResponse(responseObj) {
     // it into the original object
     if (!NON_HIGHLIGHTED_FIELDS.includes(key)) {
       responseObj[key] = injectHighlightingIntoValue(highStr, responseObj[key]);
-      if (!DUPLICATE_HIGHLIGHTED_FIELDS.includes(key)) {
+      if (displayFields.includes(key) && !DUPLICATE_HIGHLIGHTED_FIELDS.includes(key)) {
         delete simpleHighObj[key];
       }
     }
