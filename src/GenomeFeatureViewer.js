@@ -44,10 +44,10 @@ export default class GenomeFeatureViewer {
     }
 
 
-    setSelectedAlleles(selectedAlleles){
+    setSelectedAlleles(selectedAlleles,target){
       // TODO: for @pjhale
        console.log('selected alleles are being set',selectedAlleles)
-       d3.selectAll(".variant-deletion")
+       var highlights=d3.select(target).selectAll(".variant-deletion")
          .filter(function(d){
            let returnVal=false;
            if(d.alleles){
@@ -63,8 +63,22 @@ export default class GenomeFeatureViewer {
            return d;
          })
          .style("stroke" , "black")
-         .append('rect')
-         .attr('x', this.parentNode.x);
+
+
+         highlights.each(function(){
+           let x_val=d3.select(this).attr('x');
+           let width_val=d3.select(this).attr('width');
+           d3.select(target).select(".variants.track")
+           .append('rect')
+           .attr("class","highlight")
+           .attr("x", x_val)
+           .attr("width", width_val)
+           .attr("height", 500)
+           .attr("fill", 'yellow')
+           .attr("opacity", .5)
+           .lower();
+         })
+
 
     }
 

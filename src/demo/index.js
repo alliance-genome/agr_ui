@@ -136,7 +136,7 @@ function createExample(range, genome, divId, type, showLabel, variantFilter) {
 
     if(divId==='networkExampleWorm1And'){
       document.getElementById("wormbutton").addEventListener("click", function(){
-          gfc.setSelectedAlleles(["WB:WBVar00089535"]);
+          gfc.setSelectedAlleles(["WB:WBVar00089535","WB:WBVar02125540"], '#networkExampleWorm1And');
       });
     }
 }
