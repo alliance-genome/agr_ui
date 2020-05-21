@@ -231,7 +231,7 @@ export default class IsoformAndVariantTrack {
                 d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground")
                   .style("opacity",0);
               })
-              .datum({fmin: fmin, fmax: fmax, variant: symbol_string+fmin});
+              .datum({fmin: fmin, fmax: fmax, variant: symbol_string+fmin, alleles: variant_alleles});
         } else if (type.toLowerCase() === 'delins' || type.toLowerCase() === 'substitution' || type.toLowerCase() === 'indel' || type.toLowerCase() === 'mnv') {
           isPoints=true;
           variantContainer.append('polygon')
@@ -260,7 +260,7 @@ export default class IsoformAndVariantTrack {
               d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground")
                 .style("opacity",0);
             })
-            .datum({fmin: fmin, fmax: fmax, variant: symbol_string+fmin});
+            .datum({fmin: fmin, fmax: fmax, variant: symbol_string+fmin,alleles: variant_alleles});
         }
         else{
           console.warn("type not found",type,variant);

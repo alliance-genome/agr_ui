@@ -142,6 +142,23 @@ function createExample(range, genome, divId, type, showLabel, variantFilter) {
           gfc.setSelectedAlleles([], '#networkExampleWorm1And');
       });
     }
+    if(divId==='viewerFlyExample2NoLabelAnd'){
+      document.getElementById("flybutton").addEventListener("click", function(){
+          gfc.setSelectedAlleles(["FB:FBal0242675","FB:FBal0302371","FB:FBal0012433"], '#viewerFlyExample2NoLabelAnd');
+      });
+      document.getElementById("clrbuttonfly").addEventListener("click", function(){
+          gfc.setSelectedAlleles([], '#viewerFlyExample2NoLabelAnd');
+      });
+    }
+    if(divId==='viewerMouseExample2'){
+      document.getElementById("mausbutton").addEventListener("click", function(){
+          gfc.setSelectedAlleles(["MGI:4822471","MGI:4822471"], '#viewerMouseExample2');
+      });
+      document.getElementById("clrbuttonmaus").addEventListener("click", function(){
+          gfc.setSelectedAlleles([], '#viewerMouseExample2');
+      });
+    }
+
 }
 
 
