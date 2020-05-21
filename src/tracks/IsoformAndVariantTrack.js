@@ -162,7 +162,7 @@ export default class IsoformAndVariantTrack {
               d3.selectAll(".variant-deletion")
                 .filter(function(d){return d.variant === theVariant})
                 .style("stroke" , "black");
-              d3.select(this.parentNode).raise().selectAll(".variantLabel,.variantLabelBackground")
+              d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground").raise()
                 .filter(function(d){return d.variant === theVariant})
                 .style("opacity", 1);
             })
@@ -191,17 +191,18 @@ export default class IsoformAndVariantTrack {
               d3.selectAll(".variant-SNV")
                 .filter(function(d){return d.variant === theVariant})
                 .style("stroke" , "black");
-              d3.select(this.parentNode).raise().selectAll(".variantLabel,.variantLabelBackground")
+              d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground").raise()
                 .filter(function(d){return d.variant === theVariant})
                 .style("opacity", 1);
             })
             .on("mouseout", function(d){
               d3.selectAll(".variant-SNV")
+                .filter(function(d){return d.selected != "true"})
                 .style("stroke" , null);
               d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground")
                 .style("opacity",0);
             })
-            .datum({fmin: fmin, fmax: fmax, variant: symbol_string+fmin});
+            .datum({fmin: fmin, fmax: fmax, variant: symbol_string+fmin,  alleles: variant_alleles});
         } else if (type.toLowerCase() === 'insertion') {
           isPoints = true;
             variantContainer.append('polygon')
@@ -219,12 +220,13 @@ export default class IsoformAndVariantTrack {
                 d3.selectAll(".variant-insertion")
                   .filter(function(d){return d.variant === theVariant})
                   .style("stroke" , "black");
-                d3.select(this.parentNode).raise().selectAll(".variantLabel,.variantLabelBackground")
+                d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground").raise()
                   .filter(function(d){return d.variant === theVariant})
                   .style("opacity", 1);
               })
               .on("mouseout", function(d){
                 d3.selectAll(".variant-insertion")
+                  .filter(function(d){return d.selected != "true"})
                   .style("stroke" , null);
                 d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground")
                   .style("opacity",0);
@@ -247,12 +249,13 @@ export default class IsoformAndVariantTrack {
               d3.selectAll(".variant-delins")
                 .filter(function(d){return d.variant === theVariant})
                 .style("stroke" , "black");
-              d3.select(this.parentNode).raise().selectAll(".variantLabel,.variantLabelBackground")
+              d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground").raise()
                 .filter(function(d){return d.variant === theVariant})
                 .style("opacity", 1);
             })
             .on("mouseout", function(d){
               d3.selectAll(".variant-delins")
+                .filter(function(d){return d.selected != "true"})
                 .style("stroke" , null);
               d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground")
                 .style("opacity",0);

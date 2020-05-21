@@ -136,7 +136,10 @@ function createExample(range, genome, divId, type, showLabel, variantFilter) {
 
     if(divId==='networkExampleWorm1And'){
       document.getElementById("wormbutton").addEventListener("click", function(){
-          gfc.setSelectedAlleles(["WB:WBVar00089535","WB:WBVar02125540"], '#networkExampleWorm1And');
+          gfc.setSelectedAlleles(["WB:WBVar00089535","WB:WBVar02125540","WB:WBVar00242477"], '#networkExampleWorm1And');
+      });
+      document.getElementById("clrbutton").addEventListener("click", function(){
+          gfc.setSelectedAlleles([], '#networkExampleWorm1And');
       });
     }
 }

@@ -45,9 +45,21 @@ export default class GenomeFeatureViewer {
 
 
     setSelectedAlleles(selectedAlleles,target){
-      // TODO: for @pjhale
+      //remove highlights first
+      let svgTarget=d3.select(target)
+      svgTarget.selectAll(".highlight").remove();
+      svgTarget.selectAll(".variant-deletion,.variant-SNV")
+        .filter(function(d){
+          return d.selected;
+        })
+        .style("stroke" , null)
+        .datum(function(d){
+          d.selected="false";
+          return d;
+        });
+
        console.log('selected alleles are being set',selectedAlleles)
-       var highlights=d3.select(target).selectAll(".variant-deletion")
+       let highlights=svgTarget.selectAll(".variant-deletion,.variant-SNV")
          .filter(function(d){
            let returnVal=false;
            if(d.alleles){
@@ -68,7 +80,11 @@ export default class GenomeFeatureViewer {
          highlights.each(function(){
            let x_val=d3.select(this).attr('x');
            let width_val=d3.select(this).attr('width');
-           d3.select(target).select(".variants.track")
+           if(width_val == null){
+             width_val = 10;
+             x_val = x_val-5;
+           }
+           svgTarget.select(".variants.track")
            .append('rect')
            .attr("class","highlight")
            .attr("x", x_val)
