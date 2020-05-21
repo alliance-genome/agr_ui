@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 // import { selectVariants } from '../../selectors/alleleSelectors';
 // import { fetchAlleleVariants } from '../../actions/alleleActions';
 import { connect } from 'react-redux';
+import { buildTableQueryString } from '../../lib/utils';
 import { RemoteDataTable } from '../../components/dataTable';
 import translationStyles from './translation.scss';
 
@@ -35,8 +36,40 @@ Translation.propTypes = {
   isReference: PropTypes.bool,
 };
 
-const VariantToTranscriptTable = ({fetchTranscripts, transcripts}) => {
-  const { data = [], loading, total} = transcripts;
+function useFetchData(url) {
+  const [data, setData] = useState({
+    data: [],
+    total: 0,
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchData = useCallback( async (opts) => {
+    const response = await fetch(`${url}?${buildTableQueryString(opts)}`);
+    const body = await response.json();
+    if (response.ok) {
+      const {results, ...others} = body;
+      setLoading(false);
+      setData({
+        ...others,
+        data: results,
+      });
+    } else {
+      setLoading(false);
+      setError(new Error(body));
+    }
+  }, [url, setData, setLoading, setError]);
+
+  return {
+    ...data,
+    loading,
+    error,
+    fetchData,
+  };
+}
+
+const VariantToTranscriptTable = ({variantId}) => {
+  const { data = [], loading, total, fetchData} = useFetchData(`/api/variant/${variantId}/transcripts`);
 
   const columns = [
     {
@@ -123,18 +156,18 @@ const VariantToTranscriptTable = ({fetchTranscripts, transcripts}) => {
       keyField='id'
       loading={loading}
       noDataMessage='No variant effect information available'
-      onUpdate={fetchTranscripts}
+      onUpdate={fetchData}
       totalRows={total}
     />
   );
 };
 VariantToTranscriptTable.propTypes = {
-  fetchTranscripts: PropTypes.func.isRequired,
-  transcripts: PropTypes.shape({
-    data: PropTypes.arrayOf(PropTypes.object),
-    loading: PropTypes.any,
-    total: PropTypes.any,
-  }),
+  //fetchTranscripts: PropTypes.func.isRequired,
+  // transcripts: PropTypes.shape({
+  //   data: PropTypes.arrayOf(PropTypes.object),
+  //   loading: PropTypes.any,
+  //   total: PropTypes.any,
+  // }),
   variantId: PropTypes.string.isRequired,
 };
 
