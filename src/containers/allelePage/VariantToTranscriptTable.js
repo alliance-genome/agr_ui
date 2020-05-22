@@ -125,7 +125,13 @@ const VariantToTranscriptTable = ({variantId}) => {
     {
       dataField: 'name',
       text: 'Sequence feature',
-      headerStyle: {width: '160px'},
+      formatter: (name, {id}) => (
+        <div>
+          <div>{name}</div>
+          <div>[{id}]</div>
+        </div>
+      ),
+      headerStyle: {width: '260px'},
     },
     {
       text: 'Sequence feature type',
