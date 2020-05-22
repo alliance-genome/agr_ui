@@ -170,6 +170,11 @@ const VariantToTranscriptTable = ({variantId}) => {
 
                 // consequence
                 transcriptLevelConsequence,
+
+                //hgvs
+                hgvsCodingNomenclature,
+                hgvsProteinNomenclature,
+                hgvsVEPGeneNomenclature,
               }, index) => {
                 const [codonReference = '', codonVariation = ''] = codonChange.split('/');
                 const [aminoAcidReference = '', aminoAcidVariation = ''] = aminoAcidChange.split('/');
@@ -179,7 +184,7 @@ const VariantToTranscriptTable = ({variantId}) => {
                       {cdnaStartPosition}
                       {cdnaEndPosition !== cdnaStartPosition ? ` - ${cdnaEndPosition}` : null}
                     </div>
-                    <div className='col-3'>{transcriptLevelConsequence}</div>
+                    <div className='col-2'>{transcriptLevelConsequence}</div>
                     <div className='col-4' style={{textAlign: 'right'}}>
                       <Translation
                         aminoAcids={aminoAcidReference.split('')}
@@ -197,6 +202,13 @@ const VariantToTranscriptTable = ({variantId}) => {
                     <div className='col-2'>
                       <Translation aminoAcids={aminoAcidVariation.split('')} codons={codonVariation.split('')} />
                     </div>
+                    <div className='col-1'>
+                      {hgvsProteinNomenclature}
+                      <br />
+                      {hgvsCodingNomenclature}
+                      <br />
+                      {hgvsVEPGeneNomenclature}
+                    </div>
                   </div>
                 );
               })
@@ -207,13 +219,15 @@ const VariantToTranscriptTable = ({variantId}) => {
     },
     {
       text: 'Molecular consequence',
-      dataField: 'x',
       headerStyle: {width: '180px'}
     },
     {
       text: 'Codon change',
-      dataField: 'y',
       headerStyle: {width: '420px'}
+    },
+    {
+      text: 'HGVS',
+      headerStyle: {width: '120px'}
     },
     {
       text: 'Pathogenicity',
