@@ -44,18 +44,22 @@ function useFetchData(url) {
   const [error, setError] = useState(null);
 
   const fetchData = useCallback( async (opts) => {
-    const response = await fetch(`${url}?${buildTableQueryString(opts)}`);
-    const body = await response.json();
-    if (response.ok) {
-      const {results, ...others} = body;
+    try {
+      const response = await fetch(`${url}?${buildTableQueryString(opts)}`);
+      const body = await response.json();
+      if (response.ok) {
+        const {results, ...others} = body;
+        setLoading(false);
+        setData({
+          ...others,
+          data: results,
+        });
+      } else {
+        throw new Error(body);
+      }
+    } catch (error) {
       setLoading(false);
-      setData({
-        ...others,
-        data: results,
-      });
-    } else {
-      setLoading(false);
-      setError(new Error(body));
+      setError(error);
     }
   }, [url, setData, setLoading, setError]);
 
@@ -68,7 +72,10 @@ function useFetchData(url) {
 }
 
 const VariantToTranscriptTable = ({variantId}) => {
-  const { data = [], loading, total, fetchData} = useFetchData(`/api/variant/${variantId}/transcripts`);
+  const { data = [], loading, total, error, fetchData} = useFetchData(`/api/variant/${variantId}/transcripts`);
+  if (error) {
+    throw error;
+  }
 
   const columns = [
     {
