@@ -107,7 +107,7 @@ const VariantToTranscriptTable = ({variantId}) => {
         colSpan: 3
       },
       dataField: 'consequences',
-      headerStyle: {width: '140px'},
+      headerStyle: {width: '120px'},
       formatter: (consequences = []) => {
         return (
           <div>
@@ -143,12 +143,12 @@ const VariantToTranscriptTable = ({variantId}) => {
     {
       text: 'Molecular consequence',
       dataField: 'x',
-      headerStyle: {width: '210px'}
+      headerStyle: {width: '180px'}
     },
     {
       text: 'Codon change',
       dataField: 'y',
-      headerStyle: {width: '490px'}
+      headerStyle: {width: '420px'}
     },
     {
       text: 'Pathogenicity',
