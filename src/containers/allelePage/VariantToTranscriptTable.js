@@ -5,74 +5,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { buildTableQueryString } from '../../lib/utils';
 import { RemoteDataTable } from '../../components/dataTable';
-import translationStyles from './translation.scss';
-
-const Translation = ({
-  aminoAcids: aminoAcidsRaw = [],
-  proteinStartPosition,
-  proteinEndPosition,
-
-  codons = [],
-  cdsStartPosition,
-  cdsEndPosition,
-
-  isReference = false
-}) => {
-  const [lastAminoAcid] = aminoAcidsRaw.slice(-1);
-  const isFrameshift = lastAminoAcid === 'X';
-  const aminoAcids = isFrameshift ? aminoAcidsRaw.slice(0, -1) : aminoAcidsRaw;
-  return (
-    <>
-      <div>
-        {
-          isReference && codons.length ?
-            <a style={{fontFamily: 'monospace'}}>
-              {cdsStartPosition}
-              {
-                cdsEndPosition !== cdsStartPosition ?
-                  ` - ${cdsEndPosition}` :
-                  null
-              }
-              &nbsp;&nbsp;
-            </a> :
-            null
-        }
-        {codons.map((codon, index) => (
-          <span className={translationStyles.codon} key={index}>{codon}</span>
-        ))}
-      </div>
-      <div>
-        {
-          isReference && aminoAcids.length ?
-            <a style={{fontFamily: 'monospace'}}>
-              {proteinStartPosition}
-              {
-                proteinEndPosition !== proteinStartPosition ?
-                  ` - ${proteinEndPosition}` :
-                  null
-              }
-              &nbsp;&nbsp;
-            </a> :
-            null
-        }
-        {aminoAcids.map((aa, index) => (
-          <span className={translationStyles.aminoAcid} key={index}>{aa}</span>
-        ))}
-        {isFrameshift ? <span className="badge badge-secondary">frameshift</span> : null}
-      </div>
-    </>
-  );
-};
-
-Translation.propTypes = {
-  aminoAcids: PropTypes.arrayOf(PropTypes.string),
-  cdsEndPosition: PropTypes.number,
-  cdsStartPosition: PropTypes.number,
-  codons: PropTypes.arrayOf(PropTypes.string),
-  isReference: PropTypes.bool,
-  proteinEndPosition: PropTypes.number,
-  proteinStartPosition: PropTypes.number,
-};
+import Translation from './Translation';
+import styles from './style.scss';
 
 function useFetchData(url) {
   const [data, setData] = useState({
@@ -185,7 +119,7 @@ const VariantToTranscriptTable = ({variantId}) => {
                 const [codonReference = '', codonVariation = ''] = codonChange.split('/');
                 const [aminoAcidReference = '', aminoAcidVariation = ''] = aminoAcidChange.split('/');
                 return (
-                  <div className={`row no-gutters align-items-center ${translationStyles.row}`} key={index}>
+                  <div className={`row no-gutters align-items-center ${styles.row}`} key={index}>
                     <div className='col-2'>
                       {cdnaStartPosition}
                       {cdnaEndPosition !== cdnaStartPosition ? ` - ${cdnaEndPosition}` : null}
