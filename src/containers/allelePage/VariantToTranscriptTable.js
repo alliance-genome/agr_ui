@@ -2,7 +2,6 @@ import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 // import { selectVariants } from '../../selectors/alleleSelectors';
 // import { fetchAlleleVariants } from '../../actions/alleleActions';
-import { connect } from 'react-redux';
 import { buildTableQueryString } from '../../lib/utils';
 import { RemoteDataTable } from '../../components/dataTable';
 import translationStyles from './translation.scss';
@@ -162,29 +161,7 @@ const VariantToTranscriptTable = ({variantId}) => {
   );
 };
 VariantToTranscriptTable.propTypes = {
-  //fetchTranscripts: PropTypes.func.isRequired,
-  // transcripts: PropTypes.shape({
-  //   data: PropTypes.arrayOf(PropTypes.object),
-  //   loading: PropTypes.any,
-  //   total: PropTypes.any,
-  // }),
   variantId: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = () => ({
-  // variants: selectVariants(state),
-  transcripts:
-    {
-      data: [{'id':'ENSEMBL:ENSDART00000138161','name':'galt-203','consequences':[{'aminoAcidChange':'','aminoAcidVariation':'','aminoAcidReference':'','codonChange':'','codonReference':'','codonVariation':'','transcriptLevelConsequence':'splice_donor_variant'},{'aminoAcidChange':'R/DX','aminoAcidVariation':'R/DX','aminoAcidReference':'R/DX','codonChange':'CGt/GACAt','codonReference':'CGt/GACAt','codonVariation':'CGt/GACAt','transcriptLevelConsequence':'frameshift_variant'},{'aminoAcidChange':'RPW/X','aminoAcidVariation':'RPW/X','aminoAcidReference':'RPW/X','codonChange':'CGTCCATgg/gg','codonReference':'CGTCCATgg/gg','codonVariation':'CGTCCATgg/gg','transcriptLevelConsequence':'frameshift_variant'}]},{'id':'ENSEMBL:ENSDART00000101298','name':'galt-201','consequences':[{'aminoAcidChange':'RPW/X','aminoAcidVariation':'RPW/X','aminoAcidReference':'RPW/X','codonChange':'CGTCCATgg/gg','codonReference':'CGTCCATgg/gg','codonVariation':'CGTCCATgg/gg','transcriptLevelConsequence':'frameshift_variant'},{'aminoAcidChange':'R/DX','aminoAcidVariation':'R/DX','aminoAcidReference':'R/DX','codonChange':'CGt/GACAt','codonReference':'CGt/GACAt','codonVariation':'CGt/GACAt','transcriptLevelConsequence':'frameshift_variant'}]}],
-      loading: false,
-      total: 2
-    },
-
-});
-
-const mapDispatchToProps = () => ({
-  //fetchVariants: opts => dispatch(fetchAlleleVariants(props.alleleId, opts))
-  fetchTranscripts: () => {}
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(VariantToTranscriptTable);
+export default VariantToTranscriptTable;
