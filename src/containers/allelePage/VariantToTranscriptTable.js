@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 // import { selectVariants } from '../../selectors/alleleSelectors';
 // import { fetchAlleleVariants } from '../../actions/alleleActions';
+import { Link } from 'react-router-dom';
 import { buildTableQueryString } from '../../lib/utils';
 import { RemoteDataTable } from '../../components/dataTable';
 import translationStyles from './translation.scss';
@@ -90,12 +91,14 @@ const VariantToTranscriptTable = ({variantId}) => {
     },
     {
       text: 'Sequence feature type',
-      formatter: () => 'N/A',
+      dataField: 'type',
+      formatter: ({name}) => name,
       headerStyle: {width: '120px'}
     },
     {
       text: 'Associated gene',
-      formatter: () => 'N/A',
+      dataField: 'gene',
+      formatter: ({symbol, id}) => <Link to={`/gene/${id}`}>{symbol}</Link>, // eslint-disable-line react/prop-types
       headerStyle: {width: '150px'}
     },
     {
