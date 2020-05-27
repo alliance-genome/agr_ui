@@ -93,7 +93,7 @@ export default class GenomeFeatureViewer {
            .attr("width", width_val)
            .attr("height", viewer_height)
            .attr("fill", 'yellow')
-           .attr("opacity", .8)
+           .attr("opacity", 0.8)
            .lower();
          })
 

@@ -351,9 +351,9 @@ export default class IsoformEmbeddedVariantTrack {
                     variantBins.forEach(variant => {
                       let {type, fmax, fmin} = variant;
                       if (
-                        (fmin < innerChild.fmin && fmax > innerChild.fmin)
-                        || (fmax > innerChild.fmax && fmin < innerChild.fmax)
-                        || (fmax <= innerChild.fmax && fmin >= innerChild.fmin)
+                        (fmin < innerChild.fmin && fmax > innerChild.fmin) ||
+                        (fmax > innerChild.fmax && fmin < innerChild.fmax) ||
+                        (fmax <= innerChild.fmax && fmin >= innerChild.fmin)
                       ) {
                         let drawnVariant = true;
                         const descriptions = getVariantDescriptions(variant);
@@ -400,9 +400,9 @@ export default class IsoformEmbeddedVariantTrack {
                             })
                             .datum({fmin: fmin, fmax: fmax});
                         }
-                        else if (type.toLowerCase() === 'delins'
-                          || type.toLowerCase() === 'substitution'
-                          || type.toLowerCase() === 'indel'
+                        else if (type.toLowerCase() === 'delins' ||
+                          type.toLowerCase() === 'substitution' ||
+                          type.toLowerCase() === 'indel'
                         ) {
                           isoform.append('polygon')
                             .attr('class', 'variant-delins')
