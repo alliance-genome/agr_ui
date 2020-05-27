@@ -142,7 +142,7 @@ class ExpressionComparisonRibbon extends React.Component {
 
 
         <HorizontalScroll>
-          <div className='text-nowrap' style={{'width' : '1100px' }} >
+          <div className='text-nowrap'>
             {
               summary.loading ? <LoadingSpinner /> :
                 <wc-ribbon-strips 
