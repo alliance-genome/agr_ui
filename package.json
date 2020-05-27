@@ -15,7 +15,7 @@
     "@babel/polyfill": "^7.2.5",
     "@geneontology/ribbon": "^1.11.2",
     "abortcontroller-polyfill": "^1.2.5",
-    "agr_genomefeaturecomponent": "^0.2.29",
+    "agr_genomefeaturecomponent": "^0.3.0",
     "bootstrap": "4.3.1",
     "caniuse-lite": "^1.0.30000975",
     "core-js": "^2.6.5",
