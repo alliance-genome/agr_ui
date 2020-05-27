@@ -47,6 +47,7 @@ export default class GenomeFeatureViewer {
     setSelectedAlleles(selectedAlleles,target){
       //remove highlights first
       let svgTarget=d3.select(target);
+      let viewer_height= svgTarget.attr('height')-22.5;
       svgTarget.selectAll(".highlight").remove();
       svgTarget.selectAll(".variant-deletion,.variant-SNV,.variant-insertion,.variant-delins")
         .filter(function(d){
@@ -57,6 +58,8 @@ export default class GenomeFeatureViewer {
           d.selected="false";
           return d;
         });
+
+
 
        let highlights=svgTarget.selectAll(".variant-deletion,.variant-SNV,.variant-insertion,.variant-delins")
          .filter(function(d){
@@ -80,17 +83,17 @@ export default class GenomeFeatureViewer {
            let x_val=d3.select(this).attr('x');
            let width_val=d3.select(this).attr('width');
            if(width_val == null){
-             width_val = 10;
-             x_val = x_val-5;
+             width_val = 3;
+             x_val = x_val-(width_val/2);
            }
            svgTarget.select(".variants.track")
            .append('rect')
            .attr("class","highlight")
            .attr("x", x_val)
            .attr("width", width_val)
-           .attr("height", 500)
+           .attr("height", viewer_height)
            .attr("fill", 'yellow')
-           .attr("opacity", .5)
+           .attr("opacity", .8)
            .lower();
          })
 
