@@ -14,8 +14,7 @@ import HorizontalScroll from '../horizontalScroll';
 import { STRINGENCY_HIGH } from '../orthology/constants';
 import { getOrthologId } from '../orthology';
 
-import { GenericRibbon } from '@geneontology/ribbon';
-import { POSITION, COLOR_BY, SELECTION } from '@geneontology/ribbon/lib/enums';
+import { SELECTION, POSITION, COLOR_BY, FONT_STYLE } from '@geneontology/wc-ribbon-strips/dist/collection/globals/enums';
 import HelpPopup from '../helpPopup';
 import DiseaseControlsHelp from './diseaseControlsHelp';
 import ControlsContainer from '../controlsContainer';
@@ -24,7 +23,6 @@ import { selectDiseaseRibbonSummary } from '../../selectors/diseaseRibbonSelecto
 import { fetchDiseaseRibbonSummary } from '../../actions/diseaseRibbonActions';
 import LoadingSpinner from '../loadingSpinner';
 import OrthologPicker from '../OrthologPicker';
-import RibbonGeneSubjectLabel from '../RibbonGeneSubjectLabel';
 
 class DiseaseComparisonRibbon extends Component {
 
@@ -40,6 +38,7 @@ class DiseaseComparisonRibbon extends Component {
     };
     this.onDiseaseGroupClicked = this.onDiseaseGroupClicked.bind(this);
     this.handleOrthologyChange = this.handleOrthologyChange.bind(this);
+    this.onGroupClicked = this.onGroupClicked.bind(this);
   }
 
   componentDidMount() {
@@ -55,7 +54,15 @@ class DiseaseComparisonRibbon extends Component {
           }
         }
       }));
+
+    document.addEventListener('cellClick', this.onGroupClicked);
+
   }
+
+  componentWillUnmount() {
+    document.removeEventListener('cellClick', this.onGroupClicked);
+  }
+
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.geneId !== prevProps.geneId ||
@@ -76,6 +83,10 @@ class DiseaseComparisonRibbon extends Component {
     return [this.props.geneId].concat(this.state.selectedOrthologs.map(getOrthologId));
   }
 
+  onGroupClicked(e) {
+    this.onDiseaseGroupClicked(e.detail.subjects, e.detail.group);
+  }
+
   onDiseaseGroupClicked(gene, disease) {
     this.setState(state => {
       const current = state.selectedBlock;
@@ -89,7 +100,7 @@ class DiseaseComparisonRibbon extends Component {
   }
 
   render(){
-    const { geneId, geneTaxon, orthology, summary } = this.props;
+    const { geneTaxon, orthology, summary } = this.props;
     const { selectedBlock, selectedOrthologs } = this.state;
 
     if (!summary) {
@@ -128,22 +139,29 @@ class DiseaseComparisonRibbon extends Component {
         </div>
 
         <HorizontalScroll>
-          <div className='text-nowrap'>
-            <GenericRibbon
-              categories={summary.data.categories}
-              colorBy={COLOR_BY.CLASS_COUNT}
-              hideFirstSubjectLabel
-              itemClick={this.onDiseaseGroupClicked}
-              newTab={false}
-              selected={selectedBlock}
-              selectionMode={SELECTION.COLUMN}
-              subjectLabel={subject => <RibbonGeneSubjectLabel gene={subject} isFocusGene={subject.id === geneId} />}
-              subjectLabelPosition={POSITION.LEFT}
-              subjects={summary.data.subjects}
-            />
+          <div className='text-nowrap' style={{'width' : '1100px' }} >
+            {
+              summary.loading ? <LoadingSpinner /> :
+                <wc-ribbon-strips 
+                  category-all-style={FONT_STYLE.BOLD}
+                  color-by={COLOR_BY.CLASS_COUNT}
+                  data={JSON.stringify(summary.data)}
+                  group-clickable={false}
+                  group-open-new-tab={false}
+                  new-tab={false}
+                  selection-mode={SELECTION.COLUMN}
+                  subject-base-url='/gene/'
+                  subject-open-new-tab={false}
+                  subject-position={POSITION.LEFT}
+                />
+            }
           </div>
           <div>{summary.loading && <LoadingSpinner />}</div>
         </HorizontalScroll>
+
+
+
+
 
         {selectedBlock.group && <div className='pt-4'>
           <DiseaseAnnotationTable genes={this.getGeneIdList()} term={selectedBlock.group.id} />
