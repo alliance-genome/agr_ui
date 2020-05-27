@@ -56,19 +56,17 @@ class DiseaseComparisonRibbon extends Component {
       }));
 
     document.addEventListener('cellClick', this.onGroupClicked);
-
   }
-
-  componentWillUnmount() {
-    document.removeEventListener('cellClick', this.onGroupClicked);
-  }
-
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.geneId !== prevProps.geneId ||
       !isEqual(this.state.selectedOrthologs, prevState.selectedOrthologs)) {
       this.fetchData();
     }
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('cellClick', this.onGroupClicked);
   }
 
   fetchData() {
@@ -84,7 +82,10 @@ class DiseaseComparisonRibbon extends Component {
   }
 
   onGroupClicked(e) {
-    this.onDiseaseGroupClicked(e.detail.subjects, e.detail.group);
+    // to ensure we are only considering events coming from the disease ribbon
+    if(e.target.id == 'disease-ribbon') {
+      this.onDiseaseGroupClicked(e.detail.subjects, e.detail.group);
+    }
   }
 
   onDiseaseGroupClicked(gene, disease) {
@@ -148,6 +149,7 @@ class DiseaseComparisonRibbon extends Component {
                   data={JSON.stringify(summary.data)}
                   group-clickable={false}
                   group-open-new-tab={false}
+                  id='disease-ribbon'
                   new-tab={false}
                   selection-mode={SELECTION.COLUMN}
                   subject-base-url='/gene/'
