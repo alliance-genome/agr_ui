@@ -151,6 +151,7 @@ class DiseaseComparisonRibbon extends Component {
                   group-open-new-tab={false}
                   id='disease-ribbon'
                   new-tab={false}
+                  selected='all'
                   selection-mode={SELECTION.COLUMN}
                   subject-base-url='/gene/'
                   subject-open-new-tab={false}
