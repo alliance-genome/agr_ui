@@ -21,6 +21,7 @@ export function generateDelinsPoint(x)  {
 export function getDescriptionDimensions(description){
   const descriptionHeight = Object.keys(description).length;
   const descriptionWidth = Object.entries(description)
+    .filter( d => d[1] !== undefined )
     .sort( (a,b) => {
       return b[1].length - a[1].length;
     } )[0][1].length;
@@ -108,7 +109,10 @@ export function generateVariantBins(variantData){
     }
     else{
       const newBin = {
-        fmin, fmax, type, consequence,
+        fmin,
+fmax,
+type,
+consequence,
         variantSet: [{
           variants:[variant],
           type,
@@ -171,12 +175,16 @@ export function generateVariantDataBinsAndDataSets(variantData,ratio){
     }
     else{
       const newBin = {
-        fmin, fmax, type, consequence,
+        fmin,
+fmax,
+type,
+consequence,
         variantSet: [{
           variants:[variant],
           type,
           consequence,
-          fmin, fmax,
+          fmin,
+fmax,
         }],
         variants: [variant]
       };
@@ -269,7 +277,7 @@ export function renderVariantDescription(description){
   returnString += `<table class="tooltip-table"><tbody>`;
   returnString += `<tr><th>Symbol</th><td>${description.symbol} (${description.alleles})</td></tr>`;
   returnString += `<tr><th>Type</th><td>${description.type}</td></tr>`;
-  returnString += `<tr><th>Consequence</th><td>${description.consequence }</td></tr>`;
+  returnString += `<tr><th>Consequence</th><td>${description.consequence}</td></tr>`;
   if(description.impact){
     returnString += `<tr><th>Impact</th><td>${description.impact.length>descriptionWidth ? description.impact.substr(0,descriptionWidth) : description.impact}</td></tr>`;
   }
