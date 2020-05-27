@@ -15,10 +15,8 @@ import ExpressionControlsHelp from './expressionControlsHelp';
 import OrthologPicker from '../OrthologPicker';
 import { selectExpressionRibbonSummary } from '../../selectors/expressionSelectors';
 import { fetchExpressionRibbonSummary } from '../../actions/expression';
-import { GenericRibbon } from '@geneontology/ribbon';
-import { POSITION, COLOR_BY, SELECTION } from '@geneontology/ribbon/lib/enums';
+
 import LoadingSpinner from '../loadingSpinner';
-import RibbonGeneSubjectLabel from '../RibbonGeneSubjectLabel';
 
 class ExpressionComparisonRibbon extends React.Component {
   constructor(props) {
@@ -32,11 +30,13 @@ class ExpressionComparisonRibbon extends React.Component {
       }
     };
     this.handleOrthologChange = this.handleOrthologChange.bind(this);
-    this.updateSelectedBlock = this.updateSelectedBlock.bind(this);
+    this.onExpressionGroupClicked = this.onExpressionGroupClicked.bind(this);
+    this.onGroupClicked = this.onGroupClicked.bind(this);
   }
 
   componentDidMount() {
     this.dispatchFetchSummary();
+    document.addEventListener('cellClick', this.onGroupClicked);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -44,6 +44,10 @@ class ExpressionComparisonRibbon extends React.Component {
     if (prevProps.geneId !== geneId || !isEqual(prevState.selectedOrthologs, this.state.selectedOrthologs)) {
       this.dispatchFetchSummary();
     }
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('cellClick', this.onGroupClicked);
   }
 
   dispatchFetchSummary() {
@@ -58,7 +62,14 @@ class ExpressionComparisonRibbon extends React.Component {
     this.setState({selectedOrthologs: values});
   }
 
-  updateSelectedBlock(gene, term) {
+  onGroupClicked(e) {
+    // to ensure we are only considering events coming from the disease ribbon
+    if(e.target.id == 'expression-ribbon') {
+      this.onExpressionGroupClicked(e.detail.subjects, e.detail.group);
+    }
+  }
+
+  onExpressionGroupClicked(gene, term) {
     this.setState(state => {
       const current = state.selectedBlock;
       return {
@@ -71,7 +82,7 @@ class ExpressionComparisonRibbon extends React.Component {
   }
 
   render() {
-    const { geneId, geneTaxon, orthology, summary } = this.props;
+    const { geneTaxon, orthology, summary } = this.props;
     const { selectedOrthologs, selectedBlock } = this.state;
 
     // const genes = [geneId].concat(selectedOrthologs.map(o => getOrthologId(o)));
@@ -100,6 +111,9 @@ class ExpressionComparisonRibbon extends React.Component {
       category.id.startsWith('UBERON:')
     ));
 
+    let updatedSummary = summary.data;
+    updatedSummary.categories = categories;
+
     const genesWithData = orthology.supplementalData && Object.entries(orthology.supplementalData)
       .reduce((prev, [geneId, data]) => ({...prev, [geneId]: data.hasExpressionAnnotations}), {});
 
@@ -125,20 +139,26 @@ class ExpressionComparisonRibbon extends React.Component {
           </ControlsContainer>
         </div>
 
+
+
         <HorizontalScroll>
           <div className='text-nowrap'>
-            <GenericRibbon
-              categories={categories}
-              colorBy={COLOR_BY.CLASS_COUNT}
-              hideFirstSubjectLabel
-              itemClick={this.updateSelectedBlock}
-              newTab={false}
-              selected={selectedBlock}
-              selectionMode={SELECTION.COLUMN}
-              subjectLabel={subject => <RibbonGeneSubjectLabel gene={subject} isFocusGene={subject.id === geneId} />}
-              subjectLabelPosition={POSITION.LEFT}
-              subjects={summary.data.subjects}
-            />
+            {
+              summary.loading ? <LoadingSpinner /> :
+                <wc-ribbon-strips 
+                  category-all-style='1'
+                  color-by='0'
+                  data={JSON.stringify(updatedSummary)}
+                  group-clickable={false}
+                  group-open-new-tab={false}
+                  id='expression-ribbon'
+                  new-tab={false}
+                  selection-mode='1'
+                  subject-base-url='/gene/'
+                  subject-open-new-tab={false}
+                  subject-position='1'
+                />
+            }
           </div>
           <div>{summary.loading && <LoadingSpinner />}</div>
           <div className='text-muted mt-2'>
