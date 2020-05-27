@@ -14,8 +14,6 @@ import HorizontalScroll from '../horizontalScroll';
 import { STRINGENCY_HIGH } from '../orthology/constants';
 import { getOrthologId } from '../orthology';
 
-import { GenericRibbon } from '@geneontology/ribbon';
-import { POSITION, COLOR_BY, SELECTION } from '@geneontology/ribbon/lib/enums';
 import HelpPopup from '../helpPopup';
 import DiseaseControlsHelp from './diseaseControlsHelp';
 import ControlsContainer from '../controlsContainer';
@@ -24,7 +22,6 @@ import { selectDiseaseRibbonSummary } from '../../selectors/diseaseRibbonSelecto
 import { fetchDiseaseRibbonSummary } from '../../actions/diseaseRibbonActions';
 import LoadingSpinner from '../loadingSpinner';
 import OrthologPicker from '../OrthologPicker';
-import RibbonGeneSubjectLabel from '../RibbonGeneSubjectLabel';
 
 class DiseaseComparisonRibbon extends Component {
 
@@ -40,6 +37,7 @@ class DiseaseComparisonRibbon extends Component {
     };
     this.onDiseaseGroupClicked = this.onDiseaseGroupClicked.bind(this);
     this.handleOrthologyChange = this.handleOrthologyChange.bind(this);
+    this.onGroupClicked = this.onGroupClicked.bind(this);
   }
 
   componentDidMount() {
@@ -55,6 +53,8 @@ class DiseaseComparisonRibbon extends Component {
           }
         }
       }));
+
+    document.addEventListener('cellClick', this.onGroupClicked);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -62,6 +62,10 @@ class DiseaseComparisonRibbon extends Component {
       !isEqual(this.state.selectedOrthologs, prevState.selectedOrthologs)) {
       this.fetchData();
     }
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('cellClick', this.onGroupClicked);
   }
 
   fetchData() {
@@ -74,6 +78,13 @@ class DiseaseComparisonRibbon extends Component {
 
   getGeneIdList() {
     return [this.props.geneId].concat(this.state.selectedOrthologs.map(getOrthologId));
+  }
+
+  onGroupClicked(e) {
+    // to ensure we are only considering events coming from the disease ribbon
+    if(e.target.id == 'disease-ribbon') {
+      this.onDiseaseGroupClicked(e.detail.subjects, e.detail.group);
+    }
   }
 
   onDiseaseGroupClicked(gene, disease) {
@@ -89,7 +100,7 @@ class DiseaseComparisonRibbon extends Component {
   }
 
   render(){
-    const { geneId, geneTaxon, orthology, summary } = this.props;
+    const { geneTaxon, orthology, summary } = this.props;
     const { selectedBlock, selectedOrthologs } = this.state;
 
     if (!summary) {
@@ -129,21 +140,33 @@ class DiseaseComparisonRibbon extends Component {
 
         <HorizontalScroll>
           <div className='text-nowrap'>
-            <GenericRibbon
-              categories={summary.data.categories}
-              colorBy={COLOR_BY.CLASS_COUNT}
-              hideFirstSubjectLabel
-              itemClick={this.onDiseaseGroupClicked}
-              newTab={false}
-              selected={selectedBlock}
-              selectionMode={SELECTION.COLUMN}
-              subjectLabel={subject => <RibbonGeneSubjectLabel gene={subject} isFocusGene={subject.id === geneId} />}
-              subjectLabelPosition={POSITION.LEFT}
-              subjects={summary.data.subjects}
-            />
+            {
+              summary.loading ? <LoadingSpinner /> :
+                <wc-ribbon-strips 
+                  category-all-style='1'
+                  color-by='0'
+                  data={JSON.stringify(summary.data)}
+                  group-clickable={false}
+                  group-open-new-tab={false}
+                  id='disease-ribbon'
+                  new-tab={false}
+                  selected='all'
+                  selection-mode='1'
+                  subject-base-url='/gene/'
+                  subject-open-new-tab={false}
+                  subject-position='1'
+                />
+            }
           </div>
           <div>{summary.loading && <LoadingSpinner />}</div>
+          <div className='text-muted mt-2'>
+            <i>Cell color indicative of annotation volume</i>
+          </div>
         </HorizontalScroll>
+
+
+
+
 
         {selectedBlock.group && <div className='pt-4'>
           <DiseaseAnnotationTable genes={this.getGeneIdList()} term={selectedBlock.group.id} />
