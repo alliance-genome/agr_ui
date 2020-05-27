@@ -159,6 +159,9 @@ class DiseaseComparisonRibbon extends Component {
             }
           </div>
           <div>{summary.loading && <LoadingSpinner />}</div>
+          <div className='text-muted mt-2'>
+            <i>Cell color indicative of annotation volume</i>
+          </div>
         </HorizontalScroll>
 
 
