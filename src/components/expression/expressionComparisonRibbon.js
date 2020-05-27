@@ -16,7 +16,6 @@ import OrthologPicker from '../OrthologPicker';
 import { selectExpressionRibbonSummary } from '../../selectors/expressionSelectors';
 import { fetchExpressionRibbonSummary } from '../../actions/expression';
 
-import { SELECTION, POSITION, COLOR_BY, FONT_STYLE } from '@geneontology/wc-ribbon-strips/dist/collection/globals/enums';
 import LoadingSpinner from '../loadingSpinner';
 
 class ExpressionComparisonRibbon extends React.Component {
@@ -147,17 +146,17 @@ class ExpressionComparisonRibbon extends React.Component {
             {
               summary.loading ? <LoadingSpinner /> :
                 <wc-ribbon-strips 
-                  category-all-style={FONT_STYLE.BOLD}
-                  color-by={COLOR_BY.CLASS_COUNT}
+                  category-all-style='1'
+                  color-by='0'
                   data={JSON.stringify(updatedSummary)}
                   group-clickable={false}
                   group-open-new-tab={false}
                   id='expression-ribbon'
                   new-tab={false}
-                  selection-mode={SELECTION.COLUMN}
+                  selection-mode='1'
                   subject-base-url='/gene/'
                   subject-open-new-tab={false}
-                  subject-position={POSITION.LEFT}
+                  subject-position='1'
                 />
             }
           </div>
