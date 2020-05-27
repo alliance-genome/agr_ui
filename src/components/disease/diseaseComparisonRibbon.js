@@ -14,7 +14,6 @@ import HorizontalScroll from '../horizontalScroll';
 import { STRINGENCY_HIGH } from '../orthology/constants';
 import { getOrthologId } from '../orthology';
 
-import { SELECTION, POSITION, COLOR_BY, FONT_STYLE } from '@geneontology/wc-ribbon-strips/dist/collection/globals/enums';
 import HelpPopup from '../helpPopup';
 import DiseaseControlsHelp from './diseaseControlsHelp';
 import ControlsContainer from '../controlsContainer';
@@ -144,18 +143,18 @@ class DiseaseComparisonRibbon extends Component {
             {
               summary.loading ? <LoadingSpinner /> :
                 <wc-ribbon-strips 
-                  category-all-style={FONT_STYLE.BOLD}
-                  color-by={COLOR_BY.CLASS_COUNT}
+                  category-all-style='1'
+                  color-by='0'
                   data={JSON.stringify(summary.data)}
                   group-clickable={false}
                   group-open-new-tab={false}
                   id='disease-ribbon'
                   new-tab={false}
                   selected='all'
-                  selection-mode={SELECTION.COLUMN}
+                  selection-mode='1'
                   subject-base-url='/gene/'
                   subject-open-new-tab={false}
-                  subject-position={POSITION.LEFT}
+                  subject-position='1'
                 />
             }
           </div>
