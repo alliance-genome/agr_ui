@@ -16,6 +16,8 @@ import OrthologPicker from '../OrthologPicker';
 import { selectExpressionRibbonSummary } from '../../selectors/expressionSelectors';
 import { fetchExpressionRibbonSummary } from '../../actions/expression';
 
+import { withRouter } from 'react-router-dom';
+
 import LoadingSpinner from '../loadingSpinner';
 
 class ExpressionComparisonRibbon extends React.Component {
@@ -32,11 +34,13 @@ class ExpressionComparisonRibbon extends React.Component {
     this.handleOrthologChange = this.handleOrthologChange.bind(this);
     this.onExpressionGroupClicked = this.onExpressionGroupClicked.bind(this);
     this.onGroupClicked = this.onGroupClicked.bind(this);
+    this.onSubjectClicked = this.onSubjectClicked.bind(this);
   }
 
   componentDidMount() {
     this.dispatchFetchSummary();
     document.addEventListener('cellClick', this.onGroupClicked);
+    document.addEventListener('subjectClick', this.onSubjectClicked);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -60,6 +64,28 @@ class ExpressionComparisonRibbon extends React.Component {
 
   handleOrthologChange(values) {
     this.setState({selectedOrthologs: values});
+  }
+
+  hasParentElementId(elt, id) {
+    if(elt.id == id)
+      return true;
+    if(!elt.parentElement)
+      return false;
+    return this.hasParentElementId(elt.parentElement, id);
+  }
+
+  onSubjectClicked(e) {
+    // to ensure we are only considering events coming from the disease ribbon
+    if(this.hasParentElementId(e.target, 'expression-ribbon')) {
+      // don't use the ribbon default action upon subject click
+      e.detail.originalEvent.preventDefault();
+
+      // but re-route to alliance gene page
+      let { history } = this.props;
+      history.push({
+        pathname: '/gene/' + e.detail.subject.id
+      });
+    }
   }
 
   onGroupClicked(e) {
@@ -155,7 +181,7 @@ class ExpressionComparisonRibbon extends React.Component {
                   new-tab={false}
                   selection-mode='1'
                   subject-base-url='/gene/'
-                  subject-open-new-tab={false}
+                  subject-open-new-tab={true}
                   subject-position='1'
                 />
             }
@@ -190,4 +216,4 @@ const mapStateToProps = state => ({
   summary: selectExpressionRibbonSummary(state),
 });
 
-export default connect(mapStateToProps)(ExpressionComparisonRibbon);
+export default withRouter(connect(mapStateToProps)(ExpressionComparisonRibbon));
