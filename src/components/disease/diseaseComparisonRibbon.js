@@ -210,6 +210,7 @@ DiseaseComparisonRibbon.propTypes = {
   geneId: PropTypes.string,
   geneSymbol: PropTypes.string,
   geneTaxon: PropTypes.string,
+  history: PropTypes.object,
   orthology: PropTypes.object,
   summary: PropTypes.object
 };
