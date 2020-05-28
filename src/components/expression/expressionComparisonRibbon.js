@@ -175,6 +175,7 @@ class ExpressionComparisonRibbon extends React.Component {
                   category-all-style='1'
                   color-by='0'
                   data={JSON.stringify(updatedSummary)}
+                  fire-event-on-empty-cells={false}
                   group-clickable={false}
                   group-open-new-tab={false}
                   id='expression-ribbon'
