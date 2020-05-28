@@ -20,8 +20,8 @@ const AlleleTransgenicConstructs = ({constructs}) => {
         This allele contains {constructs.length} transgenic construct{constructs.length !== 1 ? 's' : ''}
       </span>
       {constructs.map(construct => (
-        <>
-          <AttributeList className='mb-3' key={construct.id}>
+        <div className='mb-3' key={construct.id}>
+          <AttributeList className='mb-0'>
             <AttributeLabel>Symbol</AttributeLabel>
             <AttributeValue>
               <DataSourceLink reference={construct.crossReferences.primary}>
@@ -51,9 +51,9 @@ const AlleleTransgenicConstructs = ({constructs}) => {
             </AttributeValue>
           </AttributeList>
           {/*<Link to={`/search?q=${construct.id}`}>*/}
-          {/*  <i className='fa fa-search' />Other alleles with this construct*/}
+          {/*  Other alleles with this construct <i className='fa fa-search' />*/}
           {/*</Link>*/}
-        </>
+        </div>
       ))}
     </>
   );
