@@ -6,7 +6,6 @@ import {
   AttributeValue
 } from '../../components/attribute';
 import DataSourceLink from '../../components/dataSourceLink';
-// import {Link} from 'react-router-dom';
 import CommaSeparatedGeneList from './CommaSeparatedGeneList';
 import NoData from '../../components/noData';
 
