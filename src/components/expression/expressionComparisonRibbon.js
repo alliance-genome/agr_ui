@@ -181,7 +181,7 @@ class ExpressionComparisonRibbon extends React.Component {
                   new-tab={false}
                   selection-mode='1'
                   subject-base-url='/gene/'
-                  subject-open-new-tab={true}
+                  subject-open-new-tab={false}
                   subject-position='1'
                 />
             }
@@ -207,6 +207,7 @@ ExpressionComparisonRibbon.propTypes = {
   geneId: PropTypes.string.isRequired,
   geneSymbol: PropTypes.string.isRequired,
   geneTaxon: PropTypes.string.isRequired,
+  history: PropTypes.object,
   orthology: PropTypes.object,
   summary: PropTypes.object,
 };
