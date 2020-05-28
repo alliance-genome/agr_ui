@@ -18,11 +18,11 @@ const AlleleTransgenicConstructs = ({constructs}) => {
   return (
     <>
       <span className="badge badge-secondary mb-3">
-        Allele contains {constructs.length} transgenic construct{constructs.length !== 1 ? 's' : ''}
+        This allele contains {constructs.length} transgenic construct{constructs.length !== 1 ? 's' : ''}
       </span>
       {constructs.map(construct => (
         <>
-          <AttributeList className='mb-0' key={construct.id}>
+          <AttributeList className='mb-3' key={construct.id}>
             <AttributeLabel>Symbol</AttributeLabel>
             <AttributeValue>
               <DataSourceLink reference={construct.crossReferences.primary}>
