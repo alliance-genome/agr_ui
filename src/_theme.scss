@@ -81,3 +81,20 @@ $ribbon-strip-tile-border-radius: 0px;
     box-sizing: content-box;
   }
 }
+
+.ribbon__category--cell, .ribbon__subject--cell, .ribbon__subject--cell--no-annotation, .ribbon__subject__label--link, tr, th, td {
+  font-size: 14px !important;
+  line-height: 1.0 !important;
+}
+
+.ribbon__subject--cell {
+  box-shadow: 0 1px 1px rgba(0,0,0,.26);            
+}
+
+.ribbon__category--cell:hover {
+  font-weight: 800 !important;
+}
+
+.wc-ribbon-cell, wc-ribbon-subject, wc-ribbon-strips {
+  line-height: 1.0 !important;
+}
