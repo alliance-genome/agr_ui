@@ -23,6 +23,8 @@ import { fetchDiseaseRibbonSummary } from '../../actions/diseaseRibbonActions';
 import LoadingSpinner from '../loadingSpinner';
 import OrthologPicker from '../OrthologPicker';
 
+import { withRouter } from 'react-router-dom';
+
 class DiseaseComparisonRibbon extends Component {
 
   constructor(props){
@@ -38,6 +40,7 @@ class DiseaseComparisonRibbon extends Component {
     this.onDiseaseGroupClicked = this.onDiseaseGroupClicked.bind(this);
     this.handleOrthologyChange = this.handleOrthologyChange.bind(this);
     this.onGroupClicked = this.onGroupClicked.bind(this);
+    this.onSubjectClicked = this.onSubjectClicked.bind(this);
   }
 
   componentDidMount() {
@@ -55,6 +58,7 @@ class DiseaseComparisonRibbon extends Component {
       }));
 
     document.addEventListener('cellClick', this.onGroupClicked);
+    document.addEventListener('subjectClick', this.onSubjectClicked);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -78,6 +82,28 @@ class DiseaseComparisonRibbon extends Component {
 
   getGeneIdList() {
     return [this.props.geneId].concat(this.state.selectedOrthologs.map(getOrthologId));
+  }
+
+  hasParentElementId(elt, id) {
+    if(elt.id == id)
+      return true;
+    if(!elt.parentElement)
+      return false;
+    return this.hasParentElementId(elt.parentElement, id);
+  }
+
+  onSubjectClicked(e) {
+    // to ensure we are only considering events coming from the disease ribbon
+    if(this.hasParentElementId(e.target, 'disease-ribbon')) {
+      // don't use the ribbon default action upon subject click
+      e.detail.originalEvent.preventDefault();
+
+      // but re-route to alliance gene page
+      let { history } = this.props;
+      history.push({
+        pathname: '/gene/' + e.detail.subject.id
+      });
+    }
   }
 
   onGroupClicked(e) {
@@ -193,4 +219,4 @@ const mapStateToProps = (state) => ({
   summary: selectDiseaseRibbonSummary(state),
 });
 
-export default connect(mapStateToProps)(DiseaseComparisonRibbon);
+export default withRouter(connect(mapStateToProps)(DiseaseComparisonRibbon));
