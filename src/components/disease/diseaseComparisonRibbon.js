@@ -172,6 +172,7 @@ class DiseaseComparisonRibbon extends Component {
                   category-all-style='1'
                   color-by='0'
                   data={JSON.stringify(summary.data)}
+                  fire-event-on-empty-cells={false}
                   group-clickable={false}
                   group-open-new-tab={false}
                   id='disease-ribbon'
