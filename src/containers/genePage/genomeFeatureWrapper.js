@@ -48,7 +48,7 @@ class GenomeFeatureWrapper extends Component {
     }
     else
     if(!isEqual(prevProps.allelesSelected,this.props.allelesSelected)) {
-      this.gfc.setSelectedAlleles(this.props.allelesSelected);
+      this.gfc.setSelectedAlleles(this.props.allelesSelected,`#${this.props.id}`);
     }
     else
     if(!isEqual(prevProps.visibleVariants,this.props.visibleVariants)) {
