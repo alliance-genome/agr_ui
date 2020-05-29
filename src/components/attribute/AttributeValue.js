@@ -1,21 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import NoData from '../noData';
 
-class AttributeValue extends Component {
-
-  render() {
-    const { style, children, bsClassName, placeholder } = this.props;
-    return (
-      <dd
-        className={bsClassName}
-        style={style}
-      >
-        {children || <NoData>{placeholder}</NoData>}
-      </dd>
-    );
-  }
-}
+const AttributeValue = ({style, children, bsClassName, placeholder}) => {
+  return (
+    <dd
+      className={bsClassName}
+      style={style}
+    >
+      {children || <NoData>{placeholder}</NoData>}
+    </dd>
+  );
+};
 
 AttributeValue.defaultProps = {
   style: {},
