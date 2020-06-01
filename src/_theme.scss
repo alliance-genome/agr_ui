@@ -32,6 +32,7 @@ $primary: $primary-500;
 $secondary: #7f7f7f;
 $link-color: $primary-600;
 $loader-color: $primary-800;
+$border-color: #dee2e6;
 
 $data-type-gene: $primary-700;
 $data-type-disease: $accent-700;
@@ -76,25 +77,56 @@ $ribbon-strip-tile-tile-width: 15px;
 $ribbon-table-evidence-hover-color: rgba(75, 124, 231, 0.4);
 $ribbon-strip-tile-border-radius: 0px;
 
-.ontology-ribbon {
-  &, & * {
-    box-sizing: content-box;
+
+$ribbon-base-size: 0.8rem;
+$ribbon-block-size: $ribbon-base-size * 1.5;
+
+.ribbon__subject {
+  line-height: 1;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  margin-bottom: -1px;
+}
+
+.ribbon__category--cell {
+  font-size: $ribbon-base-size;
+  width: calc(#{$ribbon-block-size} - 1px);
+  transform: translateX(2px) rotate(-45deg);
+
+  &:hover {
+    font-weight: 800;
   }
 }
 
-.ribbon__category--cell, .ribbon__subject--cell, .ribbon__subject--cell--no-annotation, .ribbon__subject__label--link, tr, th, td {
-  font-size: 14px !important;
-  line-height: 1.0 !important;
+.ribbon__subject--cell,
+.ribbon__subject--cell--no-annotation {
+  text-align: unset;
+  box-shadow: none;
 }
 
-.ribbon__subject--cell {
-  box-shadow: 0 1px 1px rgba(0,0,0,.26);            
+td.ribbon__subject--cell {
+  width: calc(#{$ribbon-block-size} - 2px);
+  height: calc(#{$ribbon-block-size} - 2px);
+  border: none;
+
+  &.clicked {
+    border: 2px solid $accent-500;
+  }
 }
 
-.ribbon__category--cell:hover {
-  font-weight: 800 !important;
+wc-ribbon-cell.ribbon__subject--cell,
+wc-ribbon-cell.ribbon__subject--cell--no-annotation {
+  width: $ribbon-block-size;
+  height: $ribbon-block-size;
+  margin-right: -1px;
+  border: 1px solid $border-color;
 }
 
-.wc-ribbon-cell, wc-ribbon-subject, wc-ribbon-strips {
-  line-height: 1.0 !important;
+.ribbon__subject__label--link {
+  color: $link-color;
+
+  &:hover {
+    font-weight: normal;
+  }
 }
