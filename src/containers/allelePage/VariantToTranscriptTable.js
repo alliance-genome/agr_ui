@@ -1,52 +1,15 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 // import { selectVariants } from '../../selectors/alleleSelectors';
 // import { fetchAlleleVariants } from '../../actions/alleleActions';
 import { Link } from 'react-router-dom';
-import { buildTableQueryString } from '../../lib/utils';
 import { RemoteDataTable } from '../../components/dataTable';
-import VariantEffectDetails from './VariantEffectDetails';
+import useVariantTranscripts from './useVariantTranscripts';
 import styles from './style.scss';
-
-function useFetchData(url) {
-  const [data, setData] = useState({
-    data: [],
-    total: 0,
-  });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const fetchData = useCallback( async (opts) => {
-    try {
-      const response = await fetch(`${url}?${buildTableQueryString(opts)}`);
-      const body = await response.json();
-      if (response.ok) {
-        const {results, ...others} = body;
-        setLoading(false);
-        setData({
-          ...others,
-          data: results,
-        });
-      } else {
-        throw new Error(body);
-      }
-    } catch (error) {
-      setLoading(false);
-      setError(error);
-    }
-  }, [url, setData, setLoading, setError]);
-
-  return {
-    ...data,
-    loading,
-    error,
-    fetchData,
-  };
-}
 
 const VariantToTranscriptTable = ({variant}) => {
   const {id: variantId} = variant;
-  const { data = [], loading, total, error, fetchData} = useFetchData(`/api/variant/${variantId}/transcripts`);
+  const { data = [], loading, total, error, fetchData} = useVariantTranscripts(variantId); //useFetchData(`/api/variant/${variantId}/transcripts`);
   if (error) {
     throw error;
   }
@@ -131,21 +94,6 @@ const VariantToTranscriptTable = ({variant}) => {
       onUpdate={fetchData}
       totalRows={total}
     />
-    {
-      data.map(({
-        consequences = [],
-        ...transcript
-      }) => (
-        consequences.map((consequence) => (
-          <VariantEffectDetails
-            consequence={consequence}
-            key={`${transcript.id}-${consequence.hgvsCodingNomenclature}`}
-            transcript={transcript}
-            variant={variant}
-          />
-        ))
-      ))
-    }
   </>);
 };
 VariantToTranscriptTable.propTypes = {

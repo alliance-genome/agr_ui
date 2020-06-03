@@ -12,6 +12,7 @@ import {
 } from '../../components/attribute';
 import { VariantJBrowseLink } from '../../components/variant';
 import VariantToTranscriptTable from './VariantToTranscriptTable';
+import VariantToTranscriptDetails from './VariantToTranscriptDetails';
 
 const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) => {
   const { data:dataRaw = [], loading, total} = variants;
@@ -96,7 +97,7 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
       />
       <br />
       <br />
-      <Subsection title="Molecular consequences">
+      <Subsection title="Molecular consequences summary">
         {
           data.map((variant) => {
             const {id: variantId, location, type = {}, geneLocation = {}, species = {}} = variant;
@@ -122,6 +123,18 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
                   </AttributeValue>
                 </AttributeList>
                 <VariantToTranscriptTable variant={variant} />
+              </React.Fragment>
+            );
+          })
+        }
+      </Subsection>
+      <Subsection title="Molecular consequences details">
+        {
+          data.map((variant) => {
+            const {id: variantId} = variant;
+            return (
+              <React.Fragment key={variantId}>
+                <VariantToTranscriptDetails variant={variant} />
               </React.Fragment>
             );
           })
