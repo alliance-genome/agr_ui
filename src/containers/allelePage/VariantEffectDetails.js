@@ -23,12 +23,14 @@ const VariantEffectDetails = ({data = []}) => {
             cdnaEndPosition,
 
             // protein
-            aminoAcidChange = '',
+            aminoAcidReference = '',
+            aminoAcidVariation = '',
             proteinStartPosition,
             proteinEndPosition,
 
             // codon
-            codonChange = '',
+            codonReference = '',
+            codonVariation = '',
             cdsStartPosition,
             cdsEndPosition,
 
@@ -42,8 +44,6 @@ const VariantEffectDetails = ({data = []}) => {
 
             ...zzz
           }) => {
-            const [codonReference = '', codonVariation = ''] = codonChange.split('/');
-            const [aminoAcidReference = '', aminoAcidVariation = ''] = aminoAcidChange.split('/');
             const labelStyle = {textTransform: 'initial'};
             return (
               <div key={`${id}-${hgvsCodingNomenclature}`}>
@@ -72,25 +72,29 @@ const VariantEffectDetails = ({data = []}) => {
                   <AttributeValue>{transcriptLevelConsequence}</AttributeValue>
                   <AttributeLabel>Change</AttributeLabel>
                   <AttributeValue>
-                    <div className="row container">
-                      <div className='col-4' style={{textAlign: 'right'}}>
-                        <Translation
-                          aminoAcids={aminoAcidReference.split('')}
-                          cdsEndPosition={cdsEndPosition}
-                          cdsStartPosition={cdsStartPosition}
-                          codons={codonReference.split('')}
-                          isReference
-                          proteinEndPosition={proteinEndPosition}
-                          proteinStartPosition={proteinStartPosition}
-                        />
-                      </div>
-                      <div className='col-1' style={{textAlign: 'center'}}>
-                        {codonChange ? '=>' : null}
-                      </div>
-                      <div className='col-2'>
-                        <Translation aminoAcids={aminoAcidVariation.split('')} codons={codonVariation.split('')} />
-                      </div>
-                    </div>
+                    {
+                      codonVariation ? (
+                        <div className="row container">
+                          <div className='col-4' style={{textAlign: 'right'}}>
+                            <Translation
+                              aminoAcids={aminoAcidReference.split('')}
+                              cdsEndPosition={cdsEndPosition}
+                              cdsStartPosition={cdsStartPosition}
+                              codons={codonReference.split('')}
+                              isReference
+                              proteinEndPosition={proteinEndPosition}
+                              proteinStartPosition={proteinStartPosition}
+                            />
+                          </div>
+                          <div className='col-1' style={{textAlign: 'center'}}>
+                            {codonVariation ? '=>' : null}
+                          </div>
+                          <div className='col-2'>
+                            <Translation aminoAcids={aminoAcidVariation.split('')} codons={codonVariation.split('')} />
+                          </div>
+                        </div>
+                      ) : null
+                    }
                   </AttributeValue>
 
                   <AttributeLabel>Z</AttributeLabel>
