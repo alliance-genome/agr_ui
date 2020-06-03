@@ -14,6 +14,9 @@ import { VariantJBrowseLink } from '../../components/variant';
 import VariantToTranscriptTable from './VariantToTranscriptTable';
 import VariantToTranscriptDetails from './VariantToTranscriptDetails';
 
+const MOLECULAR_CONSEQUENCE_SUMMARY = 'Molecular consequence';
+const MOLECULAR_CONSEQUENCE_DETAILS = 'Molecular consequence details';
+
 const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) => {
   const { data:dataRaw = [], loading, total} = variants;
   const [ variant1 = {} ] = dataRaw;
@@ -97,7 +100,7 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
       />
       <br />
       <br />
-      <Subsection title="Molecular consequences summary">
+      <Subsection title={MOLECULAR_CONSEQUENCE_SUMMARY}>
         {
           data.map((variant) => {
             const {id: variantId, location, type = {}, geneLocation = {}, species = {}} = variant;
@@ -127,8 +130,8 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
             );
           })
         }
-      </Subsection>
-      <Subsection title="Molecular consequences details">
+        <br />
+        <h4>{MOLECULAR_CONSEQUENCE_DETAILS}</h4>
         {
           data.map((variant) => {
             const {id: variantId} = variant;
@@ -159,6 +162,10 @@ AlleleToVariantTable.propTypes = {
     loading: PropTypes.any,
     total: PropTypes.any,
   }),
+};
+
+export {
+  MOLECULAR_CONSEQUENCE_SUMMARY,
 };
 
 const mapStateToProps = state => ({
