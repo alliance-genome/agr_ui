@@ -12,7 +12,7 @@ const Sequence = ({
 
   const toggle = () => setModal(!modal);
 
-  return (
+  return sequence.length > maxCharacterLengthInline ? (
     <>
       <button className="btn btn-link p-0" onClick={toggle} type="button">
         <span
@@ -42,6 +42,12 @@ const Sequence = ({
         </ModalFooter>
       </Modal>
     </>
+  ) : (
+    <span
+      className={`${style.sequence} ${style.sequenceInline}`}
+    >
+      {sequence}
+    </span>
   );
 };
 
