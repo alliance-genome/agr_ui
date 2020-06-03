@@ -6,6 +6,7 @@ import {
   AttributeValue
 } from '../../components/attribute';
 import { CollapsibleList } from '../../components/collapsibleList';
+import { VariantJBrowseLink } from '../../components/variant';
 import Translation from './Translation';
 import Position from './Position';
 import styles from './style.scss';
@@ -47,8 +48,17 @@ const VariantEffectDetails = ({
   return (<div className={`${styles.row} ${styles.detailRow}`}>
     <h5>Predicted effect of {variant.id} on {transcript.name}</h5>
     <AttributeList>
-      <AttributeLabel>Variant ID</AttributeLabel>
-      <AttributeValue>{variant.id}</AttributeValue>
+      <AttributeLabel>Variant</AttributeLabel>
+      <AttributeValue>
+        <VariantJBrowseLink
+          geneLocation={variant.geneLocation}
+          location={location}
+          species={variant.species && variant.species.name}
+          type={variant.type && variant.type.name}
+        >
+          <span className="text-break">{variant.id}</span>
+        </VariantJBrowseLink>
+      </AttributeValue>
       <AttributeLabel>Variant type</AttributeLabel>
       <AttributeValue>{variant.type && variant.type.name}</AttributeValue>
 
