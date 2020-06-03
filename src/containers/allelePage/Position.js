@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import NoData from '../../components/noData';
 
-const Position = ({start, end}) => start || end ? (
+const Position = ({start, end, placeholder}) => start || end ? (
   <span>
     {start}
     {end && end !== start ? ` - ${end}` : null}
   </span>
-) : null;
+) : <NoData>{placeholder}</NoData>;
 
 Position.propTypes = {
   end: PropTypes.string,
