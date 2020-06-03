@@ -94,6 +94,7 @@ const DiseaseToGeneTable = ({associations, fetchAssociations, id}) => {
       formatter: providers => providers && <ProvidersCell providers={providers} />,
       filterable: true,
       headerStyle: {width: '85px'},
+      filterName: 'provider',
     },
     {
       dataField: 'publications',
