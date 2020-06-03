@@ -2,26 +2,37 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {dataSourceType} from '../../lib/types';
 import DataSourceLink from '../dataSourceLink';
+import CommaSeparatedList from '../commaSeparatedList';
 
 const ProvidersCell = ({providers}) => {
   return (
-    <>
-      <DataSourceLink reference={providers.sourceProvider} />
-      {providers.loadProvider &&
-        <>
-          <i> via </i>
-          <DataSourceLink reference={providers.loadProvider} />
-        </>
+    <CommaSeparatedList listItemClassName='d-block'>
+      {
+        providers.map(provider => {
+          const key = provider.sourceProvider.name +
+            (provider.loadProvider ? provider.loadProvider.name : '');
+          return (
+            <span key={key}>
+              <DataSourceLink reference={provider.sourceProvider} />
+              {provider.loadProvider &&
+              <>
+                <i> via </i>
+                <DataSourceLink reference={provider.loadProvider} />
+              </>
+              }
+            </span>
+          );
+        })
       }
-    </>
+    </CommaSeparatedList>
   );
 };
 
 ProvidersCell.propTypes = {
-  providers: PropTypes.shape({
+  providers: PropTypes.arrayOf(PropTypes.shape({
     sourceProvider: dataSourceType.isRequired,
     loadProvider: dataSourceType,
-  }).isRequired,
+  })).isRequired,
 };
 
 export default ProvidersCell;
