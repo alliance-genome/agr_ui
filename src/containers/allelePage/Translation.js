@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Position from './Position';
-import translationStyles from './Translation.scss';
+import translationStyles from './translation.scss';
 
 const TranslationRow = ({
   aminoAcids: aminoAcidsRaw = [],
