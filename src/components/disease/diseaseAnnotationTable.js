@@ -106,6 +106,7 @@ class DiseaseAnnotationTable extends Component {
         formatter: providers => providers && <ProvidersCell providers={providers} />,
         filterable: true,
         headerStyle: {width: '100px'},
+        filterName: 'provider',
       },
       {
         dataField: 'orthologyGenes',
