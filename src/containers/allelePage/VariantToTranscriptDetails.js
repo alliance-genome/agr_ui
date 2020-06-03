@@ -27,10 +27,10 @@ const VariantToTranscriptDetails = ({variant}) => {
           consequences = [],
           ...transcript
         }) => (
-          consequences.map((consequence) => (
+          consequences.map((consequence, index) => (
             <VariantEffectDetails
               consequence={consequence}
-              key={`${transcript.id}-${consequence.hgvsCodingNomenclature}`}
+              key={`${transcript.id}-${index}`}
               transcript={transcript}
               variant={variant}
             />
