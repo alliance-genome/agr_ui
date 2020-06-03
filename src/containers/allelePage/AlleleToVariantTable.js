@@ -5,6 +5,7 @@ import { fetchAlleleVariants } from '../../actions/alleleActions';
 import { connect } from 'react-redux';
 import { RemoteDataTable } from '../../components/dataTable';
 import { VariantJBrowseLink } from '../../components/variant';
+import Sequence from './Sequence';
 
 const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) => {
   const { data:dataRaw = [], loading, total} = variants;
@@ -59,30 +60,9 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
     {
       dataField: 'nucleotideChange',
       text: 'Nucleotide change',
-      formatter: (nucleotideChange) => (
-        <a href="/">
-          <span style={{
-            textOverflow: 'clip',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            fontFamily: 'monospace',
-            fontSize: 14,
-            width: '20ch',
-            display: 'inline-block',
-          }}>
-            {nucleotideChange}
-          </span>
-          <span style={{
-            overflow: 'hidden',
-            fontFamily: 'monospace',
-            fontSize: 14,
-            width: '1ch',
-            display: 'inline-block',
-          }}>
-            &hellip;
-          </span>
-        </a>
-      ),
+      formatter: (nucleotideChange) => {
+        return <Sequence sequence={nucleotideChange || ''} />;
+      },
       headerStyle: {width: '160px'},
     },
     {

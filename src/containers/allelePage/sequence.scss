@@ -1,0 +1,16 @@
+.sequence {
+  font-family: monospace;
+  font-size: 14px;
+}
+
+.sequenceInline {
+  text-overflow: clip;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.modalBody {
+  max-height: 70vh;
+  overflow: scroll;
+}
