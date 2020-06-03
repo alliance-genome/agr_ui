@@ -45,8 +45,19 @@ const VariantEffectDetails = ({
 
   return (
     <AttributeList>
+      <AttributeLabel>Variant ID</AttributeLabel>
+      <AttributeValue>{variant.id}</AttributeValue>
       <AttributeLabel>Variant type</AttributeLabel>
       <AttributeValue>{variant.type && variant.type.name}</AttributeValue>
+
+      <AttributeLabel>Affected sequence feature type</AttributeLabel>
+      <AttributeValue>{transcript.type && transcript.type.name}</AttributeValue>
+
+      <AttributeLabel>Affected sequence feature name</AttributeLabel>
+      <AttributeValue>{transcript.name}</AttributeValue>
+
+      <AttributeLabel>Affected sequence feature accession</AttributeLabel>
+      <AttributeValue>{transcript.id}</AttributeValue>
 
       <AttributeLabel style={labelStyle}>cDNA coordinate</AttributeLabel>
       <AttributeValue>
@@ -70,7 +81,7 @@ const VariantEffectDetails = ({
 
       <AttributeLabel>Molecular consequence</AttributeLabel>
       <AttributeValue>{transcriptLevelConsequence}</AttributeValue>
-      <AttributeLabel>Change</AttributeLabel>
+      <AttributeLabel>Protein change</AttributeLabel>
       <AttributeValue>
         {
           codonVariation ? (
@@ -96,12 +107,6 @@ const VariantEffectDetails = ({
           ) : null
         }
       </AttributeValue>
-
-      <AttributeLabel>Z</AttributeLabel>
-      <AttributeValue>{JSON.stringify(consequence, null, 2)}</AttributeValue>
-      <AttributeLabel>Zz</AttributeLabel>
-      <AttributeValue>{JSON.stringify(transcript, null, 2)}</AttributeValue>
-
     </AttributeList>
   );
 };
@@ -137,7 +142,11 @@ VariantEffectDetails.propTypes = {
     hgvsVEPGeneNomenclature: PropTypes.string,
   }),
   transcript: PropTypes.shape({
-
+    id: PropTypes.string,
+    name: PropTypes.string,
+    type: PropTypes.shape({
+      name: PropTypes.string,
+    })
   }),
   variant: PropTypes.shape({
     id: PropTypes.string,
