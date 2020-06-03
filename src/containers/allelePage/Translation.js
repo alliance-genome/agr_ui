@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Position from './Position';
 import translationStyles from './Translation.scss';
 
 const Translation = ({
@@ -22,12 +23,7 @@ const Translation = ({
         {
           isReference && codons.length ?
             <a style={{fontFamily: 'monospace'}}>
-              {cdsStartPosition}
-              {
-                cdsEndPosition !== cdsStartPosition ?
-                  ` - ${cdsEndPosition}` :
-                  null
-              }
+              <Position end={cdsEndPosition} start={cdsStartPosition} />
               &nbsp;&nbsp;
             </a> :
             null
@@ -40,12 +36,7 @@ const Translation = ({
         {
           isReference && aminoAcids.length ?
             <a style={{fontFamily: 'monospace'}}>
-              {proteinStartPosition}
-              {
-                proteinEndPosition !== proteinStartPosition ?
-                  ` - ${proteinEndPosition}` :
-                  null
-              }
+              <Position end={proteinEndPosition} start={proteinStartPosition} />
               &nbsp;&nbsp;
             </a> :
             null
@@ -61,12 +52,12 @@ const Translation = ({
 
 Translation.propTypes = {
   aminoAcids: PropTypes.arrayOf(PropTypes.string),
-  cdsEndPosition: PropTypes.number,
-  cdsStartPosition: PropTypes.number,
+  cdsEndPosition: PropTypes.any,
+  cdsStartPosition: PropTypes.any,
   codons: PropTypes.arrayOf(PropTypes.string),
   isReference: PropTypes.bool,
-  proteinEndPosition: PropTypes.number,
-  proteinStartPosition: PropTypes.number,
+  proteinEndPosition: PropTypes.any,
+  proteinStartPosition: PropTypes.any,
 };
 
 export default Translation;
