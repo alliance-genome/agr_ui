@@ -12,8 +12,8 @@ function useFetchData(url) {
   const fetchData = useCallback( async (opts) => {
     try {
       const response = await fetch(`${url}?${buildTableQueryString(opts)}`);
-      const body = await response.json();
       if (response.ok) {
+        const body = await response.json();
         const {results, ...others} = body;
         setLoading(false);
         setData({
@@ -21,7 +21,7 @@ function useFetchData(url) {
           data: results,
         });
       } else {
-        throw new Error(body);
+        throw new Error(`Failed to fetch from API: ${response.status} ${response.statusText}`);
       }
     } catch (error) {
       setLoading(false);
