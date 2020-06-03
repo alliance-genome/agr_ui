@@ -4,8 +4,19 @@ import { selectVariants } from '../../selectors/alleleSelectors';
 import { fetchAlleleVariants } from '../../actions/alleleActions';
 import { connect } from 'react-redux';
 import { RemoteDataTable } from '../../components/dataTable';
+import Subsection from '../../components/subsection';
+import {
+  AttributeLabel,
+  AttributeList,
+  AttributeValue
+} from '../../components/attribute';
 import { VariantJBrowseLink } from '../../components/variant';
 import Sequence from './Sequence';
+import VariantToTranscriptTable from './VariantToTranscriptTable';
+import VariantToTranscriptDetails from './VariantToTranscriptDetails';
+
+const MOLECULAR_CONSEQUENCE_SUMMARY = 'Molecular consequence';
+const MOLECULAR_CONSEQUENCE_DETAILS = 'Molecular consequence details';
 
 const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) => {
   const { data:dataRaw = [], loading, total} = variants;
@@ -45,6 +56,7 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
     },
     {
       dataField: 'location',
+      text: 'Location',
       headerFormatter: () => (
         <React.Fragment>
           Chromosome:position
@@ -74,17 +86,64 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
   ];
 
   return (
-    <RemoteDataTable
-      columns={columns}
-      data={data}
-      downloadUrl={`/api/allele/${alleleId}/variants/download`}
-      key={alleleId}
-      keyField='id'
-      loading={loading}
-      noDataMessage='No mapped variant information available'
-      onUpdate={fetchVariants}
-      totalRows={total}
-    />
+    <>
+      <RemoteDataTable
+        columns={columns}
+        data={data}
+        downloadUrl={`/api/allele/${alleleId}/variants/download`}
+        key={alleleId}
+        keyField='id'
+        loading={loading}
+        noDataMessage='No mapped variant information available'
+        onUpdate={fetchVariants}
+        totalRows={total}
+      />
+      <br />
+      <br />
+      <Subsection title={MOLECULAR_CONSEQUENCE_SUMMARY}>
+        {
+          data.map((variant) => {
+            const {id: variantId, location, type = {}, geneLocation = {}, species = {}} = variant;
+            return (
+              <React.Fragment key={`consequnce-summary-${variantId}`}>
+                <AttributeList>
+                  <AttributeLabel>Variant:</AttributeLabel>
+                  <AttributeValue>
+                    <VariantJBrowseLink
+                      geneLocation={geneLocation}
+                      location={location}
+                      species={species.name}
+                      type={type.name}
+                    >
+                      <span className="text-break">{variantId}</span>
+                    </VariantJBrowseLink>
+                  </AttributeValue>
+                  <AttributeLabel>
+                    Variant type:
+                  </AttributeLabel>
+                  <AttributeValue>
+                    {type.name}
+                  </AttributeValue>
+                </AttributeList>
+                <VariantToTranscriptTable variant={variant} />
+              </React.Fragment>
+            );
+          })
+        }
+        <br />
+        <h4>{MOLECULAR_CONSEQUENCE_DETAILS}</h4>
+        {
+          data.map((variant) => {
+            const {id: variantId} = variant;
+            return (
+              <React.Fragment key={`consequnce-details-${variantId}`}>
+                <VariantToTranscriptDetails variant={variant} />
+              </React.Fragment>
+            );
+          })
+        }
+      </Subsection>
+    </>
   );
 };
 AlleleToVariantTable.propTypes = {
@@ -103,6 +162,10 @@ AlleleToVariantTable.propTypes = {
     loading: PropTypes.any,
     total: PropTypes.any,
   }),
+};
+
+export {
+  MOLECULAR_CONSEQUENCE_SUMMARY,
 };
 
 const mapStateToProps = state => ({
