@@ -60,9 +60,28 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
       dataField: 'nucleotideChange',
       text: 'Nucleotide change',
       formatter: (nucleotideChange) => (
-        <span className="text-break">
-          {nucleotideChange}
-        </span>
+        <a href="/">
+          <span style={{
+            textOverflow: 'clip',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            fontFamily: 'monospace',
+            fontSize: 14,
+            width: '20ch',
+            display: 'inline-block',
+          }}>
+            {nucleotideChange}
+          </span>
+          <span style={{
+            overflow: 'hidden',
+            fontFamily: 'monospace',
+            fontSize: 14,
+            width: '1ch',
+            display: 'inline-block',
+          }}>
+            &hellip;
+          </span>
+        </a>
       ),
       headerStyle: {width: '160px'},
     },
