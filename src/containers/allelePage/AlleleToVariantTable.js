@@ -11,6 +11,7 @@ import {
   AttributeValue
 } from '../../components/attribute';
 import { VariantJBrowseLink } from '../../components/variant';
+import Sequence from './Sequence';
 import VariantToTranscriptTable from './VariantToTranscriptTable';
 import VariantToTranscriptDetails from './VariantToTranscriptDetails';
 
@@ -71,11 +72,9 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
     {
       dataField: 'nucleotideChange',
       text: 'Nucleotide change',
-      formatter: (nucleotideChange) => (
-        <span className="text-break">
-          {nucleotideChange}
-        </span>
-      ),
+      formatter: (nucleotideChange) => {
+        return <Sequence sequence={nucleotideChange || ''} />;
+      },
       headerStyle: {width: '160px'},
     },
     {
