@@ -103,7 +103,7 @@ const VariantEffectDetails = ({
                   proteinStartPosition={proteinStartPosition}
                 />
               </div>
-              <div className='col-1' style={{textAlign: 'center'}}>
+              <div className='col-1' style={{textAlign: 'center', alignSelf: 'center'}}>
                 {codonVariation ? '=>' : null}
               </div>
               <div className='col-2'>
