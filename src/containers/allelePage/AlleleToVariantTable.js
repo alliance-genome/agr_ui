@@ -98,30 +98,33 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
       <br />
       <Subsection title="Molecular consequences">
         {
-          data.map(({id: variantId, location, type = {}, geneLocation = {}, species = {}}) => (
-            <React.Fragment key={variantId}>
-              <AttributeList>
-                <AttributeLabel>Variant:</AttributeLabel>
-                <AttributeValue>
-                  <VariantJBrowseLink
-                    geneLocation={geneLocation}
-                    location={location}
-                    species={species.name}
-                    type={type.name}
-                  >
-                    <span className="text-break">{variantId}</span>
-                  </VariantJBrowseLink>
-                </AttributeValue>
-                <AttributeLabel>
-                  Variant type:
-                </AttributeLabel>
-                <AttributeValue>
-                  {type.name}
-                </AttributeValue>
-              </AttributeList>
-              <VariantToTranscriptTable variantId={variantId} />
-            </React.Fragment>
-          ))
+          data.map((variant) => {
+            const {id: variantId, location, type = {}, geneLocation = {}, species = {}} = variant;
+            return (
+              <React.Fragment key={variantId}>
+                <AttributeList>
+                  <AttributeLabel>Variant:</AttributeLabel>
+                  <AttributeValue>
+                    <VariantJBrowseLink
+                      geneLocation={geneLocation}
+                      location={location}
+                      species={species.name}
+                      type={type.name}
+                    >
+                      <span className="text-break">{variantId}</span>
+                    </VariantJBrowseLink>
+                  </AttributeValue>
+                  <AttributeLabel>
+                    Variant type:
+                  </AttributeLabel>
+                  <AttributeValue>
+                    {type.name}
+                  </AttributeValue>
+                </AttributeList>
+                <VariantToTranscriptTable variant={variant} />
+              </React.Fragment>
+            );
+          })
         }
       </Subsection>
     </>
