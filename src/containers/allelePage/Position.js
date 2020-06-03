@@ -11,6 +11,7 @@ const Position = ({start, end, placeholder}) => start || end ? (
 
 Position.propTypes = {
   end: PropTypes.string,
+  placeholder: PropTypes.element,
   start: PropTypes.string,
 };
 
