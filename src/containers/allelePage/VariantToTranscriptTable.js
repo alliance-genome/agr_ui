@@ -63,19 +63,16 @@ const VariantToTranscriptTable = ({variant}) => {
       formatter: (name) => (
         <div>{name}</div>
       ),
-      headerStyle: {width: '200px'},
     },
     {
       text: 'Sequence feature type',
       dataField: 'type',
       formatter: ({name}) => name,
-      headerStyle: {width: '200px'}
     },
     {
       text: 'Associated gene',
       dataField: 'gene',
       formatter: ({symbol, id}) => <Link to={`/gene/${id}`}>{symbol}</Link>, // eslint-disable-line react/prop-types
-      headerStyle: {width: '150px'}
     },
     {
       text: 'Location in cDNA',
@@ -84,7 +81,6 @@ const VariantToTranscriptTable = ({variant}) => {
       },
       dataField: 'consequences',
       headerStyle: {
-        width: '200px',
         textTransform: 'initial',
       },
       formatter: (consequences = []) => {
@@ -117,7 +113,6 @@ const VariantToTranscriptTable = ({variant}) => {
     },
     {
       text: 'Molecular consequence',
-      headerStyle: {width: '200px'}
     },
     {
       text: 'Pathogenicity',
