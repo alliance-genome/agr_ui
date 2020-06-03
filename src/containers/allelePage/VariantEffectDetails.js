@@ -7,7 +7,7 @@ import {
 } from '../../components/attribute';
 import Translation from './Translation';
 import Position from './Position';
-// import styles from './style.scss';
+import styles from './style.scss';
 
 const VariantEffectDetails = ({
   consequence = {},
@@ -43,7 +43,7 @@ const VariantEffectDetails = ({
 
   const labelStyle = {textTransform: 'initial'};
 
-  return (
+  return (<div className={`${styles.row} ${styles.detailRow}`}>
     <AttributeList>
       <AttributeLabel>Variant ID</AttributeLabel>
       <AttributeValue>{variant.id}</AttributeValue>
@@ -108,7 +108,7 @@ const VariantEffectDetails = ({
         }
       </AttributeValue>
     </AttributeList>
-  );
+  </div>);
 };
 
 VariantEffectDetails.propTypes = {
