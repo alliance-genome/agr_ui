@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { buildTableQueryString } from '../../lib/utils';
 import { RemoteDataTable } from '../../components/dataTable';
-import Translation from './Translation';
 import VariantEffectDetails from './VariantEffectDetails';
 import styles from './style.scss';
 
@@ -61,19 +60,16 @@ const VariantToTranscriptTable = ({variant}) => {
     {
       dataField: 'name',
       text: 'Sequence feature',
-      formatter: (name, {id}) => (
-        <div>
-          <div>{name}</div>
-          <div>[{id}]</div>
-        </div>
+      formatter: (name) => (
+        <div>{name}</div>
       ),
-      headerStyle: {width: '260px'},
+      headerStyle: {width: '200px'},
     },
     {
       text: 'Sequence feature type',
       dataField: 'type',
       formatter: ({name}) => name,
-      headerStyle: {width: '120px'}
+      headerStyle: {width: '200px'}
     },
     {
       text: 'Associated gene',
@@ -84,11 +80,11 @@ const VariantToTranscriptTable = ({variant}) => {
     {
       text: 'Location in cDNA',
       attrs: {
-        colSpan: 3
+        colSpan: 2
       },
       dataField: 'consequences',
       headerStyle: {
-        width: '120px',
+        width: '200px',
         textTransform: 'initial',
       },
       formatter: (consequences = []) => {
@@ -100,57 +96,17 @@ const VariantToTranscriptTable = ({variant}) => {
                 cdnaStartPosition,
                 cdnaEndPosition,
 
-                // protein
-                aminoAcidChange = '',
-                proteinStartPosition,
-                proteinEndPosition,
-
-                // codon
-                codonChange = '',
-                cdsStartPosition,
-                cdsEndPosition,
-
                 // consequence
                 transcriptLevelConsequence,
 
-                //hgvs
-                hgvsCodingNomenclature,
-                hgvsProteinNomenclature,
-                hgvsVEPGeneNomenclature,
               }, index) => {
-                const [codonReference = '', codonVariation = ''] = codonChange.split('/');
-                const [aminoAcidReference = '', aminoAcidVariation = ''] = aminoAcidChange.split('/');
                 return (
                   <div className={`row no-gutters align-items-center ${styles.row}`} key={index}>
-                    <div className='col-2'>
+                    <div className='col'>
                       {cdnaStartPosition}
                       {cdnaEndPosition !== cdnaStartPosition ? ` - ${cdnaEndPosition}` : null}
                     </div>
-                    <div className='col-2'>{transcriptLevelConsequence}</div>
-                    <div className='col-4' style={{textAlign: 'right'}}>
-                      <Translation
-                        aminoAcids={aminoAcidReference.split('')}
-                        cdsEndPosition={cdsEndPosition}
-                        cdsStartPosition={cdsStartPosition}
-                        codons={codonReference.split('')}
-                        isReference
-                        proteinEndPosition={proteinEndPosition}
-                        proteinStartPosition={proteinStartPosition}
-                      />
-                    </div>
-                    <div className='col-1' style={{textAlign: 'center'}}>
-                      {codonChange ? '=>' : null}
-                    </div>
-                    <div className='col-2'>
-                      <Translation aminoAcids={aminoAcidVariation.split('')} codons={codonVariation.split('')} />
-                    </div>
-                    <div className='col-1'>
-                      {hgvsProteinNomenclature}
-                      <br />
-                      {hgvsCodingNomenclature}
-                      <br />
-                      {hgvsVEPGeneNomenclature}
-                    </div>
+                    <div className='col'>{transcriptLevelConsequence}</div>
                   </div>
                 );
               })
@@ -161,20 +117,11 @@ const VariantToTranscriptTable = ({variant}) => {
     },
     {
       text: 'Molecular consequence',
-      headerStyle: {width: '180px'}
-    },
-    {
-      text: 'Codon change',
-      headerStyle: {width: '420px'}
-    },
-    {
-      text: 'HGVS',
-      headerStyle: {width: '120px'}
+      headerStyle: {width: '200px'}
     },
     {
       text: 'Pathogenicity',
-      formatter: () => 'N/A',
-      hidden: true
+      hidden: true,
     }
   ];
 
