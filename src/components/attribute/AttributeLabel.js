@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const AttributeLabel = ({style, children, bsClassName}) => {
-  const styleWithTextTransform = {...style, ...{textTransform: 'capitalize'}};
+  // default to capitalize, but allow override
+  // Labels such as cDNA, HGVS.p should not be capitalized.
+  const styleWithTextTransform={ textTransform: 'capitalize', ...style};
   return (
     <dt
       className={bsClassName}
