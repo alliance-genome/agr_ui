@@ -44,7 +44,7 @@ const VariantEffectDetails = ({
   const labelStyle = {textTransform: 'initial'};
 
   return (<div className={`${styles.row} ${styles.detailRow}`}>
-    <h4>Predicted effect of {variant.id} on {transcript.name}</h4>
+    <h5>Predicted effect of {variant.id} on {transcript.name}</h5>
     <AttributeList>
       <AttributeLabel>Variant ID</AttributeLabel>
       <AttributeValue>{variant.id}</AttributeValue>

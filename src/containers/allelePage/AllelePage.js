@@ -27,7 +27,7 @@ import {setPageLoading} from '../../actions/loadingActions';
 import AlleleToPhenotypeTable from './AlleleToPhenotypeTable';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
 import AlleleToDiseaseTable from './AlleleToDiseaseTable';
-import AlleleToVariantTable from './AlleleToVariantTable';
+import AlleleToVariantTable, {MOLECULAR_CONSEQUENCE_SUMMARY} from './AlleleToVariantTable';
 import AlleleSequenceView from './AlleleSequenceView';
 import AlleleTransgenicConstructs from './AlleleTransgenicConstructs';
 
@@ -40,6 +40,7 @@ const SECTIONS = [
   {name: SUMMARY},
   {name: CONSTRUCTS},
   {name: VARIANTS},
+  {name: MOLECULAR_CONSEQUENCE_SUMMARY},
   {name: PHENOTYPES},
   {name: DISEASE}
 ];
