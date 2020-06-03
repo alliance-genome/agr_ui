@@ -45,7 +45,8 @@ function useFetchData(url) {
   };
 }
 
-const VariantToTranscriptTable = ({variantId}) => {
+const VariantToTranscriptTable = ({variant}) => {
+  const {id: variantId} = variant;
   const { data = [], loading, total, error, fetchData} = useFetchData(`/api/variant/${variantId}/transcripts`);
   if (error) {
     throw error;
@@ -188,11 +189,28 @@ const VariantToTranscriptTable = ({variantId}) => {
       onUpdate={fetchData}
       totalRows={total}
     />
-    <VariantEffectDetails data={data} />
+    {
+      data.map(({
+        consequences = [],
+        ...transcript
+      }) => (
+        consequences.map((consequence) => (
+          <VariantEffectDetails
+            consequence={consequence}
+            key={`${transcript.id}-${consequence.hgvsCodingNomenclature}`}
+            transcript={transcript}
+            variant={variant}
+          />
+        ))
+      ))
+    }
   </>);
 };
 VariantToTranscriptTable.propTypes = {
-  variantId: PropTypes.string.isRequired,
+  variant: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    type: PropTypes.object,
+  }).isRequired,
 };
 
 export default VariantToTranscriptTable;
