@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Position from './Position';
 import translationStyles from './Translation.scss';
 
-const Translation = ({
+const TranslationRow = ({
   aminoAcids: aminoAcidsRaw = [],
   proteinStartPosition,
   proteinEndPosition,
@@ -50,12 +50,58 @@ const Translation = ({
   );
 };
 
+TranslationRow.propTypes = {
+  aminoAcids: PropTypes.arrayOf(PropTypes.string),
+  cdsEndPosition: PropTypes.any,
+  cdsStartPosition: PropTypes.any,
+  codons: PropTypes.arrayOf(PropTypes.string),
+  isReference: PropTypes.bool,
+  proteinEndPosition: PropTypes.any,
+  proteinStartPosition: PropTypes.any,
+};
+
+const Translation = ({
+  aminoAcids = [],
+  proteinStartPosition,
+  proteinEndPosition,
+
+  codons = [],
+  cdsStartPosition,
+  cdsEndPosition,
+
+  maxAminoAcidsPerRow = 5,
+
+  ...translationRowProps
+}) => {
+  const rows = [];
+  for (let aminoAcidOffset = 0; aminoAcidOffset < codons.length; aminoAcidOffset = aminoAcidOffset + maxAminoAcidsPerRow) {
+    const row = (
+      <TranslationRow
+        {...translationRowProps}
+        aminoAcids={aminoAcids.slice(aminoAcidOffset, aminoAcidOffset + maxAminoAcidsPerRow)}
+        cdsEndPosition={Math.min(parseInt(cdsStartPosition) + (aminoAcidOffset + maxAminoAcidsPerRow - 1) * 3, parseInt(cdsEndPosition))}
+        cdsStartPosition={parseInt(cdsStartPosition) + aminoAcidOffset * 3}
+        codons={codons.slice(aminoAcidOffset * 3, (aminoAcidOffset + maxAminoAcidsPerRow) * 3)}
+        proteinEndPosition={Math.min(parseInt(proteinStartPosition) + aminoAcidOffset + maxAminoAcidsPerRow - 1, parseInt(proteinEndPosition))}
+        proteinStartPosition={parseInt(proteinStartPosition) + aminoAcidOffset}
+      />
+    );
+    rows.push(row);
+  }
+  return (
+    <>
+      {rows}
+    </>
+  );
+};
+
 Translation.propTypes = {
   aminoAcids: PropTypes.arrayOf(PropTypes.string),
   cdsEndPosition: PropTypes.any,
   cdsStartPosition: PropTypes.any,
   codons: PropTypes.arrayOf(PropTypes.string),
   isReference: PropTypes.bool,
+  maxAminoAcidsPerRow: PropTypes.number,
   proteinEndPosition: PropTypes.any,
   proteinStartPosition: PropTypes.any,
 };
