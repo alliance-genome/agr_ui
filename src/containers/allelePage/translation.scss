@@ -1,0 +1,24 @@
+.aminoAcid, .codon {
+  font-family: monospace;
+  font-size: 10pt;
+}
+
+.aminoAcid {
+  background-color: #eee;
+  margin: 0 0.5em 0 0;
+}
+
+.aminoAcid:before {
+  content: " ";
+  white-space: pre;
+}
+
+.aminoAcid:after {
+  content: " ";
+  white-space: pre;
+}
+
+
+.codon:nth-of-type(3n) {
+  margin: 0 0.5em 0 0;
+}
