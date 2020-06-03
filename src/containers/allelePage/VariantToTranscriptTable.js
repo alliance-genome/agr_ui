@@ -61,7 +61,7 @@ const VariantToTranscriptTable = ({variant}) => {
 
               }, index) => {
                 return (
-                  <div className={`row no-gutters align-items-center ${styles.row}`} key={index}>
+                  <div className={`row ${styles.row}`} key={index}>
                     <div className='col'>
                       {cdnaStartPosition}
                       {cdnaEndPosition !== cdnaStartPosition ? ` - ${cdnaEndPosition}` : null}
@@ -83,6 +83,9 @@ const VariantToTranscriptTable = ({variant}) => {
       text: 'Molecular consequence',
       dataField: 'consequences_placeholder',
       formatter: () => null,
+      headerStyle: {
+        paddingLeft: '1em',
+      },
     },
   ];
 
