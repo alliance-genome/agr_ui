@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { buildTableQueryString } from '../../lib/utils';
 import { RemoteDataTable } from '../../components/dataTable';
 import Translation from './Translation';
+import VariantEffectDetails from './VariantEffectDetails';
 import styles from './style.scss';
 
 function useFetchData(url) {
@@ -176,7 +177,7 @@ const VariantToTranscriptTable = ({variantId}) => {
     }
   ];
 
-  return (
+  return (<>
     <RemoteDataTable
       columns={columns}
       data={data}
@@ -187,7 +188,8 @@ const VariantToTranscriptTable = ({variantId}) => {
       onUpdate={fetchData}
       totalRows={total}
     />
-  );
+    <VariantEffectDetails data={data} />
+  </>);
 };
 VariantToTranscriptTable.propTypes = {
   variantId: PropTypes.string.isRequired,
