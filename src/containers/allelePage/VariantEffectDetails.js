@@ -5,6 +5,7 @@ import {
   AttributeList,
   AttributeValue
 } from '../../components/attribute';
+import { CollapsibleList } from '../../components/collapsibleList';
 import Translation from './Translation';
 import Position from './Position';
 import styles from './style.scss';
@@ -32,7 +33,7 @@ const VariantEffectDetails = ({
     cdsEndPosition,
 
     // consequence
-    transcriptLevelConsequence,
+    transcriptLevelConsequence = '',
 
     //hgvs
     hgvsCodingNomenclature,
@@ -81,7 +82,11 @@ const VariantEffectDetails = ({
       <AttributeValue>{hgvsVEPGeneNomenclature}</AttributeValue>
 
       <AttributeLabel>Molecular consequence</AttributeLabel>
-      <AttributeValue>{transcriptLevelConsequence}</AttributeValue>
+      <AttributeValue>
+        <CollapsibleList collapsedSize={5}>
+          {transcriptLevelConsequence.split(',')}
+        </CollapsibleList>
+      </AttributeValue>
       <AttributeLabel>Protein change</AttributeLabel>
       <AttributeValue>
         {
