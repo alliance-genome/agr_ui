@@ -55,6 +55,7 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
     },
     {
       dataField: 'location',
+      text: 'Location',
       headerFormatter: () => (
         <React.Fragment>
           Chromosome:position
@@ -105,7 +106,7 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
           data.map((variant) => {
             const {id: variantId, location, type = {}, geneLocation = {}, species = {}} = variant;
             return (
-              <React.Fragment key={variantId}>
+              <React.Fragment key={`consequnce-summary-${variantId}`}>
                 <AttributeList>
                   <AttributeLabel>Variant:</AttributeLabel>
                   <AttributeValue>
@@ -136,7 +137,7 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
           data.map((variant) => {
             const {id: variantId} = variant;
             return (
-              <React.Fragment key={variantId}>
+              <React.Fragment key={`consequnce-details-${variantId}`}>
                 <VariantToTranscriptDetails variant={variant} />
               </React.Fragment>
             );

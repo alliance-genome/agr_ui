@@ -81,11 +81,9 @@ const VariantToTranscriptTable = ({variant}) => {
     },
     {
       text: 'Molecular consequence',
+      dataField: 'consequences_placeholder',
+      formatter: () => null,
     },
-    {
-      text: 'Pathogenicity',
-      hidden: true,
-    }
   ];
 
   return (<>
