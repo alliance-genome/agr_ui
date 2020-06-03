@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 // import { fetchAlleleVariants } from '../../actions/alleleActions';
 import { Link } from 'react-router-dom';
 import { RemoteDataTable } from '../../components/dataTable';
+import { CollapsibleList } from '../../components/collapsibleList';
 import useVariantTranscripts from './useVariantTranscripts';
 import styles from './style.scss';
 
@@ -56,7 +57,7 @@ const VariantToTranscriptTable = ({variant}) => {
                 cdnaEndPosition,
 
                 // consequence
-                transcriptLevelConsequence,
+                transcriptLevelConsequence = '',
 
               }, index) => {
                 return (
@@ -65,7 +66,11 @@ const VariantToTranscriptTable = ({variant}) => {
                       {cdnaStartPosition}
                       {cdnaEndPosition !== cdnaStartPosition ? ` - ${cdnaEndPosition}` : null}
                     </div>
-                    <div className='col'>{transcriptLevelConsequence}</div>
+                    <div className='col'>
+                      <CollapsibleList collapsedSize={1}>
+                        {transcriptLevelConsequence.split(',')}
+                      </CollapsibleList>
+                    </div>
                   </div>
                 );
               })
