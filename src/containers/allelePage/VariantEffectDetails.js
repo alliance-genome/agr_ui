@@ -66,7 +66,7 @@ const VariantEffectDetails = ({
       <AttributeLabel style={labelStyle}>HGVS Name (HGVS.g)</AttributeLabel>
       <AttributeValue>{hgvsVEPGeneNomenclature}</AttributeValue>
 
-      <AttributeLabel>Affected sequence feature name</AttributeLabel>
+      <AttributeLabel >Affected sequence feature name</AttributeLabel>
       <AttributeValue>{transcript.name}</AttributeValue>
 
       <AttributeLabel>Affected sequence feature type</AttributeLabel>
@@ -75,7 +75,7 @@ const VariantEffectDetails = ({
       <AttributeLabel>Affected sequence feature accession</AttributeLabel>
       <AttributeValue>{transcript.id}</AttributeValue>
 
-      <AttributeLabel>Position of variant in transcript</AttributeLabel>
+      <AttributeLabel style={labelStyle}>Position of Variant in Transcript</AttributeLabel>
       <AttributeValue>
         <Position end={cdnaEndPosition} start={cdnaStartPosition} />
       </AttributeValue>
@@ -92,13 +92,13 @@ const VariantEffectDetails = ({
       */}
 
 
-      <AttributeLabel>Molecular consequence</AttributeLabel>
+      <AttributeLabel>Molecular Consequence</AttributeLabel>
       <AttributeValue>
         <CollapsibleList collapsedSize={5}>
           {transcriptLevelConsequence.split(',')}
         </CollapsibleList>
       </AttributeValue>
-      <AttributeLabel>CDS and protein change</AttributeLabel>
+      <AttributeLabel style={labelStyle}>CDS and Protein Change</AttributeLabel>
       <AttributeValue>
         {
           codonVariation ? (
