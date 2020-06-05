@@ -59,11 +59,11 @@ const VariantEffectDetails = ({
       <AttributeLabel>Variant type</AttributeLabel>
       <AttributeValue>{variant.type && variant.type.name}</AttributeValue>
 
-      <AttributeLabel style={labelStyle}>HGVS.p</AttributeLabel>
+      <AttributeLabel style={labelStyle}>HGVS Name (HGVS.p)</AttributeLabel>
       <AttributeValue>{hgvsProteinNomenclature}</AttributeValue>
-      <AttributeLabel style={labelStyle}>HGVS.c</AttributeLabel>
+      <AttributeLabel style={labelStyle}>HGVS Name (HGVS.c)</AttributeLabel>
       <AttributeValue>{hgvsCodingNomenclature}</AttributeValue>
-      <AttributeLabel style={labelStyle}>HGVS.g</AttributeLabel>
+      <AttributeLabel style={labelStyle}>HGVS Name (HGVS.g)</AttributeLabel>
       <AttributeValue>{hgvsVEPGeneNomenclature}</AttributeValue>
 
       <AttributeLabel>Affected sequence feature name</AttributeLabel>
