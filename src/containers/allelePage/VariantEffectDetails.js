@@ -75,22 +75,18 @@ const VariantEffectDetails = ({
       <AttributeLabel>Affected sequence feature accession</AttributeLabel>
       <AttributeValue>{transcript.id}</AttributeValue>
 
+      <AttributeLabel style={labelStyle}>Position of Variant in Protein</AttributeLabel>
+      <AttributeValue>
+        <Position end={proteinEndPosition} start={proteinStartPosition} />
+      </AttributeValue>
+      <AttributeLabel style={labelStyle}>Position of Variant in Coding Sequence</AttributeLabel>
+      <AttributeValue>
+        <Position end={cdsEndPosition} start={cdsStartPosition} />
+      </AttributeValue>
       <AttributeLabel style={labelStyle}>Position of Variant in Transcript</AttributeLabel>
       <AttributeValue>
         <Position end={cdnaEndPosition} start={cdnaStartPosition} />
       </AttributeValue>
-
-      {/*
-        <AttributeLabel>protein coordinate</AttributeLabel>
-        <AttributeValue>
-          <Position end={proteinEndPosition} start={proteinStartPosition} />
-        </AttributeValue>
-        <AttributeLabel>CDS coordinate</AttributeLabel>
-        <AttributeValue>
-          <Position end={cdsEndPosition} start={cdsStartPosition} />
-        </AttributeValue>
-      */}
-
 
       <AttributeLabel>Molecular Consequence</AttributeLabel>
       <AttributeValue>
