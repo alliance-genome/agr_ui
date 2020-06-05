@@ -15,8 +15,8 @@ import Sequence from './Sequence';
 import VariantToTranscriptTable from './VariantToTranscriptTable';
 import VariantToTranscriptDetails from './VariantToTranscriptDetails';
 
-const MOLECULAR_CONSEQUENCE_SUMMARY = 'Molecular consequence';
-const MOLECULAR_CONSEQUENCE_DETAILS = 'Molecular consequence details';
+const MOLECULAR_CONSEQUENCE_SUMMARY = 'Variant molecular consequences';
+const MOLECULAR_CONSEQUENCE_DETAILS = 'Genomic variants molecular consequences details';
 
 const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) => {
   const { data:dataRaw = [], loading, total} = variants;

@@ -34,7 +34,7 @@ import AlleleTransgenicConstructs from './AlleleTransgenicConstructs';
 const SUMMARY = 'Summary';
 const PHENOTYPES = 'Phenotypes';
 const DISEASE = 'Disease Associations';
-const VARIANTS = 'Variants';
+const VARIANTS = 'Genomic variant information';
 const CONSTRUCTS = 'Transgenic Constructs';
 const SECTIONS = [
   {name: SUMMARY},
@@ -92,8 +92,8 @@ class AllelePage extends Component {
           </Subsection>
 
           <Subsection title={VARIANTS}>
-            <AlleleSequenceView allele={data} />
             <AlleleToVariantTable allele={data} alleleId={alleleId} />
+            <AlleleSequenceView allele={data} />
           </Subsection>
 
           <Subsection title={PHENOTYPES}>

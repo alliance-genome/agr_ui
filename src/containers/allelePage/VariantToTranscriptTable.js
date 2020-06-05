@@ -43,6 +43,7 @@ const VariantToTranscriptTable = ({variant}) => {
       attrs: {
         colSpan: 2
       },
+      hidden: true,
       dataField: 'consequences',
       headerStyle: {
         textTransform: 'initial',
