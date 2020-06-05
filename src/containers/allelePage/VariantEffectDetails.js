@@ -54,7 +54,7 @@ const VariantEffectDetails = ({
         type={variant.type && variant.type.name}
       >
         <span className="text-break">{variant.id}</span>
-      </VariantJBrowseLink> on {transcript.name}</h5>
+      </VariantJBrowseLink> on <strong>{transcript.name}</strong></h5>
     <AttributeList>
       <AttributeLabel>Variant type</AttributeLabel>
       <AttributeValue>{variant.type && variant.type.name}</AttributeValue>
