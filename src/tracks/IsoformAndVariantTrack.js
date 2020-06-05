@@ -565,17 +565,21 @@ export default class IsoformAndVariantTrack {
     try {
       return variantData.filter(v => {
         try {
-          if (variantFilter.indexOf(v.name) >= 0) return true
-          if (variantFilter.indexOf(v.symbol.values[0].replace(/"/g, "")) >= 0) return true
-          if (variantFilter.indexOf(v.alleles.values[0].replace(/"/g, "")) >= 0) return true
+          if(variantFilter.indexOf(v.name) >= 0  ||
+            (v.symbol && v.symbol.values &&  variantFilter.indexOf(v.symbol.values[0].replace(/"/g, "")) >= 0) ||
+            (v.symbol_text && v.symbol_text.values &&  variantFilter.indexOf(v.symbol_text.values[0].replace(/"/g, "")) >= 0) ||
+            (v.alleles && v.alleles.values &&  variantFilter.indexOf(v.alleles.values[0].replace(/"/g, "")) >= 0) ||
+            (v.alleleSymbol && v.alleleSymbol.values &&  variantFilter.indexOf(v.alleleSymbol.values[0].replace(/"/g, "")) >= 0)
+          )
+            {return true}
         } catch (e) {
-          log.error('error processing filter with so returning anyway',variantFilter,v,e)
+          console.error('error processing filter with so returning anyway',variantFilter,v,e)
           return true
         }
         return false
       });
     } catch (e) {
-      console.warn('problem filtering variant data',variantData,variantFilter);
+      console.warn('problem filtering variant data',variantData,variantFilter,e);
     }
   }
 
