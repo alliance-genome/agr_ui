@@ -12,7 +12,7 @@ import VariantToTranscriptTable from './VariantToTranscriptTable';
 import VariantToTranscriptDetails from './VariantToTranscriptDetails';
 import useAlleleVariant from './useAlleleVariants';
 
-const MOLECULAR_CONSEQUENCE_DETAILS = 'Genomic variants molecular consequences details';
+const MOLECULAR_CONSEQUENCE_DETAILS = 'Genomic Variants Molecular Consequences Details';
 
 const AlleleMolecularConsequences = ({
   alleleId,
