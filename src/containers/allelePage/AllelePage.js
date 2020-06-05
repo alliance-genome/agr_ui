@@ -27,20 +27,23 @@ import {setPageLoading} from '../../actions/loadingActions';
 import AlleleToPhenotypeTable from './AlleleToPhenotypeTable';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
 import AlleleToDiseaseTable from './AlleleToDiseaseTable';
-import AlleleToVariantTable, {MOLECULAR_CONSEQUENCE_SUMMARY} from './AlleleToVariantTable';
+import AlleleToVariantTable from './AlleleToVariantTable';
 import AlleleSequenceView from './AlleleSequenceView';
 import AlleleTransgenicConstructs from './AlleleTransgenicConstructs';
+import AlleleMolecularConsequences from './AlleleMolecularConsequences';
 
 const SUMMARY = 'Summary';
 const PHENOTYPES = 'Phenotypes';
 const DISEASE = 'Disease Associations';
-const VARIANTS = 'Genomic variant information';
+const VARIANTS = 'Genomic Variant Information';
 const CONSTRUCTS = 'Transgenic Constructs';
+const MOLECULAR_CONSEQUENCE = 'Variant Molecular Consequences';
+
 const SECTIONS = [
   {name: SUMMARY},
   {name: CONSTRUCTS},
   {name: VARIANTS},
-  {name: MOLECULAR_CONSEQUENCE_SUMMARY},
+  {name: MOLECULAR_CONSEQUENCE},
   {name: PHENOTYPES},
   {name: DISEASE}
 ];
@@ -89,6 +92,10 @@ const AllelePage = (props) => {
         <Subsection title={VARIANTS}>
           <AlleleSequenceView allele={data} />
           <AlleleToVariantTable allele={data} alleleId={alleleId} />
+        </Subsection>
+
+        <Subsection title={MOLECULAR_CONSEQUENCE}>
+          <AlleleMolecularConsequences alleleId={alleleId} />
         </Subsection>
 
         <Subsection title={PHENOTYPES}>
