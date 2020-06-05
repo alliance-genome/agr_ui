@@ -5,6 +5,8 @@ import {
   AttributeList,
   AttributeValue
 } from '../../components/attribute';
+import LoadingSpinner from '../../components/loadingSpinner';
+import NoData from '../../components/noData';
 import { VariantJBrowseLink } from '../../components/variant';
 import VariantToTranscriptTable from './VariantToTranscriptTable';
 import VariantToTranscriptDetails from './VariantToTranscriptDetails';
@@ -15,11 +17,17 @@ const MOLECULAR_CONSEQUENCE_DETAILS = 'Genomic variants molecular consequences d
 const AlleleMolecularConsequences = ({
   alleleId,
 }) => {
-  const { data: variants = [], fetchData } = useAlleleVariant(alleleId);
+  const { data: variants = [], loading, fetchData } = useAlleleVariant(alleleId);
 
   useEffect(() => {
     fetchData({page: 1, limit: 1000});
   }, [alleleId]);
+
+  if (loading) {
+    return <LoadingSpinner loading={loading} />;
+  } else if (!variants || !variants.length) {
+    return <NoData />;
+  }
 
   return (
     <>
