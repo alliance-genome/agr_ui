@@ -46,19 +46,16 @@ const VariantEffectDetails = ({
   const labelStyle = {textTransform: 'initial'};
 
   return (<div className={`${styles.row} ${styles.detailRow}`}>
-    <h5>Predicted effect of {variant.id} on {transcript.name}</h5>
+    <h5>Predicted effect of{' '}
+      <VariantJBrowseLink
+        geneLocation={variant.geneLocation}
+        location={location}
+        species={variant.species && variant.species.name}
+        type={variant.type && variant.type.name}
+      >
+        <span className="text-break">{variant.id}</span>
+      </VariantJBrowseLink> on {transcript.name}</h5>
     <AttributeList>
-      <AttributeLabel>Variant</AttributeLabel>
-      <AttributeValue>
-        <VariantJBrowseLink
-          geneLocation={variant.geneLocation}
-          location={location}
-          species={variant.species && variant.species.name}
-          type={variant.type && variant.type.name}
-        >
-          <span className="text-break">{variant.id}</span>
-        </VariantJBrowseLink>
-      </AttributeValue>
       <AttributeLabel>Variant type</AttributeLabel>
       <AttributeValue>{variant.type && variant.type.name}</AttributeValue>
 
