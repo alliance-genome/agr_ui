@@ -90,8 +90,8 @@ const AllelePage = (props) => {
         </Subsection>
 
         <Subsection title={VARIANTS}>
-          <AlleleSequenceView allele={data} />
           <AlleleToVariantTable allele={data} alleleId={alleleId} />
+          <AlleleSequenceView allele={data} />
         </Subsection>
 
         <Subsection title={MOLECULAR_CONSEQUENCE}>
