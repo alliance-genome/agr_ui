@@ -91,6 +91,7 @@ const AllelePage = (props) => {
 
         <Subsection title={VARIANTS}>
           <AlleleToVariantTable allele={data} alleleId={alleleId} />
+          <br />
           <AlleleSequenceView allele={data} />
         </Subsection>
 
