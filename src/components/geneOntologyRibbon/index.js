@@ -87,7 +87,7 @@ class GeneOntologyRibbon extends Component {
   }
 
   onGOGroupClicked(gene, term) {
-    console.log('GENE: ', gene, 'TERM: ', term);
+    // console.log('GENE: ', gene, 'TERM: ', term);
     this.itemClick(gene, term);
   }
 
@@ -208,7 +208,7 @@ class GeneOntologyRibbon extends Component {
 
         this.fetchAssociationData(subject.id, group.id)
           .then(data => {
-            console.log('data ', data);
+            // console.log('data ', data);
             var filtered = data;
             // if(this.state.excludePB) {
             //   filtered = this.filterPB(data);
@@ -332,8 +332,8 @@ class GeneOntologyRibbon extends Component {
   }
 
   render() {
-    console.log('state: ', this.state);
-    console.log('props: ', this.props);
+    // console.log('state: ', this.state);
+    // console.log('props: ', this.props);
     const { geneTaxon, orthology } = this.props;
     const { selectedOrthologs } = this.state;
     return (
@@ -399,10 +399,8 @@ class GeneOntologyRibbon extends Component {
         {
           (this.state.loading) ? <LoadingSpinner /> : 
             (this.state.selected.data && this.state.selected.data.length > 0)
-              ? <wc-ribbon-table
-                bio-link-data={JSON.stringify(this.state.selected.data)}
-                // group-by={'term'}
-              ></wc-ribbon-table>
+              ? <wc-ribbon-table bio-link-data={JSON.stringify(this.state.selected.data)}/>
+
               : (this.state.selected.group) ? ((this.state.selected.data) ? <NoData/> : <LoadingSpinner />)
                 : ''
         }
@@ -416,7 +414,8 @@ class GeneOntologyRibbon extends Component {
 GeneOntologyRibbon.propTypes = {
   geneId: PropTypes.string.isRequired,
   geneTaxon: PropTypes.string,
-  orthology: PropTypes.object,
+  history: PropTypes.object,
+  orthology: PropTypes.object
 };
 
 const mapStateToProps = (state) => ({
