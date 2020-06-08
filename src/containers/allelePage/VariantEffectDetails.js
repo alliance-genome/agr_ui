@@ -46,58 +46,55 @@ const VariantEffectDetails = ({
   const labelStyle = {textTransform: 'initial'};
 
   return (<div className={`${styles.row} ${styles.detailRow}`}>
-    <h5>Predicted effect of {variant.id} on {transcript.name}</h5>
+    <h5>Predicted effect of{' '}
+      <VariantJBrowseLink
+        geneLocation={variant.geneLocation}
+        location={location}
+        species={variant.species && variant.species.name}
+        type={variant.type && variant.type.name}
+      >
+        <span className="text-break">{variant.id}</span>
+      </VariantJBrowseLink> on <strong>{transcript.name}</strong></h5>
     <AttributeList>
-      <AttributeLabel>Variant</AttributeLabel>
-      <AttributeValue>
-        <VariantJBrowseLink
-          geneLocation={variant.geneLocation}
-          location={location}
-          species={variant.species && variant.species.name}
-          type={variant.type && variant.type.name}
-        >
-          <span className="text-break">{variant.id}</span>
-        </VariantJBrowseLink>
-      </AttributeValue>
       <AttributeLabel>Variant type</AttributeLabel>
       <AttributeValue>{variant.type && variant.type.name}</AttributeValue>
+
+      <AttributeLabel style={labelStyle}>HGVS Name (HGVS.p)</AttributeLabel>
+      <AttributeValue>{hgvsProteinNomenclature}</AttributeValue>
+      <AttributeLabel style={labelStyle}>HGVS Name (HGVS.c)</AttributeLabel>
+      <AttributeValue>{hgvsCodingNomenclature}</AttributeValue>
+      <AttributeLabel style={labelStyle}>HGVS Name (HGVS.g)</AttributeLabel>
+      <AttributeValue>{hgvsVEPGeneNomenclature}</AttributeValue>
+
+      <AttributeLabel >Affected sequence feature name</AttributeLabel>
+      <AttributeValue>{transcript.name}</AttributeValue>
 
       <AttributeLabel>Affected sequence feature type</AttributeLabel>
       <AttributeValue>{transcript.type && transcript.type.name}</AttributeValue>
 
-      <AttributeLabel>Affected sequence feature name</AttributeLabel>
-      <AttributeValue>{transcript.name}</AttributeValue>
-
       <AttributeLabel>Affected sequence feature accession</AttributeLabel>
       <AttributeValue>{transcript.id}</AttributeValue>
 
-      <AttributeLabel style={labelStyle}>cDNA coordinate</AttributeLabel>
-      <AttributeValue>
-        <Position end={cdnaEndPosition} start={cdnaStartPosition} />
-      </AttributeValue>
-      <AttributeLabel>protein coordinate</AttributeLabel>
+      <AttributeLabel style={labelStyle}>Position of Variant in Protein</AttributeLabel>
       <AttributeValue>
         <Position end={proteinEndPosition} start={proteinStartPosition} />
       </AttributeValue>
-      <AttributeLabel>CDS coordinate</AttributeLabel>
+      <AttributeLabel style={labelStyle}>Position of Variant in Coding Sequence</AttributeLabel>
       <AttributeValue>
         <Position end={cdsEndPosition} start={cdsStartPosition} />
       </AttributeValue>
+      <AttributeLabel style={labelStyle}>Position of Variant in Transcript</AttributeLabel>
+      <AttributeValue>
+        <Position end={cdnaEndPosition} start={cdnaStartPosition} />
+      </AttributeValue>
 
-      <AttributeLabel style={labelStyle}>HGVS.p</AttributeLabel>
-      <AttributeValue>{hgvsProteinNomenclature}</AttributeValue>
-      <AttributeLabel style={labelStyle}>HGVS.c</AttributeLabel>
-      <AttributeValue>{hgvsCodingNomenclature}</AttributeValue>
-      <AttributeLabel style={labelStyle}>HGVS.g</AttributeLabel>
-      <AttributeValue>{hgvsVEPGeneNomenclature}</AttributeValue>
-
-      <AttributeLabel>Molecular consequence</AttributeLabel>
+      <AttributeLabel>Molecular Consequence</AttributeLabel>
       <AttributeValue>
         <CollapsibleList collapsedSize={5}>
           {transcriptLevelConsequence.split(',')}
         </CollapsibleList>
       </AttributeValue>
-      <AttributeLabel>Protein change</AttributeLabel>
+      <AttributeLabel style={labelStyle}>CDS and Protein Change</AttributeLabel>
       <AttributeValue>
         {
           codonVariation ? (
