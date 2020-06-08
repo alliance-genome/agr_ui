@@ -44,10 +44,10 @@ class GenomeFeatureWrapper extends Component {
     if (this.props.primaryId !== prevProps.primaryId) {
       this.loadGenomeFeature();
       this.generateJBrowseLink();
-      this.gfc.setSelectedAlleles(this.props.allelesSelected);
+      this.gfc.setSelectedAlleles(this.props.allelesSelected!==undefined ? this.props.allelesSelected:[],`#${this.props.id}`);
     }
     else
-    if(!isEqual(prevProps.allelesSelected,this.props.allelesSelected)) {
+    if(!isEqual(prevProps.allelesSelected,this.props.allelesSelected) && this.props.allelesSelected!==undefined) {
       this.gfc.setSelectedAlleles(this.props.allelesSelected.map( a => a.id),`#${this.props.id}`);
     }
     else
