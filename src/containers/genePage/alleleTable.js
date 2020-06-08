@@ -16,7 +16,7 @@ import VariantsSequenceViewer from './VariantsSequenceViewer';
 const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, geneLocation = {}, species, geneDataProvider}) => {
 
   const variantNameColWidth = 300;
-  const variantTypeColWidth = 150;
+  const variantTypeColWidth = 110;
   const variantConsequenceColWidth = 150;
 
   const columns = [
@@ -69,7 +69,7 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
           ))}
         </CollapsibleList>
       ),
-      headerStyle: {width: '275px'},
+      headerStyle: {width: '200px'},
       filterable: true,
       filterName: 'phenotype',
     },

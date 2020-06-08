@@ -157,7 +157,7 @@ class RemoteDataTable extends Component {
                     null
                 }
                 {sortOptions && sortOptions.length > 0 &&
-                  <Form className='pull-right' inline>
+                  <Form className='d-flex justify-content-end' inline>
                     <Label className="mr-1">Sort by</Label>
                     <Input onChange={this.handleSortChange} type='select' value={sort || ''}>
                       <option value=''>Default</option>
