@@ -15,7 +15,7 @@
     "@babel/polyfill": "^7.2.5",
     "@geneontology/ribbon": "^1.11.2",
     "@geneontology/wc-ribbon-strips": "0.0.23",
-    "@geneontology/wc-ribbon-table": "0.0.36",
+    "@geneontology/wc-ribbon-table": "0.0.37",
     "abortcontroller-polyfill": "^1.2.5",
     "agr_genomefeaturecomponent": "^0.3.1",
     "bootstrap": "4.3.1",
