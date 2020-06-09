@@ -398,7 +398,7 @@ class GeneOntologyRibbon extends Component {
         {
           (this.state.loading) ? <LoadingSpinner /> : 
             (this.state.selected.data && this.state.selected.data.length > 0)
-              ? <wc-ribbon-table bio-link-data={JSON.stringify(this.state.selected.data)} group-by="term" />
+              ? <wc-ribbon-table bio-link-data={JSON.stringify(this.state.selected.data)} group-by="term" order-by="term" />
               : (this.state.selected.group) ? ((this.state.selected.data) ? <NoData/> : <LoadingSpinner />)
                 : ''
         }
