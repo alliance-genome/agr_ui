@@ -209,7 +209,6 @@ class GeneOntologyRibbon extends Component {
         this.fetchAssociationData(subject.id, group.id)
           .then(data => {
             // console.log('data ', data);
-            var filtered = data;
             // if(this.state.excludePB) {
             //   filtered = this.filterPB(data);
             // }
@@ -222,7 +221,7 @@ class GeneOntologyRibbon extends Component {
             this.setState({ selected : {
               subject : subject,
               group : group,
-              data : filtered, // assoc data from BioLink
+              data : data, // assoc data from BioLink
               ready : false
             }});
             // this.buildEvidenceMap();
@@ -399,8 +398,7 @@ class GeneOntologyRibbon extends Component {
         {
           (this.state.loading) ? <LoadingSpinner /> : 
             (this.state.selected.data && this.state.selected.data.length > 0)
-              ? <wc-ribbon-table bio-link-data={JSON.stringify(this.state.selected.data)}/>
-
+              ? <wc-ribbon-table bio-link-data={JSON.stringify(this.state.selected.data)} group-by="term" />
               : (this.state.selected.group) ? ((this.state.selected.data) ? <NoData/> : <LoadingSpinner />)
                 : ''
         }
