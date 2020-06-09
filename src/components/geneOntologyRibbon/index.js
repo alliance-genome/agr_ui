@@ -41,6 +41,7 @@ class GeneOntologyRibbon extends Component {
         group : null,
         data : null,
         ready : false,
+        loading : false   // secondary loading for table
       },
       search : ''
     };
@@ -132,6 +133,7 @@ class GeneOntologyRibbon extends Component {
             group : null,
             data : null,
             ready : false,
+            loading :  false
           }
         }, () => {
           if(subject && group) {
@@ -196,7 +198,8 @@ class GeneOntologyRibbon extends Component {
       subject : subject,
       group : group,
       data : null,
-      ready : false
+      ready : false,
+      loading : true
     }});
 
     if(group) {
@@ -222,7 +225,8 @@ class GeneOntologyRibbon extends Component {
               subject : subject,
               group : group,
               data : data, // assoc data from BioLink
-              ready : false
+              ready : false,
+              loading : false
             }});
             // this.buildEvidenceMap();
           });
@@ -317,8 +321,10 @@ class GeneOntologyRibbon extends Component {
             group : null,
             data : null,
             ready : false,
+            loading : false
           }
         } , () => {
+          // not necessary anymore since exp codes filtered by ribbon table
           if(subject && group) {
             this.itemClick(subject, group);
           }
@@ -331,7 +337,7 @@ class GeneOntologyRibbon extends Component {
   }
 
   render() {
-    // console.log('state: ', this.state);
+    console.log('state: ', this.state);
     // console.log('props: ', this.props);
     const { geneTaxon, orthology } = this.props;
     const { selectedOrthologs } = this.state;
@@ -396,9 +402,9 @@ class GeneOntologyRibbon extends Component {
         </HorizontalScroll>
 
         {
-          (this.state.loading) ? <LoadingSpinner /> : 
+          (this.state.loading || this.state.selected.loading) ? <LoadingSpinner /> : 
             (this.state.selected.data && this.state.selected.data.length > 0)
-              ? <wc-ribbon-table bio-link-data={JSON.stringify(this.state.selected.data)} group-by="term" order-by="term" />
+              ? <wc-ribbon-table bio-link-data={JSON.stringify(this.state.selected.data)} group-by='term' order-by='term' filter-by={this.state.onlyEXP ? 'evidence:' + exp_codes.join(',') : ''} />
               : (this.state.selected.group) ? ((this.state.selected.data) ? <NoData/> : <LoadingSpinner />)
                 : ''
         }
