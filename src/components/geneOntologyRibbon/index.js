@@ -337,7 +337,7 @@ class GeneOntologyRibbon extends Component {
   }
 
   render() {
-    // console.log('state: ', this.state);
+    console.log('state: ', this.state);
     // console.log('props: ', this.props);
     const { geneTaxon, orthology } = this.props;
     const { selectedOrthologs } = this.state;
@@ -404,7 +404,13 @@ class GeneOntologyRibbon extends Component {
         {
           (this.state.loading || this.state.selected.loading) ? <LoadingSpinner /> : 
             (this.state.selected.data && this.state.selected.data.length > 0)
-              ? <wc-ribbon-table bio-link-data={JSON.stringify(this.state.selected.data)} filter-by={this.state.onlyEXP ? 'evidence:' + exp_codes.join(',') : ''} group-by='term' order-by='term' />
+              ? <wc-ribbon-table  
+                bio-link-data={JSON.stringify(this.state.selected.data)} 
+                filter-by={this.state.onlyEXP ? 'evidence:' + exp_codes.join(',') : ''} 
+                group-by='term' 
+                hide-columns={'qualifier,gene' + (this.state.selected.group.id != 'all' ? ',aspect' : '')}
+                order-by='term' 
+              />
               : (this.state.selected.group) ? ((this.state.selected.data) ? <NoData/> : <LoadingSpinner />)
                 : ''
         }
