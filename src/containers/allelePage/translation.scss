@@ -23,15 +23,20 @@
   margin: 0 0.5em 0 0;
 }
 
-table {
-  * {
-    border: none !important;
+.table {
+  td {
+    border: none;
+    padding: 0 1em;
   }
 
-  .position {
-    border-right: 1px solid #eee;
+  td.position {
+    border-right: 4px solid #eee;
     width: 100%;
     text-align: right;
+    font-family: monospace;
+    font-size: 10pt;
+    color: #666;
+    vertical-align: bottom;
   }
 
   .codonRow {
