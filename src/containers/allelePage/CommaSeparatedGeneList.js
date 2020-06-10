@@ -4,6 +4,15 @@ import {Link} from 'react-router-dom';
 import {shortSpeciesName} from '../../lib/utils';
 import CommaSeparatedList from '../../components/commaSeparatedList';
 
+const MaybeLink = ({url, children}) => {
+  return url ? <Link to={url}>{children}</Link> : children;
+};
+
+MaybeLink.propTypes = {
+  children: PropTypes.node,
+  url: PropTypes.string,
+};
+
 const CommaSeparatedGeneList = ({genes}) => {
   if (!genes) {
     return null;
@@ -15,10 +24,10 @@ const CommaSeparatedGeneList = ({genes}) => {
         genes.map(gene => {
           const url = gene.id ? `/gene/${gene.id}` : null;
           return (
-            <Link key={gene.symbol} to={url}>
+            <MaybeLink key={gene.symbol} url={url}>
               {gene.symbol}
               {gene.species && ` (${shortSpeciesName(gene.species.taxonId)})`}
-            </Link>
+            </MaybeLink>
           );
         })
       }
