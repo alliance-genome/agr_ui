@@ -37,7 +37,7 @@ const TranslationRow = ({
         {
           isReference && aminoAcids.length ?
             <td className={translationStyles.position}>
-              <Position end={proteinEndPosition} start={proteinStartPosition} />
+              [<Position end={proteinEndPosition} start={proteinStartPosition} />]
             </td> :
             null
         }
