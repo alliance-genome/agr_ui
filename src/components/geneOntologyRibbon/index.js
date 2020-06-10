@@ -391,7 +391,7 @@ class GeneOntologyRibbon extends Component {
                   selection-mode='0'
                   subject-base-url='/gene/'
                   subject-open-new-tab={false}
-                  subject-position='1'
+                  subject-position={this.state.ribbon.subjects.length == 1 ? '0' : '1'}
                 />
             }
           </div>
