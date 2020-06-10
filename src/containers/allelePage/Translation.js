@@ -73,6 +73,8 @@ const Translation = ({
 
   maxAminoAcidsPerRow = 5,
 
+  title,
+
   ...translationRowProps
 }) => {
   let countCdsStartPositionPadded = 0;
@@ -105,6 +107,14 @@ const Translation = ({
   }
   return (
     <table className={translationStyles.table}>
+      {
+        title ?
+          <tr>
+            {translationRowProps.isReference ? <th className={translationStyles.position} /> : null }
+            <th>{title}</th>
+          </tr> :
+          null
+      }
       {rows}
     </table>
   );

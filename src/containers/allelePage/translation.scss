@@ -24,9 +24,13 @@
 }
 
 .table {
-  td {
+  td, th {
     border: none;
     padding: 0 1em;
+  }
+
+  th.position {
+    text-align: right;
   }
 
   td.position {

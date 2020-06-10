@@ -108,13 +108,18 @@ const VariantEffectDetails = ({
                   isReference
                   proteinEndPosition={proteinEndPosition}
                   proteinStartPosition={proteinStartPosition}
+                  title="Reference"
                 />
               </div>
               <div className='col-1' style={{textAlign: 'center', alignSelf: 'center'}}>
                 {codonVariation ? '=>' : null}
               </div>
               <div className='col'>
-                <Translation aminoAcids={aminoAcidVariation.split('')} codons={codonVariation.split('')} />
+                <Translation
+                  aminoAcids={aminoAcidVariation.split('')}
+                  codons={codonVariation.split('')}
+                  title="Variant"
+                />
               </div>
             </div>
           ) : null
