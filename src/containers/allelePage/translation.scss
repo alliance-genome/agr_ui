@@ -22,3 +22,27 @@
 .codon:nth-of-type(3n) {
   margin: 0 0.5em 0 0;
 }
+
+table {
+  * {
+    border: none !important;
+  }
+
+  .position {
+    border-right: 1px solid #eee;
+    width: 100%;
+    text-align: right;
+  }
+
+  .codonRow {
+    td {
+      padding-bottom: 0;
+    }
+  }
+
+  .aminoAcidRow {
+    td {
+      padding-top: 0;
+    }
+  }
+}

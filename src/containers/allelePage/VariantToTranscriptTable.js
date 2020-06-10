@@ -34,7 +34,7 @@ const VariantToTranscriptTable = ({variant}) => {
         <div>{name}</div>
       ),
       headerStyle: {
-        width: 150,
+        width: 180,
       },
     },
     {
@@ -99,7 +99,7 @@ const VariantToTranscriptTable = ({variant}) => {
                       {
                         codonVariation ? (
                           <div className="row">
-                            <div className='col-7' style={{textAlign: 'right'}}>
+                            <div className='col-7'>
                               <Translation
                                 aminoAcids={aminoAcidReference.split('')}
                                 cdsEndPosition={cdsEndPosition}
