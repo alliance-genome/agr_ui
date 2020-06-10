@@ -129,6 +129,7 @@ Translation.propTypes = {
   maxAminoAcidsPerRow: PropTypes.number,
   proteinEndPosition: PropTypes.any,
   proteinStartPosition: PropTypes.any,
+  title: PropTypes.string,
 };
 
 export default Translation;
