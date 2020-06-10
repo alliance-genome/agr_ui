@@ -82,12 +82,12 @@ const Translation = ({
   ...translationRowProps
 }) => {
   let countCdsStartPositionPadded = 0;
-  while (codons[countCdsStartPositionPadded] === codons[countCdsStartPositionPadded].toLowerCase()) {
+  while (codons[countCdsStartPositionPadded] && codons[countCdsStartPositionPadded] === codons[countCdsStartPositionPadded].toLowerCase()) {
     countCdsStartPositionPadded++;
   }
 
   let countCdsEndPositionPadded = 0;
-  while (codons[aminoAcids.length - 1 - countCdsEndPositionPadded] === codons[aminoAcids.length - 1 - countCdsEndPositionPadded].toLowerCase()) {
+  while (codons[aminoAcids.length - 1 - countCdsEndPositionPadded] && codons[aminoAcids.length - 1 - countCdsEndPositionPadded] === codons[aminoAcids.length - 1 - countCdsEndPositionPadded].toLowerCase()) {
     countCdsEndPositionPadded++;
   }
 
