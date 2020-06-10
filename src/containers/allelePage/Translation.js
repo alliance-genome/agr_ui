@@ -23,10 +23,7 @@ const TranslationRow = ({
         {
           isReference && codons.length ?
             <td className={translationStyles.position}>
-              <a style={{fontFamily: 'monospace'}}>
-                <Position end={cdsEndPosition} start={cdsStartPosition} />
-                &nbsp;&nbsp;
-              </a>
+              <Position end={cdsEndPosition} start={cdsStartPosition} />
             </td> :
             null
         }
@@ -40,10 +37,7 @@ const TranslationRow = ({
         {
           isReference && aminoAcids.length ?
             <td className={translationStyles.position}>
-              <a style={{fontFamily: 'monospace'}}>
-                <Position end={proteinEndPosition} start={proteinStartPosition} />
-                &nbsp;&nbsp;
-              </a>
+              <Position end={proteinEndPosition} start={proteinStartPosition} />
             </td> :
             null
         }
