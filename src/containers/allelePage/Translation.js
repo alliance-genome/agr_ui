@@ -81,7 +81,7 @@ const Translation = ({
   }
 
   let countCdsEndPositionPadded = 0;
-  while (codons[aminoAcids.length - 1 - countCdsEndPositionPadded] && codons[aminoAcids.length - 1 - countCdsEndPositionPadded] === codons[aminoAcids.length - 1 - countCdsEndPositionPadded].toLowerCase()) {
+  while (codons[codons.length - 1 - countCdsEndPositionPadded] && codons[codons.length - 1 - countCdsEndPositionPadded] === codons[codons.length - 1 - countCdsEndPositionPadded].toLowerCase()) {
     countCdsEndPositionPadded++;
   }
 
