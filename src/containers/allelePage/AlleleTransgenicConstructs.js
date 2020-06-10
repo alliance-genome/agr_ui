@@ -8,6 +8,7 @@ import {
 import DataSourceLink from '../../components/dataSourceLink';
 import CommaSeparatedGeneList from './CommaSeparatedGeneList';
 import NoData from '../../components/noData';
+import {Link} from 'react-router-dom';
 
 const AlleleTransgenicConstructs = ({constructs}) => {
   if (!constructs || constructs.length === 0) {
@@ -50,9 +51,9 @@ const AlleleTransgenicConstructs = ({constructs}) => {
               )}
             </AttributeValue>
           </AttributeList>
-          {/*<Link to={`/search?q=${construct.id}`}>*/}
-          {/*  Other alleles with this construct <i className='fa fa-search' />*/}
-          {/*</Link>*/}
+          <Link to={`/search?category=allele&constructs=${construct.nameText}`}>
+            All alleles with this construct <i className='fa fa-search' />
+          </Link>
         </div>
       ))}
     </>
