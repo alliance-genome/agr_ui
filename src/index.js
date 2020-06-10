@@ -15,6 +15,8 @@ import './style.scss';
 import ReactApp from './reactApplication';
 
 import { applyPolyfills, defineCustomElements } from '@geneontology/wc-ribbon-strips/loader';
+import { applyPolyfills as applyPolyfills2, defineCustomElements as defineCustomElements2 } from '@geneontology/wc-ribbon-table/loader';
+// import { defineCustomElements as defineCustomElements2 } from '@geneontology/wc-ribbon-table/loader';
 
 analytics.initialize();
 
@@ -29,4 +31,9 @@ if (module.hot) {
 
 applyPolyfills().then(() => {
   defineCustomElements(window);
+  // defineCustomElements2(window);
+});
+
+applyPolyfills2().then(() => {
+  defineCustomElements2(window);
 });
