@@ -66,20 +66,33 @@ const Translation = ({
   proteinEndPosition,
 
   codons = [],
-  cdsStartPosition,
-  cdsEndPosition,
+  cdsStartPosition: cdsStartPositionRaw,
+  cdsEndPosition: cdsEndPositionRaw,
 
   maxAminoAcidsPerRow = 5,
 
   ...translationRowProps
 }) => {
+  let countCdsStartPositionPadded = 0;
+  while (codons[countCdsStartPositionPadded] === codons[countCdsStartPositionPadded].toLowerCase()) {
+    countCdsStartPositionPadded++;
+  }
+
+  let countCdsEndPositionPadded = 0;
+  while (codons[aminoAcids.length - 1 - countCdsEndPositionPadded] === codons[aminoAcids.length - 1 - countCdsEndPositionPadded].toLowerCase()) {
+    countCdsEndPositionPadded++;
+  }
+
+  const cdsEndPosition = parseInt(cdsEndPositionRaw) + countCdsEndPositionPadded;
+  const cdsStartPosition = parseInt(cdsStartPositionRaw) - countCdsStartPositionPadded;
+
   const rows = [];
   for (let aminoAcidOffset = 0; aminoAcidOffset < codons.length; aminoAcidOffset = aminoAcidOffset + maxAminoAcidsPerRow) {
     const row = (
       <TranslationRow
         {...translationRowProps}
         aminoAcids={aminoAcids.slice(aminoAcidOffset, aminoAcidOffset + maxAminoAcidsPerRow)}
-        cdsEndPosition={Math.min(parseInt(cdsStartPosition) + (aminoAcidOffset + maxAminoAcidsPerRow - 1) * 3, parseInt(cdsEndPosition))}
+        cdsEndPosition={Math.min(parseInt(cdsStartPosition) + (aminoAcidOffset + maxAminoAcidsPerRow) * 3 - 1, parseInt(cdsEndPosition))}
         cdsStartPosition={parseInt(cdsStartPosition) + aminoAcidOffset * 3}
         codons={codons.slice(aminoAcidOffset * 3, (aminoAcidOffset + maxAminoAcidsPerRow) * 3)}
         proteinEndPosition={Math.min(parseInt(proteinStartPosition) + aminoAcidOffset + maxAminoAcidsPerRow - 1, parseInt(proteinEndPosition))}
