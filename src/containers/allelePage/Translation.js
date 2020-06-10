@@ -19,33 +19,41 @@ const TranslationRow = ({
   const aminoAcids = isFrameshift ? aminoAcidsRaw.slice(0, -1) : aminoAcidsRaw;
   return (
     <>
-      <div>
+      <tr className={translationStyles.codonRow}>
         {
           isReference && codons.length ?
-            <a style={{fontFamily: 'monospace'}}>
-              <Position end={cdsEndPosition} start={cdsStartPosition} />
-              &nbsp;&nbsp;
-            </a> :
+            <td className={translationStyles.position}>
+              <a style={{fontFamily: 'monospace'}}>
+                <Position end={cdsEndPosition} start={cdsStartPosition} />
+                &nbsp;&nbsp;
+              </a>
+            </td> :
             null
         }
-        {codons.map((codon, index) => (
-          <span className={translationStyles.codon} key={index}>{codon}</span>
-        ))}
-      </div>
-      <div>
+        <td>
+          {codons.map((codon, index) => (
+            <span className={translationStyles.codon} key={index}>{codon}</span>
+          ))}
+        </td>
+      </tr>
+      <tr className={translationStyles.aminoAcidRow}>
         {
           isReference && aminoAcids.length ?
-            <a style={{fontFamily: 'monospace'}}>
-              <Position end={proteinEndPosition} start={proteinStartPosition} />
-              &nbsp;&nbsp;
-            </a> :
+            <td className={translationStyles.position}>
+              <a style={{fontFamily: 'monospace'}}>
+                <Position end={proteinEndPosition} start={proteinStartPosition} />
+                &nbsp;&nbsp;
+              </a>
+            </td> :
             null
         }
-        {aminoAcids.map((aa, index) => (
-          <span className={translationStyles.aminoAcid} key={index}>{aa}</span>
-        ))}
-        {isFrameshift ? <span className="badge badge-secondary">frameshift</span> : null}
-      </div>
+        <td>
+          {aminoAcids.map((aa, index) => (
+            <span className={translationStyles.aminoAcid} key={index}>{aa}</span>
+          ))}
+          {isFrameshift ? <span className="badge badge-secondary">frameshift</span> : null}
+        </td>
+      </tr>
     </>
   );
 };
@@ -102,9 +110,9 @@ const Translation = ({
     rows.push(row);
   }
   return (
-    <>
+    <table className={translationStyles.table}>
       {rows}
-    </>
+    </table>
   );
 };
 
