@@ -11,6 +11,7 @@ import { VariantJBrowseLink } from '../../components/variant';
 import VariantToTranscriptTable from './VariantToTranscriptTable';
 import VariantToTranscriptDetails from './VariantToTranscriptDetails';
 import useAlleleVariant from './useAlleleVariants';
+import style from './style.scss';
 
 const MOLECULAR_CONSEQUENCE_DETAILS = 'Genomic Variants Molecular Consequences Details';
 
@@ -33,21 +34,19 @@ const AlleleMolecularConsequences = ({
     <>
       {
         variants.map((variant) => {
-          const {id: variantId, location, type = {}, geneLocation = {}, species = {}} = variant;
+          const {id: variantId, location, type = {}} = variant;
           return (
-            <React.Fragment key={`consequnce-summary-${variantId}`}>
-              <AttributeList>
-                <AttributeLabel>Variant:</AttributeLabel>
-                <AttributeValue>
-                  <VariantJBrowseLink
-                    geneLocation={geneLocation}
-                    location={location}
-                    species={species.name}
-                    type={type.name}
-                  >
-                    <span className="text-break">{variantId}</span>
-                  </VariantJBrowseLink>
-                </AttributeValue>
+            <div className={style.summaryRow} key={`consequnce-summary-${variantId}`}>
+              <h5>Predicted effect of{' '}
+                <VariantJBrowseLink
+                  geneLocation={variant.geneLocation}
+                  location={location}
+                  species={variant.species && variant.species.name}
+                  type={variant.type && variant.type.name}
+                >
+                  <span className="text-break">{variant.id}</span>
+                </VariantJBrowseLink></h5>
+              <AttributeList className={style.attributeList}>
                 <AttributeLabel>
                   Variant type:
                 </AttributeLabel>
@@ -56,7 +55,7 @@ const AlleleMolecularConsequences = ({
                 </AttributeValue>
               </AttributeList>
               <VariantToTranscriptTable variant={variant} />
-            </React.Fragment>
+            </div>
           );
         })
       }
