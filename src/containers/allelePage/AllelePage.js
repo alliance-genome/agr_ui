@@ -17,6 +17,7 @@ import {
 } from '../../selectors/alleleSelectors';
 import {fetchAllele} from '../../actions/alleleActions';
 import NotFound from '../../components/notFound';
+import ErrorBoundary from '../../components/errorBoundary';
 import AlleleSummary from './AlleleSummary';
 import AlleleSymbol from './AlleleSymbol';
 import SpeciesIcon from '../../components/speciesIcon';
@@ -90,9 +91,13 @@ const AllelePage = (props) => {
         </Subsection>
 
         <Subsection title={VARIANTS}>
-          <AlleleToVariantTable allele={data} alleleId={alleleId} />
+          <ErrorBoundary>
+            <AlleleToVariantTable allele={data} alleleId={alleleId} />
+          </ErrorBoundary>
           <br />
-          <AlleleSequenceView allele={data} />
+          <ErrorBoundary>
+            <AlleleSequenceView allele={data} />
+          </ErrorBoundary>
         </Subsection>
 
         <Subsection title={MOLECULAR_CONSEQUENCE}>
