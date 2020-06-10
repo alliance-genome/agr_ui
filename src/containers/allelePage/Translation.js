@@ -19,33 +19,35 @@ const TranslationRow = ({
   const aminoAcids = isFrameshift ? aminoAcidsRaw.slice(0, -1) : aminoAcidsRaw;
   return (
     <>
-      <div>
+      <tr className={translationStyles.codonRow}>
         {
           isReference && codons.length ?
-            <a style={{fontFamily: 'monospace'}}>
+            <td className={translationStyles.position}>
               <Position end={cdsEndPosition} start={cdsStartPosition} />
-              &nbsp;&nbsp;
-            </a> :
+            </td> :
             null
         }
-        {codons.map((codon, index) => (
-          <span className={translationStyles.codon} key={index}>{codon}</span>
-        ))}
-      </div>
-      <div>
+        <td>
+          {codons.map((codon, index) => (
+            <span className={translationStyles.codon} key={index}>{codon}</span>
+          ))}
+        </td>
+      </tr>
+      <tr className={translationStyles.aminoAcidRow}>
         {
           isReference && aminoAcids.length ?
-            <a style={{fontFamily: 'monospace'}}>
-              <Position end={proteinEndPosition} start={proteinStartPosition} />
-              &nbsp;&nbsp;
-            </a> :
+            <td className={translationStyles.position}>
+              [<Position end={proteinEndPosition} start={proteinStartPosition} />]
+            </td> :
             null
         }
-        {aminoAcids.map((aa, index) => (
-          <span className={translationStyles.aminoAcid} key={index}>{aa}</span>
-        ))}
-        {isFrameshift ? <span className="badge badge-secondary">frameshift</span> : null}
-      </div>
+        <td>
+          {aminoAcids.map((aa, index) => (
+            <span className={translationStyles.aminoAcid} key={index}>{aa}</span>
+          ))}
+          {isFrameshift ? <span className="badge badge-secondary">frameshift</span> : null}
+        </td>
+      </tr>
     </>
   );
 };
@@ -66,20 +68,35 @@ const Translation = ({
   proteinEndPosition,
 
   codons = [],
-  cdsStartPosition,
-  cdsEndPosition,
+  cdsStartPosition: cdsStartPositionRaw,
+  cdsEndPosition: cdsEndPositionRaw,
 
   maxAminoAcidsPerRow = 5,
 
+  title,
+
   ...translationRowProps
 }) => {
+  let countCdsStartPositionPadded = 0;
+  while (codons[countCdsStartPositionPadded] && codons[countCdsStartPositionPadded] === codons[countCdsStartPositionPadded].toLowerCase()) {
+    countCdsStartPositionPadded++;
+  }
+
+  let countCdsEndPositionPadded = 0;
+  while (codons[codons.length - 1 - countCdsEndPositionPadded] && codons[codons.length - 1 - countCdsEndPositionPadded] === codons[codons.length - 1 - countCdsEndPositionPadded].toLowerCase()) {
+    countCdsEndPositionPadded++;
+  }
+
+  const cdsEndPosition = parseInt(cdsEndPositionRaw) + countCdsEndPositionPadded;
+  const cdsStartPosition = parseInt(cdsStartPositionRaw) - countCdsStartPositionPadded;
+
   const rows = [];
   for (let aminoAcidOffset = 0; aminoAcidOffset < codons.length; aminoAcidOffset = aminoAcidOffset + maxAminoAcidsPerRow) {
     const row = (
       <TranslationRow
         {...translationRowProps}
         aminoAcids={aminoAcids.slice(aminoAcidOffset, aminoAcidOffset + maxAminoAcidsPerRow)}
-        cdsEndPosition={Math.min(parseInt(cdsStartPosition) + (aminoAcidOffset + maxAminoAcidsPerRow - 1) * 3, parseInt(cdsEndPosition))}
+        cdsEndPosition={Math.min(parseInt(cdsStartPosition) + (aminoAcidOffset + maxAminoAcidsPerRow) * 3 - 1, parseInt(cdsEndPosition))}
         cdsStartPosition={parseInt(cdsStartPosition) + aminoAcidOffset * 3}
         codons={codons.slice(aminoAcidOffset * 3, (aminoAcidOffset + maxAminoAcidsPerRow) * 3)}
         proteinEndPosition={Math.min(parseInt(proteinStartPosition) + aminoAcidOffset + maxAminoAcidsPerRow - 1, parseInt(proteinEndPosition))}
@@ -89,9 +106,17 @@ const Translation = ({
     rows.push(row);
   }
   return (
-    <>
+    <table className={translationStyles.table}>
+      {
+        title ?
+          <tr>
+            {translationRowProps.isReference ? <th className={translationStyles.position} /> : null }
+            <th>{title}</th>
+          </tr> :
+          null
+      }
       {rows}
-    </>
+    </table>
   );
 };
 
@@ -104,6 +129,7 @@ Translation.propTypes = {
   maxAminoAcidsPerRow: PropTypes.number,
   proteinEndPosition: PropTypes.any,
   proteinStartPosition: PropTypes.any,
+  title: PropTypes.string,
 };
 
 export default Translation;
