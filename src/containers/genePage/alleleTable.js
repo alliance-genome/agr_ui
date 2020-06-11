@@ -6,6 +6,7 @@ import {compareAlphabeticalCaseInsensitive} from '../../lib/utils';
 import CollapsibleList from '../../components/collapsibleList/collapsibleList';
 import SynonymList from '../../components/synonymList';
 import {AlleleCell, RemoteDataTable} from '../../components/dataTable';
+import {getDistinctFieldValue} from '../../components/dataTable/utils';
 import ExternalLink from '../../components/externalLink';
 import {fetchAlleles} from '../../actions/geneActions';
 import DiseaseLink from '../../components/disease/DiseaseLink';
@@ -132,7 +133,10 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
       dataField: 'variantType',
       text: 'Variant type',
       headerStyle: {width: variantTypeColWidth},
-      filterable: true,
+      // filterable: ['delins', 'point mutation', 'insertion', 'deletion', 'MNV'],
+      filterable: alleles.supplementalData && alleles.supplementalData.distinctFieldValues ?
+        getDistinctFieldValue(alleles, 'filter.variantType') :
+        true,
     },
     {
       dataField: 'variantConsequence',
@@ -142,7 +146,9 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
         children: <span>Variant consequences were predicted by the <ExternalLink href="https://uswest.ensembl.org/info/docs/tools/vep/index.html" target="_blank">Ensembl Variant Effect Predictor (VEP) tool</ExternalLink> based on Alliance variants information.</span>,
       },
       headerStyle: {width: variantConsequenceColWidth},
-      filterable: true,
+      filterable: alleles.supplementalData && alleles.supplementalData.distinctFieldValues ?
+        getDistinctFieldValue(alleles, 'filter.variantConsequence') :
+        true,
     },
     // {
     //   dataField: 'source',
@@ -189,7 +195,6 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
   }, [alleles]);
 
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
-
 
   const variantsSequenceViewerProps = useMemo(() => {
     /*
