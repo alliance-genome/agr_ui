@@ -63,11 +63,13 @@ const VariantEffectDetails = ({
 
       <AttributeLabel style={labelStyle}>HGVS Names</AttributeLabel>
       <AttributeValue>
-        <CollapsibleList collapsedSize={1}>
-          {
-            hgvsNames.length ? hgvsNames : null
-          }
-        </CollapsibleList>
+        {
+          hgvsNames.length ? (
+            <CollapsibleList collapsedSize={1}>
+              {hgvsNames}
+            </CollapsibleList>
+          ) : null
+        }
       </AttributeValue>
 
       <AttributeLabel >Affected sequence feature name</AttributeLabel>
