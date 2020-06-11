@@ -45,6 +45,8 @@ const VariantEffectDetails = ({
 
   const labelStyle = {textTransform: 'initial'};
 
+  const hgvsNames = [hgvsProteinNomenclature, hgvsCodingNomenclature, hgvsVEPGeneNomenclature].filter(hgvsName => hgvsName);
+
   return (<div className={`${styles.row} ${styles.detailRow}`}>
     <h5>Predicted effect of{' '}
       <VariantJBrowseLink
@@ -59,12 +61,14 @@ const VariantEffectDetails = ({
       <AttributeLabel>Variant type</AttributeLabel>
       <AttributeValue>{variant.type && variant.type.name}</AttributeValue>
 
-      <AttributeLabel style={labelStyle}>HGVS Name (HGVS.p)</AttributeLabel>
-      <AttributeValue>{hgvsProteinNomenclature}</AttributeValue>
-      <AttributeLabel style={labelStyle}>HGVS Name (HGVS.c)</AttributeLabel>
-      <AttributeValue>{hgvsCodingNomenclature}</AttributeValue>
-      <AttributeLabel style={labelStyle}>HGVS Name (HGVS.g)</AttributeLabel>
-      <AttributeValue>{hgvsVEPGeneNomenclature}</AttributeValue>
+      <AttributeLabel style={labelStyle}>HGVS Names</AttributeLabel>
+      <AttributeValue>
+        <CollapsibleList collapsedSize={1}>
+          {
+            hgvsNames.length ? hgvsNames : null
+          }
+        </CollapsibleList>
+      </AttributeValue>
 
       <AttributeLabel >Affected sequence feature name</AttributeLabel>
       <AttributeValue>{transcript.name}</AttributeValue>
