@@ -45,6 +45,8 @@ const VariantEffectDetails = ({
 
   const labelStyle = {textTransform: 'initial'};
 
+  const hgvsNames = [hgvsProteinNomenclature, hgvsCodingNomenclature, hgvsVEPGeneNomenclature].filter(hgvsName => hgvsName);
+
   return (<div className={`${styles.row} ${styles.detailRow}`}>
     <h5>Predicted effect of{' '}
       <VariantJBrowseLink
@@ -59,12 +61,16 @@ const VariantEffectDetails = ({
       <AttributeLabel>Variant type</AttributeLabel>
       <AttributeValue>{variant.type && variant.type.name}</AttributeValue>
 
-      <AttributeLabel style={labelStyle}>HGVS Name (HGVS.p)</AttributeLabel>
-      <AttributeValue>{hgvsProteinNomenclature}</AttributeValue>
-      <AttributeLabel style={labelStyle}>HGVS Name (HGVS.c)</AttributeLabel>
-      <AttributeValue>{hgvsCodingNomenclature}</AttributeValue>
-      <AttributeLabel style={labelStyle}>HGVS Name (HGVS.g)</AttributeLabel>
-      <AttributeValue>{hgvsVEPGeneNomenclature}</AttributeValue>
+      <AttributeLabel style={labelStyle}>HGVS Names</AttributeLabel>
+      <AttributeValue>
+        {
+          hgvsNames.length ? (
+            <CollapsibleList collapsedSize={1}>
+              {hgvsNames}
+            </CollapsibleList>
+          ) : null
+        }
+      </AttributeValue>
 
       <AttributeLabel >Affected sequence feature name</AttributeLabel>
       <AttributeValue>{transcript.name}</AttributeValue>
@@ -75,26 +81,28 @@ const VariantEffectDetails = ({
       <AttributeLabel>Affected sequence feature accession</AttributeLabel>
       <AttributeValue>{transcript.id}</AttributeValue>
 
-      <AttributeLabel style={labelStyle}>Position of Variant in Protein</AttributeLabel>
+      <AttributeLabel>Molecular Consequence</AttributeLabel>
       <AttributeValue>
-        <Position end={proteinEndPosition} start={proteinStartPosition} />
+        <CollapsibleList collapsedSize={5}>
+          {transcriptLevelConsequence.split(',').map(consequenceText => consequenceText.replace(/_/g, ' '))}
+        </CollapsibleList>
+      </AttributeValue>
+
+
+      <AttributeLabel style={labelStyle}>Position of Variant in Transcript</AttributeLabel>
+      <AttributeValue>
+        <Position end={cdnaEndPosition} start={cdnaStartPosition} />
       </AttributeValue>
       <AttributeLabel style={labelStyle}>Position of Variant in Coding Sequence</AttributeLabel>
       <AttributeValue>
         <Position end={cdsEndPosition} start={cdsStartPosition} />
       </AttributeValue>
-      <AttributeLabel style={labelStyle}>Position of Variant in Transcript</AttributeLabel>
+      <AttributeLabel style={labelStyle}>Position of Variant in Protein</AttributeLabel>
       <AttributeValue>
-        <Position end={cdnaEndPosition} start={cdnaStartPosition} />
+        <Position end={proteinEndPosition} start={proteinStartPosition} />
       </AttributeValue>
 
-      <AttributeLabel>Molecular Consequence</AttributeLabel>
-      <AttributeValue>
-        <CollapsibleList collapsedSize={5}>
-          {transcriptLevelConsequence.split(',')}
-        </CollapsibleList>
-      </AttributeValue>
-      <AttributeLabel style={labelStyle}>CDS and Protein Change</AttributeLabel>
+      <AttributeLabel style={labelStyle}>Protein Change</AttributeLabel>
       <AttributeValue>
         {
           codonVariation ? (
