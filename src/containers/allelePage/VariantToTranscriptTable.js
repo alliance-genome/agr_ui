@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { RemoteDataTable } from '../../components/dataTable';
 import { CollapsibleList } from '../../components/collapsibleList';
 import Translation from './Translation';
+import VariantEffectDetails from './VariantEffectDetails';
 import useVariantTranscripts from './useVariantTranscripts';
 import styles from './style.scss';
 
@@ -141,9 +142,20 @@ const VariantToTranscriptTable = ({variant}) => {
   ];
 
   const expandRow = {
-    renderer: () => (
-      <div>....</div>
-    ),
+    renderer: (row) => {
+      const {
+        consequences = [],
+        ...transcript
+      } = row;
+      return consequences.map((consequence, index) => (
+        <VariantEffectDetails
+          consequence={consequence}
+          key={`${transcript.id}-${index}`}
+          transcript={transcript}
+          variant={variant}
+        />
+      ));
+    },
     showExpandColumn: true,
     expandByColumnOnly: true,
   };
