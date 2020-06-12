@@ -606,10 +606,10 @@ export default class IsoformAndVariantTrack {
       return variantData.filter(v => {
         try {
           if(variantFilter.indexOf(v.name) >= 0  ||
+            (v.allele_symbols && v.allele_symbols.values &&  variantFilter.indexOf(v.allele_symbols.values[0].replace(/"/g, "")) >= 0) ||
+            (v.allele_ids && v.allele_ids.values &&  variantFilter.indexOf(v.allele_ids.values[0].replace(/"/g, "")) >= 0) ||
             (v.symbol && v.symbol.values &&  variantFilter.indexOf(v.symbol.values[0].replace(/"/g, "")) >= 0) ||
-            (v.symbol_text && v.symbol_text.values &&  variantFilter.indexOf(v.symbol_text.values[0].replace(/"/g, "")) >= 0) ||
-            (v.alleles && v.alleles.values &&  variantFilter.indexOf(v.alleles.values[0].replace(/"/g, "")) >= 0) ||
-            (v.allele_symbols && v.allele_symbols.values &&  variantFilter.indexOf(v.allele_symbols.values[0].replace(/"/g, "")) >= 0)
+            (v.symbol_text && v.symbol_text.values &&  variantFilter.indexOf(v.symbol_text.values[0].replace(/"/g, "")) >= 0)
           )
             {return true}
         } catch (e) {

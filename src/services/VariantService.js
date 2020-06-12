@@ -16,7 +16,7 @@ export function generateInsertionPoint(x) {
 
 export function generateDelinsPoint(x)  {
   return `${x-(SNV_WIDTH/2.0)},${SNV_HEIGHT} ${x+(SNV_WIDTH/2.0)},${SNV_HEIGHT} ${x-(SNV_WIDTH/2.0)},${0} ${x+(SNV_WIDTH/2.0)},${0}`;
-};
+}
 
 export function getDescriptionDimensions(description){
   const descriptionHeight = Object.keys(description).length;
