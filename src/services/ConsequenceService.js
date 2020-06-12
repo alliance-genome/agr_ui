@@ -45,7 +45,8 @@ export const CONSEQUENCES_ENUM = Object.freeze({
 export function getColorForConsequence(consequence) {
 
   if(!consequence) return 'black';
-  if(consequence.indexOf(",")>0) return 'hotpink';
+
+  if(consequence.split(" ").length>1) return 'hotpink';
   if(consequence==='UNKNOWN') return 'gray';
 
   const consequenceLookup = CONSEQUENCES_ENUM[consequence]
