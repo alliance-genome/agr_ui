@@ -8,7 +8,8 @@
 }
 
 .detailRow {
-  margin: 1em;
+  padding: 1em;
+  border-left: 4px solid #eee;
 }
 
 
@@ -18,4 +19,10 @@
 
 .attributeList {
   margin: 0;
+}
+
+.variantToTranscriptTable {
+  :global(.react-bootstrap-table th[data-row-selection]) {
+    width: 120px;
+  }
 }

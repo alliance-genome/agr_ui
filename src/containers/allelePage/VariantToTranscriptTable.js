@@ -141,6 +141,22 @@ const VariantToTranscriptTable = ({variant}) => {
     },
   ];
 
+  const ExpandIndicator = ({ expanded }) => (
+    <button className="btn btn-link btn-sm" type="button">{expanded ? 'Hide details' : 'Show details'}</button>
+  );
+
+  ExpandIndicator.propTypes = {
+    expanded: PropTypes.bool,
+  };
+
+  const ExpandAllIndicator = ({ isAnyExpands }) => (
+    <button className="btn btn-link btn-sm" type="button">{isAnyExpands ? 'Hide all details' : 'Show all details'}</button>
+  );
+
+  ExpandAllIndicator.propTypes = {
+    isAnyExpands: PropTypes.bool,
+  };
+
   const expandRow = {
     renderer: (row) => {
       const {
@@ -158,10 +174,17 @@ const VariantToTranscriptTable = ({variant}) => {
     },
     showExpandColumn: true,
     expandByColumnOnly: true,
+    expandHeaderColumnRenderer: ({ isAnyExpands }) => { // eslint-disable-line react/prop-types
+      return <ExpandAllIndicator isAnyExpands={isAnyExpands} />;
+    },
+    expandColumnRenderer: ({ expanded }) => { // eslint-disable-line react/prop-types
+      return <ExpandIndicator expanded={expanded} />;
+    },
   };
 
   return (<>
     <RemoteDataTable
+      className={styles.variantToTranscriptTable}
       columns={columns}
       data={data}
       // downloadUrl={`/api/allele/${alleleId}/variants/download`}
