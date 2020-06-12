@@ -32,6 +32,7 @@ function flyExamples() {
     createExample("2R:23974973..23989002", "fly", "viewerFlyExample3NoLabel", TRACK_TYPE.ISOFORM_EMBEDDED_VARIANT, false, ['NT_033778.4:g.23975146T>C']);
     createExample("2R:23974973..23989002", "fly", "viewerFlyExample2NoLabel", TRACK_TYPE.ISOFORM_EMBEDDED_VARIANT, false);
     createExample("2R:23974973..23989002", "fly", "viewerFlyExample2NoLabelAnd", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
+    createExample("3R:22693140..22699809", "fly", "viewerFlyExample3", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
 }
 
 function ratExamples() {
