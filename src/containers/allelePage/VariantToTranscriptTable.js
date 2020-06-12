@@ -98,7 +98,7 @@ const VariantToTranscriptTable = ({variant}) => {
                     <div className='col-9'>
                       {
                         codonVariation ? (
-                          <div className="row">
+                          <div className="row flex-nowrap">
                             <div className='col-7'>
                               <Translation
                                 aminoAcids={aminoAcidReference.split('')}
@@ -140,11 +140,20 @@ const VariantToTranscriptTable = ({variant}) => {
     },
   ];
 
+  const expandRow = {
+    renderer: () => (
+      <div>....</div>
+    ),
+    showExpandColumn: true,
+    expandByColumnOnly: true,
+  };
+
   return (<>
     <RemoteDataTable
       columns={columns}
       data={data}
       // downloadUrl={`/api/allele/${alleleId}/variants/download`}
+      expandRow={expandRow}
       keyField='id'
       loading={loading}
       noDataMessage='No variant effect information available'
