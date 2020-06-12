@@ -43,8 +43,6 @@ function checkSpace(used_space, start, end)
 
 function doResize(fmin_display, fmax_display, viewer, width,newx)
 {
-  console.log("Do resize.");
-
   viewer.selectAll("rect.transcriptBackbone")
     .attr("x", function(d){return newx(d.fmin);})
     .attr('width', function(d){return newx(d.fmax) - newx(d.fmin);});

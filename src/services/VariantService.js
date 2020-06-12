@@ -275,7 +275,7 @@ export function renderVariantDescription(description){
        change = ref_allele + '->' + alt_allele;
   }
   returnString += `<table class="tooltip-table"><tbody>`;
-  returnString += `<tr><th>Symbol</th><td>${description.symbol} (${description.alleles})</td></tr>`;
+  returnString += `<tr><th>Symbol</th><td>${description.symbol} (${description.allele_ids})</td></tr>`;
   returnString += `<tr><th>Type</th><td>${description.type}</td></tr>`;
   returnString += `<tr><th>Consequence</th><td>${description.consequence}</td></tr>`;
   if(description.impact){
@@ -318,7 +318,7 @@ export function getVariantAlleles(variant){
   let returnObj=[];
 
   variant.variants.forEach((val) => {
-    let allele = val.alleles.values[0].replace(/"/g,"");
+    let allele = val.allele_symbols.values[0].replace(/"/g,"");
     returnObj.push(allele);
   });
   return returnObj;
@@ -339,8 +339,9 @@ export function getColorsForConsequences(descriptions){
 
 export function getConsequence(variant){
   let consequence = 'UNKNOWN';
+
   if(variant.geneLevelConsequence && variant.geneLevelConsequence.values && variant.geneLevelConsequence.values.length > 0){
-    consequence = (Array.isArray(variant.geneLevelConsequence.values) ? variant.geneLevelConsequence.values.join(' ') : variant.geneLevelConsequence.values).replace(/"/g,"");
+    consequence = variant.geneLevelConsequence.values[0].replace(/\|/g," ").replace(/\"/g,"");
   }
   return consequence;
 }
@@ -376,12 +377,12 @@ export function getVariantDescription(variant){
       returnObject.allele_of_genes =  variant.allele_of_genes;
     }
   }
-  if(variant.alleles){
-    if(variant.alleles.values &&  variant.alleles.values.length>0){
-      returnObject.alleles =  (Array.isArray(variant.alleles.values) ? variant.alleles.values.join(' ') : variant.alleles.values).replace(/"/g,"");
+  if(variant.allele_ids){
+    if(variant.allele_ids.values &&  variant.allele_ids.values.length>0){
+      returnObject.allele_ids =  (Array.isArray(variant.allele_ids.values) ? variant.allele_ids.values.join(' ') : variant.allele_ids.values).replace(/"/g,"");
     }
     else{
-      returnObject.alleles =  variant.alleles;
+      returnObject.allele_ids =  variant.allele_ids;
     }
   }
   if(variant.alternative_alleles){
@@ -413,19 +414,24 @@ export function getVariantSymbol(variant){
       return getVariantSymbol(variant.variants[0]);
     }
   }
-  let symbol = variant.name ;
-  if(variant.symbol && !variant.symbol.values){
-    symbol = variant.symbol;
+  // let symbol = variant.name ;
+  if(variant.allele_symbols && variant.allele_symbols.values){
+    // let symbol = variant.name ;
+    // if(variant.symbol && !variant.symbol.values){
+    //   symbol = variant.symbol;
+    // }
+    // else
+    // if(variant.symbol && variant.symbol.values && variant.symbol.values.length>0){
+    //   symbol = variant.symbol.values[0];
+    // }
+    // return  (symbol.length>20 ? symbol.substr(0,20) : symbol).replace(/"/g,"");
+    // symbol = symbol.replace (/<sup>/," ");
+    // return symbol.replace(/"|<\/sup>/g,"");
+    let symbol = variant.allele_symbols.values[0]
+    symbol = symbol.replace(/"/g,"")
+    return symbol;
   }
-  else
-  if(variant.symbol && variant.symbol.values && variant.symbol.values.length>0){
-    symbol = variant.symbol.values[0];
-  }
-  // return  (symbol.length>20 ? symbol.substr(0,20) : symbol).replace(/"/g,"");
-  // symbol = symbol.replace (/<sup>/," ");
-  // return symbol.replace(/"|<\/sup>/g,"");
-  symbol = symbol.replace(/"/g,"")
-  return symbol;
+  return undefined
 }
 
 export function getVariantTrackPositions(variantData){
