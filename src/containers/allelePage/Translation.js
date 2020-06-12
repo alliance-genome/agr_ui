@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Position from './Position';
+// import Position from './Position';
 import translationStyles from './translation.scss';
 
 const TranslationRow = ({
@@ -23,7 +23,7 @@ const TranslationRow = ({
         {
           isReference && codons.length ?
             <td className={translationStyles.position}>
-              <Position end={cdsEndPosition} start={cdsStartPosition} />
+              {cdsStartPosition ? cdsStartPosition : 'N/A'}
             </td> :
             null
         }
@@ -32,12 +32,19 @@ const TranslationRow = ({
             <span className={translationStyles.codon} key={index}>{codon}</span>
           ))}
         </td>
+        {
+          isReference && codons.length ?
+            <td className={translationStyles.position}>
+              {cdsEndPosition ? cdsEndPosition : 'N/A'}
+            </td> :
+            null
+        }
       </tr>
       <tr className={translationStyles.aminoAcidRow}>
         {
           isReference && aminoAcids.length ?
             <td className={translationStyles.position}>
-              [<Position end={proteinEndPosition} start={proteinStartPosition} />]
+              [{proteinStartPosition ? proteinStartPosition : 'N/A'}]
             </td> :
             null
         }
@@ -47,6 +54,13 @@ const TranslationRow = ({
           ))}
           {isFrameshift ? <span className="badge badge-secondary">frameshift</span> : null}
         </td>
+        {
+          isReference && aminoAcids.length ?
+            <td className={translationStyles.position}>
+              [{proteinEndPosition ? proteinEndPosition : 'N/A'}]
+            </td> :
+            null
+        }
       </tr>
     </>
   );
