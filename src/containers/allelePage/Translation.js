@@ -85,7 +85,7 @@ const Translation = ({
   cdsStartPosition: cdsStartPositionRaw,
   cdsEndPosition: cdsEndPositionRaw,
 
-  maxAminoAcidsPerRow = 5,
+  maxAminoAcidsPerRow = 10,
 
   title,
 

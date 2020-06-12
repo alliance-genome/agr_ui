@@ -100,7 +100,7 @@ const VariantToTranscriptTable = ({variant}) => {
                       {
                         codonVariation ? (
                           <div className="row flex-nowrap">
-                            <div className='col-7'>
+                            <div className='col'>
                               <Translation
                                 aminoAcids={aminoAcidReference.split('')}
                                 cdsEndPosition={cdsEndPosition}
@@ -111,10 +111,10 @@ const VariantToTranscriptTable = ({variant}) => {
                                 proteinStartPosition={proteinStartPosition}
                               />
                             </div>
-                            <div className='col' style={{textAlign: 'center', alignSelf: 'center'}}>
+                            <div className='col-1' style={{textAlign: 'center', alignSelf: 'center'}}>
                               {codonVariation ? '=>' : null}
                             </div>
-                            <div className='col-4'>
+                            <div className='col'>
                               <Translation aminoAcids={aminoAcidVariation.split('')} codons={codonVariation.split('')} />
                             </div>
                           </div>
