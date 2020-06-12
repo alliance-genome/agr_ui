@@ -1,10 +1,15 @@
 .row {
   padding: 0.5em 0;
   border-bottom: 1px solid #eee;
-}
 
-.row:last-child {
-  border-bottom: none;
+  &:first-child {
+    padding-top: 0;
+  }
+
+  &:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
 }
 
 .detailRow {
