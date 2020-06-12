@@ -33,6 +33,7 @@ function flyExamples() {
     createExample("2R:23974973..23989002", "fly", "viewerFlyExample2NoLabel", TRACK_TYPE.ISOFORM_EMBEDDED_VARIANT, false);
     createExample("2R:23974973..23989002", "fly", "viewerFlyExample2NoLabelAnd", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
     createExample("3R:22693140..22699809", "fly", "viewerFlyExample3", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
+    createExample("2R:23974972..23989001", "fly", "viewerFlyExample4", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
 }
 
 function ratExamples() {
@@ -47,8 +48,8 @@ function ratExamples() {
 function mouseExamples() {
     // http://localhost:8080/apollo/vcf/remotemouse/Phenotypic%20Variants/6:113619452..113636198.json?includeGenotypes=false&ignoreCache=true
     // http://localhost:8080/apollo/track/remotemouse/All%20Genes/6:113619452..113636198.json?includeGenotypes=false&ignoreCache=true  let configGlobal1 = {
-  createExample("18:11035719..11058885", "mouse", "viewerMouseExample6", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
-  createIsoformExample("18:11042037..11052567", "mouse", "viewerMouseExample5", TRACK_TYPE.ISOFORM, false);
+    createExample("18:11035719..11058885", "mouse", "viewerMouseExample6", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
+    createIsoformExample("18:11042037..11052567", "mouse", "viewerMouseExample5", TRACK_TYPE.ISOFORM, false);
     createExample("17:46007760..46041588", "mouse", "viewerMouseExample4", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
     createExample("11:69550420..69563869", "mouse", "viewerMouseExample3", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
     createExample("3:115707662..115717830", "mouse", "viewerMouseExample2", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
