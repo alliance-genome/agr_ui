@@ -87,7 +87,7 @@ class RemoteDataTable extends Component {
   }
 
   render() {
-    const { columns, data = [], downloadUrl, keyField, loading, noDataMessage, sortOptions, summaryProps, totalRows, ...bootstrapTableProps } = this.props;
+    const { columns, data = [], downloadUrl, keyField, loading, noDataMessage, sortOptions, summaryProps, totalRows, className, ...bootstrapTableProps } = this.props;
     const { filters, page, sizePerPage, sort } = this.state;
 
     if (!loading && filters == null && totalRows === 0) {
@@ -145,7 +145,7 @@ class RemoteDataTable extends Component {
     });
 
     return (
-      <div ref={this.containerRef} style={{position: 'relative'}}>
+      <div className={className} ref={this.containerRef} style={{position: 'relative'}}>
         <LoadingOverlay loading={loading} />
         <PaginationProvider pagination={pagination}>
           {
@@ -206,6 +206,7 @@ class RemoteDataTable extends Component {
 }
 
 RemoteDataTable.propTypes = {
+  className: PropTypes.string,
   columns: PropTypes.array,
   data: PropTypes.arrayOf(PropTypes.object),
   downloadUrl: PropTypes.string,
