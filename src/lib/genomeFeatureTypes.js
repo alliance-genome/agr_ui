@@ -19,21 +19,3 @@ export const getTranscriptTypes = function () {
   ];
 };
 
-
-// TODO: make a call to an internal SO provider
-export const getCodingType = function () {
-  let proteinCodingTypes = [];
-  proteinCodingTypes.pushAll(
-    'gene'
-    , 'protein_coding_gene'
-    , 'protein_coding'
-    , 'ORF'
-  );
-  return proteinCodingTypes;
-};
-
-
-export const isCodingType = function (type) {
-  return this.getCodingType().indexOf(type) >= 0;
-};
-
