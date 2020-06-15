@@ -9,11 +9,11 @@ import LoadingSpinner from '../../components/loadingSpinner';
 import NoData from '../../components/noData';
 import { VariantJBrowseLink } from '../../components/variant';
 import VariantToTranscriptTable from './VariantToTranscriptTable';
-import VariantToTranscriptDetails from './VariantToTranscriptDetails';
+// import VariantToTranscriptDetails from './VariantToTranscriptDetails';
 import useAlleleVariant from './useAlleleVariants';
 import style from './style.scss';
 
-const MOLECULAR_CONSEQUENCE_DETAILS = 'Genomic Variants Molecular Consequences Details';
+// const MOLECULAR_CONSEQUENCE_DETAILS = 'Genomic Variants Molecular Consequences Details';
 
 const AlleleMolecularConsequences = ({
   alleleId,
@@ -56,18 +56,6 @@ const AlleleMolecularConsequences = ({
               </AttributeList>
               <VariantToTranscriptTable variant={variant} />
             </div>
-          );
-        })
-      }
-      <br />
-      <h4>{MOLECULAR_CONSEQUENCE_DETAILS}</h4>
-      {
-        variants.map((variant) => {
-          const {id: variantId} = variant;
-          return (
-            <React.Fragment key={`consequnce-details-${variantId}`}>
-              <VariantToTranscriptDetails variant={variant} />
-            </React.Fragment>
           );
         })
       }
