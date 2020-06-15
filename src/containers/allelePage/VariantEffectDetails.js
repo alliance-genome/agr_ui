@@ -106,7 +106,7 @@ const VariantEffectDetails = ({
       <AttributeValue>
         {
           codonVariation ? (
-            <div className="row container">
+            <div className="row container flex-nowrap">
               <div className='col'>
                 <Translation
                   aminoAcids={aminoAcidReference.split('')}
