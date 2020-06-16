@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { RemoteDataTable } from '../../components/dataTable';
 import { CollapsibleList } from '../../components/collapsibleList';
 import Translation from './Translation';
+import VariantEffectDetails from './VariantEffectDetails';
 import useVariantTranscripts from './useVariantTranscripts';
 import styles from './style.scss';
 
@@ -98,8 +99,8 @@ const VariantToTranscriptTable = ({variant}) => {
                     <div className='col-9'>
                       {
                         codonVariation ? (
-                          <div className="row">
-                            <div className='col-7'>
+                          <div className="row flex-nowrap">
+                            <div className='col'>
                               <Translation
                                 aminoAcids={aminoAcidReference.split('')}
                                 cdsEndPosition={cdsEndPosition}
@@ -110,10 +111,10 @@ const VariantToTranscriptTable = ({variant}) => {
                                 proteinStartPosition={proteinStartPosition}
                               />
                             </div>
-                            <div className='col' style={{textAlign: 'center', alignSelf: 'center'}}>
+                            <div className='col-1' style={{textAlign: 'center', alignSelf: 'center'}}>
                               {codonVariation ? '=>' : null}
                             </div>
-                            <div className='col-4'>
+                            <div className='col'>
                               <Translation aminoAcids={aminoAcidVariation.split('')} codons={codonVariation.split('')} />
                             </div>
                           </div>
@@ -140,11 +141,54 @@ const VariantToTranscriptTable = ({variant}) => {
     },
   ];
 
+  const ExpandIndicator = ({ expanded }) => (
+    <button className="btn btn-link btn-sm" type="button">{expanded ? 'Hide details' : 'Show details'}</button>
+  );
+
+  ExpandIndicator.propTypes = {
+    expanded: PropTypes.bool,
+  };
+
+  const ExpandAllIndicator = ({ isAnyExpands }) => (
+    <button className="btn btn-link btn-sm" type="button">{isAnyExpands ? 'Hide all details' : 'Show all details'}</button>
+  );
+
+  ExpandAllIndicator.propTypes = {
+    isAnyExpands: PropTypes.bool,
+  };
+
+  const expandRow = {
+    renderer: (row) => {
+      const {
+        consequences = [],
+        ...transcript
+      } = row;
+      return consequences.map((consequence, index) => (
+        <VariantEffectDetails
+          consequence={consequence}
+          key={`${transcript.id}-${index}`}
+          transcript={transcript}
+          variant={variant}
+        />
+      ));
+    },
+    showExpandColumn: true,
+    expandByColumnOnly: true,
+    expandHeaderColumnRenderer: ({ isAnyExpands }) => { // eslint-disable-line react/prop-types
+      return <ExpandAllIndicator isAnyExpands={isAnyExpands} />;
+    },
+    expandColumnRenderer: ({ expanded }) => { // eslint-disable-line react/prop-types
+      return <ExpandIndicator expanded={expanded} />;
+    },
+  };
+
   return (<>
     <RemoteDataTable
+      className={styles.variantToTranscriptTable}
       columns={columns}
       data={data}
       // downloadUrl={`/api/allele/${alleleId}/variants/download`}
+      expandRow={expandRow}
       keyField='id'
       loading={loading}
       noDataMessage='No variant effect information available'
