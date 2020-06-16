@@ -35,6 +35,8 @@ function flyExamples() {
     createExample("3R:22693140..22699809", "fly", "viewerFlyExample3", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
     createExample("2R:23974972..23989001", "fly", "viewerFlyExample4", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
     createExample("3R:22693140..22699809", "fly", "viewerFlyExample5", TRACK_TYPE.ISOFORM_AND_VARIANT, false,["FB:FBal0265700", "FB:FBal0265699"]);
+  createExample("2R:18614210..18615018", "fly", "viewerFlyExample6", TRACK_TYPE.ISOFORM_AND_VARIANT, false,["FB:FBal0325512"]);
+  createExample("X:2023822..2043557", "fly", "viewerFlyExample7", TRACK_TYPE.ISOFORM_AND_VARIANT, false,["FB:FBal0212726"]);
 }
 
 function ratExamples() {
