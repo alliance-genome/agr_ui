@@ -126,7 +126,7 @@ export const NAV_MENU = [
     label: 'Help',
     sub: [
       {
-        label: 'Frequently Asked Questions',
+        label: 'FAQ / Known Issues',
         route: '/faq'
       },
       {
