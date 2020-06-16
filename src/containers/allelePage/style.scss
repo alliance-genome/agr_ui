@@ -1,14 +1,20 @@
 .row {
   padding: 0.5em 0;
   border-bottom: 1px solid #eee;
-}
 
-.row:last-child {
-  border-bottom: none;
+  &:first-child {
+    padding-top: 0;
+  }
+
+  &:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
 }
 
 .detailRow {
-  margin: 1em;
+  padding: 1em;
+  border-left: 4px solid #eee;
 }
 
 
@@ -18,4 +24,10 @@
 
 .attributeList {
   margin: 0;
+}
+
+.variantToTranscriptTable {
+  :global(.react-bootstrap-table th[data-row-selection]) {
+    width: 120px;
+  }
 }
