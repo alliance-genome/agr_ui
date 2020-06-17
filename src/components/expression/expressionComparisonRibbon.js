@@ -189,7 +189,7 @@ class ExpressionComparisonRibbon extends React.Component {
           </div>
           <div>{summary.loading && <LoadingSpinner />}</div>
           <div className='text-muted mt-2'>
-            <i>Cell color indicative of annotation volume</i>
+            <i>Cell color indicative of annotation volume; red slash indicates species lacks anatomical structure.</i>
           </div>
         </HorizontalScroll>
 
