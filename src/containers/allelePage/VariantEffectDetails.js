@@ -105,7 +105,7 @@ const VariantEffectDetails = ({
       <AttributeLabel style={labelStyle}>Protein Change</AttributeLabel>
       <AttributeValue>
         {
-          codonVariation ? (
+          codonVariation && codonVariation.replace(/-/g, '') ? (
             <div className="row container flex-nowrap">
               <div className='col'>
                 <Translation
