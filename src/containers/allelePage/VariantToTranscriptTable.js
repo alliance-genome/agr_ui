@@ -98,7 +98,7 @@ const VariantToTranscriptTable = ({variant}) => {
                     </div>
                     <div className='col-9'>
                       {
-                        codonVariation ? (
+                        codonVariation && codonVariation.replace(/-/g, '') ? (
                           <div className="row flex-nowrap">
                             <div className='col'>
                               <Translation
