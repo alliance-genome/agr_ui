@@ -15,6 +15,7 @@ export const getTranscriptTypes = function () {
     , 'C_gene_segment'
     , 'V_gene_segment'
     , 'pseudogene_attribute'
+    , 'pseudogenic_transcript'
     ,'snoRNA_gene'
   ];
 };
