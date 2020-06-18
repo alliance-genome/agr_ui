@@ -54,6 +54,7 @@ class ExpressionAnnotationTable extends React.Component {
         text: 'Species',
         formatter: s => <i>{s}</i>,
         filterable: getDistinctFieldValue(annotations, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
+        filterLabelClassName: 'species-name',
         headerStyle: {width: '100px'},
         hidden: genes.length < 2,
       },
