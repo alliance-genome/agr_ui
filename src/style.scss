@@ -25,9 +25,6 @@
   > div {
     overflow: visible;
   }
-  thead {
-    text-transform: capitalize;
-  }
   th {
     vertical-align: bottom !important;
   }
@@ -39,10 +36,6 @@
 }
 input[type='checkbox'][disabled] {
   pointer-events: none;
-}
-
-.form-check-label {
-  text-transform: capitalize;
 }
 
 .hyphenate {
