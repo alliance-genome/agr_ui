@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import {findRange, checkSpace, calculateNewTrackPosition} from '../RenderFunctions';
 import {ApolloService} from '../services/ApolloService';
-import {renderTrackDescription} from "../services/TrackService";
+import {renderTrackDescription,getJBrowseLink} from "../services/TrackService";
 
 export default class IsoformTrack {
 
@@ -42,6 +42,8 @@ export default class IsoformTrack {
         let data = this.trackData;
         let viewer = this.viewer;
         let width = this.width;
+        let source = this.trackData[0].source;
+        let chr = this.trackData[0].seqId;
 
         // TODO: make configurable and a const / default
         let MAX_ROWS = 10;
@@ -300,6 +302,7 @@ export default class IsoformTrack {
                         }
                         if (row_count === MAX_ROWS) {
                             // *** DANGER EDGE CASE ***/
+                            let link = getJBrowseLink(source,chr,view_start,view_end);
                             ++current_row;
                             // let isoform = track.append("g").attr("class", "isoform")
                             //     .attr("transform", "translate(0," + ((row_count * isoform_height) + 10) + ")")
@@ -312,7 +315,7 @@ export default class IsoformTrack {
                                 .attr('fill', 'red')
                                 .attr('opacity', 1)
                                 .attr('height', isoform_title_height)
-                                .text('Maximum features displayed.  See full view for more.');
+                                .html(link);
                         }
                     }
                 });

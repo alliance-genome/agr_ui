@@ -12,7 +12,7 @@ import {
   getVariantTrackPositions,
   getVariantAlleles,
 } from "../services/VariantService";
-import {renderTrackDescription} from "../services/TrackService";
+import {renderTrackDescription,getJBrowseLink} from "../services/TrackService";
 // import {description} from "d3/dist/package";
 import {ApolloService} from "../services/ApolloService";
 let apolloService = new ApolloService();
@@ -45,9 +45,10 @@ export default class IsoformAndVariantTrack {
     let width = this.width;
     let showVariantLabel = this.showVariantLabel;
     let binRatio = this.binRatio;
-
     let distinctVariants= getVariantTrackPositions(variantData);
     let numVariantTracks=distinctVariants.length;
+    let source = this.trackData[0].source;
+    let chr = this.trackData[0].seqId;
 
 
     let UTR_feats = ["UTR", "five_prime_UTR", "three_prime_UTR"];
@@ -322,7 +323,8 @@ export default class IsoformAndVariantTrack {
             .attr('opacity', 0)
             .attr('height', ISOFORM_TITLE_HEIGHT)
             .attr("transform", "translate("+label_offset+","+label_height+")")
-            .html(symbol_string)
+            // if html, it cuts off the <sup> tag
+            .text(symbol_string)
             .on("click", d => {
               renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
             })
@@ -566,6 +568,7 @@ export default class IsoformAndVariantTrack {
             }
             if (row_count === MAX_ROWS && !warningRendered) {
               // *** DANGER EDGE CASE ***/
+              let link = getJBrowseLink(source, chr, viewStart,viewEnd);
               ++current_row;
               warningRendered = true ;
               // let isoform = track.append("g").attr("class", "isoform")
@@ -580,7 +583,7 @@ export default class IsoformAndVariantTrack {
                 .attr('fill', 'red')
                 .attr('opacity', 1)
                 .attr('height', ISOFORM_TITLE_HEIGHT)
-                .text('Maximum features displayed.  See full view for more.');
+                .html(link);
             }
           }
         });
