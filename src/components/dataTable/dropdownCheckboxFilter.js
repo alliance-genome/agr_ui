@@ -39,12 +39,13 @@ class DropdownCheckboxFilter extends React.Component {
   }
 
   render() {
+    const { labelClassName, options } = this.props;
     return (
       <Form onSubmit={this.handleClick}>
         <FormGroup>
-          {this.props.options.map(option => (
+          {options.map(option => (
             <FormGroup check key={option}>
-              <Label check>
+              <Label check className={labelClassName}>
                 <Input
                   checked={this.state.value.indexOf(option) > -1}
                   onChange={this.handleChange}
@@ -64,8 +65,8 @@ class DropdownCheckboxFilter extends React.Component {
 }
 
 DropdownCheckboxFilter.propTypes = {
-  column: PropTypes.object,
   defaultFilter: PropTypes.array,
+  labelClassName: PropTypes.object,
   onFilter: PropTypes.func,
   options: PropTypes.array,
 };
