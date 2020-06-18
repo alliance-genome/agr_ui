@@ -75,6 +75,7 @@ const GenePhysicalInteractionDetailTable = ({dispatchFetchInteractions, focusGen
       headerClasses: style.columnHeaderGroup2,
       classes: style.columnGroup2,
       filterable: getDistinctFieldValue(interactions, 'filter.interactorSpecies').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
+      filterLabelClassName: 'species-name',
     },
     {
       dataField: 'interactorMoleculeType',

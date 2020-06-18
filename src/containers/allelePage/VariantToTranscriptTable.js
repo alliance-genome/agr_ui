@@ -89,16 +89,21 @@ const VariantToTranscriptTable = ({variant}) => {
                 cdsEndPosition,
 
               }, index) => {
+                const transcriptLevelConsequenceTerms = transcriptLevelConsequence.split(',');
                 return (
                   <div className={`row ${styles.row}`} key={index}>
                     <div className='col'>
-                      <CollapsibleList collapsedSize={1}>
-                        {transcriptLevelConsequence.split(',')}
+                      <CollapsibleList collapsedSize={1} showBullets>
+                        {transcriptLevelConsequenceTerms.map(
+                          (consequence) => {
+                            return consequence.replace(/_/g, ' ');
+                          })
+                        }
                       </CollapsibleList>
                     </div>
                     <div className='col-9'>
                       {
-                        codonVariation ? (
+                        codonVariation && codonVariation.replace(/-/g, '') ? (
                           <div className="row flex-nowrap">
                             <div className='col'>
                               <Translation
