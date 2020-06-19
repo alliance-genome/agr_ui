@@ -171,8 +171,6 @@ class GeneOntologyRibbon extends Component {
       }
     }
 
-    console.log('group click: ', subject, group);
-
     this.setState({ selected : {
       subject : subject,
       group : group,
@@ -180,24 +178,44 @@ class GeneOntologyRibbon extends Component {
       loading : true
     }});
 
-    if(group) {
-      let groupids;
+    // if no group selected, no association to fetch
+    if(!group) { return ; } 
 
-      // other group
-      if(group.type == 'Other') {
-        let aspect = this.getCategory(group);
-        var terms = aspect.groups.filter(elt => {
-          return elt.type == 'Term';
+    // other group
+    if(group.type == 'Other') {
+      let aspect = this.getCategory(group);
+      let terms = aspect.groups.filter(elt => {
+        return elt.type == 'Term';
+      });
+      terms = terms.map(elt => { return elt.id; });
+
+      this.fetchAssociationData(subject.id, group.id)
+        .then(data_all => {
+
+          this.fetchAssociationData(subject.id, terms)
+            .then(data_terms => {
+
+              let concat_assocs = [];
+              for(let array of data_terms) {
+                concat_assocs = concat_assocs.concat(array.assocs);
+              }
+              
+              let other_assocs = this.diffAssociations(data_all[0].assocs, concat_assocs);
+              data_all[0].assocs = other_assocs;
+
+              let filtered = this.applyTableFilters(group, data_all);
+              this.setState({ selected : {
+                subject : subject,
+                group : group,
+                data : filtered, // assoc data from BioLink
+                loading : false
+              }});
+            });
         });
-        groupids = terms.map(elt => { return elt.id; });
-      
-      // regular group
-      } else {
-        groupids = group.id;
 
-      }
-
-      this.fetchAssociationData(subject.id, groupids)
+    // regular group
+    } else {
+      this.fetchAssociationData(subject.id, group.id)
         .then(data => {
           let filtered = this.applyTableFilters(group, data);
           this.setState({ selected : {
@@ -207,8 +225,8 @@ class GeneOntologyRibbon extends Component {
             loading : false
           }});
         });
-      
     }
+
   }
 
   handleOrthologyChange(selectedOrthologs) {
@@ -234,30 +252,7 @@ class GeneOntologyRibbon extends Component {
 
     this.setState({'onlyEXP' : event.target.checked}, () => {
       this.fetchSummaryData(this.state.subset, this.getGeneIdList()).then(data => {
-
         this.setState({ applyingFilters : false, loading : false, ribbon : data });
-
-        // // notify no more filters to apply and data ready
-        // this.setState({ applyingFilters : false, loading : false, ribbon : data }, () => {
-
-        //   // checking if a subject is selected AND we only want EXP annotations
-        //   if(this.state.selected.subject && this.state.selected.subject.groups[this.state.selected.group.id] && this.state.onlyEXP) {
-        //     let gp = this.state.selected.subject.groups[this.state.selected.group.id];
-        //     let keys = Object.keys(gp);
-        //     let hasEXP = false;
-        //     for(let key of keys) {
-        //       if(EXP_CODES.includes(key)) {
-        //         hasEXP = true;
-        //       }
-        //     }
-
-        //     // if no EXP annotations found, deselect
-        //     if(!hasEXP) {
-        //       // this.selectGroup(null, null);
-        //     }
-        //   }
-          
-        // });
         
       }).catch(() => {
         this.setState({ loading : false });
@@ -380,7 +375,8 @@ class GeneOntologyRibbon extends Component {
 
 
   // ===================================================================
-  //                      UTILITY FUNCTIONS
+  //                      UTILITY FUNCTIONS 
+  //            (ideally this belong to somewhere else)
   // ===================================================================
 
   /**
@@ -420,6 +416,36 @@ class GeneOntologyRibbon extends Component {
     return [this.props.geneId].concat(this.state.selectedOrthologs.map(getOrthologId));
   }
 
+  associationKey(assoc) {
+    if(assoc.qualifier) {
+      return assoc.subject.id + '@' + assoc.object.id + '@' + assoc.negated + '@' + assoc.qualifier.join('-');
+    }
+    return assoc.subject.id + '@' + assoc.object.id + '@' + assoc.negated;
+  }
+
+  fullAssociationKey(assoc) {
+    var key = this.associationKey(assoc) + '@' + assoc.evidence_type + '@' + assoc.provided_by + '@' + assoc.reference.join('#');
+    return key;
+  }
+
+  diffAssociations(assocs_all, assocs_exclude) {
+    var list = [];
+    for(let assoc of assocs_all) {
+      let found = false;
+      let key_all = this.fullAssociationKey(assoc);
+      for(let exclude of assocs_exclude) {
+        let key_exclude= this.fullAssociationKey(exclude);
+        if(key_all == key_exclude) {
+          found = true;
+          break;
+        }
+      }
+      if(!found) {
+        list.push(assoc);
+      }
+    }
+    return list;
+  }
 
 }
 
