@@ -607,19 +607,24 @@ export default class IsoformAndVariantTrack {
     if(variantFilter.length===0) return variantData ;
     try {
       return variantData.filter(v => {
+        let returnVal = false;
         try {
           if(variantFilter.indexOf(v.name) >= 0  ||
             (v.allele_symbols && v.allele_symbols.values &&  variantFilter.indexOf(v.allele_symbols.values[0].replace(/"/g, "")) >= 0) ||
-            (v.allele_ids && v.allele_ids.values &&  variantFilter.indexOf(v.allele_ids.values[0].replace(/"/g, "")) >= 0) ||
             (v.symbol && v.symbol.values &&  variantFilter.indexOf(v.symbol.values[0].replace(/"/g, "")) >= 0) ||
             (v.symbol_text && v.symbol_text.values &&  variantFilter.indexOf(v.symbol_text.values[0].replace(/"/g, "")) >= 0)
           )
-            {return true}
+            {returnVal = true}
+          let ids=v.allele_ids.values[0].replace(/"|\[|\]| /g, "").split(',');
+          ids.forEach(function(id){
+          if(variantFilter.indexOf(id) >= 0)
+            {returnVal = true}
+          })
         } catch (e) {
           console.error('error processing filter with so returning anyway',variantFilter,v,e)
-          return true
+          returnVal = true;
         }
-        return false
+        return returnVal;
       });
     } catch (e) {
       console.warn('problem filtering variant data',variantData,variantFilter,e);

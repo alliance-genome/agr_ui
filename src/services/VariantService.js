@@ -275,7 +275,7 @@ export function renderVariantDescription(description){
        change = ref_allele + '->' + alt_allele;
   }
   returnString += `<table class="tooltip-table"><tbody>`;
-  returnString += `<tr><th>Symbol</th><td>${description.symbol} (${description.allele_ids})</td></tr>`;
+  returnString += `<tr><th>Symbol</th><td>${description.symbolDetail}</td></tr>`;
   returnString += `<tr><th>Type</th><td>${description.type}</td></tr>`;
   returnString += `<tr><th>Consequence</th><td>${description.consequence}</td></tr>`;
   if(description.impact){
@@ -352,10 +352,9 @@ export function getConsequence(variant){
  * @returns {object}
  */
 export function getVariantDescription(variant){
-  const variantSymbol = getVariantSymbol(variant);
-  // let returnString = `${variantSymbol} ${variant.seqId}:${variant.fmin}..${variant.fmax}`;
   let returnObject = {} ;
-  returnObject.symbol=variantSymbol ;
+  returnObject.symbol= getVariantSymbol(variant) ;
+  returnObject.symbolDetail = getVariantSymbolDetail(variant) ;
   returnObject.location = `${variant.seqId}:${variant.fmin}..${variant.fmax}`;
   returnObject.consequence =  getConsequence(variant);
   returnObject.type =  variant.type;
@@ -365,8 +364,6 @@ export function getVariantDescription(variant){
 
   returnObject.geneId = variant.allele_of_gene_ids ? variant.allele_of_gene_ids.values[0].replace(/"/g,"") : undefined
   returnObject.geneSymbol  = variant.allele_of_gene_symbols ? variant.allele_of_gene_symbols.values[0].replace(/"/g,"") : undefined
-  // console.log('gene id',geneId,geneSymbol)
-  // returnString += `<tr><th>Allele of Genes</th><td>${description.allele_of_genes.length>descriptionWidth ? description.allele_of_genes.substr(0,descriptionWidth) : description.allele_of_genes}</td></tr>`;
 
 
   if(variant.allele_of_genes){
@@ -405,6 +402,46 @@ export function getVariantDescription(variant){
   return returnObject ;
 }
 
+export function getVariantSymbolDetail(variant){
+  if(variant.variants){
+    if(variant.variants.length!==1){
+      return variant.variants.length;
+    }
+    else{
+      return getVariantSymbolDetail(variant.variants[0]);
+    }
+  }
+  // note that using the html version of this gets swallowed in the text svg
+  if(variant.allele_symbols && variant.allele_symbols.values){
+
+    if(variant.allele_symbols.values[0].split(",").length>1){
+      try{
+        let text_array = [];
+        const clean_text = variant.allele_symbols.values[0].replace(/"|\[|\]/g,'')
+        const clean_ids = variant.allele_ids.values[0].replace(/"|\[|\]/g,'')
+        const clean_text_array = clean_text.split(",")
+        const clean_id_array = clean_ids.split(",")
+        for(let i in clean_text.split(",")){
+          const text = `${clean_text_array[i].trim()} (${clean_id_array[i].trim()})`
+          text_array.push(text)
+        }
+        return text_array.join(", ")
+      }
+      catch(e){
+        console.error(e)
+        return variant.allele_symbols.values[0].split(",").length
+      }
+    }
+    else{
+      const clean_text = variant.allele_symbols.values[0].replace(/"/g,"")
+      return clean_text + '(' +variant.allele_ids.values[0].replace(/"|\[|\]/g,'') +')'
+    }
+
+
+  }
+  return undefined
+}
+
 export function getVariantSymbol(variant){
   if(variant.variants){
     if(variant.variants.length!==1){
@@ -417,13 +454,10 @@ export function getVariantSymbol(variant){
   // note that using the html version of this gets swallowed in the text svg
   if(variant.allele_symbols_text && variant.allele_symbols_text.values){
     if(variant.allele_symbols_text.values[0].split(",").length>1){
-      let symbol = variant.allele_symbols_text.values[0].split(",").length;
-      return symbol;
+      return variant.allele_symbols_text.values[0].split(",").length;
     }
     else{
-      let symbol = variant.allele_symbols_text.values[0];
-      symbol = symbol.replace(/"/g,"")
-      return symbol;
+      return variant.allele_symbols_text.values[0].replace(/"/g,"");
     }
 
 
