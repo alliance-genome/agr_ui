@@ -29,7 +29,6 @@ class GeneOntologyRibbon extends Component {
     this.state = {
       applyingFilters : false,      // if ortholgs are loading or any other filtering is happening
       loading : true,               // if ribbon strips loading
-      noData : false,
       subjectBaseURL : '/gene/',
       stringency: STRINGENCY_HIGH,
       selectedOrthologs: [],
@@ -163,7 +162,7 @@ class GeneOntologyRibbon extends Component {
   }
 
   selectGroup(subject, group) {
-    if(this.state.selected.group) {
+    if(this.state.selected.group && group) {
       var sameGroupID = group.id == this.state.selected.group.id;
       var sameGroupType = group.type == this.state.selected.group.type;
       var sameSubject = subject.id == this.state.selected.subject.id;
@@ -200,10 +199,7 @@ class GeneOntologyRibbon extends Component {
 
       this.fetchAssociationData(subject.id, groupids)
         .then(data => {
-          console.log('data: ', data);
           let filtered = this.applyTableFilters(group, data);
-          console.log('filtered data: ', filtered);
-
           this.setState({ selected : {
             subject : subject,
             group : group,
@@ -219,74 +215,52 @@ class GeneOntologyRibbon extends Component {
     this.setState({ 'applyingFilters' : true });
     this.setState({selectedOrthologs}, () => {
       this.fetchSummaryData(this.state.subset, this.getGeneIdList()).then(data => {
-        var oldSubs = [];
-        if(this.state.ribbon) {
-          oldSubs = this.state.ribbon.subjects;
-        }
-        for(var sub of data.subjects) {
-          oldSubs.push(sub);
-        }
 
-        var subject = null, group = null;
-        if(this.state.selected) {
-          subject = this.state.selected.subject;
-          group = this.state.selected.group;
-        }
-
-        // this.setState({ loadingOrthologs : false, ribbon : data, subjects : oldSubs}, () => {
-        //   if(subject && group) {
-        //     this.selectGroup(subject, group);
-        //   }
-        // });
-
-
-        this.setState({ applyingFilters: false, loading : false, ribbon : data, subjects : oldSubs, 
-          selected : {
-            subject : null,
-            group : null,
-            data : null,
-            loading :  false
-          }
-        }, () => {
-          if(subject && group) {
-            this.selectGroup(subject, group);
-          }
+        // notify no more filters to apply and data ready
+        this.setState({ applyingFilters : false, loading : false, ribbon : data }, () => {
+          if(this.state.selected.subject && !this.state.ribbon.subjects.some(sub => sub.id == this.state.selected.subject.id)) {
+            this.selectGroup(null, null);
+          }            
         });
+
       }).catch(() => {
-        this.setState({ noData: true, loading : false });
+        this.setState({ loading : false });
       });
     });
   }
   
-  showExperimentalAnnotations(event) {
+  handleExpAnnotations(event) {
     this.setState({ 'applyingFilters' : true });
 
     this.setState({'onlyEXP' : event.target.checked}, () => {
       this.fetchSummaryData(this.state.subset, this.getGeneIdList()).then(data => {
-        var oldSubs = [];
-        if(this.state.ribbon) {
-          oldSubs = this.state.ribbon.subjects;
-        }
-        for(var sub of data.subjects) {
-          oldSubs.push(sub);
-        }
-        const subject = this.state.selected.subject;
-        const group = this.state.selected.group;
-        this.setState({ applyingFilters: false, loading : false, ribbon : data, subjects : oldSubs,
-          selected : {
-            subject : null,
-            group : null,
-            data : null,
-            loading : false
-          }
-        } , () => {
-          // not necessary anymore since exp codes filtered by ribbon table
-          if(subject && group) {
-            this.selectGroup(subject, group);
-          }
-        });
+
+        this.setState({ applyingFilters : false, loading : false, ribbon : data });
+
+        // // notify no more filters to apply and data ready
+        // this.setState({ applyingFilters : false, loading : false, ribbon : data }, () => {
+
+        //   // checking if a subject is selected AND we only want EXP annotations
+        //   if(this.state.selected.subject && this.state.selected.subject.groups[this.state.selected.group.id] && this.state.onlyEXP) {
+        //     let gp = this.state.selected.subject.groups[this.state.selected.group.id];
+        //     let keys = Object.keys(gp);
+        //     let hasEXP = false;
+        //     for(let key of keys) {
+        //       if(EXP_CODES.includes(key)) {
+        //         hasEXP = true;
+        //       }
+        //     }
+
+        //     // if no EXP annotations found, deselect
+        //     if(!hasEXP) {
+        //       // this.selectGroup(null, null);
+        //     }
+        //   }
+          
+        // });
+        
       }).catch(() => {
-        this.setState({ noData: true, loading : false });
+        this.setState({ loading : false });
       });
 
     });
@@ -324,7 +298,6 @@ class GeneOntologyRibbon extends Component {
           </HelpPopup>
         </span>
 
-
         <OrthologPicker
           defaultStringency={STRINGENCY_HIGH}
           enabled={false}
@@ -340,7 +313,7 @@ class GeneOntologyRibbon extends Component {
             <input
               checked={this.state.onlyEXP}
               className='form-check-input'
-              onChange={this.showExperimentalAnnotations.bind(this)}
+              onChange={this.handleExpAnnotations.bind(this)}
               title='When showing the GO functions for multiple orthologs, we recommend switching this on as a number of GO functions are inferred through phylogeny (see PAINT tool)'
               type='checkbox'
             />
@@ -381,16 +354,29 @@ class GeneOntologyRibbon extends Component {
   }
 
   renderRibbonTable() {
+    if(this.state.selected.subject && this.state.selected.subject.groups[this.state.selected.group.id] && this.state.onlyEXP) {
+      let gp = this.state.selected.subject.groups[this.state.selected.group.id];
+      let keys = Object.keys(gp);
+      let hasEXP = false;
+      for(let key of keys) {
+        if(EXP_CODES.includes(key)) {
+          hasEXP = true;
+        }
+      }    
+      if(!hasEXP) { return ''; }
+    }
+      
     return(
       <wc-ribbon-table
         bio-link-data={JSON.stringify(this.state.selected.data)} 
         filter-by={this.state.onlyEXP ? 'evidence:' + EXP_CODES.join(',') : ''} 
         group-by='term' 
-        hide-columns={'qualifier,gene' + (this.state.selected.group.id != 'all' ? ',aspect' : '')}
+        hide-columns={'qualifier,' + (this.state.selectedOrthologs.length == 0 ? 'gene,' : '') + (this.state.selected.group.id != 'all' ? ',aspect' : '')}
         order-by='term' 
       />
     );   
   }
+
 
 
   // ===================================================================
@@ -418,8 +404,6 @@ class GeneOntologyRibbon extends Component {
     });
     return cat.length > 0 ? [ cat[0].id, cat[0].label ] : undefined;
   }
-
-
 
   /**
    * Check if a HTML element has a parent with provided id
