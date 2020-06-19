@@ -249,9 +249,24 @@ class GeneOntologyRibbon extends Component {
   
   handleExpAnnotations(event) {
     this.setState({ 'applyingFilters' : true });
-
     this.setState({'onlyEXP' : event.target.checked}, () => {
       this.fetchSummaryData(this.state.subset, this.getGeneIdList()).then(data => {
+
+        // Fix AGR-2000: always show the focus gene even if no annotation
+        let hasFocusGene = data.subjects.some(sub => sub.id == this.props.geneId);
+        if(!hasFocusGene) {
+          data.subjects = [
+            {
+              id: this.props.geneId,
+              label: this.props.orthology.data[0].gene.symbol,
+              nb_annotations : 0,
+              nb_classes : 0,
+              taxon_id : this.props.geneTaxon,
+              taxon_label : this.props.orthology.data[0].gene.species.name,
+              groups: {}
+            }, ...data.subjects
+          ];
+        }
         this.setState({ applyingFilters : false, loading : false, ribbon : data });
         
       }).catch(() => {
@@ -432,7 +447,7 @@ class GeneOntologyRibbon extends Component {
       />
     );   
   }
-  
+
   render() {
     return (
       <div>
