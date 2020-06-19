@@ -264,22 +264,83 @@ class GeneOntologyRibbon extends Component {
 
 
   // ===================================================================
-  //                            RENDERING
+  //                      UTILITY FUNCTIONS 
+  //            (ideally this belong to somewhere else)
   // ===================================================================
 
-  render() {
-    return (
-      <div>
-
-        { this.renderControls() }
-
-        { this.state.loading ? <LoadingSpinner/> : this.renderRibbonStrips() }
-
-        { this.state.selected.group ? this.state.selected.loading ? <LoadingSpinner/> : this.renderRibbonTable() : '' }
-
-      </div>
-    );
+  /**
+   * Return the category object for a given group
+   * @param {*} group group object (eg ontology term)
+   */
+  getCategory(group) {
+    let cat = this.state.ribbon.categories.filter(cat => {
+      return cat.groups.some(gp => gp.id == group.id);
+    });
+    return cat.length > 0 ? cat[0] : undefined;
   }
+
+  /**
+   * Return the category [id, label] for a given group
+   * @param {*} group group object (eg ontology term)
+   */
+  getCategoryIdLabel(group) {
+    let cat = this.state.ribbon.categories.filter(cat => {
+      return cat.groups.some(gp => gp.id == group.id);
+    });
+    return cat.length > 0 ? [ cat[0].id, cat[0].label ] : undefined;
+  }
+
+  /**
+   * Check if a HTML element has a parent with provided id
+   * @param {} elt HTML element to check
+   * @param {*} id id to look in the parents of provided element
+   */
+  hasParentElementId(elt, id) {
+    if(elt.id == id) { return true; }
+    if(!elt.parentElement) { return false; }
+    return this.hasParentElementId(elt.parentElement, id);
+  }
+
+  getGeneIdList() {
+    return [this.props.geneId].concat(this.state.selectedOrthologs.map(getOrthologId));
+  }
+
+  associationKey(assoc) {
+    if(assoc.qualifier) {
+      return assoc.subject.id + '@' + assoc.object.id + '@' + assoc.negated + '@' + assoc.qualifier.join('-');
+    }
+    return assoc.subject.id + '@' + assoc.object.id + '@' + assoc.negated;
+  }
+
+  fullAssociationKey(assoc) {
+    var key = this.associationKey(assoc) + '@' + assoc.evidence_type + '@' + assoc.provided_by + '@' + assoc.reference.join('#');
+    return key;
+  }
+
+  diffAssociations(assocs_all, assocs_exclude) {
+    var list = [];
+    for(let assoc of assocs_all) {
+      let found = false;
+      let key_all = this.fullAssociationKey(assoc);
+      for(let exclude of assocs_exclude) {
+        let key_exclude= this.fullAssociationKey(exclude);
+        if(key_all == key_exclude) {
+          found = true;
+          break;
+        }
+      }
+      if(!found) {
+        list.push(assoc);
+      }
+    }
+    return list;
+  }
+  
+
+
+  // ===================================================================
+  //                            RENDERING
+  // ===================================================================
 
   renderControls() {
     const { geneTaxon, orthology } = this.props;
@@ -371,80 +432,19 @@ class GeneOntologyRibbon extends Component {
       />
     );   
   }
+  
+  render() {
+    return (
+      <div>
 
+        { this.renderControls() }
 
+        { this.state.loading ? <LoadingSpinner/> : this.renderRibbonStrips() }
 
-  // ===================================================================
-  //                      UTILITY FUNCTIONS 
-  //            (ideally this belong to somewhere else)
-  // ===================================================================
+        { this.state.selected.group ? this.state.selected.loading ? <LoadingSpinner/> : this.renderRibbonTable() : '' }
 
-  /**
-   * Return the category object for a given group
-   * @param {*} group group object (eg ontology term)
-   */
-  getCategory(group) {
-    let cat = this.state.ribbon.categories.filter(cat => {
-      return cat.groups.some(gp => gp.id == group.id);
-    });
-    return cat.length > 0 ? cat[0] : undefined;
-  }
-
-  /**
-   * Return the category [id, label] for a given group
-   * @param {*} group group object (eg ontology term)
-   */
-  getCategoryIdLabel(group) {
-    let cat = this.state.ribbon.categories.filter(cat => {
-      return cat.groups.some(gp => gp.id == group.id);
-    });
-    return cat.length > 0 ? [ cat[0].id, cat[0].label ] : undefined;
-  }
-
-  /**
-   * Check if a HTML element has a parent with provided id
-   * @param {} elt HTML element to check
-   * @param {*} id id to look in the parents of provided element
-   */
-  hasParentElementId(elt, id) {
-    if(elt.id == id) { return true; }
-    if(!elt.parentElement) { return false; }
-    return this.hasParentElementId(elt.parentElement, id);
-  }
-
-  getGeneIdList() {
-    return [this.props.geneId].concat(this.state.selectedOrthologs.map(getOrthologId));
-  }
-
-  associationKey(assoc) {
-    if(assoc.qualifier) {
-      return assoc.subject.id + '@' + assoc.object.id + '@' + assoc.negated + '@' + assoc.qualifier.join('-');
-    }
-    return assoc.subject.id + '@' + assoc.object.id + '@' + assoc.negated;
-  }
-
-  fullAssociationKey(assoc) {
-    var key = this.associationKey(assoc) + '@' + assoc.evidence_type + '@' + assoc.provided_by + '@' + assoc.reference.join('#');
-    return key;
-  }
-
-  diffAssociations(assocs_all, assocs_exclude) {
-    var list = [];
-    for(let assoc of assocs_all) {
-      let found = false;
-      let key_all = this.fullAssociationKey(assoc);
-      for(let exclude of assocs_exclude) {
-        let key_exclude= this.fullAssociationKey(exclude);
-        if(key_all == key_exclude) {
-          found = true;
-          break;
-        }
-      }
-      if(!found) {
-        list.push(assoc);
-      }
-    }
-    return list;
+      </div>
+    );
   }
 
 }
