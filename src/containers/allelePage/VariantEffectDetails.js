@@ -45,7 +45,13 @@ const VariantEffectDetails = ({
 
   const labelStyle = {textTransform: 'initial'};
 
-  const hgvsNames = [hgvsProteinNomenclature, hgvsCodingNomenclature, hgvsVEPGeneNomenclature].filter(hgvsName => hgvsName);
+  const hgvsNames = [
+    hgvsProteinNomenclature,
+    hgvsCodingNomenclature,
+    hgvsVEPGeneNomenclature,
+    variant.id,
+    variant.name,
+  ].filter(hgvsName => hgvsName);
 
   return (<div className={`${styles.row} ${styles.detailRow}`}>
     <h5>Predicted effect of{' '}
@@ -176,6 +182,7 @@ VariantEffectDetails.propTypes = {
   }),
   variant: PropTypes.shape({
     id: PropTypes.string,
+    name: PropTypes.name,
     type: PropTypes.shape({
       name: PropTypes.string,
     }),
