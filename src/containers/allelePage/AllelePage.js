@@ -102,7 +102,7 @@ const AllelePage = (props) => {
         </Subsection>
 
         <Subsection help={<MolecularConsequenceHelp />} title={MOLECULAR_CONSEQUENCE}>
-          <AlleleMolecularConsequences alleleId={alleleId} />
+          <AlleleMolecularConsequences allele={data} alleleId={alleleId} />
         </Subsection>
 
         <Subsection title={PHENOTYPES}>
