@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
   AttributeLabel,
@@ -17,12 +17,26 @@ import style from './style.scss';
 
 const AlleleMolecularConsequences = ({
   alleleId,
+  allele,
 }) => {
-  const { data: variants = [], loading, fetchData } = useAlleleVariant(alleleId);
+  const { data: variantsRaw = [], loading, fetchData } = useAlleleVariant(alleleId);
 
   useEffect(() => {
     fetchData({page: 1, limit: 1000});
   }, [alleleId]);
+
+  // annotate variants with location and species information from the allele
+  const variants = useMemo(() => {
+    const gene = allele.gene || {};
+    const { genomeLocations: geneLocations } = gene;
+    const [geneLocation] = geneLocations || [];
+
+    return variantsRaw.map((variant) => ({
+      ...variant,
+      geneLocation,
+      species: allele.species
+    }));
+  }, [variantsRaw, allele]);
 
   if (loading) {
     return <LoadingSpinner loading={loading} />;
@@ -64,6 +78,12 @@ const AlleleMolecularConsequences = ({
 };
 
 AlleleMolecularConsequences.propTypes = {
+  allele: PropTypes.shape({
+    gene: PropTypes.object,
+    species: PropTypes.shape({
+      name: PropTypes.string,
+    }),
+  }),
   alleleId: PropTypes.string,
 };
 
