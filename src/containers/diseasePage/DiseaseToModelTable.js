@@ -60,6 +60,7 @@ const DiseaseToModelTable = ({associations, fetchAssociations, id}) => {
       formatter: EvidenceCodesCell,
       headerStyle: {width: '100px'},
       filterable: true,
+      filterName: 'evidenceCode',
     },
     {
       dataField: 'source',
