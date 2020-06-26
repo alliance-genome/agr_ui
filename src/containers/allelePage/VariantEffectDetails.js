@@ -57,7 +57,7 @@ const VariantEffectDetails = ({
     <h5>Predicted effect of{' '}
       <VariantJBrowseLink
         geneLocation={variant.geneLocation}
-        location={location}
+        location={variant.location}
         species={variant.species && variant.species.name}
         type={variant.type && variant.type.name}
       >
