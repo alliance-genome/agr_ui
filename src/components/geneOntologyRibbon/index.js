@@ -33,6 +33,7 @@ class GeneOntologyRibbon extends Component {
       stringency: STRINGENCY_HIGH,
       selectedOrthologs: [],
       crossAspect : false,
+      filterReference : true,
       excludePB : true,
       excludeIBA : true,
       onlyEXP : false,
@@ -131,7 +132,14 @@ class GeneOntologyRibbon extends Component {
           return aspect == undefined || cat == aspect[1];              
         });
       }
+      if(this.state.filterReference) {
+        filtered[sub].assocs = filtered[sub].assocs.filter(assoc => {
+          assoc.reference = assoc.reference.filter(ref => ref.includes('PMID:') || ref.includes('DOI:') || ref.includes('GO_REF:') || ref.includes('Reactome:'));
+          return assoc;
+        });
+      }
     }
+    console.log(filtered);
     return filtered;
   }
 
