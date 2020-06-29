@@ -166,24 +166,21 @@ class DiseaseComparisonRibbon extends Component {
 
         <HorizontalScroll>
           <div className='text-nowrap'>
-            {
-              summary.loading ? <LoadingSpinner /> :
-                <wc-ribbon-strips 
-                  category-all-style='1'
-                  color-by='0'
-                  data={JSON.stringify(summary.data)}
-                  fire-event-on-empty-cells={false}
-                  group-clickable={false}
-                  group-open-new-tab={false}
-                  id='disease-ribbon'
-                  new-tab={false}
-                  selected='all'
-                  selection-mode='1'
-                  subject-base-url='/gene/'
-                  subject-open-new-tab={false}
-                  subject-position='1'
-                />
-            }
+            <wc-ribbon-strips
+              category-all-style='1'
+              color-by='0'
+              data={JSON.stringify(summary.data)}
+              fire-event-on-empty-cells={false}
+              group-clickable={false}
+              group-open-new-tab={false}
+              id='disease-ribbon'
+              new-tab={false}
+              selected='all'
+              selection-mode='1'
+              subject-base-url='/gene/'
+              subject-open-new-tab={false}
+              subject-position='1'
+            />
           </div>
           <div>{summary.loading && <LoadingSpinner />}</div>
           <div className='text-muted mt-2'>
