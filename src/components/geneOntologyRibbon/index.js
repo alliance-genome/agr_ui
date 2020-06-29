@@ -54,7 +54,7 @@ class GeneOntologyRibbon extends Component {
 
   componentDidMount() {
     document.addEventListener('cellClick', this.onGroupClicked);
-    document.addEventListener('subjectClick', this.onSubjectClicked);    
+    document.addEventListener('subjectClick', this.onSubjectClicked);
   }
 
 
@@ -129,7 +129,7 @@ class GeneOntologyRibbon extends Component {
         let aspect = this.getCategoryIdLabel(group);
         filtered[sub].assocs = filtered[sub].assocs.filter(assoc => {
           let cat = assoc.object.category[0] == 'molecular_activity' ? 'molecular_function' : assoc.object.category[0];
-          return aspect == undefined || cat == aspect[1];              
+          return aspect == undefined || cat == aspect[1];
         });
       }
       if(this.state.filterReference) {
@@ -139,7 +139,6 @@ class GeneOntologyRibbon extends Component {
         });
       }
     }
-    console.log(filtered);
     return filtered;
   }
 
@@ -148,7 +147,7 @@ class GeneOntologyRibbon extends Component {
   // ===================================================================
   //                          EVENTS HANDLER
   // ===================================================================
-  
+
   onSubjectClicked(e) {
     // to ensure we are only considering events coming from the disease ribbon
     if(this.hasParentElementId(e.target, 'go-ribbon')) {
@@ -187,7 +186,7 @@ class GeneOntologyRibbon extends Component {
     }});
 
     // if no group selected, no association to fetch
-    if(!group) { return ; } 
+    if(!group) { return ; }
 
     // other group
     if(group.type == 'Other') {
@@ -207,7 +206,7 @@ class GeneOntologyRibbon extends Component {
               for(let array of data_terms) {
                 concat_assocs = concat_assocs.concat(array.assocs);
               }
-              
+
               let other_assocs = this.diffAssociations(data_all[0].assocs, concat_assocs);
               data_all[0].assocs = other_assocs;
 
@@ -246,7 +245,7 @@ class GeneOntologyRibbon extends Component {
         this.setState({ applyingFilters : false, loading : false, ribbon : data }, () => {
           if(this.state.selected.subject && !this.state.ribbon.subjects.some(sub => sub.id == this.state.selected.subject.id)) {
             this.selectGroup(null, null);
-          }            
+          }
         });
 
       }).catch(() => {
@@ -254,7 +253,7 @@ class GeneOntologyRibbon extends Component {
       });
     });
   }
-  
+
   handleExpAnnotations(event) {
     this.setState({ 'applyingFilters' : true });
     this.setState({'onlyEXP' : event.target.checked}, () => {
@@ -276,7 +275,7 @@ class GeneOntologyRibbon extends Component {
           ];
         }
         this.setState({ applyingFilters : false, loading : false, ribbon : data });
-        
+
       }).catch(() => {
         this.setState({ loading : false });
       });
@@ -287,7 +286,7 @@ class GeneOntologyRibbon extends Component {
 
 
   // ===================================================================
-  //                      UTILITY FUNCTIONS 
+  //                      UTILITY FUNCTIONS
   //            (ideally this belong to somewhere else)
   // ===================================================================
 
@@ -358,7 +357,7 @@ class GeneOntologyRibbon extends Component {
     }
     return list;
   }
-  
+
 
 
   // ===================================================================
@@ -410,7 +409,7 @@ class GeneOntologyRibbon extends Component {
   renderRibbonStrips() {
     return(
       <HorizontalScroll className='text-nowrap'>
-        <wc-ribbon-strips 
+        <wc-ribbon-strips
           category-all-style='1'
           color-by='0'
           data={JSON.stringify(this.state.ribbon)}
@@ -441,19 +440,19 @@ class GeneOntologyRibbon extends Component {
         if(EXP_CODES.includes(key)) {
           hasEXP = true;
         }
-      }    
+      }
       if(!hasEXP) { return ''; }
     }
-      
+
     return(
       <wc-ribbon-table
-        bio-link-data={JSON.stringify(this.state.selected.data)} 
-        filter-by={this.state.onlyEXP ? 'evidence:' + EXP_CODES.join(',') : ''} 
-        group-by='term' 
+        bio-link-data={JSON.stringify(this.state.selected.data)}
+        filter-by={this.state.onlyEXP ? 'evidence:' + EXP_CODES.join(',') : ''}
+        group-by='term'
         hide-columns={'qualifier,' + (this.state.selectedOrthologs.length == 0 ? 'gene,' : '') + (this.state.selected.group.id != 'all' ? ',aspect' : '')}
-        order-by='term' 
+        order-by='term'
       />
-    );   
+    );
   }
 
   render() {
