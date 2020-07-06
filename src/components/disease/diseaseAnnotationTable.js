@@ -58,6 +58,7 @@ class DiseaseAnnotationTable extends Component {
         dataField: 'species',
         text: 'Species',
         filterable: getDistinctFieldValue(annotations, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
+        filterLabelClassName: 'species-name',
         headerStyle: {width: '100px'},
         formatter: species => <SpeciesCell species={species} />,
         hidden: genes.length < 2
