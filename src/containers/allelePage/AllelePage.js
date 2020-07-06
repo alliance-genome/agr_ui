@@ -32,6 +32,7 @@ import AlleleToVariantTable from './AlleleToVariantTable';
 import AlleleSequenceView from './AlleleSequenceView';
 import AlleleTransgenicConstructs from './AlleleTransgenicConstructs';
 import AlleleMolecularConsequences from './AlleleMolecularConsequences';
+import MolecularConsequenceHelp from './MolecularConsequenceHelp';
 
 const SUMMARY = 'Summary';
 const PHENOTYPES = 'Phenotypes';
@@ -100,8 +101,8 @@ const AllelePage = (props) => {
           </ErrorBoundary>
         </Subsection>
 
-        <Subsection title={MOLECULAR_CONSEQUENCE}>
-          <AlleleMolecularConsequences alleleId={alleleId} />
+        <Subsection help={<MolecularConsequenceHelp />} title={MOLECULAR_CONSEQUENCE}>
+          <AlleleMolecularConsequences allele={data} alleleId={alleleId} />
         </Subsection>
 
         <Subsection title={PHENOTYPES}>

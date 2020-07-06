@@ -45,13 +45,19 @@ const VariantEffectDetails = ({
 
   const labelStyle = {textTransform: 'initial'};
 
-  const hgvsNames = [hgvsProteinNomenclature, hgvsCodingNomenclature, hgvsVEPGeneNomenclature].filter(hgvsName => hgvsName);
+  const hgvsNames = [
+    hgvsProteinNomenclature,
+    hgvsCodingNomenclature,
+    hgvsVEPGeneNomenclature,
+    variant.id,
+    variant.name,
+  ].filter(hgvsName => hgvsName);
 
   return (<div className={`${styles.row} ${styles.detailRow}`}>
     <h5>Predicted effect of{' '}
       <VariantJBrowseLink
         geneLocation={variant.geneLocation}
-        location={location}
+        location={variant.location}
         species={variant.species && variant.species.name}
         type={variant.type && variant.type.name}
       >
@@ -105,7 +111,7 @@ const VariantEffectDetails = ({
       <AttributeLabel style={labelStyle}>Protein Change</AttributeLabel>
       <AttributeValue>
         {
-          codonVariation ? (
+          codonVariation && codonVariation.replace(/-/g, '') ? (
             <div className="row container flex-nowrap">
               <div className='col'>
                 <Translation
@@ -176,6 +182,7 @@ VariantEffectDetails.propTypes = {
   }),
   variant: PropTypes.shape({
     id: PropTypes.string,
+    name: PropTypes.name,
     type: PropTypes.shape({
       name: PropTypes.string,
     }),

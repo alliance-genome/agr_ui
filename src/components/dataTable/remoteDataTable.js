@@ -126,8 +126,8 @@ class RemoteDataTable extends Component {
         if (Array.isArray(column.filterable)) {
           column.filterRenderer = (onFilter, column) => (
             <DropdownCheckboxFilter
-              column={column}
               defaultFilter={columnFilter}
+              labelClassName={column.filterLabelClassName}
               onFilter={onFilter}
               options={column.filterable}
             />

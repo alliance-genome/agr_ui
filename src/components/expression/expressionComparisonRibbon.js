@@ -169,27 +169,24 @@ class ExpressionComparisonRibbon extends React.Component {
 
         <HorizontalScroll>
           <div className='text-nowrap'>
-            {
-              summary.loading ? <LoadingSpinner /> :
-                <wc-ribbon-strips 
-                  category-all-style='1'
-                  color-by='0'
-                  data={JSON.stringify(updatedSummary)}
-                  fire-event-on-empty-cells={false}
-                  group-clickable={false}
-                  group-open-new-tab={false}
-                  id='expression-ribbon'
-                  new-tab={false}
-                  selection-mode='1'
-                  subject-base-url='/gene/'
-                  subject-open-new-tab={false}
-                  subject-position='1'
-                />
-            }
+            <wc-ribbon-strips
+              category-all-style='1'
+              color-by='0'
+              data={JSON.stringify(updatedSummary)}
+              fire-event-on-empty-cells={false}
+              group-clickable={false}
+              group-open-new-tab={false}
+              id='expression-ribbon'
+              new-tab={false}
+              selection-mode='1'
+              subject-base-url='/gene/'
+              subject-open-new-tab={false}
+              subject-position='1'
+            />
           </div>
           <div>{summary.loading && <LoadingSpinner />}</div>
           <div className='text-muted mt-2'>
-            <i>Cell color indicative of annotation volume</i>
+            <i>Cell color indicative of annotation volume; red slash indicates species lacks anatomical structure.</i>
           </div>
         </HorizontalScroll>
 

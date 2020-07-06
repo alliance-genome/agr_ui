@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 // import { selectVariants } from '../../selectors/alleleSelectors';
 // import { fetchAlleleVariants } from '../../actions/alleleActions';
@@ -13,10 +13,6 @@ import styles from './style.scss';
 const VariantToTranscriptTable = ({variant}) => {
   const {id: variantId} = variant;
   const { data = [], loading, total, error, fetchData} = useVariantTranscripts(variantId); //useFetchData(`/api/variant/${variantId}/transcripts`);
-
-  useEffect(() => {
-    fetchData({page: 1, limit: 1000});
-  }, [variantId]);
 
   if (error) {
     throw error;
@@ -89,16 +85,21 @@ const VariantToTranscriptTable = ({variant}) => {
                 cdsEndPosition,
 
               }, index) => {
+                const transcriptLevelConsequenceTerms = transcriptLevelConsequence.split(',');
                 return (
                   <div className={`row ${styles.row}`} key={index}>
                     <div className='col'>
-                      <CollapsibleList collapsedSize={1}>
-                        {transcriptLevelConsequence.split(',')}
+                      <CollapsibleList collapsedSize={1} showBullets>
+                        {transcriptLevelConsequenceTerms.map(
+                          (consequence) => {
+                            return consequence.replace(/_/g, ' ');
+                          })
+                        }
                       </CollapsibleList>
                     </div>
                     <div className='col-9'>
                       {
-                        codonVariation ? (
+                        codonVariation && codonVariation.replace(/-/g, '') ? (
                           <div className="row flex-nowrap">
                             <div className='col'>
                               <Translation

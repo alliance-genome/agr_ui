@@ -12,7 +12,10 @@ const TranslationRow = ({
   cdsStartPosition,
   cdsEndPosition,
 
-  isReference = false
+  isReference = false,
+
+  isPositionStartShown = true,
+  isPositionEndShown = true,
 }) => {
   const [lastAminoAcid] = aminoAcidsRaw.slice(-1);
   const isFrameshift = lastAminoAcid === 'X';
@@ -23,7 +26,7 @@ const TranslationRow = ({
         {
           isReference && codons.length ?
             <td className={translationStyles.position}>
-              {cdsStartPosition ? cdsStartPosition : 'N/A'}
+              {isPositionStartShown ? cdsStartPosition ? cdsStartPosition : 'N/A' : null}
             </td> :
             null
         }
@@ -35,7 +38,7 @@ const TranslationRow = ({
         {
           isReference && codons.length ?
             <td className={translationStyles.position}>
-              {cdsEndPosition ? cdsEndPosition : 'N/A'}
+              {isPositionEndShown ? cdsEndPosition ? cdsEndPosition : 'N/A' : null}
             </td> :
             null
         }
@@ -44,7 +47,11 @@ const TranslationRow = ({
         {
           isReference && aminoAcids.length ?
             <td className={translationStyles.position}>
-              [{proteinStartPosition ? proteinStartPosition : 'N/A'}]
+              {
+                isPositionStartShown ?
+                  proteinStartPosition ? `[${proteinStartPosition}]` : 'N/A' :
+                  null
+              }
             </td> :
             null
         }
@@ -55,9 +62,11 @@ const TranslationRow = ({
           {isFrameshift ? <span className="badge badge-secondary">frameshift</span> : null}
         </td>
         {
-          isReference && aminoAcids.length ?
+          isReference && aminoAcids.length && isPositionEndShown ?
             <td className={translationStyles.position}>
-              [{proteinEndPosition ? proteinEndPosition : 'N/A'}]
+              {
+                isPositionEndShown ? proteinEndPosition ? `[${proteinEndPosition}]` : 'N/A' : null
+              }
             </td> :
             null
         }
@@ -71,6 +80,8 @@ TranslationRow.propTypes = {
   cdsEndPosition: PropTypes.any,
   cdsStartPosition: PropTypes.any,
   codons: PropTypes.arrayOf(PropTypes.string),
+  isPositionEndShown: PropTypes.bool,
+  isPositionStartShown: PropTypes.bool,
   isReference: PropTypes.bool,
   proteinEndPosition: PropTypes.any,
   proteinStartPosition: PropTypes.any,
@@ -105,18 +116,15 @@ const Translation = ({
   const cdsStartPosition = parseInt(cdsStartPositionRaw) - countCdsStartPositionPadded;
 
   const rows = [];
-  for (let aminoAcidOffset = 0; aminoAcidOffset < codons.length; aminoAcidOffset = aminoAcidOffset + maxAminoAcidsPerRow) {
-    const row = (
-      <TranslationRow
-        {...translationRowProps}
-        aminoAcids={aminoAcids.slice(aminoAcidOffset, aminoAcidOffset + maxAminoAcidsPerRow)}
-        cdsEndPosition={Math.min(parseInt(cdsStartPosition) + (aminoAcidOffset + maxAminoAcidsPerRow) * 3 - 1, parseInt(cdsEndPosition))}
-        cdsStartPosition={parseInt(cdsStartPosition) + aminoAcidOffset * 3}
-        codons={codons.slice(aminoAcidOffset * 3, (aminoAcidOffset + maxAminoAcidsPerRow) * 3)}
-        proteinEndPosition={Math.min(parseInt(proteinStartPosition) + aminoAcidOffset + maxAminoAcidsPerRow - 1, parseInt(proteinEndPosition))}
-        proteinStartPosition={parseInt(proteinStartPosition) + aminoAcidOffset}
-      />
-    );
+  for (let aminoAcidOffset = 0; aminoAcidOffset < aminoAcids.length; aminoAcidOffset = aminoAcidOffset + maxAminoAcidsPerRow) {
+    const row = {
+      aminoAcids: aminoAcids.slice(aminoAcidOffset, aminoAcidOffset + maxAminoAcidsPerRow),
+      cdsEndPosition: Math.min(parseInt(cdsStartPosition) + (aminoAcidOffset + maxAminoAcidsPerRow) * 3 - 1, parseInt(cdsEndPosition)),
+      cdsStartPosition: parseInt(cdsStartPosition) + aminoAcidOffset * 3,
+      codons: codons.slice(aminoAcidOffset * 3, (aminoAcidOffset + maxAminoAcidsPerRow) * 3),
+      proteinEndPosition: Math.min(parseInt(proteinStartPosition) + aminoAcidOffset + maxAminoAcidsPerRow - 1, parseInt(proteinEndPosition)),
+      proteinStartPosition: parseInt(proteinStartPosition) + aminoAcidOffset,
+    };
     rows.push(row);
   }
   return (
@@ -129,7 +137,20 @@ const Translation = ({
           </tr> :
           null
       }
-      {rows}
+      {
+        rows.map((row, rowIndex) => {
+          const rowIndexLast = rows.length - 1;
+          return (
+            <TranslationRow
+              {...translationRowProps}
+              {...row}
+              isPositionEndShown={rowIndex === rowIndexLast}
+              isPositionStartShown={rowIndex === 0}
+              key={`${rowIndex}-${rowIndexLast}`}
+            />
+          );
+        })
+      }
     </table>
   );
 };
