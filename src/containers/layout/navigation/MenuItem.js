@@ -9,8 +9,6 @@ import {
   NavLink,
 } from 'reactstrap';
 
-import style from './style.scss';
-
 const MenuItem = ({currentRoute, page, onClick}) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(prevState => !prevState);
@@ -21,13 +19,13 @@ const MenuItem = ({currentRoute, page, onClick}) => {
       onClick();
     }
   };
-  const isActive = route => route === currentRoute ? style.active : '';
+  const isActive = page.route === currentRoute ? 'active' : '';
   let item;
   if (typeof page.sub === 'undefined') {
     item = (
       <NavItem>
         <NavLink
-          className={`${style.menuItem} ${isActive(page.route)}`}
+          className={`mr-3 ${isActive}`}
           onClick={handleClick}
           tag={Link}
           to={page.route}
@@ -39,14 +37,14 @@ const MenuItem = ({currentRoute, page, onClick}) => {
   } else {
     item = (
       <Dropdown inNavbar isOpen={isOpen} nav toggle={toggle}>
-        <DropdownToggle caret nav>
+        <DropdownToggle caret className='mr-3' nav>
           {page.label}
         </DropdownToggle>
         <DropdownMenu>
           {
             page.sub.map(sub => (
               <Link
-                className={`dropdown-item ${isActive(sub.route)}`}
+                className={`dropdown-item ${isActive}`}
                 key={sub.route}
                 onClick={handleClick}
                 to={sub.route}
