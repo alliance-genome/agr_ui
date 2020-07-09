@@ -87,7 +87,7 @@ class RemoteDataTable extends Component {
   }
 
   render() {
-    const { columns, data = [], downloadUrl, keyField, loading, noDataMessage, sortOptions, summaryProps, totalRows, ...bootstrapTableProps } = this.props;
+    const { columns, data = [], downloadUrl, keyField, loading, noDataMessage, sortOptions, summaryProps, totalRows, className, ...bootstrapTableProps } = this.props;
     const { filters, page, sizePerPage, sort } = this.state;
 
     if (!loading && filters == null && totalRows === 0) {
@@ -126,8 +126,8 @@ class RemoteDataTable extends Component {
         if (Array.isArray(column.filterable)) {
           column.filterRenderer = (onFilter, column) => (
             <DropdownCheckboxFilter
-              column={column}
               defaultFilter={columnFilter}
+              labelClassName={column.filterLabelClassName}
               onFilter={onFilter}
               options={column.filterable}
             />
@@ -145,7 +145,7 @@ class RemoteDataTable extends Component {
     });
 
     return (
-      <div ref={this.containerRef} style={{position: 'relative'}}>
+      <div className={className} ref={this.containerRef} style={{position: 'relative'}}>
         <LoadingOverlay loading={loading} />
         <PaginationProvider pagination={pagination}>
           {
@@ -157,7 +157,7 @@ class RemoteDataTable extends Component {
                     null
                 }
                 {sortOptions && sortOptions.length > 0 &&
-                  <Form className='pull-right' inline>
+                  <Form className='d-flex justify-content-end' inline>
                     <Label className="mr-1">Sort by</Label>
                     <Input onChange={this.handleSortChange} type='select' value={sort || ''}>
                       <option value=''>Default</option>
@@ -206,6 +206,7 @@ class RemoteDataTable extends Component {
 }
 
 RemoteDataTable.propTypes = {
+  className: PropTypes.string,
   columns: PropTypes.array,
   data: PropTypes.arrayOf(PropTypes.object),
   downloadUrl: PropTypes.string,

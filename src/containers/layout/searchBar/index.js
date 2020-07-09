@@ -1,7 +1,6 @@
 /*eslint-disable react/no-set-state */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import Autosuggest from 'react-autosuggest';
 import { parse as parseQueryString, stringify as stringifyQuery} from 'query-string';
 import { withRouter } from 'react-router-dom';
@@ -28,6 +27,20 @@ class SearchBarComponent extends Component {
       catOption: DEFAULT_CAT,
       value: initValue
     };
+  }
+
+  componentDidUpdate(prevProps) {
+    const { location } = this.props;
+    if (location.search && location.search !== prevProps.location.search) {
+      const queryOptions = parseQueryString(location.search);
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        value: queryOptions.q || '',
+        catOption: queryOptions.category ?
+          CATEGORIES.find(cat => cat.name === queryOptions.category) :
+          DEFAULT_CAT,
+      });
+    }
   }
 
   handleClear() {
@@ -81,7 +94,7 @@ class SearchBarComponent extends Component {
   handleSelected(event, item) {
     //gene and disease will go to the pages and skip search results,
     //go terms and alleles will just go to regular search pages as the query
-    if (item.method == 'click') {
+    if (item.method === 'click') {
       const id = item.suggestion.primaryKey;
       const url = getURLForEntry(item.suggestion.category, id);
       if (url) {
@@ -119,8 +132,8 @@ class SearchBarComponent extends Component {
       );
     });
     return (
-      <UncontrolledDropdown className={`input-group-prepend ${style.searchBtns}`}>
-        <DropdownToggle caret color='secondary' outline>
+      <UncontrolledDropdown className='input-group-prepend'>
+        <DropdownToggle caret className={`${style.searchButton} border-right-0`} color='secondary' outline>
           {_title}
         </DropdownToggle>
         <DropdownMenu>
@@ -144,9 +157,10 @@ class SearchBarComponent extends Component {
   render() {
     let _getSuggestionValue = ( d => d.name_key );
     let _inputProps = {
-      placeholder: 'search: RPB7, kinase, asthma, liver',
+      autoFocus: this.props.autoFocus,
+      placeholder: this.props.placeholder,
       value: this.state.value,
-      onChange: this.handleTyping.bind(this)
+      onChange: this.handleTyping.bind(this),
     };
     let _theme = {
       container: style.autoContainer,
@@ -159,10 +173,9 @@ class SearchBarComponent extends Component {
     };
     return (
       <form onSubmit={this.handleSubmit.bind(this)}>
-        <div className='input-group'>
+        <div className={`input-group flex-nowrap my-1 my-md-0 ${style.searchBarOuter}`}>
           {this.renderDropdown()}
           <Autosuggest
-            className='form-control'
             getSuggestionValue={_getSuggestionValue}
             inputProps={_inputProps}
             onSuggestionsClearRequested={this.handleClear.bind(this)}
@@ -173,7 +186,7 @@ class SearchBarComponent extends Component {
             theme={_theme}
           />
           <div className='input-group-append'>
-            <button className={`btn btn-primary ${style.searchBtns}`} type='submit'>
+            <button className={`btn text-primary border-left-0 ${style.searchButton}`} type='submit'>
               <i className='fa fa-search' />
             </button>
           </div>
@@ -184,6 +197,7 @@ class SearchBarComponent extends Component {
 }
 
 SearchBarComponent.propTypes = {
+  autoFocus: PropTypes.bool,
   dispatch: PropTypes.func,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
@@ -191,14 +205,14 @@ SearchBarComponent.propTypes = {
   location: PropTypes.shape({
     search: PropTypes.string.isRequired,
   }).isRequired,
+  placeholder: PropTypes.string,
 };
 
-function mapStateToProps() {
-  return {
-  };
-}
+SearchBarComponent.defaultProps = {
+  placeholder: 'search: RPB7, kinase, asthma, liver',
+};
 
 const SearchBarComponentWithHistory = withRouter(SearchBarComponent);
 
 export { SearchBarComponentWithHistory as SearchBarComponent };
-export default connect(mapStateToProps)(SearchBarComponentWithHistory);
+export default SearchBarComponentWithHistory;

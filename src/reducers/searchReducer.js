@@ -62,7 +62,6 @@ const searchReducer = function (state = DEFAULT_STATE, action) {
     let newAggs = (actionCat === 'none') ? fromJS(parseAggs(action.payload.aggregations, action.queryParams)) : state.get('aggregations');
     // parse meta
     return state
-      .set('isPending', false)
       .set(totalTarget, action.payload.total)
       .set('aggregations', newAggs)
       .set('activeCategory', action.queryParams.category || 'none')

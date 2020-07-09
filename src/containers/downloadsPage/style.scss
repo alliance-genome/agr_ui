@@ -1,13 +1,15 @@
+@import "../../theme";
+
 .fileLink {
-  background-color: #2598C5;
-  color: rgba(255, 255, 255, 0.9);
+  background-color: $primary;
+  color: white;
   padding: 0.1rem 0.3rem;
   border-radius: 5px;
   margin-right: 0.4rem;
   font-size: 0.8rem;
 
   &:hover {
-    color: #ffffff;
+    color: white;
     text-decoration: none;
   }
 }

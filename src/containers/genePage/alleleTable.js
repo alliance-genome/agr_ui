@@ -6,6 +6,7 @@ import {compareAlphabeticalCaseInsensitive} from '../../lib/utils';
 import CollapsibleList from '../../components/collapsibleList/collapsibleList';
 import SynonymList from '../../components/synonymList';
 import {AlleleCell, RemoteDataTable} from '../../components/dataTable';
+import {getDistinctFieldValue} from '../../components/dataTable/utils';
 import ExternalLink from '../../components/externalLink';
 import {fetchAlleles} from '../../actions/geneActions';
 import DiseaseLink from '../../components/disease/DiseaseLink';
@@ -16,7 +17,7 @@ import VariantsSequenceViewer from './VariantsSequenceViewer';
 const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, geneLocation = {}, species, geneDataProvider}) => {
 
   const variantNameColWidth = 300;
-  const variantTypeColWidth = 150;
+  const variantTypeColWidth = 110;
   const variantConsequenceColWidth = 150;
 
   const columns = [
@@ -69,7 +70,7 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
           ))}
         </CollapsibleList>
       ),
-      headerStyle: {width: '275px'},
+      headerStyle: {width: '200px'},
       filterable: true,
       filterName: 'phenotype',
     },
@@ -132,7 +133,10 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
       dataField: 'variantType',
       text: 'Variant type',
       headerStyle: {width: variantTypeColWidth},
-      filterable: true,
+      // filterable: ['delins', 'point mutation', 'insertion', 'deletion', 'MNV'],
+      filterable: alleles.supplementalData && alleles.supplementalData.distinctFieldValues ?
+        getDistinctFieldValue(alleles, 'filter.variantType') :
+        true,
     },
     {
       dataField: 'variantConsequence',
@@ -142,7 +146,9 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
         children: <span>Variant consequences were predicted by the <ExternalLink href="https://uswest.ensembl.org/info/docs/tools/vep/index.html" target="_blank">Ensembl Variant Effect Predictor (VEP) tool</ExternalLink> based on Alliance variants information.</span>,
       },
       headerStyle: {width: variantConsequenceColWidth},
-      filterable: true,
+      filterable: alleles.supplementalData && alleles.supplementalData.distinctFieldValues ?
+        getDistinctFieldValue(alleles, 'filter.variantConsequence') :
+        true,
     },
     // {
     //   dataField: 'source',
@@ -188,8 +194,7 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
     }));
   }, [alleles]);
 
-  const [alleleIdsSelected, setAleleIdsSelected] = useState([]);
-
+  const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
 
   const variantsSequenceViewerProps = useMemo(() => {
     /*
@@ -205,9 +210,9 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
     return {
       allelesSelected: alleleIdsSelected.map(formatAllele),
       allelesVisible: data.map(({id}) => formatAllele(id)),
-      onAllelesSelect: setAleleIdsSelected,
+      onAllelesSelect: setAlleleIdsSelected,
     };
-  }, [data, alleleIdsSelected, setAleleIdsSelected]);
+  }, [data, alleleIdsSelected, setAlleleIdsSelected]);
 
   const selectRow = useMemo(() => ({
     mode: 'checkbox',
@@ -216,7 +221,7 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
     selected: alleleIdsSelected,
     onSelect: (row) => {
       const alleleIdRow = row.id;
-      setAleleIdsSelected(alleleIdsSelectedPrev => {
+      setAlleleIdsSelected(alleleIdsSelectedPrev => {
         if (alleleIdsSelectedPrev.includes(alleleIdRow)) {
           const indexAlleleId = alleleIdsSelectedPrev.indexOf(alleleIdRow);
           return [
@@ -229,7 +234,7 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
       });
     },
     style: { backgroundColor: '#ffffd4' },
-  }), [alleleIdsSelected, setAleleIdsSelected]);
+  }), [alleleIdsSelected, setAlleleIdsSelected]);
 
   return (
     <>

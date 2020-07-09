@@ -14,8 +14,6 @@ import HorizontalScroll from '../horizontalScroll';
 import { STRINGENCY_HIGH } from '../orthology/constants';
 import { getOrthologId } from '../orthology';
 
-import { GenericRibbon } from '@geneontology/ribbon';
-import { POSITION, COLOR_BY, SELECTION } from '@geneontology/ribbon/lib/enums';
 import HelpPopup from '../helpPopup';
 import DiseaseControlsHelp from './diseaseControlsHelp';
 import ControlsContainer from '../controlsContainer';
@@ -24,7 +22,8 @@ import { selectDiseaseRibbonSummary } from '../../selectors/diseaseRibbonSelecto
 import { fetchDiseaseRibbonSummary } from '../../actions/diseaseRibbonActions';
 import LoadingSpinner from '../loadingSpinner';
 import OrthologPicker from '../OrthologPicker';
-import RibbonGeneSubjectLabel from '../RibbonGeneSubjectLabel';
+
+import { withRouter } from 'react-router-dom';
 
 class DiseaseComparisonRibbon extends Component {
 
@@ -40,6 +39,8 @@ class DiseaseComparisonRibbon extends Component {
     };
     this.onDiseaseGroupClicked = this.onDiseaseGroupClicked.bind(this);
     this.handleOrthologyChange = this.handleOrthologyChange.bind(this);
+    this.onGroupClicked = this.onGroupClicked.bind(this);
+    this.onSubjectClicked = this.onSubjectClicked.bind(this);
   }
 
   componentDidMount() {
@@ -55,6 +56,9 @@ class DiseaseComparisonRibbon extends Component {
           }
         }
       }));
+
+    document.addEventListener('cellClick', this.onGroupClicked);
+    document.addEventListener('subjectClick', this.onSubjectClicked);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -62,6 +66,10 @@ class DiseaseComparisonRibbon extends Component {
       !isEqual(this.state.selectedOrthologs, prevState.selectedOrthologs)) {
       this.fetchData();
     }
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('cellClick', this.onGroupClicked);
   }
 
   fetchData() {
@@ -74,6 +82,35 @@ class DiseaseComparisonRibbon extends Component {
 
   getGeneIdList() {
     return [this.props.geneId].concat(this.state.selectedOrthologs.map(getOrthologId));
+  }
+
+  hasParentElementId(elt, id) {
+    if(elt.id == id)
+      return true;
+    if(!elt.parentElement)
+      return false;
+    return this.hasParentElementId(elt.parentElement, id);
+  }
+
+  onSubjectClicked(e) {
+    // to ensure we are only considering events coming from the disease ribbon
+    if(this.hasParentElementId(e.target, 'disease-ribbon')) {
+      // don't use the ribbon default action upon subject click
+      e.detail.originalEvent.preventDefault();
+
+      // but re-route to alliance gene page
+      let { history } = this.props;
+      history.push({
+        pathname: '/gene/' + e.detail.subject.id
+      });
+    }
+  }
+
+  onGroupClicked(e) {
+    // to ensure we are only considering events coming from the disease ribbon
+    if(e.target.id == 'disease-ribbon') {
+      this.onDiseaseGroupClicked(e.detail.subjects, e.detail.group);
+    }
   }
 
   onDiseaseGroupClicked(gene, disease) {
@@ -89,7 +126,7 @@ class DiseaseComparisonRibbon extends Component {
   }
 
   render(){
-    const { geneId, geneTaxon, orthology, summary } = this.props;
+    const { geneTaxon, orthology, summary } = this.props;
     const { selectedBlock, selectedOrthologs } = this.state;
 
     if (!summary) {
@@ -127,23 +164,33 @@ class DiseaseComparisonRibbon extends Component {
           </ControlsContainer>
         </div>
 
-        <HorizontalScroll width={800}>
-          <span style={{display: 'inline-block'}}>
-            <GenericRibbon
-              categories={summary.data.categories}
-              colorBy={COLOR_BY.CLASS_COUNT}
-              hideFirstSubjectLabel
-              itemClick={this.onDiseaseGroupClicked}
-              newTab={false}
-              selected={selectedBlock}
-              selectionMode={SELECTION.COLUMN}
-              subjectLabel={subject => <RibbonGeneSubjectLabel gene={subject} isFocusGene={subject.id === geneId} />}
-              subjectLabelPosition={POSITION.LEFT}
-              subjects={summary.data.subjects}
+        <HorizontalScroll>
+          <div className='text-nowrap'>
+            <wc-ribbon-strips
+              category-all-style='1'
+              color-by='0'
+              data={JSON.stringify(summary.data)}
+              fire-event-on-empty-cells={false}
+              group-clickable={false}
+              group-open-new-tab={false}
+              id='disease-ribbon'
+              new-tab={false}
+              selected='all'
+              selection-mode='1'
+              subject-base-url='/gene/'
+              subject-open-new-tab={false}
+              subject-position='1'
             />
-          </span>
+          </div>
           <div>{summary.loading && <LoadingSpinner />}</div>
+          <div className='text-muted mt-2'>
+            <i>Cell color indicative of annotation volume</i>
+          </div>
         </HorizontalScroll>
+
+
+
+
 
         {selectedBlock.group && <div className='pt-4'>
           <DiseaseAnnotationTable genes={this.getGeneIdList()} term={selectedBlock.group.id} />
@@ -161,6 +208,7 @@ DiseaseComparisonRibbon.propTypes = {
   geneId: PropTypes.string,
   geneSymbol: PropTypes.string,
   geneTaxon: PropTypes.string,
+  history: PropTypes.object,
   orthology: PropTypes.object,
   summary: PropTypes.object
 };
@@ -170,4 +218,4 @@ const mapStateToProps = (state) => ({
   summary: selectDiseaseRibbonSummary(state),
 });
 
-export default connect(mapStateToProps)(DiseaseComparisonRibbon);
+export default withRouter(connect(mapStateToProps)(DiseaseComparisonRibbon));

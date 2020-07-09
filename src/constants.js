@@ -17,23 +17,28 @@ export const CATEGORIES = [
   },
   {
     name: 'gene',
-    displayName: 'Gene'
+    displayName: 'Gene',
+    displayFields: ['name', 'synonyms', 'id', 'biotype'],
   },
   {
     name: 'go',
-    displayName: 'Gene Ontology'
+    displayName: 'Gene Ontology',
+    displayFields: ['id', 'collapsible_synonyms', 'branch']
   },
   {
     name: 'disease',
-    displayName: 'Disease'
+    displayName: 'Disease',
+    displayFields: ['id', 'definition'],
   },
   {
     name: 'allele',
-    displayName: 'Allele'
+    displayName: 'Allele',
+    displayFields: ['id','genes', 'synonyms','variantTypes','relatedVariants','molecularConsequence', 'diseases'],
   },
   {
     name: 'model',
-    displayName: 'Model'
+    displayName: 'Model',
+    displayFields: ['id','synonyms'],
   }
 ];
 
@@ -61,7 +66,6 @@ export const NAV_MENU = [
   {
     label: 'Home',
     route: '/',
-    wordpressId: 16,
   },
   {
     label: 'Data',
@@ -77,8 +81,20 @@ export const NAV_MENU = [
     ]
   },
   {
+    label: 'News',
+    sub: [
+      {
+        label: 'News and Events',
+        route: '/news'
+      },
+      {
+        label: 'Release Notes',
+        route: '/release-notes'
+      }
+    ]
+  },
+  {
     label: 'About',
-    wordpressId: 2,
     sub: [
       {
         label: 'About Us',
@@ -93,6 +109,10 @@ export const NAV_MENU = [
         route: '/organization-and-governance'
       },
       {
+        label: 'Privacy, Warranty, and Licensing',
+        route: '/privacy-warranty-licensing'
+      },
+      {
         label: 'Publications',
         route: '/publications',
       }
@@ -101,28 +121,12 @@ export const NAV_MENU = [
   {
     label: 'Working Groups',
     route: '/working-groups',
-    wordpressId: 1184,
-  },
-  {
-    label: 'News',
-    wordpressId: 473,
-    sub: [
-      {
-        label: 'News and Events',
-        route: '/news'
-      },
-      {
-        label: 'Release Notes',
-        route: '/release-notes'
-      }
-    ]
   },
   {
     label: 'Help',
-    wordpressId: 179,
     sub: [
       {
-        label: 'Frequently Asked Questions',
+        label: 'FAQ / Known Issues',
         route: '/faq'
       },
       {
@@ -142,7 +146,6 @@ export const NAV_MENU = [
   {
     label: 'Contact Us',
     route: '/contact-us',
-    wordpressId: 3,
   },
 ];
 

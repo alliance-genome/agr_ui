@@ -58,6 +58,7 @@ class DiseaseAnnotationTable extends Component {
         dataField: 'species',
         text: 'Species',
         filterable: getDistinctFieldValue(annotations, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
+        filterLabelClassName: 'species-name',
         headerStyle: {width: '100px'},
         formatter: species => <SpeciesCell species={species} />,
         hidden: genes.length < 2
@@ -79,18 +80,18 @@ class DiseaseAnnotationTable extends Component {
         headerStyle: {width: '75px'},
       },
       {
-        dataField: 'disease',
-        text: 'Disease',
-        filterable: true,
-        headerStyle: {width: '150px'},
-        formatter: disease => <DiseaseLink disease={disease} />,
-      },
-      {
         dataField: 'associationType',
         text: 'Association',
         formatter: (type) => type.replace(/_/g, ' '),
         filterable: getDistinctFieldValue(annotations, 'associationType').map(type => type.replace(/_/g, ' ')),
         headerStyle: {width: '120px'},
+      },
+      {
+        dataField: 'disease',
+        text: 'Disease',
+        filterable: true,
+        headerStyle: {width: '150px'},
+        formatter: disease => <DiseaseLink disease={disease} />,
       },
       {
         dataField: 'evidenceCodes',
@@ -106,6 +107,7 @@ class DiseaseAnnotationTable extends Component {
         formatter: providers => providers && <ProvidersCell providers={providers} />,
         filterable: true,
         headerStyle: {width: '100px'},
+        filterName: 'provider',
       },
       {
         dataField: 'orthologyGenes',

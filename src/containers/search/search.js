@@ -16,6 +16,8 @@ import { receiveResponse, setError } from '../../actions/search';
 import LoadingPage from '../../components/loadingPage';
 import HeadMetaTags from '../../components/headMetaTags';
 
+import style from './style.scss';
+
 // used to test rendering fixture response
 import fixtureResponse from './tests/fixtureResponse';
 
@@ -29,6 +31,8 @@ import {
   selectPageSize
 } from '../../selectors/searchSelectors';
 import {setPageLoading} from '../../actions/loadingActions';
+import TotalCount from './TotalCount';
+import {SearchBarComponent} from '../layout/searchBar';
 
 const BASE_SEARCH_URL = '/api/search';
 
@@ -101,24 +105,45 @@ class SearchComponent extends Component {
   }
 
   render() {
-    if (!this.props.isReady) return <LoadingPage />;
-    let title = 'Search ' + (this.props.queryParams.q || '');
+    const { isReady, queryParams } = this.props;
+    let title = 'Search ' + (queryParams.q || '');
     return (
-      <div className='container'>
-        {this.renderErrorNode()}
+      <>
         <HeadMetaTags title={title} />
-        <div className='row'>
-          <div className={SMALL_COL_CLASS}>
-            <FilterSelector queryParams={this.props.queryParams} />
-          </div>
-          <div className={LARGE_COL_CLASS}>
-            <SearchBreadcrumbs queryParams={this.props.queryParams} />
-            <SearchControls queryParams={this.props.queryParams} />
-            {this.renderResultsNode()}
-            <SearchControls queryParams={this.props.queryParams} />
+
+        <div className={`${style.searchBarBackground} shadow-sm`}>
+          <div className='container'>
+            <div className={style.searchBarContainer}>
+              <SearchBarComponent />
+            </div>
           </div>
         </div>
-      </div>
+
+
+          <div className='container'>
+            {this.renderErrorNode()}
+
+            {!isReady && <LoadingPage />}
+
+            {isReady &&
+              <div className='row mb-3'>
+                <div className={SMALL_COL_CLASS}>
+                  <FilterSelector queryParams={queryParams}/>
+                </div>
+                <div className={LARGE_COL_CLASS}>
+                  <div className='d-flex justify-content-between align-items-baseline'>
+                    <span><TotalCount/> results {queryParams.q &&
+                    <span>for <b>{queryParams.q}</b></span>}</span>
+                    <SearchControls queryParams={queryParams}/>
+                  </div>
+                  <SearchBreadcrumbs queryParams={queryParams}/>
+                  {this.renderResultsNode()}
+                  <SearchControls queryParams={queryParams}/>
+                </div>
+              </div>
+            }
+          </div>
+      </>
     );
   }
 }

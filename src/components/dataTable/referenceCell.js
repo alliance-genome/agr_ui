@@ -1,17 +1,17 @@
 import React from 'react';
 
 import ExternalLink from '../externalLink';
-import CommaSeparatedList from '../commaSeparatedList';
+import {CollapsibleList} from '../collapsibleList';
 
 const ReferenceCell = (refs) => {
   return refs &&
-    <CommaSeparatedList>
+    <CollapsibleList>
       {
         refs.map((ref) => {
           return <ExternalLink href={ref.url} key={ref.id} title={ref.id}>{ref.id}</ExternalLink>;
         })
       }
-    </CommaSeparatedList>;
+    </CollapsibleList>;
 };
 
 export default ReferenceCell;

@@ -1,95 +1,25 @@
 @import "../../theme";
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
 
-.appAlert {
-  margin-bottom: 0;
-  border-radius: 0;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-}
-
-.socialLinks a {
+.socialLinks i {
   padding-left: 0.3rem;
-  color: white;
   font-size: 20px;
+  vertical-align: middle;
 }
 
 .content {
   margin: auto;
 }
 
-.member_sites {
-  background: #ddd;
-}
-
-.logo {
-  width: 100%;
-}
-
-.socialMediaContainer {
-  padding-top: 1rem;
-}
-
-.topHeader {
-  padding: 1rem;
-}
-
 .topBar {
   background: $primary;
-  color: #fff;
+  color: white;
 
   a {
-    color: #fff;
+    color: white;
   }
-}
-
-.rightWidgets {
-  text-align: right;
-}
-
-.midHeader {
-  background: #fff;
-  border-top: solid 1px #ddd;
-  border-bottom: solid 1px #ddd;
-  padding: 0;
-  text-transform: uppercase;
-}
-
-.midHeader.nav-link {
-  padding: 1em;
-}
-
-/* Site map style starts here */
-.site_map {
-  margin: 0;
-  padding: 0;
-}
-
-.site_map .navContainer {
-  border-bottom: solid 1px rgba(255, 255, 255, 0.15);
-}
-
-.site_map .navLink {
-  color: #ffffff !important;
-  padding: 0.5rem;
-  text-align: left;
-}
-
-.site_map .sub_nav {
-  margin-left: 1.5em;
-}
-
-.site_map .sub_nav > ul {
-  margin: 0;
-}
-
-.site_map .subMenuListItem {
-  background: transparent;
-  border-top: solid 1px rgba(255, 255, 255, 0.15);
-  padding: 0.5rem;
-}
-
-.site_map .sub_nav_link {
-  color: #efefef;
 }
 
 .loaderContentContainer {
@@ -98,90 +28,6 @@
 
 .contentContainer {
   min-height: 400px;
-  padding-top: 1rem;
-}
-
-.siteMapContainer {
-  background: #3E82BF;
-  color: #ffffff;
-  padding-top: 1.5em;
-  padding-bottom: 2.5em;
-}
-
-.siteMapContainer .sectionHeader {
-  border-bottom: solid 1px #eee;
-  padding: 0;
-}
-
-.footerBar {
-  padding: 1rem;
-  background: #2F72B5;
-}
-
-.footer {
-  position: absolute;
-  bottom: 0;
-  padding: 0.5rem 1rem;
-}
-
-.footer p {
-  margin-bottom: 0
-}
-
-.agr-logo {
-  height: 60px;
-
-}
-
-/**Custom**/
-
-.navbar.navbarCustom {
-  height: 50px;
-  border: none;
-}
-
-.navbarCustom .formSearch {
-  width: 300px;
-  float: left;
-  display: block;
-  position: absolute;
-  padding-top: 7px;
-  margin-left: 160px;
-}
-
-.navbarCustom .inner-addon {
-  position: relative;
-}
-
-.navbarCustom .inner-addon .glyphicon {
-  position: absolute;
-  padding: 10px;
-  pointer-events: none;
-  color: black;
-}
-
-.navbarCustom .left-addon .glyphicon {
-  left: 0px;
-}
-
-.navbarCustom .left-addon input {
-  padding-left: 30px;
-}
-
-.row.cMenu {
-  margin-left: 1.1rem !important;
-}
-
-@media (max-width: 767px) {
-  .navbarCustom .formSearch {
-    padding-left: 15px;
-    width: 70%;
-    margin-left: 0;
-  }
-
-  .navbarCustom .navbar-collapse {
-    background: #f5f5f5;
-  }
 }
 
 .agrLogo {
@@ -206,3 +52,61 @@
   margin: 0
 }
 
+.headerSearchContainer {
+  width: 100%;
+
+  @include media-breakpoint-up(md) {
+    max-width: 500px;
+  }
+}
+
+.footer {
+  background-color: $primary;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  color: white;
+
+  @include media-breakpoint-up(md) {
+    flex-direction: row;
+  }
+
+  a {
+    color: white;
+  }
+
+  .footerLogo {
+    margin-right: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .siteMapContainer {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 325px;
+
+    @include media-breakpoint-up(md) {
+      height: 180px;
+    }
+  }
+
+  .siteMapGroup {
+    margin-bottom: 0.5rem;
+    width: 50%;
+
+    @include media-breakpoint-up(md) {
+      width: 33%;
+    }
+  }
+
+  .siteMapHeader {
+    font-weight: bold;
+  }
+
+  .socialLinks {
+    display: flex;
+    flex-direction: column;
+  }
+}

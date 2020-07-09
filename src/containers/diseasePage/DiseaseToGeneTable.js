@@ -50,6 +50,7 @@ const DiseaseToGeneTable = ({associations, fetchAssociations, id}) => {
       text: 'Species',
       formatter: species => <SpeciesCell species={species} />,
       filterable: getDistinctFieldValue(associations, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
+      filterLabelClassName: 'species-name',
       headerStyle: {width: '105px'},
     },
     {
@@ -94,6 +95,7 @@ const DiseaseToGeneTable = ({associations, fetchAssociations, id}) => {
       formatter: providers => providers && <ProvidersCell providers={providers} />,
       filterable: true,
       headerStyle: {width: '85px'},
+      filterName: 'provider',
     },
     {
       dataField: 'publications',

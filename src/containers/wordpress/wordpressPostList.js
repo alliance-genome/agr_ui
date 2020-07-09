@@ -13,8 +13,9 @@ import {
   selectLoading,
   selectPostList
 } from '../../selectors/wordpressSelectors';
-import LoadingPage from '../../components/loadingPage';
 import {setPageLoading} from '../../actions/loadingActions';
+import TwitterFeed from '../../components/TwitterFeed';
+import LoadingSpinner from '../../components/loadingSpinner';
 
 class WordpressPostList extends Component {
   constructor(props) {
@@ -31,40 +32,33 @@ class WordpressPostList extends Component {
     const title = 'News and Events';
     const { loading, postList } = this.props;
 
-    if (loading) {
-      return <LoadingPage />;
-    }
-
-    if (!postList) {
-      return null;
-    }
-
     return (
       <div className={style.wordPressContainer}>
         <HeadMetaTags title={title} />
         <SecondaryNav title={title} type='post' />
         <div className='container'>
-          {
-            this.props.postList.map(post => {
-              if (post.status !== 'publish') { return; }
-              const link = `/news/${post.slug}`;
-              return (
-                <div className={`row ${style.postContainer}`} key={post.id}>
-                  {post.featured_media_url && <div className='col-12 col-sm-4'>
-                    <Link to={link}>
-                      <img className='img-fluid' src={post.featured_media_url} />
-                    </Link>
-                  </div>}
-                  <div className={`col-12 ${post.featured_media_url ? 'col-sm-8' : ''}`}>
-                    <Link to={link}>
-                      <h3 dangerouslySetInnerHTML={{ __html: post.title.rendered}} />
-                    </Link>
-                    <p dangerouslySetInnerHTML={{ __html: post.excerpt.rendered}} />
-                  </div>
-                </div>
-              );
-            })
-          }
+          <div className='row'>
+            <div className='col-md-8'>
+              {loading && <LoadingSpinner />}
+              {
+                postList && postList.map(post => {
+                  if (post.status !== 'publish') { return; }
+                  const link = `/news/${post.slug}`;
+                  return (
+                    <div className={style.postContainer} key={post.id}>
+                      <Link to={link}>
+                        <h3 dangerouslySetInnerHTML={{ __html: post.title.rendered}} />
+                      </Link>
+                      <p dangerouslySetInnerHTML={{ __html: post.excerpt.rendered}} />
+                    </div>
+                  );
+                })
+              }
+            </div>
+            <div className='col-md-4 border-left'>
+              <TwitterFeed />
+            </div>
+          </div>
         </div>
       </div>
     );

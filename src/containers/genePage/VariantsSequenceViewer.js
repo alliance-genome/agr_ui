@@ -27,7 +27,7 @@ export function findFminFmax(genomeLocation,variants){
   return {fmin,fmax};
 }
 
-const VariantsSequenceViewer = ({alleles, gene, genomeLocation}) => {
+const VariantsSequenceViewer = ({alleles,allelesSelected,allelesVisible, gene, genomeLocation}) => {
   if (alleles.loading || alleles.error || alleles.data.length === 0 || !genomeLocation.chromosome) {
     return null;
   }
@@ -41,6 +41,7 @@ const VariantsSequenceViewer = ({alleles, gene, genomeLocation}) => {
   const {fmin,fmax} = findFminFmax(genomeLocation,alleles);
   return (
     <GenomeFeatureWrapper
+      allelesSelected={allelesSelected}
       assembly={genomeLocation.assembly}
       biotype={gene.soTermName}
       chromosome={genomeLocation.chromosome}
@@ -54,6 +55,7 @@ const VariantsSequenceViewer = ({alleles, gene, genomeLocation}) => {
       species={gene.species.name}
       strand={genomeLocation.strand}
       synonyms={gene.synonyms}
+      visibleVariants={allelesVisible.map( a => a.id)}
       width='600px'
     />
   );
