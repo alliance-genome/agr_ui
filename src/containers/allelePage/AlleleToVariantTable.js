@@ -5,6 +5,7 @@ import { fetchAlleleVariants } from '../../actions/alleleActions';
 import { connect } from 'react-redux';
 import { RemoteDataTable } from '../../components/dataTable';
 import { VariantJBrowseLink } from '../../components/variant';
+import Sequence from './Sequence';
 
 const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) => {
   const { data:dataRaw = [], loading, total} = variants;
@@ -44,6 +45,7 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
     },
     {
       dataField: 'location',
+      text: 'Location',
       headerFormatter: () => (
         <React.Fragment>
           Chromosome:position
@@ -59,11 +61,9 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
     {
       dataField: 'nucleotideChange',
       text: 'Nucleotide change',
-      formatter: (nucleotideChange) => (
-        <span className="text-break">
-          {nucleotideChange}
-        </span>
-      ),
+      formatter: (nucleotideChange) => {
+        return <Sequence sequence={nucleotideChange || ''} />;
+      },
       headerStyle: {width: '160px'},
     },
     {
@@ -75,17 +75,19 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
   ];
 
   return (
-    <RemoteDataTable
-      columns={columns}
-      data={data}
-      downloadUrl={`/api/allele/${alleleId}/variants/download`}
-      key={alleleId}
-      keyField='id'
-      loading={loading}
-      noDataMessage='No mapped variant information available'
-      onUpdate={fetchVariants}
-      totalRows={total}
-    />
+    <>
+      <RemoteDataTable
+        columns={columns}
+        data={data}
+        downloadUrl={`/api/allele/${alleleId}/variants/download`}
+        key={alleleId}
+        keyField='id'
+        loading={loading}
+        noDataMessage='No mapped variant information available'
+        onUpdate={fetchVariants}
+        totalRows={total}
+      />
+    </>
   );
 };
 AlleleToVariantTable.propTypes = {
@@ -105,6 +107,7 @@ AlleleToVariantTable.propTypes = {
     total: PropTypes.any,
   }),
 };
+
 
 const mapStateToProps = state => ({
   variants: selectVariants(state),

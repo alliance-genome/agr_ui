@@ -10,6 +10,8 @@ import DownloadFileTable from './downloadFileTable';
 import DownloadFileLink from './downloadFileLink';
 import HelpPopup from '../../components/helpPopup';
 import GeneDescriptionsHelp from './geneDescriptionsHelp';
+import GeneticInteractionsHelp from './geneticInteractionsHelp';
+import VariantsHelp from './variantsHelp';
 import HeadMetaTags from '../../components/headMetaTags';
 import {selectFiles} from '../../selectors/fileManagementSystemSelectors';
 import {fetchReleaseFiles} from '../../actions/fileManagementSystemActions';
@@ -73,15 +75,6 @@ class DownloadsPage extends React.Component {
       {species: 'Rattus norvegicus', subType: 'RGD'},
       {species: 'Saccharomyces cerevisiae', subType: 'SGD'}
     ];
-
-    const variantsHelp = (
-      <span>
-        These files contain curated SNVs for alleles that have known phenotypic
-        consequences for all organisms represented in the Alliance for which
-        data are available. Expert curation for these data are ongoing and files
-        will be updated on a regular basis.
-      </span>
-    );
 
     return (
       <DataPage>
@@ -175,7 +168,7 @@ class DownloadsPage extends React.Component {
             </DownloadFileTable>
           </Subsection>
 
-          <Subsection title={GENETIC_INTERACTIONS}>
+          <Subsection help={<GeneticInteractionsHelp />} title={GENETIC_INTERACTIONS}>
             <DownloadFileTable>
               <DownloadFileRow
                 description='All genetic interactions'
@@ -195,12 +188,15 @@ class DownloadsPage extends React.Component {
             <DownloadFileTable>
               <DownloadFileRow
                 description='Alliance combined orthology data'
-                url={this.getUrlForDataType('ORTHOLOGY-ALLIANCE', 'COMBINED')}
+                url={[
+                  this.getUrlForDataType('ORTHOLOGY-ALLIANCE', 'COMBINED'),
+                  this.getUrlForDataType('ORTHOLOGY-ALLIANCE-JSON', 'COMBINED'),
+                ]}
               />
             </DownloadFileTable>
           </Subsection>
 
-          <Subsection help={variantsHelp} title={VARIANTS}>
+          <Subsection help={<VariantsHelp />} title={VARIANTS}>
             <DownloadFileTable>
               <DownloadFileRow
                 description={<span><i>Caenorhabditis elegans</i> variants</span>}

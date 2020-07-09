@@ -1,0 +1,64 @@
+.aminoAcid, .codon {
+  font-family: monospace;
+  font-size: 10pt;
+}
+
+.aminoAcid {
+  background-color: #eee;
+  margin: 0 0.5em 0 0;
+}
+
+.aminoAcid:before {
+  content: " ";
+  white-space: pre;
+}
+
+.aminoAcid:after {
+  content: " ";
+  white-space: pre;
+}
+
+
+.codon:nth-of-type(3n) {
+  margin: 0 0.5em 0 0;
+}
+
+.table {
+  td, th {
+    border: none;
+    padding: 0 0.5em;
+  }
+
+  th.position {
+    text-align: right;
+  }
+
+  td.position {
+    font-family: monospace;
+    font-size: 10pt;
+    color: #666;
+    vertical-align: bottom;
+  }
+
+  td.position:first-child {
+    width: 100%;
+    // border-right: 4px solid #eee;
+    text-align: right;
+  }
+
+  td.position:last-child {
+    // border-left: 4px solid #eee;
+  }
+
+  .codonRow {
+    td {
+      padding-bottom: 0;
+    }
+  }
+
+  .aminoAcidRow {
+    td {
+      padding-top: 0;
+    }
+  }
+}

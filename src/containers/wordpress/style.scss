@@ -1,9 +1,9 @@
-.wordPressContainer {
-  margin-top: -.5rem;
-}
+@import "../../theme";
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
 
 .postContainer {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid $border-color;
   margin: 1rem 0;
   padding-bottom: 1rem;
 }
@@ -16,9 +16,10 @@
 .aboutMenuContainer, .workingGroupsMenuContainer,
 .contactMenuContainer, .helpMenuContainer {
   background-size: cover;
-  background: #222222 no-repeat center center;
+  background-color: $gray-900;
+  background-repeat: no-repeat;
+  background-position: center;
   margin-bottom: 1.3em;
-  clear: both;
 }
 
 .postMenuContainer {
@@ -52,13 +53,13 @@
 }
 
 .secondaryNav {
-  color: #2598c5;
-  background-color: #222222;
+  color: $primary;
+  background-color: $gray-900;
   bottom: 0;
 }
 
 .floatLeft {
-  background: #333;
+  background: $gray-800;
   padding: 0;
   margin-left: 0;
   margin-right: 1.2em;

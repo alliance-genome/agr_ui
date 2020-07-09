@@ -8,6 +8,12 @@ import {selectPageLoading} from '../../../selectors/loadingSelector';
 
 const FINISH_INTERVAL = 250;
 
+const CLASS_NAMES = [
+  style.done,
+  style.pending,
+  style.finishing,
+];
+
 class Loader extends Component {
   constructor(props) {
     super(props);
@@ -39,11 +45,8 @@ class Loader extends Component {
   }
 
   render() {
-    if (this.state.readyState === 0) return null;
-    let animateClass = (this.state.readyState === 1) ? style.animatedPending : style.animatedFinishing;
-    let _className = `${style.loader} ${animateClass}`;
     return (
-      <div className={_className} />
+      <div className={`${style.loader} ${CLASS_NAMES[this.state.readyState]}`} />
     );
   }
 }

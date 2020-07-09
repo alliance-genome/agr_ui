@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -17,6 +17,7 @@ import {
 } from '../../selectors/alleleSelectors';
 import {fetchAllele} from '../../actions/alleleActions';
 import NotFound from '../../components/notFound';
+import ErrorBoundary from '../../components/errorBoundary';
 import AlleleSummary from './AlleleSummary';
 import AlleleSymbol from './AlleleSymbol';
 import SpeciesIcon from '../../components/speciesIcon';
@@ -29,83 +30,98 @@ import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
 import AlleleToDiseaseTable from './AlleleToDiseaseTable';
 import AlleleToVariantTable from './AlleleToVariantTable';
 import AlleleSequenceView from './AlleleSequenceView';
+import AlleleTransgenicConstructs from './AlleleTransgenicConstructs';
+import AlleleMolecularConsequences from './AlleleMolecularConsequences';
+import MolecularConsequenceHelp from './MolecularConsequenceHelp';
 
 const SUMMARY = 'Summary';
 const PHENOTYPES = 'Phenotypes';
 const DISEASE = 'Disease Associations';
-const VARIANTS = 'Variants';
+const VARIANTS = 'Genomic Variant Information';
+const CONSTRUCTS = 'Transgenic Constructs';
+const MOLECULAR_CONSEQUENCE = 'Variant Molecular Consequences';
+
 const SECTIONS = [
   {name: SUMMARY},
+  {name: CONSTRUCTS},
   {name: VARIANTS},
+  {name: MOLECULAR_CONSEQUENCE},
   {name: PHENOTYPES},
   {name: DISEASE}
 ];
 
-class AllelePage extends Component {
-  componentDidMount() {
-    this.props.dispatchFetchAllele();
+const AllelePage = (props) => {
+
+  const { alleleId, data, error, dispatch } = props;
+
+  useEffect(() => {
+    dispatch(setPageLoading(true));
+    dispatch(fetchAllele(alleleId)).finally(() => dispatch(setPageLoading(false)));
+  }, [alleleId]);
+
+  if (error) {
+    return <NotFound/>;
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.alleleId !== prevProps.alleleId) {
-      this.props.dispatchFetchAllele();
-    }
+  if (!data || !Object.keys(data).length) {
+    return null;
   }
 
-  render() {
-    const {alleleId, data, error} = this.props;
+  const title = `${data.symbolText} | ${data.species.name} allele`;
 
-    if (error) {
-      return <NotFound/>;
-    }
+  return (
+    <DataPage>
+      <HeadMetaTags title={title}/>
+      <PageNav sections={SECTIONS}>
+        <PageNavEntity entityName={<AlleleSymbol allele={data} />} icon={<SpeciesIcon scale={0.5} species={data.species.name} />} truncateName>
+          <DataSourceLink reference={data.crossReferences.primary} />
+          {data.gene && <div>Allele of <Link to={`/gene/${data.gene.id}`}>{data.gene.symbol}</Link></div>}
+          <i>{data.species.name}</i>
+        </PageNavEntity>
+      </PageNav>
+      <PageData>
+        <PageCategoryLabel category='allele' />
+        <PageHeader entityName={<AlleleSymbol allele={data} />}/>
 
-    if (!data || !Object.keys(data).length) {
-      return null;
-    }
+        <Subsection hideTitle title={SUMMARY}>
+          <AlleleSummary allele={data} />
+        </Subsection>
 
-    const title = `${data.symbolText} | ${data.species.name} allele`;
+        <Subsection title={CONSTRUCTS}>
+          <AlleleTransgenicConstructs constructs={data.constructs} />
+        </Subsection>
 
-    return (
-      <DataPage>
-        <HeadMetaTags title={title}/>
-        <PageNav sections={SECTIONS}>
-          <PageNavEntity entityName={<AlleleSymbol allele={data} />} icon={<SpeciesIcon scale={0.5} species={data.species.name} />} truncateName>
-            <DataSourceLink reference={data.crossReferences.primary} />
-            {data.gene && <div>Allele of <Link to={`/gene/${data.gene.id}`}>{data.gene.symbol}</Link></div>}
-            <i>{data.species.name}</i>
-          </PageNavEntity>
-        </PageNav>
-        <PageData>
-          <PageCategoryLabel category='allele' />
-          <PageHeader entityName={<AlleleSymbol allele={data} />}/>
-
-          <Subsection hideTitle title={SUMMARY}>
-            <AlleleSummary allele={data} />
-          </Subsection>
-
-          <Subsection title={VARIANTS}>
-            <AlleleSequenceView allele={data} />
+        <Subsection title={VARIANTS}>
+          <ErrorBoundary>
             <AlleleToVariantTable allele={data} alleleId={alleleId} />
-          </Subsection>
+          </ErrorBoundary>
+          <br />
+          <ErrorBoundary>
+            <AlleleSequenceView allele={data} />
+          </ErrorBoundary>
+        </Subsection>
 
-          <Subsection title={PHENOTYPES}>
-            <AlleleToPhenotypeTable alleleId={alleleId} />
-          </Subsection>
+        <Subsection help={<MolecularConsequenceHelp />} title={MOLECULAR_CONSEQUENCE}>
+          <AlleleMolecularConsequences allele={data} alleleId={alleleId} />
+        </Subsection>
 
-          <Subsection title={DISEASE}>
-            <AlleleToDiseaseTable alleleId={alleleId} />
-          </Subsection>
+        <Subsection title={PHENOTYPES}>
+          <AlleleToPhenotypeTable alleleId={alleleId} />
+        </Subsection>
 
-        </PageData>
-      </DataPage>
-    );
-  }
-}
+        <Subsection title={DISEASE}>
+          <AlleleToDiseaseTable alleleId={alleleId} />
+        </Subsection>
+
+      </PageData>
+    </DataPage>
+  );
+};
 
 AllelePage.propTypes = {
   alleleId: PropTypes.string.isRequired,
   data: PropTypes.object,
-  dispatchFetchAllele: PropTypes.func,
+  dispatch: PropTypes.func,
   error: PropTypes.object,
   loading: PropTypes.bool,
 };
@@ -116,11 +132,8 @@ const mapStateToProps = state => ({
   error: selectError(state),
 });
 
-const mapDispatchToProps = (dispatch, props) => ({
-  dispatchFetchAllele: () => {
-    dispatch(setPageLoading(true));
-    dispatch(fetchAllele(props.alleleId)).finally(() => dispatch(setPageLoading(false)));
-  },
+const mapDispatchToProps = (dispatch) => ({
+  dispatch: dispatch,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllelePage);

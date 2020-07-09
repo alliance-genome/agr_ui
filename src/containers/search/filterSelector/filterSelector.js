@@ -13,8 +13,8 @@ import CollapsibleFacet from './collapsibleFacet';
 import {
   selectActiveCategory,
   selectAggregations,
-  selectIsPending,
 } from '../../../selectors/searchSelectors';
+import {selectPageLoading} from '../../../selectors/loadingSelector';
 
 class FilterSelectorComponent extends Component {
   renderFilters() {
@@ -58,11 +58,11 @@ class FilterSelectorComponent extends Component {
   render() {
     return (
       <div>
-        <div className={`d-none d-md-block ${style.aggContainer}`}>
+        <div className='d-none d-md-block'>
           {this.renderCatSelector()}
           {this.renderFilters()}
         </div>
-        <div className={`d-block d-md-none ${style.aggContainer}`}>
+        <div className='d-block d-md-none'>
           <CollapsibleFacet label='Filter'>
             <div className={style.mobileFacetList}>
               {this.renderCatSelector()}
@@ -86,7 +86,7 @@ function mapStateToProps(state) {
   return {
     activeCategory:  selectActiveCategory(state),
     aggregations: selectAggregations(state),
-    isPending: selectIsPending(state),
+    isPending: selectPageLoading(state),
   };
 }
 

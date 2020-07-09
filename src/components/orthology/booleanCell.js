@@ -1,15 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import style from './style.scss';
+
 const BooleanCell = ({value, isTrueFunc, render}) => {
-  const backgroundColor = isTrueFunc(value) ? '#dff0d8' : 'transparent';
   const rendered = render ? render(value) : value;
   return (
-    <td
-      style={{
-        backgroundColor: backgroundColor,
-      }}
-    >
+    <td className={isTrueFunc(value) ? style.booleanTrueBackground : ''}>
       {
         typeof value === 'boolean' ? value ? 'Yes' : 'No' : rendered
       }

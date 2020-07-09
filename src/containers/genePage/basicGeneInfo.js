@@ -49,7 +49,7 @@ class BasicGeneInfo extends Component {
           }
         </AttributeValue>
 
-        <AttributeLabel>Genomic Resources</AttributeLabel>
+        <AttributeLabel>Cross References</AttributeLabel>
         <AttributeValue>
           {gene.crossReferences.other && <CrossReferenceList crossReferences={gene.crossReferences.other} />}
         </AttributeValue>

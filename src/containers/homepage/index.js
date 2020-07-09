@@ -1,210 +1,34 @@
-/* eslint-disable react/no-set-state */
-
-import React, { Component } from 'react';
-import {
-  Carousel,
-  CarouselItem,
-  CarouselControl,
-} from 'reactstrap';
+import React from 'react';
 import HeadMetaTags from '../../components/headMetaTags';
-
+import SearchSection from './SearchSection';
+import AboutSection from './AboutSection';
+import MembersSection from './MembersSection';
+import {Link} from 'react-router-dom';
 import style from './style.scss';
 
-const items = [
-  {
-    logo: 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner_1_flyin_logo.png',
-    captionHeader: 'The Alliance 3.0 Release is available now.',
-    captionText: 'NEW FEATURES ',
-    link: '/release-notes',
-    className: 'slide1',
-  },
-  {
-    logo: 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner_1_flyin_logo.png',
-    captionHeader: 'Learn about the Alliance through our publications.',
-    captionText: 'READ MORE ',
-    link: '/publications',
-    className: 'slide2',
-  },
-  {
-    logo: 'https://i1.wp.com/alliancegenome.files.wordpress.com/2016/11/banner_1_flyin_logo.png',
-    captionHeader: 'Have questions about the Alliance of Genome Resources?',
-    captionText: 'CONTACT US ',
-    link: '/contact-us',
-    className: 'slide3',
-  },
-];
+const Homepage = () => {
+  return (
+    <div>
+      <HeadMetaTags title='Home' />
+      <SearchSection />
 
-class Homepage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { activeIndex: 0 };
-    this.onHandleNext =  this.handleNext = this.handleNext.bind(this);
-    this.onHandlePrevious = this.handlePrevious = this.handlePrevious.bind(this);
-    this.goToIndex = this.goToIndex.bind(this);
-    this.handleOnExiting = this.handleOnExiting.bind(this);
-    this.handleOnExited = this.handleOnExited.bind(this);
-  }
-
-  handleOnExiting() {
-    this.animating = true;
-  }
-
-  handleOnExited() {
-    this.animating = false;
-  }
-
-  handleNext() {
-    if (this.animating) return;
-    const nextIndex = this.state.activeIndex === items.length - 1 ? 0 : this.state.activeIndex + 1;
-    this.setState({ activeIndex: nextIndex });
-  }
-
-  handlePrevious() {
-    if (this.animating) return;
-    const nextIndex = this.state.activeIndex === 0 ? items.length - 1 : this.state.activeIndex - 1;
-    this.setState({ activeIndex: nextIndex });
-  }
-
-  goToIndex(newIndex) {
-    if (this.animating) return;
-    this.setState({ activeIndex: newIndex });
-  }
-
-  render() {
-    const { activeIndex } = this.state;
-
-    const slides = items.map((item, idx) => {
-      return (
-        <CarouselItem
-          key={idx}
-          onExited={this.handleOnExited}
-          onExiting={this.handleOnExiting}
-        >
-          <div className={style[item.className]} >
-            <div className='container'>
-              <div className='row py-3'>
-                <div className='col-xs-12 col-12 col-sm-6'>
-                  <img className='img-fluid slideLogoImg' src={item.logo} />
-                </div>
-                <div className='col-xs-12 col-12 col-sm-6 align-self-center'>
-                  <div className={style.carouselCaption} >
-                    <div className={style.captionHeader} >{item.captionHeader}</div>
-                    <div className='text-xs-center text-center'>
-                      <a className={`btn btn-light btn-secondary ${style.captionButton}`} href={item.link}>
-                        {item.captionText}
-                        <i className='fa fa-chevron-right' />
-                        <br />
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
+      <section className={style.section}>
+        <div className={`${style.contentContainer}`}>
+          <Link className='text-decoration-none' to='/coronavirus-resources'>
+            <div className='alert alert-danger m-0' role='alert'>
+              <h4 className='alert-heading'>
+                <i className='fa fa-exclamation-triangle' /> COVID-19 Information
+              </h4>
+              <p className='mb-0'>Click here for animal model information and resources for COVID-19 research</p>
             </div>
-          </div>
-
-        </CarouselItem>
-      );
-    });
-
-    return (
-      <div>
-        <HeadMetaTags title='Home' />
-
-        <Carousel
-          activeIndex={activeIndex}
-          next={this.onHandleNext}
-          previous={this.onHandlePrevious}
-        >
-
-          {slides}
-
-          <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.handlePrevious} />
-          <CarouselControl direction="next" directionText="Next" onClickHandler={this.handleNext} />
-
-        </Carousel>
-
-        <div style={{padding: '3rem'}} >
-          <div className="container">
-            <div style={{width: '100%', textAlign: 'center'}}>
-              <h2><span style={{color: '#2598c5'}}>MISSION STATEMENT</span></h2>
-            </div>
-            <p >The primary mission of the Alliance of Genome Resources (the Alliance) is to develop
-                and maintain sustainable genome information resources that facilitate the use of diverse model organisms
-                in understanding the genetic and genomic basis of human biology, health and disease. This understanding is
-                fundamental for advancing genome biology research and for translating human genome data into clinical
-                utility.</p>
-          </div>
+          </Link>
         </div>
+      </section>
 
-        <div style={{background: '#F6F6F6', color: '#333', padding: '1rem'}}>
-
-          <div className='container'>
-            <div className='row'>
-
-              <div className='col-xs-12 col-12 col-sm-4 '>
-                <h3><span >ALLIANCE FOUNDING MEMBER SITES</span></h3>
-                <p>The founding members of the Alliance of Genome Resources are: FlyBase, Mouse Genome Database (MGD),
-                    the Gene Ontology Consortium (GOC), Saccharomyces Genome Database (SGD), Rat Genome Database (RGD),
-                    WormBase, and the Zebrafish Information Network (ZFIN).</p>
-              </div>
-
-              <div className='col-xs-12 col-12 col-sm-8'>
-
-                <div className='row' style={{marginBottom: '1rem'}}>
-
-                  <div className='col-xs-3 col-3'>
-                    <a href='http://www.wormbase.org/'>
-                      <img alt='WormBase' className='img-fluid' src='https://alliancegenome.files.wordpress.com/2016/11/logo_wormbase.png' title='WormBase' />
-                    </a>
-                  </div>
-
-                  <div className='col-xs-3 col-3'>
-                    <a href='https://zfin.org/'>
-                      <img alt='Zfin' className='img-fluid' src='https://alliancegenome.files.wordpress.com/2016/11/logo_zfin.png' title='ZFIN' />
-                    </a>
-                  </div>
-
-                  <div className='col-xs-3 col-3'>
-                    <a href='http://www.geneontology.org'>
-                      <img alt='Gene Ontology' className='img-fluid' src='https://alliancegenome.files.wordpress.com/2016/11/logo_goc.png' title='Gene Ontology' />
-                    </a>
-                  </div>
-
-                  <div className='col-xs-3 col-3'>
-                    <a href='http://www.informatics.jax.org/'>
-                      <img alt='MGD' className='img-fluid' src='https://alliancegenome.files.wordpress.com/2016/11/logo_rgd.png' title='MGD' />
-                    </a>
-                  </div>
-
-                </div>
-
-                <div className='row'>
-
-                  <div className='col-xs-3 col-3'>
-                    <a href='http://flybase.org/'>
-                      <img alt='FlyBase' className='img-fluid' src='https://alliancegenome.files.wordpress.com/2016/11/logo_flybase.png' title='FlyBase' />
-                    </a>
-                  </div>
-
-                  <div className='col-xs-3 col-3'>
-                    <a href='http://rgd.mcw.edu/'>
-                      <img alt='RGD' className='img-fluid' src='https://alliancegenome.files.wordpress.com/2016/11/logo_mgd.png' title='RGD' />
-                    </a>
-                  </div>
-
-                  <div className='col-xs-3 col-3'>
-                    <a href='http://www.yeastgenome.org/'>
-                      <img alt='SGD' className='img-fluid' src='https://alliancegenome.files.wordpress.com/2016/11/logo_sgd.png' title='SGD' />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
+      <AboutSection />
+      <MembersSection />
+    </div>
+  );
+};
 
 export default Homepage;

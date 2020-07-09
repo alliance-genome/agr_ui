@@ -51,7 +51,7 @@ export function makeFieldDisplayName(unformattedName) {
   case 'go_species':
     return 'Associated Species';
   case 'id':
-    return 'ID';
+    return 'Source';
   case 'primaryId':
     return 'ID';
   case 'secondaryIds':

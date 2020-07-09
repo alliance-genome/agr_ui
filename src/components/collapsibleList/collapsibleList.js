@@ -1,51 +1,37 @@
-/* eslint-disable react/no-set-state */
-import React, {Component} from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import style from './style.scss';
 
-class CollapsibleList extends Component {
-  constructor(props) {
-    super(props);
-    this.handleToggle = this.toggleCollapsed.bind(this);
-    this.state = {
-      collapsed: true,
-    };
+const CollapsibleList = ({ children, collapsedSize, showBullets }) => {
+  const [ collapsed, setCollapsed ] = useState(true);
+
+  if (!children) {
+    return null;
   }
 
-  toggleCollapsed() {
-    this.setState({
-      collapsed: !this.state.collapsed
-    });
-  }
-
-  render() {
-    const { children, collapsedSize, showBullets } = this.props;
-    const { collapsed } = this.state;
-    if (!children) {
-      return null;
-    }
-    const childCount = React.Children.count(children);
-    return (
-      <div>
-        <ul className={`${style.collapsibleList} ${showBullets ? style.bulleted : ''}`}>
-          {React.Children.map(children, (child, idx) => {
-            if (collapsed && idx >= collapsedSize) return;
-            return <li>{child}</li>;
-          })}
-        </ul>
-        {childCount > collapsedSize && (
-          <span>
-            <button className={`btn btn-link ${style.toggleLink}`} onClick={this.handleToggle}>
-              <i className={`${style.toggleIcon} fa fa-caret-up ${collapsed ? 'fa-rotate-180' : ''}`} />
-              {' ' + (collapsed ? 'More' : 'Less')}
-            </button>
-          </span>
-        )}
-      </div>
-    );
-  }
-}
+  const toggle = () => setCollapsed(prev => !prev);
+  const childCount = React.Children.count(children);
+  const label = ' ' + (collapsed ? ('Show All ' + childCount) : ('Show First ' + collapsedSize));
+  return (
+    <div>
+      <ul className={`${style.collapsibleList} ${showBullets ? style.bulleted : ''}`}>
+        {React.Children.map(children, (child, idx) => {
+          if (collapsed && idx >= collapsedSize) return;
+          return <li>{child}</li>;
+        })}
+      </ul>
+      {childCount > collapsedSize && (
+        <span>
+          <button className={`btn btn-link btn-sm ${style.toggleLink}`} onClick={toggle}>
+            <i className={`${style.toggleIcon} fa fa-caret-up ${collapsed ? 'fa-rotate-180' : ''}`} />
+            {label}
+          </button>
+        </span>
+      )}
+    </div>
+  );
+};
 
 CollapsibleList.propTypes = {
   children: PropTypes.node,

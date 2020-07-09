@@ -1,17 +1,31 @@
-.controlContainer {
-	float: right;
-	margin-top: 0.25rem;
-	display: flex;
-	justify-content: space-between;
+@import "../../theme";
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+.searchBarBackground {
+  background: $primary-200;  /* fallback for old browsers */
+  background: linear-gradient(7deg, $accent-200 -20%, $tertiary-200 25%, $primary-200 100%);
+  border-bottom: 1px solid $border-color;
+
+  @include media-breakpoint-up(md) {
+    margin-bottom: 2rem;
+  }
 }
 
-.sortLabel {
-	margin-right: 0.5rem;
+.searchBarContainer {
+  font-size: 100%;
+  padding: 1rem 0;
+
+  @include media-breakpoint-up(md) {
+    font-size: 150%;
+    padding: 2rem 0;
+  }
 }
 
 .searchLabel {
-	display: block;
-	margin-bottom: 0.25rem;
+  display: block;
+	margin-right: 0.25rem;
 }
 
 .resultsListParent{
@@ -55,16 +69,12 @@ td > .detailContainer {
 	text-transform: capitalize;
 }
 
-.detailValue {
-
-}
-
-.missingTerms .detailValue {
-  text-decoration: line-through;
-}
-
 .missingTerms {
-  color: #666;
+  color: $text-muted;
+
+  .detailValue {
+    text-decoration: line-through;
+  }
 }
 
 .resultExplanation {
@@ -104,7 +114,7 @@ td > .detailContainer {
 .totalPending {
     width: 2rem;
     height: 1rem;
-    background: #e2e2e2;
+    background: $gray-200;
     display: inline-block;
     position: relative;
     top: 0.2rem;
@@ -121,27 +131,12 @@ a > span > .sprite {
     bottom: 0.1rem;
     margin-right: 0.15rem;
   }
-  &.go::before { color: #9467bd; }
-  &.gene::before { color: #1f77b4; }
-  &.disease::before { color: #D95F02; }
-  &.model::before { color: #bcbd22; }
-  &.allele::before { color: #8c564b; }
+  &.go::before { color: $data-type-go; }
+  &.gene::before { color: $data-type-gene; }
+  &.disease::before { color: $data-type-disease; }
+  &.model::before { color: $data-type-model; }
+  &.allele::before { color: $data-type-allele; }
 }
-/*
-Category colors (from SGD) that aren't used yet
-.reference{background:#ff7f0e}
-.biological_process{background:#2ca02c}
-.molecular_function{background:#8c564b}
-.phenotype{background:#e377c2}
-.resource{background:#17becf}
-.contig{background:#7f7f7f}
-.download{background:#d62728}
-.colleague{background:#ffbb78}
-.observable{background:#f7b6d2}
-.reserved_name{background:#aec7e8}
-.chemical{background:#ff9896}
-.complex{background:#E6AB03}
- */
 
 .resultSpeciesIcon {
   float: right;

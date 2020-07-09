@@ -8,7 +8,7 @@ import configureStore from '../../../lib/configureStore';
 import SearchContainer from '../search';
 import { FilterSelectorComponent } from '../filterSelector/filterSelector';
 import ResultsTable from '../resultsTable';
-import { SearchBreadcrumbsComponent } from '../searchBreadcrumbs';
+import SearchBreadcrumbs from '../searchBreadcrumbs';
 import { SearchControlsComponent } from '../searchControls';
 import fixtureResponse from './fixtureResponse';
 import { receiveResponse } from '../../../actions/search';
@@ -42,7 +42,7 @@ describe('Search', () => {
 
 describe('SearchBreadcrumbs', () => {
   it('should be able to render to an HTML string', () => {
-    let htmlString = renderToString(<Router><SearchBreadcrumbsComponent queryParams={{ page: 0, query: 'actin' }} total={5} /></Router>);
+    let htmlString = renderToString(<Router><SearchBreadcrumbs queryParams={{ page: 0, query: 'actin' }} total={5} /></Router>);
     assert.equal(typeof htmlString, 'string');
   });
 });

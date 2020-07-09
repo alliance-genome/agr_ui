@@ -1,4 +1,6 @@
 @import "../../theme";
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
 
 .loadingOverlay {
   position: absolute;
@@ -15,7 +17,7 @@
   transition: opacity 0ms;
   pointer-events: none;
   font-size: 2em;
-  color: #808080;
+  color: $gray-600;
 
   &.loading {
     opacity: 0.7;

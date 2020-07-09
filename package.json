@@ -14,8 +14,10 @@
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
     "@geneontology/ribbon": "^1.11.2",
+    "@geneontology/wc-ribbon-strips": "0.0.26",
+    "@geneontology/wc-ribbon-table": "0.0.43",
     "abortcontroller-polyfill": "^1.2.5",
-    "agr_genomefeaturecomponent": "^0.2.24",
+    "agr_genomefeaturecomponent": "^0.3.7",
     "bootstrap": "4.4.1",
     "caniuse-lite": "^1.0.30000975",
     "core-js": "^2.6.5",
@@ -37,7 +39,7 @@
     "prop-types": "^15.5.10",
     "query-string": "^5.1.1",
     "react": "^16.8.6",
-    "react-autosuggest": "^9.3.4",
+    "react-autosuggest": "^10.0.0",
     "react-bootstrap-table-next": "^3.0.1",
     "react-bootstrap-table2-filter": "1.1.5",
     "react-bootstrap-table2-overlay": "^1.0.0",
@@ -57,8 +59,7 @@
     "redux": "^3.6.0",
     "redux-thunk": "2.2.0",
     "reselect": "^2.5.4",
-    "sitemap": "^1.13.0",
-    "underscore": "^1.8.3"
+    "sitemap": "^1.13.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.0",
