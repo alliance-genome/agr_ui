@@ -7,6 +7,8 @@ const DownloadFileRow = ({description, url, fileType}) => {
     url = [url];
   }
 
+  url = url.filter(u => u);
+
   return (
     <tr>
       <td>{description}</td>
