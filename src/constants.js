@@ -152,7 +152,7 @@ export const NAV_MENU = [
 export const DEFAULT_TABLE_STATE = {
   page: 1,
   sizePerPage: 10,
-  sort: null,
+  sort: '',
   filters: {},
 };
 
