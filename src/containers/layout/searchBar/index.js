@@ -51,8 +51,7 @@ class SearchBarComponent extends Component {
     this.dispatchSearchFromQuery(selected);
   }
 
-  handleSelect(event) {
-    const selected = event.currentTarget.dataset.name;
+  handleSelect(selected) {
     const newCatOption = CATEGORIES.find(cat => cat.name === selected);
     this.setState({ catOption: newCatOption });
   }
@@ -127,7 +126,7 @@ class SearchBarComponent extends Component {
     let nodes = CATEGORIES.map( d => {
       let labelNode = (d.name === DEFAULT_CAT.name) ? 'All' : <CategoryLabel category={d.name} />;
       return (
-        <DropdownItem className={style.dropdownItem} data-name={d.name} key={d.name} onClick={this.handleSelect.bind(this)}>
+        <DropdownItem className={style.dropdownItem} key={d.name} onClick={() => this.handleSelect(d.name)}>
           {labelNode}
         </DropdownItem>
       );
@@ -179,8 +178,8 @@ class SearchBarComponent extends Component {
           <Autosuggest
             getSuggestionValue={_getSuggestionValue}
             inputProps={_inputProps}
-            onSuggestionsClearRequested={this.handleClear.bind(this)}
             onSuggestionSelected={this.handleSelected.bind(this)}
+            onSuggestionsClearRequested={this.handleClear.bind(this)}
             onSuggestionsFetchRequested={this.handleFetchData.bind(this)}
             renderSuggestion={this.renderSuggestion}
             suggestions={this.state.autoOptions}

@@ -1,3 +1,4 @@
+{/* eslint-disable react/no-set-state */}
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -14,6 +15,13 @@ import { selectPageLoading } from '../../selectors/loadingSelector';
 import Footer from './Footer';
 
 class Layout extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      menuOpen: false,
+    };
+  }
+
   componentDidMount() {
     const { dispatch, location } = this.props;
     dispatch(fetchWarningBanner());
@@ -41,6 +49,8 @@ class Layout extends Component {
 
   render() {
     const { children, location, warningBanner } = this.props;
+    const { menuOpen } = this.state;
+
     return (
       <div>
         {warningBanner &&
@@ -56,11 +66,7 @@ class Layout extends Component {
                 </Link>
                 <span className={style.version}>Release {process.env.RELEASE}</span>
               </div>
-              <button
-                aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation"
-                className="navbar-toggler d-md-none" data-target="#exCollapsingNavbar2"
-                data-toggle="collapse" type="button"
-              >
+              <button className="navbar-toggler d-md-none" onClick={() => this.setState({menuOpen: !menuOpen})} type="button">
                 <i className='fa fa-fw fa-bars' />
               </button>
             </div>
@@ -72,7 +78,11 @@ class Layout extends Component {
           </div>
         </div>
 
-        <MenuItems currentRoute={location.pathname} />
+        <MenuItems
+          currentRoute={location.pathname}
+          menuOpen={menuOpen}
+          onItemClick={() => this.setState({menuOpen: false})}
+        />
 
         <div className={style.loaderContentContainer}>
           <div className={style.content}>
