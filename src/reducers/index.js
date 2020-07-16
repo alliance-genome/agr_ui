@@ -1,4 +1,3 @@
-import diseaseReducer from './diseaseReducer';
 import diseaseRibbonReducer from './diseaseRibbonReducer';
 import expressionReducer from './expressionReducer';
 import geneReducer from './geneReducer';
@@ -10,7 +9,6 @@ import alleleReducer from './alleleReducer';
 
 export default {
   allele: alleleReducer,
-  disease: diseaseReducer,
   diseaseRibbon: diseaseRibbonReducer,
   expression: expressionReducer,
   fileManagementSystem: fileManagementSystemReducer,
