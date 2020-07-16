@@ -1,27 +1,39 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 import {
   AlleleCell,
+  DataTable,
   EvidenceCodesCell,
   ReferenceCell,
-  RemoteDataTable,
   SpeciesCell
 } from '../../components/dataTable';
-import {fetchAlleleAssociations} from '../../actions/diseaseActions';
-import {selectAlleleAssociations} from '../../selectors/diseaseSelectors';
 import AnnotatedEntitiesPopup
   from '../../components/dataTable/AnnotatedEntitiesPopup';
 import DiseaseLink from '../../components/disease/DiseaseLink';
 import {getDistinctFieldValue} from '../../components/dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
+import useDataTableQuery from '../../hooks/useDataTableQuery';
+import LoadingSpinner from '../../components/loadingSpinner';
 
-const DiseaseToAlleleTable = ({associations, fetchAssociations, id}) => {
-  const data = associations.data.map(association => ({
+const DiseaseToAlleleTable = ({id}) => {
+  const {
+    isLoading,
+    isFetching,
+    resolvedData,
+    tableState,
+    setTableState
+  } = useDataTableQuery(`/api/disease/${id}/alleles`);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  const data = resolvedData.results.map(association => ({
     ...association,
     species: association.allele.species,
   }));
+
   const columns = [
     {
       dataField: 'allele',
@@ -44,7 +56,7 @@ const DiseaseToAlleleTable = ({associations, fetchAssociations, id}) => {
       dataField: 'species',
       text: 'Species',
       formatter: species => <SpeciesCell species={species}/>,
-      filterable: getDistinctFieldValue(associations, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
+      filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       filterLabelClassName: 'species-name',
       headerStyle: {width: '105px'},
     },
@@ -53,7 +65,7 @@ const DiseaseToAlleleTable = ({associations, fetchAssociations, id}) => {
       text: 'Association',
       formatter: (type) => type.replace(/_/g, ' '),
       headerStyle: {width: '110px'},
-      filterable: getDistinctFieldValue(associations, 'associationType').map(type => type.replace(/_/g, ' ')),
+      filterable: getDistinctFieldValue(resolvedData, 'associationType').map(type => type.replace(/_/g, ' ')),
     },
     {
       dataField: 'disease',
@@ -103,32 +115,23 @@ const DiseaseToAlleleTable = ({associations, fetchAssociations, id}) => {
   ];
 
   return (
-    <RemoteDataTable
+    <DataTable
       columns={columns}
       data={data}
       downloadUrl={`/api/disease/${id}/alleles/download`}
       key={id}
       keyField='primaryKey'
-      loading={associations.loading}
-      onUpdate={fetchAssociations}
+      loading={isFetching}
+      setTableState={setTableState}
       sortOptions={sortOptions}
-      totalRows={associations.total}
+      tableState={tableState}
+      totalRows={resolvedData.total}
     />
   );
 };
 
 DiseaseToAlleleTable.propTypes = {
-  associations: PropTypes.object,
-  fetchAssociations: PropTypes.func,
   id: PropTypes.string,
 };
 
-const mapStateToProps = state => ({
-  associations: selectAlleleAssociations(state),
-});
-
-const mapDispatchToProps = (dispatch, props) => ({
-  fetchAssociations: (opts) => dispatch(fetchAlleleAssociations(props.id, opts)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(DiseaseToAlleleTable);
+export default DiseaseToAlleleTable;
