@@ -178,8 +178,8 @@ class SearchBarComponent extends Component {
           <Autosuggest
             getSuggestionValue={_getSuggestionValue}
             inputProps={_inputProps}
-            onSuggestionsClearRequested={this.handleClear.bind(this)}
             onSuggestionSelected={this.handleSelected.bind(this)}
+            onSuggestionsClearRequested={this.handleClear.bind(this)}
             onSuggestionsFetchRequested={this.handleFetchData.bind(this)}
             renderSuggestion={this.renderSuggestion}
             suggestions={this.state.autoOptions}
