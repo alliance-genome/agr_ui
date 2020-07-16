@@ -1,17 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
-import {
-  fetchDisease,
-} from '../../actions/diseaseActions';
-
-import {
-  selectData,
-  selectError,
-  selectLoading,
-} from '../../selectors/diseaseSelectors';
-
 import Subsection from '../../components/subsection';
 import NotFound from '../../components/notFound';
 import BasicDiseaseInfo from './basicDiseaseInfo';
@@ -21,146 +10,118 @@ import HeadMetaTags from '../../components/headMetaTags';
 import DiseaseToAlleleTable from './DiseaseToAlleleTable';
 import DiseaseToGeneTable from './DiseaseToGeneTable';
 import DiseaseToModelTable from './DiseaseToModelTable';
-import {setPageLoading} from '../../actions/loadingActions';
 import PageNavEntity from '../../components/dataPage/PageNavEntity';
 import DiseaseName from '../../components/disease/DiseaseName';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
+import {useQuery} from 'react-query';
+import {setPageLoading} from '../../actions/loadingActions';
+import fetchData from '../../lib/fetchData';
 
-class DiseasePage extends Component {
-  constructor(props) {
-    super(props);
-  }
+const SUMMARY = 'Summary';
+const GENES = 'Associated Genes';
+const ALLELES = 'Associated Alleles';
+const MODELS = 'Associated Models';
+const SECTIONS = [
+  {name: SUMMARY},
+  {name: GENES},
+  {name: ALLELES},
+  {name: MODELS},
+];
 
-  componentDidMount() {
-    this.fetchDiseaseData();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.diseaseId !== prevProps.diseaseId) {
-      this.fetchDiseaseData();
-    }
-  }
-
-  fetchDiseaseData() {
-    const { diseaseId, dispatch } = this.props;
+const DiseasePage = ({dispatch, diseaseId}) => {
+  const { isLoading, isError, data } = useQuery(['disease', diseaseId], () => {
     dispatch(setPageLoading(true));
-    dispatch(fetchDisease(diseaseId)).finally(() => dispatch(setPageLoading(false)));
+    return fetchData(`/api/disease/${diseaseId}`)
+      .finally(() => dispatch(setPageLoading(false)));
+  }, {
+    staleTime: Infinity,
+  });
+
+  if (isError) {
+    return <NotFound />;
   }
 
-  render() {
-    const {data, error} = this.props;
+  if (isLoading) {
+    return null; // the main page loading bar is sufficient
+  }
 
-    if (error) {
-      return <NotFound />;
-    }
+  const title = data.name || data.id;
 
-    if (!data || !Object.keys(data).length) {
-      return null;
-    }
+  let keywords = ['disease', data.id, data.name, data.definition];
+  if(data.synonyms){
+    keywords.push(...data.synonyms);
+  }
 
-    const disease = this.props.data;
+  let definitions = [data.definition];
+  if (data.definitionLinks && data.definitionLinks.length > 0) {
+    definitions.push(data.definitionLinks[0]);
+  }
 
-    const SUMMARY = 'Summary';
-    const GENES = 'Associated Genes';
-    const ALLELES = 'Associated Alleles';
-    const MODELS = 'Associated Models';
-    const SECTIONS = [
-      {name: SUMMARY},
-      {name: GENES},
-      {name: ALLELES},
-      {name: MODELS},
-    ];
-
-    const title = disease.name || disease.id;
-
-    let keywords = ['disease', data.id, data.name, data.definition];
-    if(data.synonyms){
-      keywords.push(...data.synonyms);
-    }
-
-    let definitions = [data.definition];
-    if (data.definitionLinks && data.definitionLinks.length > 0) {
-      definitions.push(data.definitionLinks[0]);
-    }
-
-    const jsonLd = [
-      {
-        '@context': 'http://schema.org',
-        '@type': 'Dataset',
-        '@id': data.id,
-        name: data.name,
-        description: [definitions].filter(a => !!a).join(' '),
-        url: 'https://www.alliancegenome.org/disease/' + data.id,
-        keywords: keywords.join(' '),
-        includedInDataCatalog: 'https://www.alliancegenome.org',
-        creator: {
-          '@type': 'Organization',
-          'name': 'Alliance of Genome Resources'
-        },
-        version: '2.0',
-        license: 'CC BY 4.0',
+  const jsonLd = [
+    {
+      '@context': 'http://schema.org',
+      '@type': 'Dataset',
+      '@id': data.id,
+      name: data.name,
+      description: [definitions].filter(a => !!a).join(' '),
+      url: 'https://www.alliancegenome.org/disease/' + data.id,
+      keywords: keywords.join(' '),
+      includedInDataCatalog: 'https://www.alliancegenome.org',
+      creator: {
+        '@type': 'Organization',
+        'name': 'Alliance of Genome Resources'
       },
-      {
-        '@context': 'http://schema.org',
-        '@type': 'MedicalCondition',
-        '@id': data.id,
-        identifier: data.id,
-        name: data.name,
-        url: `https://www.alliancegenome.org/disease/${data.id}`,
-        description: data.description,
-        'sameAs': data.url, // TODO: add resolver here
-      }
-    ];
+      version: '2.0',
+      license: 'CC BY 4.0',
+    },
+    {
+      '@context': 'http://schema.org',
+      '@type': 'MedicalCondition',
+      '@id': data.id,
+      identifier: data.id,
+      name: data.name,
+      url: `https://www.alliancegenome.org/disease/${data.id}`,
+      description: data.description,
+      'sameAs': data.url, // TODO: add resolver here
+    }
+  ];
 
 
-    return (
-      <DataPage>
-        <HeadMetaTags jsonLd={jsonLd} title={title} />
-        <PageNav sections={SECTIONS}>
-          <PageNavEntity entityName={<DiseaseName disease={disease} />}>
-            <ExternalLink href={disease.url}>{disease.id}</ExternalLink>
-          </PageNavEntity>
-        </PageNav>
-        <PageData>
-          <PageCategoryLabel category='disease' />
-          <PageHeader entityName={disease.name} />
+  return (
+    <DataPage>
+      <HeadMetaTags jsonLd={jsonLd} title={title} />
+      <PageNav sections={SECTIONS}>
+        <PageNavEntity entityName={<DiseaseName disease={data} />}>
+          <ExternalLink href={data.url}>{data.id}</ExternalLink>
+        </PageNavEntity>
+      </PageNav>
+      <PageData>
+        <PageCategoryLabel category='disease' />
+        <PageHeader entityName={data.name} />
 
-          <Subsection hideTitle title={SUMMARY}>
-            <BasicDiseaseInfo disease={disease} />
-          </Subsection>
+        <Subsection hideTitle title={SUMMARY}>
+          <BasicDiseaseInfo disease={data} />
+        </Subsection>
 
-          <Subsection title={GENES}>
-            <DiseaseToGeneTable id={disease.id} />
-          </Subsection>
+        <Subsection title={GENES}>
+          <DiseaseToGeneTable id={data.id} />
+        </Subsection>
 
-          <Subsection title={ALLELES}>
-            <DiseaseToAlleleTable id={disease.id} />
-          </Subsection>
+        <Subsection title={ALLELES}>
+          <DiseaseToAlleleTable id={data.id} />
+        </Subsection>
 
-          <Subsection title={MODELS}>
-            <DiseaseToModelTable id={disease.id} />
-          </Subsection>
-        </PageData>
-      </DataPage>
-    );
-  }
-}
+        <Subsection title={MODELS}>
+          <DiseaseToModelTable id={data.id} />
+        </Subsection>
+      </PageData>
+    </DataPage>
+  );
+};
 
 DiseasePage.propTypes = {
-  data: PropTypes.object,
   diseaseId: PropTypes.string.isRequired,
   dispatch: PropTypes.func,
-  error: PropTypes.string,
-  loading: PropTypes.bool,
 };
 
-const mapStateToProps = (state) => {
-  return {
-    data: selectData(state),
-    error: selectError(state),
-    loading: selectLoading(state),
-  };
-};
-
-export { DiseasePage as DiseasePage };
-export default connect(mapStateToProps)(DiseasePage);
+export default connect()(DiseasePage);
