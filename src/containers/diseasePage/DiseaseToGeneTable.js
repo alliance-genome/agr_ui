@@ -1,19 +1,14 @@
-/* eslint-disable react/no-set-state */
 import React from 'react';
-import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
-
-import {fetchGeneAssociations} from '../../actions/diseaseActions';
-import { selectGeneAssociations } from '../../selectors/diseaseSelectors';
 
 import {CollapsibleList} from '../../components/collapsibleList';
 import {
   EvidenceCodesCell,
   GeneCell,
   ReferenceCell,
-  RemoteDataTable,
-  SpeciesCell
+  SpeciesCell,
+  DataTable
 } from '../../components/dataTable';
 import {
   compareByFixedOrder,
@@ -25,8 +20,22 @@ import DiseaseLink from '../../components/disease/DiseaseLink';
 import {getDistinctFieldValue} from '../../components/dataTable/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
 import ProvidersCell from '../../components/dataTable/ProvidersCell';
+import useDataTableQuery from '../../hooks/useDataTableQuery';
+import LoadingSpinner from '../../components/loadingSpinner';
 
-const DiseaseToGeneTable = ({associations, fetchAssociations, id}) => {
+const DiseaseToGeneTable = ({id}) => {
+  const {
+    isFetching,
+    isLoading,
+    resolvedData,
+    tableState,
+    setTableState
+  } = useDataTableQuery(`/api/disease/${id}/genes`);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
   const columns = [
     {
       dataField: 'gene',
@@ -48,8 +57,8 @@ const DiseaseToGeneTable = ({associations, fetchAssociations, id}) => {
     {
       dataField: 'species',
       text: 'Species',
-      formatter: species => <SpeciesCell species={species} />,
-      filterable: getDistinctFieldValue(associations, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
+      formatter: species => <SpeciesCell species={species}/>,
+      filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       filterLabelClassName: 'species-name',
       headerStyle: {width: '105px'},
     },
@@ -57,13 +66,13 @@ const DiseaseToGeneTable = ({associations, fetchAssociations, id}) => {
       dataField: 'associationType',
       text: 'Association',
       formatter: (type) => type.replace(/_/g, ' '),
-      filterable: getDistinctFieldValue(associations, 'associationType').map(type => type.replace(/_/g, ' ')),
+      filterable: getDistinctFieldValue(resolvedData, 'associationType').map(type => type.replace(/_/g, ' ')),
       headerStyle: {width: '110px'},
     },
     {
       dataField: 'disease',
       text: 'Disease',
-      formatter: disease => <DiseaseLink disease={disease} />,
+      formatter: disease => <DiseaseLink disease={disease}/>,
       filterable: true,
       headerStyle: {width: '150px'},
     },
@@ -92,7 +101,8 @@ const DiseaseToGeneTable = ({associations, fetchAssociations, id}) => {
     {
       dataField: 'providers',
       text: 'Source',
-      formatter: providers => providers && <ProvidersCell providers={providers} />,
+      formatter: providers => providers &&
+        <ProvidersCell providers={providers}/>,
       filterable: true,
       headerStyle: {width: '85px'},
       filterName: 'provider',
@@ -109,7 +119,7 @@ const DiseaseToGeneTable = ({associations, fetchAssociations, id}) => {
 
   // need to pull out species in a separate field because we can't have
   // two columns based on the gene field
-  const data = associations.data.map(association => ({
+  const rows = resolvedData.results.map(association => ({
     species: association.gene.species,
     ...association,
   }));
@@ -130,32 +140,23 @@ const DiseaseToGeneTable = ({associations, fetchAssociations, id}) => {
   ];
 
   return (
-    <RemoteDataTable
+    <DataTable
       columns={columns}
-      data={data}
+      data={rows}
       downloadUrl={`/api/disease/${id}/genes/download`}
       key={id}
       keyField='primaryKey'
-      loading={associations.loading}
-      onUpdate={fetchAssociations}
+      loading={isFetching}
+      setTableState={setTableState}
       sortOptions={sortOptions}
-      totalRows={associations.total}
+      tableState={tableState}
+      totalRows={resolvedData.total}
     />
   );
 };
 
 DiseaseToGeneTable.propTypes = {
-  associations: PropTypes.object,
-  fetchAssociations: PropTypes.func,
   id: PropTypes.string,
 };
 
-const mapStateToProps = state => ({
-  associations: selectGeneAssociations(state),
-});
-
-const mapDispatchToProps = (dispatch, props) => ({
-  fetchAssociations: (opts) => dispatch(fetchGeneAssociations(props.id, opts)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(DiseaseToGeneTable);
+export default DiseaseToGeneTable;
