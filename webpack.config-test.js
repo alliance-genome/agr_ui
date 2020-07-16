@@ -1,9 +1,5 @@
 var nodeExternals = require('webpack-node-externals');
 
-require.extensions['.scss'] = function () {
-  return null;
-};
-
 module.exports = {
   mode: 'development',
   target: 'node', // in order to ignore built-in modules like path, fs, etc.
