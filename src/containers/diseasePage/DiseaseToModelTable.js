@@ -1,12 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {selectModelAssociations} from '../../selectors/diseaseSelectors';
-import {fetchModelAssociations} from '../../actions/diseaseActions';
 import {
+  DataTable,
   EvidenceCodesCell,
   ReferenceCell,
-  RemoteDataTable,
   SpeciesCell
 } from '../../components/dataTable';
 import AnnotatedEntitiesPopup
@@ -16,8 +13,22 @@ import DiseaseLink from '../../components/disease/DiseaseLink';
 import {getDistinctFieldValue} from '../../components/dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
+import useDataTableQuery from '../../hooks/useDataTableQuery';
+import LoadingSpinner from '../../components/loadingSpinner';
 
-const DiseaseToModelTable = ({associations, fetchAssociations, id}) => {
+const DiseaseToModelTable = ({id}) => {
+  const {
+    isLoading,
+    isFetching,
+    resolvedData,
+    tableState,
+    setTableState
+  } = useDataTableQuery(`/api/disease/${id}/models`);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
   const columns = [
     {
       dataField: 'model',
@@ -43,7 +54,7 @@ const DiseaseToModelTable = ({associations, fetchAssociations, id}) => {
       dataField: 'species',
       text: 'Species',
       formatter: species => <SpeciesCell species={species} />,
-      filterable: getDistinctFieldValue(associations, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
+      filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       filterLabelClassName: 'species-name',
       headerStyle: {width: '105px'},
     },
@@ -81,7 +92,7 @@ const DiseaseToModelTable = ({associations, fetchAssociations, id}) => {
 
   // need to pull out species in a separate field because we can't have
   // two columns based on the model field
-  const data = associations.data.map(association => ({
+  const data = resolvedData.results.map(association => ({
     species: association.model.species,
     ...association,
   }));
@@ -99,32 +110,23 @@ const DiseaseToModelTable = ({associations, fetchAssociations, id}) => {
 
 
   return (
-    <RemoteDataTable
+    <DataTable
       columns={columns}
       data={data}
       downloadUrl={`/api/disease/${id}/models/download`}
       key={id}
       keyField='primaryKey'
-      loading={associations.loading}
-      onUpdate={fetchAssociations}
+      loading={isFetching}
+      setTableState={setTableState}
       sortOptions={sortOptions}
-      totalRows={associations.total}
+      tableState={tableState}
+      totalRows={resolvedData.total}
     />
   );
 };
 
 DiseaseToModelTable.propTypes = {
-  associations: PropTypes.object,
-  fetchAssociations: PropTypes.func,
   id: PropTypes.string,
 };
 
-const mapStateToProps = state => ({
-  associations: selectModelAssociations(state),
-});
-
-const mapDispatchToProps = (dispatch, props) => ({
-  fetchAssociations: tableOpts => dispatch(fetchModelAssociations(props.id, tableOpts)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(DiseaseToModelTable);
+export default DiseaseToModelTable;
