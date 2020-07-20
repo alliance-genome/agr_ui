@@ -9,11 +9,10 @@ import routes from './routes';
 import { ScrollContext } from 'react-router-scroll-4';
 
 const isBrowser = (typeof window !== 'undefined');
+const store = configureStore();
 
 class ReactApp extends Component {
   render() {
-    let store = configureStore();
-
     const Router = this.props.router || BrowserRouter;
     return (
       <Provider store={store}>
