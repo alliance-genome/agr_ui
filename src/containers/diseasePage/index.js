@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import Subsection from '../../components/subsection';
 import NotFound from '../../components/notFound';
 import BasicDiseaseInfo from './basicDiseaseInfo';
@@ -13,9 +12,7 @@ import DiseaseToModelTable from './DiseaseToModelTable';
 import PageNavEntity from '../../components/dataPage/PageNavEntity';
 import DiseaseName from '../../components/disease/DiseaseName';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
-import {useQuery} from 'react-query';
-import {setPageLoading} from '../../actions/loadingActions';
-import fetchData from '../../lib/fetchData';
+import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 
 const SUMMARY = 'Summary';
 const GENES = 'Associated Genes';
@@ -28,14 +25,8 @@ const SECTIONS = [
   {name: MODELS},
 ];
 
-const DiseasePage = ({dispatch, diseaseId}) => {
-  const { isLoading, isError, data } = useQuery(['disease', diseaseId], () => {
-    dispatch(setPageLoading(true));
-    return fetchData(`/api/disease/${diseaseId}`)
-      .finally(() => dispatch(setPageLoading(false)));
-  }, {
-    staleTime: Infinity,
-  });
+const DiseasePage = ({diseaseId}) => {
+  const { isLoading, isError, data } = usePageLoadingQuery(`/api/disease/${diseaseId}`);
 
   if (isError) {
     return <NotFound />;
@@ -121,7 +112,6 @@ const DiseasePage = ({dispatch, diseaseId}) => {
 
 DiseasePage.propTypes = {
   diseaseId: PropTypes.string.isRequired,
-  dispatch: PropTypes.func,
 };
 
-export default connect()(DiseasePage);
+export default DiseasePage;
