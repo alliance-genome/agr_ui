@@ -64,6 +64,9 @@ class ExpressionComparisonRibbon extends React.Component {
 
   handleOrthologChange(values) {
     this.setState({selectedOrthologs: values});
+    if(this.state.selectedBlock.group) {
+      document.getElementById('expression-ribbon').selectGroup(this.state.selectedBlock.group.id);
+    }
   }
 
   hasParentElementId(elt, id) {
