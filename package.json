@@ -13,8 +13,8 @@
   "private": true,
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
-    "@geneontology/wc-ribbon-strips": "0.0.26",
-    "@geneontology/wc-ribbon-table": "0.0.43",
+    "@geneontology/wc-ribbon-strips": "0.0.30",
+    "@geneontology/wc-ribbon-table": "0.0.51",
     "abortcontroller-polyfill": "^1.2.5",
     "agr_genomefeaturecomponent": "^0.3.7",
     "bootstrap": "4.4.1",

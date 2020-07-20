@@ -15,6 +15,9 @@ import { getOrthologId } from '../orthology';
 import fetchData from '../../lib/fetchData';
 
 import LoadingSpinner from '../loadingSpinner';
+
+import { withRouter } from 'react-router';
+
 // import NoData from '../noData';
 
 
@@ -449,7 +452,8 @@ class GeneOntologyRibbon extends Component {
         bio-link-data={JSON.stringify(this.state.selected.data)}
         filter-by={this.state.onlyEXP ? 'evidence:' + EXP_CODES.join(',') : ''}
         group-by='term'
-        hide-columns={'qualifier,' + (this.state.selectedOrthologs.length == 0 ? 'gene,' : '') + (this.state.selected.group.id != 'all' ? ',aspect' : '')}
+        // hide-columns={'qualifier,' + (this.state.selectedOrthologs.length == 0 ? 'gene,' : '') + (this.state.selected.group.id != 'all' ? ',aspect' : '')}
+        hide-columns={'qualifier,gene,' + (this.state.selected.group.id != 'all' ? ',aspect' : '')}
         order-by='term'
       />
     );
@@ -482,4 +486,4 @@ const mapStateToProps = (state) => ({
   orthology: selectOrthologs(state)
 });
 
-export default connect(mapStateToProps)(GeneOntologyRibbon);
+export default connect(mapStateToProps)(withRouter(GeneOntologyRibbon));
