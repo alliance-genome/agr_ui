@@ -78,6 +78,9 @@ class DiseaseComparisonRibbon extends Component {
 
   handleOrthologyChange(selectedOrthologs) {
     this.setState({selectedOrthologs});
+    if(this.state.selectedBlock.group) {
+      document.getElementById('disease-ribbon').selectGroup(this.state.selectedBlock.group.id);
+    }
   }
 
   getGeneIdList() {
