@@ -53,7 +53,7 @@ const STRINGENCY_OPTIONS = [
   },
 ];
 
-const SPECIES = ALL_SPECIES.filter(s => s.orthologComparison);
+const SPECIES = ALL_SPECIES.filter(s => s.enableOrthologComparison);
 
 const sortBySpecies = species => species.sort(
   compareByFixedOrder(SPECIES.map(s => s.taxonId), s => s.taxonId)
@@ -105,7 +105,7 @@ class OrthologPicker extends React.Component {
   }
 
   updateInputDisabled() {
-    if (!getSpecies(this.props.focusTaxonId).orthologComparison) {
+    if (!getSpecies(this.props.focusTaxonId).enableOrthologComparison) {
       this.props.onCheckboxValueChange(false);
       this.setState({ inputDisabled: true });
     } else {

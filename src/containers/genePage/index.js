@@ -108,7 +108,7 @@ class GenePage extends Component {
     // manufacture a single cell atlas cross reference since this isn't stored
     // in the database (see AGR-1406)
     let singleCellAtlasXRef;
-    if (getSpecies(data.species.taxonId).showSingleCellExpressionAtlasLink) {
+    if (getSpecies(data.species.taxonId).enableSingleCellExpressionAtlasLink) {
       singleCellAtlasXRef = {
         name: 'Single Cell Expression Atlas',
         url: `https://www.ebi.ac.uk/gxa/sc/search?q=${data.symbol}&species=${data.species.name}`,
