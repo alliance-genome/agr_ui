@@ -114,5 +114,10 @@ wc-ribbon-cell.ribbon__subject--cell--no-annotation {
 
 .table__row__supercell__cell__link {
   color: $link-color
-}    
+}
 
+.ribbon-loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
