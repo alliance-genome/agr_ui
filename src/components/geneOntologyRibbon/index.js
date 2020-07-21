@@ -245,7 +245,7 @@ class GeneOntologyRibbon extends Component {
     this.setState({ 'applyingFilters' : true });
     this.setState({selectedOrthologs}, () => {
       this.fetchSummaryData(this.state.subset, this.getGeneIdList()).then(data => {
-
+        data = this.ensureFocusGeneIsPopulated(data);
         // notify no more filters to apply and data ready
         this.setState({ applyingFilters : false, loading : false, ribbon : data }, () => {
           if(this.state.selected.subject && !this.state.ribbon.subjects.some(sub => sub.id == this.state.selected.subject.id)) {
@@ -267,22 +267,7 @@ class GeneOntologyRibbon extends Component {
     this.setState({ 'applyingFilters' : true });
     this.setState({'onlyEXP' : event.target.checked}, () => {
       this.fetchSummaryData(this.state.subset, this.getGeneIdList()).then(data => {
-
-        // Fix AGR-2000: always show the focus gene even if no annotation
-        let hasFocusGene = data.subjects.some(sub => sub.id == this.props.geneId);
-        if(!hasFocusGene) {
-          data.subjects = [
-            {
-              id: this.props.geneId,
-              label: this.props.orthology.data[0].gene.symbol,
-              nb_annotations : 0,
-              nb_classes : 0,
-              taxon_id : this.props.geneTaxon,
-              taxon_label : this.props.orthology.data[0].gene.species.name,
-              groups: {}
-            }, ...data.subjects
-          ];
-        }
+        data = this.ensureFocusGeneIsPopulated(data);
         this.setState({ applyingFilters : false, loading : false, ribbon : data });
 
       }).catch(() => {
@@ -298,6 +283,27 @@ class GeneOntologyRibbon extends Component {
   //                      UTILITY FUNCTIONS
   //            (ideally this belong to somewhere else)
   // ===================================================================
+
+  ensureFocusGeneIsPopulated(data) {
+    // Fix AGR-2000: always show the focus gene even if no annotation
+    const hasFocusGene = data.subjects.some(sub => sub.id === this.props.geneId);
+    const subjects = [...data.subjects];
+    if (!hasFocusGene) {
+      subjects.unshift({
+        id: this.props.geneId,
+        label: this.props.geneSymbol,
+        nb_annotations : 0,
+        nb_classes : 0,
+        taxon_id : this.props.geneSpecies.taxonId,
+        taxon_label : this.props.geneSpecies.name,
+        groups: {}
+      });
+    }
+    return {
+      ...data,
+      subjects,
+    };
+  }
 
   /**
    * Return the category object for a given group
@@ -374,7 +380,7 @@ class GeneOntologyRibbon extends Component {
   // ===================================================================
 
   renderControls() {
-    const { geneTaxon, orthology } = this.props;
+    const { geneSpecies, orthology } = this.props;
     const { compareOrthologs, selectedOrthologs } = this.state;
 
     return(
@@ -388,7 +394,7 @@ class GeneOntologyRibbon extends Component {
         <OrthologPicker
           checkboxValue={compareOrthologs}
           defaultStringency={STRINGENCY_HIGH}
-          focusTaxonId={geneTaxon}
+          focusTaxonId={geneSpecies.taxonId}
           id='go-ortho-picker'
           onChange={this.handleOrthologyChange}
           onCheckboxValueChange={this.handleCompareOrthologsChange}
@@ -482,7 +488,8 @@ class GeneOntologyRibbon extends Component {
 
 GeneOntologyRibbon.propTypes = {
   geneId: PropTypes.string.isRequired,
-  geneTaxon: PropTypes.string,
+  geneSpecies: PropTypes.object,
+  geneSymbol: PropTypes.string,
   history: PropTypes.object,
   orthology: PropTypes.object
 };
