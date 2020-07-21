@@ -164,6 +164,7 @@ export const SPECIES = [
     apolloName: 'human',
     vertebrate: true,
     showSingleCellExpressionAtlasLink: true,
+    orthologComparison: true,
   },
   {
     taxonId: 'NCBITaxon:10090',
@@ -172,6 +173,7 @@ export const SPECIES = [
     apolloName: 'mouse',
     vertebrate: true,
     showSingleCellExpressionAtlasLink: true,
+    orthologComparison: true,
   },
   {
     taxonId: 'NCBITaxon:10116',
@@ -180,6 +182,7 @@ export const SPECIES = [
     apolloName: 'rat',
     vertebrate: true,
     showSingleCellExpressionAtlasLink: true,
+    orthologComparison: true,
   },
   {
     taxonId: 'NCBITaxon:7955',
@@ -188,6 +191,7 @@ export const SPECIES = [
     apolloName: 'zebrafish',
     vertebrate: true,
     showSingleCellExpressionAtlasLink: true,
+    orthologComparison: true,
   },
   {
     taxonId: 'NCBITaxon:7227',
@@ -196,6 +200,7 @@ export const SPECIES = [
     apolloName: 'fly',
     vertebrate: false,
     showSingleCellExpressionAtlasLink: true,
+    orthologComparison: true,
   },
   {
     taxonId: 'NCBITaxon:6239',
@@ -204,6 +209,7 @@ export const SPECIES = [
     apolloName: 'worm',
     vertebrate: false,
     showSingleCellExpressionAtlasLink: true,
+    orthologComparison: true,
   },
   {
     taxonId: 'NCBITaxon:559292',
@@ -212,6 +218,7 @@ export const SPECIES = [
     apolloName: 'yeast',
     vertebrate: false,
     showSingleCellExpressionAtlasLink: true,
+    orthologComparison: true,
   },
   {
     taxonId: 'NCBITaxon:2697049',
@@ -219,6 +226,7 @@ export const SPECIES = [
     shortName: 'SARS-CoV-2',
     vertebrate: false,
     showSingleCellExpressionAtlasLink: false,
+    orthologComparison: false,
   }
 ];
 

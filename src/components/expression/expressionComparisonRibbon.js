@@ -24,6 +24,7 @@ class ExpressionComparisonRibbon extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      compareOrthologs: true,
       stringency: STRINGENCY_HIGH,
       selectedOrthologs: [],
       selectedBlock : {
@@ -32,6 +33,7 @@ class ExpressionComparisonRibbon extends React.Component {
       }
     };
     this.handleOrthologChange = this.handleOrthologChange.bind(this);
+    this.handleCompareOrthologsChange = this.handleCompareOrthologsChange.bind(this);
     this.onExpressionGroupClicked = this.onExpressionGroupClicked.bind(this);
     this.onGroupClicked = this.onGroupClicked.bind(this);
     this.onSubjectClicked = this.onSubjectClicked.bind(this);
@@ -67,6 +69,10 @@ class ExpressionComparisonRibbon extends React.Component {
     if(this.state.selectedBlock.group) {
       document.getElementById('expression-ribbon').selectGroup(this.state.selectedBlock.group.id);
     }
+  }
+
+  handleCompareOrthologsChange(compareOrthologs) {
+    this.setState({ compareOrthologs });
   }
 
   hasParentElementId(elt, id) {
@@ -112,7 +118,7 @@ class ExpressionComparisonRibbon extends React.Component {
 
   render() {
     const { geneTaxon, orthology, summary } = this.props;
-    const { selectedOrthologs, selectedBlock } = this.state;
+    const { compareOrthologs, selectedOrthologs, selectedBlock } = this.state;
 
     // const genes = [geneId].concat(selectedOrthologs.map(o => getOrthologId(o)));
     // if only looking at a single yeast gene, just show CC group
@@ -156,12 +162,13 @@ class ExpressionComparisonRibbon extends React.Component {
               </HelpPopup>
             </span>
             <OrthologPicker
-              defaultEnabled
+              checkboxValue={compareOrthologs}
               defaultStringency={STRINGENCY_HIGH}
               focusTaxonId={geneTaxon}
               genesWithData={genesWithData}
               id='expression-ortho-picker'
               onChange={this.handleOrthologChange}
+              onCheckboxValueChange={this.handleCompareOrthologsChange}
               orthology={orthology.data}
               value={selectedOrthologs}
             />
@@ -184,10 +191,10 @@ class ExpressionComparisonRibbon extends React.Component {
               selection-mode='1'
               subject-base-url='/gene/'
               subject-open-new-tab={false}
-              subject-position='1'
+              subject-position={compareOrthologs ? '1' : '0'}
             />
           </div>
-          <div>{summary.loading && <LoadingSpinner />}</div>
+          <div className='ribbon-loading-overlay'>{summary.loading && <LoadingSpinner />}</div>
           <div className='text-muted mt-2'>
             <i>Cell color indicative of annotation volume; red slash indicates species lacks anatomical structure.</i>
           </div>
