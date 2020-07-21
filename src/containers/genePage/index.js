@@ -138,7 +138,11 @@ class GenePage extends Component {
           </Subsection>
 
           <Subsection help={<GoUserGuide />} title={FUNCTION}>
-            <GeneOntologyRibbon geneId={data.id} geneTaxon={data.species.taxonId} />
+            <GeneOntologyRibbon
+              geneId={data.id}
+              geneSpecies={data.species}
+              geneSymbol={data.symbol}
+            />
           </Subsection>
 
           <Subsection title={PHENOTYPES}>
