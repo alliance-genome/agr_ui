@@ -163,6 +163,7 @@ export const SPECIES = [
     shortName: 'Hsa',
     apolloName: 'human',
     vertebrate: true,
+    showSingleCellExpressionAtlasLink: true,
   },
   {
     taxonId: 'NCBITaxon:10090',
@@ -170,6 +171,7 @@ export const SPECIES = [
     shortName: 'Mmu',
     apolloName: 'mouse',
     vertebrate: true,
+    showSingleCellExpressionAtlasLink: true,
   },
   {
     taxonId: 'NCBITaxon:10116',
@@ -177,6 +179,7 @@ export const SPECIES = [
     shortName: 'Rno',
     apolloName: 'rat',
     vertebrate: true,
+    showSingleCellExpressionAtlasLink: true,
   },
   {
     taxonId: 'NCBITaxon:7955',
@@ -184,6 +187,7 @@ export const SPECIES = [
     shortName: 'Dre',
     apolloName: 'zebrafish',
     vertebrate: true,
+    showSingleCellExpressionAtlasLink: true,
   },
   {
     taxonId: 'NCBITaxon:7227',
@@ -191,6 +195,7 @@ export const SPECIES = [
     shortName: 'Dme',
     apolloName: 'fly',
     vertebrate: false,
+    showSingleCellExpressionAtlasLink: true,
   },
   {
     taxonId: 'NCBITaxon:6239',
@@ -198,6 +203,7 @@ export const SPECIES = [
     shortName: 'Cel',
     apolloName: 'worm',
     vertebrate: false,
+    showSingleCellExpressionAtlasLink: true,
   },
   {
     taxonId: 'NCBITaxon:559292',
@@ -205,7 +211,15 @@ export const SPECIES = [
     shortName: 'Sce',
     apolloName: 'yeast',
     vertebrate: false,
+    showSingleCellExpressionAtlasLink: true,
   },
+  {
+    taxonId: 'NCBITaxon:2697049',
+    fullName: 'Severe acute respiratory syndrome coronavirus 2',
+    shortName: 'SARS-CoV-2',
+    vertebrate: false,
+    showSingleCellExpressionAtlasLink: false,
+  }
 ];
 
 export const TAXON_ORDER = SPECIES.map(s => s.taxonId);

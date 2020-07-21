@@ -28,6 +28,7 @@ import GeneMetaTags from './GeneMetaTags';
 import {setPageLoading} from '../../actions/loadingActions';
 import PageNavEntity from '../../components/dataPage/PageNavEntity';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
+import { getSpecies } from '../../lib/utils';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
@@ -106,10 +107,13 @@ class GenePage extends Component {
 
     // manufacture a single cell atlas cross reference since this isn't stored
     // in the database (see AGR-1406)
-    const singleCellAtlasXRef = {
-      name: 'Single Cell Expression Atlas',
-      url: `https://www.ebi.ac.uk/gxa/sc/search?q=${data.symbol}&species=${data.species.name}`,
-    };
+    let singleCellAtlasXRef;
+    if (getSpecies(data.species.taxonId).showSingleCellExpressionAtlasLink) {
+      singleCellAtlasXRef = {
+        name: 'Single Cell Expression Atlas',
+        url: `https://www.ebi.ac.uk/gxa/sc/search?q=${data.symbol}&species=${data.species.name}`,
+      };
+    }
 
     return (
       <DataPage key={data.id}>
