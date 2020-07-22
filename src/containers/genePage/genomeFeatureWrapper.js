@@ -77,7 +77,8 @@ class GenomeFeatureWrapper extends Component {
   }
 
   getSpeciesString(species) {
-    return SPECIES.find(s => s.fullName === species).apolloName;
+    // short-name is for SARS only
+    return SPECIES.find(s => (s.fullName === species) || (s.shortName === species)).apolloName;
   }
 
   generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, variantFilter, displayType) {
