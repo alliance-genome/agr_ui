@@ -17,7 +17,7 @@ const PageNavEntity = ({children, entityName, icon, truncateName}) => {
   return (
     <>
       <div className='d-flex align-items-center'>
-        {icon && <span>{icon}</span>}
+        {icon}
         <h5 className={`mb-0 ${truncateName ? 'text-truncate' : ''}`} id='PageNavEntityTitle' ref={titleRef}>{entityName}</h5>
         {truncateName && attachTooltip &&
           <UncontrolledTooltip innerClassName={style.titleTooltip} placement='bottom' target='PageNavEntityTitle'>
