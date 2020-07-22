@@ -224,6 +224,7 @@ export const SPECIES = [
     taxonId: 'NCBITaxon:2697049',
     fullName: 'Severe acute respiratory syndrome coronavirus 2',
     shortName: 'SARS-CoV-2',
+    apolloName: 'SARS-CoV-2',
     vertebrate: false,
     enableSingleCellExpressionAtlasLink: false,
     enableOrthologComparison: false,

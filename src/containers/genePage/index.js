@@ -183,7 +183,7 @@ class GenePage extends Component {
               height='200px'
               id='genome-feature-location-id'
               primaryId={data.id}
-              species={data.species.name}
+              species={data.species.taxonId}
               strand={genomeLocation.strand}
               synonyms={data.synonyms}
               width='600px'

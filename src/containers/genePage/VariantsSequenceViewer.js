@@ -52,7 +52,7 @@ const VariantsSequenceViewer = ({alleles,allelesSelected,allelesVisible, gene, g
       height='200px'
       id='genome-feature-allele-location-id'
       primaryId={gene.id}
-      species={gene.species.name}
+      species={gene.species.taxonId}
       strand={genomeLocation.strand}
       synonyms={gene.synonyms}
       visibleVariants={allelesVisible.map( a => a.id)}
