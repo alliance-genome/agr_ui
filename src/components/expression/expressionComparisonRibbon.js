@@ -196,7 +196,7 @@ class ExpressionComparisonRibbon extends React.Component {
           </div>
           <div className='ribbon-loading-overlay'>{summary.loading && <LoadingSpinner />}</div>
           <div className='text-muted mt-2'>
-            <i>Cell color indicative of annotation volume; red slash indicates species lacks anatomical structure.</i>
+            <i>Cell color indicative of annotation volume; red slash indicates species lacks structure or developmental stage.</i>
           </div>
         </HorizontalScroll>
 
