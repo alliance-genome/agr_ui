@@ -30,6 +30,7 @@ class DiseaseComparisonRibbon extends Component {
   constructor(props){
     super(props);
     this.state = {
+      compareOrthologs: true,
       stringency: STRINGENCY_HIGH,
       selectedOrthologs: [],
       selectedBlock : {
@@ -39,6 +40,7 @@ class DiseaseComparisonRibbon extends Component {
     };
     this.onDiseaseGroupClicked = this.onDiseaseGroupClicked.bind(this);
     this.handleOrthologyChange = this.handleOrthologyChange.bind(this);
+    this.handleCompareOrthologsChange = this.handleCompareOrthologsChange.bind(this);
     this.onGroupClicked = this.onGroupClicked.bind(this);
     this.onSubjectClicked = this.onSubjectClicked.bind(this);
   }
@@ -78,6 +80,13 @@ class DiseaseComparisonRibbon extends Component {
 
   handleOrthologyChange(selectedOrthologs) {
     this.setState({selectedOrthologs});
+    if(this.state.selectedBlock.group) {
+      document.getElementById('disease-ribbon').selectGroup(this.state.selectedBlock.group.id);
+    }
+  }
+
+  handleCompareOrthologsChange(compareOrthologs) {
+    this.setState({ compareOrthologs });
   }
 
   getGeneIdList() {
@@ -127,7 +136,7 @@ class DiseaseComparisonRibbon extends Component {
 
   render(){
     const { geneTaxon, orthology, summary } = this.props;
-    const { selectedBlock, selectedOrthologs } = this.state;
+    const { compareOrthologs, selectedBlock, selectedOrthologs } = this.state;
 
     if (!summary) {
       return null;
@@ -153,11 +162,12 @@ class DiseaseComparisonRibbon extends Component {
               </HelpPopup>
             </span>
             <OrthologPicker
-              defaultEnabled
+              checkboxValue={compareOrthologs}
               defaultStringency={STRINGENCY_HIGH}
               focusTaxonId={geneTaxon}
               id='disease-ortho-picker'
               onChange={this.handleOrthologyChange}
+              onCheckboxValueChange={this.handleCompareOrthologsChange}
               orthology={orthology.data}
               value={selectedOrthologs}
             />
@@ -179,23 +189,18 @@ class DiseaseComparisonRibbon extends Component {
               selection-mode='1'
               subject-base-url='/gene/'
               subject-open-new-tab={false}
-              subject-position='1'
+              subject-position={compareOrthologs ? '1' : '0'}
             />
           </div>
-          <div>{summary.loading && <LoadingSpinner />}</div>
+          <div className='ribbon-loading-overlay'>{summary.loading && <LoadingSpinner />}</div>
           <div className='text-muted mt-2'>
             <i>Cell color indicative of annotation volume</i>
           </div>
         </HorizontalScroll>
 
-
-
-
-
         {selectedBlock.group && <div className='pt-4'>
           <DiseaseAnnotationTable genes={this.getGeneIdList()} term={selectedBlock.group.id} />
         </div>}
-
       </div>
     );
   }
