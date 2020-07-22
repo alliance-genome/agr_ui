@@ -68,7 +68,7 @@ export const NAV_MENU = [
     route: '/',
   },
   {
-    label: 'Data',
+    label: 'Data and Tools',
     sub: [
       {
         label: 'Downloads',
@@ -77,6 +77,10 @@ export const NAV_MENU = [
       {
         label: 'API',
         route: '/api/swagger-ui',
+      },
+      {
+        label: 'Tools and Prototypes',
+        route: '/prototypes',
       },
     ]
   },
