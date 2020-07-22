@@ -46,7 +46,7 @@ const AlleleSequenceView = ({allele, variants}) => {
       height='200px'
       id='genome-feature-location-id'
       primaryId={allele.id}
-      species={allele.species.name}
+      species={allele.species.taxonId}
       strand={genomeLocation.strand}
       synonyms={allele.synonyms}
       visibleVariants={[allele.id]}
