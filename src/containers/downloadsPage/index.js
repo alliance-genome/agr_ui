@@ -168,6 +168,10 @@ class DownloadsPage extends React.Component {
                   url={this.getUrlForDataType('INTERACTION-MOL', speciesSubType.subType)}
                 />
               ))}
+              <DownloadFileRow
+                description='SARS-CoV-2 molecular interactions'
+                url={this.getUrlForDataType('INTERACTION-MOL', 'SARS-CoV-2')}
+              />
             </DownloadFileTable>
           </Subsection>
 
