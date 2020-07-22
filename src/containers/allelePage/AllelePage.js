@@ -73,7 +73,7 @@ const AllelePage = (props) => {
     <DataPage>
       <HeadMetaTags title={title}/>
       <PageNav sections={SECTIONS}>
-        <PageNavEntity entityName={<AlleleSymbol allele={data} />} icon={<SpeciesIcon scale={0.5} species={data.species.name} />} truncateName>
+        <PageNavEntity entityName={<AlleleSymbol allele={data} />} icon={<SpeciesIcon inNav scale={0.5} species={data.species.name} />} truncateName>
           <DataSourceLink reference={data.crossReferences.primary} />
           {data.gene && <div>Allele of <Link to={`/gene/${data.gene.id}`}>{data.gene.symbol}</Link></div>}
           <i>{data.species.name}</i>

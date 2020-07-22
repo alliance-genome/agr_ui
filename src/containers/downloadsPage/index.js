@@ -17,6 +17,7 @@ import {selectFiles} from '../../selectors/fileManagementSystemSelectors';
 import {fetchReleaseFiles} from '../../actions/fileManagementSystemActions';
 import DownloadFileRow from './DownloadFileRow';
 import {setPageLoading} from '../../actions/loadingActions';
+import PageNavEntity from '../../components/dataPage/PageNavEntity';
 
 const DOWNLOAD_HOST = 'http://download.alliancegenome.org';
 
@@ -79,7 +80,9 @@ class DownloadsPage extends React.Component {
     return (
       <DataPage>
         <HeadMetaTags title={TITLE} />
-        <PageNav sections={SECTIONS} />
+        <PageNav sections={SECTIONS}>
+          <PageNavEntity entityName={TITLE} />
+        </PageNav>
         <PageData>
           <PageHeader entityName={TITLE} />
 
@@ -165,6 +168,10 @@ class DownloadsPage extends React.Component {
                   url={this.getUrlForDataType('INTERACTION-MOL', speciesSubType.subType)}
                 />
               ))}
+              <DownloadFileRow
+                description='SARS-CoV-2 molecular interactions'
+                url={this.getUrlForDataType('INTERACTION-MOL', 'SARS-CoV-2')}
+              />
             </DownloadFileTable>
           </Subsection>
 

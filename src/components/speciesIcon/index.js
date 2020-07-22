@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import style from './style.scss';
 
-const SpeciesIcon = ({species, scale, iconClass}) => {
+const SpeciesIcon = ({inNav = false, species, scale = 1, iconClass}) => {
   if (!species) {
     return null;
   }
@@ -15,6 +15,9 @@ const SpeciesIcon = ({species, scale, iconClass}) => {
   if (iconClass) {
     classes.push(iconClass);
   }
+  if (inNav) {
+    classes.push(style.inNav);
+  }
   const size = {
     minWidth: 78 * scale,
     minHeight: 90 * scale,
@@ -24,12 +27,9 @@ const SpeciesIcon = ({species, scale, iconClass}) => {
 
 SpeciesIcon.propTypes = {
   iconClass: PropTypes.string,
+  inNav: PropTypes.bool,
   scale: PropTypes.number,
   species: PropTypes.string,
-};
-
-SpeciesIcon.defaultProps = {
-  scale: 1,
 };
 
 export default SpeciesIcon;
