@@ -14,11 +14,12 @@ import {
   UncontrolledDropdown,
   UncontrolledTooltip
 } from 'reactstrap';
-import {SPECIES, TAXON_ORDER} from '../constants';
+import {SPECIES as ALL_SPECIES, TAXON_ORDER} from '../constants';
 import {
   compareAlphabeticalCaseInsensitive,
   compareBy,
   compareByFixedOrder,
+  getSpecies,
   makeId,
   orthologyMeetsStringency
 } from '../lib/utils';
@@ -52,6 +53,8 @@ const STRINGENCY_OPTIONS = [
   },
 ];
 
+const SPECIES = ALL_SPECIES.filter(s => s.enableOrthologComparison);
+
 const sortBySpecies = species => species.sort(
   compareByFixedOrder(SPECIES.map(s => s.taxonId), s => s.taxonId)
 );
@@ -64,7 +67,7 @@ class OrthologPicker extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      enabled: !!props.defaultEnabled,
+      inputDisabled: false,
       stringency: STRINGENCY_OPTIONS.find(o => o.value === props.defaultStringency),
       allVertebrates: false,
       allInvertebrates: false,
@@ -74,15 +77,20 @@ class OrthologPicker extends React.Component {
   }
 
   componentDidMount() {
+    this.updateInputDisabled();
     this.fireChangeCallback();
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { stringency, enabled, selectedSpecies } = this.state;
+    const { stringency, selectedSpecies } = this.state;
     const stringencyChanged = prevState.stringency !== stringency;
     const speciesChanged = !isEqual(prevState.selectedSpecies, selectedSpecies);
     const orthologyChanged = !isEqual(prevProps.orthology, this.props.orthology);
-    const enabledChanged = prevState.enabled !== enabled;
+    const enabledChanged = prevProps.checkboxValue !== this.props.checkboxValue;
+
+    if (this.props.focusTaxonId !== prevProps.focusTaxonId) {
+      this.updateInputDisabled();
+    }
 
     // if the filters or orthology itself have changed...
     if (enabledChanged || stringencyChanged || speciesChanged || orthologyChanged) {
@@ -91,15 +99,24 @@ class OrthologPicker extends React.Component {
 
       // enable the main compare checkbox (may be a no-op in some cases)
       if ((stringencyChanged && stringency) || (speciesChanged && selectedSpecies.length)) {
-        this.setState({enabled: true});
+        this.props.onCheckboxValueChange(true);
       }
     }
   }
 
+  updateInputDisabled() {
+    if (!getSpecies(this.props.focusTaxonId).enableOrthologComparison) {
+      this.props.onCheckboxValueChange(false);
+      this.setState({ inputDisabled: true });
+    } else {
+      this.setState({ inputDisabled: false });
+    }
+  }
+
   fireChangeCallback() {
-    const { orthology, onChange, genesWithData } = this.props;
-    const { enabled, stringency, selectedSpecies } = this.state;
-    if (!enabled) {
+    const { checkboxValue, orthology, onChange, genesWithData } = this.props;
+    const { stringency, selectedSpecies } = this.state;
+    if (!checkboxValue) {
       return onChange([]);
     }
     const filteredOrthology = orthology
@@ -195,27 +212,29 @@ class OrthologPicker extends React.Component {
   }
 
   render() {
-    const { focusTaxonId, id, orthology } = this.props;
-    const { allInvertebrates, allVertebrates, enabled, selectedSpecies, stringency } = this.state;
+    const { checkboxValue, focusTaxonId, id, orthology } = this.props;
+    const { inputDisabled, allInvertebrates, allVertebrates, selectedSpecies, stringency } = this.state;
 
     return (
       <div className='mb-3'>
         <div className='form-group mb-1'>
           <div className='form-check form-check-inline'>
-            <label className='form-check-label'>
-              <input
-                checked={enabled}
-                className='form-check-input'
-                onChange={e => this.setState({enabled: e.target.checked})}
-                type='checkbox'
-              />
+            <input
+              checked={checkboxValue}
+              className='form-check-input'
+              disabled={inputDisabled}
+              id={id + '-checkbox'}
+              onChange={e => this.props.onCheckboxValueChange(e.target.checked)}
+              type='checkbox'
+            />
+            <label className='form-check-label' htmlFor={id + '-checkbox'}>
               <b>Compare ortholog genes</b>
             </label>
           </div>
         </div>
         <div className='ml-3'>
           <UncontrolledDropdown className='pr-2' tag='span'>
-            <DropdownToggle caret className='align-baseline' color='primary' outline={!enabled || !stringency}>
+            <DropdownToggle caret className='align-baseline' color='primary' disabled={inputDisabled} outline={!checkboxValue || !stringency}>
               <span>Stringency{stringency && `: ${stringency.label}`}</span>
             </DropdownToggle>
             <DropdownMenu>
@@ -247,7 +266,7 @@ class OrthologPicker extends React.Component {
             </DropdownMenu>
           </UncontrolledDropdown>
           <UncontrolledDropdown className='pr-2' tag='span'>
-            <DropdownToggle caret className='align-baseline' color='primary' outline={!enabled || !selectedSpecies.length}>
+            <DropdownToggle caret className='align-baseline' color='primary' disabled={inputDisabled} outline={!checkboxValue || !selectedSpecies.length}>
               Species
               {selectedSpecies.length > 0 && <span>: <i>{selectedSpecies[0].fullName}</i></span>}
               {selectedSpecies.length > 1 && <span className='ml-1'>+{selectedSpecies.length - 1} species</span>}
@@ -336,12 +355,13 @@ class OrthologPicker extends React.Component {
 }
 
 OrthologPicker.propTypes = {
-  defaultEnabled: PropTypes.bool,
+  checkboxValue: PropTypes.bool.isRequired,
   defaultStringency: PropTypes.string,
   focusTaxonId: PropTypes.string,
   genesWithData: PropTypes.object,
   id: PropTypes.string.isRequired,
   onChange: PropTypes.func,
+  onCheckboxValueChange: PropTypes.func.isRequired,
   orthology: PropTypes.array,
   value: PropTypes.array,
 };

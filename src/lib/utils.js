@@ -101,10 +101,14 @@ export function filterOrthologyByStringency(orthologyList, stringency) {
   return orthologyList.filter(o => orthologyMeetsStringency(o, stringency));
 }
 
+export function getSpecies(taxonId) {
+  return SPECIES.find(s => s.taxonId === taxonId) || {};
+}
+
 export const shortSpeciesName = taxonId => {
-  return (SPECIES.find(s => s.taxonId === taxonId) || {}).shortName;
+  return getSpecies(taxonId).shortName;
 };
 
 export const fullSpeciesName = taxonId => {
-  return (SPECIES.find(s => s.taxonId === taxonId) || {}).fullName;
+  return getSpecies(taxonId).fullName;
 };
