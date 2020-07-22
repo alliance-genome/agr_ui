@@ -51,6 +51,13 @@ const VariantToTranscriptTable = ({variant}) => {
       },
     },
     {
+      text: 'Location',
+      dataField: 'intronExonLocation',
+      headerStyle: {
+        width: 80,
+      },
+    },
+    {
       text: 'Molecular consequence',
       dataField: 'consequences',
       headerStyle: {

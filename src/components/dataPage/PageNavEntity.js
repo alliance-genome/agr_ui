@@ -15,25 +15,22 @@ const PageNavEntity = ({children, entityName, icon, truncateName}) => {
   }, [entityName, truncateName]);
 
   return (
-    <div className={`${style.entity}`}>
-      <div className='w-100'>
-        <div className='d-flex align-items-center'>
-          {icon && <span className='mr-2'>{icon}</span>}
-          <h5 className={truncateName ? 'text-truncate' : ''} id='PageNavEntityTitle' ref={titleRef}>{entityName}</h5>
-          {truncateName && attachTooltip &&
-            <UncontrolledTooltip innerClassName={style.titleTooltip} placement='bottom' target='PageNavEntityTitle'>
-              {entityName}
-            </UncontrolledTooltip>
-          }
-        </div>
-        <div className='d-flex flex-column'>
+    <>
+      <div className='d-flex align-items-center'>
+        {icon}
+        <h5 className={`mb-0 ${truncateName ? 'text-truncate' : ''}`} id='PageNavEntityTitle' ref={titleRef}>{entityName}</h5>
+        {truncateName && attachTooltip &&
+          <UncontrolledTooltip innerClassName={style.titleTooltip} placement='bottom' target='PageNavEntityTitle'>
+            {entityName}
+          </UncontrolledTooltip>
+        }
+      </div>
+      {children && (
+        <div className='mt-1 d-flex flex-column'>
           {children}
         </div>
-      </div>
-      <button className='navbar-toggler ml-auto' data-target='#data-page-nav' data-toggle='collapse' type='button'>
-        <i className='fa fa-fw fa-bars' />
-      </button>
-    </div>
+      )}
+    </>
   );
 };
 

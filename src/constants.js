@@ -68,7 +68,7 @@ export const NAV_MENU = [
     route: '/',
   },
   {
-    label: 'Data',
+    label: 'Data and Tools',
     sub: [
       {
         label: 'Downloads',
@@ -77,6 +77,10 @@ export const NAV_MENU = [
       {
         label: 'API',
         route: '/api/swagger-ui',
+      },
+      {
+        label: 'Tools and Prototypes',
+        route: '/prototypes',
       },
     ]
   },
@@ -163,6 +167,8 @@ export const SPECIES = [
     shortName: 'Hsa',
     apolloName: 'human',
     vertebrate: true,
+    enableSingleCellExpressionAtlasLink: true,
+    enableOrthologComparison: true,
   },
   {
     taxonId: 'NCBITaxon:10090',
@@ -170,6 +176,8 @@ export const SPECIES = [
     shortName: 'Mmu',
     apolloName: 'mouse',
     vertebrate: true,
+    enableSingleCellExpressionAtlasLink: true,
+    enableOrthologComparison: true,
   },
   {
     taxonId: 'NCBITaxon:10116',
@@ -177,6 +185,8 @@ export const SPECIES = [
     shortName: 'Rno',
     apolloName: 'rat',
     vertebrate: true,
+    enableSingleCellExpressionAtlasLink: true,
+    enableOrthologComparison: true,
   },
   {
     taxonId: 'NCBITaxon:7955',
@@ -184,6 +194,8 @@ export const SPECIES = [
     shortName: 'Dre',
     apolloName: 'zebrafish',
     vertebrate: true,
+    enableSingleCellExpressionAtlasLink: true,
+    enableOrthologComparison: true,
   },
   {
     taxonId: 'NCBITaxon:7227',
@@ -191,6 +203,8 @@ export const SPECIES = [
     shortName: 'Dme',
     apolloName: 'fly',
     vertebrate: false,
+    enableSingleCellExpressionAtlasLink: true,
+    enableOrthologComparison: true,
   },
   {
     taxonId: 'NCBITaxon:6239',
@@ -198,6 +212,8 @@ export const SPECIES = [
     shortName: 'Cel',
     apolloName: 'worm',
     vertebrate: false,
+    enableSingleCellExpressionAtlasLink: true,
+    enableOrthologComparison: true,
   },
   {
     taxonId: 'NCBITaxon:559292',
@@ -205,7 +221,18 @@ export const SPECIES = [
     shortName: 'Sce',
     apolloName: 'yeast',
     vertebrate: false,
+    enableSingleCellExpressionAtlasLink: true,
+    enableOrthologComparison: true,
   },
+  {
+    taxonId: 'NCBITaxon:2697049',
+    fullName: 'Severe acute respiratory syndrome coronavirus 2',
+    shortName: 'SARS-CoV-2',
+    apolloName: 'SARS-CoV-2',
+    vertebrate: false,
+    enableSingleCellExpressionAtlasLink: false,
+    enableOrthologComparison: false,
+  }
 ];
 
 export const TAXON_ORDER = SPECIES.map(s => s.taxonId);

@@ -87,6 +87,9 @@ const VariantEffectDetails = ({
       <AttributeLabel>Affected sequence feature accession</AttributeLabel>
       <AttributeValue>{transcript.id}</AttributeValue>
 
+      <AttributeLabel>Variant location in feature</AttributeLabel>
+      <AttributeValue>{transcript.intronExonLocation}</AttributeValue>
+
       <AttributeLabel>Molecular Consequence</AttributeLabel>
       <AttributeValue>
         <CollapsibleList collapsedSize={5}>
@@ -175,6 +178,7 @@ VariantEffectDetails.propTypes = {
   }),
   transcript: PropTypes.shape({
     id: PropTypes.string,
+    intronExonLocation: PropTypes.string,
     name: PropTypes.string,
     type: PropTypes.shape({
       name: PropTypes.string,

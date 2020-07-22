@@ -23,6 +23,7 @@ import GeneMetaTags from './GeneMetaTags';
 import PageNavEntity from '../../components/dataPage/PageNavEntity';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
+import { getSpecies } from '../../lib/utils';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
@@ -83,16 +84,19 @@ const GenePage = ({geneId}) => {
 
   // manufacture a single cell atlas cross reference since this isn't stored
   // in the database (see AGR-1406)
-  const singleCellAtlasXRef = {
-    name: 'Single Cell Expression Atlas',
-    url: `https://www.ebi.ac.uk/gxa/sc/search?q=${data.symbol}&species=${data.species.name}`,
-  };
+  let singleCellAtlasXRef;
+  if (getSpecies(data.species.taxonId).enableSingleCellExpressionAtlasLink) {
+    singleCellAtlasXRef = {
+      name: 'Single Cell Expression Atlas',
+      url: `https://www.ebi.ac.uk/gxa/sc/search?q=${data.symbol}&species=${data.species.name}`,
+    };
+  }
 
   return (
     <DataPage key={data.id}>
       <GeneMetaTags gene={data} />
       <PageNav sections={SECTIONS}>
-        <PageNavEntity entityName={data.symbol} icon={<SpeciesIcon scale={0.5} species={data.species.name} />} truncateName>
+        <PageNavEntity entityName={data.symbol} icon={<SpeciesIcon inNav scale={0.5} species={data.species.name} />} truncateName>
           <i>{data.species.name}</i>
           <DataSourceLink reference={data.crossReferences.primary} />
         </PageNavEntity>
@@ -111,7 +115,11 @@ const GenePage = ({geneId}) => {
         </Subsection>
 
         <Subsection help={<GoUserGuide />} title={FUNCTION}>
-          <GeneOntologyRibbon geneId={data.id} geneTaxon={data.species.taxonId} />
+          <GeneOntologyRibbon
+            geneId={data.id}
+            geneSpecies={data.species}
+            geneSymbol={data.symbol}
+          />
         </Subsection>
 
         <Subsection title={PHENOTYPES}>
@@ -152,7 +160,7 @@ const GenePage = ({geneId}) => {
             height='200px'
             id='genome-feature-location-id'
             primaryId={data.id}
-            species={data.species.name}
+            species={data.species.taxonId}
             strand={genomeLocation.strand}
             synonyms={data.synonyms}
             width='600px'
