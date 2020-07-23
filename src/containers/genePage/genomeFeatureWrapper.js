@@ -99,8 +99,8 @@ class GenomeFeatureWrapper extends Component {
             'type': 'ISOFORM',
             'url': [
               this.trackDataUrl,
-              '/All%20Genes/',
-              `.json${nameSuffixString}`
+              speciesInfo.apolloTrack,
+              `.json${nameSuffixString}${speciesInfo.suppressFlatten ? '&flatten=false' : ''}`
             ]
           },
         ]
