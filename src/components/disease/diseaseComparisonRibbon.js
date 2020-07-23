@@ -1,4 +1,3 @@
-/* eslint-disable react/no-set-state */
 /**
  * This component will render the following child components
  * OrthologPicker, DiseaseRibbon, DiseaseAssociationTable
@@ -16,9 +15,8 @@ import LoadingSpinner from '../loadingSpinner';
 import OrthologPicker from '../OrthologPicker';
 import { withRouter } from 'react-router-dom';
 import { getGeneIdList } from '../../lib/utils';
-import { useQuery } from 'react-query';
-import fetchData from '../../lib/fetchData';
 import useEventListener from '../../hooks/useEventListener';
+import useComparisonRibbonQuery from '../../hooks/useComparisonRibbonQuery';
 
 const DiseaseComparisonRibbon = ({geneId, geneTaxon, history}) => {
   const [compareOrthologs, setCompareOrthologs] = useState(true);
@@ -33,21 +31,7 @@ const DiseaseComparisonRibbon = ({geneId, geneTaxon, history}) => {
     }
   });
 
-  const summary = useQuery(
-    ['disease-ribbon-summary', geneId, selectedOrthologs],
-    () => {
-      // selectedOrthologs is null until it is initialized by an OrthologPicker callback.
-      // this prevents an unnecessary request during the first render
-      if (!selectedOrthologs) {
-        return;
-      }
-      const geneIdList = getGeneIdList(geneId, selectedOrthologs).map(id => `geneID=${id}`).join('&');
-      return fetchData(`/api/gene/*/disease-ribbon-summary?${geneIdList}`);
-    },
-    {
-      staleTime: Infinity,
-    }
-  );
+  const summary = useComparisonRibbonQuery('/api/gene/*/disease-ribbon-summary', geneId, selectedOrthologs);
 
   const onSubjectClick = (e) => {
     // don't use the ribbon default action upon subject click

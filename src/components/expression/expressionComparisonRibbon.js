@@ -1,4 +1,3 @@
-/* eslint-disable react/no-set-state */
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
@@ -11,9 +10,8 @@ import ExpressionControlsHelp from './expressionControlsHelp';
 import OrthologPicker from '../OrthologPicker';
 import LoadingSpinner from '../loadingSpinner';
 import { getGeneIdList } from '../../lib/utils';
-import { useQuery } from 'react-query';
-import fetchData from '../../lib/fetchData';
 import useEventListener from '../../hooks/useEventListener';
+import useComparisonRibbonQuery from '../../hooks/useComparisonRibbonQuery';
 
 const ExpressionComparisonRibbon = ({
   geneId,
@@ -27,21 +25,7 @@ const ExpressionComparisonRibbon = ({
     subject: null,
   });
 
-  const summary = useQuery(
-    ['expression-ribbon-summary', geneId, selectedOrthologs],
-    () => {
-      // selectedOrthologs is null until it is initialized by an OrthologPicker callback.
-      // this prevents an unnecessary request during the first render
-      if (!selectedOrthologs) {
-        return;
-      }
-      const geneIdList = getGeneIdList(geneId, selectedOrthologs).map(id => `geneID=${id}`).join('&');
-      return fetchData(`/api/expression/ribbon-summary?${geneIdList}`);
-    },
-    {
-      staleTime: Infinity,
-    }
-  );
+  const summary = useComparisonRibbonQuery('/api/expression/ribbon-summary', geneId, selectedOrthologs);
 
   const onSubjectClick = (e) => {
     // don't use the ribbon default action upon subject click
@@ -141,7 +125,6 @@ const ExpressionComparisonRibbon = ({
 
 ExpressionComparisonRibbon.propTypes = {
   geneId: PropTypes.string.isRequired,
-  geneSymbol: PropTypes.string.isRequired,
   geneTaxon: PropTypes.string.isRequired,
   history: PropTypes.object,
 };
