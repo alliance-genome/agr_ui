@@ -15,9 +15,8 @@ import {
 } from '../../lib/utils';
 import HelpPopup from '../helpPopup';
 import OrthologyFilterHelp from './orthologyFilterHelp';
-import { useQuery } from 'react-query';
-import fetchData from '../../lib/fetchData';
 import useResettableState from '../../hooks/useResettableState';
+import useGeneOrthology from '../../hooks/useGeneOrthology';
 
 const OrthologyFilteredTable = ({geneId}) => {
   const [
@@ -52,11 +51,7 @@ const OrthologyFilteredTable = ({geneId}) => {
   ] = useResettableState(STRINGENCY_HIGH);
   const [showFilterPanel, setShowFilterPanel] = useState(false);
 
-  const { data, isLoading } = useQuery(['gene-orthology', geneId], () => {
-    return fetchData(`/api/gene/${geneId}/homologs?filter.stringency=all&limit=10000`);
-  }, {
-    staleTime: Infinity,
-  });
+  const { data, isLoading } = useGeneOrthology(geneId);
 
   const filterCallback = (dat) => {
     const meetMethodFilter = filterMethod ?
