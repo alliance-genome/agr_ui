@@ -16,7 +16,7 @@ import HelpPopup from '../../components/helpPopup';
 import isEqual from 'lodash.isequal';
 
 import style from './style.scss';
-import {findSpeciesForTaxon} from '../../constants';
+import {getSpecies} from '../../lib/utils';
 
 const APOLLO_SERVER_PREFIX = '/apollo/';
 const LINK_BUFFER = 1.2;
@@ -62,7 +62,7 @@ class GenomeFeatureWrapper extends Component {
 
   generateJBrowseLink() {
     const geneSymbolUrl = '&lookupSymbol=' + this.props.geneSymbol;
-    const externalJBrowsePrefix = '/jbrowse/?' + 'data=data%2F' + encodeURIComponent(findSpeciesForTaxon(this.props.species).apolloName);
+    const externalJBrowsePrefix = '/jbrowse/?' + 'data=data%2F' + encodeURIComponent(getSpecies(this.props.species).apolloName);
     const linkLength = this.props.fmax - this.props.fmin;
     let bufferedMin = Math.round(this.props.fmin - (linkLength * LINK_BUFFER / 2.0));
     bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
@@ -78,7 +78,7 @@ class GenomeFeatureWrapper extends Component {
 
   generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, variantFilter, displayType) {
     let transcriptTypes = getTranscriptTypes();
-    const speciesInfo = findSpeciesForTaxon(species);
+    const speciesInfo = getSpecies(species);
     const apolloPrefix = speciesInfo.apolloName;
     if (displayType === 'ISOFORM') {
       return {
