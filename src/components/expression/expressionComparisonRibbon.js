@@ -15,8 +15,6 @@ import { useQuery } from 'react-query';
 import fetchData from '../../lib/fetchData';
 import useEventListener from '../../hooks/useEventListener';
 
-const RIBBON_ID = 'expression-ribbon';
-
 const ExpressionComparisonRibbon = ({
   geneId,
   geneTaxon,
@@ -68,8 +66,8 @@ const ExpressionComparisonRibbon = ({
 
   const handleOrthologChange = (values) => {
     setSelectedOrthologs(values);
-    if (selectedBlock.group) {
-      document.getElementById(RIBBON_ID).selectGroup(selectedBlock.group.id);
+    if (selectedBlock.group && ribbonRef.current) {
+      ribbonRef.current.selectGroup(selectedBlock.group.id);
     }
   };
 
@@ -118,7 +116,6 @@ const ExpressionComparisonRibbon = ({
             fire-event-on-empty-cells={false}
             group-clickable={false}
             group-open-new-tab={false}
-            id='expression-ribbon'
             new-tab={false}
             ref={ribbonRef}
             selection-mode='1'
