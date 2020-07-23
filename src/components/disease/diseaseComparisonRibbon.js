@@ -20,8 +20,6 @@ import { useQuery } from 'react-query';
 import fetchData from '../../lib/fetchData';
 import useEventListener from '../../hooks/useEventListener';
 
-const RIBBON_ID = 'disease-ribbon';
-
 const DiseaseComparisonRibbon = ({geneId, geneTaxon, history}) => {
   const [compareOrthologs, setCompareOrthologs] = useState(true);
   const [selectedOrthologs, setSelectedOrthologs] = useState(null);
@@ -74,8 +72,8 @@ const DiseaseComparisonRibbon = ({geneId, geneTaxon, history}) => {
 
   const handleOrthologyChange = (selectedOrthologs) => {
     setSelectedOrthologs(selectedOrthologs);
-    if (selectedBlock.group) {
-      document.getElementById(RIBBON_ID).selectGroup(selectedBlock.group.id);
+    if (selectedBlock.group && ribbonRef.current) {
+      ribbonRef.current.selectGroup(selectedBlock.group.id);
     }
   };
 
@@ -109,7 +107,6 @@ const DiseaseComparisonRibbon = ({geneId, geneTaxon, history}) => {
             fire-event-on-empty-cells={false}
             group-clickable={false}
             group-open-new-tab={false}
-            id={RIBBON_ID}
             new-tab={false}
             ref={ribbonRef}
             selected='all'
