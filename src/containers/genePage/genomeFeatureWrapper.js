@@ -12,11 +12,11 @@ import {getTranscriptTypes} from '../../lib/genomeFeatureTypes';
 import LoadingSpinner from '../../components/loadingSpinner';
 import '../../style.scss';
 import HorizontalScroll from '../../components/horizontalScroll';
-import {SPECIES} from '../../constants';
 import HelpPopup from '../../components/helpPopup';
 import isEqual from 'lodash.isequal';
 
 import style from './style.scss';
+import {findSpeciesForTaxon} from '../../constants';
 
 const APOLLO_SERVER_PREFIX = '/apollo/';
 const LINK_BUFFER = 1.2;
@@ -62,7 +62,7 @@ class GenomeFeatureWrapper extends Component {
 
   generateJBrowseLink() {
     const geneSymbolUrl = '&lookupSymbol=' + this.props.geneSymbol;
-    const externalJBrowsePrefix = '/jbrowse/?' + 'data=data%2F' + encodeURIComponent(this.getSpeciesConstantForTaxon(this.props.species).apolloName);
+    const externalJBrowsePrefix = '/jbrowse/?' + 'data=data%2F' + encodeURIComponent(findSpeciesForTaxon(this.props.species).apolloName);
     const linkLength = this.props.fmax - this.props.fmin;
     let bufferedMin = Math.round(this.props.fmin - (linkLength * LINK_BUFFER / 2.0));
     bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
@@ -76,14 +76,9 @@ class GenomeFeatureWrapper extends Component {
       '&loc=' + encodeURIComponent(externalLocationString);
   }
 
-  getSpeciesConstantForTaxon(species) {
-    // short-name is for SARS only
-    return SPECIES.find(s => (s.taxonId === species));
-  }
-
   generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, variantFilter, displayType) {
     let transcriptTypes = getTranscriptTypes();
-    const speciesInfo = this.getSpeciesConstantForTaxon(species);
+    const speciesInfo = findSpeciesForTaxon(species);
     const apolloPrefix = speciesInfo.apolloName;
     if (displayType === 'ISOFORM') {
       return {

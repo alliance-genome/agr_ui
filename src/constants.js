@@ -244,6 +244,8 @@ export const SPECIES = [
   }
 ];
 
+export const findSpeciesForTaxon = (taxonId) => SPECIES.find( s => (s.taxonId === taxonId));
+
 export const TAXON_ORDER = SPECIES.map(s => s.taxonId);
 
 export const SPECIES_NAME_ORDER = SPECIES.map(s => s.fullName);
