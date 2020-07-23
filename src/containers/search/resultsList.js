@@ -147,7 +147,7 @@ class ResultsList extends Component {
         return this.renderDiseaseEntry(d, i);
       } else if (d.category === 'go') {
         return this.renderEntry(d, i, CATEGORIES.find(cat => cat.name === d.category).displayFields);
-      } else if (d.category === 'allele') {
+      } else if (d.category === 'alteration') {
         return this.renderEntry(d, i, CATEGORIES.find(cat => cat.name === d.category).displayFields);
       } else {
         return this.renderEntry(d,i, ['id','synonyms']);
