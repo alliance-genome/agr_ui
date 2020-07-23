@@ -79,8 +79,8 @@ export function parseResults(results) {
       return parseGoResult(d);
     case 'disease':
       return parseDiseaseResult(d);
-    case 'allele':
-      return parseAlleleResult(d);
+    case 'alteration':
+      return parseAlterationResult(d);
     case 'homology_group':
       return parseHomologyGroupResult(d);
     default:
@@ -210,12 +210,12 @@ function parseHomologyGroupResult(_d) {
   };
 }
 
-function parseAlleleResult(_d) {
+function parseAlterationResult(_d) {
   let speciesKey = _d.species;
   let d = injectHighlightIntoResponse(_d);
   return {
     ...d,
-    display_name: d.symbol,
+    display_name: d.symbol ? d.symbol : d.name,
     href: _d.modCrossRefCompleteUrl,
     highlight: d.highlights,
     name: d.symbol,
