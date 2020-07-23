@@ -16,7 +16,10 @@ import ExpressionLinks from './expressionLinks';
 import SpeciesIcon from '../../components/speciesIcon';
 import DataSourceLink from '../../components/dataSourceLink';
 import PhenotypeTable from './phenotypeTable';
-import { ExpressionComparisonRibbon, ExpressionUserGuide } from '../../components/expression';
+import {
+  ExpressionComparisonRibbon,
+  ExpressionUserGuide
+} from '../../components/expression';
 import { DiseaseComparisonRibbon } from '../../components/disease';
 import GeneModelsTable from './GeneModelsTable';
 import GeneMetaTags from './GeneMetaTags';
@@ -127,7 +130,7 @@ const GenePage = ({geneId}) => {
         </Subsection>
 
         <Subsection title={DISEASE}>
-          <DiseaseComparisonRibbon geneId={data.id} geneSymbol={data.symbol} geneTaxon={data.species.taxonId} />
+          <DiseaseComparisonRibbon geneId={data.id} geneTaxon={data.species.taxonId} />
         </Subsection>
 
         <Subsection title={ALLELES}>
@@ -180,7 +183,7 @@ const GenePage = ({geneId}) => {
             spellCrossReference={data.crossReferences.spell}
             wildtypeExpressionCrossReference={data.crossReferences.wild_type_expression}
           />
-          <ExpressionComparisonRibbon geneId={data.id} geneSymbol={data.symbol} geneTaxon={data.species.taxonId} />
+          <ExpressionComparisonRibbon geneId={data.id} geneTaxon={data.species.taxonId} />
         </Subsection>
 
         <Subsection help={<InteractionUserGuide />} title={INTERACTIONS}>

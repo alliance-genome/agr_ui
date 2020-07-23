@@ -1,144 +1,89 @@
 /* eslint-disable react/no-set-state */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import isEqual from 'lodash.isequal';
-
+import { withRouter } from 'react-router-dom';
 import ControlsContainer from '../controlsContainer';
-import { getOrthologId } from '../orthology';
 import { STRINGENCY_HIGH } from '../orthology/constants';
-import { selectOrthologs } from '../../selectors/geneSelectors';
 import ExpressionAnnotationTable from './expressionAnnotationTable';
 import HorizontalScroll from '../horizontalScroll';
 import HelpPopup from '../helpPopup';
 import ExpressionControlsHelp from './expressionControlsHelp';
 import OrthologPicker from '../OrthologPicker';
-import { selectExpressionRibbonSummary } from '../../selectors/expressionSelectors';
-import { fetchExpressionRibbonSummary } from '../../actions/expression';
-
-import { withRouter } from 'react-router-dom';
-
 import LoadingSpinner from '../loadingSpinner';
+import { elementHasParentWithId, getGeneIdList } from '../../lib/utils';
+import { useQuery } from 'react-query';
+import fetchData from '../../lib/fetchData';
 
-class ExpressionComparisonRibbon extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      compareOrthologs: true,
-      stringency: STRINGENCY_HIGH,
-      selectedOrthologs: [],
-      selectedBlock : {
-        subject : null,
-        group : null,
+const RIBBON_ID = 'expression-ribbon';
+
+const ExpressionComparisonRibbon = ({
+  geneId,
+  geneTaxon,
+  history,
+}) => {
+  const [compareOrthologs, setCompareOrthologs] = useState(true);
+  const [selectedOrthologs, setSelectedOrthologs] = useState(null);
+  const [selectedBlock, setSelectedBlock] = useState({
+    group: null,
+    subject: null,
+  });
+
+  const summary = useQuery(
+    ['expression-ribbon-summary', geneId, selectedOrthologs],
+    () => {
+      // selectedOrthologs is null until it is initialized by an OrthologPicker callback.
+      // this prevents an unnecessary request during the first render
+      if (!selectedOrthologs) {
+        return;
       }
-    };
-    this.handleOrthologChange = this.handleOrthologChange.bind(this);
-    this.handleCompareOrthologsChange = this.handleCompareOrthologsChange.bind(this);
-    this.onExpressionGroupClicked = this.onExpressionGroupClicked.bind(this);
-    this.onGroupClicked = this.onGroupClicked.bind(this);
-    this.onSubjectClicked = this.onSubjectClicked.bind(this);
-  }
-
-  componentDidMount() {
-    this.dispatchFetchSummary();
-    document.addEventListener('cellClick', this.onGroupClicked);
-    document.addEventListener('subjectClick', this.onSubjectClicked);
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const { geneId } = this.props;
-    if (prevProps.geneId !== geneId || !isEqual(prevState.selectedOrthologs, this.state.selectedOrthologs)) {
-      this.dispatchFetchSummary();
+      const geneIdList = getGeneIdList(geneId, selectedOrthologs).map(id => `geneID=${id}`).join('&');
+      return fetchData(`/api/expression/ribbon-summary?${geneIdList}`);
+    },
+    {
+      staleTime: Infinity,
     }
-  }
+  );
 
-  componentWillUnmount() {
-    document.removeEventListener('cellClick', this.onGroupClicked);
-  }
-
-  dispatchFetchSummary() {
-    this.props.dispatch(fetchExpressionRibbonSummary(this.getGeneIdList()));
-  }
-
-  getGeneIdList() {
-    return [this.props.geneId].concat(this.state.selectedOrthologs.map(getOrthologId));
-  }
-
-  handleOrthologChange(values) {
-    this.setState({selectedOrthologs: values});
-    if(this.state.selectedBlock.group) {
-      document.getElementById('expression-ribbon').selectGroup(this.state.selectedBlock.group.id);
-    }
-  }
-
-  handleCompareOrthologsChange(compareOrthologs) {
-    this.setState({ compareOrthologs });
-  }
-
-  hasParentElementId(elt, id) {
-    if(elt.id == id)
-      return true;
-    if(!elt.parentElement)
-      return false;
-    return this.hasParentElementId(elt.parentElement, id);
-  }
-
-  onSubjectClicked(e) {
-    // to ensure we are only considering events coming from the disease ribbon
-    if(this.hasParentElementId(e.target, 'expression-ribbon')) {
+  const onSubjectClick = (e) => {
+    if (elementHasParentWithId(e.target, RIBBON_ID)) {
       // don't use the ribbon default action upon subject click
       e.detail.originalEvent.preventDefault();
 
       // but re-route to alliance gene page
-      let { history } = this.props;
       history.push({
         pathname: '/gene/' + e.detail.subject.id
       });
     }
-  }
+  };
 
-  onGroupClicked(e) {
-    // to ensure we are only considering events coming from the disease ribbon
-    if(e.target.id == 'expression-ribbon') {
-      this.onExpressionGroupClicked(e.detail.subjects, e.detail.group);
+  const onCellClick = (e) => {
+    if (elementHasParentWithId(e.target, RIBBON_ID)) {
+      setSelectedBlock(current => ({
+        group: (current.group && current.group.id === e.detail.group.id) ? null : e.detail.group,
+        subject: e.detail.subjects,
+      }));
     }
-  }
+  };
 
-  onExpressionGroupClicked(gene, term) {
-    this.setState(state => {
-      const current = state.selectedBlock;
-      return {
-        selectedBlock: {
-          subject: gene,
-          group: (current.group && current.group.id === term.id) ? null : term,
-        }
-      };
-    });
-  }
+  useEffect(() => {
+    document.addEventListener('cellClick', onCellClick);
+    document.addEventListener('subjectClick', onSubjectClick);
+    return () => {
+      document.removeEventListener('cellClick', onCellClick);
+      document.removeEventListener('subjectClick', onSubjectClick);
+    };
+  }, []);
 
-  render() {
-    const { geneTaxon, orthology, summary } = this.props;
-    const { compareOrthologs, selectedOrthologs, selectedBlock } = this.state;
-
-    // const genes = [geneId].concat(selectedOrthologs.map(o => getOrthologId(o)));
-    // if only looking at a single yeast gene, just show CC group
-    // const groups = (geneTaxon === TAXON_IDS.YEAST && selectedOrthologs.length === 0) ? [CC] : [ANATOMY, STAGE, CC];
-    if (!summary) {
-      return null;
+  const handleOrthologChange = (values) => {
+    setSelectedOrthologs(values);
+    if (selectedBlock.group) {
+      document.getElementById(RIBBON_ID).selectGroup(selectedBlock.group.id);
     }
+  };
 
-    if (summary.error) {
-      // eslint-disable-next-line no-console
-      console.log(this.props.summary.error);
-      return <span className='text-danger'>Error fetching expression annotation summary</span>;
-    }
-
-    if (!summary.data.subjects || !summary.data.categories) {
-      return null;
-    }
-
-    // we should only show the GO CC category if only a yeast gene is being shown but the
-    // GenericRibbon component gets messed up if you do that and then add an ortholog
+  // we only show the GO CC category if only a yeast gene is being shown
+  let updatedSummary;
+  if (summary.data) {
     const taxonIdYeast = 'NCBITaxon:559292';
     const categories = summary.data.categories.filter(category => !(
       selectedOrthologs.length === 0 &&
@@ -146,83 +91,69 @@ class ExpressionComparisonRibbon extends React.Component {
       category.id.startsWith('UBERON:')
     ));
 
-    let updatedSummary = summary.data;
+    updatedSummary = summary.data;
     updatedSummary.categories = categories;
-
-    const genesWithData = orthology.supplementalData && Object.entries(orthology.supplementalData)
-      .reduce((prev, [geneId, data]) => ({...prev, [geneId]: data.hasExpressionAnnotations}), {});
-
-    return (
-      <React.Fragment>
-        <div className='pb-4'>
-          <ControlsContainer>
-            <span className='pull-right'>
-              <HelpPopup id='expression-controls-help'>
-                <ExpressionControlsHelp />
-              </HelpPopup>
-            </span>
-            <OrthologPicker
-              checkboxValue={compareOrthologs}
-              defaultStringency={STRINGENCY_HIGH}
-              focusTaxonId={geneTaxon}
-              genesWithData={genesWithData}
-              id='expression-ortho-picker'
-              onChange={this.handleOrthologChange}
-              onCheckboxValueChange={this.handleCompareOrthologsChange}
-              orthology={orthology.data}
-              value={selectedOrthologs}
-            />
-          </ControlsContainer>
-        </div>
-
-
-
-        <HorizontalScroll>
-          <div className='text-nowrap'>
-            <wc-ribbon-strips
-              category-all-style='1'
-              color-by='0'
-              data={JSON.stringify(updatedSummary)}
-              fire-event-on-empty-cells={false}
-              group-clickable={false}
-              group-open-new-tab={false}
-              id='expression-ribbon'
-              new-tab={false}
-              selection-mode='1'
-              subject-base-url='/gene/'
-              subject-open-new-tab={false}
-              subject-position={compareOrthologs ? '1' : '0'}
-            />
-          </div>
-          <div className='ribbon-loading-overlay'>{summary.loading && <LoadingSpinner />}</div>
-          <div className='text-muted mt-2'>
-            <i>Cell color indicative of annotation volume; red slash indicates species lacks structure or developmental stage.</i>
-          </div>
-        </HorizontalScroll>
-
-        {selectedBlock.group &&
-          <div className='pt-4'>
-            <ExpressionAnnotationTable genes={this.getGeneIdList()} term={selectedBlock.group.id} />
-          </div>
-        }
-      </React.Fragment>
-    );
   }
-}
+
+  return (
+    <React.Fragment>
+      <div className='pb-4'>
+        <ControlsContainer>
+          <span className='pull-right'>
+            <HelpPopup id='expression-controls-help'>
+              <ExpressionControlsHelp />
+            </HelpPopup>
+          </span>
+          <OrthologPicker
+            checkboxValue={compareOrthologs}
+            defaultStringency={STRINGENCY_HIGH}
+            focusGeneId={geneId}
+            focusTaxonId={geneTaxon}
+            geneHasDataTest={info => info.hasExpressionAnnotations}
+            id='expression-ortho-picker'
+            onChange={handleOrthologChange}
+            onCheckboxValueChange={setCompareOrthologs}
+          />
+        </ControlsContainer>
+      </div>
+
+      <HorizontalScroll>
+        <div className='text-nowrap'>
+          <wc-ribbon-strips
+            category-all-style='1'
+            color-by='0'
+            data={JSON.stringify(updatedSummary)}
+            fire-event-on-empty-cells={false}
+            group-clickable={false}
+            group-open-new-tab={false}
+            id='expression-ribbon'
+            new-tab={false}
+            selection-mode='1'
+            subject-base-url='/gene/'
+            subject-open-new-tab={false}
+            subject-position={compareOrthologs ? '1' : '0'}
+          />
+        </div>
+        <div className='ribbon-loading-overlay'>{summary.isLoading && <LoadingSpinner />}</div>
+        <div className='text-muted mt-2'>
+          <i>Cell color indicative of annotation volume; red slash indicates species lacks structure or developmental stage.</i>
+        </div>
+      </HorizontalScroll>
+
+      {selectedBlock.group &&
+        <div className='pt-4'>
+          <ExpressionAnnotationTable genes={getGeneIdList(geneId, selectedOrthologs)} term={selectedBlock.group.id} />
+        </div>
+      }
+    </React.Fragment>
+  );
+};
 
 ExpressionComparisonRibbon.propTypes = {
-  dispatch: PropTypes.func,
   geneId: PropTypes.string.isRequired,
   geneSymbol: PropTypes.string.isRequired,
   geneTaxon: PropTypes.string.isRequired,
   history: PropTypes.object,
-  orthology: PropTypes.object,
-  summary: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  orthology: selectOrthologs(state),
-  summary: selectExpressionRibbonSummary(state),
-});
-
-export default withRouter(connect(mapStateToProps)(ExpressionComparisonRibbon));
+export default withRouter(ExpressionComparisonRibbon);
