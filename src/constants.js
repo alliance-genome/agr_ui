@@ -31,9 +31,9 @@ export const CATEGORIES = [
     displayFields: ['id', 'definition'],
   },
   {
-    name: 'allele',
-    displayName: 'Allele',
-    displayFields: ['id','genes', 'synonyms','variantTypes','relatedVariants','molecularConsequence', 'diseases'],
+    name: 'alteration',
+    displayName: 'Variant/Allele/Alteration',
+    displayFields: ['id','alterationType','genes', 'synonyms','dnaChangeTypes','molecularConsequence', 'diseases'],
   },
   {
     name: 'model',

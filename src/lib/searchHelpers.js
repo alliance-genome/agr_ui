@@ -50,6 +50,8 @@ export function makeFieldDisplayName(unformattedName) {
   case 'disease_species':
   case 'go_species':
     return 'Associated Species';
+  case 'dnaChangeTypes':
+    return 'DNA Change Types';
   case 'id':
     return 'Source';
   case 'primaryId':
@@ -135,7 +137,12 @@ export function getQueryParamWithValueChanged(key, val, queryParams, isClear=fal
   return qp;
 }
 
-export const getURLForEntry = (category, id) => {
+export const getURLForEntry = (category, type, id) => {
+
+  if (type === 'allele') {
+    category = type;
+  }
+
   switch (category) {
   case 'gene':
     return `/gene/${id}`;
@@ -148,7 +155,7 @@ export const getURLForEntry = (category, id) => {
 
 export function getLinkForEntry(entry) {
   const inner = <span dangerouslySetInnerHTML={{ __html: entry.display_name }} />;
-  const url = getURLForEntry(entry.category, entry.id);
+  const url = getURLForEntry(entry.category, entry.alterationType, entry.id);
   if (url) {
     return <Link to={url}>{inner}</Link>;
   } else {
