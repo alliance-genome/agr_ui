@@ -84,10 +84,9 @@ class GenomeFeatureWrapper extends Component {
   generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, variantFilter, displayType) {
     let transcriptTypes = getTranscriptTypes();
     if (displayType === 'ISOFORM') {
-      // if(species==='Saccharomyces cerevisiae' || species ==='Homo sapiens' || variantFilter === undefined){
       return {
         'locale': 'global',
-        'chromosome': species === 'Saccharomyces cerevisiae' ? 'chr' + chromosome : chromosome,
+        'chromosome': this.getBrowserPrefixForTaxon(species)==='yeast' ? 'chr' +chromosome : chromosome,
         'start': fmin,
         'end': fmax,
         'transcriptTypes': transcriptTypes,
