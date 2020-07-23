@@ -4,7 +4,7 @@
  * OrthologPicker, DiseaseRibbon, DiseaseAssociationTable
  * OthologPicker talks to cc and DiseaseRibbonTalks to DiseaseAssociation Table
  */
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import DiseaseAnnotationTable from './diseaseAnnotationTable';
 import HorizontalScroll from '../horizontalScroll';
@@ -15,9 +15,10 @@ import ControlsContainer from '../controlsContainer';
 import LoadingSpinner from '../loadingSpinner';
 import OrthologPicker from '../OrthologPicker';
 import { withRouter } from 'react-router-dom';
-import { elementHasParentWithId, getGeneIdList } from '../../lib/utils';
+import { getGeneIdList } from '../../lib/utils';
 import { useQuery } from 'react-query';
 import fetchData from '../../lib/fetchData';
+import useEventListener from '../../hooks/useEventListener';
 
 const RIBBON_ID = 'disease-ribbon';
 
@@ -51,36 +52,25 @@ const DiseaseComparisonRibbon = ({geneId, geneTaxon, history}) => {
   );
 
   const onSubjectClick = (e) => {
-    // to ensure we are only considering events coming from the disease ribbon
-    if (elementHasParentWithId(e.target, RIBBON_ID)) {
-      // don't use the ribbon default action upon subject click
-      e.detail.originalEvent.preventDefault();
+    // don't use the ribbon default action upon subject click
+    e.detail.originalEvent.preventDefault();
 
-      // but re-route to alliance gene page
-      history.push({
-        pathname: '/gene/' + e.detail.subject.id
-      });
-    }
+    // but re-route to alliance gene page
+    history.push({
+      pathname: '/gene/' + e.detail.subject.id
+    });
   };
 
   const onCellClick = (e) => {
-    // to ensure we are only considering events coming from the disease ribbon
-    if (elementHasParentWithId(e.target, RIBBON_ID)) {
-      setSelectedBlock(current => ({
-        group: (current.group && current.group.id === e.detail.group.id) ? null : e.detail.group,
-        subject: e.detail.subjects,
-      }));
-    }
+    setSelectedBlock(current => ({
+      group: (current.group && current.group.id === e.detail.group.id) ? null : e.detail.group,
+      subject: e.detail.subjects,
+    }));
   };
 
-  useEffect(() => {
-    document.addEventListener('cellClick', onCellClick);
-    document.addEventListener('subjectClick', onSubjectClick);
-    return () => {
-      document.removeEventListener('cellClick', onCellClick);
-      document.removeEventListener('subjectClick', onSubjectClick);
-    };
-  }, []);
+  const ribbonRef = useRef(null);
+  useEventListener(ribbonRef, 'cellClick', onCellClick);
+  useEventListener(ribbonRef, 'subjectClick', onSubjectClick);
 
   const handleOrthologyChange = (selectedOrthologs) => {
     setSelectedOrthologs(selectedOrthologs);
@@ -121,6 +111,7 @@ const DiseaseComparisonRibbon = ({geneId, geneTaxon, history}) => {
             group-open-new-tab={false}
             id={RIBBON_ID}
             new-tab={false}
+            ref={ribbonRef}
             selected='all'
             selection-mode='1'
             subject-base-url='/gene/'

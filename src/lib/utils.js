@@ -112,16 +112,6 @@ export const fullSpeciesName = taxonId => {
   return getSpecies(taxonId).fullName;
 };
 
-export function elementHasParentWithId(element, id) {
-  if (element.id === id) {
-    return true;
-  }
-  if (!element.parentElement) {
-    return false;
-  }
-  return elementHasParentWithId(element.parentElement, id);
-}
-
 export const getGeneIdList = (focusId, orthologList) => {
   const idList = [focusId];
   if (orthologList) {
