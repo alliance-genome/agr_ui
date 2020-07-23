@@ -232,6 +232,7 @@ export const SPECIES = [
     vertebrate: false,
     enableSingleCellExpressionAtlasLink: false,
     enableOrthologComparison: false,
+    geneSynopsisProvider: 'UniProt',
   }
 ];
 
