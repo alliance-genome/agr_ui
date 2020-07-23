@@ -62,7 +62,7 @@ class GenomeFeatureWrapper extends Component {
 
   generateJBrowseLink() {
     const geneSymbolUrl = '&lookupSymbol=' + this.props.geneSymbol;
-    const externalJBrowsePrefix = '/jbrowse/?' + 'data=data%2F' + encodeURIComponent(this.getBrowserPrefixForTaxon(this.props.species));
+    const externalJBrowsePrefix = '/jbrowse/?' + 'data=data%2F' + encodeURIComponent(this.getSpeciesConstantForTaxon(this.props.species).apolloName);
     const linkLength = this.props.fmax - this.props.fmin;
     let bufferedMin = Math.round(this.props.fmin - (linkLength * LINK_BUFFER / 2.0));
     bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
@@ -76,24 +76,26 @@ class GenomeFeatureWrapper extends Component {
       '&loc=' + encodeURIComponent(externalLocationString);
   }
 
-  getBrowserPrefixForTaxon(species) {
+  getSpeciesConstantForTaxon(species) {
     // short-name is for SARS only
-    return SPECIES.find(s => (s.taxonId === species)).apolloName;
+    return SPECIES.find(s => (s.taxonId === species));
   }
 
   generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, variantFilter, displayType) {
     let transcriptTypes = getTranscriptTypes();
+    const speciesInfo = this.getSpeciesConstantForTaxon(species);
+    const apolloPrefix = speciesInfo.apolloName;
     if (displayType === 'ISOFORM') {
       return {
         'locale': 'global',
-        'chromosome': this.getBrowserPrefixForTaxon(species)==='yeast' ? 'chr' +chromosome : chromosome,
+        'chromosome': apolloPrefix==='yeast' ? 'chr' +chromosome : chromosome,
         'start': fmin,
         'end': fmax,
         'transcriptTypes': transcriptTypes,
         'tracks': [
           {
             'id': 1,
-            'genome': this.getBrowserPrefixForTaxon(species),
+            'genome': apolloPrefix,
             'type': 'ISOFORM',
             'url': [
               this.trackDataUrl,
@@ -117,7 +119,7 @@ class GenomeFeatureWrapper extends Component {
         'tracks': [
           {
             'id': 1,
-            'genome': this.getBrowserPrefixForTaxon(species),
+            'genome': apolloPrefix,
             'type': 'ISOFORM_AND_VARIANT',
             'isoform_url': [
               this.trackDataUrl,
