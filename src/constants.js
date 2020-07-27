@@ -236,7 +236,7 @@ export const SPECIES = [
     fullName: 'Severe acute respiratory syndrome coronavirus 2',
     shortName: 'SARS-CoV-2',
     apolloName: 'SARS-CoV-2',
-    apolloTrack: '/Mature%20peptides%20(RefSeq)/',
+    apolloTrack: '/Mature%20peptides/',
     suppressFlatten: true,
     vertebrate: false,
     enableSingleCellExpressionAtlasLink: false,
