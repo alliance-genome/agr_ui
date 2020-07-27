@@ -95,7 +95,7 @@ class GenomeFeatureWrapper extends Component {
             'url': [
               this.trackDataUrl,
               speciesInfo.apolloTrack,
-              `.json${nameSuffixString}${speciesInfo.suppressFlatten ? '&flatten=false' : ''}`
+              `.json${nameSuffixString}&ignoreCache=true${speciesInfo.suppressFlatten ? '&flatten=false' : ''}`
             ]
           },
         ]
