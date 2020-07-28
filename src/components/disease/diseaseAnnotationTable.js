@@ -11,11 +11,12 @@ import {
 import AnnotatedEntitiesPopup from '../dataTable/AnnotatedEntitiesPopup';
 import DiseaseLink from './DiseaseLink';
 import {getDistinctFieldValue} from '../dataTable/utils';
-import { compareByFixedOrder, getGeneIdList } from '../../lib/utils';
+import { compareByFixedOrder } from '../../lib/utils';
 import { SPECIES_NAME_ORDER } from '../../constants';
 import ProvidersCell from '../dataTable/ProvidersCell';
-import useDataTableQuery from '../../hooks/useDataTableQuery';
 import LoadingSpinner from '../loadingSpinner';
+import useComparisonRibbonTableQuery
+  from '../../hooks/useComparisonRibbonTableQuery';
 
 /*
  * Disease ribbon-table
@@ -26,19 +27,15 @@ const DiseaseAnnotationTable = ({
   orthologGenes,
   term,
 }) => {
-  const geneIds = getGeneIdList(focusGeneId, orthologGenes);
-  const geneParams = geneIds.map(gene => `geneID=${gene}`).join('&');
-  const termParam = (term && term !== 'all') ? `termID=${term}&` : '';
   const {
+    downloadUrl,
     isIdle,
     isLoading,
     isFetching,
     resolvedData,
     tableState,
     setTableState
-  } = useDataTableQuery(orthologGenes && `/api/disease?${termParam}${geneParams}`, {
-    enabled: orthologGenes !== null
-  });
+  } = useComparisonRibbonTableQuery('/api/disease', focusGeneId, orthologGenes, term);
 
   if (isIdle || isLoading) {
     return <LoadingSpinner />;
@@ -122,7 +119,6 @@ const DiseaseAnnotationTable = ({
     species: annotation.gene.species,
     ...annotation,
   }));
-  const downloadUrl = `/api/disease/download?${termParam}${geneParams}`;
 
   return (
     <DataTable

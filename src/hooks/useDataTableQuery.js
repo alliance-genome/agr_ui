@@ -34,24 +34,27 @@ function reducer(state, action) {
   }
 }
 
+function getFullUrl(baseUrl, tableState) {
+  if (!baseUrl) {
+    return null;
+  }
+  const separator = baseUrl.indexOf('?') < 0 ? '?' : '&';
+  return baseUrl + separator + buildTableQueryString(tableState);
+}
+
 export default function useDataTableQuery(baseUrl, config) {
   const [{ url, tableState }, dispatch] = useReducer(reducer, initialState);
+  const enabledBoolean = Boolean(config.enabled);
   useEffect(() => {
-    dispatch({type: 'reset', payload: baseUrl});
-  }, [baseUrl]);
+    dispatch({type: 'reset', payload: enabledBoolean && baseUrl});
+  }, [baseUrl, enabledBoolean]);
   const setTableState = tableState => dispatch({type: 'update', payload: tableState});
-  let enabled = url !== null;
-  if (config && 'enabled' in config) {
-    enabled = enabled && config.enabled;
-  }
-  const separator = url && url.indexOf('?') < 0 ? '?' : '&';
   const query = usePaginatedQuery(
     [url, tableState],
-    () => fetchData(url + separator + buildTableQueryString(tableState)),
+    () => fetchData(getFullUrl(url, tableState)),
     {
       staleTime: Infinity,
       ...config,
-      enabled,
     }
   );
   return {

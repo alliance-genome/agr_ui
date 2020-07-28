@@ -9,7 +9,6 @@ import HelpPopup from '../helpPopup';
 import ExpressionControlsHelp from './expressionControlsHelp';
 import OrthologPicker from '../OrthologPicker';
 import LoadingSpinner from '../loadingSpinner';
-import { getGeneIdList } from '../../lib/utils';
 import useEventListener from '../../hooks/useEventListener';
 import useComparisonRibbonQuery from '../../hooks/useComparisonRibbonQuery';
 
@@ -116,7 +115,7 @@ const ExpressionComparisonRibbon = ({
 
       {selectedBlock.group &&
         <div className='pt-4'>
-          <ExpressionAnnotationTable genes={getGeneIdList(geneId, selectedOrthologs)} term={selectedBlock.group.id} />
+          <ExpressionAnnotationTable focusGeneId={geneId} orthologGenes={selectedOrthologs} term={selectedBlock.group.id} />
         </div>
       }
     </React.Fragment>
