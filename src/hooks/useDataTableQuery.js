@@ -44,7 +44,7 @@ function getFullUrl(baseUrl, tableState) {
 
 export default function useDataTableQuery(baseUrl, config) {
   const [{ url, tableState }, dispatch] = useReducer(reducer, initialState);
-  const enabledBoolean = Boolean(config.enabled);
+  const enabledBoolean = Boolean(config ? config.enabled : true);
   useEffect(() => {
     dispatch({type: 'reset', payload: enabledBoolean && baseUrl});
   }, [baseUrl, enabledBoolean]);
