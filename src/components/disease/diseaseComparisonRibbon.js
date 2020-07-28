@@ -14,7 +14,6 @@ import ControlsContainer from '../controlsContainer';
 import LoadingSpinner from '../loadingSpinner';
 import OrthologPicker from '../OrthologPicker';
 import { withRouter } from 'react-router-dom';
-import { getGeneIdList } from '../../lib/utils';
 import useEventListener from '../../hooks/useEventListener';
 import useComparisonRibbonQuery from '../../hooks/useComparisonRibbonQuery';
 
@@ -107,7 +106,7 @@ const DiseaseComparisonRibbon = ({geneId, geneTaxon, history}) => {
       </HorizontalScroll>
 
       {selectedBlock.group && <div className='pt-4'>
-        <DiseaseAnnotationTable genes={getGeneIdList(geneId, selectedOrthologs)} term={selectedBlock.group.id} />
+        <DiseaseAnnotationTable focusGeneId={geneId} orthologGenes={selectedOrthologs} term={selectedBlock.group.id} />
       </div>}
     </div>
   );
