@@ -1,7 +1,6 @@
 import { STRINGENCY_HIGH, STRINGENCY_MED } from '../components/orthology/constants';
 import { DEFAULT_TABLE_STATE, SPECIES } from '../constants';
 import { stringify } from 'query-string';
-import { getOrthologId } from '../components/orthology';
 
 export function makeId(string) {
   return string.toLowerCase().replace(/[^A-Za-z0-9]/g, '-');
@@ -110,12 +109,4 @@ export const shortSpeciesName = taxonId => {
 
 export const fullSpeciesName = taxonId => {
   return getSpecies(taxonId).fullName;
-};
-
-export const getGeneIdList = (focusId, orthologList) => {
-  const idList = [focusId];
-  if (orthologList) {
-    idList.push(...orthologList.map(getOrthologId));
-  }
-  return idList;
 };

@@ -29,6 +29,9 @@ function timeoutPromise(timeout, promise) {
 }
 
 export default async function fetchData(url, options = {}) {
+  if (!url) {
+    return Promise.resolve();
+  }
   const _type = options.type || 'GET';
   const headers = {
     // 'Content-Type': 'application/json'
