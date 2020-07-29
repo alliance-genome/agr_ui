@@ -1,28 +1,39 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
+  DataTable,
   GeneCell,
-  RemoteDataTable,
 } from '../dataTable';
 import CommaSeparatedList from '../commaSeparatedList';
 import ExternalLink from '../externalLink';
 import MITerm from './MITerm';
 import style from './genePhysicalInteractionDetailTable.scss';
-import { selectInteractions } from '../../selectors/geneSelectors';
-import { connect } from 'react-redux';
-import { fetchInteractions } from '../../actions/geneActions';
 import {getDistinctFieldValue} from '../dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
+import useDataTableQuery from '../../hooks/useDataTableQuery';
+import LoadingSpinner from '../loadingSpinner';
 
 const DEFAULT_TABLE_KEY = 'physicalInteractionTable';
 
-const GenePhysicalInteractionDetailTable = ({dispatchFetchInteractions, focusGeneDisplayName, focusGeneId, interactions, tableKey}) => {
+const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId}) => {
+  const {
+    isFetching,
+    isLoading,
+    resolvedData,
+    tableState,
+    setTableState,
+  } = useDataTableQuery(`/api/gene/${focusGeneId}/interactions`);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
   const getCellId = (fieldKey, rowIndex) => {
-    return `${tableKey || DEFAULT_TABLE_KEY}-${fieldKey}-${rowIndex}`;
+    return `${DEFAULT_TABLE_KEY}-${fieldKey}-${rowIndex}`;
   };
 
-  const data = (interactions.data || []).map((interaction = {}) => ({
+  const data = (resolvedData.results || []).map((interaction = {}) => ({
     id: interaction.primaryKey,
     moleculeType: interaction.interactorAType,
     interactorGeneSymbol: interaction.geneB,
@@ -56,7 +67,7 @@ const GenePhysicalInteractionDetailTable = ({dispatchFetchInteractions, focusGen
       headerStyle: {width: '6em'},
       headerClasses: style.columnHeaderGroup1,
       classes: style.columnGroup1,
-      filterable: getDistinctFieldValue(interactions, 'filter.moleculeType'),
+      filterable: getDistinctFieldValue(resolvedData, 'filter.moleculeType'),
     },
     {
       dataField: 'interactorGeneSymbol',
@@ -74,7 +85,7 @@ const GenePhysicalInteractionDetailTable = ({dispatchFetchInteractions, focusGen
       headerStyle: {width: '8em'},
       headerClasses: style.columnHeaderGroup2,
       classes: style.columnGroup2,
-      filterable: getDistinctFieldValue(interactions, 'filter.interactorSpecies').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
+      filterable: getDistinctFieldValue(resolvedData, 'filter.interactorSpecies').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       filterLabelClassName: 'species-name',
     },
     {
@@ -89,7 +100,7 @@ const GenePhysicalInteractionDetailTable = ({dispatchFetchInteractions, focusGen
       headerStyle: {width: '6em'},
       headerClasses: style.columnHeaderGroup2,
       classes: style.columnGroup2,
-      filterable: getDistinctFieldValue(interactions, 'filter.interactorMoleculeType'),
+      filterable: getDistinctFieldValue(resolvedData, 'filter.interactorMoleculeType'),
     },
     {
       dataField: 'detectionMethod',
@@ -179,42 +190,29 @@ const GenePhysicalInteractionDetailTable = ({dispatchFetchInteractions, focusGen
   ];
 
   return (
-    <React.Fragment>
-      <RemoteDataTable
-        columns={columns}
-        data={data}
-        downloadUrl={`/api/gene/${focusGeneId}/interactions/download`}
-        key={focusGeneId}
-        keyField='id'
-        loading={interactions.loading}
-        onUpdate={dispatchFetchInteractions}
-        sortOptions={sortOptions}
-        summaryProps={
-          interactions.supplementalData ? {
-            ...interactions.supplementalData.annotationSummary,
-            entityType: 'interactor gene'
-          } : null
-        }
-        totalRows={interactions.total}
-      />
-    </React.Fragment>
+    <DataTable
+      columns={columns}
+      data={data}
+      downloadUrl={`/api/gene/${focusGeneId}/interactions/download`}
+      keyField='id'
+      loading={isFetching}
+      setTableState={setTableState}
+      sortOptions={sortOptions}
+      summaryProps={
+        resolvedData.supplementalData ? {
+          ...resolvedData.supplementalData.annotationSummary,
+          entityType: 'interactor gene'
+        } : null
+      }
+      tableState={tableState}
+      totalRows={resolvedData.total}
+    />
   );
 };
 
 GenePhysicalInteractionDetailTable.propTypes = {
-  dispatchFetchInteractions: PropTypes.func,
   focusGeneDisplayName: PropTypes.string,
   focusGeneId: PropTypes.string.isRequired,
-  interactions: PropTypes.object,
-  tableKey: PropTypes.string,
 };
 
-const mapStateToProps = (state) => ({
-  interactions: selectInteractions(state)
-});
-
-const mapDispatchToProps = (dispatch, props) => ({
-  dispatchFetchInteractions: opts => dispatch(fetchInteractions(props.focusGeneId, opts)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(GenePhysicalInteractionDetailTable);
+export default GenePhysicalInteractionDetailTable;
