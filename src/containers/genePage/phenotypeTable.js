@@ -1,16 +1,29 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import hash from 'object-hash';
-
-import { fetchPhenotypes } from '../../actions/geneActions';
-import { selectPhenotypes } from '../../selectors/geneSelectors';
-import { RemoteDataTable, ReferenceCell } from '../../components/dataTable';
+import {
+  ReferenceCell,
+  DataTable
+} from '../../components/dataTable';
 import AnnotatedEntitiesPopup
   from '../../components/dataTable/AnnotatedEntitiesPopup';
+import useDataTableQuery from '../../hooks/useDataTableQuery';
+import LoadingSpinner from '../../components/loadingSpinner';
 
-const PhenotypeTable = ({geneId, phenotypes, dispatchFetchPhenotypes}) => {
-  const data = phenotypes.data && phenotypes.data.map(record => (
+const PhenotypeTable = ({geneId}) => {
+  const {
+    isFetching,
+    isLoading,
+    resolvedData,
+    tableState,
+    setTableState
+  } = useDataTableQuery(`/api/gene/${geneId}/phenotypes`);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  const data = resolvedData.results.map(record => (
     {
       ...record,
       id: hash(record),
@@ -43,39 +56,27 @@ const PhenotypeTable = ({geneId, phenotypes, dispatchFetchPhenotypes}) => {
   ];
 
   return (
-    <RemoteDataTable
+    <DataTable
       columns={columns}
       data={data}
       downloadUrl={`/api/gene/${geneId}/phenotypes/download`}
-      key={geneId}
       keyField='id'
-      loading={phenotypes.loading}
-      onUpdate={dispatchFetchPhenotypes}
+      loading={isFetching}
+      setTableState={setTableState}
       summaryProps={
-        phenotypes.supplementalData ? {
-          ...phenotypes.supplementalData.annotationSummary,
+        resolvedData.supplementalData ? {
+          ...resolvedData.supplementalData.annotationSummary,
           entityType: 'phenotype'
         } : null
       }
-      totalRows={phenotypes.total}
+      tableState={tableState}
+      totalRows={resolvedData.total}
     />
   );
 };
 
 PhenotypeTable.propTypes = {
-  dispatchFetchPhenotypes: PropTypes.func,
   geneId: PropTypes.string.isRequired,
-  phenotypes: PropTypes.object,
 };
 
-function mapStateToProps (state) {
-  return {
-    phenotypes: selectPhenotypes(state),
-  };
-}
-
-const mapDispatchToProps = (dispatch, props) => ({
-  dispatchFetchPhenotypes: (opts) => dispatch(fetchPhenotypes(props.geneId, opts))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(PhenotypeTable);
+export default PhenotypeTable;
