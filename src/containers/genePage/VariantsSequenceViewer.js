@@ -32,7 +32,8 @@ const VariantsSequenceViewer = ({alleles,allelesSelected,allelesVisible, observe
     return null;
   }
 
-  console.log(observedTableOpts);
+  // TODO: remove this line when observedTableOpts is being used
+  console.log(observedTableOpts);  // eslint-disable-line
 
 
   const anyVariantData = alleles.data.some(allele => allele.variants.length > 0);
@@ -83,6 +84,7 @@ VariantsSequenceViewer.propTypes = {
     chromosome: PropTypes.string,
     strand: PropTypes.string,
   }),
+  observedTableOpts: PropTypes.object.isRequired,  // TODO: have type checking based on what this component actually uses
   onAllelesSelect: PropTypes.func.isRequired,
 };
 
