@@ -1,14 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import {selectModels} from '../../selectors/geneSelectors';
-import {fetchModels} from '../../actions/geneActions';
-import {RemoteDataTable} from '../../components/dataTable';
+import { DataTable } from '../../components/dataTable';
 import ExternalLink from '../../components/externalLink';
 import CollapsibleList from '../../components/collapsibleList/collapsibleList';
 import DiseaseLink from '../../components/disease/DiseaseLink';
+import useDataTableQuery from '../../hooks/useDataTableQuery';
+import LoadingSpinner from '../../components/loadingSpinner';
 
-const GeneModelsTable = ({dispatchFetchModels, id, models}) => {
+const GeneModelsTable = ({id}) => {
+  const {
+    isFetching,
+    isLoading,
+    resolvedData,
+    tableState,
+    setTableState,
+  } = useDataTableQuery(`/api/gene/${id}/models`);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
   const columns = [
     {
       dataField: 'name',
@@ -59,31 +70,21 @@ const GeneModelsTable = ({dispatchFetchModels, id, models}) => {
   ];
 
   return (
-    <RemoteDataTable
+    <DataTable
       columns={columns}
-      data={models.data}
-      key={id}
+      data={resolvedData.results}
       keyField='id'
-      loading={models.loading}
-      onUpdate={dispatchFetchModels}
+      loading={isFetching}
+      setTableState={setTableState}
       sortOptions={sortOptions}
-      totalRows={models.total}
+      tableState={tableState}
+      totalRows={resolvedData.total}
     />
   );
 };
 
 GeneModelsTable.propTypes = {
-  dispatchFetchModels: PropTypes.func,
   id: PropTypes.string.isRequired,
-  models: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  models: selectModels(state),
-});
-
-const mapDispatchToProps = (dispatch, props) => ({
-  dispatchFetchModels: opts => dispatch(fetchModels(props.id, opts))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(GeneModelsTable);
+export default GeneModelsTable;
