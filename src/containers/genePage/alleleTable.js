@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {selectAlleles} from '../../selectors/geneSelectors';
 import {connect} from 'react-redux';
@@ -194,6 +194,16 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
     }));
   }, [alleles]);
 
+  const [observedTableOpts, setObservedTableOpts] = useState({});
+
+  const handleTableUpdate = useCallback(
+    (opts) => {
+      setObservedTableOpts(opts);
+      dispatchFetchAlleles(opts);
+    },
+    [dispatchFetchAlleles, setObservedTableOpts]
+  );
+
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
 
   const variantsSequenceViewerProps = useMemo(() => {
@@ -211,8 +221,9 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
       allelesSelected: alleleIdsSelected.map(formatAllele),
       allelesVisible: data.map(({id}) => formatAllele(id)),
       onAllelesSelect: setAlleleIdsSelected,
+      observedTableOpts,
     };
-  }, [data, alleleIdsSelected, setAlleleIdsSelected]);
+  }, [data, alleleIdsSelected, setAlleleIdsSelected, observedTableOpts]);
 
   const selectRow = useMemo(() => ({
     mode: 'checkbox',
@@ -249,7 +260,7 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
         key={geneId}
         keyField='id'
         loading={alleles.loading}
-        onUpdate={dispatchFetchAlleles}
+        onUpdate={handleTableUpdate}
         rowStyle={{cursor: 'pointer'}}
         selectRow={selectRow}
         sortOptions={sortOptions}

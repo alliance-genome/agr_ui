@@ -27,10 +27,12 @@ export function findFminFmax(genomeLocation,variants){
   return {fmin,fmax};
 }
 
-const VariantsSequenceViewer = ({alleles,allelesSelected,allelesVisible, gene, genomeLocation}) => {
+const VariantsSequenceViewer = ({alleles,allelesSelected,allelesVisible, observedTableOpts, gene, genomeLocation}) => {
   if (alleles.loading || alleles.error || alleles.data.length === 0 || !genomeLocation.chromosome) {
     return null;
   }
+
+  console.log(observedTableOpts);
 
 
   const anyVariantData = alleles.data.some(allele => allele.variants.length > 0);
