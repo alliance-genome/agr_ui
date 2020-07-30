@@ -18,7 +18,7 @@ class ColumnHeader extends React.Component {
     const { helpPopupProps } = column;
     return (
       <div className={classes}>
-        {column.text}
+        {column.headerNode || column.text}
         {filterElement &&
           <UncontrolledButtonDropdown>
             <DropdownToggle className={`${style.filterToggle} ${active ? style.active : ''}`} color='link' tag='span'>
