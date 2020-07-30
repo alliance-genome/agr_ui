@@ -54,10 +54,16 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
     },
     {
       dataField: 'moleculeType',
-      text:
-        <React.Fragment>
-          <span className="text-transform-none">{focusGeneDisplayName}</span> molecule type
-        </React.Fragment>,
+      text: 'moleculeType',
+      // headerNode is not part of the react-bootstrap-table column specification,
+      // but it gets picked up in our ColumnHeader component to get around the fact
+      // that `text` cannot be a JSX node. this property is only needed if the
+      // column header needs custom formatting
+      headerNode: (
+          <>
+            <span className="text-transform-none">{focusGeneDisplayName}</span> molecule type
+          </>
+      ),
       formatter: (fieldData = {}, row, rowIndex) => {
         const id = getCellId('interactorAType', rowIndex);
         return (
