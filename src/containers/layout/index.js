@@ -1,3 +1,5 @@
+import WarningBanner from './WarningBanner';
+
 {/* eslint-disable react/no-set-state */}
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -8,9 +10,6 @@ import Loader from './loader/index';
 import logo from './agrLogo.png';
 import SearchBar from './searchBar';
 import { MenuItems } from './navigation';
-import { selectWarningBanner } from '../../selectors/wordpressSelectors';
-import { fetchWarningBanner } from '../../actions/wordpress';
-import ReplaceLinks from '../wordpress/ReplaceLinks';
 import { selectPageLoading } from '../../selectors/loadingSelector';
 import Footer from './Footer';
 
@@ -23,8 +22,7 @@ class Layout extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, location } = this.props;
-    dispatch(fetchWarningBanner());
+    const { location } = this.props;
     if (location.hash) {
       this.scrollToAnchor();
     }
@@ -48,14 +46,12 @@ class Layout extends Component {
   }
 
   render() {
-    const { children, location, warningBanner } = this.props;
+    const { children, location } = this.props;
     const { menuOpen } = this.state;
 
     return (
       <div>
-        {warningBanner &&
-          <div className={style.warningBar}><ReplaceLinks html={warningBanner.content.rendered} /></div>
-        }
+        <WarningBanner />
 
         <div className='container-fluid'>
           <div className='row align-items-center'>
@@ -101,14 +97,11 @@ class Layout extends Component {
 
 Layout.propTypes = {
   children: PropTypes.node,
-  dispatch: PropTypes.func,
   location: PropTypes.object,
   pageLoading: PropTypes.bool,
-  warningBanner: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
-  warningBanner: selectWarningBanner(state),
   pageLoading: selectPageLoading(state),
 });
 
