@@ -66,7 +66,7 @@ class DropdownCheckboxFilter extends React.Component {
 
 DropdownCheckboxFilter.propTypes = {
   defaultFilter: PropTypes.array,
-  labelClassName: PropTypes.object,
+  labelClassName: PropTypes.string,
   onFilter: PropTypes.func,
   options: PropTypes.array,
 };
