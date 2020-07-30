@@ -14,7 +14,7 @@ const AlleleToPhenotypeTable = ({alleleId}) => {
   const {
     isLoading,
     isFetching,
-    resolvedData = {},
+    resolvedData,
     tableState,
     setTableState
   } = useDataTableQuery(`/api/allele/${alleleId}/phenotypes`);
