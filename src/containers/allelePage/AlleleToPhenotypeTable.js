@@ -1,14 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {selectPhenotypes} from '../../selectors/alleleSelectors';
-import {fetchAllelePhenotypes} from '../../actions/alleleActions';
-import {connect} from 'react-redux';
-import {ReferenceCell, RemoteDataTable} from '../../components/dataTable';
+import {
+  DataTable,
+  ReferenceCell,
+} from '../../components/dataTable';
 import hash from 'object-hash';
 import AnnotatedEntitiesPopup
   from '../../components/dataTable/AnnotatedEntitiesPopup';
+import useDataTableQuery from '../../hooks/useDataTableQuery';
+import LoadingSpinner from '../../components/loadingSpinner';
 
-const AlleleToPhenotypeTable = ({alleleId, fetchPhenotypes, phenotypes}) => {
+const AlleleToPhenotypeTable = ({alleleId}) => {
+  const {
+    isLoading,
+    isFetching,
+    resolvedData = {},
+    tableState,
+    setTableState
+  } = useDataTableQuery(`/api/allele/${alleleId}/phenotypes`);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
   const columns = [
     {
       dataField: 'phenotype',
@@ -41,7 +55,7 @@ const AlleleToPhenotypeTable = ({alleleId, fetchPhenotypes, phenotypes}) => {
     },
   ];
 
-  const data = phenotypes.data && phenotypes.data.map(record => (
+  const data = resolvedData.results.map(record => (
     {
       ...record,
       id: hash(record),
@@ -49,31 +63,22 @@ const AlleleToPhenotypeTable = ({alleleId, fetchPhenotypes, phenotypes}) => {
   ));
 
   return (
-    <RemoteDataTable
+    <DataTable
       columns={columns}
       data={data}
       downloadUrl={`/api/allele/${alleleId}/phenotypes/download`}
       key={alleleId}
       keyField='id'
-      loading={phenotypes.loading}
-      onUpdate={fetchPhenotypes}
-      totalRows={phenotypes.total}
+      loading={isFetching}
+      setTableState={setTableState}
+      tableState={tableState}
+      totalRows={resolvedData.total}
     />
   );
 };
 
 AlleleToPhenotypeTable.propTypes = {
   alleleId: PropTypes.string,
-  fetchPhenotypes: PropTypes.func,
-  phenotypes: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  phenotypes: selectPhenotypes(state),
-});
-
-const mapDispatchToProps = (dispatch, props) => ({
-  fetchPhenotypes: opts => dispatch(fetchAllelePhenotypes(props.alleleId, opts))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(AlleleToPhenotypeTable);
+export default AlleleToPhenotypeTable;
