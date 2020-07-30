@@ -1,20 +1,88 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import {selectAlleles} from '../../selectors/geneSelectors';
-import {connect} from 'react-redux';
 import {compareAlphabeticalCaseInsensitive} from '../../lib/utils';
 import CollapsibleList from '../../components/collapsibleList/collapsibleList';
 import SynonymList from '../../components/synonymList';
-import {AlleleCell, RemoteDataTable} from '../../components/dataTable';
+import {
+  AlleleCell,
+  DataTable,
+} from '../../components/dataTable';
 import {getDistinctFieldValue} from '../../components/dataTable/utils';
 import ExternalLink from '../../components/externalLink';
-import {fetchAlleles} from '../../actions/geneActions';
 import DiseaseLink from '../../components/disease/DiseaseLink';
 import {VariantJBrowseLink} from '../../components/variant';
 import VariantsSequenceViewer from './VariantsSequenceViewer';
+import useDataTableQuery from '../../hooks/useDataTableQuery';
+import LoadingSpinner from '../../components/loadingSpinner';
 
 
-const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, geneLocation = {}, species, geneDataProvider}) => {
+const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, geneDataProvider}) => {
+  const {
+    isFetching,
+    isLoading,
+    resolvedData,
+    tableState,
+    setTableState,
+  } = useDataTableQuery(`/api/gene/${geneId}/alleles`);
+
+  const data = useMemo(() => {
+    return resolvedData && resolvedData.results.map(allele => ({
+      ...allele,
+      symbol: allele.symbol,
+      synonym: allele.synonyms,
+      source: {
+        dataProvider: geneDataProvider,
+        url: allele.crossReferences.primary.url,
+      },
+      disease: allele.diseases.sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
+    }));
+  }, [resolvedData]);
+
+  const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
+
+  const variantsSequenceViewerProps = useMemo(() => {
+    /*
+       Warning!
+       The data format here should be agreed upon by the maintainers of the VariantsSequenceViewer.
+       Changes might break the VariantsSequenceViewer.
+    */
+    const formatAllele = alleleId => (
+      {
+        id: alleleId,
+      }
+    );
+    return {
+      allelesSelected: alleleIdsSelected.map(formatAllele),
+      allelesVisible: data && data.map(({id}) => formatAllele(id)),
+      onAllelesSelect: setAlleleIdsSelected,
+    };
+  }, [data, alleleIdsSelected, setAlleleIdsSelected]);
+
+  const selectRow = useMemo(() => ({
+    mode: 'checkbox',
+    clickToSelect: true,
+    hideSelectColumn: true,
+    selected: alleleIdsSelected,
+    onSelect: (row) => {
+      const alleleIdRow = row.id;
+      setAlleleIdsSelected(alleleIdsSelectedPrev => {
+        if (alleleIdsSelectedPrev.includes(alleleIdRow)) {
+          const indexAlleleId = alleleIdsSelectedPrev.indexOf(alleleIdRow);
+          return [
+            ...alleleIdsSelectedPrev.slice(0, indexAlleleId),
+            ...alleleIdsSelectedPrev.slice(indexAlleleId + 1)
+          ];
+        } else {
+          return [...alleleIdsSelectedPrev, alleleIdRow];
+        }
+      });
+    },
+    style: { backgroundColor: '#ffffd4' },
+  }), [alleleIdsSelected, setAlleleIdsSelected]);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   const variantNameColWidth = 300;
   const variantTypeColWidth = 110;
@@ -134,8 +202,8 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
       text: 'Variant type',
       headerStyle: {width: variantTypeColWidth},
       // filterable: ['delins', 'point mutation', 'insertion', 'deletion', 'MNV'],
-      filterable: alleles.supplementalData && alleles.supplementalData.distinctFieldValues ?
-        getDistinctFieldValue(alleles, 'filter.variantType') :
+      filterable: resolvedData.supplementalData && resolvedData.supplementalData.distinctFieldValues ?
+        getDistinctFieldValue(resolvedData, 'filter.variantType') :
         true,
     },
     {
@@ -146,8 +214,8 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
         children: <span>Variant consequences were predicted by the <ExternalLink href="https://uswest.ensembl.org/info/docs/tools/vep/index.html" target="_blank">Ensembl Variant Effect Predictor (VEP) tool</ExternalLink> based on Alliance variants information.</span>,
       },
       headerStyle: {width: variantConsequenceColWidth},
-      filterable: alleles.supplementalData && alleles.supplementalData.distinctFieldValues ?
-        getDistinctFieldValue(alleles, 'filter.variantConsequence') :
+      filterable: resolvedData.supplementalData && resolvedData.supplementalData.distinctFieldValues ?
+        getDistinctFieldValue(resolvedData, 'filter.variantConsequence') :
         true,
     },
     // {
@@ -181,61 +249,6 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
     },
   ];
 
-  const data = useMemo(() => {
-    return alleles.data.map(allele => ({
-      ...allele,
-      symbol: allele.symbol,
-      synonym: allele.synonyms,
-      source: {
-        dataProvider: geneDataProvider,
-        url: allele.crossReferences.primary.url,
-      },
-      disease: allele.diseases.sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
-    }));
-  }, [alleles]);
-
-  const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
-
-  const variantsSequenceViewerProps = useMemo(() => {
-    /*
-       Warning!
-       The data format here should be agreed upon by the maintainers of the VariantsSequenceViewer.
-       Changes might break the VariantsSequenceViewer.
-    */
-    const formatAllele = alleleId => (
-      {
-        id: alleleId,
-      }
-    );
-    return {
-      allelesSelected: alleleIdsSelected.map(formatAllele),
-      allelesVisible: data.map(({id}) => formatAllele(id)),
-      onAllelesSelect: setAlleleIdsSelected,
-    };
-  }, [data, alleleIdsSelected, setAlleleIdsSelected]);
-
-  const selectRow = useMemo(() => ({
-    mode: 'checkbox',
-    clickToSelect: true,
-    hideSelectColumn: true,
-    selected: alleleIdsSelected,
-    onSelect: (row) => {
-      const alleleIdRow = row.id;
-      setAlleleIdsSelected(alleleIdsSelectedPrev => {
-        if (alleleIdsSelectedPrev.includes(alleleIdRow)) {
-          const indexAlleleId = alleleIdsSelectedPrev.indexOf(alleleIdRow);
-          return [
-            ...alleleIdsSelectedPrev.slice(0, indexAlleleId),
-            ...alleleIdsSelectedPrev.slice(indexAlleleId + 1)
-          ];
-        } else {
-          return [...alleleIdsSelectedPrev, alleleIdRow];
-        }
-      });
-    },
-    style: { backgroundColor: '#ffffd4' },
-  }), [alleleIdsSelected, setAlleleIdsSelected]);
-
   return (
     <>
       <VariantsSequenceViewer
@@ -243,25 +256,23 @@ const AlleleTable = ({alleles, dispatchFetchAlleles, gene, geneId, geneSymbol, g
         genomeLocation={geneLocation}
         {...variantsSequenceViewerProps}
       />
-      <RemoteDataTable
+      <DataTable
         columns={columns}
         data={data}
-        key={geneId}
         keyField='id'
-        loading={alleles.loading}
-        onUpdate={dispatchFetchAlleles}
+        loading={isFetching}
         rowStyle={{cursor: 'pointer'}}
         selectRow={selectRow}
+        setTableState={setTableState}
         sortOptions={sortOptions}
-        totalRows={alleles.total}
+        tableState={tableState}
+        totalRows={resolvedData.total}
       />
     </>
   );
 };
 
 AlleleTable.propTypes = {
-  alleles: PropTypes.object,
-  dispatchFetchAlleles: PropTypes.func,
   gene: PropTypes.shape({
   }),
   geneDataProvider: PropTypes.string.isRequired,
@@ -275,12 +286,4 @@ AlleleTable.propTypes = {
   species: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = state => ({
-  alleles: selectAlleles(state),
-});
-
-const mapDispatchToProps = (dispatch, props) => ({
-  dispatchFetchAlleles: (opts) => dispatch(fetchAlleles(props.geneId, opts)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(AlleleTable);
+export default AlleleTable;
