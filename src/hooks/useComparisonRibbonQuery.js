@@ -7,7 +7,7 @@ export default function useComparisonRibbonQuery(baseUrl, focusGeneId, compariso
   return useQuery([baseUrl, focusGeneId, comparisonGenes], () => {
     // this prevents a request from being fired before orthology data is loaded
     if (!comparisonGenes) {
-      return;
+      return Promise.resolve();
     }
     const comparisonGeneIds = comparisonGenes.map(getOrthologId);
     const queryString = stringify({ geneID: [focusGeneId].concat(comparisonGeneIds)});
