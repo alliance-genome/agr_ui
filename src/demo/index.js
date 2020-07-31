@@ -4,21 +4,26 @@ import {TRACK_TYPE} from "../tracks/TrackTypeEnum";
 // const BASE_URL = 'http://localhost:8080/apollo';
 // const BASE_URL = 'http://54.91.83.120:8080/apollo';
 // const BASE_URL = 'https://agr-apollo.berkeleybop.io/apollo';
-// const BASE_URL = 'https://build.alliancegenome.org/apollo';
+//const BASE_URL = 'https://build.alliancegenome.org/apollo';
 const BASE_URL = 'https://stage.alliancegenome.org/apollo';
 
 // Global View Example
 
-oldExamples();
-isoformExamples();
-wormExamples();
-fishExamples();
-ratExamples();
-mouseExamples();
+//oldExamples();
+//isoformExamples();
+//wormExamples();
+//fishExamples();
+//ratExamples();
+//mouseExamples();
 flyExamples();
+covidExamples();
 
 function getTranscriptTypes(){
- return ['mRNA', 'ncRNA', 'piRNA', 'lincRNA', 'miRNA', 'pre_miRNA', 'snoRNA', 'lnc_RNA', 'tRNA', 'snRNA', 'rRNA', 'ARS', 'antisense_RNA', 'C_gene_segment', 'V_gene_segment', 'pseudogene_attribute','snoRNA_gene'];
+ return ['mRNA', 'ncRNA', 'piRNA', 'lincRNA', 'miRNA', 'pre_miRNA', 'snoRNA', 'lnc_RNA', 'tRNA', 'snRNA', 'rRNA', 'ARS', 'antisense_RNA', 'C_gene_segment', 'V_gene_segment', 'pseudogene_attribute','snoRNA_gene','polypeptide_region','mature_protein_region'];
+}
+
+function covidExamples(){
+  createCoVExample("NC_045512.2:17894..28259", "SARS-CoV-2", "covidExample1", TRACK_TYPE.ISOFORM, false);
 }
 
 function flyExamples() {
@@ -171,6 +176,7 @@ function createIsoformExample(range, genome, divId, type, showLabel, variantFilt
 
     const chromosome = range.split(":")[0];
     const [start, end] = range.split(":")[1].split("..");
+    const ratio = 0.01;
     let configGlobal1 = {
         "locale": "global",
         "chromosome": chromosome,
@@ -191,6 +197,34 @@ function createIsoformExample(range, genome, divId, type, showLabel, variantFilt
                 ],
             },
         ]
+    };
+    new GenomeFeatureViewer(configGlobal1, `#${divId}`, 900, 500);
+}
+
+function createCoVExample(range, genome, divId, type, showLabel, variantFilter) {
+
+    const chromosome = range.split(":")[0];
+    const [start, end] = range.split(":")[1].split("..");
+    let configGlobal1 = {
+      "locale": "global",
+      "chromosome": chromosome,
+      "start": start,
+      "end": end,
+      "transcriptTypes": getTranscriptTypes(),
+      "showVariantLabel": showLabel,
+      "variantFilter": variantFilter || [],
+      "tracks": [
+          {
+              "id": 12,
+              "genome": genome,
+              "type": type,
+              "url": [
+                  `${BASE_URL}/track/`,
+                  "/Mature%20peptides/",
+                  ".json?ignoreCache=true&flatten=false"
+              ],
+          },
+      ]
     };
     new GenomeFeatureViewer(configGlobal1, `#${divId}`, 900, 500);
 }
