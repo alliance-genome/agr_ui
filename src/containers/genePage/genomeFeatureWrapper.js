@@ -80,6 +80,12 @@ class GenomeFeatureWrapper extends Component {
     let transcriptTypes = getTranscriptTypes();
     const speciesInfo = getSpecies(species);
     const apolloPrefix = speciesInfo.apolloName;
+    //add padding for SARS-Cov-2
+    if(species === 'NCBITaxon:2697049'){
+      const padding = 500;
+      fmin = (fmin - padding) > 1 ? fmin - padding : 1;
+      fmax = (fmax + padding);
+    }
     if (displayType === 'ISOFORM') {
       return {
         'locale': 'global',

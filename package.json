@@ -17,7 +17,7 @@
     "@geneontology/wc-ribbon-table": "0.0.51",
     "@geneontology/wc-ribbon-strips": "0.0.34",
     "abortcontroller-polyfill": "^1.2.5",
-    "agr_genomefeaturecomponent": "^0.3.7",
+    "agr_genomefeaturecomponent": "^0.3.8",
     "bootstrap": "4.3.1",
     "caniuse-lite": "^1.0.30000975",
     "core-js": "^2.6.5",
