@@ -9,11 +9,6 @@ import { useEffect, useReducer } from 'react';
 // change and the page change to happen in one update so that only one request
 // is fired. therefore we need to use useReducer here instead of useState.
 
-const initialState = {
-  url: null,
-  tableState: DEFAULT_TABLE_STATE,
-};
-
 function reducer(state, action) {
   switch (action.type) {
   case 'reset':
@@ -42,9 +37,13 @@ function getFullUrl(baseUrl, tableState) {
   return baseUrl + separator + buildTableQueryString(tableState);
 }
 
-export default function useDataTableQuery(baseUrl, config) {
+export default function useDataTableQuery(baseUrl, config, initialTableState) {
+  const initialState = {
+    url: null,
+    tableState: initialTableState || DEFAULT_TABLE_STATE,
+  };
   const [{ url, tableState }, dispatch] = useReducer(reducer, initialState);
-  const enabledBoolean = Boolean(config ? config.enabled : true);
+  const enabledBoolean = Boolean((config && config.hasOwnProperty('enabled')) ? config.enabled : true);
   useEffect(() => {
     dispatch({type: 'reset', payload: enabledBoolean && baseUrl});
   }, [baseUrl, enabledBoolean]);
