@@ -1,21 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { selectVariants } from '../../selectors/alleleSelectors';
-import { fetchAlleleVariants } from '../../actions/alleleActions';
-import { connect } from 'react-redux';
-import { RemoteDataTable } from '../../components/dataTable';
 import { VariantJBrowseLink } from '../../components/variant';
 import Sequence from './Sequence';
+import useAllAlleleVariants from '../../hooks/useAlleleVariants';
+import LoadingSpinner from '../../components/loadingSpinner';
+import { DataTable } from '../../components/dataTable';
 
-const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) => {
-  const { data:dataRaw = [], loading, total} = variants;
-  const [ variant1 = {} ] = dataRaw;
+const AlleleToVariantTable = ({allele = {}, alleleId}) => {
+  const {
+    data: dataRaw = {
+      results: [],
+      total: 0,
+    },
+    isLoading,
+    isFetching,
+    tableState,
+    setTableState,
+  } = useAllAlleleVariants(alleleId);
+  const [ variant1 = {} ] = dataRaw.results;
   const { location: locationVariant1 = {} } = variant1;
   const gene = allele.gene || {};
   const { genomeLocations: geneLocations } = gene;
   const [geneLocation] = geneLocations || [];
 
-  const data = dataRaw.map((variant) => ({
+  const data = dataRaw.results.map((variant) => ({
     ...variant,
     geneLocation,
     species: allele.species
@@ -74,20 +82,24 @@ const AlleleToVariantTable = ({allele = {}, alleleId, fetchVariants, variants}) 
     },
   ];
 
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
   return (
-    <>
-      <RemoteDataTable
-        columns={columns}
-        data={data}
-        downloadUrl={`/api/allele/${alleleId}/variants/download`}
-        key={alleleId}
-        keyField='id'
-        loading={loading}
-        noDataMessage='No mapped variant information available'
-        onUpdate={fetchVariants}
-        totalRows={total}
-      />
-    </>
+    <DataTable
+      columns={columns}
+      data={data}
+      downloadUrl={`/api/allele/${alleleId}/variants/download`}
+      key={alleleId}
+      keyField='id'
+      loading={isFetching}
+      noDataMessage='No mapped variant information available'
+      pagination={false}
+      setTableState={setTableState}
+      tableState={tableState}
+      totalRows={dataRaw.total}
+    />
   );
 };
 AlleleToVariantTable.propTypes = {
@@ -100,21 +112,7 @@ AlleleToVariantTable.propTypes = {
     })
   }),
   alleleId: PropTypes.any,
-  fetchVariants: PropTypes.func.isRequired,
-  variants: PropTypes.shape({
-    data: PropTypes.arrayOf(PropTypes.object),
-    loading: PropTypes.any,
-    total: PropTypes.any,
-  }),
 };
 
 
-const mapStateToProps = state => ({
-  variants: selectVariants(state),
-});
-
-const mapDispatchToProps = (dispatch, props) => ({
-  fetchVariants: opts => dispatch(fetchAlleleVariants(props.alleleId, opts))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(AlleleToVariantTable);
+export default AlleleToVariantTable;

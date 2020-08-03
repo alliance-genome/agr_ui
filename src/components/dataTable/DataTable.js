@@ -29,6 +29,7 @@ const DataTable = ({
   keyField,
   loading,
   noDataMessage,
+  pagination = true,
   sortOptions,
   summaryProps,
   totalRows,
@@ -79,7 +80,7 @@ const DataTable = ({
     return <NoData>{noDataMessage}</NoData>;
   }
 
-  const pagination = paginationFactory({
+  const paginationObj = paginationFactory({
     custom: true,
     page,
     paginationTotalRenderer: renderPaginationShowsTotal,
@@ -132,7 +133,7 @@ const DataTable = ({
   return (
     <div className={className} ref={containerRef} style={{position: 'relative'}}>
       <LoadingOverlay loading={loading} />
-      <PaginationProvider pagination={pagination}>
+      <PaginationProvider pagination={paginationObj}>
         {
           ({paginationProps, paginationTableProps}) => (
             <div>
@@ -168,14 +169,16 @@ const DataTable = ({
                   {...paginationTableProps}
                 />
               </HorizontalScroll>
-              <div className='my-2'>
-                <span className='text-muted'>
-                  <PaginationTotalStandalone {...paginationProps} />
-                  <SizePerPageDropdownStandalone {...paginationProps} />
-                    per page
-                </span>
-                <PaginationListStandalone {...paginationProps} />
-              </div>
+              {pagination &&
+                <div className='my-2'>
+                  <span className='text-muted'>
+                    <PaginationTotalStandalone {...paginationProps} />
+                    <SizePerPageDropdownStandalone {...paginationProps} />
+                      per page
+                  </span>
+                  <PaginationListStandalone {...paginationProps} />
+                </div>
+              }
             </div>
           )
         }
@@ -197,6 +200,7 @@ DataTable.propTypes = {
   keyField: PropTypes.string.isRequired,
   loading: PropTypes.bool,
   noDataMessage: PropTypes.string,
+  pagination: PropTypes.bool,
   setTableState: PropTypes.func.isRequired,
   sortOptions: PropTypes.array,
   summaryProps: PropTypes.object,
