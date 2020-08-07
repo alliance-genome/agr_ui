@@ -8,12 +8,8 @@ import fetchWordpress from '../../lib/fetchWordpress';
 const WarningBanner = () => {
   const { data } = useQuery(
     'warning-banner',
-    () => fetchWordpress(WORDPRESS_PAGE_BASE_URL + WARNING_BANNER_SLUG),
-    {
-      staleTime: Infinity,
-      retry: false,
-      refetchOnWindowFocus: false,
-    });
+    () => fetchWordpress(WORDPRESS_PAGE_BASE_URL + WARNING_BANNER_SLUG)
+  );
 
   if (!data) {
     return null;

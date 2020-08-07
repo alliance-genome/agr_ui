@@ -14,5 +14,5 @@ export default function useComparisonRibbonQuery(baseUrl, focusGeneId, compariso
     const separator = baseUrl.indexOf('?') < 0 ? '?' : ':';
     const url = baseUrl + separator + queryString;
     return fetchData(url);
-  }, { staleTime: Infinity });
+  });
 }

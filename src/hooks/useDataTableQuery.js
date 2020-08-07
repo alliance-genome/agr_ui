@@ -51,10 +51,7 @@ export default function useDataTableQuery(baseUrl, config, initialTableState) {
   const query = usePaginatedQuery(
     [url, tableState],
     () => fetchData(getFullUrl(url, tableState)),
-    {
-      staleTime: Infinity,
-      ...config,
-    }
+    config
   );
   return {
     ...query,

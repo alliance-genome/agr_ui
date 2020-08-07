@@ -9,7 +9,5 @@ export default function usePageLoadingQuery(url, fetchFn = fetchData) {
     dispatch(setPageLoading(true));
     return fetchFn(url)
       .finally(() => dispatch(setPageLoading(false)));
-  }, {
-    staleTime: Infinity,
   });
 }
