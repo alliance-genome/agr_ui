@@ -253,6 +253,7 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
   return (
     <>
       <VariantsSequenceViewer
+        alleles={data}
         gene={gene}
         genomeLocation={geneLocation}
         {...variantsSequenceViewerProps}
