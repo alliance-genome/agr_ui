@@ -9,6 +9,13 @@ const WarningBanner = () => {
   const { data } = useQuery(
     'warning-banner',
     () => fetchWordpress(WORDPRESS_PAGE_BASE_URL + WARNING_BANNER_SLUG)
+      .catch((error) => {
+        // we can safely ignore this error because the banner is not always up
+        if (error.message === 'Page not found') {
+          return;
+        }
+        throw error;
+      })
   );
 
   if (!data) {
