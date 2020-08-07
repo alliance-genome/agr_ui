@@ -55,8 +55,9 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
       allelesSelected: alleleIdsSelected.map(formatAllele),
       allelesVisible: data && data.map(({id}) => formatAllele(id)),
       onAllelesSelect: setAlleleIdsSelected,
+      tableState
     };
-  }, [data, alleleIdsSelected, setAlleleIdsSelected]);
+  }, [data, alleleIdsSelected, setAlleleIdsSelected, tableState]);
 
   const selectRow = useMemo(() => ({
     mode: 'checkbox',
