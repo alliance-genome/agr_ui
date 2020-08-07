@@ -13,6 +13,7 @@ import PageNavEntity from '../../components/dataPage/PageNavEntity';
 import DiseaseName from '../../components/disease/DiseaseName';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
+import CovidInfoLink from '../../components/CovidInfoLink';
 
 const SUMMARY = 'Summary';
 const GENES = 'Associated Genes';
@@ -77,6 +78,7 @@ const DiseasePage = ({diseaseId}) => {
     }
   ];
 
+  const showCoronavirusResourcesLink = (data.id === 'DOID:0080599') || (data.id === 'DOID:0080600');
 
   return (
     <DataPage>
@@ -87,6 +89,15 @@ const DiseasePage = ({diseaseId}) => {
         </PageNavEntity>
       </PageNav>
       <PageData>
+        {showCoronavirusResourcesLink && (
+          <div className='mb-2'>
+            <div className='row'>
+              <div className='col col-lg-8 offset-lg-2'>
+                <CovidInfoLink />
+              </div>
+            </div>
+          </div>
+        )}
         <PageCategoryLabel category='disease' />
         <PageHeader entityName={data.name} />
 
