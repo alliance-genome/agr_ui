@@ -116,6 +116,10 @@
     "test:watch": "NODE_ENV=test mocha-webpack --webpack-config webpack.config-test.js --watch \"src/**/*test.js\"",
     "fixup-lock": "sed -i '' -e 's/http:\\/\\//https:\\/\\//g' package-lock.json"
   },
+  "pre-commit": [
+    "lint"
+  ],
+
   "husky": {
     "hooks": {
       "pre-commit": "npm run-script lint",
