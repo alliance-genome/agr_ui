@@ -225,8 +225,8 @@ class GenePage extends Component {
 GenePage.propTypes = {
   data: PropTypes.object,
   dispatch: PropTypes.func,
-  error: PropTypes.object,
   geneId: PropTypes.string.isRequired,
+  error: PropTypes.object,
   loading: PropTypes.bool,
 };
 
