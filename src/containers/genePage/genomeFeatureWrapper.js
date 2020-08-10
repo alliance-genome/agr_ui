@@ -17,7 +17,6 @@ import isEqual from 'lodash.isequal';
 
 import style from './style.scss';
 import {getSpecies} from '../../lib/utils';
-import {SPECIES} from '../../constants';
 
 const APOLLO_SERVER_PREFIX = '/apollo/';
 const LINK_BUFFER = 1.2;
