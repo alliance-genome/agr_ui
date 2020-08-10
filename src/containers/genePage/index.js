@@ -73,7 +73,6 @@ class GenePage extends Component {
   }
 
   render () {
-    console.log('abcdefg') ;
     const {data, error} = this.props;
 
     if (error) {
