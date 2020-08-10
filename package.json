@@ -108,7 +108,7 @@
     "postbuild": "npm run sitemap",
     "clean": "rimraf dist",
     "sitemap": "node bin/build_sitemap.js",
-    "lint": "eslint src --max-warnings 0",
+    "lint": "eslint src --max-warnings 10",
     "pretest": "npm run lint",
     "preserve": "npm run build",
     "serve": "live-server --no-browser --entry-file=index.html --proxy=/api:$API_URL/api dist/",
