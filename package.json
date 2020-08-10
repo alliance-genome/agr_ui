@@ -119,10 +119,8 @@
   "pre-commit": [
     "lint"
   ],
-
   "husky": {
     "hooks": {
-      "pre-commit": "npm run-script lint",
       "pre-commit": "npm run fixup-lock"
     }
   },
