@@ -138,8 +138,20 @@ class GenomeFeatureWrapper extends Component {
 
   loadGenomeFeature() {
     const {chromosome, fmin, fmax, species, id, primaryId, geneSymbol, displayType, synonyms = [], visibleVariants} = this.props;
+
     // provide unique names
     let nameSuffix = [geneSymbol, ...synonyms, primaryId].filter((x, i, a) => a.indexOf(x) === i).map(x => encodeURI(x));
+    if(getSpecies(species).apolloName==='SARS-CoV-2'){
+      if(primaryId && primaryId.indexOf(':')>0){
+        const baseId = primaryId.split(':')[1];
+        nameSuffix.push(baseId);
+        // add accession IDs as well
+        nameSuffix.push(baseId+'.0');
+        nameSuffix.push(baseId+'.1');
+        nameSuffix.push(baseId+'.2');
+        nameSuffix.push(baseId+'.3');
+      }
+    }
     let nameSuffixString = nameSuffix.length === 0 ? '' : nameSuffix.join('&name=');
     if (nameSuffixString.length > 0) {
       nameSuffixString = `?name=${nameSuffixString}`;
