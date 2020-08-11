@@ -62,7 +62,7 @@ class GenomeFeatureWrapper extends Component {
 
   generateJBrowseLink() {
     const geneSymbolUrl = '&lookupSymbol=' + this.props.geneSymbol;
-    const externalJBrowsePrefix = '/jbrowse/?' + 'data=data%2F' + encodeURIComponent(getSpecies(this.props.species).apolloName);
+    const externalJBrowsePrefix = '/jbrowse/?' + 'data=data%2F' + encodeURIComponent(getSpecies(this.props.species).fullName);
     const linkLength = this.props.fmax - this.props.fmin;
     let bufferedMin = Math.round(this.props.fmin - (linkLength * LINK_BUFFER / 2.0));
     bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
