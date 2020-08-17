@@ -1,6 +1,9 @@
 const JOIN_HIGHLIGHT_BY = '...';
 
-import { makeFieldDisplayName, makeValueDisplayName } from '../lib/searchHelpers';
+import {
+  makeFieldDisplayName,
+  makeValueDisplayName
+} from '../lib/searchHelpers';
 import {
   CATEGORIES,
   DUPLICATE_HIGHLIGHTED_FIELDS,
@@ -8,11 +11,13 @@ import {
 } from '../constants';
 
 function flattenWithPrettyFieldNames(highlights) {
-  if (highlights === undefined) { return highlights; }
+  if (highlights === undefined) {
+    return highlights;
+  }
 
   let prettyHighlights = {};
 
-  Object.keys(highlights).forEach( key => {
+  Object.keys(highlights).forEach(key => {
     prettyHighlights[makeFieldDisplayName(key)] = highlights[key];
   });
 
@@ -27,9 +32,9 @@ export function injectHighlightIntoResponse(responseObj) {
   let highKeys = Object.keys(high);
   let displayFields = CATEGORIES.find(cat => cat.name === responseObj.category).displayFields;
   let simpleHighObj = {};
-  highKeys.forEach( key => {
+  highKeys.forEach(key => {
     let highArr = high[key];
-    let highStr = highArr.reduce( (prev, current, i) => {
+    let highStr = highArr.reduce((prev, current, i) => {
       let suffix = (i === highArr.length - 1) ? '' : JOIN_HIGHLIGHT_BY;
       return prev + current + suffix;
     }, '');
@@ -48,14 +53,16 @@ export function injectHighlightIntoResponse(responseObj) {
 }
 
 function injectHighlightingIntoValue(highlight, value) {
-  if (highlight === undefined || value === undefined) { return value; }
+  if (highlight === undefined || value === undefined) {
+    return value;
+  }
 
-  var unhighlightedValue = highlight.replace(/<\/?[em]+(>|$)/g, '');
+  const unhighlightedValue = highlight.replace(/<\/?[em]+(>|$)/g, '');
 
-  var returnValue;
+  let returnValue;
 
   if (Array.isArray(value)) {
-    returnValue = value.map(function(val) {
+    returnValue = value.map(function (val) {
       return replaceHighlightValue(val, unhighlightedValue, highlight);
     });
   } else {
@@ -71,7 +78,7 @@ function replaceHighlightValue(value, unhighlightedValue, highlight) {
 
 
 export function parseResults(results) {
-  return results.map( d => {
+  return results.map(d => {
     switch (d.category) {
     case 'gene':
       return parseGeneResult(d);
@@ -90,12 +97,12 @@ export function parseResults(results) {
 }
 
 export function parseAggs(rawAggs, queryObject) {
-  return rawAggs.map( d => parseAgg(d, queryObject));
+  return rawAggs.map(d => parseAgg(d, queryObject));
 }
 
 function parseAgg(agg, queryObject) {
   let currentValue = queryObject[agg.key];
-  let _values = agg.values.map( value => parseValue(value, currentValue));
+  let _values = agg.values.map(value => parseValue(value, currentValue));
   return {
     name: agg.key,
     displayName: makeFieldDisplayName(agg.key),
@@ -117,7 +124,7 @@ function parseValue(value, currentValue) {
     displayName: makeValueDisplayName(value.key),
     key: value.key,
     total: value.total,
-    values: value.values.map( v => parseValue(v, currentValue)),
+    values: value.values.map(v => parseValue(v, currentValue)),
     isActive: _isActive
   };
 }
@@ -125,14 +132,14 @@ function parseValue(value, currentValue) {
 function parseCoordinates(d) {
   // make sure there is a chromosome identifiers
   let chrom = d.gene_chromosomes || [];
-  chrom = chrom.filter( d => d );
+  chrom = chrom.filter(d => d);
   if (chrom.length !== 1) {
     return null;
   }
   chrom = chrom[0];
   // make sure there are coordinates
   let numFields = ['gene_chromosome_starts', 'gene_chromosome_ends'];
-  for (var i = numFields.length - 1; i >= 0; i--) {
+  for (let i = numFields.length - 1; i >= 0; i--) {
     let field = numFields[i];
     let type = typeof d[field];
     if (type !== 'string' && type !== 'number') {
@@ -163,8 +170,10 @@ function parseGeneResult(_d) {
 }
 
 function parseLogs(logs) {
-  if (!logs) return null;
-  return logs.map( d => {
+  if (!logs) {
+    return null;
+  }
+  return logs.map(d => {
     let famId = d.panther_family;
     d.evidence_name = famId;
     d.evidence_href = `http://pantherdb.org/panther/family.do?clsAccession=${famId}`;

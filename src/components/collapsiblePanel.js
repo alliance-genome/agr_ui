@@ -31,7 +31,8 @@ class CollapsiblePanel extends Component {
       >
         <div
           className={`card-header alert-${this.props.backgroundVariants}`}
-          onClick={() => this.handleToggle()} role="tab"
+          onClick={() => this.handleToggle()}
+          role="tab"
           style={{cursor: 'pointer'}}
         >
           <i

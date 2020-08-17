@@ -96,18 +96,18 @@ class MultiTableComponent extends Component {
 
   //there has to be a better way to do this...
   getTotalForCategory(category) {
-    if (category == 'gene') { return this.props.geneTotal.toLocaleString(); }
-    if (category == 'go') { return this.props.goTotal.toLocaleString(); }
-    if (category == 'disease') { return this.props.diseaseTotal.toLocaleString(); }
-    if (category == 'allele') { return this.props.alleleTotal.toLocaleString(); }
+    if (category === 'gene') { return this.props.geneTotal.toLocaleString(); }
+    if (category === 'go') { return this.props.goTotal.toLocaleString(); }
+    if (category === 'disease') { return this.props.diseaseTotal.toLocaleString(); }
+    if (category === 'allele') { return this.props.alleleTotal.toLocaleString(); }
   }
 
   //there also has to be a better way to do this...
   getResultsForCategory(category) {
-    if (category == 'gene') { return this.props.geneResults; }
-    if (category == 'go') { return this.props.goResults; }
-    if (category == 'disease') { return this.props.diseaseResults; }
-    if (category == 'allele') { return this.props.alleleResults;}
+    if (category === 'gene') { return this.props.geneResults; }
+    if (category === 'go') { return this.props.goResults; }
+    if (category === 'disease') { return this.props.diseaseResults; }
+    if (category === 'allele') { return this.props.alleleResults;}
   }
 
   renderCategory(category, key) {

@@ -17,7 +17,9 @@ const CollapsibleList = ({ children, collapsedSize, showBullets }) => {
     <div>
       <ul className={`${style.collapsibleList} ${showBullets ? style.bulleted : ''}`}>
         {React.Children.map(children, (child, idx) => {
-          if (collapsed && idx >= collapsedSize) return;
+          if (collapsed && idx >= collapsedSize) {
+            return;
+          }
           return <li>{child}</li>;
         })}
       </ul>
