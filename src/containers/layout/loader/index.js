@@ -37,7 +37,9 @@ class Loader extends Component {
   }
 
   handleSetFinishing() {
-    if (this._timeout) clearTimeout(this._timeout);
+    if (this._timeout) {
+      clearTimeout(this._timeout);
+    }
     this.setState({ readyState: 2 });
     this._timeout = setTimeout( () => {
       this.setState({ readyState: 0 });

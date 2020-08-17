@@ -53,9 +53,9 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
       // that `text` cannot be a JSX node. this property is only needed if the
       // column header needs custom formatting
       headerNode: (
-          <>
-            <span className="text-transform-none">{focusGeneDisplayName}</span> molecule type
-          </>
+        <>
+          <span className="text-transform-none">{focusGeneDisplayName}</span> molecule type
+        </>
       ),
       formatter: (fieldData = {}, row, rowIndex) => {
         const id = getCellId('interactorAType', rowIndex);

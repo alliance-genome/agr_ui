@@ -110,7 +110,9 @@ class SingleFilterSelector extends Component {
   }
 
   renderControlNode() {
-    if (this.props.values.length <= SMALL_NUM_VISIBLE) return null;
+    if (this.props.values.length <= SMALL_NUM_VISIBLE) {
+      return null;
+    }
     let moreLabel = (this.state.numVisible !== MAX_NUM_VISIBLE) ? 'Show More' : `Show ${SMALL_NUM_VISIBLE}`;
     let modeLabelNode = this.state.isSearchMode ? <span>List</span> : <span><i className='fa fa-search' /></span>;
     let moreLabelNode = this.state.isSearchMode ? <span /> : <a href='#' onClick={this.handleControlClick.bind(this)}>{moreLabel}</a>;

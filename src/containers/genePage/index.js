@@ -71,7 +71,7 @@ const GenePage = ({geneId}) => {
     }
     else if (data.genomeLocations.length > 1) {
       // TODO: figure out the proper assembly
-      for (var i in data.genomeLocations) {
+      for (let i in data.genomeLocations) {
         let tempGenomeLocation = data.genomeLocations[i];
         if (tempGenomeLocation.start && tempGenomeLocation.end) {
           genomeLocation = tempGenomeLocation;
