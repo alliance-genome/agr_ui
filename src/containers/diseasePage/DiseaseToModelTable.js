@@ -14,20 +14,13 @@ import {getDistinctFieldValue} from '../../components/dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import LoadingSpinner from '../../components/loadingSpinner';
 
 const DiseaseToModelTable = ({id}) => {
   const {
-    isLoading,
-    isFetching,
+    data: results,
     resolvedData,
-    tableState,
-    setTableState
+    ...tableProps
   } = useDataTableQuery(`/api/disease/${id}/models`);
-
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
 
   const columns = [
     {
@@ -92,7 +85,7 @@ const DiseaseToModelTable = ({id}) => {
 
   // need to pull out species in a separate field because we can't have
   // two columns based on the model field
-  const data = resolvedData.results.map(association => ({
+  const data = results.map(association => ({
     species: association.model.species,
     ...association,
   }));
@@ -111,16 +104,12 @@ const DiseaseToModelTable = ({id}) => {
 
   return (
     <DataTable
+      {...tableProps}
       columns={columns}
       data={data}
       downloadUrl={`/api/disease/${id}/models/download`}
-      key={id}
       keyField='primaryKey'
-      loading={isFetching}
-      setTableState={setTableState}
       sortOptions={sortOptions}
-      tableState={tableState}
-      totalRows={resolvedData.total}
     />
   );
 };

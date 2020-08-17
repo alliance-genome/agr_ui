@@ -8,20 +8,12 @@ import hash from 'object-hash';
 import AnnotatedEntitiesPopup
   from '../../components/dataTable/AnnotatedEntitiesPopup';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import LoadingSpinner from '../../components/loadingSpinner';
 
 const AlleleToPhenotypeTable = ({alleleId}) => {
   const {
-    isLoading,
-    isFetching,
-    resolvedData,
-    tableState,
-    setTableState
+    data: results,
+    ...tableProps
   } = useDataTableQuery(`/api/allele/${alleleId}/phenotypes`);
-
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
 
   const columns = [
     {
@@ -55,24 +47,19 @@ const AlleleToPhenotypeTable = ({alleleId}) => {
     },
   ];
 
-  const data = resolvedData.results.map(record => (
-    {
-      ...record,
-      id: hash(record),
-    }
-  ));
+  const data = results.map(record => ({
+    ...record,
+    id: hash(record),
+  }));
 
   return (
     <DataTable
+      {...tableProps}
       columns={columns}
       data={data}
       downloadUrl={`/api/allele/${alleleId}/phenotypes/download`}
       key={alleleId}
       keyField='id'
-      loading={isFetching}
-      setTableState={setTableState}
-      tableState={tableState}
-      totalRows={resolvedData.total}
     />
   );
 };

@@ -14,22 +14,15 @@ import {getDistinctFieldValue} from '../../components/dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import LoadingSpinner from '../../components/loadingSpinner';
 
 const DiseaseToAlleleTable = ({id}) => {
   const {
-    isLoading,
-    isFetching,
+    data: results,
     resolvedData,
-    tableState,
-    setTableState
+    ...tableProps
   } = useDataTableQuery(`/api/disease/${id}/alleles`);
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
-
-  const data = resolvedData.results.map(association => ({
+  const data = results.map(association => ({
     ...association,
     species: association.allele.species,
   }));
@@ -116,16 +109,12 @@ const DiseaseToAlleleTable = ({id}) => {
 
   return (
     <DataTable
+      {...tableProps}
       columns={columns}
       data={data}
       downloadUrl={`/api/disease/${id}/alleles/download`}
-      key={id}
       keyField='primaryKey'
-      loading={isFetching}
-      setTableState={setTableState}
       sortOptions={sortOptions}
-      tableState={tableState}
-      totalRows={resolvedData.total}
     />
   );
 };

@@ -12,28 +12,21 @@ import {getDistinctFieldValue} from '../dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import LoadingSpinner from '../loadingSpinner';
 
 const DEFAULT_TABLE_KEY = 'physicalInteractionTable';
 
 const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId}) => {
   const {
-    isFetching,
-    isLoading,
     resolvedData,
-    tableState,
-    setTableState,
+    data: results,
+    ...tableProps
   } = useDataTableQuery(`/api/gene/${focusGeneId}/interactions`);
-
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
 
   const getCellId = (fieldKey, rowIndex) => {
     return `${DEFAULT_TABLE_KEY}-${fieldKey}-${rowIndex}`;
   };
 
-  const data = (resolvedData.results || []).map((interaction = {}) => ({
+  const data = results.map((interaction = {}) => ({
     id: interaction.primaryKey,
     moleculeType: interaction.interactorAType,
     interactorGeneSymbol: interaction.geneB,
@@ -197,21 +190,18 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
 
   return (
     <DataTable
+      {...tableProps}
       columns={columns}
       data={data}
       downloadUrl={`/api/gene/${focusGeneId}/interactions/download`}
       keyField='id'
-      loading={isFetching}
-      setTableState={setTableState}
       sortOptions={sortOptions}
       summaryProps={
-        resolvedData.supplementalData ? {
+        (resolvedData && resolvedData.supplementalData) ? {
           ...resolvedData.supplementalData.annotationSummary,
           entityType: 'interactor gene'
         } : null
       }
-      tableState={tableState}
-      totalRows={resolvedData.total}
     />
   );
 };

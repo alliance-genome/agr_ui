@@ -10,21 +10,7 @@ import useDataTableQuery from '../../hooks/useDataTableQuery';
 
 const VariantToTranscriptTable = ({variant}) => {
   const {id: variantId} = variant;
-  const {
-    data = {
-      results: [],
-      total: 0,
-    },
-    isFetching,
-    isError,
-    error,
-    tableState,
-    setTableState
-  } = useDataTableQuery(`/api/variant/${variantId}/transcripts`);
-
-  if (isError) {
-    throw error;
-  }
+  const tableProps = useDataTableQuery(`/api/variant/${variantId}/transcripts`);
 
   const columns = [
     {
@@ -200,16 +186,12 @@ const VariantToTranscriptTable = ({variant}) => {
 
   return (
     <DataTable
+      {...tableProps}
       className={styles.variantToTranscriptTable}
       columns={columns}
-      data={data.results}
       expandRow={expandRow}
       keyField='id'
-      loading={isFetching}
       noDataMessage='No variant effect information available'
-      setTableState={setTableState}
-      tableState={tableState}
-      totalRows={data.total}
     />
   );
 };

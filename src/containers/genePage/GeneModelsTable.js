@@ -5,20 +5,9 @@ import ExternalLink from '../../components/externalLink';
 import CollapsibleList from '../../components/collapsibleList/collapsibleList';
 import DiseaseLink from '../../components/disease/DiseaseLink';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import LoadingSpinner from '../../components/loadingSpinner';
 
 const GeneModelsTable = ({id}) => {
-  const {
-    isFetching,
-    isLoading,
-    resolvedData,
-    tableState,
-    setTableState,
-  } = useDataTableQuery(`/api/gene/${id}/models`);
-
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
+  const tableQuery = useDataTableQuery(`/api/gene/${id}/models`);
 
   const columns = [
     {
@@ -65,20 +54,11 @@ const GeneModelsTable = ({id}) => {
     },
   ];
 
-  const sortOptions = [
-
-  ];
-
   return (
     <DataTable
+      {...tableQuery}
       columns={columns}
-      data={resolvedData.results}
       keyField='id'
-      loading={isFetching}
-      setTableState={setTableState}
-      sortOptions={sortOptions}
-      tableState={tableState}
-      totalRows={resolvedData.total}
     />
   );
 };
