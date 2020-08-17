@@ -1,5 +1,3 @@
-/* eslint-disable react/no-set-state */
-/* eslint-disable react/no-did-update-set-state */
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import {

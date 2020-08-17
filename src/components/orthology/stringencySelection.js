@@ -1,4 +1,3 @@
-/* eslint-disable react/no-set-state */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { STRINGENCY_HIGH, STRINGENCY_MED, STRINGNECY_LOW } from './constants';

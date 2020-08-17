@@ -1,4 +1,3 @@
-/*eslint-disable no-case-declarations */
 import { fromJS } from 'immutable';
 
 import { parseAggs, parseResults } from './searchParsers';
@@ -34,13 +33,14 @@ const searchReducer = function (state = DEFAULT_STATE, action) {
       return state.set('errorMessage', '').set('isError', false);
     }
     return state.set('errorMessage', action.payload).set('isError', true);
-  case '@@router/LOCATION_CHANGE':
+  case '@@router/LOCATION_CHANGE': {
     // update active cat
     let newActiveCat = action.payload.query.category || 'none';
     // parse aggs to update active state during route change
     return state.set('aggregations', fromJS(parseAggs(state.get('aggregations').toJS(), action.payload.query)))
       .set('activeCategory', newActiveCat);
-  case 'SEARCH_RESPONSE':
+  }
+  case 'SEARCH_RESPONSE': {
     let actionCat = action.category || 'none';
     let resultsTargetsVals = {
       'gene': 'geneResults',
@@ -53,7 +53,7 @@ const searchReducer = function (state = DEFAULT_STATE, action) {
       'gene': 'geneTotal',
       'go': 'goTotal',
       'disease': 'diseaseTotal',
-      'allele':  'alleleTotal',
+      'allele': 'alleleTotal',
       'none': 'total'
     };
     let resultsTarget = resultsTargetsVals[actionCat] || 'results';
@@ -68,6 +68,7 @@ const searchReducer = function (state = DEFAULT_STATE, action) {
       .set('isReady', true)
       // parse results
       .set(resultsTarget, fromJS(parseResults(action.payload.results)));
+  }
   default:
     return state;
   }

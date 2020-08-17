@@ -13,7 +13,6 @@ export default class ErrorBoundary extends React.Component {
 
   componentDidCatch(error) {
     // Display fallback UI
-    // eslint-disable-next-line
     this.setState({
       hasError: true,
       errorMessage: error && error.message,
