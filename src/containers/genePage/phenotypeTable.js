@@ -8,27 +8,18 @@ import {
 import AnnotatedEntitiesPopup
   from '../../components/dataTable/AnnotatedEntitiesPopup';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import LoadingSpinner from '../../components/loadingSpinner';
 
 const PhenotypeTable = ({geneId}) => {
   const {
-    isFetching,
-    isLoading,
+    data: results,
     resolvedData,
-    tableState,
-    setTableState
+    ...tableProps
   } = useDataTableQuery(`/api/gene/${geneId}/phenotypes`);
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
-
-  const data = resolvedData.results.map(record => (
-    {
-      ...record,
-      id: hash(record),
-    }
-  ));
+  const data = results.map(record => ({
+    ...record,
+    id: hash(record),
+  }));
 
   const columns = [
     {
@@ -57,20 +48,17 @@ const PhenotypeTable = ({geneId}) => {
 
   return (
     <DataTable
+      {...tableProps}
       columns={columns}
       data={data}
       downloadUrl={`/api/gene/${geneId}/phenotypes/download`}
       keyField='id'
-      loading={isFetching}
-      setTableState={setTableState}
       summaryProps={
-        resolvedData.supplementalData ? {
+        (resolvedData && resolvedData.supplementalData) ? {
           ...resolvedData.supplementalData.annotationSummary,
           entityType: 'phenotype'
         } : null
       }
-      tableState={tableState}
-      totalRows={resolvedData.total}
     />
   );
 };

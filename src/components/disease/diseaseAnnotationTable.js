@@ -14,7 +14,6 @@ import {getDistinctFieldValue} from '../dataTable/utils';
 import { compareByFixedOrder } from '../../lib/utils';
 import { SPECIES_NAME_ORDER } from '../../constants';
 import ProvidersCell from '../dataTable/ProvidersCell';
-import LoadingSpinner from '../loadingSpinner';
 import useComparisonRibbonTableQuery
   from '../../hooks/useComparisonRibbonTableQuery';
 
@@ -29,17 +28,10 @@ const DiseaseAnnotationTable = ({
 }) => {
   const {
     downloadUrl,
-    isIdle,
-    isLoading,
-    isFetching,
+    data: results,
     resolvedData,
-    tableState,
-    setTableState
+    ...tableProps
   } = useComparisonRibbonTableQuery('/api/disease', focusGeneId, orthologGenes, term);
-
-  if (isIdle || isLoading) {
-    return <LoadingSpinner />;
-  }
 
   let columns = [
     {
@@ -115,21 +107,18 @@ const DiseaseAnnotationTable = ({
     }
   ];
 
-  const data = resolvedData.results.map(annotation => ({
+  const data = results.map(annotation => ({
     species: annotation.gene.species,
     ...annotation,
   }));
 
   return (
     <DataTable
+      {...tableProps}
       columns={columns}
       data={data}
       downloadUrl={downloadUrl}
       keyField='primaryKey'
-      loading={isFetching}
-      setTableState={setTableState}
-      tableState={tableState}
-      totalRows={resolvedData.total}
     />
   );
 };

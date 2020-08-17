@@ -26,7 +26,7 @@ export function findFminFmax(genomeLocation, variants) {
 }
 
 const VariantsSequenceViewer = ({ alleles, allelesSelected, allelesVisible, tableState, gene, genomeLocation }) => {
-  if (alleles.length === 0 || !genomeLocation.chromosome) {
+  if (!alleles || alleles.length === 0 || !genomeLocation.chromosome) {
     return null;
   }
 

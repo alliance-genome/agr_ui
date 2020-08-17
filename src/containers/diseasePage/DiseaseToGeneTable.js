@@ -21,20 +21,13 @@ import {getDistinctFieldValue} from '../../components/dataTable/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
 import ProvidersCell from '../../components/dataTable/ProvidersCell';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import LoadingSpinner from '../../components/loadingSpinner';
 
 const DiseaseToGeneTable = ({id}) => {
   const {
-    isFetching,
-    isLoading,
+    data: results,
     resolvedData,
-    tableState,
-    setTableState
+    ...tableProps
   } = useDataTableQuery(`/api/disease/${id}/genes`);
-
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
 
   const columns = [
     {
@@ -119,7 +112,7 @@ const DiseaseToGeneTable = ({id}) => {
 
   // need to pull out species in a separate field because we can't have
   // two columns based on the gene field
-  const rows = resolvedData.results.map(association => ({
+  const rows = results.map(association => ({
     species: association.gene.species,
     ...association,
   }));
@@ -141,16 +134,12 @@ const DiseaseToGeneTable = ({id}) => {
 
   return (
     <DataTable
+      {...tableProps}
       columns={columns}
       data={rows}
       downloadUrl={`/api/disease/${id}/genes/download`}
-      key={id}
       keyField='primaryKey'
-      loading={isFetching}
-      setTableState={setTableState}
       sortOptions={sortOptions}
-      tableState={tableState}
-      totalRows={resolvedData.total}
     />
   );
 };

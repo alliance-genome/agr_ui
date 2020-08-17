@@ -4,8 +4,8 @@ import 'isomorphic-fetch';
 const TIMEOUT = 30000;
 
 class ApiError extends Error {
-  constructor(json) {
-    super(json.errors || json.errorMessage);
+  constructor(response, json) {
+    super(`${response.status} ${response.statusText}\n${json.errors || json.errorMessage}`);
     this.name = 'ApiError';
   }
 }
@@ -50,7 +50,7 @@ export default async function fetchData(url, options = {}) {
   const response = await timeoutPromise(TIMEOUT, fetch(url, requestOptions));
   const body = await response.json();
   if (!response.ok) {
-    throw new ApiError(body);
+    throw new ApiError(response, body);
   }
   return body;
 }

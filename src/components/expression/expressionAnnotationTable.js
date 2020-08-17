@@ -16,7 +16,6 @@ import {getDistinctFieldValue} from '../dataTable/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
 import useComparisonRibbonTableQuery
   from '../../hooks/useComparisonRibbonTableQuery';
-import LoadingSpinner from '../loadingSpinner';
 
 const ExpressionAnnotationTable = ({
   focusGeneId,
@@ -25,17 +24,10 @@ const ExpressionAnnotationTable = ({
 }) => {
   const {
     downloadUrl,
-    isIdle,
-    isLoading,
-    isFetching,
     resolvedData,
-    tableState,
-    setTableState
+    data: results,
+    ...tableProps
   } = useComparisonRibbonTableQuery('/api/expression', focusGeneId, orthologGenes, term);
-
-  if (isIdle || isLoading) {
-    return <LoadingSpinner />;
-  }
 
   const columns = [
     {
@@ -102,7 +94,7 @@ const ExpressionAnnotationTable = ({
   ];
 
 
-  const data = resolvedData.results.map(result => ({
+  const data = results.map(result => ({
     key: hash(result),
     species: result.gene.species.name,
     gene: result.gene,
@@ -138,15 +130,12 @@ const ExpressionAnnotationTable = ({
 
   return (
     <DataTable
+      {...tableProps}
       columns={columns}
       data={data}
       downloadUrl={downloadUrl}
       keyField='key'
-      loading={isFetching}
-      setTableState={setTableState}
       sortOptions={sortOptions}
-      tableState={tableState}
-      totalRows={resolvedData.total}
     />
   );
 };

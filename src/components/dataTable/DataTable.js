@@ -20,21 +20,26 @@ import DropdownTextFilter from './dropdownTextFilter';
 import DropdownCheckboxFilter from './dropdownCheckboxFilter';
 import HorizontalScroll from '../horizontalScroll';
 import { buildTableQueryString } from '../../lib/utils';
+import LoadingSpinner from '../loadingSpinner';
 
 const DataTable = ({
   className,
   columns,
   data,
   downloadUrl,
+  error,
+  isError,
+  isFetching,
+  isIdle,
+  isLoading,
   keyField,
-  loading,
   noDataMessage,
   pagination = true,
+  setTableState,
   sortOptions,
   summaryProps,
-  totalRows,
   tableState,
-  setTableState,
+  totalRows,
   ...bootstrapTableProps
 }) => {
   const containerRef = useRef(null);
@@ -76,9 +81,26 @@ const DataTable = ({
 
   const { filters, page, sizePerPage, sort } = tableState;
 
-  if (!loading && Object.keys(filters).length === 0 && totalRows === 0) {
+  if (isError) {
+    throw error;
+  }
+
+  // no data has loaded, query has not been initiated. don't render anything
+  if (isIdle) {
+    return null;
+  }
+
+  // the initial fetch is happening, show spinner, don't render the table yet
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  // the initial fetch has happened and there is no data
+  if (!isFetching && Object.keys(filters).length === 0 && totalRows === 0) {
     return <NoData>{noDataMessage}</NoData>;
   }
+
+  // if we reached this far, we want to show the table
 
   const paginationObj = paginationFactory({
     custom: true,
@@ -132,7 +154,7 @@ const DataTable = ({
 
   return (
     <div className={className} ref={containerRef} style={{position: 'relative'}}>
-      <LoadingOverlay loading={loading} />
+      <LoadingOverlay loading={isFetching} />
       <PaginationProvider pagination={paginationObj}>
         {
           ({paginationProps, paginationTableProps}) => (
@@ -197,8 +219,12 @@ DataTable.propTypes = {
   columns: PropTypes.array.isRequired,
   data: PropTypes.arrayOf(PropTypes.object),
   downloadUrl: PropTypes.string,
+  error: PropTypes.object,
+  isError: PropTypes.bool,
+  isFetching: PropTypes.bool,
+  isIdle: PropTypes.bool,
+  isLoading: PropTypes.bool,
   keyField: PropTypes.string.isRequired,
-  loading: PropTypes.bool,
   noDataMessage: PropTypes.string,
   pagination: PropTypes.bool,
   setTableState: PropTypes.func.isRequired,

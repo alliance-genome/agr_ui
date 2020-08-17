@@ -3,27 +3,20 @@ import PropTypes from 'prop-types';
 import { VariantJBrowseLink } from '../../components/variant';
 import Sequence from './Sequence';
 import useAllAlleleVariants from '../../hooks/useAlleleVariants';
-import LoadingSpinner from '../../components/loadingSpinner';
 import { DataTable } from '../../components/dataTable';
 
 const AlleleToVariantTable = ({allele = {}, alleleId}) => {
   const {
-    data: dataRaw = {
-      results: [],
-      total: 0,
-    },
-    isLoading,
-    isFetching,
-    tableState,
-    setTableState,
+    data: dataRaw,
+    ...tableProps
   } = useAllAlleleVariants(alleleId);
-  const [ variant1 = {} ] = dataRaw.results;
+  const [ variant1 = {} ] = dataRaw;
   const { location: locationVariant1 = {} } = variant1;
   const gene = allele.gene || {};
   const { genomeLocations: geneLocations } = gene;
   const [geneLocation] = geneLocations || [];
 
-  const data = dataRaw.results.map((variant) => ({
+  const data = dataRaw.map((variant) => ({
     ...variant,
     geneLocation,
     species: allele.species
@@ -82,23 +75,15 @@ const AlleleToVariantTable = ({allele = {}, alleleId}) => {
     },
   ];
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
-
   return (
     <DataTable
+      {...tableProps}
       columns={columns}
       data={data}
       downloadUrl={`/api/allele/${alleleId}/variants/download`}
-      key={alleleId}
       keyField='id'
-      loading={isFetching}
       noDataMessage='No mapped variant information available'
       pagination={false}
-      setTableState={setTableState}
-      tableState={tableState}
-      totalRows={dataRaw.total}
     />
   );
 };

@@ -8,20 +8,9 @@ import AnnotatedEntitiesPopup
   from '../../components/dataTable/AnnotatedEntitiesPopup';
 import DiseaseLink from '../../components/disease/DiseaseLink';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import LoadingSpinner from '../../components/loadingSpinner';
 
 const AlleleToDiseaseTable = ({alleleId}) => {
-  const {
-    isLoading,
-    isFetching,
-    resolvedData,
-    tableState,
-    setTableState
-  } = useDataTableQuery(`/api/allele/${alleleId}/diseases`);
-
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
+  const tableProps = useDataTableQuery(`/api/allele/${alleleId}/diseases`);
 
   const columns = [
     {
@@ -56,14 +45,10 @@ const AlleleToDiseaseTable = ({alleleId}) => {
 
   return (
     <DataTable
+      {...tableProps}
       columns={columns}
-      data={resolvedData.results}
       downloadUrl={`/api/allele/${alleleId}/diseases/download`}
       keyField='primaryKey'
-      loading={isFetching}
-      setTableState={setTableState}
-      tableState={tableState}
-      totalRows={resolvedData.total}
     />
   );
 };

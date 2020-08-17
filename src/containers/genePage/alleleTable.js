@@ -13,16 +13,11 @@ import DiseaseLink from '../../components/disease/DiseaseLink';
 import {VariantJBrowseLink} from '../../components/variant';
 import VariantsSequenceViewer from './VariantsSequenceViewer';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import LoadingSpinner from '../../components/loadingSpinner';
-
 
 const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, geneDataProvider}) => {
   const {
-    isFetching,
-    isLoading,
     resolvedData,
-    tableState,
-    setTableState,
+    ...tableProps
   } = useDataTableQuery(`/api/gene/${geneId}/alleles`);
 
   const data = useMemo(() => {
@@ -55,9 +50,9 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
       allelesSelected: alleleIdsSelected.map(formatAllele),
       allelesVisible: data && data.map(({id}) => formatAllele(id)),
       onAllelesSelect: setAlleleIdsSelected,
-      tableState
+      tableState: tableProps.tableState
     };
-  }, [data, alleleIdsSelected, setAlleleIdsSelected, tableState]);
+  }, [data, alleleIdsSelected, setAlleleIdsSelected, tableProps.tableState]);
 
   const selectRow = useMemo(() => ({
     mode: 'checkbox',
@@ -80,10 +75,6 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
     },
     style: { backgroundColor: '#ffffd4' },
   }), [alleleIdsSelected, setAlleleIdsSelected]);
-
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
 
   const variantNameColWidth = 300;
   const variantTypeColWidth = 110;
@@ -203,9 +194,7 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
       text: 'Variant type',
       headerStyle: {width: variantTypeColWidth},
       // filterable: ['delins', 'point mutation', 'insertion', 'deletion', 'MNV'],
-      filterable: resolvedData.supplementalData && resolvedData.supplementalData.distinctFieldValues ?
-        getDistinctFieldValue(resolvedData, 'filter.variantType') :
-        true,
+      filterable: getDistinctFieldValue(resolvedData, 'filter.variantType'),
     },
     {
       dataField: 'variantConsequence',
@@ -215,9 +204,7 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
         children: <span>Variant consequences were predicted by the <ExternalLink href="https://uswest.ensembl.org/info/docs/tools/vep/index.html" target="_blank">Ensembl Variant Effect Predictor (VEP) tool</ExternalLink> based on Alliance variants information.</span>,
       },
       headerStyle: {width: variantConsequenceColWidth},
-      filterable: resolvedData.supplementalData && resolvedData.supplementalData.distinctFieldValues ?
-        getDistinctFieldValue(resolvedData, 'filter.variantConsequence') :
-        true,
+      filterable: getDistinctFieldValue(resolvedData, 'filter.variantConsequence'),
     },
     // {
     //   dataField: 'source',
@@ -259,16 +246,13 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
         {...variantsSequenceViewerProps}
       />
       <DataTable
+        {...tableProps}
         columns={columns}
         data={data}
         keyField='id'
-        loading={isFetching}
         rowStyle={{cursor: 'pointer'}}
         selectRow={selectRow}
-        setTableState={setTableState}
         sortOptions={sortOptions}
-        tableState={tableState}
-        totalRows={resolvedData.total}
       />
     </>
   );
