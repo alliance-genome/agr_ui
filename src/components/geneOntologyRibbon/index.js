@@ -8,9 +8,7 @@ import { STRINGENCY_HIGH } from '../orthology/constants';
 import HelpPopup from '../helpPopup';
 import GoControlsHelp from './goControlsHelp';
 import ControlsContainer from '../controlsContainer';
-import { selectOrthologs } from '../../selectors/geneSelectors';
 import OrthologPicker from '../OrthologPicker';
-import { connect } from 'react-redux';
 import { getOrthologId } from '../orthology';
 import fetchData from '../../lib/fetchData';
 
@@ -380,8 +378,8 @@ class GeneOntologyRibbon extends Component {
   // ===================================================================
 
   renderControls() {
-    const { geneSpecies, orthology } = this.props;
-    const { compareOrthologs, selectedOrthologs } = this.state;
+    const { geneId, geneSpecies } = this.props;
+    const { compareOrthologs } = this.state;
 
     return(
       <ControlsContainer>
@@ -394,12 +392,11 @@ class GeneOntologyRibbon extends Component {
         <OrthologPicker
           checkboxValue={compareOrthologs}
           defaultStringency={STRINGENCY_HIGH}
+          focusGeneId={geneId}
           focusTaxonId={geneSpecies.taxonId}
           id='go-ortho-picker'
           onChange={this.handleOrthologyChange}
           onCheckboxValueChange={this.handleCompareOrthologsChange}
-          orthology={orthology.data}
-          value={selectedOrthologs}
         />
 
         <div className='form-check form-check-inline'>
@@ -491,11 +488,6 @@ GeneOntologyRibbon.propTypes = {
   geneSpecies: PropTypes.object,
   geneSymbol: PropTypes.string,
   history: PropTypes.object,
-  orthology: PropTypes.object
 };
 
-const mapStateToProps = (state) => ({
-  orthology: selectOrthologs(state)
-});
-
-export default connect(mapStateToProps)(withRouter(GeneOntologyRibbon));
+export default withRouter(GeneOntologyRibbon);

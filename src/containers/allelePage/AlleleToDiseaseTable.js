@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import {selectDiseaseAssociations} from '../../selectors/alleleSelectors';
-import {fetchAlleleDisease} from '../../actions/alleleActions';
 import {
+  DataTable,
   ReferenceCell,
-  RemoteDataTable
 } from '../../components/dataTable';
 import AnnotatedEntitiesPopup
   from '../../components/dataTable/AnnotatedEntitiesPopup';
 import DiseaseLink from '../../components/disease/DiseaseLink';
+import useDataTableQuery from '../../hooks/useDataTableQuery';
 
-const AlleleToDiseaseTable = ({alleleId, diseaseAssociations, dispatchFetchDiseaseAssociations}) => {
+const AlleleToDiseaseTable = ({alleleId}) => {
+  const tableProps = useDataTableQuery(`/api/allele/${alleleId}/diseases`);
+
   const columns = [
     {
       dataField: 'disease',
@@ -44,31 +44,17 @@ const AlleleToDiseaseTable = ({alleleId, diseaseAssociations, dispatchFetchDisea
   ];
 
   return (
-    <RemoteDataTable
+    <DataTable
+      {...tableProps}
       columns={columns}
-      data={diseaseAssociations.data}
       downloadUrl={`/api/allele/${alleleId}/diseases/download`}
-      key={alleleId}
       keyField='primaryKey'
-      loading={diseaseAssociations.loading}
-      onUpdate={dispatchFetchDiseaseAssociations}
-      totalRows={diseaseAssociations.total}
     />
   );
 };
 
 AlleleToDiseaseTable.propTypes = {
   alleleId: PropTypes.string,
-  diseaseAssociations: PropTypes.object,
-  dispatchFetchDiseaseAssociations: PropTypes.func,
 };
 
-const mapStateToProps = state => ({
-  diseaseAssociations: selectDiseaseAssociations(state),
-});
-
-const mapDispatchToProps = (dispatch, props) => ({
-  dispatchFetchDiseaseAssociations: opts => dispatch(fetchAlleleDisease(props.alleleId, opts)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(AlleleToDiseaseTable);
+export default AlleleToDiseaseTable;
