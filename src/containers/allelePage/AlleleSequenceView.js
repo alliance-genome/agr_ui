@@ -1,27 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {selectVariants} from '../../selectors/alleleSelectors';
-import {connect} from 'react-redux';
 import GenomeFeatureWrapper from '../genePage/genomeFeatureWrapper';
+import useAllAlleleVariants from '../../hooks/useAlleleVariants';
 
 
-function findFminFmax(genomeLocation,variants){
+function findFminFmax(genomeLocation, variants) {
   let fmax = genomeLocation.end;
   let fmin = genomeLocation.start;
-  if(variants && variants.data){
-    for(let variant of variants.data){
-      if(variant.location.start < fmin ){
-        fmin = variant.location.start ;
+  if (variants && variants.data.results) {
+    for (let variant of variants.data.results) {
+      if (variant.location.start < fmin) {
+        fmin = variant.location.start;
       }
-      if(variant.location.end  > fmax ){
-        fmax = variant.location.end ;
+      if (variant.location.end > fmax) {
+        fmax = variant.location.end;
       }
     }
   }
-  return {fmin,fmax};
+  return { fmin, fmax };
 }
 
-const AlleleSequenceView = ({allele, variants}) => {
+const AlleleSequenceView = ({ allele }) => {
+  const variants = useAllAlleleVariants(allele.id);
 
   if (!allele.gene) {
     return null;
@@ -29,11 +29,11 @@ const AlleleSequenceView = ({allele, variants}) => {
 
   const genomeLocations = allele.gene.genomeLocations;
   const genomeLocation = genomeLocations && genomeLocations.length > 0 ? genomeLocations[0] : null;
-  if (!genomeLocation || variants.loading || variants.error || variants.data.length === 0) {
+  if (!genomeLocation || variants.isLoading || variants.isError || variants.data.length === 0) {
     return null;
   }
 
-  const {fmin,fmax} = findFminFmax(genomeLocation,variants);
+  const { fmin, fmax } = findFminFmax(genomeLocation, variants);
   return (
     <GenomeFeatureWrapper
       assembly={genomeLocation.assembly}
@@ -57,15 +57,6 @@ const AlleleSequenceView = ({allele, variants}) => {
 
 AlleleSequenceView.propTypes = {
   allele: PropTypes.object,
-  variants: PropTypes.shape({
-    loading: PropTypes.bool,
-    error: PropTypes.any,
-    data: PropTypes.array,
-  }),
 };
 
-const mapStateToProps = state => ({
-  variants: selectVariants(state),
-});
-
-export default connect(mapStateToProps)(AlleleSequenceView);
+export default AlleleSequenceView;

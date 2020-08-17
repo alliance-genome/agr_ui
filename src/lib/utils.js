@@ -1,5 +1,6 @@
 import { STRINGENCY_HIGH, STRINGENCY_MED } from '../components/orthology/constants';
 import { DEFAULT_TABLE_STATE, SPECIES } from '../constants';
+import { stringify } from 'query-string';
 
 export function makeId(string) {
   return string.toLowerCase().replace(/[^A-Za-z0-9]/g, '-');
@@ -53,7 +54,7 @@ export function buildTableQueryString(options) {
   if (!options) {
     options = DEFAULT_TABLE_STATE;
   }
-  const queryParams = [];
+  const queryParams = {};
   Object.entries(options.filters || {})
     .forEach(([field, filter]) => {
       let value = Array.isArray(filter.filterVal) ? filter.filterVal.join('|') : filter.filterVal;
@@ -63,18 +64,15 @@ export function buildTableQueryString(options) {
         value = value.replace(/ /g, '_');
       }
 
-      queryParams.push({
-        name: `filter.${field}`,
-        value: encodeURIComponent(value)
-      });
+      queryParams[`filter.${field}`] = value;
     });
-  queryParams.push({name: 'page', value: options.page});
-  queryParams.push({name: 'limit', value: options.sizePerPage});
-  queryParams.push({name: 'sortBy', value: options.sort});
-  return queryParams
-    .filter(qp => !!qp.value)
-    .map(qp => `${qp.name}=${qp.value}`)
-    .join('&');
+  queryParams.page = options.page;
+  queryParams.limit = options.sizePerPage;
+  queryParams.sortBy =  options.sort;
+  return stringify(queryParams, {
+    skipNull: true,
+    skipEmptyString: true,
+  });
 }
 
 function isHighStringency(orthology) {

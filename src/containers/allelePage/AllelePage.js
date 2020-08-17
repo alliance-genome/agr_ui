@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React  from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -9,13 +9,6 @@ import {
 } from '../../components/dataPage';
 import HeadMetaTags from '../../components/headMetaTags';
 import Subsection from '../../components/subsection';
-import {connect} from 'react-redux';
-import {
-  selectData,
-  selectError,
-  selectLoading
-} from '../../selectors/alleleSelectors';
-import {fetchAllele} from '../../actions/alleleActions';
 import NotFound from '../../components/notFound';
 import ErrorBoundary from '../../components/errorBoundary';
 import AlleleSummary from './AlleleSummary';
@@ -24,7 +17,6 @@ import SpeciesIcon from '../../components/speciesIcon';
 import PageNavEntity from '../../components/dataPage/PageNavEntity';
 import DataSourceLink from '../../components/dataSourceLink';
 import {Link} from 'react-router-dom';
-import {setPageLoading} from '../../actions/loadingActions';
 import AlleleToPhenotypeTable from './AlleleToPhenotypeTable';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
 import AlleleToDiseaseTable from './AlleleToDiseaseTable';
@@ -33,6 +25,7 @@ import AlleleSequenceView from './AlleleSequenceView';
 import AlleleTransgenicConstructs from './AlleleTransgenicConstructs';
 import AlleleMolecularConsequences from './AlleleMolecularConsequences';
 import MolecularConsequenceHelp from './MolecularConsequenceHelp';
+import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 
 const SUMMARY = 'Summary';
 const PHENOTYPES = 'Phenotypes';
@@ -50,16 +43,18 @@ const SECTIONS = [
   {name: DISEASE}
 ];
 
-const AllelePage = (props) => {
+const AllelePage = ({ alleleId }) => {
+  const {
+    data,
+    isLoading,
+    isError,
+  } = usePageLoadingQuery(`/api/allele/${alleleId}`);
 
-  const { alleleId, data, error, dispatch } = props;
+  if (isLoading) {
+    return null;
+  }
 
-  useEffect(() => {
-    dispatch(setPageLoading(true));
-    dispatch(fetchAllele(alleleId)).finally(() => dispatch(setPageLoading(false)));
-  }, [alleleId]);
-
-  if (error) {
+  if (isError) {
     return <NotFound/>;
   }
 
@@ -120,20 +115,6 @@ const AllelePage = (props) => {
 
 AllelePage.propTypes = {
   alleleId: PropTypes.string.isRequired,
-  data: PropTypes.object,
-  dispatch: PropTypes.func,
-  error: PropTypes.object,
-  loading: PropTypes.bool,
 };
 
-const mapStateToProps = state => ({
-  data: selectData(state),
-  loading: selectLoading(state),
-  error: selectError(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  dispatch: dispatch,
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(AllelePage);
+export default AllelePage;

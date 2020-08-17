@@ -6,11 +6,9 @@ import SpeciesCell from './SpeciesCell';
 import AssayCell from './assayCell';
 import SourceCell from './sourceCell';
 import BasedOnGeneCell from './basedOnGeneCell';
-
 import CellTooltip from './CellTooltip';
-import RemoteDataTable from './remoteDataTable';
-
 import TableSummary from './tableSummary';
+import DataTable from './DataTable';
 
 export {
   AlleleCell,
@@ -18,10 +16,10 @@ export {
   EvidenceCodesCell,
   ReferenceCell,
   CellTooltip,
-  RemoteDataTable,
   AssayCell,
   SpeciesCell,
   SourceCell,
   TableSummary,
-  BasedOnGeneCell
+  BasedOnGeneCell,
+  DataTable,
 };

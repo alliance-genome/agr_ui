@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
   AttributeLabel,
@@ -9,21 +9,17 @@ import LoadingSpinner from '../../components/loadingSpinner';
 import NoData from '../../components/noData';
 import { VariantJBrowseLink } from '../../components/variant';
 import VariantToTranscriptTable from './VariantToTranscriptTable';
-// import VariantToTranscriptDetails from './VariantToTranscriptDetails';
-import useAlleleVariant from './useAlleleVariants';
 import style from './style.scss';
-
-// const MOLECULAR_CONSEQUENCE_DETAILS = 'Genomic Variants Molecular Consequences Details';
+import useAllAlleleVariants from '../../hooks/useAlleleVariants';
 
 const AlleleMolecularConsequences = ({
   alleleId,
   allele,
 }) => {
-  const { data: variantsRaw = [], loading, fetchData } = useAlleleVariant(alleleId);
-
-  useEffect(() => {
-    fetchData({page: 1, limit: 1000});
-  }, [alleleId]);
+  const {
+    data,
+    isLoading,
+  } = useAllAlleleVariants(alleleId);
 
   // annotate variants with location and species information from the allele
   const variants = useMemo(() => {
@@ -31,15 +27,15 @@ const AlleleMolecularConsequences = ({
     const { genomeLocations: geneLocations } = gene;
     const [geneLocation] = geneLocations || [];
 
-    return variantsRaw.map((variant) => ({
+    return data.map((variant) => ({
       ...variant,
       geneLocation,
       species: allele.species
     }));
-  }, [variantsRaw, allele]);
+  }, [data, allele]);
 
-  if (loading) {
-    return <LoadingSpinner loading={loading} />;
+  if (isLoading) {
+    return <LoadingSpinner />;
   } else if (!variants || !variants.length) {
     return <NoData />;
   }

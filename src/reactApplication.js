@@ -7,27 +7,37 @@ import { logPageView } from './lib/analytics';
 import RouteListener from './components/routeListener';
 import routes from './routes';
 import { ScrollContext } from 'react-router-scroll-4';
+import { ReactQueryConfigProvider } from 'react-query';
 
 const isBrowser = (typeof window !== 'undefined');
+const store = configureStore();
+
+const queryConfig = {
+  queries: {
+    refetchOnWindowFocus: false,
+    retry: false,
+    staleTime: Infinity,
+  }
+};
 
 class ReactApp extends Component {
   render() {
-    let store = configureStore();
-
     const Router = this.props.router || BrowserRouter;
     return (
       <Provider store={store}>
-        <Router>
-          {
-            isBrowser ?
-              <ScrollContext>
-                <RouteListener onRouteChange={logPageView}>
-                  {routes}
-                </RouteListener>
-              </ScrollContext> :
-              routes
-          }
-        </Router>
+        <ReactQueryConfigProvider config={queryConfig}>
+          <Router>
+            {
+              isBrowser ?
+                <ScrollContext>
+                  <RouteListener onRouteChange={logPageView}>
+                    {routes}
+                  </RouteListener>
+                </ScrollContext> :
+                routes
+            }
+          </Router>
+        </ReactQueryConfigProvider>
       </Provider>
     );
   }

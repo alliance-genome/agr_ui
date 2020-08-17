@@ -6,8 +6,3 @@ export const selectPageLoading = createSelector(
   [selectLoadingDomain],
   loading => loading.get('pageLoading')
 );
-
-export const anyPendingRequests = createSelector(
-  [selectLoadingDomain],
-  loading => !loading.get('pendingRequests').isEmpty()
-);

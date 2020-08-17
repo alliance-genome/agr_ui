@@ -1,22 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { selectVariants } from '../../selectors/alleleSelectors';
-// import { fetchAlleleVariants } from '../../actions/alleleActions';
 import { Link } from 'react-router-dom';
-import { RemoteDataTable } from '../../components/dataTable';
+import { DataTable } from '../../components/dataTable';
 import { CollapsibleList } from '../../components/collapsibleList';
 import Translation from './Translation';
 import VariantEffectDetails from './VariantEffectDetails';
-import useVariantTranscripts from './useVariantTranscripts';
 import styles from './style.scss';
+import useDataTableQuery from '../../hooks/useDataTableQuery';
 
 const VariantToTranscriptTable = ({variant}) => {
   const {id: variantId} = variant;
-  const { data = [], loading, total, error, fetchData} = useVariantTranscripts(variantId); //useFetchData(`/api/variant/${variantId}/transcripts`);
-
-  if (error) {
-    throw error;
-  }
+  const tableProps = useDataTableQuery(`/api/variant/${variantId}/transcripts`);
 
   const columns = [
     {
@@ -190,21 +184,18 @@ const VariantToTranscriptTable = ({variant}) => {
     },
   };
 
-  return (<>
-    <RemoteDataTable
+  return (
+    <DataTable
+      {...tableProps}
       className={styles.variantToTranscriptTable}
       columns={columns}
-      data={data}
-      // downloadUrl={`/api/allele/${alleleId}/variants/download`}
       expandRow={expandRow}
       keyField='id'
-      loading={loading}
       noDataMessage='No variant effect information available'
-      onUpdate={fetchData}
-      totalRows={total}
     />
-  </>);
+  );
 };
+
 VariantToTranscriptTable.propTypes = {
   variant: PropTypes.shape({
     id: PropTypes.string.isRequired,
