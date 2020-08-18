@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import clone from 'lodash.clone';
-import { stringify as stringifyQuery } from 'query-string';
+import { stringifyQuery } from '../../lib/searchHelpers';
 
 import fetchData from '../../lib/fetchData';
 import FilterSelector from './filterSelector/filterSelector';

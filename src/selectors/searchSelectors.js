@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { parse as parseQueryString } from 'query-string';
+import { parseQueryString } from '../lib/searchHelpers';
 
 // See https://github.com/reactjs/reselect
 // for details on using selectors.

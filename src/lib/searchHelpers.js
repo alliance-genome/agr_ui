@@ -3,6 +3,7 @@ import clone from 'lodash.clone';
 import without from 'lodash.without';
 import { Link } from 'react-router-dom';
 import ExternalLink from '../components/externalLink';
+import qs from 'qs';
 
 const SINGLE_VAL_FIELDS = ['mode', 'page'];
 const CLEARING_FIELDS = ['category'];
@@ -165,4 +166,16 @@ export function getLinkForEntry(entry) {
 
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
+
+export function parseQueryString(queryString) {
+  return qs.parse(queryString, {
+    ignoreQueryPrefix: true,
+  });
+}
+
+export function stringifyQuery(query) {
+  return qs.stringify(query, {
+    arrayFormat: 'repeat',
+  });
 }

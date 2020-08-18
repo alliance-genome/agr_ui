@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
-import {stringify as stringifyQuery} from 'query-string';
 import {connect} from 'react-redux';
 
 import style from './style.scss';
-import {getQueryParamWithValueChanged} from '../../lib/searchHelpers';
+import {
+  getQueryParamWithValueChanged,
+  stringifyQuery
+} from '../../lib/searchHelpers';
 
 import {selectTotalPages,} from '../../selectors/searchSelectors';
 

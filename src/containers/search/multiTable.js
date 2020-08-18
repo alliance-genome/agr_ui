@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import clone from 'lodash.clone';
-import { stringify as stringifyQuery } from 'query-string';
 
 import style from './style.scss';
 import ResultsTable from './resultsTable';
@@ -11,7 +10,7 @@ import CategoryLabel from './categoryLabel';
 import fetchData from '../../lib/fetchData';
 import { SEARCH_API_ERROR_MESSAGE } from '../../constants';
 import { receiveResponse, setError } from '../../actions/search';
-import { getQueryParamWithValueChanged } from '../../lib/searchHelpers';
+import { getQueryParamWithValueChanged, stringifyQuery } from '../../lib/searchHelpers';
 
 
 import {
