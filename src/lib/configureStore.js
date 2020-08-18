@@ -1,12 +1,10 @@
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux';
-import reduxThunk from 'redux-thunk';  // useful for dispatching async actions
-import assignIn from 'lodash.assignin';
 
 // custom reducers
 import reducers from '../reducers';
 
 const configureStore = () => {
-  let combinedReducers = combineReducers(assignIn(reducers, {}));
+  let combinedReducers = combineReducers(reducers);
 
   // to work with redux-devtools-extension (such as the chrome extension)
   let composeEnhancers;
@@ -20,7 +18,7 @@ const configureStore = () => {
 
   let store = createStore(
     combinedReducers,
-    composeEnhancers(applyMiddleware(reduxThunk))
+    composeEnhancers(applyMiddleware())
   );
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
