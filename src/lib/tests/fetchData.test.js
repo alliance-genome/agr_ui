@@ -1,7 +1,6 @@
 // import 'isomorphic-fetch';
 // import assert from 'assert';
 // import fetchData from '../fetchData';
-/* eslint-disable no-console */
 
 // TODO: this test should be rewritten with a mock API provider instead of relying on a live server
 

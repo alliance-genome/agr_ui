@@ -1,4 +1,3 @@
-/*eslint-disable react/no-set-state */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -37,7 +36,9 @@ class Loader extends Component {
   }
 
   handleSetFinishing() {
-    if (this._timeout) clearTimeout(this._timeout);
+    if (this._timeout) {
+      clearTimeout(this._timeout);
+    }
     this.setState({ readyState: 2 });
     this._timeout = setTimeout( () => {
       this.setState({ readyState: 0 });
