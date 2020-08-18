@@ -2,8 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import { getQueryParamWithoutPage, makeValueDisplayName, makeTitleCaseFieldDisplayName } from '../../lib/searchHelpers';
-import { stringify } from 'query-string';
+import {
+  getQueryParamWithoutPage,
+  makeValueDisplayName,
+  makeTitleCaseFieldDisplayName,
+  stringifyQuery,
+} from '../../lib/searchHelpers';
 
 import CategoryLabel from './categoryLabel.js';
 import {compareByFixedOrder} from '../../lib/utils';
@@ -34,7 +38,7 @@ const SearchBreadcrumbs = ({queryParams}) => {
       }
       return values.map(value => {
         const newQp = getQueryParamWithoutPage(key, value, queryParams);
-        const newLocation = { pathname: '/search', search: stringify(newQp) };
+        const newLocation = { pathname: '/search', search: stringifyQuery(newQp) };
         const labelNode = getLabelNode(key, value);
         const fieldLabel = makeTitleCaseFieldDisplayName(key) + ':';
         return (

@@ -9,8 +9,7 @@ import {CATEGORIES, NON_HIGHLIGHTED_FIELDS} from '../../constants';
 import { Link } from 'react-router-dom';
 
 import SpeciesIcon from '../../components/speciesIcon';
-import { getLinkForEntry } from '../../lib/searchHelpers';
-import { stringify } from 'query-string';
+import { getLinkForEntry, stringifyQuery } from '../../lib/searchHelpers';
 import {UncontrolledTooltip} from 'reactstrap';
 import hash from 'object-hash';
 
@@ -64,7 +63,7 @@ class ResultsList extends Component {
         [x.targetField]: x.sourceName
       };
       const label = x.label || CATEGORIES.find(cat => cat.name === x.category).displayName;
-      const href = {pathname:'/search', search: stringify(queryParams)};
+      const href = {pathname:'/search', search: stringifyQuery(queryParams)};
       const id = 'X' + hash(x);
 
       let tip = '';
