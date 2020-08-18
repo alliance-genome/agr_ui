@@ -1,5 +1,3 @@
-/* eslint-disable react/no-set-state */
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import HorizontalScroll from '../horizontalScroll';
@@ -29,24 +27,24 @@ class GeneOntologyRibbon extends Component {
     super(props);
     this.state = {
       compareOrthologs: false,
-      applyingFilters : false,      // if ortholgs are loading or any other filtering is happening
-      loading : true,               // if ribbon strips loading
-      subjectBaseURL : '/gene/',
+      applyingFilters: false,      // if ortholgs are loading or any other filtering is happening
+      loading: true,               // if ribbon strips loading
+      subjectBaseURL: '/gene/',
       stringency: STRINGENCY_HIGH,
       selectedOrthologs: [],
-      crossAspect : false,
-      filterReference : true,
-      excludePB : true,
-      excludeIBA : true,
-      onlyEXP : false,
-      subset : 'goslim_agr',
-      selected : {
-        subject : null,
-        group : null,
-        data : null,
-        loading : false             // if ribbon table loading
+      crossAspect: false,
+      filterReference: true,
+      excludePB: true,
+      excludeIBA: true,
+      onlyEXP: false,
+      subset: 'goslim_agr',
+      selected: {
+        subject: null,
+        group: null,
+        data: null,
+        loading: false             // if ribbon table loading
       },
-      search : ''
+      search: ''
     };
     this.handleOrthologyChange = this.handleOrthologyChange.bind(this);
     this.handleCompareOrthologsChange = this.handleCompareOrthologsChange.bind(this);
@@ -61,22 +59,21 @@ class GeneOntologyRibbon extends Component {
   }
 
 
-
   // ===================================================================
   //                      API QUERY SECTION
   // ===================================================================
 
   ribbonOptions() {
     // var excludeIBA = this.state.excludeIBA && subjects.length > 1;
-    var excludeIBA = false;
-    var exps = '';
-    if(this.state.onlyEXP) {
-      for(var exp of EXP_CODES) {
+    const excludeIBA = false;
+    let exps = '';
+    if (this.state.onlyEXP) {
+      for (let exp of EXP_CODES) {
         exps += '&ecodes=' + exp;
       }
     }
-    return  '&exclude_PB=' + this.state.excludePB + '&exclude_IBA=' + excludeIBA +
-            '&cross_aspect=' + this.state.crossAspect + exps;
+    return '&exclude_PB=' + this.state.excludePB + '&exclude_IBA=' + excludeIBA +
+      '&cross_aspect=' + this.state.crossAspect + exps;
   }
 
   /**
@@ -86,7 +83,7 @@ class GeneOntologyRibbon extends Component {
    */
   fetchSummaryData(subset, subjects) {
     let subs = '';
-    if(subjects instanceof Array) {
+    if (subjects instanceof Array) {
       subs = subjects.join('&subject=');
     }
     let query = GO_API_URL + 'ontology/ribbon/?subset=' + subset + '&subject=' + subs + this.ribbonOptions(subjects);
@@ -99,7 +96,7 @@ class GeneOntologyRibbon extends Component {
    * @param {*} group one or more group ids. "all" to fetch data for all groups
    */
   fetchAssociationData(subject, group) {
-    if(group == 'all') {
+    if (group === 'all') {
       group = this.state.ribbon.categories.map(elt => {
         return elt.id;
       });
@@ -110,7 +107,6 @@ class GeneOntologyRibbon extends Component {
     let query = GO_API_URL + 'bioentityset/slimmer/function?slim=' + group + '&subject=' + subject + '&rows=-1';
     return fetchData(query);
   }
-
 
 
   // ===================================================================
@@ -124,18 +120,18 @@ class GeneOntologyRibbon extends Component {
    */
   applyTableFilters(group, data) {
     let filtered = JSON.parse(JSON.stringify(data));
-    for(let sub = 0; sub < filtered.length; sub++) {
-      if(this.state.excludePB) {
-        filtered[sub].assocs = filtered[sub].assocs.filter(assoc => assoc.object.id != 'GO:0005515');
+    for (let sub = 0; sub < filtered.length; sub++) {
+      if (this.state.excludePB) {
+        filtered[sub].assocs = filtered[sub].assocs.filter(assoc => assoc.object.id !== 'GO:0005515');
       }
-      if(!this.state.crossAspect) {
+      if (!this.state.crossAspect) {
         let aspect = this.getCategoryIdLabel(group);
         filtered[sub].assocs = filtered[sub].assocs.filter(assoc => {
-          let cat = assoc.object.category[0] == 'molecular_activity' ? 'molecular_function' : assoc.object.category[0];
-          return aspect == undefined || cat == aspect[1];
+          const cat = assoc.object.category[0] === 'molecular_activity' ? 'molecular_function' : assoc.object.category[0];
+          return aspect === undefined || cat === aspect[1];
         });
       }
-      if(this.state.filterReference) {
+      if (this.state.filterReference) {
         filtered[sub].assocs = filtered[sub].assocs.filter(assoc => {
           assoc.reference = assoc.reference.filter(ref => ref.includes('PMID:') || ref.includes('DOI:') || ref.includes('GO_REF:') || ref.includes('Reactome:'));
           return assoc;
@@ -146,14 +142,13 @@ class GeneOntologyRibbon extends Component {
   }
 
 
-
   // ===================================================================
   //                          EVENTS HANDLER
   // ===================================================================
 
   onSubjectClicked(e) {
     // to ensure we are only considering events coming from the disease ribbon
-    if(this.hasParentElementId(e.target, 'go-ribbon')) {
+    if (this.hasParentElementId(e.target, 'go-ribbon')) {
       // don't use the ribbon default action upon subject click
       e.detail.originalEvent.preventDefault();
 
@@ -167,37 +162,45 @@ class GeneOntologyRibbon extends Component {
 
   onGroupClicked(e) {
     // to ensure we are only considering events coming from the disease ribbon
-    if(e.target.id != 'go-ribbon') { return; }
+    if (e.target.id !== 'go-ribbon') {
+      return;
+    }
     this.selectGroup(e.detail.subjects[0], e.detail.group);
   }
 
   selectGroup(subject, group) {
-    if(this.state.selected.group && group) {
-      var sameGroupID = group.id == this.state.selected.group.id;
-      var sameGroupType = group.type == this.state.selected.group.type;
-      var sameSubject = subject.id == this.state.selected.subject.id;
-      if(sameGroupID && sameGroupType && sameSubject) {
+    if (this.state.selected.group && group) {
+      const sameGroupID = group.id === this.state.selected.group.id;
+      const sameGroupType = group.type === this.state.selected.group.type;
+      const sameSubject = subject.id === this.state.selected.subject.id;
+      if (sameGroupID && sameGroupType && sameSubject) {
         group = undefined;
       }
     }
 
-    this.setState({ selected : {
-      subject : subject,
-      group : group,
-      data : null,
-      loading : true
-    }});
+    this.setState({
+      selected: {
+        subject: subject,
+        group: group,
+        data: null,
+        loading: true
+      }
+    });
 
     // if no group selected, no association to fetch
-    if(!group) { return ; }
+    if (!group) {
+      return;
+    }
 
     // other group
-    if(group.type == 'Other') {
+    if (group.type === 'Other') {
       let aspect = this.getCategory(group);
       let terms = aspect.groups.filter(elt => {
-        return elt.type == 'Term';
+        return elt.type === 'Term';
       });
-      terms = terms.map(elt => { return elt.id; });
+      terms = terms.map(elt => {
+        return elt.id;
+      });
 
       this.fetchAssociationData(subject.id, group.id)
         .then(data_all => {
@@ -206,7 +209,7 @@ class GeneOntologyRibbon extends Component {
             .then(data_terms => {
 
               let concat_assocs = [];
-              for(let array of data_terms) {
+              for (let array of data_terms) {
                 concat_assocs = concat_assocs.concat(array.assocs);
               }
 
@@ -214,45 +217,53 @@ class GeneOntologyRibbon extends Component {
               data_all[0].assocs = other_assocs;
 
               let filtered = this.applyTableFilters(group, data_all);
-              this.setState({ selected : {
-                subject : subject,
-                group : group,
-                data : filtered, // assoc data from BioLink
-                loading : false
-              }});
+              this.setState({
+                selected: {
+                  subject: subject,
+                  group: group,
+                  data: filtered, // assoc data from BioLink
+                  loading: false
+                }
+              });
             });
         });
 
-    // regular group
+      // regular group
     } else {
       this.fetchAssociationData(subject.id, group.id)
         .then(data => {
           let filtered = this.applyTableFilters(group, data);
-          this.setState({ selected : {
-            subject : subject,
-            group : group,
-            data : filtered, // assoc data from BioLink
-            loading : false
-          }});
+          this.setState({
+            selected: {
+              subject: subject,
+              group: group,
+              data: filtered, // assoc data from BioLink
+              loading: false
+            }
+          });
         });
     }
 
   }
 
   handleOrthologyChange(selectedOrthologs) {
-    this.setState({ 'applyingFilters' : true });
-    this.setState({selectedOrthologs}, () => {
+    this.setState({ 'applyingFilters': true });
+    this.setState({ selectedOrthologs }, () => {
       this.fetchSummaryData(this.state.subset, this.getGeneIdList()).then(data => {
         data = this.ensureFocusGeneIsPopulated(data);
         // notify no more filters to apply and data ready
-        this.setState({ applyingFilters : false, loading : false, ribbon : data }, () => {
-          if(this.state.selected.subject && !this.state.ribbon.subjects.some(sub => sub.id == this.state.selected.subject.id)) {
+        this.setState({
+          applyingFilters: false,
+          loading: false,
+          ribbon: data
+        }, () => {
+          if (this.state.selected.subject && !this.state.ribbon.subjects.some(sub => sub.id === this.state.selected.subject.id)) {
             this.selectGroup(null, null);
           }
         });
 
       }).catch(() => {
-        this.setState({ loading : false });
+        this.setState({ loading: false });
       });
     });
   }
@@ -262,19 +273,18 @@ class GeneOntologyRibbon extends Component {
   }
 
   handleExpAnnotations(event) {
-    this.setState({ 'applyingFilters' : true });
-    this.setState({'onlyEXP' : event.target.checked}, () => {
+    this.setState({ 'applyingFilters': true });
+    this.setState({ 'onlyEXP': event.target.checked }, () => {
       this.fetchSummaryData(this.state.subset, this.getGeneIdList()).then(data => {
         data = this.ensureFocusGeneIsPopulated(data);
-        this.setState({ applyingFilters : false, loading : false, ribbon : data });
+        this.setState({ applyingFilters: false, loading: false, ribbon: data });
 
       }).catch(() => {
-        this.setState({ loading : false });
+        this.setState({ loading: false });
       });
 
     });
   }
-
 
 
   // ===================================================================
@@ -290,10 +300,10 @@ class GeneOntologyRibbon extends Component {
       subjects.unshift({
         id: this.props.geneId,
         label: this.props.geneSymbol,
-        nb_annotations : 0,
-        nb_classes : 0,
-        taxon_id : this.props.geneSpecies.taxonId,
-        taxon_label : this.props.geneSpecies.name,
+        nb_annotations: 0,
+        nb_classes: 0,
+        taxon_id: this.props.geneSpecies.taxonId,
+        taxon_label: this.props.geneSpecies.name,
         groups: {}
       });
     }
@@ -309,7 +319,7 @@ class GeneOntologyRibbon extends Component {
    */
   getCategory(group) {
     let cat = this.state.ribbon.categories.filter(cat => {
-      return cat.groups.some(gp => gp.id == group.id);
+      return cat.groups.some(gp => gp.id === group.id);
     });
     return cat.length > 0 ? cat[0] : undefined;
   }
@@ -320,9 +330,9 @@ class GeneOntologyRibbon extends Component {
    */
   getCategoryIdLabel(group) {
     let cat = this.state.ribbon.categories.filter(cat => {
-      return cat.groups.some(gp => gp.id == group.id);
+      return cat.groups.some(gp => gp.id === group.id);
     });
-    return cat.length > 0 ? [ cat[0].id, cat[0].label ] : undefined;
+    return cat.length > 0 ? [cat[0].id, cat[0].label] : undefined;
   }
 
   /**
@@ -331,8 +341,12 @@ class GeneOntologyRibbon extends Component {
    * @param {*} id id to look in the parents of provided element
    */
   hasParentElementId(elt, id) {
-    if(elt.id == id) { return true; }
-    if(!elt.parentElement) { return false; }
+    if (elt.id === id) {
+      return true;
+    }
+    if (!elt.parentElement) {
+      return false;
+    }
     return this.hasParentElementId(elt.parentElement, id);
   }
 
@@ -341,36 +355,35 @@ class GeneOntologyRibbon extends Component {
   }
 
   associationKey(assoc) {
-    if(assoc.qualifier) {
+    if (assoc.qualifier) {
       return assoc.subject.id + '@' + assoc.object.id + '@' + assoc.negated + '@' + assoc.qualifier.join('-');
     }
     return assoc.subject.id + '@' + assoc.object.id + '@' + assoc.negated;
   }
 
   fullAssociationKey(assoc) {
-    var key = this.associationKey(assoc) + '@' + assoc.evidence_type + '@' + assoc.provided_by + '@' + assoc.reference.join('#');
+    const key = this.associationKey(assoc) + '@' + assoc.evidence_type + '@' + assoc.provided_by + '@' + assoc.reference.join('#');
     return key;
   }
 
   diffAssociations(assocs_all, assocs_exclude) {
-    var list = [];
-    for(let assoc of assocs_all) {
+    const list = [];
+    for (let assoc of assocs_all) {
       let found = false;
       let key_all = this.fullAssociationKey(assoc);
-      for(let exclude of assocs_exclude) {
-        let key_exclude= this.fullAssociationKey(exclude);
-        if(key_all == key_exclude) {
+      for (let exclude of assocs_exclude) {
+        let key_exclude = this.fullAssociationKey(exclude);
+        if (key_all === key_exclude) {
           found = true;
           break;
         }
       }
-      if(!found) {
+      if (!found) {
         list.push(assoc);
       }
     }
     return list;
   }
-
 
 
   // ===================================================================
@@ -381,7 +394,7 @@ class GeneOntologyRibbon extends Component {
     const { geneId, geneSpecies } = this.props;
     const { compareOrthologs } = this.state;
 
-    return(
+    return (
       <ControlsContainer>
         <span className='pull-right'>
           <HelpPopup id='go-controls-help'>
@@ -417,7 +430,7 @@ class GeneOntologyRibbon extends Component {
 
   renderRibbonStrips() {
     const { applyingFilters, compareOrthologs, ribbon } = this.state;
-    return(
+    return (
       <HorizontalScroll className='text-nowrap'>
         <wc-ribbon-strips
           category-all-style='1'
@@ -443,25 +456,27 @@ class GeneOntologyRibbon extends Component {
   }
 
   renderRibbonTable() {
-    if(this.state.selected.subject && this.state.selected.subject.groups[this.state.selected.group.id] && this.state.onlyEXP) {
+    if (this.state.selected.subject && this.state.selected.subject.groups[this.state.selected.group.id] && this.state.onlyEXP) {
       let gp = this.state.selected.subject.groups[this.state.selected.group.id];
       let keys = Object.keys(gp);
       let hasEXP = false;
-      for(let key of keys) {
-        if(EXP_CODES.includes(key)) {
+      for (let key of keys) {
+        if (EXP_CODES.includes(key)) {
           hasEXP = true;
         }
       }
-      if(!hasEXP) { return ''; }
+      if (!hasEXP) {
+        return '';
+      }
     }
 
-    return(
+    return (
       <wc-ribbon-table
         bio-link-data={JSON.stringify(this.state.selected.data)}
         filter-by={this.state.onlyEXP ? 'evidence:' + EXP_CODES.join(',') : ''}
         group-by='term'
         // hide-columns={'qualifier,' + (this.state.selectedOrthologs.length == 0 ? 'gene,' : '') + (this.state.selected.group.id != 'all' ? ',aspect' : '')}
-        hide-columns={'qualifier,gene,' + (this.state.selected.group.id != 'all' ? ',aspect' : '')}
+        hide-columns={'qualifier,gene,' + (this.state.selected.group.id !== 'all' ? ',aspect' : '')}
         order-by='term'
       />
     );
@@ -471,11 +486,11 @@ class GeneOntologyRibbon extends Component {
     return (
       <div>
 
-        { this.renderControls() }
+        {this.renderControls()}
 
-        { this.state.loading ? <LoadingSpinner/> : this.renderRibbonStrips() }
+        {this.state.loading ? <LoadingSpinner /> : this.renderRibbonStrips()}
 
-        { this.state.selected.group ? this.state.selected.loading ? <LoadingSpinner/> : this.renderRibbonTable() : '' }
+        {this.state.selected.group ? this.state.selected.loading ? <LoadingSpinner/> : this.renderRibbonTable() : ''}
 
       </div>
     );

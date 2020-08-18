@@ -1,21 +1,32 @@
-/*eslint-disable react/no-set-state */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Autosuggest from 'react-autosuggest';
-import { parse as parseQueryString, stringify as stringifyQuery} from 'query-string';
+import {
+  parse as parseQueryString,
+  stringify as stringifyQuery
+} from 'query-string';
 import { withRouter } from 'react-router-dom';
-import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
+import {
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  UncontrolledDropdown
+} from 'reactstrap';
 
 import style from './style.scss';
 import CategoryLabel from '../../search/categoryLabel';
 import fetchData from '../../../lib/fetchData';
 
 import { CATEGORIES } from '../../../constants';
+
 const AUTO_BASE_URL = '/api/search_autocomplete';
 const DEFAULT_CAT = CATEGORIES[0];
 
-import { autocompleteGoToPageEvent, autocompleteSearchEvent } from '../../../lib/analytics.js';
-import {getURLForEntry} from '../../../lib/searchHelpers';
+import {
+  autocompleteGoToPageEvent,
+  autocompleteSearchEvent
+} from '../../../lib/analytics.js';
+import { getURLForEntry } from '../../../lib/searchHelpers';
 
 class SearchBarComponent extends Component {
   constructor(props) {
@@ -57,7 +68,9 @@ class SearchBarComponent extends Component {
   }
 
   handleSubmit(e) {
-    if (e) e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
     this.doQuery(this.state.value);
   }
 
@@ -74,8 +87,8 @@ class SearchBarComponent extends Component {
       this.state.abortController.abort();
     }
     const abortController = new AbortController();
-    this.setState({abortController});
-    fetchData(url, {signal: abortController.signal})
+    this.setState({ abortController });
+    fetchData(url, { signal: abortController.signal })
       .then(data => {
         let newOptions = data.results || [];
         this.setState({
@@ -99,7 +112,7 @@ class SearchBarComponent extends Component {
       const url = getURLForEntry(item.suggestion.category, id);
       if (url) {
         autocompleteGoToPageEvent(id);
-        this.props.history.push({ pathname: url});
+        this.props.history.push({ pathname: url });
       } else {
         this.setState({ value: item.suggestion.name_key });
         let query = item.suggestion.name_key;
@@ -118,22 +131,35 @@ class SearchBarComponent extends Component {
       newQp.category = newCat;
     }
     autocompleteSearchEvent(query);
-    this.props.history.push({ pathname: '/search', search: stringifyQuery(newQp) });
+    this.props.history.push({
+      pathname: '/search',
+      search: stringifyQuery(newQp)
+    });
   }
 
   renderDropdown() {
     let _title = this.state.catOption.displayName;
-    let nodes = CATEGORIES.map( d => {
-      let labelNode = (d.name === DEFAULT_CAT.name) ? 'All' : <CategoryLabel category={d.name} />;
+    let nodes = CATEGORIES.map(d => {
+      let labelNode = (d.name === DEFAULT_CAT.name) ? 'All' :
+        <CategoryLabel category={d.name} />;
       return (
-        <DropdownItem className={style.dropdownItem} key={d.name} onClick={() => this.handleSelect(d.name)}>
+        <DropdownItem
+          className={style.dropdownItem}
+          key={d.name}
+          onClick={() => this.handleSelect(d.name)}
+        >
           {labelNode}
         </DropdownItem>
       );
     });
     return (
       <UncontrolledDropdown className='input-group-prepend'>
-        <DropdownToggle caret className={`${style.searchButton} border-right-0`} color='secondary' outline>
+        <DropdownToggle
+          caret
+          className={`${style.searchButton} border-right-0`}
+          color='secondary'
+          outline
+        >
           {_title}
         </DropdownToggle>
         <DropdownMenu>
@@ -155,7 +181,7 @@ class SearchBarComponent extends Component {
   }
 
   render() {
-    let _getSuggestionValue = ( d => d.name_key );
+    let _getSuggestionValue = (d => d.name_key);
     let _inputProps = {
       autoFocus: this.props.autoFocus,
       placeholder: this.props.placeholder,
@@ -173,7 +199,9 @@ class SearchBarComponent extends Component {
     };
     return (
       <form onSubmit={this.handleSubmit.bind(this)}>
-        <div className={`input-group flex-nowrap my-1 my-md-0 ${style.searchBarOuter}`}>
+        <div
+          className={`input-group flex-nowrap my-1 my-md-0 ${style.searchBarOuter}`}
+        >
           {this.renderDropdown()}
           <Autosuggest
             getSuggestionValue={_getSuggestionValue}
@@ -186,7 +214,10 @@ class SearchBarComponent extends Component {
             theme={_theme}
           />
           <div className='input-group-append'>
-            <button className={`btn text-primary border-left-0 ${style.searchButton}`} type='submit'>
+            <button
+              className={`btn text-primary border-left-0 ${style.searchButton}`}
+              type='submit'
+            >
               <i className='fa fa-search' />
             </button>
           </div>

@@ -1,6 +1,4 @@
 import WarningBanner from './WarningBanner';
-
-{/* eslint-disable react/no-set-state */}
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';

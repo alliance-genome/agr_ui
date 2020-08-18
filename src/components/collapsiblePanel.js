@@ -1,5 +1,3 @@
-/* eslint-disable react/no-set-state */
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Collapse } from 'reactstrap';
@@ -31,7 +29,8 @@ class CollapsiblePanel extends Component {
       >
         <div
           className={`card-header alert-${this.props.backgroundVariants}`}
-          onClick={() => this.handleToggle()} role="tab"
+          onClick={() => this.handleToggle()}
+          role="tab"
           style={{cursor: 'pointer'}}
         >
           <i
