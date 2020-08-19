@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Autosuggest from 'react-autosuggest';
-import {
-  parse as parseQueryString,
-  stringify as stringifyQuery
-} from 'query-string';
+import { parseQueryString, stringifyQuery } from '../../../lib/searchHelpers';
 import { withRouter } from 'react-router-dom';
 import {
   DropdownItem,

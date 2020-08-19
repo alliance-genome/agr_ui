@@ -1,5 +1,9 @@
-import '@babel/polyfill';
+// polyfills
+import 'core-js';
+import 'regenerator-runtime/runtime';
 import 'custom-event-polyfill';
+import 'whatwg-fetch';
+import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only';
 
 import React from 'react';
 import { render } from 'react-dom';

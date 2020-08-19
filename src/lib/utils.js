@@ -1,6 +1,6 @@
 import { STRINGENCY_HIGH, STRINGENCY_MED } from '../components/orthology/constants';
 import { DEFAULT_TABLE_STATE, SPECIES } from '../constants';
-import { stringify } from 'query-string';
+import { stringify } from 'qs';
 
 export function makeId(string) {
   return string.toLowerCase().replace(/[^A-Za-z0-9]/g, '-');
@@ -64,14 +64,14 @@ export function buildTableQueryString(options) {
         value = value.replace(/ /g, '_');
       }
 
-      queryParams[`filter.${field}`] = value;
+      queryParams[`filter.${field}`] = value || null;
     });
-  queryParams.page = options.page;
-  queryParams.limit = options.sizePerPage;
-  queryParams.sortBy =  options.sort;
+  // these "or nulls" could be removed if https://github.com/ljharb/qs/issues/372 is resolved
+  queryParams.page = options.page || null;
+  queryParams.limit = options.sizePerPage || null;
+  queryParams.sortBy =  options.sort || null;
   return stringify(queryParams, {
     skipNull: true,
-    skipEmptyString: true,
   });
 }
 

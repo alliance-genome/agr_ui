@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import Select from 'react-select';
-import { stringify as stringifyQuery } from 'query-string';
 
 import style from './style.scss';
-import {getQueryParamWithoutPage} from '../../../lib/searchHelpers';
+import {
+  getQueryParamWithoutPage,
+  stringifyQuery,
+} from '../../../lib/searchHelpers';
 import CategoryLabel from '../categoryLabel';
 
 const DELIMITER = '@@';

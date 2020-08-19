@@ -1,6 +1,3 @@
-import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only';
-import 'isomorphic-fetch';
-
 const TIMEOUT = 30000;
 
 class ApiError extends Error {
