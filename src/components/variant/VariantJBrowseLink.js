@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {stringify as stringifyQuery} from 'query-string';
+import {stringify as stringifyQuery} from 'qs';
 import ExternalLink from '../externalLink';
 
 const calculateHighlight = (location, type) => {

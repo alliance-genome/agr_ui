@@ -1,4 +1,4 @@
-import { stringify } from 'query-string';
+import { stringify } from 'qs';
 import { useQuery } from 'react-query';
 import fetchData from '../lib/fetchData';
 import { getOrthologId } from '../components/orthology';
@@ -10,7 +10,11 @@ export default function useComparisonRibbonQuery(baseUrl, focusGeneId, compariso
       return Promise.resolve();
     }
     const comparisonGeneIds = comparisonGenes.map(getOrthologId);
-    const queryString = stringify({ geneID: [focusGeneId].concat(comparisonGeneIds)});
+    const queryString = stringify({
+      geneID: [focusGeneId].concat(comparisonGeneIds)
+    }, {
+      arrayFormat: 'repeat'
+    });
     const separator = baseUrl.indexOf('?') < 0 ? '?' : ':';
     const url = baseUrl + separator + queryString;
     return fetchData(url);

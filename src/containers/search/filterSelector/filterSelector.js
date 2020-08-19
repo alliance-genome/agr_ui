@@ -5,9 +5,11 @@ import { connect } from 'react-redux';
 
 import style from './style.scss';
 import SingleFilterSelector from './singleFilterSelector';
-import { getQueryParamWithValueChanged } from '../../../lib/searchHelpers';
+import {
+  getQueryParamWithValueChanged,
+  stringifyQuery,
+} from '../../../lib/searchHelpers';
 import CategoryLabel from '../categoryLabel';
-import { stringify } from 'query-string';
 import CollapsibleFacet from './collapsibleFacet';
 
 import {
@@ -44,7 +46,7 @@ class FilterSelectorComponent extends Component {
       return null;
     }
     let newQp = getQueryParamWithValueChanged('category', [], this.props.queryParams, true);
-    let newHref = { pathname: '/search', search: stringify(newQp) };
+    let newHref = { pathname: '/search', search: stringifyQuery(newQp) };
     return (
       <div>
         <p><CategoryLabel category={this.props.activeCategory} /></p>
