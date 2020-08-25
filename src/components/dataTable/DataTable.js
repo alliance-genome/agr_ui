@@ -17,7 +17,7 @@ import PerPageSizeSelector from './pagePerSizeSelector';
 import NoData from '../noData';
 import ColumnHeader from './columnHeader';
 import DropdownTextFilter from './dropdownTextFilter';
-import DropdownCheckboxFilter from './dropdownCheckboxFilter';
+import DropdownCheckboxFilter from './DropdownCheckboxFilter';
 import HorizontalScroll from '../horizontalScroll';
 import { buildTableQueryString } from '../../lib/utils';
 import LoadingSpinner from '../loadingSpinner';
@@ -134,10 +134,10 @@ const DataTable = ({
       if (Array.isArray(column.filterable)) {
         column.filterRenderer = (onFilter, column) => (
           <DropdownCheckboxFilter
-            defaultFilter={columnFilter}
             labelClassName={column.filterLabelClassName}
-            onFilter={onFilter}
+            onChange={onFilter}
             options={column.filterable}
+            value={columnFilter}
           />
         );
       } else {
