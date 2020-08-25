@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 const DropdownCheckboxFilter = ({
-  labelClassName,
+  formatter,
   onChange,
   options,
   value = [],
@@ -28,13 +28,13 @@ const DropdownCheckboxFilter = ({
       <FormGroup>
         {options.map(option => (
           <FormGroup check key={option}>
-            <Label check className={labelClassName}>
+            <Label check>
               <Input
                 checked={value.indexOf(option) > -1}
                 onChange={handleChange}
                 type='checkbox'
                 value={option}
-              /> {option}
+              /> {formatter ? formatter(option) : option}
             </Label>
           </FormGroup>
         ))}
@@ -47,7 +47,7 @@ const DropdownCheckboxFilter = ({
 };
 
 DropdownCheckboxFilter.propTypes = {
-  labelClassName: PropTypes.string,
+  formatter: PropTypes.func,
   onChange: PropTypes.func,
   options: PropTypes.array,
   value: PropTypes.array,

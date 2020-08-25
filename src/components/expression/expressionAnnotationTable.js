@@ -16,6 +16,7 @@ import {getDistinctFieldValue} from '../dataTable/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
 import useComparisonRibbonTableQuery
   from '../../hooks/useComparisonRibbonTableQuery';
+import SpeciesName from '../SpeciesName';
 
 const ExpressionAnnotationTable = ({
   focusGeneId,
@@ -40,7 +41,7 @@ const ExpressionAnnotationTable = ({
       text: 'Species',
       formatter: s => <i>{s}</i>,
       filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
-      filterLabelClassName: 'species-name',
+      filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
       headerStyle: {width: '100px'},
       hidden: !orthologGenes || !orthologGenes.length,
     },

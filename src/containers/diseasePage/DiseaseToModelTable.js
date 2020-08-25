@@ -14,6 +14,7 @@ import {getDistinctFieldValue} from '../../components/dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
+import SpeciesName from '../../components/SpeciesName';
 
 const DiseaseToModelTable = ({id}) => {
   const {
@@ -48,7 +49,7 @@ const DiseaseToModelTable = ({id}) => {
       text: 'Species',
       formatter: species => <SpeciesCell species={species} />,
       filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
-      filterLabelClassName: 'species-name',
+      filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
       headerStyle: {width: '105px'},
     },
     {

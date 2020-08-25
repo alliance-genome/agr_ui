@@ -134,7 +134,7 @@ const DataTable = ({
       if (Array.isArray(column.filterable)) {
         column.filterRenderer = (onFilter, column) => (
           <DropdownCheckboxFilter
-            labelClassName={column.filterLabelClassName}
+            formatter={column.filterFormatter}
             onChange={onFilter}
             options={column.filterable}
             value={columnFilter}
