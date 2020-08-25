@@ -22,6 +22,7 @@ import {SPECIES_NAME_ORDER} from '../../constants';
 import ProvidersCell from '../../components/dataTable/ProvidersCell';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import SpeciesName from '../../components/SpeciesName';
+import AssociationType from '../../components/AssociationType';
 
 const DiseaseToGeneTable = ({id}) => {
   const {
@@ -59,8 +60,9 @@ const DiseaseToGeneTable = ({id}) => {
     {
       dataField: 'associationType',
       text: 'Association',
-      formatter: (type) => type.replace(/_/g, ' '),
-      filterable: getDistinctFieldValue(resolvedData, 'associationType').map(type => type.replace(/_/g, ' ')),
+      formatter: type => <AssociationType type={type} />,
+      filterable: getDistinctFieldValue(resolvedData, 'associationType'),
+      filterFormatter: type => <AssociationType type={type} />,
       headerStyle: {width: '110px'},
     },
     {

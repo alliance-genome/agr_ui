@@ -17,6 +17,7 @@ import ProvidersCell from '../dataTable/ProvidersCell';
 import useComparisonRibbonTableQuery
   from '../../hooks/useComparisonRibbonTableQuery';
 import SpeciesName from '../SpeciesName';
+import AssociationType from '../AssociationType';
 
 /*
  * Disease ribbon-table
@@ -63,8 +64,9 @@ const DiseaseAnnotationTable = ({
     {
       dataField: 'associationType',
       text: 'Association',
-      formatter: (type) => type.replace(/_/g, ' '),
-      filterable: getDistinctFieldValue(resolvedData, 'associationType').map(type => type.replace(/_/g, ' ')),
+      formatter: type => <AssociationType type={type} />,
+      filterable: getDistinctFieldValue(resolvedData, 'associationType'),
+      filterFormatter: type => <AssociationType type={type} />,
       headerStyle: {width: '120px'},
     },
     {
