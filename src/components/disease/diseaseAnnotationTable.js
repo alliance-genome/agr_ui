@@ -16,6 +16,7 @@ import { SPECIES_NAME_ORDER } from '../../constants';
 import ProvidersCell from '../dataTable/ProvidersCell';
 import useComparisonRibbonTableQuery
   from '../../hooks/useComparisonRibbonTableQuery';
+import SpeciesName from '../SpeciesName';
 
 /*
  * Disease ribbon-table
@@ -38,7 +39,7 @@ const DiseaseAnnotationTable = ({
       dataField: 'species',
       text: 'Species',
       filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
-      filterLabelClassName: 'species-name',
+      filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
       headerStyle: {width: '100px'},
       formatter: species => <SpeciesCell species={species} />,
       hidden: !orthologGenes || !orthologGenes.length
