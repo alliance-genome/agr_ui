@@ -7,6 +7,9 @@ import useDataTableQuery from '../../hooks/useDataTableQuery';
 import CommaSeparatedGeneList from '../allelePage/CommaSeparatedGeneList';
 import RotatedHeaderCell from '../../components/dataTable/RotatedHeaderCell';
 import BooleanLinkCell from '../../components/dataTable/BooleanLinkCell';
+import { getDistinctFieldValue } from '../../components/dataTable/utils';
+import { compareByFixedOrder } from '../../lib/utils';
+import { SPECIES_NAME_ORDER } from '../../constants';
 
 const constructsRelatedGenesFormatter = constructRelatedGenes => (
   constructRelatedGenes.map(({id, genes}) => (
@@ -19,6 +22,7 @@ const constructsRelatedGenesFormatter = constructRelatedGenes => (
 const TransgenicAlleleTable = ({geneId}) => {
   const {
     data: results,
+    resolvedData,
     ...tableProps
   } = useDataTableQuery(`/api/gene/${geneId}/transgenic-alleles`);
 
@@ -50,7 +54,7 @@ const TransgenicAlleleTable = ({geneId}) => {
         </>
       ),
       formatter: species => <SpeciesCell species={species} />,
-      filterable: true,
+      filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       headerStyle: {width: '100px'},
     },
     {
@@ -65,7 +69,7 @@ const TransgenicAlleleTable = ({geneId}) => {
       dataField: 'synonyms',
       text: 'Synonyms',
       formatter: synonyms => <SynonymList synonyms={synonyms}/>,
-      headerStyle: {width: '165px'},
+      headerStyle: {width: '200px'},
       filterable: true,
       filterName: 'synonym',
     },
