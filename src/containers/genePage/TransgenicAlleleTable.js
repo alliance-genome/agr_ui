@@ -50,7 +50,7 @@ const TransgenicAlleleTable = ({geneId}) => {
         <>
           Species
           <br />
-          <span className='text-muted'>(Carrying the transgene)</span>
+          <small className='text-muted text-transform-none'>(carrying the transgene)</small>
         </>
       ),
       formatter: species => <SpeciesCell species={species} />,
@@ -115,11 +115,13 @@ const TransgenicAlleleTable = ({geneId}) => {
           value={hasDisease}
         />
       ),
-      headerFormatter: column => <RotatedHeaderCell>{column.text}</RotatedHeaderCell>,
+      headerNode: <RotatedHeaderCell>Has Disease Annotations</RotatedHeaderCell>,
       headerStyle: {
-        width: '40px',
+        width: '50px',
         height: '130px',
       },
+      filterable: ['true', 'false'],
+      filterFormatter: val => val === 'true' ? 'Yes' : 'No',
     },
     {
       dataField: 'hasPhenotype',
@@ -130,11 +132,13 @@ const TransgenicAlleleTable = ({geneId}) => {
           value={hasPhenotype}
         />
       ),
-      headerFormatter: column => <RotatedHeaderCell>{column.text}</RotatedHeaderCell>,
+      headerNode: <RotatedHeaderCell>Has Phenotype Annotations</RotatedHeaderCell>,
       headerStyle: {
-        width: '40px',
+        width: '50px',
         height: '140px',
-      }
+      },
+      filterable: ['true', 'false'],
+      filterFormatter: val => val === 'true' ? 'Yes' : 'No',
     },
   ];
 
