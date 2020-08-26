@@ -25,15 +25,20 @@ import AssociationType from '../AssociationType';
  */
 const DiseaseAnnotationTable = ({
   focusGeneId,
+  includeNotAnnotations,
   orthologGenes,
   term,
 }) => {
+  const params = {};
+  if (includeNotAnnotations) {
+    params['filter.includeNegation'] = true;
+  }
   const {
     downloadUrl,
     data: results,
     resolvedData,
     ...tableProps
-  } = useComparisonRibbonTableQuery('/api/disease', focusGeneId, orthologGenes, term);
+  } = useComparisonRibbonTableQuery('/api/disease', focusGeneId, orthologGenes, term, params);
 
   let columns = [
     {
@@ -128,6 +133,7 @@ const DiseaseAnnotationTable = ({
 
 DiseaseAnnotationTable.propTypes = {
   focusGeneId: PropTypes.string,
+  includeNotAnnotations: PropTypes.bool,
   orthologGenes: PropTypes.array,
   term: PropTypes.string
 };
