@@ -18,6 +18,7 @@ import useEventListener from '../../hooks/useEventListener';
 import useComparisonRibbonQuery from '../../hooks/useComparisonRibbonQuery';
 
 const DiseaseComparisonRibbon = ({geneId, geneTaxon, history}) => {
+  const [includeNotAnnotations, setIncludeNotAnnotations] = useState(false);
   const [compareOrthologs, setCompareOrthologs] = useState(true);
   const [selectedOrthologs, setSelectedOrthologs] = useState(null);
   const [selectedBlock, setSelectedBlock] = useState({
@@ -30,7 +31,11 @@ const DiseaseComparisonRibbon = ({geneId, geneTaxon, history}) => {
     }
   });
 
-  const summary = useComparisonRibbonQuery('/api/gene/*/disease-ribbon-summary', geneId, selectedOrthologs);
+  const params = {};
+  if (includeNotAnnotations) {
+    params['filter.includeNegation'] = true;
+  }
+  const summary = useComparisonRibbonQuery('/api/gene/*/disease-ribbon-summary', geneId, selectedOrthologs, params);
 
   const onSubjectClick = (e) => {
     // don't use the ribbon default action upon subject click
@@ -78,6 +83,19 @@ const DiseaseComparisonRibbon = ({geneId, geneTaxon, history}) => {
             onChange={handleOrthologyChange}
             onCheckboxValueChange={setCompareOrthologs}
           />
+
+          <div className='form-check form-check-inline'>
+            <label className='form-check-label mr-2'>
+              <input
+                checked={includeNotAnnotations}
+                className='form-check-input'
+                onChange={e => setIncludeNotAnnotations(e.target.checked)}
+                type='checkbox'
+              />
+              <b>Include negative annotations</b>
+            </label>
+            <small className="form-text text-muted">Cases where the expected disease association was NOT found</small>
+          </div>
         </ControlsContainer>
       </div>
 
@@ -106,7 +124,12 @@ const DiseaseComparisonRibbon = ({geneId, geneTaxon, history}) => {
       </HorizontalScroll>
 
       {selectedBlock.group && <div className='pt-4'>
-        <DiseaseAnnotationTable focusGeneId={geneId} orthologGenes={selectedOrthologs} term={selectedBlock.group.id} />
+        <DiseaseAnnotationTable
+          focusGeneId={geneId}
+          includeNotAnnotations={includeNotAnnotations}
+          orthologGenes={selectedOrthologs}
+          term={selectedBlock.group.id}
+        />
       </div>}
     </div>
   );
