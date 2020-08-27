@@ -27,6 +27,7 @@ import PageNavEntity from '../../components/dataPage/PageNavEntity';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import { getSpecies } from '../../lib/utils';
+import TransgenicAlleleTable from './TransgenicAlleleTable';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
@@ -35,6 +36,7 @@ const ORTHOLOGY = 'Orthology';
 const DISEASE = 'Disease Associations';
 const EXPRESSION = 'Expression';
 const ALLELES = 'Alleles and Variants';
+const TG_ALLELES = 'Transgenic Alleles';
 const PHENOTYPES = 'Phenotypes';
 const INTERACTIONS = 'Molecular Interactions';
 const MODELS = 'Models';
@@ -46,6 +48,7 @@ const SECTIONS = [
   {name: PHENOTYPES},
   {name: DISEASE},
   {name: ALLELES},
+  {name: TG_ALLELES},
   {name: MODELS},
   {name: SEQUENCE_FEATURE_VIEWER},
   {name: EXPRESSION},
@@ -142,6 +145,10 @@ const GenePage = ({geneId}) => {
             geneSymbol={data.symbol}
             species={data.species.name}
           />
+        </Subsection>
+
+        <Subsection title={TG_ALLELES}>
+          <TransgenicAlleleTable geneId={data.id} />
         </Subsection>
 
         <Subsection title={MODELS}>
