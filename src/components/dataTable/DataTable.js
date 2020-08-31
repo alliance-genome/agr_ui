@@ -116,9 +116,10 @@ const DataTable = ({
   });
 
   columns.forEach(column => {
+    const filterField = column.filterName || column.dataField;
     const columnFilter = filters &&
-      filters[column.dataField] &&
-      filters[column.dataField].filterVal;
+      filters[filterField] &&
+      filters[filterField].filterVal;
     if (!column.headerFormatter) {
       column.headerFormatter = (column, _, {filterElement}) => (
         <ColumnHeader
