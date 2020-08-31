@@ -8,9 +8,14 @@ import AnnotatedEntitiesPopup
   from '../../components/dataTable/AnnotatedEntitiesPopup';
 import DiseaseLink from '../../components/disease/DiseaseLink';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
+import AssociationType from '../../components/AssociationType';
+import { getDistinctFieldValue } from '../../components/dataTable/utils';
 
 const AlleleToDiseaseTable = ({alleleId}) => {
-  const tableProps = useDataTableQuery(`/api/allele/${alleleId}/diseases`);
+  const {
+    resolvedData,
+    ...tableProps
+  } = useDataTableQuery(`/api/allele/${alleleId}/diseases`);
 
   const columns = [
     {
@@ -19,6 +24,14 @@ const AlleleToDiseaseTable = ({alleleId}) => {
       formatter: disease => <DiseaseLink disease={disease} />,
       headerStyle: {width: '100px'},
       filterable: true,
+    },
+    {
+      dataField: 'associationType',
+      text: 'Association',
+      formatter: type => <AssociationType type={type} />,
+      headerStyle: {width: '110px'},
+      filterable: getDistinctFieldValue(resolvedData, 'associationType'),
+      filterFormatter: type => <AssociationType type={type} />,
     },
     {
       dataField: 'primaryAnnotatedEntities',
