@@ -10,6 +10,7 @@ import {ReferenceCell} from './index';
 import style from './style.scss';
 import ExternalLink from '../externalLink';
 import {Link} from 'react-router-dom';
+import AssociationType from '../AssociationType';
 
 function renderLink(entity) {
   const inner = <span dangerouslySetInnerHTML={{__html: entity.name}} />;
@@ -33,6 +34,8 @@ function AnnotatedEntitiesPopup(props) {
     }
   };
 
+  const showAssociationType = entities.some(entity => entity.diseaseModels);
+
   return (
     <UncontrolledButtonDropdown>
       <DropdownToggle tag='span'>
@@ -45,6 +48,7 @@ function AnnotatedEntitiesPopup(props) {
               <tr>
                 <th>Name</th>
                 <th>Type</th>
+                {showAssociationType && <th>Association</th>}
                 <th>References</th>
               </tr>
             </thead>
@@ -54,7 +58,18 @@ function AnnotatedEntitiesPopup(props) {
                   <tr key={entity.id}>
                     <td>{renderLink(entity)}</td>
                     <td className='text-capitalize'>{(entity.type || '').toLowerCase()}</td>
-                    <td>{entity.publicationEvidenceCodes && ReferenceCell(entity.publicationEvidenceCodes.map(pec => pec.publication))}</td>
+                    {showAssociationType && (
+                      <td>
+                        {entity.diseaseModels.map(diseaseModel => (
+                          <div className='text-nowrap' key={diseaseModel.diseaseModel}>
+                            <AssociationType type={diseaseModel.associationType} />
+                          </div>
+                        ))}
+                      </td>
+                    )}
+                    <td>{entity.publicationEvidenceCodes &&
+                      ReferenceCell(entity.publicationEvidenceCodes.map(pec => pec.publication))
+                    }</td>
                   </tr>
                 ))
               }
