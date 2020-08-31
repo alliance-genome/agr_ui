@@ -5,6 +5,7 @@ import ExternalLink from '../../components/externalLink';
 import CollapsibleList from '../../components/collapsibleList/collapsibleList';
 import DiseaseLink from '../../components/disease/DiseaseLink';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
+import AssociationType from '../../components/AssociationType';
 
 const GeneModelsTable = ({id}) => {
   const tableQuery = useDataTableQuery(`/api/gene/${id}/models`);
@@ -22,11 +23,16 @@ const GeneModelsTable = ({id}) => {
       filterName: 'modelName',
     },
     {
-      dataField: 'diseases',
+      dataField: 'diseaseModels',
       text: 'Associated Human Diseases',
-      formatter: diseases => diseases && (
-        <CollapsibleList collapsedSize={diseases.length}>
-          {diseases.map(disease => <DiseaseLink disease={disease} key={disease.id} />)}
+      formatter: diseaseModels => diseaseModels && (
+        <CollapsibleList collapsedSize={diseaseModels.length}>
+          {diseaseModels.map(diseaseModel => (
+            <>
+              <AssociationType type={diseaseModel.associationType} showOnlyNot />{' '}
+              <DiseaseLink disease={diseaseModel.disease} key={diseaseModel.disease.id} />
+            </>
+          ))}
         </CollapsibleList>
       ),
       filterable: true,
