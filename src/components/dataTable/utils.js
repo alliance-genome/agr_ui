@@ -5,8 +5,9 @@ export const renderPaginationShowsTotal = (start, end, total) => {
   return <span>Showing { start } - { end } of { total.toLocaleString() } rows</span>;
 };
 
-export const getDistinctFieldValue = ({supplementalData = {}} = {}, field) => {
-  const {distinctFieldValues = {}} = supplementalData;
+export const getDistinctFieldValue = (response, field) => {
+  response = response || {};
+  const {distinctFieldValues = {}} = response.supplementalData || {};
   return (distinctFieldValues[field] || []).sort(compareAlphabeticalCaseInsensitive);
 };
 

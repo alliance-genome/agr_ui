@@ -5,10 +5,10 @@ import {
   AttributeList,
   AttributeValue
 } from '../../components/attribute';
-import DataSourceLink from '../../components/dataSourceLink';
 import CommaSeparatedGeneList from './CommaSeparatedGeneList';
 import NoData from '../../components/noData';
 import {Link} from 'react-router-dom';
+import ConstructLink from '../../components/ConstructLink';
 
 const AlleleTransgenicConstructs = ({constructs}) => {
   if (!constructs || constructs.length === 0) {
@@ -25,9 +25,7 @@ const AlleleTransgenicConstructs = ({constructs}) => {
           <AttributeList className='mb-0'>
             <AttributeLabel>Symbol</AttributeLabel>
             <AttributeValue>
-              <DataSourceLink reference={construct.crossReferences.primary}>
-                <span dangerouslySetInnerHTML={{__html: construct.name}} />
-              </DataSourceLink>
+              <ConstructLink construct={construct} />
             </AttributeValue>
 
             <AttributeLabel>Expressed Components</AttributeLabel>
