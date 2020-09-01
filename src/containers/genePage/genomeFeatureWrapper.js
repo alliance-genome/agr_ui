@@ -80,6 +80,11 @@ class GenomeFeatureWrapper extends Component {
     let transcriptTypes = getTranscriptTypes();
     const speciesInfo = getSpecies(species);
     const apolloPrefix = speciesInfo.apolloName;
+    if(species === 'NCBITaxon:2697049'){
+      const padding = (fmax-fmin)*0.2;
+      fmin = (fmin - padding) > 1 ? fmin - padding : 1;
+      fmax = (fmax + padding);
+    }
     if (displayType === 'ISOFORM') {
       return {
         'locale': 'global',
