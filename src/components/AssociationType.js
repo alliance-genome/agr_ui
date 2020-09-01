@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import parse from 'html-react-parser';
 
 const AssociationType = ({type, showOnlyNot = false}) => {
   type = type.toLowerCase();
@@ -8,20 +9,14 @@ const AssociationType = ({type, showOnlyNot = false}) => {
     return null;
   }
 
-  {if (type === 'is_not_model_of') {
+  if (type === 'is_not_model_of') {
     return <>does <span className='text-danger'>NOT</span> model</>;
-  }}
+  }
 
-  const words = type.split('_');
-  return (
-    <span>
-      {words.map(word => (
-        <>{word === 'not' ?
-          <span className='text-danger'>NOT</span> :
-          word
-        } </>))}
-    </span>
-  );
+  const words = type
+    .replaceAll('_not_', '_<span class=\'text-danger\'>NOT</span>_')
+    .replaceAll('_', ' ');
+  return parse(words);
 };
 
 AssociationType.propTypes = {
