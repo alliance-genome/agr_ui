@@ -3,6 +3,7 @@ FROM agrdocker/agr_base_linux_env:latest as build-stage
 WORKDIR /workdir/agr_ui
 
 ADD . .
+RUN nvm use
 RUN npm install
 
 ARG NODE_ENV=production
