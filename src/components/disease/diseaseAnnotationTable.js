@@ -31,7 +31,7 @@ const DiseaseAnnotationTable = ({
 }) => {
   const params = {};
   if (includeNotAnnotations) {
-    params['filter.includeNegation'] = true;
+    params.includeNegation = true;
   }
   const {
     downloadUrl,

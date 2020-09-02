@@ -33,7 +33,7 @@ const DiseaseComparisonRibbon = ({geneId, geneTaxon, history}) => {
 
   const params = {};
   if (includeNotAnnotations) {
-    params['filter.includeNegation'] = true;
+    params.includeNegation = true;
   }
   const summary = useComparisonRibbonQuery('/api/gene/*/disease-ribbon-summary', geneId, selectedOrthologs, params);
 
