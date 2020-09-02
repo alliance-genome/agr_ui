@@ -34,7 +34,7 @@ function AnnotatedEntitiesPopup(props) {
     }
   };
 
-  const showAssociationType = entities.some(entity => entity.diseaseModels);
+  const showAssociationType = entities.some(entity => entity.diseaseAssociationType);
 
   return (
     <UncontrolledButtonDropdown>
@@ -59,12 +59,8 @@ function AnnotatedEntitiesPopup(props) {
                     <td>{renderLink(entity)}</td>
                     <td className='text-capitalize'>{(entity.type || '').toLowerCase()}</td>
                     {showAssociationType && (
-                      <td>
-                        {entity.diseaseModels.map(diseaseModel => (
-                          <div className='text-nowrap' key={diseaseModel.diseaseModel}>
-                            <AssociationType type={diseaseModel.associationType} />
-                          </div>
-                        ))}
+                      <td className='text-nowrap'>
+                        <AssociationType type={entity.diseaseAssociationType} />
                       </td>
                     )}
                     <td>{entity.publicationEvidenceCodes &&
