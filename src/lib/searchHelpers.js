@@ -138,11 +138,7 @@ export function getQueryParamWithValueChanged(key, val, queryParams, isClear=fal
   return qp;
 }
 
-export const getURLForEntry = (category, type, id) => {
-
-  if (type === 'allele') {
-    category = type;
-  }
+export const getURLForEntry = (category, id) => {
 
   switch (category) {
   case 'gene':
@@ -156,7 +152,7 @@ export const getURLForEntry = (category, type, id) => {
 
 export function getLinkForEntry(entry) {
   const inner = <span dangerouslySetInnerHTML={{ __html: entry.display_name }} />;
-  const url = getURLForEntry(entry.category, entry.alterationType, entry.id);
+  const url = getURLForEntry(entry.category, entry.id);
   if (url) {
     return <Link to={url}>{inner}</Link>;
   } else {
