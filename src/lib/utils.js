@@ -57,13 +57,9 @@ export function buildTableQueryString(options) {
   const queryParams = {};
   Object.entries(options.filters || {})
     .forEach(([field, filter]) => {
-      let value = Array.isArray(filter.filterVal) ? filter.filterVal.join('|') : filter.filterVal;
-
-      // TODO: should be handled by the API
-      if (field === 'associationType') {
-        value = value.replace(/ /g, '_');
-      }
-
+      let value = Array.isArray(filter.filterVal) ?
+        filter.filterVal.join('|') :
+        filter.filterVal;
       queryParams[`filter.${field}`] = value || null;
     });
   // these "or nulls" could be removed if https://github.com/ljharb/qs/issues/372 is resolved
