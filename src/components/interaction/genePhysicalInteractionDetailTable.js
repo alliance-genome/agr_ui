@@ -12,6 +12,7 @@ import {getDistinctFieldValue} from '../dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
+import SpeciesName from '../SpeciesName';
 
 const DEFAULT_TABLE_KEY = 'physicalInteractionTable';
 
@@ -85,7 +86,7 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
       headerClasses: style.columnHeaderGroup2,
       classes: style.columnGroup2,
       filterable: getDistinctFieldValue(resolvedData, 'filter.interactorSpecies').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
-      filterLabelClassName: 'species-name',
+      filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
     },
     {
       dataField: 'interactorMoleculeType',

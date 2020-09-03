@@ -16,6 +16,8 @@ import { SPECIES_NAME_ORDER } from '../../constants';
 import ProvidersCell from '../dataTable/ProvidersCell';
 import useComparisonRibbonTableQuery
   from '../../hooks/useComparisonRibbonTableQuery';
+import SpeciesName from '../SpeciesName';
+import AssociationType from '../AssociationType';
 
 /*
  * Disease ribbon-table
@@ -23,22 +25,27 @@ import useComparisonRibbonTableQuery
  */
 const DiseaseAnnotationTable = ({
   focusGeneId,
+  includeNotAnnotations,
   orthologGenes,
   term,
 }) => {
+  const params = {};
+  if (includeNotAnnotations) {
+    params.includeNegation = true;
+  }
   const {
     downloadUrl,
     data: results,
     resolvedData,
     ...tableProps
-  } = useComparisonRibbonTableQuery('/api/disease', focusGeneId, orthologGenes, term);
+  } = useComparisonRibbonTableQuery('/api/disease', focusGeneId, orthologGenes, term, params);
 
   let columns = [
     {
       dataField: 'species',
       text: 'Species',
       filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
-      filterLabelClassName: 'species-name',
+      filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
       headerStyle: {width: '100px'},
       formatter: species => <SpeciesCell species={species} />,
       hidden: !orthologGenes || !orthologGenes.length
@@ -62,8 +69,9 @@ const DiseaseAnnotationTable = ({
     {
       dataField: 'associationType',
       text: 'Association',
-      formatter: (type) => type.replace(/_/g, ' '),
-      filterable: getDistinctFieldValue(resolvedData, 'associationType').map(type => type.replace(/_/g, ' ')),
+      formatter: type => <AssociationType type={type} />,
+      filterable: getDistinctFieldValue(resolvedData, 'associationType'),
+      filterFormatter: type => <AssociationType type={type} />,
       headerStyle: {width: '120px'},
     },
     {
@@ -125,6 +133,7 @@ const DiseaseAnnotationTable = ({
 
 DiseaseAnnotationTable.propTypes = {
   focusGeneId: PropTypes.string,
+  includeNotAnnotations: PropTypes.bool,
   orthologGenes: PropTypes.array,
   term: PropTypes.string
 };

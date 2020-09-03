@@ -14,6 +14,8 @@ import {getDistinctFieldValue} from '../../components/dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
+import SpeciesName from '../../components/SpeciesName';
+import AssociationType from '../../components/AssociationType';
 
 const DiseaseToAlleleTable = ({id}) => {
   const {
@@ -50,15 +52,16 @@ const DiseaseToAlleleTable = ({id}) => {
       text: 'Species',
       formatter: species => <SpeciesCell species={species}/>,
       filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
-      filterLabelClassName: 'species-name',
+      filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
       headerStyle: {width: '105px'},
     },
     {
       dataField: 'associationType',
       text: 'Association',
-      formatter: (type) => type.replace(/_/g, ' '),
+      formatter: type => <AssociationType type={type} />,
       headerStyle: {width: '110px'},
-      filterable: getDistinctFieldValue(resolvedData, 'associationType').map(type => type.replace(/_/g, ' ')),
+      filterable: getDistinctFieldValue(resolvedData, 'associationType'),
+      filterFormatter: type => <AssociationType type={type} />,
     },
     {
       dataField: 'disease',
