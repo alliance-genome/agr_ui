@@ -6,7 +6,7 @@ import { makeFieldDisplayName } from '../../lib/searchHelpers';
 import NoData from '../../components/noData';
 import { CollapsibleList } from '../../components/collapsibleList';
 
-const COLLAPSIBLE_FIELDS = ['collapsible_synonyms','relatedVariants'];
+const COLLAPSIBLE_FIELDS = ['collapsible_synonyms','variants'];
 
 const JOIN_CHAR = ', ';
 
