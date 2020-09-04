@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {compareAlphabeticalCaseInsensitive} from '../../lib/utils';
-import CollapsibleList from '../../components/collapsibleList/collapsibleList';
 import SynonymList from '../../components/synonymList';
 import {
   AlleleCell,
@@ -9,7 +8,6 @@ import {
 } from '../../components/dataTable';
 import {getDistinctFieldValue} from '../../components/dataTable/utils';
 import ExternalLink from '../../components/externalLink';
-import DiseaseLink from '../../components/disease/DiseaseLink';
 import {VariantJBrowseLink} from '../../components/variant';
 import RotatedHeaderCell from '../../components/dataTable/RotatedHeaderCell';
 import BooleanLinkCell from '../../components/dataTable/BooleanLinkCell';
