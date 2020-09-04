@@ -9,7 +9,7 @@ import BasedOnGeneCell from './basedOnGeneCell';
 import CellTooltip from './CellTooltip';
 import TableSummary from './tableSummary';
 import DataTable from './DataTable';
-import DownloadButton from './downloadButton'
+import DownloadButton from './downloadButton';
 
 export {
   AlleleCell,
