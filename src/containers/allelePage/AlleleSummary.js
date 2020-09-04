@@ -21,6 +21,9 @@ const AlleleSummary = ({allele}) => {
       <AttributeLabel>Symbol</AttributeLabel>
       <AttributeValue><AlleleSymbol allele={allele} /></AttributeValue>
 
+      <AttributeLabel>Category</AttributeLabel>
+      <AttributeValue>{allele.category}</AttributeValue>
+
       <AttributeLabel>Allele of gene</AttributeLabel>
       <AttributeValue placeholder='None'>
         {allele.gene && <Link to={`/gene/${allele.gene.id}`}><GeneSymbol gene={allele.gene} /></Link>}
