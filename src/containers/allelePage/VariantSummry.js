@@ -1,4 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import {
+  AttributeList,
+  AttributeLabel,
+  AttributeValue,
+} from '../../components/attribute';
+import { DownloadButton } from '../../components/dataTable';
 
 const VariantSummary = () => {
   return (
