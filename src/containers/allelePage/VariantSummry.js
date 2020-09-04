@@ -59,7 +59,7 @@ const VariantSummary = ({allele, alleleId}) => {
 
             <AttributeLabel>Overlaps</AttributeLabel>
             <AttributeValue>
-              {gene && <Link to={`/gene/${gene.id}`}>{gene.symbol}</Link>}
+              {overlap && <Link to={`/gene/${overlap.id}`}>{overlap.symbol}</Link>}
             </AttributeValue>
 
             <AttributeLabel>Location</AttributeLabel>
