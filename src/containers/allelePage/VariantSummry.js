@@ -10,7 +10,7 @@ import useAllAlleleVariants from '../../hooks/useAlleleVariants';
 import { VariantJBrowseLink } from '../../components/variant';
 
 function formatLocation(location) {
-  const {chromosome = '', start = '', end = ''} = location || {}
+  const {chromosome = '', start = '', end = ''} = location || {};
   return (start !== end) ? `${chromosome}:${start}-${end}` : `${chromosome}:${start}`;
 }
 
@@ -26,7 +26,6 @@ const VariantSummary = ({allele, alleleId}) => {
   return data.map(variant => {
     const {
       name,
-      id,
       type,
       gene: overlap,
       location,
@@ -107,8 +106,8 @@ const VariantSummary = ({allele, alleleId}) => {
           <DownloadButton downloadUrl={`/api/allele/${alleleId}/variants/download`} text='Download Variant Data' />
         </div>
       </>
-    )
-  })
-}
+    );
+  });
+};
 
 export default VariantSummary;
