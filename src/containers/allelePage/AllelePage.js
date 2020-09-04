@@ -89,9 +89,9 @@ const AllelePage = ({ alleleId }) => {
         </Subsection>
 
         <Subsection title={VARIANTS}>
-          <VariantSummary allele={data} alleleId={alleleId} />
           <ErrorBoundary>
-            <AlleleToVariantTable allele={data} alleleId={alleleId} />
+            <VariantSummary allele={data} alleleId={alleleId} />
+            {/* <AlleleToVariantTable allele={data} alleleId={alleleId} /> */}
           </ErrorBoundary>
           <br />
           <ErrorBoundary>
