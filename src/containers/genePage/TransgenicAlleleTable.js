@@ -68,7 +68,7 @@ const TransgenicAlleleTable = ({geneId}) => {
     {
       dataField: 'synonyms',
       text: 'Synonyms',
-      formatter: synonyms => <SynonymList synonyms={synonyms}/>,
+      formatter: synonyms => <div className='text-break'><SynonymList synonyms={synonyms}/></div>,
       headerStyle: {width: '200px'},
       filterable: true,
       filterName: 'synonym',
@@ -77,7 +77,7 @@ const TransgenicAlleleTable = ({geneId}) => {
       dataField: 'constructs',
       text: 'Transgenic construct',
       formatter: constructs => constructs.map(construct => (
-        <div key={construct.id}>
+        <div key={construct.id} className='text-break'>
           <ConstructLink construct={construct} />
         </div>
       )),
