@@ -113,7 +113,7 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
       formatter: (variants) => (
         <div>
           {
-            variants.map(({id, type = {}, location = {}, consequence}) => (
+            variants.map(({id, variantType: type = {}, location = {}, consequence}) => (
               <div key={id} style={{display: 'flex'}}>
                 <div
                   style={{
