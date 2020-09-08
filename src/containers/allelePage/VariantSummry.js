@@ -26,7 +26,7 @@ const VariantSummary = ({allele, alleleId}) => {
   return data.map(variant => {
     const {
       name,
-      type,
+      variantType: type,
       gene: overlap,
       location,
       nucleotideChange,
