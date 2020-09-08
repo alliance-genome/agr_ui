@@ -44,7 +44,7 @@ const AlleleMolecularConsequences = ({
     <>
       {
         variants.map((variant) => {
-          const {id: variantId, location, type = {}} = variant;
+          const {id: variantId, location, variantType:type = {}} = variant;
           return (
             <div className={style.summaryRow} key={`consequnce-summary-${variantId}`}>
               <h5>Predicted effect of{' '}
@@ -52,7 +52,7 @@ const AlleleMolecularConsequences = ({
                   geneLocation={variant.geneLocation}
                   location={location}
                   species={variant.species && variant.species.name}
-                  type={variant.type && variant.type.name}
+                  type={type && type.name}
                 >
                   <span className="text-break">{variant.id}</span>
                 </VariantJBrowseLink></h5>
