@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const PageHeader = ({entityName}) => {
+const PageHeader = ({children}) => {
   return (
     <div className='d-none d-md-block'>
       <h1>
-        {entityName}
+        {children}
         <hr />
       </h1>
     </div>
@@ -13,7 +13,7 @@ const PageHeader = ({entityName}) => {
 };
 
 PageHeader.propTypes = {
-  entityName: PropTypes.node
+  children: PropTypes.node
 };
 
 export default PageHeader;

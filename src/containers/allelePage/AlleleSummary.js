@@ -10,6 +10,7 @@ import AlleleSymbol from './AlleleSymbol';
 import SynonymList from '../../components/synonymList';
 import DataSourceLink from '../../components/dataSourceLink';
 import CommaSeparatedList from '../../components/commaSeparatedList';
+import GeneSymbol from '../../components/GeneSymbol';
 
 const AlleleSummary = ({allele}) => {
   return (
@@ -22,7 +23,7 @@ const AlleleSummary = ({allele}) => {
 
       <AttributeLabel>Allele of gene</AttributeLabel>
       <AttributeValue placeholder='None'>
-        {allele.gene && <Link to={`/gene/${allele.gene.id}`}>{allele.gene.symbol}</Link>}
+        {allele.gene && <Link to={`/gene/${allele.gene.id}`}><GeneSymbol gene={allele.gene} /></Link>}
       </AttributeValue>
 
       <AttributeLabel>Transgenic Constructs</AttributeLabel>
