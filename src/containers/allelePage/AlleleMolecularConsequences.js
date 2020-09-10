@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { HashLink } from 'react-router-hash-link';
 import {
   AttributeLabel,
   AttributeList,
@@ -63,14 +64,23 @@ const AlleleMolecularConsequences = ({
                   Variant
                 </AttributeLabel>
                 <AttributeValue>
-                  <VariantJBrowseLink
-                    geneLocation={variant.geneLocation}
-                    location={location}
-                    species={variant.species && variant.species.name}
-                    type={type && type.name}
+                  {
+                    /*
+                      <VariantJBrowseLink
+                        geneLocation={variant.geneLocation}
+                        location={location}
+                        species={variant.species && variant.species.name}
+                        type={type && type.name}
+                      >
+                        <span className="text-break">{variantId}</span>
+                      </VariantJBrowseLink>
+                    */
+                  }
+                  <HashLink
+                    to={`#${makeId(variantId)}`}
                   >
-                    <span className="text-break">{variantId}</span>
-                  </VariantJBrowseLink>
+                    {variantId}
+                  </HashLink>
                 </AttributeValue>
                 <AttributeLabel>
                   Variant type:
