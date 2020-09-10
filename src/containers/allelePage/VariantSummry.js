@@ -6,6 +6,7 @@ import {
   AttributeLabel,
   AttributeValue,
 } from '../../components/attribute';
+import { CollapsibleList } from '../../components/collapsibleList';
 import { DownloadButton } from '../../components/dataTable';
 import useAllAlleleVariants from '../../hooks/useAlleleVariants';
 import { VariantJBrowseLink } from '../../components/variant';
@@ -35,6 +36,9 @@ const VariantSummary = ({allele, alleleId}) => {
             location,
             nucleotideChange,
             consequence,
+            hgvsG,
+            hgvsC,
+            hgvsP,
           } = variant || {};
           return (
             <div className='mb-3' key={displayName}>
@@ -57,7 +61,7 @@ const VariantSummary = ({allele, alleleId}) => {
                 </AttributeValue>
 
                 <AttributeLabel>Variant type</AttributeLabel>
-                <AttributeValue>{type && type.name}</AttributeValue>
+                <AttributeValue>{type && type.name && type.name.replace(/_/g, ' ')}</AttributeValue>
 
                 <AttributeLabel>Overlaps</AttributeLabel>
                 <AttributeValue>
@@ -76,23 +80,54 @@ const VariantSummary = ({allele, alleleId}) => {
                 <AttributeValue><pre className='m-0'>{nucleotideChange}</pre></AttributeValue>
 
                 <AttributeLabel>Most Severe Consequence</AttributeLabel>
-                <AttributeValue>{consequence} <small><a href='#variant-molecular-consequences'>See all consequences</a></small></AttributeValue>
+                <AttributeValue>
+                  {
+                    consequence ?
+                      <>
+                        <CollapsibleList collapsedSize={10}>
+                          {consequence && consequence.replace(/_/g, ' ').split(',')}
+                        </CollapsibleList>
+                        <small><a href='#variant-molecular-consequences'>See all consequences</a></small>
+                      </> :
+                      null
+                  }
+                </AttributeValue>
 
                 <AttributeLabel>HGVS.g name</AttributeLabel>
                 <AttributeValue>
-                  <em>12:g.46493042del<br/>
-                  NC_005111.4:g.46493042_46493042del<br/>
-                  (Rnor_6.0)12:46493042_46493042del</em>
+                  {
+                    hgvsG && hgvsG.length ?
+                      <CollapsibleList>
+                        {hgvsG}
+                      </CollapsibleList> :
+                      null
+                  }
                 </AttributeValue>
 
                 <AttributeLabel>HGVS.c name</AttributeLabel>
-                <AttributeValue><em>rna8188.1:c.52del, rna8192.1:c.52del</em></AttributeValue>
+                <AttributeValue>
+                  {
+                    hgvsC && hgvsC.length ?
+                      <CollapsibleList>
+                        {hgvsC}
+                      </CollapsibleList> :
+                      null
+                  }
+                </AttributeValue>
 
                 <AttributeLabel>HGVS.p name</AttributeLabel>
-                <AttributeValue><em>.1:p.Glu18SerfsTer10,.1:p.Glu18SerfsTer10, ...</em></AttributeValue>
+                <AttributeValue>
+                  {
+                    hgvsP && hgvsP.length ?
+                      <CollapsibleList>
+                        {hgvsP}
+                      </CollapsibleList> :
+                      null
+                  }
+                </AttributeValue>
 
                 <AttributeLabel>Synonyms</AttributeLabel>
-                <AttributeValue><em>rs##</em></AttributeValue>
+                <AttributeValue>{/* <em>rs##</em> */}</AttributeValue>
 
                 <AttributeLabel>Notes</AttributeLabel>
                 <AttributeValue><em>This is a cool variant (reference##)</em></AttributeValue>
