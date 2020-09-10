@@ -73,9 +73,13 @@ const VariantSummary = ({allele, alleleId}) => {
                 <AttributeLabel>Location</AttributeLabel>
                 <AttributeValue>
                   {formatLocation(location)}{' '}
-                  <small>
-                    <a href='#'>Highlight in browser</a>
-                  </small>
+                  {
+                    /*
+                    <small>
+                      <a href='#'>Highlight in browser</a>
+                    </small>
+                    */
+                  }
                 </AttributeValue>
 
                 <AttributeLabel>Nucleotide Change</AttributeLabel>
