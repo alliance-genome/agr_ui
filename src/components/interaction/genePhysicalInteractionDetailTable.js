@@ -9,7 +9,7 @@ import ExternalLink from '../externalLink';
 import MITerm from './MITerm';
 import style from './genePhysicalInteractionDetailTable.scss';
 import {getDistinctFieldValue} from '../dataTable/utils';
-import {compareByFixedOrder} from '../../lib/utils';
+import { compareByFixedOrder, htmlToPlainText } from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import SpeciesName from '../SpeciesName';
@@ -55,7 +55,7 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
       // column header needs custom formatting
       headerNode: (
         <>
-          <span className="text-transform-none">{focusGeneDisplayName}</span> molecule type
+          <span className="text-transform-none" dangerouslySetInnerHTML={{__html: focusGeneDisplayName}} /> molecule type
         </>
       ),
       formatter: (fieldData = {}, row, rowIndex) => {
@@ -169,7 +169,7 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
   const sortOptions = [
     {
       value: 'moleculeType',
-      label: `${focusGeneDisplayName} molecule type`,
+      label: `${htmlToPlainText(focusGeneDisplayName)} molecule type`,
     },
     {
       value: 'interactorGeneSymbol',

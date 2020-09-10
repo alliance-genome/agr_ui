@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {shortSpeciesName} from '../../lib/utils';
 import CommaSeparatedList from '../../components/commaSeparatedList';
+import GeneSymbol from '../../components/GeneSymbol';
 
 const MaybeLink = ({url, children}) => {
   return url ? <Link to={url}>{children}</Link> : children;
@@ -25,7 +26,7 @@ const CommaSeparatedGeneList = ({genes}) => {
           const url = gene.id ? `/gene/${gene.id}` : null;
           return (
             <MaybeLink key={gene.symbol} url={url}>
-              {gene.symbol}
+              <GeneSymbol gene={gene} />
               {gene.species && ` (${shortSpeciesName(gene.species.taxonId)})`}
             </MaybeLink>
           );

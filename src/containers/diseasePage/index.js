@@ -99,7 +99,7 @@ const DiseasePage = ({diseaseId}) => {
           </div>
         )}
         <PageCategoryLabel category='disease' />
-        <PageHeader entityName={data.name} />
+        <PageHeader>{data.name}</PageHeader>
 
         <Subsection hideTitle title={SUMMARY}>
           <BasicDiseaseInfo disease={data} />
