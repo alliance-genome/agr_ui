@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { AlleleCell, DataTable, SpeciesCell } from '../../components/dataTable';
-import SynonymList from '../../components/synonymList';
 import ConstructLink from '../../components/ConstructLink';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import CommaSeparatedGeneList from '../allelePage/CommaSeparatedGeneList';
@@ -64,14 +63,6 @@ const TransgenicAlleleTable = ({geneId}) => {
       headerStyle: {width: '185px'},
       filterable: true,
       filterName: 'allele',
-    },
-    {
-      dataField: 'synonyms',
-      text: 'Synonyms',
-      formatter: synonyms => <div className='text-break'><SynonymList synonyms={synonyms}/></div>,
-      headerStyle: {width: '200px'},
-      filterable: true,
-      filterName: 'synonym',
     },
     {
       dataField: 'constructs',
