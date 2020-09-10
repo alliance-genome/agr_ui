@@ -125,8 +125,8 @@ const TransgenicAlleleTable = ({geneId}) => {
       ),
       headerNode: <RotatedHeaderCell>Has Phenotype Annotations</RotatedHeaderCell>,
       headerStyle: {
-        width: '50px',
-        height: '140px',
+        width: '115px', // wider because this one is on the end!
+        height: '145px',
       },
       filterable: ['true', 'false'],
       filterFormatter: val => val === 'true' ? 'Yes' : 'No',
