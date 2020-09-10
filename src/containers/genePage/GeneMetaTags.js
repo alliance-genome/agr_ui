@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import HeadMetaTags from '../../components/headMetaTags';
+import { htmlToPlainText } from '../../lib/utils';
 
 const GeneMetaTags = ({gene}) => {
   if (!gene) {
     return null;
   }
 
-  const title = `${gene.symbol} | ${gene.species.name} gene`;
+  const title = `${htmlToPlainText(gene.symbol)} | ${gene.species.name} gene`;
   const dateProduced = new Date(gene.dateProduced);
   const keywords = [
     'gene',
