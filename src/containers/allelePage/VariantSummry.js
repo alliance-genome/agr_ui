@@ -29,7 +29,7 @@ const VariantSummary = ({allele, alleleId}) => {
       {
         data.map(variant => {
           const {
-            name,
+            displayName,
             variantType: type,
             gene: overlap,
             location,
@@ -37,9 +37,9 @@ const VariantSummary = ({allele, alleleId}) => {
             consequence,
           } = variant || {};
           return (
-            <div className='mb-3'>
+            <div className='mb-3' key={displayName}>
               <strong><em>Fake data is highlighted.</em></strong>
-              <h5>{name}</h5>
+              <h5>{displayName}</h5>
               <AttributeList className='mb-0'>
                 <AttributeLabel>Symbol</AttributeLabel>
                 <AttributeValue>
@@ -51,7 +51,7 @@ const VariantSummary = ({allele, alleleId}) => {
                       species={species && species.name}
                       type={type && type.name}
                     >
-                      <span className="text-break">{name}</span>
+                      <span className="text-break">{displayName}</span>
                     </VariantJBrowseLink>
                   }
                 </AttributeValue>
