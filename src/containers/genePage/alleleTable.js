@@ -104,7 +104,7 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
     {
       dataField: 'category',
       text: 'Category',
-      headerStyle: {width: '225px'},
+      headerStyle: {width: '140px'},
       filterable: true,
     },
     {
