@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 import {
   AttributeList,
   AttributeLabel,
@@ -8,8 +9,10 @@ import {
 } from '../../components/attribute';
 import { CollapsibleList } from '../../components/collapsibleList';
 import { DownloadButton } from '../../components/dataTable';
+import Subsection from '../../components/subsection';
 import useAllAlleleVariants from '../../hooks/useAlleleVariants';
 import { VariantJBrowseLink } from '../../components/variant';
+import { sectionAnchor } from './AlleleMolecularConsequences';
 
 function formatLocation(location) {
   const {chromosome = '', start = '', end = ''} = location || {};
@@ -41,9 +44,8 @@ const VariantSummary = ({allele, alleleId}) => {
             hgvsP,
           } = variant || {};
           return (
-            <div className='mb-3' key={displayName}>
+            <Subsection title={displayName} level={1} key={displayName}>
               <strong><em>Fake data is highlighted.</em></strong>
-              <h5>{displayName}</h5>
               <AttributeList className='mb-0'>
                 <AttributeLabel>Symbol</AttributeLabel>
                 <AttributeValue>
@@ -87,7 +89,14 @@ const VariantSummary = ({allele, alleleId}) => {
                         <CollapsibleList collapsedSize={10}>
                           {consequence && consequence.replace(/_/g, ' ').split(',')}
                         </CollapsibleList>
-                        <small><a href='#variant-molecular-consequences'>See all consequences</a></small>
+
+                        <HashLink
+                          to={sectionAnchor(variant)}
+                          className="btn btn-link btn-sm p-0"
+                        >
+                          See all consequences
+                        </HashLink>
+
                       </> :
                       null
                   }
@@ -139,7 +148,7 @@ const VariantSummary = ({allele, alleleId}) => {
                 <AttributeValue><em>PMID:###</em></AttributeValue>
               </AttributeList>
               <Link to={`/search?q=${name}&category=alteration`}>All alleles with this variant <i className='fa fa-search' /></Link>
-            </div>
+            </Subsection>
           );
         })
       }
