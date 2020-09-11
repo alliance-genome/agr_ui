@@ -151,7 +151,7 @@ const VariantSummary = ({allele, alleleId}) => {
                 <AttributeLabel>References</AttributeLabel>
                 <AttributeValue><em>PMID:###</em></AttributeValue>
               </AttributeList>
-              <Link to={`/search?q=${name}&category=alteration`}>All alleles with this variant <i className='fa fa-search' /></Link>
+              <Link to={`/search?q=${displayName}`}>All alleles with this variant <i className='fa fa-search' /></Link>
             </Subsection>
           );
         })
