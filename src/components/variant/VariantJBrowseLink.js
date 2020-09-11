@@ -26,7 +26,7 @@ const VariantJBrowseLink = ({children, location, type, geneSymbol, geneLocation,
             `${geneLocation.chromosome || location.chromosome}:${geneLocation.start || 0}..${geneLocation.end || 0}` :
             geneSymbol,
           tracks: ['Variants', 'All Genes', 'DNA'].join(','),
-          highlight: calculateHighlight(location, type.name)
+          highlight: calculateHighlight(location, type)
         })}
       >
         {children}

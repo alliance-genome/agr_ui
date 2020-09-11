@@ -59,13 +59,13 @@ const VariantEffectDetails = ({
         geneLocation={variant.geneLocation}
         location={variant.location}
         species={variant.species && variant.species.name}
-        type={variant.type && variant.type.name}
+        type={variant.variantType && variant.variantType.name}
       >
         <span className="text-break">{variant.id}</span>
       </VariantJBrowseLink> on <strong>{transcript.name}</strong></h5>
     <AttributeList>
       <AttributeLabel>Variant type</AttributeLabel>
-      <AttributeValue>{variant.type && variant.type.name}</AttributeValue>
+      <AttributeValue>{variant.variantType && variant.variantType.name}</AttributeValue>
 
       <AttributeLabel style={labelStyle}>HGVS Names</AttributeLabel>
       <AttributeValue>

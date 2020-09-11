@@ -28,6 +28,7 @@ import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import { getSpecies } from '../../lib/utils';
 import TransgenicAlleleTable from './TransgenicAlleleTable';
+import GeneSymbol from '../../components/GeneSymbol';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
@@ -102,14 +103,18 @@ const GenePage = ({geneId}) => {
     <DataPage key={data.id}>
       <GeneMetaTags gene={data} />
       <PageNav sections={SECTIONS}>
-        <PageNavEntity entityName={data.symbol} icon={<SpeciesIcon inNav scale={0.5} species={data.species.name} />} truncateName>
+        <PageNavEntity
+          entityName={<GeneSymbol gene={data} />}
+          icon={<SpeciesIcon inNav scale={0.5} species={data.species.name} />}
+          truncateName
+        >
           <i>{data.species.name}</i>
           <DataSourceLink reference={data.crossReferences.primary} />
         </PageNavEntity>
       </PageNav>
       <PageData>
         <PageCategoryLabel category='gene' />
-        <PageHeader entityName={data.symbol} />
+        <PageHeader><GeneSymbol gene={data} /></PageHeader>
 
         <Subsection hideTitle title={SUMMARY}>
           <BasicGeneInfo gene={data} />

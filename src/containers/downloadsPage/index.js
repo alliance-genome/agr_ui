@@ -65,7 +65,7 @@ const DownloadsPage = () => {
         <PageNavEntity entityName={TITLE} />
       </PageNav>
       <PageData>
-        <PageHeader entityName={TITLE} />
+        <PageHeader>{TITLE}</PageHeader>
 
         <Subsection title={DISEASE}>
           <DownloadFileTable>
