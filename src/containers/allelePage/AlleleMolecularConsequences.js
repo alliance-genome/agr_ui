@@ -8,7 +8,7 @@ import {
 } from '../../components/attribute';
 import LoadingSpinner from '../../components/loadingSpinner';
 import NoData from '../../components/noData';
-import { VariantJBrowseLink } from '../../components/variant';
+// import { VariantJBrowseLink } from '../../components/variant';
 import Subsection from '../../components/subsection';
 import VariantToTranscriptTable from './VariantToTranscriptTable';
 import style from './style.scss';
@@ -56,7 +56,11 @@ const AlleleMolecularConsequences = ({
     <>
       {
         variants.map((variant) => {
-          const {id: variantId, location, variantType:type = {}} = variant;
+          const {
+            id: variantId,
+            // location,
+            variantType:type = {}
+          } = variant;
           return (
             <Subsection title={sectionTitle(variant)} level={1} key={`consequnce-summary-${variantId}`}>
               <AttributeList className={style.attributeList}>
