@@ -2,7 +2,7 @@ import React from 'react';
 import clone from 'lodash.clone';
 import without from 'lodash.without';
 import { Link } from 'react-router-dom';
-import ExternalLink from '../components/externalLink';
+import ExternalLink from '../components/ExternalLink';
 import qs from 'qs';
 
 const SINGLE_VAL_FIELDS = ['mode', 'page'];

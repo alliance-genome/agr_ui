@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import ExternalLink from './externalLink';
+import ExternalLink from './ExternalLink';
 import {dataSourceType} from '../lib/types';
 
 class DataSourceLink extends Component {

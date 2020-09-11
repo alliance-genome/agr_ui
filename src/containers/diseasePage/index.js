@@ -4,7 +4,7 @@ import Subsection from '../../components/subsection';
 import NotFound from '../../components/notFound';
 import BasicDiseaseInfo from './basicDiseaseInfo';
 import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPage';
-import ExternalLink from '../../components/externalLink';
+import ExternalLink from '../../components/ExternalLink';
 import HeadMetaTags from '../../components/headMetaTags';
 import DiseaseToAlleleTable from './DiseaseToAlleleTable';
 import DiseaseToGeneTable from './DiseaseToGeneTable';

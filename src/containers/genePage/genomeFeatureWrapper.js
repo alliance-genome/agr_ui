@@ -6,7 +6,7 @@ import {
   AttributeValue,
 } from '../../components/attribute';
 import numeral from 'numeral';
-import ExternalLink from '../../components/externalLink';
+import ExternalLink from '../../components/ExternalLink';
 import GenomeFeatureViewer from 'agr_genomefeaturecomponent';
 import {getTranscriptTypes} from '../../lib/genomeFeatureTypes';
 import LoadingSpinner from '../../components/loadingSpinner';
