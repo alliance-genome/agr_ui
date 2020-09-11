@@ -69,7 +69,9 @@ class OrthologyTable extends Component {
                 <tr className={rowGroup % 2 === 0 ? style.groupedRow : ''} key={orthId}>
                   <td style={{fontStyle: 'italic'}}>{getOrthologSpeciesName(orthData)}</td>
                   <td>
-                    <Link to={`/gene/${orthId}`}>{getOrthologSymbol(orthData)}</Link>
+                    <Link to={`/gene/${orthId}`}>
+                      <span dangerouslySetInnerHTML={{__html: getOrthologSymbol(orthData)}} />
+                    </Link>
                   </td>
                   <td>{`${scoreNumerator} of ${scoreDemominator}`}</td>
                   <BooleanCell
