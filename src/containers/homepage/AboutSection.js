@@ -32,10 +32,10 @@ const AboutSection = () => {
                   <i className="fa fa-comments" aria-hidden="true" /> Join the Alliance User Community
                 </h4>
                 <p>
-                  Click here to access official announcements, ask questions, and view discussions with other Alliance members.
+                  Click here to access official announcements, ask questions, and view discussions with other members of the Alliance Community.
                 </p>
                 <p className='mb-0'>
-                  Join today to keep up-to-date.
+                  Join today to stay up-to-date.
                 </p>
               </div>
             </a>
