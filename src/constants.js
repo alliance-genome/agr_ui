@@ -148,6 +148,19 @@ export const NAV_MENU = [
     ]
   },
   {
+    label: 'Community',
+    sub: [
+      {
+        label: 'Alliance User Community',
+        route: 'https://groups.google.com/a/alliancegenome.org/g/community',
+      },
+      {
+        label: 'Twitter',
+        route: 'https://twitter.com/alliancegenome',
+      }
+    ]
+  },
+  {
     label: 'Contact Us',
     route: '/contact-us',
   },

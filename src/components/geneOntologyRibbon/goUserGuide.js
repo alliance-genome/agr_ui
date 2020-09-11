@@ -1,5 +1,5 @@
 import React from 'react';
-import ExternalLink from '../externalLink';
+import ExternalLink from '../ExternalLink';
 
 const GoUserGuide = () => (
   <div>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ExternalLink from '../externalLink';
+import ExternalLink from '../ExternalLink';
 import {CollapsibleList} from '../collapsibleList';
 
 const ReferenceCell = (refs) => {

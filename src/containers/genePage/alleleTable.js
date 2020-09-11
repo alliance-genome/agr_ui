@@ -8,7 +8,7 @@ import {
   DataTable,
 } from '../../components/dataTable';
 import {getDistinctFieldValue} from '../../components/dataTable/utils';
-import ExternalLink from '../../components/externalLink';
+import ExternalLink from '../../components/ExternalLink';
 import DiseaseLink from '../../components/disease/DiseaseLink';
 import {VariantJBrowseLink} from '../../components/variant';
 import VariantsSequenceViewer from './VariantsSequenceViewer';
