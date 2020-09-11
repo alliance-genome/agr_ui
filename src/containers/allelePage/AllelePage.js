@@ -20,10 +20,11 @@ import {Link} from 'react-router-dom';
 import AlleleToPhenotypeTable from './AlleleToPhenotypeTable';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
 import AlleleToDiseaseTable from './AlleleToDiseaseTable';
-import AlleleToVariantTable from './AlleleToVariantTable';
+// import AlleleToVariantTable from './AlleleToVariantTable';
 import AlleleSequenceView from './AlleleSequenceView';
 import AlleleTransgenicConstructs from './AlleleTransgenicConstructs';
 import AlleleMolecularConsequences from './AlleleMolecularConsequences';
+import VariantSummary from './VariantSummry';
 import MolecularConsequenceHelp from './MolecularConsequenceHelp';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import GeneSymbol from '../../components/GeneSymbol';
@@ -89,7 +90,8 @@ const AllelePage = ({ alleleId }) => {
 
         <Subsection title={VARIANTS}>
           <ErrorBoundary>
-            <AlleleToVariantTable allele={data} alleleId={alleleId} />
+            <VariantSummary allele={data} alleleId={alleleId} />
+            {/* <AlleleToVariantTable allele={data} alleleId={alleleId} /> */}
           </ErrorBoundary>
           <br />
           <ErrorBoundary>
