@@ -26,7 +26,12 @@ const AboutSection = () => {
             </p>
           </div>
           <div className='col-md-4 border-left'>
-            <a className='text-decoration-none' href='https://groups.google.com/a/alliancegenome.org/g/community'>
+            <a
+              className='text-decoration-none'
+              href='https://groups.google.com/a/alliancegenome.org/g/community'
+              rel="noopener noreferrer"
+              target="_blank"
+            >
               <div className='alert alert-primary'>
                 <h4 className='alert-heading'>
                   <i className="fa fa-comments" aria-hidden="true" /> Join the Alliance User Community
