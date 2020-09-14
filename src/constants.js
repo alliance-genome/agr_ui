@@ -26,6 +26,11 @@ export const CATEGORIES = [
     displayFields: ['id', 'collapsible_synonyms', 'branch']
   },
   {
+    name: 'dataset',
+    displayName: 'Dataset',
+    displayFields: ['id', 'summary']
+  },
+  {
     name: 'disease',
     displayName: 'Disease',
     displayFields: ['id', 'definition'],
