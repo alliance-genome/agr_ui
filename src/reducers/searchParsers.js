@@ -84,6 +84,8 @@ export function parseResults(results) {
       return parseGeneResult(d);
     case 'go':
       return parseGoResult(d);
+    case 'dataset':
+      return parseDatasetResult(d);
     case 'disease':
       return parseDiseaseResult(d);
     case 'allele':
@@ -190,6 +192,17 @@ function parseGoResult(_d) {
     highlight: d.highlights,
     collapsible_synonyms: d.synonyms, //not just named synonyms,
     //so that it can be collapsible when others aren't
+    missing: d.missingTerms
+  };
+}
+
+function parseDatasetResult(_d) {
+  let d = injectHighlightIntoResponse(_d);
+  return {
+    ...d,
+    display_name: d.name,
+    highlight: d.highlights,
+    //href: '/disease/' + d.id,
     missing: d.missingTerms
   };
 }
