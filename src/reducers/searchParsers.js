@@ -202,7 +202,6 @@ function parseDatasetResult(_d) {
     ...d,
     display_name: d.name,
     highlight: d.highlights,
-    //href: '/disease/' + d.id,
     missing: d.missingTerms
   };
 }
