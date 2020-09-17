@@ -225,8 +225,8 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
       headerNode: <RotatedHeaderCell>Has Phenotype Annotations</RotatedHeaderCell>,
       headerStyle: {
         paddingLeft: 0,
-        width: '50px',
-        height: '140px',
+        width: '115px', // wider because this one is on the end!
+        height: '145px',
       },
       filterable: ['true', 'false'],
       filterFormatter: val => val === 'true' ? 'Yes' : 'No',

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { AlleleCell, DataTable, SpeciesCell } from '../../components/dataTable';
-import SynonymList from '../../components/synonymList';
 import ConstructLink from '../../components/ConstructLink';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import CommaSeparatedGeneList from '../allelePage/CommaSeparatedGeneList';
@@ -66,18 +65,10 @@ const TransgenicAlleleTable = ({geneId}) => {
       filterName: 'allele',
     },
     {
-      dataField: 'synonyms',
-      text: 'Synonyms',
-      formatter: synonyms => <SynonymList synonyms={synonyms}/>,
-      headerStyle: {width: '200px'},
-      filterable: true,
-      filterName: 'synonym',
-    },
-    {
       dataField: 'constructs',
       text: 'Transgenic construct',
       formatter: constructs => constructs.map(construct => (
-        <div key={construct.id}>
+        <div key={construct.id} className='text-break'>
           <ConstructLink construct={construct} />
         </div>
       )),
@@ -134,8 +125,8 @@ const TransgenicAlleleTable = ({geneId}) => {
       ),
       headerNode: <RotatedHeaderCell>Has Phenotype Annotations</RotatedHeaderCell>,
       headerStyle: {
-        width: '50px',
-        height: '140px',
+        width: '115px', // wider because this one is on the end!
+        height: '145px',
       },
       filterable: ['true', 'false'],
       filterFormatter: val => val === 'true' ? 'Yes' : 'No',

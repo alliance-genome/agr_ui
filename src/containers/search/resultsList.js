@@ -12,6 +12,7 @@ import SpeciesIcon from '../../components/speciesIcon';
 import { getLinkForEntry, stringifyQuery } from '../../lib/searchHelpers';
 import {UncontrolledTooltip} from 'reactstrap';
 import hash from 'object-hash';
+import SpeciesName from '../../components/SpeciesName';
 
 const DEFAULT_FIELDS = ['symbol', 'name', 'synonyms', 'sourceHref', 'id', 'type'];
 
@@ -31,7 +32,11 @@ class ResultsList extends Component {
     return (<div className="row">
       <div className="col-sm-10">
         <h4 className={style.resultLinkLabel}>{getLinkForEntry(d)}</h4>
-        {d.species && <span className={style.resultSpeciesLabel} dangerouslySetInnerHTML={{ __html: '(' + d.species + ')' }} />}
+        {d.species && (
+          <span className='ml-3'>
+            (<SpeciesName dangerouslySetInnerHTML={{ __html: d.species }} />)
+          </span>
+        )}
       </div>
       <div className="col-sm-2">
         <span className={style.resultCatLabel}>
@@ -144,9 +149,7 @@ class ResultsList extends Component {
         return this.renderGeneEntry(d, i);
       } else if (d.category === 'disease') {
         return this.renderDiseaseEntry(d, i);
-      } else if (d.category === 'go') {
-        return this.renderEntry(d, i, CATEGORIES.find(cat => cat.name === d.category).displayFields);
-      } else if (d.category === 'allele') {
+      } else if (['allele','dataset','go'].includes(d.category)) {
         return this.renderEntry(d, i, CATEGORIES.find(cat => cat.name === d.category).displayFields);
       } else {
         return this.renderEntry(d,i, ['id','synonyms']);
