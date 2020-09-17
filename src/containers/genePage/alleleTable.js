@@ -13,6 +13,7 @@ import RotatedHeaderCell from '../../components/dataTable/RotatedHeaderCell';
 import BooleanLinkCell from '../../components/dataTable/BooleanLinkCell';
 import VariantsSequenceViewer from './VariantsSequenceViewer';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
+import useAllVariants from '../../hooks/useAllVariants';
 
 const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, geneDataProvider}) => {
   const {
