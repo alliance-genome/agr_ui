@@ -1,14 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import style from './SpeciesName.scss';
 
-const SpeciesName = ({children}) => {
-  return <span className={style.speciesName}>{children}</span>;
+const SpeciesName = (props) => {
+  return <span {...props} className={style.speciesName} />;
 };
 
 SpeciesName.propTypes = {
-  children: PropTypes.node,
 };
 
 export default SpeciesName;
