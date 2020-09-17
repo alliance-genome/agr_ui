@@ -39,7 +39,7 @@ class SearchBarComponent extends Component {
 
   componentDidUpdate(prevProps) {
     const { location } = this.props;
-    if (location.search && location.search !== prevProps.location.search) {
+    if (location.search !== prevProps.location.search) {
       const queryOptions = parseQueryString(location.search);
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
