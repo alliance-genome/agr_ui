@@ -106,3 +106,9 @@ export const shortSpeciesName = taxonId => {
 export const fullSpeciesName = taxonId => {
   return getSpecies(taxonId).fullName;
 };
+
+export function htmlToPlainText(html) {
+  return html
+    .replaceAll('<sup>', '[')
+    .replaceAll('</sup>', ']');
+}

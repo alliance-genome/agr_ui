@@ -1,26 +1,27 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Link } from 'react-router-dom';
 import { shortSpeciesName} from '../../lib/utils';
 import { CollapsibleList } from '../../components/collapsibleList';
+import GeneSymbol from '../GeneSymbol';
 
 const BasedOnGeneCell = (genes) => {
-  if(genes){
-    let cell = (
-      <CollapsibleList collapsedSize={genes.length}>
-        {genes.map(gene => (
-          <Link
-            key={gene.id}
-            to={`/gene/${gene.id}`}
-          >{gene.symbol}({shortSpeciesName(gene.species.taxonId)})
-          </Link>
-        ))}
-
-      </CollapsibleList>);
-    return cell;
-  }
-  else{
+  if (!genes) {
     return null;
   }
+  return (
+    <CollapsibleList collapsedSize={genes.length}>
+      {genes.map(gene => (
+        <Link key={gene.id} to={`/gene/${gene.id}`}>
+          <GeneSymbol gene={gene} /> ({shortSpeciesName(gene.species.taxonId)})
+        </Link>
+      ))}
+    </CollapsibleList>
+  );
+};
+
+BasedOnGeneCell.propTypes = {
+  genes: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default BasedOnGeneCell;

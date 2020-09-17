@@ -31,7 +31,7 @@ const VariantToTranscriptTable = ({variant}) => {
     {
       text: 'Sequence feature type',
       dataField: 'type',
-      formatter: ({name}) => name,
+      formatter: (type) => type && type.name,
       headerStyle: {
         width: 100,
       },
@@ -39,7 +39,7 @@ const VariantToTranscriptTable = ({variant}) => {
     {
       text: 'Associated gene',
       dataField: 'gene',
-      formatter: ({symbol, id}) => <Link to={`/gene/${id}`}>{symbol}</Link>, // eslint-disable-line react/prop-types
+      formatter: (gene) => gene && <Link to={`/gene/${gene.id}`}>{gene.symbol}</Link>, // eslint-disable-line react/prop-types
       headerStyle: {
         width: 150,
       },

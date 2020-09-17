@@ -26,7 +26,7 @@ const AlleleToVariantTable = ({allele = {}, alleleId}) => {
     {
       dataField: 'displayName',
       text: 'Variant name',
-      formatter: (name, {location, type = {}, geneLocation = {}, species = {}}) => (
+      formatter: (name, {location, variantType:type = {}, geneLocation = {}, species = {}}) => (
         <VariantJBrowseLink
           geneLocation={geneLocation}
           location={location}
@@ -39,7 +39,7 @@ const AlleleToVariantTable = ({allele = {}, alleleId}) => {
       headerStyle: {width: '220px'},
     },
     {
-      dataField: 'type',
+      dataField: 'variantType',
       text: 'Variant type',
       formatter: ({name = ''} = {}) => name.replace(/_/g, ' '),
       headerStyle: {width: '100px'},
