@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {compareAlphabeticalCaseInsensitive} from '../../lib/utils';
-import CollapsibleList from '../../components/collapsibleList/collapsibleList';
 import SynonymList from '../../components/synonymList';
 import {
   AlleleCell,
@@ -9,8 +8,9 @@ import {
 } from '../../components/dataTable';
 import {getDistinctFieldValue} from '../../components/dataTable/utils';
 import ExternalLink from '../../components/externalLink';
-import DiseaseLink from '../../components/disease/DiseaseLink';
 import {VariantJBrowseLink} from '../../components/variant';
+import RotatedHeaderCell from '../../components/dataTable/RotatedHeaderCell';
+import BooleanLinkCell from '../../components/dataTable/BooleanLinkCell';
 import VariantsSequenceViewer from './VariantsSequenceViewer';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 
@@ -77,7 +77,7 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
   }), [alleleIdsSelected, setAlleleIdsSelected]);
 
   const variantNameColWidth = 300;
-  const variantTypeColWidth = 110;
+  const variantTypeColWidth = 150;
   const variantConsequenceColWidth = 150;
 
   const columns = [
@@ -89,7 +89,7 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
     },
     {
       dataField: 'symbol',
-      text: 'Allele Symbol',
+      text: 'Allele/Variant Symbol',
       formatter: (_, allele) => <AlleleCell allele={allele} />,
       headerStyle: {width: '185px'},
       filterable: true,
@@ -102,37 +102,10 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
       filterable: true,
     },
     {
-      dataField: 'disease',
-      text: 'Associated Human Disease',
-      helpPopupProps: {
-        id: 'gene-page--alleles-table--disease-help',
-        children: 'Associated human diseases shown in this table were independently annotated to the Alleles, and are not necessarily related to the phenotype annotations.'
-      },
-      formatter: diseases => (
-        <CollapsibleList collapsedSize={2}>
-          {diseases.map(disease => <DiseaseLink disease={disease} key={disease.id} />)}
-        </CollapsibleList>
-      ),
-      headerStyle: {width: '150px'},
+      dataField: 'category',
+      text: 'Category',
+      headerStyle: {width: '140px'},
       filterable: true,
-    },
-    {
-      dataField: 'phenotypes',
-      text: 'Associated phenotypes',
-      helpPopupProps: {
-        id: 'gene-page--alleles-table--phenotype-help',
-        children: 'Associated phenotypes shown in this table were independently annotated to the Alleles, and are are not necessarily related to the human disease annotations.'
-      },
-      formatter: phenotypes => phenotypes && (
-        <CollapsibleList collapsedSize={2} showBullets>
-          {phenotypes.map(({phenotypeStatement}) => (
-            <span dangerouslySetInnerHTML={{__html: phenotypeStatement}} key={phenotypeStatement}/>
-          ))}
-        </CollapsibleList>
-      ),
-      headerStyle: {width: '200px'},
-      filterable: true,
-      filterName: 'phenotype',
     },
     {
       dataField: 'variants',
@@ -140,7 +113,7 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
       formatter: (variants) => (
         <div>
           {
-            variants.map(({id, type = {}, location = {}, consequence}) => (
+            variants.map(({id, variantType: type = {}, location = {}, consequence}) => (
               <div key={id} style={{display: 'flex'}}>
                 <div
                   style={{
@@ -148,7 +121,7 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
                     paddingRight: 5,
-                    flex: '1 0 auto',
+                    flex: '0 0 auto',
                   }}
                 >
                   {
@@ -164,7 +137,7 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
                 <div
                   style={{
                     width: variantTypeColWidth,
-                    flex: '1 0 auto',
+                    flex: '0 0 auto',
                   }}
                 >
                   {type && type.name && type.name.replace(/_/g, ' ')}
@@ -172,7 +145,7 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
                 <div
                   style={{
                     width: variantConsequenceColWidth,
-                    flex: '1 0 auto',
+                    flex: '0 0 auto',
                   }}
                 >
                   {consequence && consequence.replace(/_/g, ' ')}
@@ -193,6 +166,9 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
       dataField: 'variantType',
       text: 'Variant type',
       headerStyle: {width: variantTypeColWidth},
+      style: {
+        display: 'none',
+      },
       // filterable: ['delins', 'point mutation', 'insertion', 'deletion', 'MNV'],
       filterable: getDistinctFieldValue(resolvedData, 'filter.variantType'),
     },
@@ -204,7 +180,46 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
         children: <span>Variant consequences were predicted by the <ExternalLink href="https://uswest.ensembl.org/info/docs/tools/vep/index.html" target="_blank">Ensembl Variant Effect Predictor (VEP) tool</ExternalLink> based on Alliance variants information.</span>,
       },
       headerStyle: {width: variantConsequenceColWidth},
+      style: {
+        display: 'none',
+      },
       filterable: getDistinctFieldValue(resolvedData, 'filter.variantConsequence'),
+    },
+    {
+      dataField: 'hasDisease',
+      text: 'Has Disease Annotations',
+      formatter: (hasDisease, allele) => (
+        <BooleanLinkCell
+          to={`/allele/${allele.id}#disease-associations`}
+          value={hasDisease}
+        />
+      ),
+      headerNode: <RotatedHeaderCell>Has Disease Annotations</RotatedHeaderCell>,
+      headerStyle: {
+        paddingLeft: 0,
+        width: '50px',
+        height: '130px',
+      },
+      filterable: ['true', 'false'],
+      filterFormatter: val => val === 'true' ? 'Yes' : 'No',
+    },
+    {
+      dataField: 'hasPhenotype',
+      text: 'Has Phenotype Annotations',
+      formatter: (hasPhenotype, allele) => (
+        <BooleanLinkCell
+          to={`/allele/${allele.id}#phenotypes`}
+          value={hasPhenotype}
+        />
+      ),
+      headerNode: <RotatedHeaderCell>Has Phenotype Annotations</RotatedHeaderCell>,
+      headerStyle: {
+        paddingLeft: 0,
+        width: '115px', // wider because this one is on the end!
+        height: '145px',
+      },
+      filterable: ['true', 'false'],
+      filterFormatter: val => val === 'true' ? 'Yes' : 'No',
     },
     // {
     //   dataField: 'source',

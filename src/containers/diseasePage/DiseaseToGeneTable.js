@@ -1,18 +1,15 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
-
-import {CollapsibleList} from '../../components/collapsibleList';
 import {
   EvidenceCodesCell,
   GeneCell,
   ReferenceCell,
   SpeciesCell,
-  DataTable
+  DataTable,
+  BasedOnGeneCell
 } from '../../components/dataTable';
 import {
   compareByFixedOrder,
-  shortSpeciesName
 } from '../../lib/utils';
 import AnnotatedEntitiesPopup
   from '../../components/dataTable/AnnotatedEntitiesPopup';
@@ -83,13 +80,7 @@ const DiseaseToGeneTable = ({id}) => {
     {
       dataField: 'orthologyGenes',
       text: 'Based On',
-      formatter: genes => genes && (
-        <CollapsibleList collapsedSize={genes.length}>
-          {genes.map(gene => (<Link key={gene.id} to={`/gene/${gene.id}`}>
-            {gene.symbol} ({shortSpeciesName(gene.species.taxonId)})
-          </Link>))}
-        </CollapsibleList>
-      ),
+      formatter: BasedOnGeneCell,
       filterable: true,
       filterName: 'basedOnGeneSymbol',
       headerStyle: {width: '120px'},
