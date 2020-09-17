@@ -11,7 +11,7 @@ function getFullUrl(baseUrl, tableState) {
 }
 
 export default function useAllVariants(geneId, tableState) {
-  const url = `/api/gene/${geneId}/alleles?`
+  const url = `/api/gene/${geneId}/alleles?`;
   return useQuery ([url, tableState], () => {
     return fetchData(getFullUrl(url,tableState));
   });
