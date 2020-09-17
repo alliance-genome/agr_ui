@@ -144,9 +144,7 @@ class ResultsList extends Component {
         return this.renderGeneEntry(d, i);
       } else if (d.category === 'disease') {
         return this.renderDiseaseEntry(d, i);
-      } else if (d.category === 'go') {
-        return this.renderEntry(d, i, CATEGORIES.find(cat => cat.name === d.category).displayFields);
-      } else if (d.category === 'allele') {
+      } else if (['allele','dataset','go'].includes(d.category)) {
         return this.renderEntry(d, i, CATEGORIES.find(cat => cat.name === d.category).displayFields);
       } else {
         return this.renderEntry(d,i, ['id','synonyms']);
