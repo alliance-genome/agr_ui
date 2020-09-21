@@ -87,7 +87,16 @@ const VariantSummary = ({allele, alleleId}) => {
                 </AttributeValue>
 
                 <AttributeLabel>Nucleotide Change</AttributeLabel>
-                <AttributeValue><pre className='m-0'>{nucleotideChange}</pre></AttributeValue>
+                <AttributeValue>
+                  <div
+                    className="text-break"
+                    style={{
+                      fontFamily: 'monospace',
+                      fontSize: 14,
+                      width: '40ch',
+                    }}
+                  >{nucleotideChange || ''}</div>
+                </AttributeValue>
 
                 <AttributeLabel>Most Severe Consequence</AttributeLabel>
                 <AttributeValue>
