@@ -29,6 +29,7 @@ import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import { getSpecies } from '../../lib/utils';
 import TransgenicAlleleTable from './TransgenicAlleleTable';
 import GeneSymbol from '../../components/GeneSymbol';
+import PhenotypeCrossRefs from './PhenotypeCrossRefs';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
@@ -134,6 +135,15 @@ const GenePage = ({geneId}) => {
         </Subsection>
 
         <Subsection title={PHENOTYPES}>
+          <PhenotypeCrossRefs
+            primary={[
+              data.crossReferences.phenotypes
+            ]}
+            other={[
+              data.crossReferences.biogrid_orcs,
+              data.crossReferences.phenotypes_impc
+            ]}
+          />
           <PhenotypeTable geneId={data.id} />
         </Subsection>
 
