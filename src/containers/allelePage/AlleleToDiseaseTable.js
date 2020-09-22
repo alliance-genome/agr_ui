@@ -19,19 +19,19 @@ const AlleleToDiseaseTable = ({alleleId}) => {
 
   const columns = [
     {
-      dataField: 'disease',
-      text: 'Disease',
-      formatter: disease => <DiseaseLink disease={disease} />,
-      headerStyle: {width: '100px'},
-      filterable: true,
-    },
-    {
       dataField: 'associationType',
       text: 'Association',
       formatter: type => <AssociationType type={type} />,
       headerStyle: {width: '110px'},
       filterable: getDistinctFieldValue(resolvedData, 'associationType'),
       filterFormatter: type => <AssociationType type={type} />,
+    },
+    {
+      dataField: 'disease',
+      text: 'Disease',
+      formatter: disease => <DiseaseLink disease={disease} />,
+      headerStyle: {width: '100px'},
+      filterable: true,
     },
     {
       dataField: 'primaryAnnotatedEntities',

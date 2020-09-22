@@ -5,6 +5,7 @@ import style from './style.scss';
 import { makeFieldDisplayName } from '../../lib/searchHelpers';
 import NoData from '../../components/noData';
 import { CollapsibleList } from '../../components/collapsibleList';
+import SpeciesName from '../../components/SpeciesName';
 
 const COLLAPSIBLE_FIELDS = ['collapsible_synonyms','variants'];
 
@@ -27,8 +28,8 @@ class DetailList extends Component {
           valueNode = <span dangerouslySetInnerHTML={{ __html: value.join(JOIN_CHAR) }} />;
         }
       } else {
-        if (value && field === 'species') {
-          valueNode = <span><i dangerouslySetInnerHTML={{ __html: value }} /></span>;
+        if (value && field.toLowerCase() === 'species') {
+          valueNode = <SpeciesName dangerouslySetInnerHTML={{ __html: value }} />;
         } else {
           valueNode = <span dangerouslySetInnerHTML={{ __html: value }} />;
         }

@@ -12,6 +12,8 @@ import { DownloadButton } from '../../components/dataTable';
 import Subsection from '../../components/subsection';
 import useAllAlleleVariants from '../../hooks/useAlleleVariants';
 import { VariantJBrowseLink } from '../../components/variant';
+import ExternalLink from '../../components/externalLink';
+import DataSourceLink from '../../components/dataSourceLink';
 import { sectionAnchor } from './AlleleMolecularConsequences';
 
 function formatLocation(location) {
@@ -42,10 +44,12 @@ const VariantSummary = ({allele, alleleId}) => {
             hgvsG,
             hgvsC,
             hgvsP,
+            publications,
+            crossReferences,
+            notes,
           } = variant || {};
           return (
             <Subsection title={displayName} level={1} key={displayName}>
-              <strong><em>Fake data is highlighted.</em></strong>
               <AttributeList className='mb-0'>
                 <AttributeLabel>Symbol</AttributeLabel>
                 <AttributeValue>
@@ -83,7 +87,16 @@ const VariantSummary = ({allele, alleleId}) => {
                 </AttributeValue>
 
                 <AttributeLabel>Nucleotide Change</AttributeLabel>
-                <AttributeValue><pre className='m-0'>{nucleotideChange}</pre></AttributeValue>
+                <AttributeValue>
+                  <div
+                    className="text-break"
+                    style={{
+                      fontFamily: 'monospace',
+                      fontSize: 14,
+                      width: '40ch',
+                    }}
+                  >{nucleotideChange || ''}</div>
+                </AttributeValue>
 
                 <AttributeLabel>Most Severe Consequence</AttributeLabel>
                 <AttributeValue>
@@ -143,13 +156,33 @@ const VariantSummary = ({allele, alleleId}) => {
                 <AttributeValue>{/* <em>rs##</em> */}</AttributeValue>
 
                 <AttributeLabel>Notes</AttributeLabel>
-                <AttributeValue><em>This is a cool variant (reference##)</em></AttributeValue>
+                <AttributeValue>
+                  {
+                    notes && notes.length ?
+                      <CollapsibleList>
+                        {notes.map(note => note.note)}
+                      </CollapsibleList> :
+                      null
+                  }
+                </AttributeValue>
 
                 <AttributeLabel>Cross references</AttributeLabel>
-                <AttributeValue><em>RGD##</em></AttributeValue>
+                <AttributeValue>
+                  {
+                    crossReferences && crossReferences.primary ? <DataSourceLink reference={ crossReferences.primary} /> : null
+                  }
+                </AttributeValue>
 
                 <AttributeLabel>References</AttributeLabel>
-                <AttributeValue><em>PMID:###</em></AttributeValue>
+                <AttributeValue>
+                  {
+                    publications && publications.length ?
+                      <CollapsibleList>
+                        {publications.map(({id, url}) => <ExternalLink key={id} href={url}>{id}</ExternalLink>)}
+                      </CollapsibleList> :
+                      null
+                  }
+                </AttributeValue>
               </AttributeList>
               <Link to={`/search?q=${displayName}`}>All alleles with this variant <i className='fa fa-search' /></Link>
             </Subsection>
