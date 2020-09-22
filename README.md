@@ -6,13 +6,19 @@ Front-end code for the Alliance of Genome Resources website.
 
 ## Prerequisites
 
-Install the latest LTS version of Node.js either directly from [the official site](https://nodejs.org/en/download/) or using a version manager such as [nvm](https://github.com/nvm-sh/nvm), [n](https://github.com/tj/n), or [fnm](https://github.com/Schniz/fnm).
+nvm is used to manage Node.js versions. [Follow these instructions](https://github.com/nvm-sh/nvm#installing-and-updating) to install nvm.
 
 It is not strictly required, but highly recommended that you have configured your development environment to use [EditorConfig](https://editorconfig.org/) and [ESLint](https://eslint.org/docs/user-guide/integrations).
 
 ## Installation
 
-To install dependencies after first cloning the repository or after pulling in new changes to `package.json`:
+Ensure the correct version of Node.js is installed and active:
+
+```bash
+nvm use
+```
+
+Install dependencies after first cloning the repository or after pulling in new changes to `package.json`:
 
 ```bash
 npm install
