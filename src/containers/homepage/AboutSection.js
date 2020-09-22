@@ -25,7 +25,7 @@ const AboutSection = () => {
               research and for translating human genome data into clinical utility.
             </p>
           </div>
-          <div className='col-md-4 border-left'>
+          <div className='col-md-4'>
             <a
               className='text-decoration-none'
               href='https://groups.google.com/a/alliancegenome.org/g/community'
