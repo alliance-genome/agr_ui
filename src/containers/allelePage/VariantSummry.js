@@ -12,7 +12,7 @@ import { DownloadButton } from '../../components/dataTable';
 import Subsection from '../../components/subsection';
 import useAllAlleleVariants from '../../hooks/useAlleleVariants';
 import { VariantJBrowseLink } from '../../components/variant';
-import ExternalLink from '../../components/externalLink';
+import ExternalLink from '../../components/ExternalLink';
 import DataSourceLink from '../../components/dataSourceLink';
 import { sectionAnchor } from './AlleleMolecularConsequences';
 
