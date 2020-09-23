@@ -10,7 +10,7 @@ import {
   AttributeLabel,
   AttributeValue,
 } from '../../components/attribute';
-import ExternalLink from '../../components/externalLink';
+import ExternalLink from '../../components/ExternalLink';
 import CrossReferenceList from '../../components/crossReferenceList';
 import CommaSeparatedList from '../../components/commaSeparatedList';
 import { CollapsibleList } from '../../components/collapsibleList';

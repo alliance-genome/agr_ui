@@ -5,7 +5,7 @@ import {
   GeneCell,
 } from '../dataTable';
 import CommaSeparatedList from '../commaSeparatedList';
-import ExternalLink from '../externalLink';
+import ExternalLink from '../ExternalLink';
 import MITerm from './MITerm';
 import style from './genePhysicalInteractionDetailTable.scss';
 import {getDistinctFieldValue} from '../dataTable/utils';

@@ -7,7 +7,7 @@ import {
   DataTable,
 } from '../../components/dataTable';
 import {getDistinctFieldValue} from '../../components/dataTable/utils';
-import ExternalLink from '../../components/externalLink';
+import ExternalLink from '../../components/ExternalLink';
 import {VariantJBrowseLink} from '../../components/variant';
 import RotatedHeaderCell from '../../components/dataTable/RotatedHeaderCell';
 import BooleanLinkCell from '../../components/dataTable/BooleanLinkCell';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ExternalLink from '../../components/externalLink';
+import ExternalLink from '../../components/ExternalLink';
 
 
 const GeneticInteractionsHelp = () => (

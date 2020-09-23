@@ -8,7 +8,7 @@ import {
 import {ReferenceCell} from './index';
 
 import style from './style.scss';
-import ExternalLink from '../externalLink';
+import ExternalLink from '../ExternalLink';
 import {Link} from 'react-router-dom';
 import AssociationType from '../AssociationType';
 
