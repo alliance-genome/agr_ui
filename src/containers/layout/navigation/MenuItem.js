@@ -8,6 +8,7 @@ import {
   NavItem,
   NavLink,
 } from 'reactstrap';
+import SubMenuItem from './SubMenuItem';
 
 const MenuItem = ({currentRoute, page, onClick}) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,14 +44,14 @@ const MenuItem = ({currentRoute, page, onClick}) => {
         <DropdownMenu>
           {
             page.sub.map(sub => (
-              <Link
+              <SubMenuItem
                 className={`dropdown-item ${isActive}`}
+                item={sub}
                 key={sub.route}
                 onClick={handleClick}
-                to={sub.route}
               >
                 {sub.label}
-              </Link>
+              </SubMenuItem>
             ))
           }
         </DropdownMenu>

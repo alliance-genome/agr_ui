@@ -8,7 +8,7 @@ import {
 } from '../../components/dataTable';
 import AnnotatedEntitiesPopup
   from '../../components/dataTable/AnnotatedEntitiesPopup';
-import ExternalLink from '../../components/externalLink';
+import ExternalLink from '../../components/ExternalLink';
 import DiseaseLink from '../../components/disease/DiseaseLink';
 import {getDistinctFieldValue} from '../../components/dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';

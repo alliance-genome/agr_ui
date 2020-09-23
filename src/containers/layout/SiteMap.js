@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import {NAV_MENU} from '../../constants';
 
 import style from './style.scss';
+import SubMenuItem from './navigation/SubMenuItem';
 
 const SiteMap = () => {
   return (
@@ -24,7 +25,7 @@ const SiteMap = () => {
               <ul className='list-unstyled mb-0 ml-2'>
                 {page.sub.map(sub => (
                   <li key={sub.route}>
-                    <Link to={sub.route}>{sub.label}</Link>
+                    <SubMenuItem item={sub}>{sub.label}</SubMenuItem>
                   </li>
                 ))}
               </ul>

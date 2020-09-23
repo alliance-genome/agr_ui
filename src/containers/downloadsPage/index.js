@@ -1,5 +1,5 @@
 import React from 'react';
-import ExternalLink from '../../components/externalLink';
+import ExternalLink from '../../components/ExternalLink';
 import Subsection from '../../components/subsection';
 import { DataPage, PageData, PageHeader, PageNav } from '../../components/dataPage';
 
