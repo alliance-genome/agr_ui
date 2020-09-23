@@ -72,7 +72,7 @@ const DiseaseToGeneTable = ({id}) => {
     {
       dataField: 'evidenceCodes',
       text: 'Evidence',
-      formatter: EvidenceCodesCell,
+      formatter: codes => <EvidenceCodesCell evidenceCodes={codes} />,
       filterable: true,
       filterName: 'evidenceCode',
       headerStyle: {width: '95px'},
