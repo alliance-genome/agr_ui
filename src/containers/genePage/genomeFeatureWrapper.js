@@ -37,13 +37,11 @@ class GenomeFeatureWrapper extends Component {
 
   componentDidMount() {
     this.loadGenomeFeature();
-    this.generateJBrowseLink();
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.primaryId !== prevProps.primaryId) {
       this.loadGenomeFeature();
-      this.generateJBrowseLink();
       this.gfc.setSelectedAlleles(this.props.allelesSelected!==undefined ? this.props.allelesSelected:[],`#${this.props.id}`);
     }
     else
@@ -70,7 +68,7 @@ class GenomeFeatureWrapper extends Component {
     const externalLocationString = this.props.chromosome + ':' + bufferedMin + '..' + bufferedMax;
     // TODO: handle bufferedMax exceeding chromosome length, though I think it has a good default.
     const tracks = ['Variants', 'All Genes'];
-    this.jbrowseUrl = externalJBrowsePrefix +
+    return externalJBrowsePrefix +
       '&tracks=' + encodeURIComponent(tracks.join(',')) +
       '&highlight=' + geneSymbolUrl +
       '&loc=' + encodeURIComponent(externalLocationString);
@@ -177,13 +175,14 @@ class GenomeFeatureWrapper extends Component {
   render() {
     const {assembly, chromosome, fmin, fmax, id, strand, displayType} = this.props;
     const lengthValue = numeral((fmax - fmin) / 1000.0).format('0,0.00');
+    const jbrowseUrl = this.generateJBrowseLink();
 
     return (
       <div id='genomeViewer'>
         <AttributeList>
           <AttributeLabel>Genome location</AttributeLabel>
           <AttributeValue>
-            <ExternalLink href={this.jbrowseUrl}>
+            <ExternalLink href={jbrowseUrl}>
               {chromosome.toLowerCase().startsWith('chr') ? chromosome : 'Chr' + chromosome}:{fmin}...{fmax}
             </ExternalLink> {strand} ({lengthValue} kb)
           </AttributeValue>
