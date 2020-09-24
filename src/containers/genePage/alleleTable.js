@@ -274,6 +274,7 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
         {...tableProps}
         columns={columns}
         data={data}
+        downloadUrl={`/api/gene/${geneId}/alleles/download`}
         keyField='id'
         rowStyle={{cursor: 'pointer'}}
         selectRow={selectRow}
