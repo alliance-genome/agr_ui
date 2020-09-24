@@ -86,7 +86,7 @@ const DiseaseAnnotationTable = ({
       text: 'Evidence',
       filterable: true,
       headerStyle: {width: '100px'},
-      formatter: EvidenceCodesCell,
+      formatter: codes => <EvidenceCodesCell evidenceCodes={codes} />,
       filterName: 'evidenceCode',
     },
     {
