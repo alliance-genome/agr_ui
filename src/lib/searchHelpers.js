@@ -59,6 +59,7 @@ export function makeFieldDisplayName(unformattedName) {
     return 'ID';
   case 'secondaryIds':
     return 'Secondary ID';
+  case 'crossReferenceLinks':
   case 'external_ids':
     return 'Cross References';
   case 'diseases.name':

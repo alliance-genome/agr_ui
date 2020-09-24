@@ -28,7 +28,7 @@ export const CATEGORIES = [
   {
     name: 'dataset',
     displayName: 'Dataset',
-    displayFields: ['id', 'summary']
+    displayFields: ['id', 'crossReferenceLinks', 'summary']
   },
   {
     name: 'disease',
