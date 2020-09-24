@@ -9,7 +9,10 @@ import {CATEGORIES, NON_HIGHLIGHTED_FIELDS} from '../../constants';
 import { Link } from 'react-router-dom';
 
 import SpeciesIcon from '../../components/speciesIcon';
-import { getLinkForEntry, stringifyQuery } from '../../lib/searchHelpers';
+import {
+  getLinkForEntry,
+  stringifyQuery
+} from '../../lib/searchHelpers';
 import {UncontrolledTooltip} from 'reactstrap';
 import hash from 'object-hash';
 import SpeciesName from '../../components/SpeciesName';

@@ -6,6 +6,7 @@ import { makeFieldDisplayName } from '../../lib/searchHelpers';
 import NoData from '../../components/noData';
 import { CollapsibleList } from '../../components/collapsibleList';
 import SpeciesName from '../../components/SpeciesName';
+import DataSourceLink from '../../components/dataSourceLink';
 
 const COLLAPSIBLE_FIELDS = ['collapsible_synonyms','variants'];
 
@@ -19,7 +20,9 @@ class DetailList extends Component {
       let valueNode;
       let value = d[field];
 
-      if (Array.isArray(value)) {
+      if (field === 'crossReferenceLinks' && value) {
+        valueNode = ( value.map(ref => <DataSourceLink key={ref.displayName + ref.name + ref.url} reference={ref} />).reduce((a,b) => [a,', ',b]));
+      } else if (Array.isArray(value)) {
         if (COLLAPSIBLE_FIELDS.includes(field)) { //special handling to make cross references collapsible
           valueNode = (
             <CollapsibleList>{value.sort().map(val => <span dangerouslySetInnerHTML={{ __html: val }} key={val} />)}</CollapsibleList>
