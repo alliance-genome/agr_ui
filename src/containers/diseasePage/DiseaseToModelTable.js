@@ -71,7 +71,7 @@ const DiseaseToModelTable = ({id}) => {
     {
       dataField: 'evidenceCodes',
       text: 'Evidence',
-      formatter: EvidenceCodesCell,
+      formatter: codes => <EvidenceCodesCell evidenceCodes={codes} />,
       headerStyle: {width: '100px'},
       filterable: true,
       filterName: 'evidenceCode',
