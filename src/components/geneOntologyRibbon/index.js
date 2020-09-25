@@ -421,7 +421,7 @@ class GeneOntologyRibbon extends Component {
               title='When showing the GO functions for multiple orthologs, we recommend switching this on as a number of GO functions are inferred through phylogeny (see PAINT tool)'
               type='checkbox'
             />
-            <b>Show only experimental annotations</b>
+            <b>Show functions with at least one experimental evidence</b>
           </label>
         </div>
       </ControlsContainer>
