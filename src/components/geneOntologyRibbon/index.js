@@ -14,7 +14,7 @@ import LoadingSpinner from '../loadingSpinner';
 
 import { withRouter } from 'react-router';
 
-// import NoData from '../noData';
+import NoData from '../noData';
 
 
 const GO_API_URL = 'https://api.geneontology.org/api/';
@@ -229,12 +229,12 @@ class GeneOntologyRibbon extends Component {
                   error: false
                 }
               });
-            }).catch(err => {
-            this.setState({ loading: false, error : true });
-          });
-        }).catch(err => {
+            }).catch(() => {
+              this.setState({ loading: false, error : true });
+            });
+        }).catch(() => {
           this.setState({ loading: false, error : true });
-        })
+        });
         
 
       // regular group
@@ -251,9 +251,9 @@ class GeneOntologyRibbon extends Component {
               error: false
             }
           });
-        }).catch((err) => {
+        }).catch(() => {
           this.setState({ selected: { loading: false, error : true } } );
-        })
+        });
 
     }
 
@@ -276,7 +276,7 @@ class GeneOntologyRibbon extends Component {
           }
         });
 
-      }).catch((err) => {
+      }).catch(() => {
         this.setState({ loading: false, error : true });
       });
     });
@@ -508,7 +508,7 @@ class GeneOntologyRibbon extends Component {
   }
 
   renderError() {
-    return <div>No function available for that gene</div>
+    return <NoData>No function available for that gene</NoData>;
   }
 
   renderValid() {
@@ -517,7 +517,7 @@ class GeneOntologyRibbon extends Component {
         {this.state.loading ? <LoadingSpinner /> : this.renderRibbonStrips()}
         {this.state.selected.group ? this.state.selected.loading ? <LoadingSpinner/> : this.renderRibbonTable() : ''}
       </div>
-    )
+    );
   }
 
 }
