@@ -14,7 +14,7 @@ import LoadingSpinner from '../loadingSpinner';
 
 import { withRouter } from 'react-router';
 
-// import NoData from '../noData';
+import NoData from '../noData';
 
 
 const GO_API_URL = 'https://api.geneontology.org/api/';
@@ -29,6 +29,7 @@ class GeneOntologyRibbon extends Component {
       compareOrthologs: false,
       applyingFilters: false,      // if ortholgs are loading or any other filtering is happening
       loading: true,               // if ribbon strips loading
+      error: false,                // if the ribbon encountered any error while loading (eg ID not present in mygene.info)
       subjectBaseURL: '/gene/',
       stringency: STRINGENCY_HIGH,
       selectedOrthologs: [],
@@ -42,7 +43,8 @@ class GeneOntologyRibbon extends Component {
         subject: null,
         group: null,
         data: null,
-        loading: false             // if ribbon table loading
+        loading: false,            // if ribbon table loading
+        error: false               // not used yet but follow the same logic as for the strips - can be used if errors occured while loading the table (should never happened)
       },
       search: ''
     };
@@ -183,7 +185,8 @@ class GeneOntologyRibbon extends Component {
         subject: subject,
         group: group,
         data: null,
-        loading: true
+        loading: true,
+        error: false
       }
     });
 
@@ -222,11 +225,17 @@ class GeneOntologyRibbon extends Component {
                   subject: subject,
                   group: group,
                   data: filtered, // assoc data from BioLink
-                  loading: false
+                  loading: false,
+                  error: false
                 }
               });
+            }).catch(() => {
+              this.setState({ loading: false, error : true });
             });
+        }).catch(() => {
+          this.setState({ loading: false, error : true });
         });
+        
 
       // regular group
     } else {
@@ -238,10 +247,14 @@ class GeneOntologyRibbon extends Component {
               subject: subject,
               group: group,
               data: filtered, // assoc data from BioLink
-              loading: false
+              loading: false,
+              error: false
             }
           });
+        }).catch(() => {
+          this.setState({ selected: { loading: false, error : true } } );
         });
+
     }
 
   }
@@ -255,6 +268,7 @@ class GeneOntologyRibbon extends Component {
         this.setState({
           applyingFilters: false,
           loading: false,
+          error: false,
           ribbon: data
         }, () => {
           if (this.state.selected.subject && !this.state.ribbon.subjects.some(sub => sub.id === this.state.selected.subject.id)) {
@@ -263,7 +277,7 @@ class GeneOntologyRibbon extends Component {
         });
 
       }).catch(() => {
-        this.setState({ loading: false });
+        this.setState({ loading: false, error : true });
       });
     });
   }
@@ -277,12 +291,11 @@ class GeneOntologyRibbon extends Component {
     this.setState({ 'onlyEXP': event.target.checked }, () => {
       this.fetchSummaryData(this.state.subset, this.getGeneIdList()).then(data => {
         data = this.ensureFocusGeneIsPopulated(data);
-        this.setState({ applyingFilters: false, loading: false, ribbon: data });
+        this.setState({ applyingFilters: false, loading: false, error : false, ribbon: data });
 
       }).catch(() => {
-        this.setState({ loading: false });
+        this.setState({ loading: false, error : true });
       });
-
     });
   }
 
@@ -488,10 +501,21 @@ class GeneOntologyRibbon extends Component {
 
         {this.renderControls()}
 
+        {this.state.error ? this.renderError() : this.renderValid()}
+
+      </div>
+    );
+  }
+
+  renderError() {
+    return <NoData>No function available for that gene</NoData>;
+  }
+
+  renderValid() {
+    return (
+      <div>
         {this.state.loading ? <LoadingSpinner /> : this.renderRibbonStrips()}
-
         {this.state.selected.group ? this.state.selected.loading ? <LoadingSpinner/> : this.renderRibbonTable() : ''}
-
       </div>
     );
   }
