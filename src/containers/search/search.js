@@ -33,6 +33,7 @@ import {
 import {setPageLoading} from '../../actions/loadingActions';
 import TotalCount from './TotalCount';
 import {SearchBarComponent} from '../layout/searchBar';
+import SearchDownload from './searchDownload';
 
 const BASE_SEARCH_URL = '/api/search';
 
@@ -136,6 +137,7 @@ class SearchComponent extends Component {
               >
                 <span><TotalCount /> results {queryParams.q &&
                     <span>for <b>{queryParams.q}</b></span>}</span>
+                {queryParams.category && <span><SearchDownload queryParams={queryParams} /></span>}
                 <SearchControls queryParams={queryParams} />
               </div>
               <SearchBreadcrumbs queryParams={queryParams} />
