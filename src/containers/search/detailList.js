@@ -39,6 +39,9 @@ class DetailList extends Component {
         if (value && field.toLowerCase() === 'species') {
           valueNode = <SpeciesName dangerouslySetInnerHTML={{ __html: value }} />;
         } else {
+          if (field.toLowerCase() === 'Automated Gene Synopsis'.toLowerCase()){
+            value = '...' + value;
+          }
           valueNode = <span dangerouslySetInnerHTML={{ __html: value }} />;
         }
       }
