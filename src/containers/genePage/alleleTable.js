@@ -115,7 +115,7 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
       dataField: 'category',
       text: 'Category',
       headerStyle: {width: '140px'},
-      filterable: true,
+      filterable: getDistinctFieldValue(resolvedData, 'filter.alleleCategory'),
     },
     {
       dataField: 'variants',
