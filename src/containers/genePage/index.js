@@ -158,6 +158,7 @@ const GenePage = ({geneId}) => {
             geneId={data.id}
             geneLocation={genomeLocation}
             geneSymbol={data.symbol}
+            genomeLocationList={data.genomeLocations}
             species={data.species.name}
           />
         </Subsection>
@@ -182,6 +183,7 @@ const GenePage = ({geneId}) => {
             fmax={genomeLocation.end}
             fmin={genomeLocation.start}
             geneSymbol={data.symbol}
+            genomeLocationList={data.genomeLocations}
             height='200px'
             id='genome-feature-location-id'
             primaryId={data.id}
