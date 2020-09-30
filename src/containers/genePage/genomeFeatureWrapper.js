@@ -14,6 +14,7 @@ import '../../style.scss';
 import HorizontalScroll from '../../components/horizontalScroll';
 import HelpPopup from '../../components/helpPopup';
 import isEqual from 'lodash.isequal';
+import CommaSeparatedList from '../../components/commaSeparatedList';
 
 import style from './style.scss';
 import {getSpecies} from '../../lib/utils';
@@ -58,14 +59,14 @@ class GenomeFeatureWrapper extends Component {
     this.gfc.closeModal();
   }
 
-  generateJBrowseLink() {
+  generateJBrowseLink(chr, start, end) {
     const geneSymbolUrl = '&lookupSymbol=' + this.props.geneSymbol;
     const externalJBrowsePrefix = '/jbrowse/?' + 'data=data%2F' + encodeURIComponent(getSpecies(this.props.species).fullName);
-    const linkLength = this.props.fmax - this.props.fmin;
-    let bufferedMin = Math.round(this.props.fmin - (linkLength * LINK_BUFFER / 2.0));
+    const linkLength = end - start;
+    let bufferedMin = Math.round(start - (linkLength * LINK_BUFFER / 2.0));
     bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
-    const bufferedMax = Math.round(this.props.fmax + (linkLength * LINK_BUFFER / 2.0));
-    const externalLocationString = this.props.chromosome + ':' + bufferedMin + '..' + bufferedMax;
+    const bufferedMax = Math.round(end + (linkLength * LINK_BUFFER / 2.0));
+    const externalLocationString = chr + ':' + bufferedMin + '..' + bufferedMax;
     // TODO: handle bufferedMax exceeding chromosome length, though I think it has a good default.
     const tracks = ['Variants', 'All Genes','Multiple-Variant Alleles'];
     return externalJBrowsePrefix +
@@ -173,20 +174,24 @@ class GenomeFeatureWrapper extends Component {
   }
 
   render() {
-    const {assembly, chromosome, fmin, fmax, id, strand, displayType} = this.props;
-    const lengthValue = numeral((fmax - fmin) / 1000.0).format('0,0.00');
-    const jbrowseUrl = this.generateJBrowseLink();
+    const {assembly, id, displayType,genomeLocationList} = this.props;
+    const coordinates = genomeLocationList.map(location => {
+      return(
+        <span key={location.chromosome+location.start+location.end}>
+          <ExternalLink href={this.generateJBrowseLink(location.chromosome,location.start,location.end)}>
+            {location.chromosome.toLowerCase().startsWith('chr') ? location.chromosome : 'Chr' + location.chromosome}:{location.start}...{location.end}
+          </ExternalLink> {location.strand} ({numeral((location.end - location.start) / 1000.0).format('0,0.00')} kb)
+        </span>
+      );
+    });
 
     return (
       <div id='genomeViewer'>
         <AttributeList>
           <AttributeLabel>Genome location</AttributeLabel>
           <AttributeValue>
-            <ExternalLink href={jbrowseUrl}>
-              {chromosome.toLowerCase().startsWith('chr') ? chromosome : 'Chr' + chromosome}:{fmin}...{fmax}
-            </ExternalLink> {strand} ({lengthValue} kb)
+            <CommaSeparatedList>{coordinates}</CommaSeparatedList>
           </AttributeValue>
-
           <AttributeLabel>Assembly version</AttributeLabel>
           <AttributeValue>{assembly}
           </AttributeValue>
@@ -229,6 +234,7 @@ GenomeFeatureWrapper.propTypes = {
   fmax: PropTypes.number,
   fmin: PropTypes.number,
   geneSymbol: PropTypes.string.isRequired,
+  genomeLocationList: PropTypes.array,
   height: PropTypes.string,
   id: PropTypes.string,
   primaryId: PropTypes.string,
@@ -237,6 +243,7 @@ GenomeFeatureWrapper.propTypes = {
   synonyms: PropTypes.array,
   visibleVariants: PropTypes.array,
   width: PropTypes.string,
+
 };
 
 export default GenomeFeatureWrapper;

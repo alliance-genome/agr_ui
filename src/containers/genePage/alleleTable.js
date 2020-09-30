@@ -15,7 +15,7 @@ import VariantsSequenceViewer from './VariantsSequenceViewer';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import useAllVariants from '../../hooks/useAllVariants';
 
-const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, geneDataProvider}) => {
+const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, geneDataProvider, genomeLocationList}) => {
   const {
     resolvedData,
     ...tableProps
@@ -269,6 +269,7 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
         gene={gene}
         genomeLocation={geneLocation}
         {...variantsSequenceViewerProps}
+        genomeLocationList={genomeLocationList}
       />
       <DataTable
         {...tableProps}
@@ -295,6 +296,7 @@ AlleleTable.propTypes = {
     chromosome: PropTypes.string,
   }),
   geneSymbol: PropTypes.string.isRequired,
+  genomeLocationList: PropTypes.array,
   species: PropTypes.string.isRequired,
 };
 
