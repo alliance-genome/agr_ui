@@ -175,20 +175,23 @@ class GenomeFeatureWrapper extends Component {
 
   render() {
     const {assembly, id, displayType,genomeLocationList} = this.props;
-    const coordinates = [];
-    genomeLocationList.forEach(location => coordinates.push(
-      <span>
-        <ExternalLink href={this.generateJBrowseLink(location.chromosome,location.start,location.end)}>
-          {location.chromosome.toLowerCase().startsWith('chr') ? location.chromosome : 'Chr' + location.chromosome}:{location.start}...{location.end}
-        </ExternalLink> {location.strand} ({numeral((location.end - location.start) / 1000.0).format('0,0.00')} kb)
-      </span>
-    ));
+    const coordinates = genomeLocationList.map(location => {
+      return(
+        <span key={location.chromosome+location.start+location.end}>
+          <ExternalLink href={this.generateJBrowseLink(location.chromosome,location.start,location.end)}>
+            {location.chromosome.toLowerCase().startsWith('chr') ? location.chromosome : 'Chr' + location.chromosome}:{location.start}...{location.end}
+          </ExternalLink> {location.strand} ({numeral((location.end - location.start) / 1000.0).format('0,0.00')} kb)
+        </span>
+      );
+    });
 
     return (
       <div id='genomeViewer'>
         <AttributeList>
           <AttributeLabel>Genome location</AttributeLabel>
-          <AttributeValue><CommaSeparatedList>{coordinates}</CommaSeparatedList></AttributeValue>
+          <AttributeValue>
+            <CommaSeparatedList>{coordinates}</CommaSeparatedList>
+          </AttributeValue>
           <AttributeLabel>Assembly version</AttributeLabel>
           <AttributeValue>{assembly}
           </AttributeValue>
