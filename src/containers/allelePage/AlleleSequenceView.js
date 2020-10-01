@@ -43,6 +43,7 @@ const AlleleSequenceView = ({ allele }) => {
       fmax={fmax}
       fmin={fmin}
       geneSymbol={allele.symbol}
+      genomeLocationList={genomeLocations}
       height='200px'
       id='genome-feature-location-id'
       primaryId={allele.id}
