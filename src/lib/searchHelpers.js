@@ -56,6 +56,7 @@ export function makeFieldDisplayName(unformattedName) {
   case 'id':
     return 'Source';
   case 'primaryId':
+  case 'idCollection':
     return 'ID';
   case 'secondaryIds':
     return 'Secondary ID';

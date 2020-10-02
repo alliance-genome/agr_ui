@@ -198,9 +198,14 @@ function parseGoResult(_d) {
 
 function parseDatasetResult(_d) {
   let d = injectHighlightIntoResponse(_d);
+  let idCollection = ([d.id].concat(d.crossReferences));
+  //make it unique
+  idCollection = idCollection.filter((e, i) => idCollection.indexOf(e) === i);
   return {
     ...d,
     display_name: d.name,
+    dataProviderNote: 'High-Throughput (HTP) Dataset Index provided by ' + d.dataProvider,
+    idCollection: idCollection,
     highlight: d.highlights,
     missing: d.missingTerms
   };
