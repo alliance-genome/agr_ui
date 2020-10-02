@@ -132,6 +132,7 @@ a > span > .sprite {
   &.disease::before { color: $data-type-disease; }
   &.model::before { color: $data-type-model; }
   &.allele::before { color: $data-type-allele; }
+  &.dataset::before { color: $data-type-dataset; }
 }
 
 .resultSpeciesIcon {
