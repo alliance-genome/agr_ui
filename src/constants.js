@@ -27,8 +27,8 @@ export const CATEGORIES = [
   },
   {
     name: 'dataset',
-    displayName: 'Dataset',
-    displayFields: ['id', 'crossReferenceLinks', 'summary']
+    displayName: 'HTP Dataset Index',
+    displayFields: ['dataProviderNote', 'idCollection', 'tags', 'summary']
   },
   {
     name: 'disease',
