@@ -26,11 +26,6 @@ export const CATEGORIES = [
     displayFields: ['id', 'collapsible_synonyms', 'branch']
   },
   {
-    name: 'dataset',
-    displayName: 'Dataset',
-    displayFields: ['id', 'crossReferenceLinks', 'summary']
-  },
-  {
     name: 'disease',
     displayName: 'Disease',
     displayFields: ['id', 'definition'],
@@ -44,7 +39,12 @@ export const CATEGORIES = [
     name: 'model',
     displayName: 'Model',
     displayFields: ['id','synonyms'],
-  }
+  },
+  {
+    name: 'dataset',
+    displayName: 'HTP Dataset Index',
+    displayFields: ['dataProviderNote', 'idCollection', 'tags', 'summary']
+  },
 ];
 
 export const NON_HIGHLIGHTED_FIELDS = [
