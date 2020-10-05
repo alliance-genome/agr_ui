@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 
 import SpeciesIcon from '../../components/speciesIcon';
 import {
-  getLinkForEntry, makeFieldDisplayName,
+  getLinkForEntry,
   stringifyQuery
 } from '../../lib/searchHelpers';
 import {UncontrolledTooltip} from 'reactstrap';
