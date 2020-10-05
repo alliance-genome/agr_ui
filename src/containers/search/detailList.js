@@ -6,8 +6,6 @@ import { makeFieldDisplayName } from '../../lib/searchHelpers';
 import NoData from '../../components/noData';
 import { CollapsibleList } from '../../components/collapsibleList';
 import SpeciesName from '../../components/SpeciesName';
-import DataSourceLink from '../../components/dataSourceLink';
-import CommaSeparatedList from '../../components/commaSeparatedList';
 
 const COLLAPSIBLE_FIELDS = ['collapsible_synonyms','variants'];
 
@@ -21,19 +19,13 @@ class DetailList extends Component {
       let valueNode;
       let value = d[field];
 
-      if (field === 'crossReferenceLinks' && value) {
-        valueNode = (
-          <CommaSeparatedList>
-            { value.map(ref => <DataSourceLink key={ref.displayName + ref.name + ref.url} reference={ref} />) }
-          </CommaSeparatedList>
-        );
-      } else if (Array.isArray(value)) {
+      if (Array.isArray(value)) {
         if (COLLAPSIBLE_FIELDS.includes(field)) { //special handling to make cross references collapsible
           valueNode = (
-            <CollapsibleList>{value.sort().map(val => <span dangerouslySetInnerHTML={{ __html: val }} key={val} />)}</CollapsibleList>
+            <CollapsibleList>{value.sort().map(val => <span dangerouslySetInnerHTML={{__html: val}} key={val}/>)}</CollapsibleList>
           );
         } else { //everything else just gets joined
-          valueNode = <span dangerouslySetInnerHTML={{ __html: value.join(JOIN_CHAR) }} />;
+          valueNode = <span dangerouslySetInnerHTML={{__html: value.join(JOIN_CHAR)}}/>;
         }
       } else {
         if (value && field.toLowerCase() === 'species') {
@@ -41,6 +33,13 @@ class DetailList extends Component {
         } else {
           valueNode = <span dangerouslySetInnerHTML={{ __html: value }} />;
         }
+      }
+
+      if (field.toLocaleString() === 'dataProviderNote') {
+        return (
+          <div className={style.detailLineContainer} key={`srField.${field}`}>
+            <span className={style.detailValue}>{valueNode}</span>
+          </div>);
       }
 
       if (!value) {

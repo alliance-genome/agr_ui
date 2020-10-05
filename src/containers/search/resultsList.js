@@ -100,7 +100,7 @@ class ResultsList extends Component {
     );
   }
 
-  renderDiseaseEntry(d, i) {
+  renderDatasetEntry(d, i) {
     let fields = CATEGORIES.find(cat => cat.name === d.category).displayFields;
     return (
       <div className={style.resultContainer} key={`sr${i}`}>
@@ -109,8 +109,6 @@ class ResultsList extends Component {
         {this.renderHighlightedValues(d.highlight, fields)}
         {this.renderRelatedData(d)}
         {this.renderMissingTerms(d)}
-        {d.explanation && <ResultExplanation explanation={d.explanation} score={d.score} />}
-        <hr />
       </div>
     );
   }
@@ -150,9 +148,7 @@ class ResultsList extends Component {
     return this.props.entries.map( (d, i) => {
       if (d.category === 'gene') {
         return this.renderGeneEntry(d, i);
-      } else if (d.category === 'disease') {
-        return this.renderDiseaseEntry(d, i);
-      } else if (['allele','dataset','go'].includes(d.category)) {
+      } else if (['allele', 'dataset','disease', 'go'].includes(d.category)) {
         return this.renderEntry(d, i, CATEGORIES.find(cat => cat.name === d.category).displayFields);
       } else {
         return this.renderEntry(d,i, ['id','synonyms']);
