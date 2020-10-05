@@ -21,6 +21,11 @@ export const CATEGORIES = [
     displayFields: ['name', 'synonyms', 'id', 'biotype'],
   },
   {
+    name: 'go',
+    displayName: 'Gene Ontology',
+    displayFields: ['id', 'collapsible_synonyms', 'branch']
+  },
+  {
     name: 'disease',
     displayName: 'Disease',
     displayFields: ['id', 'definition'],
@@ -34,11 +39,6 @@ export const CATEGORIES = [
     name: 'model',
     displayName: 'Model',
     displayFields: ['id','synonyms'],
-  },
-  {
-    name: 'go',
-    displayName: 'Gene Ontology',
-    displayFields: ['id', 'collapsible_synonyms', 'branch']
   },
   {
     name: 'dataset',
