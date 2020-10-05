@@ -34,13 +34,15 @@ class Layout extends Component {
   }
 
   scrollToAnchor() {
-    const element = document.getElementById(this.props.location.hash.substr(1));
-    if (element) {
-      // chrome works well without the timeout because it has a good scroll anchoring
-      // implementation. the timeout helps other browsers get the scroll position right
-      // a little more consistently
-      setTimeout(() => element.scrollIntoView(), 400);
-    }
+    // chrome works well without the timeout because it has a good scroll anchoring
+    // implementation. the timeout helps other browsers get the scroll position right
+    // a little more consistently
+    setTimeout(() => {
+      const element = document.getElementById(this.props.location.hash.substr(1));
+      if (element) {
+        element.scrollIntoView();
+      }
+    }, 500);
   }
 
   render() {
