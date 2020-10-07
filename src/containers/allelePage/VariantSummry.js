@@ -15,6 +15,7 @@ import { VariantJBrowseLink } from '../../components/variant';
 import ExternalLink from '../../components/ExternalLink';
 import DataSourceLink from '../../components/dataSourceLink';
 import { sectionAnchor } from './AlleleMolecularConsequences';
+import Sequence from './Sequence';
 
 function formatLocation(location) {
   const {chromosome = '', start = '', end = ''} = location || {};
@@ -88,14 +89,29 @@ const VariantSummary = ({allele, alleleId}) => {
 
                 <AttributeLabel>Nucleotide Change</AttributeLabel>
                 <AttributeValue>
-                  <div
-                    className="text-break"
-                    style={{
-                      fontFamily: 'monospace',
-                      fontSize: 14,
-                      width: '40ch',
-                    }}
-                  >{nucleotideChange || ''}</div>
+                  {
+                    nucleotideChange && nucleotideChange.length > 300 ?
+                      <Sequence
+                        sequence={nucleotideChange || ''}
+                        renderLink={
+                          (handleToggle) => (
+                            <button className="btn btn-link p-0" onClick={handleToggle} type="button">
+                              Show sequence
+                            </button>
+                          )
+                        }
+                      /> :
+                      <div
+                        className="text-break"
+                        style={{
+                          fontFamily: 'monospace',
+                          fontSize: 14,
+                          width: '40ch',
+                        }}
+                      >
+                        {nucleotideChange || ''}
+                      </div>
+                  }
                 </AttributeValue>
 
                 <AttributeLabel>Most Severe Consequence</AttributeLabel>
