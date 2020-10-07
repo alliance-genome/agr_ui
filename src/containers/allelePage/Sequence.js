@@ -7,6 +7,7 @@ import style from './sequence.scss';
 const Sequence = ({
   sequence = '',
   maxCharacterLengthInline = 20,
+  renderLink,
 }) => {
   const [modal, setModal] = useState(false);
 
@@ -14,24 +15,28 @@ const Sequence = ({
 
   return sequence.length > maxCharacterLengthInline ? (
     <>
-      <button className="btn btn-link p-0" onClick={toggle} type="button">
-        <span
-          className={`${style.sequence} ${style.sequenceInline}`}
-          style={{
-            width: `${maxCharacterLengthInline}ch`,
-          }}
-        >
-          {sequence}
-        </span>
-        <span
-          className={`${style.sequence} ${style.sequenceInline}`}
-          style={{
-            width: '1ch',
-          }}
-        >
-          &hellip;
-        </span>
-      </button>
+      {
+        renderLink ?
+          renderLink(toggle) :
+          <button className="btn btn-link p-0" onClick={toggle} type="button">
+            <span
+              className={`${style.sequence} ${style.sequenceInline}`}
+              style={{
+                width: `${maxCharacterLengthInline}ch`,
+              }}
+            >
+              {sequence}
+            </span>
+            <span
+              className={`${style.sequence} ${style.sequenceInline}`}
+              style={{
+                width: '1ch',
+              }}
+            >
+              &hellip;
+            </span>
+          </button>
+      }
       <Modal fade={false} isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>Full sequence</ModalHeader>
         <ModalBody className={`mh-50 text-break px-5 ${style.modalBody}`}>
