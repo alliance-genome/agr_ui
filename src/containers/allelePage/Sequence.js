@@ -59,6 +59,7 @@ const Sequence = ({
 Sequence.propTypes = {
   maxCharacterLengthInline: PropTypes.number,
   sequence: PropTypes.string,
+  renderLink: PropTypes.func,
 };
 
 export default Sequence;
