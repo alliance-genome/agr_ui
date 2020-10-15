@@ -204,7 +204,7 @@ function parseDatasetResult(_d) {
   return {
     ...d,
     display_name: d.name,
-    dataProviderNote: 'High-Throughput (HTP) Dataset Index provided by ' + d.dataProvider,
+    dataProviderNote: 'High-Throughput (HTP) Dataset Index metadata provided by ' + d.dataProvider,
     idCollection: idCollection,
     highlight: d.highlights,
     missing: d.missingTerms
