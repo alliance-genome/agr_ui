@@ -65,9 +65,11 @@ export default class GenomeFeatureViewer {
          .filter(function(d){
            let returnVal=false;
            if(d.alleles){
-             d.alleles.forEach((val) => {
+             let ids=d.alleles[0].replace(/"|\[|\]| /g, "").split(',');
+             ids.forEach((val) => {
                if (selectedAlleles.includes(val)){
-                 returnVal=true;}
+                 returnVal=true;
+               }
              })
            }
            return returnVal;

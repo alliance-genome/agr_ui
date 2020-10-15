@@ -656,8 +656,7 @@ export default class IsoformAndVariantTrack {
   }
 
   async populateTrack(track) {
-    await this.getTrackData(track);
-    await this.getVariantData(track);
+    await Promise.all([this.getTrackData(track), this.getVariantData(track)]);
   }
 
   /* Method for isoformTrack service call */
