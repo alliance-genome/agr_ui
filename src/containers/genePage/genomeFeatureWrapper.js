@@ -27,7 +27,8 @@ class GenomeFeatureWrapper extends Component {
     super(props);
 
     this.state = {
-      loadState: 'loading'
+      loadState: 'loading',
+      helpText: ''
     };
 
     this.trackDataUrl = APOLLO_SERVER_PREFIX + 'track/';
@@ -46,6 +47,7 @@ class GenomeFeatureWrapper extends Component {
     }
     else
     if(!isEqual(prevProps.allelesSelected,this.props.allelesSelected) && this.props.allelesSelected!==undefined) {
+      this.loadGenomeFeature();
       this.gfc.setSelectedAlleles(this.props.allelesSelected.map( a => a.id),`#${this.props.id}`);
     }
     else
@@ -169,7 +171,9 @@ class GenomeFeatureWrapper extends Component {
     // const visibleVariants = allelesVisible && allelesVisible.length>0 ? allelesVisible.map( a => a.id ) : undefined;
     const trackConfig = this.generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, visibleVariants, displayType);
     this.gfc = new GenomeFeatureViewer(trackConfig, `#${id}`, 900, undefined);
-    this.helpText = this.gfc.generateLegend();
+    this.setState({
+      helpText: this.gfc.generateLegend()
+    });
   }
 
   render() {
@@ -206,7 +210,7 @@ class GenomeFeatureWrapper extends Component {
               placement='bottom-start'
               popperClassName={style.variantLegendPopper}
             >
-              <span dangerouslySetInnerHTML={{__html: this.helpText}}/>
+              <span dangerouslySetInnerHTML={{__html: this.state.helpText}}/>
             </HelpPopup>
           </div>
           }
