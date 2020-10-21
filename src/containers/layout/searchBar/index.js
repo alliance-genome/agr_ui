@@ -111,8 +111,9 @@ class SearchBarComponent extends Component {
         autocompleteGoToPageEvent(id);
         this.props.history.push({ pathname: url });
       } else {
-        this.setState({ value: item.suggestion.name_key });
-        let query = item.suggestion.name_key;
+        //use name if name_key isn't available
+        let query = item.suggestion.name_key ? item.suggestion.name_key : item.suggestion.name;
+        this.setState({ value: query });
         this.doQuery(query);
       }
     }
@@ -169,7 +170,7 @@ class SearchBarComponent extends Component {
   renderSuggestion(d) {
     return (
       <div className={style.autoListItem}>
-        <span>{d.name_key}</span>
+        <span>{d.name_key ? d.name_key : d.name }</span>
         <span className={style.catContainer}>
           <CategoryLabel category={d.category} />
         </span>
