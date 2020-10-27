@@ -1,4 +1,5 @@
-FROM agrdocker/agr_base_linux_env:latest as build-stage
+ARG ALLIANCE_RELEASE=latest
+FROM agrdocker/agr_base_linux_env:${ALLIANCE_RELEASE} as build-stage
 
 WORKDIR /workdir/agr_ui
 
@@ -10,9 +11,6 @@ RUN /bin/bash -c '. $HOME/.nvm/nvm.sh --no-use && \
 
 ARG NODE_ENV=production
 ENV NODE_ENV ${NODE_ENV}
-
-ARG RELEASE=0.0.0
-ENV RELEASE ${RELEASE}
 
 RUN /bin/bash -c '. $HOME/.nvm/nvm.sh && npm run build'
 RUN /bin/bash -c '. $HOME/.nvm/nvm.sh && npm test'
