@@ -45,7 +45,7 @@ const DownloadsPage = () => {
   const {
     data: files,
     isLoading,
-  } = usePageLoadingQuery( `https://fms.alliancegenome.org/api/datafile/by/release/${process.env.RELEASE}?latest=true`);
+  } = usePageLoadingQuery( `https://fms.alliancegenome.org/api/datafile/by/release/${process.env.ALLIANCE_RELEASE}?latest=true`);
 
   if (isLoading) {
     return null;

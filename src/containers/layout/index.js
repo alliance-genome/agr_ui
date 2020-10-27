@@ -60,7 +60,7 @@ class Layout extends Component {
                 <Link to='/'>
                   <img className={`img-fluid ${style.agrLogo}`} src={logo} />
                 </Link>
-                <span className={style.version}>Release {process.env.RELEASE}</span>
+                <span className={style.version}>Release {process.env.ALLIANCE_RELEASE}</span>
               </div>
               <button className="navbar-toggler d-md-none" onClick={() => this.setState({menuOpen: !menuOpen})} type="button">
                 <i className='fa fa-fw fa-bars' />
