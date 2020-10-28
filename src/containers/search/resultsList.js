@@ -100,20 +100,11 @@ class ResultsList extends Component {
     );
   }
 
-  renderDatasetEntry(d, i) {
-    let fields = CATEGORIES.find(cat => cat.name === d.category).displayFields;
-    return (
-      <div className={style.resultContainer} key={`sr${i}`}>
-        {this.renderHeader(d)}
-        {this.renderDetailFromFields(d, fields)}
-        {this.renderHighlightedValues(d.highlight, fields)}
-        {this.renderRelatedData(d)}
-        {this.renderMissingTerms(d)}
-      </div>
-    );
-  }
-
   renderEntry(d, i, fields) {
+    //need to handle variants within allele category slightly differently
+    if (d.category === 'allele' && d.alterationType && d.alterationType === 'variant') {
+      fields = ['genes', 'variantTypes', 'dnaChangeTypes'];
+    }
     return (
       <div className={style.resultContainer} key={`sr${i}`}>
         {this.renderHeader(d)}

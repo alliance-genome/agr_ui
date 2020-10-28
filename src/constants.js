@@ -32,7 +32,7 @@ export const CATEGORIES = [
   },
   {
     name: 'allele',
-    displayName: 'Allele',
+    displayName: 'Variant/Allele',
     displayFields: ['id','genes', 'synonyms','dnaChangeTypes','molecularConsequence', 'diseases'],
   },
   {
