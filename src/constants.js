@@ -87,6 +87,10 @@ export const NAV_MENU = [
         label: 'Tools and Prototypes',
         route: '/prototypes',
       },
+      {
+        label: 'AllianceMine',
+        route: '/alliancemine',
+      },
     ]
   },
   {
