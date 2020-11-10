@@ -1,5 +1,6 @@
 ARG ALLIANCE_RELEASE=latest
-FROM agrdocker/agr_base_linux_env:${ALLIANCE_RELEASE} as build-stage
+ARG REG=agrdocker
+FROM ${REG}/agr_base_linux_env:${ALLIANCE_RELEASE} as build-stage
 
 WORKDIR /workdir/agr_ui
 
