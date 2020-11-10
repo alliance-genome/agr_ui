@@ -2,9 +2,12 @@ ARG ALLIANCE_RELEASE=latest
 ARG REG=agrdocker
 FROM ${REG}/agr_base_linux_env:${ALLIANCE_RELEASE} as build-stage
 
+ARG ALLIANCE_RELEASE
+
 WORKDIR /workdir/agr_ui
 
 ADD . .
+
 RUN /bin/bash -c '. $HOME/.nvm/nvm.sh --no-use && \
   nvm install && \
   nvm use && \
