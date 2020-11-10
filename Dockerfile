@@ -12,6 +12,8 @@ RUN /bin/bash -c '. $HOME/.nvm/nvm.sh --no-use && \
 ARG NODE_ENV=production
 ENV NODE_ENV ${NODE_ENV}
 
+ENV ALLIANCE_RELEASE ${ALLIANCE_RELEASE}
+
 RUN /bin/bash -c '. $HOME/.nvm/nvm.sh && npm run build'
 RUN /bin/bash -c '. $HOME/.nvm/nvm.sh && npm test'
 
