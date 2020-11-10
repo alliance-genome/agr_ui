@@ -3,7 +3,6 @@ ARG REG=agrdocker
 FROM ${REG}/agr_base_linux_env:${ALLIANCE_RELEASE} as build-stage
 
 ARG ALLIANCE_RELEASE
-ARG REG
 
 WORKDIR /workdir/agr_ui
 
