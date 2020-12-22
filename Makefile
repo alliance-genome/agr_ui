@@ -22,11 +22,6 @@ run:
 	npm start
 
 docker-build-nginx:
-	docker build --build-arg NODE_ENV=production -t agr_ui_build_img -f Dockerfile.build .
-	docker create --name agr.ui.server.temp agr_ui_build_img
-	docker cp agr.ui.server.temp:/workdir/agr_ui/dist dist
-	docker rm agr.ui.server.temp
-	docker rmi agr_ui_build_img
 	docker build -t ${REG}/agr_ui_server --build-arg REG=${REG} .
 
 push: registry-docker-login
