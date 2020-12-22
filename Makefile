@@ -21,7 +21,7 @@ test:
 run:
 	npm start
 
-docker-build-nginx:
+docker-build-nginx: registry-docker-login
 	docker build -t ${REG}/agr_ui_server --build-arg REG=${REG} .
 
 push: registry-docker-login
