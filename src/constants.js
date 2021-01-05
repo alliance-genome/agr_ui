@@ -89,7 +89,7 @@ export const NAV_MENU = [
       },
       {
         label: 'AllianceMine',
-        route: '/alliancemine/',
+        route: '/alliancemine',
       },
     ]
   },
