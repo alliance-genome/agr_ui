@@ -39,6 +39,15 @@ export default (
         }}
       />
 
+      <Route
+        exact
+        path='/alliancemine'
+        render={() => {
+          window.location.href = '/alliancemine';
+          return null;
+        }}
+      />
+
       <Redirect exact from='/wordpress/:slug' to='/:slug' />
       <Route path='/:slug' render={({match}) => <WordpressPage slug={match.params.slug} />} />
 
