@@ -39,7 +39,7 @@ const ExpressionAnnotationTable = ({
     {
       dataField: 'species',
       text: 'Species',
-      formatter: s => <i>{s}</i>,
+      formatter: s => <SpeciesName>{s}</SpeciesName>,
       filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
       headerStyle: {width: '100px'},

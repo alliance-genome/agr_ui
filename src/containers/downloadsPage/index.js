@@ -12,6 +12,7 @@ import HeadMetaTags from '../../components/headMetaTags';
 import DownloadFileRow from './DownloadFileRow';
 import PageNavEntity from '../../components/dataPage/PageNavEntity';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
+import SpeciesName from '../../components/SpeciesName';
 
 const DOWNLOAD_HOST = 'http://download.alliancegenome.org';
 const DISEASE = 'Disease';
@@ -78,7 +79,7 @@ const DownloadsPage = () => {
             />
             {SPECIES_SUBTYPES.map(speciesSubType => (
               <DownloadFileRow
-                description={<span><i>{speciesSubType.species}</i> associations</span>}
+                description={<><SpeciesName>{speciesSubType.species}</SpeciesName> associations</>}
                 key={speciesSubType.species}
                 url={[
                   getUrlForDataType('DISEASE-ALLIANCE-JSON', speciesSubType.subType),
@@ -100,7 +101,7 @@ const DownloadsPage = () => {
             />
             {SPECIES_SUBTYPES.filter(({subType}) => subType !== 'HUMAN').map(speciesSubType => (
               <DownloadFileRow
-                description={<span><i>{speciesSubType.species}</i> annotations</span>}
+                description={<><SpeciesName>{speciesSubType.species}</SpeciesName> annotations</>}
                 key={speciesSubType.species}
                 url={[
                   getUrlForDataType('EXPRESSION-ALLIANCE-JSON', speciesSubType.subType),
@@ -115,7 +116,7 @@ const DownloadsPage = () => {
           <DownloadFileTable>
             {SPECIES_SUBTYPES.map(speciesSubType => (
               <DownloadFileRow
-                description={<span><i>{speciesSubType.species}</i> genes</span>}
+                description={<><SpeciesName>{speciesSubType.species}</SpeciesName> genes</>}
                 key={speciesSubType.species}
                 url={[
                   getUrlForDataType('GENE-DESCRIPTION-JSON', speciesSubType.subType),
@@ -144,7 +145,7 @@ const DownloadsPage = () => {
             />
             {SPECIES_SUBTYPES.map(speciesSubType => (
               <DownloadFileRow
-                description={<span><i>{speciesSubType.species}</i> molecular interactions</span>}
+                description={<><SpeciesName>{speciesSubType.species}</SpeciesName> molecular interactions</>}
                 key={speciesSubType.species}
                 url={getUrlForDataType('INTERACTION-MOL', speciesSubType.subType)}
               />
@@ -164,7 +165,7 @@ const DownloadsPage = () => {
             />
             {SPECIES_SUBTYPES.map(speciesSubType => (
               <DownloadFileRow
-                description={<span><i>{speciesSubType.species}</i> genetic interactions</span>}
+                description={<><SpeciesName>{speciesSubType.species}</SpeciesName> genetic interactions</>}
                 key={speciesSubType.species}
                 url={getUrlForDataType('INTERACTION-GEN', speciesSubType.subType)}
               />
@@ -187,23 +188,23 @@ const DownloadsPage = () => {
         <Subsection help={<VariantsHelp />} title={VARIANTS}>
           <DownloadFileTable>
             <DownloadFileRow
-              description={<span><i>Caenorhabditis elegans</i> variants</span>}
+              description={<><SpeciesName>Caenorhabditis elegans</SpeciesName> variants</>}
               url={getUrlForDataType('VCF', 'WBcel235')}
             />
             <DownloadFileRow
-              description={<span><i>Danio rerio</i> variants</span>}
+              description={<><SpeciesName>Danio rerio</SpeciesName> variants</>}
               url={getUrlForDataType('VCF', 'GRCz11')}
             />
             <DownloadFileRow
-              description={<span><i>Drosophila melanogaster</i> variants</span>}
+              description={<><SpeciesName>Drosophila melanogaster</SpeciesName> variants</>}
               url={getUrlForDataType('VCF', 'R6')}
             />
             <DownloadFileRow
-              description={<span><i>Mus musculus</i> variants</span>}
+              description={<><SpeciesName>Mus musculus</SpeciesName> variants</>}
               url={getUrlForDataType('VCF', 'GRCm38')}
             />
             <DownloadFileRow
-              description={<span><i>Rattus norvegicus</i> variants</span>}
+              description={<><SpeciesName>Rattus norvegicus</SpeciesName> variants</>}
               url={getUrlForDataType('VCF', 'Rnor60')}
             />
           </DownloadFileTable>
