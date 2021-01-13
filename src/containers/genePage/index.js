@@ -30,6 +30,7 @@ import { getSpecies } from '../../lib/utils';
 import TransgenicAlleleTable from './TransgenicAlleleTable';
 import GeneSymbol from '../../components/GeneSymbol';
 import PhenotypeCrossRefs from './PhenotypeCrossRefs';
+import SpeciesName from '../../components/SpeciesName';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
@@ -109,7 +110,7 @@ const GenePage = ({geneId}) => {
           icon={<SpeciesIcon inNav scale={0.5} species={data.species.name} />}
           truncateName
         >
-          <i>{data.species.name}</i>
+          <SpeciesName>{data.species.name}</SpeciesName>
           <DataSourceLink reference={data.crossReferences.primary} />
         </PageNavEntity>
       </PageNav>
