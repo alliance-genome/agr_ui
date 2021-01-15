@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 import {compareAlphabeticalCaseInsensitive} from '../../lib/utils';
 import SynonymList from '../../components/synonymList';
 import {
@@ -271,16 +272,19 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
         {...variantsSequenceViewerProps}
         genomeLocationList={genomeLocationList}
       />
-      <DataTable
-        {...tableProps}
-        columns={columns}
-        data={data}
-        downloadUrl={`/api/gene/${geneId}/alleles/download`}
-        keyField='id'
-        rowStyle={{cursor: 'pointer'}}
-        selectRow={selectRow}
-        sortOptions={sortOptions}
-      />
+      <div className="position-relative">
+        <DataTable
+          {...tableProps}
+          columns={columns}
+          data={data}
+          downloadUrl={`/api/gene/${geneId}/alleles/download`}
+          keyField='id'
+          rowStyle={{cursor: 'pointer'}}
+          selectRow={selectRow}
+          sortOptions={sortOptions}
+        />
+        <Link className="btn btn-primary position-absolute" style={{top: '1em'}} to={`/gene/${geneId}/allele-details`}>View all Alleles and Variants information</Link>
+      </div>
     </>
   );
 };
