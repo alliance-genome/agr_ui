@@ -6,9 +6,18 @@ import {
   BooleanLinkCell,
   DataTable,
 } from '../../components/dataTable';
+import VariantJBrowseLink from '../../components/variant/VariantJBrowseLink';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
+import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
+import { getSingleGenomeLocation } from '../../lib/utils';
 
 const GeneAlleleDetailsTable = ({geneId}) => {
+  const { isLoading: isLoadingGene, isError: isErrorGene, data: gene } = usePageLoadingQuery(`/api/gene/${geneId}`);
+  if (isLoadingGene || isErrorGene) {
+    return null;
+  }
+  const geneLocation = getSingleGenomeLocation(gene.genomeLocations);
+
   const tableQuery = useDataTableQuery(`/api/gene/${geneId}/allele-variant-detail`);
   const columns = [
     {
@@ -62,7 +71,18 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     },
     {
       text: 'Variant HGVS.g name',
-      dataField: 'variant.displayName',
+      dataField: 'variant',
+      formatter: (variant) => variant ? (
+        <div className="text-truncate">
+          <VariantJBrowseLink
+            geneLocation={geneLocation}
+            geneSymbol={gene.symbol}
+            location={variant.location}
+            species={gene.species && gene.species.name}
+            type={variant.variantType && variant.variantType.name}
+          >{variant.displayName}</VariantJBrowseLink>
+        </div>
+      ) : null,
       headerStyle: {width: '300px'},
     },
     {
