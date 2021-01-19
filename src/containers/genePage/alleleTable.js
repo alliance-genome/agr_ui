@@ -19,8 +19,8 @@ import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 
 const AlleleTable = ({geneId}) => {
 
-  const { isLoading, isError, data: gene } = usePageLoadingQuery(`/api/gene/${geneId}`);
-  if (isLoading || isError) {
+  const { isLoading: isLoadingGene, isError: isErrorGene, data: gene } = usePageLoadingQuery(`/api/gene/${geneId}`);
+  if (isLoadingGene || isErrorGene) {
     return null;
   }
   const geneLocation = getSingleGenomeLocation(gene.genomeLocations);
