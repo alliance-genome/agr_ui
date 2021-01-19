@@ -8,15 +8,12 @@ import ErrorBoundary from '../../components/errorBoundary';
 import GeneAlleleDetailsTable from './GeneAlleleDetailsTable';
 
 const GeneAlleleDetailsPage = ({geneId}) => {
-  const pageProps = usePageLoadingQuery(`/api/gene/${geneId}`);
-  const { data, isLoading, isError } = pageProps;
-
-  if (isLoading) {
+  const { isLoading: isLoadingGene, isError: isErrorGene, data: gene } = usePageLoadingQuery(`/api/gene/${geneId}`);
+  if (isLoadingGene) {
     return null;
-  } else if (isError) {
+  } else if (isErrorGene) {
     return <NotFound />;
   }
-  const { symbol, id } = data || {};
 
   const pageTitle = 'Alleles or Variants Details';
 
@@ -27,18 +24,18 @@ const GeneAlleleDetailsPage = ({geneId}) => {
           <ol className="breadcrumb">
             <li className="breadcrumb-item">Gene</li>
             <li className="breadcrumb-item">
-              <Link to={`/gene/${id}`}>{symbol}</Link>
+              <Link to={`/gene/${geneId}`}>{gene.symbol}</Link>
             </li>
             <li className="breadcrumb-item active" aria-current="page">{pageTitle}</li>
           </ol>
         </nav>
-        <PageHeader>{pageTitle} ({symbol})</PageHeader>
+        <PageHeader>{pageTitle} ({gene.symbol})</PageHeader>
         <ErrorBoundary>
           <div style={{width: '100%', overflowX: 'scroll'}}>
             <GeneAlleleDetailsTable geneId={geneId} />
           </div>
         </ErrorBoundary>
-        <pre>{JSON.stringify(data, null, 2)}</pre>
+        <pre>{JSON.stringify(gene, null, 2)}</pre>
       </div>
     </DataPage>
   );
