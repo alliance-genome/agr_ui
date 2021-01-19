@@ -112,3 +112,24 @@ export function htmlToPlainText(html) {
     .replaceAll('<sup>', '[')
     .replaceAll('</sup>', ']');
 }
+
+export function getSingleGenomeLocation(genomeLocations) {
+  // extracted from container/genePage/index.js
+  // todo, add chromosome
+  let genomeLocation = {};
+  if (genomeLocations) {
+    if (genomeLocations.length === 1) {
+      genomeLocation = genomeLocations[0];
+    }
+    else if (genomeLocations.length > 1) {
+      // TODO: figure out the proper assembly
+      for (let i in genomeLocations) {
+        let tempGenomeLocation = genomeLocations[i];
+        if (tempGenomeLocation.start && tempGenomeLocation.end) {
+          genomeLocation = tempGenomeLocation;
+        }
+      }
+    }
+  }
+  return genomeLocation;
+}
