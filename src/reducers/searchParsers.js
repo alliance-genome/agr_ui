@@ -10,7 +10,7 @@ import {
   NON_HIGHLIGHTED_FIELDS
 } from '../constants';
 
-function flattenWithPrettyFieldNames(highlights) {
+function flattenWithPrettyFieldNames(highlights, category='') {
   if (highlights === undefined) {
     return highlights;
   }
@@ -18,7 +18,7 @@ function flattenWithPrettyFieldNames(highlights) {
   let prettyHighlights = {};
 
   Object.keys(highlights).forEach(key => {
-    prettyHighlights[makeFieldDisplayName(key)] = highlights[key];
+    prettyHighlights[makeFieldDisplayName(key, category)] = highlights[key];
   });
 
   return prettyHighlights;
@@ -48,7 +48,7 @@ export function injectHighlightIntoResponse(responseObj) {
       }
     }
   });
-  responseObj.highlights = flattenWithPrettyFieldNames(simpleHighObj);
+  responseObj.highlights = flattenWithPrettyFieldNames(simpleHighObj, responseObj['category']);
   return responseObj;
 }
 
@@ -107,7 +107,7 @@ function parseAgg(agg, queryObject) {
   let _values = agg.values.map(value => parseValue(value, currentValue));
   return {
     name: agg.key,
-    displayName: makeFieldDisplayName(agg.key),
+    displayName: makeFieldDisplayName(agg.key, queryObject['category']),
     key: agg.key,
     values: _values
   };
