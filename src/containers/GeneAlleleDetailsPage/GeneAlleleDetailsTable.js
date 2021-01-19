@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import SynonymList from '../../components/synonymList';
 import {
   AlleleCell,
+  BooleanLinkCell,
   DataTable,
 } from '../../components/dataTable';
-
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 
 const GeneAlleleDetailsTable = ({geneId}) => {
@@ -15,28 +15,50 @@ const GeneAlleleDetailsTable = ({geneId}) => {
       text: 'Allele / Variant Symbol',
       dataField: 'allele',
       formatter: (allele) => <AlleleCell allele={allele} />,
+      filterable: true,
+      filterName: 'symbol',
       headerStyle: {width: '100px'},
     },
     {
       text: 'Allele / Variant Synonyms',
       // missing data
       formatter: synonyms => synonyms && <SynonymList synonyms={synonyms}/>,
+      filterable: true,
+      filterName: 'synonym',
       headerStyle: {width: '100px'},
     },
     {
       text: 'Category',
       dataField: 'allele.category',
+      filterable: true,
+      filterName: 'category',
       headerStyle: {width: '100px'},
     },
     {
       text: 'Has Phenotype',
       dataField: 'allele.hasPhenotype',
+      filterable: true,
+      filterName: 'hasPhenotype',
+      formatter: (hasPhenotype, row) => (
+        <BooleanLinkCell
+          to={`/allele/${row.allele && row.allele.id}#phenotypes`}
+          value={hasPhenotype}
+        />
+      ),
       headerStyle: {width: '100px'},
     },
     {
       text: 'Has Disease',
       dataField: 'allele.hasDisease',
-      headerStyle: {width: '100px'},
+      filterable: true,
+      filterName: 'hasDisease',
+      formatter: (hasDisease, row) => (
+        <BooleanLinkCell
+          to={`/allele/${row.allele && row.allele.id}#disease-associations`}
+          value={hasDisease}
+        />
+      ),
+      headerStyle: {width: '80px'},
     },
     {
       text: 'Variant HGVS.g name',
@@ -46,6 +68,8 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     {
       text: 'Variant Type',
       dataField: 'variant.variantType.name',
+      filterable: true,
+      filterName: 'variantType',
       headerStyle: {width: '150px'},
     },
     {
@@ -71,16 +95,22 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     {
       text: 'Molecular consequence',
       dataField: 'transcriptLevelConsequence',
-      headerStyle: {width: '100px'},
+      filterable: true,
+      filterName: 'variantConsequence',
+      headerStyle: {width: '120px'},
     },
     {
       text: 'VEP Impact',
       dataField: 'consequence.impact',
-      headerStyle: {width: '100px'},
+      filterable: true,
+      filterName: 'impact',
+      headerStyle: {width: '80px'},
     },
     {
       text: 'SIFT prediction',
       dataField: 'consequence.siftPrediction',
+      filterable: true,
+      filterName: 'siftPrediction',
       headerStyle: {width: '100px'},
     },
     {
@@ -91,6 +121,8 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     {
       text: 'PolyPhen prediction',
       dataField: 'consequence.polyphenPrediction',
+      filterable: true,
+      filterName: 'polyphenPrediction',
       headerStyle: {width: '100px'},
     },
     {
