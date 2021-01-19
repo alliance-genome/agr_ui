@@ -1,4 +1,5 @@
 import AlleleCell from './AlleleCell';
+import BooleanLinkCell from './BooleanLinkCell';
 import GeneCell from './geneCell';
 import EvidenceCodesCell from './evidenceCodesCell';
 import ReferenceCell from './referenceCell';
@@ -13,6 +14,7 @@ import DownloadButton from './downloadButton';
 
 export {
   AlleleCell,
+  BooleanLinkCell,
   GeneCell,
   EvidenceCodesCell,
   ReferenceCell,
