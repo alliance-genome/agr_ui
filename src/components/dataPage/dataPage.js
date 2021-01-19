@@ -1,19 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ErrorBoundary from '../errorBoundary';
-import NotFound from '../../components/notFound';
 
 import style from './style.scss';
 
-const DataPage = ({children, isLoading, isError }) => {
+const DataPage = ({children}) => {
   return (
     <div className={style.dataPage}>
-      {
-        isLoading ? null : isError ? <NotFound /> :
-        <ErrorBoundary>
-          {children}
-        </ErrorBoundary>
-      }
+      <ErrorBoundary>
+        {children}
+      </ErrorBoundary>
     </div>
   );
 };
