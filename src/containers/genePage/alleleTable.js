@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
-import {compareAlphabeticalCaseInsensitive} from '../../lib/utils';
+import {compareAlphabeticalCaseInsensitive, getSingleGenomeLocation} from '../../lib/utils';
 import SynonymList from '../../components/synonymList';
 import {
   AlleleCell,
@@ -15,8 +15,16 @@ import BooleanLinkCell from '../../components/dataTable/BooleanLinkCell';
 import VariantsSequenceViewer from './VariantsSequenceViewer';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import useAllVariants from '../../hooks/useAllVariants';
+import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 
-const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, geneDataProvider, genomeLocationList}) => {
+const AlleleTable = ({geneId}) => {
+
+  const { isLoading, isError, data: gene } = usePageLoadingQuery(`/api/gene/${geneId}`);
+  if (isLoading || isError) {
+    return null;
+  }
+  const geneLocation = getSingleGenomeLocation(gene.genomeLocations);
+
   const {
     resolvedData,
     ...tableProps
@@ -28,7 +36,7 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
       symbol: allele.symbol,
       synonym: allele.synonyms,
       source: {
-        dataProvider: geneDataProvider,
+        dataProvider: gene.dataProvider,
         url: allele.crossReferences.primary.url,
       },
       disease: allele.diseases.sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
@@ -138,9 +146,9 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
                   {
                     <VariantJBrowseLink
                       geneLocation={geneLocation}
-                      geneSymbol={geneSymbol}
+                      geneSymbol={gene.symbol}
                       location={location}
-                      species={species}
+                      species={gene.species && gene.species.name}
                       type={type.name}
                     >{id}</VariantJBrowseLink>
                   }
@@ -270,7 +278,7 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
         gene={gene}
         genomeLocation={geneLocation}
         {...variantsSequenceViewerProps}
-        genomeLocationList={genomeLocationList}
+        genomeLocationList={gene.genomeLocations}
       />
       <div className="position-relative">
         <DataTable
@@ -290,18 +298,7 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
 };
 
 AlleleTable.propTypes = {
-  gene: PropTypes.shape({
-  }),
-  geneDataProvider: PropTypes.string.isRequired,
   geneId: PropTypes.string.isRequired,
-  geneLocation: PropTypes.shape({
-    start: PropTypes.number,
-    end: PropTypes.number,
-    chromosome: PropTypes.string,
-  }),
-  geneSymbol: PropTypes.string.isRequired,
-  genomeLocationList: PropTypes.array,
-  species: PropTypes.string.isRequired,
 };
 
 export default AlleleTable;
