@@ -138,13 +138,7 @@ const GenePage = ({geneId}) => {
 
         <Subsection title={ALLELES}>
           <AlleleTable
-            gene={data}
-            geneDataProvider={data.dataProvider}
             geneId={data.id}
-            geneLocation={genomeLocation}
-            geneSymbol={data.symbol}
-            genomeLocationList={data.genomeLocations}
-            species={data.species.name}
           />
         </Subsection>
 
