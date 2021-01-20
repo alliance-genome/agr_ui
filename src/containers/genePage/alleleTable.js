@@ -14,7 +14,6 @@ import RotatedHeaderCell from '../../components/dataTable/RotatedHeaderCell';
 import BooleanLinkCell from '../../components/dataTable/BooleanLinkCell';
 import VariantsSequenceViewer from './VariantsSequenceViewer';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import useAllVariants from '../../hooks/useAllVariants';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 
 const AlleleTable = ({geneId}) => {
@@ -44,34 +43,24 @@ const AlleleTable = ({geneId}) => {
   }, [resolvedData]);
 
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
-
-  //Sequence Viewer Specific Call
-  const viewerVariants = useAllVariants(geneId, tableProps.tableState);
-  const variantDisplayData = useMemo(() => {
-    return viewerVariants.data && viewerVariants.data.results.map(allele => ({
-      ...allele,
-    }));
-  }, [viewerVariants.data]);
-
-
   const variantsSequenceViewerProps = useMemo(() => {
     /*
        Warning!
        The data format here should be agreed upon by the maintainers of the VariantsSequenceViewer.
        Changes might break the VariantsSequenceViewer.
     */
-    const formatAllele = alleleId => (
+    const formatAllele = (alleleId) => (
       {
         id: alleleId,
       }
     );
     return {
       allelesSelected: alleleIdsSelected.map(formatAllele),
-      allelesVisible: variantDisplayData ? variantDisplayData && variantDisplayData.map(({id}) => formatAllele(id)) : [],
+      allelesVisible: resolvedData && resolvedData.results.map(allele => formatAllele(allele && allele.id)),
       onAllelesSelect: setAlleleIdsSelected,
-      tableState: tableProps.tableState
+      tableState: tableProps.tableState // do we really need this?
     };
-  }, [variantDisplayData, alleleIdsSelected, setAlleleIdsSelected, tableProps.tableState]);
+  }, [resolvedData, alleleIdsSelected, setAlleleIdsSelected, tableProps.tableState]);
 
   const selectRow = useMemo(() => ({
     mode: 'checkbox',
