@@ -25,14 +25,10 @@ export function findFminFmax(genomeLocation, variants) {
   return { fmin, fmax };
 }
 
-const VariantsSequenceViewer = ({ alleles, allelesSelected, allelesVisible, tableState, gene, genomeLocation,genomeLocationList }) => {
+const VariantsSequenceViewer = ({ alleles, allelesSelected, allelesVisible, gene, genomeLocation,genomeLocationList }) => {
   if (!alleles || alleles.length === 0 || !genomeLocation.chromosome) {
     return null;
   }
-
-  // TODO: remove this line when tableState is being used
-  console.log(tableState);  // eslint-disable-line
-
 
   const anyVariantData = alleles.some(allele => allele.variants.length > 0);
   if (!anyVariantData) {
@@ -85,7 +81,6 @@ VariantsSequenceViewer.propTypes = {
   }),
   genomeLocationList: PropTypes.array,
   onAllelesSelect: PropTypes.func.isRequired,
-  tableState: PropTypes.object.isRequired,  // TODO: have type checking based on what this component actually uses
 };
 
 export default VariantsSequenceViewer;
