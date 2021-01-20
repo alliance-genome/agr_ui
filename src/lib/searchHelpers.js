@@ -23,7 +23,7 @@ export function makeValueDisplayName(unformattedName) {
   }
 }
 
-export function makeFieldDisplayName(unformattedName) {
+export function makeFieldDisplayName(unformattedName, category = '') {
 
   const suffixesToRemove = ['WithParents','AgrSlim'];
 
@@ -36,6 +36,15 @@ export function makeFieldDisplayName(unformattedName) {
   unformattedName = unformattedName.replace('name_key', 'Symbol');
   unformattedName = unformattedName.replace('collapsible_', '');
 
+  if(category === 'dataset'){
+    if(unformattedName.toLowerCase() === 'expression' ){
+      unformattedName = 'Cell/Tissues';
+    }
+
+    if(unformattedName.toLowerCase() === 'anatomicalexpression'){
+      unformattedName = 'Tissues';
+    }
+  }
 
   switch(unformattedName) {
   case 'go':
