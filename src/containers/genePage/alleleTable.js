@@ -58,9 +58,8 @@ const AlleleTable = ({geneId}) => {
       allelesSelected: alleleIdsSelected.map(formatAllele),
       allelesVisible: resolvedData && resolvedData.results.map(allele => formatAllele(allele && allele.id)),
       onAllelesSelect: setAlleleIdsSelected,
-      tableState: tableProps.tableState // do we really need this?
     };
-  }, [resolvedData, alleleIdsSelected, setAlleleIdsSelected, tableProps.tableState]);
+  }, [resolvedData, alleleIdsSelected, setAlleleIdsSelected]);
 
   const selectRow = useMemo(() => ({
     mode: 'checkbox',
