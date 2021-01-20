@@ -37,9 +37,7 @@ class FilterSelectorComponent extends Component {
         isShowMore = true;
       }
 
-      if(d.name.toLowerCase() === 'anatomicalexpression' && this.props.activeCategory ==='dataset'){
-        d.displayName = 'Tissues';
-      }
+
       return <div key={`filter${d.name}`}><SingleFilterSelector {...d} isShowMore={isShowMore} queryParams={this.props.queryParams} /></div>;
     });
   }

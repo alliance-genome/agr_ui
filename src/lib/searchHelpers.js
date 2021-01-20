@@ -36,8 +36,14 @@ export function makeFieldDisplayName(unformattedName, category = '') {
   unformattedName = unformattedName.replace('name_key', 'Symbol');
   unformattedName = unformattedName.replace('collapsible_', '');
 
-  if(category === 'dataset' && unformattedName.toLowerCase() === 'expression' ){
-    unformattedName = 'Cell/Tissues';
+  if(category === 'dataset'){
+    if(unformattedName.toLowerCase() === 'expression' ){
+      unformattedName = 'Cell/Tissues';
+    }
+
+    if(unformattedName.toLowerCase() === 'anatomicalexpression'){
+      unformattedName = 'Tissues';
+    }
   }
 
   switch(unformattedName) {
