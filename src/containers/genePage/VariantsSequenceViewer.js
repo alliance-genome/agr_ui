@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import GenomeFeatureWrapper from './genomeFeatureWrapper';
 import NoData from '../../components/noData';
+import { getSingleGenomeLocation } from '../../lib/utils';
 
 export function findFminFmax(genomeLocation, variants) {
   let fmax = genomeLocation.end;
@@ -25,7 +26,16 @@ export function findFminFmax(genomeLocation, variants) {
   return { fmin, fmax };
 }
 
-const VariantsSequenceViewer = ({ alleles, allelesSelected, allelesVisible, gene, genomeLocation,genomeLocationList }) => {
+const VariantsSequenceViewer = ({ gene, alleles, allelesSelected, allelesVisible, onAllelesSelect }) => {
+
+  const genomeLocationList = gene.genomeLocations;
+  const genomeLocation = getSingleGenomeLocation(genomeLocationList);
+
+  // TODO: remove when onAllelesSelect is in use
+  // onAllelesSelect is to be called with a list of allele IDs, when selecting alleles throw the viewer.
+  // This allows the allele selection to be communicated to the parent component, ie AlleleTable
+  console.log(onAllelesSelect); // eslint-disable-line no-console
+
   if (!alleles || alleles.length === 0 || !genomeLocation.chromosome) {
     return null;
   }
@@ -60,6 +70,7 @@ const VariantsSequenceViewer = ({ alleles, allelesSelected, allelesVisible, gene
 };
 
 VariantsSequenceViewer.propTypes = {
+  gene: PropTypes.object,
   alleles: PropTypes.array,
   allelesSelected: PropTypes.arrayOf(
     PropTypes.shape({
@@ -71,15 +82,6 @@ VariantsSequenceViewer.propTypes = {
       id: PropTypes.string.isRequired,
     })
   ).isRequired,
-  gene: PropTypes.object,
-  genomeLocation: PropTypes.shape({
-    assembly: PropTypes.string,
-    start: PropTypes.number,
-    end: PropTypes.number,
-    chromosome: PropTypes.string,
-    strand: PropTypes.string,
-  }),
-  genomeLocationList: PropTypes.array,
   onAllelesSelect: PropTypes.func.isRequired,
 };
 
