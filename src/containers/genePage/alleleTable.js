@@ -55,8 +55,10 @@ const AlleleTable = ({geneId}) => {
       }
     );
     return {
+      gene: gene,
+      alleles: resolvedData ? resolvedData.results : [],
       allelesSelected: alleleIdsSelected.map(formatAllele),
-      allelesVisible: resolvedData && resolvedData.results.map(allele => formatAllele(allele && allele.id)),
+      allelesVisible: resolvedData ? resolvedData.results.map(allele => formatAllele(allele && allele.id)) : [],
       onAllelesSelect: setAlleleIdsSelected,
     };
   }, [resolvedData, alleleIdsSelected, setAlleleIdsSelected]);
@@ -102,7 +104,7 @@ const AlleleTable = ({geneId}) => {
       filterable: true,
     },
     {
-      dataField: 'synonym',
+      dataField: 'synonyms',
       text: 'Allele Synonyms',
       formatter: synonyms => <SynonymList synonyms={synonyms}/>,
       headerStyle: {width: '165px'},
@@ -261,13 +263,7 @@ const AlleleTable = ({geneId}) => {
 
   return (
     <>
-      <VariantsSequenceViewer
-        alleles={data}
-        gene={gene}
-        genomeLocation={geneLocation}
-        {...variantsSequenceViewerProps}
-        genomeLocationList={gene.genomeLocations}
-      />
+      <VariantsSequenceViewer {...variantsSequenceViewerProps} />
       <div className="position-relative">
         <DataTable
           {...tableProps}
