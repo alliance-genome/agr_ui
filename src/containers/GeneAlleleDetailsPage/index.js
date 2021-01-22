@@ -35,7 +35,6 @@ const GeneAlleleDetailsPage = ({geneId}) => {
             <GeneAlleleDetailsTable geneId={geneId} />
           </div>
         </ErrorBoundary>
-        <pre>{JSON.stringify(gene, null, 2)}</pre>
       </div>
     </DataPage>
   );
