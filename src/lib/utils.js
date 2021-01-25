@@ -133,3 +133,22 @@ export function getSingleGenomeLocation(genomeLocations) {
   }
   return genomeLocation;
 }
+
+export function findFminFmax(locations) {
+  let fmax;
+  let fmin;
+  (locations || []).forEach((location) => {
+    const {start, end} = location || {};
+
+    if (typeof fmin === 'undefined' || (typeof start !== 'undefined' && start < fmin)) {
+      fmin = start;
+    }
+    if (typeof fmax === 'undefined' || (typeof end !== 'undefined' && end > fmax)) {
+      fmax = end;
+    }
+  });
+  return {
+    fmax,
+    fmin,
+  };
+}

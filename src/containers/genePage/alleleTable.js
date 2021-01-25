@@ -1,13 +1,13 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
-import {compareAlphabeticalCaseInsensitive, getSingleGenomeLocation} from '../../lib/utils';
+import {compareAlphabeticalCaseInsensitive, getSingleGenomeLocation, findFminFmax} from '../../lib/utils';
 import SynonymList from '../../components/synonymList';
 import {
   AlleleCell,
   DataTable,
 } from '../../components/dataTable';
-import {getDistinctFieldValue} from '../../components/dataTable/utils';
+import {getDistinctFieldValue, } from '../../components/dataTable/utils';
 import ExternalLink from '../../components/ExternalLink';
 import {VariantJBrowseLink} from '../../components/variant';
 import RotatedHeaderCell from '../../components/dataTable/RotatedHeaderCell';
@@ -44,6 +44,15 @@ const AlleleTable = ({geneId}) => {
 
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
   const variantsSequenceViewerProps = useMemo(() => {
+
+    const variants = resolvedData ?
+      resolvedData.results.flatMap(
+        allele => (allele && allele.variants) || []
+      ) :
+      [];
+    const variantLocations = variants.map(variant => variant && variant.location);
+    const { fmin, fmax } = findFminFmax([geneLocation, ...variantLocations]);
+
     /*
        Warning!
        The data format here should be agreed upon by the maintainers of the VariantsSequenceViewer.
@@ -56,7 +65,9 @@ const AlleleTable = ({geneId}) => {
     );
     return {
       gene: gene,
-      alleles: resolvedData ? resolvedData.results : [],
+      fmin: fmin,
+      fmax: fmax,
+      hasVariants: Boolean(variants && variants.length),
       allelesSelected: alleleIdsSelected.map(formatAllele),
       allelesVisible: resolvedData ? resolvedData.results.map(allele => formatAllele(allele && allele.id)) : [],
       onAllelesSelect: setAlleleIdsSelected,

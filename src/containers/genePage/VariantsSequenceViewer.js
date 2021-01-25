@@ -4,29 +4,7 @@ import GenomeFeatureWrapper from './genomeFeatureWrapper';
 import NoData from '../../components/noData';
 import { getSingleGenomeLocation } from '../../lib/utils';
 
-export function findFminFmax(genomeLocation, variants) {
-  let fmax = genomeLocation.end;
-  let fmin = genomeLocation.start;
-  if (variants && variants.data) {
-    for (let variant of variants.data) {
-      if (variant.variants) {
-        for (let innerVariant of variant.variants) {
-          if (innerVariant.location) {
-            if (innerVariant.location.start < fmin) {
-              fmin = innerVariant.location.start;
-            }
-            if (innerVariant.location.end > fmax) {
-              fmax = innerVariant.location.end;
-            }
-          }
-        }
-      }
-    }
-  }
-  return { fmin, fmax };
-}
-
-const VariantsSequenceViewer = ({ gene, alleles, allelesSelected, allelesVisible, onAllelesSelect }) => {
+const VariantsSequenceViewer = ({ gene, fmin, fmax, hasVariants, allelesSelected, allelesVisible, onAllelesSelect }) => {
 
   const genomeLocationList = gene.genomeLocations;
   const genomeLocation = getSingleGenomeLocation(genomeLocationList);
@@ -36,16 +14,14 @@ const VariantsSequenceViewer = ({ gene, alleles, allelesSelected, allelesVisible
   // This allows the allele selection to be communicated to the parent component, ie AlleleTable
   console.log(onAllelesSelect); // eslint-disable-line no-console
 
-  if (!alleles || alleles.length === 0 || !genomeLocation.chromosome) {
+  if (!genomeLocation.chromosome) {
     return null;
   }
 
-  const anyVariantData = alleles.some(allele => allele.variants.length > 0);
-  if (!anyVariantData) {
+  if (!hasVariants) {
     return <NoData>No mapped variant information available</NoData>;
   }
 
-  const { fmin, fmax } = findFminFmax(genomeLocation, alleles);
   return (
     <GenomeFeatureWrapper
       allelesSelected={allelesSelected}
@@ -71,7 +47,9 @@ const VariantsSequenceViewer = ({ gene, alleles, allelesSelected, allelesVisible
 
 VariantsSequenceViewer.propTypes = {
   gene: PropTypes.object,
-  alleles: PropTypes.array,
+  fmin: PropTypes.number,
+  fmax: PropTypes.number,
+  hasVariants: PropTypes.bool,
   allelesSelected: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
