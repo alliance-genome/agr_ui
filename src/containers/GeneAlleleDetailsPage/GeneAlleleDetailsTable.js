@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import SynonymList from '../../components/synonymList';
 import {
@@ -10,6 +10,7 @@ import VariantJBrowseLink from '../../components/variant/VariantJBrowseLink';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import { getSingleGenomeLocation } from '../../lib/utils';
+import VariantsSequenceViewer from '../genePage/VariantsSequenceViewer';
 
 const GeneAlleleDetailsTable = ({geneId}) => {
   const { isLoading: isLoadingGene, isError: isErrorGene, data: gene } = usePageLoadingQuery(`/api/gene/${geneId}`);
@@ -152,12 +153,36 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     },
   ];
 
+  const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
+  const variantsSequenceViewerProps = useMemo(() => {
+    /*
+       Warning!
+       The data format here should be agreed upon by the maintainers of the VariantsSequenceViewer.
+       Changes might break the VariantsSequenceViewer.
+    */
+    // const formatAllele = (alleleId) => (
+    //   {
+    //     id: alleleId,
+    //   }
+    // );
+    return {
+      gene: gene,
+      alleles: [],
+      allelesSelected: [],
+      allelesVisible: [],
+      onAllelesSelect: setAlleleIdsSelected,
+    };
+  }, [alleleIdsSelected, setAlleleIdsSelected]);
+
   return (
-    <DataTable
-      {...tableQuery}
-      columns={columns}
-      keyField='id'
-    />
+    <>
+      <VariantsSequenceViewer {...variantsSequenceViewerProps} />
+      <DataTable
+        {...tableQuery}
+        columns={columns}
+        keyField='id'
+      />
+    </>
   );
 };
 
