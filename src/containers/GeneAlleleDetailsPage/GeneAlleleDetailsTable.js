@@ -9,7 +9,7 @@ import {
 import VariantJBrowseLink from '../../components/variant/VariantJBrowseLink';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
-import { getSingleGenomeLocation } from '../../lib/utils';
+import { getSingleGenomeLocation, findFminFmax } from '../../lib/utils';
 import VariantsSequenceViewer from '../genePage/VariantsSequenceViewer';
 
 const GeneAlleleDetailsTable = ({geneId}) => {
@@ -19,7 +19,10 @@ const GeneAlleleDetailsTable = ({geneId}) => {
   }
   const geneLocation = getSingleGenomeLocation(gene.genomeLocations);
 
-  const tableQuery = useDataTableQuery(`/api/gene/${geneId}/allele-variant-detail`);
+  const tableQuery = useDataTableQuery(`/api/gene/${geneId}/allele-variant-detail`, undefined, {
+    sizePerPage: 100,
+  });
+  const { data } = tableQuery;
   const columns = [
     {
       text: 'Allele / Variant Symbol',
@@ -155,6 +158,15 @@ const GeneAlleleDetailsTable = ({geneId}) => {
 
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
   const variantsSequenceViewerProps = useMemo(() => {
+
+    const variants = data ?
+      data.map(
+        row => (row && row.variant) || []
+      ) :
+      [];
+    const variantLocations = variants.map(variant => variant && variant.location);
+    const { fmin, fmax } = findFminFmax([geneLocation, ...variantLocations]);
+
     /*
        Warning!
        The data format here should be agreed upon by the maintainers of the VariantsSequenceViewer.
@@ -167,12 +179,15 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     // );
     return {
       gene: gene,
-      alleles: [],
+      fmin: fmin,
+      fmax: fmax,
+      hasVariants: Boolean(variants && variants.length),
       allelesSelected: [],
       allelesVisible: [],
       onAllelesSelect: setAlleleIdsSelected,
     };
-  }, [alleleIdsSelected, setAlleleIdsSelected]);
+  }, [data, alleleIdsSelected, setAlleleIdsSelected]);
+
 
   return (
     <>
