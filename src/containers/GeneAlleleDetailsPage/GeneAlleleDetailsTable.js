@@ -5,6 +5,7 @@ import {
   AlleleCell,
   BooleanLinkCell,
   DataTable,
+  VEPTextCell,
 } from '../../components/dataTable';
 import VariantJBrowseLink from '../../components/variant/VariantJBrowseLink';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
@@ -45,7 +46,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
       dataField: 'allele.category',
       filterable: true,
       filterName: 'category',
-      headerStyle: {width: '100px'},
+      headerStyle: {width: '250px'},
     },
     {
       text: 'Has Phenotype',
@@ -92,6 +93,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     {
       text: 'Variant Type',
       dataField: 'variant.variantType.name',
+      formatter: VEPTextCell,
       filterable: true,
       filterName: 'variantType',
       headerStyle: {width: '150px'},
@@ -118,10 +120,11 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     },
     {
       text: 'Molecular consequence',
-      dataField: 'consequence.transcriptLevelConsequence',
+      dataField: 'consequence.molecularConsequence',
+      formatter: VEPTextCell,
       filterable: true,
       filterName: 'variantConsequence',
-      headerStyle: {width: '320px'},
+      headerStyle: {width: '350px'},
     },
     {
       text: 'VEP Impact',
@@ -133,6 +136,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     {
       text: 'SIFT prediction',
       dataField: 'consequence.siftPrediction',
+      formatter: VEPTextCell,
       filterable: true,
       filterName: 'siftPrediction',
       headerStyle: {width: '200px'},
@@ -145,6 +149,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     {
       text: 'PolyPhen prediction',
       dataField: 'consequence.polyphenPrediction',
+      formatter: VEPTextCell,
       filterable: true,
       filterName: 'polyphenPrediction',
       headerStyle: {width: '180px'},

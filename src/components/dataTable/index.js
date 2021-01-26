@@ -11,6 +11,7 @@ import CellTooltip from './CellTooltip';
 import TableSummary from './tableSummary';
 import DataTable from './DataTable';
 import DownloadButton from './downloadButton';
+import VEPTextCell from './VEPTextCell';
 
 export {
   AlleleCell,
@@ -26,4 +27,5 @@ export {
   BasedOnGeneCell,
   DataTable,
   DownloadButton,
+  VEPTextCell,
 };
