@@ -118,24 +118,24 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     },
     {
       text: 'Molecular consequence',
-      dataField: 'transcriptLevelConsequence',
+      dataField: 'consequence.transcriptLevelConsequence',
       filterable: true,
       filterName: 'variantConsequence',
-      headerStyle: {width: '120px'},
+      headerStyle: {width: '320px'},
     },
     {
       text: 'VEP Impact',
       dataField: 'consequence.impact',
       filterable: true,
       filterName: 'impact',
-      headerStyle: {width: '80px'},
+      headerStyle: {width: '120px'},
     },
     {
       text: 'SIFT prediction',
       dataField: 'consequence.siftPrediction',
       filterable: true,
       filterName: 'siftPrediction',
-      headerStyle: {width: '100px'},
+      headerStyle: {width: '200px'},
     },
     {
       text: 'SIFT score',
@@ -147,12 +147,12 @@ const GeneAlleleDetailsTable = ({geneId}) => {
       dataField: 'consequence.polyphenPrediction',
       filterable: true,
       filterName: 'polyphenPrediction',
-      headerStyle: {width: '100px'},
+      headerStyle: {width: '180px'},
     },
     {
       text: 'PolyPhen score',
       dataField: 'consequence.polyphenScore',
-      headerStyle: {width: '100px'},
+      headerStyle: {width: '150px'},
     },
   ];
 
