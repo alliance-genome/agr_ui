@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import SynonymList from '../../components/synonymList';
 import {
   AlleleCell,
   BooleanLinkCell,
@@ -31,15 +30,15 @@ const GeneAlleleDetailsTable = ({geneId}) => {
       formatter: (allele) => <AlleleCell allele={allele} />,
       filterable: true,
       filterName: 'symbol',
-      headerStyle: {width: '100px'},
+      headerStyle: {width: '200px'},
     },
     {
       text: 'Allele / Variant Synonyms',
-      // missing data
-      formatter: synonyms => synonyms && <SynonymList synonyms={synonyms}/>,
+      dataField: 'allele.synonyms',
+      formatter: synonyms => (synonyms || []).join(', '),
       filterable: true,
-      filterName: 'synonym',
-      headerStyle: {width: '100px'},
+      filterName: 'synonyms',
+      headerStyle: {width: '200px'},
     },
     {
       text: 'Category',
