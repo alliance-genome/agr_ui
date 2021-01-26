@@ -104,7 +104,8 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     },
     {
       text: 'Sequence feature type',
-      dataField: 'consequence.type',
+      dataField: 'consequence.sequenceFeatureType',
+      formatter: VEPTextCell,
       headerStyle: {width: '100px'},
     },
     {
