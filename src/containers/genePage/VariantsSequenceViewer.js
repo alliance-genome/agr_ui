@@ -4,7 +4,7 @@ import GenomeFeatureWrapper from './genomeFeatureWrapper';
 import NoData from '../../components/noData';
 import { getSingleGenomeLocation } from '../../lib/utils';
 
-const VariantsSequenceViewer = ({ gene, fmin, fmax, hasVariants, allelesSelected, allelesVisible, onAllelesSelect }) => {
+const VariantsSequenceViewer = ({ gene, fmin, fmax, hasVariants = true, allelesSelected, allelesVisible, onAllelesSelect }) => {
 
   const genomeLocationList = gene.genomeLocations;
   const genomeLocation = getSingleGenomeLocation(genomeLocationList);
