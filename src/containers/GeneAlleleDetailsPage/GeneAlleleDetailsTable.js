@@ -22,7 +22,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
   const tableQuery = useDataTableQuery(`/api/gene/${geneId}/allele-variant-detail`, undefined, {
     sizePerPage: 100,
   });
-  const { data } = tableQuery;
+  const { data, isLoading } = tableQuery;
   const columns = [
     {
       text: 'Allele / Variant Symbol',
@@ -64,7 +64,6 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     {
       text: 'Has Disease',
       dataField: 'allele.hasDisease',
-      filterable: true,
       formatter: (hasDisease, row) => (
         <BooleanLinkCell
           to={`/allele/${row.allele && row.allele.id}#disease-associations`}
@@ -191,12 +190,12 @@ const GeneAlleleDetailsTable = ({geneId}) => {
       gene: gene,
       fmin: fmin,
       fmax: fmax,
-      hasVariants: Boolean(variants && variants.length),
+      hasVariants: isLoading ? undefined : Boolean(variants && variants.length),
       allelesSelected: [],
       allelesVisible: [],
       onAllelesSelect: setAlleleIdsSelected,
     };
-  }, [data, alleleIdsSelected, setAlleleIdsSelected]);
+  }, [isLoading, data, alleleIdsSelected, setAlleleIdsSelected]);
 
 
   return (
