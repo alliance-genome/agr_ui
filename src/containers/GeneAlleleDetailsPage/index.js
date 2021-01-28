@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { DataPage, PageHeader } from '../../components/dataPage';
+import { PageHeader } from '../../components/dataPage';
 import NotFound from '../../components/notFound';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import ErrorBoundary from '../../components/errorBoundary';
@@ -18,8 +18,8 @@ const GeneAlleleDetailsPage = ({geneId}) => {
   const pageTitle = 'Alleles or Variants Details';
 
   return (
-    <DataPage>
-      <div className="w-100 pl-3">
+    <div>
+      <div className="w-100 pl-3 py-4">
         <nav aria-label="breadcrumb" className="d-flex">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">Gene</li>
@@ -36,7 +36,7 @@ const GeneAlleleDetailsPage = ({geneId}) => {
           </div>
         </ErrorBoundary>
       </div>
-    </DataPage>
+    </div>
   );
 };
 
