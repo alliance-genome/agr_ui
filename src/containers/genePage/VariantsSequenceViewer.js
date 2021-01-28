@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import GenomeFeatureWrapper from './genomeFeatureWrapper';
-import NoData from '../../components/noData';
 import { getSingleGenomeLocation } from '../../lib/utils';
 
-const VariantsSequenceViewer = ({ gene, fmin, fmax, hasVariants = true, allelesSelected, allelesVisible, onAllelesSelect }) => {
+const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisible, onAllelesSelect }) => {
 
   const genomeLocationList = gene.genomeLocations;
   const genomeLocation = getSingleGenomeLocation(genomeLocationList);
@@ -16,10 +15,6 @@ const VariantsSequenceViewer = ({ gene, fmin, fmax, hasVariants = true, allelesS
 
   if (!genomeLocation.chromosome) {
     return null;
-  }
-
-  if (!hasVariants) {
-    return <NoData>No mapped variant information available</NoData>;
   }
 
   return (
@@ -49,7 +44,6 @@ VariantsSequenceViewer.propTypes = {
   gene: PropTypes.object,
   fmin: PropTypes.number,
   fmax: PropTypes.number,
-  hasVariants: PropTypes.bool,
   allelesSelected: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,

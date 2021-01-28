@@ -200,7 +200,13 @@ const GeneAlleleDetailsTable = ({geneId}) => {
 
   return (
     <>
-      <VariantsSequenceViewer {...variantsSequenceViewerProps} />
+      {
+        isLoading || isLoadingGene ?
+          null :
+          variantsSequenceViewerProps.hasVariants ?
+            <VariantsSequenceViewer {...variantsSequenceViewerProps} /> :
+            <NoData>No mapped variant information available</NoData>
+      }
       <DataTable
         {...tableQuery}
         columns={columns}
