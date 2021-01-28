@@ -44,33 +44,36 @@ const GeneAlleleDetailsTable = ({geneId}) => {
       text: 'Category',
       dataField: 'allele.category',
       filterable: true,
-      filterName: 'category',
+      filterName: 'alleleCategory',
       headerStyle: {width: '250px'},
     },
     {
       text: 'Has Phenotype',
       dataField: 'allele.hasPhenotype',
-      filterable: true,
-      filterName: 'hasPhenotype',
       formatter: (hasPhenotype, row) => (
         <BooleanLinkCell
           to={`/allele/${row.allele && row.allele.id}#phenotypes`}
           value={hasPhenotype}
         />
       ),
+      filterName: 'hasPhenotype',
+      filterable: ['true', 'false'],
+      filterFormatter: val => val === 'true' ? 'Yes' : 'No',
       headerStyle: {width: '100px'},
     },
     {
       text: 'Has Disease',
       dataField: 'allele.hasDisease',
       filterable: true,
-      filterName: 'hasDisease',
       formatter: (hasDisease, row) => (
         <BooleanLinkCell
           to={`/allele/${row.allele && row.allele.id}#disease-associations`}
           value={hasDisease}
         />
       ),
+      filterName: 'hasDisease',
+      filterable: ['true', 'false'],
+      filterFormatter: val => val === 'true' ? 'Yes' : 'No',
       headerStyle: {width: '80px'},
     },
     {
@@ -106,12 +109,14 @@ const GeneAlleleDetailsTable = ({geneId}) => {
       text: 'Sequence feature type',
       dataField: 'consequence.sequenceFeatureType',
       formatter: VEPTextCell,
-      headerStyle: {width: '100px'},
+      filterable: true,
+      filterName: 'consequenceType',
+      headerStyle: {width: '200px'},
     },
     {
       text: 'Sequence feature associated gene',
       // missing data
-      headerStyle: {width: '100px'},
+      headerStyle: {width: '150px'},
     },
     {
       text: 'Variant Location',
@@ -130,7 +135,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
       text: 'VEP Impact',
       dataField: 'consequence.impact',
       filterable: true,
-      filterName: 'impact',
+      filterName: 'variantImpact',
       headerStyle: {width: '120px'},
     },
     {
@@ -138,7 +143,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
       dataField: 'consequence.siftPrediction',
       formatter: VEPTextCell,
       filterable: true,
-      filterName: 'siftPrediction',
+      filterName: 'variantSift',
       headerStyle: {width: '200px'},
     },
     {
@@ -151,7 +156,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
       dataField: 'consequence.polyphenPrediction',
       formatter: VEPTextCell,
       filterable: true,
-      filterName: 'polyphenPrediction',
+      filterName: 'variantPolyphen',
       headerStyle: {width: '180px'},
     },
     {
