@@ -7,6 +7,7 @@ import {
   AlleleCell,
   DataTable,
 } from '../../components/dataTable';
+import NoData from '../../components/noData';
 import {getDistinctFieldValue, } from '../../components/dataTable/utils';
 import ExternalLink from '../../components/ExternalLink';
 import {VariantJBrowseLink} from '../../components/variant';
@@ -24,10 +25,11 @@ const AlleleTable = ({geneId}) => {
   }
   const geneLocation = getSingleGenomeLocation(gene.genomeLocations);
 
+  const tableProps = useDataTableQuery(`/api/gene/${geneId}/alleles`);
   const {
     resolvedData,
-    ...tableProps
-  } = useDataTableQuery(`/api/gene/${geneId}/alleles`);
+    isLoading,
+  } = tableProps;
 
   const data = useMemo(() => {
     return resolvedData && resolvedData.results.map(allele => ({
@@ -274,7 +276,13 @@ const AlleleTable = ({geneId}) => {
 
   return (
     <>
-      <VariantsSequenceViewer {...variantsSequenceViewerProps} />
+      {
+        isLoading || isLoadingGene ?
+          null :
+          variantsSequenceViewerProps.hasVariants ?
+            <VariantsSequenceViewer {...variantsSequenceViewerProps} /> :
+            <NoData>No mapped variant information available</NoData>
+      }
       <div className="position-relative">
         <DataTable
           {...tableProps}
