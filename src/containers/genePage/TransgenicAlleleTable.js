@@ -141,8 +141,6 @@ const TransgenicAlleleTable = ({geneId}) => {
       data={data}
       downloadUrl={`/api/gene/${geneId}/transgenic-alleles/download`}
       rowStyle={{cursor: 'pointer'}}
-      selectRow={selectRow}
-      sortOptions={sortOptions}
     />
   );
 };
