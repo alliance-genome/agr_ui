@@ -48,7 +48,6 @@ class GenomeFeatureWrapper extends Component {
     }
     else
     if(!isEqual(prevProps.allelesSelected,this.props.allelesSelected) && this.props.allelesSelected!==undefined) {
-      this.loadGenomeFeature();
       this.gfc.setSelectedAlleles(this.props.allelesSelected.map( a => a.id),`#${this.props.id}`);
     }
     else
