@@ -144,8 +144,6 @@ const TransgenicAlleleTable = ({geneId}) => {
       selectRow={selectRow}
       sortOptions={sortOptions}
     />
-    <DataTable
-
   );
 };
 
