@@ -105,11 +105,11 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
     {
       dataField: 'detectionMethod',
       text: 'Detection methods',
-      formatter: (items = [], row, rowIndex) => {
+      formatter: (items, row, rowIndex) => {
         return (
           <CommaSeparatedList>
             {
-              items.map(
+              items && items.map(
                 (props = {}, index) => {
                   const id = getCellId('detectionsMethods', `${rowIndex}-${index}`);
                   return (
