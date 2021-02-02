@@ -1,4 +1,5 @@
 import AlleleCell from './AlleleCell';
+import BooleanLinkCell from './BooleanLinkCell';
 import GeneCell from './geneCell';
 import EvidenceCodesCell from './evidenceCodesCell';
 import ReferenceCell from './referenceCell';
@@ -10,9 +11,11 @@ import CellTooltip from './CellTooltip';
 import TableSummary from './tableSummary';
 import DataTable from './DataTable';
 import DownloadButton from './downloadButton';
+import VEPTextCell from './VEPTextCell';
 
 export {
   AlleleCell,
+  BooleanLinkCell,
   GeneCell,
   EvidenceCodesCell,
   ReferenceCell,
@@ -24,4 +27,5 @@ export {
   BasedOnGeneCell,
   DataTable,
   DownloadButton,
+  VEPTextCell,
 };

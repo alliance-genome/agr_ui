@@ -11,7 +11,10 @@ import filterFactory, { customFilter } from 'react-bootstrap-table2-filter';
 import PropTypes from 'prop-types';
 import DownloadButton from './downloadButton';
 import TableSummary from './tableSummary';
-import { renderPaginationShowsTotal } from './utils';
+import {
+  renderPaginationShowsTotal,
+  getDistinctFieldValue,
+} from './utils';
 import LoadingOverlay from './loadingOverlay';
 import PerPageSizeSelector from './pagePerSizeSelector';
 import NoData from '../noData';
@@ -26,6 +29,7 @@ const DataTable = ({
   className,
   columns,
   data,
+  resolvedData,
   downloadUrl,
   error,
   isError,
@@ -132,12 +136,17 @@ const DataTable = ({
 
     if (column.filterable) {
       column.filter = customFilter();
-      if (Array.isArray(column.filterable)) {
+
+      const distinctFieldValues = Array.isArray(column.filterable) ?
+        column.filterable :
+        getDistinctFieldValue(resolvedData, `filter.${column.filterName}`);
+
+      if (distinctFieldValues && distinctFieldValues.length > 0) {
         column.filterRenderer = (onFilter, column) => (
           <DropdownCheckboxFilter
             formatter={column.filterFormatter}
             onChange={onFilter}
-            options={column.filterable}
+            options={distinctFieldValues}
             value={columnFilter}
           />
         );
@@ -219,6 +228,7 @@ DataTable.propTypes = {
   className: PropTypes.string,
   columns: PropTypes.array.isRequired,
   data: PropTypes.arrayOf(PropTypes.object),
+  resolvedData: PropTypes.object,
   downloadUrl: PropTypes.string,
   error: PropTypes.object,
   isError: PropTypes.bool,
