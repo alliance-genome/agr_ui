@@ -28,6 +28,7 @@ import VariantSummary from './VariantSummry';
 import MolecularConsequenceHelp from './MolecularConsequenceHelp';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import GeneSymbol from '../../components/GeneSymbol';
+import SpeciesName from '../../components/SpeciesName';
 
 const SUMMARY = 'Summary';
 const PHENOTYPES = 'Phenotypes';
@@ -73,7 +74,7 @@ const AllelePage = ({ alleleId }) => {
         <PageNavEntity entityName={<AlleleSymbol allele={data} />} icon={<SpeciesIcon inNav scale={0.5} species={data.species.name} />} truncateName>
           <DataSourceLink reference={data.crossReferences.primary} />
           {data.gene && <div>Allele of <Link to={`/gene/${data.gene.id}`}><GeneSymbol gene={data.gene} /></Link></div>}
-          <i>{data.species.name}</i>
+          <SpeciesName>{data.species.name}</SpeciesName>
         </PageNavEntity>
       </PageNav>
       <PageData>
