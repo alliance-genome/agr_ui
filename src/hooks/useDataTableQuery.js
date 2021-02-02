@@ -40,7 +40,7 @@ function getFullUrl(baseUrl, tableState) {
 export default function useDataTableQuery(baseUrl, config, initialTableState) {
   const initialState = {
     url: null,
-    tableState: initialTableState || DEFAULT_TABLE_STATE,
+    tableState:  {...DEFAULT_TABLE_STATE, ...(initialTableState || {})},
   };
   const [{ url, tableState }, dispatch] = useReducer(reducer, initialState);
   const enabledBoolean = Boolean((config && config.hasOwnProperty('enabled')) ? config.enabled : true);
