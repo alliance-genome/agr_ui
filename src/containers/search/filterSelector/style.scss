@@ -15,9 +15,20 @@
 	text-transform: capitalize;
 }
 
+.aggLinkLine {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+
 .aggLink {
 	display: flex;
 	justify-content: space-between;
+}
+
+.link {
+  flex-grow: 1;
 }
 
 .aggLinkLabel {
