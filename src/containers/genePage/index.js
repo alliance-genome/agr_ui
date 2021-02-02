@@ -26,7 +26,7 @@ import GeneMetaTags from './GeneMetaTags';
 import PageNavEntity from '../../components/dataPage/PageNavEntity';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
-import { getSpecies } from '../../lib/utils';
+import { getSpecies, getSingleGenomeLocation } from '../../lib/utils';
 import TransgenicAlleleTable from './TransgenicAlleleTable';
 import GeneSymbol from '../../components/GeneSymbol';
 import PhenotypeCrossRefs from './PhenotypeCrossRefs';
@@ -68,22 +68,7 @@ const GenePage = ({geneId}) => {
     return null;
   }
 
-  // todo, add chromosome
-  let genomeLocation = {};
-  if (data.genomeLocations) {
-    if (data.genomeLocations.length === 1) {
-      genomeLocation = data.genomeLocations[0];
-    }
-    else if (data.genomeLocations.length > 1) {
-      // TODO: figure out the proper assembly
-      for (let i in data.genomeLocations) {
-        let tempGenomeLocation = data.genomeLocations[i];
-        if (tempGenomeLocation.start && tempGenomeLocation.end) {
-          genomeLocation = tempGenomeLocation;
-        }
-      }
-    }
-  }
+  const genomeLocation = getSingleGenomeLocation(data.genomeLocations);
 
   // TODO: this name should come directly from the API
   if (data.crossReferences['expression-atlas']) {
@@ -153,13 +138,7 @@ const GenePage = ({geneId}) => {
 
         <Subsection title={ALLELES}>
           <AlleleTable
-            gene={data}
-            geneDataProvider={data.dataProvider}
             geneId={data.id}
-            geneLocation={genomeLocation}
-            geneSymbol={data.symbol}
-            genomeLocationList={data.genomeLocations}
-            species={data.species.name}
           />
         </Subsection>
 

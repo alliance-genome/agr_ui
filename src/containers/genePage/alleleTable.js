@@ -1,25 +1,35 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import {compareAlphabeticalCaseInsensitive} from '../../lib/utils';
+import {Link} from 'react-router-dom';
+import {compareAlphabeticalCaseInsensitive, getSingleGenomeLocation, findFminFmax} from '../../lib/utils';
 import SynonymList from '../../components/synonymList';
 import {
   AlleleCell,
   DataTable,
 } from '../../components/dataTable';
-import {getDistinctFieldValue} from '../../components/dataTable/utils';
+import NoData from '../../components/noData';
+import {getDistinctFieldValue, } from '../../components/dataTable/utils';
 import ExternalLink from '../../components/ExternalLink';
 import {VariantJBrowseLink} from '../../components/variant';
 import RotatedHeaderCell from '../../components/dataTable/RotatedHeaderCell';
 import BooleanLinkCell from '../../components/dataTable/BooleanLinkCell';
 import VariantsSequenceViewer from './VariantsSequenceViewer';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import useAllVariants from '../../hooks/useAllVariants';
+import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 
-const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, geneDataProvider, genomeLocationList}) => {
+const AlleleTable = ({geneId}) => {
+
+  const { isLoading: isLoadingGene, isError: isErrorGene, data: gene } = usePageLoadingQuery(`/api/gene/${geneId}`);
+  if (isLoadingGene || isErrorGene) {
+    return null;
+  }
+  const geneLocation = getSingleGenomeLocation(gene.genomeLocations);
+
+  const tableProps = useDataTableQuery(`/api/gene/${geneId}/alleles`);
   const {
     resolvedData,
-    ...tableProps
-  } = useDataTableQuery(`/api/gene/${geneId}/alleles`);
+    isLoading,
+  } = tableProps;
 
   const data = useMemo(() => {
     return resolvedData && resolvedData.results.map(allele => ({
@@ -27,7 +37,7 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
       symbol: allele.symbol,
       synonym: allele.synonyms,
       source: {
-        dataProvider: geneDataProvider,
+        dataProvider: gene.dataProvider,
         url: allele.crossReferences.primary.url,
       },
       disease: allele.diseases.sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
@@ -35,34 +45,36 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
   }, [resolvedData]);
 
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
-
-  //Sequence Viewer Specific Call
-  const viewerVariants = useAllVariants(geneId, tableProps.tableState);
-  const variantDisplayData = useMemo(() => {
-    return viewerVariants.data && viewerVariants.data.results.map(allele => ({
-      ...allele,
-    }));
-  }, [viewerVariants.data]);
-
-
   const variantsSequenceViewerProps = useMemo(() => {
+
+    const variants = resolvedData ?
+      resolvedData.results.flatMap(
+        allele => (allele && allele.variants) || []
+      ) :
+      [];
+    const variantLocations = variants.map(variant => variant && variant.location);
+    const { fmin, fmax } = findFminFmax([geneLocation, ...variantLocations]);
+
     /*
        Warning!
        The data format here should be agreed upon by the maintainers of the VariantsSequenceViewer.
        Changes might break the VariantsSequenceViewer.
     */
-    const formatAllele = alleleId => (
+    const formatAllele = (alleleId) => (
       {
         id: alleleId,
       }
     );
     return {
+      gene: gene,
+      fmin: fmin,
+      fmax: fmax,
+      hasVariants: Boolean(variants && variants.length),
       allelesSelected: alleleIdsSelected.map(formatAllele),
-      allelesVisible: variantDisplayData ? variantDisplayData && variantDisplayData.map(({id}) => formatAllele(id)) : [],
+      allelesVisible: resolvedData ? resolvedData.results.map(allele => formatAllele(allele && allele.id)) : [],
       onAllelesSelect: setAlleleIdsSelected,
-      tableState: tableProps.tableState
     };
-  }, [variantDisplayData, alleleIdsSelected, setAlleleIdsSelected, tableProps.tableState]);
+  }, [resolvedData, alleleIdsSelected, setAlleleIdsSelected]);
 
   const selectRow = useMemo(() => ({
     mode: 'checkbox',
@@ -105,7 +117,7 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
       filterable: true,
     },
     {
-      dataField: 'synonym',
+      dataField: 'synonyms',
       text: 'Allele Synonyms',
       formatter: synonyms => <SynonymList synonyms={synonyms}/>,
       headerStyle: {width: '165px'},
@@ -137,9 +149,9 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
                   {
                     <VariantJBrowseLink
                       geneLocation={geneLocation}
-                      geneSymbol={geneSymbol}
+                      geneSymbol={gene.symbol}
                       location={location}
-                      species={species}
+                      species={gene.species && gene.species.name}
                       type={type.name}
                     >{id}</VariantJBrowseLink>
                   }
@@ -264,40 +276,32 @@ const AlleleTable = ({gene, geneId, geneSymbol, geneLocation = {}, species, gene
 
   return (
     <>
-      <VariantsSequenceViewer
-        alleles={data}
-        gene={gene}
-        genomeLocation={geneLocation}
-        {...variantsSequenceViewerProps}
-        genomeLocationList={genomeLocationList}
-      />
-      <DataTable
-        {...tableProps}
-        columns={columns}
-        data={data}
-        downloadUrl={`/api/gene/${geneId}/alleles/download`}
-        keyField='id'
-        rowStyle={{cursor: 'pointer'}}
-        selectRow={selectRow}
-        sortOptions={sortOptions}
-      />
+      {
+        isLoading || isLoadingGene ?
+          null :
+          variantsSequenceViewerProps.hasVariants ?
+            <VariantsSequenceViewer {...variantsSequenceViewerProps} /> :
+            <NoData>No mapped variant information available</NoData>
+      }
+      <div className="position-relative">
+        <DataTable
+          {...tableProps}
+          columns={columns}
+          data={data}
+          downloadUrl={`/api/gene/${geneId}/alleles/download`}
+          keyField='id'
+          rowStyle={{cursor: 'pointer'}}
+          selectRow={selectRow}
+          sortOptions={sortOptions}
+        />
+        <Link className="btn btn-primary position-absolute" style={{top: '1em'}} to={`/gene/${geneId}/allele-details`}>View all Alleles and Variants information</Link>
+      </div>
     </>
   );
 };
 
 AlleleTable.propTypes = {
-  gene: PropTypes.shape({
-  }),
-  geneDataProvider: PropTypes.string.isRequired,
   geneId: PropTypes.string.isRequired,
-  geneLocation: PropTypes.shape({
-    start: PropTypes.number,
-    end: PropTypes.number,
-    chromosome: PropTypes.string,
-  }),
-  geneSymbol: PropTypes.string.isRequired,
-  genomeLocationList: PropTypes.array,
-  species: PropTypes.string.isRequired,
 };
 
 export default AlleleTable;
