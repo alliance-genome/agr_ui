@@ -5,6 +5,7 @@ import style from './style.scss';
 import DetailList from './detailList';
 import { getLinkForEntry, makeFieldDisplayName } from '../../lib/searchHelpers';
 import { NON_HIGHLIGHTED_FIELDS } from '../../constants';
+import SpeciesName from '../../components/SpeciesName';
 
 const MATCH_LABEL = 'match_by';
 const MAX_CHAR = 100;
@@ -76,7 +77,7 @@ class ResultsTable extends Component {
         case MATCH_LABEL:
           return <td key={_key}>{this.renderHighlight(d.highlight, d.homologs)}</td>;
         case 'species':
-          return <td key={_key}><i dangerouslySetInnerHTML={{ __html: d.species }} /></td>;
+          return <td key={_key}><SpeciesName dangerouslySetInnerHTML={{ __html: d.species }} /></td>;
         default:
           return <td dangerouslySetInnerHTML={{ __html: this.renderTruncatedContent(d[field]) }} key={_key} />;
         }
