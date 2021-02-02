@@ -27,6 +27,7 @@ import {
 } from './orthology';
 import useGeneOrthology from '../hooks/useGeneOrthology';
 import useResettableState from '../hooks/useResettableState';
+import SpeciesName from './SpeciesName';
 
 const bySpecies = species => orthology => species
   .map(s => s.taxonId)
@@ -259,7 +260,7 @@ const OrthologPicker =({
         <UncontrolledDropdown className='pr-2' tag='span'>
           <DropdownToggle caret className='align-baseline' color='primary' disabled={inputDisabled} outline={!checkboxValue || !selectedSpecies.length}>
             Species
-            {selectedSpecies.length > 0 && <span>: <i>{selectedSpecies[0].fullName}</i></span>}
+            {selectedSpecies.length > 0 && <span>: <SpeciesName>{selectedSpecies[0].fullName}</SpeciesName></span>}
             {selectedSpecies.length > 1 && <span className='ml-1'>+{selectedSpecies.length - 1} species</span>}
           </DropdownToggle>
           <DropdownMenu>
@@ -309,19 +310,16 @@ const OrthologPicker =({
                               onChange={e => toggleSpecies(e.target.checked, species)}
                               type='checkbox'
                             />
-                            <i>{species.fullName}</i>
+                            <SpeciesName>{species.fullName}</SpeciesName>
                           </label>
                         </div>
                         {disabled &&
                         <UncontrolledTooltip delay={{show: 200, hide: 0}} placement='bottom' target={checkId}>
-                          <span dangerouslySetInnerHTML={{
-                            __html: (
-                              (!hasOrthologs && `No <i>${species.fullName}</i> orthologs of this gene`) ||
-                              (!hasOrthologsWithData && `No <i>${species.fullName}</i> orthologs of this gene have annotations`) ||
-                              (!hasOrthologsMeetingStringency && `No <i>${species.fullName}</i> orthologs of this gene meet selected Stringency filter`)
-                            )
-                          }}
-                          />
+                          {
+                            (!hasOrthologs && <>No <SpeciesName>{species.fullName}</SpeciesName> orthologs of this gene</>) ||
+                            (!hasOrthologsWithData && <>No <SpeciesName>{species.fullName}</SpeciesName> orthologs of this gene have annotations</>) ||
+                            (!hasOrthologsMeetingStringency && <>No <SpeciesName>{species.fullName}</SpeciesName> orthologs of this gene meet selected Stringency filter</>)
+                          }
                         </UncontrolledTooltip>
                         }
                       </div>

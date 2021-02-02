@@ -8,7 +8,7 @@ import {
   AttributeValue,
 } from '../../components/attribute';
 import { CollapsibleList } from '../../components/collapsibleList';
-//import { DownloadButton } from '../../components/dataTable';
+import { DownloadButton } from '../../components/dataTable';
 import Subsection from '../../components/subsection';
 import useAllAlleleVariants from '../../hooks/useAlleleVariants';
 import { VariantJBrowseLink } from '../../components/variant';
@@ -206,11 +206,11 @@ const VariantSummary = ({allele, alleleId}) => {
         })
       }
       {
-        /*
+
         <div className='mb-5'>
           <DownloadButton downloadUrl={`/api/allele/${alleleId}/variants/download`} text='Download Variants Data' />
         </div>
-        */
+
       }
     </>
   );

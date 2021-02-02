@@ -112,3 +112,43 @@ export function htmlToPlainText(html) {
     .replaceAll('<sup>', '[')
     .replaceAll('</sup>', ']');
 }
+
+export function getSingleGenomeLocation(genomeLocations) {
+  // extracted from container/genePage/index.js
+  // todo, add chromosome
+  let genomeLocation = {};
+  if (genomeLocations) {
+    if (genomeLocations.length === 1) {
+      genomeLocation = genomeLocations[0];
+    }
+    else if (genomeLocations.length > 1) {
+      // TODO: figure out the proper assembly
+      for (let i in genomeLocations) {
+        let tempGenomeLocation = genomeLocations[i];
+        if (tempGenomeLocation.start && tempGenomeLocation.end) {
+          genomeLocation = tempGenomeLocation;
+        }
+      }
+    }
+  }
+  return genomeLocation;
+}
+
+export function findFminFmax(locations) {
+  let fmax;
+  let fmin;
+  (locations || []).forEach((location) => {
+    const {start, end} = location || {};
+
+    if (typeof fmin === 'undefined' || (typeof start !== 'undefined' && start < fmin)) {
+      fmin = start;
+    }
+    if (typeof fmax === 'undefined' || (typeof end !== 'undefined' && end > fmax)) {
+      fmax = end;
+    }
+  });
+  return {
+    fmax,
+    fmin,
+  };
+}
