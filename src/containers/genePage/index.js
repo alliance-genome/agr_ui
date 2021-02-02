@@ -9,7 +9,12 @@ import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
 import NotFound from '../../components/notFound';
 import Subsection from '../../components/subsection';
 import AlleleTable from './alleleTable';
-import { GenePhysicalInteractionDetailTable, GeneInteractionCrossReference, InteractionUserGuide } from '../../components/interaction';
+import {
+  GenePhysicalInteractionDetailTable,
+  GeneGeneticInteractionDetailTable,
+  GeneInteractionCrossReference,
+  InteractionUserGuide
+} from '../../components/interaction';
 import GenomeFeatureWrapper from './genomeFeatureWrapper';
 import ExpressionLinks from './expressionLinks';
 
@@ -41,6 +46,7 @@ const ALLELES = 'Alleles and Variants';
 const TG_ALLELES = 'Transgenic Alleles';
 const PHENOTYPES = 'Phenotypes';
 const INTERACTIONS = 'Molecular Interactions';
+const GENETIC_INTERACTIONS = 'Genetic Interactions';
 const MODELS = 'Models';
 
 const SECTIONS = [
@@ -55,6 +61,7 @@ const SECTIONS = [
   {name: SEQUENCE_FEATURE_VIEWER},
   {name: EXPRESSION},
   {name: INTERACTIONS},
+  {name: GENETIC_INTERACTIONS},
 ];
 
 const GenePage = ({geneId}) => {
@@ -195,6 +202,12 @@ const GenePage = ({geneId}) => {
             geneDataProvider={data.dataProvider}
           />
           <GenePhysicalInteractionDetailTable
+            focusGeneDisplayName={data.symbol}
+            focusGeneId={data.id}
+          />
+        </Subsection>
+        <Subsection title={GENETIC_INTERACTIONS}>
+          <GeneGeneticInteractionDetailTable
             focusGeneDisplayName={data.symbol}
             focusGeneId={data.id}
           />
