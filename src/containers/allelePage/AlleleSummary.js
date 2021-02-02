@@ -11,12 +11,13 @@ import SynonymList from '../../components/synonymList';
 import DataSourceLink from '../../components/dataSourceLink';
 import CommaSeparatedList from '../../components/commaSeparatedList';
 import GeneSymbol from '../../components/GeneSymbol';
+import SpeciesName from '../../components/SpeciesName';
 
 const AlleleSummary = ({allele}) => {
   return (
     <AttributeList>
       <AttributeLabel>Species</AttributeLabel>
-      <AttributeValue><i>{allele.species.name}</i></AttributeValue>
+      <AttributeValue><SpeciesName>{allele.species.name}</SpeciesName></AttributeValue>
 
       <AttributeLabel>Symbol</AttributeLabel>
       <AttributeValue><AlleleSymbol allele={allele} /></AttributeValue>
