@@ -15,6 +15,7 @@ import { TAXON_ORDER } from '../../constants';
 import HelpPopup from '../helpPopup';
 
 import style from './style.scss';
+import SpeciesName from '../SpeciesName';
 
 const columns = [
   {name: 'Species'},
@@ -67,7 +68,7 @@ class OrthologyTable extends Component {
 
               return (
                 <tr className={rowGroup % 2 === 0 ? style.groupedRow : ''} key={orthId}>
-                  <td style={{fontStyle: 'italic'}}>{getOrthologSpeciesName(orthData)}</td>
+                  <td><SpeciesName>{getOrthologSpeciesName(orthData)}</SpeciesName></td>
                   <td>
                     <Link to={`/gene/${orthId}`}>
                       <span dangerouslySetInnerHTML={{__html: getOrthologSymbol(orthData)}} />
