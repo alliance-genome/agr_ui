@@ -133,10 +133,25 @@ const GeneGeneticInteractionDetailTable = ({
       }
     ]
   ), [focusGeneDisplayName, tableProps]);
+
+  const sortOptions = useMemo(() => (
+    [
+      {
+        value: 'interactorGeneSymbol',
+        label: 'Interactor gene',
+      },
+      {
+        value: 'interactorSpecies',
+        label: 'Interactor species',
+      },
+    ]
+  ), []);
+
   return (
     <DataTable
       {...tableProps}
       columns={columns}
+      sortOptions={sortOptions}
       keyField='primaryKey'
     />
   );
