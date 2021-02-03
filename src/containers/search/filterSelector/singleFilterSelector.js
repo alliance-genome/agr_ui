@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
@@ -8,6 +8,7 @@ import style from './style.scss';
 import {
   getQueryParamWithoutPage,
   stringifyQuery,
+  markAsExcluded
 } from '../../../lib/searchHelpers';
 import CategoryLabel from '../categoryLabel';
 
@@ -44,6 +45,18 @@ class SingleFilterSelector extends Component {
     return values.map( value => this.renderValue(value));
   }
 
+  renderExcludeLink(queryObject, value){
+    let newQueryObject = markAsExcluded(queryObject, value);
+
+    if(this.props.displayName !== 'Category'){
+      return(
+        <Link to={{ pathname: SEARCH_PATH, search: stringifyQuery(newQueryObject) }}>
+          <i title="Exclude term" className="fa fa-minus-circle"/>
+        </Link>
+      );
+    }
+  }
+
   renderValue(value) {
     let classSuffix = value.isActive ? ' active' : '';
     let _key = `fv.${this.props.name}.${value.name}`;
@@ -59,11 +72,14 @@ class SingleFilterSelector extends Component {
     let values = <ul className={style.filterList}>{value.values.map (v => this.renderValue(v))}</ul>;
     return (
       <li className='nav-item' key={_key}>
-        <Link className={`nav-link${classSuffix}`} to={{ pathname: SEARCH_PATH, search: stringifyQuery(newQueryObj) }}>
-          <span className={style.aggLink}>
-            <span className={style.aggLinkLabel}>{nameNode}</span><span>{value.total.toLocaleString()}</span>
-          </span>
-        </Link>
+        <span className='d-flex justify-content-start align-items-center'>
+          <span>{this.renderExcludeLink(newQueryObj, value)}</span>
+          <Link className={[`nav-link${classSuffix}`, style.link].join(' ')} to={{ pathname: SEARCH_PATH, search: stringifyQuery(newQueryObj) }}>
+            <span className={style.aggLink}>
+              <span className={style.aggLinkLabel}>{nameNode}</span><span>{value.total.toLocaleString()}</span>
+            </span>
+          </Link>
+        </span>
         {values}
       </li>
     );

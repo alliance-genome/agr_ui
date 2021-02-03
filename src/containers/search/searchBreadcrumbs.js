@@ -7,6 +7,8 @@ import {
   makeValueDisplayName,
   makeTitleCaseFieldDisplayName,
   stringifyQuery,
+  addNotToFieldDisplayName,
+  isExcluded,
 } from '../../lib/searchHelpers';
 
 import CategoryLabel from './categoryLabel.js';
@@ -40,7 +42,9 @@ const SearchBreadcrumbs = ({queryParams}) => {
         const newQp = getQueryParamWithoutPage(key, value, queryParams);
         const newLocation = { pathname: '/search', search: stringifyQuery(newQp) };
         const labelNode = getLabelNode(key, value);
-        const fieldLabel = makeTitleCaseFieldDisplayName(key) + ':';
+        let fieldLabel = makeTitleCaseFieldDisplayName(key) + ':';
+        fieldLabel = isExcluded(value) ? addNotToFieldDisplayName(fieldLabel) : fieldLabel;
+
         return (
           <Link className='btn btn-primary mr-2 mb-2' key={`bc${key}.${value}`} to={newLocation}>
             {key !== 'category' && fieldLabel} {labelNode} <i className='fa fa-times' />
