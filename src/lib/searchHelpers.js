@@ -8,8 +8,15 @@ import qs from 'qs';
 const SINGLE_VAL_FIELDS = ['mode', 'page'];
 const CLEARING_FIELDS = ['category'];
 
+const IGNORED_PARAMS = ['page', 'mode', 'q'];
+
+
 export function makeValueDisplayName(unformattedName) {
   unformattedName = unformattedName || '';
+
+  if(isExcluded(unformattedName)){
+    unformattedName = removeExclude(unformattedName);
+  }
 
   switch(unformattedName) {
   case 'biological_process':
@@ -21,6 +28,17 @@ export function makeValueDisplayName(unformattedName) {
   default:
     return unformattedName.replace(/_/g, ' ');
   }
+}
+
+export function isExcluded(value) {
+  if(value){
+    return value.charAt(0) === '-';
+
+  }
+}
+
+export function removeExclude(value){
+  return value.substring(1);
 }
 
 export function makeFieldDisplayName(unformattedName, category = '') {
@@ -110,6 +128,10 @@ export function makeTitleCaseFieldDisplayName(unformattedName) {
   return toTitleCase(makeFieldDisplayName(unformattedName));
 }
 
+export function addNotToFieldDisplayName(fieldName) {
+  return 'NOT ' + fieldName;
+}
+
 export function getQueryParamWithoutPage(key, val, queryParams) {
   let pagelessQp = getQueryParamWithValueChanged('page', [], queryParams, true);
   return getQueryParamWithValueChanged(key, val, pagelessQp);
@@ -179,6 +201,31 @@ export function parseQueryString(queryString) {
   return qs.parse(queryString, {
     ignoreQueryPrefix: true,
   });
+}
+
+//adds a '-' to the beginning of a query parameter to indicate that it should be excluded
+export function markAsExcluded(queryObject, value){
+  //used for deep cloning
+  let qp = JSON.parse(JSON.stringify(queryObject)) || {};
+  const qKeys = Object.keys(qp)
+    .filter( d => IGNORED_PARAMS.indexOf(d) < 0);
+
+  let newValue = '-' + value.name;
+
+  qKeys.find(key =>{
+    if(Array.isArray(qp[key])){
+      if(qp[key].find(item => item === value.name)){
+        qp[key] = qp[key].filter(item => item !== value.name);
+        qp[key].push(newValue);
+      }
+    }else{
+      if(qp[key] === value.name){
+        qp[key] = newValue;
+      }
+    }
+  });
+
+  return qp;
 }
 
 export function stringifyQuery(query) {
