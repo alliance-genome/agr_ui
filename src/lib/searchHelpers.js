@@ -38,7 +38,7 @@ export function isExcluded(value) {
 }
 
 export function removeExclude(value){
-  return value = value.substring(1);
+  return value.substring(1);
 }
 
 export function makeFieldDisplayName(unformattedName, category = '') {
@@ -129,7 +129,7 @@ export function makeTitleCaseFieldDisplayName(unformattedName) {
 }
 
 export function addNotToFieldDisplayName(fieldName) {
-  return fieldName = 'NOT ' + fieldName;
+  return 'NOT ' + fieldName;
 }
 
 export function getQueryParamWithoutPage(key, val, queryParams) {
@@ -205,6 +205,7 @@ export function parseQueryString(queryString) {
 
 //adds a '-' to the beginning of a query parameter to indicate that it should be excluded
 export function markAsExcluded(queryObject, value){
+  //used for deep cloning
   let qp = JSON.parse(JSON.stringify(queryObject)) || {};
   const qKeys = Object.keys(qp)
     .filter( d => IGNORED_PARAMS.indexOf(d) < 0);

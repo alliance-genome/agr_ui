@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
@@ -72,9 +72,9 @@ class SingleFilterSelector extends Component {
     let values = <ul className={style.filterList}>{value.values.map (v => this.renderValue(v))}</ul>;
     return (
       <li className='nav-item' key={_key}>
-        <span className={style.aggLinkLine}>
+        <span className='d-flex justify-content-start align-items-center'>
           <span>{this.renderExcludeLink(newQueryObj, value)}</span>
-          <Link className={`nav-link${classSuffix}`} className={style.link}to={{ pathname: SEARCH_PATH, search: stringifyQuery(newQueryObj) }}>
+          <Link className={[`nav-link${classSuffix}`, style.link].join(' ')} to={{ pathname: SEARCH_PATH, search: stringifyQuery(newQueryObj) }}>
             <span className={style.aggLink}>
               <span className={style.aggLinkLabel}>{nameNode}</span><span>{value.total.toLocaleString()}</span>
             </span>
