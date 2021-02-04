@@ -72,7 +72,10 @@ const DataTable = ({
       ...tableState,
       page: newState.page,
       sizePerPage: newState.sizePerPage,
-      filters: translateFilterNames(newState.filters),
+      filters: {
+        ...tableState.filters,
+        ...translateFilterNames(newState.filters),
+      }
     });
   };
 
