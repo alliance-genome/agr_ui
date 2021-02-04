@@ -23,7 +23,9 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
     ...tableProps
   } = useDataTableQuery(`/api/gene/${focusGeneId}/interactions`, undefined, {
     filters: {
-      joinType: 'physical_interaction',
+      joinType: {
+        filterVal: 'molecular_interaction',
+      },
     },
   });
 
