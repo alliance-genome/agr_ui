@@ -26,6 +26,7 @@ const GeneGeneticInteractionDetailTable = ({
         },
         formatter: (term, _, rowIndex) => <MITerm {...term} id={`genetic_interaction-interactorARole-${rowIndex}`} />,
         filterable: true,
+        filterName: 'role',
       },
       {
         dataField: 'alleleA',
@@ -35,6 +36,7 @@ const GeneGeneticInteractionDetailTable = ({
         },
         formatter: (allele) => (allele ? <AlleleCell allele={allele} /> : null),
         filterable: true,
+        filterName: 'geneticPerturbation',
       },
       {
         dataField: 'geneB',
@@ -64,6 +66,7 @@ const GeneGeneticInteractionDetailTable = ({
         },
         formatter: (term, _, rowIndex) => <MITerm {...term} id={`genetic_interaction-interactorBRole-${rowIndex}`} />,
         filterable: true,
+        filterName: 'interacotorRole',
       },
       {
         dataField: 'alleleB',
@@ -73,6 +76,7 @@ const GeneGeneticInteractionDetailTable = ({
         },
         formatter: (allele) => (allele ? <AlleleCell allele={allele} /> : null),
         filterable: true,
+        filterName: 'interactorGeneticPerturbation',
       },
       {
         dataField: 'interactionType',
@@ -90,6 +94,7 @@ const GeneGeneticInteractionDetailTable = ({
           width: '150px',
         },
         filterable: true,
+        filterName: 'phenotypes',
       },
       {
         dataField: 'crossReferences',
