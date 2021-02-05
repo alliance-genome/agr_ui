@@ -14,13 +14,7 @@ const GeneGeneticInteractionDetailTable = ({
   focusGeneId,
   focusGeneDisplayName,
 }) => {
-  const tableProps = useDataTableQuery(`/api/gene/${focusGeneId}/interactions`, undefined, {
-    filters: {
-      joinType: {
-        filterVal: 'genetic_interaction',
-      },
-    },
-  });
+  const tableProps = useDataTableQuery(`/api/gene/${focusGeneId}/interactions?filter.joinType=genetic_interaction`);
 
   const columns = useMemo(() => (
     [

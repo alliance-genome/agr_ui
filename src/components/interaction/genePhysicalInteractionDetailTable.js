@@ -21,13 +21,7 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
     resolvedData,
     data: results,
     ...tableProps
-  } = useDataTableQuery(`/api/gene/${focusGeneId}/interactions`, undefined, {
-    filters: {
-      joinType: {
-        filterVal: 'molecular_interaction',
-      },
-    },
-  });
+  } = useDataTableQuery(`/api/gene/${focusGeneId}/interactions?filter.joinType=molecular_interaction`);
 
   const getCellId = (fieldKey, rowIndex) => {
     return `${DEFAULT_TABLE_KEY}-${fieldKey}-${rowIndex}`;
