@@ -50,6 +50,7 @@ const GeneGeneticInteractionDetailTable = ({
         },
         formatter: GeneCell,
         filterable: true,
+        filterName: 'interactorGeneSymbol',
       },
       {
         dataField: 'geneB.species',
@@ -59,6 +60,7 @@ const GeneGeneticInteractionDetailTable = ({
         },
         formatter: (species) => <SpeciesCell species={species} />,
         filterable: true,
+        filterName: 'interactorSpecies',
       },
       {
         dataField: 'interactorBRole',
@@ -122,6 +124,7 @@ const GeneGeneticInteractionDetailTable = ({
           </div>
         ),
         filterable: true,
+        filterName: 'source',
       },
       {
         dataField: 'publication',
@@ -132,6 +135,7 @@ const GeneGeneticInteractionDetailTable = ({
         // eslint-disable-next-line react/prop-types
         formatter: ({pubMedUrl, primaryKey} = {}) => <ExternalLink href={pubMedUrl}>{primaryKey}</ExternalLink>,
         filterable: true,
+        filterName: 'reference',
       }
     ]
   ), [focusGeneDisplayName, tableProps]);
