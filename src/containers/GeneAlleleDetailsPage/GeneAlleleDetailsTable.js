@@ -6,6 +6,7 @@ import {
   DataTable,
   VEPTextCell,
 } from '../../components/dataTable';
+import NoData from '../../components/noData';
 import VariantJBrowseLink from '../../components/variant/VariantJBrowseLink';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
