@@ -6,11 +6,13 @@ import {
   DataTable,
   VEPTextCell,
 } from '../../components/dataTable';
+import NoData from '../../components/noData';
 import VariantJBrowseLink from '../../components/variant/VariantJBrowseLink';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import { getSingleGenomeLocation, findFminFmax } from '../../lib/utils';
 import VariantsSequenceViewer from '../genePage/VariantsSequenceViewer';
+import ErrorBoundary from '../../components/errorBoundary';
 
 const GeneAlleleDetailsTable = ({geneId}) => {
   const { isLoading: isLoadingGene, isError: isErrorGene, data: gene } = usePageLoadingQuery(`/api/gene/${geneId}`);
@@ -200,18 +202,22 @@ const GeneAlleleDetailsTable = ({geneId}) => {
 
   return (
     <>
-      {
-        isLoading || isLoadingGene ?
-          null :
-          variantsSequenceViewerProps.hasVariants ?
-            <VariantsSequenceViewer {...variantsSequenceViewerProps} /> :
-            <NoData>No mapped variant information available</NoData>
-      }
-      <DataTable
-        {...tableQuery}
-        columns={columns}
-        keyField='id'
-      />
+      <ErrorBoundary>
+        {
+          isLoading || isLoadingGene ?
+            null :
+            variantsSequenceViewerProps.hasVariants ?
+              <VariantsSequenceViewer {...variantsSequenceViewerProps} /> :
+              <NoData>No mapped variant information available</NoData>
+        }
+      </ErrorBoundary>
+      <ErrorBoundary>
+        <DataTable
+          {...tableQuery}
+          columns={columns}
+          keyField='id'
+        />
+      </ErrorBoundary>
     </>
   );
 };
