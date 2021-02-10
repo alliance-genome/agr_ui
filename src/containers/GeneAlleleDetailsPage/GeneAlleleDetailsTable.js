@@ -115,7 +115,8 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     {
       text: 'Sequence feature associated gene',
       dataField: 'consequence.associatedGene.symbol',
-      // missing data
+      filterable: true,
+      filterName: 'associatedGeneSymbol',
       headerStyle: {width: '150px'},
     },
     {
