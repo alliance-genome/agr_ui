@@ -7,7 +7,7 @@ import {
   makeValueDisplayName,
   makeTitleCaseFieldDisplayName,
   stringifyQuery,
-  addNotToFieldDisplayName,
+  strikeThroughLabelNode,
   isExcluded,
 } from '../../lib/searchHelpers';
 
@@ -41,9 +41,9 @@ const SearchBreadcrumbs = ({queryParams}) => {
       return values.map(value => {
         const newQp = getQueryParamWithoutPage(key, value, queryParams);
         const newLocation = { pathname: '/search', search: stringifyQuery(newQp) };
-        const labelNode = getLabelNode(key, value);
-        let fieldLabel = makeTitleCaseFieldDisplayName(key) + ':';
-        fieldLabel = isExcluded(value) ? addNotToFieldDisplayName(fieldLabel) : fieldLabel;
+        const fieldLabel = makeTitleCaseFieldDisplayName(key) + ':';
+        let labelNode = getLabelNode(key, value);
+        labelNode = isExcluded(value) ? strikeThroughLabelNode(labelNode) : labelNode;
 
         return (
           <Link className='btn btn-primary mr-2 mb-2' key={`bc${key}.${value}`} to={newLocation}>
