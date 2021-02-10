@@ -4,6 +4,7 @@ import {
   AlleleCell,
   BooleanLinkCell,
   DataTable,
+  GeneCell,
   VEPTextCell,
 } from '../../components/dataTable';
 import NoData from '../../components/noData';
@@ -116,7 +117,10 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     },
     {
       text: 'Sequence feature associated gene',
-      // missing data
+      dataField: 'consequence.associatedGene',
+      formatter: GeneCell,
+      filterable: true,
+      filterName: 'associatedGeneSymbol',
       headerStyle: {width: '150px'},
     },
     {
