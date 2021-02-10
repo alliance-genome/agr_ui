@@ -4,6 +4,7 @@ import {
   AlleleCell,
   BooleanLinkCell,
   DataTable,
+  GeneCell,
   VEPTextCell,
 } from '../../components/dataTable';
 import VariantJBrowseLink from '../../components/variant/VariantJBrowseLink';
@@ -114,7 +115,8 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     },
     {
       text: 'Sequence feature associated gene',
-      dataField: 'consequence.associatedGene.symbol',
+      dataField: 'consequence.associatedGene',
+      formatter: GeneCell,
       filterable: true,
       filterName: 'associatedGeneSymbol',
       headerStyle: {width: '150px'},

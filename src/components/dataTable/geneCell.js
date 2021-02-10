@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import style from './style.scss';
 
-const GeneCell = ({id, symbol}) => {
+const GeneCell = ({id, symbol} = {}) => {
   return (
     <Link className={style.breakWords} to={'/gene/' + id}>{symbol}</Link>
   );
