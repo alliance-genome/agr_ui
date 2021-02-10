@@ -34,7 +34,7 @@ const VariantEffectDetails = ({
     cdsEndPosition,
 
     // consequence
-    transcriptLevelConsequence = '',
+    molecularConsequence = '',
 
     //hgvs
     hgvsCodingNomenclature,
@@ -93,7 +93,7 @@ const VariantEffectDetails = ({
       <AttributeLabel>Molecular Consequence</AttributeLabel>
       <AttributeValue>
         <CollapsibleList collapsedSize={5}>
-          {transcriptLevelConsequence.split(',').map(consequenceText => consequenceText.replace(/_/g, ' '))}
+          {molecularConsequence.split(',').map(consequenceText => consequenceText.replace(/_/g, ' '))}
         </CollapsibleList>
       </AttributeValue>
 
@@ -169,7 +169,7 @@ VariantEffectDetails.propTypes = {
     cdsEndPosition: PropTypes.string,
 
     // consequence
-    transcriptLevelConsequence: PropTypes.string,
+    molecularConsequence: PropTypes.string,
 
     //hgvs
     hgvsCodingNomenclature: PropTypes.string,
