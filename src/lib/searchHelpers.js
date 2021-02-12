@@ -128,8 +128,8 @@ export function makeTitleCaseFieldDisplayName(unformattedName) {
   return toTitleCase(makeFieldDisplayName(unformattedName));
 }
 
-export function addNotToFieldDisplayName(fieldName) {
-  return 'NOT ' + fieldName;
+export function strikeThroughLabelNode(labelNode) {
+  return <s>{labelNode}</s>;
 }
 
 export function getQueryParamWithoutPage(key, val, queryParams) {
