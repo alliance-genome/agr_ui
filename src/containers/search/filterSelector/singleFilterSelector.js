@@ -42,7 +42,14 @@ class SingleFilterSelector extends Component {
   renderFilterValues() {
     let values = this.props.values.slice(0, this.state.numVisible);
     return values.map( value =>
-      <SingleFilterValue key={`fv.${this.props.name}.${value.name}`} value={value} name={this.props.name} queryParams={this.props.queryParams} SEARCH_PATH={SEARCH_PATH} displayName={this.props.displayName}/>
+      (<SingleFilterValue
+        key={`fv.${this.props.name}.${value.name}`}
+        value={value}
+        name={this.props.name}
+        queryParams={this.props.queryParams}
+        SEARCH_PATH={SEARCH_PATH}
+        displayName={this.props.displayName}
+      />)
     );
   }
 

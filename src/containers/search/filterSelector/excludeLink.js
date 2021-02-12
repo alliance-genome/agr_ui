@@ -1,28 +1,41 @@
-import {markAsExcluded, stringifyQuery} from '../../../lib/searchHelpers';
+import {
+  toCamelCase,
+  markAsExcluded,
+  stringifyQuery
+} from '../../../lib/searchHelpers';
 import {Link} from 'react-router-dom';
 import React from 'react';
 import * as PropTypes from 'prop-types';
+import style from './style.scss';
+import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
 
 /**
  * @return {null}
  */
 function ExcludeLink(props) {
-  let {queryObject, value, displayExclude, SEARCH_PATH, toggleStrikeThrough, displayName} = props;
+  let {queryObject, value, displayExclude, SEARCH_PATH, setStrikeThroughFilter, displayName} = props;
   let newQueryObject = markAsExcluded(queryObject, value);
   let visibility = displayExclude ? 'visible' : 'hidden';
+  let id = displayName + value.displayName;
+  id = toCamelCase(id.replace(/[^a-zA-Z0-9]/gm, ''));
+
   if (displayName !== 'Category') {
     return (
-      <span
+      <div
         style={{visibility: visibility}}
-        onMouseEnter={toggleStrikeThrough}
-        onMouseLeave={toggleStrikeThrough}
+        onMouseEnter={() => setStrikeThroughFilter(true)}
+        onMouseLeave={() => setStrikeThroughFilter(false)}
       >
         <Link
           to={{pathname: SEARCH_PATH, search: stringifyQuery(newQueryObject)}}
         >
-          <span title="Exclude term">&times;</span>
+          <span id={id}>&times;</span>
         </Link>
-      </span>
+
+        <UncontrolledTooltip className={style.tooltip} target={id}>
+          Exclude Term
+        </UncontrolledTooltip>
+      </div>
     );
   } else {
     return null;
@@ -30,12 +43,12 @@ function ExcludeLink(props) {
 }
 
 ExcludeLink.propTypes = {
-  queryObject: PropTypes.any,
-  value: PropTypes.any,
-  displayExclude: PropTypes.any,
-  SEARCH_PATH: PropTypes.any,
-  toggleStrikeThrough: PropTypes.any,
-  displayName: PropTypes.any
+  queryObject: PropTypes.object,
+  value: PropTypes.object,
+  displayExclude: PropTypes.bool,
+  SEARCH_PATH: PropTypes.string,
+  setStrikeThroughFilter: PropTypes.func,
+  displayName: PropTypes.string
 };
 
 
