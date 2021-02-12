@@ -71,7 +71,7 @@ const VariantToTranscriptTable = ({variant}) => {
                 // cdnaEndPosition,
 
                 // consequence
-                transcriptLevelConsequence = '',
+                molecularConsequence = '',
 
                 // protein
                 aminoAcidReference = '',
@@ -86,12 +86,12 @@ const VariantToTranscriptTable = ({variant}) => {
                 cdsEndPosition,
 
               }, index) => {
-                const transcriptLevelConsequenceTerms = transcriptLevelConsequence.split(',');
+                const molecularConsequenceTerms = molecularConsequence.split(',');
                 return (
                   <div className={`row ${styles.row}`} key={index}>
                     <div className='col'>
                       <CollapsibleList collapsedSize={1} showBullets>
-                        {transcriptLevelConsequenceTerms.map(
+                        {molecularConsequenceTerms.map(
                           (consequence) => {
                             return consequence.replace(/_/g, ' ');
                           })
