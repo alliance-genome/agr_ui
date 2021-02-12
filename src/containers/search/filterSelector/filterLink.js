@@ -23,10 +23,10 @@ const FilterLink = props => {
 export default FilterLink;
 
 FilterLink.propTypes = {
-  newQueryObj: PropTypes.any,
+  newQueryObj: PropTypes.object,
   nameNode: PropTypes.any,
-  strikeThroughFilter: PropTypes.any,
-  SEARCH_PATH: PropTypes.any,
-  value: PropTypes.any,
-  classSuffix: PropTypes.any
+  strikeThroughFilter: PropTypes.bool,
+  SEARCH_PATH: PropTypes.string,
+  value: PropTypes.object,
+  classSuffix: PropTypes.string
 };
