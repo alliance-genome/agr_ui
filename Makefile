@@ -1,5 +1,6 @@
 REG := 100225593120.dkr.ecr.us-east-1.amazonaws.com
-DOCKER_IMAGE_TAG := latest
+DOCKER_PULL_TAG := latest
+DOCKER_BUILD_TAG := latest
 
 registry-docker-login:
 ifneq ($(shell echo ${REG} | egrep "ecr\..+\.amazonaws\.com"),)
@@ -23,19 +24,19 @@ run:
 	npm start
 
 docker-build-nginx: registry-docker-login
-	docker build -t ${REG}/agr_ui_server:${DOCKER_IMAGE_TAG} --build-arg REG=${REG} --build-arg DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} .
+	docker build -t ${REG}/agr_ui_server:${DOCKER_BUILD_TAG} --build-arg REG=${REG} --build-arg DOCKER_PULL_TAG=${DOCKER_PULL_TAG} .
 
 push: registry-docker-login
-	docker push ${REG}/agr_ui_server
+	docker push ${REG}/agr_ui_server:${DOCKER_BUILD_TAG}
 
 pull: registry-docker-login
-	docker pull ${REG}/agr_ui_server:${DOCKER_IMAGE_TAG}
+	docker pull ${REG}/agr_ui_server:${DOCKER_BUILD_TAG}
 
 bash:
-	docker run -t -i ${REG}/agr_ui_server:${DOCKER_IMAGE_TAG} bash
+	docker run -t -i ${REG}/agr_ui_server:${DOCKER_BUILD_TAG} bash
 
 docker-run:
-	docker run -p 2992:2992 -t -i ${REG}/agr_ui_server:${DOCKER_IMAGE_TAG}
+	docker run -p 2992:2992 -t -i ${REG}/agr_ui_server:${DOCKER_BUILD_TAG}
 
 docker-run-command:
 	npm run start-docker
