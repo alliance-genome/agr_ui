@@ -1,7 +1,7 @@
 import React from 'react';
 import clone from 'lodash.clone';
 import without from 'lodash.without';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import ExternalLink from '../components/ExternalLink';
 import qs from 'qs';
 
@@ -232,4 +232,12 @@ export function stringifyQuery(query) {
   return qs.stringify(query, {
     arrayFormat: 'repeat',
   });
+}
+
+export function toCamelCase(string){
+  let stringArr = string.split(' ');
+  for(let i = 1; i < stringArr.length; i++ ){
+    stringArr[i] = stringArr[i].charAt(0).toUpperCase() + stringArr[i].slice(1);
+  }
+  return stringArr.join('');
 }

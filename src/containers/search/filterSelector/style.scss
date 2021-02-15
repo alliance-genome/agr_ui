@@ -28,6 +28,11 @@
   flex-grow: 1;
 }
 
+//deals with flickering bug
+.tooltip{
+  pointer-events: none;
+}
+
 .aggLinkLabel {
 	margin-right: 1rem;
 }
