@@ -13,10 +13,6 @@ const  SingleFilterValue = ({name, queryParams, value, SEARCH_PATH, displayName}
   const [ displayExclude, setDisplayExclude ] = useState(false);
   const [ strikeThroughFilter, setStrikeThroughFilter ] = useState(false);
 
-  const toggle = () => setDisplayExclude(value.isActive ? false : !displayExclude);
-
-  const toggleStrikeThrough = () => setStrikeThroughFilter(!strikeThroughFilter);
-
   let classSuffix = value.isActive ? ' active' : '';
   let _key = `fv.${name}.${value.name}`;
   let nameNode;
@@ -42,8 +38,8 @@ const  SingleFilterValue = ({name, queryParams, value, SEARCH_PATH, displayName}
     <div>
       <li
         className='nav-item'
-        onMouseEnter={toggle}
-        onMouseLeave={toggle}
+        onMouseEnter={() => setDisplayExclude(!value.isActive)}
+        onMouseLeave={() => setDisplayExclude(false)}
       >
         <span className='d-flex justify-content-start align-items-center'>
 
@@ -54,6 +50,7 @@ const  SingleFilterValue = ({name, queryParams, value, SEARCH_PATH, displayName}
             SEARCH_PATH={SEARCH_PATH}
             value={value}
             classSuffix={classSuffix}
+            setDisplayExclude={setDisplayExclude}
           />
 
           <ExcludeLink
@@ -61,8 +58,9 @@ const  SingleFilterValue = ({name, queryParams, value, SEARCH_PATH, displayName}
             value={value}
             displayExclude={displayExclude}
             SEARCH_PATH={SEARCH_PATH}
-            toggleStrikeThrough={toggleStrikeThrough}
+            setStrikeThroughFilter={setStrikeThroughFilter}
             displayName={displayName}
+            setDisplayExclude={setDisplayExclude}
           />
         </span>
       </li>
