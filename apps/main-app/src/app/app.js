@@ -1,20 +1,21 @@
 import React from 'react';
-import styles from './app.module.scss';
+import tw from 'twin.macro';
+import { Route, Link } from 'react-router-dom';
+import Menu from './components/Header/Menu';
+import MenuItem from './components/Header/MenuItem';
 import { ReactComponent as Logo } from './logo.svg';
 import star from './star.svg';
 
-import { Route, Link } from 'react-router-dom';
 export function App() {
   return (
-    <div className={styles.app}>
-      <header className="flex">
-        Hello world!
+    <div>
+      <header tw="flex bg-blue-500">
+        <Menu></Menu>
       </header>
 
       {/* START: routes */}
       {/* These routes and navigation have been generated for you */}
       {/* Feel free to move and update them to fit your needs */}
-      <br />
       <hr />
       <br />
       <div role="navigation">
@@ -39,6 +40,15 @@ export function App() {
       />
       <Route
         path="/page-2"
+        exact
+        render={() => (
+          <div>
+            <Link to="/">Click here to go back to root page.</Link>
+          </div>
+        )}
+      />
+      <Route
+        path="/:other"
         exact
         render={() => (
           <div>
