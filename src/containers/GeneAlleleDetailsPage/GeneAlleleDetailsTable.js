@@ -112,7 +112,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
       dataField: 'consequence.sequenceFeatureType',
       formatter: VEPTextCell,
       filterable: true,
-      filterName: 'consequenceType',
+      filterName: 'sequenceFeatureType',
       headerStyle: {width: '200px'},
     },
     {
