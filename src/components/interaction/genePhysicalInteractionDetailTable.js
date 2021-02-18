@@ -81,7 +81,7 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
     {
       dataField: 'interactorSpecies',
       text: 'Interactor species',
-      formatter: species => <i>{species.name}</i>,
+      formatter: species => <SpeciesName>{species.name}</SpeciesName>,
       headerStyle: {width: '8em'},
       headerClasses: style.columnHeaderGroup2,
       classes: style.columnGroup2,

@@ -15,9 +15,22 @@
 	text-transform: capitalize;
 }
 
+.strikeThrough {
+  text-decoration: line-through;
+}
+
 .aggLink {
 	display: flex;
 	justify-content: space-between;
+}
+
+.link {
+  flex-grow: 1;
+}
+
+//deals with flickering bug
+.tooltip{
+  pointer-events: none;
 }
 
 .aggLinkLabel {

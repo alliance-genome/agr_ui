@@ -1,4 +1,5 @@
-export const SEARCH_API_ERROR_MESSAGE = 'There was a problem connecting to the server. Please refresh the page.  If you continue to see this message, please contact alliance-software@lists.stanford.edu';
+export const HELP_EMAIL = 'help@alliancegenome.org';
+export const SEARCH_API_ERROR_MESSAGE = `There was a problem connecting to the server. Please refresh the page. If you continue to see this message, please contact ${HELP_EMAIL}`;
 export const LARGE_COL_CLASS = 'col-md-8 col-12';
 export const SMALL_COL_CLASS = 'col-md-4 col-12';
 
@@ -64,8 +65,6 @@ export const DUPLICATE_HIGHLIGHTED_FIELDS = [
   'crossReferences',
   'synonyms'
 ];
-
-export const HELP_EMAIL = 'help@alliancegenome.org';
 
 export const NAV_MENU = [
   {
