@@ -17,6 +17,7 @@
   },
   "projects": {
     "main-app": { "tags": [] },
-    "main-app-e2e": { "tags": [], "implicitDependencies": ["main-app"] }
+    "main-app-e2e": { "tags": [], "implicitDependencies": ["main-app"] },
+    "app-shell": { "tags": [] }
   }
 }
