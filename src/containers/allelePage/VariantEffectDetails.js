@@ -35,6 +35,9 @@ const VariantEffectDetails = ({
 
     // consequence
     molecularConsequence = '',
+    impact = '',
+    siftPrediction = '',
+    polyphenPrediction = '',
 
     //hgvs
     hgvsCodingNomenclature,
@@ -96,6 +99,15 @@ const VariantEffectDetails = ({
           {molecularConsequence.split(',').map(consequenceText => consequenceText.replace(/_/g, ' '))}
         </CollapsibleList>
       </AttributeValue>
+
+      <AttributeLabel>VEP impact</AttributeLabel>
+      <AttributeValue>{impact.toLowerCase()}</AttributeValue>
+
+      <AttributeLabel>SIFT prediction (score)</AttributeLabel>
+      <AttributeValue>{siftPrediction.replace(/_/g, ' ')}</AttributeValue>
+
+      <AttributeLabel>PolyPhen prediction (score)</AttributeLabel>
+      <AttributeValue>{polyphenPrediction.replace(/_/g, ' ')}</AttributeValue>
 
 
       <AttributeLabel style={labelStyle}>Position of Variant in Transcript</AttributeLabel>
