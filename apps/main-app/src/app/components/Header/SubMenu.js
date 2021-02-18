@@ -1,19 +1,22 @@
-import React, { useState } from 'react';
-import MenuItem from './MenuItem';
+import React, { useState, useContext, useCallback } from 'react';
 import tw from 'twin.macro';
+import MenuItem from './MenuItem';
+import MenuContext from './MenuContext';
 
 const SubMenu = ({ title, children }) => {
-  const [isOpen, setOpen] = useState(false);
+  const { itemOpen, setItemOpen } = useContext(MenuContext);
+  const handleClick = useCallback(() => {
+    setItemOpen(title);
+  }, [setItemOpen, title]);
 
   return (
     <MenuItem>
-      <button
-        onClick={() => setOpen((isOpen) => !isOpen)}
-        tw="focus:outline-none"
-      >
+      <button onClick={handleClick} tw="focus:outline-none">
         {title}
       </button>
-      {isOpen ? <ul tw="absolute flex flex-col">{children}</ul> : null}
+      {itemOpen === title ? (
+        <ul tw="absolute flex flex-col">{children}</ul>
+      ) : null}
     </MenuItem>
   );
 };

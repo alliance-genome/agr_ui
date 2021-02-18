@@ -50,8 +50,9 @@ export function App() {
       <Route
         path="/:other"
         exact
-        render={() => (
+        render={({ ...params }) => (
           <div>
+            <pre>{JSON.stringify(params, null, 2)}</pre>
             <Link to="/">Click here to go back to root page.</Link>
           </div>
         )}
