@@ -1,5 +1,10 @@
-import React, { useMemo, useState } from 'react';
-// import { Link } from 'react-router-dom';
+import React, {
+  useMemo,
+  useRef,
+  useCallback,
+  useState,
+  useEffect,
+} from 'react';
 import tw, { css } from 'twin.macro';
 import MenuItem from './MenuItem';
 import SubMenu from './SubMenu';
@@ -15,9 +20,28 @@ const Menu = () => {
       resetItemOpen: () => setItemOpen(null),
     };
   }, [itemOpen, setItemOpen]);
+
+  const menuRef = useRef();
+  const handleClick = useCallback(
+    (event) => {
+      if (!menuRef.current.contains(event.target)) {
+        setItemOpen(null);
+      }
+    },
+    [setItemOpen]
+  );
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClick);
+    // return function to be called when unmounted
+    return () => {
+      document.removeEventListener('mousedown', handleClick);
+    };
+  }, [handleClick]);
+
   return (
     <MenuContext.Provider value={menuContextValue}>
-      <ul tw="flex justify-start">
+      <ul ref={menuRef} tw="flex justify-start">
         <MenuItem>
           <Link to="/">Home</Link>
         </MenuItem>
