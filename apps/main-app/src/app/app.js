@@ -1,6 +1,7 @@
 import React from 'react';
 import tw from 'twin.macro';
 import { Route, Link } from 'react-router-dom';
+import { AppShell } from '@wormbase/agr-app-shell';
 import Menu from './components/Header/Menu';
 import MenuItem from './components/Header/MenuItem';
 import { ReactComponent as Logo } from './logo.svg';
@@ -12,7 +13,7 @@ export function App() {
       <header tw="flex bg-blue-500">
         <Menu></Menu>
       </header>
-
+      <AppShell></AppShell>
       {/* START: routes */}
       {/* These routes and navigation have been generated for you */}
       {/* Feel free to move and update them to fit your needs */}
