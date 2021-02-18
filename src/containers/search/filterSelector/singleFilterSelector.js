@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import Select from 'react-select';
 
 import style from './style.scss';
 import {
   getQueryParamWithoutPage,
-  stringifyQuery,
+  stringifyQuery
 } from '../../../lib/searchHelpers';
-import CategoryLabel from '../categoryLabel';
+import SingleFilterValue from './singleFilterValue';
 
 const DELIMITER = '@@';
 const SMALL_NUM_VISIBLE = 5;
@@ -41,31 +41,15 @@ class SingleFilterSelector extends Component {
 
   renderFilterValues() {
     let values = this.props.values.slice(0, this.state.numVisible);
-    return values.map( value => this.renderValue(value));
-  }
-
-  renderValue(value) {
-    let classSuffix = value.isActive ? ' active' : '';
-    let _key = `fv.${this.props.name}.${value.name}`;
-    let nameNode;
-    if (this.props.name.match('species')) {
-      nameNode = <i>{value.displayName}</i>;
-    } else if (this.props.name === 'category') {
-      nameNode = <CategoryLabel category={value.name} />;
-    } else {
-      nameNode = <span>{value.displayName}</span>;
-    }
-    let newQueryObj = getQueryParamWithoutPage(this.props.name, value.key, this.props.queryParams);
-    let values = <ul className={style.filterList}>{value.values.map (v => this.renderValue(v))}</ul>;
-    return (
-      <li className='nav-item' key={_key}>
-        <Link className={`nav-link${classSuffix}`} to={{ pathname: SEARCH_PATH, search: stringifyQuery(newQueryObj) }}>
-          <span className={style.aggLink}>
-            <span className={style.aggLinkLabel}>{nameNode}</span><span>{value.total.toLocaleString()}</span>
-          </span>
-        </Link>
-        {values}
-      </li>
+    return values.map( value =>
+      (<SingleFilterValue
+        key={`fv.${this.props.name}.${value.name}`}
+        value={value}
+        name={this.props.name}
+        queryParams={this.props.queryParams}
+        SEARCH_PATH={SEARCH_PATH}
+        displayName={this.props.displayName}
+      />)
     );
   }
 

@@ -20,6 +20,12 @@ export const getTranscriptTypes = function () {
     , 'pseudogenic_transcript'
     , 'snoRNA_gene'
     , 'mature_protein_region'
+    , 'telomerase_RNA'
+    , 'transposable_element'
+    , 'enzymatic_RNA'
+    , 'RNase_MRP_RNA'
+    , 'RNase_P_RNA'
+    , 'transcript'
   ];
 };
 
