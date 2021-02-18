@@ -139,7 +139,7 @@ const DataTable = ({
 
       const distinctFieldValues = Array.isArray(column.filterable) ?
         column.filterable :
-        getDistinctFieldValue(resolvedData, `filter.${column.filterName}`);
+        getDistinctFieldValue(resolvedData, `filter.${filterField}`);
 
       if (distinctFieldValues && distinctFieldValues.length > 0) {
         column.filterRenderer = (onFilter, column) => (
