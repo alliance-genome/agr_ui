@@ -4,6 +4,7 @@ const MenuContext = React.createContext({
   itemOpen: null,
   setItemOpen: () => {},
   resetItemOpen: () => {},
+  renderLink: () => {},
 });
 
 export default MenuContext;
