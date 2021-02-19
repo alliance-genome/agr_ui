@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 
-export function LinkRenderDefault({ to, handleClick: closeMenu, children }) {
+export function LinkRenderDefault({ to, closeMenu, children }) {
   const handleClick = useCallback(
     (event) => {
       event.preventDefault();

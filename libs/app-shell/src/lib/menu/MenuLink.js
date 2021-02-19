@@ -6,13 +6,13 @@ import MenuContext from './MenuContext';
 const MenuLink = ({ to, children }) => {
   const { resetItemOpen } = useContext(MenuContext);
   const renderLink = useRenderLink();
-  const handleClick = useCallback(() => {
+  const closeMenu = useCallback(() => {
     resetItemOpen();
   }, [resetItemOpen]);
   return renderLink({
     to,
     children,
-    handleClick,
+    closeMenu,
   });
 };
 

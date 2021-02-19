@@ -5,18 +5,16 @@ import { AppShell } from '@wormbase/agr-app-shell';
 import star from './star.svg';
 
 export function App() {
-  const linkContextValue = useMemo(
-    () => ({
-      renderLink: ({ to, handleClick, children }) => (
-        <Link to={to} onClick={handleClick}>
-          {children}
-        </Link>
-      ),
-    }),
+  const renderLink = useMemo(
+    () => ({ to, closeMenu, children }) => (
+      <Link to={to} onClick={closeMenu}>
+        {children}
+      </Link>
+    ),
     []
   );
   return (
-    <AppShell>
+    <AppShell renderLink={renderLink}>
       {/* START: routes */}
       {/* These routes and navigation have been generated for you */}
       {/* Feel free to move and update them to fit your needs */}
