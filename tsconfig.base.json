@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@wormbase/agr-app-shell": ["libs/app-shell/src/index.js"]
+      "@wormbase/agr-app-shell": ["libs/app-shell/src/index.js"],
+      "@wormbase/agr-shared-assets": ["libs/shared-assets/src/index.js"]
     }
   },
   "exclude": ["node_modules", "tmp"]
