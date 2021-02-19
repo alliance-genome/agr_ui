@@ -21,7 +21,7 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
     resolvedData,
     data: results,
     ...tableProps
-  } = useDataTableQuery(`/api/gene/${focusGeneId}/interactions`);
+  } = useDataTableQuery(`/api/gene/${focusGeneId}/interactions?filter.joinType=molecular_interaction`);
 
   const getCellId = (fieldKey, rowIndex) => {
     return `${DEFAULT_TABLE_KEY}-${fieldKey}-${rowIndex}`;
@@ -105,11 +105,11 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
     {
       dataField: 'detectionMethod',
       text: 'Detection methods',
-      formatter: (items = [], row, rowIndex) => {
+      formatter: (items, row, rowIndex) => {
         return (
           <CommaSeparatedList>
             {
-              items.map(
+              items && items.map(
                 (props = {}, index) => {
                   const id = getCellId('detectionsMethods', `${rowIndex}-${index}`);
                   return (
