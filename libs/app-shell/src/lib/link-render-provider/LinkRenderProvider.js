@@ -1,9 +1,28 @@
-import React from 'react';
-export function LinkRenderProvider(props) {
+import React, { useContext, useMemo } from 'react';
+
+const LinkContext = React.createContext({
+  renderLink: () => {},
+});
+
+export function useRenderLink() {
+  const context = useContext(LinkContext);
+  if (context === undefined) {
+    throw new Error('useRenderLink must be used within a LinkContext');
+  }
+  return context.renderLink;
+}
+
+export function LinkRenderProvider({ renderLink, children }) {
+  const linkContextValue = useMemo(
+    () => ({
+      renderLink,
+    }),
+    [renderLink]
+  );
   return (
-    <div>
-      <h1>Welcome to LinkRenderProvider!</h1>
-    </div>
+    <LinkContext.Provider value={linkContextValue}>
+      {children}
+    </LinkContext.Provider>
   );
 }
 export default LinkRenderProvider;

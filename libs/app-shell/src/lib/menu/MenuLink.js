@@ -1,11 +1,11 @@
 import React, { useContext, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import LinkContext from '../Link/LinkContext';
+import { useRenderLink } from '../link-render-provider/LinkRenderProvider';
 import MenuContext from './MenuContext';
 
 const MenuLink = ({ to, children }) => {
   const { resetItemOpen } = useContext(MenuContext);
-  const { renderLink } = useContext(LinkContext);
+  const renderLink = useRenderLink();
   const handleClick = useCallback(() => {
     resetItemOpen();
   }, [resetItemOpen]);

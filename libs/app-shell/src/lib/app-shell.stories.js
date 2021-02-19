@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppShell } from './app-shell';
+import { GlobalStyles } from 'twin.macro';
 
 export default {
   component: AppShell,
@@ -7,5 +8,10 @@ export default {
 };
 
 export const primary = () => {
-  return <AppShell />;
+  return (
+    <>
+      <GlobalStyles />
+      <AppShell />
+    </>
+  );
 };
