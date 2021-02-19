@@ -1,5 +1,14 @@
 {
   "version": 2,
+  "cli": { "defaultCollection": "@nrwl/react" },
+  "defaultProject": "main-app",
+  "generators": {
+    "@nrwl/react": {
+      "application": { "style": "scss", "linter": "eslint", "babel": true },
+      "component": { "style": "scss" },
+      "library": { "style": "scss", "linter": "eslint" }
+    }
+  },
   "projects": {
     "main-app": {
       "root": "apps/main-app",
@@ -8,9 +17,7 @@
       "targets": {
         "build": {
           "executor": "@nrwl/web:build",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/main-app",
             "index": "apps/main-app/src/index.html",
@@ -21,9 +28,7 @@
               "apps/main-app/src/favicon.ico",
               "apps/main-app/src/assets"
             ],
-            "styles": [
-              "apps/main-app/src/styles.scss"
-            ],
+            "styles": ["apps/main-app/src/styles.scss"],
             "scripts": [],
             "webpackConfig": "@nrwl/react/plugins/webpack"
           },
@@ -54,28 +59,20 @@
         },
         "serve": {
           "executor": "@nrwl/web:dev-server",
-          "options": {
-            "buildTarget": "main-app:build"
-          },
+          "options": { "buildTarget": "main-app:build" },
           "configurations": {
-            "production": {
-              "buildTarget": "main-app:build:production"
-            }
+            "production": { "buildTarget": "main-app:build:production" }
           }
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "apps/main-app/**/*.{ts,tsx,js,jsx}"
-            ]
+            "lintFilePatterns": ["apps/main-app/**/*.{ts,tsx,js,jsx}"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/apps/main-app"
-          ],
+          "outputs": ["coverage/apps/main-app"],
           "options": {
             "jestConfig": "apps/main-app/jest.config.js",
             "passWithNoTests": true
@@ -96,18 +93,12 @@
             "devServerTarget": "main-app:serve"
           },
           "configurations": {
-            "production": {
-              "devServerTarget": "main-app:serve:production"
-            }
+            "production": { "devServerTarget": "main-app:serve:production" }
           }
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "apps/main-app-e2e/**/*.js"
-            ]
-          }
+          "options": { "lintFilePatterns": ["apps/main-app-e2e/**/*.js"] }
         }
       }
     },
@@ -119,16 +110,12 @@
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "libs/app-shell/**/*.{ts,tsx,js,jsx}"
-            ]
+            "lintFilePatterns": ["libs/app-shell/**/*.{ts,tsx,js,jsx}"]
           }
         },
         "build": {
           "executor": "@nrwl/web:package",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/libs/app-shell",
             "tsConfig": "libs/app-shell/tsconfig.lib.json",
@@ -142,46 +129,37 @@
             ],
             "babelConfig": "@nrwl/react/plugins/bundle-babel",
             "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
-            "assets": [
-              {
-                "glob": "README.md",
-                "input": ".",
-                "output": "."
-              }
-            ]
+            "assets": [{ "glob": "README.md", "input": ".", "output": "." }]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/app-shell"
-          ],
+          "outputs": ["coverage/libs/app-shell"],
           "options": {
             "jestConfig": "libs/app-shell/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "storybook": {
+          "executor": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/react",
+            "port": 4400,
+            "config": { "configFolder": "libs/app-shell/.storybook" }
+          },
+          "configurations": { "ci": { "quiet": true } }
+        },
+        "build-storybook": {
+          "executor": "@nrwl/storybook:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "uiFramework": "@storybook/react",
+            "outputPath": "dist/storybook/app-shell",
+            "config": { "configFolder": "libs/app-shell/.storybook" }
+          },
+          "configurations": { "ci": { "quiet": true } }
         }
       }
     }
-  },
-  "cli": {
-    "defaultCollection": "@nrwl/react"
-  },
-  "generators": {
-    "@nrwl/react": {
-      "application": {
-        "style": "scss",
-        "linter": "eslint",
-        "babel": true
-      },
-      "component": {
-        "style": "scss"
-      },
-      "library": {
-        "style": "scss",
-        "linter": "eslint"
-      }
-    }
-  },
-  "defaultProject": "main-app"
+  }
 }
