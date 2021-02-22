@@ -89,7 +89,7 @@ const GeneGeneticInteractionDetailTable = ({
         filterable: true,
       },
       {
-        // dataField: 'phenotypes',
+        dataField: 'phenotypes',
         text: 'Phenotype or trait',
         headerStyle: {
           width: '150px',
