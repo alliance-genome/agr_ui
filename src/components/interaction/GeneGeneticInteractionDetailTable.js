@@ -9,6 +9,7 @@ import {
 import ExternalLink from '../ExternalLink';
 import MITerm from './MITerm';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
+import { CollapsibleList } from '../collapsibleList';
 
 const GeneGeneticInteractionDetailTable = ({
   focusGeneId,
@@ -93,6 +94,15 @@ const GeneGeneticInteractionDetailTable = ({
         headerStyle: {
           width: '150px',
         },
+        formatter: (phenotypes) => (
+          <CollapsibleList>
+          {
+            (phenotypes || []).map(({phenotypeStatement}) => {
+              return <span key={phenotypeStatement}>{phenotypeStatement}</span>
+            })
+          }
+          </CollapsibleList>
+        ),
         filterable: true,
         filterName: 'phenotypes',
       },
