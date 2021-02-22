@@ -121,6 +121,8 @@ const GeneAlleleDetailsTable = ({geneId}) => {
         </div>
       ) : null,
       headerStyle: {width: '300px'},
+      filterable: true,
+      filterName: 'hgvsgName',
     },
     {
       text: 'Variant Type',
@@ -134,6 +136,8 @@ const GeneAlleleDetailsTable = ({geneId}) => {
       text: 'Sequence feature',
       dataField: 'consequence.transcriptName',
       headerStyle: {width: '250px'},
+      filterable: true,
+      filterName: 'sequenceFeature',
     },
     {
       text: 'Sequence feature type',
