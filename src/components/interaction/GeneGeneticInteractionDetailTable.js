@@ -165,6 +165,7 @@ const GeneGeneticInteractionDetailTable = ({
   return (
     <DataTable
       {...tableProps}
+      downloadUrl={`/api/gene/${focusGeneId}/interactions/download?filter.joinType=genetic_interaction`}
       columns={columns}
       sortOptions={sortOptions}
       keyField='primaryKey'
