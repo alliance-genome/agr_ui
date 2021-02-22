@@ -96,11 +96,11 @@ const GeneGeneticInteractionDetailTable = ({
         },
         formatter: (phenotypes) => (
           <CollapsibleList>
-          {
-            (phenotypes || []).map(({phenotypeStatement}) => {
-              return <span key={phenotypeStatement}>{phenotypeStatement}</span>
-            })
-          }
+            {
+              (phenotypes || []).map(({phenotypeStatement}) => {
+                return <span key={phenotypeStatement}>{phenotypeStatement}</span>;
+              })
+            }
           </CollapsibleList>
         ),
         filterable: true,
