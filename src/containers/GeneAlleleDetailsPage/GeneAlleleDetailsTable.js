@@ -234,7 +234,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
       value: 'transcript',
       label: 'Transcripts'
     }
-  ]
+  ];
 
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
   const variantsSequenceViewerProps = useMemo(() => {
