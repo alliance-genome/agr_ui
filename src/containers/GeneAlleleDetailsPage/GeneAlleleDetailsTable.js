@@ -213,6 +213,29 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     },
   ];
 
+  const sortOptions = [
+    {
+      value: 'variantHgvsName',
+      label: 'Variant HGVS.g'
+    },
+    {
+      value: 'variant',
+      label: 'Allele/variant symbol',
+    },
+    {
+      value: 'variantType',
+      label: 'Variant type',
+    },
+    {
+      value: 'variantConsequence',
+      label: 'Molecular consequence',
+    },
+    {
+      value: 'transcript',
+      label: 'Transcripts'
+    }
+  ]
+
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
   const variantsSequenceViewerProps = useMemo(() => {
 
@@ -261,6 +284,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
         <DataTable
           {...tableQuery}
           columns={columns}
+          sortOptions={sortOptions}
           keyField='id'
         />
       </ErrorBoundary>
