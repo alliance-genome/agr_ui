@@ -51,7 +51,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
   const geneLocation = getSingleGenomeLocation(gene.genomeLocations);
 
   const tableQuery = useDataTableQuery(`/api/gene/${geneId}/allele-variant-detail`, undefined, {
-    sizePerPage: 100,
+    sizePerPage: 25,
   });
   const { data, isLoading } = tableQuery;
   const columns = [
