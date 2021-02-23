@@ -14,7 +14,7 @@ const DownloadFileRow = ({description, files}) => {
           <DownloadFileLink
             fileType={file.dataType.fileExtension}
             key={file.id}
-            url={file.stableGzipURL}
+            url={file.stableURL}
           />
         ))}
       </td>
@@ -26,7 +26,7 @@ DownloadFileRow.propTypes = {
   description: PropTypes.node,
   files: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
-    stableGzipURL: PropTypes.string,
+    stableURL: PropTypes.string,
     dataType: PropTypes.shape({
       fileExtension: PropTypes.string,
     }),
