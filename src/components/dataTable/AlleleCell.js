@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import AlleleSymbol from '../../containers/allelePage/AlleleSymbol';
 
 const AlleleCell = ({allele}) => {
-  return (
+  return allele.category === 'variant' ? allele.symbol : (
     <Link to={`/allele/${allele.id}`}>
       <AlleleSymbol allele={allele} wrap />
     </Link>
