@@ -8,7 +8,7 @@ import qs from 'qs';
 const SINGLE_VAL_FIELDS = ['mode', 'page'];
 const CLEARING_FIELDS = ['category'];
 
-const IGNORED_PARAMS = ['page', 'mode', 'q'];
+const IGNORED_PARAMS = ['page', 'mode', 'q', 'category'];
 
 
 export function makeValueDisplayName(unformattedName) {
