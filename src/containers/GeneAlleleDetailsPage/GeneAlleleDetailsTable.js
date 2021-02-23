@@ -15,6 +15,34 @@ import { getSingleGenomeLocation, findFminFmax } from '../../lib/utils';
 import VariantsSequenceViewer from '../genePage/VariantsSequenceViewer';
 import ErrorBoundary from '../../components/errorBoundary';
 
+const getSiftStyle = (sift) => {
+  switch (sift && sift.toLowerCase()) {
+  case 'tolerated':
+    return 'text-success';
+  case 'tolerated_low_confidence':
+    return 'text-success';
+  case 'deleterious_low_confidence':
+    return 'text-warning';
+  case 'deleterious':
+    return 'text-danger';
+  default:
+    return 'text-muted';
+  }
+};
+
+const getPolyphenStyle = (polyphen) => {
+  switch (polyphen && polyphen.toLowerCase()) {
+  case 'benign':
+    return 'text-success';
+  case 'possibly_damaging':
+    return 'text-warning';
+  case 'probably_damaging':
+    return 'text-danger';
+  default:
+    return 'text-muted';
+  }
+};
+
 const GeneAlleleDetailsTable = ({geneId}) => {
   const { isLoading: isLoadingGene, isError: isErrorGene, data: gene } = usePageLoadingQuery(`/api/gene/${geneId}`);
   if (isLoadingGene || isErrorGene) {
@@ -105,7 +133,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     {
       text: 'Sequence feature',
       dataField: 'consequence.transcriptName',
-      headerStyle: {width: '150px'},
+      headerStyle: {width: '250px'},
     },
     {
       text: 'Sequence feature type',
@@ -146,7 +174,9 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     {
       text: 'SIFT prediction',
       dataField: 'consequence.siftPrediction',
-      formatter: VEPTextCell,
+      formatter: (siftPrediction) => (
+        <span className={getSiftStyle(siftPrediction)}>{siftPrediction && siftPrediction.replace(/_/g, ' ')}</span>
+      ),
       filterable: true,
       filterName: 'variantSift',
       headerStyle: {width: '200px'},
@@ -154,12 +184,17 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     {
       text: 'SIFT score',
       dataField: 'consequence.siftScore',
+      formatter: (siftScore, { consequence }) => (
+        <span className={getSiftStyle(consequence && consequence.siftPrediction)}>{siftScore}</span>
+      ),
       headerStyle: {width: '100px'},
     },
     {
       text: 'PolyPhen prediction',
       dataField: 'consequence.polyphenPrediction',
-      formatter: VEPTextCell,
+      formatter: (polyphenPrediction) => (
+        <span className={getPolyphenStyle(polyphenPrediction)}>{polyphenPrediction && polyphenPrediction.replace(/_/g, ' ')}</span>
+      ),
       filterable: true,
       filterName: 'variantPolyphen',
       headerStyle: {width: '180px'},
@@ -167,6 +202,9 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     {
       text: 'PolyPhen score',
       dataField: 'consequence.polyphenScore',
+      formatter: (polyphenScore, { consequence }) => (
+        <span className={getPolyphenStyle(consequence && consequence.polyphenPrediction)}>{polyphenScore}</span>
+      ),
       headerStyle: {width: '150px'},
     },
   ];

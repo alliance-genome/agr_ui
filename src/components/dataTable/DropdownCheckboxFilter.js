@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 const DropdownCheckboxFilter = ({
-  formatter,
+  formatter = (value) => value && value.replace(/_/g, ' '),
   onChange,
   options,
   value = [],
