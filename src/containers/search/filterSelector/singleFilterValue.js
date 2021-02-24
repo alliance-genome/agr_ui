@@ -10,8 +10,8 @@ import FilterLink from './filterLink';
 
 
 const  SingleFilterValue = ({name, queryParams, value, SEARCH_PATH, displayName}) => {
-  const [ displayExclude, setDisplayExclude ] = useState(false);
-  const [ strikeThroughFilter, setStrikeThroughFilter ] = useState(false);
+  const [displayExclude, setDisplayExclude] = useState(false);
+  const [strikeThroughFilter, setStrikeThroughFilter] = useState(false);
 
   let classSuffix = value.isActive ? ' active' : '';
   let _key = `fv.${name}.${value.name}`;
@@ -19,12 +19,12 @@ const  SingleFilterValue = ({name, queryParams, value, SEARCH_PATH, displayName}
   if (name.match('species')) {
     nameNode = <i>{value.displayName}</i>;
   } else if (name === 'category') {
-    nameNode = <CategoryLabel category={value.name} />;
+    nameNode = <CategoryLabel category={value.name}/>;
   } else {
     nameNode = <span>{value.displayName}</span>;
   }
   let newQueryObj = getQueryParamWithoutPage(name, value.key, queryParams);
-  let values = (<ul className={style.filterList}>{value.values.map (v =>
+  let values = (<ul className={style.filterList}>{value.values.map(v =>
     (<SingleFilterValue
       key={_key + '.' + v.name}
       value={v}
@@ -33,40 +33,43 @@ const  SingleFilterValue = ({name, queryParams, value, SEARCH_PATH, displayName}
       SEARCH_PATH={SEARCH_PATH}
     />))}
   </ul>);
+  if (value.displayName !== '') {
+    return (
+      <div>
+        <li
+          className='nav-item'
+          onMouseEnter={() => setDisplayExclude(!value.isActive)}
+          onMouseLeave={() => setDisplayExclude(false)}
+        >
+          <span className='d-flex justify-content-start align-items-center'>
 
-  return (
-    <div>
-      <li
-        className='nav-item'
-        onMouseEnter={() => setDisplayExclude(!value.isActive)}
-        onMouseLeave={() => setDisplayExclude(false)}
-      >
-        <span className='d-flex justify-content-start align-items-center'>
+            <FilterLink
+              newQueryObj={newQueryObj}
+              nameNode={nameNode}
+              strikeThroughFilter={strikeThroughFilter}
+              SEARCH_PATH={SEARCH_PATH}
+              value={value}
+              classSuffix={classSuffix}
+              setDisplayExclude={setDisplayExclude}
+            />
 
-          <FilterLink
-            newQueryObj={newQueryObj}
-            nameNode={nameNode}
-            strikeThroughFilter={strikeThroughFilter}
-            SEARCH_PATH={SEARCH_PATH}
-            value={value}
-            classSuffix={classSuffix}
-            setDisplayExclude={setDisplayExclude}
-          />
-
-          <ExcludeLink
-            queryObject={newQueryObj}
-            value={value}
-            displayExclude={displayExclude}
-            SEARCH_PATH={SEARCH_PATH}
-            setStrikeThroughFilter={setStrikeThroughFilter}
-            displayName={displayName}
-            setDisplayExclude={setDisplayExclude}
-          />
-        </span>
-      </li>
-      {values}
-    </div>
-  );
+            <ExcludeLink
+              queryObject={newQueryObj}
+              value={value}
+              displayExclude={displayExclude}
+              SEARCH_PATH={SEARCH_PATH}
+              setStrikeThroughFilter={setStrikeThroughFilter}
+              displayName={displayName}
+              setDisplayExclude={setDisplayExclude}
+            />
+          </span>
+        </li>
+        {values}
+      </div>
+    );
+  } else {
+    return null;
+  }
 };
 
 
