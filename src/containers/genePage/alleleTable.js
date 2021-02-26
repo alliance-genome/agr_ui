@@ -45,13 +45,14 @@ const AlleleTable = ({geneId}) => {
   }, [resolvedData]);
 
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
-  const variantsSequenceViewerProps = useMemo(() => {
-
-    const variants = resolvedData ?
+  const variants = useMemo(() => (
+    resolvedData ?
       resolvedData.results.flatMap(
         allele => (allele && allele.variants) || []
       ) :
-      [];
+      []
+  ), [resolvedData]);
+  const variantsSequenceViewerProps = useMemo(() => {
     const variantLocations = variants.map(variant => variant && variant.location);
     const { fmin, fmax } = findFminFmax([geneLocation, ...variantLocations]);
 
@@ -74,7 +75,7 @@ const AlleleTable = ({geneId}) => {
       allelesVisible: resolvedData ? resolvedData.results.map(allele => formatAllele(allele && allele.id)) : [],
       onAllelesSelect: setAlleleIdsSelected,
     };
-  }, [resolvedData, alleleIdsSelected, setAlleleIdsSelected]);
+  }, [resolvedData, variants, alleleIdsSelected, setAlleleIdsSelected]);
 
   const selectRow = useMemo(() => ({
     mode: 'checkbox',
@@ -294,7 +295,11 @@ const AlleleTable = ({geneId}) => {
           selectRow={selectRow}
           sortOptions={sortOptions}
         />
-        <Link className="btn btn-primary position-absolute" style={{top: '1em'}} to={`/gene/${geneId}/allele-details`}>View all Alleles and Variants information</Link>
+        {
+          variants && variants.length ?
+            <Link className="btn btn-primary position-absolute" style={{top: '1em'}} to={`/gene/${geneId}/allele-details`}>View all Alleles and Variants information</Link> :
+            null
+        }
       </div>
     </>
   );
