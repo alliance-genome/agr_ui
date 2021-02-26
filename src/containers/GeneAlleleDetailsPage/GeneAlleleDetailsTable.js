@@ -7,6 +7,7 @@ import {
   GeneCell,
   VEPTextCell,
 } from '../../components/dataTable';
+import SynonymList from '../../components/synonymList';
 import NoData from '../../components/noData';
 import VariantJBrowseLink from '../../components/variant/VariantJBrowseLink';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
@@ -66,7 +67,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     {
       text: 'Allele / Variant Synonyms',
       dataField: 'allele.synonyms',
-      formatter: synonyms => (synonyms || []).join(', '),
+      formatter: synonyms => <SynonymList synonyms={synonyms} />,
       filterable: true,
       filterName: 'synonyms',
       headerStyle: {width: '200px'},
