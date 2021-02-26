@@ -45,8 +45,6 @@ const AlleleToDiseaseTable = ({alleleId}) => {
       text: 'Evidence',
       formatter: codes => <EvidenceCodesCell evidenceCodes={codes} />,
       headerStyle: {width: '100px'},
-      filterable: true,
-      filterName: 'evidenceCode',
     },
     {
       dataField: 'source',
