@@ -280,6 +280,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
               <NoData>No mapped variant information available</NoData>
         }
       </ErrorBoundary>
+      <hr />
       <ErrorBoundary>
         <DataTable
           {...tableQuery}
