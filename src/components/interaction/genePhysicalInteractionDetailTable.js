@@ -194,7 +194,7 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
       {...tableProps}
       columns={columns}
       data={data}
-      downloadUrl={`/api/gene/${focusGeneId}/interactions/download`}
+      downloadUrl={`/api/gene/${focusGeneId}/interactions/download?filter.joinType=molecular_interaction`}
       keyField='id'
       sortOptions={sortOptions}
       summaryProps={
