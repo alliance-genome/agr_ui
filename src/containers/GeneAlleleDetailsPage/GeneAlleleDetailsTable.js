@@ -51,7 +51,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
   const geneLocation = getSingleGenomeLocation(gene.genomeLocations);
 
   const tableQuery = useDataTableQuery(`/api/gene/${geneId}/allele-variant-detail`, undefined, {
-    sizePerPage: 100,
+    sizePerPage: 25,
   });
   const { data, isLoading } = tableQuery;
   const columns = [
@@ -121,6 +121,8 @@ const GeneAlleleDetailsTable = ({geneId}) => {
         </div>
       ) : null,
       headerStyle: {width: '300px'},
+      filterable: true,
+      filterName: 'hgvsgName',
     },
     {
       text: 'Variant Type',
@@ -134,6 +136,8 @@ const GeneAlleleDetailsTable = ({geneId}) => {
       text: 'Sequence feature',
       dataField: 'consequence.transcriptName',
       headerStyle: {width: '250px'},
+      filterable: true,
+      filterName: 'sequenceFeature',
     },
     {
       text: 'Sequence feature type',
@@ -209,6 +213,29 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     },
   ];
 
+  const sortOptions = [
+    {
+      value: 'variantHgvsName',
+      label: 'Variant HGVS.g'
+    },
+    {
+      value: 'variant',
+      label: 'Allele/variant symbol',
+    },
+    {
+      value: 'variantType',
+      label: 'Variant type',
+    },
+    {
+      value: 'variantConsequence',
+      label: 'Molecular consequence',
+    },
+    {
+      value: 'transcript',
+      label: 'Transcripts'
+    }
+  ];
+
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
   const variantsSequenceViewerProps = useMemo(() => {
 
@@ -257,6 +284,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
         <DataTable
           {...tableQuery}
           columns={columns}
+          sortOptions={sortOptions}
           keyField='id'
         />
       </ErrorBoundary>
