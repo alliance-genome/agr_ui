@@ -20,7 +20,8 @@ const MOLECULAR_INTERACTIONS = 'Molecular Interactions';
 const GENETIC_INTERACTIONS = 'Genetic Interactions';
 const GENE_DESCRIPTIONS = 'Gene Descriptions';
 const ORTHOLOGY = 'Orthology';
-const VARIANTS = 'Variants';
+const VARIANTS = 'Variants (VCF)';
+const VARIANT_ALLELE = 'Variants/Alleles';
 const SECTIONS = [
   {name: DISEASE},
   {name: EXPRESSION},
@@ -29,6 +30,7 @@ const SECTIONS = [
   {name: GENETIC_INTERACTIONS},
   {name: ORTHOLOGY},
   {name: VARIANTS},
+  {name: VARIANT_ALLELE},
 ];
 const TITLE = 'Downloads';
 const SPECIES_SUBTYPES = [
@@ -39,6 +41,15 @@ const SPECIES_SUBTYPES = [
   {species: 'Mus musculus', subType: 'MGI'},
   {species: 'Rattus norvegicus', subType: 'RGD'},
   {species: 'Saccharomyces cerevisiae', subType: 'SGD'}
+];
+const TAXON_SUBTYPES = [
+  {species: 'Caenorhabditis elegans', subType: 'NCBITaxon6239'},
+  {species: 'Danio rerio', subType: 'NCBITaxon7955'},
+  {species: 'Drosophila melanogaster', subType: 'NCBITaxon7227'},
+  {species: 'Mus musculus', subType: 'NCBITaxon10090'},
+  {species: 'Rattus norvegicus', subType: 'NCBITaxon10116'},
+  {species: 'Saccharomyces cerevisiae', subType: 'NCBITaxon559292'},
+  {species: 'SARS-CoV-2', subType: 'NCBITaxon2697049'}
 ];
 
 const DownloadsPage = () => {
@@ -205,6 +216,21 @@ const DownloadsPage = () => {
               description={<><SpeciesName>Rattus norvegicus</SpeciesName> variants</>}
               files={[getFileForDataType('VCF', 'Rnor60')]}
             />
+          </DownloadFileTable>
+        </Subsection>
+
+        <Subsection title={VARIANT_ALLELE}>
+          <DownloadFileTable>
+            {TAXON_SUBTYPES.map(taxonSubType => (
+              <DownloadFileRow
+                description={<><SpeciesName>{taxonSubType.species}</SpeciesName> variants/alleles</>}
+                key={taxonSubType.species}
+                files={[
+                  getFileForDataType('VARIANT-ALLELE-JSON', taxonSubType.subType),
+                  getFileForDataType('VARIANT-ALLELE', taxonSubType.subType),
+                ]}
+              />
+            ))}
           </DownloadFileTable>
         </Subsection>
       </PageData>

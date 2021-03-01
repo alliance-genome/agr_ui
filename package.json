@@ -12,8 +12,8 @@
   },
   "private": true,
   "dependencies": {
-    "@geneontology/wc-ribbon-table": "0.0.51",
-    "@geneontology/wc-ribbon-strips": "0.0.34",
+    "@geneontology/wc-ribbon-strips": "0.0.36",
+    "@geneontology/wc-ribbon-table": "0.0.55",
     "abortcontroller-polyfill": "^1.5.0",
     "agr_genomefeaturecomponent": "^0.3.9",
     "bootstrap": "4.4.1",
@@ -106,18 +106,6 @@
     "preserve": "npm run build",
     "serve": "live-server --no-browser --entry-file=index.html --proxy=/api:$API_URL/api dist/",
     "test": "NODE_ENV=test mocha-webpack --webpack-config webpack.config-test.js \"src/**/*test.js\"",
-    "test:watch": "NODE_ENV=test mocha-webpack --webpack-config webpack.config-test.js --watch \"src/**/*test.js\"",
-    "fixup-lock": "sed -i '' -e 's/http:\\/\\//https:\\/\\//g' package-lock.json"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run fixup-lock"
-    }
-  },
-  "lint-staged": {
-    "package-lock.json": [
-      "npm run fixup-lock",
-      "git add"
-    ]
+    "test:watch": "NODE_ENV=test mocha-webpack --webpack-config webpack.config-test.js --watch \"src/**/*test.js\""
   }
 }
