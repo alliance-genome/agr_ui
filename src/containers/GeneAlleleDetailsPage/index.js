@@ -15,7 +15,7 @@ const GeneAlleleDetailsPage = ({geneId}) => {
     return <NotFound />;
   }
 
-  const pageTitle = 'Alleles or Variants Details';
+  const pageTitle = 'Alleles and Variants Details';
 
   return (
     <div>
@@ -29,7 +29,7 @@ const GeneAlleleDetailsPage = ({geneId}) => {
             <li className="breadcrumb-item active" aria-current="page">{pageTitle}</li>
           </ol>
         </nav>
-        <PageHeader>{pageTitle} ({gene.symbol})</PageHeader>
+        <PageHeader>{pageTitle} for <Link to={`/gene/${geneId}`}>{gene.symbol}</Link></PageHeader>
         <ErrorBoundary>
           <div style={{width: '100%', overflowX: 'scroll'}}>
             <GeneAlleleDetailsTable geneId={geneId} />

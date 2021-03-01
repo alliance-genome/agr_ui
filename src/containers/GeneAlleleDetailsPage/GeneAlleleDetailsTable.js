@@ -7,6 +7,7 @@ import {
   GeneCell,
   VEPTextCell,
 } from '../../components/dataTable';
+import SynonymList from '../../components/synonymList';
 import NoData from '../../components/noData';
 import VariantJBrowseLink from '../../components/variant/VariantJBrowseLink';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
@@ -51,7 +52,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
   const geneLocation = getSingleGenomeLocation(gene.genomeLocations);
 
   const tableQuery = useDataTableQuery(`/api/gene/${geneId}/allele-variant-detail`, undefined, {
-    sizePerPage: 100,
+    sizePerPage: 25,
   });
   const { data, isLoading } = tableQuery;
   const columns = [
@@ -66,7 +67,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     {
       text: 'Allele / Variant Synonyms',
       dataField: 'allele.synonyms',
-      formatter: synonyms => (synonyms || []).join(', '),
+      formatter: synonyms => <SynonymList synonyms={synonyms} />,
       filterable: true,
       filterName: 'synonyms',
       headerStyle: {width: '200px'},
@@ -121,6 +122,8 @@ const GeneAlleleDetailsTable = ({geneId}) => {
         </div>
       ) : null,
       headerStyle: {width: '300px'},
+      filterable: true,
+      filterName: 'hgvsgName',
     },
     {
       text: 'Variant Type',
@@ -134,6 +137,8 @@ const GeneAlleleDetailsTable = ({geneId}) => {
       text: 'Sequence feature',
       dataField: 'consequence.transcriptName',
       headerStyle: {width: '250px'},
+      filterable: true,
+      filterName: 'sequenceFeature',
     },
     {
       text: 'Sequence feature type',
@@ -209,6 +214,29 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     },
   ];
 
+  const sortOptions = [
+    {
+      value: 'variantHgvsName',
+      label: 'Variant HGVS.g'
+    },
+    {
+      value: 'variant',
+      label: 'Allele/variant symbol',
+    },
+    {
+      value: 'variantType',
+      label: 'Variant type',
+    },
+    {
+      value: 'variantConsequence',
+      label: 'Molecular consequence',
+    },
+    {
+      value: 'transcript',
+      label: 'Transcripts'
+    }
+  ];
+
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
   const variantsSequenceViewerProps = useMemo(() => {
 
@@ -253,10 +281,12 @@ const GeneAlleleDetailsTable = ({geneId}) => {
               <NoData>No mapped variant information available</NoData>
         }
       </ErrorBoundary>
+      <hr />
       <ErrorBoundary>
         <DataTable
           {...tableQuery}
           columns={columns}
+          sortOptions={sortOptions}
           keyField='id'
         />
       </ErrorBoundary>
