@@ -10,6 +10,7 @@ import {
 import { CollapsibleList } from '../../components/collapsibleList';
 import { DownloadButton } from '../../components/dataTable';
 import Subsection from '../../components/subsection';
+import NoData from '../../components/noData';
 import useAllAlleleVariants from '../../hooks/useAlleleVariants';
 import { VariantJBrowseLink } from '../../components/variant';
 import ExternalLink from '../../components/ExternalLink';
@@ -206,11 +207,12 @@ const VariantSummary = ({allele, alleleId}) => {
         })
       }
       {
-
-        <div className='mb-5'>
-          <DownloadButton downloadUrl={`/api/allele/${alleleId}/variants/download`} text='Download Variants Data' />
-        </div>
-
+        data && data.length ?
+          (
+            <div className='mb-5'>
+              <DownloadButton downloadUrl={`/api/allele/${alleleId}/variants/download`} text='Download Variants Data' />
+            </div>
+          ) : <NoData />
       }
     </>
   );
