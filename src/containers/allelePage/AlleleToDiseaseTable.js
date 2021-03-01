@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   DataTable,
   ReferenceCell,
+  EvidenceCodesCell,
 } from '../../components/dataTable';
 import AnnotatedEntitiesPopup
   from '../../components/dataTable/AnnotatedEntitiesPopup';
@@ -38,6 +39,12 @@ const AlleleToDiseaseTable = ({alleleId}) => {
       text: 'Inferred From',
       formatter: entities => <AnnotatedEntitiesPopup entities={entities}/>,
       headerStyle: {width: '90px'},
+    },
+    {
+      dataField: 'evidenceCodes',
+      text: 'Evidence',
+      formatter: codes => <EvidenceCodesCell evidenceCodes={codes} />,
+      headerStyle: {width: '100px'},
     },
     {
       dataField: 'source',
