@@ -22,15 +22,24 @@ const EvidenceCodesCell = ({evidenceCodes}) => {
       {uniqueCodes.map(code => {
         if (code.displaySynonym) {
           return (
-            <>
-              <span ref={tooltipRef}>{code.displaySynonym}</span>
-              <UncontrolledTooltip target={tooltipRef} delay={{show: 300, hide: 150}} placement='top'>
+            <React.Fragment key={code.name}>
+              <div ref={tooltipRef}>{code.displaySynonym}</div>
+              <UncontrolledTooltip
+                target={tooltipRef}
+                delay={{show: 300, hide: 150}}
+                placement='top'
+                modifiers={{
+                  preventOverflow: {
+                    enabled: false
+                  }
+                }}
+              >
                 {code.name}
               </UncontrolledTooltip>
-            </>
+            </React.Fragment>
           );
         } else {
-          return code.name;
+          return <React.Fragment key={code.name}>{code.name}</React.Fragment>;
         }
       })}
     </CommaSeparatedList>
