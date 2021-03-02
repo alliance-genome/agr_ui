@@ -177,7 +177,10 @@
             "external": ["react", "react-dom"],
             "babelConfig": "@nrwl/react/plugins/bundle-babel",
             "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
-            "assets": [{ "glob": "README.md", "input": ".", "output": "." }]
+            "assets": [
+              { "glob": "README.md", "input": ".", "output": "." },
+              "libs/shared-assets/src/lib/assets"
+            ]
           }
         },
         "lint": {
