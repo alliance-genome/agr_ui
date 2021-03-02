@@ -1,5 +1,6 @@
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const rootWebpackConfig = require('../../../.storybook/webpack.config');
+
 /**
  * Export a function. Accept the base config as the only param.
  *
@@ -79,6 +80,11 @@ module.exports = async ({ config, mode }) => {
       ],
     }
   );
+
+  /*   Object.defineProperty(RegExp.prototype, 'toJSON', {
+    value: RegExp.prototype.toString,
+  });
+  console.log(JSON.stringify(config, null, 2)); */
 
   return config;
 };
