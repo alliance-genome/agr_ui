@@ -1,13 +1,18 @@
 {
   "implicitDependencies": {
     "workspace.json": "*",
-    "package.json": { "dependencies": "*", "devDependencies": "*" },
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
     "tsconfig.base.json": "*",
     "tslint.json": "*",
     ".eslintrc.json": "*",
     "nx.json": "*"
   },
-  "affected": { "defaultBase": "master" },
+  "affected": {
+    "defaultBase": "master"
+  },
   "npmScope": "agr-modular-ui",
   "tasksRunnerOptions": {
     "default": {
@@ -24,9 +29,21 @@
     }
   },
   "projects": {
-    "main-app": { "tags": [] },
-    "main-app-e2e": { "tags": [], "implicitDependencies": ["main-app"] },
-    "app-shell": { "tags": [] },
-    "shared-assets": { "tags": [] }
+    "main-app": {
+      "tags": []
+    },
+    "main-app-e2e": {
+      "tags": [],
+      "implicitDependencies": ["main-app"]
+    },
+    "app-shell": {
+      "tags": []
+    },
+    "shared-assets": {
+      "tags": []
+    },
+    "main-app-import-test-run": {
+      "tags": []
+    }
   }
 }

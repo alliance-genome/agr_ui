@@ -1,12 +1,23 @@
 {
   "version": 2,
-  "cli": { "defaultCollection": "@nrwl/react" },
+  "cli": {
+    "defaultCollection": "@nrwl/react"
+  },
   "defaultProject": "main-app",
   "generators": {
     "@nrwl/react": {
-      "application": { "style": "scss", "linter": "eslint", "babel": true },
-      "component": { "style": "scss" },
-      "library": { "style": "scss", "linter": "eslint" }
+      "application": {
+        "style": "scss",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "scss"
+      },
+      "library": {
+        "style": "scss",
+        "linter": "eslint"
+      }
     }
   },
   "projects": {
@@ -59,9 +70,13 @@
         },
         "serve": {
           "executor": "@nrwl/web:dev-server",
-          "options": { "buildTarget": "main-app:build" },
+          "options": {
+            "buildTarget": "main-app:build"
+          },
           "configurations": {
-            "production": { "buildTarget": "main-app:build:production" }
+            "production": {
+              "buildTarget": "main-app:build:production"
+            }
           }
         },
         "lint": {
@@ -93,12 +108,16 @@
             "devServerTarget": "main-app:serve"
           },
           "configurations": {
-            "production": { "devServerTarget": "main-app:serve:production" }
+            "production": {
+              "devServerTarget": "main-app:serve:production"
+            }
           }
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": { "lintFilePatterns": ["apps/main-app-e2e/**/*.js"] }
+          "options": {
+            "lintFilePatterns": ["apps/main-app-e2e/**/*.js"]
+          }
         }
       }
     },
@@ -129,7 +148,13 @@
             ],
             "babelConfig": "@nrwl/react/plugins/bundle-babel",
             "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
-            "assets": [{ "glob": "README.md", "input": ".", "output": "." }]
+            "assets": [
+              {
+                "glob": "README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
           }
         },
         "test": {
@@ -145,9 +170,15 @@
           "options": {
             "uiFramework": "@storybook/react",
             "port": 4400,
-            "config": { "configFolder": "libs/app-shell/.storybook" }
+            "config": {
+              "configFolder": "libs/app-shell/.storybook"
+            }
           },
-          "configurations": { "ci": { "quiet": true } }
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
         },
         "build-storybook": {
           "executor": "@nrwl/storybook:build",
@@ -155,9 +186,15 @@
           "options": {
             "uiFramework": "@storybook/react",
             "outputPath": "dist/storybook/app-shell",
-            "config": { "configFolder": "libs/app-shell/.storybook" }
+            "config": {
+              "configFolder": "libs/app-shell/.storybook"
+            }
           },
-          "configurations": { "ci": { "quiet": true } }
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
         }
       }
     },
@@ -178,7 +215,11 @@
             "babelConfig": "@nrwl/react/plugins/bundle-babel",
             "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
             "assets": [
-              { "glob": "README.md", "input": ".", "output": "." },
+              {
+                "glob": "README.md",
+                "input": ".",
+                "output": "."
+              },
               "libs/shared-assets/src/lib/assets"
             ]
           }
@@ -202,9 +243,15 @@
           "options": {
             "uiFramework": "@storybook/react",
             "port": 4400,
-            "config": { "configFolder": "libs/shared-assets/.storybook" }
+            "config": {
+              "configFolder": "libs/shared-assets/.storybook"
+            }
           },
-          "configurations": { "ci": { "quiet": true } }
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
         },
         "build-storybook": {
           "executor": "@nrwl/storybook:build",
@@ -212,9 +259,91 @@
           "options": {
             "uiFramework": "@storybook/react",
             "outputPath": "dist/storybook/shared-assets",
-            "config": { "configFolder": "libs/shared-assets/.storybook" }
+            "config": {
+              "configFolder": "libs/shared-assets/.storybook"
+            }
           },
-          "configurations": { "ci": { "quiet": true } }
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        }
+      }
+    },
+    "main-app-import-test-run": {
+      "root": "apps/main-app-import-test-run",
+      "sourceRoot": "apps/main-app-import-test-run/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/main-app-import-test-run",
+            "index": "apps/main-app-import-test-run/src/index.html",
+            "main": "apps/main-app-import-test-run/src/main.js",
+            "polyfills": "apps/main-app-import-test-run/src/polyfills.js",
+            "tsConfig": "apps/main-app-import-test-run/tsconfig.app.json",
+            "assets": [
+              "apps/main-app-import-test-run/src/favicon.ico",
+              "apps/main-app-import-test-run/src/assets"
+            ],
+            "styles": [],
+            "scripts": [],
+            "webpackConfig": "@nrwl/react/plugins/webpack"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/main-app-import-test-run/src/environments/environment.js",
+                  "with": "apps/main-app-import-test-run/src/environments/environment.prod.js"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "main-app-import-test-run:build"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "main-app-import-test-run:build:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/main-app-import-test-run/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/main-app-import-test-run"],
+          "options": {
+            "jestConfig": "apps/main-app-import-test-run/jest.config.js",
+            "passWithNoTests": true
+          }
         }
       }
     }
