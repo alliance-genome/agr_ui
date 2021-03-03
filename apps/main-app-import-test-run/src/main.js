@@ -27,7 +27,7 @@ import {
 
 analytics.initialize();
 
-render(<ReactApp />, document.getElementById('root'));
+render(<ReactApp />, document.getElementById('app'));
 
 if (module.hot) {
   module.hot.accept();
