@@ -1,0 +1,91 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+.aggValContainer {
+	margin-bottom: 1rem;
+}
+
+
+.aggValContainer a {
+	padding: 0.25rem 0.5rem !important;
+}
+
+.filterLabel {
+	margin-bottom: 0.5rem;
+	text-transform: capitalize;
+}
+
+.strikeThrough {
+  text-decoration: line-through;
+}
+
+.aggLink {
+	display: flex;
+	justify-content: space-between;
+}
+
+.link {
+  flex-grow: 1;
+}
+
+//deals with flickering bug
+.tooltip{
+  pointer-events: none;
+}
+
+.aggLinkLabel {
+	margin-right: 1rem;
+}
+
+.singleFacetControl {
+	display: flex;
+	justify-content: space-between;
+}
+
+.selectContainer {
+	position: relative;
+}
+
+.colorDot {
+	display: inline-block;
+	position: relative;
+	top: -0.1rem;
+	height: 0.5rem;
+	width: 0.5em;
+	border-radius: 0.25rem;
+	margin-right: 0.25rem;
+}
+
+ul.filterList {
+  list-style-type: none;
+}
+
+ul.filterList li {
+  list-style-type: none;
+}
+
+.mobileToolbar{
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: white;
+  border-bottom: 2px solid $border-color;
+  transition: .2s linear;
+}
+
+.mobileToolbarFilter{
+  padding: 6px 8px 0;
+  float: right !important;
+  margin-bottom: 1.3rem;
+}
+
+.mobileFacetList{
+  margin-top: 0.5rem;
+}
+
+.mobileToolbar .textAction{
+  float: right !important;
+}
+
+.mobileToolbar .textAction .filterCaret {
+  padding: 0 0.5rem;
+}
