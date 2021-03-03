@@ -1,0 +1,15 @@
+@import "../../theme";
+
+.fileLink {
+  background-color: $primary;
+  color: white;
+  padding: 0.1rem 0.3rem;
+  border-radius: 5px;
+  margin-right: 0.4rem;
+  font-size: 0.8rem;
+
+  &:hover {
+    color: white;
+    text-decoration: none;
+  }
+}
