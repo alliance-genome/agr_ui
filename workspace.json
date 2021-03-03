@@ -321,7 +321,8 @@
         "serve": {
           "executor": "@nrwl/web:dev-server",
           "options": {
-            "buildTarget": "main-app-import-test-run:build"
+            "buildTarget": "main-app-import-test-run:build",
+            "proxyConfig": "apps/main-app-import-test-run/proxy.conf.json"
           },
           "configurations": {
             "production": {
