@@ -1,10 +1,9 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import CommaSeparatedList from '../commaSeparatedList';
-import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
+import EvidenceCode from './EvidenceCode';
 
 const EvidenceCodesCell = ({evidenceCodes}) => {
-  const tooltipRef = useRef(null);
 
   if (!evidenceCodes || !evidenceCodes.length) {
     return null;
@@ -19,29 +18,7 @@ const EvidenceCodesCell = ({evidenceCodes}) => {
 
   return (
     <CommaSeparatedList>
-      {uniqueCodes.map(code => {
-        if (code.displaySynonym) {
-          return (
-            <React.Fragment key={code.name}>
-              <div ref={tooltipRef}>{code.displaySynonym}</div>
-              <UncontrolledTooltip
-                target={tooltipRef}
-                delay={{show: 300, hide: 150}}
-                placement='top'
-                modifiers={{
-                  preventOverflow: {
-                    enabled: false
-                  }
-                }}
-              >
-                {code.name}
-              </UncontrolledTooltip>
-            </React.Fragment>
-          );
-        } else {
-          return <React.Fragment key={code.name}>{code.name}</React.Fragment>;
-        }
-      })}
+      {uniqueCodes.map(code => <EvidenceCode key={code.id} code={code} />)}
     </CommaSeparatedList>
   );
 };
