@@ -200,7 +200,6 @@ export default class IsoformTrack {
                               let symbol_string_width = text_label.node().getBBox().width;
                               if(parseFloat(symbol_string_width+label_offset)>viewerWidth){
                                 let diff = parseFloat(symbol_string_width+label_offset-viewerWidth);
-                                console.log(diff,viewerWidth,symbol_string_width);
                                 label_offset-=diff;
                                 text_label.attr("transform", "translate("+label_offset+",0)");
                               }

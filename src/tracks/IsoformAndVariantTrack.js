@@ -18,16 +18,17 @@ import {ApolloService} from "../services/ApolloService";
 let apolloService = new ApolloService();
 
 // TODO: make configurable and a const / default
-let MAX_ROWS = 9;
+//let MAX_ROWS = 9;
 
 export default class IsoformAndVariantTrack {
 
-  constructor(viewer, track, height, width, transcriptTypes, variantTypes,showVariantLabel,variantFilter,binRatio) {
+  constructor(viewer, track, height, width, transcriptTypes, variantTypes,showVariantLabel,variantFilter,binRatio,isoformFilter) {
     this.trackData = {};
     this.variantData = {};
     this.viewer = viewer;
     this.width = width;
     this.variantFilter = variantFilter;
+    this.isoformFilter = isoformFilter;
     this.height = height;
     this.transcriptTypes = transcriptTypes;
     this.variantTypes = variantTypes;
@@ -39,7 +40,8 @@ export default class IsoformAndVariantTrack {
   // TODO: Potentially seperate this large section of code
   // for both testing/extensibility
   DrawTrack() {
-    let isoformData = this.trackData;
+    let isoformFilter = this.isoformFilter;
+    let isoformData= this.trackData;
     let variantData = this.filterVariantData(this.variantData,this.variantFilter);
     let viewer = this.viewer;
     let width = this.width;
@@ -49,7 +51,7 @@ export default class IsoformAndVariantTrack {
     let numVariantTracks=distinctVariants.length;
     let source = this.trackData[0].source;
     let chr = this.trackData[0].seqId;
-
+    let MAX_ROWS = isoformFilter.length===0 ? 9 : 30;
 
     let UTR_feats = ["UTR", "five_prime_UTR", "three_prime_UTR"];
     let CDS_feats = ["CDS"];
@@ -371,6 +373,9 @@ export default class IsoformAndVariantTrack {
         // For each isoform..
         let warningRendered = false ;
         featureChildren.forEach(function (featureChild) {
+          if(!(isoformFilter.indexOf(featureChild.id) >= 0) && isoformFilter.length!==0){
+            return;
+          }
           //
           let featureType = featureChild.type;
 
