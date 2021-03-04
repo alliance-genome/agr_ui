@@ -160,13 +160,15 @@ const GeneAlleleDetailsTable = ({geneId}) => {
       text: 'Variant Location',
       dataField: 'consequence.location',
       headerStyle: {width: '100px'},
+      filterable: true,
+      filterName: 'variantLocation',
     },
     {
       text: 'Molecular consequence',
       dataField: 'consequence.molecularConsequence',
       formatter: VEPTextCell,
       filterable: true,
-      filterName: 'variantConsequence',
+      filterName: 'molecularConsequence',
       headerStyle: {width: '350px'},
     },
     {
@@ -228,7 +230,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
       label: 'Variant type',
     },
     {
-      value: 'variantConsequence',
+      value: 'molecularConsequence',
       label: 'Molecular consequence',
     },
     {
