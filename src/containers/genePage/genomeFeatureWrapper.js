@@ -69,7 +69,7 @@ class GenomeFeatureWrapper extends Component {
     const bufferedMax = Math.round(end + (linkLength * LINK_BUFFER / 2.0));
     const externalLocationString = chr + ':' + bufferedMin + '..' + bufferedMax;
     // TODO: handle bufferedMax exceeding chromosome length, though I think it has a good default.
-    const tracks = ['Variants', 'All Genes','Multiple-Variant Alleles'];
+    const tracks = ['Variants', 'All Genes','Multiple-Variant Alleles', 'High Throughput Variants'];
     return externalJBrowsePrefix +
       '&tracks=' + encodeURIComponent(tracks.join(',')) +
       '&highlight=' + geneSymbolUrl +
