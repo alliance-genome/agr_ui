@@ -17,7 +17,10 @@ import isEqual from 'lodash.isequal';
 import CommaSeparatedList from '../../components/commaSeparatedList';
 
 import style from './style.scss';
-import {getSpecies} from '../../lib/utils';
+import {
+  getSpecies,
+  getSingleGenomeLocation,
+} from '../../lib/utils';
 
 const APOLLO_SERVER_PREFIX = '/apollo/';
 const LINK_BUFFER = 1.2;
@@ -69,7 +72,7 @@ class GenomeFeatureWrapper extends Component {
     const bufferedMax = Math.round(end + (linkLength * LINK_BUFFER / 2.0));
     const externalLocationString = chr + ':' + bufferedMin + '..' + bufferedMax;
     // TODO: handle bufferedMax exceeding chromosome length, though I think it has a good default.
-    const tracks = ['Variants', 'All Genes','Multiple-Variant Alleles'];
+    const tracks = ['Variants', 'All Genes','Multiple-Variant Alleles', 'High Throughput Variants'];
     return externalJBrowsePrefix +
       '&tracks=' + encodeURIComponent(tracks.join(',')) +
       '&highlight=' + geneSymbolUrl +
@@ -178,6 +181,8 @@ class GenomeFeatureWrapper extends Component {
 
   render() {
     const {assembly, id, displayType,genomeLocationList} = this.props;
+    const genomeLocation = getSingleGenomeLocation(genomeLocationList);
+
     const coordinates = genomeLocationList.map(location => {
       return(
         <span key={location.chromosome+location.start+location.end}>
@@ -216,6 +221,7 @@ class GenomeFeatureWrapper extends Component {
             >
               <span dangerouslySetInnerHTML={{__html: this.state.helpText}}/>
             </HelpPopup>
+            <i className="text-muted d-block mt-1">Only variants associated to alleles are shown in the graphics above. See all variants in <ExternalLink href={this.generateJBrowseLink(genomeLocation.chromosome,genomeLocation.start,genomeLocation.end)}>JBrowse</ExternalLink>.</i>
           </div>
           }
           {this.state.loadState === 'error' ?

@@ -270,7 +270,7 @@ const AlleleTable = ({geneId}) => {
       label: 'Variant type',
     },
     {
-      value: 'variantConsequence',
+      value: 'molecularConsequence',
       label: 'Molecular consequence',
     },
   ];
