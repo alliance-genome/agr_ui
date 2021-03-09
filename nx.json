@@ -29,13 +29,6 @@
     }
   },
   "projects": {
-    "main-app": {
-      "tags": []
-    },
-    "main-app-e2e": {
-      "tags": [],
-      "implicitDependencies": ["main-app"]
-    },
     "app-shell": {
       "tags": []
     },
@@ -44,6 +37,13 @@
     },
     "main-app-import-test-run": {
       "tags": []
+    },
+    "example-app": {
+      "tags": []
+    },
+    "example-app-e2e": {
+      "tags": [],
+      "implicitDependencies": ["example-app"]
     }
   }
 }
