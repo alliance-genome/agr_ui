@@ -128,6 +128,7 @@ const AlleleTable = ({geneId}) => {
       dataField: 'category',
       text: 'Category',
       headerStyle: {width: '140px'},
+      filterName: 'alleleCategory',
       filterable: getDistinctFieldValue(resolvedData, 'filter.alleleCategory'),
     },
     {
