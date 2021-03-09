@@ -1,8 +1,8 @@
 module.exports = {
   projects: [
-    '<rootDir>/apps/main-app',
+    '<rootDir>/apps/example-app',
     '<rootDir>/libs/app-shell',
     '<rootDir>/libs/shared-assets',
-    '<rootDir>/apps/main-app-import-test-run',
+    '<rootDir>/apps/example-app-import-test-run',
   ],
 };
