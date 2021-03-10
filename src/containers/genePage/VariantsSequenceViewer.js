@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import GenomeFeatureWrapper from './genomeFeatureWrapper';
 import { getSingleGenomeLocation } from '../../lib/utils';
 
-const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisible, onAllelesSelect }) => {
+const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected }) => {
 
   const genomeLocationList = gene.genomeLocations;
   const genomeLocation = getSingleGenomeLocation(genomeLocationList);
