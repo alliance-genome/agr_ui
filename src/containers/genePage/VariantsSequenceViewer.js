@@ -11,7 +11,7 @@ const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, onAllelesSe
   // TODO: remove when onAllelesSelect is in use
   // onAllelesSelect is to be called with a list of allele IDs, when selecting alleles throw the viewer.
   // This allows the allele selection to be communicated to the parent component, ie AlleleTable
-  console.log(onAllelesSelect); // eslint-disable-line no-console
+  // console.log(onAllelesSelect); // eslint-disable-line no-console
 
   if (!genomeLocation.chromosome) {
     return null;
