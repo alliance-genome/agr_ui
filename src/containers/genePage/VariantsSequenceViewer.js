@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import GenomeFeatureWrapper from './genomeFeatureWrapper';
 import { getSingleGenomeLocation } from '../../lib/utils';
 
-const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisible, onAllelesSelect }) => {
+const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, onAllelesSelect }) => {
 
   const genomeLocationList = gene.genomeLocations;
   const genomeLocation = getSingleGenomeLocation(genomeLocationList);
@@ -11,7 +11,7 @@ const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisi
   // TODO: remove when onAllelesSelect is in use
   // onAllelesSelect is to be called with a list of allele IDs, when selecting alleles throw the viewer.
   // This allows the allele selection to be communicated to the parent component, ie AlleleTable
-  console.log(onAllelesSelect); // eslint-disable-line no-console
+  // console.log(onAllelesSelect); // eslint-disable-line no-console
 
   if (!genomeLocation.chromosome) {
     return null;
@@ -34,7 +34,6 @@ const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisi
       species={gene.species.taxonId}
       strand={genomeLocation.strand}
       synonyms={gene.synonyms}
-      visibleVariants={allelesVisible.map(a => a.id)}
       width='600px'
     />
   );
