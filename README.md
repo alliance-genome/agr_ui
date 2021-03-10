@@ -18,7 +18,7 @@ Ensure the correct version of Node.js is **installed**, if using the particular 
 nvm install
 ```
 
-\_Note: the command uses **nvm**, not npm. Nvm deals with the version of Node.js itself.
+_Note: the command uses **nvm**, not npm. Nvm deals with the version of Node.js itself._
 
 Ensure the correct version of Node.js is **activated**:
 (Applicable every time when changing into the directory for this project)
@@ -33,7 +33,7 @@ Install dependencies after first cloning the repository or after pulling in new 
 npm install
 ```
 
-\_Note: the command uses **npm**, not nvm. NPM deals with package dependencies.
+_Note: the command uses **npm**, not nvm. NPM deals with package dependencies._
 
 ## Development
 
@@ -49,7 +49,7 @@ To start the development server:
 npm start main-app
 ```
 
-\_Please note while the `main-app` argument is optional in the command above, because `main-app` is the default app. If developing another app, it would need to be specified.
+_Note while the `main-app` argument is optional in the command above, because `main-app` is the default app. If developing another app, it would need to be specified._
 
 Once the development server is running, visit `http://localhost:2992` to see your development site. When you edit source files, the changes will automatically be compiled and updated in your browser.
 
