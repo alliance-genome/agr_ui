@@ -15,8 +15,10 @@ It is not strictly required, but highly recommended that you have configured you
 Ensure the correct version of Node.js is **installed**, if using the particular version of Node.js for the same time:
 
 ```bash
-nvm install  # if installing the particular version of Node.js for the first time
+nvm install
 ```
+
+\_Note: the command uses **nvm**, not npm. Nvm deals with the version of Node.js itself.
 
 Ensure the correct version of Node.js is **activated**:
 (Applicable every time when changing into the directory for this project)
@@ -30,6 +32,8 @@ Install dependencies after first cloning the repository or after pulling in new 
 ```bash
 npm install
 ```
+
+\_Note: the command uses **npm**, not nvm. NPM deals with package dependencies.
 
 ## Development
 
