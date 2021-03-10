@@ -35,7 +35,7 @@ npm install
 
 This repository uses [Nx](https://nx.dev/react) to facilitate development of multiple apps and modules in a single [monorepo](https://nx.dev/latest/react/core-concepts/why-monorepos).
 
-At the moment, we are primarily concerned with the [main-app] that is derived from the previous content of this repository.
+At the moment, we are primarily concerned with the [main-app](apps/main-app/) that is derived from the previous content of this repository.
 
 Most frontend development will be done using a development server. This development server is configured to proxy API requests will be proxied to separate server based on [a configuration file like this one](apps/main-app/proxy.conf.json).
 
