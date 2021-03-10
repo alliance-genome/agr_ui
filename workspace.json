@@ -3,7 +3,7 @@
   "cli": {
     "defaultCollection": "@nrwl/react"
   },
-  "defaultProject": "example-app",
+  "defaultProject": "main-app",
   "generators": {
     "@nrwl/react": {
       "application": {
@@ -322,6 +322,7 @@
           "executor": "@nrwl/web:dev-server",
           "options": {
             "buildTarget": "main-app:build",
+            "port": 2992,
             "proxyConfig": "apps/main-app/proxy.conf.json"
           },
           "configurations": {
