@@ -12,7 +12,14 @@ It is not strictly required, but highly recommended that you have configured you
 
 ## Installation
 
-Ensure the correct version of Node.js is installed and active:
+Ensure the correct version of Node.js is **installed**, if using the particular version of Node.js for the same time:
+
+```bash
+nvm install  # if installing the particular version of Node.js for the first time
+```
+
+Ensure the correct version of Node.js is **activated**:
+(Applicable every time when changing into the directory for this project)
 
 ```bash
 nvm use
@@ -26,39 +33,41 @@ npm install
 
 ## Development
 
-Most development will be done using [webpack-dev-server](https://webpack.js.org/configuration/dev-server/). API requests will be proxied to separate server if a `API_URL` environment variable is set. Otherwise, it is expected that an API server is running on `localhost:8080`:
+This repository uses [Nx](https://nx.dev/react) to facilitate development of multiple apps and modules in a single [monorepo](https://nx.dev/latest/react/core-concepts/why-monorepos).
+
+At the moment, we are primarily concerned with the [main-app] that is derived from the previous content of this repository.
+
+Most frontend development will be done using a development server. This development server is configured to proxy API requests will be proxied to separate server based on [a configuration file like this one](apps/main-app/proxy.conf.json).
+
+To start the development server:
 
 ```bash
-# if not running API locally
-export API_URL=https://build.alliancegenome.org
+npm start main-app
 ```
 
-To start webpack-dev-server:
+\_Please note while the `main-app` argument is optional in the command above, because `main-app` is the default app. If developing another app, it would need to be specified.
 
-```bash
-npm start
-```
-
-Once webpack-dev-server is running visit `http://localhost:2992` to see your development site. When you edit source files, the changes will automatically be compiled and updated in your browser.
-
-In rare cases where you need to specifically test the application as a production bundle run:
-
-```bash
-npm run serve
-```
-
-This will produce a production webpack bundle and [serve](https://github.com/tapio/live-server) it on `http://localhost:8080`.
+Once the development server is running, visit `http://localhost:2992` to see your development site. When you edit source files, the changes will automatically be compiled and updated in your browser.
 
 ## Tests
-To run ESLint on source files and execute Mocha tests:
+
+To run linter on source files:
+
 ```bash
-npm test
+npm run lint main-app
+```
+
+Execute tests:
+
+```bash
+npm run test main-app
 ```
 
 ## Frameworks & Tools
 
-* [React](https://reactjs.org/) for routing and building user interface components
-* [Redux](https://redux.js.org/) and [Immutable](https://immutable-js.github.io/immutable-js/) for state management
-* [Bootstrap](https://getbootstrap.com/), [reactstrap](https://reactstrap.github.io), [Sass](https://sass-lang.com/), [CSS Modules](https://github.com/css-modules/css-modules) for styling
-* [Mocha](https://mochajs.org/) for testing
-* [Webpack](https://webpack.js.org/) and [Babel](https://babeljs.io/) for compiling and bundling
+- [React](https://reactjs.org/) for routing and building user interface components
+- [Nx](https://nx.dev/) for consistent code generation and execution, and managing multiple node modules in one repo
+- [Redux](https://redux.js.org/) and [Immutable](https://immutable-js.github.io/immutable-js/) for state management
+- [Bootstrap](https://getbootstrap.com/), [reactstrap](https://reactstrap.github.io), [Sass](https://sass-lang.com/), [CSS Modules](https://github.com/css-modules/css-modules) for styling
+- [Mocha](https://mochajs.org/) for testing
+- [Webpack](https://webpack.js.org/) and [Babel](https://babeljs.io/) for compiling and bundling
