@@ -114,6 +114,8 @@ export function makeFieldDisplayName(unformattedName, category = '') {
     return 'Name';
   case 'symbolText':
     return 'Symbol';
+  case 'alterationType':
+    return 'Category';
   default:
     //replace fix both camel case and underscores, capitalize the first letter
     return unformattedName
