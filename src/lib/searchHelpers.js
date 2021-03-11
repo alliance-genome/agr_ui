@@ -115,7 +115,7 @@ export function makeFieldDisplayName(unformattedName, category = '') {
   case 'symbolText':
     return 'Symbol';
   case 'alterationType':
-    return 'Category';
+    return 'Category\u00a0'; //non breaking whitespace char in order to avoid conflict with higher level category value
   default:
     //replace fix both camel case and underscores, capitalize the first letter
     return unformattedName
