@@ -23,7 +23,9 @@
     "update": "nx migrate latest",
     "workspace-generator": "nx workspace-generator",
     "dep-graph": "nx dep-graph",
-    "help": "nx help"
+    "help": "nx help",
+    "postbuild": "npm run sitemap",
+    "sitemap": "node bin/build_sitemap.js"
   },
   "private": true,
   "dependencies": {
