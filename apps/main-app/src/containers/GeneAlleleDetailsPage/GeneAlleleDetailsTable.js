@@ -288,6 +288,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
         <DataTable
           {...tableQuery}
           columns={columns}
+          downloadUrl={`/api/gene/${geneId}/allele-variant-detail/download`}
           sortOptions={sortOptions}
           keyField='id'
         />
