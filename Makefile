@@ -39,4 +39,4 @@ docker-run:
 	docker run -p 2992:2992 -t -i ${REG}/agr_ui_server:${DOCKER_BUILD_TAG}
 
 docker-run-command:
-	npm run start-docker
+	npm run start
