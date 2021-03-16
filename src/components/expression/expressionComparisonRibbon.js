@@ -105,6 +105,7 @@ const ExpressionComparisonRibbon = ({
             subject-base-url='/gene/'
             subject-open-new-tab={false}
             subject-position={compareOrthologs ? '1' : '0'}
+            update-on-subject-change={false}
           />
         </div>
         <div className='ribbon-loading-overlay'>{summary.isLoading && <LoadingSpinner />}</div>
