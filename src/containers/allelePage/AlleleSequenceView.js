@@ -24,9 +24,7 @@ function findFminFmax(genomeLocation, variants) {
 
 const AlleleSequenceView = ({ allele }) => {
   const variants = useAllAlleleVariants(allele.id);
-  let variantId = allele.variants[0].id;
-  const visibleTranscripts = useDataTableQuery(`/api/variant/${variantId}/transcripts`);
-  let isoformFilter = visibleTranscripts.data.map(a => a.id.split(":").pop());
+  const visibleTranscripts = useDataTableQuery(`/api/allele/${allele.id}/variants`);
 
   if (!allele.gene) {
     return null;
@@ -34,9 +32,11 @@ const AlleleSequenceView = ({ allele }) => {
 
   const genomeLocations = allele.gene.genomeLocations;
   const genomeLocation = genomeLocations && genomeLocations.length > 0 ? genomeLocations[0] : null;
-  if (!genomeLocation || variants.isLoading || variants.isError || variants.data.length === 0) {
+  if (!genomeLocation || variants.isLoading || variants.isError || variants.data.length === 0 ||visibleTranscripts.data.length === 0) {
     return null;
   }
+
+  let isoformFilter = visibleTranscripts.data[0].transcriptList.map(a => a.id.split(':').pop());
 
   const { fmin, fmax } = findFminFmax(genomeLocation, variants);
   return (
