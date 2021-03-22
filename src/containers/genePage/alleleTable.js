@@ -296,7 +296,7 @@ const AlleleTable = ({geneId}) => {
           selectRow={selectRow}
           sortOptions={sortOptions}
         />
-          <Link className="btn btn-primary position-absolute" style={{top: '1em'}} to={`/gene/${geneId}/allele-details`}>View all Alleles and Variants information</Link>
+        <Link className="btn btn-primary position-absolute" style={{top: '1em'}} to={`/gene/${geneId}/allele-details`}>View all Alleles and Variants information</Link>
       </div>
     </>
   );
