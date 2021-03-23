@@ -373,7 +373,7 @@ export default class IsoformAndVariantTrack {
         // For each isoform..
         let warningRendered = false ;
         featureChildren.forEach(function (featureChild) {
-          if(!(isoformFilter.indexOf(featureChild.id) >= 0) && isoformFilter.length!==0){
+          if(!(isoformFilter.indexOf(featureChild.id) >= 0 || isoformFilter.indexOf(featureChild.name) >= 0 ) && isoformFilter.length!==0){
             return;
           }
           //
