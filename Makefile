@@ -4,7 +4,7 @@ DOCKER_BUILD_TAG := latest
 
 registry-docker-login:
 ifneq ($(shell echo ${REG} | egrep "ecr\..+\.amazonaws\.com"),)
-	@$(eval DOCKER_LOGIN_CMD=aws)
+	@$(eval DOCKER_LOGIN_CMD=docker run --rm -it -v ~/.aws:/root/.aws amazon/aws-cli)
 ifneq (${AWS_PROFILE},)
 	@$(eval DOCKER_LOGIN_CMD=${DOCKER_LOGIN_CMD} --profile ${AWS_PROFILE})
 endif
