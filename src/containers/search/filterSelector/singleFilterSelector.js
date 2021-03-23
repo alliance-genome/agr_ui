@@ -6,7 +6,7 @@ import Select from 'react-select';
 
 import style from './style.scss';
 import {
-  getQueryParamWithoutPage,
+  getQueryParamWithoutPage, removeBlankValue,
   stringifyQuery
 } from '../../../lib/searchHelpers';
 import SingleFilterValue from './singleFilterValue';
@@ -40,7 +40,9 @@ class SingleFilterSelector extends Component {
   }
 
   renderFilterValues() {
-    let values = this.props.values.slice(0, this.state.numVisible);
+    let values = removeBlankValue(this.props.values)
+      .slice(0, this.state.numVisible);
+
     return values.map( value =>
       (<SingleFilterValue
         key={`fv.${this.props.name}.${value.name}`}

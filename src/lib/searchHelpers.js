@@ -243,3 +243,11 @@ export function toCamelCase(string){
   }
   return stringArr.join('');
 }
+
+export function isBlankValue(value){
+  return value.displayName === '';
+}
+
+export function removeBlankValue(values){
+  return values.filter(value => !isBlankValue(value));
+}
