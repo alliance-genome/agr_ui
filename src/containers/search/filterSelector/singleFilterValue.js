@@ -33,43 +33,39 @@ const  SingleFilterValue = ({name, queryParams, value, SEARCH_PATH, displayName}
       SEARCH_PATH={SEARCH_PATH}
     />))}
   </ul>);
-  if (value.displayName !== '') {
-    return (
-      <div>
-        <li
-          className='nav-item'
-          onMouseEnter={() => setDisplayExclude(!value.isActive)}
-          onMouseLeave={() => setDisplayExclude(false)}
-        >
-          <span className='d-flex justify-content-start align-items-center'>
+  return (
+    <div>
+      <li
+        className='nav-item'
+        onMouseEnter={() => setDisplayExclude(!value.isActive)}
+        onMouseLeave={() => setDisplayExclude(false)}
+      >
+        <span className='d-flex justify-content-start align-items-center'>
 
-            <FilterLink
-              newQueryObj={newQueryObj}
-              nameNode={nameNode}
-              strikeThroughFilter={strikeThroughFilter}
-              SEARCH_PATH={SEARCH_PATH}
-              value={value}
-              classSuffix={classSuffix}
-              setDisplayExclude={setDisplayExclude}
-            />
+          <FilterLink
+            newQueryObj={newQueryObj}
+            nameNode={nameNode}
+            strikeThroughFilter={strikeThroughFilter}
+            SEARCH_PATH={SEARCH_PATH}
+            value={value}
+            classSuffix={classSuffix}
+            setDisplayExclude={setDisplayExclude}
+          />
 
-            <ExcludeLink
-              queryObject={newQueryObj}
-              value={value}
-              displayExclude={displayExclude}
-              SEARCH_PATH={SEARCH_PATH}
-              setStrikeThroughFilter={setStrikeThroughFilter}
-              displayName={displayName}
-              setDisplayExclude={setDisplayExclude}
-            />
-          </span>
-        </li>
-        {values}
-      </div>
-    );
-  } else {
-    return null;
-  }
+          <ExcludeLink
+            queryObject={newQueryObj}
+            value={value}
+            displayExclude={displayExclude}
+            SEARCH_PATH={SEARCH_PATH}
+            setStrikeThroughFilter={setStrikeThroughFilter}
+            displayName={displayName}
+            setDisplayExclude={setDisplayExclude}
+          />
+        </span>
+      </li>
+      {values}
+    </div>
+  );
 };
 
 
