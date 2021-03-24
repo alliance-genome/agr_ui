@@ -9,6 +9,7 @@ import CommaSeparatedGeneList from './CommaSeparatedGeneList';
 import NoData from '../../components/noData';
 import {Link} from 'react-router-dom';
 import ConstructLink from '../../components/ConstructLink';
+import { stringifyQuery } from '../../lib/searchHelpers';
 
 const AlleleTransgenicConstructs = ({constructs}) => {
   if (!constructs || constructs.length === 0) {
@@ -49,7 +50,12 @@ const AlleleTransgenicConstructs = ({constructs}) => {
               )}
             </AttributeValue>
           </AttributeList>
-          <Link to={`/search?category=allele&constructs=${construct.nameText}`}>
+          <Link
+            to={{pathname: '/search', search: stringifyQuery({
+              category: 'allele',
+              constructs: construct.nameText,
+            })}}
+          >
             All alleles with this construct <i className='fa fa-search' />
           </Link>
         </div>
