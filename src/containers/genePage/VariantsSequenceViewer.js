@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import GenomeFeatureWrapper from './genomeFeatureWrapper';
 import { getSingleGenomeLocation } from '../../lib/utils';
 
-const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected }) => {
+const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisible }) => {
 
   const genomeLocationList = gene.genomeLocations;
   const genomeLocation = getSingleGenomeLocation(genomeLocationList);
@@ -34,6 +34,7 @@ const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected }) => {
       species={gene.species.taxonId}
       strand={genomeLocation.strand}
       synonyms={gene.synonyms}
+      visibleVariants={allelesVisible.map(a => a.id)}
       width='600px'
     />
   );
