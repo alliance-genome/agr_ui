@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import GenomeFeatureWrapper from '../genePage/genomeFeatureWrapper';
 import useAllAlleleVariants from '../../hooks/useAlleleVariants';
+import useDataTableQuery from '../../hooks/useDataTableQuery';
+
 
 
 function findFminFmax(genomeLocation, variants) {
@@ -22,6 +24,7 @@ function findFminFmax(genomeLocation, variants) {
 
 const AlleleSequenceView = ({ allele }) => {
   const variants = useAllAlleleVariants(allele.id);
+  const visibleTranscripts = useDataTableQuery(`/api/allele/${allele.id}/variants`);
 
   if (!allele.gene) {
     return null;
@@ -29,9 +32,11 @@ const AlleleSequenceView = ({ allele }) => {
 
   const genomeLocations = allele.gene.genomeLocations;
   const genomeLocation = genomeLocations && genomeLocations.length > 0 ? genomeLocations[0] : null;
-  if (!genomeLocation || variants.isLoading || variants.isError || variants.data.length === 0) {
+  if (!genomeLocation || variants.isLoading || variants.isError || variants.data.length === 0 ||visibleTranscripts.data.length === 0) {
     return null;
   }
+
+  let isoformFilter = visibleTranscripts.data[0].transcriptList.map(a => a.id.split(':').pop());
 
   const { fmin, fmax } = findFminFmax(genomeLocation, variants);
   return (
@@ -46,6 +51,7 @@ const AlleleSequenceView = ({ allele }) => {
       genomeLocationList={genomeLocations}
       height='200px'
       id='genome-feature-location-id'
+      isoformFilter={isoformFilter}
       primaryId={allele.id}
       species={allele.species.taxonId}
       strand={genomeLocation.strand}
