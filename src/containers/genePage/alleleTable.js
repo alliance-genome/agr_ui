@@ -16,6 +16,7 @@ import BooleanLinkCell from '../../components/dataTable/BooleanLinkCell';
 import VariantsSequenceViewer from './VariantsSequenceViewer';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
+import useAllVariants from '../../hooks/useAllVariants';
 
 const AlleleTable = ({geneId}) => {
 
@@ -45,16 +46,17 @@ const AlleleTable = ({geneId}) => {
   }, [resolvedData]);
 
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
-  const variants = useMemo(() => (
-    resolvedData ?
-      resolvedData.results.flatMap(
-        allele => (allele && allele.variants) || []
-      ) :
-      []
-  ), [resolvedData]);
+
+  // filtered but not paginate list of alleles
+  const allelesFiltered = useAllVariants(geneId, tableProps.tableState); 
+
   const variantsSequenceViewerProps = useMemo(() => {
-    const variantLocations = variants.map(variant => variant && variant.location);
+    const variantsFiltered = allelesFiltered.data ? allelesFiltered.data.results.flatMap(
+      allele => (allele && allele.variants) || []
+    ) : [];
+    const variantLocations = variantsFiltered.map(variant => variant && variant.location);
     const { fmin, fmax } = findFminFmax([geneLocation, ...variantLocations]);
+    const alleleIdsFiltered = allelesFiltered.data ? allelesFiltered.data.results.map(allele => (allele.id)) : [];
 
     /*
        Warning!
@@ -70,12 +72,12 @@ const AlleleTable = ({geneId}) => {
       gene: gene,
       fmin: fmin,
       fmax: fmax,
-      hasVariants: Boolean(variants && variants.length),
+      hasVariants: Boolean(variantsFiltered && variantsFiltered.length),
       allelesSelected: alleleIdsSelected.map(formatAllele),
-      allelesVisible: resolvedData ? resolvedData.results.map(allele => formatAllele(allele && allele.id)) : [],
+      allelesVisible: alleleIdsFiltered.map(formatAllele),
       onAllelesSelect: setAlleleIdsSelected,
     };
-  }, [resolvedData, variants, alleleIdsSelected, setAlleleIdsSelected]);
+  }, [resolvedData, allelesFiltered.data, alleleIdsSelected, setAlleleIdsSelected]);
 
   const selectRow = useMemo(() => ({
     mode: 'checkbox',
