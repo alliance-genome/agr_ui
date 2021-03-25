@@ -17,6 +17,6 @@ describe('App', () => {
         <App />
       </BrowserRouter>
     );
-    expect(getByText('Welcome to main-app!')).toBeTruthy();
+    expect(getByText('Welcome to shared-assets!')).toBeTruthy();
   });
 });
