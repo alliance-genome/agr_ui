@@ -9,6 +9,25 @@
       }
     ],
     "@babel/preset-typescript",
-    "@babel/preset-react"
+    "@babel/preset-react",
+    "@emotion/babel-preset-css-prop"
+  ],
+  "plugins": [
+    "babel-plugin-macros",
+    [
+      "@emotion/babel-plugin-jsx-pragmatic",
+      {
+        "export": "jsx",
+        "import": "__cssprop",
+        "module": "@emotion/react"
+      }
+    ],
+    [
+      "@babel/plugin-transform-react-jsx",
+      {
+        "pragma": "__cssprop",
+        "pragmaFrag": "React.Fragment"
+      }
+    ]
   ]
 }
