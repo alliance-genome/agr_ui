@@ -18,8 +18,8 @@ ENV NODE_ENV ${NODE_ENV}
 
 ENV ALLIANCE_RELEASE ${ALLIANCE_RELEASE}
 
-RUN /bin/bash -c '. $HOME/.nvm/nvm.sh && npm run build'
-RUN /bin/bash -c '. $HOME/.nvm/nvm.sh && npm test'
+RUN /bin/bash -c '. $HOME/.nvm/nvm.sh && npx nx run-many --target=build --all --prod'
+RUN /bin/bash -c '. $HOME/.nvm/nvm.sh && npx nx run-many --target=test --all'
 
 FROM nginx
 
