@@ -322,8 +322,7 @@
           "executor": "@nrwl/web:dev-server",
           "options": {
             "buildTarget": "main-app:build",
-            "port": 2992,
-            "proxyConfig": "apps/main-app/proxy.conf.json"
+            "port": 2992
           },
           "configurations": {
             "production": {
