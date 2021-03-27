@@ -8,6 +8,18 @@ This repository uses [Nx](https://nx.dev/react) to facilitate development of mul
 
 The [Nx CLI](https://nx.dev/latest/react/getting-started/cli-overview) or the interactive [Nx Console]() is used to build, run, test apps and libs, as well as generating library or application code with modern tooling enabled (such as ESLint/TSlint, Prettier, Jest, Cypress, Storybook).
 
+## Folder structure
+
+**If you developed in this repo before it was reorganizated, you will find that code moved to [apps/main-app/](apps/main-app/).**
+
+`apps/` contains frontend sites that can be developed and deployed independently
+
+`libs/` contains shared libraries across apps. These libaraies can be published for use outside of this repo. But publishing a library is not necessary for using it within the repo.
+
+`package.json`, `package-lock.json` and `node_modules/` track the dependencies for by all apps and libs. This means that dependencies installation for any app or library should happend at the **root** of the project.
+
+`workspace.json` is where configuration for apps and libs are defined.
+
 ## Prerequisites
 
 nvm is used to manage Node.js versions. [Follow these instructions](https://github.com/nvm-sh/nvm#installing-and-updating) to install nvm.
@@ -38,18 +50,6 @@ npm install
 ```
 
 _Note: the command uses **npm**, not nvm. NPM deals with package dependencies._
-
-## Folder structure
-
-**If you developed in this repo before it was reorganizated, you will find that code moved to [apps/main-app/](apps/main-app/).**
-
-`apps/` contains frontend sites that can be developed and deployed independently
-
-`libs/` contains shared libraries across apps. These libaraies can be published for use outside of this repo. But publishing a library is not necessary for using it within the repo.
-
-`package.json`, `package-lock.json` and `node_modules/` track the dependencies for by all apps and libs. This means that dependencies installation for any app or library should happend at the **root** of the project.
-
-`workspace.json` is where configuration for apps and libs are defined.
 
 ## Development
 
