@@ -2,7 +2,7 @@
 
 # Alliance of Genome Resources UI
 
-Front-end code for the Alliance of Genome Resources website.
+Frontend code for the Alliance of Genome Resources website.
 
 This repository uses [Nx](https://nx.dev/react) to facilitate development of multiple apps and libraries in a single [monorepo](https://nx.dev/latest/react/core-concepts/why-monorepos).
 
@@ -65,15 +65,19 @@ To start the development server:
 npm start
 ```
 
-Once the development server is running, visit `http://localhost:2992` to see your development site. When you edit source files, the changes will automatically be compiled and updated in your browser.
+The development server will be started at [http://localhost:2992](http://localhost:2992).
 
-This development server proxies API requests to the server specified in `API_URL`. By default, that is `https://build.alliancegenome.org`.
+When you edit source files, the changes will automatically be compiled and updated in your browser.
 
-For example, running the following command **before** starting the development server sends proxied requests to the stage server.
+The development server proxies API requests to the API server. The API server can be specified using the `API_URL` environment variable. It is set to `https://build.alliancegenome.org` by default.
+
+To change the API server host for the proxy, run:
 
 ```bash
-export API_URL=https://stage.alliancegenome.org
+export API_URL=https://stage.alliancegenome.org  # to send proxied requests to the stage server.
 ```
+
+and re-start the development server.
 
 ### Development of Additional Apps
 
