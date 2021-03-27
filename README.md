@@ -43,75 +43,95 @@ _Note: the command uses **npm**, not nvm. NPM deals with package dependencies._
 
 **If you developed in this repo before it was reorganizated, you will find that code moved to [apps/main-app/](apps/main-app/).**
 
-`apps/` contains frontend sites that cna be developed and deployed independently
+`apps/` contains frontend sites that can be developed and deployed independently
 
-`libs/` contains libraries shared across apps or publishable for used outside of this repo
+`libs/` contains shared libraries across apps. These libaraies can be published for use outside of this repo. But publishing a library is not necessary for using it within the repo.
 
-`tools` contains scripts to run on the repo
+`package.json`, `package-lock.json` and `node_modules/` track the dependencies for by all apps and libs. This means that dependencies installation for any app or library should happend at the **root** of the project.
 
 `workspace.json` is where configuration for apps and libs are defined.
 
-`package.json` all apps and libs share the same `package.json`, along with `package-lock.json` and `node_modules/` located at the root of the project. 
-
-Dependencies installation for any app or library should happend at the **root** of the project.
-
-
 ## Development
 
-Development in this repo will be done using a development server. This development server is configured to proxy API requests will be proxied to separate server based on [a configuration file like this one](apps/main-app/proxy.conf.json).
+### Development of the [Main App](apps/main-app/)
 
-Using the development of the _default app_, also known as the [main-app](apps/main-app/).
+[apps/main-app/](apps/main-app/) holds most of the AGR UI code written before the re-organization of this repo.
+
+Development is done using a webpack development server, which is configured using [these configurations](apps/main-app/webpack.js).
 
 To start the development server:
-
-```bash
-npm start main-app
-```
-
-OR
 
 ```
 npm start
 ```
 
-_Note while the `main-app` argument is optional in the command above, because `main-app` is the default app. If developing another app, it would need to be specified._
-
 Once the development server is running, visit `http://localhost:2992` to see your development site. When you edit source files, the changes will automatically be compiled and updated in your browser.
+
+This development server proxies API requests to the server specified in `API_URL`. By default, that is `https://build.alliancegenome.org`.
+
+For example, running the following command **before** starting the development server sends proxied requests to the stage server.
+
+```bash
+export API_URL=https://stage.alliancegenome.org
+```
+
+### Development of Additional Apps
+
+To start the development environment for other apps found in [apps](apps/), the command can be run with the respective app name.
+
+Take the [example-app](apps/example-app/) for example, to start the development server, run:
+
+```bash
+npm start example-app
+```
 
 ## Tests
 
 To run linter on source files:
 
 ```bash
-npm run lint main-app
+npm run lint  # for the main-app
 ```
 
 OR
 
 ```bash
-npm run lint
+npm run lint [app-name]  # for other apps or libs
 ```
 
 Execute tests:
 
 ```bash
-npm run test main-app
+npm run test  # for the main-app
 ```
 
 OR
 
 ```bash
-npm run test
+npm run test [app-name]  # for other apps or libs
 ```
 
+## Build
 
-## Create a Library
+To build an app or lib for production
+
+```bash
+npm run build --prod # for the main-app
+```
+
+OR
+
+```bash
+npm run build [app-name] --prod # for other apps or libs
+```
+
+## Create a Shared Library
 
 To create a library interactively via CLI:
 
 ```bash
 
-npm run nx generate @nrwl/react:library nameOfMylibrary
+npm run nx generate @nrwl/react:library [lib-name]
 ```
 
 Or using a graphical interface via the [Nx Console VSCode plugin](https://nx.dev/latest/react/getting-started/console).
