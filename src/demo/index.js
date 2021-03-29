@@ -30,7 +30,7 @@ function covidExamples(){
 function currentExamples(){
   createExample("X:2023822..2042311", "fly", "viewerActnFly", TRACK_TYPE.ISOFORM_AND_VARIANT, false,["FB:FBal0212726"],['FBtr0070344','FBtr0070346']);
   createExample("8:57320983..57324517", "mouse", "viewerHand2Mouse", TRACK_TYPE.ISOFORM_AND_VARIANT, false,[],['ENSMUST00000185635']);
-  createExample("6:18170687..18322768", "mouse", "viewerCftrMouse", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
+  createExample("9:42732992..42873700", "zebrafish", "viewerHighlightExample", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
   createCoVExample("NC_045512.2:17894..28259", "SARS-CoV-2", "covidExample1", TRACK_TYPE.ISOFORM, false);
 }
 
@@ -170,12 +170,12 @@ function createExample(range, genome, divId, type, showLabel, variantFilter,isof
           gfc.setSelectedAlleles([], '#viewerFlyExample2NoLabelAnd');
       });
     }
-    if(divId==='viewerCftrMouse'){
+    if(divId==='viewerHighlightExample'){
       document.getElementById("mausbutton").addEventListener("click", function(){
-          gfc.setSelectedAlleles(["MGI:1857899"], '#viewerCftrMouse');
+          gfc.setSelectedAlleles(["ZFIN:ZDB-ALT-130411-164"], '#viewerHighlightExample');
       });
       document.getElementById("clrbuttonmaus").addEventListener("click", function(){
-          gfc.setSelectedAlleles([], '#viewerCftrMouse');
+          gfc.setSelectedAlleles([], '#viewerHighlightExample');
       });
     }
 

@@ -64,9 +64,16 @@ export default class GenomeFeatureViewer {
        let highlights=svgTarget.selectAll(".variant-deletion,.variant-SNV,.variant-insertion,.variant-delins")
          .filter(function(d){
            let returnVal=false;
+           //TODO This needs to be standardized.  We sometimes get these returned in a comma sperated list
+           //and sometimes in an array.
            if(d.alleles){
              let ids=d.alleles[0].replace(/"|\[|\]| /g, "").split(',');
              ids.forEach((val) => {
+               if (selectedAlleles.includes(val)){
+                 returnVal=true;
+               }
+             })
+             d.alleles.forEach((val) => {
                if (selectedAlleles.includes(val)){
                  returnVal=true;
                }
