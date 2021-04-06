@@ -6,15 +6,11 @@ import { OrthologyFilteredTable, OrthologyUserGuide, OrthologyBasicInfo } from '
 import GoUserGuide from '../../components/geneOntologyRibbon/goUserGuide';
 
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
+import PathwayWidget from '../../components/pathway/pathwayWidget';
 import NotFound from '../../components/notFound';
 import Subsection from '../../components/subsection';
 import AlleleTable from './alleleTable';
-import {
-  GenePhysicalInteractionDetailTable,
-  GeneGeneticInteractionDetailTable,
-  GeneInteractionCrossReference,
-  InteractionUserGuide
-} from '../../components/interaction';
+import { GenePhysicalInteractionDetailTable, GeneInteractionCrossReference, InteractionUserGuide } from '../../components/interaction';
 import GenomeFeatureWrapper from './genomeFeatureWrapper';
 import ExpressionLinks from './expressionLinks';
 
@@ -31,15 +27,15 @@ import GeneMetaTags from './GeneMetaTags';
 import PageNavEntity from '../../components/dataPage/PageNavEntity';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
-import { getSpecies, getSingleGenomeLocation } from '../../lib/utils';
+import { getSpecies } from '../../lib/utils';
 import TransgenicAlleleTable from './TransgenicAlleleTable';
 import GeneSymbol from '../../components/GeneSymbol';
 import PhenotypeCrossRefs from './PhenotypeCrossRefs';
-import SpeciesName from '../../components/SpeciesName';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
 const FUNCTION = 'Function - GO Annotations';
+const PATHWAY = 'Pathways';
 const ORTHOLOGY = 'Orthology';
 const DISEASE = 'Disease Associations';
 const EXPRESSION = 'Expression';
@@ -47,13 +43,13 @@ const ALLELES = 'Alleles and Variants';
 const TG_ALLELES = 'Transgenic Alleles';
 const PHENOTYPES = 'Phenotypes';
 const INTERACTIONS = 'Molecular Interactions';
-const GENETIC_INTERACTIONS = 'Genetic Interactions';
 const MODELS = 'Models';
 
 const SECTIONS = [
   {name: SUMMARY},
   {name: ORTHOLOGY},
   {name: FUNCTION},
+  {name: PATHWAY},
   {name: PHENOTYPES},
   {name: DISEASE},
   {name: ALLELES},
@@ -62,7 +58,6 @@ const SECTIONS = [
   {name: SEQUENCE_FEATURE_VIEWER},
   {name: EXPRESSION},
   {name: INTERACTIONS},
-  {name: GENETIC_INTERACTIONS},
 ];
 
 const GenePage = ({geneId}) => {
@@ -76,7 +71,22 @@ const GenePage = ({geneId}) => {
     return null;
   }
 
-  const genomeLocation = getSingleGenomeLocation(data.genomeLocations);
+  // todo, add chromosome
+  let genomeLocation = {};
+  if (data.genomeLocations) {
+    if (data.genomeLocations.length === 1) {
+      genomeLocation = data.genomeLocations[0];
+    }
+    else if (data.genomeLocations.length > 1) {
+      // TODO: figure out the proper assembly
+      for (let i in data.genomeLocations) {
+        let tempGenomeLocation = data.genomeLocations[i];
+        if (tempGenomeLocation.start && tempGenomeLocation.end) {
+          genomeLocation = tempGenomeLocation;
+        }
+      }
+    }
+  }
 
   // TODO: this name should come directly from the API
   if (data.crossReferences['expression-atlas']) {
@@ -102,7 +112,7 @@ const GenePage = ({geneId}) => {
           icon={<SpeciesIcon inNav scale={0.5} species={data.species.name} />}
           truncateName
         >
-          <SpeciesName>{data.species.name}</SpeciesName>
+          <i>{data.species.name}</i>
           <DataSourceLink reference={data.crossReferences.primary} />
         </PageNavEntity>
       </PageNav>
@@ -121,6 +131,14 @@ const GenePage = ({geneId}) => {
 
         <Subsection help={<GoUserGuide />} title={FUNCTION}>
           <GeneOntologyRibbon
+            geneId={data.id}
+            geneSpecies={data.species}
+            geneSymbol={data.symbol}
+          />
+        </Subsection>
+
+        <Subsection title={PATHWAY}>
+          <PathwayWidget
             geneId={data.id}
             geneSpecies={data.species}
             geneSymbol={data.symbol}
@@ -146,7 +164,13 @@ const GenePage = ({geneId}) => {
 
         <Subsection title={ALLELES}>
           <AlleleTable
+            gene={data}
+            geneDataProvider={data.dataProvider}
             geneId={data.id}
+            geneLocation={genomeLocation}
+            geneSymbol={data.symbol}
+            genomeLocationList={data.genomeLocations}
+            species={data.species.name}
           />
         </Subsection>
 
@@ -203,12 +227,6 @@ const GenePage = ({geneId}) => {
             geneDataProvider={data.dataProvider}
           />
           <GenePhysicalInteractionDetailTable
-            focusGeneDisplayName={data.symbol}
-            focusGeneId={data.id}
-          />
-        </Subsection>
-        <Subsection title={GENETIC_INTERACTIONS}>
-          <GeneGeneticInteractionDetailTable
             focusGeneDisplayName={data.symbol}
             focusGeneId={data.id}
           />
