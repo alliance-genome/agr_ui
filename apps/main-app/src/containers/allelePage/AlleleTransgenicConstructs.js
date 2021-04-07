@@ -49,7 +49,7 @@ const AlleleTransgenicConstructs = ({constructs}) => {
               )}
             </AttributeValue>
           </AttributeList>
-          <Link to={`/search?category=allele&constructs=${construct.nameText}`}>
+          <Link to={`/search?category=allele&constructs=${construct.id}`}>
             All alleles with this construct <i className='fa fa-search' />
           </Link>
         </div>
