@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { useQuery } from 'react-query';
 import {
   AlleleCell,
   BooleanLinkCell,
@@ -7,12 +8,13 @@ import {
   GeneCell,
   VEPTextCell,
 } from '../../components/dataTable';
+import fetchData from '../../lib/fetchData';
 import SynonymList from '../../components/synonymList';
 import NoData from '../../components/noData';
 import VariantJBrowseLink from '../../components/variant/VariantJBrowseLink';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
-import { getSingleGenomeLocation, findFminFmax } from '../../lib/utils';
+import { getSingleGenomeLocation, findFminFmax, getTableUrl } from '../../lib/utils';
 import VariantsSequenceViewer from '../genePage/VariantsSequenceViewer';
 import ErrorBoundary from '../../components/errorBoundary';
 
@@ -50,11 +52,12 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     return null;
   }
   const geneLocation = getSingleGenomeLocation(gene.genomeLocations);
+  const baseUrl = `/api/gene/${geneId}/allele-variant-detail`;
 
-  const tableQuery = useDataTableQuery(`/api/gene/${geneId}/allele-variant-detail`, undefined, {
+  const tableQuery = useDataTableQuery(baseUrl, undefined, {
     sizePerPage: 25,
   });
-  const { data, isLoading } = tableQuery;
+  const { isLoading } = tableQuery;
   const columns = [
     {
       text: 'Allele / Variant Symbol',
@@ -240,10 +243,18 @@ const GeneAlleleDetailsTable = ({geneId}) => {
   ];
 
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
+  const tableStateAlleleFiltered = useMemo(() => ({
+    ...tableQuery.tableState,
+    page: 1,
+    sizePerPage: 1000,
+  }), [tableQuery.tableState]);
+  const allelesFiltered = useQuery([baseUrl, tableStateAlleleFiltered], () => {
+    return fetchData(getTableUrl(baseUrl, tableStateAlleleFiltered));
+  });
   const variantsSequenceViewerProps = useMemo(() => {
 
-    const variants = data ?
-      data.map(
+    const variants = allelesFiltered.data ?
+      allelesFiltered.data.results.flatMap(
         row => (row && row.variant) || []
       ) :
       [];
@@ -255,21 +266,21 @@ const GeneAlleleDetailsTable = ({geneId}) => {
        The data format here should be agreed upon by the maintainers of the VariantsSequenceViewer.
        Changes might break the VariantsSequenceViewer.
     */
-    // const formatAllele = (alleleId) => (
-    //   {
-    //     id: alleleId,
-    //   }
-    // );
+    const formatAllele = (alleleId) => (
+      {
+        id: alleleId,
+      }
+    );
     return {
       gene: gene,
       fmin: fmin,
       fmax: fmax,
       hasVariants: isLoading ? undefined : Boolean(variants && variants.length),
       allelesSelected: [],
-      allelesVisible: [],
+      allelesVisible: allelesFiltered.data ? allelesFiltered.data.results.map(({allele}) => formatAllele(allele.id)) : [],
       onAllelesSelect: setAlleleIdsSelected,
     };
-  }, [isLoading, data, alleleIdsSelected, setAlleleIdsSelected]);
+  }, [isLoading, allelesFiltered.data, alleleIdsSelected, setAlleleIdsSelected]);
 
 
   return (

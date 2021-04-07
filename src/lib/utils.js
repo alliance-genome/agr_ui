@@ -71,6 +71,15 @@ export function buildTableQueryString(options) {
   });
 }
 
+export function getTableUrl(baseUrl, tableState) {
+  if (!baseUrl) {
+    return null;
+  }
+  const separator = baseUrl.indexOf('?') < 0 ? '?' : '&';
+  return baseUrl + separator + buildTableQueryString(tableState);
+}
+
+
 function isHighStringency(orthology) {
   return orthology.stringencyFilter === 'stringent';
 }

@@ -7,12 +7,16 @@ function getFullUrl(baseUrl, tableState) {
     return null;
   }
   const separator = baseUrl.indexOf('?') < 0 ? '?' : '&';
-  return baseUrl + separator + buildTableQueryString({page: tableState.page, sizePerPage:1000, filters: tableState.filters});
+  return baseUrl + separator + buildTableQueryString(tableState);
 }
 
 export default function useAllVariants(geneId, tableState) {
   const url = `/api/gene/${geneId}/alleles?`;
   return useQuery ([url, tableState], () => {
-    return fetchData(getFullUrl(url,tableState));
+    return fetchData(getFullUrl(url, {
+      ...tableState,
+      page: 1,
+      sizePerPage:1000,
+    }));
   });
 }
