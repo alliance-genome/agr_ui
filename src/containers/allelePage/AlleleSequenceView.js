@@ -36,7 +36,11 @@ const AlleleSequenceView = ({ allele }) => {
     return null;
   }
 
-  let isoformFilter = visibleTranscripts.data[0].transcriptList.map(a => a.id.split(':').pop());
+  let isoformFilter = [];
+  if(visibleTranscripts.data[0].transcriptList){
+    isoformFilter = visibleTranscripts.data[0].transcriptList.map(a => a.id.split(':').pop());
+  }
+
 
   const { fmin, fmax } = findFminFmax(genomeLocation, variants);
   return (
