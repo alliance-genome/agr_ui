@@ -19,27 +19,27 @@ export const CATEGORIES = [
   {
     name: 'gene',
     displayName: 'Gene',
-    displayFields: ['name', 'synonyms', 'id', 'biotype'],
+    displayFields: ['name', 'synonyms', 'primaryKey', 'biotype'],
   },
   {
     name: 'go',
     displayName: 'Gene Ontology',
-    displayFields: ['id', 'collapsible_synonyms', 'branch']
+    displayFields: ['primaryKey', 'collapsible_synonyms', 'branch']
   },
   {
     name: 'disease',
     displayName: 'Disease',
-    displayFields: ['id', 'definition'],
+    displayFields: ['primaryKey', 'definition'],
   },
   {
     name: 'allele',
-    displayName: 'Allele',
-    displayFields: ['id','genes', 'synonyms','dnaChangeTypes','molecularConsequence', 'diseases'],
+    displayName: 'Allele/Variant',
+    displayFields: ['primaryKey','genes', 'synonyms','dnaChangeTypes','molecularConsequence', 'diseases'],
   },
   {
     name: 'model',
     displayName: 'Model',
-    displayFields: ['id','synonyms'],
+    displayFields: ['primaryKey','synonyms'],
   },
   {
     name: 'dataset',
