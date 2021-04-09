@@ -80,7 +80,7 @@ export function makeFieldDisplayName(unformattedName, category = '') {
     return 'Associated Species';
   case 'dnaChangeTypes':
     return 'DNA Change Types';
-  case 'id':
+  case 'primaryKey':
     return 'Source';
   case 'primaryId':
   case 'idCollection':
