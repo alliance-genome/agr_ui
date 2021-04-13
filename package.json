@@ -12,6 +12,7 @@
   },
   "private": true,
   "dependencies": {
+    "@geneontology/curie-util-es5": "^1.2.4",
     "@geneontology/wc-gocam-viz": "0.0.26",
     "@geneontology/wc-ribbon-strips": "0.0.37",
     "@geneontology/wc-ribbon-table": "0.0.57",
@@ -105,7 +106,7 @@
     "lint": "eslint src --max-warnings 0",
     "pretest": "npm run lint",
     "preserve": "npm run build",
-    "serve": "live-server --no-browser --entry-file=index.html --proxy=/api:$API_URL/api dist/",
+    "serve": "live-server --no-browser --entry-file=index.html --proxy=/api:https://www.alliancegenome.org/api dist/",
     "test": "NODE_ENV=test mocha-webpack --webpack-config webpack.config-test.js \"src/**/*test.js\"",
     "test:watch": "NODE_ENV=test mocha-webpack --webpack-config webpack.config-test.js --watch \"src/**/*test.js\""
   }
