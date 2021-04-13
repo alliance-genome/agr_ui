@@ -378,7 +378,7 @@ class PathwayWidget extends Component {
           {(this.state.gocams.loaded && this.state.gocams.list.length > 0) ?
             <div style={{ "padding": "1rem 0.2rem" }}>
               <span style={{ "paddingRight": "1rem"}}>Available GO-CAMs: </span>
-              <select id="modPathwaySelect" value="" onChange={(evt) => this.gocamChanged(evt) } style={{ "minWidth": "1113px" }}>
+              <select id="modPathwaySelect" value={this.state.gocams.selected} onChange={(evt) => this.gocamChanged(evt) } style={{ "minWidth": "1113px" }}>
                   {this.state.gocams.list.map(elt => {
                     return <option value={elt}>{elt}</option>
                   })}
@@ -386,7 +386,7 @@ class PathwayWidget extends Component {
             </div>        
           : ""}
 
-          {(this.state.gocams.loaded && this.state.gocams.list.length > 0) ?  
+          {(this.state.gocams.loaded && this.state.gocams.list.length > 0 && (this.state.selectedTab && this.state.selectedTab == "MODPathways")) ?  
             <wc-gocam-viz 
               id="gocam-1"
               repository="prod"
