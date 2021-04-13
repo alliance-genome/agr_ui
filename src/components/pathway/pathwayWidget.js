@@ -16,6 +16,9 @@ import { withRouter } from 'react-router-dom';
 
 import NoData from '../noData';
 
+import * as cutils from "@geneontology/curie-util-es5";
+
+
 
 const REACTOME_API_REACTIONS = "https://reactome.org/ContentService/exporter/reaction/";
 
@@ -32,7 +35,13 @@ class PathwayWidget extends Component {
       uniprot : { loaded : false, error : false, id : undefined },
       reactomePathways: { loaded : false, error : false, selected : undefined, pathways: undefined },
       reactomeReactions: { loaded : false, error : false, selected : undefined, src: undefined, reactions: undefined },
-      selectedTab: "ReactomePathway"
+      selectedTab: "ReactomePathway",
+      cutils : undefined,
+      gocams: {
+        loaded : undefined,
+        list : undefined,
+        selected : undefined
+      }
     };
 
     this.pathwayChanged.bind(this);
@@ -41,35 +50,39 @@ class PathwayWidget extends Component {
 
 
 
-
   /**
    * Just before the component is mounted
    */
   componentWillMount() {
 
-    console.log("Current gene id: ", this.props.geneId);
-    let uniprot = this.getUniProtID(this.props.geneId);
-    console.log("Current uniprot: ", uniprot);
+    this.loadPathwayList();
+    this.loadReactionList();
+    this.loadGOCAMList();
 
-    uniprot.then(data => {
-      console.log("Uniprot data received : ", data);
+    // console.log("Current gene id: ", this.props.geneId);
+    // let uniprot = this.getUniProtID(this.props.geneId);
+    // console.log("Current uniprot: ", uniprot);
 
-      // an error occured
-      if(!data.hasOwnProperty("hits") || data.hits.length == 0 || !data.hits[0].hasOwnProperty("uniprot") || !data.hits[0].uniprot.hasOwnProperty("Swiss-Prot") ) {
-        this.setState({ uniprot : { loaded : true, error : true, id : undefined } });
+    // uniprot.then(data => {
+    //   console.log("Uniprot data received : ", data);
 
-      // uniprot id retrieved
-      } else {
-        this.setState({ uniprot : { loaded : true, error : false, id : data.hits[0].uniprot["Swiss-Prot"] } });
+    //   // an error occured
+    //   if(!data.hasOwnProperty("hits") || data.hits.length == 0 || !data.hits[0].hasOwnProperty("uniprot") || !data.hits[0].uniprot.hasOwnProperty("Swiss-Prot") ) {
+    //     this.setState({ uniprot : { loaded : true, error : true, id : undefined } });
+    //     this.loadPathwayList();
 
-        this.loadPathwayList();
-        this.loadReactionList();
-      }
+    //   // uniprot id retrieved
+    //   } else {
+    //     this.setState({ uniprot : { loaded : true, error : false, id : data.hits[0].uniprot["Swiss-Prot"] } });
 
-    }).catch(err => {
-      console.error(err);
-      this.setState({ uniprot : { loaded : true, error : true, id : undefined } });
-    })
+    //     this.loadPathwayList();
+    //     this.loadReactionList();
+    //   }
+
+    // }).catch(err => {
+    //   console.error(err);
+    //   this.setState({ uniprot : { loaded : true, error : true, id : undefined } });
+    // })
   }
 
 
@@ -77,43 +90,53 @@ class PathwayWidget extends Component {
    * Dynamically load the reactome library the first time the component is mount
    * Note: has some issue - current favor method is just to add script to public/index.html for now
    */
-  loadReactomeLibrary() {
-    const script = document.createElement("script");
-    script.src = "https://reactome.org/DiagramJs/diagram/diagram.nocache.js";
-    script.async = true;
-    script.onload = () => {
-      console.log("script loaded !!!!!",  Reactome);
-      this.reactomePathwayDiagram = Reactome.Diagram.create({
-        "placeHolder": "reactomePathwayHolder",
-        "width": 1280,
-        "height": 500
-      })
-      this.setState({loading: false});
-      console.log("LOADED REACTOME: " , this.state);    
+  // loadReactomeLibrary() {
+  //   const script = document.createElement("script");
+  //   script.src = "https://reactome.org/DiagramJs/diagram/diagram.nocache.js";
+  //   script.async = true;
+  //   script.onload = () => {
+  //     console.log("script loaded !!!!!",  Reactome);
+  //     this.reactomePathwayDiagram = Reactome.Diagram.create({
+  //       "placeHolder": "reactomePathwayHolder",
+  //       "width": 1280,
+  //       "height": 500
+  //     })
+  //     this.setState({loading: false});
+  //     console.log("LOADED REACTOME: " , this.state);    
 
-      if(this.state.reactomePathways.selected && this.reactomePathwayDiagram) {
-        this.reactomePathwayDiagram.loadDiagram(this.state.reactomePathways.selected);
-      }
-    }
-    document.body.appendChild(script);
-  }
+  //     if(this.state.reactomePathways.selected && this.reactomePathwayDiagram) {
+  //       this.reactomePathwayDiagram.loadDiagram(this.state.reactomePathways.selected);
+  //     }
+  //   }
+  //   document.body.appendChild(script);
+  // }
 
   loadPathwayList() {
-    let reactomePathways = this.getReactomePathways(this.state.uniprot.id);
+    let dbname = this.props.geneId.split(":")[0];
+    let dbid = this.props.geneId.split(":")[1];
+
+    // let reactomePathways = this.getReactomePathways(this.state.uniprot.id);
+    let reactomePathways = this.getReactomePathways(dbname, dbid);
     reactomePathways.then(pathwaysData => {
+      console.log("load pathway list: ", pathwaysData);
       this.setState({ reactomePathways: { loaded : true, error : false, selected : pathwaysData.length > 0 ? pathwaysData[0].stId : undefined, pathways: pathwaysData }}, () => {
-        if(this.state.reactomePathways.selected && this.reactomePathwayDiagram) {
-          this.reactomePathwayDiagram.loadDiagram(this.state.reactomePathways.selected);
+        if(this.state.reactomePathways.selected) {
+          this.loadReactomeDiagram(this.state.reactomePathways.selected);
         }
       });
     }).catch(pathwayError => {
-      console.error(pathwayError);
+      console.log("Couldn't retrieve reactome pathways for ", this.props.geneId);
       this.setState({ reactomePathways: { loaded : true, error : true, selected : undefined, pathways: undefined }})
     });
+
   }
 
   loadReactionList() {
-    let reactomeReactions = this.getReactomeReactions(this.state.uniprot.id);
+    let dbname = this.props.geneId.split(":")[0];
+    let dbid = this.props.geneId.split(":")[1];
+
+    // let reactomeReactions = this.getReactomeReactions(this.state.uniprot.id);
+    let reactomeReactions = this.getReactomeReactions(dbname, dbid);
     reactomeReactions.then(reactionsData => {
       if(reactionsData.length > 0) {
         this.setState({ reactomeReactions: { loaded : true, error : false, selected : reactionsData[0].stId, src: REACTOME_API_REACTIONS + reactionsData[0].stId + ".svg", reactions: reactionsData }})
@@ -121,25 +144,75 @@ class PathwayWidget extends Component {
         this.setState({ reactomeReactions: { loaded : true, error : false, selected : undefined, src: undefined, reactions: reactionsData }})
       }
     }).catch(reactionError => {
-      console.error(reactionError);
+      console.log("Couldn't retrieve reactome reactions for ", this.props.geneId);
       this.setState({ reactomeReactions: { loaded : true, error : true, selected : undefined, src: undefined, reactions: undefined }})
     });
   }
 
+  /**
+   * This step is required as gene identifiers in GO/GO-CAM are IRIs
+   * MOD ID (CURIEs) have to be converted into IRIs using the CurieUtil package
+   * From that, it becomes possible to retrieve the GO-CAMs associated through the GO-CAM API
+   */
+  loadGOCAMList() {
+    // console.log("cutils: init ", cutils , " with ", this.props.geneId);
+    let gocontext = "https://raw.githubusercontent.com/prefixcommons/biocontext/master/registry/go_context.jsonld";
+    fetch(gocontext)
+    .then(data => {
+      return data.json();
+
+    }).then(data => {
+      // console.log("cutils: gocontext ", data);
+      let map = cutils.parseContext(data);
+      let curieUtils = new cutils.CurieUtil(map);
+      let iri = curieUtils.getIri(this.props.geneId);
+      this.setState({ "cutils" : curieUtils})
+      return iri;
+
+    }).then(iri => {
+      // console.log("cutils: iri ", iri);
+      let gocams = "https://api.geneontology.cloud/gp/" + encodeURIComponent(iri) + "/models"
+      console.log("GO-CAM API to list models for ", this.props.geneId , ": ",  gocams);
+      fetch(gocams)
+      .then(data => {
+        return data.json();
+      }).then(data => {
+        // console.log("cutils: models found ", data);
+        let list = data.map(elt => elt.gocam);
+        let item = {...this.state.gocams, list : list, selected : list[0], loaded : true };
+        this.setState( { "gocams" : item } );
+
+      }).catch(error => {
+        console.error(error);
+        this.setState( { "gocams" : { list : undefined, selected : undefined, loaded : true }});
+      })
+    })
+  }
+
+
   componentDidMount() {    
     // this.loadReactomeLibrary();
 
+    this.setState({loading: false});
+
+    if(this.state.reactomePathways.selected) {
+      this.loadReactomeDiagram(this.state.reactomePathways.selected);
+    }
+  }
+
+  /**
+   * Convenience function to create pathway diagram if not existing, then load reactome pathway
+   * @param {*} pathwayId a valid reactome pathway id
+   */
+  loadReactomeDiagram(pathwayId) {
+    if(!this.reactomePathwayDiagram) {
       this.reactomePathwayDiagram = Reactome.Diagram.create({
         "placeHolder": "reactomePathwayHolder",
         "width": 1280,
         "height": 600
       })
-      this.setState({loading: false});
-      console.log("LOADED REACTOME: " , this.state);    
-
-      if(this.state.reactomePathways.selected && this.reactomePathwayDiagram) {
-        this.reactomePathwayDiagram.loadDiagram(this.state.reactomePathways.selected);
-      }
+    }
+    this.reactomePathwayDiagram.loadDiagram(pathwayId);
   }
 
 
@@ -150,24 +223,30 @@ class PathwayWidget extends Component {
    */
   getUniProtID(modID) {
     let query = "http://mygene.info/v3/query?q=" + modID + "&fields=uniprot";
+    console.log("Get Uniprot ID: ", query);
     return fetchData(query);
   }
 
   /**
    * For a given uniprot ID, returns the list of reactome pathways
-   * @param {*} uniProtID 
+   * @param {*} dbId 
    */
-  getReactomePathways(uniProtID) {
-    let query = "https://reactome.org/ContentService/data/mapping/UniProt/" + uniProtID + "/pathways"
+  getReactomePathways(dbName = "UniProt", dbId) {
+    if(dbName == "WB") { dbName = "Wormbase"}
+    if(dbName == "FB") { dbName = "Flybase" }
+    let query = "https://reactome.org/ContentService/data/mapping/" + dbName + "/" + dbId + "/pathways"
+    console.log("REACTOME query: ", query);
     return fetchData(query);
   }
 
   /**
    * For a given uniprot ID, returns the list of reactome reactions
-   * @param {*} uniProtID 
+   * @param {*} dbId 
    */
-  getReactomeReactions(uniProtID) {
-    let query = "https://reactome.org/ContentService/data/mapping/UniProt/" + uniProtID + "/reactions"
+  getReactomeReactions(dbName = "UniProt", dbId) {
+    if(dbName == "WB") { dbName = "Wormbase"}
+    if(dbName == "FB") { dbName = "Flybase" }
+    let query = "https://reactome.org/ContentService/data/mapping/" + dbName + "/" + dbId + "/reactions"
     return fetchData(query);
   }
 
@@ -184,7 +263,7 @@ class PathwayWidget extends Component {
     let item = {...this.state.reactomePathways, selected : event.target.value};
     this.setState({ reactomePathways: item }, () => {
       console.log("selected pathway: ", this.state.reactomePathways);
-      this.reactomePathwayDiagram.loadDiagram(this.state.reactomePathways.selected);
+      this.loadReactomeDiagram(this.state.reactomePathways.selected);
     })
   }
 
@@ -200,47 +279,15 @@ class PathwayWidget extends Component {
     })
   }
 
-  
-
-  
-  /**
-   * Main rendering method
-   */
-  render() {
-    if(this.state.reactomePathways.loaded && !this.state.reactomePathways.error) {
-      console.log("render state: ", this.state);
-    }
-
-    
-    let rpstyles = (this.state.selectedTab && this.state.selectedTab == "ReactomePathway") ? { } : { "display": "none" }
-    let rrstyles = (this.state.selectedTab && this.state.selectedTab == "ReactomeReactions") ? { } : { "display": "none" }
-
-    
-
-    return (
-      <div>
-        {/* {this.state.loading ? <LoadingSpinner /> : ""} */}
-
-        <nav>
-          <div className="nav nav-tabs">
-            <button className={(this.state.selectedTab == "ReactomePathway") ? "nav-link active" : "nav-link"} aria-selected="true" onClick={() => this.selectReactomePathway()}>Reactome Pathway ({this.state.reactomePathways.pathways ? this.state.reactomePathways.pathways.length : ""})</button>
-            <button className={(this.state.selectedTab == "ReactomeReactions") ? "nav-link active" : "nav-link"} aria-selected="true" onClick={() => this.selectReactomeReaction()}>Reactome Reactions ({this.state.reactomeReactions.reactions ? this.state.reactomeReactions.reactions.length : ""})</button>
-            <button disabled className={(this.state.selectedTab == "MODPathways") ? "nav-link active" : "nav-link"} aria-selected="true" onClick={() => this.selectMODPathway()}>GO-CAMs ()</button>
-          </div>
-        </nav>
-
-        <div>
-          { (this.state.selectedTab && this.state.selectedTab == "ReactomePathway") ? this.renderReactomePathway() : "" }
-          <div id="reactomePathwayHolder" style={rpstyles}></div>
-          { (this.state.selectedTab && this.state.selectedTab == "ReactomeReactions") ? this.renderReactomeReaction() : "" }
-          <img id="reactomeReactionHolder" style={rrstyles} src={this.state.reactomeReactions.src}/> 
-          { (this.state.selectedTab && this.state.selectedTab == "MODPathways") ? this.renderMODPathway() : "" }
-        </div>
-        
-      </div>
-    );
+  gocamChanged(event) {
+    console.log("reaction changed: ", event , event.target.value);
+    let item = {...this.state.gocams, selected : event.target.value };
+    this.setState({ gocams: item}, () => {
+      console.log("selected gocam: ", this.state.gocams);     
+    })
   }
 
+  
   selectReactomePathway() {
     this.setState({ selectedTab: "ReactomePathway" });
   }
@@ -253,11 +300,43 @@ class PathwayWidget extends Component {
     this.setState({ selectedTab: "MODPathways" })
   }
 
+  
+  /**
+   * Main rendering method
+   */
+  render() {
+    console.log("state: ", this.state);
+
+    return (      
+      <div>
+
+        { this.renderPathwayNavigation() }
+
+        { this.renderReactomePathway() }
+        { this.renderReactomeReaction() }
+        { this.renderMODPathway() }
+        
+      </div>
+    );
+  }
+
+  renderPathwayNavigation() {
+    return (
+      <nav>
+      <div className="nav nav-tabs">
+        <button className={(this.state.selectedTab == "ReactomePathway") ? "nav-link active" : "nav-link"} aria-selected="true" onClick={() => this.selectReactomePathway()}>Reactome Pathway ({this.state.reactomePathways.pathways ? this.state.reactomePathways.pathways.length : "0"})</button>
+        <button className={(this.state.selectedTab == "ReactomeReactions") ? "nav-link active" : "nav-link"} aria-selected="true" onClick={() => this.selectReactomeReaction()}>Reactome Reactions ({this.state.reactomeReactions.reactions ? this.state.reactomeReactions.reactions.length : "0"})</button>
+        <button className={(this.state.selectedTab == "MODPathways") ? "nav-link active" : "nav-link"} aria-selected="true" onClick={() => this.selectMODPathway()}>GO-CAMs ({this.state.gocams.list ? this.state.gocams.list.length : "0"})</button>
+      </div>
+    </nav>      
+    )
+  }
 
   renderReactomePathway() {
+    let rpstyles = (this.state.selectedTab && this.state.selectedTab == "ReactomePathway") ? { } : { "display": "none" }
     return (
-      <div id="reactomePathway">
-        {(this.state.reactomePathways.loaded && !this.state.reactomePathways.error) ?
+      <div id="reactomePathway" style={rpstyles}>
+        {(this.state.reactomePathways.loaded && !this.state.reactomePathways.error && this.state.reactomePathways.pathways.length > 0) ?
           <div style={{ "padding": "1rem 0.2rem" }}>
             <span style={{ "paddingRight": "1rem"}}>Available pathways: </span>
             <select id="pathwaySelect" value={this.state.reactomePathways.selected} onChange={(evt) => this.pathwayChanged(evt) } style={{ "minWidth": "1130px" }}>
@@ -266,16 +345,17 @@ class PathwayWidget extends Component {
               })}
             </select>
           </div>
-        : "" }
-
-    </div>
+        : <NoData/> }
+        <div id="reactomePathwayHolder"></div>
+      </div>
     )
   }
 
   renderReactomeReaction() {
+    let rrstyles = (this.state.selectedTab && this.state.selectedTab == "ReactomeReactions") ? { } : { "display": "none" }
     return (
-      <div id="reactomeReaction">
-        {(this.state.reactomeReactions.loaded && !this.state.reactomeReactions.error) ?
+      <div id="reactomeReaction" style={rrstyles}>
+        {(this.state.reactomeReactions.loaded && !this.state.reactomeReactions.error && this.state.reactomeReactions.reactions.length > 0) ?
           <div style={{ "padding": "1rem 0.2rem" }}>
             <span style={{ "paddingRight": "1rem"}}>Available reactions: </span>
             <select id="reactionSelect" value={this.state.reactomeReactions.selected} onChange={(evt) => this.reactionChanged(evt) } style={{ "minWidth": "1120px" }}>
@@ -284,25 +364,33 @@ class PathwayWidget extends Component {
                 })}
               </select>
           </div>
-          : "" }
-
+          : <NoData/> }
+        <img id="reactomeReactionHolder" src={this.state.reactomeReactions.src}/> 
       </div>
     )
   }
 
   renderMODPathway() {
+    let gocstyles = (this.state.selectedTab && this.state.selectedTab == "MODPathways") ? { } : { "display": "none" }
     return (      
-      <div id="modPathway">
-          <div style={{ "padding": "1rem 0.2rem" }}>
-            <span style={{ "paddingRight": "1rem"}}>Available GO-CAMs: </span>
-            <select id="modPathwaySelect" value="" onChange={(evt) => "" } style={{ "minWidth": "1113px" }}>
-              {/* // TODO */}
-            </select>
-          </div>
+      <div id="modPathway" style={gocstyles}>
+
+          {(this.state.gocams.loaded && this.state.gocams.list.length > 0) ?
+            <div style={{ "padding": "1rem 0.2rem" }}>
+              <span style={{ "paddingRight": "1rem"}}>Available GO-CAMs: </span>
+              <select id="modPathwaySelect" value="" onChange={(evt) => this.gocamChanged(evt) } style={{ "minWidth": "1113px" }}>
+                  {this.state.gocams.list.map(elt => {
+                    return <option value={elt}>{elt}</option>
+                  })}
+              </select>
+            </div>        
+          : ""}
+
+          {(this.state.gocams.loaded && this.state.gocams.list.length > 0) ?  
             <wc-gocam-viz 
               id="gocam-1"
               repository="prod"
-              gocam-id="gomodel:568b0f9600000284"
+              gocam-id={this.state.cutils.getCurie(this.state.gocams.selected)}
               show-go-cam-selector="false"
               show-has-input="false"
               show-has-output="false"
@@ -310,10 +398,12 @@ class PathwayWidget extends Component {
               show-activity="false"
               show-isolated-activity="true"
             ></wc-gocam-viz>
+            : <NoData/>
+            }
+          
       </div>
     )
   }
-
 
 }
 

@@ -50,17 +50,17 @@ const devServer = {
   hot: true,
   proxy: {
     '/api': {
-      target: process.env.API_URL || 'http://localhost:8080',
+      target: "https://www.alliancegenome.org",
       secure: false,
       changeOrigin: true
     },
     '/apollo': {
-      target: process.env.APOLLO_URL || process.env.API_URL,
+      target: process.env.APOLLO_URL || "https://www.alliancegenome.org",
       secure: false,
       changeOrigin: true
     },
     '/jbrowse': {
-      target: process.env.JBROWSE_URL || process.env.API_URL,
+      target: process.env.JBROWSE_URL || "https://www.alliancegenome.org",
       secure: false,
       changeOrigin: true
     }

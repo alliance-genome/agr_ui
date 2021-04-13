@@ -4,6 +4,7 @@ import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPa
 import BasicGeneInfo from './basicGeneInfo';
 import { OrthologyFilteredTable, OrthologyUserGuide, OrthologyBasicInfo } from '../../components/orthology';
 import GoUserGuide from '../../components/geneOntologyRibbon/goUserGuide';
+import PathwayUserGuide from '../../components/pathway/pathwayUserGuide';
 
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
 import PathwayWidget from '../../components/pathway/pathwayWidget';
@@ -137,7 +138,7 @@ const GenePage = ({geneId}) => {
           />
         </Subsection>
 
-        <Subsection title={PATHWAY}>
+        <Subsection help={<PathwayUserGuide />} t title={PATHWAY}>
           <PathwayWidget
             geneId={data.id}
             geneSpecies={data.species}
