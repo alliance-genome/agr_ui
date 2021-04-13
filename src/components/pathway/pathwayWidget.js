@@ -17,9 +17,11 @@ import { withRouter } from 'react-router-dom';
 import NoData from '../noData';
 
 import * as cutils from "@geneontology/curie-util-es5";
+import ExternalLink from '../ExternalLink';
 
 
 
+const REACTOME_PATHWAY_BROWSER = "https://reactome.org/PathwayBrowser/#/";
 const REACTOME_API_REACTIONS = "https://reactome.org/ContentService/exporter/reaction/";
 
 
@@ -334,6 +336,8 @@ class PathwayWidget extends Component {
 
   renderReactomePathway() {
     let rpstyles = (this.state.selectedTab && this.state.selectedTab == "ReactomePathway") ? { } : { "display": "none" }
+
+    console.log("state", this.state);
     return (
       <div id="reactomePathway" style={rpstyles}>
         {(this.state.reactomePathways.loaded && !this.state.reactomePathways.error && this.state.reactomePathways.pathways.length > 0) ?
@@ -347,6 +351,9 @@ class PathwayWidget extends Component {
           </div>
         : <NoData/> }
         <div id="reactomePathwayHolder"></div>
+        
+        {(this.state.reactomePathways.loaded && !this.state.reactomePathways.error && this.state.reactomePathways.pathways.length > 0) ?
+        <ExternalLink href={REACTOME_PATHWAY_BROWSER + this.state.reactomePathways.selected}>Open in Reactome Pathway</ExternalLink> : "" }
       </div>
     )
   }
@@ -365,7 +372,11 @@ class PathwayWidget extends Component {
               </select>
           </div>
           : <NoData/> }
-        <img id="reactomeReactionHolder" src={this.state.reactomeReactions.src}/> 
+        <img id="reactomeReactionHolder" src={this.state.reactomeReactions.src}/>
+
+        
+        {/* TODO: ask Peter {(this.state.reactomeReactions.loaded && !this.state.reactomeReactions.error && this.state.reactomeReactions.reactions.length > 0) ?
+        <ExternalLink href='#'>Open in Reactome Reaction</ExternalLink> : "" } */}
       </div>
     )
   }
@@ -397,10 +408,13 @@ class PathwayWidget extends Component {
               show-gene-product="true"
               show-activity="false"
               show-isolated-activity="true"
+              show-legend="false"
             ></wc-gocam-viz>
             : <NoData/>
             }
-          
+
+        {(this.state.gocams.loaded && this.state.gocams.list.length > 0)  ?
+        <ExternalLink href={this.state.gocams.selected}>Open in Noctua GO-CAM</ExternalLink> : "" }
       </div>
     )
   }
