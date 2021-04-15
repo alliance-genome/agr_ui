@@ -13,9 +13,9 @@ export function Index() {
     []
   );
   return (
-    <AppShell renderLink={renderLink}>
+    <div>
       <header>
-        <h1 tw="text-5xl">MOD landing page</h1>
+        <h1 tw="text-5xl text-primary">MOD landing page</h1>
       </header>
       <main tw="max-w-screen-xl px-3 md:px-10 py-10 mx-auto grid lg:grid-cols-3 gap-6">
         <section tw="lg:col-span-2">
@@ -86,7 +86,7 @@ export function Index() {
         </section>
       </main>
       <footer>// Footer</footer>
-    </AppShell>
+    </div>
   );
 }
 export default Index;
