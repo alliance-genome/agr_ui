@@ -12,7 +12,7 @@ export function Index() {
       <header>
         <h1 tw="text-5xl">MOD landing page</h1>
       </header>
-      <main tw="grid lg:grid-cols-3 gap-4">
+      <main tw="max-w-screen-xl px-3 md:px-10 py-10 mx-auto grid lg:grid-cols-3 gap-6">
         <section tw="lg:col-span-2">
           <h2 tw="text-3xl">About</h2>
           <p>
