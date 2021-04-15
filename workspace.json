@@ -18,6 +18,12 @@
         "style": "scss",
         "linter": "eslint"
       }
+    },
+    "@nrwl/next": {
+      "application": {
+        "style": "@emotion/styled",
+        "linter": "eslint"
+      }
     }
   },
   "projects": {
@@ -342,6 +348,57 @@
           "options": {
             "jestConfig": "apps/main-app/jest.config.js",
             "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "mod-landing-pages": {
+      "root": "apps/mod-landing-pages",
+      "sourceRoot": "apps/mod-landing-pages",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/next:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "root": "apps/mod-landing-pages",
+            "outputPath": "dist/apps/mod-landing-pages"
+          },
+          "configurations": {
+            "production": {}
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/next:server",
+          "options": {
+            "buildTarget": "mod-landing-pages:build",
+            "dev": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "mod-landing-pages:build:production",
+              "dev": false
+            }
+          }
+        },
+        "export": {
+          "executor": "@nrwl/next:export",
+          "options": {
+            "buildTarget": "mod-landing-pages:build:production"
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/mod-landing-pages"],
+          "options": {
+            "jestConfig": "apps/mod-landing-pages/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/mod-landing-pages/**/*.{ts,tsx,js,jsx}"]
           }
         }
       }

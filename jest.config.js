@@ -4,5 +4,6 @@ module.exports = {
     '<rootDir>/libs/app-shell',
     '<rootDir>/libs/shared-assets',
     '<rootDir>/apps/example-app-import-test-run',
+    '<rootDir>/apps/mod-landing-pages',
   ],
 };
