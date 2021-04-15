@@ -7,7 +7,7 @@ import LinkRenderDefault from './link-render-provider/LinkRenderDefault';
 export function AppShell({ children, renderLink = LinkRenderDefault }) {
   return (
     <LinkRenderProvider renderLink={renderLink}>
-      <header tw="flex bg-blue-500">
+      <header tw="flex bg-primary">
         <Menu />
       </header>
       {children}
