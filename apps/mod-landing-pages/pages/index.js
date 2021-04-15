@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import tw from 'twin.macro';
+import Link from 'next/link';
+import { AppShell } from '@wormbase/agr-app-shell';
 
 export function Index() {
-  /*
-   * Replace the elements below with your own.
-   *
-   * Note: The corresponding styles are in the ./index.@emotion/styled file.
-   */
+  const renderLink = useMemo(
+    () => ({ to, closeMenu, children }) => (
+      <Link href={to} passHref>
+        <a onClick={closeMenu}>{children}</a>
+      </Link>
+    ),
+    []
+  );
   return (
-    <>
+    <AppShell renderLink={renderLink}>
       <header>
         <h1 tw="text-5xl">MOD landing page</h1>
       </header>
@@ -81,7 +86,7 @@ export function Index() {
         </section>
       </main>
       <footer>// Footer</footer>
-    </>
+    </AppShell>
   );
 }
 export default Index;
