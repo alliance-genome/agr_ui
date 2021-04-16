@@ -13,11 +13,9 @@ export function Index() {
     []
   );
   return (
-    <div>
-      <header>
-        <h1 tw="text-5xl text-primary">MOD landing page</h1>
-      </header>
-      <main tw="max-w-screen-xl px-3 md:px-10 py-10 mx-auto grid lg:grid-cols-3 gap-6">
+    <AppShell renderLink={renderLink} mod="wormbase">
+      <h1 tw="text-5xl">MOD landing page</h1>
+      <main tw="max-w-screen-xl px-3 md:px-10 py-10 mx-auto grid lg:grid-cols-3 gap-10">
         <section tw="lg:col-span-2">
           <h2 tw="text-3xl">About</h2>
           <p>
@@ -86,7 +84,7 @@ export function Index() {
         </section>
       </main>
       <footer>// Footer</footer>
-    </div>
+    </AppShell>
   );
 }
 export default Index;

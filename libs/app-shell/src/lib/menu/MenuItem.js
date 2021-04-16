@@ -5,7 +5,7 @@ const MenuItem = ({ children }) => (
   <li
     css={[
       tw`inline-block`,
-      tw`bg-primary box-border`,
+      tw`box-border`,
       {
         '& > a,button': tw`inline-block p-3 text-white hover:underline font-medium`,
       },
