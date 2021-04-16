@@ -3,15 +3,25 @@ import tw from 'twin.macro';
 import Link from 'next/link';
 import { AppShell } from '@wormbase/agr-app-shell';
 
+const MODS = ['sgd', 'wormbase', 'flybase', 'zfin', 'mgi', 'rgd', 'go'];
+
 export function Index({ mod }) {
   const renderLink = useMemo(
-    () => ({ to, closeMenu, children }) => (
-      <Link href={to} passHref>
-        <a onClick={closeMenu}>{children}</a>
-      </Link>
-    ),
+    () => ({ to, closeMenu, children }) => {
+      const [_, subpath, segment] = /^\/members\/((\w+).*)/i.exec(to) || [];
+      if (segment && MODS.includes(segment)) {
+        return (
+          <Link href={subpath} passHref>
+            <a onClick={closeMenu}>{children}</a>
+          </Link>
+        );
+      } else {
+        return <a href={to}>{children}</a>;
+      }
+    },
     []
   );
+
   return (
     <AppShell renderLink={renderLink} mod={mod}>
       <h1 tw="text-5xl">Welcome to {mod}</h1>
@@ -98,9 +108,8 @@ export async function getStaticProps({ params = {} }) {
 }
 
 export async function getStaticPaths() {
-  const mods = ['sgd', 'wormbase', 'flybase', 'zfin', 'mgi', 'rgd', 'go'];
   return {
-    paths: mods.map((mod) => ({
+    paths: MODS.map((mod) => ({
       params: { mod },
     })),
     fallback: false,

@@ -64,6 +64,29 @@ const Menu = () => {
             <Link to="/api">API Documentation</Link>
           </MenuItem>
         </SubMenu>
+        <SubMenu title="Members">
+          <MenuItem>
+            <Link to="/members/sgd">SGD</Link>
+          </MenuItem>
+          <MenuItem>
+            <Link to="/members/wormbase">WormBase</Link>
+          </MenuItem>
+          <MenuItem>
+            <Link to="/members/flybase">FlyBase</Link>
+          </MenuItem>
+          <MenuItem>
+            <Link to="/members/zfin">ZFIN</Link>
+          </MenuItem>
+          <MenuItem>
+            <Link to="/members/mgi">MGI</Link>
+          </MenuItem>
+          <MenuItem>
+            <Link to="/members/rgd">RGD</Link>
+          </MenuItem>
+          <MenuItem>
+            <Link to="/members/go">GO</Link>
+          </MenuItem>
+        </SubMenu>
       </ul>
     </MenuContext.Provider>
   );
