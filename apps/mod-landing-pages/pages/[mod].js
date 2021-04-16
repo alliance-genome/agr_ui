@@ -24,10 +24,10 @@ export function Index({ mod }) {
 
   return (
     <AppShell renderLink={renderLink} mod={mod}>
-      <h1 tw="text-5xl">Welcome to {mod}</h1>
       <main tw="max-w-screen-xl px-3 md:px-10 py-10 mx-auto grid lg:grid-cols-3 gap-10">
+        <h1 tw="col-span-3 text-5xl py-10">Welcome to {mod}</h1>
         <section tw="lg:col-span-2">
-          <h2 tw="text-3xl">About</h2>
+          <h2 tw="text-3xl pb-2">About</h2>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
@@ -39,7 +39,7 @@ export function Index({ mod }) {
           </p>
         </section>
         <section tw="lg:row-span-3">
-          <h2 tw="text-3xl">Resources</h2>
+          <h2 tw="text-3xl pb-2">Resources</h2>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
@@ -69,7 +69,7 @@ export function Index({ mod }) {
           </p>
         </section>
         <section>
-          <h2 tw="text-3xl">News</h2>
+          <h2 tw="text-3xl pb-2">News</h2>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
@@ -81,7 +81,7 @@ export function Index({ mod }) {
           </p>
         </section>
         <section>
-          <h2 tw="text-3xl">Meetings</h2>
+          <h2 tw="text-3xl pb-2">Meetings</h2>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
