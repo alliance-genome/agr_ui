@@ -30,6 +30,10 @@ const stylesBase = css`
   .rgd {
     --mod-primary: #2865a3;
   }
+
+  .go {
+    --mod-primary: #00174f;
+  }
 `;
 
 export function MODThemeProvider({ mod = 'agr', children }) {

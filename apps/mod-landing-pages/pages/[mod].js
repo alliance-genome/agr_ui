@@ -3,7 +3,7 @@ import tw from 'twin.macro';
 import Link from 'next/link';
 import { AppShell } from '@wormbase/agr-app-shell';
 
-export function Index() {
+export function Index({ mod }) {
   const renderLink = useMemo(
     () => ({ to, closeMenu, children }) => (
       <Link href={to} passHref>
@@ -13,8 +13,8 @@ export function Index() {
     []
   );
   return (
-    <AppShell renderLink={renderLink} mod="wormbase">
-      <h1 tw="text-5xl">MOD landing page</h1>
+    <AppShell renderLink={renderLink} mod={mod}>
+      <h1 tw="text-5xl">Welcome to {mod}</h1>
       <main tw="max-w-screen-xl px-3 md:px-10 py-10 mx-auto grid lg:grid-cols-3 gap-10">
         <section tw="lg:col-span-2">
           <h2 tw="text-3xl">About</h2>
@@ -87,4 +87,24 @@ export function Index() {
     </AppShell>
   );
 }
+
+export async function getStaticProps({ params = {} }) {
+  const { mod } = params;
+  return {
+    props: {
+      mod,
+    },
+  };
+}
+
+export async function getStaticPaths() {
+  const mods = ['sgd', 'wormbase', 'flybase', 'zfin', 'mgi', 'rgd', 'go'];
+  return {
+    paths: mods.map((mod) => ({
+      params: { mod },
+    })),
+    fallback: false,
+  };
+}
+
 export default Index;
