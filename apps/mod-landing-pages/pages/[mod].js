@@ -25,7 +25,7 @@ export function Index({ mod }) {
   return (
     <AppShell renderLink={renderLink} mod={mod}>
       <main tw="max-w-screen-xl px-3 md:px-10 py-10 mx-auto grid lg:grid-cols-3 gap-10">
-        <h1 tw="col-span-3 text-5xl py-10">Welcome to {mod}</h1>
+        <h1 tw="lg:col-span-3 text-5xl py-10">Welcome to {mod}</h1>
         <section tw="lg:col-span-2">
           <h2 tw="text-3xl pb-2">About</h2>
           <p>
