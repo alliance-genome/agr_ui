@@ -13,9 +13,14 @@ export function AppShell({ children, renderLink = LinkRenderDefault, mod }) {
     <LinkRenderProvider renderLink={renderLink}>
       <MODThemeProvider mod={mod}>
         <header>
-          <div tw="flex items-center">
-            <Logo id={mod} tw="object-contain h-10" />
-            <span tw="p-2 text-2xl font-semibold">{organization.name}</span>
+          <div tw="flex items-center h-10 my-2 divide-x ">
+            <Logo tw="object-contain h-full px-4" />
+            {organization ? (
+              <div tw="flex items-center h-full px-4">
+                <Logo id={mod} tw="object-contain h-full" />
+                <span tw="p-2 text-2xl font-semibold">{organization.name}</span>
+              </div>
+            ) : null}
           </div>
           <nav tw="flex bg-primary">
             <Menu />
