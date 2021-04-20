@@ -21,6 +21,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: prep for amplify
+        run: echo '{}' > amplify/.config/local-env-info.json
+
       - name: configure amplify
         uses: ambientlight/amplify-cli-action@0.2.1
         with:
