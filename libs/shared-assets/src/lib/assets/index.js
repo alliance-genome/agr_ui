@@ -1,4 +1,4 @@
-import allianceLogoBase64 from './alliance_logo.png';
+import allianceLogoBase64 from './alliance_logo_agr.png';
 import allianceLogoHgncBase64 from './alliance_logo_hgnc.png';
 import allianceLogoMgdBase64 from './alliance_logo_mgd.png';
 import allianceLogoSgdBase64 from './alliance_logo_sgd.png';
