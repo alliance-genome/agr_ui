@@ -19,9 +19,11 @@ import NoData from '../noData';
 import * as cutils from "@geneontology/curie-util-es5";
 import ExternalLink from '../ExternalLink';
 
+import gocamLegend from './legend.png';
 
 const GO_CONTEXT_LD = "https://raw.githubusercontent.com/prefixcommons/biocontext/master/registry/go_context.jsonld"
 const REACTOME_PATHWAY_BROWSER = "https://reactome.org/PathwayBrowser/#/";
+const REACTOME_REACTION_BROWSER = "https://reactome.org/content/detail/";
 const REACTOME_API_REACTIONS = "https://reactome.org/ContentService/exporter/reaction/";
 const ALLIANCE_API_HOMOLOGOUS = "https://www.alliancegenome.org/api/homologs/geneMap?filter.stringency=stringent&geneIdList="
 
@@ -380,8 +382,8 @@ class PathwayWidget extends Component {
         <img id="reactomeReactionHolder" src={this.state.reactomeReactions.src}/>
 
         
-        {/* TODO: ask Peter {(this.state.reactomeReactions.loaded && !this.state.reactomeReactions.error && this.state.reactomeReactions.reactions.length > 0) ?
-        <ExternalLink href='#'>Open in Reactome Reaction</ExternalLink> : "" } */}
+        {(this.state.gocams.loaded && this.state.gocams.list.length > 0)  ?
+        <ExternalLink href={REACTOME_REACTION_BROWSER + this.state.reactomeReactions.selected}>Open in Reactome Reaction</ExternalLink> : "" }
       </div>
       </HorizontalScroll>
     )
@@ -405,6 +407,7 @@ class PathwayWidget extends Component {
           : ""}
 
           {(this.state.gocams.loaded && this.state.gocams.list.length > 0 && (this.state.selectedTab && this.state.selectedTab == "MODPathways")) ?  
+          <div>
             <wc-gocam-viz 
               id="gocam-1"
               repository="prod"
@@ -417,6 +420,8 @@ class PathwayWidget extends Component {
               show-isolated-activity="true"
               show-legend="false"
             ></wc-gocam-viz>
+            <img src={gocamLegend} style={{"width" : "800px"}}/>
+            </div>
             : <NoData/>
             }
 
