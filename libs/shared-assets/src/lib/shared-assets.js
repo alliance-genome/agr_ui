@@ -1,12 +1,8 @@
 import React from 'react';
-import allianceLogoSrc from './assets/alliance_logo.png';
-console.log(allianceLogoSrc);
+export * from './assets/';
+export * from './organizations';
+export { default as Logo } from './logo/Logo';
 export function SharedAssets(props) {
-  return (
-    <div>
-      <h1>Welcome to shared-assets!</h1>
-      <img src={allianceLogoSrc} />
-    </div>
-  );
+  return <div></div>;
 }
 export default SharedAssets;

@@ -12,7 +12,7 @@ export const primary = () => {
   return (
     <>
       <GlobalStyles />
-      <AppShell>
+      <AppShell mod="wormbase">
         <SharedAssets />
       </AppShell>
     </>
