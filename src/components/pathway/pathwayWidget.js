@@ -20,10 +20,10 @@ import * as cutils from "@geneontology/curie-util-es5";
 import ExternalLink from '../ExternalLink';
 
 
-
+const GO_CONTEXT_LD = "https://raw.githubusercontent.com/prefixcommons/biocontext/master/registry/go_context.jsonld"
 const REACTOME_PATHWAY_BROWSER = "https://reactome.org/PathwayBrowser/#/";
 const REACTOME_API_REACTIONS = "https://reactome.org/ContentService/exporter/reaction/";
-
+const ALLIANCE_API_HOMOLOGOUS = "https://www.alliancegenome.org/api/homologs/geneMap?filter.stringency=stringent&geneIdList="
 
 
 class PathwayWidget extends Component {
@@ -158,7 +158,7 @@ class PathwayWidget extends Component {
    */
   loadGOCAMList() {
     // console.log("cutils: init ", cutils , " with ", this.props.geneId);
-    let gocontext = "https://raw.githubusercontent.com/prefixcommons/biocontext/master/registry/go_context.jsonld";
+    let gocontext = GO_CONTEXT_LD;
     fetch(gocontext)
     .then(data => {
       return data.json();
@@ -173,7 +173,7 @@ class PathwayWidget extends Component {
 
     }).then(iri => {
       // console.log("cutils: iri ", iri);
-      let gocams = "https://api.geneontology.cloud/gp/" + encodeURIComponent(iri) + "/models"
+      let gocams = "https://api.geneontology.xyz/gp/" + encodeURIComponent(iri) + "/models"
       console.log("GO-CAM API to list models for ", this.props.geneId , ": ",  gocams);
       fetch(gocams)
       .then(data => {
@@ -181,7 +181,8 @@ class PathwayWidget extends Component {
       }).then(data => {
         // console.log("cutils: models found ", data);
         let list = data.map(elt => elt.gocam);
-        let item = {...this.state.gocams, list : list, selected : list[0], loaded : true };
+        // let item = {...this.state.gocams, list : list, selected : list[0], loaded : true };
+        let item = {...this.state.gocams, list : data, selected : list[0], loaded : true };
         this.setState( { "gocams" : item } );
 
       }).catch(error => {
@@ -215,6 +216,7 @@ class PathwayWidget extends Component {
       })
     }
     this.reactomePathwayDiagram.loadDiagram(pathwayId);
+    console.log("REACTOME PATHWAY: ", this.reactomePathwayDiagram);
   }
 
 
@@ -339,6 +341,7 @@ class PathwayWidget extends Component {
 
     console.log("state", this.state);
     return (
+      <HorizontalScroll className='text-nowrap'>
       <div id="reactomePathway" style={rpstyles}>
         {(this.state.reactomePathways.loaded && !this.state.reactomePathways.error && this.state.reactomePathways.pathways.length > 0) ?
           <div style={{ "padding": "1rem 0.2rem" }}>
@@ -355,12 +358,14 @@ class PathwayWidget extends Component {
         {(this.state.reactomePathways.loaded && !this.state.reactomePathways.error && this.state.reactomePathways.pathways.length > 0) ?
         <ExternalLink href={REACTOME_PATHWAY_BROWSER + this.state.reactomePathways.selected}>Open in Reactome Pathway</ExternalLink> : "" }
       </div>
+      </HorizontalScroll>
     )
   }
 
   renderReactomeReaction() {
     let rrstyles = (this.state.selectedTab && this.state.selectedTab == "ReactomeReactions") ? { } : { "display": "none" }
     return (
+      <HorizontalScroll className='text-nowrap'>
       <div id="reactomeReaction" style={rrstyles}>
         {(this.state.reactomeReactions.loaded && !this.state.reactomeReactions.error && this.state.reactomeReactions.reactions.length > 0) ?
           <div style={{ "padding": "1rem 0.2rem" }}>
@@ -378,12 +383,14 @@ class PathwayWidget extends Component {
         {/* TODO: ask Peter {(this.state.reactomeReactions.loaded && !this.state.reactomeReactions.error && this.state.reactomeReactions.reactions.length > 0) ?
         <ExternalLink href='#'>Open in Reactome Reaction</ExternalLink> : "" } */}
       </div>
+      </HorizontalScroll>
     )
   }
 
   renderMODPathway() {
     let gocstyles = (this.state.selectedTab && this.state.selectedTab == "MODPathways") ? { } : { "display": "none" }
     return (      
+      <HorizontalScroll className='text-nowrap'>
       <div id="modPathway" style={gocstyles}>
 
           {(this.state.gocams.loaded && this.state.gocams.list.length > 0) ?
@@ -391,7 +398,7 @@ class PathwayWidget extends Component {
               <span style={{ "paddingRight": "1rem"}}>Available GO-CAMs: </span>
               <select id="modPathwaySelect" value={this.state.gocams.selected} onChange={(evt) => this.gocamChanged(evt) } style={{ "minWidth": "1113px" }}>
                   {this.state.gocams.list.map(elt => {
-                    return <option value={elt}>{elt}</option>
+                    return <option value={elt.gocam}>{elt.title}</option>
                   })}
               </select>
             </div>        
@@ -416,6 +423,7 @@ class PathwayWidget extends Component {
         {(this.state.gocams.loaded && this.state.gocams.list.length > 0)  ?
         <ExternalLink href={this.state.gocams.selected}>Open in Noctua GO-CAM</ExternalLink> : "" }
       </div>
+      </HorizontalScroll>
     )
   }
 
