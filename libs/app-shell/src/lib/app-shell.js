@@ -10,8 +10,13 @@ export function AppShell({ children, renderLink = LinkRenderDefault, mod }) {
   return (
     <LinkRenderProvider renderLink={renderLink}>
       <MODThemeProvider mod={mod}>
-        <header tw="flex bg-primary">
-          <Menu />
+        <header>
+          <div tw="flex">
+            <span tw="p-2 text-2xl font-semibold">{mod}</span>
+          </div>
+          <nav tw="flex bg-primary">
+            <Menu />
+          </nav>
         </header>
         {children}
       </MODThemeProvider>
