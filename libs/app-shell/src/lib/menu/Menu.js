@@ -78,13 +78,13 @@ const Menu = () => {
             <Link to="/members/zfin">ZFIN</Link>
           </MenuItem>
           <MenuItem>
-            <Link to="/members/mgi">MGI</Link>
+            <Link to="/members/mgd">MGD</Link>
           </MenuItem>
           <MenuItem>
             <Link to="/members/rgd">RGD</Link>
           </MenuItem>
           <MenuItem>
-            <Link to="/members/go">GO</Link>
+            <Link to="/members/goc">GOC</Link>
           </MenuItem>
         </SubMenu>
       </ul>

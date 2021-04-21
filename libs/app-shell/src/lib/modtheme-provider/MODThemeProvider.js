@@ -23,7 +23,7 @@ const stylesBase = css`
     --mod-primary: #036;
   }
 
-  .mgi {
+  .mgd {
     --mod-primary: #0ea5e9;
   }
 
@@ -31,7 +31,7 @@ const stylesBase = css`
     --mod-primary: #2865a3;
   }
 
-  .go {
+  .goc {
     --mod-primary: #00174f;
   }
 `;
