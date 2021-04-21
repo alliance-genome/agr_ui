@@ -18,7 +18,12 @@ export function AppShell({ children, renderLink = LinkRenderDefault, mod }) {
             {organization ? (
               <div tw="flex items-center h-full px-4">
                 <Logo id={mod} tw="object-contain h-full" />
-                <span tw="p-2 text-2xl font-semibold">{organization.name}</span>
+                <span tw="p-2 text-2xl font-medium hidden md:inline-block">
+                  {organization.name}
+                </span>
+                <span tw="p-2 text-2xl font-medium md:hidden">
+                  {organization.abbreviation}
+                </span>
               </div>
             ) : null}
           </div>
