@@ -3,7 +3,7 @@ import tw from 'twin.macro';
 import Link from 'next/link';
 import { AppShell } from '@wormbase/agr-app-shell';
 
-const MODS = ['sgd', 'wormbase', 'flybase', 'zfin', 'mgi', 'rgd', 'go'];
+const MODS = ['sgd', 'wormbase', 'flybase', 'zfin', 'mgd', 'rgd', 'goc'];
 
 export function Index({ mod }) {
   const renderLink = useMemo(
