@@ -211,14 +211,23 @@ class PathwayWidget extends Component {
    */
   loadReactomeDiagram(pathwayId) {
     if(!this.reactomePathwayDiagram) {
-      this.reactomePathwayDiagram = Reactome.Diagram.create({
-        "placeHolder": "reactomePathwayHolder",
-        "width": 1280,
-        "height": 600
-      })
+      (async() => {
+        // ensure the Reactome library has been loaded
+        while(!Reactome) {
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+        this.reactomePathwayDiagram = Reactome.Diagram.create({
+          "placeHolder": "reactomePathwayHolder",
+          "width": 1280,
+          "height": 600
+        })
+        this.reactomePathwayDiagram.loadDiagram(pathwayId);
+        console.log("REACTOME PATHWAY: ", this.reactomePathwayDiagram);    
+      })()
+    } else {
+      this.reactomePathwayDiagram.loadDiagram(pathwayId);
+      console.log("REACTOME PATHWAY: ", this.reactomePathwayDiagram);
     }
-    this.reactomePathwayDiagram.loadDiagram(pathwayId);
-    console.log("REACTOME PATHWAY: ", this.reactomePathwayDiagram);
   }
 
 
@@ -306,12 +315,17 @@ class PathwayWidget extends Component {
     this.setState({ selectedTab: "MODPathways" })
   }
 
+  isHumanGene() {
+    return this.props.geneSpecies.taxonId.includes("9606");
+  }
+
   
   /**
    * Main rendering method
    */
   render() {
     console.log("state: ", this.state);
+    console.log("props:" , this.props);
 
     return (      
       <div>
@@ -345,7 +359,7 @@ class PathwayWidget extends Component {
     return (
       <HorizontalScroll className='text-nowrap'>
       <div id="reactomePathway" style={rpstyles}>
-        {(this.state.reactomePathways.loaded && !this.state.reactomePathways.error && this.state.reactomePathways.pathways.length > 0) ?
+        {(this.state.reactomePathways.loaded && !this.state.reactomePathways.error && this.state.reactomePathways.pathways && this.state.reactomePathways.pathways.length > 0) ?
           <div style={{ "padding": "1rem 0.2rem" }}>
             <span style={{ "paddingRight": "1rem"}}>Available pathways: </span>
             <select id="pathwaySelect" value={this.state.reactomePathways.selected} onChange={(evt) => this.pathwayChanged(evt) } style={{ "minWidth": "1130px" }}>
@@ -358,7 +372,12 @@ class PathwayWidget extends Component {
         <div id="reactomePathwayHolder"></div>
         
         {(this.state.reactomePathways.loaded && !this.state.reactomePathways.error && this.state.reactomePathways.pathways.length > 0) ?
-        <ExternalLink href={REACTOME_PATHWAY_BROWSER + this.state.reactomePathways.selected}>Open in Reactome Pathway</ExternalLink> : "" }
+        <div>
+          <ExternalLink href={REACTOME_PATHWAY_BROWSER + this.state.reactomePathways.selected}>Open in Reactome Pathway</ExternalLink> 
+          { !this.isHumanGene() ? <span style={{ "display": "inline-block", "text-align": "right", "width": "80%", "font-style": "italic" }}>Computationally inferred by Orthology</span> : "" }
+        </div>
+        : "" }
+
       </div>
       </HorizontalScroll>
     )
@@ -369,7 +388,7 @@ class PathwayWidget extends Component {
     return (
       <HorizontalScroll className='text-nowrap'>
       <div id="reactomeReaction" style={rrstyles}>
-        {(this.state.reactomeReactions.loaded && !this.state.reactomeReactions.error && this.state.reactomeReactions.reactions.length > 0) ?
+        {(this.state.reactomeReactions.loaded && !this.state.reactomeReactions.error && this.state.reactomeReactions.reactions && this.state.reactomeReactions.reactions.length > 0) ?
           <div style={{ "padding": "1rem 0.2rem" }}>
             <span style={{ "paddingRight": "1rem"}}>Available reactions: </span>
             <select id="reactionSelect" value={this.state.reactomeReactions.selected} onChange={(evt) => this.reactionChanged(evt) } style={{ "minWidth": "1120px" }}>
@@ -382,8 +401,13 @@ class PathwayWidget extends Component {
         <img id="reactomeReactionHolder" src={this.state.reactomeReactions.src}/>
 
         
-        {(this.state.gocams.loaded && this.state.gocams.list.length > 0)  ?
-        <ExternalLink href={REACTOME_REACTION_BROWSER + this.state.reactomeReactions.selected}>Open in Reactome Reaction</ExternalLink> : "" }
+        {(this.state.reactomeReactions.loaded && this.state.reactomeReactions.reactions && this.state.reactomeReactions.reactions.length > 0)  ?
+        <div>
+          <ExternalLink href={REACTOME_REACTION_BROWSER + this.state.reactomeReactions.selected}>Open in Reactome Reaction</ExternalLink>
+          { !this.isHumanGene() ? <span style={{ "display": "inline-block", "text-align": "right", "width": "80%", "font-style": "italic" }}>Computationally inferred by Orthology</span> : "" }
+        </div>
+        : "" }
+
       </div>
       </HorizontalScroll>
     )
@@ -395,7 +419,7 @@ class PathwayWidget extends Component {
       <HorizontalScroll className='text-nowrap'>
       <div id="modPathway" style={gocstyles}>
 
-          {(this.state.gocams.loaded && this.state.gocams.list.length > 0) ?
+          {(this.state.gocams.loaded && this.state.gocams.list && this.state.gocams.list.length > 0) ?
             <div style={{ "padding": "1rem 0.2rem" }}>
               <span style={{ "paddingRight": "1rem"}}>Available GO-CAMs: </span>
               <select id="modPathwaySelect" value={this.state.gocams.selected} onChange={(evt) => this.gocamChanged(evt) } style={{ "minWidth": "1113px" }}>
@@ -406,7 +430,7 @@ class PathwayWidget extends Component {
             </div>        
           : ""}
 
-          {(this.state.gocams.loaded && this.state.gocams.list.length > 0 && (this.state.selectedTab && this.state.selectedTab == "MODPathways")) ?  
+          {(this.state.gocams.loaded && this.state.gocams.list && this.state.gocams.list.length > 0 && (this.state.selectedTab && this.state.selectedTab == "MODPathways")) ?  
           <div>
             <wc-gocam-viz 
               id="gocam-1"
@@ -425,7 +449,7 @@ class PathwayWidget extends Component {
             : <NoData/>
             }
 
-        {(this.state.gocams.loaded && this.state.gocams.list.length > 0)  ?
+        {(this.state.gocams.loaded && this.state.gocams.list && this.state.gocams.list.length > 0)  ?
         <ExternalLink href={this.state.gocams.selected}>Open in Noctua GO-CAM</ExternalLink> : "" }
       </div>
       </HorizontalScroll>
