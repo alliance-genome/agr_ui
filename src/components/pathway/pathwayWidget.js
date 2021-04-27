@@ -174,7 +174,14 @@ class PathwayWidget extends Component {
       return iri;
 
     }).then(iri => {
-      // console.log("cutils: iri ", iri);
+
+      // This should be a temporary fix, but MGI:MGI: has been a long standing issue that need to be fixed
+      // at the server level but also at the dbxrefs.yaml & equivalent e.g. http://identifiers.org/mgi/MGI:88177
+      if(iri.includes("mgi") && !iri.includes("MGI:")) {
+        iri = iri.replace("/mgi/", "/mgi/MGI:");
+      }
+
+      console.log("cutils: iri ", iri);
       let gocams = "https://api.geneontology.xyz/gp/" + encodeURIComponent(iri) + "/models"
       console.log("GO-CAM API to list models for ", this.props.geneId , ": ",  gocams);
       fetch(gocams)
