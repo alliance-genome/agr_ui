@@ -44,7 +44,9 @@ const robotstxtDevOptions = {
 const devServer = {
   disableHostCheck: true,
   contentBase: folders.CONTENTBASE,
-  historyApiFallback: true,
+  historyApiFallback: {
+    disableDotRule: true
+  },
   port: process.env.DEV_SERVER_UI_PORT || '2992',
   host: '0.0.0.0',
   hot: true,
