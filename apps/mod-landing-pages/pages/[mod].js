@@ -3,14 +3,18 @@ import tw from 'twin.macro';
 import Link from 'next/link';
 import { AppShell } from '@wormbase/agr-app-shell';
 import NewsListItem from '../components/news-list-item/news-list-item';
+import {
+  getOrganizationById,
+  getAllMembers,
+} from '@wormbase/agr-shared-assets';
 
-const MODS = ['sgd', 'wormbase', 'flybase', 'zfin', 'mgd', 'rgd', 'goc'];
+const ALL_MOD_IDS = getAllMembers().map(({ id }) => id);
 
 export function Index({ mod, news = {} }) {
   const renderLink = useMemo(
     () => ({ to, closeMenu, children }) => {
       const [_, subpath, segment] = /^\/members\/((\w+).*)/i.exec(to) || [];
-      if (segment && MODS.includes(segment)) {
+      if (segment && ALL_MOD_IDS.includes(segment)) {
         return (
           <Link href={subpath} passHref>
             <a onClick={closeMenu}>{children}</a>
@@ -23,10 +27,12 @@ export function Index({ mod, news = {} }) {
     []
   );
 
+  const { name: organizationName } = getOrganizationById(mod);
+
   return (
     <AppShell renderLink={renderLink} mod={mod}>
       <main tw="max-w-screen-xl px-3 md:px-10 py-10 mx-auto grid lg:grid-cols-3 gap-10">
-        <h1 tw="lg:col-span-3 text-5xl py-10">Welcome to {mod}</h1>
+        <h1 tw="lg:col-span-3 text-5xl py-10">Welcome to {organizationName}</h1>
         <section tw="lg:col-span-2">
           <h2 tw="text-3xl pb-2">About</h2>
           <p>
@@ -112,7 +118,7 @@ export async function getStaticProps({ params = {} }) {
 
 export async function getStaticPaths() {
   return {
-    paths: MODS.map((mod) => ({
+    paths: ALL_MOD_IDS.map((mod) => ({
       params: { mod },
     })),
     fallback: false,
