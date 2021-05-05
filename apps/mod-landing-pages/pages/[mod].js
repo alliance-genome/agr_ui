@@ -104,7 +104,9 @@ export function Index({ mod, news = {} }) {
 export async function getStaticProps({ params = {} }) {
   const { mod } = params;
   const news = await fetch(
-    `https://public-api.wordpress.com/rest/v1.1/sites/alliancecms.wordpress.com/posts/?category=${mod}%20News&number=5`
+    mod === 'sgd'
+      ? 'https://public-api.wordpress.com/rest/v1.1/sites/yeastgenomeblog.wordpress.com/posts/?number=5'
+      : `https://public-api.wordpress.com/rest/v1.1/sites/alliancecms.wordpress.com/posts/?category=${mod}%20News&number=5`
   ).then((response) => {
     return response.json();
   });
