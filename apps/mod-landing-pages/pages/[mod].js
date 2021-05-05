@@ -2,10 +2,11 @@ import React, { useMemo } from 'react';
 import tw from 'twin.macro';
 import Link from 'next/link';
 import { AppShell } from '@wormbase/agr-app-shell';
+import NewsListItem from '../components/news-list-item/news-list-item';
 
 const MODS = ['sgd', 'wormbase', 'flybase', 'zfin', 'mgd', 'rgd', 'goc'];
 
-export function Index({ mod }) {
+export function Index({ mod, news = {} }) {
   const renderLink = useMemo(
     () => ({ to, closeMenu, children }) => {
       const [_, subpath, segment] = /^\/members\/((\w+).*)/i.exec(to) || [];
@@ -70,15 +71,11 @@ export function Index({ mod }) {
         </section>
         <section>
           <h2 tw="text-3xl pb-2">News</h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-          </p>
+          {news.posts && news.posts.length ? (
+            news.posts.map((post) => <NewsListItem {...post} />)
+          ) : (
+            <p>No news has been posted.</p>
+          )}
         </section>
         <section>
           <h2 tw="text-3xl pb-2">Meetings</h2>
@@ -100,9 +97,15 @@ export function Index({ mod }) {
 
 export async function getStaticProps({ params = {} }) {
   const { mod } = params;
+  const news = await fetch(
+    `https://public-api.wordpress.com/rest/v1.1/sites/alliancecms.wordpress.com/posts/?category=${mod}%20News&number=5`
+  ).then((response) => {
+    return response.json();
+  });
   return {
     props: {
       mod,
+      news,
     },
   };
 }
