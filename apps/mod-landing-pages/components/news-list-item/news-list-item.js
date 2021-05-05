@@ -6,14 +6,20 @@ export function NewsListItem({
   date = '',
   excerpt = '',
   author = {},
+  URL = '',
 }) {
   return (
-    <div>
-      <h3 tw="text-xl">{title}</h3>
-      <span>{author.name}</span>
-      <span>{date}</span>
-      <div dangerouslySetInnerHTML={{ __html: excerpt }} />
-    </div>
+    <a tw="shadow grid grid-cols-2 p-4 mb-4" href={URL}>
+      <h3 tw="col-span-full text-xl text-justify text-primary">{title}</h3>
+      <span tw="text-gray-500">{author.name}</span>
+      <span tw="justify-self-end text-gray-500">
+        {new Date(date).toDateString()}
+      </span>
+      <div
+        tw="col-span-full text-justify mt-2"
+        dangerouslySetInnerHTML={{ __html: excerpt }}
+      />
+    </a>
   );
 }
 
