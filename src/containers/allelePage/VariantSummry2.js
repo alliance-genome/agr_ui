@@ -8,10 +8,6 @@ import {
   AttributeValue,
 } from '../../components/attribute';
 import { CollapsibleList } from '../../components/collapsibleList';
-import { DownloadButton } from '../../components/dataTable';
-import Subsection from '../../components/subsection';
-import NoData from '../../components/noData';
-import useAllAlleleVariants from '../../hooks/useAlleleVariants';
 import { VariantJBrowseLink } from '../../components/variant';
 import ExternalLink from '../../components/ExternalLink';
 import DataSourceLink from '../../components/dataSourceLink';
@@ -24,7 +20,7 @@ function formatLocation(location) {
   return (start !== end) ? `${chromosome}:${start}-${end}` : `${chromosome}:${start}`;
 }
 
-const VariantSummary = ({variant, variantId}) => {
+const VariantSummary = ({variant}) => {
   const {
     species, // TODO (not available in API yet)
     displayName,
