@@ -44,6 +44,9 @@ const VariantSummary = ({variant}) => {
         <AttributeLabel>Species</AttributeLabel>
         <AttributeValue>{species && <SpeciesName>{species.name}</SpeciesName>}</AttributeValue>
 
+        <AttributeLabel>Category</AttributeLabel>
+        <AttributeValue>Variant</AttributeValue>
+
         <AttributeLabel>Symbol</AttributeLabel>
         <AttributeValue>
           {
