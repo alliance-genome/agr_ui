@@ -23,7 +23,7 @@ function formatLocation(location) {
   return (start !== end) ? `${chromosome}:${start}-${end}` : `${chromosome}:${start}`;
 }
 
-const VariantSummary = ({allele, alleleId}) => {
+const AlleleVariantsSummary = ({allele, alleleId}) => {
   const {
     data
   } = useAllAlleleVariants(alleleId);
@@ -218,7 +218,7 @@ const VariantSummary = ({allele, alleleId}) => {
   );
 };
 
-VariantSummary.propTypes = {
+AlleleVariantsSummary.propTypes = {
   alleleId: PropTypes.string.isRequired,
   allele: {
     gene: {
@@ -230,4 +230,4 @@ VariantSummary.propTypes = {
   }
 };
 
-export default VariantSummary;
+export default AlleleVariantsSummary;

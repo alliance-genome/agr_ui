@@ -20,7 +20,7 @@ import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
 import AlleleToDiseaseTable from './AlleleToDiseaseTable';
 // import AlleleToVariantTable from './AlleleToVariantTable';
 // import AlleleSequenceView from './AlleleSequenceView';
-import VariantSummary from './VariantSummry2';
+import VariantSummary from './VariantSummary';
 import VariantSequenceView from './VariantSequenceView';
 import VariantToTranscriptTable from './VariantToTranscriptTable';
 import MolecularConsequenceHelp from './MolecularConsequenceHelp';
