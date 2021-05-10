@@ -21,11 +21,13 @@ import AlleleToDiseaseTable from './AlleleToDiseaseTable';
 // import AlleleToVariantTable from './AlleleToVariantTable';
 // import AlleleSequenceView from './AlleleSequenceView';
 import VariantSummary from './VariantSummry2';
+import VariantSequenceView from './VariantSequenceView';
 import VariantToTranscriptTable from './VariantToTranscriptTable';
 import MolecularConsequenceHelp from './MolecularConsequenceHelp';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import GeneSymbol from '../../components/GeneSymbol';
 import SpeciesName from '../../components/SpeciesName';
+import ErrorBoundary from '../../components/errorBoundary';
 
 const SUMMARY = 'Summary';
 const PHENOTYPES = 'Phenotypes';
@@ -75,7 +77,13 @@ const VariantPage = ({ variantId }) => {
         <PageHeader>{data.displayName}</PageHeader>
 
         <Subsection hideTitle title={SUMMARY}>
-          <VariantSummary variant={data} variantId={variantId} />
+          <ErrorBoundary>
+            <VariantSummary variant={data} variantId={variantId} />
+          </ErrorBoundary>
+          <hr />
+          <ErrorBoundary>
+            <VariantSequenceView variant={data} />
+          </ErrorBoundary>
         </Subsection>
 
         <Subsection help={<MolecularConsequenceHelp />} title={MOLECULAR_CONSEQUENCE}>
