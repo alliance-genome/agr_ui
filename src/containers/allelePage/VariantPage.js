@@ -66,7 +66,7 @@ const VariantPage = ({ variantId }) => {
       <PageNav sections={SECTIONS}>
         <PageNavEntity entityName={data.displayName} icon={<SpeciesIcon inNav scale={0.5} species={data.species && data.species.name} />} truncateName>
           <DataSourceLink reference={data.crossReferences.primary} />
-          {data.gene && <div>Allele of <Link to={`/gene/${data.gene.id}`}><GeneSymbol gene={data.gene} /></Link></div>}
+          {data.gene && <div>Variant overlaps <Link to={`/gene/${data.gene.id}`}><GeneSymbol gene={data.gene} /></Link></div>}
           <SpeciesName>{data.species && data.species.name}</SpeciesName>
         </PageNavEntity>
       </PageNav>
