@@ -44,9 +44,6 @@ const VariantSummary = ({variant}) => {
         <AttributeLabel>Species</AttributeLabel>
         <AttributeValue>{species && <SpeciesName>{species.name}</SpeciesName>}</AttributeValue>
 
-        <AttributeLabel>Category</AttributeLabel>
-        <AttributeValue>Variant</AttributeValue>
-
         <AttributeLabel>Symbol</AttributeLabel>
         <AttributeValue>
           {
@@ -61,6 +58,9 @@ const VariantSummary = ({variant}) => {
             </VariantJBrowseLink>
           }
         </AttributeValue>
+
+        <AttributeLabel>Category</AttributeLabel>
+        <AttributeValue>Variant</AttributeValue>
 
         <AttributeLabel>Variant type</AttributeLabel>
         <AttributeValue>{type && type.name && type.name.replace(/_/g, ' ')}</AttributeValue>
