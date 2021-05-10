@@ -20,7 +20,6 @@ import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
 import AlleleToDiseaseTable from './AlleleToDiseaseTable';
 // import AlleleToVariantTable from './AlleleToVariantTable';
 // import AlleleSequenceView from './AlleleSequenceView';
-import AlleleTransgenicConstructs from './AlleleTransgenicConstructs';
 import VariantSummary from './VariantSummry2';
 import VariantToTranscriptTable from './VariantToTranscriptTable';
 import MolecularConsequenceHelp from './MolecularConsequenceHelp';
@@ -31,14 +30,10 @@ import SpeciesName from '../../components/SpeciesName';
 const SUMMARY = 'Summary';
 const PHENOTYPES = 'Phenotypes';
 const DISEASE = 'Disease Associations';
-const VARIANTS = 'Genomic Variant Information';
-const CONSTRUCTS = 'Transgenic Constructs';
 const MOLECULAR_CONSEQUENCE = 'Variant Molecular Consequences';
 
 const SECTIONS = [
   {name: SUMMARY},
-  {name: CONSTRUCTS},
-  {name: VARIANTS},
   {name: MOLECULAR_CONSEQUENCE},
   {name: PHENOTYPES},
   {name: DISEASE}
@@ -81,14 +76,6 @@ const VariantPage = ({ variantId }) => {
 
         <Subsection hideTitle title={SUMMARY}>
           <VariantSummary variant={data} variantId={variantId} />
-        </Subsection>
-
-        <Subsection title={CONSTRUCTS}>
-          <AlleleTransgenicConstructs constructs={data.constructs} />
-        </Subsection>
-
-        <Subsection title={VARIANTS} hasData={false}>{/* TODO: remove hasData={false*/}
-          {null}
         </Subsection>
 
         <Subsection help={<MolecularConsequenceHelp />} title={MOLECULAR_CONSEQUENCE}>
