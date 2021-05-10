@@ -42,11 +42,33 @@ const SECTIONS = [
 ];
 
 const VariantPage = ({ variantId }) => {
-  const {
+  // TODO: enable this one instead of the mock data
+/*   const {
     data,
     isLoading,
     isError,
-  } = usePageLoadingQuery(`/api/variant/${variantId}`);
+  } = usePageLoadingQuery(`/api/variant/${variantId}`); */
+  // END: real data
+
+  // TODO: remove these mock data
+  const {
+    data: alleleVariants, // TODO: enable this one instead of the mock data
+    isLoading,
+    isError,
+  } = usePageLoadingQuery('/api/allele/WB:WBVar00092405/variants');
+  let data = alleleVariants ? alleleVariants.results[0] : {};
+  data = {
+    ...data,
+    species: {
+      name: 'Caenorhabditis elegans',
+      shortName: 'Cel',
+      dataProviderFullName: 'WormBase',
+      dataProviderShortName: 'WB',
+      commonNames: '["worm", "cel"]',
+      taxonId: 'NCBITaxon:6239'
+    },
+  };
+  // End: of mock data
 
   if (isLoading) {
     return null;
