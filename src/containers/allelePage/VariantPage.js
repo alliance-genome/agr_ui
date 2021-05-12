@@ -15,9 +15,9 @@ import SpeciesIcon from '../../components/speciesIcon';
 import PageNavEntity from '../../components/dataPage/PageNavEntity';
 import DataSourceLink from '../../components/dataSourceLink';
 import {Link} from 'react-router-dom';
-import AlleleToPhenotypeTable from './AlleleToPhenotypeTable';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
-import AlleleToDiseaseTable from './AlleleToDiseaseTable';
+// import AlleleToPhenotypeTable from './AlleleToPhenotypeTable';
+// import AlleleToDiseaseTable from './AlleleToDiseaseTable';
 // import AlleleToVariantTable from './AlleleToVariantTable';
 // import AlleleSequenceView from './AlleleSequenceView';
 import VariantSummary from './VariantSummary';
@@ -30,15 +30,11 @@ import SpeciesName from '../../components/SpeciesName';
 import ErrorBoundary from '../../components/errorBoundary';
 
 const SUMMARY = 'Summary';
-const PHENOTYPES = 'Phenotypes';
-const DISEASE = 'Disease Associations';
 const MOLECULAR_CONSEQUENCE = 'Variant Molecular Consequences';
 
 const SECTIONS = [
   {name: SUMMARY},
   {name: MOLECULAR_CONSEQUENCE},
-  {name: PHENOTYPES},
-  {name: DISEASE}
 ];
 
 const VariantPage = ({ variantId }) => {
@@ -110,14 +106,6 @@ const VariantPage = ({ variantId }) => {
 
         <Subsection help={<MolecularConsequenceHelp />} title={MOLECULAR_CONSEQUENCE}>
           <VariantToTranscriptTable variant={data} />
-        </Subsection>
-
-        <Subsection title={PHENOTYPES}>
-          <AlleleToPhenotypeTable variantId={variantId} />
-        </Subsection>
-
-        <Subsection title={DISEASE}>
-          <AlleleToDiseaseTable variantId={variantId} />
         </Subsection>
 
       </PageData>
