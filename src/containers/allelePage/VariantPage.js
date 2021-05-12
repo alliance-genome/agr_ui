@@ -7,6 +7,11 @@ import {
   PageHeader,
   PageNav
 } from '../../components/dataPage';
+import {
+  AttributeList,
+  AttributeLabel,
+  AttributeValue,
+} from '../../components/attribute';
 import HeadMetaTags from '../../components/headMetaTags';
 import Subsection from '../../components/subsection';
 import NotFound from '../../components/notFound';
@@ -96,7 +101,11 @@ const VariantPage = ({ variantId }) => {
 
         <Subsection hideTitle title={SUMMARY}>
           <ErrorBoundary>
-            <VariantSummary variant={data} variantId={variantId} />
+            <AttributeList className='mb-0'>
+              <AttributeLabel>Species</AttributeLabel>
+              <AttributeValue>{data.species && <SpeciesName>{data.species.name}</SpeciesName>}</AttributeValue>
+              <VariantSummary variant={data} variantId={variantId} />
+            </AttributeList>
           </ErrorBoundary>
           <hr />
           <ErrorBoundary>
