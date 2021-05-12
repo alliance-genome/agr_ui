@@ -44,15 +44,17 @@ const SECTIONS = [
 
 const VariantPage = ({ variantId }) => {
   // TODO: enable this one instead of the mock data
-/*   const {
+  // Comment out this section, if trying out the mock data.
+  const {
     data,
     isLoading,
     isError,
-  } = usePageLoadingQuery(`/api/variant/${variantId}`); */
+  } = usePageLoadingQuery(`/api/variant/${variantId}`);
   // END: real data
 
   // TODO: remove these mock data
-  const {
+  // Uncomment this section, if trying out the mock data.
+  /* const {
     data: alleleVariants, // TODO: enable this one instead of the mock data
     isLoading,
     isError,
@@ -68,7 +70,7 @@ const VariantPage = ({ variantId }) => {
       commonNames: '["worm", "cel"]',
       taxonId: 'NCBITaxon:6239'
     },
-  };
+  }; */
   // End: of mock data
 
   if (isLoading) {
