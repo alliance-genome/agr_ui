@@ -10,8 +10,8 @@ const VariantSequenceView = ({ variant }) => {
     {
       // in case not overlapping a gene
       ...variant.location,
-      start: Math.max(1, variant.location.start - 1000),
-      end: variant.location.end + 1000,
+      start: Math.max(1, variant.location.start - 500),
+      end: variant.location.end + 500,
     };
 
   let isoformFilter = [];
