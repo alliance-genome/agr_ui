@@ -30,12 +30,12 @@ const VariantSequenceView = ({ variant }) => {
       fmax={fmax}
       fmin={fmin}
       geneSymbol={variant.symbol}
-      genomeLocationList={genomeLocations}
+      genomeLocationList={genomeLocations || []}
       height='200px'
       id='genome-feature-location-id'
       isoformFilter={isoformFilter}
       primaryId={variant.id}
-      species={variant.species.taxonId}
+      species={variant.species && variant.species.taxonId}
       strand={genomeLocation.strand}
       synonyms={variant.synonyms}
       visibleVariants={[variant.id]}
