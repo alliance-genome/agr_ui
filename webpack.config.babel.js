@@ -78,6 +78,7 @@ const plugins = [
   }),
   new webpack.EnvironmentPlugin({
     ALLIANCE_RELEASE: '[dev]',
+    API_URL: '',
   }),
   new MiniCssExtractPlugin({
     filename: '[name].[hash].css',
