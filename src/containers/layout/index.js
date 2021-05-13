@@ -8,6 +8,7 @@ import Loader from './loader/index';
 import logo from './agrLogo.png';
 import SearchBar from './searchBar';
 import { MenuItems } from './navigation';
+import ReleaseBanner from './ReleaseBanner';
 import { selectPageLoading } from '../../selectors/loadingSelector';
 import Footer from './Footer';
 
@@ -60,7 +61,7 @@ class Layout extends Component {
                 <Link to='/'>
                   <img className={`img-fluid ${style.agrLogo}`} src={logo} />
                 </Link>
-                <span className={style.version}>Release {process.env.ALLIANCE_RELEASE}</span>
+                <ReleaseBanner />
               </div>
               <button className="navbar-toggler d-md-none" onClick={() => this.setState({menuOpen: !menuOpen})} type="button">
                 <i className='fa fa-fw fa-bars' />
