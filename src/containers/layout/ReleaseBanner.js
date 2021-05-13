@@ -22,9 +22,11 @@ const ReleaseBanner = () => {
   return isLoading ? <LoadingSpinner /> : 
     (
       <small className="text-secondary">
-        Version: {releaseVersion}.{' '}
-        <span className="d-none d-md-inline-block mx-1">Released on {releaseDate && new Date(releaseDate).toLocaleDateString('en-US', {dateStyle: 'medium'})}</span>    
-      </small>      
+        Version: {isError ? 'Unknown' : releaseVersion}.
+        <span className="d-none d-md-inline-block mx-1">
+          Released on {releaseDate ? new Date(releaseDate).toLocaleDateString('en-US', {dateStyle: 'medium'}) : 'Unknown'}
+        </span>
+      </small>
     );
 };
 
