@@ -1,21 +1,14 @@
 import React from 'react';
-import { useQuery } from 'react-query';
-import fetchData from '../../lib/fetchData';
 import LoadingSpinner from '../../components/loadingSpinner';
+import { useRelease } from '../../hooks/ReleaseContextProvider';
 
 const ReleaseBanner = () => {
-  const devServerAPIHostname = process.env.NODE_ENV === 'production' ? '' :
-    (process.env.API_URL || '').replace(/https?:\/\//, '');
-  const [host] = (devServerAPIHostname || window.location.hostname).split('.');
-  const releaseUrl = `https://fms.alliancegenome.org/api/releaseversion/current?host=${host}`;
 
   const {
     data,
     isLoading,
     isError,
-  } = useQuery([releaseUrl], () => {
-    return fetchData(releaseUrl);
-  });
+  } = useRelease();
 
   const { releaseVersion, releaseDate } = data || {};
 
