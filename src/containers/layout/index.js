@@ -59,7 +59,7 @@ class Layout extends Component {
             <div className='col-md d-flex justify-content-between'>
               <div className='navbar-brand d-flex align-items-end'>
                 <Link to='/'>
-                  <img className={`img-fluid ${style.agrLogo}`} src={logo} />
+                  <img className={style.agrLogo} width="200" src={logo} />
                 </Link>
                 <ReleaseBanner />
               </div>
