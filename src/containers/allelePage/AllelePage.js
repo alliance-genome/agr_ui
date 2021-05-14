@@ -24,7 +24,7 @@ import AlleleToDiseaseTable from './AlleleToDiseaseTable';
 import AlleleSequenceView from './AlleleSequenceView';
 import AlleleTransgenicConstructs from './AlleleTransgenicConstructs';
 import AlleleMolecularConsequences from './AlleleMolecularConsequences';
-import VariantSummary from './VariantSummry';
+import AlleleVariantsSummary from './AlleleVariantsSummary';
 import MolecularConsequenceHelp from './MolecularConsequenceHelp';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import GeneSymbol from '../../components/GeneSymbol';
@@ -91,7 +91,7 @@ const AllelePage = ({ alleleId }) => {
 
         <Subsection title={VARIANTS}>
           <ErrorBoundary>
-            <VariantSummary allele={data} alleleId={alleleId} />
+            <AlleleVariantsSummary allele={data} alleleId={alleleId} />
             {/* <AlleleToVariantTable allele={data} alleleId={alleleId} /> */}
           </ErrorBoundary>
           <br />
