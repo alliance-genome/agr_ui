@@ -288,7 +288,7 @@
             "assets": ["apps/main-app/src/assets"],
             "styles": [],
             "scripts": [],
-            "webpackConfig": "apps/main-app/webpack.js"
+            "webpackConfig": "apps/main-app/webpack.config.babel.js"
           },
           "configurations": {
             "production": {
