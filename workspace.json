@@ -285,10 +285,7 @@
             "main": "apps/main-app/src/main.js",
             "polyfills": "apps/main-app/src/polyfills.js",
             "tsConfig": "apps/main-app/tsconfig.app.json",
-            "assets": [
-              "apps/main-app/src/favicon.ico",
-              "apps/main-app/src/assets"
-            ],
+            "assets": ["apps/main-app/src/assets"],
             "styles": [],
             "scripts": [],
             "webpackConfig": "apps/main-app/webpack.js"
