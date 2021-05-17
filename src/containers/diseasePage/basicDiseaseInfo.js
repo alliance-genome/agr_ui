@@ -88,7 +88,7 @@ class BasicDiseaseInfo extends Component {
 
         <AttributeLabel>Cross References</AttributeLabel>
         <AttributeValue>
-          {disease.crossReferences && <CrossReferenceList crossReferences={disease.crossReferences.other} />}
+          {disease.crossReferences && <CrossReferenceList crossReferences={disease.crossReferenceMap.other} />}
         </AttributeValue>
 
         <AttributeLabel>Parent Terms</AttributeLabel>
