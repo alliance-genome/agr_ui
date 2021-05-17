@@ -33,6 +33,9 @@ const robotstxtDevOptions = {
 };
 
 const devServer = {
+  historyApiFallback: {
+    disableDotRule: true
+  },
   proxy: {
     '/api': {
       target: process.env.API_URL || 'http://localhost:8080',
