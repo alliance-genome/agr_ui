@@ -25,7 +25,7 @@ const VariantToTranscriptTable = ({variant}) => {
         <div>{name}</div>
       ),
       headerStyle: {
-        width: 180,
+        width: 260,
       },
     },
     {
