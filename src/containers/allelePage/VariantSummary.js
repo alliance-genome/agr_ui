@@ -21,6 +21,8 @@ function formatLocation(location) {
 
 const VariantSummary = ({variant}) => {
   const {
+    id: variantId,
+    symbol,
     species, // TODO (not available in API yet)
     displayName,
     variantType: type,
@@ -49,7 +51,7 @@ const VariantSummary = ({variant}) => {
             species={species && species.name}
             type={type && type.name}
           >
-            <span className="text-break">{displayName}</span>
+            <span className="text-break">{symbol || displayName || variantId}</span>
           </VariantJBrowseLink>
         }
       </AttributeValue>
