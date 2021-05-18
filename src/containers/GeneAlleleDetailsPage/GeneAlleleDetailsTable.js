@@ -169,7 +169,9 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     {
       text: 'Molecular consequence',
       dataField: 'consequence.molecularConsequence',
-      formatter: VEPTextCell,
+      formatter: (molecularConsequences) => (
+        <span>{molecularConsequences.join(', ')}</span>
+      ),
       filterable: true,
       filterName: 'molecularConsequence',
       headerStyle: {width: '350px'},
