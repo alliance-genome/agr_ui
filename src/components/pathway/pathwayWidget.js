@@ -182,9 +182,9 @@ class PathwayWidget extends Component {
       }
 
       console.log("cutils: iri ", iri);
-      
+
       // new query parameter to indicate we want models with at least 2 causal MFs
-      let gocams = "https://api.geneontology.xyz/gp/" + encodeURIComponent(iri) + "/models/causalmf=2"
+      let gocams = "https://api.geneontology.xyz/gp/" + encodeURIComponent(iri) + "/models?causalmf=2"
       console.log("GO-CAM API to list models for ", this.props.geneId , ": ",  gocams);
       fetch(gocams)
       .then(data => {
