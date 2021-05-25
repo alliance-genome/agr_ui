@@ -453,9 +453,13 @@ class PathwayWidget extends Component {
               show-isolated-activity="true"
               show-legend="false"
             ></wc-gocam-viz>
-            <img src={gocamLegend} style={{"width" : "800px"}}/>
+            <img src={gocamLegend} style={{"width" : "600px"}}/>
             </div>
-            : <NoData/>
+            : <div>
+                <NoData/>
+                <br/><br/>
+                <p>Read more about the <ExternalLink href='http://geneontology.org/docs/gocam-overview/'>GO-CAM Data Model</ExternalLink>.</p>
+              </div>
             }
 
         {(this.state.gocams.loaded && this.state.gocams.list && this.state.gocams.list.length > 0)  ?
