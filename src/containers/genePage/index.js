@@ -79,8 +79,8 @@ const GenePage = ({geneId}) => {
   const genomeLocation = getSingleGenomeLocation(data.genomeLocations);
 
   // TODO: this name should come directly from the API
-  if (data.crossReferences['expression-atlas']) {
-    data.crossReferences['expression-atlas'].displayName = 'Expression Atlas';
+  if (data.crossReferenceMap['expression-atlas']) {
+    data.crossReferenceMap['expression-atlas'].displayName = 'Expression Atlas';
   }
 
   // manufacture a single cell atlas cross reference since this isn't stored
@@ -189,7 +189,7 @@ const GenePage = ({geneId}) => {
             otherExpressionCrossReferences={[
               data.crossReferenceMap.other_expression,
               singleCellAtlasXRef,
-              data.crossReferences['expression-atlas']
+              data.crossReferenceMap['expression-atlas']
             ]}
             spellCrossReference={data.crossReferenceMap.spell}
             wildtypeExpressionCrossReference={data.crossReferenceMap.wild_type_expression}
