@@ -85,21 +85,23 @@ const VariantPage = ({ variantId }) => {
     return null;
   }
 
-  const title = `${data.displayName} | ${data.species && data.species.name} allele`;
+  const variantSymbol = data.symbol || data.displayName || data.id;
+
+  const title = `${variantSymbol} | ${data.species && data.species.name} allele`;
 
   return (
     <DataPage>
       <HeadMetaTags title={title}/>
       <PageNav sections={SECTIONS}>
-        <PageNavEntity entityName={data.displayName} icon={<SpeciesIcon inNav scale={0.5} species={data.species && data.species.name} />} truncateName>
-          <DataSourceLink reference={data.crossReferenceMap.primary} />
+        <PageNavEntity entityName={variantSymbol} icon={<SpeciesIcon inNav scale={0.5} species={data.species && data.species.name} />} truncateName>
+          <DataSourceLink reference={data.crossReferences.primary} />
           {data.gene && <div>Variant overlaps <Link to={`/gene/${data.gene.id}`}><GeneSymbol gene={data.gene} /></Link></div>}
           <SpeciesName>{data.species && data.species.name}</SpeciesName>
         </PageNavEntity>
       </PageNav>
       <PageData>
         <PageCategoryLabel category='allele' />
-        <PageHeader>{data.displayName}</PageHeader>
+        <PageHeader>{variantSymbol}</PageHeader>
 
         <Subsection hideTitle title={SUMMARY}>
           <ErrorBoundary>

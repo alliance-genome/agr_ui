@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
-import { getSingleGenomeLocation } from '../../lib/utils';
 import {
   AttributeLabel,
   AttributeValue,
@@ -13,6 +12,7 @@ import ExternalLink from '../../components/ExternalLink';
 import DataSourceLink from '../../components/dataSourceLink';
 import { sectionAnchor } from './AlleleMolecularConsequences';
 import Sequence from './Sequence';
+import getVariantGenomeLocation from './getVariantGenomeLocation';
 
 function formatLocation(location) {
   const {chromosome = '', start = '', end = ''} = location || {};
@@ -21,6 +21,8 @@ function formatLocation(location) {
 
 const VariantSummary = ({variant}) => {
   const {
+    id: variantId,
+    symbol,
     species, // TODO (not available in API yet)
     displayName,
     variantType: type,
@@ -36,7 +38,8 @@ const VariantSummary = ({variant}) => {
     notes,
   } = variant || {};
 
-  const geneLocation = overlap && overlap.genomeLocations && getSingleGenomeLocation(overlap.genomeLocations); // TODO
+  const genomeLocation = getVariantGenomeLocation(variant);
+
   return (
     <>
       <AttributeLabel>Symbol</AttributeLabel>
@@ -44,12 +47,12 @@ const VariantSummary = ({variant}) => {
         {
           location &&
           <VariantJBrowseLink
-            geneLocation={geneLocation}
+            geneLocation={genomeLocation}
             location={location}
             species={species && species.name}
             type={type && type.name}
           >
-            <span className="text-break">{displayName}</span>
+            <span className="text-break">{symbol || displayName || variantId}</span>
           </VariantJBrowseLink>
         }
       </AttributeValue>

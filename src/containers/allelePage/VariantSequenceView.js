@@ -1,19 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import GenomeFeatureWrapper from '../genePage/genomeFeatureWrapper';
+import getVariantGenomeLocation from './getVariantGenomeLocation';
 
 const VariantSequenceView = ({ variant }) => {
 
-  const genomeLocations = variant.gene && variant.gene.genomeLocations;
-  const genomeLocation = genomeLocations && genomeLocations.length > 0 ? 
-    genomeLocations[0] :
-    {
-      // in case not overlapping a gene
-      ...variant.location,
-      start: Math.max(1, variant.location.start - 500),
-      end: variant.location.end + 500,
-    };
-
+  const genomeLocation = getVariantGenomeLocation(variant);
   let isoformFilter = [];
   if(variant.transcriptList){
     isoformFilter = variant.transcriptList.map(a => a.id.split(':').pop());
@@ -30,7 +22,7 @@ const VariantSequenceView = ({ variant }) => {
       fmax={fmax}
       fmin={fmin}
       geneSymbol={variant.symbol}
-      genomeLocationList={genomeLocations || []}
+      genomeLocationList={[genomeLocation]}
       height='200px'
       id='genome-feature-location-id'
       isoformFilter={isoformFilter}
