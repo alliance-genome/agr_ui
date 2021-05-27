@@ -86,7 +86,7 @@ const VariantPage = ({ variantId }) => {
   }
 
   const variantSymbol = data.symbol || data.displayName || data.id;
-
+  const reference = data.crossReferenceMap ? data.crossReferenceMap.primary : null;
   const title = `${variantSymbol} | ${data.species && data.species.name} allele`;
 
   return (
@@ -94,7 +94,7 @@ const VariantPage = ({ variantId }) => {
       <HeadMetaTags title={title}/>
       <PageNav sections={SECTIONS}>
         <PageNavEntity entityName={variantSymbol} icon={<SpeciesIcon inNav scale={0.5} species={data.species && data.species.name} />} truncateName>
-          <DataSourceLink reference={data.crossReferenceMap.primary} />
+          <DataSourceLink reference={reference} />
           {data.gene && <div>Variant overlaps <Link to={`/gene/${data.gene.id}`}><GeneSymbol gene={data.gene} /></Link></div>}
           <SpeciesName>{data.species && data.species.name}</SpeciesName>
         </PageNavEntity>
