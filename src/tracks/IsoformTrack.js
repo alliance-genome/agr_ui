@@ -1,16 +1,18 @@
 import * as d3 from "d3";
 import {findRange, checkSpace, calculateNewTrackPosition} from '../RenderFunctions';
+import {generateSnvPoints} from "../services/VariantService";
 import {ApolloService} from '../services/ApolloService';
 import {renderTrackDescription,getJBrowseLink} from "../services/TrackService";
 
 export default class IsoformTrack {
 
-    constructor(viewer, track, height, width, transcriptTypes) {
+    constructor(viewer, track, height, width, transcriptTypes, htpVariant) {
         this.trackData = {};
         this.viewer = viewer;
         this.width = width;
         this.height = height;
         this.transcriptTypes = transcriptTypes;
+        this.htpVariant = htpVariant;
         this.start = track["start"];
         this.end = track["end"];
     }
@@ -42,6 +44,7 @@ export default class IsoformTrack {
     // for both testing/extensibility
     DrawTrack() {
 
+        let htpVariant = this.htpVariant;
         let data = this.trackData;
         let viewer = this.viewer;
         let width = this.width;
@@ -75,10 +78,6 @@ export default class IsoformTrack {
             .domain([view_start, view_end])
             .range([0, width]);
 
-        // Calculate where this track should go and translate it
-        let newTrackPosition = calculateNewTrackPosition(this.viewer);
-        let track = viewer.append("g").attr('transform', 'translate(0,' + newTrackPosition + ')').attr("class", "track");
-
         //need to build a new sortWeight since these can be dynamic
         let sortWeight = {};
         for (let i = 0, len = UTR_feats.length; i < len; i++) {
@@ -109,6 +108,24 @@ export default class IsoformTrack {
           .style("opacity", 10)
           .style("visibility","hidden");
       };
+
+      if (htpVariant){
+
+        let variantContainer = viewer.append("g").attr("class", "variants track")
+          .attr("transform", "translate(0,22.5)");
+        let [chr,fmin] = htpVariant.split(':');
+        console.log('things',x(fmin));
+        variantContainer.append('polygon')
+          .attr('class', 'variant-SNV')
+          .attr('points', generateSnvPoints(x(fmin)))
+          .attr('fill', 'red')
+          .attr('x', x(fmin))
+          .attr('z-index', 30)
+      }
+
+      // Calculate where this track should go and translate it
+      let newTrackPosition = calculateNewTrackPosition(this.viewer);
+      let track = viewer.append("g").attr('transform', 'translate(0,' + newTrackPosition + ')').attr("class", "track");
 
 
         let row_count = 0;

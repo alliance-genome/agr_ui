@@ -32,6 +32,7 @@ function currentExamples(){
   createExample("8:57320983..57324517", "mouse", "viewerHand2Mouse", TRACK_TYPE.ISOFORM_AND_VARIANT, false,[],['ENSMUST00000185635']);
   createExample("9:42732992..42873700", "zebrafish", "viewerHighlightExample", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
   createCoVExample("NC_045512.2:17894..28259", "SARS-CoV-2", "covidExample1", TRACK_TYPE.ISOFORM, false);
+  createHTPExample("X:2023822..2042311", "fly", "viewerActnHTPFly", TRACK_TYPE.ISOFORM, false,[],'Actn','X:2037135');
 }
 
 function flyExamples() {
@@ -204,6 +205,38 @@ function createIsoformExample(range, genome, divId, type, showLabel, variantFilt
                     `${BASE_URL}/track/`,
                     "/All%20Genes/",
                     ".json"
+                ],
+            },
+        ]
+    };
+    new GenomeFeatureViewer(configGlobal1, `#${divId}`, 900, 500);
+}
+
+function createHTPExample(range, genome, divId, type, showLabel, variantFilter,geneSymbol,htpVariant) {
+
+    const chromosome = range.split(":")[0];
+    console.log(htpVariant);
+    const [start, end] = range.split(":")[1].split("..");
+    const ratio = 0.01;
+    let configGlobal1 = {
+        "locale": "global",
+        "chromosome": chromosome,
+        "start": start,
+        "end": end,
+        "transcriptTypes": getTranscriptTypes(),
+        "showVariantLabel": showLabel,
+        "geneSymbol": geneSymbol || '',
+        "variantFilter": variantFilter || [],
+        "htpVariant": htpVariant,
+        "tracks": [
+            {
+                "id": 12,
+                "genome": genome,
+                "type": type,
+                "url": [
+                    `${BASE_URL}/track/`,
+                    "/All%20Genes/",
+                    ".json?name=Actn&ignoreCache=true"
                 ],
             },
         ]

@@ -65,6 +65,7 @@ export default class Drawer {
         let chromosome = options["chromosome"];
         let variantFilter = options["variantFilter"] ? options["variantFilter"] : [];
         let isoformFilter = options["isoformFilter"] ? options["isoformFilter"] : [];
+        let htpVariant = options["htpVariant"] ? options["htpVariant"] : '';
         let start = sequenceOptions["start"];
         let end = sequenceOptions["end"];
 
@@ -113,7 +114,7 @@ export default class Drawer {
           }
           else if(track.type === TRACK_TYPE.ISOFORM)
             {
-                const isoformTrack = new IsoformTrack(viewer, track, height, width,transcriptTypes);
+                const isoformTrack = new IsoformTrack(viewer, track, height, width,transcriptTypes,htpVariant);
                 await isoformTrack.getTrackData(track);
                 track_height += isoformTrack.DrawTrack();
             }
