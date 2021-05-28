@@ -6,11 +6,8 @@ import getVariantGenomeLocation from './getVariantGenomeLocation';
 const VariantSequenceView = ({ variant }) => {
 
   const genomeLocation = getVariantGenomeLocation(variant);
-  let isoformFilter = [];
-  if(variant.transcriptList){
-    isoformFilter = variant.transcriptList.map(a => a.id.split(':').pop());
-  }
 
+  let htpVariant = `${variant.location.chromosome}:${variant.location.start}`;
   const fmin = Math.min(genomeLocation.start, variant.location.start);
   const fmax = Math.max(genomeLocation.end, variant.location.end);
   return (
@@ -18,14 +15,14 @@ const VariantSequenceView = ({ variant }) => {
       assembly={genomeLocation.assembly}
       biotype='gene'
       chromosome={genomeLocation.chromosome}
-      displayType='ISOFORM_AND_VARIANT'
+      displayType='ISOFORM'
       fmax={fmax}
       fmin={fmin}
-      geneSymbol={variant.symbol}
+      geneSymbol={variant.gene.symbol}
       genomeLocationList={[genomeLocation]}
       height='200px'
       id='genome-feature-location-id'
-      isoformFilter={isoformFilter}
+      htpVariant={htpVariant}
       primaryId={variant.id}
       species={variant.species && variant.species.taxonId}
       strand={genomeLocation.strand}
