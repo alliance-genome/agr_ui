@@ -79,7 +79,7 @@ class GenomeFeatureWrapper extends Component {
       '&loc=' + encodeURIComponent(externalLocationString);
   }
 
-  generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, variantFilter, displayType,isoformFilter) {
+  generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, variantFilter, displayType,isoformFilter,htpVariant) {
     let transcriptTypes = getTranscriptTypes();
     const speciesInfo = getSpecies(species);
     const apolloPrefix = speciesInfo.apolloName;
@@ -95,6 +95,7 @@ class GenomeFeatureWrapper extends Component {
         'start': fmin,
         'end': fmax,
         'transcriptTypes': transcriptTypes,
+        'htpVariant': htpVariant ? htpVariant : '',
         'tracks': [
           {
             'id': 1,
@@ -146,7 +147,7 @@ class GenomeFeatureWrapper extends Component {
   }
 
   loadGenomeFeature() {
-    const {chromosome, fmin, fmax, species, id, primaryId, geneSymbol, displayType, synonyms = [], visibleVariants,isoformFilter} = this.props;
+    const {chromosome, fmin, fmax, species, id, primaryId, geneSymbol, displayType, synonyms = [], visibleVariants,isoformFilter,htpVariant} = this.props;
 
     // provide unique names
     let nameSuffix = [geneSymbol, ...synonyms, primaryId].filter((x, i, a) => a.indexOf(x) === i).map(x => encodeURI(x));
@@ -173,7 +174,7 @@ class GenomeFeatureWrapper extends Component {
     // [1] should be track name : ALL_Genes
     // [2] should be track name : name suffix string
     // const visibleVariants = allelesVisible && allelesVisible.length>0 ? allelesVisible.map( a => a.id ) : undefined;
-    const trackConfig = this.generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, visibleVariants, displayType,isoformFilter);
+    const trackConfig = this.generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, visibleVariants, displayType,isoformFilter,htpVariant);
     this.gfc = new GenomeFeatureViewer(trackConfig, `#${id}`, 900, undefined);
     this.setState({
       helpText: this.gfc.generateLegend()
@@ -246,6 +247,7 @@ GenomeFeatureWrapper.propTypes = {
   geneSymbol: PropTypes.string.isRequired,
   genomeLocationList: PropTypes.array,
   height: PropTypes.string,
+  htpVariant: PropTypes.string,
   id: PropTypes.string,
   isoformFilter: PropTypes.array,
   primaryId: PropTypes.string,
