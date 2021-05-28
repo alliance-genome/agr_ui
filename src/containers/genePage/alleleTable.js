@@ -287,7 +287,9 @@ const AlleleTable = ({geneId}) => {
           null :
           variantsSequenceViewerProps.hasVariants ?
             <VariantsSequenceViewer {...variantsSequenceViewerProps} /> :
-            <NoData>No mapped variant information available</NoData>
+            hasAlleles ?
+              <NoData>No mapped variant information available</NoData> :
+              null /* in this case, the whole section is empty, and default no data message kicks in */
       }
       <div className="position-relative">
         <DataTable
