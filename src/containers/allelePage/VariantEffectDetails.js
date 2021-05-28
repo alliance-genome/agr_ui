@@ -96,7 +96,7 @@ const VariantEffectDetails = ({
       <AttributeLabel>Molecular Consequence</AttributeLabel>
       <AttributeValue>
         <CollapsibleList collapsedSize={5}>
-          {molecularConsequence.split(',').map(consequenceText => consequenceText.replace(/_/g, ' '))}
+          {(molecularConsequence || []).map(consequenceText => consequenceText.replace(/_/g, ' '))}
         </CollapsibleList>
       </AttributeValue>
 
