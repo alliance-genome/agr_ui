@@ -58,6 +58,10 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     sizePerPage: 25,
   });
   const { isLoading } = tableQuery;
+  const data = tableQuery.data.map((row) => ({
+    ...row,
+    key: `${row.allele.id}-${row.consequence && row.consequence.transcriptID}`,
+  }));
   const columns = [
     {
       text: 'Allele / Variant Symbol',
@@ -279,12 +283,36 @@ const GeneAlleleDetailsTable = ({geneId}) => {
       fmin: fmin,
       fmax: fmax,
       hasVariants: isLoading ? undefined : Boolean(variants && variants.length),
-      allelesSelected: [],
+      allelesSelected: alleleIdsSelected.map(formatAllele),
       allelesVisible: allelesFiltered.data ? allelesFiltered.data.results.map(({allele}) => formatAllele(allele.id)) : [],
       onAllelesSelect: setAlleleIdsSelected,
     };
   }, [isLoading, allelesFiltered.data, alleleIdsSelected, setAlleleIdsSelected]);
 
+  const selectRow = useMemo(() => {
+    const rowsSelected = data.filter(row => alleleIdsSelected.indexOf(row.allele.id) > -1);
+    return ({
+      mode: 'checkbox',
+      clickToSelect: true,
+      hideSelectColumn: true,
+      selected: rowsSelected.map(row => row.key),
+      onSelect: (row) => {
+        const alleleIdRow = row.allele.id;
+        setAlleleIdsSelected(alleleIdsSelectedPrev => {
+          if (alleleIdsSelectedPrev.includes(alleleIdRow)) {
+            const indexAlleleId = alleleIdsSelectedPrev.indexOf(alleleIdRow);
+            return [
+              ...alleleIdsSelectedPrev.slice(0, indexAlleleId),
+              ...alleleIdsSelectedPrev.slice(indexAlleleId + 1)
+            ];
+          } else {
+            return [...alleleIdsSelectedPrev, alleleIdRow];
+          }
+        });
+      },
+      style: { backgroundColor: '#ffffd4' },
+    });
+  }, [data, alleleIdsSelected, setAlleleIdsSelected]);
 
   return (
     <>
@@ -301,10 +329,12 @@ const GeneAlleleDetailsTable = ({geneId}) => {
       <ErrorBoundary>
         <DataTable
           {...tableQuery}
+          data={data}
           columns={columns}
           downloadUrl={`/api/gene/${geneId}/allele-variant-detail/download`}
+          selectRow={selectRow}
           sortOptions={sortOptions}
-          keyField='id'
+          keyField='key'
         />
       </ErrorBoundary>
     </>
