@@ -251,7 +251,8 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     sizePerPage: 1000,
   }), [tableQuery.tableState]);
   const allelesFiltered = useQuery([baseUrl, tableStateAlleleFiltered], () => {
-    return fetchData(getTableUrl(baseUrl, tableStateAlleleFiltered));
+    const nonHTPCategories = ['allele', 'allele with multiple associated variants', 'allele with one associated variant'];
+    return fetchData(getTableUrl(`${baseUrl}?filter.alleleCategory=${encodeURIComponent(nonHTPCategories.join('|'))}`, tableStateAlleleFiltered));
   });
   const variantsSequenceViewerProps = useMemo(() => {
 
