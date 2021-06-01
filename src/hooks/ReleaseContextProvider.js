@@ -6,16 +6,35 @@ import fetchData from '../lib/fetchData';
 const ReleaseContext = createContext();
 
 const ReleaseContextProvider = ({children}) => {
-  const devServerAPIHostname = process.env.NODE_ENV === 'production' ? '' :
-    (process.env.API_URL || '').replace(/https?:\/\//, '');
-  const [host] = (devServerAPIHostname || window.location.hostname).split('.');
-  const releaseUrl = `https://fms.alliancegenome.org/api/releaseversion/current?host=${host}`;
+  const releaseUrl = '/api/releaseInfo/summary';
 
   const {
     data,
     isLoading,
     isError,
   } = useQuery([releaseUrl], () => {
+  /*
+    return {
+      'releaseInfo': {
+        'releaseDate': null,
+        'releaseVersion': '4.1.0',
+        'snapShotDate': null
+      },
+      'metaData': [
+        {
+          'date_produced': null,
+          'mod': 'TAGS',
+          'release': 'NotSpecified',
+          'type': 'HTP'
+        },
+        {
+          'date_produced': null,
+          'mod': 'SGD',
+          'release': 'SGD 1.0.1.4 2021-01-21',
+          'type': 'BGI'
+        },
+      ]
+    }; */
     return fetchData(releaseUrl);
   });
 
