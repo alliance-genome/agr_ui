@@ -10,7 +10,8 @@ const ReleaseBanner = () => {
     isError,
   } = useRelease();
 
-  const { releaseVersion, releaseDate } = data || {};
+  const { releaseInfo } = data || {};
+  const { releaseVersion, releaseDate } = releaseInfo || {};
 
   return isLoading ? <LoadingSpinner /> : 
     (
