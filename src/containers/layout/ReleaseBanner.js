@@ -11,15 +11,12 @@ const ReleaseBanner = () => {
   } = useRelease();
 
   const { releaseInfo } = data || {};
-  const { releaseVersion, releaseDate } = releaseInfo || {};
+  const { releaseVersion } = releaseInfo || {};
 
   return isLoading ? <LoadingSpinner /> : 
     (
       <small className="text-secondary">
         Version: {isError ? 'Unknown' : releaseVersion}
-        <span className="d-none d-md-block">
-          Released on {releaseDate ? new Date(releaseDate).toLocaleDateString('en-US', {dateStyle: 'medium'}) : 'Unknown'}
-        </span>
       </small>
     );
 };
