@@ -4,8 +4,10 @@ import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPa
 import BasicGeneInfo from './basicGeneInfo';
 import { OrthologyFilteredTable, OrthologyUserGuide, OrthologyBasicInfo } from '../../components/orthology';
 import GoUserGuide from '../../components/geneOntologyRibbon/goUserGuide';
+import PathwayUserGuide from '../../components/pathway/pathwayUserGuide';
 
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
+import PathwayWidget from '../../components/pathway/pathwayWidget';
 import NotFound from '../../components/notFound';
 import Subsection from '../../components/subsection';
 import AlleleTable from './alleleTable';
@@ -40,6 +42,7 @@ import SpeciesName from '../../components/SpeciesName';
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
 const FUNCTION = 'Function - GO Annotations';
+const PATHWAY = 'Pathways';
 const ORTHOLOGY = 'Orthology';
 const DISEASE = 'Disease Associations';
 const EXPRESSION = 'Expression';
@@ -54,6 +57,7 @@ const SECTIONS = [
   {name: SUMMARY},
   {name: ORTHOLOGY},
   {name: FUNCTION},
+  {name: PATHWAY},
   {name: PHENOTYPES},
   {name: DISEASE},
   {name: ALLELES},
@@ -127,6 +131,14 @@ const GenePage = ({geneId}) => {
           />
         </Subsection>
 
+        <Subsection help={<PathwayUserGuide />} t title={PATHWAY}>
+          <PathwayWidget
+            geneId={data.id}
+            geneSpecies={data.species}
+            geneSymbol={data.symbol}
+          />
+        </Subsection>
+        
         <Subsection title={PHENOTYPES}>
           <PhenotypeCrossRefs
             primary={[
