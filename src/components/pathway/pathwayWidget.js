@@ -19,7 +19,7 @@ import NoData from '../noData';
 import * as cutils from "@geneontology/curie-util-es5";
 import ExternalLink from '../ExternalLink';
 
-import gocamLegend from './legendv2.png';
+import gocamLegend from './pathwayLegend.png';
 
 const GO_CONTEXT_LD = "https://raw.githubusercontent.com/prefixcommons/biocontext/master/registry/go_context.jsonld"
 const REACTOME_PATHWAY_BROWSER = "https://reactome.org/PathwayBrowser/#/";
