@@ -45,7 +45,7 @@ const DiseaseToModelTable = ({id}) => {
       ),
       filterable: true,
       filterName: 'modelName',
-      headerStyle: {width: '105px'},
+      headerStyle: {width: '280px'},
     },
     {
       dataField: 'species',
