@@ -191,7 +191,8 @@ export const getURLForEntry = (category, id, alterationType) => {
 };
 
 export function getLinkForEntry(entry) {
-  const inner = <span dangerouslySetInnerHTML={{ __html: entry.display_name }} />;
+  const entryText = entry.variant ? entry.variant.name : entry.display_name;
+  const inner = <span dangerouslySetInnerHTML={{ __html: entryText }} />;
   const url = entry.alterationType ? getURLForEntry(entry.category , entry.id, entry.alterationType) : getURLForEntry(entry.category, entry.id);
   if (url) {
     return <Link to={url}>{inner}</Link>;
