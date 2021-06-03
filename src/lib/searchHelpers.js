@@ -116,6 +116,8 @@ export function makeFieldDisplayName(unformattedName, category = '') {
     return 'Symbol';
   case 'variantType':
     return 'Variant Type';
+  case 'variant.name':
+    return 'Variant Name';
   case 'alterationType':
     return 'Category\u00a0'; //non breaking whitespace char in order to avoid conflict with higher level category value
   default:
@@ -191,7 +193,13 @@ export const getURLForEntry = (category, id, alterationType) => {
 };
 
 export function getLinkForEntry(entry) {
-  const inner = <span dangerouslySetInnerHTML={{ __html: entry.display_name }} />;
+  let entryText;
+  if(entry.category === 'allele' && entry.alterationType === 'variant'){
+    entryText = entry.variant.name;
+  } else{
+    entryText = entry.display_name;
+  }
+  const inner = <span dangerouslySetInnerHTML={{ __html: entryText }} />;
   const url = entry.alterationType ? getURLForEntry(entry.category , entry.id, entry.alterationType) : getURLForEntry(entry.category, entry.id);
   if (url) {
     return <Link to={url}>{inner}</Link>;
