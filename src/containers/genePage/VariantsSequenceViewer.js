@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import GenomeFeatureWrapper from './genomeFeatureWrapper';
 import { getSingleGenomeLocation } from '../../lib/utils';
 
-const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisible }) => {
+const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisible, onAllelesSelect }) => {
 
   const genomeLocationList = gene.genomeLocations;
   const genomeLocation = getSingleGenomeLocation(genomeLocationList);
@@ -17,26 +17,36 @@ const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisi
     return null;
   }
 
+  const handleClick = useCallback(
+    () => {
+      onAllelesSelect(['WB:WBVar02150064']);
+    },
+    [onAllelesSelect]
+  );
+
   return (
-    <GenomeFeatureWrapper
-      allelesSelected={allelesSelected}
-      assembly={genomeLocation.assembly}
-      biotype={gene.soTermName}
-      chromosome={genomeLocation.chromosome}
-      displayType='ISOFORM_AND_VARIANT'
-      fmax={fmax}
-      fmin={fmin}
-      geneSymbol={gene.symbol}
-      genomeLocationList={genomeLocationList}
-      height='200px'
-      id='genome-feature-allele-location-id'
-      primaryId={gene.id}
-      species={gene.species.taxonId}
-      strand={genomeLocation.strand}
-      synonyms={gene.synonyms}
-      visibleVariants={allelesVisible.map(a => a.id)}
-      width='600px'
-    />
+    <>
+      <button onClick={handleClick}>Click me</button>
+      <GenomeFeatureWrapper
+        allelesSelected={allelesSelected}
+        assembly={genomeLocation.assembly}
+        biotype={gene.soTermName}
+        chromosome={genomeLocation.chromosome}
+        displayType='ISOFORM_AND_VARIANT'
+        fmax={fmax}
+        fmin={fmin}
+        geneSymbol={gene.symbol}
+        genomeLocationList={genomeLocationList}
+        height='200px'
+        id='genome-feature-allele-location-id'
+        primaryId={gene.id}
+        species={gene.species.taxonId}
+        strand={genomeLocation.strand}
+        synonyms={gene.synonyms}
+        visibleVariants={allelesVisible.map(a => a.id)}
+        width='600px'
+      />
+    </>
   );
 };
 
