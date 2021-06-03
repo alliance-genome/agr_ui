@@ -116,7 +116,7 @@ export function makeFieldDisplayName(unformattedName, category = '') {
     return 'Symbol';
   case 'variantType':
     return 'Variant Type';
-  case 'variants':
+  case 'variant.name':
     return 'Variant Name';
   case 'alterationType':
     return 'Category\u00a0'; //non breaking whitespace char in order to avoid conflict with higher level category value
