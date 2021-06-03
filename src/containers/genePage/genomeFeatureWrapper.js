@@ -15,6 +15,7 @@ import HorizontalScroll from '../../components/horizontalScroll';
 import HelpPopup from '../../components/helpPopup';
 import isEqual from 'lodash.isequal';
 import CommaSeparatedList from '../../components/commaSeparatedList';
+import {select} from 'd3-selection';
 
 import style from './style.scss';
 import {
@@ -37,8 +38,30 @@ class GenomeFeatureWrapper extends Component {
 
     this.trackDataUrl = APOLLO_SERVER_PREFIX + 'track/';
     this.variantDataUrl = APOLLO_SERVER_PREFIX + 'vcf/';
+    this.handleClick = this.handleClick.bind(this);
   }
 
+  handleClick() {
+
+    const {id}= event.target;
+    //Disable for non-variant elements
+    if(!id || id === `${this.props.id}`){return;}
+    let clickedAlleles = select(`#${this.props.id}`).select(`#${id}`).data()[0].alleles;
+    let currentAlleles = this.props.allelesSelected.map( a => a.id);
+    //If one or more clicked alleles are currently selected.
+    if(currentAlleles.filter(d => clickedAlleles.includes(d)).length > 0){
+      clickedAlleles.forEach(function(element){
+        let index = currentAlleles.indexOf(element);
+        if (index !== -1) {
+          currentAlleles.splice(index, 1);
+        }
+      });
+      this.props.onAllelesSelect(currentAlleles);
+    }
+    else{
+      this.props.onAllelesSelect(clickedAlleles.concat(currentAlleles));
+    }
+  }
 
   componentDidMount() {
     this.loadGenomeFeature();
@@ -209,7 +232,7 @@ class GenomeFeatureWrapper extends Component {
 
         <HorizontalScroll width={960}>
           <div>
-            <svg id={id}>
+            <svg id={id} onClick={this.handleClick}>
               <LoadingSpinner/>
             </svg>
           </div>
@@ -256,6 +279,7 @@ GenomeFeatureWrapper.propTypes = {
   synonyms: PropTypes.array,
   visibleVariants: PropTypes.array,
   width: PropTypes.string,
+  onAllelesSelect: PropTypes.func,
 
 };
 
