@@ -122,7 +122,7 @@ class PathwayWidget extends Component {
     // let reactomePathways = this.getReactomePathways(this.state.uniprot.id);
     let reactomePathways = this.getReactomePathways(dbname, dbid);
     reactomePathways.then(pathwaysData => {
-      console.log("load pathway list: ", pathwaysData);
+      // console.log("load pathway list: ", pathwaysData);
       this.setState({ reactomePathways: { loaded : true, error : false, selected : pathwaysData.length > 0 ? pathwaysData[0].stId : undefined, pathways: pathwaysData }}, () => {
         if(this.state.reactomePathways.selected) {
           this.loadReactomeDiagram(this.state.reactomePathways.selected);
@@ -181,11 +181,11 @@ class PathwayWidget extends Component {
         iri = iri.replace("/mgi/", "/mgi/MGI:");
       }
 
-      console.log("cutils: iri ", iri);
+      // console.log("cutils: iri ", iri);
 
       // new query parameter to indicate we want models with at least 2 causal MFs
       let gocams = "https://api.geneontology.xyz/gp/" + encodeURIComponent(iri) + "/models?causalmf=2"
-      console.log("GO-CAM API to list models for ", this.props.geneId , ": ",  gocams);
+      // console.log("GO-CAM API to list models for ", this.props.geneId , ": ",  gocams);
       fetch(gocams)
       .then(data => {
         return data.json();
@@ -231,7 +231,7 @@ class PathwayWidget extends Component {
           "height": 600
         })
         this.reactomePathwayDiagram.loadDiagram(pathwayId);
-        console.log("REACTOME PATHWAY: ", this.reactomePathwayDiagram);    
+        // console.log("REACTOME PATHWAY: ", this.reactomePathwayDiagram);    
       })()
     } else {
       this.reactomePathwayDiagram.loadDiagram(pathwayId);
@@ -247,7 +247,7 @@ class PathwayWidget extends Component {
    */
   getUniProtID(modID) {
     let query = "http://mygene.info/v3/query?q=" + modID + "&fields=uniprot";
-    console.log("Get Uniprot ID: ", query);
+    // console.log("Get Uniprot ID: ", query);
     return fetchData(query);
   }
 
@@ -259,7 +259,7 @@ class PathwayWidget extends Component {
     if(dbName == "WB") { dbName = "Wormbase"}
     if(dbName == "FB") { dbName = "Flybase" }
     let query = "https://reactome.org/ContentService/data/mapping/" + dbName + "/" + dbId + "/pathways"
-    console.log("REACTOME query: ", query);
+    // console.log("REACTOME query: ", query);
     return fetchData(query);
   }
 
@@ -283,10 +283,10 @@ class PathwayWidget extends Component {
    * @param {*} event 
    */
   pathwayChanged(event) {
-    console.log("pathway changed: ", event , event.target.value);
+    // console.log("pathway changed: ", event , event.target.value);
     let item = {...this.state.reactomePathways, selected : event.target.value};
     this.setState({ reactomePathways: item }, () => {
-      console.log("selected pathway: ", this.state.reactomePathways);
+      // console.log("selected pathway: ", this.state.reactomePathways);
       this.loadReactomeDiagram(this.state.reactomePathways.selected);
     })
   }
@@ -296,18 +296,18 @@ class PathwayWidget extends Component {
    * @param {*} event 
    */
   reactionChanged(event) {
-    console.log("reaction changed: ", event , event.target.value);
+    // console.log("reaction changed: ", event , event.target.value);
     let item = {...this.state.reactomeReactions, selected : event.target.value, src: REACTOME_API_REACTIONS + event.target.value + ".svg"};
     this.setState({ reactomeReactions: item}, () => {
-      console.log("selected reaction: ", this.state.reactomeReactions);     
+      // console.log("selected reaction: ", this.state.reactomeReactions);     
     })
   }
 
   gocamChanged(event) {
-    console.log("reaction changed: ", event , event.target.value);
+    // console.log("reaction changed: ", event , event.target.value);
     let item = {...this.state.gocams, selected : event.target.value };
     this.setState({ gocams: item}, () => {
-      console.log("selected gocam: ", this.state.gocams);     
+      // console.log("selected gocam: ", this.state.gocams);     
     })
   }
 
@@ -333,8 +333,8 @@ class PathwayWidget extends Component {
    * Main rendering method
    */
   render() {
-    console.log("state: ", this.state);
-    console.log("props:" , this.props);
+    // console.log("state: ", this.state);
+    // console.log("props:" , this.props);
 
     return (      
       <div>
@@ -364,7 +364,6 @@ class PathwayWidget extends Component {
   renderReactomePathway() {
     let rpstyles = (this.state.selectedTab && this.state.selectedTab == "ReactomePathway") ? { } : { "display": "none" }
 
-    console.log("state", this.state);
     return (
       <HorizontalScroll className='text-nowrap'>
       <div id="reactomePathway" style={rpstyles}>
