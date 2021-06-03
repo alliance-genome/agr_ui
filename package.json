@@ -12,6 +12,8 @@
   },
   "private": true,
   "dependencies": {
+    "@geneontology/curie-util-es5": "^1.2.4",
+    "@geneontology/wc-gocam-viz": "0.0.41",
     "@geneontology/wc-ribbon-strips": "0.0.37",
     "@geneontology/wc-ribbon-table": "0.0.57",
     "abortcontroller-polyfill": "^1.5.0",

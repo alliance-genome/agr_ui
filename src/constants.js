@@ -160,7 +160,7 @@ export const NAV_MENU = [
     sub: [
       {
         label: 'Alliance User Community',
-        route: 'https://groups.google.com/a/alliancegenome.org/g/community',
+        route: 'https://community.alliancegenome.org/categories',
       },
       {
         label: 'Twitter',
