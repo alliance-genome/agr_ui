@@ -191,7 +191,12 @@ export const getURLForEntry = (category, id, alterationType) => {
 };
 
 export function getLinkForEntry(entry) {
-  const entryText = entry.variant ? entry.variant.name : entry.display_name;
+  let entryText;
+  if(entry.category === 'allele' && entry.alterationType === 'variant'){
+    entryText = entry.variant.name;
+  } else{
+    entryText = entry.display_name;
+  }
   const inner = <span dangerouslySetInnerHTML={{ __html: entryText }} />;
   const url = entry.alterationType ? getURLForEntry(entry.category , entry.id, entry.alterationType) : getURLForEntry(entry.category, entry.id);
   if (url) {
