@@ -131,7 +131,7 @@ const GenePage = ({geneId}) => {
           />
         </Subsection>
 
-        <Subsection help={<PathwayUserGuide />} t title={PATHWAY}>
+        <Subsection help={<PathwayUserGuide />} title={PATHWAY}>
           <PathwayWidget
             geneId={data.id}
             geneSpecies={data.species}
