@@ -366,27 +366,28 @@ class PathwayWidget extends Component {
 
     return (
       <HorizontalScroll className='text-nowrap'>
-      <div id="reactomePathway" style={rpstyles}>
-        {(this.state.reactomePathways.loaded && !this.state.reactomePathways.error && this.state.reactomePathways.pathways && this.state.reactomePathways.pathways.length > 0) ?
-          <div style={{ "padding": "1rem 0.2rem" }}>
-            <span style={{ "paddingRight": "1rem"}}>Available pathways: </span>
-            <select id="pathwaySelect" value={this.state.reactomePathways.selected} onChange={(evt) => this.pathwayChanged(evt) } style={{ "minWidth": "1130px" }}>
-              {this.state.reactomePathways.pathways.map(elt => {
-                return <option value={elt.stId}>{elt.displayName}</option>
-              })}
-            </select>
-          </div>
-        : <NoData/> }
-        <div id="reactomePathwayHolder"></div>
-        
-        {(this.state.reactomePathways.loaded && !this.state.reactomePathways.error && this.state.reactomePathways.pathways.length > 0) ?
-        <div>
-          <ExternalLink href={REACTOME_PATHWAY_BROWSER + this.state.reactomePathways.selected}>Open in Reactome Pathway</ExternalLink> 
-          { !this.isHumanGene() ? <span style={{ "display": "inline-block", "text-align": "right", "width": "80%", "font-style": "italic" }}>Computationally inferred by Orthology</span> : "" }
-        </div>
-        : "" }
+        <div id="reactomePathway" style={rpstyles}>
+            {(this.state.reactomePathways.loaded && !this.state.reactomePathways.error && this.state.reactomePathways.pathways && this.state.reactomePathways.pathways.length > 0) ?
+            <div style={{ "padding": "1rem 0.2rem" }}>
+                <span style={{ "paddingRight": "1rem"}}>Available pathways: </span>
+                <select id="pathwaySelect" value={this.state.reactomePathways.selected} onChange={(evt) => this.pathwayChanged(evt) } style={{ "minWidth": "1130px" }}>
+                {this.state.reactomePathways.pathways.map(elt => {
+                    return <option value={elt.stId}>{elt.displayName}</option>
+                })}
+                </select>
+            </div>
+            : <NoData/> }
 
-      </div>
+            <div id="reactomePathwayHolder" style={{ "max-width": "1280px" }}></div>
+            
+            {(this.state.reactomePathways.loaded && !this.state.reactomePathways.error && this.state.reactomePathways.pathways.length > 0) ?
+            <div>
+            <ExternalLink href={REACTOME_PATHWAY_BROWSER + this.state.reactomePathways.selected}>Open in Reactome Pathway</ExternalLink> 
+            { !this.isHumanGene() ? <span style={{ "display": "inline-block", "text-align": "right", "width": "80%", "font-style": "italic" }}>Computationally inferred by Orthology</span> : "" }
+            </div>
+            : "" }
+
+        </div>
       </HorizontalScroll>
     )
   }
@@ -395,28 +396,28 @@ class PathwayWidget extends Component {
     let rrstyles = (this.state.selectedTab && this.state.selectedTab == "ReactomeReactions") ? { } : { "display": "none" }
     return (
       <HorizontalScroll className='text-nowrap'>
-      <div id="reactomeReaction" style={rrstyles}>
-        {(this.state.reactomeReactions.loaded && !this.state.reactomeReactions.error && this.state.reactomeReactions.reactions && this.state.reactomeReactions.reactions.length > 0) ?
-          <div style={{ "padding": "1rem 0.2rem" }}>
-            <span style={{ "paddingRight": "1rem"}}>Available reactions: </span>
-            <select id="reactionSelect" value={this.state.reactomeReactions.selected} onChange={(evt) => this.reactionChanged(evt) } style={{ "minWidth": "1120px" }}>
-                {this.state.reactomeReactions.reactions.map(elt => {
-                  return <option value={elt.stId}>{elt.displayName}</option>
-                })}
-              </select>
-          </div>
-          : <NoData/> }
-        <img id="reactomeReactionHolder" src={this.state.reactomeReactions.src}/>
+        <div id="reactomeReaction" style={rrstyles}>
+            {(this.state.reactomeReactions.loaded && !this.state.reactomeReactions.error && this.state.reactomeReactions.reactions && this.state.reactomeReactions.reactions.length > 0) ?
+            <div style={{ "padding": "1rem 0.2rem" }}>
+                <span style={{ "paddingRight": "1rem"}}>Available reactions: </span>
+                <select id="reactionSelect" value={this.state.reactomeReactions.selected} onChange={(evt) => this.reactionChanged(evt) } style={{ "minWidth": "1130px" }}>
+                    {this.state.reactomeReactions.reactions.map(elt => {
+                    return <option value={elt.stId}>{elt.displayName}</option>
+                    })}
+                </select>
+            </div>
+            : <NoData/> }
 
-        
-        {(this.state.reactomeReactions.loaded && this.state.reactomeReactions.reactions && this.state.reactomeReactions.reactions.length > 0)  ?
-        <div>
-          <ExternalLink href={REACTOME_REACTION_BROWSER + this.state.reactomeReactions.selected}>Open in Reactome Reaction</ExternalLink>
-          { !this.isHumanGene() ? <span style={{ "display": "inline-block", "text-align": "right", "width": "80%", "font-style": "italic" }}>Computationally inferred by Orthology</span> : "" }
+            <img id="reactomeReactionHolder" src={this.state.reactomeReactions.src} style={{ "max-width": "1305px" }}/>
+
+            {(this.state.reactomeReactions.loaded && this.state.reactomeReactions.reactions && this.state.reactomeReactions.reactions.length > 0)  ?
+            <div>
+            <ExternalLink href={REACTOME_REACTION_BROWSER + this.state.reactomeReactions.selected}>Open in Reactome Reaction</ExternalLink>
+            { !this.isHumanGene() ? <span style={{ "display": "inline-block", "text-align": "right", "width": "80%", "font-style": "italic" }}>Computationally inferred by Orthology</span> : "" }
+            </div>
+            : "" }
+
         </div>
-        : "" }
-
-      </div>
       </HorizontalScroll>
     )
   }
@@ -425,45 +426,46 @@ class PathwayWidget extends Component {
     let gocstyles = (this.state.selectedTab && this.state.selectedTab == "MODPathways") ? { } : { "display": "none" }
     return (      
       <HorizontalScroll className='text-nowrap'>
-      <div id="modPathway" style={gocstyles}>
+        <div id="modPathway" style={gocstyles}>
 
-          {(this.state.gocams.loaded && this.state.gocams.list && this.state.gocams.list.length > 0) ?
-            <div style={{ "padding": "1rem 0.2rem" }}>
-              <span style={{ "paddingRight": "1rem"}}>Available GO-CAMs: </span>
-              <select id="modPathwaySelect" value={this.state.gocams.selected} onChange={(evt) => this.gocamChanged(evt) } style={{ "minWidth": "1113px" }}>
-                  {this.state.gocams.list.map(elt => {
-                    return <option value={elt.gocam}>{elt.title}</option>
-                  })}
-              </select>
-            </div>        
-          : ""}
+            {(this.state.gocams.loaded && this.state.gocams.list && this.state.gocams.list.length > 0) ?
+                <div style={{ "padding": "1rem 0.2rem" }}>
+                <span style={{ "paddingRight": "1rem"}}>Available GO-CAMs: </span>
+                <select id="modPathwaySelect" value={this.state.gocams.selected} onChange={(evt) => this.gocamChanged(evt) } style={{ "minWidth": "1130px" }}>
+                    {this.state.gocams.list.map(elt => {
+                        return <option value={elt.gocam}>{elt.title}</option>
+                    })}
+                </select>
+                </div>        
+            : ""}
 
-          {(this.state.gocams.loaded && this.state.gocams.list && this.state.gocams.list.length > 0 && (this.state.selectedTab && this.state.selectedTab == "MODPathways")) ?  
-          <div>
-            <wc-gocam-viz 
-              id="gocam-1"
-              repository="prod"
-              gocam-id={this.state.cutils.getCurie(this.state.gocams.selected)}
-              show-go-cam-selector="false"
-              show-has-input="false"
-              show-has-output="false"
-              show-gene-product="true"
-              show-activity="false"
-              show-isolated-activity="true"
-              show-legend="false"
-            ></wc-gocam-viz>
-            <img src={gocamLegend} style={{"width" : "600px"}}/>
-            </div>
-            : <div>
-                <NoData/>
-                <br/><br/>
-                <p>Read more about the <ExternalLink href='http://geneontology.org/docs/gocam-overview/'>GO-CAM Data Model</ExternalLink>.</p>
-              </div>
-            }
+            {(this.state.gocams.loaded && this.state.gocams.list && this.state.gocams.list.length > 0 && (this.state.selectedTab && this.state.selectedTab == "MODPathways")) ?  
+            <div>
+                <wc-gocam-viz 
+                    id="gocam-1"
+                    repository="prod"
+                    gocam-id={this.state.cutils.getCurie(this.state.gocams.selected)}
+                    show-go-cam-selector="false"
+                    show-has-input="false"
+                    show-has-output="false"
+                    show-gene-product="true"
+                    show-activity="false"
+                    show-isolated-activity="true"
+                    show-legend="false"
+                    style={{ "max-width": "1280px" }}
+                ></wc-gocam-viz>
+                <img src={gocamLegend} style={{"width" : "600px"}}/>
+                </div>
+                : <div>
+                    <NoData/>
+                    <br/><br/>
+                    <p>Read more about the <ExternalLink href='http://geneontology.org/docs/gocam-overview/'>GO-CAM Data Model</ExternalLink>.</p>
+                </div>
+                }
 
-        {(this.state.gocams.loaded && this.state.gocams.list && this.state.gocams.list.length > 0)  ?
-        <ExternalLink href={this.state.gocams.selected}>Open in Noctua GO-CAM</ExternalLink> : "" }
-      </div>
+            {(this.state.gocams.loaded && this.state.gocams.list && this.state.gocams.list.length > 0)  ?
+            <ExternalLink href={this.state.gocams.selected}>Open in Noctua GO-CAM</ExternalLink> : "" }
+        </div>
       </HorizontalScroll>
     )
   }
