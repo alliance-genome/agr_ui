@@ -316,10 +316,15 @@ export function getVariantDescriptions(variant){
 
 export function getVariantAlleles(variant){
   let returnObj=[];
-
   variant.variants.forEach((val) => {
     let allele = val.allele_ids.values[0].replace(/"/g,"");
-    returnObj.push(allele);
+    if(allele.split(',').length>1){
+      allele.split(',').forEach((val2) => {
+        returnObj.push(val2.replace(/\[|\]| /g,""))})
+    }
+    else{
+      returnObj.push(allele);
+    }
   });
   return returnObj;
 }
