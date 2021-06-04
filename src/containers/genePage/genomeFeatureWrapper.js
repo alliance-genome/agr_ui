@@ -44,8 +44,7 @@ class GenomeFeatureWrapper extends Component {
   handleClick() {
 
     const {id}= event.target;
-    //Disable for non-variant elements
-    if(!id || id === `${this.props.id}`){return;}
+    if(!id || id === `${this.props.id}` || typeof this.props.onAllelesSelect === 'undefined'){return;}
     let clickedAlleles = select(`#${this.props.id}`).select(`#${id}`).data()[0].alleles;
     let currentAlleles = this.props.allelesSelected.map( a => a.id);
     //If one or more clicked alleles are currently selected.
