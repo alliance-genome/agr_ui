@@ -151,6 +151,7 @@ export default class IsoformAndVariantTrack {
         if (type.toLowerCase() === 'deletion') {
           variantContainer.append('rect')
             .attr('class', 'variant-deletion')
+            .attr('id', 'variant-'+fmin)
             .attr('x', x(fmin))
             .attr('transform', 'translate(0,'+VARIANT_HEIGHT*distinctVariants.indexOf("deletion")+')')
             .attr('z-index', 30)
@@ -158,17 +159,8 @@ export default class IsoformAndVariantTrack {
             .attr('height', VARIANT_HEIGHT)
             .attr('width', width)
             .on("click", d => {
-              variantContainer.selectAll(".click-highlight").remove();
               renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
               let viewer_height= viewer.node().getBBox().height-22.5;
-              variantContainer.append('rect')
-                .attr("class","click-highlight")
-                .attr("x", x(fmin))
-                .attr("width", width)
-                .attr("height", viewer_height)
-                .attr("fill", 'yellow')
-                .attr("opacity", 0.8)
-                .lower();
             })
             .on("mouseover", function(d){
               let theVariant = d.variant;
@@ -191,23 +183,15 @@ export default class IsoformAndVariantTrack {
           isPoints = true;
           variantContainer.append('polygon')
             .attr('class', 'variant-SNV')
+            .attr('id', 'variant-'+fmin)
             .attr('points', generateSnvPoints(x(fmin)))
             .attr('fill', consequenceColor)
             .attr('x', x(fmin))
             .attr('transform', 'translate(0,'+VARIANT_HEIGHT*distinctVariants.indexOf("snv")+')')
             .attr('z-index', 30)
             .on("click", d => {
-              variantContainer.selectAll(".click-highlight").remove();
               renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
               let viewer_height= viewer.node().getBBox().height-22.5;
-              variantContainer.append('rect')
-                .attr("class","click-highlight")
-                .attr("x", x(fmin)-1.5)
-                .attr("width", 3)
-                .attr("height", viewer_height)
-                .attr("fill", 'yellow')
-                .attr("opacity", 0.8)
-                .lower();
             })
             .on("mouseover", function(d){
               let theVariant = d.variant;
@@ -230,23 +214,15 @@ export default class IsoformAndVariantTrack {
           isPoints = true;
             variantContainer.append('polygon')
               .attr('class', 'variant-insertion')
+              .attr('id', 'variant-'+fmin)
               .attr('points', generateInsertionPoint(x(fmin)))
               .attr('fill', consequenceColor)
               .attr('x', x(fmin))
               .attr('transform', 'translate(0,'+VARIANT_HEIGHT*distinctVariants.indexOf("insertion")+')')
               .attr('z-index', 30)
               .on("click", d => {
-                variantContainer.selectAll(".click-highlight").remove();
                 renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
                 let viewer_height= viewer.node().getBBox().height-22.5;
-                variantContainer.append('rect')
-                  .attr("class","click-highlight")
-                  .attr("x", x(fmin)-1.5)
-                  .attr("width", 3)
-                  .attr("height", viewer_height)
-                  .attr("fill", 'yellow')
-                  .attr("opacity", 0.8)
-                  .lower();
               })
               .on("mouseover", function(d){
                 let theVariant = d.variant;
@@ -269,23 +245,15 @@ export default class IsoformAndVariantTrack {
           isPoints=true;
           variantContainer.append('polygon')
             .attr('class', 'variant-delins')
+            .attr('id', 'variant-'+fmin)
             .attr('points', generateDelinsPoint(x(fmin)))
             .attr('x', x(fmin))
             .attr('transform', 'translate(0,'+VARIANT_HEIGHT*distinctVariants.indexOf("delins")+')')
             .attr('fill', consequenceColor)
             .attr('z-index', 30)
             .on("click", d => {
-              variantContainer.selectAll(".click-highlight").remove();
               renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
               let viewer_height= viewer.node().getBBox().height-22.5;
-              variantContainer.append('rect')
-                .attr("class","click-highlight")
-                .attr("x", x(fmin)-1.5)
-                .attr("width", 3)
-                .attr("height", viewer_height)
-                .attr("fill", 'yellow')
-                .attr("opacity", 0.8)
-                .lower();
             })
             .on("mouseover", function(d){
               let theVariant = d.variant;
