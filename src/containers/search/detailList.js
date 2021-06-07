@@ -17,7 +17,13 @@ class DetailList extends Component {
     let d = this.props.data;
     let nodes = this.props.fields.map( (field) => {
       let valueNode;
-      let value = field.split('.').reduce((o,i)=>o[i], d);
+      let value;
+      if(d.variant){
+        value = field.split('.').reduce((o,i)=>o[i], d);
+      }else{
+        value = d[field];
+      }
+
 
       if (Array.isArray(value)) {
         if (COLLAPSIBLE_FIELDS.includes(field)) { //special handling to make cross references collapsible
