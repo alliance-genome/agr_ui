@@ -79,7 +79,6 @@ const plugins = [
     title: 'Alliance of Genome Resources'
   }),
   new webpack.EnvironmentPlugin({
-    ALLIANCE_RELEASE: '[dev]',
   }),
   new MiniCssExtractPlugin({
     filename: '[name].[hash].css',
