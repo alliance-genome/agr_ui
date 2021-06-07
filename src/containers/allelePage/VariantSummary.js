@@ -34,7 +34,7 @@ const VariantSummary = ({variant}) => {
     hgvsC,
     hgvsP,
     publications,
-    crossReferences,
+    crossReferenceMap,
     notes,
   } = variant || {};
 
@@ -178,7 +178,7 @@ const VariantSummary = ({variant}) => {
       <AttributeLabel>Cross references</AttributeLabel>
       <AttributeValue>
         {
-          crossReferences && crossReferences.primary ? <DataSourceLink reference={ crossReferences.primary} /> : null
+          crossReferenceMap && crossReferenceMap.primary ? <DataSourceLink reference={ crossReferenceMap.primary} /> : null
         }
       </AttributeValue>
 
