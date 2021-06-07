@@ -197,8 +197,9 @@ export function getLinkForEntry(entry) {
   if(entry.category === 'allele' && entry.alterationType === 'variant'){
     if(entry.variant){
       entryText = entry.variant.name;
+    }else{
+      entryText = entry.display_name;
     }
-
   } else{
     entryText = entry.display_name;
   }
