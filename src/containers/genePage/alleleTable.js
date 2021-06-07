@@ -39,7 +39,7 @@ const AlleleTable = ({geneId}) => {
       synonym: allele.synonyms,
       source: {
         dataProvider: gene.dataProvider,
-        url: allele.crossReferences.primary.url,
+        url: allele.crossReferenceMap.primary.url,
       },
       disease: allele.diseases.sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
     }));
@@ -48,7 +48,7 @@ const AlleleTable = ({geneId}) => {
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
 
   // filtered but not paginate list of alleles
-  const allelesFiltered = useAllVariants(geneId, tableProps.tableState); 
+  const allelesFiltered = useAllVariants(geneId, tableProps.tableState);
 
   const variantsSequenceViewerProps = useMemo(() => {
     const variantsFiltered = allelesFiltered.data ? allelesFiltered.data.results.flatMap(
