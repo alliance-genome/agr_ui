@@ -47,6 +47,8 @@ const AlleleTable = ({geneId}) => {
 
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
 
+  const hasAlleles = resolvedData && resolvedData.total > 0;
+
   // filtered but not paginate list of alleles
   const allelesFiltered = useAllVariants(geneId, tableProps.tableState);
 
@@ -285,7 +287,9 @@ const AlleleTable = ({geneId}) => {
           null :
           variantsSequenceViewerProps.hasVariants ?
             <VariantsSequenceViewer {...variantsSequenceViewerProps} /> :
-            <NoData>No mapped variant information available</NoData>
+            hasAlleles ?
+              <NoData>No mapped variant information available</NoData> :
+              null /* in this case, the whole section is empty, and default no data message kicks in */
       }
       <div className="position-relative">
         <DataTable
@@ -298,7 +302,11 @@ const AlleleTable = ({geneId}) => {
           selectRow={selectRow}
           sortOptions={sortOptions}
         />
-        <Link className="btn btn-primary position-absolute d-block" style={{top: '2em'}} to={`/gene/${geneId}/allele-details`}>View all Alleles and Variants information</Link>
+        {
+          hasAlleles ?
+            <Link className="btn btn-primary position-absolute d-block" style={{top: '2em'}} to={`/gene/${geneId}/allele-details`}>View all Alleles and Variants information</Link> :
+            null
+        }
       </div>
     </>
   );
