@@ -6,6 +6,7 @@ import {
   UncontrolledButtonDropdown
 } from 'reactstrap';
 import {ReferenceCell} from './index';
+import ExperimentalConditionCell from './ExperimentalConditionCell';
 
 import style from './style.scss';
 import ExternalLink from '../ExternalLink';
@@ -49,6 +50,8 @@ function AnnotatedEntitiesPopup(props) {
                 <th>Name</th>
                 <th>Type</th>
                 {showAssociationType && <th>Association</th>}
+                <th>Experimental condition</th>
+                <th>Modifier</th>
                 <th>References</th>
               </tr>
             </thead>
@@ -63,6 +66,12 @@ function AnnotatedEntitiesPopup(props) {
                         <AssociationType type={entity.diseaseAssociationType} />
                       </td>
                     )}
+                    <td>
+                      <ExperimentalConditionCell conditions={entity.conditions} />
+                    </td>
+                    <td>
+                      <ExperimentalConditionCell conditions={entity.conditionModifiers} />
+                    </td>
                     <td>{entity.publicationEvidenceCodes &&
                       ReferenceCell(entity.publicationEvidenceCodes.map(pec => pec.publication))
                     }</td>
