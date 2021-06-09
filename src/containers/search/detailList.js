@@ -7,7 +7,7 @@ import NoData from '../../components/noData';
 import { CollapsibleList } from '../../components/collapsibleList';
 import SpeciesName from '../../components/SpeciesName';
 
-const COLLAPSIBLE_FIELDS = ['collapsible_synonyms','variant.name'];
+const COLLAPSIBLE_FIELDS = ['collapsible_synonyms','variantName'];
 
 const JOIN_CHAR = ', ';
 
@@ -17,13 +17,7 @@ class DetailList extends Component {
     let d = this.props.data;
     let nodes = this.props.fields.map( (field) => {
       let valueNode;
-      let value;
-      if(d.variant){
-        value = field.split('.').reduce((o,i)=>o[i], d);
-      }else{
-        value = d[field];
-      }
-
+      let value = d[field];
 
       if (Array.isArray(value)) {
         if (COLLAPSIBLE_FIELDS.includes(field)) { //special handling to make cross references collapsible
