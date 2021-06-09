@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 
-export function LinkRenderDefault({ to, closeMenu, children }) {
+export function LinkRenderDefault({ to, closeMenu, children, ...props }) {
   const handleClick = useCallback(
     (event) => {
       event.preventDefault();
@@ -10,7 +10,7 @@ export function LinkRenderDefault({ to, closeMenu, children }) {
     [closeMenu, window]
   );
   return (
-    <a href={to} onClick={handleClick}>
+    <a href={to} onClick={handleClick} {...props}>
       {children}
     </a>
   );
