@@ -1,4 +1,5 @@
 import allianceLogoBase64 from './alliance_logo_agr.png';
+import allianceLogoWhiteBase64 from './alliance_logo_white.png';
 import allianceLogoHgncBase64 from './alliance_logo_hgnc.png';
 import allianceLogoMgdBase64 from './alliance_logo_mgd.png';
 import allianceLogoSgdBase64 from './alliance_logo_sgd.png';
@@ -10,6 +11,7 @@ import allianceLogoGocBase64 from './alliance_logo_goc.png';
 
 export {
   allianceLogoBase64,
+  allianceLogoWhiteBase64,
   allianceLogoHgncBase64,
   allianceLogoMgdBase64,
   allianceLogoSgdBase64,
