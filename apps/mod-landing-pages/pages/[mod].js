@@ -12,7 +12,7 @@ const ALL_MOD_IDS = getAllMembers().map(({ id }) => id);
 
 export function Index({ mod, news = {} }) {
   const renderLink = useMemo(
-    () => ({ to, closeMenu, children }) => {
+    () => ({ to, closeMenu, children, ...props }) => {
       const [_, subpath, segment] = /^\/members\/((\w+).*)/i.exec(to) || [];
       if (segment && ALL_MOD_IDS.includes(segment)) {
         return (
@@ -21,7 +21,11 @@ export function Index({ mod, news = {} }) {
           </Link>
         );
       } else {
-        return <a href={to}>{children}</a>;
+        return (
+          <a href={to} {...props}>
+            {children}
+          </a>
+        );
       }
     },
     []
