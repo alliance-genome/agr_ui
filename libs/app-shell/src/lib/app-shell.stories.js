@@ -9,7 +9,7 @@ export default {
 export const Default = () => {
   return (
     <>
-      <AppShell></AppShell>
+      <AppShell>Here is some great content.</AppShell>
     </>
   );
 };
@@ -17,7 +17,9 @@ export const Default = () => {
 export const WormBase = () => {
   return (
     <>
-      <AppShell mod="wormbase"></AppShell>
+      <AppShell mod="wormbase">
+        Here is some great MOD specific content.
+      </AppShell>
     </>
   );
 };
