@@ -116,7 +116,7 @@ export function makeFieldDisplayName(unformattedName, category = '') {
     return 'Symbol';
   case 'variantType':
     return 'Variant Type';
-  case 'variant.name':
+  case 'variantName':
     return 'Variant Name';
   case 'alterationType':
     return 'Category\u00a0'; //non breaking whitespace char in order to avoid conflict with higher level category value
@@ -195,8 +195,8 @@ export const getURLForEntry = (category, id, alterationType) => {
 export function getLinkForEntry(entry) {
   let entryText;
   if(entry.category === 'allele' && entry.alterationType === 'variant'){
-    if(entry.variant){
-      entryText = entry.variant.name;
+    if(entry.variantName){
+      entryText = entry.variantName;
     }else{
       entryText = entry.display_name;
     }
