@@ -10,6 +10,7 @@ import MenuItem from './MenuItem';
 import SubMenu from './SubMenu';
 import MenuContext from './MenuContext';
 import Link from './MenuLink';
+import sitemap from '../sitemap';
 
 const Menu = () => {
   const [itemOpen, setItemOpen] = useState(null);
@@ -41,29 +42,22 @@ const Menu = () => {
 
   return (
     <MenuContext.Provider value={menuContextValue}>
-      <ul ref={menuRef} tw="flex justify-start">
-        <MenuItem>
-          <Link to="/">Home</Link>
-        </MenuItem>
-        <MenuItem>
-          <Link to="/page-2">Aoout</Link>
-        </MenuItem>
-        <SubMenu title="Help">
-          <MenuItem>
-            <Link to="/contact-us">Contact us</Link>
-          </MenuItem>
-          <MenuItem>
-            <Link to="/faq">FAQ</Link>
-          </MenuItem>
-        </SubMenu>
-        <SubMenu title="Data & Tools">
-          <MenuItem>
-            <Link to="/download">Download</Link>
-          </MenuItem>
-          <MenuItem>
-            <Link to="/api">API Documentation</Link>
-          </MenuItem>
-        </SubMenu>
+      <ul ref={menuRef} tw="flex justify-start text-sm">
+        {sitemap.map(({ sub, label, route }) =>
+          sub ? (
+            <SubMenu key={label} title={label}>
+              {sub.map(({ label, route }) => (
+                <MenuItem key={label} to={route}>
+                  <Link to={route}>{label}</Link>
+                </MenuItem>
+              ))}
+            </SubMenu>
+          ) : (
+            <MenuItem>
+              <Link to={route}>{label}</Link>
+            </MenuItem>
+          )
+        )}
         <SubMenu title="Members">
           <MenuItem>
             <Link to="/members/sgd">SGD</Link>
