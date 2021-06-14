@@ -6,7 +6,7 @@ import fetchData from '../lib/fetchData';
 const ReleaseContext = createContext();
 
 const ReleaseContextProvider = ({children}) => {
-  const releaseUrl = '/api/releaseInfo/summary';
+  const releaseUrl = '/api/releaseInfo';
 
   const {
     data,
@@ -15,25 +15,9 @@ const ReleaseContextProvider = ({children}) => {
   } = useQuery([releaseUrl], () => {
   /*
     return {
-      'releaseInfo': {
-        'releaseDate': null,
-        'releaseVersion': '4.1.0',
-        'snapShotDate': null
-      },
-      'metaData': [
-        {
-          'date_produced': null,
-          'mod': 'TAGS',
-          'release': 'NotSpecified',
-          'type': 'HTP'
-        },
-        {
-          'date_produced': null,
-          'mod': 'SGD',
-          'release': 'SGD 1.0.1.4 2021-01-21',
-          'type': 'BGI'
-        },
-      ]
+      'releaseDate': "2021-06-23T04:00:00.000+0000",
+      'releaseVersion': '4.1.0',
+      'snapShotDate': "2021-06-09T15:21:07.880+0000"
     }; */
     return fetchData(releaseUrl);
   });
