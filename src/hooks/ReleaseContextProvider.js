@@ -6,7 +6,7 @@ import fetchData from '../lib/fetchData';
 const ReleaseContext = createContext();
 
 const ReleaseContextProvider = ({children}) => {
-  const releaseUrl = '/api/releaseInfo/summary';
+  const releaseUrl = '/api/releaseInfo';
 
   const {
     data,
