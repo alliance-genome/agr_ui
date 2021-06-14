@@ -5,12 +5,11 @@ import { useRelease } from '../../hooks/ReleaseContextProvider';
 const ReleaseBanner = () => {
 
   const {
-    data,
+    data: releaseInfo,
     isLoading,
     isError,
   } = useRelease();
 
-  const { releaseInfo } = data || {};
   const { releaseVersion } = releaseInfo || {};
 
   return isLoading ? <LoadingSpinner /> : 
