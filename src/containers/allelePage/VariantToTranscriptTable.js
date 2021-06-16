@@ -71,7 +71,7 @@ const VariantToTranscriptTable = ({variant}) => {
                 // cdnaEndPosition,
 
                 // consequence
-                molecularConsequence = [],
+                molecularConsequences = [],
 
                 // protein
                 aminoAcidReference = '',
@@ -90,7 +90,7 @@ const VariantToTranscriptTable = ({variant}) => {
                   <div className={`row ${styles.row}`} key={index}>
                     <div className='col'>
                       <CollapsibleList collapsedSize={1} showBullets>
-                        {molecularConsequence.map(
+                        {molecularConsequences.map(
                           (consequence) => {
                             return consequence.replace(/_/g, ' ');
                           })
