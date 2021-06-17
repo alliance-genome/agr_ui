@@ -177,7 +177,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
         <span>{(molecularConsequences || []).join(', ')}</span>
       ),
       filterable: true,
-      filterName: 'molecularConsequences',
+      filterName: 'molecularConsequence',
       headerStyle: {width: '350px'},
     },
     {
