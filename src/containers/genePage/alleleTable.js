@@ -196,7 +196,7 @@ const AlleleTable = ({geneId}) => {
       filterable: false,
     },
     {
-      dataField: 'variants.variantType',
+      dataField: 'variantType',
       text: 'Variant type',
       headerStyle: {width: variantTypeColWidth},
       style: {
