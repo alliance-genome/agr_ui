@@ -172,7 +172,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     },
     {
       text: 'Molecular consequence',
-      dataField: 'consequence.molecularConsequence',
+      dataField: 'consequence.molecularConsequences',
       formatter: (molecularConsequences) => (
         <span>{(molecularConsequences || []).join(', ')}</span>
       ),
