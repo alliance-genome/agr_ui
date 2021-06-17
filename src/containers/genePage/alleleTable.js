@@ -8,6 +8,7 @@ import {
   DataTable,
 } from '../../components/dataTable';
 import NoData from '../../components/noData';
+import { CollapsibleList } from '../../components/collapsibleList';
 import {getDistinctFieldValue, } from '../../components/dataTable/utils';
 import ExternalLink from '../../components/ExternalLink';
 import {VariantJBrowseLink} from '../../components/variant';
@@ -141,7 +142,7 @@ const AlleleTable = ({geneId}) => {
       formatter: (variants) => (
         <div>
           {
-            variants.map(({id, variantType: type = {}, location = {}, consequence}) => (
+            variants.map(({id, variantType: type = {}, location = {}, transcriptLevelConsequence}) => (
               <div key={id} style={{display: 'flex'}}>
                 <div
                   style={{
@@ -176,7 +177,11 @@ const AlleleTable = ({geneId}) => {
                     flex: '0 0 auto',
                   }}
                 >
-                  {consequence && consequence.replace(/_/g, ' ')}
+                  <CollapsibleList collapsedSize={1}>
+                    {[...new Set(transcriptLevelConsequence && transcriptLevelConsequence.flatMap(
+                      ({molecularConsequences}) => molecularConsequences
+                    ).map(c => c.replace(/_/g, ' ')))]}
+                  </CollapsibleList>
                 </div>
               </div>
             ))
@@ -201,7 +206,7 @@ const AlleleTable = ({geneId}) => {
       filterable: getDistinctFieldValue(resolvedData, 'filter.variantType'),
     },
     {
-      dataField: 'variantConsequence',
+      dataField: 'variants.transcriptLevelConsequence',
       text: 'Molecular consequence',
       helpPopupProps: {
         id: 'gene-page--alleles-table--molecular-consequence-help',
@@ -211,6 +216,7 @@ const AlleleTable = ({geneId}) => {
       style: {
         display: 'none',
       },
+      filterName: 'molecularConsequence',
       filterable: getDistinctFieldValue(resolvedData, 'filter.molecularConsequence'),
     },
     {
