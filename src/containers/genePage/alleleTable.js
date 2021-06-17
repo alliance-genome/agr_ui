@@ -216,7 +216,8 @@ const AlleleTable = ({geneId}) => {
       style: {
         display: 'none',
       },
-      filterable: getDistinctFieldValue(resolvedData, 'filter.molecularConsequences'),
+      filterName: 'molecularConsequence',
+      filterable: getDistinctFieldValue(resolvedData, 'filter.molecularConsequence'),
     },
     {
       dataField: 'hasDisease',
