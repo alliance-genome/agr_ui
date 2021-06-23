@@ -22,6 +22,7 @@ const GeneModelsTable = ({id}) => {
       ),
       filterable: true,
       filterName: 'modelName',
+      headerStyle: {width: '220px'},
     },
     {
       dataField: 'conditions',
@@ -58,6 +59,7 @@ const GeneModelsTable = ({id}) => {
       ),
       filterable: true,
       filterName: 'phenotype',
+      headerStyle: {width: '220px'},
     },
     {
       dataField: 'conditionModifiers',

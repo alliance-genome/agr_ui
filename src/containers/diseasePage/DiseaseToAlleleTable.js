@@ -38,7 +38,7 @@ const DiseaseToAlleleTable = ({id}) => {
           <div><AlleleCell allele={allele}/></div>
           <small>
             <AnnotatedEntitiesPopup entities={row.primaryAnnotatedEntities}>
-              Based on inferences
+              Annotation details
             </AnnotatedEntitiesPopup>
           </small>
         </React.Fragment>
