@@ -60,7 +60,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
   const { isLoading } = tableQuery;
   const data = tableQuery.data.map((row) => ({
     ...row,
-    key: `${row.allele.id}-${row.variant && row.variant.id}-${row.consequence && row.consequence.transcript.id}`,
+    key: `${row.allele.id}-${row.variant && row.variant.id}-${row.consequence && row.consequence.transcript && row.consequence.transcript.id}`,
   }));
   const columns = [
     {
