@@ -142,7 +142,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
     },
     {
       text: 'Sequence feature',
-      dataField: 'consequence.transcriptName',
+      dataField: 'consequence.transcript.name',
       headerStyle: {width: '250px'},
       filterable: true,
       filterName: 'sequenceFeature',
