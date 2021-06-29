@@ -15,7 +15,8 @@ const ReleaseBanner = () => {
   return isLoading ? <LoadingSpinner /> : 
     (
       <small className="text-secondary">
-        Version: {isError ? 'Unknown' : releaseVersion + " Date: " + new Date(releaseDate).toDateString() }
+        Version: {isError ? 'Unknown' : releaseVersion}<br />
+        Date: { isError ? 'Unknown' : new Date(releaseDate).toDateString()}
       </small>
     );
 };
