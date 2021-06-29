@@ -10,12 +10,12 @@ const ReleaseBanner = () => {
     isError,
   } = useRelease();
 
-  const { releaseVersion } = releaseInfo || {};
+  const { releaseVersion, releaseDate } = releaseInfo || {};
 
   return isLoading ? <LoadingSpinner /> : 
     (
       <small className="text-secondary">
-        Version: {isError ? 'Unknown' : releaseVersion}
+        Version: {isError ? 'Unknown' : releaseVersion + " Date: " + new Date(releaseDate).toDateString() }
       </small>
     );
 };
