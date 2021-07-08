@@ -1,0 +1,347 @@
+{
+  "version": 2,
+  "cli": {
+    "defaultCollection": "@nrwl/react"
+  },
+  "defaultProject": "main-app",
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "style": "scss",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "scss"
+      },
+      "library": {
+        "style": "scss",
+        "linter": "eslint"
+      }
+    }
+  },
+  "projects": {
+    "app-shell": {
+      "root": "libs/app-shell",
+      "sourceRoot": "libs/app-shell/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/app-shell/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/app-shell",
+            "tsConfig": "libs/app-shell/tsconfig.lib.json",
+            "project": "libs/app-shell/package.json",
+            "entryFile": "libs/app-shell/src/index.js",
+            "external": [
+              "react",
+              "react-dom",
+              "@emotion/styled",
+              "@emotion/react"
+            ],
+            "babelConfig": "@nrwl/react/plugins/bundle-babel",
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/app-shell"],
+          "options": {
+            "jestConfig": "libs/app-shell/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "storybook": {
+          "executor": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/react",
+            "port": 4400,
+            "config": {
+              "configFolder": "libs/app-shell/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "executor": "@nrwl/storybook:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "uiFramework": "@storybook/react",
+            "outputPath": "dist/storybook/app-shell",
+            "config": {
+              "configFolder": "libs/app-shell/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        }
+      }
+    },
+    "shared-assets": {
+      "root": "libs/shared-assets",
+      "sourceRoot": "libs/shared-assets/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/shared-assets",
+            "tsConfig": "libs/shared-assets/tsconfig.lib.json",
+            "project": "libs/shared-assets/package.json",
+            "entryFile": "libs/shared-assets/src/index.js",
+            "external": ["react", "react-dom"],
+            "babelConfig": "@nrwl/react/plugins/bundle-babel",
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "README.md",
+                "input": ".",
+                "output": "."
+              },
+              "libs/shared-assets/src/lib/assets"
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/shared-assets/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared-assets"],
+          "options": {
+            "jestConfig": "libs/shared-assets/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "storybook": {
+          "executor": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/react",
+            "port": 4400,
+            "config": {
+              "configFolder": "libs/shared-assets/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "executor": "@nrwl/storybook:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "uiFramework": "@storybook/react",
+            "outputPath": "dist/storybook/shared-assets",
+            "config": {
+              "configFolder": "libs/shared-assets/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        }
+      }
+    },
+    "example-app": {
+      "root": "apps/example-app",
+      "sourceRoot": "apps/example-app/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/example-app",
+            "index": "apps/example-app/src/index.html",
+            "main": "apps/example-app/src/main.js",
+            "polyfills": "apps/example-app/src/polyfills.js",
+            "tsConfig": "apps/example-app/tsconfig.app.json",
+            "assets": [
+              "apps/example-app/src/favicon.ico",
+              "apps/example-app/src/assets"
+            ],
+            "styles": ["apps/example-app/src/styles.scss"],
+            "scripts": [],
+            "webpackConfig": "@nrwl/react/plugins/webpack"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/example-app/src/environments/environment.js",
+                  "with": "apps/example-app/src/environments/environment.prod.js"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "example-app:build"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "example-app:build:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/example-app/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/example-app"],
+          "options": {
+            "jestConfig": "apps/example-app/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "example-app-e2e": {
+      "root": "apps/example-app-e2e",
+      "sourceRoot": "apps/example-app-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/example-app-e2e/cypress.json",
+            "tsConfig": "apps/example-app-e2e/tsconfig.e2e.json",
+            "devServerTarget": "example-app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "example-app:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/example-app-e2e/**/*.js"]
+          }
+        }
+      }
+    },
+    "main-app": {
+      "root": "apps/main-app",
+      "sourceRoot": "apps/main-app/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/main-app",
+            "index": "apps/main-app/src/public/index.html",
+            "main": "apps/main-app/src/main.js",
+            "polyfills": "apps/main-app/src/polyfills.js",
+            "tsConfig": "apps/main-app/tsconfig.app.json",
+            "assets": ["apps/main-app/src/assets"],
+            "styles": [],
+            "scripts": [],
+            "webpackConfig": "apps/main-app/webpack.config.babel.js"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/main-app/src/environments/environment.js",
+                  "with": "apps/main-app/src/environments/environment.prod.js"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "main-app:build",
+            "port": 2992
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "main-app:build:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/main-app/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/main-app"],
+          "options": {
+            "jestConfig": "apps/main-app/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  }
+}
