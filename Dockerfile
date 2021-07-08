@@ -14,8 +14,8 @@ RUN /bin/bash -c '. $HOME/.nvm/nvm.sh --no-use && \
 ARG NODE_ENV=production
 ENV NODE_ENV ${NODE_ENV}
 
-RUN /bin/bash -c '. $HOME/.nvm/nvm.sh && npm run build'
-RUN /bin/bash -c '. $HOME/.nvm/nvm.sh && npm test'
+RUN /bin/bash -c '. $HOME/.nvm/nvm.sh && npx nx run-many --target=build --all --prod'
+RUN /bin/bash -c '. $HOME/.nvm/nvm.sh && npx nx run-many --target=test --all'
 
 FROM nginx
 
