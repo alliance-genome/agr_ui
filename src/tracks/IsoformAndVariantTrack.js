@@ -11,6 +11,7 @@ import {
   renderVariantDescriptions,
   getVariantTrackPositions,
   getVariantAlleles,
+  getDeletionHeight,
 } from "../services/VariantService";
 import {renderTrackDescription,getJBrowseLink} from "../services/TrackService";
 // import {description} from "d3/dist/package";
@@ -95,8 +96,11 @@ export default class IsoformAndVariantTrack {
       .range([0, width]);
 
     //Lets put this here so that the "track" part will give us extra space automagically
-    let variantContainer = viewer.append("g").attr("class", "variants track")
+    let deletionTrack = viewer.append("g").attr("class", "deletions track")
       .attr("transform", "translate(0,22.5)");
+    //We need a new container for labels now.
+    let labelTrack = viewer.append("g").attr("class", "label track");
+
     //Append Invisible Rect to give space properly if only one track exists.
     //variantContainer.append('rect').style("opacity", 0).attr("height", VARIANT_HEIGHT*numVariantTracks).attr("width",width);
 
@@ -137,7 +141,110 @@ export default class IsoformAndVariantTrack {
     // Seperate isoform and variant render
     // **************************************
       let variantBins = generateVariantDataBinsAndDataSets(variantData,(viewEnd-viewStart)*binRatio);
-      variantBins.forEach(variant => {
+
+      //We need to do all of the deletions first...
+      let deletionBins = variantBins.filter(function(v){
+        return v.type == 'deletion';
+      });
+      let otherBins = variantBins.filter(function(v){
+        return v.type !== 'deletion';
+      });
+
+      let deletionSpace=[];//Array of array of objects for deletion layout.
+      deletionBins.forEach(variant => {
+        let {type, fmax, fmin} = variant;
+        let drawnVariant = true;
+        let isPoints = false;
+        let viewerWidth = this.width;
+        let symbol_string = getVariantSymbol(variant);
+        const descriptions = getVariantDescriptions(variant);
+        let variant_alleles = getVariantAlleles(variant);
+        let descriptionHtml = renderVariantDescriptions(descriptions);
+        const consequenceColor = getColorsForConsequences(descriptions)[0];
+
+        //Adjust Position for features that go over the edge.
+        if(fmax>viewEnd){
+          fmax=viewEnd;
+        }
+        if(fmin<viewStart){
+          fmin=viewEnd;
+        }
+
+        //Function to determine what row this goes on... not working yet.
+        let currentHeight = getDeletionHeight(deletionSpace,fmin,fmax);
+        //Add start/end to array
+        deletionSpace.push({fmin:fmin,fmax:fmax,row:currentHeight});
+
+        const width = Math.ceil(x(fmax)-x(fmin)) < MIN_WIDTH ? MIN_WIDTH : Math.ceil(x(fmax)-x(fmin));
+        deletionTrack.append('rect')
+          .attr('class', 'variant-deletion')
+          .attr('id', 'variant-'+fmin)
+          .attr('x', x(fmin))
+          .attr('transform', 'translate(0,'+VARIANT_HEIGHT*currentHeight+')')
+          .attr('z-index', 30)
+          .attr('fill', consequenceColor)
+          .attr('height', VARIANT_HEIGHT)
+          .attr('width', width)
+          .on("click", d => {
+            renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
+            let viewer_height= viewer.node().getBBox().height-22.5;
+          })
+          .on("mouseover", function(d){
+            let theVariant = d.variant;
+            d3.selectAll(".variant-deletion")
+              .filter(function(d){return d.variant === theVariant})
+              .style("stroke" , "black");
+            d3.select(".label").selectAll(".variantLabel,.variantLabelBackground").raise()
+              .filter(function(d){return d.variant === theVariant})
+              .style("opacity", 1);
+          })
+          .on("mouseout", function(d){
+            d3.selectAll(".variant-deletion")
+              .filter(function(d){return d.selected != "true"})
+              .style("stroke" , null);
+            d3.select(".label").selectAll(".variantLabel,.variantLabelBackground")
+              .style("opacity",0);
+          })
+          .datum({fmin: fmin, fmax: fmax, variant: symbol_string+fmin, alleles: variant_alleles});
+          //TESTY
+        //drawnVariant = false;//disable lables for now;
+        if(drawnVariant){
+          let label_offset=0;
+          if(isPoints){
+            label_offset = x(fmin)-SNV_WIDTH/2;
+          }else {
+            label_offset = x(fmin);}
+
+          const symbol_string_length = symbol_string.length ? symbol_string.length : 1;
+          let label_height=VARIANT_HEIGHT*numVariantTracks+LABEL_PADDING;
+          let variant_label = labelTrack.append('text')
+            .attr('class', 'variantLabel')
+            .attr('fill', consequenceColor)
+            .attr('opacity', 0)
+            .attr('height', ISOFORM_TITLE_HEIGHT)
+            .attr("transform", "translate("+label_offset+","+label_height+")")
+             //if html, it cuts off the <sup> tag
+            .text(symbol_string)
+            .on("click", d => {
+              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
+            })
+            .datum({fmin: fmin, variant: symbol_string+fmin});
+
+            let symbol_string_width = variant_label.node().getBBox().width;
+            if(parseFloat(symbol_string_width+label_offset)>viewerWidth){
+              let diff = parseFloat(symbol_string_width+label_offset-viewerWidth);
+              label_offset-=diff;
+              variant_label.attr("transform", "translate("+label_offset+","+label_height+")");
+            }
+        }
+      });
+
+      //Need to adjust for the label track being created already... but is below this track.
+      let variantTrackAdjust = calculateNewTrackPosition(this.viewer)-LABEL_PADDING;
+      let variantContainer = viewer.append("g").attr("class", "variants track")
+        .attr("transform", 'translate(0,' + variantTrackAdjust+ ')');
+
+      otherBins.forEach(variant => {
         let {type, fmax, fmin} = variant;
         let drawnVariant = true;
         let isPoints = false;
@@ -148,38 +255,7 @@ export default class IsoformAndVariantTrack {
         let descriptionHtml = renderVariantDescriptions(descriptions);
         const consequenceColor = getColorsForConsequences(descriptions)[0];
         const width = Math.ceil(x(fmax)-x(fmin)) < MIN_WIDTH ? MIN_WIDTH : Math.ceil(x(fmax)-x(fmin));
-        if (type.toLowerCase() === 'deletion') {
-          variantContainer.append('rect')
-            .attr('class', 'variant-deletion')
-            .attr('id', 'variant-'+fmin)
-            .attr('x', x(fmin))
-            .attr('transform', 'translate(0,'+VARIANT_HEIGHT*distinctVariants.indexOf("deletion")+')')
-            .attr('z-index', 30)
-            .attr('fill', consequenceColor)
-            .attr('height', VARIANT_HEIGHT)
-            .attr('width', width)
-            .on("click", d => {
-              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
-              let viewer_height= viewer.node().getBBox().height-22.5;
-            })
-            .on("mouseover", function(d){
-              let theVariant = d.variant;
-              d3.selectAll(".variant-deletion")
-                .filter(function(d){return d.variant === theVariant})
-                .style("stroke" , "black");
-              d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground").raise()
-                .filter(function(d){return d.variant === theVariant})
-                .style("opacity", 1);
-            })
-            .on("mouseout", function(d){
-              d3.selectAll(".variant-deletion")
-                .filter(function(d){return d.selected != "true"})
-                .style("stroke" , null);
-              d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground")
-                .style("opacity",0);
-            })
-            .datum({fmin: fmin, fmax: fmax, variant: symbol_string+fmin, alleles: variant_alleles});
-        } else if (type.toLowerCase() === 'snv' || type.toLowerCase() === 'point_mutation') {
+        if (type.toLowerCase() === 'snv' || type.toLowerCase() === 'point_mutation') {
           isPoints = true;
           variantContainer.append('polygon')
             .attr('class', 'variant-SNV')
@@ -198,7 +274,7 @@ export default class IsoformAndVariantTrack {
               d3.selectAll(".variant-SNV")
                 .filter(function(d){return d.variant === theVariant})
                 .style("stroke" , "black");
-              d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground").raise()
+              d3.select(".label").selectAll(".variantLabel,.variantLabelBackground").raise()
                 .filter(function(d){return d.variant === theVariant})
                 .style("opacity", 1);
             })
@@ -206,7 +282,7 @@ export default class IsoformAndVariantTrack {
               d3.selectAll(".variant-SNV")
                 .filter(function(d){return d.selected != "true"})
                 .style("stroke" , null);
-              d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground")
+              d3.select(".label").selectAll(".variantLabel,.variantLabelBackground")
                 .style("opacity",0);
             })
             .datum({fmin: fmin, fmax: fmax, variant: symbol_string+fmin,  alleles: variant_alleles});
@@ -229,7 +305,7 @@ export default class IsoformAndVariantTrack {
                 d3.selectAll(".variant-insertion")
                   .filter(function(d){return d.variant === theVariant})
                   .style("stroke" , "black");
-                d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground").raise()
+                d3.select(".label").selectAll(".variantLabel,.variantLabelBackground").raise()
                   .filter(function(d){return d.variant === theVariant})
                   .style("opacity", 1);
               })
@@ -237,7 +313,7 @@ export default class IsoformAndVariantTrack {
                 d3.selectAll(".variant-insertion")
                   .filter(function(d){return d.selected != "true"})
                   .style("stroke" , null);
-                d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground")
+                d3.select(".label").selectAll(".variantLabel,.variantLabelBackground")
                   .style("opacity",0);
               })
               .datum({fmin: fmin, fmax: fmax, variant: symbol_string+fmin, alleles: variant_alleles});
@@ -260,7 +336,7 @@ export default class IsoformAndVariantTrack {
               d3.selectAll(".variant-delins")
                 .filter(function(d){return d.variant === theVariant})
                 .style("stroke" , "black");
-              d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground").raise()
+              d3.select(".label").selectAll(".variantLabel,.variantLabelBackground").raise()
                 .filter(function(d){return d.variant === theVariant})
                 .style("opacity", 1);
             })
@@ -268,7 +344,7 @@ export default class IsoformAndVariantTrack {
               d3.selectAll(".variant-delins")
                 .filter(function(d){return d.selected != "true"})
                 .style("stroke" , null);
-              d3.select(this.parentNode).selectAll(".variantLabel,.variantLabelBackground")
+              d3.select(".label").selectAll(".variantLabel,.variantLabelBackground")
                 .style("opacity",0);
             })
             .datum({fmin: fmin, fmax: fmax, variant: symbol_string+fmin,alleles: variant_alleles});
@@ -287,7 +363,7 @@ export default class IsoformAndVariantTrack {
 
           const symbol_string_length = symbol_string.length ? symbol_string.length : 1;
           let label_height=VARIANT_HEIGHT*numVariantTracks+LABEL_PADDING;
-          let variant_label = variantContainer.append('text')
+          let variant_label = labelTrack.append('text')
             .attr('class', 'variantLabel')
             .attr('fill', consequenceColor)
             .attr('opacity', 0)
@@ -308,6 +384,10 @@ export default class IsoformAndVariantTrack {
             }
         }
       });
+
+    //reposition labels after height is determined.
+    let labelTrackPosition= variantTrackAdjust;
+    labelTrack.attr("transform", 'translate(0,'+labelTrackPosition+')');
 
     // Calculate where this track should go and translate it, must be after the variant lables are added
     let newTrackPosition = calculateNewTrackPosition(this.viewer);

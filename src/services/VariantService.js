@@ -10,6 +10,21 @@ export function generateSnvPoints(x){
 export function generateInsertionPoint(x) {
   return `${x-(SNV_WIDTH/2.0)},${SNV_HEIGHT} ${x},0 ${x+(SNV_WIDTH/2.0)},${SNV_HEIGHT}`;
 }
+export function getDeletionHeight(x,fmin,fmax) {
+  if(x.length ==0){
+    return 0;}
+  else{
+    let highest_row=0;
+    x.sort((a, b) => (a.row > b.row) ? 1 : -1);
+    x.forEach(feat =>{
+      if((feat.fmin>fmin && feat.fmin>fmax) || (feat.fmax<fmax && feat.fmax<fmin)){
+        return feat.row;
+      }
+      else{highest_row=feat.row;}
+    });
+    return highest_row+1;
+  }
+}
 // export function generateDeletion(x)  {
 //   return `${x-(SNV_WIDTH/2.0)},${SNV_HEIGHT} ${x+(SNV_WIDTH/2.0)},${SNV_HEIGHT} ${x-(SNV_WIDTH/2.0)},${0} ${x+(SNV_WIDTH/2.0)},${0}`;
 // };
@@ -136,7 +151,8 @@ export function generateVariantDataBinsAndDataSets(variantData,ratio){
     let foundVariantBinIndex = findVariantBinIndexForPosition(variantBins,variant,ratio);
 
     // if a variant is found within a position bin
-    if(foundVariantBinIndex >=0 ){
+    // also dont bin deletions at all.
+    if(foundVariantBinIndex >=0 && type !='deletion'){
 
       // add variant to this bin and adjust the min and max
       let foundBin = variantBins[foundVariantBinIndex];
@@ -474,7 +490,8 @@ export function getVariantTrackPositions(variantData){
   let presentVariants=[];
   for (var variant of variantData){
     if (variant.type.toLowerCase() === 'deletion') {
-      presentVariants.push('deletion');
+      //Ignore deletions for now
+      //presentVariants.push('deletion');
     }
     else if (variant.type.toLowerCase() === 'snv' || variant.type.toLowerCase() === 'point_mutation') {
       presentVariants.push('snv');
