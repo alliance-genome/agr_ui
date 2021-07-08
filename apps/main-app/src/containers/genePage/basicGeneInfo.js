@@ -55,13 +55,13 @@ class BasicGeneInfo extends Component {
 
         <AttributeLabel>Cross References</AttributeLabel>
         <AttributeValue>
-          {gene.crossReferences.other && <CrossReferenceList crossReferences={gene.crossReferences.other} />}
+          {gene.crossReferenceMap.other && <CrossReferenceList crossReferences={gene.crossReferenceMap.other} />}
         </AttributeValue>
 
         <AttributeLabel>Additional Information</AttributeLabel>
         <AttributeValue>
-          {gene.crossReferences.references &&
-            <DataSourceLink reference={gene.crossReferences.references}>Literature</DataSourceLink>
+          {gene.crossReferenceMap.references &&
+            <DataSourceLink reference={gene.crossReferenceMap.references}>Literature</DataSourceLink>
           }
         </AttributeValue>
       </AttributeList>

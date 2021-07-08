@@ -6,11 +6,11 @@ import {
   UncontrolledButtonDropdown
 } from 'reactstrap';
 import {ReferenceCell} from './index';
+import ExperimentalConditionCell from './ExperimentalConditionCell';
 
 import style from './style.scss';
 import ExternalLink from '../ExternalLink';
 import {Link} from 'react-router-dom';
-import AssociationType from '../AssociationType';
 
 function renderLink(entity) {
   const inner = <span dangerouslySetInnerHTML={{__html: entity.name}} />;
@@ -34,8 +34,6 @@ function AnnotatedEntitiesPopup(props) {
     }
   };
 
-  const showAssociationType = entities.some(entity => entity.diseaseAssociationType);
-
   return (
     <UncontrolledButtonDropdown>
       <DropdownToggle tag='span'>
@@ -48,7 +46,8 @@ function AnnotatedEntitiesPopup(props) {
               <tr>
                 <th>Name</th>
                 <th>Type</th>
-                {showAssociationType && <th>Association</th>}
+                <th>Experimental condition</th>
+                <th>Modifier</th>
                 <th>References</th>
               </tr>
             </thead>
@@ -58,11 +57,12 @@ function AnnotatedEntitiesPopup(props) {
                   <tr key={entity.id}>
                     <td>{renderLink(entity)}</td>
                     <td className='text-capitalize'>{(entity.type || '').toLowerCase()}</td>
-                    {showAssociationType && (
-                      <td className='text-nowrap'>
-                        <AssociationType type={entity.diseaseAssociationType} />
-                      </td>
-                    )}
+                    <td>
+                      <ExperimentalConditionCell conditions={entity.conditions} />
+                    </td>
+                    <td>
+                      <ExperimentalConditionCell conditions={entity.conditionModifiers} />
+                    </td>
                     <td>{entity.publicationEvidenceCodes &&
                       ReferenceCell(entity.publicationEvidenceCodes.map(pec => pec.publication))
                     }</td>

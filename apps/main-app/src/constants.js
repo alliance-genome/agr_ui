@@ -34,7 +34,7 @@ export const CATEGORIES = [
   {
     name: 'allele',
     displayName: 'Allele/Variant',
-    displayFields: ['primaryKey','genes', 'synonyms','variantType','molecularConsequence', 'diseases'],
+    displayFields: ['primaryKey','genes', 'synonyms','variantType','molecularConsequence', 'diseases', 'variantName'],
   },
   {
     name: 'model',
@@ -160,7 +160,7 @@ export const NAV_MENU = [
     sub: [
       {
         label: 'Alliance User Community',
-        route: 'https://groups.google.com/a/alliancegenome.org/g/community',
+        route: 'https://community.alliancegenome.org/categories',
       },
       {
         label: 'Twitter',

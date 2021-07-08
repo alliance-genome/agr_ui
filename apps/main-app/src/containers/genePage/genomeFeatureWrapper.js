@@ -15,6 +15,7 @@ import HorizontalScroll from '../../components/horizontalScroll';
 import HelpPopup from '../../components/helpPopup';
 import isEqual from 'lodash.isequal';
 import CommaSeparatedList from '../../components/commaSeparatedList';
+import {select} from 'd3-selection';
 
 import style from './style.scss';
 import {
@@ -37,8 +38,29 @@ class GenomeFeatureWrapper extends Component {
 
     this.trackDataUrl = APOLLO_SERVER_PREFIX + 'track/';
     this.variantDataUrl = APOLLO_SERVER_PREFIX + 'vcf/';
+    this.handleClick = this.handleClick.bind(this);
   }
 
+  handleClick() {
+
+    const {id}= event.target;
+    if(!id || id === `${this.props.id}` || typeof this.props.onAllelesSelect === 'undefined'){return;}
+    let clickedAlleles = select(`#${this.props.id}`).select(`#${id}`).data()[0].alleles;
+    let currentAlleles = this.props.allelesSelected.map( a => a.id);
+    //If one or more clicked alleles are currently selected.
+    if(currentAlleles.filter(d => clickedAlleles.includes(d)).length > 0){
+      clickedAlleles.forEach(function(element){
+        let index = currentAlleles.indexOf(element);
+        if (index !== -1) {
+          currentAlleles.splice(index, 1);
+        }
+      });
+      this.props.onAllelesSelect(currentAlleles);
+    }
+    else{
+      this.props.onAllelesSelect(clickedAlleles.concat(currentAlleles));
+    }
+  }
 
   componentDidMount() {
     this.loadGenomeFeature();
@@ -79,7 +101,7 @@ class GenomeFeatureWrapper extends Component {
       '&loc=' + encodeURIComponent(externalLocationString);
   }
 
-  generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, variantFilter, displayType,isoformFilter) {
+  generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, variantFilter, displayType,isoformFilter,htpVariant) {
     let transcriptTypes = getTranscriptTypes();
     const speciesInfo = getSpecies(species);
     const apolloPrefix = speciesInfo.apolloName;
@@ -95,6 +117,7 @@ class GenomeFeatureWrapper extends Component {
         'start': fmin,
         'end': fmax,
         'transcriptTypes': transcriptTypes,
+        'htpVariant': htpVariant ? htpVariant : '',
         'tracks': [
           {
             'id': 1,
@@ -146,7 +169,7 @@ class GenomeFeatureWrapper extends Component {
   }
 
   loadGenomeFeature() {
-    const {chromosome, fmin, fmax, species, id, primaryId, geneSymbol, displayType, synonyms = [], visibleVariants,isoformFilter} = this.props;
+    const {chromosome, fmin, fmax, species, id, primaryId, geneSymbol, displayType, synonyms = [], visibleVariants,isoformFilter,htpVariant} = this.props;
 
     // provide unique names
     let nameSuffix = [geneSymbol, ...synonyms, primaryId].filter((x, i, a) => a.indexOf(x) === i).map(x => encodeURI(x));
@@ -173,7 +196,7 @@ class GenomeFeatureWrapper extends Component {
     // [1] should be track name : ALL_Genes
     // [2] should be track name : name suffix string
     // const visibleVariants = allelesVisible && allelesVisible.length>0 ? allelesVisible.map( a => a.id ) : undefined;
-    const trackConfig = this.generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, visibleVariants, displayType,isoformFilter);
+    const trackConfig = this.generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, visibleVariants, displayType,isoformFilter,htpVariant);
     this.gfc = new GenomeFeatureViewer(trackConfig, `#${id}`, 900, undefined);
     this.setState({
       helpText: this.gfc.generateLegend()
@@ -208,7 +231,7 @@ class GenomeFeatureWrapper extends Component {
 
         <HorizontalScroll width={960}>
           <div>
-            <svg id={id}>
+            <svg id={id} onClick={this.handleClick}>
               <LoadingSpinner/>
             </svg>
           </div>
@@ -246,6 +269,7 @@ GenomeFeatureWrapper.propTypes = {
   geneSymbol: PropTypes.string.isRequired,
   genomeLocationList: PropTypes.array,
   height: PropTypes.string,
+  htpVariant: PropTypes.string,
   id: PropTypes.string,
   isoformFilter: PropTypes.array,
   primaryId: PropTypes.string,
@@ -254,6 +278,7 @@ GenomeFeatureWrapper.propTypes = {
   synonyms: PropTypes.array,
   visibleVariants: PropTypes.array,
   width: PropTypes.string,
+  onAllelesSelect: PropTypes.func,
 
 };
 

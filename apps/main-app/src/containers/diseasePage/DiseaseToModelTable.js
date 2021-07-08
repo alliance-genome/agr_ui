@@ -8,6 +8,7 @@ import {
 } from '../../components/dataTable';
 import AnnotatedEntitiesPopup
   from '../../components/dataTable/AnnotatedEntitiesPopup';
+import ExperimentalConditionCell from '../../components/dataTable/ExperimentalConditionCell';
 import ExternalLink from '../../components/ExternalLink';
 import DiseaseLink from '../../components/disease/DiseaseLink';
 import {getDistinctFieldValue} from '../../components/dataTable/utils';
@@ -37,13 +38,14 @@ const DiseaseToModelTable = ({id}) => {
           </div>
           <small>
             <AnnotatedEntitiesPopup entities={row.primaryAnnotatedEntities}>
-              Based on inferences
+              Annotation details
             </AnnotatedEntitiesPopup>
           </small>
         </React.Fragment>
       ),
       filterable: true,
       filterName: 'modelName',
+      headerStyle: {width: '280px'},
     },
     {
       dataField: 'species',
@@ -52,6 +54,12 @@ const DiseaseToModelTable = ({id}) => {
       filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
       headerStyle: {width: '105px'},
+    },
+    {
+      dataField: 'conditions',
+      text: 'Experimental condition',
+      formatter: conditions => <ExperimentalConditionCell conditions={conditions} />,
+      headerStyle: {width: '220px'},
     },
     {
       dataField: 'associationType',
@@ -67,6 +75,12 @@ const DiseaseToModelTable = ({id}) => {
       formatter: disease => <DiseaseLink disease={disease} />,
       filterable: true,
       headerStyle: {width: '150px'},
+    },
+    {
+      dataField: 'conditionModifiers',
+      text: 'Modifier',
+      formatter: conditions => <ExperimentalConditionCell conditions={conditions} />,
+      headerStyle: {width: '220px'},
     },
     {
       dataField: 'evidenceCodes',

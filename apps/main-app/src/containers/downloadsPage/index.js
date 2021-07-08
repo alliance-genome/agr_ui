@@ -13,6 +13,7 @@ import DownloadFileRow from './DownloadFileRow';
 import PageNavEntity from '../../components/dataPage/PageNavEntity';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import SpeciesName from '../../components/SpeciesName';
+import { useRelease } from '../../hooks/ReleaseContextProvider';
 
 const DISEASE = 'Disease';
 const EXPRESSION = 'Expression';
@@ -54,11 +55,18 @@ const TAXON_SUBTYPES = [
 
 const DownloadsPage = () => {
   const {
+    data: dataRelease,
+    isLoading: isLoadingRelease,
+  } = useRelease();
+
+  const { releaseVersion } = dataRelease || {};
+
+  const {
     data: files,
     isLoading,
-  } = usePageLoadingQuery( `https://fms.alliancegenome.org/api/datafile/by/release/${process.env.ALLIANCE_RELEASE}?latest=true`);
+  } = usePageLoadingQuery( `https://fms.alliancegenome.org/api/datafile/by/release/${releaseVersion}?latest=true`);
 
-  if (isLoading) {
+  if (isLoadingRelease || isLoading) {
     return null;
   }
 

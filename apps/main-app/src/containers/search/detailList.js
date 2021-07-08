@@ -7,7 +7,7 @@ import NoData from '../../components/noData';
 import { CollapsibleList } from '../../components/collapsibleList';
 import SpeciesName from '../../components/SpeciesName';
 
-const COLLAPSIBLE_FIELDS = ['collapsible_synonyms','variants'];
+const COLLAPSIBLE_FIELDS = ['collapsible_synonyms','variantName'];
 
 const JOIN_CHAR = ', ';
 

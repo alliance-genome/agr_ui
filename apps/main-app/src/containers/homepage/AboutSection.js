@@ -28,7 +28,7 @@ const AboutSection = () => {
           <div className='col-md-4'>
             <a
               className='text-decoration-none'
-              href='https://groups.google.com/a/alliancegenome.org/g/community'
+              href='https://community.alliancegenome.org/categories'
               rel="noopener noreferrer"
               target="_blank"
             >

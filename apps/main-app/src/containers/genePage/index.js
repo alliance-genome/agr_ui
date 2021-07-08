@@ -4,8 +4,10 @@ import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPa
 import BasicGeneInfo from './basicGeneInfo';
 import { OrthologyFilteredTable, OrthologyUserGuide, OrthologyBasicInfo } from '../../components/orthology';
 import GoUserGuide from '../../components/geneOntologyRibbon/goUserGuide';
+import PathwayUserGuide from '../../components/pathway/pathwayUserGuide';
 
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
+import PathwayWidget from '../../components/pathway/pathwayWidget';
 import NotFound from '../../components/notFound';
 import Subsection from '../../components/subsection';
 import AlleleTable from './alleleTable';
@@ -40,6 +42,7 @@ import SpeciesName from '../../components/SpeciesName';
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
 const FUNCTION = 'Function - GO Annotations';
+const PATHWAY = 'Pathways';
 const ORTHOLOGY = 'Orthology';
 const DISEASE = 'Disease Associations';
 const EXPRESSION = 'Expression';
@@ -54,6 +57,7 @@ const SECTIONS = [
   {name: SUMMARY},
   {name: ORTHOLOGY},
   {name: FUNCTION},
+  {name: PATHWAY},
   {name: PHENOTYPES},
   {name: DISEASE},
   {name: ALLELES},
@@ -79,8 +83,8 @@ const GenePage = ({geneId}) => {
   const genomeLocation = getSingleGenomeLocation(data.genomeLocations);
 
   // TODO: this name should come directly from the API
-  if (data.crossReferences['expression-atlas']) {
-    data.crossReferences['expression-atlas'].displayName = 'Expression Atlas';
+  if (data.crossReferenceMap['expression-atlas']) {
+    data.crossReferenceMap['expression-atlas'].displayName = 'Expression Atlas';
   }
 
   // manufacture a single cell atlas cross reference since this isn't stored
@@ -103,7 +107,7 @@ const GenePage = ({geneId}) => {
           truncateName
         >
           <SpeciesName>{data.species.name}</SpeciesName>
-          <DataSourceLink reference={data.crossReferences.primary} />
+          <DataSourceLink reference={data.crossReferenceMap.primary} />
         </PageNavEntity>
       </PageNav>
       <PageData>
@@ -115,7 +119,7 @@ const GenePage = ({geneId}) => {
         </Subsection>
 
         <Subsection help={<OrthologyUserGuide />} title={ORTHOLOGY}>
-          <OrthologyBasicInfo pantherCrossReference={data.crossReferences.panther} />
+          <OrthologyBasicInfo pantherCrossReference={data.crossReferenceMap.panther} />
           <OrthologyFilteredTable geneId={data.id} />
         </Subsection>
 
@@ -127,14 +131,22 @@ const GenePage = ({geneId}) => {
           />
         </Subsection>
 
+        <Subsection help={<PathwayUserGuide />} title={PATHWAY}>
+          <PathwayWidget
+            geneId={data.id}
+            geneSpecies={data.species}
+            geneSymbol={data.symbol}
+          />
+        </Subsection>
+        
         <Subsection title={PHENOTYPES}>
           <PhenotypeCrossRefs
             primary={[
-              data.crossReferences.phenotypes
+              data.crossReferenceMap.phenotypes
             ]}
             other={[
-              data.crossReferences.biogrid_orcs,
-              data.crossReferences.phenotypes_impc
+              data.crossReferenceMap.biogrid_orcs,
+              data.crossReferenceMap.phenotypes_impc
             ]}
           />
           <PhenotypeTable geneId={data.id} />
@@ -183,23 +195,23 @@ const GenePage = ({geneId}) => {
 
         <Subsection help={<ExpressionUserGuide />} title={EXPRESSION}>
           <ExpressionLinks
-            allExpressionCrossReference={data.crossReferences.expression}
+            allExpressionCrossReference={data.crossReferenceMap.expression}
             geneDataProvider={data.dataProvider}
-            imagesCrossReference={data.crossReferences.expression_images}
+            imagesCrossReference={data.crossReferenceMap.expression_images}
             otherExpressionCrossReferences={[
-              data.crossReferences.other_expression,
+              data.crossReferenceMap.other_expression,
               singleCellAtlasXRef,
-              data.crossReferences['expression-atlas']
+              data.crossReferenceMap['expression-atlas']
             ]}
-            spellCrossReference={data.crossReferences.spell}
-            wildtypeExpressionCrossReference={data.crossReferences.wild_type_expression}
+            spellCrossReference={data.crossReferenceMap.spell}
+            wildtypeExpressionCrossReference={data.crossReferenceMap.wild_type_expression}
           />
           <ExpressionComparisonRibbon geneId={data.id} geneTaxon={data.species.taxonId} />
         </Subsection>
 
         <Subsection help={<InteractionUserGuide />} title={INTERACTIONS}>
           <GeneInteractionCrossReference
-            crossReference={data.crossReferences.MODinteractions}
+            crossReference={data.crossReferenceMap.MODinteractions}
             geneDataProvider={data.dataProvider}
           />
           <GenePhysicalInteractionDetailTable

@@ -14,6 +14,11 @@ global.scrollTo = jest.fn();
 
 describe('ReactApp', () => {
   it('should be able to render to an HTML string', () => {
+    global.window = {
+      location: {
+        hostname: 'www.alliancegenome.org'
+      }
+    };
     let htmlString = renderToString(
       <ReactApp router={MemoryRouter} />
     );
