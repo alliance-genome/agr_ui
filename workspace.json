@@ -281,7 +281,7 @@
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/main-app",
-            "index": "apps/main-app/src/index.html",
+            "index": "apps/main-app/src/public/index.html",
             "main": "apps/main-app/src/main.js",
             "polyfills": "apps/main-app/src/polyfills.js",
             "tsConfig": "apps/main-app/tsconfig.app.json",
