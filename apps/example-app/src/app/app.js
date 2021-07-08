@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import tw from 'twin.macro';
 import { Route, Link } from 'react-router-dom';
-import { AppShell } from '@wormbase/agr-app-shell';
-import { SharedAssets } from '@wormbase/agr-shared-assets';
+import { AppShell } from '@alliancegenome/app-shell';
+import { SharedAssets } from '@alliancegenome/shared-assets';
 import star from './star.svg';
 
 export function App() {
