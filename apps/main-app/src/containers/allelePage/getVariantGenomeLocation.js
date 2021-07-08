@@ -4,7 +4,7 @@ export default function getVariantGenomeLocation(variant) {
   const { gene, location: variantLocation } = variant;
   const { genomeLocations } = gene || {};
 
-  return genomeLocations ?
+  return genomeLocations && genomeLocations.length ?
     getSingleGenomeLocation(genomeLocations) :
     variantLocation ? {
       // in case not overlapping a gene

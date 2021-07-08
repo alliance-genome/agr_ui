@@ -8,6 +8,7 @@ import {
   DataTable,
 } from '../../components/dataTable';
 import NoData from '../../components/noData';
+import { CollapsibleList } from '../../components/collapsibleList';
 import {getDistinctFieldValue, } from '../../components/dataTable/utils';
 import ExternalLink from '../../components/ExternalLink';
 import {VariantJBrowseLink} from '../../components/variant';
@@ -39,7 +40,7 @@ const AlleleTable = ({geneId}) => {
       synonym: allele.synonyms,
       source: {
         dataProvider: gene.dataProvider,
-        url: allele.crossReferences.primary.url,
+        url: allele.crossReferenceMap.primary.url,
       },
       disease: allele.diseases.sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
     }));
@@ -47,8 +48,10 @@ const AlleleTable = ({geneId}) => {
 
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
 
+  const hasAlleles = resolvedData && resolvedData.total > 0;
+
   // filtered but not paginate list of alleles
-  const allelesFiltered = useAllVariants(geneId, tableProps.tableState); 
+  const allelesFiltered = useAllVariants(geneId, tableProps.tableState);
 
   const variantsSequenceViewerProps = useMemo(() => {
     const variantsFiltered = allelesFiltered.data ? allelesFiltered.data.results.flatMap(
@@ -139,7 +142,7 @@ const AlleleTable = ({geneId}) => {
       formatter: (variants) => (
         <div>
           {
-            variants.map(({id, variantType: type = {}, location = {}, consequence}) => (
+            variants.map(({id, variantType: type = {}, location = {}, transcriptLevelConsequence}) => (
               <div key={id} style={{display: 'flex'}}>
                 <div
                   style={{
@@ -174,7 +177,11 @@ const AlleleTable = ({geneId}) => {
                     flex: '0 0 auto',
                   }}
                 >
-                  {consequence && consequence.replace(/_/g, ' ')}
+                  <CollapsibleList collapsedSize={1}>
+                    {[...new Set(transcriptLevelConsequence && transcriptLevelConsequence.flatMap(
+                      ({molecularConsequences}) => molecularConsequences
+                    ).map(c => c.replace(/_/g, ' ')))]}
+                  </CollapsibleList>
                 </div>
               </div>
             ))
@@ -199,7 +206,7 @@ const AlleleTable = ({geneId}) => {
       filterable: getDistinctFieldValue(resolvedData, 'filter.variantType'),
     },
     {
-      dataField: 'variantConsequence',
+      dataField: 'variants.transcriptLevelConsequence',
       text: 'Molecular consequence',
       helpPopupProps: {
         id: 'gene-page--alleles-table--molecular-consequence-help',
@@ -209,6 +216,7 @@ const AlleleTable = ({geneId}) => {
       style: {
         display: 'none',
       },
+      filterName: 'molecularConsequence',
       filterable: getDistinctFieldValue(resolvedData, 'filter.molecularConsequence'),
     },
     {
@@ -285,7 +293,9 @@ const AlleleTable = ({geneId}) => {
           null :
           variantsSequenceViewerProps.hasVariants ?
             <VariantsSequenceViewer {...variantsSequenceViewerProps} /> :
-            <NoData>No mapped variant information available</NoData>
+            hasAlleles ?
+              <NoData>No mapped variant information available</NoData> :
+              null /* in this case, the whole section is empty, and default no data message kicks in */
       }
       <div className="position-relative">
         <DataTable
@@ -298,7 +308,11 @@ const AlleleTable = ({geneId}) => {
           selectRow={selectRow}
           sortOptions={sortOptions}
         />
-        <Link className="btn btn-primary position-absolute d-block" style={{top: '2em'}} to={`/gene/${geneId}/allele-details`}>View all Alleles and Variants information</Link>
+        {
+          hasAlleles ?
+            <Link className="btn btn-primary position-absolute d-block" style={{top: '2em'}} to={`/gene/${geneId}/allele-details`}>View all Alleles and Variants information</Link> :
+            null
+        }
       </div>
     </>
   );
