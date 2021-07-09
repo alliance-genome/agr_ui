@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import {calculateNewTrackPosition, checkSpace, findRange} from '../RenderFunctions';
+import {calculateNewTrackPosition, checkSpace, findRange,setHighlights} from '../RenderFunctions';
 import {
   generateDelinsPoint,
   generateInsertionPoint,
@@ -23,13 +23,14 @@ let apolloService = new ApolloService();
 
 export default class IsoformAndVariantTrack {
 
-  constructor(viewer, track, height, width, transcriptTypes, variantTypes,showVariantLabel,variantFilter,binRatio,isoformFilter) {
+  constructor(viewer, track, height, width, transcriptTypes, variantTypes,showVariantLabel,variantFilter,binRatio,isoformFilter,initialHiglight) {
     this.trackData = {};
     this.variantData = {};
     this.viewer = viewer;
     this.width = width;
     this.variantFilter = variantFilter;
     this.isoformFilter = isoformFilter;
+    this.initialHighlight = initialHiglight;
     this.height = height;
     this.transcriptTypes = transcriptTypes;
     this.variantTypes = variantTypes;
@@ -41,8 +42,10 @@ export default class IsoformAndVariantTrack {
   // TODO: Potentially seperate this large section of code
   // for both testing/extensibility
   DrawTrack() {
+    let setInitialHighlight = this.setInitialHighlight;
     let isoformFilter = this.isoformFilter;
     let isoformData= this.trackData;
+    let initialHighlight = this.initialHighlight;
     let variantData = this.filterVariantData(this.variantData,this.variantFilter);
     let viewer = this.viewer;
     let width = this.width;
@@ -99,7 +102,7 @@ export default class IsoformAndVariantTrack {
     let deletionTrack = viewer.append("g").attr("class", "deletions track")
       .attr("transform", "translate(0,22.5)");
     //We need a new container for labels now.
-    let labelTrack = viewer.append("g").attr("class", "label track");
+    let labelTrack = viewer.append("g").attr("class", "label");
 
     //Append Invisible Rect to give space properly if only one track exists.
     //variantContainer.append('rect').style("opacity", 0).attr("height", VARIANT_HEIGHT*numVariantTracks).attr("width",width);
@@ -240,7 +243,7 @@ export default class IsoformAndVariantTrack {
       });
 
       //Need to adjust for the label track being created already... but is below this track.
-      let variantTrackAdjust = calculateNewTrackPosition(this.viewer)-LABEL_PADDING;
+      let variantTrackAdjust = calculateNewTrackPosition(this.viewer);
       let variantContainer = viewer.append("g").attr("class", "variants track")
         .attr("transform", 'translate(0,' + variantTrackAdjust+ ')');
 
@@ -642,7 +645,8 @@ export default class IsoformAndVariantTrack {
         });
       }
     }
-
+    setHighlights(initialHighlight,viewer);
+    //setInitialHighlight(initialHighlight,viewer);
 
     if (row_count === 0) {
       track.append('text')
@@ -706,6 +710,56 @@ export default class IsoformAndVariantTrack {
       .attr('class', "tooltipDivX")
       .on('click' , () => closeFunction());
 
+  }
+
+  setInitialHighlight(selectedAlleles,svgTarget){
+
+    let viewer_height= svgTarget.node().getBBox().height;
+
+    //This code needs to be simplified and put in another function
+    let highlights=svgTarget.selectAll(".variant-deletion,.variant-SNV,.variant-insertion,.variant-delins")
+      .filter(function(d){
+        let returnVal=false;
+        //TODO This needs to be standardized.  We sometimes get these returned in a comma sperated list
+        //and sometimes in an array.
+        if(d.alleles){
+          let ids=d.alleles[0].replace(/"|\[|\]| /g, "").split(',');
+          ids.forEach((val) => {
+            if (selectedAlleles.includes(val)){
+              returnVal=true;
+            }
+          })
+          d.alleles.forEach((val) => {
+            if (selectedAlleles.includes(val)){
+              returnVal=true;
+            }
+          })
+        }
+        return returnVal;
+      })
+      .datum(function(d){
+        d.selected="true";
+        return d;
+      })
+      .style("stroke" , "black")
+
+      highlights.each(function(){
+        let x_val=d3.select(this).attr('x');
+        let width_val=d3.select(this).attr('width');
+        if(width_val == null){
+          width_val = 3;
+          x_val = x_val-(width_val/2);
+        }
+        svgTarget.select(".deletions.track")
+        .append('rect')
+        .attr("class","highlight")
+        .attr("x", x_val)
+        .attr("width", width_val)
+        .attr("height", viewer_height)
+        .attr("fill", 'yellow')
+        .attr("opacity", 0.8)
+        .lower();
+      })
   }
 
   async populateTrack(track) {

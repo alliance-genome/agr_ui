@@ -4,6 +4,7 @@ import 'babel-polyfill';
 import Drawer from "./Drawer";
 import * as d3 from "d3";
 import {createLegendBox} from "./services/LegenedService";
+import {setHighlights} from './RenderFunctions';
 
 /*
  * Main viewer.
@@ -59,54 +60,7 @@ export default class GenomeFeatureViewer {
           return d;
         });
 
-
-
-       let highlights=svgTarget.selectAll(".variant-deletion,.variant-SNV,.variant-insertion,.variant-delins")
-         .filter(function(d){
-           let returnVal=false;
-           //TODO This needs to be standardized.  We sometimes get these returned in a comma sperated list
-           //and sometimes in an array.
-           if(d.alleles){
-             let ids=d.alleles[0].replace(/"|\[|\]| /g, "").split(',');
-             ids.forEach((val) => {
-               if (selectedAlleles.includes(val)){
-                 returnVal=true;
-               }
-             })
-             d.alleles.forEach((val) => {
-               if (selectedAlleles.includes(val)){
-                 returnVal=true;
-               }
-             })
-           }
-           return returnVal;
-         })
-         .datum(function(d){
-           d.selected="true";
-           return d;
-         })
-         .style("stroke" , "black")
-
-
-         highlights.each(function(){
-           let x_val=d3.select(this).attr('x');
-           let width_val=d3.select(this).attr('width');
-           if(width_val == null){
-             width_val = 3;
-             x_val = x_val-(width_val/2);
-           }
-           svgTarget.select(".variants.track")
-           .append('rect')
-           .attr("class","highlight")
-           .attr("x", x_val)
-           .attr("width", width_val)
-           .attr("height", viewer_height)
-           .attr("fill", 'yellow')
-           .attr("opacity", 0.8)
-           .lower();
-         })
-
-
+        setHighlights(selectedAlleles,svgTarget);
     }
 
 

@@ -65,6 +65,7 @@ export default class Drawer {
         let chromosome = options["chromosome"];
         let variantFilter = options["variantFilter"] ? options["variantFilter"] : [];
         let isoformFilter = options["isoformFilter"] ? options["isoformFilter"] : [];
+        let initialHighlight = options["initialHighlight"] ? options["initialHighlight"] : [];
         let htpVariant = options["htpVariant"] ? options["htpVariant"] : '';
         let start = sequenceOptions["start"];
         let end = sequenceOptions["end"];
@@ -99,9 +100,10 @@ export default class Drawer {
           track["chromosome"] = chromosome;
           track["variant_filter"] = variantFilter;
           track["isoform_filter"] = isoformFilter;
+          track["initialHighlight"] = initialHighlight;
           if(track.type === TRACK_TYPE.ISOFORM_AND_VARIANT)
           {
-            const isoformVariantTrack = new IsoformAndVariantTrack(viewer, track, height, width,transcriptTypes,variantTypes,showVariantLabel,variantFilter,binRatio,isoformFilter);
+            const isoformVariantTrack = new IsoformAndVariantTrack(viewer, track, height, width,transcriptTypes,variantTypes,showVariantLabel,variantFilter,binRatio,isoformFilter,initialHighlight);
             await isoformVariantTrack.populateTrack(track,() => track.isoformFunction,() => track.variantFunction);
             track_height += isoformVariantTrack.DrawTrack();
           }
