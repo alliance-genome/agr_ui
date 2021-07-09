@@ -393,7 +393,7 @@ export default class IsoformAndVariantTrack {
     labelTrack.attr("transform", 'translate(0,'+labelTrackPosition+')');
 
     // Calculate where this track should go and translate it, must be after the variant lables are added
-    let newTrackPosition = calculateNewTrackPosition(this.viewer);
+    let newTrackPosition = calculateNewTrackPosition(this.viewer)+LABEL_PADDING;
     let track = viewer.append("g").attr('transform', 'translate(0,' + newTrackPosition + ')').attr("class", "track");
 
     let row_count = 0;
