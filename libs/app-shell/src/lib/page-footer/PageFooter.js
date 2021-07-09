@@ -1,6 +1,6 @@
 import tw from 'twin.macro';
 import React from 'react';
-import { allianceLogoWhiteBase64 } from '@wormbase/agr-shared-assets';
+import { allianceLogoWhiteBase64 } from '@alliancegenome/shared-assets';
 import { useRenderLink } from '../link-render-provider/LinkRenderProvider';
 import PageFooterLinkGroup from './PageFooterLinkGroup';
 import PageFooterLinkGroupLabel from './PageFooterLinkGroupLabel';

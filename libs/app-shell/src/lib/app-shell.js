@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { Global } from '@emotion/react';
 import tw from 'twin.macro';
-import { Logo, getOrganizationById } from '@wormbase/agr-shared-assets';
+import { Logo, getOrganizationById } from '@alliancegenome/shared-assets';
 import Menu from './menu/Menu';
 import LinkRenderProvider from './link-render-provider/LinkRenderProvider';
 import LinkRenderDefault from './link-render-provider/LinkRenderDefault';

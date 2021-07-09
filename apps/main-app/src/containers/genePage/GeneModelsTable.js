@@ -6,6 +6,7 @@ import CollapsibleList from '../../components/collapsibleList/collapsibleList';
 import DiseaseLink from '../../components/disease/DiseaseLink';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import AssociationType from '../../components/AssociationType';
+import ExperimentalConditionCell from '../../components/dataTable/ExperimentalConditionCell';
 
 const GeneModelsTable = ({id}) => {
   const tableQuery = useDataTableQuery(`/api/gene/${id}/models`);
@@ -21,6 +22,13 @@ const GeneModelsTable = ({id}) => {
       ),
       filterable: true,
       filterName: 'modelName',
+      headerStyle: {width: '220px'},
+    },
+    {
+      dataField: 'conditions',
+      text: 'Experimental condition',
+      formatter: conditions => <ExperimentalConditionCell conditions={conditions} />,
+      headerStyle: {width: '220px'},
     },
     {
       dataField: 'diseaseModels',
@@ -37,6 +45,7 @@ const GeneModelsTable = ({id}) => {
       ),
       filterable: true,
       filterName: 'disease',
+      headerStyle: {width: '220px'},
     },
     {
       dataField: 'phenotypes',
@@ -50,6 +59,13 @@ const GeneModelsTable = ({id}) => {
       ),
       filterable: true,
       filterName: 'phenotype',
+      headerStyle: {width: '220px'},
+    },
+    {
+      dataField: 'conditionModifiers',
+      text: 'Modifier',
+      formatter: conditions => <ExperimentalConditionCell conditions={conditions} />,
+      headerStyle: {width: '220px'},
     },
     {
       dataField: 'source',

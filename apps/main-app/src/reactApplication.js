@@ -8,6 +8,7 @@ import RouteListener from './components/routeListener';
 import routes from './routes';
 import { ScrollContext } from 'react-router-scroll-4';
 import { ReactQueryConfigProvider } from 'react-query';
+import ReleaseContextProvider from './hooks/ReleaseContextProvider';
 
 const isBrowser = (typeof window !== 'undefined');
 const store = configureStore();
@@ -26,17 +27,19 @@ class ReactApp extends Component {
     return (
       <Provider store={store}>
         <ReactQueryConfigProvider config={queryConfig}>
-          <Router>
-            {
-              isBrowser ?
-                <ScrollContext>
-                  <RouteListener onRouteChange={logPageView}>
-                    {routes}
-                  </RouteListener>
-                </ScrollContext> :
-                routes
-            }
-          </Router>
+          <ReleaseContextProvider>
+            <Router>
+              {
+                isBrowser ?
+                  <ScrollContext>
+                    <RouteListener onRouteChange={logPageView}>
+                      {routes}
+                    </RouteListener>
+                  </ScrollContext> :
+                  routes
+              }
+            </Router>
+          </ReleaseContextProvider>
         </ReactQueryConfigProvider>
       </Provider>
     );

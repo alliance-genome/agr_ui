@@ -16,14 +16,10 @@ import './style.scss';
 
 import ReactApp from './reactApplication';
 
-import {
-  applyPolyfills,
-  defineCustomElements,
-} from '@geneontology/wc-ribbon-strips/loader';
-import {
-  applyPolyfills as applyPolyfills2,
-  defineCustomElements as defineCustomElements2,
-} from '@geneontology/wc-ribbon-table/loader';
+
+import { applyPolyfills, defineCustomElements } from '@geneontology/wc-ribbon-strips/loader';
+import { applyPolyfills as applyPolyfills2, defineCustomElements as defineCustomElements2 } from '@geneontology/wc-ribbon-table/loader';
+import { applyPolyfills as applyPolyfills3, defineCustomElements as defineCustomElements3 } from '@geneontology/wc-gocam-viz/loader';
 
 analytics.initialize();
 
@@ -39,4 +35,8 @@ applyPolyfills().then(() => {
 
 applyPolyfills2().then(() => {
   defineCustomElements2(window);
+});
+
+applyPolyfills3().then(() => {
+  defineCustomElements3(window);
 });

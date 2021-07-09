@@ -58,7 +58,7 @@ const DiseaseAnnotationTable = ({
           <div>{GeneCell(gene)}</div>
           <small>
             <AnnotatedEntitiesPopup entities={row.primaryAnnotatedEntities}>
-                Based on inferences
+              Annotation details
             </AnnotatedEntitiesPopup>
           </small>
         </React.Fragment>

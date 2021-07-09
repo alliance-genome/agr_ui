@@ -25,7 +25,7 @@ const VariantToTranscriptTable = ({variant}) => {
         <div>{name}</div>
       ),
       headerStyle: {
-        width: 180,
+        width: 260,
       },
     },
     {
@@ -71,7 +71,7 @@ const VariantToTranscriptTable = ({variant}) => {
                 // cdnaEndPosition,
 
                 // consequence
-                molecularConsequence = '',
+                molecularConsequences = [],
 
                 // protein
                 aminoAcidReference = '',
@@ -86,12 +86,11 @@ const VariantToTranscriptTable = ({variant}) => {
                 cdsEndPosition,
 
               }, index) => {
-                const molecularConsequenceTerms = molecularConsequence.split(',');
                 return (
                   <div className={`row ${styles.row}`} key={index}>
                     <div className='col'>
                       <CollapsibleList collapsedSize={1} showBullets>
-                        {molecularConsequenceTerms.map(
+                        {molecularConsequences.map(
                           (consequence) => {
                             return consequence.replace(/_/g, ' ');
                           })

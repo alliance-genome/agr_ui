@@ -4,7 +4,7 @@ import DataSourceLink from './dataSourceLink';
 
 const ConstructLink = ({construct}) => {
   return (
-    <DataSourceLink reference={construct.crossReferences.primary}>
+    <DataSourceLink reference={construct.crossReferenceMap.primary}>
       <span dangerouslySetInnerHTML={{__html: construct.name}} />
     </DataSourceLink>
   );
@@ -13,7 +13,7 @@ const ConstructLink = ({construct}) => {
 ConstructLink.propTypes = {
   construct: PropTypes.shape({
     name: PropTypes.string,
-    crossReferences: PropTypes.shape({
+    crossReferenceMap: PropTypes.shape({
       primary: PropTypes.object,
     }),
   })

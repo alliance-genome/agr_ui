@@ -26,7 +26,7 @@ const AlleleToPhenotypeTable = ({alleleId}) => {
     },
     {
       dataField: 'primaryAnnotatedEntities',
-      text: 'Inferred From',
+      text: 'Annotation details',
       formatter: entities => <AnnotatedEntitiesPopup entities={entities}/>,
       headerStyle: {width: '90px'},
     },
