@@ -32,7 +32,7 @@ const PhenotypeTable = ({geneId}) => {
     },
     {
       dataField: 'primaryAnnotatedEntities',
-      text: 'Based on Inferences',
+      text: 'Annotation details',
       formatter: entities => <AnnotatedEntitiesPopup entities={entities}/>,
       headerStyle: {width: '90px'},
     },

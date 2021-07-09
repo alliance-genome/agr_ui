@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react';
 import tw from 'twin.macro';
 import Link from 'next/link';
-import { AppShell } from '@wormbase/agr-app-shell';
+import { AppShell } from '@alliancegenome/app-shell';
 import NewsListItem from '../components/news-list-item/news-list-item';
 import {
   getOrganizationById,
   getAllMembers,
-} from '@wormbase/agr-shared-assets';
+} from '@alliancegenome/shared-assets';
 
 const ALL_MOD_IDS = getAllMembers().map(({ id }) => id);
 

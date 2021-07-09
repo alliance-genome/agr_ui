@@ -114,6 +114,10 @@ export function makeFieldDisplayName(unformattedName, category = '') {
     return 'Name';
   case 'symbolText':
     return 'Symbol';
+  case 'variantType':
+    return 'Variant Type';
+  case 'variantName':
+    return 'Variant Name';
   case 'alterationType':
     return 'Category\u00a0'; //non breaking whitespace char in order to avoid conflict with higher level category value
   default:
@@ -173,7 +177,7 @@ export function getQueryParamWithValueChanged(key, val, queryParams, isClear=fal
   return qp;
 }
 
-export const getURLForEntry = (category, id) => {
+export const getURLForEntry = (category, id, alterationType) => {
 
   switch (category) {
   case 'gene':
@@ -181,13 +185,26 @@ export const getURLForEntry = (category, id) => {
   case 'disease':
     return `/disease/${id}`;
   case 'allele':
+    if(alterationType === 'variant'){
+      return `/variant/${id}`;
+    }
     return `/allele/${id}`;
   }
 };
 
 export function getLinkForEntry(entry) {
-  const inner = <span dangerouslySetInnerHTML={{ __html: entry.display_name }} />;
-  const url = getURLForEntry(entry.category, entry.id);
+  let entryText;
+  if(entry.category === 'allele' && entry.alterationType === 'variant'){
+    if(entry.variantName){
+      entryText = entry.variantName;
+    }else{
+      entryText = entry.display_name;
+    }
+  } else{
+    entryText = entry.display_name;
+  }
+  const inner = <span dangerouslySetInnerHTML={{ __html: entryText }} />;
+  const url = entry.alterationType ? getURLForEntry(entry.category , entry.id, entry.alterationType) : getURLForEntry(entry.category, entry.id);
   if (url) {
     return <Link to={url}>{inner}</Link>;
   } else {
