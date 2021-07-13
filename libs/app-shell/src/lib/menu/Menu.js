@@ -53,7 +53,7 @@ const Menu = () => {
               ))}
             </SubMenu>
           ) : (
-            <MenuItem>
+            <MenuItem key={label}>
               <Link to={route}>{label}</Link>
             </MenuItem>
           )
