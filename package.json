@@ -5,7 +5,7 @@
   "scripts": {
     "nx": "nx",
     "start": "nx serve",
-    "build": "echo \"next build && next export\"",
+    "build": "echo \"# trick Amplify SSG detection with next build && next export\" && nx build",
     "test": "nx test",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "nx e2e",
