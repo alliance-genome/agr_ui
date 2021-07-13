@@ -5,7 +5,7 @@
   "scripts": {
     "nx": "nx",
     "start": "nx serve",
-    "build": "next build && next export",
+    "build": "nx build",
     "test": "nx test",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "nx e2e",
