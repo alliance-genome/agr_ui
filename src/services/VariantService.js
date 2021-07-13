@@ -14,15 +14,24 @@ export function getDeletionHeight(x,fmin,fmax) {
   if(x.length ==0){
     return 0;}
   else{
-    let highest_row=0;
+    let can_place=true;
+    let current_row=0;
     x.sort((a, b) => (a.row > b.row) ? 1 : -1);
-    x.forEach(feat =>{
+    x.every(feat =>{
+      if(current_row != feat.row && can_place){
+        return false;}
+      else if (current_row != feat.row) {
+        current_row = feat.row;
+        can_place=true;}
       if((feat.fmin>fmin && feat.fmin>fmax) || (feat.fmax<fmax && feat.fmax<fmin)){
-        return feat.row;
-      }
-      else{highest_row=feat.row;}
+        return true;}
+      else{
+        can_place=false;
+        return true;}
     });
-    return highest_row+1;
+
+    if(can_place){return current_row;}
+    else{return current_row+1;}
   }
 }
 // export function generateDeletion(x)  {

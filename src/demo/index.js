@@ -28,7 +28,7 @@ function covidExamples(){
 }
 
 function currentExamples(){
-  createExample("2R:11524006..11528210", "fly", "viewerActnFly", TRACK_TYPE.ISOFORM_AND_VARIANT, false,[],[],['FB:FBal0299736','FB:FBal0003773']);
+  createExample("2R:11524006..11528210", "fly", "viewerActnFly", TRACK_TYPE.ISOFORM_AND_VARIANT, false,[],[],[]);
   //createExample("8:57320983..57324517", "mouse", "viewerHand2Mouse", TRACK_TYPE.ISOFORM_AND_VARIANT, false,[],['ENSMUST00000185635']);
   createExample("9:42732992..42873700", "zebrafish", "viewerHighlightExample", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
   //createCoVExample("NC_045512.2:17894..28259", "SARS-CoV-2", "covidExample1", TRACK_TYPE.ISOFORM, false);
