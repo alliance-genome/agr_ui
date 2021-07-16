@@ -165,14 +165,6 @@ export default class IsoformAndVariantTrack {
         let descriptionHtml = renderVariantDescriptions(descriptions);
         const consequenceColor = getColorsForConsequences(descriptions)[0];
 
-        //Adjust Position for features that go over the edge.
-        if(fmax>viewEnd){
-          fmax=viewEnd;
-        }
-        if(fmin<viewStart){
-          fmin=viewEnd;
-        }
-
         //Function to determine what row this goes on... not working yet.
         let currentHeight = getDeletionHeight(deletionSpace,fmin,fmax);
         //Add start/end to array
