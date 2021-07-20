@@ -5,12 +5,7 @@ import PropTypes from 'prop-types';
 import HorizontalScroll from '../horizontalScroll';
 
 import { STRINGENCY_HIGH } from '../orthology/constants';
-import ControlsContainer from '../controlsContainer';
-import OrthologPicker from '../OrthologPicker';
-import { getOrthologId } from '../orthology';
 import fetchData from '../../lib/fetchData';
-
-import LoadingSpinner from '../loadingSpinner';
 
 import { withRouter } from 'react-router-dom';
 
@@ -88,7 +83,6 @@ class PathwayWidget extends Component {
     //   this.setState({ uniprot : { loaded : true, error : true, id : undefined } });
     // })
   }
-
 
   /**
    * Dynamically load the reactome library the first time the component is mount
@@ -209,9 +203,10 @@ class PathwayWidget extends Component {
 
     this.setState({loading: false});
 
-    if(this.state.reactomePathways.selected) {
-      this.loadReactomeDiagram(this.state.reactomePathways.selected);
-    }
+    this.selectReactomePathway();
+    // if(this.state.reactomePathways.selected) {
+    //   this.loadReactomeDiagram(this.state.reactomePathways.selected);
+    // }
   }
 
   /**
@@ -227,7 +222,7 @@ class PathwayWidget extends Component {
         }
         this.reactomePathwayDiagram = Reactome.Diagram.create({
           "placeHolder": "reactomePathwayHolder",
-          "width": 1280,
+          "width": 1130,
           "height": 600
         })
         this.reactomePathwayDiagram.loadDiagram(pathwayId);
@@ -321,7 +316,33 @@ class PathwayWidget extends Component {
   }
 
   selectMODPathway() {
-    this.setState({ selectedTab: "MODPathways" })
+    this.setState({ selectedTab: "MODPathways" });
+
+    // The following is to handle the autofocus method on the gocam widget
+    // Needs to over 3s or to click on the widget to get wheel focus
+    setTimeout(() => {
+      let elt = document.getElementById("gocam-1");
+      if(elt) {
+        elt.setAutoFocus(false);
+
+        elt.addEventListener("click", (e) => {
+          elt.setAutoFocus(true);
+        })
+
+        let isOvering = false;
+        elt.addEventListener("mouseenter", (e) => {
+          isOvering = true,
+          setTimeout(() => {
+            elt.setAutoFocus(true);
+          }, 3000)
+        })
+
+        elt.addEventListener("mouseleave", (e) => {
+          elt.setAutoFocus(false);
+          isOvering = false;
+        })
+      }
+    }, 5000)
   }
 
   isHumanGene() {
