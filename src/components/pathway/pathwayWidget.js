@@ -216,8 +216,8 @@ class PathwayWidget extends Component {
   loadReactomeDiagram(pathwayId) {
     if(!this.reactomePathwayDiagram) {
       (async() => {
-        // ensure the Reactome library has been loaded
-        while(!Reactome) {
+        // ensure the Reactome library has been loaded (typeof used to check if variable is even declared)
+        while(typeof Reactome != 'undefined' && !Reactome) {
           await new Promise(resolve => setTimeout(resolve, 1000));
         }
         this.reactomePathwayDiagram = Reactome.Diagram.create({
