@@ -222,7 +222,7 @@ class PathwayWidget extends Component {
         }
         this.reactomePathwayDiagram = Reactome.Diagram.create({
           "placeHolder": "reactomePathwayHolder",
-          "width": 1280,
+          "width": 1130,
           "height": 600
         })
         this.reactomePathwayDiagram.loadDiagram(pathwayId);
