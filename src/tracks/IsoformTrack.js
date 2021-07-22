@@ -132,6 +132,7 @@ export default class IsoformTrack {
         let used_space = [];
         let fmin_display = -1;
         let fmax_display = -1;
+        let alreadyRendered =[];//hack fix for multiple transcript returns.
         // **************************************
         // FOR NOW LETS FOCUS ON ONE GENE ISOFORM
         // **************************************
@@ -155,6 +156,12 @@ export default class IsoformTrack {
                 // For each isoform..
                 featureChildren.forEach(function (featureChild) {
                     let featureType = featureChild.type;
+
+                    if(alreadyRendered.indexOf(featureChild.id)>=0){
+                      return;
+                    }else {
+                      alreadyRendered.push(featureChild.id);
+                    }
 
                     if (display_feats.indexOf(featureType) >= 0) {
                         //function to assign row based on available space.

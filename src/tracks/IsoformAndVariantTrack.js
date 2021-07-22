@@ -393,6 +393,7 @@ export default class IsoformAndVariantTrack {
     let fmin_display = -1;
     let fmax_display = -1;
     let renderTooltipDescription = this.renderTooltipDescription;
+    let alreadyRendered =[];//hack fix for multiple transcript returns.
     // **************************************
     // FOR NOW LETS FOCUS ON ONE GENE ISOFORM
     // **************************************
@@ -418,6 +419,12 @@ export default class IsoformAndVariantTrack {
         featureChildren.forEach(function (featureChild) {
           if(!(isoformFilter.indexOf(featureChild.id) >= 0 || isoformFilter.indexOf(featureChild.name) >= 0 ) && isoformFilter.length!==0){
             return;
+          }
+
+          if(alreadyRendered.indexOf(featureChild.id)>=0){
+            return;
+          }else {
+            alreadyRendered.push(featureChild.id);
           }
           //
           let featureType = featureChild.type;
