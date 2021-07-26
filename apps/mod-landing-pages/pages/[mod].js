@@ -82,7 +82,9 @@ export function Index({ mod, news = {} }) {
         <section>
           <h2 tw="text-3xl pb-2">News</h2>
           {news.posts && news.posts.length ? (
-            news.posts.map((post) => <NewsListItem {...post} />)
+            news.posts.map((post) => (
+              <NewsListItem key={post.title} {...post} />
+            ))
           ) : (
             <p>No news has been posted.</p>
           )}
