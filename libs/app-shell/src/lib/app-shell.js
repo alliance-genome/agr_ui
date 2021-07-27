@@ -21,7 +21,9 @@ export function AppShell({
         <div tw="flex flex-col min-h-screen">
           <header tw="z-40">
             <div tw="flex items-center gap-x-4 mx-4 h-10 my-2">
-              <Logo tw="object-contain h-full" />
+              <a href="/" tw="h-full">
+                <Logo tw="object-contain h-full" />
+              </a>
               {organization ? (
                 <div tw="flex items-center h-full px-4">
                   <Logo id={mod} tw="object-contain h-full" />
