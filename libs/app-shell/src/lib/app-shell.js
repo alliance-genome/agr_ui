@@ -20,8 +20,8 @@ export function AppShell({
       <MODThemeProvider mod={mod}>
         <div tw="flex flex-col min-h-screen">
           <header tw="z-40">
-            <div tw="flex items-center h-10 my-2 divide-x ">
-              <Logo tw="object-contain h-full px-4" />
+            <div tw="flex items-center gap-x-4 mx-4 h-10 my-2">
+              <Logo tw="object-contain h-full" />
               {organization ? (
                 <div tw="flex items-center h-full px-4">
                   <Logo id={mod} tw="object-contain h-full" />
