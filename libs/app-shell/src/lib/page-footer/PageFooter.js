@@ -6,6 +6,7 @@ import PageFooterLinkGroup from './PageFooterLinkGroup';
 import PageFooterLinkGroupLabel from './PageFooterLinkGroupLabel';
 import sitemap from '../sitemap';
 import PageFooterLink from './PageFooterLink';
+import { ReactComponent as FacebookIcon } from './assets/facebook_black_24dp.svg';
 
 export function PageFooter(props) {
   const Link = useRenderLink();
@@ -33,7 +34,7 @@ export function PageFooter(props) {
         <PageFooterLinkGroup>
           <PageFooterLinkGroupLabel>Connect With Us</PageFooterLinkGroupLabel>
           <PageFooterLink to={'https://www.facebook.com/alliancegenome'}>
-            Facebook
+            <FacebookIcon tw="fill-current inline" /> Facebook
           </PageFooterLink>
           <PageFooterLink to={'https://twitter.com/alliancegenome'}>
             Twitter
