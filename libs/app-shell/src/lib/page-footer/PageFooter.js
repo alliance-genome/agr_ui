@@ -6,7 +6,10 @@ import PageFooterLinkGroup from './PageFooterLinkGroup';
 import PageFooterLinkGroupLabel from './PageFooterLinkGroupLabel';
 import sitemap from '../sitemap';
 import PageFooterLink from './PageFooterLink';
-import { ReactComponent as FacebookIcon } from './assets/facebook_black_24dp.svg';
+import SocialIcon from './SocialIcon';
+import { ReactComponent as FacebookIcon } from '../../assets/facebook-brands.svg';
+import { ReactComponent as TwitterIcon } from '../../assets/twitter-brands.svg';
+import { ReactComponent as GitHubIcon } from '../../assets/github-brands.svg';
 
 export function PageFooter(props) {
   const Link = useRenderLink();
@@ -34,13 +37,13 @@ export function PageFooter(props) {
         <PageFooterLinkGroup>
           <PageFooterLinkGroupLabel>Connect With Us</PageFooterLinkGroupLabel>
           <PageFooterLink to={'https://www.facebook.com/alliancegenome'}>
-            <FacebookIcon tw="fill-current inline" /> Facebook
+            <SocialIcon IconComponent={FacebookIcon} /> Facebook
           </PageFooterLink>
           <PageFooterLink to={'https://twitter.com/alliancegenome'}>
-            Twitter
+            <SocialIcon IconComponent={TwitterIcon} /> Twitter
           </PageFooterLink>
           <PageFooterLink to={'https://github.com/alliance-genome'}>
-            GitHub
+            <SocialIcon IconComponent={GitHubIcon} /> GitHub
           </PageFooterLink>
         </PageFooterLinkGroup>
       </div>
