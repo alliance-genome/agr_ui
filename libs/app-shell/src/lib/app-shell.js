@@ -19,7 +19,7 @@ export function AppShell({
     <LinkRenderProvider renderLink={renderLink}>
       <MODThemeProvider mod={mod}>
         <div tw="flex flex-col min-h-screen">
-          <header>
+          <header tw="z-40">
             <div tw="flex items-center h-10 my-2 divide-x ">
               <Logo tw="object-contain h-full px-4" />
               {organization ? (
@@ -39,7 +39,7 @@ export function AppShell({
               <Menu />
             </nav>
           </header>
-          <main tw="flex-grow">{children}</main>
+          <main tw="flex-grow z-30">{children}</main>
           <PageFooter />
         </div>
       </MODThemeProvider>
