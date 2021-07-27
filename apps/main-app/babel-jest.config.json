@@ -10,5 +10,6 @@
     ],
     "@babel/preset-typescript",
     "@babel/preset-react"
-  ]
+  ],
+  "plugins": ["@emotion/babel-plugin", "babel-plugin-macros"]
 }
