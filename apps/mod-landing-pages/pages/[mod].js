@@ -102,7 +102,6 @@ export function Index({ mod, news = {} }) {
           </p>
         </section>
       </main>
-      <footer>// Footer</footer>
     </AppShell>
   );
 }
