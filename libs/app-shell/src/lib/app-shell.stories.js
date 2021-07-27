@@ -1,19 +1,24 @@
 import React from 'react';
 import { AppShell } from './app-shell';
-import { SharedAssets } from '@alliancegenome/shared-assets';
-import { GlobalStyles } from 'twin.macro';
 
 export default {
   component: AppShell,
   title: 'AppShell',
 };
 
-export const primary = () => {
+export const Default = () => {
   return (
     <>
-      <GlobalStyles />
-      <AppShell>
-        <SharedAssets />
+      <AppShell>Here is some great content.</AppShell>
+    </>
+  );
+};
+
+export const WormBase = () => {
+  return (
+    <>
+      <AppShell mod="wormbase">
+        Here is some great MOD specific content.
       </AppShell>
     </>
   );
