@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Global } from '@emotion/react';
 import tw from 'twin.macro';
 import { Logo, getOrganizationById } from '@alliancegenome/shared-assets';
@@ -15,12 +15,18 @@ export function AppShell({
   mod,
 }) {
   const organization = getOrganizationById(mod);
+  const [isMenuOpen, setMenuOpen] = useState(false); // for small screens
+  const handleToggleMenu = () => setMenuOpen(!isMenuOpen);
+
   return (
     <LinkRenderProvider renderLink={renderLink}>
       <MODThemeProvider mod={mod}>
         <div tw="flex flex-col min-h-screen">
           <header tw="z-40">
             <div tw="flex items-center gap-x-4 mx-4 h-10 my-2">
+              <button tw="lg:hidden" onClick={handleToggleMenu}>
+                Menu
+              </button>
               <a href="/" tw="h-full">
                 <Logo tw="object-contain h-full" />
               </a>
@@ -37,9 +43,7 @@ export function AppShell({
               ) : null}
               {renderHeaderActions && renderHeaderActions()}
             </div>
-            <nav tw="flex bg-primary">
-              <Menu />
-            </nav>
+            <nav tw="flex bg-primary">{isMenuOpen ? <Menu /> : null}</nav>
           </header>
           <main tw="flex-grow z-30">{children}</main>
           <PageFooter />
