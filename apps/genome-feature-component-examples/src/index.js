@@ -1,5 +1,8 @@
-import GenomeFeatureViewer from 'GenomeFeatureViewer';
-import {TRACK_TYPE} from "../tracks/TrackTypeEnum";
+import {
+  GenomeFeatureViewer,
+  TRACK_TYPE,
+} from '@alliancegenome/genome-feature-component';
+import '../../../libs/genome-feature-component/src/GenomeFeatureViewer.css';
 
 // const BASE_URL = 'http://localhost:8080/apollo';
 // const BASE_URL = 'http://54.91.83.120:8080/apollo';
