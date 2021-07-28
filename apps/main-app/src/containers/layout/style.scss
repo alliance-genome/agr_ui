@@ -54,6 +54,7 @@
 
 .headerSearchContainer {
   width: 100%;
+  flex: 1 0 auto;
 
   @include media-breakpoint-up(md) {
     max-width: 500px;
