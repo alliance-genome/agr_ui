@@ -7,6 +7,7 @@ import LinkRenderProvider from './link-render-provider/LinkRenderProvider';
 import LinkRenderDefault from './link-render-provider/LinkRenderDefault';
 import MODThemeProvider from './modtheme-provider/MODThemeProvider';
 import PageFooter from './page-footer/PageFooter';
+import { ReactComponent as HamburgerIcon } from '../assets/bars-solid.svg';
 
 export function AppShell({
   children,
@@ -24,8 +25,11 @@ export function AppShell({
         <div tw="flex flex-col min-h-screen">
           <header tw="z-40">
             <div tw="flex items-center gap-x-4 mx-4 h-10 my-2">
-              <button tw="lg:hidden" onClick={handleToggleMenu}>
-                Menu
+              <button
+                tw="lg:hidden text-gray-700 h-6"
+                onClick={handleToggleMenu}
+              >
+                <HamburgerIcon tw="fill-current h-full" />
               </button>
               <a href="/" tw="h-full">
                 <Logo tw="object-contain h-full" />
