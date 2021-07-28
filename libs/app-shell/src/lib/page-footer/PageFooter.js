@@ -1,4 +1,4 @@
-import tw from 'twin.macro';
+import tw, { css } from 'twin.macro';
 import React from 'react';
 import { allianceLogoWhiteBase64 } from '@alliancegenome/shared-assets';
 import { useRenderLink } from '../link-render-provider/LinkRenderProvider';
@@ -6,11 +6,18 @@ import PageFooterLinkGroup from './PageFooterLinkGroup';
 import PageFooterLinkGroupLabel from './PageFooterLinkGroupLabel';
 import sitemap from '../sitemap';
 import PageFooterLink from './PageFooterLink';
+import SocialIcon from './SocialIcon';
+import { ReactComponent as FacebookIcon } from '../../assets/facebook-brands.svg';
+import { ReactComponent as TwitterIcon } from '../../assets/twitter-brands.svg';
+import { ReactComponent as GitHubIcon } from '../../assets/github-brands.svg';
 
 export function PageFooter(props) {
   const Link = useRenderLink();
   return (
-    <footer tw="flex flex-col items-stretch bg-primary p-6 text-white">
+    <footer
+      tw="flex flex-col items-stretch bg-primary p-6 text-white"
+      css={css({ '& a': tw`text-white` })}
+    >
       <div tw="flex flex-col flex-wrap lg:max-h-60 lg:justify-evenly p-2">
         {sitemap.map(({ sub, label, route }) =>
           route === '/' ? null : (
@@ -30,13 +37,13 @@ export function PageFooter(props) {
         <PageFooterLinkGroup>
           <PageFooterLinkGroupLabel>Connect With Us</PageFooterLinkGroupLabel>
           <PageFooterLink to={'https://www.facebook.com/alliancegenome'}>
-            Facebook
+            <SocialIcon IconComponent={FacebookIcon} /> Facebook
           </PageFooterLink>
           <PageFooterLink to={'https://twitter.com/alliancegenome'}>
-            Twitter
+            <SocialIcon IconComponent={TwitterIcon} /> Twitter
           </PageFooterLink>
           <PageFooterLink to={'https://github.com/alliance-genome'}>
-            GitHub
+            <SocialIcon IconComponent={GitHubIcon} /> GitHub
           </PageFooterLink>
         </PageFooterLinkGroup>
       </div>
