@@ -25,7 +25,7 @@ export function AppShell({
       <MODThemeProvider mod={mod}>
         <div tw="flex flex-col min-h-screen">
           <header tw="z-40 border-b">
-            <div tw="flex flex-wrap items-center gap-x-4 gap-y-2 mx-4 my-2">
+            <div tw="flex flex-wrap items-center gap-x-4 mx-4 my-2">
               <button
                 tw="lg:hidden text-gray-700 h-6 w-6"
                 onClick={handleToggleMenu}
