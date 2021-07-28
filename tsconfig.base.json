@@ -16,7 +16,10 @@
     "baseUrl": ".",
     "paths": {
       "@alliancegenome/app-shell": ["libs/app-shell/src/index.js"],
-      "@alliancegenome/shared-assets": ["libs/shared-assets/src/index.js"]
+      "@alliancegenome/shared-assets": ["libs/shared-assets/src/index.js"],
+      "@alliancegenome/genome-feature-component": [
+        "libs/genome-feature-component/src/index.js"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]
