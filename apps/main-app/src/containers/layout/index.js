@@ -49,12 +49,16 @@ class Layout extends Component {
     const { children, location } = this.props;
 
     return (
-      <AppShell>
+      <AppShell renderHeaderActions={() => (
+        <>
+          <ReleaseBanner />
+          <div style={{flex: '1 1 auto'}}></div>
+          <div className={style.headerSearchContainer}>
+            {location.pathname !== '/' && location.pathname !== '/search' && <SearchBar />}
+          </div>
+        </>
+      )}>
         <WarningBanner />
-        <ReleaseBanner />
-        <div className={style.headerSearchContainer}>
-          {location.pathname !== '/' && location.pathname !== '/search' && <SearchBar />}
-        </div>
 
         <div className={style.loaderContentContainer}>
           <div className={style.content}>
