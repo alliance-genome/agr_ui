@@ -445,8 +445,8 @@
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/genome-feature-component-examples",
-            "index": "apps/genome-feature-component-examples/src/index.html",
-            "main": "apps/genome-feature-component-examples/src/main.js",
+            "index": "apps/genome-feature-component-examples/src/index.ejs.html",
+            "main": "apps/genome-feature-component-examples/src/index.js",
             "polyfills": "apps/genome-feature-component-examples/src/polyfills.js",
             "tsConfig": "apps/genome-feature-component-examples/tsconfig.app.json",
             "assets": [
