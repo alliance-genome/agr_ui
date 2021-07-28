@@ -25,9 +25,9 @@ export function AppShell({
       <MODThemeProvider mod={mod}>
         <div tw="flex flex-col min-h-screen">
           <header tw="z-40">
-            <div tw="flex items-center gap-x-4 mx-4 h-10 my-2">
+            <div tw="flex flex-wrap items-center gap-x-4 gap-y-2 mx-4 my-2">
               <button
-                tw="lg:hidden text-gray-700 h-6"
+                tw="lg:hidden text-gray-700 h-6 w-6"
                 onClick={handleToggleMenu}
               >
                 {isMenuOpen ? (
@@ -36,11 +36,11 @@ export function AppShell({
                   <HamburgerIcon tw="fill-current h-full" />
                 )}
               </button>
-              <a href="/" tw="h-full">
+              <a href="/" tw="h-10">
                 <Logo tw="object-contain h-full" />
               </a>
               {organization ? (
-                <div tw="flex items-center h-full px-4">
+                <div tw="flex items-center h-10 px-4">
                   <Logo id={mod} tw="object-contain h-full" />
                   <span tw="p-2 text-2xl font-medium hidden md:inline-block">
                     {organization.name}
