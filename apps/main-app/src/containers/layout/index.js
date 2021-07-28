@@ -7,10 +7,9 @@ import style from './style.scss';
 import Loader from './loader/index';
 import logo from './agrLogo.png';
 import SearchBar from './searchBar';
-import { MenuItems } from './navigation';
 import ReleaseBanner from './ReleaseBanner';
 import { selectPageLoading } from '../../selectors/loadingSelector';
-import Footer from './Footer';
+import { AppShell } from '@alliancegenome/app-shell';
 
 class Layout extends Component {
   constructor(props) {
@@ -48,38 +47,14 @@ class Layout extends Component {
 
   render() {
     const { children, location } = this.props;
-    const { menuOpen } = this.state;
 
     return (
-      <div>
+      <AppShell>
         <WarningBanner />
-
-        <div className='container-fluid'>
-          <div className='row align-items-center'>
-            <div className='col-md d-flex justify-content-between'>
-              <div className='navbar-brand d-flex align-items-end'>
-                <Link to='/'>
-                  <img className={style.agrLogo} width="200" src={logo} />
-                </Link>
-                <ReleaseBanner />
-              </div>
-              <button className="navbar-toggler d-md-none" onClick={() => this.setState({menuOpen: !menuOpen})} type="button">
-                <i className='fa fa-fw fa-bars' />
-              </button>
-            </div>
-            <div className='col-md d-flex justify-content-md-end'>
-              <div className={style.headerSearchContainer}>
-                {location.pathname !== '/' && location.pathname !== '/search' && <SearchBar />}
-              </div>
-            </div>
-          </div>
+        <ReleaseBanner />
+        <div className={style.headerSearchContainer}>
+          {location.pathname !== '/' && location.pathname !== '/search' && <SearchBar />}
         </div>
-
-        <MenuItems
-          currentRoute={location.pathname}
-          menuOpen={menuOpen}
-          onItemClick={() => this.setState({menuOpen: false})}
-        />
 
         <div className={style.loaderContentContainer}>
           <div className={style.content}>
@@ -90,8 +65,7 @@ class Layout extends Component {
           </div>
         </div>
 
-        <Footer />
-      </div>
+      </AppShell>
     );
   }
 }
