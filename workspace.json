@@ -53,7 +53,7 @@
               "@emotion/react"
             ],
             "babelConfig": "@nrwl/react/plugins/bundle-babel",
-            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "rollupConfig": "libs/app-shell/rollup.config.js",
             "assets": [
               {
                 "glob": "README.md",

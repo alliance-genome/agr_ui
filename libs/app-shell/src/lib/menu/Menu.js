@@ -42,7 +42,10 @@ const Menu = () => {
 
   return (
     <MenuContext.Provider value={menuContextValue}>
-      <ul ref={menuRef} tw="flex justify-start text-sm">
+      <ul
+        ref={menuRef}
+        tw="flex flex-col lg:flex-row w-full justify-start items-stretch text-sm m-0 divide-y lg:divide-none"
+      >
         {sitemap.map(({ sub, label, route }) =>
           sub ? (
             <SubMenu key={label} title={label}>
