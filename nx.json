@@ -1,13 +1,18 @@
 {
   "implicitDependencies": {
     "workspace.json": "*",
-    "package.json": { "dependencies": "*", "devDependencies": "*" },
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
     "tsconfig.base.json": "*",
     "tslint.json": "*",
     ".eslintrc.json": "*",
     "nx.json": "*"
   },
-  "affected": { "defaultBase": "master" },
+  "affected": {
+    "defaultBase": "master"
+  },
   "npmScope": "agr-modular-ui",
   "tasksRunnerOptions": {
     "default": {
@@ -24,12 +29,30 @@
     }
   },
   "projects": {
-    "app-shell": { "tags": [] },
-    "shared-assets": { "tags": [] },
-    "example-app": { "tags": [] },
-    "example-app-e2e": { "tags": [], "implicitDependencies": ["example-app"] },
-    "main-app": { "tags": [] },
-    "mod-landing-pages": { "tags": [] },
-    "genome-feature-component": { "tags": [] }
+    "app-shell": {
+      "tags": []
+    },
+    "shared-assets": {
+      "tags": []
+    },
+    "example-app": {
+      "tags": []
+    },
+    "example-app-e2e": {
+      "tags": [],
+      "implicitDependencies": ["example-app"]
+    },
+    "main-app": {
+      "tags": []
+    },
+    "mod-landing-pages": {
+      "tags": []
+    },
+    "genome-feature-component": {
+      "tags": []
+    },
+    "genome-feature-component-examples": {
+      "tags": []
+    }
   }
 }
