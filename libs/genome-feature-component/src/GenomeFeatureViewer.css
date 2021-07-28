@@ -1,0 +1,283 @@
+html, body {
+  height:100%;
+  width: 100%;
+}
+
+.transArrow {
+  fill-opacity: 1.0;
+  fill: black;
+  stroke: black;
+}
+
+.exon {
+  fill-opacity: 1.0;
+  fill: white;
+  stroke: black;
+}
+
+.UTR {
+  fill-opacity: 1.0;
+  fill: white;
+  stroke: black;
+}
+
+.tooltip-table{
+  text-align: left;
+}
+
+.tooltipDivX{
+  position:absolute;
+  top:0;
+  right:0;
+  font: 20px sans-serif;
+  cursor: pointer;
+  margin-right: 5px;
+  margin-top: 5px;
+  border-radius: 10px;
+}
+
+.tooltipDivX{
+  position:absolute;
+  top:0;
+  right:0;
+  font: 20px sans-serif;
+}
+
+div.gfc-tooltip {
+  position: absolute;
+  text-align: center;
+  width: 60px;
+  max-width: 700px;
+  height: 28px;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: 0;
+  border-radius: 8px;
+  /*pointer-events: none;*/
+  z-index: 100;
+}
+
+.variant-label {
+  stroke-width: 1px;
+  color: black;
+}
+
+.variant-insertion{
+  fill-opacity: 1.0;
+}
+
+.variant-delins{
+  fill-opacity: 1.0;
+}
+
+.variant-SNV {
+  fill-opacity: 1.0;
+}
+
+.variant-deletion{
+  fill-opacity: 1.0;
+}
+
+.transcriptBackbone {
+  fill-opacity: 1.0;
+  fill: gray;
+}
+
+.CDS {
+  fill: #3E82BF;
+  stroke: #3E82BF;
+  fill-opacity: 1.0;
+}
+
+.axis {
+  fill: #609C9C;
+}
+
+.nucleotide{
+  height: 15px;
+  width: 17px;
+  fill-opacity: 0.5;
+  stroke: black;
+  stroke-width: .5px;
+  stroke-opacity: 0.5;
+}
+
+.nucleotide.nt-a{
+  fill: rgb(197,218,141);
+}
+
+.nucleotide.nt-t{
+  fill: rgb(238,113,109);
+}
+
+.nucleotide.nt-c{
+  fill:rgb(242,192,116);
+}
+
+.nucleotide.nt-g{
+  fill:rgb(113,155,248);
+
+}
+
+/*used to identify height*/
+.viewer-border{
+  border: solid black 2px;
+}
+
+.viewer {
+  fill: gray;
+}
+
+.gene {
+  fill: blue;
+}
+
+.geneLabel {
+  stroke-width: 2px;
+  color: black;
+  font-style: italic;
+}
+
+.transcriptLabel {
+  stroke-width: 1px;
+  color: black;
+}
+
+.geneLabel{
+  stroke-width: 1px;
+  color: black;
+  font-size: 20px;
+}
+
+.isoform{
+  cursor: pointer;
+}
+
+.axis {
+  font: 14px sans-serif;
+}
+
+.x-local-axis {
+  font: 10px sans-serif;
+  stroke-width: 0;
+  fill:none;
+}
+
+.x-local-axis .tick:nth-child(10n + 12){
+  stroke-width: 1px;
+}
+
+.x-local-axis .tick text{
+  font-weight: bold;
+}
+
+.x-local-numerical {
+  font: 8px sans-serif;
+  fill:none;
+
+}
+
+.main-view{
+  cursor: pointer;
+}
+
+.track-label{
+  font-size: 8px;
+  font-family: Garamond, sans-serif;
+  font-weight: 600;
+  fill: black;
+  cursor: pointer;
+}
+
+
+/* D3 Tooltip */
+.d3-tip {
+  line-height: 1;
+  padding: 0;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 1);
+  border: solid 1px lightgray;
+  color: #000;
+  font-size: 10px;
+}
+.d3-tip table{
+  font-size: 10px;
+  border: 2px solid #609c9c;
+  border-spacing: 0;
+  border-collapse: collapse;
+  background-color: #FFF;
+  -webkit-box-shadow: 1px 1px 15px 5px rgba(0,0,0,.1);
+  -moz-box-shadow: 1px 1px 15px 5px rgba(0,0,0,.1);
+  box-shadow: 1px 1px 15px 5px rgba(0,0,0,.1);
+  width: 100%;
+}
+
+.d3-tip table th{
+  text-transform: capitalize;
+  font-weight: 400;
+  white-space: nowrap;
+  letter-spacing: .05em;
+  font-size: 1.1em;
+  background-color: #609c9c;
+  line-height: 2em;
+  padding: 0 .7em;
+  color: #FFF;
+  text-align: center;
+}
+
+.d3-tip table td {
+  padding: .4em;
+  margin: 0;
+  border: 1px solid #CCC;
+}
+
+.d3-tip table td:first-child {
+  font-weight: 700;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  width: 100%;
+  font-size: 10px;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  position: absolute;
+  pointer-events: none;
+}
+
+/* Northward tooltips */
+.d3-tip.n:after {
+  content: "\205D";
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+  text-align: center;
+}
+
+/* Eastward tooltips */
+.d3-tip.e:after {
+  content: "\25C0";
+  margin: -4px 0 0 0;
+  top: 50%;
+  left: -8px;
+}
+
+/* Southward tooltips */
+.d3-tip.s:after {
+  content: "\205D";
+  margin: 0 0 1px 0;
+  top: -8px;
+  left: 0;
+  text-align: center;
+}
+
+/* Westward tooltips */
+.d3-tip.w:after {
+  content: "\25B6";
+  margin: -4px 0 0 -1px;
+  top: 50%;
+  left: 100%;
+}

@@ -1,0 +1,306 @@
+<html>
+<head>
+    <meta content="utf-8" http-equiv="encoding">
+    <title>Demo</title>
+    <link rel="stylesheet" href="GenomeFeatureViewer.css">
+</head>
+<body>
+
+<h1>COVID Tests </h1>
+
+<div class="viewer-border">
+    <h3>  Covid Test 1: Isoform </h3>
+    <svg className="viewer" id="covidExample1"/>
+</div>
+
+<h1>Filter Tests</h1>
+
+<div class="viewer-border">
+    <h3>  <a href="https://stage.alliancegenome.org/allele/FB:FBal0212726">Fly ActnΔ148</a>: Variant and Isoform </h3>
+    <a href="https://stage.alliancegenome.org/jbrowse/?data=data%2FDrosophila%20melanogaster&tracks=Variants%2CAll%20Genes&highlight=&lookupSymbol=Actn%3Csup%3E%CE%94148%3C/sup%3E&loc=X%3A2011981..2055398">JBrowse</a>
+    <svg className="viewer" id="viewerFlyExample7"/>
+</div>
+
+<div class="viewer-border">
+    <h3>  <a href="https://stage.alliancegenome.org/allele/FB:FBal0325512">Fly mRpS28k13104</a>: Variant and Isoform </h3>
+    <a href="https://stage.alliancegenome.org/jbrowse/?data=data%2FDrosophila%20melanogaster&tracks=Variants%2CAll%20Genes&highlight=&lookupSymbol=mRpS28%3Csup%3Ek13104%3C/sup%3E&loc=2R%3A18613725..18615503">JBrowse</a>
+    <svg className="viewer" id="viewerFlyExample6"/>
+</div>
+
+<h1>API Tests</h1>
+
+<div class="viewer-border">
+    <h3>  Hand2/Hand2os1 Example </h3>
+    <svg className="viewer" id="viewerHand2Mouse"/>
+</div>
+
+<div class="viewer-border">
+    <h3>  Actn Example 2216 </h3>
+    <svg className="viewer" id="viewerActnFly"/>
+</div>
+
+<div class="viewer-border">
+    <h3>  Actn HTP View </h3>
+    <svg className="viewer" id="viewerActnHTPFly"/>
+</div>
+
+<div class="viewer-border">
+    <h3>  Highlight Example </h3>
+    <svg className="viewer" id="viewerHighlightExample"/>
+    <button type="button" id="mausbutton">Add Highlights</button>
+    <button type="button" id="clrbuttonmaus">Clear</button>
+</div>
+
+<div class="viewer-border">
+    <h3>  <a href="https://build.alliancegenome.org/gene/FB:FBgn0263986#alleles-and-variants">Fly Cd Filtered</a>: Variant and Isoform </h3>
+    <a href="http://localhost:2992/jbrowse/?data=data%2FDrosophila%20melanogaster&tracks=Variants%2CAll%20Genes&highlight=&lookupSymbol=cd&loc=3R%3A22693140..22699809">JBrowse</a>
+    <svg className="viewer" id="viewerFlyExample5"/>
+</div>
+
+<div class="viewer-border">
+    <h3>  <a href="https://build.alliancegenome.org/gene/FB:FBgn0005612#alleles-and-variants">Fly Sox14</a>: Variant and Isoform </h3>
+    <a href="https://build.alliancegenome.org/jbrowse/?data=data%2FDrosophila%20melanogaster&tracks=Variants%2CAll%20Genes&highlight=&lookupSymbol=Sox14&loc=2R%3A23974972..23989001">JBrowse</a>
+    <svg className="viewer" id="viewerFlyExample4"/>
+</div>
+
+
+<div class="viewer-border">
+    <h3>  <a href="https://build.alliancegenome.org/gene/FB:FBgn0263986#alleles-and-variants">Fly Cd</a>: Variant and Isoform </h3>
+    <a href="http://localhost:2992/jbrowse/?data=data%2FDrosophila%20melanogaster&tracks=Variants%2CAll%20Genes&highlight=&lookupSymbol=cd&loc=3R%3A22693140..22699809">JBrowse</a>
+    <svg className="viewer" id="viewerFlyExample3"/>
+</div>
+
+<div class="viewer-border">
+    <h3>  <a href="https://build.alliancegenome.org/gene/MGI:1915684#alleles-and-variants">Mouse Gata6os </a>: Variant and Isoform </h3>
+    <a href="https://build.alliancegenome.org/jbrowse/?data=data%2FMus%20musculus&tracks=Variants%2CAll%20Genes&highlight=&lookupSymbol=Gata6os&loc=18%3A11035719..11058885">JBrowse</a>
+    <svg className="viewer" id="viewerMouseExample6"/>
+</div>
+
+
+<div class="viewer-border">
+    <h3>  <a href="https://build.alliancegenome.org/gene/MGI:1915684#alleles-and-variants">Mouse Gata6os</a>: Isoform only</h3>
+    <a href="https://build.alliancegenome.org/jbrowse/?data=data%2FMus%20musculus&tracks=Variants%2CAll%20Genes&highlight=&lookupSymbol=Gata6os&loc=18%3A11035719..11058885">JBrowse</a>
+    <svg className="viewer" id="viewerMouseExample5"/>
+</div>
+
+
+
+<div class="viewer-border">
+    <button  id="viewerMouseExample2LegendButton">Show Legend Button</button>
+    <div id="viewerMouseExample2LegendTarget">Legend Target</div>
+    <h3>  <a href="https://stage.alliancegenome.org/gene/MGI:1096355#alleles-and-variants">Mouse S1pr1</a> </h3>
+    <a href="https://stage.alliancegenome.org/jbrowse/?data=data%2FMus%20musculus&tracks=Variants%2CAll%20Genes&highlight=&lookupSymbol=S1pr1&loc=3%3A115707662..115717830">JBrowse</a>
+    <svg className="viewer" id="viewerMouseExample2"/>
+</div>
+
+<div class="viewer-border">
+    <h3>  <a href="https://www.alliancegenome.org/gene/FB:FBgn0005612">Fly Sox14</a> </h3>
+    <svg className="viewer" id="viewerFlyExample2NoLabelAnd"/>
+    <button  id="viewerFlyExample2NoLabelAndCloseButton">Close Button</button>
+    <button type="button" id="flybutton">Add Highlights</button>
+    <button type="button" id="clrbuttonfly">Clear</button>
+</div>
+
+<h1>Separate Variant And Isoform Tracks</h1>
+
+<div class="viewer-border">
+    <h3>  <a href="https://stage.alliancegenome.org/gene/MGI:109196#alleles-and-variants">Mouse Efnb3</a> </h3>
+    <a href="https://stage.alliancegenome.org/jbrowse/?data=data%2FMus%20musculus&tracks=Variants%2CAll%20Genes&highlight=&lookupSymbol=Efnb3&loc=11%3A69550420..69563869">JBrowse</a>
+    <svg className="viewer" id="viewerMouseExample3"/>
+</div>
+
+<div class="viewer-border">
+    <h3>  <a href="https://stage.alliancegenome.org/gene/MGI:103178#alleles-and-variants">Mouse Vegfa</a> </h3>
+    <a href="https://stage.alliancegenome.org/jbrowse/?data=data%2FMus%20musculus&tracks=Variants%2CAll%20Genes&highlight=&lookupSymbol=Vegfa&loc=17%3A46007760..46041588">JBrowse</a>
+    <svg className="viewer" id="viewerMouseExample4"/>
+</div>
+
+
+<div class="viewer-border">
+    <h3> <a href="https://www.alliancegenome.org/gene/MGI:103223">Mouse Vh1</a></h3>
+    <svg className="viewer" id="viewerMouseExample1NoLabelAnd"/>
+</div>
+
+<div class="viewer-border">
+    <h3>  <a href="https://www.alliancegenome.org/gene/RGD:620474">Rat Sox9</a> </h3>
+    <svg id="networkExampleRat1And"/>
+</div>
+
+<div class="viewer-border">
+    <h3>  <a href="https://www.alliancegenome.org/gene/RGD:620474">Worm egl-8</a> </h3>
+    <svg id="networkExampleWorm1And"/>
+    <button type="button" id="wormbutton">Add Highlights</button>
+    <button type="button" id="clrbutton">Clear</button>
+</div>
+
+<div class="viewer-border">
+    <h3><a href="https://zfin.org/ZDB-ALT-161103-7">Fish Lbx2</a> </h3>
+    <svg className="viewer" id="viewerFishLbx2NoLabelAnd"/>
+</div>
+
+
+<div class="viewer-border">
+    <h3><a href="https://zfin.org/ZDB-ALT-161103-7">Fish Lbx2 Name filter</a> </h3>
+    <svg className="viewer" id="viewerFishLbx2NoLabelAndNameOnly"/>
+</div>
+
+
+<div class="viewer-border">
+    <h3><a href="https://zfin.org/ZDB-ALT-161103-7">Fish Lbx2 Symbol filter</a> </h3>
+    <svg className="viewer" id="viewerFishLbx2NoLabelAndSymbolOnly"/>
+</div>
+
+<hr/>
+
+
+<h1>Embedded Examples</h1>
+
+<h1>Fly (No Label)</h1>
+
+<div class="viewer-border">
+    <h3>  <a href="https://www.alliancegenome.org/gene/FB:FBgn0005612">Sox14</a> </h3>
+    <svg className="viewer" id="viewerFlyExample2NoLabel"/>
+</div>
+
+<div class="viewer-border">
+    <h3>  <a href="https://www.alliancegenome.org/gene/FB:FBgn0005612">Sox14 (filtered for a single snp like an allele)</a> </h3>
+    <svg className="viewer" id="viewerFlyExample3NoLabel"/>
+</div>
+
+<div class="viewer-border">
+    <h3>  <a href="https://www.alliancegenome.org/gene/FB:FBgn0001142">Gs1-RC</a> </h3>
+    <svg className="viewer" id="viewerFlyExample1NoLabel"/>
+</div>
+
+<h1>Mouse (No Label)</h1>
+<div class="viewer-border">
+    <h3> <a href="https://www.alliancegenome.org/gene/MGI:103223">Vh1</a></h3>
+    <svg className="viewer" id="viewerMouseExample1NoLabel"/>
+</div>
+
+
+<h1>Rat (No Label)</h1>
+
+<div class="viewer-border">
+    <h3>  <a href="https://www.alliancegenome.org/gene/RGD:620474">Rat Sox9</a> </h3>
+    <svg id="networkExampleRat1"/>
+</div>
+<div class="viewer-border">
+    <h3> <a href="https://www.alliancegenome.org/gene/RGD:1310046">Adamts16</a></h3>
+    <svg className="viewer" id="viewerRatExample1NoLabel"/>
+</div>
+
+
+<h1>Worm (No Label)</h1>
+
+<div class="viewer-border">
+    <h3>  <a href="https://www.alliancegenome.org/gene/RGD:620474">Worm egl-8</a> </h3>
+    <svg id="networkExampleWorm1"/>
+</div>
+<div class="viewer-border">
+    <h3>Egl8</h3>
+    <a href="http://dev.wormbase.org:9020/jbrowse/?data=data%2FCaenorhabditis%20elegans&loc=V%3A16238..48260&tracks=DNA%2CUCSC%20Conservation%2CAll%20Genes%2CPhenotypic%20Variants&highlight=">Working example</a></p>
+    <svg className="viewer" id="viewerWormEgl8NoLabel"/>
+</div>
+
+<h1>Fish (No Label)</h1>
+<div class="viewer-border">
+    <h3><a href="https://zfin.org/ZDB-ALT-161103-7">Lbx2</a> </h3>
+    <svg className="viewer" id="viewerFishLbx2NoLabel"/>
+</div>
+<div class="viewer-border">
+    <h3><a href="https://zfin.org/ZDB-ALT-181010-2">Myl7</a> </h3>
+    <svg className="viewer" id="viewerFishMyl7NoLabel"/>
+</div>
+
+<hr/>
+
+<h1>Code with Labels</h1>
+
+<h1>Fly</h1>
+<div class="viewer-border">
+    <h3>  <a href="https://www.alliancegenome.org/gene/FB:FBgn0001142">Gs1-RC</a> </h3>
+    <svg className="viewer" id="viewerFlyExample1"/>
+</div>
+
+<div class="viewer-border">
+    <h3>  <a href="https://www.alliancegenome.org/gene/FB:FBgn0005612">Sox14</a> </h3>
+    <svg className="viewer" id="viewerFlyExample3"/>
+</div>
+
+<div class="viewer-border">
+    <h3>  <a href="https://www.alliancegenome.org/gene/FB:FBgn0005612">Sox14</a> </h3>
+    <svg className="viewer" id="viewerFlyExample2"/>
+</div>
+
+<h1>Mouse</h1>
+<div class="viewer-border">
+    <h3> <a href="https://www.alliancegenome.org/gene/MGI:103223">Vh1</a></h3>
+    <svg className="viewer" id="viewerMouseExample1"/>
+</div>
+
+<h1>Rat</h1>
+<div class="viewer-border">
+    <h3> <a href="https://www.alliancegenome.org/gene/RGD:1310046">Adamts16</a></h3>
+    <svg className="viewer" id="viewerRatExample1"/>
+</div>
+
+<h1>Worm</h1>
+<div class="viewer-border">
+    <h3>Egl8</h3>
+    <a href="http://dev.wormbase.org:9020/jbrowse/?data=data%2FCaenorhabditis%20elegans&loc=V%3A16238..48260&tracks=DNA%2CUCSC%20Conservation%2CAll%20Genes%2CPhenotypic%20Variants&highlight=">Working example</a></p>
+    <svg className="viewer" id="viewerWormEgl8"/>
+</div>
+
+
+<h1>Fish</h1>
+<div class="viewer-border">
+    <h3><a href="https://zfin.org/ZDB-ALT-161103-7">Lbx2</a> </h3>
+    <svg className="viewer" id="viewerFishLbx2"/>
+</div>
+<div class="viewer-border">
+    <h3><a href="https://zfin.org/ZDB-ALT-181010-2">Myl7</a> </h3>
+    <svg className="viewer" id="viewerFishMyl7"/>
+</div>
+
+<h1>Isoform Only</h1>
+<div class="viewer-border">
+    <h3><a href="https://stage.alliancegenome.org/gene/SGD:S000002812">Yeast RPB7</a> Isoform only</h3>
+<a href="https://stage.alliancegenome.org/jbrowse/?data=data%2FSaccharomyces%20cerevisiae&tracks=All%20Genes&highlight=&lookupSymbol=RPB7&loc=chrIV%3A1276345..1277478">Yeast RPB7</a></p>
+<svg className="viewer" id="yeastExampleIsoformOnly"/>
+
+    <div class="viewer-border">
+        <h3><a href="https://stage.alliancegenome.org/gene/ZFIN:ZDB-GENE-990415-200">Zebrafish pax6a</a> Isoform only</h3>
+        <a href="https://stage.alliancegenome.org/jbrowse/?data=data%2FDanio%20rerio&tracks=Variants%2CAll%20Genes&highlight=&lookupSymbol=pax6a&loc=25">Zebrafish pax6a</a></p>
+        <svg className="viewer" id="zebrafishExampleIsoformOnly"/>
+</div>
+
+
+<hr/>
+<h1>Other Demos</h1>
+<p>Basic Demo</p>
+<form id="theForm">
+    Genome : <input type="text" name="genome"><br>
+    Start : <input type="text" name="start"><br>
+    End : <input type="text" name="end"><br>
+    Chr : <input type="text" name="chr"><br>
+    <input type="submit" value="submit">
+</form>
+<div class="viewer-border">
+    <h1>Overview</h1>
+    <svg className="viewer" id="viewer1"/>
+</div>
+<br>
+<div class="viewer-border">
+    <h1>View 2</h1>
+    <svg className="viewer" id="viewer2"/>
+    <br>
+</div>
+
+<h1>Scrollable</h1>
+<svg className="viewer" id="viewer3"/>
+
+<script src="index.js"></script>
+<script src="demo.js"></script>
+</body>
+</html>

@@ -1,1 +1,1 @@
-export * from './lib/genome-feature-component';
+export * from './GenomeFeatureViewer';
