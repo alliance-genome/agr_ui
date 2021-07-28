@@ -8,6 +8,7 @@ import LinkRenderDefault from './link-render-provider/LinkRenderDefault';
 import MODThemeProvider from './modtheme-provider/MODThemeProvider';
 import PageFooter from './page-footer/PageFooter';
 import { ReactComponent as HamburgerIcon } from '../assets/bars-solid.svg';
+import { ReactComponent as CloseIcon } from '../assets/times-solid.svg';
 
 export function AppShell({
   children,
@@ -29,7 +30,11 @@ export function AppShell({
                 tw="lg:hidden text-gray-700 h-6"
                 onClick={handleToggleMenu}
               >
-                <HamburgerIcon tw="fill-current h-full" />
+                {isMenuOpen ? (
+                  <CloseIcon tw="fill-current h-full" />
+                ) : (
+                  <HamburgerIcon tw="fill-current h-full" />
+                )}
               </button>
               <a href="/" tw="h-full">
                 <Logo tw="object-contain h-full" />
