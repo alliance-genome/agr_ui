@@ -2,6 +2,7 @@ import React, { useState, useContext, useCallback } from 'react';
 import tw from 'twin.macro';
 import MenuItem from './MenuItem';
 import MenuContext from './MenuContext';
+import { ReactComponent as DownArrowIcon } from '../../assets/caret-down-solid.svg';
 
 const SubMenu = ({ title, children }) => {
   const { itemOpen, setItemOpen } = useContext(MenuContext);
@@ -12,8 +13,9 @@ const SubMenu = ({ title, children }) => {
   return (
     <MenuItem>
       <span tw="hidden lg:block">
-        <button onClick={handleClick} tw="hidden focus:outline-none">
-          {title}
+        <button onClick={handleClick} tw="focus:outline-none">
+          {title}{' '}
+          <DownArrowIcon tw="fill-current h-4 mx-1 object-contain inline-block" />
         </button>
       </span>
 
