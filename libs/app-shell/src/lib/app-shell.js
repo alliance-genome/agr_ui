@@ -8,7 +8,12 @@ import LinkRenderDefault from './link-render-provider/LinkRenderDefault';
 import MODThemeProvider from './modtheme-provider/MODThemeProvider';
 import PageFooter from './page-footer/PageFooter';
 
-export function AppShell({ children, renderLink = LinkRenderDefault, mod }) {
+export function AppShell({
+  children,
+  renderLink = LinkRenderDefault,
+  renderHeaderActions,
+  mod,
+}) {
   const organization = getOrganizationById(mod);
   return (
     <LinkRenderProvider renderLink={renderLink}>
@@ -28,6 +33,7 @@ export function AppShell({ children, renderLink = LinkRenderDefault, mod }) {
                   </span>
                 </div>
               ) : null}
+              {renderHeaderActions && renderHeaderActions()}
             </div>
             <nav tw="flex bg-primary">
               <Menu />
