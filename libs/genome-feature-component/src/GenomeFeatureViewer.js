@@ -1,6 +1,5 @@
 "use strict";
 
-import 'babel-polyfill';
 import Drawer from "./Drawer";
 import * as d3 from "d3";
 import {createLegendBox} from "./services/LegenedService";

@@ -1,1 +1,1 @@
-export * from './GenomeFeatureViewer';
+export { default as GenomeFeatureViewer } from './GenomeFeatureViewer.js';
