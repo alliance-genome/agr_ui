@@ -11,12 +11,18 @@ const SubMenu = ({ title, children }) => {
 
   return (
     <MenuItem>
-      <button onClick={handleClick} tw="focus:outline-none">
-        {title}
-      </button>
+      <span tw="hidden lg:block">
+        <button onClick={handleClick} tw="hidden focus:outline-none">
+          {title}
+        </button>
+      </span>
+
+      <span tw="lg:hidden inline-block p-3 text-white">{title}</span>
       {itemOpen === title ? (
-        <ul tw="absolute flex flex-col">{children}</ul>
-      ) : null}
+        <ul tw="hidden lg:flex absolute flex-col">{children}</ul>
+      ) : (
+        <ul tw="lg:hidden flex flex-col items-stretch">{children}</ul>
+      )}
     </MenuItem>
   );
 };
