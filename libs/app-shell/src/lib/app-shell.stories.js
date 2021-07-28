@@ -1,4 +1,5 @@
 import React from 'react';
+import tw from 'twin.macro';
 import { AppShell } from './app-shell';
 
 export default {
@@ -6,10 +7,16 @@ export default {
   title: 'AppShell',
 };
 
+const PlaceHolder = () => (
+  <p tw="p-36 text-gray-500">Placeholder // Some great content will be here!</p>
+);
+
 export const Default = () => {
   return (
     <>
-      <AppShell>Here is some great content.</AppShell>
+      <AppShell>
+        <PlaceHolder />
+      </AppShell>
     </>
   );
 };
@@ -18,7 +25,7 @@ export const WormBase = () => {
   return (
     <>
       <AppShell mod="wormbase">
-        Here is some great MOD specific content.
+        <PlaceHolder />
       </AppShell>
     </>
   );
