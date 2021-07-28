@@ -43,7 +43,12 @@ export function AppShell({
               ) : null}
               {renderHeaderActions && renderHeaderActions()}
             </div>
-            <nav tw="flex bg-primary">{isMenuOpen ? <Menu /> : null}</nav>
+            <nav tw="lg:hidden flex bg-primary">
+              {isMenuOpen ? <Menu /> : null}
+            </nav>
+            <nav tw="hidden lg:flex bg-primary">
+              <Menu />
+            </nav>
           </header>
           <main tw="flex-grow z-30">{children}</main>
           <PageFooter />
