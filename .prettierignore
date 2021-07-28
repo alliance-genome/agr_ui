@@ -1,4 +1,5 @@
 # Add files here to ignore them from prettier formatting
 /apps/main-app
+/libs/genome-feature-component
 /dist
 /coverage
