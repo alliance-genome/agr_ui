@@ -359,7 +359,10 @@
             "tsConfig": "libs/genome-feature-component/tsconfig.lib.json",
             "packageJson": "libs/genome-feature-component/package.json",
             "main": "libs/genome-feature-component/src/index.js",
-            "assets": ["libs/genome-feature-component/*.md"]
+            "assets": [
+              "libs/genome-feature-component/*.md",
+              "libs/genome-feature-component/src/*.css"
+            ]
           }
         }
       }
