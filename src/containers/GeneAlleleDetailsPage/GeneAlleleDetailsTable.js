@@ -320,6 +320,11 @@ const GeneAlleleDetailsTable = ({geneId}) => {
 
   return (
     <>
+      {isLoading ?
+        <div className="mr-3 alert alert-info">
+          When the number of alleles and variants is large, this may take <strong>a few minutes</strong> to load.
+        </div> :
+        null}
       <ErrorBoundary>
         {
           isLoading || isLoadingGene ?
