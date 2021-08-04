@@ -49,6 +49,7 @@ const AlleleTable = ({geneId}) => {
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
 
   const hasAlleles = resolvedData && resolvedData.total > 0;
+  const hasManyAlleles = resolvedData && resolvedData.total > 20000;
 
   // filtered but not paginate list of alleles
   const allelesFiltered = useAllVariants(geneId, tableProps.tableState);
@@ -313,9 +314,16 @@ const AlleleTable = ({geneId}) => {
             hasAlleles ?
               <>
                 <Link
-                  className="btn btn-primary"
+                  className={'btn btn-primary ' + (hasManyAlleles ? 'disabled' : '')}
                   to={`/gene/${geneId}/allele-details`}
                 >View detailed Alleles/Variants information</Link>
+                {
+                  hasManyAlleles ?
+                    <NoData>
+                      Detailed information is disabled due to large number of variants. <br />
+                      Please refer to the download link below for more information.
+                    </NoData> : null
+                }
               </> :
               null
           }
