@@ -37,7 +37,7 @@ function getFullUrl(baseUrl, tableState) {
   return baseUrl + separator + buildTableQueryString(tableState);
 }
 
-export default function useDataTableQuery(baseUrl, config, initialTableState) {
+export default function useDataTableQuery(baseUrl, config, initialTableState, fetchOptins={}, fetchTimeout) {
   const initialState = {
     url: null,
     tableState:  {...DEFAULT_TABLE_STATE, ...(initialTableState || {})},
@@ -50,7 +50,7 @@ export default function useDataTableQuery(baseUrl, config, initialTableState) {
   const setTableState = tableState => dispatch({type: 'update', payload: tableState});
   const query = usePaginatedQuery(
     [url, tableState],
-    () => fetchData(getFullUrl(url, tableState)),
+    () => fetchData(getFullUrl(url, tableState), fetchOptins, fetchTimeout),
     config
   );
   return {

@@ -56,7 +56,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
 
   const tableQuery = useDataTableQuery(baseUrl, undefined, {
     sizePerPage: 25,
-  });
+  }, {}, 300000);
   const { isLoading } = tableQuery;
   const data = tableQuery.data.map((row) => ({
     ...row,
@@ -256,7 +256,11 @@ const GeneAlleleDetailsTable = ({geneId}) => {
   }), [tableQuery.tableState]);
   const allelesFiltered = useQuery([baseUrl, tableStateAlleleFiltered], () => {
     const nonHTPCategories = ['allele', 'allele with multiple associated variants', 'allele with one associated variant'];
-    return fetchData(getTableUrl(`${baseUrl}?filter.alleleCategory=${encodeURIComponent(nonHTPCategories.join('|'))}`, tableStateAlleleFiltered));
+    return fetchData(
+      getTableUrl(`${baseUrl}?filter.alleleCategory=${encodeURIComponent(nonHTPCategories.join('|'))}`, tableStateAlleleFiltered),
+      {},
+      300000
+    );
   });
   const variantsSequenceViewerProps = useMemo(() => {
 
@@ -316,6 +320,11 @@ const GeneAlleleDetailsTable = ({geneId}) => {
 
   return (
     <>
+      {isLoading ?
+        <div className="mr-3 alert alert-info">
+          When the number of alleles and variants is large, this may take <strong>a few minutes</strong> to load.
+        </div> :
+        null}
       <ErrorBoundary>
         {
           isLoading || isLoadingGene ?
