@@ -308,11 +308,19 @@ const AlleleTable = ({geneId}) => {
           selectRow={selectRow}
           sortOptions={sortOptions}
         />
-        {
-          hasAlleles ?
-            <Link className="btn btn-primary position-absolute d-block" style={{top: '2em'}} to={`/gene/${geneId}/allele-details`}>View all Alleles and Variants information</Link> :
-            null
-        }
+        <div className="d-flex flex-column align-items-center my-2 mx-auto">
+          {
+            hasAlleles ?
+              <>
+                <Link
+                  className="btn btn-primary"
+                  to={`/gene/${geneId}/allele-details`}
+                >View detailed Alleles/Variants information</Link>
+              </> :
+              null
+          }
+          <Link className="btn btn-link" to={'/downloads#variants-alleles'}>Download all Alleles/Variants for the species</Link>
+        </div>
       </div>
     </>
   );
