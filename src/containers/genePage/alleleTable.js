@@ -312,7 +312,7 @@ const AlleleTable = ({geneId}) => {
         <div className="d-flex flex-column align-items-start my-2 mx-auto">
           {
             hasAlleles ?
-              <span>
+              <div>
                 <Link
                   className={'btn btn-primary ' + (hasManyAlleles ? 'disabled' : '')}
                   to={`/gene/${geneId}/allele-details`}
@@ -321,10 +321,10 @@ const AlleleTable = ({geneId}) => {
                   hasManyAlleles ?
                     <NoData>{' '}
                       Detailed information is disabled due to large number of variants.
-                      Please refer to the download link below for more information.
+                      Please use the download link below to retrieve details for all gene alleles/variants.
                     </NoData> : null
                 }
-              </span> :
+              </div> :
               null
           }
           <Link className="btn btn-link" to={'/downloads#variants-alleles'}>Download all Alleles/Variants for all genes of the species</Link>
