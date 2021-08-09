@@ -312,19 +312,22 @@ const AlleleTable = ({geneId}) => {
         <div className="d-flex flex-column align-items-start my-2 mx-auto">
           {
             hasAlleles ?
-              <span>
+              <div className="d-flex flex-row align-items-center justify-content-start">
                 <Link
                   className={'btn btn-primary ' + (hasManyAlleles ? 'disabled' : '')}
                   to={`/gene/${geneId}/allele-details`}
                 >View detailed Alleles/Variants information</Link>
                 {
                   hasManyAlleles ?
-                    <NoData>{' '}
-                      Detailed information is disabled due to large number of variants.
-                      Please refer to the download link below for more information.
+                    <NoData>
+                      <div className="ml-2">
+                        Detailed information is disabled due to large number of variants.
+                        <br />
+                        Please use the download link below to retrieve details for all gene alleles/variants.
+                      </div>
                     </NoData> : null
                 }
-              </span> :
+              </div> :
               null
           }
           <Link className="btn btn-link" to={'/downloads#variants-alleles'}>Download all Alleles/Variants for all genes of the species</Link>
