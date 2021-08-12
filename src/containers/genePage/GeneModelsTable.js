@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import hash from 'object-hash';
 import { DataTable } from '../../components/dataTable';
 import ExternalLink from '../../components/ExternalLink';
 import CollapsibleList from '../../components/collapsibleList/collapsibleList';
@@ -10,6 +11,10 @@ import ExperimentalConditionCell from '../../components/dataTable/ExperimentalCo
 
 const GeneModelsTable = ({id}) => {
   const tableQuery = useDataTableQuery(`/api/gene/${id}/models`);
+  const data = (tableQuery.data || []).map(record => ({
+    ...record,
+    key: hash(record)
+  }));
 
   const columns = [
     {
@@ -79,8 +84,9 @@ const GeneModelsTable = ({id}) => {
   return (
     <DataTable
       {...tableQuery}
+      data={data}
       columns={columns}
-      keyField='id'
+      keyField='key'
     />
   );
 };
