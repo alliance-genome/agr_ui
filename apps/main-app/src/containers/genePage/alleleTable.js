@@ -49,6 +49,7 @@ const AlleleTable = ({geneId}) => {
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
 
   const hasAlleles = resolvedData && resolvedData.total > 0;
+  const hasManyAlleles = resolvedData && resolvedData.total > 20000;
 
   // filtered but not paginate list of alleles
   const allelesFiltered = useAllVariants(geneId, tableProps.tableState);
@@ -308,11 +309,29 @@ const AlleleTable = ({geneId}) => {
           selectRow={selectRow}
           sortOptions={sortOptions}
         />
-        {
-          hasAlleles ?
-            <Link className="btn btn-primary position-absolute d-block" style={{top: '2em'}} to={`/gene/${geneId}/allele-details`}>View all Alleles and Variants information</Link> :
-            null
-        }
+        <div className="d-flex flex-column align-items-start my-2 mx-auto">
+          {
+            hasAlleles ?
+              <div className="d-flex flex-row align-items-center justify-content-start">
+                <Link
+                  className={'btn btn-primary ' + (hasManyAlleles ? 'disabled' : '')}
+                  to={`/gene/${geneId}/allele-details`}
+                >View detailed Alleles/Variants information</Link>
+                {
+                  hasManyAlleles ?
+                    <NoData>
+                      <div className="ml-2">
+                        Detailed information is disabled due to large number of variants.
+                        <br />
+                        Please use the download link below to retrieve details for all gene alleles/variants.
+                      </div>
+                    </NoData> : null
+                }
+              </div> :
+              null
+          }
+          <Link className="btn btn-link" to={'/downloads#variants-alleles'}>Download all Alleles/Variants for all genes of the species</Link>
+        </div>
       </div>
     </>
   );
