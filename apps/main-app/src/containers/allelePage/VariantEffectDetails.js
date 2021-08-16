@@ -104,10 +104,10 @@ const VariantEffectDetails = ({
       <AttributeValue>{impact.toLowerCase()}</AttributeValue>
 
       <AttributeLabel>SIFT prediction (score)</AttributeLabel>
-      <AttributeValue>{siftPrediction.replace(/_/g, ' ')}</AttributeValue>
+      <AttributeValue>{siftPrediction && siftPrediction.replace(/_/g, ' ')}</AttributeValue>
 
       <AttributeLabel>PolyPhen prediction (score)</AttributeLabel>
-      <AttributeValue>{polyphenPrediction.replace(/_/g, ' ')}</AttributeValue>
+      <AttributeValue>{polyphenPrediction && polyphenPrediction.replace(/_/g, ' ')}</AttributeValue>
 
 
       <AttributeLabel style={labelStyle}>Position of Variant in Transcript</AttributeLabel>
