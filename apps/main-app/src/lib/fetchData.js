@@ -25,7 +25,7 @@ function timeoutPromise(timeout, promise) {
   });
 }
 
-export default async function fetchData(url, options = {}) {
+export default async function fetchData(url, options = {}, fetchTimeout=TIMEOUT) {
   if (!url) {
     return Promise.resolve();
   }
@@ -43,8 +43,8 @@ export default async function fetchData(url, options = {}) {
   if (options.data) {
     requestOptions.body = JSON.stringify(options.data);
   }
-
-  const response = await timeoutPromise(TIMEOUT, fetch(url, requestOptions));
+  
+  const response = await timeoutPromise(fetchTimeout, fetch(url, requestOptions));
   const body = await response.json();
   if (!response.ok) {
     throw new ApiError(response, body);

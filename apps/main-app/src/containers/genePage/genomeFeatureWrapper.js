@@ -101,7 +101,7 @@ class GenomeFeatureWrapper extends Component {
       '&loc=' + encodeURIComponent(externalLocationString);
   }
 
-  generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, variantFilter, displayType,isoformFilter,htpVariant) {
+  generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, variantFilter, displayType,isoformFilter,htpVariant,allelesSelected) {
     let transcriptTypes = getTranscriptTypes();
     const speciesInfo = getSpecies(species);
     const apolloPrefix = speciesInfo.apolloName;
@@ -140,6 +140,7 @@ class GenomeFeatureWrapper extends Component {
         'showVariantLabel': false,
         'variantFilter': variantFilter ? variantFilter : [],
         'isoformFilter': isoformFilter ? isoformFilter : [],
+        'initialHighlight' : allelesSelected ? allelesSelected.map( a => a.id) : [],
         'visibleVariants': undefined,
         'binRatio': 0.01,
         'transcriptTypes': transcriptTypes,
@@ -169,7 +170,7 @@ class GenomeFeatureWrapper extends Component {
   }
 
   loadGenomeFeature() {
-    const {chromosome, fmin, fmax, species, id, primaryId, geneSymbol, displayType, synonyms = [], visibleVariants,isoformFilter,htpVariant} = this.props;
+    const {chromosome, fmin, fmax, species, id, primaryId, geneSymbol, displayType, synonyms = [], visibleVariants,isoformFilter,htpVariant,allelesSelected} = this.props;
 
     // provide unique names
     let nameSuffix = [geneSymbol, ...synonyms, primaryId].filter((x, i, a) => a.indexOf(x) === i).map(x => encodeURI(x));
@@ -196,7 +197,7 @@ class GenomeFeatureWrapper extends Component {
     // [1] should be track name : ALL_Genes
     // [2] should be track name : name suffix string
     // const visibleVariants = allelesVisible && allelesVisible.length>0 ? allelesVisible.map( a => a.id ) : undefined;
-    const trackConfig = this.generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, visibleVariants, displayType,isoformFilter,htpVariant);
+    const trackConfig = this.generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, visibleVariants, displayType,isoformFilter,htpVariant,allelesSelected);
     this.gfc = new GenomeFeatureViewer(trackConfig, `#${id}`, 900, undefined);
     this.setState({
       helpText: this.gfc.generateLegend()
