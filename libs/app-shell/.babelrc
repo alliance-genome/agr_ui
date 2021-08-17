@@ -1,5 +1,5 @@
 {
-  "presets": ["@nrwl/react/babel", "@emotion/babel-preset-css-prop"],
+  "presets": ["@nrwl/react/babel"],
   "plugins": [
     "babel-plugin-macros",
     [
@@ -16,6 +16,7 @@
         "pragma": "__cssprop",
         "pragmaFrag": "React.Fragment"
       }
-    ]
+    ],
+    "@emotion/babel-plugin"
   ]
 }

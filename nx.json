@@ -32,9 +32,6 @@
     "app-shell": {
       "tags": []
     },
-    "shared-assets": {
-      "tags": []
-    },
     "example-app": {
       "tags": []
     },
@@ -47,6 +44,17 @@
     },
     "mod-landing-pages": {
       "tags": []
+    },
+    "shared-assets": {
+      "tags": []
     }
+  },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
   }
 }
