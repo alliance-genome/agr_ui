@@ -1,5 +1,10 @@
 {
-  "extends": ["plugin:@nrwl/nx/react", "../../.eslintrc.json"],
+  "extends": [
+    "plugin:@nrwl/nx/react-typescript",
+    "../../.eslintrc.json",
+    "next",
+    "next/core-web-vitals"
+  ],
   "ignorePatterns": ["!**/*"],
   "rules": {},
   "overrides": [
@@ -15,5 +20,8 @@
       "files": ["*.js", "*.jsx"],
       "rules": {}
     }
-  ]
+  ],
+  "env": {
+    "jest": true
+  }
 }
