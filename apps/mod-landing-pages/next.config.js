@@ -3,6 +3,9 @@ const withNx = require('@nrwl/next/plugins/with-nx');
 
 module.exports = withNx({
   basePath: '/members',
+  images: {
+    disableStaticImages: true,
+  },
   webpack: (config) => {
     Object.defineProperty(RegExp.prototype, 'toJSON', {
       value: RegExp.prototype.toString,
@@ -21,9 +24,7 @@ module.exports = withNx({
         oneOf: [
           // If coming from JS/TS file, then transform into React component using SVGR.
           {
-            issuer: {
-              test: /\.[jt]sx?$/,
-            },
+            issuer: /\.[jt]sx?$/,
             use: [
               {
                 loader: require.resolve('@svgr/webpack'),
