@@ -1,9 +1,8 @@
+const { getJestProjects } = require('@nrwl/jest');
+
 module.exports = {
   projects: [
-    '<rootDir>/apps/example-app',
-    '<rootDir>/libs/app-shell',
-    '<rootDir>/libs/shared-assets',
+    ...getJestProjects(),
     '<rootDir>/apps/example-app-import-test-run',
-    '<rootDir>/apps/mod-landing-pages',
   ],
 };
