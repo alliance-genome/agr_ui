@@ -22,7 +22,7 @@ const DiseaseToAlleleTable = ({id}) => {
     data: results,
     resolvedData,
     ...tableProps
-  } = useDataTableQuery(`/api/disease/${id}/alleles`);
+  } = useDataTableQuery(`/api/disease/${id}/alleles`, undefined, { sizePerPage: 10, }, {}, 60000);
 
   const data = results.map(association => ({
     ...association,
