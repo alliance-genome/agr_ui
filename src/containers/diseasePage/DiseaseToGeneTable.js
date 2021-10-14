@@ -26,7 +26,7 @@ const DiseaseToGeneTable = ({id}) => {
     data: results,
     resolvedData,
     ...tableProps
-  } = useDataTableQuery(`/api/disease/${id}/genes`);
+  } = useDataTableQuery(`/api/disease/${id}/genes`, undefined, { sizePerPage: 10, }, {}, 60000);
 
   const columns = [
     {
