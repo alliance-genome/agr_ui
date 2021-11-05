@@ -172,6 +172,23 @@ export const NAV_MENU = [
     label: 'Contact Us',
     route: '/contact-us',
   },
+  {
+    label: 'Members',
+    sub: [
+      {
+        label: 'WormBase',
+        route: '/mod/wb'
+      },
+      {
+        label: 'SGD',
+        route: '/mod/sgd'
+      },
+      {
+        label: 'ZFIN',
+        route: '/mod/zfin'
+      }
+    ]
+  }
 ];
 
 export const DEFAULT_TABLE_STATE = {
