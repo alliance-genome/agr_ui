@@ -23,7 +23,7 @@ const DiseaseToModelTable = ({id}) => {
     data: results,
     resolvedData,
     ...tableProps
-  } = useDataTableQuery(`/api/disease/${id}/models`);
+  } = useDataTableQuery(`/api/disease/${id}/models`, undefined, { sizePerPage: 10, }, {}, 60000);
 
   const columns = [
     {
