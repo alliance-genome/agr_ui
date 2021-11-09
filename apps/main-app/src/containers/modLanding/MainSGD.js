@@ -1,10 +1,10 @@
 import React from 'react';
-import About from './wormbase/About';
+import About from './sgd/About';
 
 const MainWB = () => {
   return (
     <div>
-      <h1>WormBase</h1>
+      <h1>SGD</h1>
       <About/>
     </div>
   );
