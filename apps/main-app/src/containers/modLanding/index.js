@@ -2,7 +2,8 @@ import React from 'react';
 import HeadMetaTags from '../../components/headMetaTags';
 import style from './style.scss';
 import PropTypes from 'prop-types';
-import MainWB from "./MainWB";
+import MainWB from './MainWB';
+import MainSGD from './MainSGD';
 
 const MODLanding = ({modId}) => {
   return (
@@ -11,7 +12,8 @@ const MODLanding = ({modId}) => {
 
       <section className={style.section}>
         <div className={`${style.contentContainer}`}>
-          {modId === 'wb' ? <MainWB/> : null}
+          {modId === 'wb' ? <MainWB /> : null}
+          {modId === 'sgd' ? <MainSGD /> : null}
         </div>
       </section>
     </div>
