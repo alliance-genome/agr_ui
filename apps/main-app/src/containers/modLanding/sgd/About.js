@@ -3,6 +3,7 @@ import React from 'react';
 const About = () => {
   return (
     <div>
+      <h2>About</h2>
       <p>
         The Saccharomyces Genome Database (SGD) provides comprehensive integrated biological information for the budding
         yeast <i>Saccharomyces cerevisiae</i> along with search and analysis tools to explore these data, enabling the
