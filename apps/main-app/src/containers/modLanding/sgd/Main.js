@@ -8,7 +8,7 @@ import Meetings from "./Meetings";
 const Main = () => {
   return (
     <div>
-      <div className={style.bannerWB}>
+      <div className={style.bannerSGD}>
         <div className={style.secondaryNavEmptyRow} />
         <div className={`row ${style.secondaryNavSGD}`}>
           <div className='container'>
