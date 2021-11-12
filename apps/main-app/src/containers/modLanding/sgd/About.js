@@ -1,9 +1,10 @@
 import React from 'react';
+import style from '../style.scss';
 
 const About = () => {
   return (
-    <div>
-      <h2>About</h2>
+    <div className={style.section}>
+      <h2 className={style.sectionTitle}>About</h2>
       <p>
         The Saccharomyces Genome Database (SGD) provides comprehensive integrated biological information for the budding
         yeast <i>Saccharomyces cerevisiae</i> along with search and analysis tools to explore these data, enabling the
@@ -11,6 +12,9 @@ const About = () => {
       </p>
       <p>
         SGD is a founding member of the Alliance of Genome Resources Project.
+      </p>
+      <p>
+        <b>To visit SGD main website click <a href="https://www.yeastgenome.org"> here</a></b>.
       </p>
     </div>
   );
