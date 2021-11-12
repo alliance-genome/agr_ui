@@ -7,7 +7,7 @@ $max-width: 800px;
 
 .secondaryNavWB {
   color: white;
-  background-color: #224162;
+  background-color: #85A6BA;
   bottom: 0;
 }
 
@@ -36,11 +36,11 @@ $max-width: 800px;
 }
 
 .bannerWB {
-  background-image: url('https://alliancegenome.files.wordpress.com/2019/09/cells-1872666_1920.jpg');
+  background-image: url('assets/home.jpg');
 }
 
 .bannerSGD {
-  background-image: url('https://alliancegenome.files.wordpress.com/2019/09/cells-1872666_1920.jpg');
+  background-image: url('assets/cells-1872666_1920.jpg');
 }
 
 .secondaryNavEmptyRow {
@@ -228,9 +228,4 @@ $max-width: 1600px;
   padding: 0;
   margin: 0;
   width: 100%;
-}
-
-
-.aboutMenuContainer {
-  background-image: url('assets/home.jpg');
 }
