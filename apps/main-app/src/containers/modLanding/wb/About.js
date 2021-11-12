@@ -1,9 +1,10 @@
 import React from 'react';
+import style from '../style.scss';
 
 const About = () => {
   return (
-    <div>
-      <h2>About</h2>
+    <div className={style.section}>
+      <h2 className={style.sectionTitle}>About</h2>
       <p>
         WormBase is an international consortium of biologists and computer scientists providing the research community
         with accurate, current, accessible information concerning the genetics, genomics and biology of
@@ -14,9 +15,9 @@ const About = () => {
       <p>
         WormBase is a founding member of the Alliance of Genome Resources Project.
       </p>
-      <h3>
-        To visit Wormbase's main website click <a href="https://wormbase.org"> here</a>.
-      </h3>
+      <p>
+        <b>To visit Wormbase's main website click <a href="https://wormbase.org"> here</a></b>.
+      </p>
     </div>
   );
 }
