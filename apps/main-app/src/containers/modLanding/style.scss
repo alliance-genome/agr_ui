@@ -13,7 +13,11 @@ $max-width: 800px;
   background-color: #696599;
 }
 
-.secondaryNavSGD, .secondaryNavWB {
+.secondaryNavZFIN{
+  background-color: #018080;
+}
+
+.secondaryNavSGD, .secondaryNavWB, .secondaryNavZFIN {
   color: white;
   bottom: 0;
   padding-top: 10px;
@@ -44,7 +48,11 @@ $max-width: 800px;
 
 .bannerSGD {
   background-image: url('assets/cells-1872666_1920.jpg');
-  backdrop-size: cover;
+  background-size: cover;
+}
+
+.bannerZFIN {
+  background-image: url('assets/zfin.png');
 }
 
 .secondaryNavEmptyRow {

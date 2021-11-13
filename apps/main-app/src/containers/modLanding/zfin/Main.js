@@ -8,11 +8,11 @@ import Meetings from "./Meetings";
 const Main = () => {
   return (
     <div>
-      <div className={style.bannerSGD}>
+      <div className={style.bannerZFIN}>
         <div className={style.secondaryNavEmptyRow} />
-        <div className={style.secondaryNavSGD}>
+        <div className={style.secondaryNavZFIN}>
           <div className='container'>
-            <h1><img src="https://alliancegenome.files.wordpress.com/2016/11/logo_sgd.png" height="50px" /> Saccharomyces Genome Database </h1>
+            <h1><img src="https://alliancegenome.files.wordpress.com/2016/11/logo_zfin.png" height="50px" /> ZFIN </h1>
           </div>
         </div>
       </div>
