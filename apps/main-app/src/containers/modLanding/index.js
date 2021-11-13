@@ -3,6 +3,7 @@ import HeadMetaTags from '../../components/headMetaTags';
 import PropTypes from 'prop-types';
 import MainWB from './wb/Main';
 import MainSGD from './sgd/Main';
+import MainZFIN from './zfin/Main'
 
 const MODLanding = ({modId}) => {
   return (
@@ -10,6 +11,7 @@ const MODLanding = ({modId}) => {
       <HeadMetaTags title='Landing page' />
       {modId === 'wb' ? <MainWB/> : null}
       {modId === 'sgd' ? <MainSGD/> : null}
+      {modId === 'zfin' ? <MainZFIN/> : null}
     </div>
   );
 };
