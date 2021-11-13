@@ -177,15 +177,15 @@ export const NAV_MENU = [
     sub: [
       {
         label: 'WormBase',
-        route: '/mod/wb'
+        route: '/members/wb'
       },
       {
         label: 'SGD',
-        route: '/mod/sgd'
+        route: '/members/sgd'
       },
       {
         label: 'ZFIN',
-        route: '/mod/zfin'
+        route: '/members/zfin'
       }
     ]
   }
