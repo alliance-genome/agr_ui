@@ -10,7 +10,7 @@ const Main = () => {
     <div>
       <div className={style.bannerSGD}>
         <div className={style.secondaryNavEmptyRow} />
-        <div className={`row ${style.secondaryNavSGD}`}>
+        <div className={style.secondaryNavSGD}>
           <div className='container'>
             <h1><img src="https://alliancegenome.files.wordpress.com/2016/11/logo_sgd.png" height="50px" /> Saccharomyces Genome Database </h1>
           </div>
