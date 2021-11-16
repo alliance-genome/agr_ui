@@ -12,7 +12,7 @@ const Main = () => {
         <div className={style.secondaryNavEmptyRow} />
         <div className={style.secondaryNavZFIN}>
           <div className='container'>
-            <h1><img src="https://alliancegenome.files.wordpress.com/2016/11/logo_zfin.png" height="50px" /> ZFIN </h1>
+            <h1><img src="https://alliancegenome.files.wordpress.com/2016/11/logo_zfin.png" height="50px" /> Zebrafish Information Network </h1>
           </div>
         </div>
       </div>

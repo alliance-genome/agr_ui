@@ -8,7 +8,7 @@ import MainZFIN from './zfin/Main'
 const MODLanding = ({modId}) => {
   return (
     <div>
-      <HeadMetaTags title='Landing page' />
+      <HeadMetaTags title='Members' />
       {modId === 'wb' ? <MainWB/> : null}
       {modId === 'sgd' ? <MainSGD/> : null}
       {modId === 'zfin' ? <MainZFIN/> : null}
