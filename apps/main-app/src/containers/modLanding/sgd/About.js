@@ -14,7 +14,7 @@ const About = () => {
         SGD is a founding member of the Alliance of Genome Resources Project.
       </p>
       <p>
-        <b>To visit SGD main website click <a href="https://www.yeastgenome.org"> here</a></b>.
+        <b>To visit SGD click <a href="https://www.yeastgenome.org"> here</a></b>.
       </p>
     </div>
   );
