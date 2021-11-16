@@ -12,7 +12,7 @@ const MainWB = () => {
         <div className={style.secondaryNavEmptyRow} />
         <div className={style.secondaryNavWB}>
           <div className='container'>
-            <h1>WormBase <img src='https://alliancegenome.files.wordpress.com/2016/11/logo_wormbase.png' height="50px"/></h1>
+            <h1><img src='https://alliancegenome.files.wordpress.com/2016/11/logo_wormbase.png' height="50px"/> WormBase</h1>
           </div>
         </div>
       </div>
