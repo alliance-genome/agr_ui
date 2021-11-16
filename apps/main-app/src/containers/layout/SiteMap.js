@@ -22,7 +22,7 @@ const SiteMap = () => {
             <div className={style.siteMapGroup} key={page.label}>
               {item}
               {page.sub &&
-              <ul className='list-unstyled mb-0 ml-2'>
+              <ul className='list-unstyled mb-0 ml-3'>
                 {page.sub.map(sub => (
                   <li key={sub.route}>
                     <SubMenuItem item={sub}>{sub.label}</SubMenuItem>

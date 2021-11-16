@@ -74,7 +74,7 @@ class PathwayWidget extends Component {
   //       "height": 500
   //     })
   //     this.setState({loading: false});
-  //     console.log("LOADED REACTOME: " , this.state);    
+  //     console.log("LOADED REACTOME: " , this.state);
 
   //     if(this.state.reactomePathways.selected && this.reactomePathwayDiagram) {
   //       this.reactomePathwayDiagram.loadDiagram(this.state.reactomePathways.selected);
@@ -176,7 +176,7 @@ class PathwayWidget extends Component {
   }
 
 
-  componentDidMount() {    
+  componentDidMount() {
     // this.loadReactomeLibrary();
     this.setState({loading: false});
   }
@@ -224,7 +224,7 @@ class PathwayWidget extends Component {
           "height": 600
         })
         this.reactomePathwayDiagram.loadDiagram(pathwayId);
-        // console.log("REACTOME PATHWAY: ", this.reactomePathwayDiagram);    
+        // console.log("REACTOME PATHWAY: ", this.reactomePathwayDiagram);
       })()
     } else {
       this.reactomePathwayDiagram.loadDiagram(pathwayId);
@@ -236,7 +236,7 @@ class PathwayWidget extends Component {
   /**
    * This mapping is using once again mygene.info
    * This could result in some unmapped ID, like for the ribbon, but this is our best bet at the moment
-   * @param {*} modID 
+   * @param {*} modID
    */
   getUniProtID(modID) {
     let query = "http://mygene.info/v3/query?q=" + modID + "&fields=uniprot";
@@ -246,7 +246,7 @@ class PathwayWidget extends Component {
 
   /**
    * For a given uniprot ID, returns the list of reactome pathways
-   * @param {*} dbId 
+   * @param {*} dbId
    */
   getReactomePathways(dbName = "UniProt", dbId) {
     if(dbName == "WB") { dbName = "Wormbase"}
@@ -258,7 +258,7 @@ class PathwayWidget extends Component {
 
   /**
    * For a given uniprot ID, returns the list of reactome reactions
-   * @param {*} dbId 
+   * @param {*} dbId
    */
   getReactomeReactions(dbName = "UniProt", dbId) {
     if(dbName == "WB") { dbName = "Wormbase"}
@@ -273,7 +273,7 @@ class PathwayWidget extends Component {
 
   /**
    * Called whenever the pathway changes (occurs after a user changes the selected reaction item)
-   * @param {*} event 
+   * @param {*} event
    */
   pathwayChanged(event) {
     // console.log("pathway changed: ", event , event.target.value);
@@ -286,13 +286,13 @@ class PathwayWidget extends Component {
 
   /**
    * Called whenever the reaction changes (occurs after a user changes the selected reaction item)
-   * @param {*} event 
+   * @param {*} event
    */
   reactionChanged(event) {
     // console.log("reaction changed: ", event , event.target.value);
     let item = {...this.state.reactomeReactions, selected : event.target.value, src: REACTOME_API_REACTIONS + event.target.value + ".svg"};
     this.setState({ reactomeReactions: item}, () => {
-      // console.log("selected reaction: ", this.state.reactomeReactions);     
+      // console.log("selected reaction: ", this.state.reactomeReactions);
     })
   }
 
@@ -300,11 +300,11 @@ class PathwayWidget extends Component {
     // console.log("reaction changed: ", event , event.target.value);
     let item = {...this.state.gocams, selected : event.target.value };
     this.setState({ gocams: item}, () => {
-      // console.log("selected gocam: ", this.state.gocams);     
+      // console.log("selected gocam: ", this.state.gocams);
     })
   }
 
-  
+
   selectReactomePathway() {
     this.setState({ selectedTab: "ReactomePathway" });
   }
@@ -347,15 +347,15 @@ class PathwayWidget extends Component {
     return this.props.geneSpecies.taxonId.includes("9606");
   }
 
-  
+
   /**
-   * Main rendering method
+   * MainWB rendering method
    */
   render() {
     // console.log("state: ", this.state);
     // console.log("props:" , this.props);
 
-    return (      
+    return (
       <div>
 
         { this.renderPathwayNavigation() }
@@ -363,7 +363,7 @@ class PathwayWidget extends Component {
         { this.renderReactomePathway() }
         { this.renderReactomeReaction() }
         { this.renderMODPathway() }
-        
+
       </div>
     );
   }
@@ -376,7 +376,7 @@ class PathwayWidget extends Component {
         <button className={(this.state.selectedTab == "ReactomeReactions") ? "nav-link active" : "nav-link"} aria-selected="true" onClick={() => this.selectReactomeReaction()}>Reactome Reactions ({this.state.reactomeReactions.reactions ? this.state.reactomeReactions.reactions.length : "0"})</button>
         <button className={(this.state.selectedTab == "MODPathways") ? "nav-link active" : "nav-link"} aria-selected="true" onClick={() => this.selectMODPathway()}>GO-CAMs ({this.state.gocams.list ? this.state.gocams.list.length : "0"})</button>
       </div>
-    </nav>      
+    </nav>
     )
   }
 
@@ -398,10 +398,10 @@ class PathwayWidget extends Component {
             : <NoData/> }
 
             <div id="reactomePathwayHolder" style={{ "max-width": "1280px" }}></div>
-            
+
             {(this.state.reactomePathways.loaded && !this.state.reactomePathways.error && this.state.reactomePathways.pathways.length > 0) ?
             <div>
-            <ExternalLink href={REACTOME_PATHWAY_BROWSER + this.state.reactomePathways.selected}>Open in Reactome Pathway</ExternalLink> 
+            <ExternalLink href={REACTOME_PATHWAY_BROWSER + this.state.reactomePathways.selected}>Open in Reactome Pathway</ExternalLink>
             { !this.isHumanGene() ? <ExternalLink href={REACTOME_INFERRED_EVENTS_DOC} style={{ "display": "inline-block", "text-align": "right", "width": "80%", "font-style": "italic", "font-size": "1.1rem", "font-weight": "800" }}>Computationally inferred by Orthology</ExternalLink> : "" }
             </div>
             : "" }
@@ -443,7 +443,7 @@ class PathwayWidget extends Component {
 
   renderMODPathway() {
     let gocstyles = (this.state.selectedTab && this.state.selectedTab == "MODPathways") ? { } : { "display": "none" }
-    return (      
+    return (
       <HorizontalScroll className='text-nowrap'>
         <div id="modPathway" style={gocstyles}>
 
@@ -455,12 +455,12 @@ class PathwayWidget extends Component {
                         return <option value={elt.gocam}>{elt.title}</option>
                     })}
                 </select>
-                </div>        
+                </div>
             : ""}
 
-            {(this.state.gocams.loaded && this.state.gocams.list && this.state.gocams.list.length > 0 && (this.state.selectedTab && this.state.selectedTab == "MODPathways")) ?  
+            {(this.state.gocams.loaded && this.state.gocams.list && this.state.gocams.list.length > 0 && (this.state.selectedTab && this.state.selectedTab == "MODPathways")) ?
             <div>
-                <wc-gocam-viz 
+                <wc-gocam-viz
                     id="gocam-1"
                     repository="prod"
                     gocam-id={this.state.cutils.getCurie(this.state.gocams.selected)}

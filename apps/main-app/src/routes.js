@@ -18,6 +18,7 @@ import NotFound from './components/notFound';
 import DownloadsPage from './containers/downloadsPage';
 import AllelePage from './containers/allelePage/AllelePage';
 import VariantPage from './containers/allelePage/VariantPage';
+import MODLanding from './containers/modLanding';
 
 export default (
   <Layout>
@@ -32,6 +33,7 @@ export default (
       <Route exact path='/news/:slug' render={({match}) => <WordpressPost slug={match.params.slug} />} />
       <Route exact path='/news' component={WordpressPostList} />
       <Route exact path='/downloads' component={DownloadsPage} />
+      <Route exact path='/members/:id' render={({ match }) => <MODLanding modId={match.params.id} />} />
 
       {/* this one needs to be handled outside of the main application */}
       <Route
