@@ -93,6 +93,35 @@ export const NAV_MENU = [
     ]
   },
   {
+    label: 'Members',
+    sub: [
+      {
+        label: 'WB',
+        route: '/members/wb'
+      },
+      {
+        label: 'SGD',
+        route: '/members/sgd'
+      },
+      {
+        label: 'ZFIN',
+        route: '/members/zfin'
+      },
+      {
+        label: 'WormBase',
+        route: '/members/wb'
+      },
+      {
+        label: 'Saccharomyces Genome Database',
+        route: '/members/sgd'
+      },
+      {
+        label: 'Zebrafish Information Network',
+        route: '/members/zfin'
+      }
+    ]
+  },
+  {
     label: 'News',
     sub: [
       {
@@ -171,7 +200,7 @@ export const NAV_MENU = [
   {
     label: 'Contact Us',
     route: '/contact-us',
-  },
+  }
 ];
 
 export const DEFAULT_TABLE_STATE = {

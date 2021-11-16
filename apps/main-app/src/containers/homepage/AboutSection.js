@@ -7,7 +7,7 @@ const AboutSection = () => {
     <section className={style.section}>
       <div className={style.contentContainer}>
         <div className='row'>
-          <div className='col-md-8'>
+          <div className='col-lg-12'>
             <h1>What is the Alliance of Genome Resources?</h1>
             <p className='lead'>
               A consortium of 6 model organism databases (MODs) and the Gene
