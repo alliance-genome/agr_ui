@@ -16,7 +16,7 @@ const About = () => {
         WormBase is a founding member of the Alliance of Genome Resources Project.
       </p>
       <p>
-        <b>To visit WormBase main website click <a href="https://wormbase.org"> here</a></b>.
+        <b>To visit WormBase click <a href="https://wormbase.org"> here</a></b>.
       </p>
     </div>
   );
