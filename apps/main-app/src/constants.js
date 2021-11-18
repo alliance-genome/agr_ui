@@ -96,29 +96,17 @@ export const NAV_MENU = [
     label: 'Members',
     sub: [
       {
-        label: 'WB',
+        label: 'WormBase / WB',
         route: '/members/wb'
       },
       {
-        label: 'SGD',
+        label: 'Saccharomyces Genome Database / SGD',
         route: '/members/sgd'
       },
       {
-        label: 'ZFIN',
+        label: 'Zebrafish Information Network / ZFIN',
         route: '/members/zfin'
       },
-      {
-        label: 'WormBase',
-        route: '/members/wb'
-      },
-      {
-        label: 'Saccharomyces Genome Database',
-        route: '/members/sgd'
-      },
-      {
-        label: 'Zebrafish Information Network',
-        route: '/members/zfin'
-      }
     ]
   },
   {
