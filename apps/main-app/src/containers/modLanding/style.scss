@@ -5,23 +5,27 @@
 
 $max-width: 800px;
 
-.secondaryNavWB {
+.titleBarWB {
   background-color: #85A6BA;
 }
 
-.secondaryNavSGD {
+.titleBarSGD {
   background-color: #696599;
 }
 
-.secondaryNavZFIN{
+.titleBarZFIN{
   background-color: #018080;
 }
 
-.secondaryNavSGD, .secondaryNavWB, .secondaryNavZFIN {
+.titleBarSGD, .titleBarWB, .titleBarZFIN {
   color: white;
   bottom: 0;
   padding-top: 10px;
   padding-bottom: 5px;
+}
+
+.titleBarText{
+  vertical-align: middle;
 }
 
 .sectionTitle {
@@ -49,7 +53,7 @@ $max-width: 800px;
   background-size: cover;
 }
 
-.secondaryNavEmptyRow {
+.titleBarEmptyRow {
   padding: 0;
   margin: 0;
   width: 100%;
@@ -58,7 +62,7 @@ $max-width: 800px;
 
 .searchBackground {
   background: $primary-300;  /* fallback for old browsers */
-  background: linear-gradient(13deg, $accent-300 0%, $tertiary-300 25%, $primary-300 100%);
+  ackground: linear-gradient(13deg, $accent-300 0%, $tertiary-300 25%, $primary-300 100%);
 }
 
 .contentContainer {
@@ -230,7 +234,7 @@ $max-width: 1600px;
   height: 200px;
 }
 
-.secondaryNavEmptyRow, .postMenuContainer.secondaryNav {
+.titleBarEmptyRow, .postMenuContainer.titleBar {
   padding: 0;
   margin: 0;
   width: 100%;

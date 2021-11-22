@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 const Title = ({bannerStyle, titleBarStyle, logoImgSrc, modFullName}) => {
   return (
   <div className={bannerStyle}>
-        <div className={style.secondaryNavEmptyRow} />
+        <div className={style.titleBarEmptyRow} />
         <div className={titleBarStyle}>
           <div className='container'>
-            <h1><img src={logoImgSrc} height="50px"/> <span dangerouslySetInnerHTML={{__html: modFullName}}/></h1>
+            <h1><img src={logoImgSrc} height="50px"/> <span className={style.titleBarText} dangerouslySetInnerHTML={{__html: modFullName}}/></h1>
           </div>
         </div>
       </div>
