@@ -16,7 +16,9 @@ const About = ({htmlContent, modShortName, linkToMod}) => {
 }
 
 About.propTypes = {
-  htmlContent: PropTypes.string.isRequired
+  htmlContent: PropTypes.string.isRequired,
+  modShortName: PropTypes.string.isRequired,
+  linkToMod: PropTypes.string.isRequired
 }
 
 export default About;

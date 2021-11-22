@@ -1,4 +1,5 @@
 import style from './style.scss';
+import PropTypes from "prop-types";
 
 const Title = ({bannerStyle, titleBarStyle, logoImgSrc, modFullName}) => {
   return (
@@ -11,6 +12,13 @@ const Title = ({bannerStyle, titleBarStyle, logoImgSrc, modFullName}) => {
         </div>
       </div>
   );
+}
+
+Title.propTypes = {
+  bannerStyle: PropTypes.string.isRequired,
+  titleBarStyle: PropTypes.string.isRequired,
+  logoImgSrc: PropTypes.string.isRequired,
+  modFullName: PropTypes.string.isRequired
 }
 
 export default Title;
