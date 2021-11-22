@@ -14,8 +14,8 @@ export const MODContent = {
     link: 'https://wormbase.org',
     modShortName: 'WormBase',
     modFullName: 'WormBase',
-    bannerStyle: style.bannerWB,
-    titleBarStyle: style.titleBarWB,
+    bannerStyle: style.banner__WB,
+    titleBarStyle: style.titleBar__WB,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_wormbase.png'
   },
   'sgd': {
@@ -30,8 +30,8 @@ export const MODContent = {
     link: 'https://www.yeastgenome.org',
     modShortName: 'SGD',
     modFullName: '<i>Saccharomyces</i> Genome Database',
-    bannerStyle: style.bannerSGD,
-    titleBarStyle: style.titleBarSGD,
+    bannerStyle: style.banner__SGD,
+    titleBarStyle: style.titleBar__SGD,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_sgd.png'
   },
   'zfin': {
@@ -43,8 +43,8 @@ export const MODContent = {
     link: 'https://www.zfin.org',
     modShortName: 'ZFIN',
     modFullName: 'Zebrafish Information Network',
-    bannerStyle: style.bannerZFIN,
-    titleBarStyle: style.titleBarZFIN,
+    bannerStyle: style.banner__ZFIN,
+    titleBarStyle: style.titleBar__ZFIN,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_zfin.png'
   }
 }

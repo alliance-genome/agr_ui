@@ -5,27 +5,34 @@
 
 $max-width: 800px;
 
-.titleBarWB {
-  background-color: #85A6BA;
-}
-
-.titleBarSGD {
-  background-color: #696599;
-}
-
-.titleBarZFIN{
-  background-color: #018080;
-}
-
-.titleBarSGD, .titleBarWB, .titleBarZFIN {
+.titleBar {
   color: white;
   bottom: 0;
   padding-top: 10px;
   padding-bottom: 5px;
 }
 
-.titleBarText{
+.titleBar__WB {
+  background-color: #85A6BA;
+}
+
+.titleBar__SGD {
+  background-color: #696599;
+}
+
+.titleBar__ZFIN {
+  background-color: #018080;
+}
+
+.titleBarText {
   vertical-align: middle;
+}
+
+.titleBarEmptyRow {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 160px;
 }
 
 .sectionTitle {
@@ -38,26 +45,20 @@ $max-width: 800px;
   border-bottom: 1px solid $border-color;
 }
 
-.bannerWB {
+.banner {
+  background-size: cover;
+}
+
+.banner__WB {
   background-image: url('assets/topBannerWB.jpg');
-  background-size: cover;
 }
 
-.bannerSGD {
+.banner__SGD {
   background-image: url('assets/topBannerSGD.jpg');
-  background-size: cover;
 }
 
-.bannerZFIN {
+.banner__ZFIN {
   background-image: url('assets/topBannerZFIN.png');
-  background-size: cover;
-}
-
-.titleBarEmptyRow {
-  padding: 0;
-  margin: 0;
-  width: 100%;
-  height: 160px;
 }
 
 .searchBackground {
