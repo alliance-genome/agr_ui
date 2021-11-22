@@ -18,7 +18,7 @@ import NotFound from './components/notFound';
 import DownloadsPage from './containers/downloadsPage';
 import AllelePage from './containers/allelePage/AllelePage';
 import VariantPage from './containers/allelePage/VariantPage';
-import MODLanding from './containers/modLanding';
+import MODLanding from './containers/modLanding/Main';
 
 export default (
   <Layout>
