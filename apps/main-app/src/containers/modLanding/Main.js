@@ -13,7 +13,7 @@ const MODLanding = ({modId}) => {
 
   return (
     <div>
-      <HeadMetaTags title='Members' />
+      <HeadMetaTags title={modId.toUpperCase()} />
       <div>
         <Title bannerStyle={content.bannerStyle} titleBarStyle={content.titleBarStyle} logoImgSrc={content.logoImgSrc}
                modFullName={content.modFullName}/>
