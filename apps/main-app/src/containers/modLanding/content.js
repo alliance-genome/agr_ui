@@ -56,7 +56,7 @@ export const MODContent = {
     modShortName: 'FB',
     modFullName: 'FlyBase',
     bannerStyle: style.banner__DEFAULT,
-    titleBarStyle: style.titleBar__DEFAULT,
+    titleBarStyle: style.titleBar__FB,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_flybase.png'
   },
   'rgd': {
@@ -71,7 +71,7 @@ export const MODContent = {
     modShortName: 'RGD',
     modFullName: 'Rat Genome Database',
     bannerStyle: style.banner__DEFAULT,
-    titleBarStyle: style.titleBar__DEFAULT,
+    titleBarStyle: style.titleBar__RGD,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_rgd.png'
   },
   'mgi': {
@@ -83,17 +83,18 @@ export const MODContent = {
     modShortName: 'MGI',
     modFullName: 'Mouse Genome Informatics',
     bannerStyle: style.banner__DEFAULT,
-    titleBarStyle: style.titleBar__DEFAULT,
+    titleBarStyle: style.titleBar__MGI,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_mgd.png'
   },
   'go': {
-    about: '<p></p>' +
+    about: '<p>The Gene Ontology (GO) is a major bioinformatics initiative to unify the representation of gene and ' +
+      'gene product attributes across all species.</p>' +
       '<p>GO is a founding member of the Alliance of Genome Resources Project.</p>',
     link: 'http://geneontology.org/',
     modShortName: 'GO',
     modFullName: 'Gene Ontology Consortium',
     bannerStyle: style.banner__DEFAULT,
-    titleBarStyle: style.titleBar__DEFAULT,
+    titleBarStyle: style.titleBar__GO,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_goc.png'
   }
 }
