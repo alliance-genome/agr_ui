@@ -96,17 +96,33 @@ export const NAV_MENU = [
     label: 'Members',
     sub: [
       {
-        label: 'WormBase / WB',
+        label: 'WormBase',
         route: '/members/wb'
       },
       {
-        label: 'Saccharomyces Genome Database / SGD',
+        label: 'Saccharomyces Genome Database',
         route: '/members/sgd'
       },
       {
-        label: 'Zebrafish Information Network / ZFIN',
+        label: 'Zebrafish Information Network',
         route: '/members/zfin'
       },
+      {
+        label: 'FlyBase',
+        route: '/members/fb'
+      },
+      {
+        label: 'Rat Genome Database',
+        route: '/members/rgd'
+      },
+      {
+        label: 'Mouse Genome Informatics',
+        route: '/members/mgi'
+      },
+      {
+        label: 'Gene Ontology Consortium',
+        route: '/members/go'
+      }
     ]
   },
   {
