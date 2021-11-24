@@ -10,6 +10,10 @@
   padding-bottom: 5px;
 }
 
+.titleBar__DEFAULT {
+  background-color: #2598c5;
+}
+
 .titleBar__WB {
   background-color: #85A6BA;
 }
@@ -20,6 +24,23 @@
 
 .titleBar__ZFIN {
   background-color: #018080;
+}
+
+.titleBar__FB {
+  background-color: #9db16e;
+}
+
+.titleBar__GO {
+  background-color: #001684;
+}
+
+.titleBar__RGD {
+  background-color: #699fc8;
+}
+
+.titleBar__MGI {
+  background-color: #dfeffe;
+  color: #143055;
 }
 
 .titleBarText {
@@ -45,6 +66,10 @@
 
 .banner {
   background-size: cover;
+}
+
+.banner__DEFAULT {
+  background-image: url('https://alliancegenome.files.wordpress.com/2018/06/allbanners-45621.jpg');
 }
 
 .banner__WB {
