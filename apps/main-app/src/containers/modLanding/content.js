@@ -46,6 +46,56 @@ export const MODContent = {
     bannerStyle: style.banner__ZFIN,
     titleBarStyle: style.titleBar__ZFIN,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_zfin.png'
+  },
+  'fb': {
+    about: '<p>FlyBase (flybase.org) is an essential online database for researchers using <i>Drosophila melanogaster</i> ' +
+      'as a model organism, facilitating access to a diverse array of information that includes genetic, molecular, ' +
+      'genomic and reagent resources.</p>' +
+      '<p>FlyBase is a founding member of the Alliance of Genome Resources Project.</p>',
+    link: 'https://www.flybase.org',
+    modShortName: 'FB',
+    modFullName: 'FlyBase',
+    bannerStyle: style.banner__DEFAULT,
+    titleBarStyle: style.titleBar__FB,
+    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_flybase.png'
+  },
+  'rgd': {
+    about: '<p>The Rat Genome Database (RGD) is the primary site for genetic, genomic, phenotype, and disease-related ' +
+      'data generated from rat research. The data is the result of both manual curation work by RGD curators and ' +
+      'imported data from other databases through custom ELT (Extract, Load and Transform) pipelines. RGD has ' +
+      'expanded to include structured and standardized data for additional species (human, mouse, chinchilla, ' +
+      'bonobo, 13-lined ground squirrel, dog and pig). RGD also offers a growing suite of innovative tools for ' +
+      'querying, analyzing and visualizing this data making it a valuable resource for researchers worldwide.</p>' +
+      '<p>RGD is a founding member of the Alliance of Genome Resources Project.</p>',
+    link: 'https://rgd.mcw.edu/',
+    modShortName: 'RGD',
+    modFullName: 'Rat Genome Database',
+    bannerStyle: style.banner__DEFAULT,
+    titleBarStyle: style.titleBar__RGD,
+    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_rgd.png'
+  },
+  'mgi': {
+    about: '<p>MGI is the international database resource for the laboratory mouse, providing integrated genetic, ' +
+      'genomic, and biological data to facilitate the study of human health and disease. ' +
+      '<a href="http://www.informatics.jax.org/mgihome/projects/aboutmgi.shtml">Learn more</a></p>' +
+      '<p>MGI is a founding member of the Alliance of Genome Resources Project.</p>',
+    link: 'http://www.informatics.jax.org/',
+    modShortName: 'MGI',
+    modFullName: 'Mouse Genome Informatics',
+    bannerStyle: style.banner__DEFAULT,
+    titleBarStyle: style.titleBar__MGI,
+    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_mgd.png'
+  },
+  'go': {
+    about: '<p>The Gene Ontology (GO) is a major bioinformatics initiative to unify the representation of gene and ' +
+      'gene product attributes across all species.</p>' +
+      '<p>GO is a founding member of the Alliance of Genome Resources Project.</p>',
+    link: 'http://geneontology.org/',
+    modShortName: 'GO',
+    modFullName: 'Gene Ontology Consortium',
+    bannerStyle: style.banner__DEFAULT,
+    titleBarStyle: style.titleBar__GO,
+    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_goc.png'
   }
 }
 

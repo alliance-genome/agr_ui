@@ -25,7 +25,7 @@ const SiteMap = () => {
               <ul className='list-unstyled mb-0 ml-3'>
                 {page.sub.map(sub => (
                   <li key={sub.route}>
-                    <SubMenuItem item={sub}>{sub.label}</SubMenuItem>
+                    <SubMenuItem item={sub}>{sub.shortLabel !== undefined ? sub.shortLabel : sub.label}</SubMenuItem>
                   </li>
                 ))}
               </ul>
