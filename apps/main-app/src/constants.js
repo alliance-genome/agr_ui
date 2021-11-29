@@ -101,11 +101,6 @@ export const NAV_MENU = [
         route: '/members/fb'
       },
       {
-        label: 'Gene Ontology Consortium',
-        shortLabel: 'GO',
-        route: '/members/go'
-      },
-      {
         label: 'Mouse Genome Informatics',
         shortLabel: 'MGI',
         route: '/members/mgi'
@@ -129,6 +124,11 @@ export const NAV_MENU = [
         label: 'Zebrafish Information Network',
         shortLabel: 'ZFIN',
         route: '/members/zfin'
+      },
+      {
+        label: 'Gene Ontology Consortium',
+        shortLabel: 'GO',
+        route: '/members/go'
       }
     ]
   },
