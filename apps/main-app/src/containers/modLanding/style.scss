@@ -27,11 +27,11 @@
 }
 
 .titleBar__FB {
-  background-color: #9db16e;
+  background-color: #003568;
 }
 
 .titleBar__GO {
-  background-color: #001684;
+  background-color: #264370;
 }
 
 .titleBar__RGD {
@@ -66,6 +66,7 @@
 
 .banner {
   background-size: cover;
+  height: 200px;
 }
 
 .banner__DEFAULT {
@@ -77,9 +78,17 @@
 }
 
 .banner__SGD {
-  background-image: url('assets/topBannerSGD.jpg');
+  background-image: url('assets/topBannerSGD.png');
 }
 
 .banner__ZFIN {
   background-image: url('assets/topBannerZFIN.png');
+}
+
+.banner__MGI{
+  background-image: url('assets/topBannerMGI.png');
+}
+
+.banner__RGD{
+  background-image: url('assets/topBAnnerRGD.png');
 }
