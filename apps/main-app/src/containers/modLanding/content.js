@@ -70,7 +70,7 @@ export const MODContent = {
     link: 'https://rgd.mcw.edu/',
     modShortName: 'RGD',
     modFullName: 'Rat Genome Database',
-    bannerStyle: style.banner__DEFAULT,
+    bannerStyle: style.banner__RGD,
     titleBarStyle: style.titleBar__RGD,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_rgd.png'
   },
