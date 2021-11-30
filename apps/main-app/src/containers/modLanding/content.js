@@ -55,7 +55,7 @@ export const MODContent = {
     link: 'https://www.flybase.org',
     modShortName: 'FB',
     modFullName: 'FlyBase',
-    bannerStyle: style.banner__DEFAULT,
+    bannerStyle: style.banner__FB,
     titleBarStyle: style.titleBar__FB,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_flybase.png'
   },
