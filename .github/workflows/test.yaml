@@ -22,5 +22,5 @@ jobs:
       - uses: mansagroup/nrwl-nx-action@v2
         name: nx
         with:
-          target: test
+          targets: test
 
