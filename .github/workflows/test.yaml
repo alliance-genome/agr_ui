@@ -18,7 +18,7 @@ jobs:
         name: setup node
         with:
           node-version: 12
-        run: npm install
+      - run: npm install
       - uses: mansagroup/nrwl-nx-action@v2
         name: nx
         with:
