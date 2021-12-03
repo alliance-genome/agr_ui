@@ -1,8 +1,20 @@
 import React  from 'react';
-import { Link } from 'react-router-dom';
 import style from '../wordpress/style.scss';
 import LoadingSpinner from '../../components/loadingSpinner';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
+
+const parseWordpressPosts = (wordPressAPIRes) => {
+  if (wordPressAPIRes.posts !== undefined) // WP API version 1.1
+    return wordPressAPIRes.posts.map(post => {
+      return {title: post.title, text: post.excerpt, link: post.URL, status: post.status}
+    });
+  else { // WP API v2
+    return wordPressAPIRes.map(post => {
+      return {title: post.title.rendered, text: post.excerpt.rendered, link: post.link, status: post.status}
+    });
+  }
+
+}
 
 const WordpressNews = ({urlNewsMod, fetchNewsCount}) => {
   const {
@@ -13,23 +25,21 @@ const WordpressNews = ({urlNewsMod, fetchNewsCount}) => {
   let count=1;
   return (
     <div className={style.wordPressContainer}>
-
       <div className='container'>
         <div className='row'>
           <div className='col-md-8'>
             {isLoading && <LoadingSpinner />}
             {
-              postList && postList.map(post => {
+              postList && parseWordpressPosts(postList).map(post => {
                 if (post.status !== 'publish') { return; }
-                const link = `/news/${post.slug}`;
                 if (count>fetchNewsCount){return;}
                 count ++;
                 return (
-                  <div className={style.postContainer} key={post.id}>
-                    <Link to={link}>
-                      <h4 dangerouslySetInnerHTML={{ __html: post.title.rendered}} />
-                    </Link>
-                    <p dangerouslySetInnerHTML={{ __html: post.excerpt.rendered}} />
+                  <div className={style.postContainer}>
+                    <a href={post.link}>
+                      <h4 dangerouslySetInnerHTML={{ __html: post.title}} />
+                    </a>
+                    <p dangerouslySetInnerHTML={{ __html: post.text}} />
                   </div>
                 );
               })
