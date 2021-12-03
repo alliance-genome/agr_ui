@@ -11,8 +11,6 @@ import News from "./News";
 const MODLanding = ({modId}) => {
 
   const content = MODContent[modId];
-  const newsURL= MODContent[modId].wordpressBaseURL;
-  const fetchNewsCount= MODContent[modId].fetchNewsCount;
 
   return (
     <div>
@@ -21,7 +19,9 @@ const MODLanding = ({modId}) => {
         <Title bannerStyle={content.bannerStyle} titleBarStyle={content.titleBarStyle} logoImgSrc={content.logoImgSrc}
                modFullName={content.modFullName}/>
         <About htmlContent={content.about} modShortName={content.modShortName} linkToMod={content.link} />
-        {newsURL && <News urlNewsMod={newsURL} fetchNewsCount={fetchNewsCount} modShortName={content.modShortName} linkToMod={content.link} />}
+        {content.wordpressBaseURL && <News urlNewsMod={content.wordpressBaseURL}
+                                           fetchNewsCount={content.fetchNewsCount}
+                                           linkToNewsPage={content.linkToNewsPage} />}
         <div className='container'>
           <div className="row">
             <div className="col-sm-6">

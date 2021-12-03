@@ -2,6 +2,7 @@ import React  from 'react';
 import style from './style.scss';
 import LoadingSpinner from '../../components/loadingSpinner';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
+import PropTypes from "prop-types";
 
 const parseWordpressPosts = (wordPressAPIRes) => {
   if (wordPressAPIRes.posts !== undefined) // WP API version 1.1
@@ -16,7 +17,7 @@ const parseWordpressPosts = (wordPressAPIRes) => {
 
 }
 
-const WordpressNews = ({urlNewsMod, fetchNewsCount}) => {
+const WordpressNews = ({urlNewsMod, fetchNewsCount, linkToNewsPage}) => {
   const {
     data: postList,
     isLoading
@@ -46,9 +47,16 @@ const WordpressNews = ({urlNewsMod, fetchNewsCount}) => {
             }
           </div>
         </div>
+        <a href={linkToNewsPage}><h4>More News</h4></a>
       </div>
     </div>
   );
 };
+
+WordpressNews.propTypes = {
+  urlNewsMod: PropTypes.string.isRequired,
+  fetchNewsCount: PropTypes.number.isRequired,
+  linkToNewsPage: PropTypes.string.isRequired
+}
 
 export default WordpressNews;
