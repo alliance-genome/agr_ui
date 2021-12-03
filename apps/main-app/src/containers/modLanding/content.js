@@ -18,7 +18,7 @@ export const MODContent = {
     titleBarStyle: style.titleBar__WB,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_wormbase.png',
     wordpressBaseURL: 'https://public-api.wordpress.com/wp/v2/sites/blog.wormbase.org/posts',
-    fetchNewsCount: 5
+    fetchNewsCount: 3
   },
   'sgd': {
     about: '<p>The Saccharomyces Genome Database (SGD) provides comprehensive integrated biological information for the' +
@@ -34,7 +34,9 @@ export const MODContent = {
     modFullName: '<i>Saccharomyces</i> Genome Database',
     bannerStyle: style.banner__SGD,
     titleBarStyle: style.titleBar__SGD,
-    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_sgd.png'
+    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_sgd.png',
+    wordpressBaseURL: 'https://public-api.wordpress.com/rest/v1.1/sites/yeastgenomeblog.wordpress.com/posts/',
+    fetchNewsCount: 3
   },
   'zfin': {
     about: '<p>The Zebrafish Information Network (ZFIN) is the database of genetic and genomic data for the zebrafish ' +
