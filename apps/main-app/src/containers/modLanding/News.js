@@ -1,16 +1,14 @@
 import React from 'react';
 import style from './style.scss';
 import PropTypes from "prop-types";
-import LinkToMOD from "./LinkToMOD";
-import WordpressPostListMod from "./../wordpress/wordpressPostListMod"
+import WordpressNews from "./wordpressNews"
 
 const News = ({urlNewsMod, fetchNewsCount, modShortName, linkToMod}) => {
   return (
     <div className='container'>
       <div className={style.section}>
         <h2 className={style.sectionTitle}>News</h2>
-        <WordpressPostListMod urlNewsMod={urlNewsMod} fetchNewsCount={fetchNewsCount} />
-        <LinkToMOD modName={modShortName} linkAddress={linkToMod}/>
+        <WordpressNews urlNewsMod={urlNewsMod} fetchNewsCount={fetchNewsCount} />
       </div>
     </div>
   );

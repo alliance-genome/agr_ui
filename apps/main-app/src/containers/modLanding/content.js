@@ -17,7 +17,7 @@ export const MODContent = {
     bannerStyle: style.banner__WB,
     titleBarStyle: style.titleBar__WB,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_wormbase.png',
-    wordpressBaseURL: 'https://public-api.wordpress.com/wp/v2/sites/alliancegenome.wordpress.com/posts',
+    wordpressBaseURL: 'https://public-api.wordpress.com/wp/v2/sites/blog.wormbase.org/posts',
     fetchNewsCount: 5
   },
   'sgd': {
