@@ -2,7 +2,7 @@ import React  from 'react';
 import style from './style.scss';
 import LoadingSpinner from '../../components/loadingSpinner';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
-
+import './news.css'; 
 const parseWordpressPosts = (wordPressAPIRes) => {
   if (wordPressAPIRes.posts !== undefined) // WP API version 1.1
     return wordPressAPIRes.posts.map(post => {
