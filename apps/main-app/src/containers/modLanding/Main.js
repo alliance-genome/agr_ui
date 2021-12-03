@@ -6,11 +6,14 @@ import {MODContent} from './content';
 import About from "./About";
 import LinkToMOD from "./LinkToMOD";
 import Title from "./Title";
-
+import News from "./News"; 
+ 
 const MODLanding = ({modId}) => {
 
   const content = MODContent[modId];
-
+  const newsURL= MODContent[modId].wordpressBaseURL;
+  const fetchNewsCount= MODContent[modId].fetchNewsCount;
+   
   return (
     <div>
       <HeadMetaTags title={modId.toUpperCase()} />
@@ -18,6 +21,7 @@ const MODLanding = ({modId}) => {
         <Title bannerStyle={content.bannerStyle} titleBarStyle={content.titleBarStyle} logoImgSrc={content.logoImgSrc}
                modFullName={content.modFullName}/>
         <About htmlContent={content.about} modShortName={content.modShortName} linkToMod={content.link} />
+        {newsURL && <News urlNewsMod={newsURL} fetchNewsCount={fetchNewsCount} modShortName={content.modShortName} linkToMod={content.link} />}
         <div className='container'>
           <div className="row">
             <div className="col-sm-4">

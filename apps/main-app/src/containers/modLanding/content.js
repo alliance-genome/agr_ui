@@ -16,7 +16,9 @@ export const MODContent = {
     modFullName: 'WormBase',
     bannerStyle: style.banner__WB,
     titleBarStyle: style.titleBar__WB,
-    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_wormbase.png'
+    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_wormbase.png',
+    wordpressBaseURL: 'https://public-api.wordpress.com/wp/v2/sites/alliancegenome.wordpress.com/posts',
+    fetchNewsCount: 5
   },
   'sgd': {
     about: '<p>The Saccharomyces Genome Database (SGD) provides comprehensive integrated biological information for the' +
@@ -57,7 +59,9 @@ export const MODContent = {
     modFullName: 'FlyBase',
     bannerStyle: style.banner__FB,
     titleBarStyle: style.titleBar__FB,
-    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_flybase.png'
+    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_flybase.png',
+    wordpressBaseURL: '',
+    fetchNewsCount: 0
   },
   'rgd': {
     about: '<p>The Rat Genome Database (RGD) is the primary site for genetic, genomic, phenotype, and disease-related ' +
