@@ -96,3 +96,7 @@
 .banner__FB{
   background-image: url('assets/topBannerFB.png');
 }
+
+:global(.sharedaddy) {
+  display: none;
+}

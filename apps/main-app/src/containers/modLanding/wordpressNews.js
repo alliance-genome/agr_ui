@@ -1,5 +1,5 @@
 import React  from 'react';
-import style from '../wordpress/style.scss';
+import style from './style.scss';
 import LoadingSpinner from '../../components/loadingSpinner';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 
