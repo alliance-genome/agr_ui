@@ -94,18 +94,18 @@ export const MODContent = {
     titleBarStyle: style.titleBar__MGI,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_mgd.png'
   },
-  'go': {
+  'goc': {
     about: '<p>The mission of the GO Consortium is to develop an up-to-date, comprehensive, computational model of ' +
       'biological systems, from the molecular level to larger pathways, cellular and organism-level systems.</p>' +
       '<p>The Gene Ontology resource provides a computational representation of our current scientific knowledge about the ' +
       'functions of genes (or, more properly, the protein and non-coding RNA molecules produced by genes) from many ' +
       'different organisms, from humans to bacteria. It is widely used to support scientific research, and has been ' +
       'cited in tens of thousands of publications. .</p>' +
-      '<p>GO is a founding member of the Alliance of Genome Resources Project.</p>',
+      '<p>GOC is a founding member of the Alliance of Genome Resources Project.</p>',
     link: 'http://geneontology.org/',
-    modShortName: 'GO',
+    modShortName: 'GOC',
     modFullName: 'Gene Ontology Consortium',
-    bannerStyle: style.banner__DEFAULT,
+    bannerStyle: style.banner__GO,
     titleBarStyle: style.titleBar__GO,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_goc.png'
   }
