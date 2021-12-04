@@ -97,7 +97,7 @@ export const MODContent = {
     link: 'http://geneontology.org/',
     modShortName: 'GOC',
     modFullName: 'Gene Ontology Consortium',
-    bannerStyle: style.banner__DEFAULT,
+    bannerStyle: style.banner__GO,
     titleBarStyle: style.titleBar__GO,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_goc.png'
   }
