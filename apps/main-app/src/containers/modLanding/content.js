@@ -16,7 +16,10 @@ export const MODContent = {
     modFullName: 'WormBase',
     bannerStyle: style.banner__WB,
     titleBarStyle: style.titleBar__WB,
-    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_wormbase.png'
+    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_wormbase.png',
+    wordpressBaseURL: 'https://public-api.wordpress.com/wp/v2/sites/blog.wormbase.org/posts',
+    fetchNewsCount: 3,
+    linkToNewsPage: 'https://blog.wormbase.org/'
   },
   'sgd': {
     about: '<p>The Saccharomyces Genome Database (SGD) provides comprehensive integrated biological information for the' +
@@ -32,7 +35,10 @@ export const MODContent = {
     modFullName: '<i>Saccharomyces</i> Genome Database',
     bannerStyle: style.banner__SGD,
     titleBarStyle: style.titleBar__SGD,
-    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_sgd.png'
+    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_sgd.png',
+    wordpressBaseURL: 'https://public-api.wordpress.com/rest/v1.1/sites/yeastgenomeblog.wordpress.com/posts/',
+    fetchNewsCount: 3,
+    linkToNewsPage: 'https://yeastgenomeblog.wordpress.com/'
   },
   'zfin': {
     about: '<p>The Zebrafish Information Network (ZFIN) is the database of genetic and genomic data for the zebrafish ' +
@@ -57,7 +63,9 @@ export const MODContent = {
     modFullName: 'FlyBase',
     bannerStyle: style.banner__FB,
     titleBarStyle: style.titleBar__FB,
-    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_flybase.png'
+    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_flybase.png',
+    wordpressBaseURL: '',
+    fetchNewsCount: 0
   },
   'rgd': {
     about: '<p>The Rat Genome Database (RGD) is the primary site for genetic, genomic, phenotype, and disease-related ' +

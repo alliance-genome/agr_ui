@@ -100,3 +100,7 @@
 .banner__GO{
   background-image: url('assets/topBannerGOC.png');
 }
+
+:global(.sharedaddy) {
+  display: none;
+}

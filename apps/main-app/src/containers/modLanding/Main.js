@@ -6,6 +6,7 @@ import {MODContent} from './content';
 import About from "./About";
 import LinkToMOD from "./LinkToMOD";
 import Title from "./Title";
+import News from "./News";
 
 const MODLanding = ({modId}) => {
 
@@ -18,22 +19,18 @@ const MODLanding = ({modId}) => {
         <Title bannerStyle={content.bannerStyle} titleBarStyle={content.titleBarStyle} logoImgSrc={content.logoImgSrc}
                modFullName={content.modFullName}/>
         <About htmlContent={content.about} modShortName={content.modShortName} linkToMod={content.link} />
+        {content.wordpressBaseURL && <News urlNewsMod={content.wordpressBaseURL}
+                                           fetchNewsCount={content.fetchNewsCount}
+                                           linkToNewsPage={content.linkToNewsPage} />}
         <div className='container'>
           <div className="row">
-            <div className="col-sm-4">
-              <section className={style.section}>
-                <div className={`${style.contentContainer}`}>
-
-                </div>
-              </section>
-            </div>
-            <div className="col-sm-4">
+            <div className="col-sm-6">
               <section className={style.section}>
                 <div className={`${style.contentContainer}`}>
                 </div>
               </section>
             </div>
-            <div className="col-sm-4">
+            <div className="col-sm-6">
               <section className={style.section}>
                 <div className={`${style.contentContainer}`}>
                 </div>
