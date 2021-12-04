@@ -127,8 +127,8 @@ export const NAV_MENU = [
       },
       {
         label: 'Gene Ontology Consortium',
-        shortLabel: 'GO',
-        route: '/members/go'
+        shortLabel: 'GOC',
+        route: '/members/goc'
       }
     ]
   },
