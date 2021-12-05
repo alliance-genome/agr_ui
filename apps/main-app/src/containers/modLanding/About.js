@@ -1,7 +1,7 @@
 import React from 'react';
 import style from './style.scss';
-import PropTypes from "prop-types";
-import LinkToMOD from "./LinkToMOD";
+import PropTypes from 'prop-types';
+import LinkToMOD from './LinkToMOD';
 
 const About = ({htmlContent, modShortName, linkToMod}) => {
   return (

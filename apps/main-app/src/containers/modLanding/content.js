@@ -18,8 +18,20 @@ export const MODContent = {
     titleBarStyle: style.titleBar__WB,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_wormbase.png',
     wordpressBaseURL: 'https://public-api.wordpress.com/wp/v2/sites/blog.wormbase.org/posts',
-    fetchNewsCount: 3,
-    linkToNewsPage: 'https://blog.wormbase.org/'
+    fetchNewsCount: 5,
+    linkToNewsPage: 'https://blog.wormbase.org/',
+    resources:
+      '<a href="https://wormbase.org/about/userguide/nomenclature#gi9m5c264k8be0afldh71j3--10\">Nomenclature</a><br />' +
+      '<a href="https://wormbase.org/tools#0--10">Tools</a><br />' +
+      '<a href="https://wormbase.org/about/userguide/submit_data#01--10">Submit data to WormBase</a><br />' +
+      '<a href="https://wormbase.org/about/userguide#0123456--10">User guides</a><br />' +
+      '<a href="https://wormbase.org/tools/support">Help Desk</a><br />' +
+      '<a href="https://cgc.umn.edu/">Caenorhabditis Genetics Center</a><br />' +
+      '<a href="http://www.wormbook.org/">WormBook</a><br />' +
+      '<a href="https://www.wormatlas.org/">WormAtlas</a><br />' +
+      '<a href="http://nematode.net/NN3_frontpage.cgi">Nematode.net</a><br />' +
+      '<a href="http://www.nematodes.org/">Nematodes.org</a><br />' +
+      '<a href="https://www.micropublication.org/">Micropublication</a>'
   },
   'sgd': {
     about: '<p>The Saccharomyces Genome Database (SGD) provides comprehensive integrated biological information for the' +
