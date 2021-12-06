@@ -21,17 +21,18 @@ export const MODContent = {
     fetchNewsCount: 5,
     linkToNewsPage: 'https://blog.wormbase.org/',
     resources:
-      '<a href="https://wormbase.org/about/userguide/nomenclature#gi9m5c264k8be0afldh71j3--10\">Nomenclature</a><br />' +
-      '<a href="https://wormbase.org/tools#0--10">Tools</a><br />' +
-      '<a href="https://wormbase.org/about/userguide/submit_data#01--10">Submit data to WormBase</a><br />' +
-      '<a href="https://wormbase.org/about/userguide#0123456--10">User guides</a><br />' +
-      '<a href="https://wormbase.org/tools/support">Help Desk</a><br />' +
-      '<a href="https://cgc.umn.edu/">Caenorhabditis Genetics Center</a><br />' +
-      '<a href="http://www.wormbook.org/">WormBook</a><br />' +
-      '<a href="https://www.wormatlas.org/">WormAtlas</a><br />' +
-      '<a href="http://nematode.net/NN3_frontpage.cgi">Nematode.net</a><br />' +
-      '<a href="http://www.nematodes.org/">Nematodes.org</a><br />' +
-      '<a href="https://www.micropublication.org/">Micropublication</a>'
+      '<br /><p>Some of the resources that can be found at WormBase\'s website:</p>' +
+      '<p><a href="https://wormbase.org/about/userguide/nomenclature#gi9m5c264k8be0afldh71j3--10\">Nomenclature</a></p>' +
+      '<p><a href="https://wormbase.org/tools#0--10">Tools</a></p>' +
+      '<p><a href="https://wormbase.org/about/userguide/submit_data#01--10">Submit data to WormBase</a></p>' +
+      '<p><a href="https://wormbase.org/about/userguide#0123456--10">User guides</a></p>' +
+      '<p><a href="https://wormbase.org/tools/support">Help Desk</a></p>' +
+      '<p><a href="https://cgc.umn.edu/">Caenorhabditis Genetics Center</a></p>' +
+      '<p><a href="http://www.wormbook.org/">WormBook</a></p>' +
+      '<p><a href="https://www.wormatlas.org/">WormAtlas</a></p>' +
+      '<p><a href="http://nematode.net/NN3_frontpage.cgi">Nematode.net</a></p>' +
+      '<p><a href="http://www.nematodes.org/">Nematodes.org</a></p>' +
+      '<p><a href="https://www.micropublication.org/">Micropublication</a></p>'
   },
   'sgd': {
     about: '<p>The Saccharomyces Genome Database (SGD) provides comprehensive integrated biological information for the' +
@@ -50,7 +51,18 @@ export const MODContent = {
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_sgd.png',
     wordpressBaseURL: 'https://public-api.wordpress.com/rest/v1.1/sites/yeastgenomeblog.wordpress.com/posts/',
     fetchNewsCount: 3,
-    linkToNewsPage: 'https://yeastgenomeblog.wordpress.com/'
+    linkToNewsPage: 'https://yeastgenomeblog.wordpress.com/',
+    resources:
+      '<br /><p>Some of the resources that can found at SGD\'s website</p>' +
+      '<p><a href="https://yeastmine.yeastgenome.org/yeastmine/begin.do">Search and retrieve data</a></p>' +
+      '<p><a href="https://wiki.yeastgenome.org/index.php/Main_Page">Access SGD community information</a></p>' +
+      '<p><a href="https://www.yeastgenome.org/genomesnapshot">Genome and annotation summary</a></p>' +
+      '<p><a href="https://www.yeastgenome.org/submitData">Submit data</a></p>' +
+      '<p><a href="https://www.yeastgenome.org/reference/recent">New yeast papers</a></p>' +
+      '<p><a href="https://sites.google.com/view/yeastgenome-help/about/how-to-cite-sgd?authuser=0">How to cite SGD</a></p>' +
+      '<p><a href="https://sites.google.com/view/yeastgenome-help/sgd-general-help">General help</a></p>' +
+      '<p><a href="https://sites.google.com/view/yeastgenome-help/community-help/gene-registry">Gene Registry</a></p>' +
+      '<p><a href="https://www.yeastgenome.org/blast-sgd">SGD BLAST</a></p>'
   },
   'zfin': {
     about: '<p>The Zebrafish Information Network (ZFIN) is the database of genetic and genomic data for the zebrafish ' +
@@ -63,7 +75,19 @@ export const MODContent = {
     modFullName: 'Zebrafish Information Network',
     bannerStyle: style.banner__ZFIN,
     titleBarStyle: style.titleBar__ZFIN,
-    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_zfin.png'
+    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_zfin.png',
+    resources:
+      '<br /><p>Some of the resources that can be found at ZFIN\'s website:</p>' +
+      '<p><a href="https://zfin.org/search?category=&q=">Search and Retrieve zebrafish data</a></p>' +
+      '<p><a href="https://zfin.org/action/expression/search">Gene Expression data / Images</a></p>' +
+      '<p><a href="https://zfin.org/action/fish/search">Mutants/Transgenics/Phenotypes</a></p>' +
+      '<p><a href="https://zfin.org/action/antibody/search">Antibodies</a></p>' +
+      '<p><a href="https://zfin.org/action/blast/blast">ZFIN BLAST</a></p>' +
+      '<p><a href="https://zfin.org/action/publication/search">Zebrafish Publications</a></p>' +
+      '<p><a href="https://zfin.org/action/submit-data">Submit Data to ZFIN</a></p>' +
+      '<p><a href="https://zfin.org/zf_info/zfbook/zfbk.html">Zebrafish Book</a></p>' +
+      '<p><a href=" https://zebrafish.org/home/guide.php">Zebrafish International Resource Center</a></p>' +
+      '<p><a href="https://zfin.org/action/profile/person/search">People</a></p>'
   },
   'fb': {
     about: '<p>FlyBase (flybase.org) is an essential online database for researchers using <i>Drosophila melanogaster</i> ' +
@@ -104,7 +128,20 @@ export const MODContent = {
     modFullName: 'Mouse Genome Informatics',
     bannerStyle: style.banner__MGI,
     titleBarStyle: style.titleBar__MGI,
-    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_mgd.png'
+    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_mgd.png',
+    resources:
+      '<br /><p>Some of the resources that can found at SGD\'s website</p>' +
+      '<p><a href="http://www.informatics.jax.org/genes.shtml">Genes</a></p>' +
+      '<p><a href="http://www.informatics.jax.org/phenotypes.shtml"> Phenotypes & Mutant Alleles</a></p>' +
+      '<p><a href="http://www.informatics.jax.org/humanDisease.shtml">Mouse-Human: Disease Connection</a></p>' +
+      '<p><a href="http://www.informatics.jax.org/expression.shtml">Gene Expression Database (GXD)</a></p>' +
+      '<p><a href="http://www.informatics.jax.org/home/recombinase">Recombinase (cre)</a></p>' +
+      '<p><a href="http://www.informatics.jax.org/function.shtml">Function</a></p>' +
+      '<p><a href="http://www.informatics.jax.org/home/strain.shtml">Strains & SNPs</a></p>' +
+      '<p><a href="http://tumor.informatics.jax.org/mtbwi/index.do">Mouse Models of Human Cancer</a></p>' +
+      '<p><a href="https://www.jax.org/mgi-coronavirus-info">Mouse Models for Coronavirus Research</a></p>' +
+      '<p><a href="http://www.mousemine.org/mousemine/begin.do">MouseMine</a></p>' +
+      '<p><a href="http://www.informatics.jax.org/mgihome/support/mgi_inbox.shtml">User Support</a></p>'
   },
   'goc': {
     about: '<p>The mission of the GO Consortium is to develop an up-to-date, comprehensive, computational model of ' +
