@@ -14,13 +14,12 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - run: git fetch --no-tags --prune --depth=5 origin ${{ github.head_ref }}
       - uses: actions/setup-node@v2
         name: setup node
         with:
           node-version: 12
       - run: npm install
-      - uses: mansagroup/nrwl-nx-action@v2
-        name: nx
-        with:
-          targets: test
+      - run: npm run test
 
