@@ -179,7 +179,22 @@ export const MODContent = {
     modFullName: 'Gene Ontology Consortium',
     bannerStyle: style.banner__GO,
     titleBarStyle: style.titleBar__GO,
-    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_goc.png'
+    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_goc.png',
+    resources:
+      '<br /><p>Some of the resources that can found at GO\'s website</p>' +
+      '<p><a href="http://amigo.geneontology.org/amigo">AmiGO</a></p>' +
+      '<p><a href="http://geneontology.org/docs/ontology-documentation/"> Ontology overview</a></p>' +
+      '<p><a href="http://geneontology.org/docs/go-annotations/"> Annotation overview</a></p>' +
+      '<p><a href="http://geneontology.org/docs/gocam-overview/">GO-CAM overview</a></p>' +
+      '<p><a href="https://geneontology.cloud/home">User interface to browse GO-CAMs</a></p>' +
+      '<p><a href="http://geneontology.org/docs/tools-overview/">Tools & Guides</p>' +
+      '<p><a href="http://release.geneontology.org/">Releases including archive</a></p>' +
+      '<p><a href="http://current.geneontology.org/">Current release (for permalinks)</a></p>' +
+      '<p><a href="http://geneontology.org/docs/download-mappings/">Cross-references to external classification systems</a></p>' +
+      '<p><a href="http://geneontology.org/docs/faq/">FAQ</a></p>' +
+      '<p><a href="http://geneontology.org/docs/go-citation-policy/">Citing GO</a></p>' +
+      '<p><a href="https://help.geneontology.org/">User Support</a></p>' +
+      '<p><a href="http://geneontology.org/docs/contributing-to-go-terms/">Contributing to the ontology</a></p>'
   }
 }
 
