@@ -5,7 +5,7 @@ on:
       - blue_team_code
   push:
     branches:
-      - gh_action-mod-pages-tests
+      - blue_team_code
 
 jobs:
   run-tests:
