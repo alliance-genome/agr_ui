@@ -18,7 +18,7 @@ export const MODContent = {
     titleBarStyle: style.titleBar__WB,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_wormbase.png',
     wordpressBaseURL: 'https://public-api.wordpress.com/wp/v2/sites/blog.wormbase.org/posts',
-    fetchNewsCount: 5,
+    fetchNewsCount: 3,
     linkToNewsPage: 'https://blog.wormbase.org/',
     resources:
       '<br /><p>Some of the resources that can be found at WormBase\'s website:</p>' +
@@ -101,7 +101,18 @@ export const MODContent = {
     titleBarStyle: style.titleBar__FB,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_flybase.png',
     wordpressBaseURL: '',
-    fetchNewsCount: 0
+    fetchNewsCount: 0,
+    resources:
+      '<br /><p>Some of the resources that can be found at FB\'s website:</p>' +
+      '<p><a href="https://flybase.org/">Search and retrieve data</a></p>' +
+      '<p><a href="https://tinyletter.com/FlyBase/archive">Newsletter</a></p>' +
+      '<p><a href="https://flybase.org/blast/">BLAST</a></p>' +
+      '<p><a href="https://flybase.org/static/release_schedule">Release Schedule</a></p>' +
+      '<p><a href="https://flybase.org/submission/publication/">Submit data</a></p>' +
+      '<p><a href="https://wiki.flybase.org/wiki/FlyBase:FlyBase_Help_Index">Help Index</a></p>' +
+      '<p><a href="https://wiki.flybase.org/wiki/FlyBase:Nomenclature">Nomenclature</a></p>' +
+      '<p><a href="https://wiki.flybase.org/wiki/FlyBase:About#Citing_FlyBase">Citing FlyBase</a></p>' +
+      '<p><a href="https://flybase.org/contact/email">User Suppoer</a></p>'
   },
   'rgd': {
     about: '<p>The Rat Genome Database (RGD) is the primary site for genetic, genomic, phenotype, and disease-related ' +
@@ -116,7 +127,19 @@ export const MODContent = {
     modFullName: 'Rat Genome Database',
     bannerStyle: style.banner__RGD,
     titleBarStyle: style.titleBar__RGD,
-    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_rgd.png'
+    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_rgd.png',
+    resources:
+      '<br /><p>Some of the resources that can be found at RGD\'s website:</p>' +
+      '<p><a href="https://rgd.mcw.edu/rgdweb/search/genes.html">Gene Search</a></p>' +
+      '<p><a href="https://rgd.mcw.edu/rgdweb/search/strains.html">Strain search</a></p>' +
+      '<p><a href="https://rgd.mcw.edu/rgdweb/models/allModels.html">Rat Genetic Models</a></p>' +
+      '<p><a href=" https://rgd.mcw.edu/QueryBuilder/">OntoMate Literature Search</a></p>' +
+      '<p><a href="https://rgd.mcw.edu/rgdweb/portal/index.jsp">RGD Disease Portals</a></p>' +
+      '<p><a href="https://rgd.mcw.edu/rgdweb/front/config.html">Variant Visualizer</a></p>' +
+      '<p><a href="https://rgd.mcw.edu/rgdweb/enrichment/start.html">Multi-Ontology Enrichment Tool (MOET)</a></p>' +
+      '<p><a href="https://rgd.mcw.edu/rgdweb/generator/list.html">Object List Generator & Analyzer (OLGA)</a></p>' +
+      '<p><a href="https://rgd.mcw.edu/rgdweb/ontology/search.html">RGD Ontology Browser and Search</a></p>' +
+      '<p><a href="https://rgd.mcw.edu/rgdweb/contact/contactus.html">User Support</a></p>'
   },
   'mgi': {
     about: '<p>MGI is the international database resource for the laboratory mouse, providing integrated genetic, ' +
@@ -130,7 +153,7 @@ export const MODContent = {
     titleBarStyle: style.titleBar__MGI,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_mgd.png',
     resources:
-      '<br /><p>Some of the resources that can found at SGD\'s website</p>' +
+      '<br /><p>Some of the resources that can found at MGI\'s website</p>' +
       '<p><a href="http://www.informatics.jax.org/genes.shtml">Genes</a></p>' +
       '<p><a href="http://www.informatics.jax.org/phenotypes.shtml"> Phenotypes & Mutant Alleles</a></p>' +
       '<p><a href="http://www.informatics.jax.org/humanDisease.shtml">Mouse-Human: Disease Connection</a></p>' +
