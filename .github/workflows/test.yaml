@@ -22,8 +22,4 @@ jobs:
           node-version: 12
       - run: npm install
       - run: npm run test
-      - uses: mansagroup/nrwl-nx-action@v2
-        name: nx
-        with:
-          targets: test
 
