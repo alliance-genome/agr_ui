@@ -36,11 +36,11 @@ const WordpressNews = ({urlNewsMod, fetchNewsCount, linkToNewsPage}) => {
                 if (count>fetchNewsCount){return;}
                 count ++;
                 return (
-                  <div className={style.postContainer}>
+                  <div className={style.postContainer} key={post.link}>
                     <a href={post.link}>
                       <h4 dangerouslySetInnerHTML={{ __html: post.title}} />
                     </a>
-                    <p dangerouslySetInnerHTML={{ __html: post.text}} />
+                    <p dangerouslySetInnerHTML={{ __html: post.text}}  />
                   </div>
                 );
               })
