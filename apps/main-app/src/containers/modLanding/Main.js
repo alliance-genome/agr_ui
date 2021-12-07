@@ -7,6 +7,7 @@ import About from "./About";
 import LinkToMOD from "./LinkToMOD";
 import Title from "./Title";
 import News from "./News";
+import Resources from "./Resources"
 
 const MODLanding = ({modId}) => {
 
@@ -19,6 +20,7 @@ const MODLanding = ({modId}) => {
         <Title bannerStyle={content.bannerStyle} titleBarStyle={content.titleBarStyle} logoImgSrc={content.logoImgSrc}
                modFullName={content.modFullName}/>
         <About htmlContent={content.about} modShortName={content.modShortName} linkToMod={content.link} />
+        <Resources htmlContent={content.resources} />
         {content.wordpressBaseURL && <News urlNewsMod={content.wordpressBaseURL}
                                            fetchNewsCount={content.fetchNewsCount}
                                            linkToNewsPage={content.linkToNewsPage} />}
