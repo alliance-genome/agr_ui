@@ -167,13 +167,12 @@ export const MODContent = {
       '<p><a href="http://www.informatics.jax.org/mgihome/support/mgi_inbox.shtml">User Support</a></p>'
   },
   'goc': {
-    about: '<p>The mission of the GO Consortium is to develop an up-to-date, comprehensive, computational model of ' +
-      'biological systems, from the molecular level to larger pathways, cellular and organism-level systems.</p>' +
-      '<p>The Gene Ontology resource provides a computational representation of our current scientific knowledge about the ' +
-      'functions of genes (or, more properly, the protein and non-coding RNA molecules produced by genes) from many ' +
-      'different organisms, from humans to bacteria. It is widely used to support scientific research, and has been ' +
-      'cited in tens of thousands of publications. .</p>' +
-      '<p>GOC is a founding member of the Alliance of Genome Resources Project.</p>',
+    about: '<p>The mission of the GO Consortium is to develop a comprehensive, computational model of biological systems,' +
+        'ranging from the molecular to the organism level, across the multiplicity of species in the tree of life.</p>' +
+        '<p>The Gene Ontology (GO) knowledgebase is the world\’s largest source of information on the functions of genes.' +
+        'This knowledge is both human-readable and machine-readable, and is a foundation for computational analysis of' +
+        'large-scale molecular biology and genetics experiments in biomedical research.</p>' +
+        '<p>GOC is a founding member of the Alliance of Genome Resources Project.</p>',
     link: 'http://geneontology.org/',
     modShortName: 'GOC',
     modFullName: 'Gene Ontology Consortium',
