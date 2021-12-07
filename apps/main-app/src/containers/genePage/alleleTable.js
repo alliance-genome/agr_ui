@@ -34,7 +34,7 @@ const AlleleTable = ({geneId}) => {
   } = tableProps;
 
   const data = useMemo(() => {
-    return resolvedData && resolvedData.results.map(allele => ({
+    return resolvedData ? resolvedData.results.map(allele => ({
       ...allele,
       symbol: allele.symbol,
       synonym: allele.synonyms,
@@ -43,7 +43,7 @@ const AlleleTable = ({geneId}) => {
         url: allele.crossReferenceMap.primary.url,
       },
       disease: allele.diseases.sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
-    }));
+    })) : [];
   }, [resolvedData]);
 
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
