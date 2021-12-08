@@ -112,7 +112,7 @@ export const MODContent = {
       '<p><a href="https://flybase.org/convert/id">ID Validator</a></p>' +
       '<p><a href="https://flybase.org/batchdownload">Batch Download</a></p>' +
       '<p><a href="https://flybase.org/submission/publication/">Fast-Track Your Paper</a></p>'
-    },
+  },
   'rgd': {
     about: '<p>The Rat Genome Database (RGD) is the primary site for genetic, genomic, phenotype, and disease-related ' +
       'data generated from rat research. The data is the result of both manual curation work by RGD curators and ' +
