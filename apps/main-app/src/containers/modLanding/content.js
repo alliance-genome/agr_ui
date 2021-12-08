@@ -104,15 +104,14 @@ export const MODContent = {
     fetchNewsCount: 0,
     resources:
       '<br /><p>Some of the resources that can be found at FB\'s website:</p>' +
-      '<p><a href="https://flybase.org/">Search and retrieve data</a></p>' +
-      '<p><a href="https://tinyletter.com/FlyBase/archive">Newsletter</a></p>' +
+      '<p><a href="https://flybase.org/">Search</a></p>' +
       '<p><a href="https://flybase.org/blast/">BLAST</a></p>' +
-      '<p><a href="https://flybase.org/static/release_schedule">Release Schedule</a></p>' +
-      '<p><a href="https://flybase.org/submission/publication/">Submit data</a></p>' +
-      '<p><a href="https://wiki.flybase.org/wiki/FlyBase:FlyBase_Help_Index">Help Index</a></p>' +
-      '<p><a href="https://wiki.flybase.org/wiki/FlyBase:Nomenclature">Nomenclature</a></p>' +
-      '<p><a href="https://wiki.flybase.org/wiki/FlyBase:About#Citing_FlyBase">Citing FlyBase</a></p>' +
-      '<p><a href="https://flybase.org/contact/email">User Suppoer</a></p>'
+      '<p><a href="https://flybase.org/jbrowse/?data=data/json/dmel">JBrowse</a></p>' +
+      '<p><a href="https://flybase.org/rnaseq/rnaseq">RNA-Seq</a></p>' +
+      '<p><a href="https://flybase.org/vocabularies">Vocabularies</a></p>' +
+      '<p><a href="https://flybase.org/convert/id">ID Validator</a></p>' +
+      '<p><a href="https://flybase.org/batchdownload">Batch Download</a></p>' +
+      '<p><a href="https://flybase.org/submission/publication/">Fast-Track Your Paper</a></p>'
   },
   'rgd': {
     about: '<p>The Rat Genome Database (RGD) is the primary site for genetic, genomic, phenotype, and disease-related ' +
