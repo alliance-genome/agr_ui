@@ -15,29 +15,19 @@ const MODLanding = ({modId}) => {
 
   return (
     <div>
-      <HeadMetaTags title={modId.toUpperCase()} />
-      <div>
-        <Title bannerStyle={content.bannerStyle} titleBarStyle={content.titleBarStyle} logoImgSrc={content.logoImgSrc}
-               modFullName={content.modFullName}/>
-        <About htmlContent={content.about} modShortName={content.modShortName} linkToMod={content.link} />
-        <Resources htmlContent={content.resources} />
-        {content.wordpressBaseURL && <News urlNewsMod={content.wordpressBaseURL}
-                                           fetchNewsCount={content.fetchNewsCount}
-                                           linkToNewsPage={content.linkToNewsPage} />}
-        <div className='container'>
-          <div className="row">
-            <div className="col-sm-6">
-              <section className={style.section}>
-                <div className={`${style.contentContainer}`}>
-                </div>
-              </section>
-            </div>
-            <div className="col-sm-6">
-              <section className={style.section}>
-                <div className={`${style.contentContainer}`}>
-                </div>
-              </section>
-            </div>
+      <Title bannerStyle={content.bannerStyle} titleBarStyle={content.titleBarStyle} logoImgSrc={content.logoImgSrc}
+             modFullName={content.modFullName}/>
+      <div className={`container ${style.containerExtra}`}>
+        <div className="row">
+          <div className={`col-xl-8 col-lg-8 col-md-8 col-sm-12 ${style.noPadding}`}>
+            <About htmlContent={content.about} modShortName={content.modShortName} linkToMod={content.link} sectionStyle={content.sectionStyle} />
+            {content.wordpressBaseURL && <News urlNewsMod={content.wordpressBaseURL}
+                                               fetchNewsCount={content.fetchNewsCount}
+                                               linkToNewsPage={content.linkToNewsPage}
+                                               sectionStyle={content.sectionStyle} />}
+          </div>
+          <div className={`col-xl-4 col-lg-4 col-md-4 col-sm-12 ${style.noPadding}`}>
+            <Resources htmlContent={content.resources} sectionStyle={content.sectionStyle} />
           </div>
         </div>
       </div>
