@@ -33,7 +33,8 @@ export const MODContent = {
       '<p><a href="https://www.wormatlas.org/">WormAtlas</a></p>' +
       '<p><a href="http://nematode.net/NN3_frontpage.cgi">Nematode.net</a></p>' +
       '<p><a href="http://www.nematodes.org/">Nematodes.org</a></p>' +
-      '<p><a href="https://www.micropublication.org/">Micropublication</a></p>'
+      '<p><a href="https://www.micropublication.org/">Micropublication</a></p>' +
+      '<p><a href="https://parasite.wormbase.org/">ParaSite</a></p>'
   },
   'sgd': {
     about: '<p>The Saccharomyces Genome Database (SGD) provides comprehensive integrated biological information for the ' +
