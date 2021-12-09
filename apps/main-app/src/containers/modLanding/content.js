@@ -2,10 +2,10 @@ import style from './style.scss';
 
 export const MODContent = {
   'wb': {
-    about: '<p>WormBase is an international consortium of biologists and computer scientists providing the research \'' +
-      'community with accurate, current, accessible information concerning the genetics, genomics and biology of' +
-      '<i>C. elegans</i> and related nematodes. Founded in 2000, the WormBase Consortium is led by Paul Sternberg' +
-      '(CalTech), Matt Berriman (The Wellcome Trust Sanger Institute), Kevin Howe (EBI), and Lincoln Stein (The' +
+    about: '<p>WormBase is an international consortium of biologists and computer scientists providing the research ' +
+      'community with accurate, current, accessible information concerning the genetics, genomics and biology of ' +
+      '<i>C. elegans</i> and related nematodes. Founded in 2000, the WormBase Consortium is led by Paul Sternberg ' +
+      '(CalTech), Matt Berriman (The Wellcome Trust Sanger Institute), Kevin Howe (EBI), and Lincoln Stein (The ' +
       'Ontario Institute for Cancer Research).' +
       '</p>' +
       '<p>' +
@@ -36,8 +36,8 @@ export const MODContent = {
       '<p><a href="https://www.micropublication.org/">Micropublication</a></p>'
   },
   'sgd': {
-    about: '<p>The Saccharomyces Genome Database (SGD) provides comprehensive integrated biological information for the' +
-      ' budding yeast <i>Saccharomyces cerevisiae</i> along with search and analysis tools to explore these data, ' +
+    about: '<p>The Saccharomyces Genome Database (SGD) provides comprehensive integrated biological information for the ' +
+      'budding yeast <i>Saccharomyces cerevisiae</i> along with search and analysis tools to explore these data, ' +
       'enabling the discovery of functional relationships between sequence and gene products in fungi and higher ' +
       'organisms.' +
       '</p>' +
@@ -69,7 +69,7 @@ export const MODContent = {
   'zfin': {
     about: '<p>The Zebrafish Information Network (ZFIN) is the database of genetic and genomic data for the zebrafish ' +
       '(<i>Danio rerio</i>) as a model organism. ZFIN provides a wide array of expertly curated, organized and ' +
-      'cross-referenced Zebrafish research data' +
+      'cross-referenced Zebrafish research data.' +
       '</p>' +
       '<p>ZFIN is a founding member of the Alliance of Genome Resources Project.</p>',
     link: 'https://www.zfin.org',
@@ -148,7 +148,7 @@ export const MODContent = {
   'mgi': {
     about: '<p>MGI is the international database resource for the laboratory mouse, providing integrated genetic, ' +
       'genomic, and biological data to facilitate the study of human health and disease. ' +
-      '<a href="http://www.informatics.jax.org/mgihome/projects/aboutmgi.shtml">Learn more</a></p>' +
+      '<a href="http://www.informatics.jax.org/mgihome/projects/aboutmgi.shtml">Learn more</a>.</p>' +
       '<p>MGI is a founding member of the Alliance of Genome Resources Project.</p>',
     link: 'http://www.informatics.jax.org/',
     modShortName: 'MGI',
@@ -172,10 +172,10 @@ export const MODContent = {
       '<p><a href="http://www.informatics.jax.org/mgihome/support/mgi_inbox.shtml">User Support</a></p>'
   },
   'goc': {
-    about: '<p>The mission of the GO Consortium is to develop a comprehensive, computational model of biological systems,' +
+    about: '<p>The mission of the GO Consortium is to develop a comprehensive, computational model of biological systems, ' +
         'ranging from the molecular to the organism level, across the multiplicity of species in the tree of life.</p>' +
-        '<p>The Gene Ontology (GO) knowledgebase is the world\’s largest source of information on the functions of genes.' +
-        'This knowledge is both human-readable and machine-readable, and is a foundation for computational analysis of' +
+        '<p>The Gene Ontology (GO) knowledgebase is the world\’s largest source of information on the functions of genes. ' +
+        'This knowledge is both human-readable and machine-readable, and is a foundation for computational analysis of ' +
         'large-scale molecular biology and genetics experiments in biomedical research.</p>' +
         '<p>GOC is a founding member of the Alliance of Genome Resources Project.</p>',
     link: 'http://geneontology.org/',
