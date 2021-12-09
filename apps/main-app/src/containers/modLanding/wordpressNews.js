@@ -28,7 +28,7 @@ const WordpressNews = ({urlNewsMod, fetchNewsCount, linkToNewsPage}) => {
     <div className={style.wordPressContainer}>
       <div className='container'>
         <div className='row'>
-          <div className='col-md-8'>
+          <div>
             {isLoading && <LoadingSpinner />}
             {
               postList && parseWordpressPosts(postList).map(post => {
