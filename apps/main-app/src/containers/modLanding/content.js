@@ -16,6 +16,7 @@ export const MODContent = {
     modFullName: 'WormBase',
     bannerStyle: style.banner__WB,
     titleBarStyle: style.titleBar__WB,
+    sectionStyle: style.section__WB,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_wormbase.png',
     wordpressBaseURL: 'https://public-api.wordpress.com/wp/v2/sites/blog.wormbase.org/posts',
     fetchNewsCount: 3,
@@ -48,6 +49,7 @@ export const MODContent = {
     modFullName: '<i>Saccharomyces</i> Genome Database',
     bannerStyle: style.banner__SGD,
     titleBarStyle: style.titleBar__SGD,
+    sectionStyle: style.section__SGD,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_sgd.png',
     wordpressBaseURL: 'https://public-api.wordpress.com/rest/v1.1/sites/yeastgenomeblog.wordpress.com/posts/',
     fetchNewsCount: 3,
@@ -75,6 +77,7 @@ export const MODContent = {
     modFullName: 'Zebrafish Information Network',
     bannerStyle: style.banner__ZFIN,
     titleBarStyle: style.titleBar__ZFIN,
+    sectionStyle: style.section__ZFIN,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_zfin.png',
     resources:
       '<br /><p>Some of the resources that can be found at ZFIN\'s website:</p>' +
@@ -99,6 +102,7 @@ export const MODContent = {
     modFullName: 'FlyBase',
     bannerStyle: style.banner__FB,
     titleBarStyle: style.titleBar__FB,
+    sectionStyle: style.section__FB,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_flybase.png',
     wordpressBaseURL: '',
     fetchNewsCount: 0,
@@ -126,6 +130,7 @@ export const MODContent = {
     modFullName: 'Rat Genome Database',
     bannerStyle: style.banner__RGD,
     titleBarStyle: style.titleBar__RGD,
+    sectionStyle: style.section__RGD,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_rgd.png',
     resources:
       '<br /><p>Some of the resources that can be found at RGD\'s website:</p>' +
@@ -150,6 +155,7 @@ export const MODContent = {
     modFullName: 'Mouse Genome Informatics',
     bannerStyle: style.banner__MGI,
     titleBarStyle: style.titleBar__MGI,
+    sectionStyle: style.section__MGI,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_mgd.png',
     resources:
       '<br /><p>Some of the resources that can found at MGI\'s website</p>' +
@@ -177,6 +183,7 @@ export const MODContent = {
     modFullName: 'Gene Ontology Consortium',
     bannerStyle: style.banner__GO,
     titleBarStyle: style.titleBar__GO,
+    sectionStyle: style.section__GO,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_goc.png',
     resources:
       '<br /><p>Some of the resources that can found at GO\'s website</p>' +
