@@ -35,12 +35,13 @@ const WordpressNews = ({urlNewsMod, fetchNewsCount, linkToNewsPage}) => {
                 if (post.status !== 'publish') { return; }
                 if (count>fetchNewsCount){return;}
                 count ++;
+                let key="news_" + count;
                 return (
-                  <div className={style.postContainer}>
+                  <div className={style.postContainer} key={key}>
                     <a href={post.link}>
                       <h4 dangerouslySetInnerHTML={{ __html: post.title}} />
                     </a>
-                    <p dangerouslySetInnerHTML={{ __html: post.text}} />
+                    <p dangerouslySetInnerHTML={{ __html: post.text}}  />
                   </div>
                 );
               })
