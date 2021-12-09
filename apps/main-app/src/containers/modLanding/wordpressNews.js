@@ -23,7 +23,7 @@ const WordpressNews = ({urlNewsMod, fetchNewsCount, linkToNewsPage}) => {
     isLoading
   } = usePageLoadingQuery(urlNewsMod);
 
-  let count=1;
+  let count = 1;
   return (
     <div className={style.wordPressContainer}>
       <div className='container'>
@@ -33,15 +33,15 @@ const WordpressNews = ({urlNewsMod, fetchNewsCount, linkToNewsPage}) => {
             {
               postList && parseWordpressPosts(postList).map(post => {
                 if (post.status !== 'publish') { return; }
-                if (count>fetchNewsCount){return;}
-                count ++;
-                let key="news_" + count;
+                if (count > fetchNewsCount) { return; }
+                count++;
+                let key = "news_" + count;
                 return (
                   <div className={style.postContainer} key={key}>
                     <a href={post.link}>
                       <h4 dangerouslySetInnerHTML={{ __html: post.title}} />
                     </a>
-                    <p dangerouslySetInnerHTML={{ __html: post.text}}  />
+                    <p dangerouslySetInnerHTML={{ __html: post.text}} />
                   </div>
                 );
               })
