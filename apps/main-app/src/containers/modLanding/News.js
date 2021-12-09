@@ -3,10 +3,10 @@ import style from './style.scss';
 import PropTypes from "prop-types";
 import WordpressNews from "./wordpressNews"
 
-const News = ({urlNewsMod, fetchNewsCount, linkToNewsPage}) => {
+const News = ({urlNewsMod, fetchNewsCount, linkToNewsPage, sectionStyle}) => {
   return (
-    <div className='container'>
-      <div className={style.section}>
+    <div className={`container ${style.containerExtra}`}>
+      <div className={`${style.section} ${sectionStyle}`}>
         <h2 className={style.sectionTitle}>News</h2>
         <WordpressNews urlNewsMod={urlNewsMod} fetchNewsCount={fetchNewsCount} linkToNewsPage={linkToNewsPage} />
       </div>

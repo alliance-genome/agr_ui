@@ -1,11 +1,11 @@
 import React from 'react';
 import style from './style.scss';
 
-const Resources = ({htmlContent}) => {
+const Resources = ({htmlContent, sectionStyle}) => {
   return (
     <div>
-      <div className='container'>
-        <div className={style.section}>
+      <div className={`container ${style.containerExtra}`}>
+        <div className={`${style.section} ${sectionStyle}`}>
         <h2 className={style.sectionTitle}>Resources</h2>
           <div dangerouslySetInnerHTML={{__html: htmlContent }} />
         </div>
