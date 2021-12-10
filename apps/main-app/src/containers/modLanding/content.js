@@ -12,7 +12,7 @@ export const MODContent = {
       'WormBase is a founding member of the Alliance of Genome Resources Project.' +
       '</p>',
     link: 'https://wormbase.org',
-    modShortName: 'WormBase',
+    modShortName: 'WB',
     modFullName: 'WormBase',
     bannerStyle: style.banner__WB,
     titleBarStyle: style.titleBar__WB,
