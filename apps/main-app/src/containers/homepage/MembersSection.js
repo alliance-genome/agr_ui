@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 
 import style from './style.scss';
 
@@ -9,16 +8,17 @@ const MembersSection = () => {
       <div className={style.contentContainer}>
         <h1>Members</h1>
         <div className='d-flex flex-wrap'>
-          {/* <a className={style.member} href='https://flybase.org/'> */}
           <a className={style.member} href='/members/fb'>
             <img src='https://alliancegenome.files.wordpress.com/2016/11/logo_flybase.png' />
             FlyBase
           </a>
-          <a className={style.member} href='/members/rgd'>
+          {/* sic - WordPress has MGI/RGD pictures switched; the "logo_rgd.png" is a mouse. */}
+          <a className={style.member} href='/members/mgi'>
             <img src='https://alliancegenome.files.wordpress.com/2016/11/logo_rgd.png' />
             MGD
           </a>
-          <a className={style.member} href='/members/mgi'>
+          <a className={style.member} href='/members/rgd'>
+          {/* sic - WordPress has MGI/RGD pictures switched; the "logo_mgd.png" is a rat. */}
             <img src='https://alliancegenome.files.wordpress.com/2016/11/logo_mgd.png' />
             RGD
           </a>
