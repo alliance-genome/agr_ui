@@ -7,7 +7,7 @@ const Resources = ({htmlContent, sectionStyle}) => {
       <div className={`container ${style.containerExtra}`}>
         <div className={`${style.section} ${sectionStyle}`}>
         <h2 className={style.sectionTitle}>Resources</h2>
-          <div dangerouslySetInnerHTML={{__html: htmlContent }} />
+          <div className={style.resourceDiv} dangerouslySetInnerHTML={{__html: htmlContent }} />
         </div>
       </div>
     </div>
