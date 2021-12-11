@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from "prop-types";
+import style from './style.scss';
 
-const LinkToMOD = ({modName, linkAddress}) => {
+const LinkToMOD = ({modName, linkAddress, titleBarStyle}) => {
   return (
     <p>
-      <b>To visit {modName} click <a href={linkAddress}> here</a>.</b>
+      <a href={linkAddress} >
+        <button className={`${style.buttonVisitMod} ${titleBarStyle}`} >Visit {modName}</button>
+      </a>
     </p>
   );
 }
