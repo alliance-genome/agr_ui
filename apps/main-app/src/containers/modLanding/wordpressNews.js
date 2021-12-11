@@ -36,6 +36,7 @@ const WordpressNews = ({urlNewsMod, fetchNewsCount, linkToNewsPage}) => {
                 if (count > fetchNewsCount) { return; }
                 count++;
                 let key = "news_" + count;
+                post.text = post.text.replace(/\[&hellip;\]/, '<a href="' + post.link + '">[&hellip;]<\a>');
                 return (
                   <div className={style.postContainer} key={key}>
                     <a href={post.link}>
