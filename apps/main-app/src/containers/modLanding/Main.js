@@ -14,7 +14,7 @@ const MODLanding = ({modId}) => {
   const content = MODContent[modId];
 
   return (
-    <div>
+    <div style={{backgroundColor: '#f5f5f5'}}>
       <Title bannerStyle={content.bannerStyle} titleBarStyle={content.titleBarStyle} logoImgSrc={content.logoImgSrc}
              modFullName={content.modFullName}/>
       <div className={`container`}>

@@ -6,7 +6,7 @@ const Title = ({bannerStyle, titleBarStyle, logoImgSrc, modFullName}) => {
     <div className={`${bannerStyle} ${style.banner}`}>
       <div className={style.titleBarEmptyRow} />
       <div className={`${titleBarStyle} ${style.titleBar}`}>
-        <div className='container'>
+        <div className={`container ${style.titleBarContainer}`}>
           <h1><img src={logoImgSrc} height="50px"/> <span className={style.titleBarText} dangerouslySetInnerHTML={{__html: modFullName}}/></h1>
         </div>
       </div>

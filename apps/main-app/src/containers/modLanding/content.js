@@ -22,7 +22,6 @@ export const MODContent = {
     fetchNewsCount: 3,
     linkToNewsPage: 'https://blog.wormbase.org/',
     resources:
-      '<br /><p>Some of the resources that can be found at WormBase\'s website:</p>' +
       '<p><a href="https://wormbase.org/about/userguide/nomenclature#gi9m5c264k8be0afldh71j3--10\">Nomenclature</a></p>' +
       '<p><a href="https://wormbase.org/tools#0--10">Tools</a></p>' +
       '<p><a href="https://wormbase.org/about/userguide/submit_data#01--10">Submit data to WormBase</a></p>' +
@@ -56,7 +55,6 @@ export const MODContent = {
     fetchNewsCount: 3,
     linkToNewsPage: 'https://yeastgenomeblog.wordpress.com/',
     resources:
-      '<br /><p>Some of the resources that can found at SGD\'s website</p>' +
       '<p><a href="https://yeastmine.yeastgenome.org/yeastmine/begin.do">Search and retrieve data</a></p>' +
       '<p><a href="https://wiki.yeastgenome.org/index.php/Main_Page">Access SGD community information</a></p>' +
       '<p><a href="https://www.yeastgenome.org/genomesnapshot">Genome and annotation summary</a></p>' +
@@ -81,7 +79,6 @@ export const MODContent = {
     sectionStyle: style.section__ZFIN,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_zfin.png',
     resources:
-      '<br /><p>Some of the resources that can be found at ZFIN\'s website:</p>' +
       '<p><a href="https://zfin.org/search?category=&q=">Search and Retrieve zebrafish data</a></p>' +
       '<p><a href="https://zfin.org/action/expression/search">Gene Expression data / Images</a></p>' +
       '<p><a href="https://zfin.org/action/fish/search">Mutants/Transgenics/Phenotypes</a></p>' +
@@ -108,7 +105,6 @@ export const MODContent = {
     wordpressBaseURL: '',
     fetchNewsCount: 0,
     resources:
-      '<br /><p>Some of the resources that can be found at FB\'s website:</p>' +
       '<p><a href="https://flybase.org/">Search</a></p>' +
       '<p><a href="https://flybase.org/blast/">BLAST</a></p>' +
       '<p><a href="https://flybase.org/jbrowse/?data=data/json/dmel">JBrowse</a></p>' +
@@ -134,7 +130,6 @@ export const MODContent = {
     sectionStyle: style.section__RGD,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_rgd.png',
     resources:
-      '<br /><p>Some of the resources that can be found at RGD\'s website:</p>' +
       '<p><a href="https://rgd.mcw.edu/rgdweb/search/genes.html">Gene Search</a></p>' +
       '<p><a href="https://rgd.mcw.edu/rgdweb/search/strains.html">Strain search</a></p>' +
       '<p><a href="https://rgd.mcw.edu/rgdweb/models/allModels.html">Rat Genetic Models</a></p>' +
@@ -159,7 +154,6 @@ export const MODContent = {
     sectionStyle: style.section__MGI,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_mgd.png',
     resources:
-      '<br /><p>Some of the resources that can found at MGI\'s website</p>' +
       '<p><a href="http://www.informatics.jax.org/genes.shtml">Genes</a></p>' +
       '<p><a href="http://www.informatics.jax.org/phenotypes.shtml"> Phenotypes & Mutant Alleles</a></p>' +
       '<p><a href="http://www.informatics.jax.org/humanDisease.shtml">Mouse-Human: Disease Connection</a></p>' +
@@ -187,7 +181,6 @@ export const MODContent = {
     sectionStyle: style.section__GO,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_goc.png',
     resources:
-      '<br /><p>Some of the resources that can found at GO\'s website</p>' +
       '<p><a href="http://amigo.geneontology.org/amigo">AmiGO</a></p>' +
       '<p><a href="http://geneontology.org/docs/ontology-documentation/"> Ontology overview</a></p>' +
       '<p><a href="http://geneontology.org/docs/go-annotations/"> Annotation overview</a></p>' +
