@@ -48,7 +48,7 @@ const WordpressNews = ({urlNewsMod, fetchNewsCount, linkToNewsPage}) => {
             }
           </div>
         </div>
-        <a href={linkToNewsPage}><h4>More News</h4></a>
+        <a href={linkToNewsPage}><h5>More News</h5></a>
       </div>
     </div>
   );
