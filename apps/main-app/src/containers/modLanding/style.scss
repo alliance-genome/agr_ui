@@ -2,6 +2,7 @@
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap');
 
 
 
@@ -46,7 +47,7 @@
 
 .titleBar__MGI {
   background-color: #dfeffe;
-  color: #143055;
+  color: #143055 !important;
 }
 
 .titleBarText {
@@ -68,15 +69,40 @@
 .sectionTitle {
   color: #2598c5;
   padding-bottom: .75rem;
+  font-size: 2rem;
 }
 
 .section {
-  padding: 2rem 1rem 1rem 2rem;
-//   border: 4px solid;
+  padding: 2rem 2rem 1rem 2rem;
   line-height: 1.7;
   background-color: #ffffff;
   border-radius: 14px;
   box-shadow: 0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12);
+  font-size: 1rem;
+  font-family: "Open Sans", sans-serif;
+}
+
+.buttonVisitMod:hover {
+  opacity: .8;
+}
+
+.buttonVisitMod {
+  border-radius: 5px;
+  padding: 0 1rem;
+  color: white;
+}
+
+.resourceDiv p {
+  margin-bottom: .7rem;
+}
+
+.h4extra {
+  padding-top: 1rem;
+}
+
+.moreNews {
+  padding-top: .8rem;
+  padding-bottom: 1rem;
 }
 
 .section__WB {

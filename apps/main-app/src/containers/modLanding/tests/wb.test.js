@@ -47,7 +47,7 @@ const aboutString = ReactDOMServer.renderToString(
 
  test('check wormbase about button', () => { 
     expect(aboutString).
-    toMatch('<b>To visit <!-- -->WormBase<!-- --> click <a href="https://wormbase.org"> here</a>.</b>')
+    toMatch('<a href="https://wormbase.org"><button')
  });
 //console.log(aboutString);
 

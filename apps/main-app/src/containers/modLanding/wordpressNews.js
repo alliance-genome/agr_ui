@@ -39,7 +39,7 @@ const WordpressNews = ({urlNewsMod, fetchNewsCount, linkToNewsPage}) => {
                 return (
                   <div className={style.postContainer} key={key}>
                     <a href={post.link}>
-                      <h4 dangerouslySetInnerHTML={{ __html: post.title}} />
+                      <h4 className={style.h4extra} dangerouslySetInnerHTML={{ __html: post.title}} />
                     </a>
                     <p dangerouslySetInnerHTML={{ __html: post.text}} />
                   </div>
@@ -48,7 +48,9 @@ const WordpressNews = ({urlNewsMod, fetchNewsCount, linkToNewsPage}) => {
             }
           </div>
         </div>
-        <a href={linkToNewsPage}><h4>More News</h4></a>
+        <div className={`row ${style.moreNews}`}>
+          <a href={linkToNewsPage}><i>more news&hellip;</i></a>
+        </div>
       </div>
     </div>
   );
