@@ -14,7 +14,6 @@ const parseWordpressPosts = (wordPressAPIRes) => {
       return {title: post.title.rendered, text: post.excerpt.rendered, link: post.link, status: post.status}
     });
   }
-
 }
 
 const WordpressNews = ({urlNewsMod, fetchNewsCount, linkToNewsPage}) => {
