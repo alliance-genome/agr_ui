@@ -1,7 +1,7 @@
 import style from './style.scss';
 
 export const MODContent = {
-  'wb': {
+  'wormbase': {
     about: '<p>WormBase is an international consortium of biologists and computer scientists providing the research ' +
       'community with accurate, current, accessible information concerning the genetics, genomics and biology of ' +
       '<i>C. elegans</i> and related nematodes. Founded in 2000, the WormBase Consortium is led by Paul Sternberg ' +
@@ -90,7 +90,7 @@ export const MODContent = {
       '<p><a href=" https://zebrafish.org/home/guide.php">Zebrafish International Resource Center</a></p>' +
       '<p><a href="https://zfin.org/action/profile/person/search">People</a></p>'
   },
-  'fb': {
+  'flybase': {
     about: '<p>FlyBase (flybase.org) is an essential online database for researchers using <i>Drosophila melanogaster</i> ' +
       'as a model organism, facilitating access to a diverse array of information that includes genetic, molecular, ' +
       'genomic and reagent resources.</p>' +
