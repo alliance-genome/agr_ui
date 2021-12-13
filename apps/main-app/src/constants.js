@@ -97,7 +97,7 @@ export const NAV_MENU = [
     sub: [
       {
         label: 'FlyBase',
-        shortLabel: 'FB',
+        shortLabel: 'FlyBase',
         route: '/members/fb'
       },
       {
@@ -117,7 +117,7 @@ export const NAV_MENU = [
       },
       {
         label: 'WormBase',
-        shortLabel: 'WB',
+        shortLabel: 'WormBase',
         route: '/members/wb'
       },
       {
