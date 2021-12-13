@@ -128,7 +128,8 @@ export const MODContent = {
     bannerStyle: style.banner__RGD,
     titleBarStyle: style.titleBar__RGD,
     sectionStyle: style.section__RGD,
-    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_rgd.png',
+    // sic - WordPress has MGD/RGD pictures switched; the "logo_rgd.png" is a mouse; the "logo_mgd.png is a rat". */}
+    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_mgd.png',
     resources:
       '<p><a href="https://rgd.mcw.edu/rgdweb/search/genes.html">Gene Search</a></p>' +
       '<p><a href="https://rgd.mcw.edu/rgdweb/search/strains.html">Strain search</a></p>' +
@@ -153,7 +154,8 @@ export const MODContent = {
     bannerStyle: style.banner__MGD,
     titleBarStyle: style.titleBar__MGD,
     sectionStyle: style.section__MGD,
-    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_mgd.png',
+    // sic - WordPress has MGD/RGD pictures switched; the "logo_rgd.png" is a mouse; the "logo_mgd.png is a rat". */}
+    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_rgd.png',
     resources:
       '<p><a href="http://www.informatics.jax.org/genes.shtml">Genes</a></p>' +
       '<p><a href="http://www.informatics.jax.org/phenotypes.shtml"> Phenotypes & Mutant Alleles</a></p>' +
