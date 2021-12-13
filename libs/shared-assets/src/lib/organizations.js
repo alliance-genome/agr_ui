@@ -19,7 +19,7 @@ const organizations = [
   },
   {
     id: 'mgd',
-    name: 'Mouse Genome Informatics',
+    name: 'Mouse Genome Database',
     abbreviation: 'MGD',
     logo: allianceLogoMgdBase64,
   },

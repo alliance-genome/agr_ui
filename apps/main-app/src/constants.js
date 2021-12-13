@@ -98,7 +98,7 @@ export const NAV_MENU = [
       {
         label: 'FlyBase',
         shortLabel: 'FlyBase',
-        route: '/members/fb'
+        route: '/members/flybase'
       },
       {
         label: 'Mouse Genome Database',
@@ -118,7 +118,7 @@ export const NAV_MENU = [
       {
         label: 'WormBase',
         shortLabel: 'WormBase',
-        route: '/members/wb'
+        route: '/members/wormbase'
       },
       {
         label: 'Zebrafish Information Network',
