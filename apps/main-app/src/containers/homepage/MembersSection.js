@@ -8,7 +8,7 @@ const MembersSection = () => {
       <div className={style.contentContainer}>
         <h1>Members</h1>
         <div className='d-flex flex-wrap'>
-          <a className={style.member} href='/members/fb'>
+          <a className={style.member} href='/members/flybase'>
             <img src='https://alliancegenome.files.wordpress.com/2016/11/logo_flybase.png' />
             FlyBase
           </a>
@@ -26,7 +26,7 @@ const MembersSection = () => {
             <img src='https://alliancegenome.files.wordpress.com/2016/11/logo_sgd.png' />
             SGD
           </a>
-          <a className={style.member} href='/members/wb'>
+          <a className={style.member} href='/members/wormbase'>
             <img src='https://alliancegenome.files.wordpress.com/2016/11/logo_wormbase.png' />
             WormBase
           </a>
