@@ -39,7 +39,7 @@ const SPECIES_SUBTYPES = [
   {species: 'Danio rerio', subType: 'ZFIN'},
   {species: 'Drosophila melanogaster', subType: 'FB'},
   {species: 'Homo sapiens', subType: 'HUMAN'},
-  {species: 'Mus musculus', subType: 'MGI'},
+  {species: 'Mus musculus', subType: 'MGD'},
   {species: 'Rattus norvegicus', subType: 'RGD'},
   {species: 'Saccharomyces cerevisiae', subType: 'SGD'}
 ];
