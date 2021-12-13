@@ -149,7 +149,7 @@ export const MODContent = {
     'Alliance of Genome Resources Project.</p>',
     link: 'http://www.informatics.jax.org/',
     modShortName: 'MGD',
-    modFullName: 'Mouse Genome Informatics',
+    modFullName: 'Mouse Genome Database',
     bannerStyle: style.banner__MGD,
     titleBarStyle: style.titleBar__MGD,
     sectionStyle: style.section__MGD,
