@@ -22,7 +22,7 @@ export const MODContent = {
     fetchNewsCount: 3,
     linkToNewsPage: 'https://blog.wormbase.org/',
     resources:
-      '<p><a href="https://wormbase.org/about/userguide/nomenclature#gi9m5c264k8be0afldh71j3--10\">Nomenclature</a></p>' +
+      '<p><a href="https://wormbase.org/about/userguide/nomenclature#gi9m5c264k8be0afldh71j3--10">Nomenclature</a></p>' +
       '<p><a href="https://wormbase.org/tools#0--10">Tools</a></p>' +
       '<p><a href="https://wormbase.org/about/userguide/submit_data#01--10">Submit data to WormBase</a></p>' +
       '<p><a href="https://wormbase.org/about/userguide#0123456--10">User guides</a></p>' +
@@ -141,17 +141,18 @@ export const MODContent = {
       '<p><a href="https://rgd.mcw.edu/rgdweb/ontology/search.html">RGD Ontology Browser and Search</a></p>' +
       '<p><a href="https://rgd.mcw.edu/rgdweb/contact/contactus.html">User Support</a></p>'
   },
-  'mgi': {
-    about: '<p>MGI is the international database resource for the laboratory mouse, providing integrated genetic, ' +
-      'genomic, and biological data to facilitate the study of human health and disease. ' +
-      '<a href="http://www.informatics.jax.org/mgihome/projects/aboutmgi.shtml">Learn more</a>.</p>' +
-      '<p>MGI is a founding member of the Alliance of Genome Resources Project.</p>',
+  'mgd': {
+    about: '<p>The Mouse Genome Database (MGD) is the community model organism database for the laboratory mouse ' +
+    'and is the primary source of expertly curated function and phenotype annotations for the mouse genome ' +
+    'and mouse models of human disease.</p>' +
+    '<p>MGD is a core database in the Mouse Genome Informatics (MGI) consortium and founding member of the ' +
+    'Alliance of Genome Resources Project.</p>',
     link: 'http://www.informatics.jax.org/',
-    modShortName: 'MGI',
+    modShortName: 'MGD',
     modFullName: 'Mouse Genome Informatics',
-    bannerStyle: style.banner__MGI,
-    titleBarStyle: style.titleBar__MGI,
-    sectionStyle: style.section__MGI,
+    bannerStyle: style.banner__MGD,
+    titleBarStyle: style.titleBar__MGD,
+    sectionStyle: style.section__MGD,
     logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_mgd.png',
     resources:
       '<p><a href="http://www.informatics.jax.org/genes.shtml">Genes</a></p>' +
@@ -169,7 +170,7 @@ export const MODContent = {
   'goc': {
     about: '<p>The mission of the GO Consortium is to develop a comprehensive, computational model of biological systems, ' +
         'ranging from the molecular to the organism level, across the multiplicity of species in the tree of life.</p>' +
-        '<p>The Gene Ontology (GO) knowledgebase is the world\’s largest source of information on the functions of genes. ' +
+        '<p>The Gene Ontology (GO) knowledgebase is the world’s largest source of information on the functions of genes. ' +
         'This knowledge is both human-readable and machine-readable, and is a foundation for computational analysis of ' +
         'large-scale molecular biology and genetics experiments in biomedical research.</p>' +
         '<p>GOC is a founding member of the Alliance of Genome Resources Project.</p>',
