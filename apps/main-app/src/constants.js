@@ -101,9 +101,9 @@ export const NAV_MENU = [
         route: '/members/fb'
       },
       {
-        label: 'Mouse Genome Informatics',
-        shortLabel: 'MGI',
-        route: '/members/mgi'
+        label: 'Mouse Genome Database',
+        shortLabel: 'MGD',
+        route: '/members/mgd'
       },
       {
         label: 'Rat Genome Database',
