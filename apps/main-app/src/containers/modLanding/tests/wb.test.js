@@ -9,13 +9,13 @@ import Title from "../Title";
 //import News from "./News";
 import Resources from "../Resources"
 
-const content = MODContent['wb'];
+const content = MODContent['wormbase'];
 
 //
 // Title Section
 //
 const titleString = ReactDOMServer.renderToString(
-  <Title 
+  <Title
       bannerStyle={content.bannerStyle}
       titleBarStyle={content.titleBarStyle}
       logoImgSrc={content.logoImgSrc}
@@ -23,7 +23,7 @@ const titleString = ReactDOMServer.renderToString(
 )
 
 //console.log(titleString);
-test('check wormbase title', () => { 
+test('check wormbase title', () => {
     expect(titleString).
     toMatch('<span class="titleBarText">WormBase</span>')
 });
@@ -40,12 +40,12 @@ const aboutString = ReactDOMServer.renderToString(
         linkToMod={content.link}
         sectionStyle={content.sectionStyle} />
   );
-  test('check wormbase about text', () => { 
+  test('check wormbase about text', () => {
     expect(aboutString).
     toMatch('WormBase is a founding member of the Alliance of Genome Resources Project')
   });
 
- test('check wormbase about button', () => { 
+ test('check wormbase about button', () => {
     expect(aboutString).
     toMatch('<a href="https://wormbase.org"><button')
  });
@@ -59,7 +59,7 @@ const resourcesString = ReactDOMServer.renderToString(
     <Resources htmlContent={content.resources} sectionStyle={content.sectionStyle} />
 );
 //console.log(resourcesString);
-test('check wormbase resource header', () => { 
+test('check wormbase resource header', () => {
     expect(resourcesString).
     toMatch('<h2 class="sectionTitle">Resources</h2>')
 });
@@ -88,13 +88,13 @@ while(match=patt.exec(resourcesString)){
         let test_name = checkUrlDict[match[1]];
         let obtained_name = match[2];
         console.log(test_name + " " + obtained_name);
-        test('check wormbase urls match', () => { 
+        test('check wormbase urls match', () => {
             expect(test_name).
             toMatch(obtained_name)
         });
     }
 }
-test('check wormbase set resources are there', () => { 
+test('check wormbase set resources are there', () => {
         expect(labelCounter).
         toBe(checkLabels.length)
 });
