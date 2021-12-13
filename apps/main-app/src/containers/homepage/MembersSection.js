@@ -12,13 +12,13 @@ const MembersSection = () => {
             <img src='https://alliancegenome.files.wordpress.com/2016/11/logo_flybase.png' />
             FlyBase
           </a>
-          {/* sic - WordPress has MGI/RGD pictures switched; the "logo_rgd.png" is a mouse. */}
-          <a className={style.member} href='/members/mgi'>
+          {/* sic - WordPress has MGD/RGD pictures switched; the "logo_rgd.png" is a mouse. */}
+          <a className={style.member} href='/members/mgd'>
             <img src='https://alliancegenome.files.wordpress.com/2016/11/logo_rgd.png' />
             MGD
           </a>
           <a className={style.member} href='/members/rgd'>
-          {/* sic - WordPress has MGI/RGD pictures switched; the "logo_mgd.png" is a rat. */}
+          {/* sic - WordPress has MGD/RGD pictures switched; the "logo_mgd.png" is a rat. */}
             <img src='https://alliancegenome.files.wordpress.com/2016/11/logo_mgd.png' />
             RGD
           </a>
