@@ -96,7 +96,7 @@ export const MODContent = {
       'genomic and reagent resources.</p>' +
       '<p>FlyBase is a founding member of the Alliance of Genome Resources Project.</p>',
     link: 'https://www.flybase.org',
-    modShortName: 'FB',
+    modShortName: 'FlyBase',
     modFullName: 'FlyBase',
     bannerStyle: style.banner__FB,
     titleBarStyle: style.titleBar__FB,
