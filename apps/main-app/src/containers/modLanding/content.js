@@ -1,3 +1,11 @@
+import flybaseLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_flybase.png';
+import mgdLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_mgd.png';
+import rgdLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_rgd.png';
+import sgdLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_sgd.png';
+import wormbaseLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_wormbase.png';
+import zfinLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_zfin.png';
+import gocLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_goc.png';
+
 import style from './style.scss';
 
 export const MODContent = {
@@ -17,7 +25,7 @@ export const MODContent = {
     bannerStyle: style.banner__WB,
     titleBarStyle: style.titleBar__WB,
     sectionStyle: style.section__WB,
-    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_wormbase.png',
+    logoImgSrc: wormbaseLogo,
     wordpressBaseURL: 'https://public-api.wordpress.com/wp/v2/sites/blog.wormbase.org/posts',
     fetchNewsCount: 3,
     linkToNewsPage: 'https://blog.wormbase.org/',
@@ -50,7 +58,7 @@ export const MODContent = {
     bannerStyle: style.banner__SGD,
     titleBarStyle: style.titleBar__SGD,
     sectionStyle: style.section__SGD,
-    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_sgd.png',
+    logoImgSrc: sgdLogo,
     wordpressBaseURL: 'https://public-api.wordpress.com/rest/v1.1/sites/yeastgenomeblog.wordpress.com/posts/',
     fetchNewsCount: 3,
     linkToNewsPage: 'https://yeastgenomeblog.wordpress.com/',
@@ -77,7 +85,7 @@ export const MODContent = {
     bannerStyle: style.banner__ZFIN,
     titleBarStyle: style.titleBar__ZFIN,
     sectionStyle: style.section__ZFIN,
-    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_zfin.png',
+    logoImgSrc: zfinLogo,
     resources:
       '<p><a href="https://zfin.org/search?category=&q=">Search and Retrieve zebrafish data</a></p>' +
       '<p><a href="https://zfin.org/action/expression/search">Gene Expression data / Images</a></p>' +
@@ -101,7 +109,7 @@ export const MODContent = {
     bannerStyle: style.banner__FB,
     titleBarStyle: style.titleBar__FB,
     sectionStyle: style.section__FB,
-    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_flybase.png',
+    logoImgSrc: flybaseLogo,
     wordpressBaseURL: '',
     fetchNewsCount: 0,
     resources:
@@ -128,8 +136,7 @@ export const MODContent = {
     bannerStyle: style.banner__RGD,
     titleBarStyle: style.titleBar__RGD,
     sectionStyle: style.section__RGD,
-    // sic - WordPress has MGD/RGD pictures switched; the "logo_rgd.png" is a mouse; the "logo_mgd.png is a rat". */}
-    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_mgd.png',
+    logoImgSrc: rgdLogo,
     resources:
       '<p><a href="https://rgd.mcw.edu/rgdweb/search/genes.html">Gene Search</a></p>' +
       '<p><a href="https://rgd.mcw.edu/rgdweb/search/strains.html">Strain search</a></p>' +
@@ -154,8 +161,7 @@ export const MODContent = {
     bannerStyle: style.banner__MGD,
     titleBarStyle: style.titleBar__MGD,
     sectionStyle: style.section__MGD,
-    // sic - WordPress has MGD/RGD pictures switched; the "logo_rgd.png" is a mouse; the "logo_mgd.png is a rat". */}
-    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_rgd.png',
+    logoImgSrc: mgdLogo,
     resources:
       '<p><a href="http://www.informatics.jax.org/genes.shtml">Genes</a></p>' +
       '<p><a href="http://www.informatics.jax.org/phenotypes.shtml"> Phenotypes & Mutant Alleles</a></p>' +
@@ -182,7 +188,7 @@ export const MODContent = {
     bannerStyle: style.banner__GO,
     titleBarStyle: style.titleBar__GO,
     sectionStyle: style.section__GO,
-    logoImgSrc: 'https://alliancegenome.files.wordpress.com/2016/11/logo_goc.png',
+    logoImgSrc: gocLogo,
     resources:
       '<p><a href="http://amigo.geneontology.org/amigo">AmiGO</a></p>' +
       '<p><a href="http://geneontology.org/docs/ontology-documentation/"> Ontology overview</a></p>' +
