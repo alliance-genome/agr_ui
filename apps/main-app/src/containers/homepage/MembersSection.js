@@ -1,4 +1,11 @@
 import React from 'react';
+import flybaseLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_flybase.png';
+import mgdLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_mgd.png';
+import rgdLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_rgd.png';
+import sgdLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_sgd.png';
+import wormbaseLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_wormbase.png';
+import zfinLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_zfin.png';
+import gocLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_goc.png';
 
 import style from './style.scss';
 
@@ -9,33 +16,32 @@ const MembersSection = () => {
         <h1>Members</h1>
         <div className='d-flex flex-wrap'>
           <a className={style.member} href='/members/flybase'>
-            <img src='https://alliancegenome.files.wordpress.com/2016/11/logo_flybase.png' />
+            <img src={flybaseLogo} />
             FlyBase
           </a>
           {/* sic - WordPress has MGD/RGD pictures switched; the "logo_rgd.png" is a mouse. */}
           <a className={style.member} href='/members/mgd'>
-            <img src='https://alliancegenome.files.wordpress.com/2016/11/logo_rgd.png' />
+            <img src={mgdLogo} />
             MGD
           </a>
           <a className={style.member} href='/members/rgd'>
-          {/* sic - WordPress has MGD/RGD pictures switched; the "logo_mgd.png" is a rat. */}
-            <img src='https://alliancegenome.files.wordpress.com/2016/11/logo_mgd.png' />
+            <img src={rgdLogo} />
             RGD
           </a>
           <a className={style.member} href='/members/sgd'>
-            <img src='https://alliancegenome.files.wordpress.com/2016/11/logo_sgd.png' />
+            <img src={sgdLogo} />
             SGD
           </a>
           <a className={style.member} href='/members/wormbase'>
-            <img src='https://alliancegenome.files.wordpress.com/2016/11/logo_wormbase.png' />
+           <img src={wormbaseLogo} />
             WormBase
           </a>
           <a className={style.member} href='/members/zfin'>
-            <img src='https://alliancegenome.files.wordpress.com/2016/11/logo_zfin.png' />
+            <img src={zfinLogo} />
             ZFIN
           </a>
           <a className={style.member} href='/members/goc'>
-            <img src='https://alliancegenome.files.wordpress.com/2016/11/logo_goc.png' />
+            <img src={gocLogo} />
             GOC
           </a>
         </div>
