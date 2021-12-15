@@ -21,7 +21,7 @@ const MODLanding = ({modId}) => {
         <div className={`container ${style.containerExtra}`}>
           <div className="row">
             <div className={`col-xl-8 col-lg-8 col-md-8 col-sm-12 ${style.noPadding}`}>
-              <About htmlContent={content.about} modShortName={content.modShortName} linkToMod={content.link}
+              <About htmlContent={content.about} modVisitButtonText={content.modVisitButtonText} linkToMod={content.link}
                                                  sectionStyle={content.sectionStyle} titleBarStyle={content.titleBarStyle} />
               {content.wordpressBaseURL && <News urlNewsMod={content.wordpressBaseURL}
                                                  fetchNewsCount={content.fetchNewsCount}
