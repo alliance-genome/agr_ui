@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import flybaseLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_flybase.png';
 import mgdLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_mgd.png';
 import rgdLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_rgd.png';
@@ -15,35 +16,48 @@ const MembersSection = () => {
       <div className={style.contentContainer}>
         <h1>Members</h1>
         <div className='d-flex flex-wrap'>
-          <a className={style.member} href='/members/flybase'>
-            <img src={flybaseLogo} />
+          <div className={style.member} >
+            <Link to='/members/flybase'>
+              <img src={flybaseLogo} />
+            </Link>
             FlyBase
-          </a>
-          {/* sic - WordPress has MGD/RGD pictures switched; the "logo_rgd.png" is a mouse. */}
-          <a className={style.member} href='/members/mgd'>
-            <img src={mgdLogo} />
+          </div>
+          <div className={style.member} >
+            <Link to='/members/mgd'>
+              <img src={mgdLogo} />
+            </Link>
             MGD
-          </a>
-          <a className={style.member} href='/members/rgd'>
-            <img src={rgdLogo} />
+          </div>
+          <div className={style.member} >
+            <Link to='/members/rgd'>
+              <img src={rgdLogo} />
+            </Link>
             RGD
-          </a>
-          <a className={style.member} href='/members/sgd'>
-            <img src={sgdLogo} />
+          </div>
+          <div className={style.member} >
+            <Link to='/members/sgd'>
+              <img src={sgdLogo} />
+            </Link>
             SGD
-          </a>
-          <a className={style.member} href='/members/wormbase'>
-           <img src={wormbaseLogo} />
+          </div>
+          <div className={style.member} >
+            <Link to='/members/wormbase'>
+              <img src={wormbaseLogo} />
+            </Link>
             WormBase
-          </a>
-          <a className={style.member} href='/members/zfin'>
-            <img src={zfinLogo} />
+          </div>
+          <div className={style.member} >
+            <Link to='/members/zfin'>
+              <img src={zfinLogo} />
+            </Link>
             ZFIN
-          </a>
-          <a className={style.member} href='/members/goc'>
-            <img src={gocLogo} />
+          </div>
+          <div className={style.member} >
+            <Link to='/members/goc'>
+              <img src={gocLogo} />
+            </Link>
             GOC
-          </a>
+          </div>
         </div>
       </div>
     </section>
