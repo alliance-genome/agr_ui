@@ -18,45 +18,45 @@ const MembersSection = () => {
         <div className='d-flex flex-wrap'>
           <div className={style.member} >
             <Link to='/members/flybase'>
-              <img src={flybaseLogo} />
+              <img src={flybaseLogo}/>
+              FlyBase
             </Link>
-            FlyBase
           </div>
           <div className={style.member} >
             <Link to='/members/mgd'>
               <img src={mgdLogo} />
+              MGD
             </Link>
-            MGD
           </div>
           <div className={style.member} >
             <Link to='/members/rgd'>
               <img src={rgdLogo} />
+              RGD
             </Link>
-            RGD
           </div>
           <div className={style.member} >
             <Link to='/members/sgd'>
               <img src={sgdLogo} />
+              SGD
             </Link>
-            SGD
           </div>
           <div className={style.member} >
             <Link to='/members/wormbase'>
               <img src={wormbaseLogo} />
+              WormBase
             </Link>
-            WormBase
           </div>
           <div className={style.member} >
             <Link to='/members/zfin'>
               <img src={zfinLogo} />
+              ZFIN
             </Link>
-            ZFIN
           </div>
           <div className={style.member} >
             <Link to='/members/goc'>
               <img src={gocLogo} />
+              GOC
             </Link>
-            GOC
           </div>
         </div>
       </div>
