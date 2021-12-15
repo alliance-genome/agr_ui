@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import flybaseLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_flybase.png';
 import mgdLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_mgd.png';
 import rgdLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_rgd.png';
@@ -15,35 +16,48 @@ const MembersSection = () => {
       <div className={style.contentContainer}>
         <h1>Members</h1>
         <div className='d-flex flex-wrap'>
-          <a className={style.member} href='/members/flybase'>
-            <img src={flybaseLogo} />
-            FlyBase
-          </a>
-          {/* sic - WordPress has MGD/RGD pictures switched; the "logo_rgd.png" is a mouse. */}
-          <a className={style.member} href='/members/mgd'>
-            <img src={mgdLogo} />
-            MGD
-          </a>
-          <a className={style.member} href='/members/rgd'>
-            <img src={rgdLogo} />
-            RGD
-          </a>
-          <a className={style.member} href='/members/sgd'>
-            <img src={sgdLogo} />
-            SGD
-          </a>
-          <a className={style.member} href='/members/wormbase'>
-           <img src={wormbaseLogo} />
-            WormBase
-          </a>
-          <a className={style.member} href='/members/zfin'>
-            <img src={zfinLogo} />
-            ZFIN
-          </a>
-          <a className={style.member} href='/members/goc'>
-            <img src={gocLogo} />
-            GOC
-          </a>
+          <div className={style.member} >
+            <Link to='/members/flybase'>
+              <img src={flybaseLogo}/>
+              FlyBase
+            </Link>
+          </div>
+          <div className={style.member} >
+            <Link to='/members/mgd'>
+              <img src={mgdLogo} />
+              MGD
+            </Link>
+          </div>
+          <div className={style.member} >
+            <Link to='/members/rgd'>
+              <img src={rgdLogo} />
+              RGD
+            </Link>
+          </div>
+          <div className={style.member} >
+            <Link to='/members/sgd'>
+              <img src={sgdLogo} />
+              SGD
+            </Link>
+          </div>
+          <div className={style.member} >
+            <Link to='/members/wormbase'>
+              <img src={wormbaseLogo} />
+              WormBase
+            </Link>
+          </div>
+          <div className={style.member} >
+            <Link to='/members/zfin'>
+              <img src={zfinLogo} />
+              ZFIN
+            </Link>
+          </div>
+          <div className={style.member} >
+            <Link to='/members/goc'>
+              <img src={gocLogo} />
+              GOC
+            </Link>
+          </div>
         </div>
       </div>
     </section>
