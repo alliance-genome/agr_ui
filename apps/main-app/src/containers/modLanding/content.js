@@ -22,6 +22,7 @@ export const MODContent = {
     link: 'https://wormbase.org',
     modShortName: 'WormBase',
     modFullName: 'WormBase',
+    modVisitButtonText: 'WormBase',
     bannerStyle: style.banner__WB,
     titleBarStyle: style.titleBar__WB,
     sectionStyle: style.section__WB,
@@ -55,6 +56,7 @@ export const MODContent = {
     link: 'https://www.yeastgenome.org',
     modShortName: 'SGD',
     modFullName: '<i>Saccharomyces</i> Genome Database',
+    modVisitButtonText: 'SGD',
     bannerStyle: style.banner__SGD,
     titleBarStyle: style.titleBar__SGD,
     sectionStyle: style.section__SGD,
@@ -82,6 +84,7 @@ export const MODContent = {
     link: 'https://www.zfin.org',
     modShortName: 'ZFIN',
     modFullName: 'Zebrafish Information Network',
+    modVisitButtonText: 'ZFIN',
     bannerStyle: style.banner__ZFIN,
     titleBarStyle: style.titleBar__ZFIN,
     sectionStyle: style.section__ZFIN,
@@ -106,6 +109,7 @@ export const MODContent = {
     link: 'https://www.flybase.org',
     modShortName: 'FlyBase',
     modFullName: 'FlyBase',
+    modVisitButtonText: 'FlyBase',
     bannerStyle: style.banner__FB,
     titleBarStyle: style.titleBar__FB,
     sectionStyle: style.section__FB,
@@ -133,6 +137,7 @@ export const MODContent = {
     link: 'https://rgd.mcw.edu/',
     modShortName: 'RGD',
     modFullName: 'Rat Genome Database',
+    modVisitButtonText: 'RGD',
     bannerStyle: style.banner__RGD,
     titleBarStyle: style.titleBar__RGD,
     sectionStyle: style.section__RGD,
@@ -158,6 +163,7 @@ export const MODContent = {
     link: 'http://www.informatics.jax.org/',
     modShortName: 'MGD',
     modFullName: 'Mouse Genome Database',
+    modVisitButtonText: 'MGI',
     bannerStyle: style.banner__MGD,
     titleBarStyle: style.titleBar__MGD,
     sectionStyle: style.section__MGD,
@@ -173,6 +179,7 @@ export const MODContent = {
       '<p><a href="http://tumor.informatics.jax.org/mtbwi/index.do">Mouse Models of Human Cancer</a></p>' +
       '<p><a href="https://www.jax.org/mgi-coronavirus-info">Mouse Models for Coronavirus Research</a></p>' +
       '<p><a href="http://www.mousemine.org/mousemine/begin.do">MouseMine</a></p>' +
+      '<p><a href="http://www.findmice.org/index.jsp">International Mouse Strain Resource (IMSR)</a></p>' +
       '<p><a href="http://www.informatics.jax.org/mgihome/support/mgi_inbox.shtml">User Support</a></p>'
   },
   'goc': {
@@ -185,6 +192,7 @@ export const MODContent = {
     link: 'http://geneontology.org/',
     modShortName: 'GOC',
     modFullName: 'Gene Ontology Consortium',
+    modVisitButtonText: 'GOC',
     bannerStyle: style.banner__GO,
     titleBarStyle: style.titleBar__GO,
     sectionStyle: style.section__GO,
