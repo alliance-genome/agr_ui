@@ -105,6 +105,11 @@
   padding-bottom: 1rem;
 }
 
+.containerExtra {
+  margin: 1rem .25rem 0rem .25rem;
+  padding-bottom: 1rem;
+}
+
 .section__WB {
   border-color: #85A6BA;
 }
@@ -133,14 +138,9 @@
   border-color: #dfeffe;
 }
 
-.containerExtra {
-  margin: 1rem .25rem 0rem .25rem;
-  padding-bottom: 1rem;
-}
-
 .banner {
-  background-size: cover;
-  background-position: center center;
+//   background-size: cover;
+//   background-position: center center;
 }
 
 .banner__DEFAULT {
@@ -149,30 +149,44 @@
 
 .banner__WB {
   background-image: url('assets/topBannerWB.jpg');
+  background-size: auto;
+  background-position-x: center;
 }
 
 .banner__SGD {
   background-image: url('assets/topBannerSGD.png');
+  background-size: auto;
+  background-position-x: center;
 }
 
 .banner__ZFIN {
   background-image: url('assets/topBannerZFIN.png');
+  background-size: cover;
+  background-position: center center;
 }
 
 .banner__MGD{
   background-image: url('assets/topBannerMGD.png');
+  background-size: auto;
+  background-position-x: center;
 }
 
 .banner__RGD{
   background-image: url('assets/topBannerRGD.png');
+  background-size: cover;
+  background-position: center center;
 }
 
 .banner__FB{
   background-image: url('assets/topBannerFB.png');
+  background-size: cover;
+  background-position: center center;
 }
 
 .banner__GO{
   background-image: url('assets/topBannerGOC.png');
+  background-size: cover;
+  background-position: center center;
 }
 
 :global(.sharedaddy) {
