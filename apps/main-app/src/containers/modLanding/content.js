@@ -42,7 +42,20 @@ export const MODContent = {
       '<p><a href="http://nematode.net/NN3_frontpage.cgi">Nematode.net</a></p>' +
       '<p><a href="http://www.nematodes.org/">Nematodes.org</a></p>' +
       '<p><a href="https://www.micropublication.org/">Micropublication</a></p>' +
-      '<p><a href="https://parasite.wormbase.org/">ParaSite</a></p>'
+      '<p><a href="https://parasite.wormbase.org/">ParaSite</a></p>',
+    footer_obj: {
+      'Nomenclature':            'https://wormbase.org/about/userguide/nomenclature#gi9m5c264k8be0afldh71j3--10',
+      'Tools':                   'https://wormbase.org/tools#0--10',
+      'Citing WormBase':	       'https://wormbase.org/about/citing_wormbase#012--10',
+      'Release Schedule':	       'https://wormbase.org/about/release_schedule#01--10',
+      'How To Cite':		         'https://wormbase.org/about/citing_wormbase#012--10',
+      'Copyright':               'https://wormbase.org/about/policies#2--10', 
+      'FAQ':                     'https://wormbase.org/about/Frequently_asked_questions#5d39afc2687b4e01--10',
+      'Forum':                   'https://community.alliancegenome.org/c/model-organism-worms/7',
+      'Worm Labs':	             'https://wormbase.org/resources/laboratory#012--10)',
+      'Developer Documentation': 'https://wormbase.org/about/userguide/for_developers#012345--10',
+      'FTP Downloads':            'ftp://ftp.wormbase.org/pub/wormbase/',
+    },
   },
   'sgd': {
     about: '<p>The Saccharomyces Genome Database (SGD) provides comprehensive integrated biological information for the ' +
