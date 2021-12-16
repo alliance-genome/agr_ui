@@ -9,9 +9,9 @@ const FooterAlt = ({links, footerStyle, modShortName}) => {
                      `     ${modShortName}` +
                      '  </div>';
     let counter = 0;
-    for (let key in links){
+    for (let i=0; i< links.length; i++){
         htmlString += '<div class="col-med-2 col-md-2 col-lg-2 col-xl-2">';
-        htmlString += `      <a href="${links[key]}">${key}</a>`;
+        htmlString += `      <a href="${links[i][1]}">${links[i][0]}</a>`;
         htmlString += '</div>';
         counter += 1;
         // Add a blank cell under mod name to keep spaces looking okay.
@@ -33,7 +33,7 @@ const FooterAlt = ({links, footerStyle, modShortName}) => {
 }
 
 FooterAlt.propTypes = {
-  links: PropTypes.object.isRequired,
+  links: PropTypes.array.isRequired,
   footerStyle: PropTypes.string.isRequired,
   modShortName: PropTypes.string.isRequired
 }

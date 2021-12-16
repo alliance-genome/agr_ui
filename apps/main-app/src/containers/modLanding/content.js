@@ -43,19 +43,19 @@ export const MODContent = {
       '<p><a href="http://www.nematodes.org/">Nematodes.org</a></p>' +
       '<p><a href="https://www.micropublication.org/">Micropublication</a></p>' +
       '<p><a href="https://parasite.wormbase.org/">ParaSite</a></p>',
-    footer_obj: {
-      'Nomenclature':            'https://wormbase.org/about/userguide/nomenclature#gi9m5c264k8be0afldh71j3--10',
-      'Tools':                   'https://wormbase.org/tools#0--10',
-      'Citing WormBase':	       'https://wormbase.org/about/citing_wormbase#012--10',
-      'Release Schedule':	       'https://wormbase.org/about/release_schedule#01--10',
-      'How To Cite':		         'https://wormbase.org/about/citing_wormbase#012--10',
-      'Copyright':               'https://wormbase.org/about/policies#2--10', 
-      'FAQ':                     'https://wormbase.org/about/Frequently_asked_questions#5d39afc2687b4e01--10',
-      'Forum':                   'https://community.alliancegenome.org/c/model-organism-worms/7',
-      'Worm Labs':	             'https://wormbase.org/resources/laboratory#012--10)',
-      'Developer Documentation': 'https://wormbase.org/about/userguide/for_developers#012345--10',
-      'FTP Downloads':            'ftp://ftp.wormbase.org/pub/wormbase/',
-    },
+    footer: [
+      ['Nomenclature',            'https://wormbase.org/about/userguide/nomenclature#gi9m5c264k8be0afldh71j3--10'],
+      ['Tools',                   'https://wormbase.org/tools#0--10'],
+      ['Citing WormBase',	       'https://wormbase.org/about/citing_wormbase#012--10'],
+      ['Release Schedule',	       'https://wormbase.org/about/release_schedule#01--10'],
+      ['How To Cite',		         'https://wormbase.org/about/citing_wormbase#012--10'],
+      ['Copyright',               'https://wormbase.org/about/policies#2--10'], 
+      ['FAQ',                     'https://wormbase.org/about/Frequently_asked_questions#5d39afc2687b4e01--10'],
+      ['Forum',                   'https://community.alliancegenome.org/c/model-organism-worms/7'],
+      ['Worm Labs',	             'https://wormbase.org/resources/laboratory#012--10)'],
+      ['Developer Documentation', 'https://wormbase.org/about/userguide/for_developers#012345--10'],
+      ['FTP Downloads',            'ftp://ftp.wormbase.org/pub/wormbase/']
+    ],
   },
   'sgd': {
     about: '<p>The Saccharomyces Genome Database (SGD) provides comprehensive integrated biological information for the ' +
@@ -86,7 +86,8 @@ export const MODContent = {
       '<p><a href="https://sites.google.com/view/yeastgenome-help/about/how-to-cite-sgd?authuser=0">How to cite SGD</a></p>' +
       '<p><a href="https://sites.google.com/view/yeastgenome-help/sgd-general-help">General help</a></p>' +
       '<p><a href="https://sites.google.com/view/yeastgenome-help/community-help/gene-registry">Gene Registry</a></p>' +
-      '<p><a href="https://www.yeastgenome.org/blast-sgd">SGD BLAST</a></p>'
+      '<p><a href="https://www.yeastgenome.org/blast-sgd">SGD BLAST</a></p>',
+    footer: [],
   },
   'zfin': {
     about: '<p>The Zebrafish Information Network (ZFIN) is the database of genetic and genomic data for the zebrafish ' +
@@ -112,7 +113,8 @@ export const MODContent = {
       '<p><a href="https://zfin.org/action/submit-data">Submit Data to ZFIN</a></p>' +
       '<p><a href="https://zfin.org/zf_info/zfbook/zfbk.html">Zebrafish Book</a></p>' +
       '<p><a href=" https://zebrafish.org/home/guide.php">Zebrafish International Resource Center</a></p>' +
-      '<p><a href="https://zfin.org/action/profile/person/search">People</a></p>'
+      '<p><a href="https://zfin.org/action/profile/person/search">People</a></p>',
+    footer: [],
   },
   'flybase': {
     about: '<p>FlyBase (flybase.org) is an essential online database for researchers using <i>Drosophila melanogaster</i> ' +
@@ -137,7 +139,8 @@ export const MODContent = {
       '<p><a href="https://flybase.org/vocabularies">Vocabularies</a></p>' +
       '<p><a href="https://flybase.org/convert/id">ID Validator</a></p>' +
       '<p><a href="https://flybase.org/batchdownload">Batch Download</a></p>' +
-      '<p><a href="https://flybase.org/submission/publication/">Fast-Track Your Paper</a></p>'
+      '<p><a href="https://flybase.org/submission/publication/">Fast-Track Your Paper</a></p>',
+    footer: [],
   },
   'rgd': {
     about: '<p>The Rat Genome Database (RGD) is the primary site for genetic, genomic, phenotype, and disease-related ' +
@@ -165,7 +168,8 @@ export const MODContent = {
       '<p><a href="https://rgd.mcw.edu/rgdweb/enrichment/start.html">Multi-Ontology Enrichment Tool (MOET)</a></p>' +
       '<p><a href="https://rgd.mcw.edu/rgdweb/generator/list.html">Object List Generator & Analyzer (OLGA)</a></p>' +
       '<p><a href="https://rgd.mcw.edu/rgdweb/ontology/search.html">RGD Ontology Browser and Search</a></p>' +
-      '<p><a href="https://rgd.mcw.edu/rgdweb/contact/contactus.html">User Support</a></p>'
+      '<p><a href="https://rgd.mcw.edu/rgdweb/contact/contactus.html">User Support</a></p>',
+    footer: [],
   },
   'mgd': {
     about: '<p>The Mouse Genome Database (MGD) is the community model organism database for the laboratory mouse ' +
@@ -193,7 +197,8 @@ export const MODContent = {
       '<p><a href="https://www.jax.org/mgi-coronavirus-info">Mouse Models for Coronavirus Research</a></p>' +
       '<p><a href="http://www.mousemine.org/mousemine/begin.do">MouseMine</a></p>' +
       '<p><a href="http://www.findmice.org/index.jsp">International Mouse Strain Resource (IMSR)</a></p>' +
-      '<p><a href="http://www.informatics.jax.org/mgihome/support/mgi_inbox.shtml">User Support</a></p>'
+      '<p><a href="http://www.informatics.jax.org/mgihome/support/mgi_inbox.shtml">User Support</a></p>',
+      footer: [],
   },
   'goc': {
     about: '<p>The mission of the GO Consortium is to develop a comprehensive, computational model of biological systems, ' +
@@ -223,7 +228,8 @@ export const MODContent = {
       '<p><a href="http://geneontology.org/docs/faq/">FAQ</a></p>' +
       '<p><a href="http://geneontology.org/docs/go-citation-policy/">Citing GO</a></p>' +
       '<p><a href="https://help.geneontology.org/">User Support</a></p>' +
-      '<p><a href="http://geneontology.org/docs/contributing-to-go-terms/">Contributing to the ontology</a></p>'
+      '<p><a href="http://geneontology.org/docs/contributing-to-go-terms/">Contributing to the ontology</a></p>',
+    footer: [],
   }
 }
 
