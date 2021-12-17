@@ -76,6 +76,7 @@ export const MODContent = {
     modVisitButtonText: 'SGD',
     bannerStyle: style.banner__SGD,
     titleBarStyle: style.titleBar__SGD,
+    footerStyle: style.modFooter__SGD,
     sectionStyle: style.section__SGD,
     logoImgSrc: sgdLogo,
     wordpressBaseURL: 'https://public-api.wordpress.com/rest/v1.1/sites/yeastgenomeblog.wordpress.com/posts/',
@@ -91,7 +92,17 @@ export const MODContent = {
       '<p><a href="https://sites.google.com/view/yeastgenome-help/sgd-general-help">General help</a></p>' +
       '<p><a href="https://sites.google.com/view/yeastgenome-help/community-help/gene-registry">Gene Registry</a></p>' +
       '<p><a href="https://www.yeastgenome.org/blast-sgd">SGD BLAST</a></p>',
-    footer: [],
+    footer: [
+      ['About', 'https://sites.google.com/view/yeastgenome-help/about'],
+      ['Blog', 'https://www.yeastgenome.org/blog'],
+      ['Help', 'https://sites.google.com/view/yeastgenome-help/sgd-general-help'], 
+      ['Download', 'http://sgd-archive.yeastgenome.org/'],
+      ['Stanford privacy policy', 'https://www.stanford.edu/site/privacy/'],
+      // Stanford copyright statement: © Stanford University, Stanford, CA 94305.
+      // CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/) creative commons license; if possible link from the image (see SGD)
+      ['Stanford Genetics Dept', 'https://med.stanford.edu/genetics.html'],
+      ['Stanford University logo', 'https://www.stanford.edu/'],
+    ],
   },
   'zfin': {
     about: '<p>The Zebrafish Information Network (ZFIN) is the database of genetic and genomic data for the zebrafish ' +
@@ -105,6 +116,7 @@ export const MODContent = {
     modVisitButtonText: 'ZFIN',
     bannerStyle: style.banner__ZFIN,
     titleBarStyle: style.titleBar__ZFIN,
+    footerStyle: style.modFooter__ZFIN,
     sectionStyle: style.section__ZFIN,
     logoImgSrc: zfinLogo,
     resources:
@@ -118,7 +130,18 @@ export const MODContent = {
       '<p><a href="https://zfin.org/zf_info/zfbook/zfbk.html">Zebrafish Book</a></p>' +
       '<p><a href=" https://zebrafish.org/home/guide.php">Zebrafish International Resource Center</a></p>' +
       '<p><a href="https://zfin.org/action/profile/person/search">People</a></p>',
-    footer: [],
+    footer: [
+      ['Anatomy/GO/Human Disease',      'https://zfin.org/action/ontology/search'],
+      ['Genome Browser',                'https://zfin.org/action/gbrowse/'],
+      ['Anatomy Atlases and Resources', 'https://zfin.atlassian.net/wiki/spaces/general/pages/1892876451/Anatomy+Atlases+and+Resources'],
+      ['Laboratory Search',             'https://zfin.org/action/profile/lab/search'],
+      ['Downloads',                     'https://zfin.org/downloads'],
+      ['Help and Tips',            'https://zfin.atlassian.net/wiki/spaces/general/pages/1919656548/ZFIN+Tips'],
+      ['Glossary',                 'https://zfin.org/zf_info/glossary.html'],
+      ['Contact',                  'https://zfin.atlassian.net/wiki/spaces/general/pages/1891412324/ZFIN+Contact+Information'],
+      ['Citing',                   'https://zfin.atlassian.net/wiki/spaces/general/pages/1891415775/ZFIN+Database+Information'],
+      ['Author Guidelines',             'https://zfin.org/zf_info/author_guidelines.html'],
+      ],
   },
   'flybase': {
     about: '<p>FlyBase (flybase.org) is an essential online database for researchers using <i>Drosophila melanogaster</i> ' +
@@ -132,6 +155,7 @@ export const MODContent = {
     bannerStyle: style.banner__FB,
     titleBarStyle: style.titleBar__FB,
     sectionStyle: style.section__FB,
+    footerStyle: style.modFooter__FB,
     logoImgSrc: flybaseLogo,
     wordpressBaseURL: '',
     fetchNewsCount: 0,
@@ -144,7 +168,14 @@ export const MODContent = {
       '<p><a href="https://flybase.org/convert/id">ID Validator</a></p>' +
       '<p><a href="https://flybase.org/batchdownload">Batch Download</a></p>' +
       '<p><a href="https://flybase.org/submission/publication/">Fast-Track Your Paper</a></p>',
-    footer: [],
+    footer: [
+      ['Support',             'https://flybase.org/wiki/FlyBase:About#FlyBase_Support'],
+      ['Copyright Statement', 'https://flybase.org/wiki/FlyBase:About#FlyBase_Copyright'],
+      ['Contact',             'https://flybase.org/contact/email'],
+      ['Citing',                'https://flybase.org/wiki/FlyBase:About#Citing_FlyBase'],
+      ['Twitter (icon)',      'https://twitter.com/FlyBaseDotOrg'],
+      ['YouTube (icon)',      'https://www.youtube.com/c/FlyBaseTV'],
+    ],
   },
   'rgd': {
     about: '<p>The Rat Genome Database (RGD) is the primary site for genetic, genomic, phenotype, and disease-related ' +
@@ -161,6 +192,7 @@ export const MODContent = {
     bannerStyle: style.banner__RGD,
     titleBarStyle: style.titleBar__RGD,
     sectionStyle: style.section__RGD,
+    footerStyle: style.modFooter__RGD,
     logoImgSrc: rgdLogo,
     resources:
       '<p><a href="https://rgd.mcw.edu/rgdweb/search/genes.html">Gene Search</a></p>' +
@@ -173,7 +205,15 @@ export const MODContent = {
       '<p><a href="https://rgd.mcw.edu/rgdweb/generator/list.html">Object List Generator & Analyzer (OLGA)</a></p>' +
       '<p><a href="https://rgd.mcw.edu/rgdweb/ontology/search.html">RGD Ontology Browser and Search</a></p>' +
       '<p><a href="https://rgd.mcw.edu/rgdweb/contact/contactus.html">User Support</a></p>',
-    footer: [],
+    footer: [
+      ['Downloads', 'https://download.rgd.mcw.edu/data_release'],
+      ['REST API',  'https://rest.rgd.mcw.edu/rgdws/swagger-ui.html'],
+      ['GitHub',    'https://github.com/rat-genome-database'],
+      ['About', 	  'https://rgd.mcw.edu/wg/about-us'],
+      ['Contact',   'https://rgd.mcw.edu/rgdweb/contact/contactus.html'],
+      ['Help',   	  'https://rgd.mcw.edu/wg/help3/'],
+      ['Citing', 	  'https://rgd.mcw.edu/wg/citing-rgd/'],
+    ],
   },
   'mgd': {
     about: '<p>The Mouse Genome Database (MGD) is the community model organism database for the laboratory mouse ' +
@@ -188,6 +228,7 @@ export const MODContent = {
     bannerStyle: style.banner__MGD,
     titleBarStyle: style.titleBar__MGD,
     sectionStyle: style.section__MGD,
+    footerStyle: style.modFooter__MGD,
     logoImgSrc: mgdLogo,
     resources:
       '<p><a href="http://www.informatics.jax.org/genes.shtml">Genes</a></p>' +
@@ -202,7 +243,13 @@ export const MODContent = {
       '<p><a href="http://www.mousemine.org/mousemine/begin.do">MouseMine</a></p>' +
       '<p><a href="http://www.findmice.org/index.jsp">International Mouse Strain Resource (IMSR)</a></p>' +
       '<p><a href="http://www.informatics.jax.org/mgihome/support/mgi_inbox.shtml">User Support</a></p>',
-      footer: [],
+      footer: [
+        ['Citing', 'http://www.informatics.jax.org/mgihome/other/citation.shtml'],
+        ['Funding Information', 'http://www.informatics.jax.org/mgihome/other/mgi_funding.shtml'],
+        ['Warranty Disclaimer and Copyright Notice', 'http://www.informatics.jax.org/mgihome/other/copyright.shtml'],
+        ['Twitter icon', 'https://twitter.com/mgi_mouse'],
+        ['FaceBook icon', 'https://www.facebook.com/mgi.informatics'],
+      ],
   },
   'goc': {
     about: '<p>The mission of the GO Consortium is to develop a comprehensive, computational model of biological systems, ' +
@@ -218,6 +265,7 @@ export const MODContent = {
     bannerStyle: style.banner__GO,
     titleBarStyle: style.titleBar__GO,
     sectionStyle: style.section__GO,
+    footerStyle: style.modFooter__GO,
     logoImgSrc: gocLogo,
     resources:
       '<p><a href="http://amigo.geneontology.org/amigo">AmiGO</a></p>' +
@@ -233,7 +281,9 @@ export const MODContent = {
       '<p><a href="http://geneontology.org/docs/go-citation-policy/">Citing GO</a></p>' +
       '<p><a href="https://help.geneontology.org/">User Support</a></p>' +
       '<p><a href="http://geneontology.org/docs/contributing-to-go-terms/">Contributing to the ontology</a></p>',
-    footer: [],
+    footer: [
+      ['Citing', ' http://geneontology.org/docs/go-citation-policy/'],
+    ],
   }
 }
 
