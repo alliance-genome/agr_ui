@@ -89,6 +89,7 @@ export const MODContent = {
     titleBarStyle: style.titleBar__ZFIN,
     sectionStyle: style.section__ZFIN,
     logoImgSrc: zfinLogo,
+    newsURL: 'https://zfin.atlassian.net/wiki/spaces/news/overview',
     resources:
       '<p><a href="https://zfin.org/search?category=&q=">Search and Retrieve zebrafish data</a></p>' +
       '<p><a href="https://zfin.org/action/expression/search">Gene Expression data / Images</a></p>' +
@@ -114,8 +115,7 @@ export const MODContent = {
     titleBarStyle: style.titleBar__FB,
     sectionStyle: style.section__FB,
     logoImgSrc: flybaseLogo,
-    wordpressBaseURL: '',
-    fetchNewsCount: 0,
+    newsURL: 'https://flybase.org/commentaries',
     resources:
       '<p><a href="https://flybase.org/">Search</a></p>' +
       '<p><a href="https://flybase.org/blast/">BLAST</a></p>' +
@@ -142,6 +142,8 @@ export const MODContent = {
     titleBarStyle: style.titleBar__RGD,
     sectionStyle: style.section__RGD,
     logoImgSrc: rgdLogo,
+    wordpressBaseURL: '',
+    fetchNewsCount: 0,
     resources:
       '<p><a href="https://rgd.mcw.edu/rgdweb/search/genes.html">Gene Search</a></p>' +
       '<p><a href="https://rgd.mcw.edu/rgdweb/search/strains.html">Strain search</a></p>' +
@@ -197,6 +199,7 @@ export const MODContent = {
     titleBarStyle: style.titleBar__GO,
     sectionStyle: style.section__GO,
     logoImgSrc: gocLogo,
+    newsURL: 'https://twitter.com/news4go',
     resources:
       '<p><a href="http://amigo.geneontology.org/amigo">AmiGO</a></p>' +
       '<p><a href="http://geneontology.org/docs/ontology-documentation/"> Ontology overview</a></p>' +
