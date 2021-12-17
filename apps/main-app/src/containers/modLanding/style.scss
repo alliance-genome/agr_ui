@@ -6,6 +6,56 @@
 
 
 
+.modFooterText {
+  vertical-align: middle;
+  padding-left: .5rem;
+}
+
+.modFooter {
+  color: white;
+  bottom: 0px;
+  padding-top: 10px;
+  padding-bottom: 5px;
+}
+
+.modFooterContainer {
+  padding-left: 2.3rem;
+}
+
+.modFooter__DEFAULT {
+  background-color: #2598c5;
+}
+
+.modFooter__WB {
+  background-color: #85A6BA;
+}
+
+.modFooter__SGD {
+  background-color: #696599;
+}
+
+.modFooter__ZFIN {
+  background-color: #018080;
+}
+
+.modFooter__FB {
+  background-color: #003568;
+}
+
+.modFooter__GO {
+  background-color: #264370;
+}
+
+.modFooter__RGD {
+  background-color: #699fc8;
+}
+
+.modFooter__MGD {
+  background-color: #dfeffe;
+  color: #143055 !important;
+}
+
+
 .titleBar {
   color: white;
   bottom: 0px;
