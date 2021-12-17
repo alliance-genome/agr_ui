@@ -27,7 +27,14 @@ const MODLanding = ({modId}) => {
                                                  fetchNewsCount={content.fetchNewsCount}
                                                  linkToNewsPage={content.linkToNewsPage}
                                                  sectionStyle={content.sectionStyle} />}
+             { content.newsURL &&
+              <div className={`container ${style.containerExtra}`}>
+               <div className={`${style.section} ${content.sectionStyle}`}>
+                <h2 className={style.sectionTitle} > <a href={content.newsURL}>News Links</a></h2>
+               </div>
+              </div>}
             </div>
+
             <div className={`col-xl-4 col-lg-4 col-md-4 col-sm-12 ${style.noPadding}`}>
               <Resources htmlContent={content.resources} sectionStyle={content.sectionStyle} />
             </div>
