@@ -6,7 +6,8 @@ import {MODContent} from './content';
 import About from "./About";
 import Title from "./Title";
 import News from "./News";
-import Resources from "./Resources"
+import Resources from "./Resources";
+import FooterAlt from "./FooterAlt"
 
 const MODLanding = ({modId}) => {
 
@@ -41,6 +42,7 @@ const MODLanding = ({modId}) => {
           </div>
         </div>
       </div>
+      <FooterAlt links={content.footer} note={content.footerNote} footerStyle={content.footerStyle} modShortName={content.modShortName} bob={content}/>
     </div>
   );
 };
