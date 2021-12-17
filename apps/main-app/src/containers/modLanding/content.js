@@ -25,6 +25,7 @@ export const MODContent = {
     modVisitButtonText: 'WormBase',
     bannerStyle: style.banner__WB,
     titleBarStyle: style.titleBar__WB,
+    footerStyle: style.modFooter__WB,
     sectionStyle: style.section__WB,
     logoImgSrc: wormbaseLogo,
     wordpressBaseURL: 'https://public-api.wordpress.com/wp/v2/sites/blog.wormbase.org/posts',
@@ -56,6 +57,9 @@ export const MODContent = {
       ['Developer Documentation', 'https://wormbase.org/about/userguide/for_developers#012345--10'],
       ['FTP Downloads',            'ftp://ftp.wormbase.org/pub/wormbase/']
     ],
+    footerNote:
+      'WormBase is supported by grant #24 HG002223 from the National Human Genome Research Institute,' +
+      ' the UK Medical Research Council and the UK Biotechnology and Biological Sciences Research Council.',
   },
   'sgd': {
     about: '<p>The Saccharomyces Genome Database (SGD) provides comprehensive integrated biological information for the ' +
