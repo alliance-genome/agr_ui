@@ -35,7 +35,7 @@ const MODLanding = ({modId}) => {
           </div>
         </div>
       </div>
-      <FooterAlt links={content.footer} footerStyle={content.titleBarStyle} modShortName={content.modShortName} />
+      <FooterAlt links={content.footer} note={content.footerNote} footerStyle={content.footerStyle} modShortName={content.modShortName} bob={content}/>
     </div>
   );
 };
