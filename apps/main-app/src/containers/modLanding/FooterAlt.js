@@ -27,9 +27,9 @@ const FooterAlt = ({links, note, footerStyle, modShortName}) => {
   }
 
   return (
-      <div className={` ${footerStyle} ${style.modFooter}`}>
+      <div className={`${footerStyle} ${style.modFooter}`}>
         <div className={`container ${style.modFooterContainer}`}>
-          <div className={style.footerText} dangerouslySetInnerHTML={{__html: generateHtml(links, modShortName, note)}}/>
+          <div className={style.modFooterText} dangerouslySetInnerHTML={{__html: generateHtml(links, modShortName, note)}}/>
         </div>
       </div>
   );
