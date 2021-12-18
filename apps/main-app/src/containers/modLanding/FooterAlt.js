@@ -16,7 +16,7 @@ const FooterAlt = ({links, note, footerStyle, modShortName}) => {
                    '<div class="row">';
     for (let i=0; i< links.length; i++){
         htmlString += '<div class="col-med-2 col-md-2 col-lg-2 col-xl-2">';
-        htmlString += `      <a href="${links[i][1]}" style="color: white">${links[i][0]}</a>`;
+        htmlString += `      <a href="${links[i][1]}">${links[i][0]}</a>`;
         htmlString += '</div>';
     }
     htmlString += "</div></div></div>"; // end container row container
