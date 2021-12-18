@@ -16,7 +16,7 @@ const FooterAlt = ({links, note, footerStyle, modShortName}) => {
                    '<div class="row">';
     for (let i=0; i< links.length; i++){
         htmlString += '<div class="col-med-2 col-md-2 col-lg-2 col-xl-2">';
-        htmlString += `      <a href="${links[i][1]}">${links[i][0]}</a>`;
+        htmlString += `      <a href="${links[i][1]}" style="color: white">${links[i][0]}</a>`;
         htmlString += '</div>';
     }
     htmlString += "</div></div></div>"; // end container row container
@@ -27,9 +27,9 @@ const FooterAlt = ({links, note, footerStyle, modShortName}) => {
   }
 
   return (
-      <div className={` ${footerStyle} ${style.modFooter}`}>
+      <div className={`${footerStyle} ${style.modFooter}`}>
         <div className={`container ${style.modFooterContainer}`}>
-          <div className={style.footerText} dangerouslySetInnerHTML={{__html: generateHtml(links, modShortName, note)}}/>
+          <div className={style.modFooterText} dangerouslySetInnerHTML={{__html: generateHtml(links, modShortName, note)}}/>
         </div>
       </div>
   );

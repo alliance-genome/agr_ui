@@ -5,7 +5,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap');
 
 
-
 .modFooterText {
   vertical-align: middle;
   padding-left: .5rem;
@@ -41,6 +40,11 @@
 
 .modFooter__FB {
   background-color: #003568;
+  color: white;
+}
+
+a:modFooter__FB{
+  color:white;
 }
 
 .modFooter__GO {
@@ -55,7 +59,6 @@
   background-color: #dfeffe;
   color: #143055 !important;
 }
-
 
 .titleBar {
   color: white;
@@ -123,6 +126,13 @@
   font-size: 2rem;
 }
 
+.externalNews{
+  color: #2598c5;
+  padding-bottom: .75rem;
+  font-size: 1.25rem;
+}
+
+
 .section {
   padding: 2rem 2rem 1rem 2rem;
   line-height: 1.7;
@@ -138,9 +148,8 @@
 }
 
 .buttonVisitMod {
-  border-radius: 5px;
-  padding: 0 1rem;
   color: white;
+  width: 200px;
 }
 
 .resourceDiv p {

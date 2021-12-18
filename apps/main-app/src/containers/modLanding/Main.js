@@ -31,7 +31,7 @@ const MODLanding = ({modId}) => {
              { content.newsURL &&
               <div className={`container ${style.containerExtra}`}>
                <div className={`${style.section} ${content.sectionStyle}`}>
-                <h2 className={style.sectionTitle} > <a href={content.newsURL}>News Links</a></h2>
+                <h3 className={style.externalNews} > <a href={content.newsURL}>Click here for the latest news from {content.modShortName}  </a></h3>
                </div>
               </div>}
             </div>
