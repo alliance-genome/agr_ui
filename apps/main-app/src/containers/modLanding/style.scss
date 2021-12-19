@@ -4,7 +4,6 @@
 @import '~bootstrap/scss/mixins';
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap');
 
-
 .modFooterText {
   vertical-align: middle;
   padding-left: .5rem;
@@ -26,42 +25,38 @@
   background-color: #2598c5;
 }
 
-.modFooter__WB {
+.modFooter__WB, .titleBar__WB {
   background-color: #85A6BA;
 }
 
-.modFooter__WB a, .modFooter__FB a, .modFooter__SGD a, .modFooter__ZFIN a, .modFooter__GO a {
-  color: white;
-}
-
-.modFooter__SGD {
+.modFooter__SGD, .titleBar__SGD {
   background-color: #696599;
 }
 
-.modFooter__ZFIN {
+.modFooter__ZFIN, .titleBar__ZFIN {
   background-color: #018080;
 }
 
-.modFooter__FB {
+.modFooter__FB, .titleBar__FB {
   background-color: #003568;
   color: white;
 }
 
-a:modFooter__FB{
-  color:white;
-}
-
-.modFooter__GO {
+.modFooter__GO, .titleBar__GO {
   background-color: #264370;
 }
 
-.modFooter__RGD {
+.modFooter__RGD, .titleBar__RGD {
   background-color: #699fc8;
 }
 
-.modFooter__MGD {
+.modFooter__MGD, .titleBar__MGD {
   background-color: #dfeffe;
   color: #143055 !important;
+}
+
+.modFooter__WB a, .modFooter__FB a, .modFooter__SGD a, .modFooter__ZFIN a, .modFooter__GO a {
+  color: white;
 }
 
 .titleBar {
@@ -77,35 +72,6 @@ a:modFooter__FB{
 
 .titleBar__DEFAULT {
   background-color: #2598c5;
-}
-
-.titleBar__WB {
-  background-color: #85A6BA;
-}
-
-.titleBar__SGD {
-  background-color: #696599;
-}
-
-.titleBar__ZFIN {
-  background-color: #018080;
-}
-
-.titleBar__FB {
-  background-color: #003568;
-}
-
-.titleBar__GO {
-  background-color: #264370;
-}
-
-.titleBar__RGD {
-  background-color: #699fc8;
-}
-
-.titleBar__MGD {
-  background-color: #dfeffe;
-  color: #143055 !important;
 }
 
 .titleBarText {
@@ -135,7 +101,6 @@ a:modFooter__FB{
   padding-bottom: .75rem;
   font-size: 1.25rem;
 }
-
 
 .section {
   padding: 2rem 2rem 1rem 2rem;
@@ -174,10 +139,6 @@ a:modFooter__FB{
   padding-bottom: 1rem;
 }
 
-.section__WB {
-  border-color: #85A6BA;
-}
-
 .section__SGD {
   border-color: #696599;
 }
@@ -200,6 +161,10 @@ a:modFooter__FB{
 
 .section__MGD {
   border-color: #dfeffe;
+}
+
+.section__WB{
+  border-color: #85A6BA;
 }
 
 .banner {
