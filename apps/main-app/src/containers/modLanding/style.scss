@@ -39,8 +39,8 @@
 
 .modFooter__FB, .titleBar__FB {
   background-color: #003568;
+  color: white;
 }
-
 
 .modFooter__GO, .titleBar__GO {
   background-color: #264370;
@@ -117,9 +117,8 @@
 }
 
 .buttonVisitMod {
-  border-radius: 5px;
-  padding: 0 1rem;
   color: white;
+  width: 200px;
 }
 
 .resourceDiv p {
