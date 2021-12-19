@@ -11,10 +11,12 @@
 }
 
 .modFooter {
-  color: white;
   bottom: 0px;
-  padding-top: 10px;
-  padding-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  color: white;
+
 }
 
 .modFooterContainer {
@@ -55,15 +57,15 @@
   color: #143055 !important;
 }
 
-.modFooter__WB a, .modFooter__FB a, .modFooter__SGD a, .modFooter__ZFIN a, .modFooter__GO a {
+.modFooter__WB a, .modFooter__FB a, .modFooter__SGD a, .modFooter__ZFIN a, .modFooter__GO a, .modFooter__RGD a {
   color: white;
 }
 
 .titleBar {
   color: white;
   bottom: 0px;
-  padding-top: 10px;
-  padding-bottom: 5px;
+  //padding-top: 10px;
+  padding-bottom: 1px;
 }
 
 .titleBarContainer {
@@ -106,8 +108,8 @@
   padding: 2rem 2rem 1rem 2rem;
   line-height: 1.7;
   background-color: #ffffff;
-  border-radius: 14px;
-  box-shadow: 0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12);
+  border-radius: 5px;
+  //box-shadow: 0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12);
   font-size: 1rem;
   font-family: "Open Sans", sans-serif;
 }
@@ -118,7 +120,11 @@
 
 .buttonVisitMod {
   color: white;
-  width: 200px;
+  width: 100%;
+  font-size: 1.5rem;
+  border: 0;
+  box-shadow: none;
+  border-radius: 5px;
 }
 
 .resourceDiv p {

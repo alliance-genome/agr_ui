@@ -16,7 +16,7 @@ const MODLanding = ({modId}) => {
   return (
     <div style={{backgroundColor: '#f5f5f5'}}>
       <HeadMetaTags title={content.modShortName} />
-      <Title bannerStyle={content.bannerStyle} titleBarStyle={content.titleBarStyle} logoImgSrc={content.logoImgSrc}
+      <Title bannerStyle={content.bannerStyle} titleBarStyle={content.titleBarStyle}
              modFullName={content.modFullName}/>
       <div className={`container`}>
         <div className={`container ${style.containerExtra}`}>
@@ -43,7 +43,11 @@ const MODLanding = ({modId}) => {
           </div>
         </div>
       </div>
-      <FooterAlt links={content.footer} note={content.footerNote} footerStyle={content.footerStyle} modShortName={content.modShortName} bob={content}/>
+      <FooterAlt  links={content.footer}
+                  note={content.footerNote}
+                  footerStyle={content.footerStyle}
+                  logoImgSrc={content.logoImgSrc}
+                  bob={content}/>
     </div>
   );
 };
