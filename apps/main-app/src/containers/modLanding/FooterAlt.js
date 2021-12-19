@@ -1,7 +1,7 @@
 import style from './style.scss';
 import PropTypes from "prop-types";
 
-const FooterAlt = ({links, note, footerStyle, modShortName}) => {
+const FooterAlt = ({links, note, footerStyle, logoImgSrc, modShortName}) => {
 
   let generateHtml = (links, modShortName, note) => {
     if (!links){
@@ -38,7 +38,6 @@ FooterAlt.propTypes = {
   links: PropTypes.array.isRequired,
   note: PropTypes.string,
   footerStyle: PropTypes.string.isRequired,
-  modShortName: PropTypes.string.isRequired,
 }
 
 export default FooterAlt;
