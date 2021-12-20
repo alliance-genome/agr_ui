@@ -47,7 +47,8 @@ const MODLanding = ({modId}) => {
                   note={content.footerNote}
                   footerStyle={content.footerStyle}
                   logoImgSrc={content.logoImgSrc}
-                  bob={content}/>
+                  titleBarStyle={content.titleBarStyle}
+                  modShortName={content.modShortName}/>
     </div>
   );
 };
