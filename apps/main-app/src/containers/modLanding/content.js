@@ -210,7 +210,7 @@ export const MODContent = {
     footer: [
       ['Downloads', 'https://download.rgd.mcw.edu/data_release'],
       ['REST API',  'https://rest.rgd.mcw.edu/rgdws/swagger-ui.html'],
-      ['GitHub',    'https://github.com/rat-genome-database'],
+      ['<i class="fa fa-fw fa-github"></i> GitHub',    'https://github.com/rat-genome-database'],
       ['About', 	  'https://rgd.mcw.edu/wg/about-us'],
       ['Contact',   'https://rgd.mcw.edu/rgdweb/contact/contactus.html'],
       ['Help',   	  'https://rgd.mcw.edu/wg/help3/'],
