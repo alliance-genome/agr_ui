@@ -4,10 +4,20 @@
 @import '~bootstrap/scss/mixins';
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap');
 
+:root {
+  --primaryColorWB: #85A6BA;
+  --primaryColorSGD: #696599;
+  --primaryColorZFIN: #018080;
+  --primaryColorFB: #003568;
+  --primaryColorGO: #264370;
+  --primaryColorRGD: #699fc8;
+  --primaryColorMGD: #dfeffe;
+  --secondaryColorMGD: #143055;
+}
+
 .modFooterText {
   vertical-align: middle;
   padding-left: .5rem;
-  color: white;
 }
 
 .modFooter {
@@ -16,7 +26,6 @@
   flex-direction: column;
   padding: 1rem;
   color: white;
-
 }
 
 .modFooterContainer {
@@ -28,37 +37,40 @@
 }
 
 .modFooter__WB, .titleBar__WB {
-  background-color: #85A6BA;
+  background-color: var(--primaryColorWB);
 }
 
 .modFooter__SGD, .titleBar__SGD {
-  background-color: #696599;
+  background-color: var(--primaryColorSGD);
 }
 
 .modFooter__ZFIN, .titleBar__ZFIN {
-  background-color: #018080;
+  background-color: var(--primaryColorZFIN);
 }
 
 .modFooter__FB, .titleBar__FB {
-  background-color: #003568;
-  color: white;
+  background-color: var(--primaryColorFB);
 }
 
 .modFooter__GO, .titleBar__GO {
-  background-color: #264370;
+  background-color: var(--primaryColorGO);
 }
 
 .modFooter__RGD, .titleBar__RGD {
-  background-color: #699fc8;
+  background-color: var(--primaryColorRGD);
 }
 
 .modFooter__MGD, .titleBar__MGD {
-  background-color: #dfeffe;
-  color: #143055 !important;
+  background-color: var(--primaryColorMGD);
+  color: var(--secondaryColorMGD) !important;
 }
 
 .modFooter__WB a, .modFooter__FB a, .modFooter__SGD a, .modFooter__ZFIN a, .modFooter__GO a, .modFooter__RGD a {
   color: white;
+}
+
+.modFooter__MGD a {
+  color: var(--secondaryColorMGD) !important;
 }
 
 .titleBar {
@@ -109,7 +121,7 @@
   line-height: 1.7;
   background-color: #ffffff;
   border-radius: 5px;
-  //box-shadow: 0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12);
+  // box-shadow: 0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12);
   font-size: 1rem;
   font-family: "Open Sans", sans-serif;
 }
@@ -146,31 +158,31 @@
 }
 
 .section__SGD {
-  border-color: #696599;
+  border-color: var(--primaryColorSGD);
 }
 
 .section__ZFIN {
-  border-color: #018080;
+  border-color: var(--primaryColorZFIN);
 }
 
 .section__FB {
-  border-color: #003568;
+  border-color: var(--primaryColorFB);
 }
 
 .section__GO {
-  border-color: #264370;
+  border-color: var(--primaryColorGO);
 }
 
 .section__RGD {
-  border-color: #699fc8;
+  border-color: var(--primaryColorRGD);
 }
 
 .section__MGD {
-  border-color: #dfeffe;
+  border-color: var(--primaryColorMGD);
 }
 
 .section__WB{
-  border-color: #85A6BA;
+  border-color: var(--primaryColorWB);
 }
 
 .banner {
