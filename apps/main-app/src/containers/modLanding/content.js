@@ -101,7 +101,7 @@ export const MODContent = {
       // Stanford copyright statement: © Stanford University, Stanford, CA 94305.
       // CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/) creative commons license; if possible link from the image (see SGD)
       ['Stanford Genetics Dept', 'https://med.stanford.edu/genetics.html'],
-      ['Stanford University logo', 'https://www.stanford.edu/'],
+      ['<img src="https://www.encodeproject.org/static/img/su-logo-white-2x.png" height="46px" />', 'https://www.stanford.edu/'],
     ],
   },
   'zfin': {
