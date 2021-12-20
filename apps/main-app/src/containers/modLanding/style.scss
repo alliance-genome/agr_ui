@@ -11,7 +11,7 @@ $primaryColor__FB: #003568;
 $primaryColor__GO: #264370;
 $primaryColor__RGD: #699fc8;
 $primaryColor__MGD: #dfeffe;
-$secondaryColorMGD: #143055;
+$secondaryColor__MGD: #143055;
 
 .modFooterText {
   vertical-align: middle;
@@ -60,7 +60,7 @@ $secondaryColorMGD: #143055;
 
 .modFooter__MGD, .titleBar__MGD {
   background-color: $primaryColor__MGD;
-  color: $secondaryColorMGD !important;
+  color: $secondaryColor__MGD !important;
 }
 
 .modFooter__WB a, .modFooter__FB a, .modFooter__SGD a, .modFooter__ZFIN a, .modFooter__GO a, .modFooter__RGD a {
@@ -68,7 +68,7 @@ $secondaryColorMGD: #143055;
 }
 
 .modFooter__MGD a {
-  color: $secondaryColorMGD !important;
+  color: $secondaryColor__MGD !important;
 }
 
 .titleBar {
@@ -180,7 +180,7 @@ $secondaryColorMGD: #143055;
 }
 
 .section__WB{
-  border-color: var(--primaryColo__rWB);
+  border-color: var(--primaryColor__WB);
 }
 
 .banner {
