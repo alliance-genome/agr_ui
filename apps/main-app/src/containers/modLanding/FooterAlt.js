@@ -9,14 +9,14 @@ const FooterAlt = ({link, links, note, footerStyle, logoImgSrc, titleBarStyle, m
             <div className="container-fluid">
               <div className="row">
                 <div className="col-med-2 col-md-2 col-lg-2 col-xl-2">
-                  <a href={link}><img src={logoImgSrc} height="50px" /></a> <span className={style.titleBarText} dangerouslySetInnerHTML={{__html: modShortName}}/>
+                  <a href={link}><img src={logoImgSrc} height="50px" /></a> <span className={style.modFooterLabel} dangerouslySetInnerHTML={{__html: modShortName}}/>
                 </div>
                 <div className="col-med-10 col-md-10 col-lg-10 col-xl-10">
                   <div className="row">
                   { links && links.map(link => {
                       return (
                         <div className="col-med-2 col-md-2 col-lg-2 col-xl-2">
-                          <a href={link[1]}><span className={style.titleBarText} dangerouslySetInnerHTML={{__html: link[0]}}/></a>
+                          <a href={link[1]}><span dangerouslySetInnerHTML={{__html: link[0]}}/></a>
                         </div>
                       );
                     })}
