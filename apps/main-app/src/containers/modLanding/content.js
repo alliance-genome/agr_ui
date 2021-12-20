@@ -173,8 +173,8 @@ export const MODContent = {
       ['Copyright Statement', 'https://flybase.org/wiki/FlyBase:About#FlyBase_Copyright'],
       ['Contact',             'https://flybase.org/contact/email'],
       ['Citing',                'https://flybase.org/wiki/FlyBase:About#Citing_FlyBase'],
-      ['Twitter (icon)',      'https://twitter.com/FlyBaseDotOrg'],
-      ['YouTube (icon)',      'https://www.youtube.com/c/FlyBaseTV'],
+      ['<i class="fa fa-fw fa-twitter"></i> Twitter',      'https://twitter.com/FlyBaseDotOrg'],
+      ['<i class="fa fa-fw fa-youtube"></i> YouTube',      'https://www.youtube.com/c/FlyBaseTV'],
     ],
   },
   'rgd': {
@@ -249,8 +249,8 @@ export const MODContent = {
         ['Citing', 'http://www.informatics.jax.org/mgihome/other/citation.shtml'],
         ['Funding Information', 'http://www.informatics.jax.org/mgihome/other/mgi_funding.shtml'],
         ['Warranty Disclaimer and Copyright Notice', 'http://www.informatics.jax.org/mgihome/other/copyright.shtml'],
-        ['Twitter icon', 'https://twitter.com/mgi_mouse'],
-        ['FaceBook icon', 'https://www.facebook.com/mgi.informatics'],
+        ['<i class="fa fa-fw fa-twitter"></i> Twitter', 'https://twitter.com/mgi_mouse'],
+        ['<i class="fa fa-fw fa-facebook"></i> FaceBook', 'https://www.facebook.com/mgi.informatics'],
       ],
   },
   'goc': {

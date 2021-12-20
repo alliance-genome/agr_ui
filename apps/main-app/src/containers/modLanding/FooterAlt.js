@@ -16,7 +16,7 @@ const FooterAlt = ({links, note, footerStyle, logoImgSrc, titleBarStyle, modShor
                   { links && links.map(link => {
                       return (
                         <div className="col-med-2 col-md-2 col-lg-2 col-xl-2">
-                          <a href={link[1]}>{link[0]}</a>
+                          <a href={link[1]}><span className={style.titleBarText} dangerouslySetInnerHTML={{__html: link[0]}}/></a>
                         </div>
                       );
                     })}
