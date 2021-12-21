@@ -16,7 +16,7 @@ const MODLanding = ({modId}) => {
   return (
     <div style={{backgroundColor: '#f5f5f5'}}>
       <HeadMetaTags title={content.modShortName} />
-      <Title bannerStyle={content.bannerStyle} titleBarStyle={content.titleBarStyle}
+      <Title bannerStyle={content.bannerStyle} titleBarStyle={content.titleBarStyle} logoImgSrc={content.logoImgSrc}
              modFullName={content.modFullName}/>
       <div className={`container`}>
         <div className={`container ${style.containerExtra}`}>

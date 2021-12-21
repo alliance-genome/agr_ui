@@ -135,6 +135,7 @@ $secondaryColor__MGD: #143055;
 }
 
 .buttonVisitMod {
+  margin-top: 60px;
   color: white;
   width: 100%;
   font-size: 1.5rem;
@@ -162,31 +163,31 @@ $secondaryColor__MGD: #143055;
 }
 
 .section__SGD {
-  border-color: var(--primaryColor__SGD);
+  border-color: $primaryColor__SGD;
 }
 
 .section__ZFIN {
-  border-color: var(--primaryColor__ZFIN);
+  border-color: $primaryColor__ZFIN;
 }
 
 .section__FB {
-  border-color: var(--primaryColor__FB);
+  border-color: $primaryColor__FB;
 }
 
 .section__GO {
-  border-color: var(--primaryColor__GO);
+  border-color: $primaryColor__GO;
 }
 
 .section__RGD {
-  border-color: var(--primaryColor__RGD);
+  border-color: $primaryColor__RGD;
 }
 
 .section__MGD {
-  border-color: var(--primaryColor__MGD);
+  border-color: $primaryColor__MGD;
 }
 
 .section__WB{
-  border-color: var(--primaryColor__WB);
+  border-color: $primaryColor__WB;
 }
 
 .banner {
