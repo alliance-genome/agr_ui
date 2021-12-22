@@ -37,9 +37,10 @@ test('check wormbase title', () => {
 const aboutString = ReactDOMServer.renderToString(
     <About
         htmlContent={content.about}
-        modShortName={content.modShortName}
+        modVisitButtonText={content.modVisitButtonText}
         linkToMod={content.link}
-        sectionStyle={content.sectionStyle} />
+        sectionStyle={content.sectionStyle}
+        titleBarStyle={content.titleBarStyle} />
   );
   test('check wormbase about text', () => {
     expect(aboutString).
@@ -59,7 +60,7 @@ const aboutString = ReactDOMServer.renderToString(
 const resourcesString = ReactDOMServer.renderToString(
     <Resources htmlContent={content.resources} sectionStyle={content.sectionStyle} />
 );
-//console.log(resourcesString);
+console.log(resourcesString);
 test('check wormbase resource header', () => {
     expect(resourcesString).
     toMatch('<h2 class="sectionTitle">Resources</h2>')
@@ -105,10 +106,13 @@ test('check wormbase set resources are there', () => {
 // Footer Section
 //
 const footerString = ReactDOMServer.renderToString(
-    <FooterAlt links={content.footer} 
-               note={content.footerNote}
-               footerStyle={content.footerStyle}
-               modShortName={content.modShortName} />
+    <FooterAlt  link={content.link}
+                links={content.footer}
+                note={content.footerNote}
+                footerStyle={content.footerStyle}
+                logoImgSrc={content.logoImgSrc}
+                titleBarStyle={content.titleBarStyle}
+                modShortName={content.modShortName}/>
 );
 
 test('check wormbase footer', () => {
