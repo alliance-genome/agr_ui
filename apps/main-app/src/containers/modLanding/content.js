@@ -101,7 +101,8 @@ export const MODContent = {
       // Stanford copyright statement: © Stanford University, Stanford, CA 94305.
       // CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/) creative commons license; if possible link from the image (see SGD)
       ['Stanford Genetics Dept', 'https://med.stanford.edu/genetics.html'],
-      ['Stanford University logo', 'https://www.stanford.edu/'],
+      ['Stanford University', 'https://www.stanford.edu/'],
+      // ['<img src="https://www.encodeproject.org/static/img/su-logo-white-2x.png" height="46px" />', 'https://www.stanford.edu/'],
     ],
   },
   'zfin': {
@@ -173,8 +174,8 @@ export const MODContent = {
       ['Copyright Statement', 'https://flybase.org/wiki/FlyBase:About#FlyBase_Copyright'],
       ['Contact',             'https://flybase.org/contact/email'],
       ['Citing',                'https://flybase.org/wiki/FlyBase:About#Citing_FlyBase'],
-      ['Twitter (icon)',      'https://twitter.com/FlyBaseDotOrg'],
-      ['YouTube (icon)',      'https://www.youtube.com/c/FlyBaseTV'],
+      ['<i class="fa fa-fw fa-twitter"></i> Twitter',      'https://twitter.com/FlyBaseDotOrg'],
+      ['<i class="fa fa-fw fa-youtube"></i> YouTube',      'https://www.youtube.com/c/FlyBaseTV'],
     ],
   },
   'rgd': {
@@ -210,7 +211,7 @@ export const MODContent = {
     footer: [
       ['Downloads', 'https://download.rgd.mcw.edu/data_release'],
       ['REST API',  'https://rest.rgd.mcw.edu/rgdws/swagger-ui.html'],
-      ['GitHub',    'https://github.com/rat-genome-database'],
+      ['<i class="fa fa-fw fa-github"></i> GitHub',    'https://github.com/rat-genome-database'],
       ['About', 	  'https://rgd.mcw.edu/wg/about-us'],
       ['Contact',   'https://rgd.mcw.edu/rgdweb/contact/contactus.html'],
       ['Help',   	  'https://rgd.mcw.edu/wg/help3/'],
@@ -249,8 +250,8 @@ export const MODContent = {
         ['Citing', 'http://www.informatics.jax.org/mgihome/other/citation.shtml'],
         ['Funding Information', 'http://www.informatics.jax.org/mgihome/other/mgi_funding.shtml'],
         ['Warranty Disclaimer and Copyright Notice', 'http://www.informatics.jax.org/mgihome/other/copyright.shtml'],
-        ['Twitter icon', 'https://twitter.com/mgi_mouse'],
-        ['FaceBook icon', 'https://www.facebook.com/mgi.informatics'],
+        ['<i class="fa fa-fw fa-twitter"></i> Twitter', 'https://twitter.com/mgi_mouse'],
+        ['<i class="fa fa-fw fa-facebook"></i> FaceBook', 'https://www.facebook.com/mgi.informatics'],
       ],
   },
   'goc': {

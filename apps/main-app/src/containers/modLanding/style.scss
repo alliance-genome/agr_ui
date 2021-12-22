@@ -4,17 +4,32 @@
 @import '~bootstrap/scss/mixins';
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap');
 
+$primaryColor__WB: #85A6BA;
+$primaryColor__SGD: #696599;
+$primaryColor__ZFIN: #018080;
+$primaryColor__FB: #003568;
+$primaryColor__GO: #264370;
+$primaryColor__RGD: #699fc8;
+$primaryColor__MGD: #dfeffe;
+$secondaryColor__MGD: #143055;
+
 .modFooterText {
   vertical-align: middle;
   padding-left: .5rem;
-  color: white;
+}
+
+.modFooterLabel {
+  vertical-align: middle;
+  padding-left: .5rem;
+  font-size: 1.2rem;
 }
 
 .modFooter {
-  color: white;
   bottom: 0px;
-  padding-top: 10px;
-  padding-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  color: white;
 }
 
 .modFooterContainer {
@@ -26,44 +41,47 @@
 }
 
 .modFooter__WB, .titleBar__WB {
-  background-color: #85A6BA;
+  background-color: $primaryColor__WB;
 }
 
 .modFooter__SGD, .titleBar__SGD {
-  background-color: #696599;
+  background-color: $primaryColor__SGD;
 }
 
 .modFooter__ZFIN, .titleBar__ZFIN {
-  background-color: #018080;
+  background-color: $primaryColor__ZFIN;
 }
 
 .modFooter__FB, .titleBar__FB {
-  background-color: #003568;
-  color: white;
+  background-color: $primaryColor__FB;
 }
 
 .modFooter__GO, .titleBar__GO {
-  background-color: #264370;
+  background-color: $primaryColor__GO;
 }
 
 .modFooter__RGD, .titleBar__RGD {
-  background-color: #699fc8;
+  background-color: $primaryColor__RGD;
 }
 
 .modFooter__MGD, .titleBar__MGD {
-  background-color: #dfeffe;
-  color: #143055 !important;
+  background-color: $primaryColor__MGD;
+  color: $secondaryColor__MGD !important;
 }
 
-.modFooter__WB a, .modFooter__FB a, .modFooter__SGD a, .modFooter__ZFIN a, .modFooter__GO a {
+.modFooter__WB a, .modFooter__FB a, .modFooter__SGD a, .modFooter__ZFIN a, .modFooter__GO a, .modFooter__RGD a {
   color: white;
+}
+
+.modFooter__MGD a {
+  color: $secondaryColor__MGD !important;
 }
 
 .titleBar {
   color: white;
   bottom: 0px;
-  padding-top: 10px;
-  padding-bottom: 5px;
+  //padding-top: 10px;
+  padding-bottom: 1px;
 }
 
 .titleBarContainer {
@@ -106,8 +124,8 @@
   padding: 2rem 2rem 1rem 2rem;
   line-height: 1.7;
   background-color: #ffffff;
-  border-radius: 14px;
-  box-shadow: 0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12);
+  border-radius: 5px;
+  // box-shadow: 0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12);
   font-size: 1rem;
   font-family: "Open Sans", sans-serif;
 }
@@ -117,8 +135,13 @@
 }
 
 .buttonVisitMod {
+  margin-top: 60px;
   color: white;
-  width: 200px;
+  width: 100%;
+  font-size: 1.5rem;
+  border: 0;
+  box-shadow: none;
+  border-radius: 5px;
 }
 
 .resourceDiv p {
@@ -140,31 +163,31 @@
 }
 
 .section__SGD {
-  border-color: #696599;
+  border-color: $primaryColor__SGD;
 }
 
 .section__ZFIN {
-  border-color: #018080;
+  border-color: $primaryColor__ZFIN;
 }
 
 .section__FB {
-  border-color: #003568;
+  border-color: $primaryColor__FB;
 }
 
 .section__GO {
-  border-color: #264370;
+  border-color: $primaryColor__GO;
 }
 
 .section__RGD {
-  border-color: #699fc8;
+  border-color: $primaryColor__RGD;
 }
 
 .section__MGD {
-  border-color: #dfeffe;
+  border-color: $primaryColor__MGD;
 }
 
 .section__WB{
-  border-color: #85A6BA;
+  border-color: $primaryColor__WB;
 }
 
 .banner {
@@ -177,7 +200,7 @@
 }
 
 .banner__WB {
-  background-image: url('assets/topBannerWB.jpg');
+  background-image: url('assets/topBannerWB.png');
   background-size: auto;
   background-position-x: center;
 }
@@ -194,25 +217,25 @@
   background-position: center center;
 }
 
-.banner__MGD{
+.banner__MGD {
   background-image: url('assets/topBannerMGD.png');
   background-size: auto;
   background-position-x: center;
 }
 
-.banner__RGD{
+.banner__RGD {
   background-image: url('assets/topBannerRGD.png');
-  background-size: cover;
-  background-position: center center;
+  background-size: auto;
+  background-position-x: center;
 }
 
-.banner__FB{
+.banner__FB {
   background-image: url('assets/topBannerFB.png');
   background-size: cover;
   background-position: center center;
 }
 
-.banner__GO{
+.banner__GO {
   background-image: url('assets/topBannerGOC.png');
   background-size: cover;
   background-position: center center;
