@@ -23,7 +23,7 @@ const titleString = ReactDOMServer.renderToString(
       modFullName={content.modFullName} />
 )
 
-//console.log(titleString);
+// console.log(titleString);
 test('check wormbase title', () => {
     expect(titleString).
     toMatch('<span class="titleBarText">WormBase</span>')
@@ -51,7 +51,7 @@ const aboutString = ReactDOMServer.renderToString(
     expect(aboutString).
     toMatch('<a href="https://wormbase.org"><button')
  });
-//console.log(aboutString);
+// console.log(aboutString);
 
 
 //
@@ -60,34 +60,33 @@ const aboutString = ReactDOMServer.renderToString(
 const resourcesString = ReactDOMServer.renderToString(
     <Resources htmlContent={content.resources} sectionStyle={content.sectionStyle} />
 );
-console.log(resourcesString);
 test('check wormbase resource header', () => {
     expect(resourcesString).
     toMatch('<h2 class="sectionTitle">Resources</h2>')
 });
 
-//var patt = /<a[^>]*href=["']([^"']*)["']/g;
-var patt = /<a[^>]*href=["']([^"']*)["']>(.*?)</g;
+// var patt = /<a[^>]*href=["']([^"']*)["']/g;
+var pattResource = /<a[^>]*href=["']([^"']*)["']>(.*?)</g;
 var match;
 // check the urls match for these
-let checkUrlDict = {'https://parasite.wormbase.org/': 'ParaSite'};
+const checkUrlDictResource = {'https://parasite.wormbase.org/': 'ParaSite'};
 
 // Just do a count for these
-let checkLabels = ['Nomenclature', 'Tools', 'Submit data to WormBase', 'User guides',
+const checkLabelsResource = ['Nomenclature', 'Tools', 'Submit data to WormBase', 'User guides',
                      'Help Desk', 'Caenorhabditis Genetics Center', 'WormBook', 'WormAtlas',
                      'Nematode.net', 'Nematodes.org', 'Micropublication', 'ParaSite'];
-let labelCounter = 0;
-while(match=patt.exec(resourcesString)){
-    console.log(match[1] + " has name " + match[2] + ' ' + labelCounter);
-    if (checkLabels.includes(match[2])){
-        labelCounter += 1;
+let labelCounterResource = 0;
+while (match=pattResource.exec(resourcesString)) {
+    console.log(match[1] + " has name " + match[2] + ' ' + labelCounterResource);
+    if (checkLabelsResource.includes(match[2])) {
+        labelCounterResource += 1;
     }
-    else{
+    else {
         console.log('Undefined label ' + match[2]);
     }
-    if(match[1] in checkUrlDict){
+    if (match[1] in checkUrlDictResource) {
         console.log("INCHECK " + match[1] + " has name " + match[2]);
-        let test_name = checkUrlDict[match[1]];
+        let test_name = checkUrlDictResource[match[1]];
         let obtained_name = match[2];
         console.log(test_name + " " + obtained_name);
         test('check wormbase urls match', () => {
@@ -97,8 +96,8 @@ while(match=patt.exec(resourcesString)){
     }
 }
 test('check wormbase set resources are there', () => {
-        expect(labelCounter).
-        toBe(checkLabels.length)
+    expect(labelCounterResource).
+    toBe(checkLabelsResource.length)
 });
 
 
@@ -120,24 +119,26 @@ test('check wormbase footer', () => {
     toMatch('WormBase')
 });
 
+var pattFooter = /<a[^>]*href=["']([^"']*)["']><span>(.*?)<\/span></g;
+
 // check the urls match for these
-checkUrlDict = {'https://wormbase.org/about/release_schedule#01--10': 'Release Schedule'};
+const checkUrlDictFooter = {'https://wormbase.org/about/release_schedule#01--10': 'Release Schedule'};
 
 // Just do a count for these
-checkLabels = ['Nomenclature', 'Tools', 'Citing WormBase', 'Release Schedule','How To Cite',
+const checkLabelsFooter = ['Nomenclature', 'Tools', 'Citing WormBase', 'Release Schedule','How To Cite',
                      'Copyright', 'FAQ', 'Forum', 'Worm Labs', 'Developer Documentation', 'FTP Downloads'];
-labelCounter = 0;
-while(match=patt.exec(footerString)){
-    console.log(match[1] + " has name " + match[2] + ' ' + labelCounter);
-    if (checkLabels.includes(match[2])){
-        labelCounter += 1;
+let labelCounterFooter = 0;
+while (match=pattFooter.exec(footerString)) {
+    console.log(match[1] + " has name " + match[2] + ' ' + labelCounterFooter);
+    if (checkLabelsFooter.includes(match[2])) {
+        labelCounterFooter += 1;
     }
-    else{
+    else {
         console.log('Undefined label ' + match[2]);
     }
-    if(match[1] in checkUrlDict){
+    if (match[1] in checkUrlDictFooter) {
         console.log("INCHECK " + match[1] + " has name " + match[2]);
-        let test_name = checkUrlDict[match[1]];
+        let test_name = checkUrlDictFooter[match[1]];
         let obtained_name = match[2];
         console.log(test_name + " " + obtained_name);
         test('check wormbase footer urls match', () => {
@@ -147,8 +148,8 @@ while(match=patt.exec(footerString)){
     }
 }
 test('check wormbase footers are there', () => {
-        expect(labelCounter).
-        toBe(checkLabels.length)
+    expect(labelCounterFooter).
+    toBe(checkLabelsFooter.length)
 });
 
 test('check wormbase footer note', () => {
