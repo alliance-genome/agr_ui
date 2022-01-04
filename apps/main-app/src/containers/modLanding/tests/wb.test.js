@@ -152,7 +152,8 @@ test('check wormbase footers are there', () => {
     toBe(checkLabelsFooter.length)
 });
 
-test('check wormbase footer note', () => {
-    expect(footerString).
-    toMatch('WormBase is supported by grant #24 HG002223')
-});
+// footer note removed
+// test('check wormbase footer note', () => {
+//     expect(footerString).
+//     toMatch('WormBase is supported by grant #24 HG002223')
+// });
