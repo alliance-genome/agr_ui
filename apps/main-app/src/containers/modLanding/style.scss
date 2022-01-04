@@ -2,7 +2,7 @@
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap');
 
 $primaryColor__WB: #85A6BA;
 $primaryColor__SGD: #696599;
@@ -111,7 +111,7 @@ $secondaryColor__MGD: #143055;
 .sectionTitle {
   color: #2598c5;
   padding-bottom: .75rem;
-  font-size: 2rem;
+  font-size: 1.8rem;
 }
 
 .externalNews{
@@ -126,8 +126,8 @@ $secondaryColor__MGD: #143055;
   background-color: #ffffff;
   border-radius: 5px;
   box-shadow: 0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12);
-  font-size: 1rem;
-  font-family: "Open Sans", sans-serif;
+//   font-size: 1rem;
+//   font-family: "Open Sans", sans-serif;
 }
 
 .buttonVisitMod:hover {
@@ -135,7 +135,7 @@ $secondaryColor__MGD: #143055;
 }
 
 .buttonVisitMod {
-  margin-top: 1.5rem;
+  margin-top: 1.4rem;
   color: white;
   width: 100%;
   font-size: 1.5rem;
