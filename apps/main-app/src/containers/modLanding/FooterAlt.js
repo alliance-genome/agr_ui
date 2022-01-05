@@ -15,7 +15,7 @@ const FooterAlt = ({link, links, note, footerStyle, logoImgSrc, titleBarStyle, m
                   <div className="row">
                   { links && links.map(link => {
                       return (
-                        <div key={link[0]} className="col-med-2 col-md-2 col-lg-2 col-xl-2">
+                        <div key={link[0]} className="col-med-4 col-md-4 col-lg-4 col-xl-4">
                           <a href={link[1]}><span dangerouslySetInnerHTML={{__html: link[0]}}/></a>
                         </div>
                       );

@@ -2,7 +2,7 @@
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap');
 
 $primaryColor__WB: #85A6BA;
 $primaryColor__SGD: #696599;
@@ -80,8 +80,8 @@ $secondaryColor__MGD: #143055;
 .titleBar {
   color: white;
   bottom: 0px;
-  //padding-top: 10px;
-  padding-bottom: 1px;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 .titleBarContainer {
@@ -95,6 +95,7 @@ $secondaryColor__MGD: #143055;
 .titleBarText {
   vertical-align: middle;
   padding-left: .5rem;
+  font-size: 2.25rem;
 }
 
 .titleBarEmptyRow {
@@ -111,7 +112,7 @@ $secondaryColor__MGD: #143055;
 .sectionTitle {
   color: #2598c5;
   padding-bottom: .75rem;
-  font-size: 2rem;
+  font-size: 1.8rem;
 }
 
 .externalNews{
@@ -121,13 +122,13 @@ $secondaryColor__MGD: #143055;
 }
 
 .section {
-  padding: 2rem 2rem 1rem 2rem;
+  padding: 3rem 3rem 2rem 3rem;
   line-height: 1.7;
   background-color: #ffffff;
   border-radius: 5px;
-  // box-shadow: 0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12);
-  font-size: 1rem;
-  font-family: "Open Sans", sans-serif;
+  box-shadow: 0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12);
+//   font-size: 1rem;
+//   font-family: "Open Sans", sans-serif;
 }
 
 .buttonVisitMod:hover {
@@ -135,12 +136,12 @@ $secondaryColor__MGD: #143055;
 }
 
 .buttonVisitMod {
-  margin-top: 60px;
+  margin-top: 1.4rem;
   color: white;
   width: 100%;
   font-size: 1.5rem;
   border: 0;
-  box-shadow: none;
+  box-shadow: 0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12);
   border-radius: 5px;
 }
 

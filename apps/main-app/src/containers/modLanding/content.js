@@ -57,9 +57,9 @@ export const MODContent = {
       ['Developer Documentation', 'https://wormbase.org/about/userguide/for_developers#012345--10'],
       ['FTP Downloads',            'ftp://ftp.wormbase.org/pub/wormbase/']
     ],
-    footerNote:
-      'WormBase is supported by grant #24 HG002223 from the National Human Genome Research Institute,' +
-      ' the UK Medical Research Council and the UK Biotechnology and Biological Sciences Research Council.',
+//     footerNote:
+//       'WormBase is supported by grant #24 HG002223 from the National Human Genome Research Institute,' +
+//       ' the UK Medical Research Council and the UK Biotechnology and Biological Sciences Research Council.',
   },
   'sgd': {
     about: '<p>The Saccharomyces Genome Database (SGD) provides comprehensive integrated biological information for the ' +
@@ -124,7 +124,7 @@ export const MODContent = {
     resources:
       '<p><a href="https://zfin.org/search?category=&q=">Search and Retrieve zebrafish data</a></p>' +
       '<p><a href="https://zfin.org/action/expression/search">Gene Expression data / Images</a></p>' +
-      '<p><a href="https://zfin.org/action/fish/search">Mutants/Transgenics/Phenotypes</a></p>' +
+      '<p><a href="https://zfin.org/action/fish/search">Mutants / Transgenics / Phenotypes</a></p>' +
       '<p><a href="https://zfin.org/action/antibody/search">Antibodies</a></p>' +
       '<p><a href="https://zfin.org/action/blast/blast">ZFIN BLAST</a></p>' +
       '<p><a href="https://zfin.org/action/publication/search">Zebrafish Publications</a></p>' +
@@ -133,7 +133,7 @@ export const MODContent = {
       '<p><a href=" https://zebrafish.org/home/guide.php">Zebrafish International Resource Center</a></p>' +
       '<p><a href="https://zfin.org/action/profile/person/search">People</a></p>',
     footer: [
-      ['Anatomy/GO/Human Disease',      'https://zfin.org/action/ontology/search'],
+      ['Anatomy / GO / Human Disease',      'https://zfin.org/action/ontology/search'],
       ['Genome Browser',                'https://zfin.org/action/gbrowse/'],
       ['Anatomy Atlases and Resources', 'https://zfin.atlassian.net/wiki/spaces/general/pages/1892876451/Anatomy+Atlases+and+Resources'],
       ['Laboratory Search',             'https://zfin.org/action/profile/lab/search'],
