@@ -170,6 +170,7 @@ export const MODContent = {
     titleBarStyle: style.titleBar__MGD,
     sectionStyle: style.section__MGD,
     logoImgSrc: mgdLogo,
+    newsURL: 'http://www.informatics.jax.org/mgihome/news/whatsnew.shtml',
     resources:
       '<p><a href="http://www.informatics.jax.org/genes.shtml">Genes</a></p>' +
       '<p><a href="http://www.informatics.jax.org/phenotypes.shtml"> Phenotypes & Mutant Alleles</a></p>' +
