@@ -3,21 +3,28 @@ import style from './style.scss';
 import PropTypes from "prop-types";
 import WordpressNews from "./wordpressNews"
 
-const News = ({urlNewsMod, fetchNewsCount, linkToNewsPage, sectionStyle}) => {
+const News = ({content}) => {
+  console.log('content');
+  console.log(content);
   return (
     <div className={`container ${style.containerExtra}`}>
-      <div className={`${style.section} ${sectionStyle}`}>
+      <div className={`${style.section} ${content.sectionStyle}`}>
         <h2 className={style.sectionTitle}>News</h2>
-        <WordpressNews urlNewsMod={urlNewsMod} fetchNewsCount={fetchNewsCount} linkToNewsPage={linkToNewsPage} />
+        {(() => {
+          if (content.wordpressNewsBaseURL) { 
+            return (<WordpressNews urlNewsMod={content.wordpressNewsBaseURL} fetchNewsCount={content.fetchNewsCount}
+                                   linkToNewsPage={content.linkToNewsPage} sectionStyle={content.sectionStyle} />); }
+          else if (content.newsURL) { 
+            return (<h5 className={style.externalNews} ><a href={content.newsURL}>Click here for the latest news from {content.modShortName}</a></h5>); }
+          return (<div>No News</div>);
+        })()}
       </div>
     </div>
   );
 }
 
 News.propTypes = {
-  urlNewsMod: PropTypes.string.isRequired,
-  fetchNewsCount: PropTypes.number.isRequired,
-  linkToNewsPage: PropTypes.string.isRequired
+  content: PropTypes.object.isRequired
 }
 
 export default News;

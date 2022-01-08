@@ -28,7 +28,7 @@ export const MODContent = {
     footerStyle: style.modFooter__WB,
     sectionStyle: style.section__WB,
     logoImgSrc: wormbaseLogo,
-    wordpressBaseURL: 'https://public-api.wordpress.com/wp/v2/sites/blog.wormbase.org/posts',
+    wordpressNewsBaseURL: 'https://public-api.wordpress.com/wp/v2/sites/blog.wormbase.org/posts',
     fetchNewsCount: 3,
     linkToNewsPage: 'https://blog.wormbase.org/',
     resources:
@@ -79,7 +79,7 @@ export const MODContent = {
     footerStyle: style.modFooter__SGD,
     sectionStyle: style.section__SGD,
     logoImgSrc: sgdLogo,
-    wordpressBaseURL: 'https://public-api.wordpress.com/rest/v1.1/sites/yeastgenomeblog.wordpress.com/posts/',
+    wordpressNewsBaseURL: 'https://public-api.wordpress.com/rest/v1.1/sites/yeastgenomeblog.wordpress.com/posts/',
     fetchNewsCount: 3,
     linkToNewsPage: 'https://yeastgenomeblog.wordpress.com/',
     resources:
@@ -203,7 +203,6 @@ export const MODContent = {
     sectionStyle: style.section__RGD,
     footerStyle: style.modFooter__RGD,
     logoImgSrc: rgdLogo,
-    wordpressBaseURL: '',
     fetchNewsCount: 0,
     newsURL: 'https://rgd.mcw.edu/wg/news2/',
     resources:
