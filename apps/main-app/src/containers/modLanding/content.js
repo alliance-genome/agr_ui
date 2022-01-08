@@ -171,7 +171,7 @@ export const MODContent = {
     footerStyle: style.modFooter__FB,
     logoImgSrc: flybaseLogo,
     hasNews: true,
-    flybaseNewsAPI: 'https://preview.flybase.org/api/news?limit=3',
+    flybaseNewsAPI: 'https://flybase.org/api/news?limit=3',
     fetchNewsCount: 3,
     newsURL: 'https://flybase.org/commentaries',
     resources:
