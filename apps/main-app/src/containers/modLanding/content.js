@@ -197,6 +197,7 @@ export const MODContent = {
     logoImgSrc: rgdLogo,
     wordpressBaseURL: '',
     fetchNewsCount: 0,
+    newsURL: 'https://rgd.mcw.edu/wg/news2/',
     resources:
       '<p><a href="https://rgd.mcw.edu/rgdweb/search/genes.html">Gene Search</a></p>' +
       '<p><a href="https://rgd.mcw.edu/rgdweb/search/strains.html">Strain search</a></p>' +
