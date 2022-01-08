@@ -32,30 +32,30 @@ export const MODContent = {
     fetchNewsCount: 3,
     linkToNewsPage: 'https://blog.wormbase.org/',
     resources:
-      '<p><a href="https://wormbase.org/about/userguide/nomenclature#gi9m5c264k8be0afldh71j3--10">Nomenclature</a></p>' +
-      '<p><a href="https://wormbase.org/tools#0--10">Tools</a></p>' +
-      '<p><a href="https://wormbase.org/about/userguide/submit_data#01--10">Submit data to WormBase</a></p>' +
-      '<p><a href="https://wormbase.org/about/userguide#0123456--10">User guides</a></p>' +
-      '<p><a href="https://wormbase.org/tools/support">Help Desk</a></p>' +
-      '<p><a href="https://cgc.umn.edu/">Caenorhabditis Genetics Center</a></p>' +
+      '<p><a href="https://wormbase.org/about/userguide/nomenclature#gi9m5c264k8be0afldh71j3--10">WormBase Guidelines for Nomenclature</a></p>' +
+      '<p><a href="https://wormbase.org/tools#0--10">WormBase Tools</a></p>' +
+      '<p><a href="https://wormbase.org/about/userguide/submit_data#01--10">Submit Data to WormBase</a></p>' +
+      '<p><a href="https://wormbase.org/about/userguide#0123456--10">WormBase User Guides</a></p>' +
+      '<p><a href="https://wormbase.org/tools/support">WormBase Help Desk</a></p>' +
+      '<p><a href="https://cgc.umn.edu/"><i>Caenorhabditis</i> Genetics Center</a></p>' +
       '<p><a href="http://www.wormbook.org/">WormBook</a></p>' +
       '<p><a href="https://www.wormatlas.org/">WormAtlas</a></p>' +
       '<p><a href="http://nematode.net/NN3_frontpage.cgi">Nematode.net</a></p>' +
       '<p><a href="http://www.nematodes.org/">Nematodes.org</a></p>' +
-      '<p><a href="https://www.micropublication.org/">Micropublication</a></p>' +
+      '<p><a href="https://www.micropublication.org/">microPublication</a></p>' +
       '<p><a href="https://parasite.wormbase.org/">ParaSite</a></p>',
     footer: [
-      ['Nomenclature',            'https://wormbase.org/about/userguide/nomenclature#gi9m5c264k8be0afldh71j3--10'],
-      ['Tools',                   'https://wormbase.org/tools#0--10'],
-      ['Citing WormBase',	       'https://wormbase.org/about/citing_wormbase#012--10'],
-      ['Release Schedule',	       'https://wormbase.org/about/release_schedule#01--10'],
-      ['How To Cite',		         'https://wormbase.org/about/citing_wormbase#012--10'],
-      ['Copyright',               'https://wormbase.org/about/policies#2--10'], 
-      ['FAQ',                     'https://wormbase.org/about/Frequently_asked_questions#5d39afc2687b4e01--10'],
-      ['Forum',                   'https://community.alliancegenome.org/c/model-organism-worms/7'],
-      ['Worm Labs',	             'https://wormbase.org/resources/laboratory#012--10)'],
-      ['Developer Documentation', 'https://wormbase.org/about/userguide/for_developers#012345--10'],
-      ['FTP Downloads',            'ftp://ftp.wormbase.org/pub/wormbase/']
+      ['Citing WormBase',	                               'https://wormbase.org/about/citing_wormbase#012--10'],
+      ['WormBase Forum',                                       'https://community.alliancegenome.org/c/model-organism-worms/7'],
+      ['<i class="fa fa-fw fa-twitter"></i> @wormbase',        'https://twitter.com/wormbase'],
+      ['WormBase Release Schedule',                            'https://wormbase.org/about/release_schedule#01--10'],
+      ['Worm Labs',                                            'https://wormbase.org/resources/laboratory#012--10)'],
+      ['<i class="fa fa-fw fa-youtube"></i> WormBase YouTube', 'https://www.youtube.com/user/WormBaseHD'],
+      ['WormBase Copyright',                                   'https://wormbase.org/about/policies#2--10'], 
+      ['WormBase Developer Documentation',                     'https://wormbase.org/about/userguide/for_developers#012345--10'],
+      ['',                                                     ''],
+      ['WormBase FAQ',                                         'https://wormbase.org/about/Frequently_asked_questions#5d39afc2687b4e01--10'],
+      ['WormBase FTP Downloads',                               'ftp://ftp.wormbase.org/pub/wormbase/']
     ],
 //     footerNote:
 //       'WormBase is supported by grant #24 HG002223 from the National Human Genome Research Institute,' +
@@ -83,26 +83,32 @@ export const MODContent = {
     fetchNewsCount: 3,
     linkToNewsPage: 'https://yeastgenomeblog.wordpress.com/',
     resources:
-      '<p><a href="https://yeastmine.yeastgenome.org/yeastmine/begin.do">Search and retrieve data</a></p>' +
-      '<p><a href="https://wiki.yeastgenome.org/index.php/Main_Page">Access SGD community information</a></p>' +
-      '<p><a href="https://www.yeastgenome.org/genomesnapshot">Genome and annotation summary</a></p>' +
-      '<p><a href="https://www.yeastgenome.org/submitData">Submit data</a></p>' +
-      '<p><a href="https://www.yeastgenome.org/reference/recent">New yeast papers</a></p>' +
+      '<p><a href="https://www.yeastgenome.org/search?q=&is_quick=true">Search SGD</a></p>' +
+      '<p><a href="https://yeastmine.yeastgenome.org/yeastmine/begin.do">Search and Retrieve Yeast Data</a></p>' +
+      '<p><a href="https://wiki.yeastgenome.org/index.php/Main_Page">Access SGD Community Information</a></p>' +
+      '<p><a href="https://www.yeastgenome.org/genomesnapshot">SGD Genome and Annotation Summary</a></p>' +
+      '<p><a href="https://www.yeastgenome.org/submitData">Submit Data to SGD</a></p>' +
+      '<p><a href="https://www.yeastgenome.org/reference/recent">New Yeast Papers</a></p>' +
       '<p><a href="https://sites.google.com/view/yeastgenome-help/about/how-to-cite-sgd?authuser=0">How to cite SGD</a></p>' +
-      '<p><a href="https://sites.google.com/view/yeastgenome-help/sgd-general-help">General help</a></p>' +
-      '<p><a href="https://sites.google.com/view/yeastgenome-help/community-help/gene-registry">Gene Registry</a></p>' +
+      '<p><a href="https://sites.google.com/view/yeastgenome-help/sgd-general-help">General SGD Help</a></p>' +
+      '<p><a href="https://sites.google.com/view/yeastgenome-help/community-help/gene-registry">SGD Gene Registry</a></p>' +
       '<p><a href="https://www.yeastgenome.org/blast-sgd">SGD BLAST</a></p>',
     footer: [
-      ['About', 'https://sites.google.com/view/yeastgenome-help/about'],
-      ['Blog', 'https://www.yeastgenome.org/blog'],
-      ['Help', 'https://sites.google.com/view/yeastgenome-help/sgd-general-help'], 
-      ['Download', 'http://sgd-archive.yeastgenome.org/'],
-      ['Stanford privacy policy', 'https://www.stanford.edu/site/privacy/'],
+      ['About SGD',                                         'https://sites.google.com/view/yeastgenome-help/about'],
+      ['Stanford University',                               'https://www.stanford.edu/'],
+      ['<i class="fa fa-fw fa-twitter"></i> @yeastgenome',  'https://twitter.com/yeastgenome'],
+      ['SGD Blog',                                          'https://www.yeastgenome.org/blog'],
+      ['Stanford Privacy Policy',                           'https://www.stanford.edu/site/privacy/'],
+      ['<i class="fa fa-fw fa-facebook"></i> @yeastgenome', 'https://www.facebook.com/yeastgenome'],
+      ['SGD Help',                                          'https://sites.google.com/view/yeastgenome-help/sgd-general-help'], 
+      ['Stanford Genetics Dept',                            'https://med.stanford.edu/genetics.html'],
+      ['<i class="fa fa-fw fa-youtube"></i> SGD YouTube',   'https://www.youtube.com/SaccharomycesGenomeDatabase'],
+      ['Download SGD Data',                                 'http://sgd-archive.yeastgenome.org/'],
       // Stanford copyright statement: © Stanford University, Stanford, CA 94305.
+      ['CC BY 4.0',                                         'https://creativecommons.org/licenses/by/4.0/'],
       // CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/) creative commons license; if possible link from the image (see SGD)
-      ['Stanford Genetics Dept', 'https://med.stanford.edu/genetics.html'],
-      ['Stanford University', 'https://www.stanford.edu/'],
-      // ['<img src="https://www.encodeproject.org/static/img/su-logo-white-2x.png" height="46px" />', 'https://www.stanford.edu/'],
+      // ['<img src="https://www.encodeproject.org/static/img/su-logo-white-2x.png" height="46px" />',                                               'https://www.stanford.edu/'],
+      ['<i class="fa fa-fw fa-linkedin"></i> SGD LinkedIn', 'https://www.linkedin.com/company/saccharomyces-genome-database'],
     ],
   },
   'zfin': {
@@ -122,8 +128,8 @@ export const MODContent = {
     logoImgSrc: zfinLogo,
     newsURL: 'https://zfin.atlassian.net/wiki/spaces/news/overview',
     resources:
-      '<p><a href="https://zfin.org/search?category=&q=">Search and Retrieve zebrafish data</a></p>' +
-      '<p><a href="https://zfin.org/action/expression/search">Gene Expression data / Images</a></p>' +
+      '<p><a href="https://zfin.org/search?category=&q=">Search and Retrieve Zebrafish Data</a></p>' +
+      '<p><a href="https://zfin.org/action/expression/search">Gene Expression Data / Images</a></p>' +
       '<p><a href="https://zfin.org/action/fish/search">Mutants / Transgenics / Phenotypes</a></p>' +
       '<p><a href="https://zfin.org/action/antibody/search">Antibodies</a></p>' +
       '<p><a href="https://zfin.org/action/blast/blast">ZFIN BLAST</a></p>' +
@@ -131,19 +137,21 @@ export const MODContent = {
       '<p><a href="https://zfin.org/action/submit-data">Submit Data to ZFIN</a></p>' +
       '<p><a href="https://zfin.org/zf_info/zfbook/zfbk.html">Zebrafish Book</a></p>' +
       '<p><a href=" https://zebrafish.org/home/guide.php">Zebrafish International Resource Center</a></p>' +
-      '<p><a href="https://zfin.org/action/profile/person/search">People</a></p>',
+      '<p><a href="https://zfin.org/action/profile/person/search">ZFIN Person Search</a></p>',
     footer: [
-      ['Anatomy / GO / Human Disease',      'https://zfin.org/action/ontology/search'],
-      ['Genome Browser',                'https://zfin.org/action/gbrowse/'],
-      ['Anatomy Atlases and Resources', 'https://zfin.atlassian.net/wiki/spaces/general/pages/1892876451/Anatomy+Atlases+and+Resources'],
-      ['Laboratory Search',             'https://zfin.org/action/profile/lab/search'],
-      ['Downloads',                     'https://zfin.org/downloads'],
-      ['Help and Tips',            'https://zfin.atlassian.net/wiki/spaces/general/pages/1919656548/ZFIN+Tips'],
-      ['Glossary',                 'https://zfin.org/zf_info/glossary.html'],
-      ['Contact',                  'https://zfin.atlassian.net/wiki/spaces/general/pages/1891412324/ZFIN+Contact+Information'],
-      ['Citing',                   'https://zfin.atlassian.net/wiki/spaces/general/pages/1891415775/ZFIN+Database+Information'],
-      ['Author Guidelines',             'https://zfin.org/zf_info/author_guidelines.html'],
-      ],
+      ['Anatomy / GO / Human Disease',                     'https://zfin.org/action/ontology/search'],
+      ['ZFIN Downloads',                                   'https://zfin.org/downloads'],
+      ['Citing ZFIN',                                      'https://zfin.atlassian.net/wiki/spaces/general/pages/1891415775/ZFIN+Database+Information'],
+      ['Zebrafish Anatomy Atlases and Resources',          'https://zfin.atlassian.net/wiki/spaces/general/pages/1892876451/Anatomy+Atlases+and+Resources'],
+      ['ZFIN Glossary',                                    'https://zfin.org/zf_info/glossary.html'],
+      ['Contact ZFIN',                                     'https://zfin.atlassian.net/wiki/spaces/general/pages/1891412324/ZFIN+Contact+Information'],
+      ['ZFIN Genome Browser',                              'https://zfin.org/action/gbrowse/'],
+      ['Author Guidelines',                                'https://zfin.org/zf_info/author_guidelines.html'],
+      ['<i class="fa fa-fw fa-twitter"></i> @ZFINmod',     'https://twitter.com/ZFINmod'],
+      ['Zebrafish Laboratory Search',                      'https://zfin.org/action/profile/lab/search'],
+      ['ZFIN Help and Tips',                               'https://zfin.atlassian.net/wiki/spaces/general/pages/1919656548/ZFIN+Tips'],
+      ['<i class="fa fa-fw fa-youtube"></i> ZFIN YouTube', 'https://www.youtube.com/channel/UCPR_QDNX8DetI9Sfk3P08sg'],
+    ],
   },
   'flybase': {
     about: '<p>FlyBase (flybase.org) is an essential online database for researchers using <i>Drosophila melanogaster</i> ' +
@@ -162,20 +170,20 @@ export const MODContent = {
     newsURL: 'https://flybase.org/commentaries',
     resources:
       '<p><a href="https://flybase.org/">Search</a></p>' +
-      '<p><a href="https://flybase.org/blast/">BLAST</a></p>' +
-      '<p><a href="https://flybase.org/jbrowse/?data=data/json/dmel">JBrowse</a></p>' +
-      '<p><a href="https://flybase.org/rnaseq/rnaseq">RNA-Seq</a></p>' +
-      '<p><a href="https://flybase.org/vocabularies">Vocabularies</a></p>' +
-      '<p><a href="https://flybase.org/convert/id">ID Validator</a></p>' +
-      '<p><a href="https://flybase.org/batchdownload">Batch Download</a></p>' +
+      '<p><a href="https://flybase.org/blast/">FlyBase BLAST</a></p>' +
+      '<p><a href="https://flybase.org/jbrowse/?data=data/json/dmel">FlyBase JBrowse</a></p>' +
+      '<p><a href="https://flybase.org/rnaseq/rnaseq">Fly RNA-Seq</a></p>' +
+      '<p><a href="https://flybase.org/vocabularies">Fly Vocabularies</a></p>' +
+      '<p><a href="https://flybase.org/convert/id">Fly ID Validator</a></p>' +
+      '<p><a href="https://flybase.org/batchdownload">Fly Batch Download</a></p>' +
       '<p><a href="https://flybase.org/submission/publication/">Fast-Track Your Paper</a></p>',
     footer: [
-      ['Support',             'https://flybase.org/wiki/FlyBase:About#FlyBase_Support'],
-      ['Copyright Statement', 'https://flybase.org/wiki/FlyBase:About#FlyBase_Copyright'],
-      ['Contact',             'https://flybase.org/contact/email'],
-      ['Citing',                'https://flybase.org/wiki/FlyBase:About#Citing_FlyBase'],
-      ['<i class="fa fa-fw fa-twitter"></i> Twitter',      'https://twitter.com/FlyBaseDotOrg'],
-      ['<i class="fa fa-fw fa-youtube"></i> YouTube',      'https://www.youtube.com/c/FlyBaseTV'],
+      ['FlyBase Support',                                     'https://flybase.org/wiki/FlyBase:About#FlyBase_Support'],
+      ['Copyright Statement',                                 'https://flybase.org/wiki/FlyBase:About#FlyBase_Copyright'],
+      ['<i class="fa fa-fw fa-twitter"></i> @FlyBaseDotOrg',  'https://twitter.com/FlyBaseDotOrg'],
+      ['Contact FlyBase',                                     'https://flybase.org/contact/email'],
+      ['Cite FlyBase',                                        'https://flybase.org/wiki/FlyBase:About#Citing_FlyBase'],
+      ['<i class="fa fa-fw fa-youtube"></i> FlyBase YouTube', 'https://www.youtube.com/c/FlyBaseTV'],
     ],
   },
   'rgd': {
@@ -199,24 +207,26 @@ export const MODContent = {
     fetchNewsCount: 0,
     newsURL: 'https://rgd.mcw.edu/wg/news2/',
     resources:
-      '<p><a href="https://rgd.mcw.edu/rgdweb/search/genes.html">Gene Search</a></p>' +
-      '<p><a href="https://rgd.mcw.edu/rgdweb/search/strains.html">Strain search</a></p>' +
+      '<p><a href="https://rgd.mcw.edu/rgdweb/search/genes.html">RGD Gene Search</a></p>' +
+      '<p><a href="https://rgd.mcw.edu/rgdweb/search/strains.html">RGD Strain search</a></p>' +
       '<p><a href="https://rgd.mcw.edu/rgdweb/models/allModels.html">Rat Genetic Models</a></p>' +
-      '<p><a href=" https://rgd.mcw.edu/QueryBuilder/">OntoMate Literature Search</a></p>' +
+      '<p><a href="https://rgd.mcw.edu/QueryBuilder/">OntoMate Literature Search</a></p>' +
       '<p><a href="https://rgd.mcw.edu/rgdweb/portal/index.jsp">RGD Disease Portals</a></p>' +
-      '<p><a href="https://rgd.mcw.edu/rgdweb/front/config.html">Variant Visualizer</a></p>' +
+      '<p><a href="https://rgd.mcw.edu/rgdweb/front/config.html">RGD Variant Visualizer</a></p>' +
       '<p><a href="https://rgd.mcw.edu/rgdweb/enrichment/start.html">Multi-Ontology Enrichment Tool (MOET)</a></p>' +
       '<p><a href="https://rgd.mcw.edu/rgdweb/generator/list.html">Object List Generator & Analyzer (OLGA)</a></p>' +
       '<p><a href="https://rgd.mcw.edu/rgdweb/ontology/search.html">RGD Ontology Browser and Search</a></p>' +
-      '<p><a href="https://rgd.mcw.edu/rgdweb/contact/contactus.html">User Support</a></p>',
+      '<p><a href="https://rgd.mcw.edu/rgdweb/contact/contactus.html">RGD User Support</a></p>',
     footer: [
-      ['Downloads', 'https://download.rgd.mcw.edu/data_release'],
-      ['REST API',  'https://rest.rgd.mcw.edu/rgdws/swagger-ui.html'],
-      ['<i class="fa fa-fw fa-github"></i> GitHub',    'https://github.com/rat-genome-database'],
-      ['About', 	  'https://rgd.mcw.edu/wg/about-us'],
-      ['Contact',   'https://rgd.mcw.edu/rgdweb/contact/contactus.html'],
-      ['Help',   	  'https://rgd.mcw.edu/wg/help3/'],
-      ['Citing', 	  'https://rgd.mcw.edu/wg/citing-rgd/'],
+      ['RGD Downloads',                                           'https://download.rgd.mcw.edu/data_release'],
+      ['RGD REST API',                                            'https://rest.rgd.mcw.edu/rgdws/swagger-ui.html'],
+      ['<i class="fa fa-fw fa-twitter"></i> @ratgenome',          'https://twitter.com/ratgenome'],
+      ['About RGD', 	                                          'https://rgd.mcw.edu/wg/about-us'],
+      ['Citing RGD', 	                                          'https://rgd.mcw.edu/wg/citing-rgd/'],
+      ['<i class="fa fa-fw fa-facebook"></i> @RatGenomeDatabase', 'https://www.facebook.com/RatGenomeDatabase'],
+      ['Contact RGD',                                             'https://rgd.mcw.edu/rgdweb/contact/contactus.html'],
+      ['RGD Help',   	                                          'https://rgd.mcw.edu/wg/help3/'],
+      ['<i class="fa fa-fw fa-github"></i> RGD GitHub',           'https://github.com/rat-genome-database'],
     ],
   },
   'mgd': {
@@ -236,24 +246,25 @@ export const MODContent = {
     logoImgSrc: mgdLogo,
     newsURL: 'http://www.informatics.jax.org/mgihome/news/whatsnew.shtml',
     resources:
-      '<p><a href="http://www.informatics.jax.org/genes.shtml">Genes</a></p>' +
-      '<p><a href="http://www.informatics.jax.org/phenotypes.shtml"> Phenotypes & Mutant Alleles</a></p>' +
+      '<p><a href="http://www.informatics.jax.org/genes.shtml">Mouse Genes</a></p>' +
+      '<p><a href="http://www.informatics.jax.org/phenotypes.shtml">Mouse Phenotypes & Mutant Alleles</a></p>' +
       '<p><a href="http://www.informatics.jax.org/humanDisease.shtml">Mouse-Human: Disease Connection</a></p>' +
       '<p><a href="http://www.informatics.jax.org/expression.shtml">Gene Expression Database (GXD)</a></p>' +
       '<p><a href="http://www.informatics.jax.org/home/recombinase">Recombinase (cre)</a></p>' +
-      '<p><a href="http://www.informatics.jax.org/function.shtml">Function</a></p>' +
-      '<p><a href="http://www.informatics.jax.org/home/strain.shtml">Strains & SNPs</a></p>' +
+      '<p><a href="http://www.informatics.jax.org/function.shtml">Mouse Function</a></p>' +
+      '<p><a href="http://www.informatics.jax.org/home/strain.shtml">Mouse Strains & SNPs</a></p>' +
       '<p><a href="http://tumor.informatics.jax.org/mtbwi/index.do">Mouse Models of Human Cancer</a></p>' +
       '<p><a href="https://www.jax.org/mgi-coronavirus-info">Mouse Models for Coronavirus Research</a></p>' +
       '<p><a href="http://www.mousemine.org/mousemine/begin.do">MouseMine</a></p>' +
-      '<p><a href="http://www.findmice.org/index.jsp">International Mouse Strain Resource (IMSR)</a></p>' +
-      '<p><a href="http://www.informatics.jax.org/mgihome/support/mgi_inbox.shtml">User Support</a></p>',
+      // '<p><a href="http://www.findmice.org/index.jsp">International Mouse Strain Resource (IMSR)</a></p>' +
+      '<p><a href="http://www.informatics.jax.org/mgihome/support/mgi_inbox.shtml">MGI User Support</a></p>',
       footer: [
-        ['Citing', 'http://www.informatics.jax.org/mgihome/other/citation.shtml'],
-        ['Funding Information', 'http://www.informatics.jax.org/mgihome/other/mgi_funding.shtml'],
-        ['Warranty Disclaimer and Copyright Notice', 'http://www.informatics.jax.org/mgihome/other/copyright.shtml'],
-        ['<i class="fa fa-fw fa-twitter"></i> Twitter', 'https://twitter.com/mgi_mouse'],
-        ['<i class="fa fa-fw fa-facebook"></i> FaceBook', 'https://www.facebook.com/mgi.informatics'],
+        ['Citing MGI Resources',                                  'http://www.informatics.jax.org/mgihome/other/citation.shtml'],
+        ['MGI Funding Information',                               'http://www.informatics.jax.org/mgihome/other/mgi_funding.shtml'],
+        ['<i class="fa fa-fw fa-twitter"></i> @mgi_mouse',        'https://twitter.com/mgi_mouse'],
+        ['MGI Warranty Disclaimer and Copyright Notice',          'http://www.informatics.jax.org/mgihome/other/copyright.shtml'],
+        ['',                                                      ''],
+        ['<i class="fa fa-fw fa-facebook"></i> @mgi.informatics', 'https://www.facebook.com/mgi.informatics'],
       ],
   },
   'goc': {
@@ -274,28 +285,29 @@ export const MODContent = {
     logoImgSrc: gocLogo,
     newsURL: 'https://twitter.com/news4go',
     resources:
+      '<p><a href="http://pantherdb.org/">PANTHER Enrichment Analysis</a></p>' +
+      '<p><a href="http://release.geneontology.org/">GO Release Archive</a></p>' +
       '<p><a href="http://amigo.geneontology.org/amigo">AmiGO</a></p>' +
-      '<p><a href="http://geneontology.org/docs/ontology-documentation/"> Ontology overview</a></p>' +
-      '<p><a href="http://geneontology.org/docs/go-annotations/"> Annotation overview</a></p>' +
-      '<p><a href="http://geneontology.org/docs/gocam-overview/">GO-CAM overview</a></p>' +
-      '<p><a href="https://geneontology.cloud/home">User interface to browse GO-CAMs</a></p>' +
-      '<p><a href="http://geneontology.org/docs/tools-overview/">Tools & Guides</p>' +
-      '<p><a href="http://release.geneontology.org/">Releases including archive</a></p>' +
-      '<p><a href="http://current.geneontology.org/">Current release (for permalinks)</a></p>' +
-      '<p><a href="http://geneontology.org/docs/download-mappings/">Cross-references to external classification systems</a></p>' +
-      '<p><a href="http://geneontology.org/docs/faq/">FAQ</a></p>' +
-      '<p><a href="http://geneontology.org/docs/go-citation-policy/">Citing GO</a></p>' +
-      '<p><a href="https://help.geneontology.org/">User Support</a></p>' +
-      '<p><a href="http://geneontology.org/docs/contributing-to-go-terms/">Contributing to the ontology</a></p>',
+      '<p><a href="http://api.geneontology.org">GO API</a></p>' +
+      '<p><a href="http://geneontology.org/docs/ontology-documentation/">About the Ontology</a></p>' +
+      '<p><a href="http://geneontology.org/docs/go-annotations/">About GO Annotations</a></p>' +
+      '<p><a href="http://geneontology.org/docs/tools-overview/">GO Tools Overview</p>' +
+      '<p><a href="http://geneontology.org/docs/faq/">GO FAQ</a></p>' +
+      '<p><a href="https://link.springer.com/book/10.1007%2F978-1-4939-3743-1">The Gene Ontology Handbook</a></p>',
+      // '<p><a href="http://geneontology.org/docs/gocam-overview/">GO-CAM overview</a></p>' +
+      // '<p><a href="https://geneontology.cloud/home">User interface to browse GO-CAMs</a></p>' +
+      // '<p><a href="http://geneontology.org/docs/download-mappings/">Cross-references to external classification systems</a></p>' +
+      // '<p><a href="http://geneontology.org/docs/contributing-to-go-terms/">Contributing to the ontology</a></p>',
     footer: [
-      ['Citing', ' http://geneontology.org/docs/go-citation-policy/'],
+      ['GO Helpdesk',                                              'https://help.geneontology.org/'],
+      ['Current GO release',                                       'http://current.geneontology.org/'],
+      ['<i class="fa fa-fw fa-twitter"></i> @News4GO',             'https://twitter.com/news4go'],
+      ['GO Citation Policy & License',                             'http://geneontology.org/docs/go-citation-policy/'],
+      ['',                                                         ''],
+      ['<i class="fa fa-fw fa-facebook"></i> @geneontology',       'https://www.facebook.com/geneontology'],
+      ['GO Funding Information',                                   'https://reporter.nih.gov/project-details/9209989'],
+      ['',                                                         ''],
+      ['<i class="fa fa-fw fa-github"></i> geneontology/helpdesk', 'https://github.com/geneontology/helpdesk/discussions'],
     ],
   }
 }
-
-
-
-
-
-
-
