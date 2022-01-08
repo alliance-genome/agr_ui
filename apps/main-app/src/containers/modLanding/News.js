@@ -13,7 +13,7 @@ const News = ({content}) => {
         {(() => {
           if (content.wordpressNewsBaseURL) { 
             return (<WordpressNews urlNewsMod={content.wordpressNewsBaseURL} fetchNewsCount={content.fetchNewsCount}
-                                   linkToNewsPage={content.linkToNewsPage} sectionStyle={content.sectionStyle} />); }
+                                   linkToNewsPage={content.linkToNewsPage} />); }
           else if (content.newsURL) { 
             return (<h5 className={style.externalNews} ><a href={content.newsURL}>Click here for the latest news from {content.modShortName}</a></h5>); }
           return (<div>No News</div>);

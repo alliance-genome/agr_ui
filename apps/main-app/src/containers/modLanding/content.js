@@ -28,6 +28,7 @@ export const MODContent = {
     footerStyle: style.modFooter__WB,
     sectionStyle: style.section__WB,
     logoImgSrc: wormbaseLogo,
+    hasNews: true,
     wordpressNewsBaseURL: 'https://public-api.wordpress.com/wp/v2/sites/blog.wormbase.org/posts',
     fetchNewsCount: 3,
     linkToNewsPage: 'https://blog.wormbase.org/',
@@ -79,6 +80,7 @@ export const MODContent = {
     footerStyle: style.modFooter__SGD,
     sectionStyle: style.section__SGD,
     logoImgSrc: sgdLogo,
+    hasNews: true,
     wordpressNewsBaseURL: 'https://public-api.wordpress.com/rest/v1.1/sites/yeastgenomeblog.wordpress.com/posts/',
     fetchNewsCount: 3,
     linkToNewsPage: 'https://yeastgenomeblog.wordpress.com/',
@@ -126,6 +128,7 @@ export const MODContent = {
     footerStyle: style.modFooter__ZFIN,
     sectionStyle: style.section__ZFIN,
     logoImgSrc: zfinLogo,
+    hasNews: true,
     newsURL: 'https://zfin.atlassian.net/wiki/spaces/news/overview',
     resources:
       '<p><a href="https://zfin.org/search?category=&q=">Search and Retrieve Zebrafish Data</a></p>' +
@@ -167,6 +170,9 @@ export const MODContent = {
     sectionStyle: style.section__FB,
     footerStyle: style.modFooter__FB,
     logoImgSrc: flybaseLogo,
+    hasNews: true,
+    flybaseNewsAPI: 'https://preview.flybase.org/api/news?limit=3',
+    fetchNewsCount: 3,
     newsURL: 'https://flybase.org/commentaries',
     resources:
       '<p><a href="https://flybase.org/">Search</a></p>' +
@@ -203,7 +209,7 @@ export const MODContent = {
     sectionStyle: style.section__RGD,
     footerStyle: style.modFooter__RGD,
     logoImgSrc: rgdLogo,
-    fetchNewsCount: 0,
+    hasNews: true,
     newsURL: 'https://rgd.mcw.edu/wg/news2/',
     resources:
       '<p><a href="https://rgd.mcw.edu/rgdweb/search/genes.html">RGD Gene Search</a></p>' +
@@ -243,6 +249,7 @@ export const MODContent = {
     sectionStyle: style.section__MGD,
     footerStyle: style.modFooter__MGD,
     logoImgSrc: mgdLogo,
+    hasNews: true,
     newsURL: 'http://www.informatics.jax.org/mgihome/news/whatsnew.shtml',
     resources:
       '<p><a href="http://www.informatics.jax.org/genes.shtml">Mouse Genes</a></p>' +
@@ -282,6 +289,7 @@ export const MODContent = {
     sectionStyle: style.section__GO,
     footerStyle: style.modFooter__GO,
     logoImgSrc: gocLogo,
+    hasNews: true,
     newsURL: 'https://twitter.com/news4go',
     resources:
       '<p><a href="http://pantherdb.org/">PANTHER Enrichment Analysis</a></p>' +
