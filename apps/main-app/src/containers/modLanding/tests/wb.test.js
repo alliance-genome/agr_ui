@@ -66,15 +66,17 @@ test('check wormbase resource header', () => {
 });
 
 // var patt = /<a[^>]*href=["']([^"']*)["']/g;
-var pattResource = /<a[^>]*href=["']([^"']*)["']>(.*?)</g;
+var pattResource = /<a[^>]*href=["']([^"']*)["']>(.*?)<\/a><\/p>/g;
 var match;
 // check the urls match for these
 const checkUrlDictResource = {'https://parasite.wormbase.org/': 'ParaSite'};
 
 // Just do a count for these
-const checkLabelsResource = ['Nomenclature', 'Tools', 'Submit data to WormBase', 'User guides',
-                     'Help Desk', 'Caenorhabditis Genetics Center', 'WormBook', 'WormAtlas',
-                     'Nematode.net', 'Nematodes.org', 'Micropublication', 'ParaSite'];
+const checkLabelsResource = ['WormBase Guidelines for Nomenclature', 'WormBase Tools', 
+                             'Submit Data to WormBase', 'WormBase User Guides', 
+                             'WormBase Help Desk', '<i>Caenorhabditis</i> Genetics Center', 
+                             'WormBook', 'WormAtlas', 'Nematode.net', 'Nematodes.org', 
+                             'microPublication', 'ParaSite'];
 let labelCounterResource = 0;
 while (match=pattResource.exec(resourcesString)) {
     console.log(match[1] + " has name " + match[2] + ' ' + labelCounterResource);
@@ -122,11 +124,13 @@ test('check wormbase footer', () => {
 var pattFooter = /<a[^>]*href=["']([^"']*)["']><span>(.*?)<\/span></g;
 
 // check the urls match for these
-const checkUrlDictFooter = {'https://wormbase.org/about/release_schedule#01--10': 'Release Schedule'};
+const checkUrlDictFooter = {'https://wormbase.org/about/release_schedule#01--10': 'WormBase Release Schedule'};
 
 // Just do a count for these
-const checkLabelsFooter = ['Nomenclature', 'Tools', 'Citing WormBase', 'Release Schedule','How To Cite',
-                     'Copyright', 'FAQ', 'Forum', 'Worm Labs', 'Developer Documentation', 'FTP Downloads'];
+const checkLabelsFooter = ['Citing WormBase', 'WormBase Forum', '<i class="fa fa-fw fa-twitter"></i> @wormbase', 
+                           'WormBase Release Schedule', 'Worm Labs', 
+                           '<i class="fa fa-fw fa-youtube"></i> WormBase YouTube', 'WormBase Copyright', 
+                           'WormBase Developer Documentation', '', 'WormBase FAQ', 'WormBase FTP Downloads'];
 let labelCounterFooter = 0;
 while (match=pattFooter.exec(footerString)) {
     console.log(match[1] + " has name " + match[2] + ' ' + labelCounterFooter);

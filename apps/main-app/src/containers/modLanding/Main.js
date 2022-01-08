@@ -24,19 +24,8 @@ const MODLanding = ({modId}) => {
             <div className={`col-xl-8 col-lg-8 col-md-8 col-sm-12 ${style.noPadding}`}>
               <About htmlContent={content.about} modVisitButtonText={content.modVisitButtonText} linkToMod={content.link}
                                                  sectionStyle={content.sectionStyle} titleBarStyle={content.titleBarStyle} />
-              {content.wordpressBaseURL && <News urlNewsMod={content.wordpressBaseURL}
-                                                 fetchNewsCount={content.fetchNewsCount}
-                                                 linkToNewsPage={content.linkToNewsPage}
-                                                 sectionStyle={content.sectionStyle} />}
-             { content.newsURL &&
-              <div className={`container ${style.containerExtra}`}>
-               <div className={`${style.section} ${content.sectionStyle}`}>
-                 <h2 className={style.sectionTitle}>News</h2>
-                <h5 className={style.externalNews} > <a href={content.newsURL}>Click here for the latest news from {content.modShortName}  </a></h5>
-               </div>
-              </div>}
+              {content.hasNews && <News content={content} />}
             </div>
-
             <div className={`col-xl-4 col-lg-4 col-md-4 col-sm-12 ${style.noPadding}`}>
               <Resources htmlContent={content.resources} sectionStyle={content.sectionStyle} />
             </div>
