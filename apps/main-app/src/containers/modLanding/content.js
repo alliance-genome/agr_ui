@@ -38,13 +38,13 @@ export const MODContent = {
       '<p><a href="https://wormbase.org/about/userguide/submit_data#01--10">Submit Data to WormBase</a></p>' +
       '<p><a href="https://wormbase.org/about/userguide#0123456--10">WormBase User Guides</a></p>' +
       '<p><a href="https://wormbase.org/tools/support">WormBase Help Desk</a></p>' +
+      '<p><a href="https://parasite.wormbase.org/">WormBase ParaSite</a></p>' +
       '<p><a href="https://cgc.umn.edu/"><i>Caenorhabditis</i> Genetics Center</a></p>' +
       '<p><a href="http://www.wormbook.org/">WormBook</a></p>' +
       '<p><a href="https://www.wormatlas.org/">WormAtlas</a></p>' +
       '<p><a href="http://nematode.net/NN3_frontpage.cgi">Nematode.net</a></p>' +
       '<p><a href="http://www.nematodes.org/">Nematodes.org</a></p>' +
-      '<p><a href="https://www.micropublication.org/">microPublication</a></p>' +
-      '<p><a href="https://parasite.wormbase.org/">ParaSite</a></p>',
+      '<p><a href="https://www.micropublication.org/">microPublication</a></p>',
     footer: [
       ['Citing WormBase',	                               'https://wormbase.org/about/citing_wormbase#012--10'],
       ['WormBase Forum',                                       'https://community.alliancegenome.org/c/model-organism-worms/7'],
@@ -132,9 +132,9 @@ export const MODContent = {
     newsURL: 'https://zfin.atlassian.net/wiki/spaces/news/overview',
     resources:
       '<p><a href="https://zfin.org/search?category=&q=">Search and Retrieve Zebrafish Data</a></p>' +
-      '<p><a href="https://zfin.org/action/expression/search">Gene Expression Data / Images</a></p>' +
-      '<p><a href="https://zfin.org/action/fish/search">Mutants / Transgenics / Phenotypes</a></p>' +
-      '<p><a href="https://zfin.org/action/antibody/search">Antibodies</a></p>' +
+      '<p><a href="https://zfin.org/action/expression/search">ZFIN Gene Expression Data / Images</a></p>' +
+      '<p><a href="https://zfin.org/action/fish/search">ZFIN Mutants / Transgenics / Phenotypes</a></p>' +
+      '<p><a href="https://zfin.org/action/antibody/search">ZFIN Antibodies</a></p>' +
       '<p><a href="https://zfin.org/action/blast/blast">ZFIN BLAST</a></p>' +
       '<p><a href="https://zfin.org/action/publication/search">Zebrafish Publications</a></p>' +
       '<p><a href="https://zfin.org/action/submit-data">Submit Data to ZFIN</a></p>' +
