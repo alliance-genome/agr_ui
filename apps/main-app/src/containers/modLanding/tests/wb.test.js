@@ -69,14 +69,15 @@ test('check wormbase resource header', () => {
 var pattResource = /<a[^>]*href=["']([^"']*)["']>(.*?)<\/a><\/p>/g;
 var match;
 // check the urls match for these
-const checkUrlDictResource = {'https://parasite.wormbase.org/': 'ParaSite'};
+const checkUrlDictResource = {'https://parasite.wormbase.org/': 'WormBase ParaSite'};
 
 // Just do a count for these
 const checkLabelsResource = ['WormBase Guidelines for Nomenclature', 'WormBase Tools', 
                              'Submit Data to WormBase', 'WormBase User Guides', 
-                             'WormBase Help Desk', '<i>Caenorhabditis</i> Genetics Center', 
-                             'WormBook', 'WormAtlas', 'Nematode.net', 'Nematodes.org', 
-                             'microPublication', 'ParaSite'];
+                             'WormBase Help Desk', 'WormBase ParaSite', 
+                             '<i>Caenorhabditis</i> Genetics Center', 'WormBook', 
+                             'WormAtlas', 'Nematode.net', 'Nematodes.org', 
+                             'microPublication'];
 let labelCounterResource = 0;
 while (match=pattResource.exec(resourcesString)) {
     console.log(match[1] + " has name " + match[2] + ' ' + labelCounterResource);
