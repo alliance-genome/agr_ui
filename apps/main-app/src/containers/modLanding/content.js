@@ -268,7 +268,7 @@ export const MODContent = {
         ['Citing MGI Resources',                                  'http://www.informatics.jax.org/mgihome/other/citation.shtml'],
         ['MGI Funding Information',                               'http://www.informatics.jax.org/mgihome/other/mgi_funding.shtml'],
         ['<i class="fa fa-fw fa-twitter"></i> @mgi_mouse',        'https://twitter.com/mgi_mouse'],
-        ['MGI Warranty Disclaimer and Copyright Notice',          'http://www.informatics.jax.org/mgihome/other/copyright.shtml'],
+        ['MGI Warranty Disclaimer and Copyright',                 'http://www.informatics.jax.org/mgihome/other/copyright.shtml'],
         ['',                                                      ''],
         ['<i class="fa fa-fw fa-facebook"></i> @mgi.informatics', 'https://www.facebook.com/mgi.informatics'],
       ],
