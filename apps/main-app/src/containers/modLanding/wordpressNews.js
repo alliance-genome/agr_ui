@@ -37,19 +37,29 @@ const WordpressNews = ({urlNewsMod, fetchNewsCount, linkToNewsPage}) => {
                 let key = "news_" + count;
                 post.text = post.text.replace(/\[&hellip;\]/, '<a href="' + post.link + '">[&hellip;]<\a>');
                 return (
-                  <div className={style.postContainer} key={key}>
-                    <a href={post.link}>
-                      <h4 className={style.h4extra} dangerouslySetInnerHTML={{ __html: post.title}} />
+                  <div className={style.postContainer}
+                       key={key}
+                       data-testid={'div_news_' + count}>
+                    <a href={post.link}
+                       data-testid={'href_news_' + count}>
+                      <h4 className={style.h4extra}
+                          dangerouslySetInnerHTML={{ __html: post.title}}
+                          data-testid={'header_news_' + count}/>
                     </a>
-                    <p dangerouslySetInnerHTML={{ __html: post.text}} />
+                    <p dangerouslySetInnerHTML={{ __html: post.text}} 
+                       data-testid={'text_news_' + count}/>
                   </div>
                 );
               })
             }
           </div>
         </div>
-        <div className={`row ${style.moreNews}`}>
-          <a href={linkToNewsPage}><i>more news&hellip;</i></a>
+        <div className={`row ${style.moreNews}`}
+             data-testid={'more_news_div'}>
+          <a href={linkToNewsPage}
+            data-testid={'more_news_link'}>
+            <i>more news&hellip;</i>
+          </a>
         </div>
       </div>
     </div>
