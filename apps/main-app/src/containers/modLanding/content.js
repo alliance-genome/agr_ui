@@ -132,9 +132,9 @@ export const MODContent = {
     newsURL: 'https://zfin.atlassian.net/wiki/spaces/news/overview',
     resources:
       '<p><a href="https://zfin.org/search?category=&q=">Search and Retrieve Zebrafish Data</a></p>' +
-      '<p><a href="https://zfin.org/action/expression/search">Gene Expression Data / Images</a></p>' +
-      '<p><a href="https://zfin.org/action/fish/search">Mutants / Transgenics / Phenotypes</a></p>' +
-      '<p><a href="https://zfin.org/action/antibody/search">Antibodies</a></p>' +
+      '<p><a href="https://zfin.org/action/expression/search">ZFIN Gene Expression Data / Images</a></p>' +
+      '<p><a href="https://zfin.org/action/fish/search">ZFIN Mutants / Transgenics / Phenotypes</a></p>' +
+      '<p><a href="https://zfin.org/action/antibody/search">ZFIN Antibodies</a></p>' +
       '<p><a href="https://zfin.org/action/blast/blast">ZFIN BLAST</a></p>' +
       '<p><a href="https://zfin.org/action/publication/search">Zebrafish Publications</a></p>' +
       '<p><a href="https://zfin.org/action/submit-data">Submit Data to ZFIN</a></p>' +
