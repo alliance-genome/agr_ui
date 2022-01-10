@@ -79,18 +79,12 @@ const checkLabelsResource = ['WormBase Guidelines for Nomenclature', 'WormBase T
                              'microPublication', 'ParaSite'];
 let labelCounterResource = 0;
 while (match=pattResource.exec(resourcesString)) {
-    console.log(match[1] + " has name " + match[2] + ' ' + labelCounterResource);
     if (checkLabelsResource.includes(match[2])) {
         labelCounterResource += 1;
     }
-    else {
-        console.log('Undefined label ' + match[2]);
-    }
     if (match[1] in checkUrlDictResource) {
-        console.log("INCHECK " + match[1] + " has name " + match[2]);
         let test_name = checkUrlDictResource[match[1]];
         let obtained_name = match[2];
-        console.log(test_name + " " + obtained_name);
         test('check wormbase urls match', () => {
             expect(test_name).
             toMatch(obtained_name)
@@ -133,18 +127,13 @@ const checkLabelsFooter = ['Citing WormBase', 'WormBase Forum', '<i class="fa fa
                            'WormBase Developer Documentation', '', 'WormBase FAQ', 'WormBase FTP Downloads'];
 let labelCounterFooter = 0;
 while (match=pattFooter.exec(footerString)) {
-    console.log(match[1] + " has name " + match[2] + ' ' + labelCounterFooter);
     if (checkLabelsFooter.includes(match[2])) {
         labelCounterFooter += 1;
-    }
-    else {
-        console.log('Undefined label ' + match[2]);
     }
     if (match[1] in checkUrlDictFooter) {
         console.log("INCHECK " + match[1] + " has name " + match[2]);
         let test_name = checkUrlDictFooter[match[1]];
         let obtained_name = match[2];
-        console.log(test_name + " " + obtained_name);
         test('check wormbase footer urls match', () => {
             expect(test_name).
             toMatch(obtained_name)
@@ -155,9 +144,3 @@ test('check wormbase footers are there', () => {
     expect(labelCounterFooter).
     toBe(checkLabelsFooter.length)
 });
-
-// footer note removed
-// test('check wormbase footer note', () => {
-//     expect(footerString).
-//     toMatch('WormBase is supported by grant #24 HG002223')
-// });
