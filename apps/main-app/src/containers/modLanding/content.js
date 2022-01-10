@@ -38,13 +38,13 @@ export const MODContent = {
       '<p><a href="https://wormbase.org/about/userguide/submit_data#01--10">Submit Data to WormBase</a></p>' +
       '<p><a href="https://wormbase.org/about/userguide#0123456--10">WormBase User Guides</a></p>' +
       '<p><a href="https://wormbase.org/tools/support">WormBase Help Desk</a></p>' +
+      '<p><a href="https://parasite.wormbase.org/">WormBase ParaSite</a></p>',
       '<p><a href="https://cgc.umn.edu/"><i>Caenorhabditis</i> Genetics Center</a></p>' +
       '<p><a href="http://www.wormbook.org/">WormBook</a></p>' +
       '<p><a href="https://www.wormatlas.org/">WormAtlas</a></p>' +
       '<p><a href="http://nematode.net/NN3_frontpage.cgi">Nematode.net</a></p>' +
       '<p><a href="http://www.nematodes.org/">Nematodes.org</a></p>' +
       '<p><a href="https://www.micropublication.org/">microPublication</a></p>' +
-      '<p><a href="https://parasite.wormbase.org/">ParaSite</a></p>',
     footer: [
       ['Citing WormBase',	                               'https://wormbase.org/about/citing_wormbase#012--10'],
       ['WormBase Forum',                                       'https://community.alliancegenome.org/c/model-organism-worms/7'],
