@@ -6,11 +6,14 @@ import {MODContent} from '../content';
 import About from "../About";
 //import LinkToMOD from "./LinkToMOD";
 import Title from "../Title";
-//import News from "./News";
+import News from "../News";
 import Resources from "../Resources";
 import FooterAlt from "../FooterAlt";
+import jestConfig from 'apps/main-app/jest.config';
+import { setUseProxies } from '@reduxjs/toolkit/node_modules/immer';
 
 const content = MODContent['wormbase'];
+
 
 //
 // Title Section
@@ -53,6 +56,25 @@ const aboutString = ReactDOMServer.renderToString(
  });
 // console.log(aboutString);
 
+//
+// Alternative format of testing.
+//
+describe('About check', () => {
+
+    const aboutString = ReactDOMServer.renderToString(
+        <About
+            htmlContent={content.about}
+            modVisitButtonText={content.modVisitButtonText}
+            linkToMod={content.link}
+            sectionStyle={content.sectionStyle}
+            titleBarStyle={content.titleBarStyle} />
+      );
+    it('Renders okay with correct info', () => {
+       expect(aboutString).
+       toMatch('WormBase is a founding member of the Alliance of Genome Resources Project');
+    });
+});
+
 
 //
 // Resources Section
@@ -77,7 +99,7 @@ const checkLabelsResource = ['Nomenclature', 'Tools', 'Submit data to WormBase',
                      'Nematode.net', 'Nematodes.org', 'Micropublication', 'ParaSite'];
 let labelCounterResource = 0;
 while (match=pattResource.exec(resourcesString)) {
-    console.log(match[1] + " has name " + match[2] + ' ' + labelCounterResource);
+    // console.log(match[1] + " has name " + match[2] + ' ' + labelCounterResource);
     if (checkLabelsResource.includes(match[2])) {
         labelCounterResource += 1;
     }
@@ -85,10 +107,10 @@ while (match=pattResource.exec(resourcesString)) {
         console.log('Undefined label ' + match[2]);
     }
     if (match[1] in checkUrlDictResource) {
-        console.log("INCHECK " + match[1] + " has name " + match[2]);
+        // console.log("INCHECK " + match[1] + " has name " + match[2]);
         let test_name = checkUrlDictResource[match[1]];
         let obtained_name = match[2];
-        console.log(test_name + " " + obtained_name);
+        // console.log(test_name + " " + obtained_name);
         test('check wormbase urls match', () => {
             expect(test_name).
             toMatch(obtained_name)
@@ -129,18 +151,18 @@ const checkLabelsFooter = ['Nomenclature', 'Tools', 'Citing WormBase', 'Release 
                      'Copyright', 'FAQ', 'Forum', 'Worm Labs', 'Developer Documentation', 'FTP Downloads'];
 let labelCounterFooter = 0;
 while (match=pattFooter.exec(footerString)) {
-    console.log(match[1] + " has name " + match[2] + ' ' + labelCounterFooter);
+    // console.log(match[1] + " has name " + match[2] + ' ' + labelCounterFooter);
     if (checkLabelsFooter.includes(match[2])) {
         labelCounterFooter += 1;
     }
-    else {
-        console.log('Undefined label ' + match[2]);
-    }
+    // else {
+    //     console.log('Undefined label ' + match[2]);
+    // }
     if (match[1] in checkUrlDictFooter) {
-        console.log("INCHECK " + match[1] + " has name " + match[2]);
+        // console.log("INCHECK " + match[1] + " has name " + match[2]);
         let test_name = checkUrlDictFooter[match[1]];
         let obtained_name = match[2];
-        console.log(test_name + " " + obtained_name);
+        // console.log(test_name + " " + obtained_name);
         test('check wormbase footer urls match', () => {
             expect(test_name).
             toMatch(obtained_name)

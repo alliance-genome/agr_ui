@@ -17,7 +17,8 @@ const News = ({urlNewsMod, fetchNewsCount, linkToNewsPage, sectionStyle}) => {
 News.propTypes = {
   urlNewsMod: PropTypes.string.isRequired,
   fetchNewsCount: PropTypes.number.isRequired,
-  linkToNewsPage: PropTypes.string.isRequired
+  linkToNewsPage: PropTypes.string.isRequired,
+  sectionStyle: PropTypes.string.isRequired
 }
 
 export default News;
