@@ -27,6 +27,7 @@ import '@testing-library/jest-dom'
      beforeEach(() => {
        render(<Provider store={store}> <NewsFlybase
               urlNewsMod={content.flybaseNewsAPI}
+              linkToNewsPage={content.linkToNewsPage}
               fetchNewsCount={content.fetchNewsCount}/></Provider>)
      });
 
@@ -68,12 +69,12 @@ import '@testing-library/jest-dom'
       }, 10000);
 
       // Flybase has no link to more news. If it ever does uncomment the below.
-      //it('more news link checks', async () => {
-      //   const news_div = await waitFor(() => screen.findByTestId("div_news_2"), { timeout: 8000 });
-      //   const more_div = screen.getByTestId("more_news_div");
-      //   const more_link = screen.getByTestId("more_news_link");
-      //   expect(more_div).toContainElement(more_link);
-      //   expect(more_link).toHaveAttribute('href', 'https://blog.wormbase.org/');
-      //}, 10000);
+      it('more news link checks', async () => {
+         const news_div = await waitFor(() => screen.findByTestId("div_news_2"), { timeout: 8000 });
+         const more_div = screen.getByTestId("more_news_div");
+         const more_link = screen.getByTestId("more_news_link");
+         expect(more_div).toContainElement(more_link);
+         expect(more_link).toHaveAttribute('href', 'https://flybase.org/commentaries');
+      }, 10000);
 
      });
