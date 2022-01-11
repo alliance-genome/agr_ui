@@ -174,6 +174,7 @@ export const MODContent = {
     flybaseNewsAPI: 'https://flybase.org/api/news?limit=3',
     fetchNewsCount: 3,
     newsURL: 'https://flybase.org/commentaries',
+    linkToNewsPage: 'https://flybase.org/commentaries',
     resources:
       '<p><a href="https://flybase.org/">Search</a></p>' +
       '<p><a href="https://flybase.org/blast/">FlyBase BLAST</a></p>' +
