@@ -238,9 +238,8 @@ export const MODContent = {
     ],
   },
   'mgd': {
-    about: '<p>The Mouse Genome Database (MGD) is the community model organism database for the laboratory mouse ' +
-    'and is the primary source of expertly curated function and phenotype annotations for the mouse genome ' +
-    'and mouse models of human disease.</p>' +
+    about: '<p>The Mouse Genome Database (MGD) is the database resource for the laboratory mouse, and ' +
+    'provides integrated biological data to facilitate the study of human health and disease.</p>' + 
     '<p>MGD is a core database in the Mouse Genome Informatics (MGI) consortium and founding member of the ' +
     'Alliance of Genome Resources Project.</p>',
     link: 'http://www.informatics.jax.org/',
