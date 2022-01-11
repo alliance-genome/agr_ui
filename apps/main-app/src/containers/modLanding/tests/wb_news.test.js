@@ -8,11 +8,6 @@ import { Provider } from 'react-redux';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom'
 
- //React.useLayoutEffect = React.useEffect 
- jest.mock('react', () => ({
-     ...jest.requireActual('react'),
-     useLayoutEffect: jest.requireActual('react').useEffect,
- }));
  const content = MODContent['wormbase'];
 
 
