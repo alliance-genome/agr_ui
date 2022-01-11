@@ -130,6 +130,8 @@ export const MODContent = {
     logoImgSrc: zfinLogo,
     hasNews: true,
     newsURL: 'https://zfin.atlassian.net/wiki/spaces/news/overview',
+    zfinNewsAPI: 'https://zfin.org/action/api/wiki/news?limit=5&page=1',
+    fetchNewsCount: 3,
     resources:
       '<p><a href="https://zfin.org/search?category=&q=">Search and Retrieve Zebrafish Data</a></p>' +
       '<p><a href="https://zfin.org/action/expression/search">ZFIN Gene Expression Data / Images</a></p>' +
@@ -176,7 +178,7 @@ export const MODContent = {
     newsURL: 'https://flybase.org/commentaries',
     linkToNewsPage: 'https://flybase.org/commentaries',
     resources:
-      '<p><a href="https://flybase.org/">Search</a></p>' +
+      '<p><a href="https://flybase.org/">FlyBase Search</a></p>' +
       '<p><a href="https://flybase.org/blast/">FlyBase BLAST</a></p>' +
       '<p><a href="https://flybase.org/jbrowse/?data=data/json/dmel">FlyBase JBrowse</a></p>' +
       '<p><a href="https://flybase.org/rnaseq/rnaseq">Fly RNA-Seq</a></p>' +
