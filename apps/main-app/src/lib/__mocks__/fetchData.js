@@ -5,6 +5,7 @@ const TIMEOUT = 30000;
        return Promise.resolve();
     }
 
+    // wormbase wordpress Version 2
     // wordpressNewsBaseURL: 'https://public-api.wordpress.com/wp/v2/sites/blog.wormbase.org/posts'
     if(url.includes('wormbase')){
       const response = [
@@ -53,4 +54,38 @@ const TIMEOUT = 30000;
       } // end response
       return response;
     } // flybase end if
+
+    // SGD wordpress Version 1.1
+    if (url.includes('yeast')) {
+      const response = {
+      "found": 4,
+      "posts": [
+          {
+              "title": "Update on sgd title 1",
+              "URL": "https:/blah1",
+              "excerpt": "<p>excerpt 1</p>\n",
+              "status":"publish",
+          },
+          {
+            "title": "Update on sgd title 2",
+            "URL": "https:/blah2",
+            "excerpt": "<p>excerpt 2</p>\n",
+            "status":"publish",            
+          },
+          // Test NOT seen if status is not publish
+          {
+            "title": "Update on sgd title 3",
+            "URL": "https:/blah3",
+            "excerpt": "private excerpt",
+            "status":"private",            
+          },
+          {
+            "title": "Update on sgd title 4",
+            "URL": "https:/blah4",
+            "excerpt": "<p>excerpt 4</p>\n",
+            "status":"publish",            
+          },        ]
+      } // end response
+    return response;
+  } // sgd end if
 }
