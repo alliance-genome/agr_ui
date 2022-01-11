@@ -20,9 +20,6 @@ const NewsZfin = ({urlNewsMod, fetchNewsCount, linkToNewsPage}) => {
     isLoading
   } = usePageLoadingQuery(urlNewsMod);
 
-  console.log('postList');
-  console.log(postList);
-
   let count = 1;
   return (
     <div className={style.wordPressContainer}>
