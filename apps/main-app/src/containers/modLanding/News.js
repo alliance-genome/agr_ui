@@ -14,7 +14,8 @@ const News = ({content}) => {
             return (<WordpressNews urlNewsMod={content.wordpressNewsBaseURL} fetchNewsCount={content.fetchNewsCount}
                                    linkToNewsPage={content.linkToNewsPage} />); }
           else if (content.flybaseNewsAPI) { 
-            return (<NewsFlybase urlNewsMod={content.flybaseNewsAPI} fetchNewsCount={content.fetchNewsCount} />); }
+            return (<NewsFlybase urlNewsMod={content.flybaseNewsAPI} fetchNewsCount={content.fetchNewsCount}
+                                 linkToNewsPage={content.linkToNewsPage} />); }
           else if (content.newsURL) { 
             return (<h5 className={style.externalNews} ><a href={content.newsURL}>Click here for the latest news from {content.modShortName}</a></h5>); }
           return (<div>No News</div>);
