@@ -142,7 +142,7 @@ export const MODContent = {
       '<p><a href=" https://zebrafish.org/home/guide.php">Zebrafish International Resource Center</a></p>' +
       '<p><a href="https://zfin.org/action/profile/person/search">ZFIN Person Search</a></p>',
     footer: [
-      ['ZFIN Anatomy / GO / Human Disease',                     'https://zfin.org/action/ontology/search'],
+      ['Zebrafish Anatomy / GO / Human Disease',                     'https://zfin.org/action/ontology/search'],
       ['ZFIN Downloads',                                   'https://zfin.org/downloads'],
       ['Citing ZFIN',                                      'https://zfin.atlassian.net/wiki/spaces/general/pages/1891415775/ZFIN+Database+Information'],
       ['Zebrafish Anatomy Atlases and Resources',          'https://zfin.atlassian.net/wiki/spaces/general/pages/1892876451/Anatomy+Atlases+and+Resources'],
