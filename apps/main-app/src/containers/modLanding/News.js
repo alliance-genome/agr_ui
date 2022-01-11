@@ -3,6 +3,7 @@ import style from './style.scss';
 import PropTypes from "prop-types";
 import WordpressNews from "./wordpressNews"
 import NewsFlybase from "./NewsFlybase"
+import NewsZfin from "./NewsZfin"
 
 const News = ({content}) => {
   return (
@@ -13,6 +14,9 @@ const News = ({content}) => {
           if (content.wordpressNewsBaseURL) { 
             return (<WordpressNews urlNewsMod={content.wordpressNewsBaseURL} fetchNewsCount={content.fetchNewsCount}
                                    linkToNewsPage={content.linkToNewsPage} />); }
+          else if (content.zfinNewsAPI) { 
+            return (<NewsZfin urlNewsMod={content.zfinNewsAPI} fetchNewsCount={content.fetchNewsCount}
+                              linkToNewsPage={content.linkToNewsPage} />); }
           else if (content.flybaseNewsAPI) { 
             return (<NewsFlybase urlNewsMod={content.flybaseNewsAPI} fetchNewsCount={content.fetchNewsCount}
                                  linkToNewsPage={content.linkToNewsPage} />); }
