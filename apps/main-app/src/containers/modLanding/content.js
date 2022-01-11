@@ -179,7 +179,7 @@ export const MODContent = {
     newsURL: 'https://flybase.org/commentaries',
     linkToNewsPage: 'https://flybase.org/commentaries',
     resources:
-      '<p><a href="https://flybase.org/">FlyBase Search</a></p>' +
+      '<p><a href="https://flybase.org/">Search FlyBase</a></p>' +
       '<p><a href="https://flybase.org/blast/">FlyBase BLAST</a></p>' +
       '<p><a href="https://flybase.org/jbrowse/?data=data/json/dmel">FlyBase JBrowse</a></p>' +
       '<p><a href="https://flybase.org/rnaseq/rnaseq">Fly RNA-Seq</a></p>' +
