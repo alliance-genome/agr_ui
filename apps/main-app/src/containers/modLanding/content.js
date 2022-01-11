@@ -130,6 +130,8 @@ export const MODContent = {
     logoImgSrc: zfinLogo,
     hasNews: true,
     newsURL: 'https://zfin.atlassian.net/wiki/spaces/news/overview',
+    zfinNewsAPI: 'https://zfin.org/action/api/wiki/news?limit=5&page=1',
+    fetchNewsCount: 3,
     resources:
       '<p><a href="https://zfin.org/search?category=&q=">Search and Retrieve Zebrafish Data</a></p>' +
       '<p><a href="https://zfin.org/action/expression/search">ZFIN Gene Expression Data / Images</a></p>' +
@@ -176,7 +178,7 @@ export const MODContent = {
     newsURL: 'https://flybase.org/commentaries',
     linkToNewsPage: 'https://flybase.org/commentaries',
     resources:
-      '<p><a href="https://flybase.org/">Search</a></p>' +
+      '<p><a href="https://flybase.org/">FlyBase Search</a></p>' +
       '<p><a href="https://flybase.org/blast/">FlyBase BLAST</a></p>' +
       '<p><a href="https://flybase.org/jbrowse/?data=data/json/dmel">FlyBase JBrowse</a></p>' +
       '<p><a href="https://flybase.org/rnaseq/rnaseq">Fly RNA-Seq</a></p>' +
@@ -236,9 +238,8 @@ export const MODContent = {
     ],
   },
   'mgd': {
-    about: '<p>The Mouse Genome Database (MGD) is the community model organism database for the laboratory mouse ' +
-    'and is the primary source of expertly curated function and phenotype annotations for the mouse genome ' +
-    'and mouse models of human disease.</p>' +
+    about: '<p>The Mouse Genome Database (MGD) is the database resource for the laboratory mouse, and ' +
+    'provides integrated biological data to facilitate the study of human health and disease.</p>' + 
     '<p>MGD is a core database in the Mouse Genome Informatics (MGI) consortium and founding member of the ' +
     'Alliance of Genome Resources Project.</p>',
     link: 'http://www.informatics.jax.org/',
