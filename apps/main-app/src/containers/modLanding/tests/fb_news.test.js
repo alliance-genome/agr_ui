@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import WordpressNews from "../wordpressNews";
+import NewsFlybase from "../NewsFlybase";
 import thunk from 'redux-thunk';
 import configureMockStore from "redux-mock-store";
 import {MODContent} from '../content';
@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom'
 
- const content = MODContent['wormbase'];
+ const content = MODContent['flybase'];
 
 
  const initialState = {isLoading:false, payload: []}
@@ -25,16 +25,14 @@ import '@testing-library/jest-dom'
 
  describe('App', () => {
      beforeEach(() => {
-       render(<Provider store={store}> <WordpressNews           
-              urlNewsMod={content.wordpressNewsBaseURL}
-              fetchNewsCount={content.fetchNewsCount}
-              linkToNewsPage={content.linkToNewsPage}
-              sectionStyle={content.sectionStyle} /></Provider>)
+       render(<Provider store={store}> <NewsFlybase
+              urlNewsMod={content.flybaseNewsAPI}
+              fetchNewsCount={content.fetchNewsCount}/></Provider>)
      });
 
      it('should render successfully', async () => {
        const news_div = await waitFor(() => screen.findByTestId("div_news_2"), { timeout: 8000 });
-       expect(screen.getByTestId("div_news_2")).toHaveTextContent("Update on worm title 1");
+       expect(screen.getByTestId("div_news_2")).toHaveTextContent("Update on fly title 1");
      }, 10000);
 
      it('should contain a link', async () => {
@@ -59,7 +57,7 @@ import '@testing-library/jest-dom'
       it('news href should have a header and be equal to', async () => {
          const news_div = await waitFor(() => screen.findByTestId("div_news_2"), { timeout: 8000 });
          const head = screen.getByTestId("header_news_2");
-         expect(head).toHaveTextContent("Update on worm title 1");
+         expect(head).toHaveTextContent("Update on fly title 1");
       }, 10000);
 
       it('news excerpt', async () => {
@@ -69,12 +67,13 @@ import '@testing-library/jest-dom'
          expect(screen.getByTestId("div_news_2")).toContainElement(news_text);
       }, 10000);
 
-      it('more news link checks', async () => {
-         const news_div = await waitFor(() => screen.findByTestId("div_news_2"), { timeout: 8000 });
-         const more_div = screen.getByTestId("more_news_div");
-         const more_link = screen.getByTestId("more_news_link");
-         expect(more_div).toContainElement(more_link);
-         expect(more_link).toHaveAttribute('href', 'https://blog.wormbase.org/');
-      }, 10000);
+      // Flybase has no link to more news. If it ever does uncomment the below.
+      //it('more news link checks', async () => {
+      //   const news_div = await waitFor(() => screen.findByTestId("div_news_2"), { timeout: 8000 });
+      //   const more_div = screen.getByTestId("more_news_div");
+      //   const more_link = screen.getByTestId("more_news_link");
+      //   expect(more_div).toContainElement(more_link);
+      //   expect(more_link).toHaveAttribute('href', 'https://blog.wormbase.org/');
+      //}, 10000);
 
      });
