@@ -116,7 +116,7 @@ export const MODContent = {
   'zfin': {
     about: '<p>The Zebrafish Information Network (ZFIN) is the database of genetic and genomic data for the zebrafish ' +
       '(<i>Danio rerio</i>) as a model organism. ZFIN provides a wide array of expertly curated, organized and ' +
-      'cross-referenced Zebrafish research data.' +
+      'cross-referenced zebrafish research data.' +
       '</p>' +
       '<p>ZFIN is a founding member of the Alliance of Genome Resources Project.</p>',
     link: 'https://www.zfin.org',
