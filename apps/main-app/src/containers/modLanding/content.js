@@ -130,6 +130,7 @@ export const MODContent = {
     logoImgSrc: zfinLogo,
     hasNews: true,
     newsURL: 'https://zfin.atlassian.net/wiki/spaces/news/overview',
+    linkToNewsPage: 'https://zfin.atlassian.net/wiki/spaces/news/overview',
     zfinNewsAPI: 'https://zfin.org/action/api/wiki/news?limit=5&page=1',
     fetchNewsCount: 3,
     resources:
