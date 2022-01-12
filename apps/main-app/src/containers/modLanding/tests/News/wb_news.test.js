@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import WordpressNews from "../wordpressNews";
+import WordpressNews from "../../wordpressNews";
 import thunk from 'redux-thunk';
 import configureMockStore from "redux-mock-store";
-import {MODContent} from '../content';
+import {MODContent} from '../../content';
 import { Provider } from 'react-redux';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom'
