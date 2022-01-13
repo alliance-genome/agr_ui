@@ -2,7 +2,6 @@ import style from './style.scss';
 import PropTypes from "prop-types";
 
 const FooterAlt = ({link, links, note, footerStyle, logoImgSrc, titleBarStyle, modShortName}) => {
-  let count = -1;
   return (
       <div className={`${footerStyle} ${style.modFooter}`}>
         <div className={`container ${style.modFooterContainer}`}>
@@ -20,12 +19,11 @@ const FooterAlt = ({link, links, note, footerStyle, logoImgSrc, titleBarStyle, m
                 <div className="col-med-10 col-md-10 col-lg-10 col-xl-10">
                   <div className="row">
                   { links && links.map((link, index) => {
-                      count++;
                       return (
                         <div key={index} className="col-med-4 col-md-4 col-lg-4 col-xl-4">
-                          <a href={link[1]} data-testid={'href_footer_' + count} >
+                          <a href={link[1]} data-testid={'href_footer_' + index} >
                             <span dangerouslySetInnerHTML={{__html: link[0]}} 
-                                  data-testid={'footer_label_' + count}/>
+                                  data-testid={'footer_label_' + index}/>
                           </a>
                         </div>
                       );
