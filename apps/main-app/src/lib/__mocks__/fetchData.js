@@ -42,7 +42,7 @@ const TIMEOUT = 30000;
           ],
      }
      return response;
-    } // wormbase end if
+    } // zfin end if
 
     // flybaseNewsAPI: 'https://flybase.org/api/news?limit=3'
     if (url.includes('flybase')) {
