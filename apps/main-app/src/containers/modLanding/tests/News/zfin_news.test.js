@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import NewsFlybase from "../../NewsFlybase";
+import NewsZfin from "../../NewsZfin";
 import thunk from 'redux-thunk';
 import configureMockStore from "redux-mock-store";
 import {MODContent} from '../../content';
@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom'
 
- const content = MODContent['flybase'];
+ const content = MODContent['zfin'];
 
 
  const initialState = {isLoading:false, payload: []}
@@ -25,15 +25,16 @@ import '@testing-library/jest-dom'
 
  describe('App', () => {
      beforeEach(() => {
-       render(<Provider store={store}> <NewsFlybase
-              urlNewsMod={content.flybaseNewsAPI}
+       render(<Provider store={store}> <NewsZfin
+              urlNewsMod={content.zfinNewsAPI}
+              fetchNewsCount={content.fetchNewsCount}
               linkToNewsPage={content.linkToNewsPage}
-              fetchNewsCount={content.fetchNewsCount}/></Provider>)
+              sectionStyle={content.sectionStyle} /></Provider>)
      });
 
      it('should render successfully', async () => {
        const news_div = await waitFor(() => screen.findByTestId("div_news_2"), { timeout: 8000 });
-       expect(screen.getByTestId("div_news_2")).toHaveTextContent("Update on fly title 1");
+       expect(screen.getByTestId("div_news_2")).toHaveTextContent("Update on zebrafish title 1");
      }, 10000);
 
      it('should contain a link', async () => {
@@ -58,22 +59,23 @@ import '@testing-library/jest-dom'
       it('news href should have a header and be equal to', async () => {
          const news_div = await waitFor(() => screen.findByTestId("div_news_2"), { timeout: 8000 });
          const head = screen.getByTestId("header_news_2");
-         expect(head).toHaveTextContent("Update on fly title 1");
+         expect(head).toHaveTextContent("Update on zebrafish title 1");
       }, 10000);
 
-      it('news excerpt', async () => {
-         const news_div = await waitFor(() => screen.findByTestId("div_news_2"), { timeout: 8000 });
-         const news_text = screen.getByTestId("text_news_2");
-         expect(news_text).toHaveTextContent("Excerpt 1");
-         expect(screen.getByTestId("div_news_2")).toContainElement(news_text);
-      }, 10000);
+      // Zfin does not have a news excerpt.  If it ever does uncomment the below.
+      // it('news excerpt', async () => {
+      //    const news_div = await waitFor(() => screen.findByTestId("div_news_2"), { timeout: 8000 });
+      //    const news_text = screen.getByTestId("text_news_2");
+      //    expect(news_text).toHaveTextContent("Excerpt 1");
+      //    expect(screen.getByTestId("div_news_2")).toContainElement(news_text);
+      // }, 10000);
 
       it('more news link checks', async () => {
          const news_div = await waitFor(() => screen.findByTestId("div_news_2"), { timeout: 8000 });
          const more_div = screen.getByTestId("more_news_div");
          const more_link = screen.getByTestId("more_news_link");
          expect(more_div).toContainElement(more_link);
-         expect(more_link).toHaveAttribute('href', 'https://flybase.org/commentaries');
+         expect(more_link).toHaveAttribute('href', 'https://zfin.atlassian.net/wiki/spaces/news/overview');
       }, 10000);
 
-     });
+ });
