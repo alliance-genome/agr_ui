@@ -25,6 +25,25 @@ const TIMEOUT = 30000;
      return response;
     } // wormbase end if
 
+    // zfinNewsAPI: 'https://zfin.org/action/api/wiki/news?limit=5&page=1'
+    if(url.includes('zfin')){
+      const response = {
+          "results": [
+              {
+                  "url": "https:/blah1",
+                  "id": "1234",
+                  "title": "Update on zebrafish title 1"
+              },
+              {
+                  "url": "https:/blah2",
+                  "id": "5678",
+                  "title": "Update on zebrafish title 2"
+              }
+          ],
+     }
+     return response;
+    } // zfin end if
+
     // flybaseNewsAPI: 'https://flybase.org/api/news?limit=3'
     if (url.includes('flybase')) {
       const response = {
