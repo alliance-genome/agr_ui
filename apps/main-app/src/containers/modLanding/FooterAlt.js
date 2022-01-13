@@ -2,7 +2,7 @@ import style from './style.scss';
 import PropTypes from "prop-types";
 
 const FooterAlt = ({link, links, note, footerStyle, logoImgSrc, titleBarStyle, modShortName}) => {
-  let count = 0;
+  let count = -1;
   return (
       <div className={`${footerStyle} ${style.modFooter}`}>
         <div className={`container ${style.modFooterContainer}`}>

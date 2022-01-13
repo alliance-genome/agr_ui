@@ -38,10 +38,10 @@ describe('FlyBase footer tests', () => {
     
     for (let i=0; i<content.footer.length; i++){
 
-         let footer = screen.getByTestId("href_footer_" + (i+1));
+         let footer = screen.getByTestId("href_footer_" + i);
          expect(footer).toHaveAttribute('href', content.footer[i][1]);
 
-         let label = screen.getByTestId('footer_label_' + (i+1))
+         let label = screen.getByTestId('footer_label_' + i);
          expect(label).toContainHTML(content.footer[i][0]);
         }
    });
@@ -49,9 +49,9 @@ describe('FlyBase footer tests', () => {
    // Sanity check in case content.js gets corrupted.
    // Check for something we expect to be there.
    if('Should render citing FlyBase Support as the first footer link', () => {
-      const footer = screen(getByTestId("href_footer_1")); // First item
+      const footer = screen(getByTestId("href_footer_0")); // First item
       expect(footer).toHaveAttribute('href', 'https://flybase.org/wiki/FlyBase:About#FlyBase_Support');
-      const label = screen.getByTestId('footer_label_1')
+      const label = screen.getByTestId('footer_label_0')
       expect(label).toContainHTML('FlyBase Support');
    });
 
