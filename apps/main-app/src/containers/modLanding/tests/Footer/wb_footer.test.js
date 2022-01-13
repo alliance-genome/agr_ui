@@ -38,10 +38,10 @@ describe('WormBase Footer', () => {
     
     for (let i=0; i<content.footer.length; i++){
 
-         let footer = screen.getByTestId("href_footer_" + (i+1));
+         let footer = screen.getByTestId("href_footer_" + i);
          expect(footer).toHaveAttribute('href', content.footer[i][1]);
 
-         let label = screen.getByTestId('footer_label_' + (i+1))
+         let label = screen.getByTestId('footer_label_' + i)
          expect(label).toContainHTML(content.footer[i][0]);
         }
    });
@@ -50,9 +50,9 @@ describe('WormBase Footer', () => {
    // Check for something we expect to be there.
    // Citing wormbase should always be the first one.?
    if('Should render citing Wormbase as the first footer link', () => {
-      const footer = screen(getByTestId("href_footer_1")); // First item
+      const footer = screen(getByTestId("href_footer_0")); // First item
       expect(footer).toHaveAttribute('href', 'https://wormbase.org/about/citing_wormbase#012--10');
-      const label = screen.getByTestId('footer_label_1')
+      const label = screen.getByTestId('footer_label_0')
       expect(label).toContainHTML('Citing WormBase');
    });
 
