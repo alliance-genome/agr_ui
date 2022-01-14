@@ -27,7 +27,7 @@ const MODLanding = ({modId}) => {
               {content.hasNews && <News content={content} />}
             </div>
             <div className={`col-xl-4 col-lg-4 col-md-4 col-sm-12 ${style.noPadding}`}>
-              <Resources htmlContent={content.resources} sectionStyle={content.sectionStyle} />
+              <Resources links={content.resources} sectionStyle={content.sectionStyle} />
             </div>
           </div>
         </div>
