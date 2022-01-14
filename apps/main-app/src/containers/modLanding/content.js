@@ -97,6 +97,7 @@ export const MODContent = {
     logoImgSrc: sgdLogo,
     hasMeetings: true,
     googleapisMeetingsBaseURL: 'https://www.googleapis.com/calendar/v3/calendars/mhv058nk936st3jd3qjernajdk@group.calendar.google.com/events?key=AIzaSyDXypHUsRcWWBx2UClUV_wrag8TIlNYbSc',
+    linkToMeetingsPage: 'https://www.yeastgenome.org/',
     fetchMeetingsCount: 3,
     hasNews: true,
     wordpressNewsBaseURL: 'https://public-api.wordpress.com/rest/v1.1/sites/yeastgenomeblog.wordpress.com/posts/',

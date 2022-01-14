@@ -86,7 +86,7 @@ const sortGoogleapiPosts = (googleAPIRes) => {
 //             let text = startDateString + ' to ' + endDateString + ' -<br/>' + location;
 
 //             let text = TOstartDate + ' to ' + TOendDate + ' -<br/>' + location;
-            let text = post.start.date + ' to ' + post.end.date + ' -<br/>' + location;
+            let text = post.start.date + ' to ' + post.end.date + '<br/>' + location;
             upcomingMeetings[postStartDate] = {summary: post.summary, link: link, text: text}
 //             upcomingMeetings[postStartDate] = {summary: post.summary, link: link, text: text, start: post.start.date, end: post.end.date, tst: TOstartDate, tend: TOendDate}
 //             upcomingMeetings[postStartDate] = {summary: post.summary, link: link, text: text, location: location, start: post.start.date, end: post.end.date}

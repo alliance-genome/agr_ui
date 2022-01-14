@@ -10,7 +10,8 @@ const Meetings = ({content}) => {
         <h2 className={style.sectionTitle}>Meetings</h2>
         {(() => {
           if (content.googleapisMeetingsBaseURL) { 
-            return (<GoogleapisMeetings urlMeetingsMod={content.googleapisMeetingsBaseURL} fetchMeetingsCount={content.fetchMeetingsCount} />); }
+            return (<GoogleapisMeetings urlMeetingsMod={content.googleapisMeetingsBaseURL} fetchMeetingsCount={content.fetchMeetingsCount}
+                                        linkToMeetingsPage={content.linkToMeetingsPage} />); }
           if (content.meetingsURL) { 
             return (<h5 className={style.externalNews} ><a href={content.meetingsURL}>Click here for the latest meetings from {content.modShortName}</a></h5>); }
           return (<div>No Meetings</div>);
