@@ -6,6 +6,7 @@ import {MODContent} from './content';
 import About from "./About";
 import Title from "./Title";
 import News from "./News";
+import Meetings from "./Meetings";
 import Resources from "./Resources";
 import FooterAlt from "./FooterAlt"
 
@@ -25,6 +26,7 @@ const MODLanding = ({modId}) => {
               <About htmlContent={content.about} modVisitButtonText={content.modVisitButtonText} linkToMod={content.link}
                                                  sectionStyle={content.sectionStyle} titleBarStyle={content.titleBarStyle} />
               {content.hasNews && <News content={content} />}
+              {content.hasMeetings && <Meetings content={content} />}
             </div>
             <div className={`col-xl-4 col-lg-4 col-md-4 col-sm-12 ${style.noPadding}`}>
               <Resources htmlContent={content.resources} sectionStyle={content.sectionStyle} />
