@@ -88,7 +88,6 @@ const GoogleapisMeetings = ({urlMeetingsMod, fetchMeetingsCount, linkToMeetingsP
 
   let upcomingMeetings = {};
 
-  let count = 1;
   return (
     <div className={style.wordPressContainer}>
       <div className='container'>
@@ -100,11 +99,12 @@ const GoogleapisMeetings = ({urlMeetingsMod, fetchMeetingsCount, linkToMeetingsP
               upcomingMeetings = sortGoogleapiPosts(postList);
               let keys = Object.keys(upcomingMeetings);
               keys.sort();
+              (keys.length < fetchMeetingsCount) && (fetchMeetingsCount = keys.length);
               for (let i = 0; i < fetchMeetingsCount; i++) {
                 const post = upcomingMeetings[keys[i]];
                 wantedMeetings.push(
                   <div className={style.postContainer} key={i} data-testid={'div_meetings_' + i}>
-                    <a href={post.link} data-testid={'href_meetings_' + count}>
+                    <a href={post.link} data-testid={'href_meetings_' + i}>
                       <h4 className={style.h4extra} dangerouslySetInnerHTML={{ __html: post.summary}}  data-testid={'header_meetings_' + i}/>
                     </a>
                     <p dangerouslySetInnerHTML={{ __html: post.text}} data-testid={'text_meetings_' + i} />
