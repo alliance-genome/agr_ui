@@ -90,6 +90,10 @@ export const NAV_MENU = [
         label: 'AllianceMine',
         route: '/alliancemine',
       },
+      {
+        label: 'JBrowse',
+        route: '/jbrowse/?data=data%2FHomo%20sapiens',
+      }
     ]
   },
   {
