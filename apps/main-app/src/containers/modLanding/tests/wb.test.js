@@ -13,25 +13,6 @@ import FooterAlt from "../FooterAlt";
 const content = MODContent['wormbase'];
 
 //
-// Title Section
-//
-const titleString = ReactDOMServer.renderToString(
-  <Title
-      bannerStyle={content.bannerStyle}
-      titleBarStyle={content.titleBarStyle}
-      logoImgSrc={content.logoImgSrc}
-      modFullName={content.modFullName} />
-)
-
-// console.log(titleString);
-test('check wormbase title', () => {
-    expect(titleString).
-    toMatch('<span class="titleBarText">WormBase</span>')
-});
-
-
-
-//
 // About section
 //
 const aboutString = ReactDOMServer.renderToString(
