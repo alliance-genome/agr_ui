@@ -216,6 +216,8 @@ export const MODContent = {
     sectionStyle: style.section__FB,
     footerStyle: style.modFooter__FB,
     logoImgSrc: flybaseLogo,
+    hasMeetings: true,
+    meetingsURL: 'https://drosophilaresearch.org/all-events',
     hasNews: true,
     flybaseNewsAPI: 'https://flybase.org/api/news?limit=3',
     fetchNewsCount: 3,
