@@ -7,7 +7,7 @@ import '@testing-library/jest-dom'
 
 const content = MODContent['goc'];
 
-describe('goc static link to newss', () => {
+describe('goc static link to news', () => {
     beforeEach(() => {
         render(<News
                content={content}/>)
