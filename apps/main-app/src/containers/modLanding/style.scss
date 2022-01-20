@@ -2,242 +2,246 @@
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
+// @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap');
 
-$max-width: 800px;
+$primaryColor__WB: #85A6BA;
+$primaryColor__SGD: #696599;
+$primaryColor__ZFIN: #018080;
+$primaryColor__FB: #003568;
+$primaryColor__GO: #264370;
+$primaryColor__RGD: #699fc8;
+$primaryColor__MGD: #dfeffe;
+$secondaryColor__MGD: #143055;
 
-.secondaryNavWB {
-  background-color: #85A6BA;
+.modFooterText {
+  vertical-align: middle;
+  padding-left: .5rem;
 }
 
-.secondaryNavSGD {
-  background-color: #696599;
+.modFooterLabel {
+  vertical-align: middle;
+  padding-left: .5rem;
+  font-size: 1.2rem;
 }
 
-.secondaryNavZFIN{
-  background-color: #018080;
-}
-
-.secondaryNavSGD, .secondaryNavWB, .secondaryNavZFIN {
+.modFooter {
+  bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
   color: white;
-  bottom: 0;
-  padding-top: 10px;
-  padding-bottom: 5px;
 }
 
-.sectionTitle {
-  color: #2598c5
+.modFooterContainer {
+  padding-left: 2.3rem;
 }
 
-.section {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid $border-color;
+.modFooter__DEFAULT {
+  background-color: #2598c5;
 }
 
-.bannerWB {
-  background-size: cover;
-  background-color: $gray-900;
-  background-repeat: no-repeat;
-  background-position: center;
-  margin-bottom: 1.3em;
+.modFooter__WB, .titleBar__WB {
+  background-color: $primaryColor__WB;
 }
 
-.bannerWB {
-  background-image: url('assets/home.jpg');
+.modFooter__SGD, .titleBar__SGD {
+  background-color: $primaryColor__SGD;
 }
 
-.bannerSGD {
-  background-image: url('assets/cells-1872666_1920.jpg');
-  background-size: cover;
+.modFooter__ZFIN, .titleBar__ZFIN {
+  background-color: $primaryColor__ZFIN;
 }
 
-.bannerZFIN {
-  background-image: url('assets/zfin.png');
+.modFooter__FB, .titleBar__FB {
+  background-color: $primaryColor__FB;
 }
 
-.secondaryNavEmptyRow {
+.modFooter__GO, .titleBar__GO {
+  background-color: $primaryColor__GO;
+}
+
+.modFooter__RGD, .titleBar__RGD {
+  background-color: $primaryColor__RGD;
+}
+
+.modFooter__MGD, .titleBar__MGD {
+  background-color: $primaryColor__MGD;
+  color: $secondaryColor__MGD !important;
+}
+
+.modFooter__WB a, .modFooter__FB a, .modFooter__SGD a, .modFooter__ZFIN a, .modFooter__GO a, .modFooter__RGD a {
+  color: white;
+}
+
+.modFooter__MGD a {
+  color: $secondaryColor__MGD !important;
+}
+
+.titleBar {
+  color: white;
+  bottom: 0px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.titleBarContainer {
+  padding-left: 2.3rem;
+}
+
+.titleBar__DEFAULT {
+  background-color: #2598c5;
+}
+
+.titleBarText {
+  vertical-align: middle;
+  padding-left: .5rem;
+  font-size: 2.25rem;
+}
+
+.titleBarEmptyRow {
   padding: 0;
   margin: 0;
   width: 100%;
   height: 160px;
 }
 
-.searchBackground {
-  background: $primary-300;  /* fallback for old browsers */
-  background: linear-gradient(13deg, $accent-300 0%, $tertiary-300 25%, $primary-300 100%);
+.noPadding {
+  padding: 0;
 }
 
-.contentContainer {
-  width: 100%;
-  margin: 0 auto;
+.sectionTitle {
+  color: #2598c5;
+  padding-bottom: .75rem;
+  font-size: 1.8rem;
 }
 
-.searchBarContainer {
-  font-size: 150%;
-  width: 100%;
-
-  @media (min-width: $max-width) {
-    font-size: 185%;
-  }
+.externalNews{
+  color: #2598c5;
+  padding-bottom: .75rem;
+  font-size: 1.25rem;
 }
-
-.searchExampleList {
-  color: $gray-700;
-  padding-left: 0;
-  list-style: none;
-  display: flex;
-  justify-content: space-between;
-  font-size: 1rem;
-
-  li {
-    padding: 0.25rem;
-  }
-}
-
-.actionButton {
-  color: $gray-700;
-  display: inline-flex;
-  flex: 1 0 0;
-  font-size: 1rem;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin: 1rem;
-  white-space: nowrap;
-  position: relative;
-  transition: transform 100ms ease-out;
-
-  &:hover {
-    text-decoration: none;
-    color: inherit;
-    transform: translateY(-3px);
-  }
-
-  @media (min-width: $max-width) {
-    font-size: 1.25rem;
-  }
-
-  .icon {
-    font-size: 250%;
-    pointer-events: none;
-  }
-}
-
-.member {
-  width: 12.5%;
-  min-width: 80px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 auto;
-  padding: 0.25rem;
-
-  img {
-    max-width: 100%;
-    margin-bottom: 0.5rem;
-  }
-}
-
-$max-width: 1600px;
 
 .section {
-  padding: 3rem 1rem;
-  border-bottom: 1px solid $border-color;
+  padding: 3rem 3rem 2rem 3rem;
+  line-height: 1.7;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12);
+//   font-size: 1rem;
+//   font-family: "Open Sans", sans-serif;
 }
 
-.searchBackground {
-  background: $primary-300;  /* fallback for old browsers */
-  background: linear-gradient(13deg, $accent-300 0%, $tertiary-300 25%, $primary-300 100%);
+.buttonVisitMod:hover {
+  opacity: .8;
 }
 
-.contentContainer {
+.buttonVisitMod {
+  margin-top: 1.4rem;
+  color: white;
   width: 100%;
-  margin: 0 auto;
-
-  @media (min-width: $max-width) {
-    max-width: $max-width;
-  }
+  font-size: 1.5rem;
+  border: 0;
+  box-shadow: 0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12);
+  border-radius: 5px;
 }
 
-.searchBarContainer {
-  font-size: 150%;
-  width: 100%;
-
-  @media (min-width: $max-width) {
-    font-size: 185%;
-  }
+.resourceDiv p {
+  margin-bottom: .7rem;
 }
 
-.searchExampleList {
-  color: $gray-700;
-  padding-left: 0;
-  list-style: none;
-  display: flex;
-  justify-content: space-between;
-  font-size: 1rem;
-
-  li {
-    padding: 0.25rem;
-  }
+.h4extra {
+  padding-top: 1rem;
 }
 
-.actionButton {
-  color: $gray-700;
-  display: inline-flex;
-  flex: 1 0 0;
-  font-size: 1rem;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin: 1rem;
-  white-space: nowrap;
-  position: relative;
-  transition: transform 100ms ease-out;
-
-  &:hover {
-    text-decoration: none;
-    color: inherit;
-    transform: translateY(-3px);
-  }
-
-  @media (min-width: $max-width) {
-    font-size: 1.25rem;
-  }
-
-  .icon {
-    font-size: 250%;
-    pointer-events: none;
-  }
+.moreNews {
+  padding-top: .8rem;
+  padding-bottom: 1rem;
 }
 
-.member {
-  width: 12.5%;
-  min-width: 80px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 auto;
-  padding: 0.25rem;
-
-  img {
-    max-width: 100%;
-    margin-bottom: 0.5rem;
-  }
+.containerExtra {
+  margin: 1rem .25rem 0rem .25rem;
+  padding-bottom: 1rem;
 }
 
-.postMenuContainer, .homeMenuContainer,
-.aboutMenuContainer, .workingGroupsMenuContainer,
-.contactMenuContainer, .helpMenuContainer {
+.section__SGD {
+  border-color: $primaryColor__SGD;
+}
+
+.section__ZFIN {
+  border-color: $primaryColor__ZFIN;
+}
+
+.section__FB {
+  border-color: $primaryColor__FB;
+}
+
+.section__GO {
+  border-color: $primaryColor__GO;
+}
+
+.section__RGD {
+  border-color: $primaryColor__RGD;
+}
+
+.section__MGD {
+  border-color: $primaryColor__MGD;
+}
+
+.section__WB{
+  border-color: $primaryColor__WB;
+}
+
+.banner {
+//   background-size: cover;
+//   background-position: center center;
+}
+
+.banner__DEFAULT {
+  background-image: url('https://alliancegenome.files.wordpress.com/2018/06/allbanners-45621.jpg');
+}
+
+.banner__WB {
+  background-image: url('assets/topBannerWB.png');
+  background-size: auto;
+  background-position-x: center;
+}
+
+.banner__SGD {
+  background-image: url('assets/topBannerSGD.png');
+  background-size: auto;
+  background-position-x: center;
+}
+
+.banner__ZFIN {
+  background-image: url('assets/topBannerZFIN.png');
   background-size: cover;
-  background-color: $gray-900;
-  background-repeat: no-repeat;
-  background-position: center;
-  margin-bottom: 1.3em;
-  height: 200px;
+  background-position: center center;
 }
 
-.secondaryNavEmptyRow, .postMenuContainer.secondaryNav {
-  padding: 0;
-  margin: 0;
-  width: 100%;
+.banner__MGD {
+  background-image: url('assets/topBannerMGD.png');
+  background-size: auto;
+  background-position-x: center;
+}
+
+.banner__RGD {
+  background-image: url('assets/topBannerRGD.png');
+  background-size: auto;
+  background-position-x: center;
+}
+
+.banner__FB {
+  background-image: url('assets/topBannerFB.png');
+  background-size: cover;
+  background-position: center center;
+}
+
+.banner__GO {
+  background-image: url('assets/topBannerGOC.png');
+  background-size: cover;
+  background-position: center center;
+}
+
+:global(.sharedaddy) {
+  display: none;
 }
