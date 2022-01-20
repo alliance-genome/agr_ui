@@ -28,11 +28,10 @@ const aboutString = ReactDOMServer.renderToString(
     toMatch('WormBase is a founding member of the Alliance of Genome Resources Project')
   });
 
- test('check wormbase about button', () => {
+ test('check wormbase about link', () => {
     expect(aboutString).
-    toMatch('<a href="https://wormbase.org"><button')
+    toMatch('<a data-testid="visit_mod_link" href="https://wormbase.org">')
  });
-// console.log(aboutString);
 
 
 
