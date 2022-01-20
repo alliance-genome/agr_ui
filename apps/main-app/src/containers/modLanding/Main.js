@@ -8,6 +8,7 @@ import Title from "./Title";
 import News from "./News";
 import Meetings from "./Meetings";
 import Resources from "./Resources";
+import Search from "./Search";
 import FooterAlt from "./FooterAlt"
 
 const MODLanding = ({modId}) => {
@@ -29,6 +30,7 @@ const MODLanding = ({modId}) => {
               {content.hasMeetings && <Meetings content={content} />}
             </div>
             <div data-testid={'modlanding_resources'} className={`col-xl-4 col-lg-4 col-md-4 col-sm-12 ${style.noPadding}`}>
+              <Search links={content.search} sectionStyle={content.sectionStyle} />
               <Resources links={content.resources} sectionStyle={content.sectionStyle} />
             </div>
           </div>
