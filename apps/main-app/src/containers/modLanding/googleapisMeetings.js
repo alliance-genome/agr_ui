@@ -4,39 +4,6 @@ import LoadingSpinner from '../../components/loadingSpinner';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import PropTypes from "prop-types";
 
-// Keeping this for sample until tests are written
-// const sample = {
-//    "kind": "calendar#event",
-//    "etag": "\"2981788704262000\"",
-//    "id": "cc9pdrl3fguf0p8kd8lfse01o0",
-//    "status": "confirmed",
-//    "htmlLink": "https://www.google.com/calendar/event?eid=Y2M5cGRybDNmZ3VmMHA4a2Q4bGZzZTAxbzAgbWh2MDU4bms5MzZzdDNqZDNxamVybmFqZGtAZw",
-//    "created": "2017-03-15T20:39:33.000Z",
-//    "updated": "2017-03-30T17:19:12.131Z",
-//    "summary": "24th Annual Southeastern Regional Yeast Meeting (SERYM 2017)",
-//    "description": "http://serym2017.ua.edu/",
-//    "location": "The University of Alabama, Tuscaloosa, AL 35487, USA",
-//    "creator": {
-//     "email": "yeastgenome@gmail.com",
-//     "displayName": "Saccharomyces Genome Database"
-//    },
-//    "organizer": {
-//     "email": "mhv058nk936st3jd3qjernajdk@group.calendar.google.com",
-//     "displayName": "SGD Public Events",
-//     "self": true
-//    },
-//    "start": {
-//     "date": "2017-03-31"
-//    },
-//    "end": {
-//     "date": "2017-04-01"
-//    },
-//    "transparency": "transparent",
-//    "iCalUID": "cc9pdrl3fguf0p8kd8lfse01o0@google.com",
-//    "sequence": 0,
-//    "eventType": "default"
-//   };
-
 const sortGoogleapiPosts = (googleAPIRes) => {
   let upcomingMeetings = {};
   const dateNow = Date.now();
