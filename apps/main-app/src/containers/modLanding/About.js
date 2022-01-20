@@ -3,13 +3,13 @@ import style from './style.scss';
 import PropTypes from 'prop-types';
 import LinkToMOD from './LinkToMOD';
 
-const About = ({htmlContent, modVisitButtonText, linkToMod, sectionStyle, titleBarStyle}) => {
+const About = ({htmlContent, modVisitButtonText, linkToMod, sectionStyle}) => {
   return (
     <div className={`container ${style.containerExtra}`}>
       <div className={`${style.section} ${sectionStyle}`}>
         <h2 className={style.sectionTitle}>About</h2>
         <div dangerouslySetInnerHTML={{__html: htmlContent}}/>
-        <LinkToMOD modName={modVisitButtonText} titleBarStyle={titleBarStyle} linkAddress={linkToMod}/>
+        <LinkToMOD modName={modVisitButtonText} linkAddress={linkToMod}/>
       </div>
     </div>
   );

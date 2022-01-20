@@ -24,7 +24,7 @@ const MODLanding = ({modId}) => {
           <div className="row">
             <div data-testid={'modlanding_middle'} className={`col-xl-8 col-lg-8 col-md-8 col-sm-12 ${style.noPadding}`}>
               <About htmlContent={content.about} modVisitButtonText={content.modVisitButtonText} linkToMod={content.link}
-                                                 sectionStyle={content.sectionStyle} titleBarStyle={content.titleBarStyle} />
+                                                 sectionStyle={content.sectionStyle} />
               {content.hasNews && <News content={content} />}
               {content.hasMeetings && <Meetings content={content} />}
             </div>
