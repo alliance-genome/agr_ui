@@ -33,7 +33,7 @@ describe('WormBase Title', () => {
 
             const top_div = screen.getByTestId("modlanding_div");
             const aboutnewsmeet = screen.getByTestId("modlanding_middle");
-            const resources = screen.getByTestId("modlanding_resources")
+            const resources = screen.getByTestId("modlanding_right")
             const footer = screen.getByTestId("modlanding_footer");
             const footer_link = screen.getByTestId("footer_link");
 
@@ -52,7 +52,7 @@ describe('WormBase Title', () => {
 
             const top_div = screen.getByTestId("modlanding_div");
             const aboutnewsmeet = screen.getByTestId("modlanding_middle");
-            const resources = screen.getByTestId("modlanding_resources")
+            const resources = screen.getByTestId("modlanding_right")
             const footer = screen.getByTestId("modlanding_footer");
             const footer_link = screen.getByTestId("footer_link");
 

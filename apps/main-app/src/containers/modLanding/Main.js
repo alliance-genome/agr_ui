@@ -29,7 +29,7 @@ const MODLanding = ({modId}) => {
               {content.hasNews && <News content={content} />}
               {content.hasMeetings && <Meetings content={content} />}
             </div>
-            <div data-testid={'modlanding_resources'} className={`col-xl-4 col-lg-4 col-md-4 col-sm-12 ${style.noPadding}`}>
+            <div data-testid={'modlanding_right'} className={`col-xl-4 col-lg-4 col-md-4 col-sm-12 ${style.noPadding}`}>
               <Search links={content.search} sectionStyle={content.sectionStyle} />
               <Resources links={content.resources} sectionStyle={content.sectionStyle} />
             </div>
