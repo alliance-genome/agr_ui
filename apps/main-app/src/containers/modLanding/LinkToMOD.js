@@ -4,7 +4,7 @@ import style from './style.scss';
 
 const LinkToMOD = ({modName, linkAddress, titleBarStyle}) => {
   return (
-    <p>
+    <p data-testid="link-to-mod-parent">
       <a href={linkAddress} >
         <button className={`${style.buttonVisitMod} ${titleBarStyle}`} >Visit {modName}</button>
       </a>
