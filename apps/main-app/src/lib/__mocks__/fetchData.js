@@ -5,8 +5,9 @@ export default async function fetchData(url, options = {}, fetchTimeout=TIMEOUT)
     return Promise.resolve();
   }
 
-  // ZFIN News
+  // ZFIN News + Meetings (have the same format)
   // zfinNewsAPI: 'https://zfin.org/action/api/wiki/news?limit=5&page=1'
+  // zfinMeetingsAPI: 'https://zfin.org/action/api/wiki/meetings?limit=5&page=1'
   if (url.includes('zfin')){
     const response = {
       "results": [
