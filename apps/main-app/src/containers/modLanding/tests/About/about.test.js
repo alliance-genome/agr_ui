@@ -19,7 +19,7 @@ describe("About Section", () => {
     });
 
     it("should provide a mod link with the mod name and URL", () => {
-        const linkp = screen.getByTestId("link-to-mod-parent")
+        const linkp = screen.getByTestId("visit_mod_header")
 
         expect(linkp.firstChild).toHaveAttribute("href", "www.google.com");
         expect(linkp.firstChild).toHaveTextContent("Visit Button Text");

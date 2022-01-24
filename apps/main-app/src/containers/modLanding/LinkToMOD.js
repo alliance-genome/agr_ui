@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from "prop-types";
 import style from './style.scss';
 
-const LinkToMOD = ({modName, linkAddress, titleBarStyle}) => {
+const LinkToMOD = ({modName, linkAddress}) => {
   return (
-    <p data-testid="link-to-mod-parent">
-      <a href={linkAddress} >
-        <button className={`${style.buttonVisitMod} ${titleBarStyle}`} >Visit {modName}</button>
+    <h5 data-testid='visit_mod_header' className={style.externalNews} >
+      <a data-testid='visit_mod_link' href={linkAddress}>
+         Visit {modName}
       </a>
-    </p>
+    </h5>
   );
 }
 
