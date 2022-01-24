@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {Link, withRouter} from 'react-router-dom';
 import style from './style.scss';
 import Loader from './loader/index';
-import logo from './agrLogo.png';
+import logo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_agr.png';
 import SearchBar from './searchBar';
 import { MenuItems } from './navigation';
 import ReleaseBanner from './ReleaseBanner';
