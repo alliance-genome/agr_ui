@@ -4,8 +4,8 @@ import style from './style.scss';
 
 const LinkToMOD = ({modName, linkAddress}) => {
   return (
-    <h5 data-testid={'visit_mod_header'} className={style.externalNews} >
-      <a data-testid={'visit_mod_link'} href={linkAddress}>
+    <h5 data-testid='visit_mod_header' className={style.externalNews} >
+      <a data-testid='visit_mod_link' href={linkAddress}>
          Visit {modName}
       </a>
     </h5>
