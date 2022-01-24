@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import logo from './alliance-logo-white.png';
+import logo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_light.png';
 import SocialMedia from './SocialMedia';
 import SiteMap from './SiteMap';
 
