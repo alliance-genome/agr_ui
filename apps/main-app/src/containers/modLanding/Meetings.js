@@ -1,6 +1,7 @@
 import React from 'react';
 import style from './style.scss';
 import PropTypes from "prop-types";
+import MeetingsZfin from "./MeetingsZfin"
 import GoogleapisMeetings from "./googleapisMeetings"
 
 const Meetings = ({content}) => {
@@ -12,7 +13,10 @@ const Meetings = ({content}) => {
           if (content.googleapisMeetingsBaseURL) { 
             return (<GoogleapisMeetings urlMeetingsMod={content.googleapisMeetingsBaseURL} fetchMeetingsCount={content.fetchMeetingsCount}
                                         linkToMeetingsPage={content.linkToMeetingsPage} />); }
-          if (content.meetingsURL) { 
+          else if (content.zfinMeetingsAPI) {
+            return (<MeetingsZfin urlMeetingsMod={content.zfinMeetingsAPI} fetchMeetingsCount={content.fetchMeetingsCount}
+                                  linkToMeetingsPage={content.linkToMeetingsPage} />); }
+          else if (content.meetingsURL) { 
             return (<h5 data-testid={'meetings_link_header'} className={style.externalNews} >
                       <a data-testid={'more_meetings_link'} href={content.meetingsURL}>
                         Click here for the latest meetings from {content.modShortName}</a></h5>); }

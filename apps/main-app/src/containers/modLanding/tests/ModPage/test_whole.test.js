@@ -33,13 +33,13 @@ describe('WormBase Title', () => {
 
             const top_div = screen.getByTestId("modlanding_div");
             const aboutnewsmeet = screen.getByTestId("modlanding_middle");
-            const resources = screen.getByTestId("modlanding_resources")
+            const searchresources = screen.getByTestId("modlanding_right")
             const footer = screen.getByTestId("modlanding_footer");
             const footer_link = screen.getByTestId("footer_link");
 
             // Basically check each container is rendered
             expect(top_div).toContainElement(aboutnewsmeet);
-            expect(top_div).toContainElement(resources);
+            expect(top_div).toContainElement(searchresources);
             expect(top_div).toContainElement(footer);
             expect(footer).toContainElement(footer_link);
 
@@ -52,13 +52,13 @@ describe('WormBase Title', () => {
 
             const top_div = screen.getByTestId("modlanding_div");
             const aboutnewsmeet = screen.getByTestId("modlanding_middle");
-            const resources = screen.getByTestId("modlanding_resources")
+            const searchresources = screen.getByTestId("modlanding_right")
             const footer = screen.getByTestId("modlanding_footer");
             const footer_link = screen.getByTestId("footer_link");
 
             // Basically check each container is rendered
             expect(top_div).toContainElement(aboutnewsmeet);
-            expect(top_div).toContainElement(resources);
+            expect(top_div).toContainElement(searchresources);
             expect(top_div).toContainElement(footer);
             expect(footer).toContainElement(footer_link);
 
