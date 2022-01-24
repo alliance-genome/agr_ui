@@ -6,9 +6,9 @@ import LinkToMOD from './LinkToMOD';
 const About = ({htmlContent, modVisitButtonText, linkToMod, sectionStyle}) => {
   return (
     <div className={`container ${style.containerExtra}`}>
-      <div className={`${style.section} ${sectionStyle}`}>
-        <h2 className={style.sectionTitle}>About</h2>
-        <div dangerouslySetInnerHTML={{__html: htmlContent}}/>
+      <div data-testid="about-inner-container" className={`${style.section} ${sectionStyle}`}>
+        <h2 data-testid="header" className={style.sectionTitle}>About</h2>
+        <div data-testid="html-content" dangerouslySetInnerHTML={{__html: htmlContent}}/>
         <LinkToMOD modName={modVisitButtonText} linkAddress={linkToMod}/>
       </div>
     </div>
