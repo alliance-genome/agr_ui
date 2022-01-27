@@ -42,7 +42,7 @@ describe('WormBase Search', () => {
     // C. elegans should always be the first one.
     if('Should render C. elegans search as the first search link', () => {
        const footer = screen(getByTestId("href_search_0")); // First item
-       expect(footer).toHaveAttribute('href', 'search?q=Caenorhabditis elegans');
+       expect(footer).toHaveAttribute('href', 'search?q=Caenorhabditis elegans&category=gene');
        const label = screen.getByTestId('search_label_0')
        expect(label).toContainHTML('<i>C. elegans</i>');
     });
