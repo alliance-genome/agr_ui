@@ -33,7 +33,7 @@ const VariantToTranscriptTable = ({variant}) => {
       dataField: 'type',
       formatter: (type) => type && type.name,
       headerStyle: {
-        width: 100,
+        width: 150,
       },
     },
     {
