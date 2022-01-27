@@ -42,7 +42,7 @@ describe('FlyBase Search', () => {
     // D. melanogaster should always be the first one.
     if('Should render D. melanogaster search as the first search link', () => {
        const footer = screen(getByTestId("href_search_0")); // First item
-       expect(footer).toHaveAttribute('href', 'search?q=Drosophila melanogaster');
+       expect(footer).toHaveAttribute('href', 'search?q=Drosophila melanogaster&category=gene');
        const label = screen.getByTestId('search_label_0')
        expect(label).toContainHTML('<i>D. melanogaster</i>');
     });
