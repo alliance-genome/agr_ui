@@ -31,6 +31,7 @@ const VariantToTranscriptTable = ({variant}) => {
     {
       text: 'Sequence feature type',
       dataField: 'type',
+      width: 200,
       formatter: (type) => type && type.name,
       headerStyle: {
         width: 150,
