@@ -20,6 +20,10 @@ const News = ({content}) => {
           else if (content.flybaseNewsAPI) { 
             return (<NewsFlybase urlNewsMod={content.flybaseNewsAPI} fetchNewsCount={content.fetchNewsCount}
                                  linkToNewsPage={content.linkToNewsPage} />); }
+          else if (content.rgdNewsAPI) {
+            // rgd modeled their api format after flybase, so uses same
+            return (<NewsFlybase urlNewsMod={content.rgdNewsAPI} fetchNewsCount={content.fetchNewsCount}
+                                 linkToNewsPage={content.linkToNewsPage} />); }
           else if (content.newsURL) { 
             return (<h5 data-testid={'news_link_header'} className={style.externalNews} >
                       <a data-testid={'more_news_link'} href={content.newsURL}>

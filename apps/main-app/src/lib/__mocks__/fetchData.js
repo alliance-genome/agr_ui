@@ -26,9 +26,10 @@ export default async function fetchData(url, options = {}, fetchTimeout=TIMEOUT)
    return response;
   } // zfin end if
 
-  // FlyBase News
+  // FlyBase News + RGD News
   // flybaseNewsAPI: 'https://flybase.org/api/news?limit=3'
-  if (url.includes('flybase')) {
+  // rgdNewsAPI: 'https://rest.rgd.mcw.edu/rgdws/news/last?limit=3',
+  if ((url.includes('flybase')) || (url.includes('https://rest.rgd.mcw.edu/rgdws/news/last?limit=3'))) {
     const response = {
       "resultset": {
         "api_version": "1.0",
@@ -55,7 +56,38 @@ export default async function fetchData(url, options = {}, fetchTimeout=TIMEOUT)
       }
     } // end response
     return response;
-  } // flybase end if
+  } // flybase news + rgd news end if
+
+  // RGD Meetings
+  // rgdMeetingsAPI: 'https://rest.rgd.mcw.edu/rgdws/news/meetings?limit=3',
+  if (url.includes('https://rest.rgd.mcw.edu/rgdws/news/meetings?limit=3')) {
+    const response = {
+      "resultset": {
+        "api_version": "1.0",
+        "data_version": "FB2021_06",
+        "query_url": "https://rest.rgd.mcw.edu/rgdws/news/meetings?limit=3",
+        "query_time": "2022-01-11T03:13:09",
+        "result": [
+          {
+            "meetings": [
+              {
+                "link": "https:/blah1",
+                "excerpt": "Excerpt 1",
+                "title": "Update on rat title 1"
+              },
+              {
+                "link": "https:/blah2",
+                "excerpt": "Excerpt 2",
+                "title": "Update on rat title 2"
+              }
+            ]
+          }
+        ],
+        "data_provider": "RGD"
+      }
+    } // end response
+    return response;
+  } // rgd meetings end if
 
   // WormBase News wordpress Version 2
   // wordpressNewsBaseURL: 'https://public-api.wordpress.com/wp/v2/sites/blog.wormbase.org/posts'

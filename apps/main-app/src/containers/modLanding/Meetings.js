@@ -2,6 +2,7 @@ import React from 'react';
 import style from './style.scss';
 import PropTypes from "prop-types";
 import MeetingsZfin from "./MeetingsZfin"
+import MeetingsRgd from "./MeetingsRgd"
 import GoogleapisMeetings from "./googleapisMeetings"
 
 const Meetings = ({content}) => {
@@ -16,6 +17,10 @@ const Meetings = ({content}) => {
           else if (content.zfinMeetingsAPI) {
             return (<MeetingsZfin urlMeetingsMod={content.zfinMeetingsAPI} fetchMeetingsCount={content.fetchMeetingsCount}
                                   linkToMeetingsPage={content.linkToMeetingsPage} />); }
+          else if (content.rgdMeetingsAPI) {
+            // rgd modeled their api news+meetings format after flybase news, so very similar
+            return (<MeetingsRgd urlMeetingsMod={content.rgdMeetingsAPI} fetchMeetingsCount={content.fetchMeetingsCount}
+                                 linkToMeetingsPage={content.linkToMeetingsPage} />); }
           else if (content.meetingsURL) { 
             return (<h5 data-testid={'meetings_link_header'} className={style.externalNews} >
                       <a data-testid={'more_meetings_link'} href={content.meetingsURL}>
