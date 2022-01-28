@@ -42,7 +42,7 @@ describe('MGD Search', () => {
     // M. musculus should always be the first one.
     if('Should render M. musculus search as the first search link', () => {
        const footer = screen(getByTestId("href_search_0")); // First item
-       expect(footer).toHaveAttribute('href', 'search?q=Mus musculus&category=gene');
+       expect(footer).toHaveAttribute('href', 'search?species=Mus musculus&category=gene');
        const label = screen.getByTestId('search_label_0')
        expect(label).toContainHTML('<i>M. musculus</i>');
     });
