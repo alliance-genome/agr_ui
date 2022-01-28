@@ -244,7 +244,7 @@ export const MODContent = {
     logoImgSrc: rgdLogo,
     hasMeetings: true,
     rgdMeetingsAPI: 'https://rest.rgd.mcw.edu/rgdws/news/meetings?limit=3',
-    linkToMeetingsPage: 'https://rgd.mcw.edu/#meetings',
+    linkToMeetingsPage: 'https://rgd.mcw.edu/#conference',
     fetchMeetingsCount: 3,
     hasNews: true,
     rgdNewsAPI: 'https://rest.rgd.mcw.edu/rgdws/news/last?limit=3',
