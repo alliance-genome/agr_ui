@@ -42,7 +42,7 @@ describe('ZFIN Search', () => {
     // D. rerio should always be the first one.
     if('Should render D. rerio search as the first search link', () => {
        const footer = screen(getByTestId("href_search_0")); // First item
-       expect(footer).toHaveAttribute('href', 'search?q=Danio rerio&category=gene');
+       expect(footer).toHaveAttribute('href', 'search?species=Danio rerio&category=gene');
        const label = screen.getByTestId('search_label_0')
        expect(label).toContainHTML('<i>D. rerio</i>');
     });
