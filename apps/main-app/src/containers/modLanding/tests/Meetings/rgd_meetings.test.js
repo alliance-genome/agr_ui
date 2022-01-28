@@ -73,7 +73,7 @@ import '@testing-library/jest-dom'
          const more_div = screen.getByTestId("more_meetings_div");
          const more_link = screen.getByTestId("more_meetings_link");
          expect(more_div).toContainElement(more_link);
-         expect(more_link).toHaveAttribute('href', 'https://rgd.mcw.edu/#meetings');
+         expect(more_link).toHaveAttribute('href', 'https://rgd.mcw.edu/#conference');
       }, 10000);
 
      });
