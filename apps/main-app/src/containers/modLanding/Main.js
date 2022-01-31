@@ -7,8 +7,9 @@ import About from "./About";
 import Title from "./Title";
 import News from "./News";
 import Meetings from "./Meetings";
-import Resources from "./Resources";
 import Search from "./Search";
+import Resources from "./Resources";
+import VisitMod from "./VisitMod";
 import FooterAlt from "./FooterAlt"
 
 const MODLanding = ({modId}) => {
@@ -24,14 +25,15 @@ const MODLanding = ({modId}) => {
         <div className={`container ${style.containerExtra}`}>
           <div className="row">
             <div data-testid={'modlanding_middle'} className={`col-xl-8 col-lg-8 col-md-8 col-sm-12 ${style.noPadding}`}>
-              <About htmlContent={content.about} modVisitButtonText={content.modVisitButtonText} linkToMod={content.link}
-                                                 sectionStyle={content.sectionStyle} />
+              <About htmlContent={content.about} sectionStyle={content.sectionStyle} />
               {content.hasNews && <News content={content} />}
               {content.hasMeetings && <Meetings content={content} />}
             </div>
             <div data-testid={'modlanding_right'} className={`col-xl-4 col-lg-4 col-md-4 col-sm-12 ${style.noPadding}`}>
               <Search links={content.search} sectionStyle={content.sectionStyle} />
               <Resources links={content.resources} sectionStyle={content.sectionStyle} />
+              <VisitMod modVisitButtonText={content.modVisitButtonText} linkToMod={content.link}
+                        sectionStyle={content.sectionStyle} />
             </div>
           </div>
         </div>
