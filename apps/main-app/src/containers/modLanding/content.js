@@ -50,6 +50,8 @@ export const MODContent = {
       ['Nematode.net',                          'http://nematode.net/NN3_frontpage.cgi'],
       ['Nematodes.org',                         'http://www.nematodes.org/'],
       ['microPublication',                      'https://www.micropublication.org/'],
+      ['WormWiring',                            'https://www.wormwiring.org/'],
+      ['<i>more resources...</i>',              'https://wormbase.org/resources#234--10'],
     ],
     footer: [
       ['Citing WormBase',	                                     'https://wormbase.org/about/citing_wormbase#012--10'],
