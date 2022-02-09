@@ -110,6 +110,7 @@ export const MODContent = {
       ['General SGD Help',                  'https://sites.google.com/view/yeastgenome-help/sgd-general-help'],
       ['SGD Gene Registry',                 'https://sites.google.com/view/yeastgenome-help/community-help/gene-registry'],
       ['SGD BLAST',                         'https://www.yeastgenome.org/blast-sgd'],
+      ['microPublication',                  'https://www.micropublication.org/'],
     ],
     footer: [
       ['About SGD',                                         'https://sites.google.com/view/yeastgenome-help/about'],
@@ -168,6 +169,7 @@ export const MODContent = {
       ['Zebrafish Book',                          'https://zfin.org/zf_info/zfbook/zfbk.html'],
       ['Zebrafish International Resource Center', 'https://zebrafish.org/home/guide.php'],
       ['ZFIN Person Search',                      'https://zfin.org/action/profile/person/search'],
+      ['microPublication',                        'https://www.micropublication.org/'],
     ],
     footer: [
       ['Zebrafish Anatomy / GO / Human Disease',                     'https://zfin.org/action/ontology/search'],
@@ -217,6 +219,7 @@ export const MODContent = {
       ['Fly ID Validator',      'https://flybase.org/convert/id'],
       ['Fly Batch Download',    'https://flybase.org/batchdownload'],
       ['Fast-Track Your Paper', 'https://flybase.org/submission/publication/'],
+      ['microPublication',      'https://www.micropublication.org/'],
     ],
     footer: [
       ['FlyBase Support',                                     'https://flybase.org/wiki/FlyBase:About#FlyBase_Support'],
