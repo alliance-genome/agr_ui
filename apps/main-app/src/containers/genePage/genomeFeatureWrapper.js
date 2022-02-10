@@ -134,7 +134,7 @@ class GenomeFeatureWrapper extends Component {
     } else if (displayType === 'ISOFORM_AND_VARIANT') {
       return {
         'locale': 'global',
-        'chromosome': chromosome,
+        'chromosome': apolloPrefix==='yeast' ? 'chr' +chromosome : chromosome,
         'start': fmin,
         'end': fmax,
         'showVariantLabel': false,
