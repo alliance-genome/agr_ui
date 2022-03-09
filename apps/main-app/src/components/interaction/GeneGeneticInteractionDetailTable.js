@@ -115,9 +115,9 @@ const GeneGeneticInteractionDetailTable = ({
         formatter: (crossReferences = [], {sourceDatabase = {}, aggregationDatabase = {}} = {}) => (
           <div>
             {
-              crossReferences && crossReferences.map(({primaryKey, displayName, prefix, url} = {}) => (
+              crossReferences && crossReferences.map(({primaryKey, displayName, prefix, crossRefCompleteUrl} = {}) => (
                 <div key={primaryKey}>
-                  <ExternalLink href={url}>{prefix}:{displayName}</ExternalLink>
+                  <ExternalLink href={crossRefCompleteUrl}>{prefix}:{displayName}</ExternalLink>
                 </div>
               ))
             }
