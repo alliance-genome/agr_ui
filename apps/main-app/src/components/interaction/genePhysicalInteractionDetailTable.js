@@ -132,9 +132,9 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
       formatter: (crossReferences = [], {sourceDatabase = {}, aggregationDatabase = {}} = {}) => (
         <div>
           {
-            crossReferences.map(({primaryKey, displayName, prefix, url} = {}) => (
+            crossReferences.map(({primaryKey, displayName, prefix, crossRefCompleteUrl} = {}) => (
               <div key={primaryKey}>
-                <ExternalLink href={url}>{prefix}:{displayName}</ExternalLink>
+                <ExternalLink href={crossRefCompleteUrl}>{prefix}:{displayName}</ExternalLink>
               </div>
             ))
           }
