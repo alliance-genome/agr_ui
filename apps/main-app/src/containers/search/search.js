@@ -66,7 +66,7 @@ class SearchComponent extends Component {
     qp.offset = _offset;
     const searchUrl = `${BASE_SEARCH_URL}?${stringifyQuery(qp)}`;
     this.props.dispatch(setPageLoading(true));
-    fetchData(searchUrl)
+    fetchData(searchUrl, undefined, 60000)
       .then( (data) => {
         this.props.dispatch(receiveResponse(data, this.props.queryParams));
         this.props.dispatch(setError(false));
