@@ -1,4 +1,12 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
+import flybaseLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_flybase.png';
+import mgdLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_mgd.png';
+import rgdLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_rgd.png';
+import sgdLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_sgd.png';
+import wormbaseLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_wormbase.png';
+import zfinLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_zfin.png';
+import gocLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_goc.png';
 
 import style from './style.scss';
 
@@ -8,34 +16,48 @@ const MembersSection = () => {
       <div className={style.contentContainer}>
         <h1>Members</h1>
         <div className='d-flex flex-wrap'>
-          <a className={style.member} href='https://flybase.org/'>
-            <img src='https://alliancegenome.files.wordpress.com/2016/11/logo_flybase.png' />
-            FlyBase
-          </a>
-          <a className={style.member} href='http://www.informatics.jax.org/'>
-            <img src='https://alliancegenome.files.wordpress.com/2016/11/logo_rgd.png' />
-            MGD
-          </a>
-          <a className={style.member} href='https://rgd.mcw.edu/'>
-            <img src='https://alliancegenome.files.wordpress.com/2016/11/logo_mgd.png' />
-            RGD
-          </a>
-          <a className={style.member} href='https://www.yeastgenome.org/'>
-            <img src='https://alliancegenome.files.wordpress.com/2016/11/logo_sgd.png' />
-            SGD
-          </a>
-          <a className={style.member} href='https://www.wormbase.org/'>
-            <img src='https://alliancegenome.files.wordpress.com/2016/11/logo_wormbase.png' />
-            WormBase
-          </a>
-          <a className={style.member} href='https://zfin.org/'>
-            <img src='https://alliancegenome.files.wordpress.com/2016/11/logo_zfin.png' />
-            ZFIN
-          </a>
-          <a className={style.member} href='http://www.geneontology.org/'>
-            <img src='https://alliancegenome.files.wordpress.com/2016/11/logo_goc.png' />
-            GOC
-          </a>
+          <div className={style.member} >
+            <Link to='/members/flybase'>
+              <img src={flybaseLogo}/>
+              FlyBase
+            </Link>
+          </div>
+          <div className={style.member} >
+            <Link to='/members/mgd'>
+              <img src={mgdLogo} />
+              MGD
+            </Link>
+          </div>
+          <div className={style.member} >
+            <Link to='/members/rgd'>
+              <img src={rgdLogo} />
+              RGD
+            </Link>
+          </div>
+          <div className={style.member} >
+            <Link to='/members/sgd'>
+              <img src={sgdLogo} />
+              SGD
+            </Link>
+          </div>
+          <div className={style.member} >
+            <Link to='/members/wormbase'>
+              <img src={wormbaseLogo} />
+              WormBase
+            </Link>
+          </div>
+          <div className={style.member} >
+            <Link to='/members/zfin'>
+              <img src={zfinLogo} />
+              ZFIN
+            </Link>
+          </div>
+          <div className={style.member} >
+            <Link to='/members/goc'>
+              <img src={gocLogo} />
+              GOC
+            </Link>
+          </div>
         </div>
       </div>
     </section>
