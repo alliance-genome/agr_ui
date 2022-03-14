@@ -222,7 +222,7 @@ const DownloadsPage = () => {
             />
             <DownloadFileRow
               description={<><SpeciesName>Rattus norvegicus</SpeciesName> variants</>}
-              files={[getFileForDataType('VCF', 'Rnor60')]}
+              files={[getFileForDataType('VCF', 'mRatBN7.2')]}
             />
           </DownloadFileTable>
         </Subsection>
