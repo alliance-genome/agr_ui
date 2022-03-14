@@ -218,7 +218,7 @@ const DownloadsPage = () => {
             />
             <DownloadFileRow
               description={<><SpeciesName>Mus musculus</SpeciesName> variants</>}
-              files={[getFileForDataType('VCF', 'GRCm38')]}
+              files={[getFileForDataType('VCF', 'GRCm39')]}
             />
             <DownloadFileRow
               description={<><SpeciesName>Rattus norvegicus</SpeciesName> variants</>}
