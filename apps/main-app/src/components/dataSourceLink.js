@@ -7,7 +7,7 @@ class DataSourceLink extends Component {
   render() {
     const {children, reference} = this.props;
     return (
-      reference ? <ExternalLink href={reference && reference.url}>
+      reference ? <ExternalLink href={reference && reference.crossRefCompleteUrl}>
         {children || reference.displayName || reference.name}
       </ExternalLink> : null
     );

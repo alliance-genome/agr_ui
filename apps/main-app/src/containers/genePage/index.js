@@ -93,7 +93,7 @@ const GenePage = ({geneId}) => {
   if (getSpecies(data.species.taxonId).enableSingleCellExpressionAtlasLink) {
     singleCellAtlasXRef = {
       name: 'Single Cell Expression Atlas',
-      url: `https://www.ebi.ac.uk/gxa/sc/search?q=${data.symbol}&species=${data.species.name}`,
+      crossRefCompleteUrl: `https://www.ebi.ac.uk/gxa/sc/search?q=${data.symbol}&species=${data.species.name}`,
     };
   }
 
