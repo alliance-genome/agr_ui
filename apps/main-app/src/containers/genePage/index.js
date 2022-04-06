@@ -136,6 +136,7 @@ const GenePage = ({geneId}) => {
             geneId={data.id}
             geneSpecies={data.species}
             geneSymbol={data.symbol}
+            xrefs={data.crossReferenceMap}
           />
         </Subsection>
         
