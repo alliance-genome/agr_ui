@@ -9,8 +9,8 @@ const OrthologyUserGuide = () => (
       represented, including human. The Alliance provides the results of
       all methods that have been benchmarked by the <ExternalLink href='https://questfororthologs.org/'>
       Quest for Orthologs Consortium (QfO)</ExternalLink>, as well as curated
-      ortholog inferences from HGNC (for human, mouse and rat genes), and
-      ZFIN (relating zebrafish genes to orthologs in human and rat).
+      ortholog inferences from HGNC (for human and mouse genes), and
+      ZFIN (relating zebrafish genes to orthologs in human, mouse, and fly).
     </p>
     <p>
       The ortholog inferences from the different methods have been
