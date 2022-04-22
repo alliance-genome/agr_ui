@@ -5,6 +5,7 @@ import AboutSection from './AboutSection';
 import MembersSection from './MembersSection';
 import style from './style.scss';
 import CovidInfoLink from '../../components/CovidInfoLink';
+import DavidShawUserSurvey from '../../components/DavidShawUserSurvey';
 
 const Homepage = () => {
   return (
@@ -13,6 +14,12 @@ const Homepage = () => {
       <SearchSection />
 
       <section className={style.section}>
+        <div className={`${style.contentContainer}`}>
+          <DavidShawUserSurvey />
+        </div>
+
+        <div><br/><br/></div>
+
         <div className={`${style.contentContainer}`}>
           <CovidInfoLink />
         </div>
