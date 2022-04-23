@@ -18,11 +18,12 @@ const Homepage = () => {
         <div className={`${style.contentContainer}`}>
           <DavidShawUserSurvey />
         </div>
-{/*
-        <WordpressInject slug='about-us' />
-  */}
 
         <div><br/><br/></div>
+
+        <div className={`${style.contentContainer}`}>
+          <WordpressInject  slug='agr-inject-homepage' />
+        </div>
 
         <div className={`${style.contentContainer}`}>
           <CovidInfoLink />
