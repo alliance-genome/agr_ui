@@ -6,6 +6,7 @@ import MembersSection from './MembersSection';
 import style from './style.scss';
 import CovidInfoLink from '../../components/CovidInfoLink';
 import DavidShawUserSurvey from '../../components/DavidShawUserSurvey';
+import WordpressInject from '../wordpress/wordpressInject';
 
 const Homepage = () => {
   return (
@@ -17,6 +18,9 @@ const Homepage = () => {
         <div className={`${style.contentContainer}`}>
           <DavidShawUserSurvey />
         </div>
+{/*
+        <WordpressInject slug='about-us' />
+  */}
 
         <div><br/><br/></div>
 
