@@ -24,13 +24,7 @@ const WordpressInject = ({slug}) => {
 
   const title = post.title.rendered;
   return (
-    <div className={style.wordPressContainer}>
-      <div className='container'>
-        <div className='row'>
-          <ReplaceLinks html={post.content.rendered} />
-        </div>
-      </div>
-    </div>
+    <ReplaceLinks html={post.content.rendered} />
   );
 };
 
