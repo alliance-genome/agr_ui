@@ -17,9 +17,7 @@ const ALL_METHODS = {
   },
   PhylomeDB: {
   },
-  Roundup: {
-  },
-  TreeFam: {
+  SonicParanoid: {
   },
   ZFIN: {
   }
