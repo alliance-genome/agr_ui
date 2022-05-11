@@ -17,7 +17,7 @@ const ALL_METHODS = {
   },
   PhylomeDB: {
   },
-  SonicParanoid: {
+  sonicParanoid: {
   },
   ZFIN: {
   }
