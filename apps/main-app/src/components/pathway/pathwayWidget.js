@@ -142,7 +142,14 @@ class PathwayWidget extends Component {
       // console.log("cutils: gocontext ", data);
       let map = cutils.parseContext(data);
       let curieUtils = new cutils.CurieUtil(map);
-      let iri = curieUtils.getIri(this.props.geneId);
+      let geneId = this.props.geneId;
+      if(geneId.includes("HGNC:")) {
+        let uniprotIds = this.getUniProtIDFromXrefs();
+        if(uniprotIds.length > 0) {
+          geneId = uniprotIds[0];
+        }
+      }
+      let iri = curieUtils.getIri(geneId);
       this.setState({ "cutils" : curieUtils})
       return iri;
 
@@ -242,6 +249,18 @@ class PathwayWidget extends Component {
     let query = "http://mygene.info/v3/query?q=" + modID + "&fields=uniprot";
     // console.log("Get Uniprot ID: ", query);
     return fetchData(query);
+  }
+
+  getUniProtIDFromXrefs() {
+    let uniprotIds = [];
+    let otherXrefs = this.props.xrefs.other;
+    otherXrefs.forEach(xref => {
+      let xrefId = xref.displayName;
+      if(xrefId.includes("UniProtKB:")) {
+        uniprotIds.push(xrefId);
+      }
+    });
+    return uniprotIds;
   }
 
   /**
@@ -496,6 +515,7 @@ PathwayWidget.propTypes = {
   geneSpecies: PropTypes.object,
   geneSymbol: PropTypes.string,
   history: PropTypes.object,
+  xrefs: PropTypes.object,
 };
 
 export default withRouter(PathwayWidget);
