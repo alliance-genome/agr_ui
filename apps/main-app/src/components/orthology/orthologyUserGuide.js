@@ -18,7 +18,7 @@ const OrthologyUserGuide = () => (
       (DIOPT). DIOPT integrates a number of existing methods including
       those used by the Alliance: Ensembl Compara, HGNC, Hieranoid,
       InParanoid, OMA, OrthoFinder, OrthoInspector, PANTHER, PhylomeDB,
-      SonicParanoid, and ZFIN. See the <ExternalLink href='https://fgr.hms.harvard.edu/diopt-documentation'>
+      sonicParanoid, and ZFIN. See the <ExternalLink href='https://fgr.hms.harvard.edu/diopt-documentation'>
       DIOPT documentation</ExternalLink> for additional information and
       references related to the included methods. DIOPT assigns a
       score/count based on the number of methods that call a specific
