@@ -6,6 +6,7 @@ import rgdLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_l
 import sgdLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_sgd.png';
 import wormbaseLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_wormbase.png';
 import zfinLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_zfin.png';
+import xenbaseLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_xenbase.png';
 import gocLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_goc.png';
 
 import style from './style.scss';
@@ -50,6 +51,12 @@ const MembersSection = () => {
             <Link to='/members/zfin'>
               <img src={zfinLogo} />
               ZFIN
+            </Link>
+          </div>
+          <div className={style.member} >
+            <Link to='/members/xenbase'>
+              <img src={xenbaseLogo} />
+              Xenbase
             </Link>
           </div>
           <div className={style.member} >
