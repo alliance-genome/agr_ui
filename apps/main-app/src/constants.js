@@ -121,6 +121,11 @@ export const NAV_MENU = [
         route: '/members/wormbase'
       },
       {
+        label: 'Xenbase',
+        shortLabel: 'Xenbase',
+        route: 'https://www.xenbase.org/'
+      },
+      {
         label: 'Zebrafish Information Network',
         shortLabel: 'ZFIN',
         route: '/members/zfin'
