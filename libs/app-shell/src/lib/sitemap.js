@@ -20,7 +20,7 @@ const sitemap = [
       },
       {
         label: 'AllianceMine',
-        route: '/alliancemine',
+        route: '/bluegenes',
       },
     ],
   },
