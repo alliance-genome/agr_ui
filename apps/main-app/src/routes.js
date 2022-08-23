@@ -47,9 +47,9 @@ export default (
 
       <Route
         exact
-        path='/alliancemine'
+        path='/bluegenes'
         render={() => {
-          window.location.href = '/alliancemine';
+          window.location.href = '/bluegenes';
           return null;
         }}
       />
