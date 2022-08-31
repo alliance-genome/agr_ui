@@ -1,6 +1,6 @@
 .speciesIcon {
   background-image: url(./speciesSprite.png);
-  background-size: 700% 100%;
+  background-size: 800% 100%;
   display: inline-block;
 }
 
@@ -15,26 +15,34 @@
 }
 
 .speciesIcon.Homo-sapiens { /* human */
-  background-position: 16.6667% 0;
+  background-position: 14.2857% 0;
 }
 
 .speciesIcon.Mus-musculus { /* mouse */
-  background-position: 33.3333% 0;
+  background-position: 28.5714% 0;
 }
 
 .speciesIcon.Rattus-norvegicus { /* rat */
-  background-position: 50% 0;
+  background-position: 42.8571% 0;
 }
 
 .speciesIcon.Saccharomyces-cerevisiae { /* yeast */
-  background-position: 66.6667% 0;
+  background-position: 57.1429% 0;
 }
 
 .speciesIcon.Caenorhabditis-elegans { /* worm */
-  background-position: 83.3333% 0;
+  background-position: 71.4286% 0;
 }
 
 .speciesIcon.Danio-rerio { /* zebrafish */
+  background-position: 85.7143% 0;
+}
+
+.speciesIcon.Xenopus-tropicalis{ /* frog */
+  background-position: 100% 0;
+}
+
+.speciesIcon.Xenopus-laevis{ /* frog */
   background-position: 100% 0;
 }
 
