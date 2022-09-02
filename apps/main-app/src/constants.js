@@ -232,6 +232,28 @@ export const DEFAULT_TABLE_STATE = {
 
 export const SPECIES = [
   {
+    taxonId: 'NCBITaxon:8355',
+    fullName: 'Xenopus laevis',
+    shortName: 'Xla',
+    apolloName: 'x_laevis',
+    apolloTrack: '/All%20Genes/',
+    jBrowseName: 'Xenopus laevis',
+    vertebrate: true,
+    enableSingleCellExpressionAtlasLink: true,
+    enableOrthologComparison: true,
+  },
+  {
+    taxonId: 'NCBITaxon:8364',
+    fullName: 'Xenopus tropicalis',
+    shortName: 'Xtr',
+    apolloName: 'x_tropicalis',
+    apolloTrack: '/All%20Genes/',
+    jBrowseName: 'Xenopus tropicalis',
+    vertebrate: true,
+    enableSingleCellExpressionAtlasLink: true,
+    enableOrthologComparison: true,
+  },
+  {
     taxonId: 'NCBITaxon:9606',
     fullName: 'Homo sapiens',
     shortName: 'Hsa',
