@@ -113,7 +113,7 @@ class GenomeFeatureWrapper extends Component {
     if (displayType === 'ISOFORM') {
       return {
         'locale': 'global',
-        'chromosome': apolloPrefix==='yeast' ? 'chr' +chromosome : chromosome,
+        'chromosome': (apolloPrefix==='yeast' || apolloPrefix==='x_laevis') ? 'chr' +chromosome : chromosome,
         'start': fmin,
         'end': fmax,
         'transcriptTypes': transcriptTypes,
@@ -134,7 +134,7 @@ class GenomeFeatureWrapper extends Component {
     } else if (displayType === 'ISOFORM_AND_VARIANT') {
       return {
         'locale': 'global',
-        'chromosome': apolloPrefix==='yeast' ? 'chr' +chromosome : chromosome,
+        'chromosome': (apolloPrefix==='yeast' || apolloPrefix==='x_laevis') ? 'chr' +chromosome : chromosome,
         'start': fmin,
         'end': fmax,
         'showVariantLabel': false,
