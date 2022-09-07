@@ -53,8 +53,6 @@ const TAXON_SUBTYPES = [
   {species: 'Rattus norvegicus', subType: 'NCBITaxon10116'},
   {species: 'Saccharomyces cerevisiae', subType: 'NCBITaxon559292'},
   {species: 'SARS-CoV-2', subType: 'NCBITaxon2697049'},
-  {species: 'Xenopus laevis', subType: 'NCBITaxon8355'},
-  {species: 'Xenopus tropicalis', subType: 'NCBITaxon8364'}
 ];
 
 const DownloadsPage = () => {
