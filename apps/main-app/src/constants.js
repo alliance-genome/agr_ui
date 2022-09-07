@@ -239,7 +239,7 @@ export const SPECIES = [
     apolloTrack: '/All%20Genes/',
     jBrowseName: 'Xenopus laevis',
     vertebrate: true,
-    enableSingleCellExpressionAtlasLink: true,
+    enableSingleCellExpressionAtlasLink: false,
     enableOrthologComparison: true,
   },
   {
@@ -250,7 +250,7 @@ export const SPECIES = [
     apolloTrack: '/All%20Genes/',
     jBrowseName: 'Xenopus tropicalis',
     vertebrate: true,
-    enableSingleCellExpressionAtlasLink: true,
+    enableSingleCellExpressionAtlasLink: false,
     enableOrthologComparison: true,
   },
   {
