@@ -41,7 +41,9 @@ const SPECIES_SUBTYPES = [
   {species: 'Homo sapiens', subType: 'HUMAN'},
   {species: 'Mus musculus', subType: 'MGI'},
   {species: 'Rattus norvegicus', subType: 'RGD'},
-  {species: 'Saccharomyces cerevisiae', subType: 'SGD'}
+  {species: 'Saccharomyces cerevisiae', subType: 'SGD'},
+  {species: 'Xenopus laevis', subType: 'XBXL'},
+  {species: 'Xenopus tropicalis', subType: 'XBXT'}
 ];
 const TAXON_SUBTYPES = [
   {species: 'Caenorhabditis elegans', subType: 'NCBITaxon6239'},
@@ -50,7 +52,9 @@ const TAXON_SUBTYPES = [
   {species: 'Mus musculus', subType: 'NCBITaxon10090'},
   {species: 'Rattus norvegicus', subType: 'NCBITaxon10116'},
   {species: 'Saccharomyces cerevisiae', subType: 'NCBITaxon559292'},
-  {species: 'SARS-CoV-2', subType: 'NCBITaxon2697049'}
+  {species: 'SARS-CoV-2', subType: 'NCBITaxon2697049'},
+  {species: 'Xenopus laevis', subType: 'NCBITaxon8355'},
+  {species: 'Xenopus tropicalis', subType: 'NCBITaxon8364'}
 ];
 
 const DownloadsPage = () => {
