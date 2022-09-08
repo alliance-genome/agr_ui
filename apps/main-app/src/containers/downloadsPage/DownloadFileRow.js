@@ -6,6 +6,8 @@ const DownloadFileRow = ({description, files}) => {
   // remove any undefined entries in the array
   files = files.filter(u => u);
 
+  if(files.length === 0) return null;
+
   return (
     <tr>
       <td>{description}</td>
