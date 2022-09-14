@@ -92,6 +92,9 @@ class GenomeFeatureWrapper extends Component {
     let bufferedMin = Math.round(start - (linkLength * LINK_BUFFER / 2.0));
     bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
     const bufferedMax = Math.round(end + (linkLength * LINK_BUFFER / 2.0));
+    if(this.props.species === 'NCBITaxon:8355' && !chr.toLowerCase().startsWith('chr')){
+      chr = 'chr' + chr;
+    }
     const externalLocationString = chr + ':' + bufferedMin + '..' + bufferedMax;
     // TODO: handle bufferedMax exceeding chromosome length, though I think it has a good default.
     const tracks = ['Variants', 'All Genes','Multiple-Variant Alleles', 'High Throughput Variants'];
