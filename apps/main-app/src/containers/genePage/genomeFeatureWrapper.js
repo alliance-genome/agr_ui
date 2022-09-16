@@ -92,7 +92,7 @@ class GenomeFeatureWrapper extends Component {
     let bufferedMin = Math.round(start - (linkLength * LINK_BUFFER / 2.0));
     bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
     const bufferedMax = Math.round(end + (linkLength * LINK_BUFFER / 2.0));
-    if(this.props.species === 'NCBITaxon:8355' && !chr.toLowerCase().startsWith('chr')){
+    if(this.props.species === 'NCBITaxon:8355' && !chr.toLowerCase().startsWith('chr') && !chr.toLowerCase().startsWith('scaffold')){
       chr = 'chr' + chr;
     }
     const externalLocationString = chr + ':' + bufferedMin + '..' + bufferedMax;
@@ -215,7 +215,7 @@ class GenomeFeatureWrapper extends Component {
       return(
         <span key={location.chromosome+location.start+location.end}>
           <ExternalLink href={this.generateJBrowseLink(location.chromosome,location.start,location.end)}>
-            {location.chromosome.toLowerCase().startsWith('chr') ? location.chromosome : 'Chr' + location.chromosome}:{location.start}...{location.end}
+            {location.chromosome.toLowerCase().startsWith('chr') || location.chromosome.toLowerCase().startsWith('scaffold') ? location.chromosome : 'Chr' + location.chromosome}:{location.start}...{location.end}
           </ExternalLink> {location.strand} ({numeral((location.end - location.start) / 1000.0).format('0,0.00')} kb)
         </span>
       );
