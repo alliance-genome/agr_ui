@@ -9,7 +9,7 @@ const OrthologyUserGuide = () => (
       represented, including human. The Alliance provides the results of
       all methods that have been benchmarked by the <ExternalLink href='https://questfororthologs.org/'>
       Quest for Orthologs Consortium (QfO)</ExternalLink>, as well as curated
-      ortholog inferences from HGNC (for human and mouse genes), and
+      ortholog inferences from HGNC (for human and mouse genes), Xenbase (for frog genes), and
       ZFIN (relating zebrafish genes to orthologs in human, mouse, and fly).
     </p>
     <p>
@@ -18,7 +18,7 @@ const OrthologyUserGuide = () => (
       (DIOPT). DIOPT integrates a number of existing methods including
       those used by the Alliance: Ensembl Compara, HGNC, Hieranoid,
       InParanoid, OMA, OrthoFinder, OrthoInspector, PANTHER, PhylomeDB,
-      SonicParanoid, and ZFIN. See the <ExternalLink href='https://fgr.hms.harvard.edu/diopt-documentation'>
+      SonicParanoid, Xenbase, and ZFIN. See the <ExternalLink href='https://fgr.hms.harvard.edu/diopt-documentation'>
       DIOPT documentation</ExternalLink> for additional information and
       references related to the included methods. DIOPT assigns a
       score/count based on the number of methods that call a specific
