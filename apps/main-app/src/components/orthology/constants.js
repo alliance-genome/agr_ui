@@ -23,6 +23,8 @@ const ALL_METHODS = {
   },
   SonicParanoid: {
   },
+  Xenbase: {
+  },
   ZFIN: {
   }
 };
