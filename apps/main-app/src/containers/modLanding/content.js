@@ -12,9 +12,15 @@ export const MODContent = {
   'wormbase': {
     about: '<p>WormBase is an international consortium of biologists and computer scientists providing the research ' +
       'community with accurate, current, accessible information concerning the genetics, genomics and biology of ' +
-      '<i>C. elegans</i> and related nematodes. Founded in 2000, the WormBase Consortium is led by Paul Sternberg ' +
-      '(CalTech), Matt Berriman (The Wellcome Trust Sanger Institute), Kevin Howe (EBI), and Lincoln Stein (The ' +
-      'Ontario Institute for Cancer Research).' +
+      '<i>C. elegans</i> and related nematodes. Founded in 2000, the WormBase Consortium is led by ' +
+      '<a href="https://wormbase.org/resources/person/WBPerson625#02--10" target="_blank">Paul Sternberg</a> ' +
+      '(California Institute of Technology), ' +
+      '<a href="https://wormbase.org/resources/person/WBPerson6308#02--10" target="_blank">Matt Berriman</a> ' +
+      '(Institute of Infection, Immunity and Inflammation, University of Glasgow), ' +
+      '<a href="https://wormbase.org/resources/person/WBPerson57242#02--10" target="_blank">Sarah Dyer</a> ' +
+      '(European Molecular Biology Laboratory-European Bioinformatics Institute), and ' +
+      '<a href="https://wormbase.org/resources/person/WBPerson1482#02--10" target="_blank">Lincoln Stein</a> ' +
+      '(The Ontario Institute for Cancer Research).' +
       '</p>' +
       '<p>' +
       'WormBase is a founding member of the Alliance of Genome Resources Project.' +
