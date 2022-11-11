@@ -2,20 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   SpeciesCell,
-  GeneCell,
+  GeneCellCuration,
   ReferenceCell,
-  EvidenceCodesCell,
-  BasedOnGeneCell,
-  DataTable,
+  EvidenceCodesCellCuration,
+  BasedOnGeneCellCuration,
+  DataTable, ReferenceCellCuration, ReferencesCellCuration,
 } from '../dataTable';
-import AnnotatedEntitiesPopup from '../dataTable/AnnotatedEntitiesPopup';
+import AnnotatedEntitiesPopupCuration from '../dataTable/AnnotatedEntitiesPopupCuration';
 import DiseaseLink from './DiseaseLink';
 import {getDistinctFieldValue} from '../dataTable/utils';
 import { compareByFixedOrder } from '../../lib/utils';
 import { SPECIES_NAME_ORDER } from '../../constants';
 import ProvidersCell from '../dataTable/ProvidersCell';
-import useComparisonRibbonTableQuery
-  from '../../hooks/useComparisonRibbonTableQuery';
+import useComparisonRibbonTableQuery from '../../hooks/useComparisonRibbonTableQuery';
 import SpeciesName from '../SpeciesName';
 import AssociationType from '../AssociationType';
 
@@ -42,24 +41,24 @@ const DiseaseAnnotationTable = ({
 
   let columns = [
     {
-      dataField: 'species',
+      dataField: 'subject.taxon',
       text: 'Species',
-      filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
+      filterable: getDistinctFieldValue(resolvedData, 'subject.taxon').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
       headerStyle: {width: '100px'},
       formatter: species => <SpeciesCell species={species} />,
       hidden: !orthologGenes || !orthologGenes.length
     },
     {
-      dataField: 'gene',
+      dataField: 'subject.curie',
       text: 'Gene',
-      formatter:  (gene, row) => (
+      formatter:  (curie, row) => (
         <React.Fragment>
-          <div>{GeneCell(gene)}</div>
+          <div>{GeneCellCuration(row.subject)}</div>
           <small>
-            <AnnotatedEntitiesPopup entities={row.primaryAnnotatedEntities}>
+            <AnnotatedEntitiesPopupCuration entities={row.primaryAnnotations}>
               Annotation details
-            </AnnotatedEntitiesPopup>
+            </AnnotatedEntitiesPopupCuration>
           </small>
         </React.Fragment>
       ),
@@ -67,26 +66,26 @@ const DiseaseAnnotationTable = ({
       headerStyle: {width: '75px'},
     },
     {
-      dataField: 'associationType',
+      dataField: 'diseaseRelation.name',
       text: 'Association',
       formatter: type => <AssociationType type={type} />,
-      filterable: getDistinctFieldValue(resolvedData, 'associationType'),
+      filterable: getDistinctFieldValue(resolvedData, 'diseaseRelation.name'),
       filterFormatter: type => <AssociationType type={type} />,
       headerStyle: {width: '120px'},
     },
     {
-      dataField: 'disease',
+      dataField: 'object.curie',
       text: 'Disease',
       filterable: true,
       headerStyle: {width: '150px'},
-      formatter: disease => <DiseaseLink disease={disease} />,
+      formatter: (curie, row) => <DiseaseLink disease={row.object} />,
     },
     {
       dataField: 'evidenceCodes',
       text: 'Evidence',
       filterable: true,
       headerStyle: {width: '100px'},
-      formatter: codes => <EvidenceCodesCell evidenceCodes={codes} />,
+      formatter: codes => <EvidenceCodesCellCuration evidenceCodes={codes} />,
       filterName: 'evidenceCode',
     },
     {
@@ -98,25 +97,25 @@ const DiseaseAnnotationTable = ({
       filterName: 'provider',
     },
     {
-      dataField: 'orthologyGenes',
+      dataField: 'primaryAnnotations[0].with',
       text: 'Based On',
       filterable: true,
       filterName: 'basedOnGeneSymbol',
       headerStyle: {width: '100px'},
-      formatter: BasedOnGeneCell,
+      formatter: BasedOnGeneCellCuration,
     },
     {
-      dataField: 'publications',
+      dataField: 'references',
       text: 'References',
       filterable: true,
       filterName: 'reference',
       headerStyle: {width: '150px'},
-      formatter: ReferenceCell,
+      formatter: ReferencesCellCuration,
     }
   ];
 
   const data = results.map(annotation => ({
-    species: annotation.gene.species,
+    species: annotation.subject.taxon,
     ...annotation,
   }));
 
@@ -126,7 +125,7 @@ const DiseaseAnnotationTable = ({
       columns={columns}
       data={data}
       downloadUrl={downloadUrl}
-      keyField='primaryKey'
+      keyField='id'
     />
   );
 };
