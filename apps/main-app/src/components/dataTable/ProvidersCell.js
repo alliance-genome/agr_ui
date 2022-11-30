@@ -26,13 +26,13 @@ const ProvidersCell = ({providers}) => {
       }
     </CommaSeparatedList>
   );
-};
+}
 
 ProvidersCell.propTypes = {
   providers: PropTypes.arrayOf(PropTypes.shape({
     sourceProvider: dataSourceType.isRequired,
     loadProvider: dataSourceType,
   })).isRequired,
-};
+};;
 
 export default ProvidersCell;

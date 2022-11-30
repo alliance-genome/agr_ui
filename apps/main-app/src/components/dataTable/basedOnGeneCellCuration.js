@@ -1,6 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { shortSpeciesName} from '../../lib/utils';
 import { CollapsibleList } from '../../components/collapsibleList';
 import GeneSymbol from '../GeneSymbol';

@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  SpeciesCell,
-  GeneCellCuration,
-  ReferenceCell,
-  EvidenceCodesCellCuration,
   BasedOnGeneCellCuration,
-  DataTable, ReferenceCellCuration, ReferencesCellCuration,
+  DataTable,
+  EvidenceCodesCellCuration,
+  GeneCellCuration,
+  ReferencesCellCuration,
+  SpeciesCell,
 } from '../dataTable';
 import AnnotatedEntitiesPopupCuration from '../dataTable/AnnotatedEntitiesPopupCuration';
 import DiseaseLink from './DiseaseLink';
 import {getDistinctFieldValue} from '../dataTable/utils';
-import { compareByFixedOrder } from '../../lib/utils';
-import { SPECIES_NAME_ORDER } from '../../constants';
-import ProvidersCell from '../dataTable/ProvidersCell';
+import {compareByFixedOrder} from '../../lib/utils';
+import {SPECIES_NAME_ORDER} from '../../constants';
+import ProvidersCellCuration from '../dataTable/ProvidersCellCuration';
 import useComparisonRibbonTableQuery from '../../hooks/useComparisonRibbonTableQuery';
 import SpeciesName from '../SpeciesName';
 import AssociationType from '../AssociationType';
@@ -39,9 +39,24 @@ const DiseaseAnnotationTable = ({
     ...tableProps
   } = useComparisonRibbonTableQuery('/api/disease', focusGeneId, orthologGenes, term, params);
 
+  const buildProviders = (annotation) => {
+    return annotation.primaryAnnotations.map(primaryAnnotation => {
+      return {
+        dataProvider: primaryAnnotation.dataProvider,
+        secondaryDataProvider: primaryAnnotation.secondaryDataProvider
+      }
+    });
+  }
+
+  const buildWith = (annotation) => {
+		const filteredPrimaryAnnotations = annotation.primaryAnnotations.filter(primaryAnnotation => primaryAnnotation.with);
+    const withArray = filteredPrimaryAnnotations.map(primaryAnnotation => primaryAnnotation.with);
+		return withArray.flat(1);
+  }
+
   let columns = [
     {
-      dataField: 'subject.taxon',
+      dataField: 'species',
       text: 'Species',
       filterName: 'species',
       filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
@@ -93,13 +108,13 @@ const DiseaseAnnotationTable = ({
     {
       dataField: 'providers',
       text: 'Source',
-      formatter: providers => providers && <ProvidersCell providers={providers} />,
+      formatter: providers => providers && <ProvidersCellCuration providers={providers} />,
       filterable: true,
       headerStyle: {width: '100px'},
       filterName: 'provider',
     },
     {
-      dataField: 'primaryAnnotations[0].with',
+      dataField: 'basedOn',
       text: 'Based On',
       filterable: true,
       filterName: 'basedOnGeneSymbol',
@@ -118,6 +133,8 @@ const DiseaseAnnotationTable = ({
 
   const data = results.map(annotation => ({
     species: annotation.subject.taxon,
+    providers: buildProviders(annotation),
+    basedOn: buildWith(annotation),
     ...annotation,
   }));
 
