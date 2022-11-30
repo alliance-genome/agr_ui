@@ -1,27 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {dataSourceType} from '../../lib/types';
-import DataSourceLink from '../dataSourceLink';
 import CommaSeparatedList from '../commaSeparatedList';
 
-const ProvidersCellCuration = ({ s}) => {
+const ProvidersCellCuration = ({ providers }) => {
   return (
     <CommaSeparatedList listItemClassName='d-block'>
       {
         providers.map(provider => {
-          const key = provider.sourceProvider.name +
-            (provider.loadProvider ? provider.loadProvider.name : '');
+          const { dataProvider, secondaryDataProvider } = provider;
+
           return (
-            <span key={key}>
-              <DataSourceLink reference={provider.sourceProvider} />
-              {provider.loadProvider &&
-              <>
-                <i> via </i>
-                <DataSourceLink reference={provider.loadProvider} />
-              </>
-              }
-            </span>
-          );
+              <span>
+								{dataProvider}
+                {
+                  secondaryDataProvider &&
+                    <>
+                      <i> via </i>
+                      {secondaryDataProvider}
+                    </>
+                }
+              </span>
+          )
+
         })
       }
     </CommaSeparatedList>

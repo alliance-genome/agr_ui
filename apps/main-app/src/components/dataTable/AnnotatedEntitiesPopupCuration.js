@@ -5,14 +5,13 @@ import {
   DropdownToggle,
   UncontrolledButtonDropdown
 } from 'reactstrap';
-import {SingleReferenceCellCuration} from './index';
+import { SingleReferenceCellCuration } from './index';
 import ExperimentalConditionCellCuration from './ExperimentalConditionCellCuration';
 
 import style from './style.scss';
 import ExternalLink from '../ExternalLink';
-import {Link} from 'react-router-dom';
-import {getSingleReferenceCurieAndUrl} from "./utils";
-import {getResourceUrl} from "./getResourceUrl";
+import { Link } from 'react-router-dom';
+import { getResourceUrl } from "./getResourceUrl";
 
 function renderLink(entity) {
   const url = getResourceUrl(entity.subject.curie, entity.subject.subtype || entity.subject.type)
@@ -88,9 +87,4 @@ AnnotatedEntitiesPopupCuration.propTypes = {
   entities: PropTypes.array,
 };
 
-//examples:
-// SGD:S000005862
-// https://www.alliancegenome.org/gene/WB:WBGene00022774#disease-associations
-//     https://www.alliancegenome.org/gene/WB:WBGene00022781#disease-associations
-// https://www.alliancegenome.org/gene/SGD:S000005862#disease-associations
 export default AnnotatedEntitiesPopupCuration;

@@ -1,8 +1,8 @@
 import React from 'react';
 
 import ExternalLink from '../ExternalLink';
-import {CollapsibleList} from '../collapsibleList';
-import {getMultipleReferencesCuriesAndUrls, getRefStrings} from "./utils";
+import { CollapsibleList } from '../collapsibleList';
+import { getMultipleReferencesCuriesAndUrls } from "./utils";
 
 const ReferencesCellCuration = (refs) => {
   const refStringsAndUrls = getMultipleReferencesCuriesAndUrls(refs);
