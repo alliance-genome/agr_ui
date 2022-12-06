@@ -18,9 +18,10 @@ function renderLink(entity) {
   const innerText = entity.subject.symbol ? entity.subject.symbol : entity.subject.name;
   const inner = <span dangerouslySetInnerHTML={{__html: innerText}}/>;
 
-//Todo when should this be a link and should it not?
   if (entity.type === 'AlleleDiseaseAnnotation') {
     return <Link to={`/allele/${entity.subject.curie}`}>{inner}</Link>;
+  } else if(entity.type === 'GeneDiseaseAnnotation'){
+      return inner;
   } else {
     return <ExternalLink href={url}>{inner}</ExternalLink>;
   }
