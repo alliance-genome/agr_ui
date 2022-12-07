@@ -7,7 +7,8 @@ console.log("Build resource desriptors is running...");
 const url =  'https://raw.githubusercontent.com/alliance-genome/agr_schemas/master/resourceDescriptors.yaml';
 
 const file = fs.createWriteStream("./dist/resourceDescriptors.yaml");
-const request = https.get(url, function(response) {
+
+https.get(url, function(response) {
    response.pipe(file);
 
    // after download completed close filestream

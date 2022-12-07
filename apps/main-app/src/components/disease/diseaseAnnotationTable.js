@@ -49,14 +49,14 @@ const DiseaseAnnotationTable = ({
   }
 
   const buildWith = (annotation) => {
-		const filteredPrimaryAnnotations = annotation.primaryAnnotations.filter(primaryAnnotation => primaryAnnotation.with);
+    const filteredPrimaryAnnotations = annotation.primaryAnnotations.filter(primaryAnnotation => primaryAnnotation.with);
     const withArray = filteredPrimaryAnnotations.map(primaryAnnotation => primaryAnnotation.with);
-		return withArray.flat(1);
+    return withArray.flat(1);
   }
 
   let columns = [
     {
-      dataField: 'species',
+      dataField: 'subject.taxon',
       text: 'Species',
       filterName: 'species',
       filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
@@ -111,13 +111,13 @@ const DiseaseAnnotationTable = ({
       formatter: providers => providers && <ProvidersCellCuration providers={providers} />,
       filterable: true,
       headerStyle: {width: '100px'},
-      filterName: 'provider',
+      filterName: 'dataProvider',
     },
     {
       dataField: 'basedOn',
       text: 'Based On',
       filterable: true,
-      filterName: 'basedOnGeneSymbol',
+      filterName: 'with',
       headerStyle: {width: '100px'},
       formatter: BasedOnGeneCellCuration,
     },
