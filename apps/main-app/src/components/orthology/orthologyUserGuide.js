@@ -17,8 +17,8 @@ const OrthologyUserGuide = () => (
       integrated using the DRSC Integrative Ortholog Prediction Tool
       (DIOPT). DIOPT integrates a number of existing methods including
       those used by the Alliance: Ensembl Compara, HGNC, Hieranoid,
-      InParanoid, OMA, OrthoFinder, OrthoInspector, PANTHER, PhylomeDB,
-      Roundup, TreeFam, SonicParanoid, Xenbase, and ZFIN. See the <ExternalLink href='https://fgr.hms.harvard.edu/diopt-documentation'>
+      InParanoid, OMA, OrthoFinder, OrthoInspector, PANTHER, PhylomeDB, 
+      SonicParanoid, Xenbase, and ZFIN. See the <ExternalLink href='https://fgr.hms.harvard.edu/diopt-documentation'>
       DIOPT documentation</ExternalLink> for additional information and
       references related to the included methods. DIOPT assigns a
       score/count based on the number of methods that call a specific
