@@ -36,7 +36,7 @@ export function PageFooter(props) {
         )}
         <PageFooterLinkGroup>
           <PageFooterLinkGroupLabel>Connect With Us</PageFooterLinkGroupLabel>
-          <PageFooterLink to={'https://www.facebook.com/alliancegenome'}>
+          <PageFooterLink to={'https://www.facebook.com/AllianceOfGenomeResources'}>
             <SocialIcon IconComponent={FacebookIcon} /> Facebook
           </PageFooterLink>
           <PageFooterLink to={'https://twitter.com/alliancegenome'}>
