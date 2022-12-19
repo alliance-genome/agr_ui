@@ -5,7 +5,7 @@ import style from './style.scss';
 const SocialMedia = ({showText = false}) => {
   return (
     <div className={style.socialLinks}>
-      <a href='https://www.facebook.com/alliancegenome'>
+      <a href='https://www.facebook.com/AllianceOfGenomeResources'>
         <i className='fa fa-fw fa-facebook'/> {showText && 'Facebook'}
       </a>
       <a href='https://twitter.com/alliancegenome'>
