@@ -16,8 +16,8 @@ const removeDuplicates = (refs) => {
 const ReferencesCellCuration = (refs) => {
   const refStringsAndUrls = getMultipleReferencesCuriesAndUrls(refs);
 	const uniqueRefs = removeDuplicates(refStringsAndUrls);
-	console.log(uniqueRefs);
-  return refs &&
+
+    return refs &&
     <CollapsibleList>
       {
         uniqueRefs.map(({ curie, url }) => {

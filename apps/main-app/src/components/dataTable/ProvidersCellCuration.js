@@ -20,12 +20,12 @@ const ProvidersCellCuration = ({ providers }) => {
 
           return (
               <span>
-                {dataProvider}
+                {dataProvider.abbreviation}
                 {
                   secondaryDataProvider &&
                     <>
                       <i> via </i>
-                      {secondaryDataProvider}
+                      {secondaryDataProvider.abbreviation}
                     </>
                 }
               </span>
