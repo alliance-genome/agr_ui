@@ -15,7 +15,7 @@ import { getResourceUrl } from "./getResourceUrl";
 
 function renderLink(entity) {
   const url = getResourceUrl(entity.subject.curie, entity.subject.subtype || entity.subject.type)
-  const innerText = entity.subject.symbol ? entity.subject.symbol : entity.subject.name;
+  const innerText = entity.subject.geneSymbol ? entity.subject.geneSymbol.displayText : entity.subject.name;
   const inner = <span dangerouslySetInnerHTML={{__html: innerText}}/>;
 
   if (entity.type === 'AlleleDiseaseAnnotation') {

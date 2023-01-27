@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { shortSpeciesName} from '../../lib/utils';
 import { CollapsibleList } from '../../components/collapsibleList';
-import GeneSymbol from '../GeneSymbol';
+import GeneSymbolCuration from '../GeneSymbolCuration';
 
 const BasedOnGeneCellCuration = (genes) => {
   if (!genes) {
@@ -11,7 +11,7 @@ const BasedOnGeneCellCuration = (genes) => {
     <CollapsibleList collapsedSize={genes.length}>
       {genes.map(gene => (
         <Link key={gene.curie} to={`/gene/${gene.curie}`}>
-          <GeneSymbol gene={gene} /> ({shortSpeciesName(gene.taxon.curie)})
+          <GeneSymbolCuration gene={gene} /> ({shortSpeciesName(gene.taxon.curie)})
         </Link>
       ))}
     </CollapsibleList>
