@@ -4,17 +4,20 @@ FROM ${REG}/agr_base_linux_env:${DOCKER_PULL_TAG} as build-stage
 
 WORKDIR /workdir/agr_ui
 
-ADD . .
+ADD package.json package.json
+ADD .nvmrc .nvmrc
 
 RUN /bin/bash -c '. $HOME/.nvm/nvm.sh --no-use && \
   nvm install && \
   nvm use && \
   npm install'
 
+ADD . .
+
 ARG NODE_ENV=production
 ENV NODE_ENV ${NODE_ENV}
 
-RUN /bin/bash -c '. $HOME/.nvm/nvm.sh && npx nx run-many --target=build --all --prod'
+RUN /bin/bash -c '. $HOME/.nvm/nvm.sh && npm run build'
 RUN /bin/bash -c '. $HOME/.nvm/nvm.sh && npx nx run-many --target=test --all'
 
 FROM nginx
