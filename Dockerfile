@@ -17,6 +17,8 @@ ADD . .
 ARG NODE_ENV=production
 ENV NODE_ENV ${NODE_ENV}
 
+RUN mkdir /workdir/agr_ui/dist
+
 RUN /bin/bash -c '. $HOME/.nvm/nvm.sh && npm run build'
 RUN /bin/bash -c '. $HOME/.nvm/nvm.sh && npx nx run-many --target=test --all'
 
