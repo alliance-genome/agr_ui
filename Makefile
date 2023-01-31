@@ -1,6 +1,6 @@
 REG := 100225593120.dkr.ecr.us-east-1.amazonaws.com
-DOCKER_PULL_TAG := latest
-DOCKER_BUILD_TAG := latest
+DOCKER_PULL_TAG := stage
+DOCKER_BUILD_TAG := stage
 
 registry-docker-login:
 ifneq ($(shell echo ${REG} | egrep "ecr\..+\.amazonaws\.com"),)
@@ -23,7 +23,7 @@ test:
 run:
 	npm start
 
-docker-build-nginx: registry-docker-login
+docker-build-nginx:
 	docker build -t ${REG}/agr_ui_server:${DOCKER_BUILD_TAG} --build-arg REG=${REG} --build-arg DOCKER_PULL_TAG=${DOCKER_PULL_TAG} .
 
 push: registry-docker-login

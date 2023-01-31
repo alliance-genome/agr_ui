@@ -1,6 +1,5 @@
 
-var sm = require('sitemap'), fs = require('fs');
-
+var sm = require('sitemap'), fs = require('fs'), path = require('path');
 
 var sitemapindex = sm.buildSitemapIndex({
   urls: [
@@ -8,7 +7,7 @@ var sitemapindex = sm.buildSitemapIndex({
   ]
 });
 
-fs.writeFileSync('dist/sitemap.xml', sitemapindex.toString());
+fs.writeFileSync('dist/apps/main-app/sitemap.xml', sitemapindex.toString());
 
 var sitemap = sm.createSitemap({
   hostname: 'https://www.alliancegenome.org',
@@ -28,4 +27,4 @@ var sitemap = sm.createSitemap({
   ]
 });
 
-fs.writeFileSync('dist/main-sitemap.xml', sitemap.toString());
+fs.writeFileSync('dist/apps/main-app/main-sitemap.xml', sitemap.toString());
