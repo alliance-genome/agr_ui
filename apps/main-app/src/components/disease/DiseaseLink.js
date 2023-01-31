@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import DiseaseName from '../disease/DiseaseName';
 
 const DiseaseLink = ({disease}) => (
-  <Link to={'/disease/' + disease.id}>
+  <Link to={'/disease/' + disease.curie}>
     <DiseaseName disease={disease} />
   </Link>
 );
