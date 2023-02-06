@@ -80,6 +80,7 @@ const DiseaseAnnotationTable = ({
       ),
       filterable: true,
       headerStyle: {width: '75px'},
+      filterName: 'subject.symbol',
     },
     {
       dataField: 'diseaseRelation.name',
