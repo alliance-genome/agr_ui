@@ -7,7 +7,7 @@ import style from './style.scss';
 const GeneCellCuration = ({ curie, geneSymbol } = {}) => {
 
   return (
-    <Link className={style.breakWords} to={'/gene/' + curie}>{geneSymbol.displayText}</Link>
+    <Link className={style.breakWords} to={'/gene/' + curie}>{geneSymbol?.displayText}</Link>
   );
 };
 
