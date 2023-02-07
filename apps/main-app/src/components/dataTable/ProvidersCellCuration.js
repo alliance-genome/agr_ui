@@ -1,7 +1,7 @@
 import CommaSeparatedList from '../commaSeparatedList';
 
 const removeDuplicates = (providers) => {
-  const newArray = providers.map((provider) => [provider.dataProvider, provider]);
+  const newArray = providers.map((provider) => [provider.dataProvider.abbreviation, provider]);
   const newMap = new Map(newArray);
   const iterator = newMap.values();
   const uniqueProviders = [...iterator];
