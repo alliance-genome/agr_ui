@@ -118,7 +118,7 @@ const DiseaseAnnotationTable = ({
       dataField: 'basedOn',
       text: 'Based On',
       filterable: true,
-      filterName: 'with',
+      filterName: 'basedOnGeneSymbol',
       headerStyle: {width: '100px'},
       formatter: BasedOnGeneCellCuration,
     },
