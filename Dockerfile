@@ -1,5 +1,5 @@
 ARG DOCKER_PULL_TAG=latest
-ARG REG=agrdocker
+ARG REG=100225593120.dkr.ecr.us-east-1.amazonaws.com
 FROM ${REG}/agr_base_linux_env:${DOCKER_PULL_TAG} as build-stage
 
 WORKDIR /workdir/agr_ui
