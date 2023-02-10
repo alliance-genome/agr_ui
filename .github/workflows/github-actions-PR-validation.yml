@@ -27,6 +27,12 @@ jobs:
       - name: Report runtime details
         run: |
           echo "Github runner OS: ${{ runner.os }}"
+      - name: Install NVM
+        run: nvm install
+      - name: NVM Setup
+        run: nvm use
+      - name: NPM Install
+        run: npm install
 
   test-build-docker-image:
     if: github.event.action != 'edited' || github.event.changes.base
@@ -44,5 +50,7 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
       - name: Build docker image
+        env:
+          DOCKER_PULL_TAG=stage
         run: docker build -t agr_java_software:latest .
 
