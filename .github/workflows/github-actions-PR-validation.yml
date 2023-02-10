@@ -27,14 +27,8 @@ jobs:
       - name: Report runtime details
         run: |
           echo "Github runner OS: ${{ runner.os }}"
-      - name: Install NVM
-        run: cat .nvm_install >> ~/.bashrc
-      - name: Install Node VM
-        run: nvm install
-      - name: Setup Node VM
-        run: nvm use
-      - name: Node Package Install
-        run: npm install
+      - name: Install Use NVM and Npm Install
+        run: . /homr/runner/.nvm/nvm.sh --no-use && nvm install && nvm use && npm install
 
   test-build-docker-image:
     if: github.event.action != 'edited' || github.event.changes.base
