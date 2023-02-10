@@ -51,6 +51,6 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
       - name: Build docker image
         env:
-          DOCKER_PULL_TAG=stage
+          DOCKER_PULL_TAG: stage
         run: docker build -t agr_java_software:latest .
 
