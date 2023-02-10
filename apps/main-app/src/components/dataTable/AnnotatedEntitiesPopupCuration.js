@@ -15,14 +15,17 @@ import { getResourceUrl } from "./getResourceUrl";
 
 function renderLink(entity) {
   const url = getResourceUrl(entity.subject.curie, entity.subject.subtype || entity.subject.type)
-  const innerText = entity.subject.geneSymbol ? entity.subject.geneSymbol.displayText : entity.subject.name;
-  const inner = <span dangerouslySetInnerHTML={{__html: innerText}}/>;
 
   if (entity.type === 'AlleleDiseaseAnnotation') {
+    const innerText = entity.subject.alleleSymbol ? entity.subject.alleleSymbol.displayText : entity.subject.name;
+    const inner = <span dangerouslySetInnerHTML={{__html: innerText}}/>;
     return <Link to={`/allele/${entity.subject.curie}`}>{inner}</Link>;
   } else if(entity.type === 'GeneDiseaseAnnotation'){
-      return inner;
+      const innerText = entity.subject.geneSymbol ? entity.subject.geneSymbol.displayText : entity.subject.name;
+      const inner = <span dangerouslySetInnerHTML={{__html: innerText}}/>;
+      return <Link to={`/gene/${entity.subject.curie}`}>{inner}</Link>;
   } else {
+      const inner = <span dangerouslySetInnerHTML={{__html: entity.subject.name}}/>;
     return <ExternalLink href={url}>{inner}</ExternalLink>;
   }
 }
