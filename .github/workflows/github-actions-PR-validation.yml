@@ -28,12 +28,12 @@ jobs:
         run: |
           echo "Github runner OS: ${{ runner.os }}"
       - name: Install NVM
-        run: wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
-      - name: Install NVM
+        run: cat .nvm_install >> ~/.bashrc
+      - name: Install Node VM
         run: nvm install
-      - name: NVM Setup
+      - name: Setup Node VM
         run: nvm use
-      - name: NPM Install
+      - name: Node Package Install
         run: npm install
 
   test-build-docker-image:
