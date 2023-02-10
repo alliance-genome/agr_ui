@@ -23,6 +23,12 @@ test:
 run:
 	npm start
 
+uirun:
+	npm start
+
+uirunstage:
+	API_URL=https://stage.alliancegenome.org npm start
+
 docker-build-nginx:
 	docker build -t ${REG}/agr_ui_server:${DOCKER_BUILD_TAG} --build-arg REG=${REG} --build-arg DOCKER_PULL_TAG=${DOCKER_PULL_TAG} .
 
