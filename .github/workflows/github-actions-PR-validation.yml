@@ -28,6 +28,8 @@ jobs:
         run: |
           echo "Github runner OS: ${{ runner.os }}"
       - name: Install NVM
+        run: wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+      - name: Install NVM
         run: nvm install
       - name: NVM Setup
         run: nvm use
