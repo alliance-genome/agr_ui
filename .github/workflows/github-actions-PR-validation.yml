@@ -27,10 +27,12 @@ jobs:
       - name: Report runtime details
         run: |
           echo "Github runner OS: ${{ runner.os }}"
-      - name: List NVM
-        run: ls -al /home/runner/.nvm
       - name: Install Use NVM and Npm Install
-        run: . /home/runner/.nvm/nvm.sh --no-use && nvm install && nvm use && npm install
+        run: . /home/runner/.nvm/nvm.sh --no-use && nvm install && nvm use
+      - name: Node Package Manager Install
+        run: npm install
+      - name: Npm build
+        run: npm run build
 
   test-build-docker-image:
     if: github.event.action != 'edited' || github.event.changes.base
