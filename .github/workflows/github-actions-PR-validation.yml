@@ -27,8 +27,10 @@ jobs:
       - name: Report runtime details
         run: |
           echo "Github runner OS: ${{ runner.os }}"
+      - name: List NVM
+        run: ls -al /home/runner/.nvm
       - name: Install Use NVM and Npm Install
-        run: . /homr/runner/.nvm/nvm.sh --no-use && nvm install && nvm use && npm install
+        run: . /home/runner/.nvm/nvm.sh --no-use && nvm install && nvm use && npm install
 
   test-build-docker-image:
     if: github.event.action != 'edited' || github.event.changes.base
@@ -48,5 +50,5 @@ jobs:
       - name: Build docker image
         env:
           DOCKER_PULL_TAG: stage
-        run: docker build -t agr_java_software:latest .
+        run: docker build -t agr_ui_env:latest .
 
