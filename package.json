@@ -33,7 +33,7 @@
     "@emotion/server": "11.0.0",
     "@emotion/styled": "11.1.5",
     "@geneontology/curie-util-es5": "^1.2.4",
-    "@geneontology/wc-gocam-viz": "0.0.45",
+    "@geneontology/wc-gocam-viz": "0.0.50-beta.12",
     "@geneontology/wc-ribbon-strips": "0.0.37",
     "@geneontology/wc-ribbon-table": "0.0.57",
     "@testing-library/jest-dom": "^5.16.1",
