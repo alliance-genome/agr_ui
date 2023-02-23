@@ -54,5 +54,5 @@ jobs:
       - name: Build docker image
         env:
           DOCKER_PULL_TAG: stage
-        run: docker build -t agr_ui_env:latest .
+        run: docker build --build-arg DOCKER_PULL_TAG=stage -t agr_ui_env:latest .
 
