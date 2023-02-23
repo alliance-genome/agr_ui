@@ -83,7 +83,7 @@ const DiseaseAnnotationTable = ({
       filterName: 'subject.symbol',
     },
     {
-      dataField: 'diseaseRelation.name',
+      dataField: 'diseaseRelationNegation',
       text: 'Association',
       formatter: type => <AssociationType type={type} />,
       filterName: 'associationType',
