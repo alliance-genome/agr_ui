@@ -6,6 +6,7 @@ export const getResourceUrl = (curie, type) => {
   if(type === "AffectedGenomicModel" ){
 		if(prefix === "MGI") type = "genotype";
 		if(prefix === "ZFIN") type = "fish";
+		if(prefix === "WB") type = "genotype";
   }
   let resource;
   if(!type){
