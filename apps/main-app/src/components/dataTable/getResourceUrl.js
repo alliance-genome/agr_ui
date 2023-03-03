@@ -20,7 +20,7 @@ export const getResourceUrl = (curie, type) => {
   } else {
     [resource] = resourceDescriptors
         .filter(resource => resource.db_prefix === prefix)[0].pages
-        .filter(page => page.name === type.toLowerCase())[0].url
+        .filter(page => page.name.toLowerCase() === type.toLowerCase())[0].url
         .split('[');
   }
   return resource + id;
