@@ -10,13 +10,14 @@ import {
 } from '../dataTable';
 import AnnotatedEntitiesPopupCuration from '../dataTable/AnnotatedEntitiesPopupCuration';
 import DiseaseLink from './DiseaseLink';
-import {getDistinctFieldValue} from '../dataTable/utils';
+import {getDistinctFieldValue,simplifySpeciesNameSC} from '../dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
 import ProvidersCellCuration from '../dataTable/ProvidersCellCuration';
 import useComparisonRibbonTableQuery from '../../hooks/useComparisonRibbonTableQuery';
 import SpeciesName from '../SpeciesName';
 import AssociationType from '../AssociationType';
+
 
 /*
  * Disease ribbon-table
@@ -53,13 +54,14 @@ const DiseaseAnnotationTable = ({
     const withArray = filteredPrimaryAnnotations.map(primaryAnnotation => primaryAnnotation.with);
     return withArray.flat(1);
   }
-
+  
   let columns = [
     {
       dataField: 'subject.taxon',
       text: 'Species',
       filterName: 'species',
-      filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
+      // TODO: remove simplifySpeciesNameSC when backend is fixed, see https://agr-jira.atlassian.net/browse/SCRUM-2649
+      filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)).map(simplifySpeciesNameSC),
       filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
       headerStyle: {width: '100px'},
       formatter: species => <SpeciesCell species={species} />,
