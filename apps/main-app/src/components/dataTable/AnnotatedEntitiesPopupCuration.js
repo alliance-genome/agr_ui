@@ -12,9 +12,10 @@ import style from './style.scss';
 import ExternalLink from '../ExternalLink';
 import { Link } from 'react-router-dom';
 import { getResourceUrl } from "./getResourceUrl";
+import TypeCellCuration from './TypeCellCuration';
 
 function renderLink(entity) {
-  const url = getResourceUrl(entity.subject.curie, entity.subject.subtype || entity.subject.type)
+  const url = getResourceUrl(entity.subject.curie, entity.subject.type, entity.subject.subtype)
 
   if (entity.type === 'AlleleDiseaseAnnotation') {
     const innerText = entity.subject.alleleSymbol ? entity.subject.alleleSymbol.displayText : entity.subject.name;
@@ -65,7 +66,9 @@ function AnnotatedEntitiesPopupCuration(props) {
                 entities.map(entity => (
                   <tr key={entity.subject.curie}>
                     <td>{renderLink(entity)}</td>
-                    <td className='text-capitalize'>{(entity.subject.subtype || entity.subject.type || '').toLowerCase()}</td>
+                    <td>
+                      <TypeCellCuration subject={entity.subject}/>
+                    </td>
                     <td>
                       <ExperimentalConditionCellCuration conditions={entity.conditionRelations} />
                     </td>

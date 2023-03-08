@@ -4,8 +4,9 @@ import ExternalLink from './ExternalLink';
 import {dataSourceType} from '../lib/types';
 import {getResourceUrl} from "./dataTable/getResourceUrl";
 
-const DataSourceLinkCuration = ({ children, curie, type }) => {
-  const url = getResourceUrl(curie, type);
+//will be used once the data provider come
+const DataSourceLinkCuration = ({ children, curie, type, subtype }) => {
+  const url = getResourceUrl(curie, type, subtype);
   return (
     reference ? <ExternalLink href={reference && reference.crossRefCompleteUrl}>
       {children || reference.displayName || reference.name}
