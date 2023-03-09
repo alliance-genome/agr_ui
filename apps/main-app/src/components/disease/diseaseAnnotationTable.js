@@ -60,8 +60,7 @@ const DiseaseAnnotationTable = ({
       dataField: 'subject.taxon',
       text: 'Species',
       filterName: 'species',
-      // TODO: remove simplifySpeciesNameSC when backend is fixed, see https://agr-jira.atlassian.net/browse/SCRUM-2649
-      filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)).map(simplifySpeciesNameSC),
+      filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
       headerStyle: {width: '100px'},
       formatter: species => <SpeciesCell species={species} />,

@@ -11,6 +11,8 @@ export const getDistinctFieldValue = (response, field) => {
   const {distinctFieldValues = {}} = response.supplementalData || {};
   return (distinctFieldValues[field] || [])
     .sort(compareAlphabeticalCaseInsensitive)
+     // TODO: remove when backend is fixed, see https://agr-jira.atlassian.net/browse/SCRUM-2649
+    .map(simplifySpeciesNameSC)
     .filter((value) => (
       value && value.trim()
     ));
