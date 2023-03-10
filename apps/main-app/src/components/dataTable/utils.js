@@ -11,6 +11,8 @@ export const getDistinctFieldValue = (response, field) => {
   const {distinctFieldValues = {}} = response.supplementalData || {};
   return (distinctFieldValues[field] || [])
     .sort(compareAlphabeticalCaseInsensitive)
+     // TODO: remove when backend is fixed, see https://agr-jira.atlassian.net/browse/SCRUM-2649
+    .map(simplifySpeciesNameSC)
     .filter((value) => (
       value && value.trim()
     ));
@@ -76,4 +78,14 @@ export const getSingleReferenceCurieAndUrl = (reference) => {
 
 export const getMultipleReferencesCuriesAndUrls = (references) => {
   return references.map((reference) => getSingleReferenceCurieAndUrl(reference));
+}
+
+// TODO: remove when the data is fixed on the backend
+// see https://agr-jira.atlassian.net/browse/SCRUM-2649
+export function simplifySpeciesNameSC(speciesName) {
+  const SC = 'Saccharomyces cerevisiae'
+  if( speciesName.startsWith(SC))
+    return SC;
+  else
+    return speciesName;
 }
