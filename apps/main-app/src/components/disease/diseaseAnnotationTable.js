@@ -10,13 +10,14 @@ import {
 } from '../dataTable';
 import AnnotatedEntitiesPopupCuration from '../dataTable/AnnotatedEntitiesPopupCuration';
 import DiseaseLink from './DiseaseLink';
-import {getDistinctFieldValue} from '../dataTable/utils';
+import {getDistinctFieldValue,simplifySpeciesNameSC} from '../dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
 import ProvidersCellCuration from '../dataTable/ProvidersCellCuration';
 import useComparisonRibbonTableQuery from '../../hooks/useComparisonRibbonTableQuery';
 import SpeciesName from '../SpeciesName';
 import AssociationType from '../AssociationType';
+
 
 /*
  * Disease ribbon-table
@@ -53,7 +54,7 @@ const DiseaseAnnotationTable = ({
     const withArray = filteredPrimaryAnnotations.map(primaryAnnotation => primaryAnnotation.with);
     return withArray.flat(1);
   }
-
+  
   let columns = [
     {
       dataField: 'subject.taxon',
