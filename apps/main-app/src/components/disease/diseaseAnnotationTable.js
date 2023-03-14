@@ -9,7 +9,6 @@ import {
   SpeciesCell,
 } from '../dataTable';
 import AnnotatedEntitiesPopupCuration from '../dataTable/AnnotatedEntitiesPopupCuration';
-import DiseaseLink from './DiseaseLink';
 import {getDistinctFieldValue,simplifySpeciesNameSC} from '../dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
@@ -17,6 +16,7 @@ import ProvidersCellCuration from '../dataTable/ProvidersCellCuration';
 import useComparisonRibbonTableQuery from '../../hooks/useComparisonRibbonTableQuery';
 import SpeciesName from '../SpeciesName';
 import AssociationType from '../AssociationType';
+import DiseaseLinkCuration from './DiseaseLinkCuration';
 
 
 /*
@@ -97,7 +97,7 @@ const DiseaseAnnotationTable = ({
       text: 'Disease',
       filterable: true,
       headerStyle: {width: '150px'},
-      formatter: (curie, row) => <DiseaseLink disease={row.object} />,
+      formatter: (curie, row) => <DiseaseLinkCuration disease={row.object} />,
     },
     {
       dataField: 'evidenceCodes',
