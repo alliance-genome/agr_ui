@@ -126,7 +126,7 @@ const DiseaseAnnotationTable = ({
     {
       dataField: 'references',
       text: 'References',
-      filterable: true,
+      filterable: false,
       filterName: 'reference',
       headerStyle: {width: '150px'},
       formatter: ReferencesCellCuration,
