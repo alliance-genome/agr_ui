@@ -481,7 +481,7 @@ class PathwayWidget extends Component {
             <div>
                 <wc-gocam-viz
                     id="gocam-1"
-                    repository="prod"
+                    repository="release"
                     gocam-id={this.state.cutils.getCurie(this.state.gocams.selected)}
                     show-go-cam-selector="false"
                     show-has-input="false"
