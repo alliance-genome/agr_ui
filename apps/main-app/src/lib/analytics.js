@@ -26,8 +26,7 @@ export const autocompleteGoToPageEvent = (id) => {
 
 export const logPageView = (location) => {
   const page = location.pathname + location.search;
-  ReactGA.set({ page: page });
-  ReactGA.pageview(page);
+  ReactGA.send({ hitType: "pageview", page: page });
 };
 
 export const logTablePageEvent = (page) => {
