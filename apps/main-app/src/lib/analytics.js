@@ -1,4 +1,5 @@
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
+
 import { GA_PROPERTY_ID, GA_EVENT_CATEGORY, GA_EVENT_ACTION } from '../constants';
 
 export const initialize = () => {
