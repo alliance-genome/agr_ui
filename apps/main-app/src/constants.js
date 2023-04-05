@@ -92,7 +92,7 @@ export const NAV_MENU = [
       },
       {
         label: 'JBrowse',
-        route: '/jbrowse/',
+        route: '/jbrowse/index.html',
       }
     ]
   },
