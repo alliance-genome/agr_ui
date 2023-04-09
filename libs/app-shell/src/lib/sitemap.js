@@ -24,7 +24,7 @@ const sitemap = [
       },
       {
         label: 'JBrowse',
-        route: '/jbrowse/index.html?data=data%2FHomo%20sapiens',
+        route: '/jbrowse?data=data%2FHomo%20sapiens',
       }
     ],
   },
