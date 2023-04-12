@@ -1,5 +1,5 @@
 import ReactGA from 'react-ga';
-import {ReactGA as ReactGA4} from 'react-ga4';
+import { default as ReactGA4 } from 'react-ga4';
 
 import { GA_PROPERTY_ID_UA, GA_PROPERTY_ID_GA4, GA_EVENT_CATEGORY, GA_EVENT_ACTION } from '../constants';
 
