@@ -349,7 +349,8 @@ export const TAXON_ORDER = SPECIES.map(s => s.taxonId);
 
 export const SPECIES_NAME_ORDER = SPECIES.map(s => s.fullName);
 
-export const GA_PROPERTY_ID = 'G-H3F65KGJDR';
+export const GA_PROPERTY_ID_UA = 'UA-98765810-1';
+export const GA_PROPERTY_ID_GA4 = 'G-H3F65KGJDR';
 
 export const GA_EVENT_CATEGORY = {
   AUTOCOMPLETE: 'Autocomplete',
