@@ -37,28 +37,25 @@ export default (
 
       {/* this one needs to be handled outside of the main application */}
       <Route
-        exact
-        path='/api/swagger-ui'
-        render={() => {
-          window.location.href = '/api/swagger-ui';
+        path='/api'
+        render={(props) => {
+          window.location.href = `${props.location.pathname}${props.location.search}`;
           return null;
         }}
       />
 
       <Route
-        exact
         path='/bluegenes'
-        render={() => {
-          window.location.href = '/bluegenes';
+        render={(props) => {
+          window.location.href = `${props.location.pathname}${props.location.search}`;
           return null;
         }}
       />
 
       <Route
-        exact
         path='/jbrowse'
-        render={() => {
-          window.location.href = '/jbrowse/?data=data%2FHomo%20sapiens';
+        render={(props) => {
+          window.location.href = `${props.location.pathname}${props.location.search}`;
           return null;
         }}
       />
