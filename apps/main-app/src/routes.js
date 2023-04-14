@@ -52,15 +52,6 @@ export default (
         }}
       />
 
-      <Route
-        path='/jbrowse'
-        render={(props) => {
-          props.history.push('/')
-          window.location.href = `${props.location.pathname}${props.location.search}`;
-          return null;
-        }}
-      />
-
       <Redirect exact from='/wordpress/:slug' to='/:slug' />
       <Route path='/:slug' render={({match}) => <WordpressPage slug={match.params.slug} />} />
 

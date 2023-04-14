@@ -25,6 +25,8 @@ const sitemap = [
       {
         label: 'JBrowse',
         route: '/jbrowse?data=data%2FHomo%20sapiens',
+        external: true,
+
       }
     ],
   },
@@ -97,10 +99,14 @@ const sitemap = [
       {
         label: 'Alliance User Community',
         route: 'https://groups.google.com/a/alliancegenome.org/g/community',
+        external: true,
+
       },
       {
         label: 'Twitter',
         route: 'https://twitter.com/alliancegenome',
+        external: true,
+
       },
     ],
   },
