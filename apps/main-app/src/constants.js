@@ -81,6 +81,7 @@ export const NAV_MENU = [
       {
         label: 'API',
         route: '/api/swagger-ui',
+        external: true,
       },
       {
         label: 'Tools and Prototypes',
@@ -89,10 +90,12 @@ export const NAV_MENU = [
       {
         label: 'AllianceMine',
         route: '/bluegenes/alliancemine',
+        external: true,
       },
       {
         label: 'JBrowse',
         route: '/jbrowse/?data=data%2FHomo%20sapiens',
+        external: true,
       }
     ]
   },
@@ -127,7 +130,8 @@ export const NAV_MENU = [
       {
         label: 'Xenbase',
         shortLabel: 'Xenbase',
-        route: 'https://www.xenbase.org/'
+        route: 'https://www.xenbase.org/',
+        external: true,
       },
       {
         label: 'Zebrafish Information Network',
@@ -210,10 +214,12 @@ export const NAV_MENU = [
       {
         label: 'Alliance User Community',
         route: 'https://community.alliancegenome.org/categories',
+        external: true,
       },
       {
         label: 'Twitter',
         route: 'https://twitter.com/alliancegenome',
+        external: true,
       }
     ]
   },
