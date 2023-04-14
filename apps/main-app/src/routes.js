@@ -55,6 +55,7 @@ export default (
       <Route
         path='/jbrowse'
         render={(props) => {
+          props.history.push('/')
           window.location.href = `${props.location.pathname}${props.location.search}`;
           return null;
         }}
