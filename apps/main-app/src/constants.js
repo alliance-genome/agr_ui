@@ -88,11 +88,11 @@ export const NAV_MENU = [
       },
       {
         label: 'AllianceMine',
-        route: '/bluegenes',
+        route: '/bluegenes/alliancemine',
       },
       {
         label: 'JBrowse',
-        route: '/jbrowse',
+        route: '/jbrowse/?data=data%2FHomo%20sapiens',
       }
     ]
   },
