@@ -4,7 +4,7 @@ import ExternalLink from '../../../components/ExternalLink';
 import { Link } from 'react-router-dom';
 
 const SubMenuItem = ({item, ...rest}) => {
-  if (item.route.startsWith('http')) {
+  if (item.external) {
     return <ExternalLink href={item.route} {...rest} />;
   } else {
     return <Link to={item.route} {...rest} />;
