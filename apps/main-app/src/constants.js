@@ -81,6 +81,7 @@ export const NAV_MENU = [
       {
         label: 'API',
         route: '/api/swagger-ui',
+        external: true,
       },
       {
         label: 'Tools and Prototypes',
@@ -89,6 +90,7 @@ export const NAV_MENU = [
       {
         label: 'AllianceMine',
         route: '/bluegenes/alliancemine',
+        external: true,
       },
       {
         label: 'JBrowse',
