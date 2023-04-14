@@ -54,6 +54,15 @@ export default (
         }}
       />
 
+      <Route
+        exact
+        path='/jbrowse'
+        render={() => {
+          window.location.href = '/jbrowse/?data=data%2FHomo%20sapiens';
+          return null;
+        }}
+      />
+
       <Redirect exact from='/wordpress/:slug' to='/:slug' />
       <Route path='/:slug' render={({match}) => <WordpressPage slug={match.params.slug} />} />
 
