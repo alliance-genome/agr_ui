@@ -88,6 +88,10 @@ export const NAV_MENU = [
         route: '/prototypes',
       },
       {
+        label: 'COVID-19 Information',
+        route: '/coronavirus-resources',
+      },
+      {
         label: 'AllianceMine',
         route: '/bluegenes/alliancemine',
         external: true,
