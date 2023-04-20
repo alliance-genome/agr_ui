@@ -9,6 +9,7 @@ import logo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo
 import SearchBar from './searchBar';
 import { MenuItems } from './navigation';
 import ReleaseBanner from './ReleaseBanner';
+import WordpressInject from '../wordpress/wordpressInject';
 import { selectPageLoading } from '../../selectors/loadingSelector';
 import Footer from './Footer';
 
@@ -62,6 +63,7 @@ class Layout extends Component {
                   <img className={style.agrLogo} width="200" src={logo} />
                 </Link>
                 <ReleaseBanner />
+                <WordpressInject slug='agr-topbar' />
               </div>
               <button className="navbar-toggler d-md-none" onClick={() => this.setState({menuOpen: !menuOpen})} type="button">
                 <i className='fa fa-fw fa-bars' />
