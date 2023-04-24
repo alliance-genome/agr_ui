@@ -1,0 +1,58 @@
+name: PR validation
+on:
+  pull_request:
+    types: [synchronize, opened, reopened, edited]
+    branches:
+      - release-*
+      - master
+
+jobs:
+  test-install-build:
+    if: github.event.action != 'edited' || github.event.changes.base
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Report workflow details
+        run: |
+          echo "Repository ${{ github.repository }}."
+          echo "Trigger ref ${{ github.ref }}, base-ref ${{ github.base_ref }}, head_ref ${{ github.head_ref }}."
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Report files updated in PR
+        run: |
+          git fetch -q origin ${{ github.base_ref }} ${{ github.head_ref }}
+          git diff --name-only origin/${{ github.base_ref }} origin/${{ github.head_ref }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 12
+      - name: Report runtime details
+        run: |
+          echo "Github runner OS: ${{ runner.os }}"
+      - name: Install Use NVM and Npm Install
+        run: . /home/runner/.nvm/nvm.sh --no-use && nvm install && nvm use
+      - name: Node Package Manager Install
+        run: npm install
+      - name: Make Dist Folder
+        run: mkdir dist
+      - name: Npm build
+        run: npm run build
+
+  test-build-docker-image:
+    if: github.event.action != 'edited' || github.event.changes.base
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: AWS credentials configuration
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: Amazon ECR login
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      - name: Build docker image
+        env:
+          DOCKER_PULL_TAG: stage
+        run: docker build --build-arg DOCKER_PULL_TAG=stage -t agr_ui_env:latest .
+

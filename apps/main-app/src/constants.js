@@ -81,18 +81,25 @@ export const NAV_MENU = [
       {
         label: 'API',
         route: '/api/swagger-ui',
+        external: true,
       },
       {
         label: 'Tools and Prototypes',
         route: '/prototypes',
       },
       {
+        label: 'COVID-19 Information',
+        route: '/coronavirus-resources',
+      },
+      {
         label: 'AllianceMine',
-        route: '/bluegenes',
+        route: '/bluegenes/alliancemine',
+        external: true,
       },
       {
         label: 'JBrowse',
-        route: '/jbrowse/',
+        route: '/jbrowse/?data=data%2FHomo%20sapiens',
+        external: true,
       }
     ]
   },
@@ -127,7 +134,8 @@ export const NAV_MENU = [
       {
         label: 'Xenbase',
         shortLabel: 'Xenbase',
-        route: 'https://www.xenbase.org/'
+        route: 'https://www.xenbase.org/',
+        external: true,
       },
       {
         label: 'Zebrafish Information Network',
@@ -210,10 +218,12 @@ export const NAV_MENU = [
       {
         label: 'Alliance User Community',
         route: 'https://community.alliancegenome.org/categories',
+        external: true,
       },
       {
         label: 'Twitter',
         route: 'https://twitter.com/alliancegenome',
+        external: true,
       }
     ]
   },
@@ -349,7 +359,8 @@ export const TAXON_ORDER = SPECIES.map(s => s.taxonId);
 
 export const SPECIES_NAME_ORDER = SPECIES.map(s => s.fullName);
 
-export const GA_PROPERTY_ID = 'UA-98765810-1';
+export const GA_PROPERTY_ID_UA = 'UA-98765810-1';
+export const GA_PROPERTY_ID_GA4 = 'G-H3F65KGJDR';
 
 export const GA_EVENT_CATEGORY = {
   AUTOCOMPLETE: 'Autocomplete',

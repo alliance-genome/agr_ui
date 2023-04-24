@@ -52,7 +52,6 @@ const TAXON_SUBTYPES = [
   {species: 'Mus musculus', subType: 'NCBITaxon10090'},
   {species: 'Rattus norvegicus', subType: 'NCBITaxon10116'},
   {species: 'Saccharomyces cerevisiae', subType: 'NCBITaxon559292'},
-  {species: 'SARS-CoV-2', subType: 'NCBITaxon2697049'},
 ];
 
 const DownloadsPage = () => {
