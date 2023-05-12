@@ -13,8 +13,13 @@ import ExternalLink from '../ExternalLink';
 import { Link } from 'react-router-dom';
 import { getResourceUrl } from "./getResourceUrl";
 import TypeCellCuration from './TypeCellCuration';
+import StrainBackground from './StrainBackground';
+import AssertedGenes from './AssertedGenes';
+import RelatedNotes from './RelatedNotes';
+import EvidenceCodesCellCuration from './evidenceCodesCellCuration';
 
 function renderLink(entity) {
+  // Console.log(entity);
   const url = getResourceUrl(entity.subject.curie, entity.subject.type, entity.subject.subtype)
 
   if (entity.type === 'AlleleDiseaseAnnotation') {
@@ -56,8 +61,15 @@ function AnnotatedEntitiesPopupCuration(props) {
               <tr>
                 <th>Name</th>
                 <th>Type</th>
+                <th>Additional implicated genes</th>
                 <th>Experimental condition</th>
                 <th>Modifier</th>
+                <th>Strain Background</th>
+                <th>Genetic Sex</th>
+                <th>Notes</th>
+                <th>Annotation type</th>
+                <th>Evidence Code</th>
+                <th>Source</th>
                 <th>References</th>
               </tr>
             </thead>
@@ -66,18 +78,17 @@ function AnnotatedEntitiesPopupCuration(props) {
                 entities.map(entity => (
                   <tr key={entity.subject.curie}>
                     <td>{renderLink(entity)}</td>
-                    <td>
-                      <TypeCellCuration subject={entity.subject}/>
-                    </td>
-                    <td>
-                      <ExperimentalConditionCellCuration conditions={entity.conditionRelations} />
-                    </td>
-                    <td>
-                      <ExperimentalConditionCellCuration conditions={entity.conditionModifiers} />
-                    </td>
-                    <td>{entity.singleReference &&
-                      SingleReferenceCellCuration(entity.singleReference)
-                    }</td>
+                    <td><TypeCellCuration subject={entity.subject}/></td>
+                    <td>{entity.assertedGenes && AssertedGenes(entity.assertedGenes)}</td>
+                    <td><ExperimentalConditionCellCuration conditions={entity.conditionRelations}/></td>
+                    <td><ExperimentalConditionCellCuration conditions={entity.conditionModifiers}/></td>
+                    <td>{entity.sgdStrainBackground && StrainBackground(entity.sgdStrainBackground)}</td>
+                    <td>{entity.geneticSex && (entity.geneticSex.name ? entity.geneticSex.name: '')}</td>
+                    <td>{entity.relatedNotes && RelatedNotes(entity.relatedNotes)}</td>
+                    <td>{entity.annotationType && (entity.annotationType.name ? entity.annotationType.name: '')}</td>
+                    <td>{entity.evidenceCodes && <EvidenceCodesCellCuration evidenceCodes={entity.evidenceCodes}/>}</td>
+                    <td>{entity.dataProvider && (entity.dataProvider.abbreviation ?? '')}</td>
+                    <td>{entity.singleReference && SingleReferenceCellCuration(entity.singleReference) }</td>
                   </tr>
                 ))
               }
