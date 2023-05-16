@@ -3,7 +3,7 @@ import NoteCell from './NoteCell'
 
 
 function RelatedNotes(relatedNotes) {
-  if(relatedNotes.length > 0) {
+  if(relatedNotes && relatedNotes.length > 0) {
     return (
         <CollapsibleList collapsedSize={relatedNotes.length}>
             {relatedNotes.map(NoteCell)}

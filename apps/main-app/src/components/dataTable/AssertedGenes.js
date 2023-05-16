@@ -11,7 +11,7 @@ function makeAssertedGeneLink(curie) {
 }
 
 function AssertedGenes(assertedGenes) {
-  if(assertedGenes.length > 1) {
+  if(assertedGenes && assertedGenes.length > 1) {
     return (
         <CollapsibleList collapsedSize={assertedGenes.length}>
         {assertedGenes.map(gene => makeAssertedGeneLink(gene.curie))}
