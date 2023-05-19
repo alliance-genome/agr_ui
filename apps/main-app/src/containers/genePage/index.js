@@ -15,7 +15,8 @@ import {
   GenePhysicalInteractionDetailTable,
   GeneGeneticInteractionDetailTable,
   GeneInteractionCrossReference,
-  InteractionUserGuide
+  InteractionUserGuide,
+  GeneticInteractionSectionHelp
 } from '../../components/interaction';
 import GenomeFeatureWrapper from './genomeFeatureWrapper';
 import ExpressionLinks from './expressionLinks';
@@ -139,7 +140,7 @@ const GenePage = ({geneId}) => {
             xrefs={data.crossReferenceMap}
           />
         </Subsection>
-        
+
         <Subsection title={PHENOTYPES}>
           <PhenotypeCrossRefs
             primary={[
@@ -220,7 +221,8 @@ const GenePage = ({geneId}) => {
             focusGeneId={data.id}
           />
         </Subsection>
-        <Subsection title={GENETIC_INTERACTIONS}>
+
+        <Subsection help={<GeneticInteractionSectionHelp />} title={GENETIC_INTERACTIONS}>
           <GeneGeneticInteractionDetailTable
             focusGeneDisplayName={data.symbol}
             focusGeneId={data.id}
