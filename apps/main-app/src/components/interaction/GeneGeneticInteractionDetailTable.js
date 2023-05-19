@@ -24,7 +24,7 @@ const GeneGeneticInteractionDetailTable = ({
         text: `${focusGeneDisplayName} role`,
         helpPopupProps: {
           id: 'gene-page--genetic-interaction-table--role-help',
-          children: <span>The role (e.g., suppressed gene, epistatic gene) of the focus gene (i.e., this report’s gene) in the genetic interaction. There are 7 possible roles: enhanced gene, enhancer gene, epistatic gene, hypostatic gene, suppressed gene, suppressor gene, unspecified role.</span>,
+          children: 'The role (e.g., suppressed gene, epistatic gene) of the focus gene (i.e., this report’s gene) in the genetic interaction. There are 7 possible roles: enhanced gene, enhancer gene, epistatic gene, hypostatic gene, suppressed gene, suppressor gene, unspecified role.',
         },
         headerStyle: {
           width: '150px',
@@ -38,7 +38,7 @@ const GeneGeneticInteractionDetailTable = ({
         text: `${focusGeneDisplayName} genetic perturbation`,
         helpPopupProps: {
           id: 'gene-page--genetic-interaction-table--genetic-perturbation-help',
-          children: <span>The genetic perturbation (e.g., variant, allele, RNAi-knockdown) of the focus gene involved in the genetic interaction.</span>,
+          children: 'The genetic perturbation (e.g., variant, allele, RNAi-knockdown) of the focus gene involved in the genetic interaction.',
         },
         headerStyle: {
           width: '150px',
@@ -52,7 +52,7 @@ const GeneGeneticInteractionDetailTable = ({
         text: 'Interactor gene',
         helpPopupProps: {
           id: 'gene-page--genetic-interaction-table--interactor-gene-help',
-          children: <span>The gene which interacts genetically with the focus gene.</span>,
+          children: 'The gene which interacts genetically with the focus gene.',
         },
         headerStyle: {
           width: '150px',
@@ -66,7 +66,7 @@ const GeneGeneticInteractionDetailTable = ({
         text: 'Interactor species',
         helpPopupProps: {
           id: 'gene-page--genetic-interaction-table--interactor-species-help',
-          children: <span>The species of the interactor gene.</span>,
+          children: 'The species of the interactor gene.',
         },
         headerStyle: {
           width: '200px',
@@ -80,7 +80,7 @@ const GeneGeneticInteractionDetailTable = ({
         text: 'Interactor role',
         helpPopupProps: {
           id: 'gene-page--genetic-interaction-table--interactor-role-help',
-          children: <span>The role (e.g., suppressed gene, epistatic gene) of the interactor gene in the genetic interaction. There are 7 possible roles: enhanced gene, enhancer gene, epistatic gene, hypostatic gene, suppressed gene, suppressor gene, unspecified role.</span>,
+          children: 'The role (e.g., suppressed gene, epistatic gene) of the interactor gene in the genetic interaction. There are 7 possible roles: enhanced gene, enhancer gene, epistatic gene, hypostatic gene, suppressed gene, suppressor gene, unspecified role.',
         },
         headerStyle: {
           width: '150px',
@@ -94,7 +94,7 @@ const GeneGeneticInteractionDetailTable = ({
         text: 'Interactor genetic perturbation',
         helpPopupProps: {
           id: 'gene-page--genetic-interaction-table--genetic-perturbation-help',
-          children: <span>The genetic perturbation (e.g., variant, allele, RNAi-knockdown) of the interactor gene involved in the genetic interaction.</span>,
+          children: 'The genetic perturbation (e.g., variant, allele, RNAi-knockdown) of the interactor gene involved in the genetic interaction.',
         },
         headerStyle: {
           width: '150px',
@@ -121,7 +121,7 @@ const GeneGeneticInteractionDetailTable = ({
         text: 'Phenotype or trait',
         helpPopupProps: {
           id: 'gene-page--genetic-interaction-table--phenotype-or-trait-help',
-          children: <span>The phenotype or trait affected by the genetic interaction, e.g., the phenotype that was suppressed, enhanced, or masked.</span>,
+          children: 'The phenotype or trait affected by the genetic interaction, e.g., the phenotype that was suppressed, enhanced, or masked.',
         },
         headerStyle: {
           width: '130px',
