@@ -86,7 +86,7 @@ function AnnotatedEntitiesPopupCuration(props) {
                     <td><ExperimentalConditionCellCuration conditions={entity.conditionRelations}/></td>
                     <td><ExperimentalConditionCellCuration conditions={entity.conditionModifiers}/></td>
                     <td><StrainBackground strainBackground={entity.sgdStrainBackground}/></td>
-                    <td>{entity.geneticSex && GeneticSex(entity.geneticSex)}</td>
+                    <td><GeneticSex geneticSex={entity.geneticSex ? entity.geneticSex : ''}/></td> 
                     <td><RelatedNotes relatedNotes={entity.relatedNotes}/></td>
                     <td><AnnotationType  annotationType={entity.annotationType}/></td>
                     <td><EvidenceCodesCellCuration evidenceCodes={entity.evidenceCodes}/></td>
