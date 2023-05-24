@@ -18,6 +18,7 @@ import AssertedGenes from './AssertedGenes';
 import RelatedNotes from './RelatedNotes';
 import EvidenceCodesCellCuration from './evidenceCodesCellCuration';
 import AnnotationSource from './AnnotationSource';
+import AnnotationType from './AnnotationType';
 
 function renderLink(entity) {
   // Console.log(entity);
@@ -84,7 +85,7 @@ function AnnotatedEntitiesPopupCuration(props) {
                     <td><ExperimentalConditionCellCuration conditions={entity.conditionRelations}/></td>
                     <td><ExperimentalConditionCellCuration conditions={entity.conditionModifiers}/></td>
                     <td><StrainBackground strainBackground={entity.sgdStrainBackground}/></td>
-                    <td><GeneticSex geneticSex={entity.geneticSex}/></td>
+                    <td>{entity.geneticSex && GeneticSex(geneticSex=entity.geneticSex)}</td>
                     <td><RelatedNotes relatedNotes={entity.relatedNotes}/></td>
                     <td><AnnotationType  annotationType={entity.annotationType}/></td>
                     <td><EvidenceCodesCellCuration evidenceCodes={entity.evidenceCodes}/></td>
