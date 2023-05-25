@@ -22,7 +22,6 @@ import GeneticSex from './GeneticSex';
 import AnnotationType from './AnnotationType';
 
 function renderLink(entity) {
-  // Console.log(entity);
   const url = getResourceUrl(entity.subject.curie, entity.subject.type, entity.subject.subtype)
 
   if (entity.type === 'AlleleDiseaseAnnotation') {
@@ -90,8 +89,8 @@ function AnnotatedEntitiesPopupCuration(props) {
                     <td><RelatedNotes relatedNotes={entity.relatedNotes}/></td>
                     <td><AnnotationType  annotationType={entity.annotationType}/></td>
                     <td><EvidenceCodesCellCuration evidenceCodes={entity.evidenceCodes}/></td>
-                    <td><AnnotationSource dataProvider={entity.dataProvider}/></td> 
-                    <td><SingleReferenceCellCuration singleReference={entity.singleReference}/></td>              
+                    <td><AnnotationSource dataProvider={entity.dataProvider}/></td>
+                    <td><SingleReferenceCellCuration singleReference={entity.singleReference}/></td>
                   </tr>
                 ))
               }
