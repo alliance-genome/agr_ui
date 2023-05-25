@@ -91,7 +91,7 @@ function AnnotatedEntitiesPopupCuration(props) {
                     <td><AnnotationType  annotationType={entity.annotationType}/></td>
                     <td><EvidenceCodesCellCuration evidenceCodes={entity.evidenceCodes}/></td>
                     <td><AnnotationSource dataProvider={entity.dataProvider}/></td> 
-                    <td><SingleReferenceCellCuration  foo={10} singleReference={entity.singleReference}/></td>              
+                    <td><SingleReferenceCellCuration singleReference={entity.singleReference}/></td>              
                   </tr>
                 ))
               }
