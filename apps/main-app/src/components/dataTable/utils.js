@@ -31,11 +31,10 @@ export function getRefString(referenceItem) {
   if (!referenceItem)
     return;
 
-  if (!referenceItem.cross_references && !referenceItem.crossReferences)
-    return referenceItem.curie;
-
-  let xrefCuries = referenceItem.crossReferences.map((crossReference) => crossReference.curie);
-
+  if (!referenceItem.cross_references && !referenceItem.crossReferences){
+    return referenceItem.curie
+  }
+  let xrefCuries = referenceItem.crossReferences.map((crossReference) => crossReference.referencedCurie);
   let primaryXrefCurie = '';
 
   if (indexWithPrefix(xrefCuries, 'PMID:') > -1) {

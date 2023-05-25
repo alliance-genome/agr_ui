@@ -1,9 +1,9 @@
 
 function AnnotationType(annotationType) {
     if (annotationType) {
-        return annotationType.name &&  '';
+        return <>{annotationType.name}</>;
     }
-    return null;
+    return <></>;
 }
 
 export default AnnotationType;
