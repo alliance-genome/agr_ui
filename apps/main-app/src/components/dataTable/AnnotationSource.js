@@ -1,8 +1,8 @@
 function AnnotationSource(dataProvider) {
     if(dataProvider) {
-        return dataProvider.abbreviation && '';
+        return <>{dataProvider.abbreviation}</>;
     }
-    return null;
+    return <></>;
 }
 
 export default AnnotationSource;

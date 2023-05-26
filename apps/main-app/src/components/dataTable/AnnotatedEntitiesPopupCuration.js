@@ -18,9 +18,10 @@ import AssertedGenes from './AssertedGenes';
 import RelatedNotes from './RelatedNotes';
 import EvidenceCodesCellCuration from './evidenceCodesCellCuration';
 import AnnotationSource from './AnnotationSource';
+import GeneticSex from './GeneticSex';
+import AnnotationType from './AnnotationType';
 
 function renderLink(entity) {
-  // Console.log(entity);
   const url = getResourceUrl(entity.subject.curie, entity.subject.type, entity.subject.subtype)
 
   if (entity.type === 'AlleleDiseaseAnnotation') {

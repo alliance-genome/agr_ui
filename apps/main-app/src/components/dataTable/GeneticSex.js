@@ -1,8 +1,8 @@
 
 function GeneticSex(geneticSex) {
  if(geneticSex) 
-    return geneticSex.name && '';
- return null;
+    return <>{geneticSex.name}</>;
+ return <></>;
 }
 
 export default GeneticSex;
