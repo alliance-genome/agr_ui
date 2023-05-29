@@ -18,6 +18,7 @@ import {
   InteractionUserGuide
 } from '../../components/interaction';
 import GenomeFeatureWrapper from './genomeFeatureWrapper';
+import GenericGeneSequencePanel from 'generic-sequence-panel';
 import ExpressionLinks from './expressionLinks';
 
 import SpeciesIcon from '../../components/speciesIcon';
@@ -41,6 +42,7 @@ import SpeciesName from '../../components/SpeciesName';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
+const SEQUENCE_PANEL = 'Sequence Panel';
 const FUNCTION = 'Function - GO Annotations';
 const PATHWAY = 'Pathways';
 const ORTHOLOGY = 'Orthology';
@@ -64,6 +66,7 @@ const SECTIONS = [
   {name: TG_ALLELES},
   {name: MODELS},
   {name: SEQUENCE_FEATURE_VIEWER},
+  {name: SEQUENCE_PANEL},
   {name: EXPRESSION},
   {name: INTERACTIONS},
   {name: GENETIC_INTERACTIONS},
@@ -193,6 +196,18 @@ const GenePage = ({geneId}) => {
             width='600px'
           />
         </Subsection>
+
+        <Subsection title={SEQUENCE_PANEL}>
+	  <GenericGeneSequencePanel
+            refseq={genomeLocation.chromosome}
+            start={genomeLocation.start}
+            end={genomeLocation.end}
+            gene={data.symbol}
+            nclistbaseurl={data.species.jBrowsenclistbaseurl}
+            urltemplate={data.species.jBrowseurltemplate}
+            fastaurl={data.species.jBrowsefastaurl}
+	  />
+	</Subsection>
 
         <Subsection help={<ExpressionUserGuide />} title={EXPRESSION}>
           <ExpressionLinks
