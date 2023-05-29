@@ -318,7 +318,7 @@ export const SPECIES = [
     apolloName: 'zebrafish',
     apolloTrack: '/All%20Genes/',
     jBrowseName: 'Danio rerio',
-    jBrowsenclistbaseurl: 'https://s3.amazonaws.com/agrjbrowse/docker/5.4.0/zfin/zebrafish-11/;,
+    jBrowsenclistbaseurl: 'https://s3.amazonaws.com/agrjbrowse/docker/5.4.0/zfin/zebrafish-11/',
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
     jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_000002035.6_GRCz11_genomic.fna.gz',
     vertebrate: true,
