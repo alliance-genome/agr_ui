@@ -10,7 +10,7 @@ function makeAssertedGeneLink(curie) {
     return null;
 }
 
-function AssertedGenes(assertedGenes) {
+function AssertedGenes({assertedGenes}) {
   if(assertedGenes && assertedGenes.length > 1) {
     return (
         <CollapsibleList collapsedSize={assertedGenes.length}>
@@ -18,7 +18,7 @@ function AssertedGenes(assertedGenes) {
         </CollapsibleList>
     );
   }
-  return null;
+  return <></>;
 }
 
 export default AssertedGenes;

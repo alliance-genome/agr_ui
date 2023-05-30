@@ -2,7 +2,7 @@ import CollapsibleList from '../collapsibleList/collapsibleList';
 import NoteCell from './NoteCell'
 
 
-function RelatedNotes(relatedNotes) {
+function RelatedNotes({relatedNotes}) {
   if(relatedNotes && relatedNotes.length > 0) {
     return (
         <CollapsibleList collapsedSize={relatedNotes.length}>
@@ -10,7 +10,7 @@ function RelatedNotes(relatedNotes) {
         </CollapsibleList>
         );
   }
-  return null;
+  return <></>;
 }
 
 export default RelatedNotes;

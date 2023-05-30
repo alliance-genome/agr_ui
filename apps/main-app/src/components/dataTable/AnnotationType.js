@@ -1,5 +1,5 @@
 
-function AnnotationType(annotationType) {
+function AnnotationType({annotationType}) {
     if (annotationType) {
         return <>{annotationType.name}</>;
     }
