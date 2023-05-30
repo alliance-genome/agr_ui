@@ -18,7 +18,7 @@ function AssertedGenes({assertedGenes}) {
         </CollapsibleList>
     );
   }
-  return null;
+  return <></>;
 }
 
 export default AssertedGenes;
