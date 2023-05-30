@@ -10,7 +10,7 @@ function RelatedNotes({relatedNotes}) {
         </CollapsibleList>
         );
   }
-  return null;
+  return <></>;
 }
 
 export default RelatedNotes;
