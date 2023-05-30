@@ -1,4 +1,4 @@
-function AnnotationSource(dataProvider) {
+function AnnotationSource({dataProvider}) {
     if(dataProvider) {
         return <>{dataProvider.abbreviation}</>;
     }
