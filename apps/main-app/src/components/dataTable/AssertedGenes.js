@@ -10,12 +10,12 @@ function makeAssertedGeneLink(curie, geneSymbol) {
     return null;
 }
 
-function AssertedGenes({assertedGenes}) {
-  console.log("asserted genes", assertedGenes)
+function AssertedGenes({assertedGenes, mainRowCurie}) {
+  const filteredAssertedGenes = assertedGenes?.filter(gene => gene.curie !== mainRowCurie);
   if(assertedGenes && assertedGenes.length > 1) {
     return (
         <CollapsibleList collapsedSize={assertedGenes.length}>
-        {assertedGenes.map(gene => makeAssertedGeneLink(gene.curie, gene.geneSymbol.displayText))}
+        {filteredAssertedGenes.map(gene => makeAssertedGeneLink(gene.curie, gene.geneSymbol.displayText))}
         </CollapsibleList>
     );
   }
