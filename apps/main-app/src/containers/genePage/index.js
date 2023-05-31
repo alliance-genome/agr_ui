@@ -38,6 +38,7 @@ import TransgenicAlleleTable from './TransgenicAlleleTable';
 import GeneSymbol from '../../components/GeneSymbol';
 import PhenotypeCrossRefs from './PhenotypeCrossRefs';
 import SpeciesName from '../../components/SpeciesName';
+import DiseaseSectionHelp from '../../components/disease/diseaseSectionHelp';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
@@ -139,7 +140,7 @@ const GenePage = ({geneId}) => {
             xrefs={data.crossReferenceMap}
           />
         </Subsection>
-        
+
         <Subsection title={PHENOTYPES}>
           <PhenotypeCrossRefs
             primary={[
@@ -153,7 +154,7 @@ const GenePage = ({geneId}) => {
           <PhenotypeTable geneId={data.id} />
         </Subsection>
 
-        <Subsection title={DISEASE}>
+        <Subsection help={<DiseaseSectionHelp />}title={DISEASE}>
           <DiseaseComparisonRibbon geneId={data.id} geneTaxon={data.species.taxonId} />
         </Subsection>
 
