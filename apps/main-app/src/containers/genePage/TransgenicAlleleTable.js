@@ -71,7 +71,7 @@ const TransgenicAlleleTable = ({geneId}) => {
       text: 'Transgenic construct',
       helpPopupProps: {
         id: 'gene-page--transgenetic-allele-table--transgenic-construct-help',
-        children: <span>The symbol of the construct (following species specific guidelines). This represents the construct independent of the host organism.</span>,
+        children: 'The symbol of the construct (following species specific guidelines). This represents the construct independent of the host organism.',
       },
       formatter: constructs => constructs.map(construct => (
         <div key={construct.id} className='text-break'>
@@ -87,7 +87,7 @@ const TransgenicAlleleTable = ({geneId}) => {
       text: 'Expressed components',
       helpPopupProps: {
         id: 'gene-page--transgenetic-allele-table--expressed-components-help',
-        children: <span>The genetic elements expressed by the construct. These may be full or partial genes and may include both protein coding and non-protein coding genes.</span>,
+        children: 'The genetic elements expressed by the construct. These may be full or partial genes and may include both protein coding and non-protein coding genes.',
       },
       formatter: constructsRelatedGenesFormatter,
       headerStyle: {width: '130px'},
@@ -98,7 +98,7 @@ const TransgenicAlleleTable = ({geneId}) => {
       text: 'Knock-down targets',
       helpPopupProps: {
         id: 'gene-page--transgenetic-allele-table--knock-down-targets-help',
-        children: <span>If the transgenic construct contains elements designed to interfere with expression of another gene, then those genes are listed here.</span>,
+        children: 'If the transgenic construct contains elements designed to interfere with expression of another gene, then those genes are listed here.',
       },
       formatter: constructsRelatedGenesFormatter,
       headerStyle: {width: '120px'},
@@ -109,7 +109,7 @@ const TransgenicAlleleTable = ({geneId}) => {
       text: 'Regulatory regions',
       helpPopupProps: {
         id: 'gene-page--transgenetic-allele-table--regulatory-regions-help',
-        children: <span>The genetic elements driving expression of the other elements in the construct. Examples are: upstream activation sequence (UAS), human cytomegalovirus (CMV), and in worm, daf-16.</span>,
+        children: 'The genetic elements driving expression of the other elements in the construct. Examples are: upstream activation sequence (UAS), human cytomegalovirus (CMV), and in worm, daf-16.',
       },
       formatter: constructsRelatedGenesFormatter,
       headerStyle: {width: '120px'},
