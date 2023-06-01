@@ -22,7 +22,7 @@ const GeneModelsTable = ({id}) => {
       text: 'Model name',
       helpPopupProps: {
         id: 'gene-page--model-table--model-name-help',
-        children: 'A representation of the population of organisms used in a study. These may include disease models, inbred strains and mutant genotypes.',
+        children: <span>A representation of the population of organisms used in a study. These may include disease models, inbred strains and mutant genotypes.</span>,
       },
       formatter: (name, row) => (
         <ExternalLink href={row.url}>
@@ -38,7 +38,7 @@ const GeneModelsTable = ({id}) => {
       text: 'Experimental condition',
       helpPopupProps: {
         id: 'gene-page--model-table--experimental-condition-help',
-        children: 'Any condition applied that contributes to an organism being a model. (Examples: drugs, diet, environmental temperature)',
+        children: <span>Any condition applied that contributes to an organism being a model. (Examples: drugs, diet, environmental temperature)</span>,
       },
       formatter: conditions => <ExperimentalConditionCell conditions={conditions} />,
       headerStyle: {width: '220px'},
@@ -48,7 +48,7 @@ const GeneModelsTable = ({id}) => {
       text: 'Associated Human Diseases',
       helpPopupProps: {
         id: 'gene-page--model-table--associated-human-diseases-help',
-        children: 'The Disease Ontology (DO) term for which the organism is a model. The DO is a hierarchical, standardized ontology that integrates vocabularies from MeSH, ICD, NCI’s thesaurus, SNOMED, UMLS, Orphanet, EFO and OMIM. Its hierarchical structure permits a range of detail from high-level, broadly descriptive terms to very low-level, highly specific terms.',
+        children: <span>The Disease Ontology (DO) term for which the organism is a model. The DO is a hierarchical, standardized ontology that integrates vocabularies from MeSH, ICD, NCI’s thesaurus, SNOMED, UMLS, Orphanet, EFO and OMIM. Its hierarchical structure permits a range of detail from high-level, broadly descriptive terms to very low-level, highly specific terms.</span>,
       },
       formatter: diseaseModels => diseaseModels && (
         <CollapsibleList collapsedSize={diseaseModels.length}>
@@ -69,7 +69,7 @@ const GeneModelsTable = ({id}) => {
       text: 'Associated Phenotypes',
       helpPopupProps: {
         id: 'gene-page--model-table--associated-phenotypes-help',
-        children: 'The list of phenotypes observed in the model organism.',
+        children: <span>The list of phenotypes observed in the model organism.</span>,
       },
       formatter: phenotypes => phenotypes && (
         <CollapsibleList collapsedSize={2} showBullets>
@@ -87,7 +87,7 @@ const GeneModelsTable = ({id}) => {
       text: 'Modifier',
       helpPopupProps: {
         id: 'gene-page--model-table--modifier-help',
-        children: ' A secondary condition that ameliorates or exacerbates the phenotype in the model.',
+        children: <span>A secondary condition that ameliorates or exacerbates the phenotype in the model.</span>,
       },
       formatter: conditions => <ExperimentalConditionCell conditions={conditions} />,
       headerStyle: {width: '220px'},
