@@ -119,6 +119,11 @@ const AlleleTable = ({geneId}) => {
     {
       dataField: 'symbol',
       text: 'Allele/Variant Symbol',
+      helpPopupProps: {
+        id: 'gene-page--alleles-table--allele-symbol-help',
+        children: <span>The official symbol for the allele or variant.</span>,
+      },
+
       formatter: (_, allele) => <AlleleCell allele={allele} />,
       headerStyle: {width: '185px'},
       filterable: true,
@@ -126,13 +131,21 @@ const AlleleTable = ({geneId}) => {
     {
       dataField: 'synonyms',
       text: 'Allele Synonyms',
-      formatter: synonyms => <SynonymList synonyms={synonyms}/>,
+      helpPopupProps: {
+        id: 'gene-page--alleles-table--allele-synonyms-help',
+        children: <span>Unofficial allele symbols used in publications.</span>,
+      },
+formatter: synonyms => <SynonymList synonyms={synonyms}/>,
       headerStyle: {width: '165px'},
       filterable: true,
     },
     {
       dataField: 'category',
       text: 'Category',
+      helpPopupProps: {
+        id: 'gene-page--alleles-table--allele-category-help',
+        children: <span>An indication of whether the referenced object is an allele where the genomic location of the nucleotide change in not known (“allele”), an allele where one or more genomic locations of nucleotide change(s) are known (“allele with N associated variant(s)”), or a variant, i.e., a specific nucleotide change at a specified location on the genome (“variant”).</span>,
+      },
       headerStyle: {width: '140px'},
       filterName: 'alleleCategory',
       filterable: getDistinctFieldValue(resolvedData, 'filter.alleleCategory'),
@@ -140,6 +153,10 @@ const AlleleTable = ({geneId}) => {
     {
       dataField: 'variants',
       text: 'Variant',
+      helpPopupProps: {
+        id: 'gene-page--alleles-table--allele-variant-help',
+        children: <span>The HGVS (Human Genome Variation Society) name for the Variant, linked to its location in JBrowse. Visit <ExternalLink href="https://varnomen.hgvs.org/recommendations/general/" target="_blank">HGVS nomenclature</ExternalLink>.</span>,
+      },
       formatter: (variants) => (
         <div>
           {
@@ -199,6 +216,10 @@ const AlleleTable = ({geneId}) => {
     {
       dataField: 'variantType',
       text: 'Variant type',
+      helpPopupProps: {
+        id: 'gene-page--alleles-table--variant-type-help',
+        children: <span>Examples are: point mutation, insertion, deletion, MNV, delins, and SNP.</span>,
+      },
       headerStyle: {width: variantTypeColWidth},
       style: {
         display: 'none',
@@ -211,7 +232,8 @@ const AlleleTable = ({geneId}) => {
       text: 'Molecular consequence',
       helpPopupProps: {
         id: 'gene-page--alleles-table--molecular-consequence-help',
-        children: <span>Variant consequences were predicted by the <ExternalLink href="https://uswest.ensembl.org/info/docs/tools/vep/index.html" target="_blank">Ensembl Variant Effect Predictor (VEP) tool</ExternalLink> based on Alliance variants information.</span>,
+        children: <span>Variant consequences were predicted by the <ExternalLink href="https://uswest.ensembl.org/info/docs/tools/vep/index.html" target="_blank">Ensembl Variant Effect Predictor (VEP) tool</ExternalLink> based on Alliance variants information.
+          Examples are: frameshift variant, stop gained, missense variant, splice donor variant, splice acceptor variant, stop gained, splice region variant, intron variant, coding sequence variant, 5 prime UTR variant, and inframe deletion.</span>,
       },
       headerStyle: {width: variantConsequenceColWidth},
       style: {

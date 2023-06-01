@@ -6,6 +6,7 @@ import { OrthologyFilteredTable, OrthologyUserGuide, OrthologyBasicInfo } from '
 import GoUserGuide from '../../components/geneOntologyRibbon/goUserGuide';
 import PathwayUserGuide from '../../components/pathway/pathwayUserGuide';
 import ModelSectionHelp from '../../components/model/modelSectionHelp';
+import AlleleTableSectionHelp from '../../components/alleleTable/alleleTableSectionHelp';
 
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
 import PathwayWidget from '../../components/pathway/pathwayWidget';
@@ -162,7 +163,7 @@ const GenePage = ({geneId}) => {
           <DiseaseComparisonRibbon geneId={data.id} geneTaxon={data.species.taxonId} />
         </Subsection>
 
-        <Subsection title={ALLELES}>
+        <Subsection help={<AlleleTableSectionHelp />} title={ALLELES}>
           <AlleleTable
             geneId={data.id}
           />
