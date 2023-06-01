@@ -38,7 +38,7 @@ import TransgenicAlleleTable from './TransgenicAlleleTable';
 import GeneSymbol from '../../components/GeneSymbol';
 import PhenotypeCrossRefs from './PhenotypeCrossRefs';
 import SpeciesName from '../../components/SpeciesName';
-import TransgenicAlleleSectionHelp from '../../components/transgenicAlleles/transgenicAlleles';
+import TransgenicAlleleSectionHelp from '../../components/transgenicAlleles/transgenicAllelesSectionHelp';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
