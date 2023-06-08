@@ -28,10 +28,8 @@ jobs:
       - name: Report runtime details
         run: |
           echo "Github runner OS: ${{ runner.os }}"
-      - name: Install Use NVM and Npm Install
-        run: . /home/runner/.nvm/nvm.sh --no-use && nvm install && nvm use
       - name: Node Package Manager Install
-        run: npm install
+        run: npm install --legacy-peer-deps
       - name: Make Dist Folder
         run: mkdir dist
       - name: Npm build
