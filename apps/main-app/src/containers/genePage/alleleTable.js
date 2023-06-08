@@ -135,7 +135,7 @@ const AlleleTable = ({geneId}) => {
         id: 'gene-page--alleles-table--allele-synonyms-help',
         children: <span>Unofficial allele symbols used in publications.</span>,
       },
-formatter: synonyms => <SynonymList synonyms={synonyms}/>,
+      formatter: synonyms => <SynonymList synonyms={synonyms}/>,
       headerStyle: {width: '165px'},
       filterable: true,
     },
