@@ -22,6 +22,10 @@ const GeneGeneticInteractionDetailTable = ({
       {
         dataField: 'interactorARole',
         text: `${focusGeneDisplayName} role`,
+        helpPopupProps: {
+          id: 'gene-page--genetic-interaction-table--role-help',
+          children: <span>The role (e.g., suppressed gene, epistatic gene) of the focus gene (i.e., this report’s gene) in the genetic interaction. There are 7 possible roles: enhanced gene, enhancer gene, epistatic gene, hypostatic gene, suppressed gene, suppressor gene, unspecified role.</span>,
+        },
         headerStyle: {
           width: '150px',
         },
@@ -32,6 +36,10 @@ const GeneGeneticInteractionDetailTable = ({
       {
         dataField: 'alleleA',
         text: `${focusGeneDisplayName} genetic perturbation`,
+        helpPopupProps: {
+          id: 'gene-page--genetic-interaction-table--genetic-perturbation-help',
+          children: <span>The genetic perturbation (e.g., variant, allele, RNAi-knockdown) of the focus gene involved in the genetic interaction.</span>,
+        },
         headerStyle: {
           width: '150px',
         },
@@ -42,6 +50,10 @@ const GeneGeneticInteractionDetailTable = ({
       {
         dataField: 'geneB',
         text: 'Interactor gene',
+        helpPopupProps: {
+          id: 'gene-page--genetic-interaction-table--interactor-gene-help',
+          children: <span>The gene which interacts genetically with the focus gene.</span>,
+        },
         headerStyle: {
           width: '150px',
         },
@@ -52,6 +64,10 @@ const GeneGeneticInteractionDetailTable = ({
       {
         dataField: 'geneB.species',
         text: 'Interactor species',
+        helpPopupProps: {
+          id: 'gene-page--genetic-interaction-table--interactor-species-help',
+          children: <span>The species of the interactor gene.</span>,
+        },
         headerStyle: {
           width: '200px',
         },
@@ -62,6 +78,10 @@ const GeneGeneticInteractionDetailTable = ({
       {
         dataField: 'interactorBRole',
         text: 'Interactor role',
+        helpPopupProps: {
+          id: 'gene-page--genetic-interaction-table--interactor-role-help',
+          children: <span>The role (e.g., suppressed gene, epistatic gene) of the interactor gene in the genetic interaction. There are 7 possible roles: enhanced gene, enhancer gene, epistatic gene, hypostatic gene, suppressed gene, suppressor gene, unspecified role.</span>,
+        },
         headerStyle: {
           width: '150px',
         },
@@ -72,6 +92,10 @@ const GeneGeneticInteractionDetailTable = ({
       {
         dataField: 'alleleB',
         text: 'Interactor genetic perturbation',
+        helpPopupProps: {
+          id: 'gene-page--genetic-interaction-table--genetic-perturbation-help',
+          children: <span>The genetic perturbation (e.g., variant, allele, RNAi-knockdown) of the interactor gene involved in the genetic interaction.</span>,
+        },
         headerStyle: {
           width: '150px',
         },
@@ -82,6 +106,10 @@ const GeneGeneticInteractionDetailTable = ({
       {
         dataField: 'interactionType',
         text: 'Interaction type',
+        helpPopupProps: {
+          id: 'gene-page--genetic-interaction-table--interaction-type-help',
+          children: <span>The type of genetic interaction reported, e.g., suppression, epistasis. Types of genetic interactions and their definitions are managed in the <ExternalLink href="https://github.com/HUPO-PSI/psi-mi-CV" target="_blank">PSI-MI (molecular interactions) controlled vocabulary</ExternalLink> under the root term ‘phenotype_result’ (MI:2383). Definitions of terms (or initial portions for longer definitions) are available in a pop-up tooltip when hovering your mouse cursor over the term.</span>,
+        },
         headerStyle: {
           width: '150px',
         },
@@ -91,8 +119,12 @@ const GeneGeneticInteractionDetailTable = ({
       {
         dataField: 'phenotypes',
         text: 'Phenotype or trait',
+        helpPopupProps: {
+          id: 'gene-page--genetic-interaction-table--phenotype-or-trait-help',
+          children: <span>The phenotype or trait affected by the genetic interaction, e.g., the phenotype that was suppressed, enhanced, or masked.</span>,
+        },
         headerStyle: {
-          width: '150px',
+          width: '130px',
         },
         formatter: (phenotypes) => (
           <CollapsibleList>
