@@ -5,6 +5,7 @@ import BasicGeneInfo from './basicGeneInfo';
 import { OrthologyFilteredTable, OrthologyUserGuide, OrthologyBasicInfo } from '../../components/orthology';
 import GoUserGuide from '../../components/geneOntologyRibbon/goUserGuide';
 import PathwayUserGuide from '../../components/pathway/pathwayUserGuide';
+import ModelSectionHelp from '../../components/model/modelSectionHelp';
 
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
 import PathwayWidget from '../../components/pathway/pathwayWidget';
@@ -168,7 +169,7 @@ const GenePage = ({geneId}) => {
           <TransgenicAlleleTable geneId={data.id} />
         </Subsection>
 
-        <Subsection title={MODELS}>
+        <Subsection help={<ModelSectionHelp />} title={MODELS}>
           <GeneModelsTable id={data.id} />
         </Subsection>
 
