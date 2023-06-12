@@ -1,19 +1,10 @@
 
 const TypeCellCuration = ({ subject }) => {
-
   if (subject.type === "AffectedGenomicModel") {
-    const [prefix] = subject.curie.split(':');
+    const subtype = subject?.subtype?.name || "";
+    const capitalizedSubtype = `${subtype.charAt(0).toUpperCase()}${subtype.slice(1)}`;
 
-    subject.subtype = {};
-		if(prefix === "MGI") subject.subtype.name = "Genotype";
-		if(prefix === "ZFIN") subject.subtype.name = "Fish";
-		if(prefix === "WB") {
-			if(subject.curie.toLowerCase().includes("genotype")) subject.subtype.name = "Genotype";
-			if(subject.curie.toLowerCase().includes("strain")) subject.subtype.name = "Strain";
-		}
-		if(prefix === "RGD") subject.subtype.name = "Strain";
-    
-    return subject.subtype?.name || "";
+    return capitalizedSubtype || "";
   } else {
     return subject.type || "";
   }
