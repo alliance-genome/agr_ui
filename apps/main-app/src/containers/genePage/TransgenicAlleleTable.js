@@ -69,6 +69,10 @@ const TransgenicAlleleTable = ({geneId}) => {
     {
       dataField: 'constructs',
       text: 'Transgenic construct',
+      helpPopupProps: {
+        id: 'gene-page--transgenetic-allele-table--transgenic-construct-help',
+        children: <span>The symbol of the construct (following species specific guidelines). This represents the construct independent of the host organism.</span>,
+      },
       formatter: constructs => constructs.map(construct => (
         <div key={construct.id} className='text-break'>
           <ConstructLink construct={construct} />
@@ -81,13 +85,21 @@ const TransgenicAlleleTable = ({geneId}) => {
     {
       dataField: 'constructExpressedGene',
       text: 'Expressed components',
+      helpPopupProps: {
+        id: 'gene-page--transgenetic-allele-table--expressed-components-help',
+        children: <span>The genetic elements expressed by the construct. These may be full or partial genes and may include both protein coding and non-protein coding genes.</span>,
+      },
       formatter: constructsRelatedGenesFormatter,
-      headerStyle: {width: '120px'},
+      headerStyle: {width: '130px'},
       filterable: true,
     },
     {
       dataField: 'constructTargetedGene',
       text: 'Knock-down targets',
+      helpPopupProps: {
+        id: 'gene-page--transgenetic-allele-table--knock-down-targets-help',
+        children: <span>If the transgenic construct contains elements designed to interfere with expression of another gene, then those genes are listed here.</span>,
+      },
       formatter: constructsRelatedGenesFormatter,
       headerStyle: {width: '120px'},
       filterable: true,
@@ -95,6 +107,10 @@ const TransgenicAlleleTable = ({geneId}) => {
     {
       dataField: 'constructRegulatedGene',
       text: 'Regulatory regions',
+      helpPopupProps: {
+        id: 'gene-page--transgenetic-allele-table--regulatory-regions-help',
+        children: <span>The genetic elements driving expression of the other elements in the construct. Examples are: upstream activation sequence (UAS), human cytomegalovirus (CMV), and in worm, daf-16.</span>,
+      },
       formatter: constructsRelatedGenesFormatter,
       headerStyle: {width: '120px'},
       filterable: true,
