@@ -5,6 +5,7 @@ import BasicGeneInfo from './basicGeneInfo';
 import { OrthologyFilteredTable, OrthologyUserGuide, OrthologyBasicInfo } from '../../components/orthology';
 import GoUserGuide from '../../components/geneOntologyRibbon/goUserGuide';
 import PathwayUserGuide from '../../components/pathway/pathwayUserGuide';
+import ModelSectionHelp from '../../components/model/modelSectionHelp';
 
 import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
 import PathwayWidget from '../../components/pathway/pathwayWidget';
@@ -15,7 +16,8 @@ import {
   GenePhysicalInteractionDetailTable,
   GeneGeneticInteractionDetailTable,
   GeneInteractionCrossReference,
-  InteractionUserGuide
+  InteractionUserGuide,
+  GeneticInteractionSectionHelp
 } from '../../components/interaction';
 import GenomeFeatureWrapper from './genomeFeatureWrapper';
 import ExpressionLinks from './expressionLinks';
@@ -39,6 +41,8 @@ import GeneSymbol from '../../components/GeneSymbol';
 import PhenotypeCrossRefs from './PhenotypeCrossRefs';
 import SpeciesName from '../../components/SpeciesName';
 import SequenceFeatureViewerSectionHelp from '../../components/sequenceFeatureViewer/sequenceFeatureViewerSectionHelp';
+import TransgenicAlleleSectionHelp from '../../components/transgenicAlleles/transgenicAllelesSectionHelp';
+import DiseaseSectionHelp from '../../components/disease/diseaseSectionHelp';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
@@ -154,7 +158,7 @@ const GenePage = ({geneId}) => {
           <PhenotypeTable geneId={data.id} />
         </Subsection>
 
-        <Subsection title={DISEASE}>
+        <Subsection help={<DiseaseSectionHelp />}title={DISEASE}>
           <DiseaseComparisonRibbon geneId={data.id} geneTaxon={data.species.taxonId} />
         </Subsection>
 
@@ -164,11 +168,11 @@ const GenePage = ({geneId}) => {
           />
         </Subsection>
 
-        <Subsection title={TG_ALLELES}>
+        <Subsection help={<TransgenicAlleleSectionHelp />}title={TG_ALLELES}>
           <TransgenicAlleleTable geneId={data.id} />
         </Subsection>
 
-        <Subsection title={MODELS}>
+        <Subsection help={<ModelSectionHelp />} title={MODELS}>
           <GeneModelsTable id={data.id} />
         </Subsection>
 
@@ -222,7 +226,8 @@ const GenePage = ({geneId}) => {
             focusGeneId={data.id}
           />
         </Subsection>
-        <Subsection title={GENETIC_INTERACTIONS}>
+
+        <Subsection help={<GeneticInteractionSectionHelp />} title={GENETIC_INTERACTIONS}>
           <GeneGeneticInteractionDetailTable
             focusGeneDisplayName={data.symbol}
             focusGeneId={data.id}
