@@ -16,7 +16,7 @@ const InteractionUserGuide = () => (
       All data presented in the table can be downloaded in tab-delimited
       format via the "Download" button beneath the table. Note that the
       downloaded file will reflect the sort and filter options implemented
-      in the table. A brief, <ExternalLink href='https://twitter.com/alliancegenome/status/1120451221784080384'>tweeted, tutorial</ExternalLink> explains this section.
+      in the table.
     </p>
   </div>
 );
