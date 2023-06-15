@@ -40,6 +40,7 @@ import TransgenicAlleleTable from './TransgenicAlleleTable';
 import GeneSymbol from '../../components/GeneSymbol';
 import PhenotypeCrossRefs from './PhenotypeCrossRefs';
 import SpeciesName from '../../components/SpeciesName';
+import SequenceFeatureViewerSectionHelp from '../../components/sequenceFeatureViewer/sequenceFeatureViewerSectionHelp';
 import TransgenicAlleleSectionHelp from '../../components/transgenicAlleles/transgenicAllelesSectionHelp';
 import DiseaseSectionHelp from '../../components/disease/diseaseSectionHelp';
 
@@ -177,6 +178,7 @@ const GenePage = ({geneId}) => {
 
         <Subsection
           hasData={typeof genomeLocation.chromosome!== 'undefined' && typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'}
+          help={<SequenceFeatureViewerSectionHelp />}
           title={SEQUENCE_FEATURE_VIEWER}
         >
           <GenomeFeatureWrapper
