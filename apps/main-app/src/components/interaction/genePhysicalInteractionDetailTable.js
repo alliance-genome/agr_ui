@@ -49,6 +49,10 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
     {
       dataField: 'moleculeType',
       text: 'moleculeType',
+      helpPopupProps: {
+        id: 'gene-page--molecular-interactions--molecule-type-help',
+        children: <span>The type of molecule of the gene or gene product (gene, RNA or protein) involved in the molecular interaction.</span>,
+      },
       // headerNode is not part of the react-bootstrap-table column specification,
       // but it gets picked up in our ColumnHeader component to get around the fact
       // that `text` cannot be a JSX node. this property is only needed if the
@@ -72,6 +76,10 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
     {
       dataField: 'interactorGeneSymbol',
       text: 'Interactor gene',
+      helpPopupProps: {
+        id: 'gene-page--molecular-interactions--interactor-gene-help',
+        children: <span>The gene which interacts (or whose product interacts) molecularly with the gene or gene product.</span>,
+      },
       formatter: GeneCell,
       headerStyle: {width: '6em'},
       headerClasses: style.columnHeaderGroup2,
@@ -81,6 +89,10 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
     {
       dataField: 'interactorSpecies',
       text: 'Interactor species',
+      helpPopupProps: {
+        id: 'gene-page--molecular-interactions--interactor-species-help',
+        children: <span>The species of the interactor gene.</span>,
+      },
       formatter: species => <SpeciesName>{species.name}</SpeciesName>,
       headerStyle: {width: '8em'},
       headerClasses: style.columnHeaderGroup2,
@@ -91,6 +103,10 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
     {
       dataField: 'interactorMoleculeType',
       text: 'Interactor molecule type',
+      helpPopupProps: {
+        id: 'gene-page--molecular-interactions--interactor-molecule-type-help',
+        children: <span>The type of molecule of the interactor gene or gene product (gene, RNA or protein) involved in the molecular interaction.</span>,
+      },
       formatter: (fieldData = {}, row, rowIndex) => {
         const id = getCellId('interactorBType', rowIndex);
         return (
