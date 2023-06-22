@@ -20,6 +20,7 @@ import EvidenceCodesCellCuration from './evidenceCodesCellCuration';
 import AnnotationSource from './AnnotationSource';
 import GeneticSex from './GeneticSex';
 import AnnotationType from './AnnotationType';
+import GeneticModifiersCellCuration from './GeneticModifiersCellCuration';
 
 function renderLink(entity) {
   const url = getResourceUrl(entity.subject.curie, entity.subject.type, entity.subject.subtype)
@@ -66,9 +67,10 @@ function AnnotatedEntitiesPopupCuration(props) {
                 <th>Additional implicated genes</th>
                 <th>Experimental condition</th>
                 <th>Modifier</th>
+                <th>Genetic Modifiers</th>
                 <th>Strain Background</th>
                 <th>Genetic Sex</th>
-                <th>Notes</th>
+                <th className={style.relatedNotes}>Notes</th>
                 <th>Annotation type</th>
                 <th>Evidence Code</th>
                 <th>Source</th>
@@ -84,9 +86,10 @@ function AnnotatedEntitiesPopupCuration(props) {
                     <td><AssertedGenes assertedGenes={entity.assertedGenes} mainRowCurie={mainRowCurie}/></td>
                     <td><ExperimentalConditionCellCuration conditions={entity.conditionRelations}/></td>
                     <td><ExperimentalConditionCellCuration conditions={entity.conditionModifiers}/></td>
+                    <td><GeneticModifiersCellCuration relation={entity.diseaseGeneticModifierRelation} modifiers={entity.diseaseGeneticModifiers}/></td>
                     <td><StrainBackground strainBackground={entity.sgdStrainBackground}/></td>
                     <td><GeneticSex geneticSex={entity.geneticSex}/></td>
-                    <td class='text-nowrap'><RelatedNotes relatedNotes={entity.relatedNotes}/></td>
+                    <td><RelatedNotes className={style.relatedNotes} relatedNotes={entity.relatedNotes}/></td>
                     <td><AnnotationType  annotationType={entity.annotationType}/></td>
                     <td><EvidenceCodesCellCuration evidenceCodes={entity.evidenceCodes}/></td>
                     <td><AnnotationSource dataProvider={entity.dataProvider}/></td>
