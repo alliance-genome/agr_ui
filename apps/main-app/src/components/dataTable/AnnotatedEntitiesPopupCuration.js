@@ -66,7 +66,7 @@ function AnnotatedEntitiesPopupCuration(props) {
                 <th>Type</th>
                 <th>Additional implicated genes</th>
                 <th>Experimental condition</th>
-                <th>Modifier</th>
+                <th></th>
                 <th>Genetic Modifiers</th>
                 <th>Strain Background</th>
                 <th>Genetic Sex</th>
