@@ -5,9 +5,8 @@ import MethodHeader from '../orthology/methodHeader';
 import MethodCell from '../orthology/methodCell';
 import BooleanCell from '../orthology/booleanCell';
 import {
-  getOrthologSpeciesName,
   getOrthologId,
-  getOrthologSymbol,
+  getOrthologSymbol as getHomologSymbol,
 } from '../orthology/utils';
 import HelpPopup from '../helpPopup';
 
@@ -54,15 +53,11 @@ class ParalogyTable extends Component {
                 orthData.predictionMethodsNotMatched.length;
               const orthId = getOrthologId(orthData);
 
-              if (idx > 0 && getOrthologSpeciesName(orthList[idx - 1]) !== getOrthologSpeciesName(orthData)) {
-                rowGroup += 1;
-              }
-
               return (
                 <tr className={rowGroup % 2 === 0 ? style.groupedRow : ''} key={orthId}>
                   <td>
                     <Link to={`/gene/${orthId}`}>
-                      <span dangerouslySetInnerHTML={{__html: getOrthologSymbol(orthData)}} />
+                      <span dangerouslySetInnerHTML={{__html: getHomologSymbol(orthData)}} />
                     </Link>
                   </td>
                   <td>{`${scoreNumerator} of ${scoreDemominator}`}</td>
