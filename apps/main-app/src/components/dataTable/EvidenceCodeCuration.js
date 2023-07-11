@@ -28,7 +28,7 @@ const EvidenceCodeCuration = ({code}) => {
   }
 };
 
-EvidenceCodeCuration.PropTypes = {
+EvidenceCodeCuration.propTypes = {
   code: PropTypes.shape({
     curie: PropTypes.string,
     name: PropTypes.string,
