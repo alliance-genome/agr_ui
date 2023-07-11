@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPage';
 import BasicGeneInfo from './basicGeneInfo';
 import { OrthologyFilteredTable, OrthologyUserGuide, OrthologyBasicInfo } from '../../components/orthology';
+import ParalogyFilteredTable from '../../components/paralogy/paralogyFilteredTable'
+import ParalogyUserGuide from '../../components/paralogy/paralogyUserGuide'
 import GoUserGuide from '../../components/geneOntologyRibbon/goUserGuide';
 import PathwayUserGuide from '../../components/pathway/pathwayUserGuide';
 
@@ -44,6 +46,7 @@ const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
 const FUNCTION = 'Function - GO Annotations';
 const PATHWAY = 'Pathways';
 const ORTHOLOGY = 'Orthology';
+const PARALOGY = 'Paralogy'
 const DISEASE = 'Disease Associations';
 const EXPRESSION = 'Expression';
 const ALLELES = 'Alleles and Variants';
@@ -56,6 +59,7 @@ const MODELS = 'Models';
 const SECTIONS = [
   {name: SUMMARY},
   {name: ORTHOLOGY},
+  {name: PARALOGY},
   {name: FUNCTION},
   {name: PATHWAY},
   {name: PHENOTYPES},
@@ -121,6 +125,10 @@ const GenePage = ({geneId}) => {
         <Subsection help={<OrthologyUserGuide />} title={ORTHOLOGY}>
           <OrthologyBasicInfo pantherCrossReference={data.crossReferenceMap.panther} />
           <OrthologyFilteredTable geneId={data.id} />
+        </Subsection>
+
+        <Subsection help={<ParalogyUserGuide />} title={PARALOGY}>
+          <ParalogyFilteredTable geneId={data.id} />
         </Subsection>
 
         <Subsection help={<GoUserGuide />} title={FUNCTION}>
