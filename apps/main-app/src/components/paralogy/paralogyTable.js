@@ -8,6 +8,7 @@ import {
   getOrthologId,
   getOrthologSymbol as getHomologSymbol,
 } from '../orthology/utils';
+import { sortBy } from '../../lib/utils';
 import HelpPopup from '../helpPopup';
 
 import style from '../orthology/style.scss';
@@ -23,6 +24,15 @@ const columns = [
 export function isBest(value = '') {
   return typeof value === 'boolean' ? value : value.match(/yes/i);
 }
+
+function scoreBest(best, bestReverse, OtherBest, OtherBestReverse) {
+  let AB = (best === 'Yes') ? -1 : 0;
+  let AR = (bestReverse === 'Yes') ? -1 : 0;
+  let OB = (OtherBest === 'Yes') ? -1 : 0;
+  let OR = (OtherBestReverse === 'Yes') ? -1 : 0;
+  return (AB+AR) - (OB+OR)
+}
+
 
 class ParalogyTable extends Component {
 
@@ -47,7 +57,10 @@ class ParalogyTable extends Component {
         </thead>
         <tbody>
           {
-            this.props.data.map((orthData, idx, orthList) => {
+              sortBy(this.props.data, [
+                (orthDataA, orthDataB) => orthDataB.predictionMethodsMatched.length - orthDataA.predictionMethodsMatched.length,
+                (orthDataA, orthDataB) => scoreBest(orthDataA.best, orthDataA.bestReverse, orthDataB.best, orthDataB.bestReverse)
+              ]).map((orthData, idx, orthList) => {
               const scoreNumerator = orthData.predictionMethodsMatched.length;
               const scoreDemominator = scoreNumerator +
                 orthData.predictionMethodsNotMatched.length;
