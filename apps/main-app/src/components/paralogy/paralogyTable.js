@@ -8,6 +8,7 @@ import {
   getOrthologId,
   getOrthologSymbol as getHomologSymbol,
 } from '../orthology/utils';
+import { sortBy } from '../../lib/utils';
 import HelpPopup from '../helpPopup';
 
 import style from '../orthology/style.scss';
@@ -47,7 +48,9 @@ class ParalogyTable extends Component {
         </thead>
         <tbody>
           {
-            this.props.data.map((orthData, idx, orthList) => {
+              sortBy(this.props.data, [
+                (orthDataA, orthDataB) => orthDataB.predictionMethodsMatched.length - orthDataA.predictionMethodsMatched.length
+              ]).map((orthData, idx, orthList) => {
               const scoreNumerator = orthData.predictionMethodsMatched.length;
               const scoreDemominator = scoreNumerator +
                 orthData.predictionMethodsNotMatched.length;
