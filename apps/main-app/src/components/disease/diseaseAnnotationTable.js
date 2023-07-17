@@ -17,6 +17,7 @@ import useComparisonRibbonTableQuery from '../../hooks/useComparisonRibbonTableQ
 import SpeciesName from '../SpeciesName';
 import AssociationType from '../AssociationType';
 import DiseaseLinkCuration from './DiseaseLinkCuration';
+import DiseaseQualifiersColumn from "../dataTable/DiseaseQualifiersColumn";
 
 
 /*
@@ -91,6 +92,14 @@ const DiseaseAnnotationTable = ({
       filterable: getDistinctFieldValue(resolvedData, 'associationType'),
       filterFormatter: type => <AssociationType type={type} />,
       headerStyle: {width: '120px'},
+    },
+    {
+      dataField: 'diseaseQualifier',
+      text: 'Disease Qualifier',
+      filterable: true,
+      headerStyle: {width: '100px'},
+      formatter: diseaseQualifiers => <DiseaseQualifiersColumn qualifiers={diseaseQualifiers} />,
+      filterName: 'diseaseQualifier',
     },
     {
       dataField: 'object.curie',
