@@ -1,15 +1,15 @@
 import OrthologyTable from './orthologyTable';
 import OrthologyFilteredTable from './orthologyFilteredTable';
-import OrthologyUserGuide from './orthologyUserGuide';
+import HomologyUserGuide from '../homology/homologyUserGuide';
 import OrthologyBasicInfo from './orthologyBasicInfo';
-import StringencySelection from './stringencySelection';
+import StringencySelection from '../homology/stringencySelection';
 
 export {
   OrthologyBasicInfo,
   OrthologyTable,
   OrthologyFilteredTable,
-  OrthologyUserGuide,
+  HomologyUserGuide,
   StringencySelection,
 };
 
-export * from './utils';
+export * from '../homology/utils';
