@@ -1,4 +1,4 @@
-import { STRINGENCY_HIGH, STRINGENCY_MED } from '../components/orthology/constants';
+import { STRINGENCY_HIGH, STRINGENCY_MED } from '../components/homology/constants';
 import { DEFAULT_TABLE_STATE, SPECIES } from '../constants';
 import { stringify } from 'qs';
 

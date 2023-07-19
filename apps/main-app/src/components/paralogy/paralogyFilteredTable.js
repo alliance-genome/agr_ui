@@ -1,20 +1,20 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Collapse } from 'reactstrap';
-import StringencySelection from '../orthology/stringencySelection';
+import StringencySelection from '../homology/stringencySelection';
 import { isBest } from '../orthology/orthologyTable';
-import { getOrthologSpeciesName } from '../orthology/utils';
+import { getOrthologSpeciesName } from '../homology/utils';
 import HorizontalScroll from '../horizontalScroll';
 import LoadingSpinner from '../loadingSpinner';
 import NoData from '../noData';
 import ControlsContainer from '../controlsContainer';
-import { STRINGENCY_HIGH } from '../orthology/constants';
+import { STRINGENCY_HIGH } from '../homology/constants';
 import {
   compareAlphabeticalCaseInsensitive,
   orthologyMeetsStringency
 } from '../../lib/utils';
 import HelpPopup from '../helpPopup';
-import OrthologyFilterHelp from '../orthology/orthologyFilterHelp';
+import HomologyFilterHelp from '../homology/homologyFilterHelp';
 import useResettableState from '../../hooks/useResettableState';
 import useGeneParalogy from '../../hooks/useGeneParalogy';
 import ParalogyTable from './paralogyTable';
@@ -116,7 +116,7 @@ const ParalogyFilteredTable = ({geneId}) => {
       <ControlsContainer>
         <span className='pull-right'>
           <HelpPopup id='paralogy-controls-help'>
-            <OrthologyFilterHelp />
+            <HomologyFilterHelp ortholog={false}/>
           </HelpPopup>
         </span>
         <StringencySelection
