@@ -1,7 +1,6 @@
-import React from 'react';
 import ExternalLink from '../ExternalLink';
 
-const OrthologyUserGuide = () => (
+const HomologyUserGuide = () => (
   <div>
     <p>
       Many aspects of data integration presented at the Alliance require a
@@ -33,4 +32,4 @@ const OrthologyUserGuide = () => (
   </div>
 );
 
-export default OrthologyUserGuide;
+export default HomologyUserGuide;

@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import HorizontalScroll from '../horizontalScroll';
 
-import { STRINGENCY_HIGH } from '../orthology/constants';
+import { STRINGENCY_HIGH } from '../homology/constants';
 import fetchData from '../../lib/fetchData';
 
 import { withRouter } from 'react-router-dom';
