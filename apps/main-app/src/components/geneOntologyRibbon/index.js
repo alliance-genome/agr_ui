@@ -459,6 +459,7 @@ class GeneOntologyRibbon extends Component {
           subject-base-url='/gene/'
           subject-open-new-tab={false}
           subject-position={compareOrthologs ? '1' : '0'}
+          update-on-subject-change={false}
         />
         <div className='ribbon-loading-overlay'>{applyingFilters && <LoadingSpinner />}</div>
         <div className='text-muted mt-2'>
