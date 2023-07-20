@@ -94,9 +94,9 @@ const DiseaseAnnotationTable = ({
       headerStyle: {width: '120px'},
     },
     {
-      dataField: 'diseaseQualifier',
+      dataField: 'diseaseQualifiers',
       text: 'Disease Qualifier',
-      filterable: true,
+      filterable: getDistinctFieldValue(resolvedData, 'diseaseQualifiers'),
       headerStyle: {width: '100px'},
       formatter: diseaseQualifiers => <DiseaseQualifiersColumn qualifiers={diseaseQualifiers} />,
       filterName: 'diseaseQualifier',
