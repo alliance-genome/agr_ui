@@ -1,17 +1,17 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import MethodHeader from '../orthology/methodHeader';
-import MethodCell from '../orthology/methodCell';
-import BooleanCell from '../orthology/booleanCell';
+import MethodHeader from '../homology/methodHeader';
+import MethodCell from '../homology/methodCell';
+import BooleanCell from '../homology/booleanCell';
 import {
   getOrthologId,
   getOrthologSymbol as getHomologSymbol,
-} from '../orthology/utils';
+} from '../homology/utils';
 import { sortBy } from '../../lib/utils';
 import HelpPopup from '../helpPopup';
 
-import style from '../orthology/style.scss';
+import style from '../homology/style.scss';
 
 const columns = [
   {name: 'Gene symbol'},
@@ -30,6 +30,7 @@ function scoreBest(best, bestReverse, OtherBest, OtherBestReverse) {
   let AR = (bestReverse === 'Yes') ? -1 : 0;
   let OB = (OtherBest === 'Yes') ? -1 : 0;
   let OR = (OtherBestReverse === 'Yes') ? -1 : 0;
+  
   return (AB+AR) - (OB+OR)
 }
 

@@ -4,7 +4,7 @@ import {
   STRINGENCY_HIGH,
   STRINGENCY_MED,
   STRINGNECY_LOW
-} from './orthology/constants';
+} from './homology/constants';
 import {
   DropdownMenu,
   DropdownToggle,

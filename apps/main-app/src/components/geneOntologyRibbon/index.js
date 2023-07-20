@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import HorizontalScroll from '../horizontalScroll';
 
-import { STRINGENCY_HIGH } from '../orthology/constants';
+import { STRINGENCY_HIGH } from '../homology/constants';
 import HelpPopup from '../helpPopup';
 import GoControlsHelp from './goControlsHelp';
 import ControlsContainer from '../controlsContainer';
