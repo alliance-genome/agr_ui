@@ -119,11 +119,6 @@ const AlleleTable = ({geneId}) => {
     {
       dataField: 'symbol',
       text: 'Allele/Variant Symbol',
-      helpPopupProps: {
-        id: 'gene-page--alleles-table--allele-symbol-help',
-        children: <span>The official symbol for the allele or variant.</span>,
-      },
-
       formatter: (_, allele) => <AlleleCell allele={allele} />,
       headerStyle: {width: '185px'},
       filterable: true,
@@ -131,10 +126,6 @@ const AlleleTable = ({geneId}) => {
     {
       dataField: 'synonyms',
       text: 'Allele Synonyms',
-      helpPopupProps: {
-        id: 'gene-page--alleles-table--allele-synonyms-help',
-        children: <span>Unofficial allele symbols used in publications.</span>,
-      },
       formatter: synonyms => <SynonymList synonyms={synonyms}/>,
       headerStyle: {width: '165px'},
       filterable: true,
@@ -153,10 +144,6 @@ const AlleleTable = ({geneId}) => {
     {
       dataField: 'variants',
       text: 'Variant',
-      helpPopupProps: {
-        id: 'gene-page--alleles-table--allele-variant-help',
-        children: <span>The HGVS (Human Genome Variation Society) name for the Variant, linked to its location in JBrowse. Visit <ExternalLink href="https://varnomen.hgvs.org/recommendations/general/" target="_blank">HGVS nomenclature</ExternalLink>.</span>,
-      },
       formatter: (variants) => (
         <div>
           {
@@ -216,10 +203,6 @@ const AlleleTable = ({geneId}) => {
     {
       dataField: 'variantType',
       text: 'Variant type',
-      helpPopupProps: {
-        id: 'gene-page--alleles-table--variant-type-help',
-        children: <span>Examples are: point mutation, insertion, deletion, MNV, delins, and SNP.</span>,
-      },
       headerStyle: {width: variantTypeColWidth},
       style: {
         display: 'none',
