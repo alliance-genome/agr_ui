@@ -22,7 +22,7 @@ const GeneModelsTable = ({id}) => {
       text: 'Model name',
       helpPopupProps: {
         id: 'gene-page--model-table--model-name-help',
-        children: <span>A representation of the population of organisms used in a study. These may include disease models, inbred strains and mutant genotypes.</span>,
+        children: <span>The genotype--the combination of alleles and strain background--and for fish may include Sequence Targeting Reagents.</span>,
       },
       formatter: (name, row) => (
         <ExternalLink href={row.url}>
@@ -36,10 +36,6 @@ const GeneModelsTable = ({id}) => {
     {
       dataField: 'conditions',
       text: 'Experimental condition',
-      helpPopupProps: {
-        id: 'gene-page--model-table--experimental-condition-help',
-        children: <span>Any condition applied that contributes to an organism being a model. (Examples: drugs, diet, environmental temperature)</span>,
-      },
       formatter: conditions => <ExperimentalConditionCell conditions={conditions} />,
       headerStyle: {width: '220px'},
     },
@@ -67,10 +63,6 @@ const GeneModelsTable = ({id}) => {
     {
       dataField: 'phenotypes',
       text: 'Associated Phenotypes',
-      helpPopupProps: {
-        id: 'gene-page--model-table--associated-phenotypes-help',
-        children: <span>The list of phenotypes observed in the model organism.</span>,
-      },
       formatter: phenotypes => phenotypes && (
         <CollapsibleList collapsedSize={2} showBullets>
           {phenotypes.map(phenotype => (
