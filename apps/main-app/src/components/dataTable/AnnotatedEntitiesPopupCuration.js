@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   DropdownMenu,
@@ -21,6 +21,8 @@ import AnnotationSource from './AnnotationSource';
 import GeneticSex from './GeneticSex';
 import AnnotationType from './AnnotationType';
 import GeneticModifiersCellCuration from './GeneticModifiersCellCuration';
+import ProvidersCellCuration from './ProvidersCellCuration';
+import { buildProviders } from './utils';
 
 function renderLink(entity) {
   const url = getResourceUrl(entity.subject.curie, entity.subject.type, entity.subject.subtype)
@@ -41,6 +43,8 @@ function renderLink(entity) {
 
 function AnnotatedEntitiesPopupCuration(props) {
   const {children, entities, mainRowCurie} = props;
+  //initialize state only once instead of every render
+  const [providers] = useState(() => buildProviders(entities));
 
   if (!entities || !entities.length) {
     return null;
@@ -92,7 +96,7 @@ function AnnotatedEntitiesPopupCuration(props) {
                     <td><RelatedNotes className={style.relatedNotes} relatedNotes={entity.relatedNotes}/></td>
                     <td><AnnotationType  annotationType={entity.annotationType}/></td>
                     <td><EvidenceCodesCellCuration evidenceCodes={entity.evidenceCodes}/></td>
-                    <td><AnnotationSource dataProvider={entity.dataProvider}/></td>
+                    <td><ProvidersCellCuration providers={providers} /></td>
                     <td><SingleReferenceCellCuration singleReference={entity.singleReference}/></td>
                   </tr>
                 ))

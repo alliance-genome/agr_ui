@@ -9,7 +9,7 @@ import {
   SpeciesCell,
 } from '../dataTable';
 import AnnotatedEntitiesPopupCuration from '../dataTable/AnnotatedEntitiesPopupCuration';
-import {getDistinctFieldValue,simplifySpeciesNameSC} from '../dataTable/utils';
+import { getDistinctFieldValue, simplifySpeciesNameSC, buildProviders } from '../dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
 import ProvidersCellCuration from '../dataTable/ProvidersCellCuration';
@@ -41,14 +41,6 @@ const DiseaseAnnotationTable = ({
     ...tableProps
   } = useComparisonRibbonTableQuery('/api/disease', focusGeneId, orthologGenes, term, params);
 
-  const buildProviders = (annotation) => {
-    return annotation.primaryAnnotations.map(primaryAnnotation => {
-      return {
-        dataProvider: primaryAnnotation.dataProvider,
-        secondaryDataProvider: primaryAnnotation.secondaryDataProvider
-      }
-    });
-  }
 
   const buildWith = (annotation) => {
     const filteredPrimaryAnnotations = annotation.primaryAnnotations.filter(primaryAnnotation => primaryAnnotation.with);
@@ -144,7 +136,7 @@ const DiseaseAnnotationTable = ({
 
   const data = results.map(annotation => ({
     species: annotation.subject.taxon,
-    providers: buildProviders(annotation),
+    providers: buildProviders(annotation.primaryAnnotations),
     basedOn: buildWith(annotation),
     ...annotation,
   }));

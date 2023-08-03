@@ -79,6 +79,31 @@ export const getMultipleReferencesCuriesAndUrls = (references) => {
   return references.map((reference) => getSingleReferenceCurieAndUrl(reference));
 }
 
+export const buildProviders = (annotations) => {
+  if(!annotations) return;
+  return annotations.map(annotation => {
+    return {
+      dataProvider: annotation.dataProvider,
+      secondaryDataProvider: annotation.secondaryDataProvider
+    }
+  });
+}
+
+export const buildSourceUrl = (dataProvider) => {
+  if(!dataProvider) return;
+  let url;
+
+  //default to mod homepage if no crossReferene is provided
+  if(!dataProvider.crossReference){
+    url = dataProvider.sourceOrganization?.homepageResourceDescriptorPage?.urlTemplate;
+  } else {
+    const urlTemplate = dataProvider.crossReference?.resourceDescriptorPage.urlTemplate;
+    const referenceCurie = dataProvider.crossReference?.referencedCurie;
+    url = urlTemplate?.replace("[%s]", `${referenceCurie}`)
+  }
+  return url;
+}
+
 // TODO: remove when the data is fixed on the backend
 // see https://agr-jira.atlassian.net/browse/SCRUM-2649
 export function simplifySpeciesNameSC(speciesName) {
@@ -87,4 +112,5 @@ export function simplifySpeciesNameSC(speciesName) {
     return SC;
   else
     return speciesName;
+
 }
