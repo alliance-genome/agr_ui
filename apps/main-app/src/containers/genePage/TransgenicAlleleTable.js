@@ -96,10 +96,6 @@ const TransgenicAlleleTable = ({geneId}) => {
     {
       dataField: 'constructTargetedGene',
       text: 'Knock-down targets',
-      helpPopupProps: {
-        id: 'gene-page--transgenetic-allele-table--knock-down-targets-help',
-        children: <span>If the transgenic construct contains elements designed to interfere with expression of another gene, then those genes are listed here.</span>,
-      },
       formatter: constructsRelatedGenesFormatter,
       headerStyle: {width: '120px'},
       filterable: true,
