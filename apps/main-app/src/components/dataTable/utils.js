@@ -79,6 +79,72 @@ export const getMultipleReferencesCuriesAndUrls = (references) => {
   return references.map((reference) => getSingleReferenceCurieAndUrl(reference));
 }
 
+const buildProvider = (annotation) => {
+  if(!annotation) return;
+  return {
+    dataProvider: annotation.dataProvider,
+    secondaryDataProvider: annotation.secondaryDataProvider
+  }
+}
+
+export const buildProviders = (annotations) => {
+  if(!annotations) return;
+  return annotations.map(annotation => {
+    return buildProvider(annotation);
+  });
+}
+
+export const buildProviderWithUrl = (annotation) => {
+
+  const { dataProvider, secondaryDataProvider } = buildProvider(annotation);
+
+  if(secondaryDataProvider){
+    return {
+      dataProvider: {
+          id: dataProvider.id,  
+          abbreviation: dataProvider.sourceOrganization?.abbreviation, 
+          url: buildSourceUrl(dataProvider)
+      }, 
+      secondaryDataProvider: { 
+          id: secondaryDataProvider.id,  
+          abbreviation: secondaryDataProvider.sourceOrganization?.abbreviation, 
+          url: buildSourceUrl(secondaryDataProvider)
+      }, 
+    }
+  } else {
+    return {
+      dataProvider: {
+          id: dataProvider.id,  
+          abbreviation: dataProvider.sourceOrganization?.abbreviation, 
+          url: buildSourceUrl(dataProvider)
+      }, 
+    }
+  }
+}
+
+export const buildProvidersWithUrl = (annotations) => {
+  if(!annotations) return;
+
+  return annotations.map((annotation) => {
+    return buildProviderWithUrl(annotation)
+  })
+}
+
+export const buildSourceUrl = (dataProvider) => {
+  if(!dataProvider) return;
+  let url;
+
+  //default to mod homepage if no crossReference is provided
+  if(!dataProvider.crossReference){
+    url = dataProvider.sourceOrganization?.homepageResourceDescriptorPage?.urlTemplate?.replace("[%s]", "");
+  } else {
+    const urlTemplate = dataProvider.crossReference?.resourceDescriptorPage.urlTemplate;
+    const referenceCurie = dataProvider.crossReference?.referencedCurie;
+    url = urlTemplate?.replace("[%s]", `${referenceCurie}`)
+  }
+  return url;
+}
+
 // TODO: remove when the data is fixed on the backend
 // see https://agr-jira.atlassian.net/browse/SCRUM-2649
 export function simplifySpeciesNameSC(speciesName) {
@@ -87,4 +153,6 @@ export function simplifySpeciesNameSC(speciesName) {
     return SC;
   else
     return speciesName;
+
 }
+
