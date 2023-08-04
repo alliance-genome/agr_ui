@@ -1,6 +1,7 @@
 import CommaSeparatedList from '../commaSeparatedList';
-import { buildSourceUrl } from './utils';
+import { buildProvidersWithUrl } from './utils';
 import ExternalLink from '../ExternalLink';
+import ProviderCellCuration from './ProviderCellCuration';
 
 const removeDuplicates = (providers) => {
   const newArray = providers.map((provider) => [provider.dataProvider.abbreviation, provider]);
@@ -15,28 +16,12 @@ const ProvidersCellCuration = ({ providers }) => {
   if(!providers) return null;
 
   const uniqueProviders = removeDuplicates(providers);
-  const url = buildSourceUrl(providers[0].dataProvider);
-
 
   return (
     <CommaSeparatedList listItemClassName='d-block'>
       {
-        uniqueProviders.map(provider => {
-          const { dataProvider, secondaryDataProvider } = provider;
-          return (
-              <span>
-                {/* todo: better key and title */}
-                <ExternalLink href={url} key={url} title={url}>{dataProvider?.sourceOrganization?.abbreviation}</ExternalLink>;
-                {
-                  secondaryDataProvider &&
-                    <>
-                      <i> via </i>
-                      {secondaryDataProvider.abbreviation}
-                    </>
-                }
-              </span>
-          )
-
+        uniqueProviders?.map(provider => {
+          return <ProviderCellCuration provider={provider} />
         })
       }
     </CommaSeparatedList>
