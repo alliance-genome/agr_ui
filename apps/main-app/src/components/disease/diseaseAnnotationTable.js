@@ -9,7 +9,7 @@ import {
   SpeciesCell,
 } from '../dataTable';
 import AnnotatedEntitiesPopupCuration from '../dataTable/AnnotatedEntitiesPopupCuration';
-import { getDistinctFieldValue, simplifySpeciesNameSC, buildProviders } from '../dataTable/utils';
+import { getDistinctFieldValue, buildProvidersWithUrl } from '../dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
 import ProvidersCellCuration from '../dataTable/ProvidersCellCuration';
@@ -136,7 +136,7 @@ const DiseaseAnnotationTable = ({
 
   const data = results.map(annotation => ({
     species: annotation.subject.taxon,
-    providers: buildProviders(annotation.primaryAnnotations),
+    providers: buildProvidersWithUrl(annotation.primaryAnnotations),
     basedOn: buildWith(annotation),
     ...annotation,
   }));
