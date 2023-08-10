@@ -26,6 +26,7 @@ import DiseaseQualifiersColumn from "../dataTable/DiseaseQualifiersColumn";
  */
 const DiseaseAnnotationTable = ({
   focusGeneId,
+  focusTaxonId,
   includeNotAnnotations,
   orthologGenes,
   term,
@@ -39,7 +40,7 @@ const DiseaseAnnotationTable = ({
     data: results,
     resolvedData,
     ...tableProps
-  } = useComparisonRibbonTableQuery('/api/disease', focusGeneId, orthologGenes, term, params);
+  } = useComparisonRibbonTableQuery('/api/disease', focusGeneId, focusTaxonId, orthologGenes, term, params);
 
 
   const buildWith = (annotation) => {

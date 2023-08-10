@@ -127,6 +127,7 @@ const DiseaseComparisonRibbon = ({geneId, geneTaxon, history}) => {
       {selectedBlock.group && <div className='pt-4'>
         <DiseaseAnnotationTable
           focusGeneId={geneId}
+          focusTaxonId={geneTaxon}
           includeNotAnnotations={includeNotAnnotations}
           orthologGenes={selectedOrthologs}
           term={selectedBlock.group.id}
