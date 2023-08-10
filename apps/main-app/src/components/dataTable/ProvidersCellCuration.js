@@ -1,6 +1,4 @@
 import CommaSeparatedList from '../commaSeparatedList';
-import { buildProvidersWithUrl } from './utils';
-import ExternalLink from '../ExternalLink';
 import ProviderCellCuration from './ProviderCellCuration';
 
 const removeDuplicates = (providers) => {
