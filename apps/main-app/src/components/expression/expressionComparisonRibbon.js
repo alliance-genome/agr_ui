@@ -116,7 +116,7 @@ const ExpressionComparisonRibbon = ({
 
       {selectedBlock.group &&
         <div className='pt-4'>
-          <ExpressionAnnotationTable focusGeneId={geneId} orthologGenes={selectedOrthologs} term={selectedBlock.group.id} />
+          <ExpressionAnnotationTable focusGeneId={geneId} focusTaxonId={geneTaxon} orthologGenes={selectedOrthologs} term={selectedBlock.group.id} />
         </div>
       }
     </React.Fragment>
