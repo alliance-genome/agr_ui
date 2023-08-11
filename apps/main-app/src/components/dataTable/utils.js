@@ -136,21 +136,11 @@ const getReferencedCurie = (dataProvider) => {
   const abbreviation = dataProvider.sourceOrganization?.abbreviation;
   const referencedCurie = dataProvider.crossReference?.referencedCurie;
 
-  const modHasPrefix = {
-    RGD: true,
-    FB: true,
-    WB: true,
-    ZFIN: true,
-    OMIM: false,
-    SGD: false,
-    MGI: false,
-  }
+  const modPrefixException = [ "OMIM", "SGD", "MGI", ];
 
-  if(modHasPrefix[abbreviation]){
-    return referencedCurie;
-  } else {
-    return referencedCurie?.split(":")[1]; 
-  }  
+  if(modPrefixException.includes(abbreviation)) return referencedCurie?.split(":")[1]; 
+
+  return referencedCurie; 
 }
 
 export const buildSourceUrl = (dataProvider) => {
