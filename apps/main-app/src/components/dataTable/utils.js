@@ -1,6 +1,6 @@
 import React from 'react';
-import {compareAlphabeticalCaseInsensitive} from '../../lib/utils';
-import {getResourceUrl, getResourceUrls} from "./getResourceUrl";
+import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
+import { getResourceUrl } from "./getResourceUrl";
 
 export const renderPaginationShowsTotal = (start, end, total) => {
   return <span>Showing { start } - { end } of { total.toLocaleString() } rows</span>;
@@ -130,18 +130,39 @@ export const buildProvidersWithUrl = (annotations) => {
   })
 }
 
+const getReferencedCurie = (dataProvider) => {
+  if(!dataProvider) return;
+
+  const abbreviation = dataProvider.sourceOrganization?.abbreviation;
+  const referencedCurie = dataProvider.crossReference?.referencedCurie;
+
+  const modHasPrefix = {
+    RGD: true,
+    FB: true,
+    WB: true,
+    ZFIN: true,
+    OMIM: false,
+    SGD: false,
+    MGI: false,
+  }
+
+  if(modHasPrefix[abbreviation]){
+    return referencedCurie;
+  } else {
+    return referencedCurie?.split(":")[1]; 
+  }  
+}
+
 export const buildSourceUrl = (dataProvider) => {
   if(!dataProvider) return;
-  let url;
 
   //default to mod homepage if no crossReference is provided
-  if(!dataProvider.crossReference){
-    url = dataProvider.sourceOrganization?.homepageResourceDescriptorPage?.urlTemplate?.replace("[%s]", "");
-  } else {
-    const urlTemplate = dataProvider.crossReference?.resourceDescriptorPage.urlTemplate;
-    const referenceCurie = dataProvider.crossReference?.referencedCurie;
-    url = urlTemplate?.replace("[%s]", `${referenceCurie}`)
-  }
+  if(!dataProvider.crossReference) return dataProvider.sourceOrganization?.homepageResourceDescriptorPage?.urlTemplate?.replace("[%s]", "");
+
+  const urlTemplate = dataProvider.crossReference?.resourceDescriptorPage?.urlTemplate;
+  const referencedCurie = getReferencedCurie(dataProvider);
+  const url = urlTemplate?.replace("[%s]", `${referencedCurie}`)
+
   return url;
 }
 
