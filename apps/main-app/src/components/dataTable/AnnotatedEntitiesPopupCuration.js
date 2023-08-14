@@ -20,6 +20,7 @@ import EvidenceCodesCellCuration from './evidenceCodesCellCuration';
 import ProviderCellCuration from './ProviderCellCuration';
 import GeneticSex from './GeneticSex';
 import AnnotationType from './AnnotationType';
+import AssociationCellCuration from './AssociationCellCuration';
 import GeneticModifiersCellCuration from './GeneticModifiersCellCuration';
 import { buildProviderWithUrl } from './utils';
 
@@ -65,6 +66,7 @@ function AnnotatedEntitiesPopupCuration(props) {
               <tr>
                 <th>Name</th>
                 <th>Type</th>
+                <th className={style.associationCell}>Association</th>
                 <th>Additional implicated genes</th>
                 <th>Experimental condition</th>
                 <th></th>
@@ -86,6 +88,7 @@ function AnnotatedEntitiesPopupCuration(props) {
                     <tr key={entity.subject.curie}>
                       <td>{renderLink(entity)}</td>
                       <td><TypeCellCuration subject={entity.subject}/></td>
+                      <td><AssociationCellCuration association={entity.diseaseRelation?.name}/></td>
                       <td><AssertedGenes assertedGenes={entity.assertedGenes} mainRowCurie={mainRowCurie}/></td>
                       <td><ExperimentalConditionCellCuration conditions={entity.conditionRelations}/></td>
                       <td><ExperimentalConditionCellCuration conditions={entity.conditionModifiers}/></td>
