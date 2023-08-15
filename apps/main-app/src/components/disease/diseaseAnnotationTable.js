@@ -69,10 +69,6 @@ const DiseaseAnnotationTable = ({
     {
       dataField: 'subject.curie',
       text: 'Gene',
-      helpPopupProps: {
-        id: 'gene-page--disease-associations-table--gene-help',
-        children: <span>Symbol for the gene for the species, linked the gene detail page.</span>,
-      },
       formatter:  (curie, row) => (
         <React.Fragment>
           <div>{GeneCellCuration(row.subject)}</div>
