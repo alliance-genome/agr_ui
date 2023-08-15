@@ -36,6 +36,10 @@ const GeneGeneticInteractionDetailTable = ({
       {
         dataField: 'alleleA',
         text: `${focusGeneDisplayName} genetic perturbation`,
+        helpPopupProps: {
+          id: 'gene-page--genetic-interaction-table--genetic-perturbation-help',
+          children: <span>The genetic perturbation (e.g., variant, allele, RNAi-knockdown) of the focus gene involved in the genetic interaction.</span>,
+        },
         headerStyle: {
           width: '150px',
         },
@@ -80,6 +84,10 @@ const GeneGeneticInteractionDetailTable = ({
       {
         dataField: 'alleleB',
         text: 'Interactor genetic perturbation',
+        helpPopupProps: {
+          id: 'gene-page--genetic-interaction-table--interactor-genetic-perturbation-help',
+          children: <span>The genetic perturbation (e.g., variant, allele, RNAi-knockdown) of the interactor gene involved in the genetic interaction.</span>,
+        },
         headerStyle: {
           width: '150px',
         },
