@@ -119,6 +119,10 @@ const AlleleTable = ({geneId}) => {
     {
       dataField: 'symbol',
       text: 'Allele/Variant Symbol',
+      helpPopupProps: {
+        id: 'gene-page--alleles-table--allele-variant-symbol-help',
+        children: <span>Organism specific official nomenclature for the allele or HGVS (Human Genome Variation Society) based nomenclature for the variants. HGVS nomenclature is explained <a href="https://varnomen.hgvs.org/recommendations/general/" target="_blank">here</a>.</span>,
+      },
       formatter: (_, allele) => <AlleleCell allele={allele} />,
       headerStyle: {width: '185px'},
       filterable: true,
@@ -144,6 +148,10 @@ const AlleleTable = ({geneId}) => {
     {
       dataField: 'variants',
       text: 'Variant',
+      helpPopupProps: {
+        id: 'gene-page--alleles-table--allele-variant-help',
+        children: <span>A unique identifier consisting of the HGVS.g nomenclature or reference SNP (rs) ID for the variant. HGVS nomenclature is explained <a href="https://varnomen.hgvs.org/recommendations/general/" target="_blank">here</a>.  Reference SNP accessions are explained <a href="NCBI - WWW Error Blocked Diagnostic" target="_blank">here</a>.  Identifiers in this column link to the Alliance JBrowse for this species.</span>,
+      },
       formatter: (variants) => (
         <div>
           {
