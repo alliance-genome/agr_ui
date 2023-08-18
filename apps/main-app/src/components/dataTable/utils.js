@@ -167,3 +167,13 @@ export function simplifySpeciesNameSC(speciesName) {
 
 }
 
+//takes an array of objects and a function that returns the approprate subField and returns a unique set of those objects
+export function removeDuplicates(objects, keyFunction){
+  const newArray = objects.map((object) => [keyFunction(object), object]);
+  const newMap = new Map(newArray);
+  const iterator = newMap.values();
+  const uniqueObjects = [...iterator];
+
+  return uniqueObjects;
+}
+
