@@ -1,19 +1,11 @@
 import CommaSeparatedList from '../commaSeparatedList';
 import ProviderCellCuration from './ProviderCellCuration';
-
-const removeDuplicates = (providers) => {
-  const newArray = providers.map((provider) => [provider.dataProvider.abbreviation, provider]);
-  const newMap = new Map(newArray);
-  const iterator = newMap.values();
-  const uniqueProviders = [...iterator];
-
-  return uniqueProviders;
-}
+import { removeDuplicates } from './utils';
 
 const ProvidersCellCuration = ({ providers }) => {
   if(!providers) return null;
 
-  const uniqueProviders = removeDuplicates(providers);
+  const uniqueProviders = removeDuplicates(providers, (provider) => provider.dataProvider.abbreviation);
 
   return (
     <CommaSeparatedList listItemClassName='d-block'>
