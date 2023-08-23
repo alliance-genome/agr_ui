@@ -50,10 +50,6 @@ const GeneGeneticInteractionDetailTable = ({
       {
         dataField: 'geneB',
         text: 'Interactor gene',
-        helpPopupProps: {
-          id: 'gene-page--genetic-interaction-table--interactor-gene-help',
-          children: <span>The gene which interacts genetically with the focus gene.</span>,
-        },
         headerStyle: {
           width: '150px',
         },
@@ -64,10 +60,6 @@ const GeneGeneticInteractionDetailTable = ({
       {
         dataField: 'geneB.species',
         text: 'Interactor species',
-        helpPopupProps: {
-          id: 'gene-page--genetic-interaction-table--interactor-species-help',
-          children: <span>The species of the interactor gene.</span>,
-        },
         headerStyle: {
           width: '200px',
         },
@@ -93,7 +85,7 @@ const GeneGeneticInteractionDetailTable = ({
         dataField: 'alleleB',
         text: 'Interactor genetic perturbation',
         helpPopupProps: {
-          id: 'gene-page--genetic-interaction-table--genetic-perturbation-help',
+          id: 'gene-page--genetic-interaction-table--interactor-genetic-perturbation-help',
           children: <span>The genetic perturbation (e.g., variant, allele, RNAi-knockdown) of the interactor gene involved in the genetic interaction.</span>,
         },
         headerStyle: {
@@ -119,10 +111,6 @@ const GeneGeneticInteractionDetailTable = ({
       {
         dataField: 'phenotypes',
         text: 'Phenotype or trait',
-        helpPopupProps: {
-          id: 'gene-page--genetic-interaction-table--phenotype-or-trait-help',
-          children: <span>The phenotype or trait affected by the genetic interaction, e.g., the phenotype that was suppressed, enhanced, or masked.</span>,
-        },
         headerStyle: {
           width: '130px',
         },
