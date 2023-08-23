@@ -25,16 +25,15 @@ function GeneticModifierLink(modifier) {
             break;
         case 'AffectedGenomicModel':
             let url = getResourceUrl(modifier.curie, modifier.type, modifier.subtype);
-            if (url) {                
+            if (url && modifier.name) {                
                 return ( 
                     <ExternalLink href={url}>
-                        <span dangerouslySetInnerHTML={{__html: modifier.curie}}/>
+                        <span dangerouslySetInnerHTML={{__html: modifier.name}}/>
                     </ExternalLink>);
             }
             break;
         default:
             return <></>;
-            break;
     }
     return <></>;
 }
