@@ -20,6 +20,10 @@ const GeneModelsTable = ({id}) => {
     {
       dataField: 'name',
       text: 'Model name',
+      helpPopupProps: {
+        id: 'gene-page--model-table--model-name-help',
+        children: <span>The genotype--the combination of alleles and strain background--and for fish may include Sequence Targeting Reagents.</span>,
+      },
       formatter: (name, row) => (
         <ExternalLink href={row.url}>
           <span dangerouslySetInnerHTML={{__html: name}} />
@@ -38,6 +42,10 @@ const GeneModelsTable = ({id}) => {
     {
       dataField: 'diseaseModels',
       text: 'Associated Human Diseases',
+      helpPopupProps: {
+        id: 'gene-page--model-table--associated-human-diseases-help',
+        children: <span>The Disease Ontology (DO) term for which the organism is a model. The DO is a hierarchical, standardized ontology that integrates vocabularies from MeSH, ICD, NCI’s thesaurus, SNOMED, UMLS, Orphanet, EFO and OMIM. Its hierarchical structure permits a range of detail from high-level, broadly descriptive terms to very low-level, highly specific terms.</span>,
+      },
       formatter: diseaseModels => diseaseModels && (
         <CollapsibleList collapsedSize={diseaseModels.length}>
           {diseaseModels.map(diseaseModel => (
@@ -50,7 +58,7 @@ const GeneModelsTable = ({id}) => {
       ),
       filterable: true,
       filterName: 'disease',
-      headerStyle: {width: '220px'},
+      headerStyle: {width: '230px'},
     },
     {
       dataField: 'phenotypes',
@@ -69,6 +77,10 @@ const GeneModelsTable = ({id}) => {
     {
       dataField: 'conditionModifiers',
       text: 'Modifier',
+      helpPopupProps: {
+        id: 'gene-page--model-table--modifier-help',
+        children: <span>A secondary condition that ameliorates or exacerbates the phenotype in the model.</span>,
+      },
       formatter: conditions => <ExperimentalConditionCell conditions={conditions} />,
       headerStyle: {width: '220px'},
     },
