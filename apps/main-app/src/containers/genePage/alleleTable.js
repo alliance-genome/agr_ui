@@ -119,6 +119,10 @@ const AlleleTable = ({geneId}) => {
     {
       dataField: 'symbol',
       text: 'Allele/Variant Symbol',
+      helpPopupProps: {
+        id: 'gene-page--alleles-table--allele-variant-symbol-help',
+        children: <span>Organism specific official nomenclature for the allele or  <ExternalLink href="https://varnomen.hgvs.org/recommendations/general/" target="_blank">HGVS</ExternalLink> (Human Genome Variation Society) based nomenclature for the variants.</span>,
+      },
       formatter: (_, allele) => <AlleleCell allele={allele} />,
       headerStyle: {width: '185px'},
       filterable: true,
@@ -133,6 +137,10 @@ const AlleleTable = ({geneId}) => {
     {
       dataField: 'category',
       text: 'Category',
+      helpPopupProps: {
+        id: 'gene-page--alleles-table--allele-category-help',
+        children: <span>An indication of whether the referenced object is an allele where the genomic location of the nucleotide change in not known (“allele”), an allele where one or more genomic locations of nucleotide change(s) are known (“allele with N associated variant(s)”), or a variant, i.e., a specific nucleotide change at a specified location on the genome (“variant”).</span>,
+      },
       headerStyle: {width: '140px'},
       filterName: 'alleleCategory',
       filterable: getDistinctFieldValue(resolvedData, 'filter.alleleCategory'),
@@ -140,6 +148,10 @@ const AlleleTable = ({geneId}) => {
     {
       dataField: 'variants',
       text: 'Variant',
+      helpPopupProps: {
+        id: 'gene-page--alleles-table--allele-variant-help',
+        children: <span>A unique identifier consisting of the <ExternalLink href="https://varnomen.hgvs.org/recommendations/general/" target="_blank">HGVS nomenclature</ExternalLink> or reference <ExternalLink href="https://www.ncbi.nlm.nih.gov/snp/docs/RefSNP_about/" target="_blank">SNP (rs) ID</ExternalLink> for the variant. Identifiers in this column link to the Alliance JBrowse for this species.</span>,
+      },
       formatter: (variants) => (
         <div>
           {
@@ -211,7 +223,8 @@ const AlleleTable = ({geneId}) => {
       text: 'Molecular consequence',
       helpPopupProps: {
         id: 'gene-page--alleles-table--molecular-consequence-help',
-        children: <span>Variant consequences were predicted by the <ExternalLink href="https://uswest.ensembl.org/info/docs/tools/vep/index.html" target="_blank">Ensembl Variant Effect Predictor (VEP) tool</ExternalLink> based on Alliance variants information.</span>,
+        children: <span>Variant consequences were predicted by the <ExternalLink href="https://uswest.ensembl.org/info/docs/tools/vep/index.html" target="_blank">Ensembl Variant Effect Predictor (VEP) tool</ExternalLink> based on Alliance variants information.
+          Examples are: frameshift variant, stop gained, missense variant, splice donor variant, splice acceptor variant, stop gained, splice region variant, intron variant, coding sequence variant, 5 prime UTR variant, and inframe deletion.</span>,
       },
       headerStyle: {width: variantConsequenceColWidth},
       style: {
