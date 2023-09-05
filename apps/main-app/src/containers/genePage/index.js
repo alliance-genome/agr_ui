@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPage';
 import BasicGeneInfo from './basicGeneInfo';
 import { OrthologyFilteredTable, HomologyUserGuide, OrthologyBasicInfo } from '../../components/orthology';
-import ParalogyFilteredTable from '../../components/paralogy/paralogyFilteredTable'
+import ParalogyTable from '../../components/paralogy/paralogyTable'
 import ParalogyUserGuide from '../../components/paralogy/paralogyUserGuide'
 import GoUserGuide from '../../components/geneOntologyRibbon/goUserGuide';
 import PathwayUserGuide from '../../components/pathway/pathwayUserGuide';
@@ -131,7 +131,7 @@ const GenePage = ({geneId}) => {
         </Subsection>
 
         <Subsection help={<ParalogyUserGuide />} title={PARALOGY}>
-          <ParalogyFilteredTable geneId={data.id} />
+          <ParalogyTable geneId={data.id} />
         </Subsection>
 
         <Subsection help={<GoUserGuide />} title={FUNCTION}>
