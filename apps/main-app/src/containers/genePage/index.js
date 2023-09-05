@@ -44,7 +44,7 @@ import SpeciesName from '../../components/SpeciesName';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
-const SEQUENCE_PANEL = 'Sequence Panel';
+const SEQUENCE_DETAILS = 'Sequence Details';
 const FUNCTION = 'Function - GO Annotations';
 const PATHWAY = 'Pathways';
 const ORTHOLOGY = 'Orthology';
@@ -70,7 +70,7 @@ const SECTIONS = [
   {name: TG_ALLELES},
   {name: MODELS},
   {name: SEQUENCE_FEATURE_VIEWER},
-  {name: SEQUENCE_PANEL},
+  {name: SEQUENCE_DETAILS},
   {name: EXPRESSION},
   {name: INTERACTIONS},
   {name: GENETIC_INTERACTIONS},
@@ -205,7 +205,7 @@ const GenePage = ({geneId}) => {
           />
         </Subsection>
 
-        <Subsection title={SEQUENCE_PANEL}>
+        <Subsection title={SEQUENCE_DETAILS}>
 	  <SequencePanel
             refseq={genomeLocation.chromosome}
             start={genomeLocation.start}
