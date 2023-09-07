@@ -151,7 +151,8 @@ const DataTable = ({
             value={columnFilter}
           />
         );
-      } else if(filterField === "diseaseQualifier") {
+        //if filter is a checkbox dropdown, but there is are no distinctFieldValues then show DropdownNoDataFilter instead
+      } else if(column.filterType === "checkbox") {
         column.filterRenderer = () => (
           <DropdownNoDataFilter />
         );
