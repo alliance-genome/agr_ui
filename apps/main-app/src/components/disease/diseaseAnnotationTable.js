@@ -90,9 +90,10 @@ const DiseaseAnnotationTable = ({
       dataField: 'diseaseQualifiers',
       text: 'Disease Qualifier',
       filterable: getDistinctFieldValue(resolvedData, 'diseaseQualifiers'),
+      filterName: 'diseaseQualifier',
+      filterType: 'checkbox',
       headerStyle: {width: '100px'},
       formatter: diseaseQualifiers => <DiseaseQualifiersColumn qualifiers={diseaseQualifiers} />,
-      filterName: 'diseaseQualifier',
     },
     {
       dataField: 'object.curie',
