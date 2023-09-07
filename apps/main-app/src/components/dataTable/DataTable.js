@@ -24,6 +24,7 @@ import DropdownCheckboxFilter from './DropdownCheckboxFilter';
 import HorizontalScroll from '../horizontalScroll';
 import { buildTableQueryString } from '../../lib/utils';
 import LoadingSpinner from '../loadingSpinner';
+import DropdownNoDataFilter from './DropdownNoDataFilter';
 
 const DataTable = ({
   className,
@@ -150,7 +151,11 @@ const DataTable = ({
             value={columnFilter}
           />
         );
-      } else {
+      } else if(filterField === "diseaseQualifier") {
+        column.filterRenderer = () => (
+          <DropdownNoDataFilter />
+        );
+      } else{
         column.filterRenderer = (onFilter, column) => (
           <DropdownTextFilter
             column={column}
