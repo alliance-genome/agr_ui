@@ -23,6 +23,9 @@ test:
 run:
 	npm start
 
+alb-deploy:
+	npx aws-cdk deploy --outputs-file ./cdk-outputs.json
+
 uirun:
 	npm start
 
