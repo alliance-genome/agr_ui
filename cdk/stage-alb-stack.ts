@@ -11,7 +11,8 @@ export class StageALBStack extends cdk.Stack {
     super(scope, id, props);
 
     const vpc = ec2.Vpc.fromLookup(this, 'Docker', { vpcName: 'Docker' });
-    const sg = ec2.SecurityGroup.fromLookupById(this, 'default', 'sg-21ac675b');
+    const sg1 = ec2.SecurityGroup.fromLookupById(this, 'default', 'sg-21ac675b');
+    const sg2 = ec2.SecurityGroup.fromLookupById(this, 'HTTP/HTTPS', 'sg-0415cab61ab6b45c5');
     const cert = elbv2.ListenerCertificate.fromArn('arn:aws:acm:us-east-1:100225593120:certificate/047a56a2-09dd-4857-9f28-32d23650d4da');
     const stage = new targets.InstanceIdTarget('i-0d7ea7b7cc11a2e8f')
     const public_zone = route53.HostedZone.fromHostedZoneAttributes(this, 'Public Zone', { zoneName: 'alliancegenome.org', hostedZoneId: 'Z3IZ3D6V94JEC2' });
@@ -19,9 +20,11 @@ export class StageALBStack extends cdk.Stack {
 
     const alb = new elbv2.ApplicationLoadBalancer(this, 'alb', {
       vpc,
-      internetFacing: false,
-      securityGroup: sg
+      internetFacing: true,
+      securityGroup: sg1
     });
+
+    alb.addSecurityGroup(sg2);
 
     new route53.CnameRecord(this, "Public DNS", {
       zone: public_zone,
@@ -36,15 +39,51 @@ export class StageALBStack extends cdk.Stack {
       ttl: cdk.Duration.minutes(5)
     });
 
-    const listener = alb.addListener('HTTPS Listener', {
+    const listener_https = alb.addListener('HTTPS Listener', {
       port: 443,
       open: true,
       certificates: [cert]
     });
 
-    listener.addTargets("Backend Stage", {
-      port: 443,
-      targets: [stage]
+    listener_https.addTargets("Backend Stage", {
+      healthCheck: {
+        path: '/robots.txt',
+        unhealthyThresholdCount: 3,
+        healthyThresholdCount: 5,
+        interval: cdk.Duration.seconds(60),
+      },
+      port: 80,
+      targets: [stage],
+    });
+
+/*
+    listener_https.addAction("Redirect to Stage", {
+      priority: 10,
+      conditions: [
+        elbv2.ListenerCondition.hostHeaders(['stage-alb.alliancegenome.org']),
+      ],
+      action: elbv2.ListenerAction.redirect({
+        protocol: 'HTTPS',
+        port: '443',
+        host: 'stage.alliancegenome.org',
+        path: '/#{path}',
+        query: '#{query}',
+        permanent: true,
+      }),
+    });
+*/
+
+    const listener_http = alb.addListener('HTTP Listener', {
+      port: 80,
+      open: true,
+      defaultAction: elbv2.ListenerAction.redirect({
+        protocol: 'HTTPS',
+        port: '443',
+        host: 'stage.alliancegenome.org',
+        path: '/#{path}',
+        query: '#{query}',
+        permanent: true,
+      }),
     });
 
     new cdk.CfnOutput(this, 'albDNS', {
