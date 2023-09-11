@@ -1,131 +1,79 @@
-import { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import HorizontalScroll from '../horizontalScroll';
+import LoadingSpinner from '../loadingSpinner';
+import NoData from '../noData';
+import useGeneParalogy from '../../hooks/useGeneParalogy';
 import MethodHeader from '../homology/methodHeader';
 import MethodCell from '../homology/methodCell';
-import BooleanCell from '../homology/booleanCell';
-import {
-  getOrthologId,
-  getOrthologSymbol as getHomologSymbol,
-} from '../homology/utils';
-import { sortBy } from '../../lib/utils';
 import HelpPopup from '../helpPopup';
+import RankHelp from './rankHelp';
 
-import style from '../homology/style.scss';
-
-const columns = [
-  {name: 'Gene symbol'},
-  {name: 'Count'},
-  {name: 'Best', help: <span>This gene is called a paralog of the input gene by the highest number of algorithms.<br/> In specific cases, ZFIN curators have asserted reliable paralogy to the gene called by the second highest number of algorithms. These are denoted <strong>Yes *</strong>.</span>},
-  {name: 'Best reverse', help: 'The input gene is called a paralog of this gene by the highest number of algorithms.'},
-  {name: 'Method'}
-];
-
-export function isBest(value = '') {
-  return typeof value === 'boolean' ? value : value.match(/yes/i);
-}
-
-function scoreBest(best, bestReverse, OtherBest, OtherBestReverse) {
-  let AB = (best === 'Yes') ? -1 : 0;
-  let AR = (bestReverse === 'Yes') ? -1 : 0;
-  let OB = (OtherBest === 'Yes') ? -1 : 0;
-  let OR = (OtherBestReverse === 'Yes') ? -1 : 0;
-  
-  return (AB+AR) - (OB+OR)
-}
-
-
-class ParalogyTable extends Component {
-
-  render() {
-    let rowGroup = 0;
-    return(
-      <table className='table'>
-        <thead className='text-capitalize'>
-          <tr>
-            {
-              columns.map((column) => {
-                if (column.name === 'Method') {
-                  return (<MethodHeader key={column.name} name={column.name} />);
-                } else {
-                  return (<th key={column.name}>
-                    {column.name} {column.help && <HelpPopup id={`help-${column.name}`}>{column.help}</HelpPopup>}
-                  </th>);
-                }
-              })
-            }
-          </tr>
-        </thead>
-        <tbody>
-          {
-              sortBy(this.props.data, [
-                (orthDataA, orthDataB) => orthDataB.predictionMethodsMatched.length - orthDataA.predictionMethodsMatched.length,
-                (orthDataA, orthDataB) => scoreBest(orthDataA.best, orthDataA.bestReverse, orthDataB.best, orthDataB.bestReverse)
-              ]).map((orthData, idx, orthList) => {
-              const scoreNumerator = orthData.predictionMethodsMatched.length;
-              const scoreDemominator = scoreNumerator +
-                orthData.predictionMethodsNotMatched.length;
-              const orthId = getOrthologId(orthData);
-
-              return (
-                <tr className={rowGroup % 2 === 0 ? style.groupedRow : ''} key={orthId}>
-                  <td>
-                    <Link to={`/gene/${orthId}`}>
-                      <span dangerouslySetInnerHTML={{__html: getHomologSymbol(orthData)}} />
-                    </Link>
-                  </td>
-                  <td>{`${scoreNumerator} of ${scoreDemominator}`}</td>
-                  <BooleanCell
-                    isTrueFunc={isBest}
-                    render={
-                      orthData.best === 'Yes_Adjusted' ?
-                        () => 'Yes *' :
-                        null
-                    }
-                    value={orthData.best}
-                  />
-                  <BooleanCell
-                    isTrueFunc={isBest}
-                    value={orthData.bestReverse}
-                  />
-                  <MethodCell
-                    predictionMethodsMatched={orthData.predictionMethodsMatched}
-                    predictionMethodsNotMatched={orthData.predictionMethodsNotMatched}
-                    rowKey={orthId}
-                  />
-                </tr>
-              );
-            })
-          }
-        </tbody>
-      </table>
-    );
+const ParalogyTable = ({geneId}) => {
+  const { data, isLoading } = useGeneParalogy(geneId);
+  if (isLoading) {
+    return <LoadingSpinner />;
   }
-}
+  if (data?.results.length === 0) {
+    return <NoData>No paralogs for the gene.</NoData>
+  }
+
+  const results = data.results.sort( (a,b) => {
+    if (Number(a.rank) < Number(b.rank)) {
+      return -1;
+    }
+    if (Number(a.rank) > Number(b.rank)) {
+      return 1;
+    }
+    return 0;
+  });
+  
+  return (
+    <div>
+      <div style={{marginBottom: '1rem'}}>
+            <HorizontalScroll width={800}>              
+              <table className='table'>
+                <thead className='text-capitalize'>
+                  <tr>
+                    <th>Gene symbol</th>
+                    <th>Rank <HelpPopup id={`help-paralogy-rank`}><RankHelp/></HelpPopup></th>
+                    <th>Alignment Length</th>
+                    <th>Similarity %</th>
+                    <th>Identity %</th>
+                    <th>Method Count</th>
+                    <MethodHeader key="method" name="Method"/>
+                  </tr>
+                </thead>
+                <tbody>                 
+                {              
+                  results.map( result => {
+                    return (<tr>  
+                      <td>
+                        <Link to={`/gene/${result.homologGene.id}`} target="_blank">
+                          <span dangerouslySetInnerHTML={{__html: result.homologGene.symbol}} />
+                        </Link>
+                      </td>                    
+                      <td>{result.rank}</td>
+                      <td>{result.length}</td>
+                      <td>{result.similarity}</td>
+                      <td>{result.identity}</td>
+                      <td>{result.methodCount} of {result.totalMethodCount}</td>
+                      <MethodCell
+                        predictionMethodsMatched={result.predictionMethodsMatched}
+                        predictionMethodsNotMatched={result.predictionMethodsNotMatched}
+                        rowKey={result.homologGene.id}/>
+                    </tr>)})
+                }
+                </tbody>
+              </table>
+            </HorizontalScroll> 
+      </div>
+    </div>
+  );
+};
 
 ParalogyTable.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      gene: PropTypes.shape({
-        id: PropTypes.string,
-        symbol: PropTypes.string,
-        species: PropTypes.shape({
-          name: PropTypes.string,
-        }),
-      }),
-      predictionMethodsMatched: PropTypes.arrayOf(PropTypes.string),
-      predictionMethodsNotCalled: PropTypes.arrayOf(PropTypes.string),
-      predictionMethodsNotMatched: PropTypes.arrayOf(PropTypes.string),
-      best: PropTypes.oneOfType([
-        PropTypes.bool,
-        PropTypes.string
-      ]),
-      bestReverse: PropTypes.oneOfType([
-        PropTypes.bool,
-        PropTypes.string
-      ]),
-    })
-  )
+  geneId: PropTypes.string.isRequired,
 };
 
 export default ParalogyTable;
