@@ -1,0 +1,20 @@
+{
+  "version": "34.0.0",
+  "files": {
+    "3a2577e14946ca0614397f637d69c1a3786b28baa3a527e7bc1dc110e89ce09b": {
+      "source": {
+        "path": "stage-alb-stack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "100225593120-us-east-1": {
+          "bucketName": "cdk-hnb659fds-assets-100225593120-us-east-1",
+          "objectKey": "3a2577e14946ca0614397f637d69c1a3786b28baa3a527e7bc1dc110e89ce09b.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::100225593120:role/cdk-hnb659fds-file-publishing-role-100225593120-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

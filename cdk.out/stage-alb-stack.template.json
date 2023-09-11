@@ -1,0 +1,186 @@
+{
+ "Resources": {
+  "defaultfrom00000443FDCE37BB": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "CidrIp": "0.0.0.0/0",
+    "Description": "Allow from anyone on port 443",
+    "FromPort": 443,
+    "GroupId": "sg-21ac675b",
+    "IpProtocol": "tcp",
+    "ToPort": 443
+   },
+   "Metadata": {
+    "aws:cdk:path": "stage-alb-stack/default/from 0.0.0.0_0:443"
+   }
+  },
+  "alb8A8B13C2": {
+   "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+   "Properties": {
+    "LoadBalancerAttributes": [
+     {
+      "Key": "deletion_protection.enabled",
+      "Value": "false"
+     }
+    ],
+    "Scheme": "internal",
+    "SecurityGroups": [
+     "sg-21ac675b"
+    ],
+    "Subnets": [
+     "subnet-0d4703177afb1797d",
+     "subnet-04262fc338f638054",
+     "subnet-044457c061edf85f2",
+     "subnet-04019d42d5c9e6fb9",
+     "subnet-049778993fb504a7c"
+    ],
+    "Type": "application"
+   },
+   "Metadata": {
+    "aws:cdk:path": "stage-alb-stack/alb/Resource"
+   }
+  },
+  "albHTTPSListener7C8C4C55": {
+   "Type": "AWS::ElasticLoadBalancingV2::Listener",
+   "Properties": {
+    "Certificates": [
+     {
+      "CertificateArn": "arn:aws:acm:us-east-1:100225593120:certificate/047a56a2-09dd-4857-9f28-32d23650d4da"
+     }
+    ],
+    "DefaultActions": [
+     {
+      "TargetGroupArn": {
+       "Ref": "albHTTPSListenerBackendStageGroup18A8DB5E"
+      },
+      "Type": "forward"
+     }
+    ],
+    "LoadBalancerArn": {
+     "Ref": "alb8A8B13C2"
+    },
+    "Port": 443,
+    "Protocol": "HTTPS"
+   },
+   "Metadata": {
+    "aws:cdk:path": "stage-alb-stack/alb/HTTPS Listener/Resource"
+   }
+  },
+  "albHTTPSListenerBackendStageGroup18A8DB5E": {
+   "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+   "Properties": {
+    "Port": 443,
+    "Protocol": "HTTPS",
+    "TargetGroupAttributes": [
+     {
+      "Key": "stickiness.enabled",
+      "Value": "false"
+     }
+    ],
+    "TargetType": "instance",
+    "Targets": [
+     {
+      "Id": "i-0d7ea7b7cc11a2e8f"
+     }
+    ],
+    "VpcId": "vpc-55522232"
+   },
+   "Metadata": {
+    "aws:cdk:path": "stage-alb-stack/alb/HTTPS Listener/Backend StageGroup/Resource"
+   }
+  },
+  "PublicDNSD41885E8": {
+   "Type": "AWS::Route53::RecordSet",
+   "Properties": {
+    "HostedZoneId": "Z3IZ3D6V94JEC2",
+    "Name": "stage-alb.alliancegenome.org.",
+    "ResourceRecords": [
+     {
+      "Fn::GetAtt": [
+       "alb8A8B13C2",
+       "DNSName"
+      ]
+     }
+    ],
+    "TTL": "300",
+    "Type": "CNAME"
+   },
+   "Metadata": {
+    "aws:cdk:path": "stage-alb-stack/Public DNS/Resource"
+   }
+  },
+  "PrivateDNSEACE6CB2": {
+   "Type": "AWS::Route53::RecordSet",
+   "Properties": {
+    "HostedZoneId": "Z007692222A6W93AZVSPD",
+    "Name": "stage-alb.alliancegenome.org.",
+    "ResourceRecords": [
+     {
+      "Fn::GetAtt": [
+       "alb8A8B13C2",
+       "DNSName"
+      ]
+     }
+    ],
+    "TTL": "300",
+    "Type": "CNAME"
+   },
+   "Metadata": {
+    "aws:cdk:path": "stage-alb-stack/Private DNS/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WPsWrDQAyGnyX7WcVOM3RsM5RCoWBnL4qsGiUXnbnTJRTjd68dt+Aukn6+DwlV8LSDcoO3VFB7LrwcYWgM6exqTiFHYjexz4Gpgv2XNkw5in2/xpD7N+0ip+TYYzIhH7A9okcl0e5awfDc914ITYK+T+zlzji6ac+/vPYkGeuv8zev+AFjx3a/PiurOLqpGu+2MOwVL1wzhdjO0jI1bOM4x49sfbYFLB+OTkPLcEoP1/IRqhK2m1MSKWJWkwtDvfQfzO4j0CsBAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "stage-alb-stack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "albDNS": {
+   "Value": {
+    "Fn::GetAtt": [
+     "alb8A8B13C2",
+     "DNSName"
+    ]
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

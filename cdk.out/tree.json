@@ -1,0 +1,398 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "stage-alb-stack": {
+        "id": "stage-alb-stack",
+        "path": "stage-alb-stack",
+        "children": {
+          "Docker": {
+            "id": "Docker",
+            "path": "stage-alb-stack/Docker",
+            "children": {
+              "PublicSubnet1": {
+                "id": "PublicSubnet1",
+                "path": "stage-alb-stack/Docker/PublicSubnet1",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.95.1"
+                }
+              },
+              "PublicSubnet2": {
+                "id": "PublicSubnet2",
+                "path": "stage-alb-stack/Docker/PublicSubnet2",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.95.1"
+                }
+              },
+              "PublicSubnet3": {
+                "id": "PublicSubnet3",
+                "path": "stage-alb-stack/Docker/PublicSubnet3",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.95.1"
+                }
+              },
+              "PublicSubnet4": {
+                "id": "PublicSubnet4",
+                "path": "stage-alb-stack/Docker/PublicSubnet4",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.95.1"
+                }
+              },
+              "PublicSubnet5": {
+                "id": "PublicSubnet5",
+                "path": "stage-alb-stack/Docker/PublicSubnet5",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.95.1"
+                }
+              },
+              "PrivateSubnet1": {
+                "id": "PrivateSubnet1",
+                "path": "stage-alb-stack/Docker/PrivateSubnet1",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.95.1"
+                }
+              },
+              "PrivateSubnet2": {
+                "id": "PrivateSubnet2",
+                "path": "stage-alb-stack/Docker/PrivateSubnet2",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.95.1"
+                }
+              },
+              "PrivateSubnet3": {
+                "id": "PrivateSubnet3",
+                "path": "stage-alb-stack/Docker/PrivateSubnet3",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.95.1"
+                }
+              },
+              "PrivateSubnet4": {
+                "id": "PrivateSubnet4",
+                "path": "stage-alb-stack/Docker/PrivateSubnet4",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.95.1"
+                }
+              },
+              "PrivateSubnet5": {
+                "id": "PrivateSubnet5",
+                "path": "stage-alb-stack/Docker/PrivateSubnet5",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.95.1"
+            }
+          },
+          "default": {
+            "id": "default",
+            "path": "stage-alb-stack/default",
+            "children": {
+              "from 0.0.0.0_0:443": {
+                "id": "from 0.0.0.0_0:443",
+                "path": "stage-alb-stack/default/from 0.0.0.0_0:443",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupIngress",
+                  "aws:cdk:cloudformation:props": {
+                    "cidrIp": "0.0.0.0/0",
+                    "description": "Allow from anyone on port 443",
+                    "fromPort": 443,
+                    "groupId": "sg-21ac675b",
+                    "ipProtocol": "tcp",
+                    "toPort": 443
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.95.1"
+            }
+          },
+          "Public Zone": {
+            "id": "Public Zone",
+            "path": "stage-alb-stack/Public Zone",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.95.1"
+            }
+          },
+          "Private Zone": {
+            "id": "Private Zone",
+            "path": "stage-alb-stack/Private Zone",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.95.1"
+            }
+          },
+          "alb": {
+            "id": "alb",
+            "path": "stage-alb-stack/alb",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "stage-alb-stack/alb/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+                  "aws:cdk:cloudformation:props": {
+                    "loadBalancerAttributes": [
+                      {
+                        "key": "deletion_protection.enabled",
+                        "value": "false"
+                      }
+                    ],
+                    "scheme": "internal",
+                    "securityGroups": [
+                      "sg-21ac675b"
+                    ],
+                    "subnets": [
+                      "subnet-0d4703177afb1797d",
+                      "subnet-04262fc338f638054",
+                      "subnet-044457c061edf85f2",
+                      "subnet-04019d42d5c9e6fb9",
+                      "subnet-049778993fb504a7c"
+                    ],
+                    "type": "application"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnLoadBalancer",
+                  "version": "2.95.1"
+                }
+              },
+              "HTTPS Listener": {
+                "id": "HTTPS Listener",
+                "path": "stage-alb-stack/alb/HTTPS Listener",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "stage-alb-stack/alb/HTTPS Listener/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::Listener",
+                      "aws:cdk:cloudformation:props": {
+                        "certificates": [
+                          {
+                            "certificateArn": "arn:aws:acm:us-east-1:100225593120:certificate/047a56a2-09dd-4857-9f28-32d23650d4da"
+                          }
+                        ],
+                        "defaultActions": [
+                          {
+                            "type": "forward",
+                            "targetGroupArn": {
+                              "Ref": "albHTTPSListenerBackendStageGroup18A8DB5E"
+                            }
+                          }
+                        ],
+                        "loadBalancerArn": {
+                          "Ref": "alb8A8B13C2"
+                        },
+                        "port": 443,
+                        "protocol": "HTTPS"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnListener",
+                      "version": "2.95.1"
+                    }
+                  },
+                  "Backend StageGroup": {
+                    "id": "Backend StageGroup",
+                    "path": "stage-alb-stack/alb/HTTPS Listener/Backend StageGroup",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "stage-alb-stack/alb/HTTPS Listener/Backend StageGroup/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+                          "aws:cdk:cloudformation:props": {
+                            "port": 443,
+                            "protocol": "HTTPS",
+                            "targetGroupAttributes": [
+                              {
+                                "key": "stickiness.enabled",
+                                "value": "false"
+                              }
+                            ],
+                            "targets": [
+                              {
+                                "id": "i-0d7ea7b7cc11a2e8f"
+                              }
+                            ],
+                            "targetType": "instance",
+                            "vpcId": "vpc-55522232"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnTargetGroup",
+                          "version": "2.95.1"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationTargetGroup",
+                      "version": "2.95.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListener",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationLoadBalancer",
+              "version": "2.95.1"
+            }
+          },
+          "Public DNS": {
+            "id": "Public DNS",
+            "path": "stage-alb-stack/Public DNS",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "stage-alb-stack/Public DNS/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Route53::RecordSet",
+                  "aws:cdk:cloudformation:props": {
+                    "hostedZoneId": "Z3IZ3D6V94JEC2",
+                    "name": "stage-alb.alliancegenome.org.",
+                    "resourceRecords": [
+                      {
+                        "Fn::GetAtt": [
+                          "alb8A8B13C2",
+                          "DNSName"
+                        ]
+                      }
+                    ],
+                    "ttl": "300",
+                    "type": "CNAME"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_route53.CfnRecordSet",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_route53.CnameRecord",
+              "version": "2.95.1"
+            }
+          },
+          "Private DNS": {
+            "id": "Private DNS",
+            "path": "stage-alb-stack/Private DNS",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "stage-alb-stack/Private DNS/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Route53::RecordSet",
+                  "aws:cdk:cloudformation:props": {
+                    "hostedZoneId": "Z007692222A6W93AZVSPD",
+                    "name": "stage-alb.alliancegenome.org.",
+                    "resourceRecords": [
+                      {
+                        "Fn::GetAtt": [
+                          "alb8A8B13C2",
+                          "DNSName"
+                        ]
+                      }
+                    ],
+                    "ttl": "300",
+                    "type": "CNAME"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_route53.CfnRecordSet",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_route53.CnameRecord",
+              "version": "2.95.1"
+            }
+          },
+          "albDNS": {
+            "id": "albDNS",
+            "path": "stage-alb-stack/albDNS",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.95.1"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "stage-alb-stack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "stage-alb-stack/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.95.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.2.70"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "stage-alb-stack/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.95.1"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "stage-alb-stack/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.95.1"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.95.1"
+        }
+      },
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.2.70"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.95.1"
+    }
+  }
+}
