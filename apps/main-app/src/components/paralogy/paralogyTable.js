@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import HorizontalScroll from '../horizontalScroll';
 import LoadingSpinner from '../loadingSpinner';
 import NoData from '../noData';
-import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
 import useGeneParalogy from '../../hooks/useGeneParalogy';
 import MethodHeader from '../homology/methodHeader';
 import MethodCell from '../homology/methodCell';
@@ -28,12 +27,7 @@ const ParalogyTable = ({geneId}) => {
     }
     return 0;
   });
-
-  const all_methods = data.results[0].predictionMethodsMatched.concat(
-    data.results[0].predictionMethodsNotCalled,
-    data.results[0].predictionMethodsNotMatched
-  ).sort(compareAlphabeticalCaseInsensitive);
- 
+  
   return (
     <div>
       <div style={{marginBottom: '1rem'}}>
@@ -55,20 +49,20 @@ const ParalogyTable = ({geneId}) => {
                   results.map( result => {
                     return (<tr>  
                       <td>
-                      <Link to={`/gene/${result.gene.id}`} target="_blank">
-                        <span dangerouslySetInnerHTML={{__html: result.gene.symbol}} />
-                      </Link>
-                    </td>                    
-                    <td>{result.rank}</td>
-                    <td>{result.length}</td>
-                    <td>{result.similarity}</td>
-                    <td>{result.identity}</td>
-                    <td>{result.methodCount} of {result.totalMethodCount}</td>
-                    <MethodCell
-                      predictionMethodsMatched={result.predictionMethodsMatched}
-                      predictionMethodsNotMatched={result.predictionMethodsNotMatched}
-                      rowKey={result.gene.id}/>
-                  </tr>)})
+                        <Link to={`/gene/${result.homologGene.id}`} target="_blank">
+                          <span dangerouslySetInnerHTML={{__html: result.homologGene.symbol}} />
+                        </Link>
+                      </td>                    
+                      <td>{result.rank}</td>
+                      <td>{result.length}</td>
+                      <td>{result.similarity}</td>
+                      <td>{result.identity}</td>
+                      <td>{result.methodCount} of {result.totalMethodCount}</td>
+                      <MethodCell
+                        predictionMethodsMatched={result.predictionMethodsMatched}
+                        predictionMethodsNotMatched={result.predictionMethodsNotMatched}
+                        rowKey={result.homologGene.id}/>
+                    </tr>)})
                 }
                 </tbody>
               </table>
