@@ -37,17 +37,18 @@ const ParalogyTable = ({geneId}) => {
                   <tr>
                     <th>Gene symbol</th>
                     <th>Rank <HelpPopup id={`help-paralogy-rank`}><RankHelp/></HelpPopup></th>
-                    <th>Alignment Length</th>
+                    <th>Alignment Length (aa)</th>
                     <th>Similarity %</th>
                     <th>Identity %</th>
                     <th>Method Count</th>
-                    <MethodHeader key="method" name="Method"/>
+                    <MethodHeader name="Method" paralogy={true}/>
                   </tr>
                 </thead>
                 <tbody>                 
                 {              
                   results.map( result => {
-                    return (<tr>  
+                    const rowKey = 'paralogyrowkey-' + result.homologGene.id.replace(/\s/g, '-');
+                    return (<tr key={rowKey}>
                       <td>
                         <Link to={`/gene/${result.homologGene.id}`} target="_blank">
                           <span dangerouslySetInnerHTML={{__html: result.homologGene.symbol}} />
@@ -61,7 +62,8 @@ const ParalogyTable = ({geneId}) => {
                       <MethodCell
                         predictionMethodsMatched={result.predictionMethodsMatched}
                         predictionMethodsNotMatched={result.predictionMethodsNotMatched}
-                        rowKey={result.homologGene.id}/>
+                        rowKey={result.homologGene.id}
+                        paralogy={true}/>
                     </tr>)})
                 }
                 </tbody>
