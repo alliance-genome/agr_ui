@@ -8,6 +8,7 @@ import MethodHeader from '../homology/methodHeader';
 import MethodCell from '../homology/methodCell';
 import HelpPopup from '../helpPopup';
 import RankHelp from './rankHelp';
+import AlignmentHelp from './alignmentHelp';
 
 const ParalogyTable = ({geneId}) => {
   const { data, isLoading } = useGeneParalogy(geneId);
@@ -37,7 +38,7 @@ const ParalogyTable = ({geneId}) => {
                   <tr>
                     <th>Gene symbol</th>
                     <th>Rank <HelpPopup id={`help-paralogy-rank`}><RankHelp/></HelpPopup></th>
-                    <th>Alignment Length (aa)</th>
+                    <th>Alignment length (aa) <HelpPopup id={`help-paralogy-align`}><AlignmentHelp/></HelpPopup></th>
                     <th>Similarity %</th>
                     <th>Identity %</th>
                     <th>Method Count</th>
