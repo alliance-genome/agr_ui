@@ -6,13 +6,13 @@ import * as elbv2 from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import * as targets from 'aws-cdk-lib/aws-elasticloadbalancingv2-targets';
 import * as cdk from 'aws-cdk-lib';
 
-interface MultistackProps extends cdk.StackProps {
-  dnsName?: string,
-  targetInstanceId?: string
+export interface MultistackProps extends cdk.StackProps {
+  dnsName: string,
+  targetInstanceId: string
 }
 
 export class AmplifyALBStack extends cdk.Stack {
-  constructor(scope: cdk.App, id: string, props?: MultistackProps) {
+  constructor(scope: cdk.App, id: string, props: MultistackProps) {
     super(scope, id, props);
 
     const vpc = ec2.Vpc.fromLookup(this, 'Docker', { vpcName: 'Docker' });
