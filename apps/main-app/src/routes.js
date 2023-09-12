@@ -45,6 +45,22 @@ export default (
       />
 
       <Route
+        path='/swagger-ui'
+        render={(props) => {
+          window.location.href = `${props.location.pathname}${props.location.search}`;
+          return null;
+        }}
+      />
+
+      <Route
+        path='/openapi'
+        render={(props) => {
+          window.location.href = `${props.location.pathname}${props.location.search}`;
+          return null;
+        }}
+      />
+
+      <Route
         path='/bluegenes'
         render={(props) => {
           window.location.href = `${props.location.pathname}${props.location.search}`;
