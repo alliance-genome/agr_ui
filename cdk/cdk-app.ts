@@ -1,11 +1,23 @@
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib';
-import {StageALBStack} from './stage-alb-stack';
+import { AmplifyALBStack } from './amplify-alb-stack';
 
 const app = new cdk.App();
 
-new StageALBStack(app, 'stage-alb-stack', {
+new AmplifyALBStack(app, 'stage-alb-stack', {
   stackName: 'stage-alb-stack',
+  dnsName: 'stage',
+  targetInstanceId: 'i-0d7ea7b7cc11a2e8f',
+  env: {
+    region: process.env.CDK_DEFAULT_REGION,
+    account: process.env.CDK_DEFAULT_ACCOUNT,
+  },
+});
+
+new AmplifyALBStack(app, 'prod-alb-stack', {
+  stackName: 'prod-alb-stack',
+  dnsName: 'prod',
+  targetInstanceId: 'i-0b3eb7fefadda7616',
   env: {
     region: process.env.CDK_DEFAULT_REGION,
     account: process.env.CDK_DEFAULT_ACCOUNT,
