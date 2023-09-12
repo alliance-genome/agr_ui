@@ -80,7 +80,7 @@ export const NAV_MENU = [
       },
       {
         label: 'API',
-        route: '/api/swagger-ui',
+        route: '/swagger-ui',
         external: true,
       },
       {
