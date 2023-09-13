@@ -92,6 +92,7 @@ class OrthologyTable extends Component {
                     predictionMethodsMatched={orthData.predictionMethodsMatched}
                     predictionMethodsNotMatched={orthData.predictionMethodsNotMatched}
                     rowKey={orthId}
+                    paralogy={false}
                   />
                 </tr>
               );
