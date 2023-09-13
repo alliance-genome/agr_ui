@@ -56,9 +56,9 @@ const ParalogyTable = ({geneId}) => {
                         </Link>
                       </td>                    
                       <td>{result.rank}</td>
-                      <td>{result.length ? parseInt(result.length, 10) : ''}</td>
-                      <td>{result.similarity ? (result.similarity*100).toFixed(1) : ''}</td>
-                      <td>{result.identity ? (result.identity*100).toFixed(1) : ''}</td>
+                      <td>{result.length}</td>
+                      <td>{result.similarity}</td>
+                      <td>{result.identity}</td>
                       <td>{result.methodCount} of {result.totalMethodCount}</td>
                       <MethodCell
                         predictionMethodsMatched={result.predictionMethodsMatched}
