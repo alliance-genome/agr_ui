@@ -8,6 +8,7 @@ import MethodHeader from '../homology/methodHeader';
 import MethodCell from '../homology/methodCell';
 import HelpPopup from '../helpPopup';
 import RankHelp from './rankHelp';
+import AlignmentHelp from './alignmentHelp';
 
 const ParalogyTable = ({geneId}) => {
   const { data, isLoading } = useGeneParalogy(geneId);
@@ -37,17 +38,18 @@ const ParalogyTable = ({geneId}) => {
                   <tr>
                     <th>Gene symbol</th>
                     <th>Rank <HelpPopup id={`help-paralogy-rank`}><RankHelp/></HelpPopup></th>
-                    <th>Alignment Length</th>
+                    <th>Alignment length (aa) <HelpPopup id={`help-paralogy-align`}><AlignmentHelp/></HelpPopup></th>
                     <th>Similarity %</th>
                     <th>Identity %</th>
                     <th>Method Count</th>
-                    <MethodHeader key="method" name="Method"/>
+                    <MethodHeader name="Method" paralogy={true}/>
                   </tr>
                 </thead>
                 <tbody>                 
                 {              
                   results.map( result => {
-                    return (<tr>  
+                    const rowKey = 'paralogyrowkey-' + result.homologGene.id.replace(/\s/g, '-');
+                    return (<tr key={rowKey}>
                       <td>
                         <Link to={`/gene/${result.homologGene.id}`} target="_blank">
                           <span dangerouslySetInnerHTML={{__html: result.homologGene.symbol}} />
@@ -61,7 +63,8 @@ const ParalogyTable = ({geneId}) => {
                       <MethodCell
                         predictionMethodsMatched={result.predictionMethodsMatched}
                         predictionMethodsNotMatched={result.predictionMethodsNotMatched}
-                        rowKey={result.homologGene.id}/>
+                        rowKey={result.homologGene.id}
+                        paralogy={true}/>
                     </tr>)})
                 }
                 </tbody>
