@@ -34,11 +34,11 @@ const ParalogyTable = ({geneId}) => {
       <div style={{marginBottom: '1rem'}}>
             <HorizontalScroll width={800}>              
               <table className='table'>
-                <thead className='text-capitalize'>
+                <thead>
                   <tr>
                     <th>Gene symbol</th>
                     <th>Rank <HelpPopup id={`help-paralogy-rank`}><RankHelp/></HelpPopup></th>
-                    <th>Alignment length (aa) <HelpPopup id={`help-paralogy-align`}><AlignmentHelp/></HelpPopup></th>
+                    <th>Alignment Length (aa) <HelpPopup id={`help-paralogy-align`}><AlignmentHelp/></HelpPopup></th>
                     <th>Similarity %</th>
                     <th>Identity %</th>
                     <th>Method Count</th>
