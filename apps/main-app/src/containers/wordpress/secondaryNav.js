@@ -19,6 +19,8 @@ class SecondaryNav extends Component {
       return style.postMenuContainer;
     case 179:
       return style.helpMenuContainer;
+    case 2493:
+      return style.citeMenuContainer;
     case 'post':
       return style.postMenuContainer;
     }
@@ -36,7 +38,7 @@ class SecondaryNav extends Component {
     // would like to refer to backgroundImage via relative path
     //  backgroundImage: 'url(\'../../../../../libs/shared-assets/src/lib/assets/banner_covid19.png\')'
     // but something converts the path in the .scss to something with an extension at the root level
-    // (e.g. /banner_bacteria.ff1e68d.jpg ) and so cannot set that in the javascript here, but it 
+    // (e.g. /banner_bacteria.ff1e68d.jpg ) and so cannot set that in the javascript here, but it
     // needs to be slug-based, so cannot use the style.scss either.  Maybe css-in-js would help.
     let menuStyle;
     if (slug === 'coronavirus-resources') {

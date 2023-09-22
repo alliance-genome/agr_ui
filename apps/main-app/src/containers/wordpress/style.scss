@@ -14,7 +14,7 @@
 
 .postMenuContainer, .homeMenuContainer,
 .aboutMenuContainer, .workingGroupsMenuContainer,
-.contactMenuContainer, .helpMenuContainer {
+.contactMenuContainer, .helpMenuContainer, .citeMenuContainer {
   background-size: cover;
   background-color: $gray-900;
   background-repeat: no-repeat;
@@ -40,6 +40,10 @@
 
 .helpMenuContainer {
   background-image: url('../../../../../libs/shared-assets/src/lib/assets/banner_cells.jpg');
+}
+
+.citeMenuContainer {
+  background-image: url('../../../../../libs/shared-assets/src/lib/assets/banner_virus.jpg');
 }
 
 .secondaryNavEmptyRow, .postMenuContainer.secondaryNav {
