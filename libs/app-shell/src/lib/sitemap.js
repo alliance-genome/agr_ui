@@ -108,6 +108,10 @@ const sitemap = [
     label: 'Contact Us',
     route: '/contact-us',
   },
+  {
+    label: 'Cite Us',
+    route: '/cite-us',
+  },
 ];
 
 export default sitemap;
