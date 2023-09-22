@@ -223,7 +223,7 @@ const AlleleTable = ({geneId}) => {
       text: 'Molecular consequence',
       helpPopupProps: {
         id: 'gene-page--alleles-table--molecular-consequence-help',
-        children: <span>Variant consequences were predicted by the <ExternalLink href="https://uswest.ensembl.org/info/docs/tools/vep/index.html" target="_blank">Ensembl Variant Effect Predictor (VEP) tool</ExternalLink> based on Alliance variants information.
+        children: <span>Variant consequences were predicted by the <ExternalLink href="https://www.ensembl.org/info/docs/tools/vep/index.html" target="_blank">Ensembl Variant Effect Predictor (VEP) tool</ExternalLink> based on Alliance variants information.
           Examples are: frameshift variant, stop gained, missense variant, splice donor variant, splice acceptor variant, stop gained, splice region variant, intron variant, coding sequence variant, 5 prime UTR variant, and inframe deletion.</span>,
       },
       headerStyle: {width: variantConsequenceColWidth},
