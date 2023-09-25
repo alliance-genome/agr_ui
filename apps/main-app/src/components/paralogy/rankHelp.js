@@ -1,21 +1,19 @@
-
 export default function RankHelp() {
     return (
     <div>
       <p>
-        Rank is calculated via the highest percent similarity within 
-        four quartiles of alignment length (determined by using four 25% 
-        quartiles derived from the longest paralog alignment length). 
+        The ranking score is calculated using a weighted formula:
+        Score = w₁ x (Alignment Length x Similarity %) + w₂ x (Alignment Length x Identity %) + w₃ x (Method Count) + w₄ x (Alignment Length).
       </p>
       <p>
-        Paralogs with the longest alignment and greatest similarity 
-        percentage are ranked highest. Identity is used as a secondary 
-        criteria for paralogs with identical alignment and similarity. 
+        Where the weights are as follows:
+        - w₁ = 1.000: Weight for the absolute number of similar amino acids.
+        - w₂ = 1.000: Weight for the absolute number of identical amino acids.
+        - w₃ = 1.500: Weight for the method count.
+        - w₄ = 1.500: Weight for the alignment length.
       </p>
       <p>
-        DIOPT algorithm matches are used as a tertiary ranking criteria 
-        in cases of equal similarity and identity within alignment 
-        length quartiles. Multiple entries can share the same rank.
+        Multiple entries can share the same rank.
       </p>
     </div>);
   }
