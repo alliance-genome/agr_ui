@@ -15,6 +15,7 @@ var sitemap = sm.createSitemap({
     { url: '/' ,             changefreq: 'monthly', priority: 0.1, lastmodrealtime: true },
     { url: '/about-us',         changefreq: 'monthly', priority: 0.8, lastmodrealtime: true },
     { url: '/contact-us',       changefreq: 'monthly', priority: 0.8, lastmodrealtime: true },
+    { url: '/cite-us',       changefreq: 'monthly', priority: 0.8, lastmodrealtime: true },
     { url: '/frequently-asked-questions',           changefreq: 'monthly', priority: 0.8, lastmodrealtime: true },
     { url: '/release-notes',    changefreq: 'monthly', priority: 0.8, lastmodrealtime: true },
     { url: '/funding',       changefreq: 'monthly', priority: 0.7, lastmodrealtime: true },
