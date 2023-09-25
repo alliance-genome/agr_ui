@@ -230,6 +230,10 @@ export const NAV_MENU = [
   {
     label: 'Contact Us',
     route: '/contact-us',
+  },
+  {
+    label: 'Cite Us',
+    route: '/cite-us',
   }
 ];
 
