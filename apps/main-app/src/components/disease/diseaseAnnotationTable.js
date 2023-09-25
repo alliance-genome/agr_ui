@@ -48,7 +48,7 @@ const DiseaseAnnotationTable = ({
     const withArray = filteredPrimaryAnnotations.map(primaryAnnotation => primaryAnnotation.with);
     return withArray.flat(1);
   }
-  
+
   let columns = [
     {
       dataField: 'subject.taxon',
@@ -80,6 +80,13 @@ const DiseaseAnnotationTable = ({
     {
       dataField: 'diseaseRelationNegation',
       text: 'Association',
+      helpPopupProps: {
+        id: 'gene-page--disease-associations-table--association-help',
+        children: <div>
+          <p>"Is Implicated in" means that some variant of the gene is shown to function in causing or modifying a disease (for human) or a disease model state.</p>
+          <p>"Is a marker for" is used when there is evidence of an association but insufficient evidence to establish causality and does not necessarily imply that the existence of, or change in the biomarker is causal for the disease, but rather may result from it.</p>
+        </div>,
+      },
       formatter: type => <AssociationType type={type} />,
       filterName: 'associationType',
       filterable: getDistinctFieldValue(resolvedData, 'associationType'),
@@ -105,6 +112,10 @@ const DiseaseAnnotationTable = ({
     {
       dataField: 'evidenceCodes',
       text: 'Evidence',
+      helpPopupProps: {
+        id: 'gene-page--disease-associations-table--evidence-help',
+        children: <span>Mouse-over to decipher the evidence code. The Alliance uses these <a href='https://www.alliancegenome.org/help#docodes'>evidence codes</a> to justify DO annotations.</span>,
+      },
       filterable: true,
       headerStyle: {width: '100px'},
       formatter: codes => <EvidenceCodesCellCuration evidenceCodes={codes} />,
@@ -121,6 +132,10 @@ const DiseaseAnnotationTable = ({
     {
       dataField: 'basedOn',
       text: 'Based On',
+      helpPopupProps: {
+        id: 'gene-page--disease-associations-table--based-on-help',
+        children: <span>SGD uses orthology to human genes to associate yeast genes with the disease.</span>
+      },
       filterable: true,
       filterName: 'basedOnGeneSymbol',
       headerStyle: {width: '100px'},
