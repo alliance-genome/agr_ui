@@ -7,10 +7,12 @@ export default function RankHelp() {
       </p>
       <p>
         Where the weights are as follows:<br>
-        w₁ = 1.000: Weight for the absolute number of similar amino acids.<br>
-        w₂ = 1.000: Weight for the absolute number of identical amino acids.<br>
-        w₃ = 1.500: Weight for the method count.<br>
-        w₄ = 1.500: Weight for the alignment length.<br>
+      <ul>
+        <li>w₁ = 1.000: Weight for the absolute number of similar amino acids.</li>
+        <li>w₂ = 1.000: Weight for the absolute number of identical amino acids.</li>
+        <li>w₃ = 1.500: Weight for the method count.</li>
+        <li>w₄ = 1.500: Weight for the alignment length.</li>
+      </ul>
       </p>
       <p>
         Multiple entries can share the same rank.
