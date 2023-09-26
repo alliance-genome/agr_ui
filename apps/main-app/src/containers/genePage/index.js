@@ -2,7 +2,9 @@ import React  from 'react';
 import PropTypes from 'prop-types';
 import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPage';
 import BasicGeneInfo from './basicGeneInfo';
-import { OrthologyFilteredTable, OrthologyUserGuide, OrthologyBasicInfo } from '../../components/orthology';
+import { OrthologyFilteredTable, HomologyUserGuide, OrthologyBasicInfo } from '../../components/orthology';
+import ParalogyTable from '../../components/paralogy/paralogyTable'
+import ParalogyUserGuide from '../../components/paralogy/paralogyUserGuide'
 import GoUserGuide from '../../components/geneOntologyRibbon/goUserGuide';
 import PathwayUserGuide from '../../components/pathway/pathwayUserGuide';
 import ModelSectionHelp from '../../components/model/modelSectionHelp';
@@ -21,6 +23,7 @@ import {
   GeneticInteractionSectionHelp
 } from '../../components/interaction';
 import GenomeFeatureWrapper from './genomeFeatureWrapper';
+import SequencePanel from './sequencePanelWrapper';
 import ExpressionLinks from './expressionLinks';
 
 import SpeciesIcon from '../../components/speciesIcon';
@@ -47,9 +50,11 @@ import DiseaseSectionHelp from '../../components/disease/diseaseSectionHelp';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
+const SEQUENCE_DETAILS = 'Sequence Details';
 const FUNCTION = 'Function - GO Annotations';
 const PATHWAY = 'Pathways';
 const ORTHOLOGY = 'Orthology';
+const PARALOGY = 'Paralogy'
 const DISEASE = 'Disease Associations';
 const EXPRESSION = 'Expression';
 const ALLELES = 'Alleles and Variants';
@@ -62,6 +67,7 @@ const MODELS = 'Models';
 const SECTIONS = [
   {name: SUMMARY},
   {name: ORTHOLOGY},
+  {name: PARALOGY},
   {name: FUNCTION},
   {name: PATHWAY},
   {name: PHENOTYPES},
@@ -70,6 +76,7 @@ const SECTIONS = [
   {name: TG_ALLELES},
   {name: MODELS},
   {name: SEQUENCE_FEATURE_VIEWER},
+  {name: SEQUENCE_DETAILS},
   {name: EXPRESSION},
   {name: INTERACTIONS},
   {name: GENETIC_INTERACTIONS},
@@ -124,9 +131,13 @@ const GenePage = ({geneId}) => {
           <BasicGeneInfo gene={data} />
         </Subsection>
 
-        <Subsection help={<OrthologyUserGuide />} title={ORTHOLOGY}>
+        <Subsection help={<HomologyUserGuide />} title={ORTHOLOGY}>
           <OrthologyBasicInfo pantherCrossReference={data.crossReferenceMap.panther} />
           <OrthologyFilteredTable geneId={data.id} />
+        </Subsection>
+
+        <Subsection help={<ParalogyUserGuide />} title={PARALOGY}>
+          <ParalogyTable geneId={data.id} />
         </Subsection>
 
         <Subsection help={<GoUserGuide />} title={FUNCTION}>
@@ -200,6 +211,16 @@ const GenePage = ({geneId}) => {
             width='600px'
           />
         </Subsection>
+
+        <Subsection title={SEQUENCE_DETAILS}>
+	  <SequencePanel
+            refseq={genomeLocation.chromosome}
+            start={genomeLocation.start}
+            end={genomeLocation.end}
+            gene={data.symbol}
+            species={data.species.taxonId}
+	  />
+ 	</Subsection>
 
         <Subsection help={<ExpressionUserGuide />} title={EXPRESSION}>
           <ExpressionLinks

@@ -42,6 +42,16 @@ const devServer = {
       secure: false,
       changeOrigin: true
     },
+    '/swagger-ui': {
+      target: process.env.API_URL || 'http://localhost:8080',
+      secure: false,
+      changeOrigin: true
+    },
+    '/openapi': {
+      target: process.env.API_URL || 'http://localhost:8080',
+      secure: false,
+      changeOrigin: true
+    },
     '/apollo': {
       target: process.env.APOLLO_URL || process.env.API_URL,
       secure: false,

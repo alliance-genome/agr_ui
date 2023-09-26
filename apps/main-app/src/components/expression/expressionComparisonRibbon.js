@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import ControlsContainer from '../controlsContainer';
-import { STRINGENCY_HIGH } from '../orthology/constants';
+import { STRINGENCY_HIGH } from '../homology/constants';
 import ExpressionAnnotationTable from './expressionAnnotationTable';
 import HorizontalScroll from '../horizontalScroll';
 import HelpPopup from '../helpPopup';
@@ -116,7 +116,7 @@ const ExpressionComparisonRibbon = ({
 
       {selectedBlock.group &&
         <div className='pt-4'>
-          <ExpressionAnnotationTable focusGeneId={geneId} orthologGenes={selectedOrthologs} term={selectedBlock.group.id} />
+          <ExpressionAnnotationTable focusGeneId={geneId} focusTaxonId={geneTaxon} orthologGenes={selectedOrthologs} term={selectedBlock.group.id} />
         </div>
       }
     </React.Fragment>

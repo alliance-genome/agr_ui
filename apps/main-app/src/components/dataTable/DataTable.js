@@ -24,6 +24,7 @@ import DropdownCheckboxFilter from './DropdownCheckboxFilter';
 import HorizontalScroll from '../horizontalScroll';
 import { buildTableQueryString } from '../../lib/utils';
 import LoadingSpinner from '../loadingSpinner';
+import DropdownNoDataFilter from './DropdownNoDataFilter';
 
 const DataTable = ({
   className,
@@ -150,7 +151,12 @@ const DataTable = ({
             value={columnFilter}
           />
         );
-      } else {
+        //if filter is a checkbox dropdown, but there is are no distinctFieldValues then show DropdownNoDataFilter instead
+      } else if(column.filterType === "checkbox") {
+        column.filterRenderer = () => (
+          <DropdownNoDataFilter />
+        );
+      } else{
         column.filterRenderer = (onFilter, column) => (
           <DropdownTextFilter
             column={column}
