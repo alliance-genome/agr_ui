@@ -46,10 +46,18 @@
   overflow-y: scroll;
 
   .tablePopupInner {
-    width: 600px;
+    width: 900px;
   }
 }
 
 .helpIconWrapper {
   margin-left: 5px;
+}
+
+.relatedNotes {
+  min-width: 300px;
+}
+
+.associationCell {
+  min-width: 150px;
 }

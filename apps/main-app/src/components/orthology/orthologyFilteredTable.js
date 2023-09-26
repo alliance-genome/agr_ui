@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Collapse } from 'reactstrap';
-import StringencySelection from './stringencySelection';
+import StringencySelection from '../homology/stringencySelection';
 import OrthologyTable, { isBest } from './orthologyTable';
-import { getOrthologSpeciesName } from './utils';
+import { getOrthologSpeciesName } from '../homology/utils';
 import HorizontalScroll from '../horizontalScroll';
 import LoadingSpinner from '../loadingSpinner';
 import NoData from '../noData';
 import ControlsContainer from '../controlsContainer';
-import { STRINGENCY_HIGH } from './constants';
+import { STRINGENCY_HIGH } from '../homology/constants';
 import {
   compareAlphabeticalCaseInsensitive,
   orthologyMeetsStringency
 } from '../../lib/utils';
 import HelpPopup from '../helpPopup';
-import OrthologyFilterHelp from './orthologyFilterHelp';
+import HomologyFilterHelp from '../homology/homologyFilterHelp';
 import useResettableState from '../../hooks/useResettableState';
 import useGeneOrthology from '../../hooks/useGeneOrthology';
 
@@ -115,7 +115,7 @@ const OrthologyFilteredTable = ({geneId}) => {
       <ControlsContainer>
         <span className='pull-right'>
           <HelpPopup id='orthology-controls-help'>
-            <OrthologyFilterHelp />
+            <HomologyFilterHelp ortholog={true}/>
           </HelpPopup>
         </span>
         <StringencySelection
@@ -219,7 +219,7 @@ const OrthologyFilteredTable = ({geneId}) => {
         {
           filteredData.length > 0 ?
             <HorizontalScroll width={800}>
-              <OrthologyTable data={filteredData} />
+              <OrthologyTable data={filteredData}/>
             </HorizontalScroll> :
             <NoData>No ortholog matching your filter. Please try a less stringent filter.</NoData>
         }

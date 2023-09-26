@@ -5,6 +5,7 @@ import qs from 'qs';
 export default function useComparisonRibbonTableQuery(
   baseUrl,
   focusGeneId,
+  focusTaxonId,
   orthologGenes,
   termId,
   additionalQueryParams
@@ -15,6 +16,7 @@ export default function useComparisonRibbonTableQuery(
   }
   const params = {
     ...additionalQueryParams,
+    focusTaxonId: focusTaxonId,
     geneID: geneIds,
   };
   if (termId && termId !== 'all') {

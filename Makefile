@@ -23,6 +23,15 @@ test:
 run:
 	npm start
 
+stage-alb-deploy:
+	npx aws-cdk deploy stage-alb-stack
+
+test-alb-deploy:
+	npx aws-cdk deploy test-alb-stack
+
+prod-alb-deploy:
+	npx aws-cdk deploy prod-alb-stack
+
 uirun:
 	npm start
 

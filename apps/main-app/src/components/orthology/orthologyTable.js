@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import MethodHeader from './methodHeader';
-import MethodCell from './methodCell';
-import BooleanCell from './booleanCell';
+import MethodHeader from '../homology/methodHeader';
+import MethodCell from '../homology/methodCell';
+import BooleanCell from '../homology/booleanCell';
 import {
   getOrthologSpeciesId,
   getOrthologSpeciesName,
   getOrthologId,
   getOrthologSymbol,
-} from './utils';
+} from '../homology/utils';
 import { sortBy, compareByFixedOrder } from '../../lib/utils';
 import { TAXON_ORDER } from '../../constants';
 import HelpPopup from '../helpPopup';
 
-import style from './style.scss';
+import style from '../homology/style.scss';
 import SpeciesName from '../SpeciesName';
 
 const columns = [
@@ -92,6 +92,7 @@ class OrthologyTable extends Component {
                     predictionMethodsMatched={orthData.predictionMethodsMatched}
                     predictionMethodsNotMatched={orthData.predictionMethodsNotMatched}
                     rowKey={orthId}
+                    paralogy={false}
                   />
                 </tr>
               );
