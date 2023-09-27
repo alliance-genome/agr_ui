@@ -45,6 +45,7 @@ import GeneSymbol from '../../components/GeneSymbol';
 import PhenotypeCrossRefs from './PhenotypeCrossRefs';
 import SpeciesName from '../../components/SpeciesName';
 import SequenceFeatureViewerSectionHelp from '../../components/sequenceFeatureViewer/sequenceFeatureViewerSectionHelp';
+import SequencePanelSectionHelp from '../../components/sequencePanel/sequencePanelSectionHelp';
 import TransgenicAlleleSectionHelp from '../../components/transgenicAlleles/transgenicAllelesSectionHelp';
 import DiseaseSectionHelp from '../../components/disease/diseaseSectionHelp';
 
@@ -212,7 +213,7 @@ const GenePage = ({geneId}) => {
           />
         </Subsection>
 
-        <Subsection title={SEQUENCE_DETAILS}>
+        <Subsection title={SEQUENCE_DETAILS}> help={<SequencePanelSectionHelp />}
 	  <SequencePanel
             refseq={genomeLocation.chromosome}
             start={genomeLocation.start}
