@@ -213,7 +213,10 @@ const GenePage = ({geneId}) => {
           />
         </Subsection>
 
-        <Subsection title={SEQUENCE_DETAILS}> help={<SequencePanelSectionHelp />}
+        <Subsection 
+          help={<SequencePanelSectionHelp />}
+          title={SEQUENCE_DETAILS}
+        >
 	  <SequencePanel
             refseq={genomeLocation.chromosome}
             start={genomeLocation.start}
