@@ -27,7 +27,7 @@ new AmplifyALBStack(app, 'test-alb-stack', {
 new AmplifyALBStack(app, 'prod-alb-stack', {
   stackName: 'prod-alb-stack',
   dnsName: 'prod',
-  targetInstanceId: 'i-0b3eb7fefadda7616',
+  targetInstanceId: 'i-0b3c6166858f87457',
   env: {
     region: process.env.CDK_DEFAULT_REGION,
     account: process.env.CDK_DEFAULT_ACCOUNT,
