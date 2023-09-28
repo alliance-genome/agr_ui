@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   DropdownMenu,
@@ -13,6 +13,16 @@ import ExternalLink from '../ExternalLink';
 import { Link } from 'react-router-dom';
 import { getResourceUrl } from "./getResourceUrl";
 import TypeCellCuration from './TypeCellCuration';
+import StrainBackground from './StrainBackground';
+import AssertedGenes from './AssertedGenes';
+import RelatedNotes from './RelatedNotes';
+import EvidenceCodesCellCuration from './evidenceCodesCellCuration';
+import ProviderCellCuration from './ProviderCellCuration';
+import GeneticSex from './GeneticSex';
+import AnnotationType from './AnnotationType';
+import AssociationCellCuration from './AssociationCellCuration';
+import GeneticModifiersCellCuration from './GeneticModifiersCellCuration';
+import { buildProviderWithUrl } from './utils';
 
 function renderLink(entity) {
   const url = getResourceUrl(entity.subject.curie, entity.subject.type, entity.subject.subtype)
@@ -32,7 +42,7 @@ function renderLink(entity) {
 }
 
 function AnnotatedEntitiesPopupCuration(props) {
-  const {children, entities} = props;
+  const {children, entities, mainRowCurie} = props;
 
   if (!entities || !entities.length) {
     return null;
@@ -56,30 +66,43 @@ function AnnotatedEntitiesPopupCuration(props) {
               <tr>
                 <th>Name</th>
                 <th>Type</th>
+                <th className={style.associationCell}>Association</th>
+                <th>Additional implicated genes</th>
                 <th>Experimental condition</th>
-                <th>Modifier</th>
+                <th></th>
+                <th>Genetic Modifiers</th>
+                <th>Strain Background</th>
+                <th>Genetic Sex</th>
+                <th className={style.relatedNotes}>Notes</th>
+                <th>Annotation type</th>
+                <th>Evidence Code</th>
+                <th>Source</th>
                 <th>References</th>
               </tr>
             </thead>
             <tbody>
               {
-                entities.map(entity => (
-                  <tr key={entity.subject.curie}>
-                    <td>{renderLink(entity)}</td>
-                    <td>
-                      <TypeCellCuration subject={entity.subject}/>
-                    </td>
-                    <td>
-                      <ExperimentalConditionCellCuration conditions={entity.conditionRelations} />
-                    </td>
-                    <td>
-                      <ExperimentalConditionCellCuration conditions={entity.conditionModifiers} />
-                    </td>
-                    <td>{entity.singleReference &&
-                      SingleReferenceCellCuration(entity.singleReference)
-                    }</td>
-                  </tr>
-                ))
+                entities.map(entity => {
+                  const provider = buildProviderWithUrl(entity);
+                  return (
+                    <tr key={entity.subject.curie}>
+                      <td>{renderLink(entity)}</td>
+                      <td><TypeCellCuration subject={entity.subject}/></td>
+                      <td><AssociationCellCuration association={entity.diseaseRelation?.name}/></td>
+                      <td><AssertedGenes assertedGenes={entity.assertedGenes} mainRowCurie={mainRowCurie}/></td>
+                      <td><ExperimentalConditionCellCuration conditions={entity.conditionRelations}/></td>
+                      <td><ExperimentalConditionCellCuration conditions={entity.conditionModifiers}/></td>
+                      <td><GeneticModifiersCellCuration relation={entity.diseaseGeneticModifierRelation} modifiers={entity.diseaseGeneticModifiers}/></td>
+                      <td><StrainBackground strainBackground={entity.sgdStrainBackground}/></td>
+                      <td><GeneticSex geneticSex={entity.geneticSex}/></td>
+                      <td><RelatedNotes className={style.relatedNotes} relatedNotes={entity.relatedNotes}/></td>
+                      <td><AnnotationType  annotationType={entity.annotationType}/></td>
+                      <td><EvidenceCodesCellCuration evidenceCodes={entity.evidenceCodes}/></td>
+                      <td><ProviderCellCuration provider={provider} /></td>
+                      <td><SingleReferenceCellCuration singleReference={entity.singleReference}/></td>
+                    </tr>
+                )
+              })
               }
             </tbody>
           </table>
