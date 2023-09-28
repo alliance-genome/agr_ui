@@ -1,12 +1,17 @@
 const yaml = require('js-yaml');
 const https = require('https');
-const fs   = require('fs');
+const fs = require('fs');
 
 console.log("Build resource desriptors is running...");
 // Get document, or throw exception on error
 const url =  'https://raw.githubusercontent.com/alliance-genome/agr_schemas/master/resourceDescriptors.yaml';
+const dir = './dist';
 
-const file = fs.createWriteStream("./dist/resourceDescriptors.yaml");
+if(!fs.existsSync(dir)){
+    fs.mkdirSync(dir);
+}
+
+const file = fs.createWriteStream(`${dir}/resourceDescriptors.yaml`);
 
 console.log("Output file: " + file.path);
 

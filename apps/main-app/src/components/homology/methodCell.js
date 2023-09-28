@@ -1,34 +1,34 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { UncontrolledTooltip } from 'reactstrap';
-import { ALL_METHODS, methodCellStyle } from './constants';
+import { ORTHOLOGY_METHODS, methodCellStyle } from './constants';
+import PARALOGY_METHODS from '../paralogy/methods';
 
 const MethodCell = (props) => {
   const {
     predictionMethodsMatched,
     predictionMethodsNotMatched,
-    rowKey
+    rowKey,
+    paralogy
   } = props;
 
   const predictionMethodsMatchedSet = new Set(predictionMethodsMatched);
   const predictionMethodsNotMatchedSet = new Set(predictionMethodsNotMatched);
-
+  const methods = paralogy ? PARALOGY_METHODS : ORTHOLOGY_METHODS;
+  
   return (
     <td>
       {
-        Object.keys(ALL_METHODS).sort().map((method) => {
-          const methodDisplayName = (ALL_METHODS[method] || {}).displayName || method;
-
+        methods.map( (method) => {        
           let symbol, tipText;
           if (predictionMethodsMatchedSet.has(method)) {
             symbol = '\u2611';
-            tipText = `Match by ${methodDisplayName}`;
+            tipText = `Match by ${method}`;
           } else if (predictionMethodsNotMatchedSet.has(method)) {
             symbol = '\u2610';
-            tipText = `No match by ${methodDisplayName}`;
+            tipText = `No match by ${method}`;
           } else {
             symbol = '\u00a0';
-            tipText = `Comparision not available on ${methodDisplayName}`;
+            tipText = `Comparision not available on ${method}`;
           }
 
           const id = `${rowKey}-${method}`.replace(/[\s:]/g, '-');
@@ -51,7 +51,8 @@ const MethodCell = (props) => {
 MethodCell.propTypes = {
   predictionMethodsMatched: PropTypes.arrayOf(PropTypes.string),
   predictionMethodsNotMatched: PropTypes.arrayOf(PropTypes.string),
-  rowKey: PropTypes.string
+  rowKey: PropTypes.string,
+  paralogy: PropTypes.bool
 };
 
 export default MethodCell;

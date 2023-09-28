@@ -1,34 +1,10 @@
-const ALL_METHODS = {
-  'Ensembl Compara': {
-  },
-  HGNC: {
-  },
-  Hieranoid: {
-  },
-  InParanoid: {
-  },
-  OMA: {
-  },
-  OrthoFinder: {
-  },
-  OrthoInspector: {
-  },
-  PANTHER: {
-  },
-  PhylomeDB: {
-  },
-  SonicParanoid: {
-  },
-  Xenbase: {
-  },
-  ZFIN: {
-  }
-};
+const ORTHOLOGY_METHODS = ['Ensembl Compara', 'HGNC','Hieranoid','InParanoid','OMA','OrthoFinder',
+  'OrthoInspector','PANTHER','PhylomeDB','SonicParanoid','Xenbase','ZFIN'];
 
 const methodCellWidth = 25;
 
 const methodHeaderStyle = {
-  minWidth: methodCellWidth * Object.keys(ALL_METHODS).length,
+  minWidth: methodCellWidth * ORTHOLOGY_METHODS.length,
   height: '100px',
 };
 
@@ -52,7 +28,7 @@ const STRINGENCY_MED = 'moderate';
 const STRINGNECY_LOW = 'low';
 
 export {
-  ALL_METHODS,
+  ORTHOLOGY_METHODS,
   methodCellStyle,
   methodCellWidth,
   methodHeaderCellStyle,

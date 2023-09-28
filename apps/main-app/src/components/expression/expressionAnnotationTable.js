@@ -20,6 +20,7 @@ import SpeciesName from '../SpeciesName';
 
 const ExpressionAnnotationTable = ({
   focusGeneId,
+  focusTaxonId,
   orthologGenes,
   term,
 }) => {
@@ -28,7 +29,7 @@ const ExpressionAnnotationTable = ({
     resolvedData,
     data: results,
     ...tableProps
-  } = useComparisonRibbonTableQuery('/api/expression', focusGeneId, orthologGenes, term);
+  } = useComparisonRibbonTableQuery('/api/expression', focusGeneId, focusTaxonId, orthologGenes, term);
 
   const columns = [
     {

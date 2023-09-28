@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import HorizontalScroll from '../horizontalScroll';
 
-import { STRINGENCY_HIGH } from '../orthology/constants';
+import { STRINGENCY_HIGH } from '../homology/constants';
 import fetchData from '../../lib/fetchData';
 
 import { withRouter } from 'react-router-dom';
@@ -416,7 +416,7 @@ class PathwayWidget extends Component {
             </div>
             : <NoData/> }
 
-            <div id="reactomePathwayHolder" style={{ "max-width": "1280px" }}></div>
+            <div id="reactomePathwayHolder" style={{ "maxWidth": "1280px" }}></div>
 
             {(this.state.reactomePathways.loaded && !this.state.reactomePathways.error && this.state.reactomePathways.pathways.length > 0) ?
             <div>
@@ -446,7 +446,7 @@ class PathwayWidget extends Component {
             </div>
             : <NoData/> }
 
-            <img id="reactomeReactionHolder" src={this.state.reactomeReactions.src} style={{ "max-width": "1305px" }}/>
+            <img id="reactomeReactionHolder" src={this.state.reactomeReactions.src} style={{ "maxWidth": "1305px" }}/>
 
             {(this.state.reactomeReactions.loaded && this.state.reactomeReactions.reactions && this.state.reactomeReactions.reactions.length > 0)  ?
             <div>
@@ -490,7 +490,7 @@ class PathwayWidget extends Component {
                     show-activity="false"
                     show-isolated-activity="true"
                     show-legend="false"
-                    style={{ "max-width": "1280px" }}
+                    style={{ "maxWidth": "1280px" }}
                 ></wc-gocam-viz>
                 <img src={gocamLegend} style={{"width" : "600px"}}/>
                 </div>

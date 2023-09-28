@@ -9,7 +9,7 @@ import {
   SpeciesCell,
 } from '../dataTable';
 import AnnotatedEntitiesPopupCuration from '../dataTable/AnnotatedEntitiesPopupCuration';
-import {getDistinctFieldValue,simplifySpeciesNameSC} from '../dataTable/utils';
+import { getDistinctFieldValue, buildProvidersWithUrl } from '../dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
 import ProvidersCellCuration from '../dataTable/ProvidersCellCuration';
@@ -17,6 +17,7 @@ import useComparisonRibbonTableQuery from '../../hooks/useComparisonRibbonTableQ
 import SpeciesName from '../SpeciesName';
 import AssociationType from '../AssociationType';
 import DiseaseLinkCuration from './DiseaseLinkCuration';
+import DiseaseQualifiersColumn from "../dataTable/DiseaseQualifiersColumn";
 
 
 /*
@@ -25,6 +26,7 @@ import DiseaseLinkCuration from './DiseaseLinkCuration';
  */
 const DiseaseAnnotationTable = ({
   focusGeneId,
+  focusTaxonId,
   includeNotAnnotations,
   orthologGenes,
   term,
@@ -38,16 +40,8 @@ const DiseaseAnnotationTable = ({
     data: results,
     resolvedData,
     ...tableProps
-  } = useComparisonRibbonTableQuery('/api/disease', focusGeneId, orthologGenes, term, params);
+  } = useComparisonRibbonTableQuery('/api/disease', focusGeneId, focusTaxonId, orthologGenes, term, params);
 
-  const buildProviders = (annotation) => {
-    return annotation.primaryAnnotations.map(primaryAnnotation => {
-      return {
-        dataProvider: primaryAnnotation.dataProvider,
-        secondaryDataProvider: primaryAnnotation.secondaryDataProvider
-      }
-    });
-  }
 
   const buildWith = (annotation) => {
     const filteredPrimaryAnnotations = annotation.primaryAnnotations.filter(primaryAnnotation => primaryAnnotation.with);
@@ -73,7 +67,7 @@ const DiseaseAnnotationTable = ({
         <React.Fragment>
           <div>{GeneCellCuration(row.subject)}</div>
           <small>
-            <AnnotatedEntitiesPopupCuration entities={row.primaryAnnotations}>
+            <AnnotatedEntitiesPopupCuration entities={row.primaryAnnotations} mainRowCurie={row.subject.curie}>
               Annotation details
             </AnnotatedEntitiesPopupCuration>
           </small>
@@ -98,6 +92,15 @@ const DiseaseAnnotationTable = ({
       filterable: getDistinctFieldValue(resolvedData, 'associationType'),
       filterFormatter: type => <AssociationType type={type} />,
       headerStyle: {width: '120px'},
+    },
+    {
+      dataField: 'diseaseQualifiers',
+      text: 'Disease Qualifier',
+      filterable: getDistinctFieldValue(resolvedData, 'diseaseQualifiers'),
+      filterName: 'diseaseQualifier',
+      filterType: 'checkbox',
+      headerStyle: {width: '100px'},
+      formatter: diseaseQualifiers => <DiseaseQualifiersColumn qualifiers={diseaseQualifiers} />,
     },
     {
       dataField: 'object.curie',
@@ -141,7 +144,7 @@ const DiseaseAnnotationTable = ({
     {
       dataField: 'references',
       text: 'References',
-      filterable: false,
+      filterable: true,
       filterName: 'reference',
       headerStyle: {width: '150px'},
       formatter: ReferencesCellCuration,
@@ -150,7 +153,7 @@ const DiseaseAnnotationTable = ({
 
   const data = results.map(annotation => ({
     species: annotation.subject.taxon,
-    providers: buildProviders(annotation),
+    providers: buildProvidersWithUrl(annotation.primaryAnnotations),
     basedOn: buildWith(annotation),
     ...annotation,
   }));

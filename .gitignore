@@ -46,3 +46,6 @@ Thumbs.db
 *.swp
 
 
+cdk-outputs.json
+cdk.context.json
+cdk.out
