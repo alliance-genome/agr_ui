@@ -10,7 +10,7 @@ function getFullUrl(baseUrl, tableState) {
   return baseUrl + separator + buildTableQueryString(tableState);
 }
 
-export default function useAllVariants(geneId, tableState, includeHTP = false) {
+export default function useAllVariants(geneId, tableState) {
   const url = `/api/gene/${geneId}/alleles?` ;
   return useQuery ([url, tableState], () => {
     return fetchData(getFullUrl(url, {
