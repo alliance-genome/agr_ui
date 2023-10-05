@@ -10,11 +10,8 @@ function getFullUrl(baseUrl, tableState) {
   return baseUrl + separator + buildTableQueryString(tableState);
 }
 
-export default function useAllVariants(geneId, tableState, includeHTP = false) {
-  const nonHTPCategories = ['allele', 'allele with multiple associated variants', 'allele with one associated variant'];
-  const url = includeHTP ?
-    `/api/gene/${geneId}/alleles?` :
-    `/api/gene/${geneId}/alleles?filter.alleleCategory=${encodeURIComponent(nonHTPCategories.join('|'))}`;
+export default function useAllVariants(geneId, tableState) {
+  const url = `/api/gene/${geneId}/alleles?` ;
   return useQuery ([url, tableState], () => {
     return fetchData(getFullUrl(url, {
       ...tableState,
