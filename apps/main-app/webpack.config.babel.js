@@ -16,6 +16,8 @@ const robotstxtProdOptions = {
       userAgent: '*',
       allow: '/',
       disallow: '/search',
+      disallow: '/alliancemine',
+      disallow: '/jbrowse',
     },
   ],
   sitemap: [
