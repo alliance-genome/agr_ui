@@ -7,7 +7,7 @@ const app = new cdk.App();
 new AmplifyALBStack(app, 'stage-alb-stack', {
   stackName: 'stage-alb-stack',
   dnsName: 'stage',
-  targetInstanceId: 'i-0d7ea7b7cc11a2e8f',
+  targetInstanceId: 'i-0498ae078643b61eb',
   env: {
     region: process.env.CDK_DEFAULT_REGION,
     account: process.env.CDK_DEFAULT_ACCOUNT,
