@@ -88,7 +88,7 @@ function AnnotatedEntitiesPopupCuration(props) {
                     <tr key={entity.subject.curie}>
                       <td>{renderLink(entity)}</td>
                       <td><TypeCellCuration subject={entity.subject}/></td>
-                      <td><AssociationCellCuration association={entity.diseaseRelation?.name}/></td>
+                      <td><AssociationCellCuration association={entity.relation?.name}/></td>
                       <td><AssertedGenes assertedGenes={entity.assertedGenes} mainRowCurie={mainRowCurie}/></td>
                       <td><ExperimentalConditionCellCuration conditions={entity.conditionRelations}/></td>
                       <td><ExperimentalConditionCellCuration conditions={entity.conditionModifiers}/></td>
