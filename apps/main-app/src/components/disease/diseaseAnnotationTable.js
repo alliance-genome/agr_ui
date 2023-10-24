@@ -78,7 +78,7 @@ const DiseaseAnnotationTable = ({
       filterName: 'subject.symbol',
     },
     {
-      dataField: 'negationInclRelation',
+      dataField: 'generatedRelationString',
       text: 'Association',
       helpPopupProps: {
         id: 'gene-page--disease-associations-table--association-help',
