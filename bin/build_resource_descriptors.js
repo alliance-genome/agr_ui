@@ -5,7 +5,7 @@ const fs = require('fs');
 console.log("Build resource desriptors is running...");
 // Get document, or throw exception on error
 const url =  'https://raw.githubusercontent.com/alliance-genome/agr_schemas/master/resourceDescriptors.yaml';
-const dir = './dist';
+const dir = './src/dist';
 
 if(!fs.existsSync(dir)){
     fs.mkdirSync(dir);
@@ -28,7 +28,7 @@ https.get(url, function(response) {
        const resourceDesciptors = yaml.load(stringFile);
        console.log(resourceDesciptors.length + " Resource Descriptors converted");
        fs.writeFileSync(
-           './dist/resourceDescriptors.js',
+           './src/dist/resourceDescriptors.js',
            "export const resourceDescriptors = " + JSON.stringify(resourceDesciptors)
        );
        console.log("Finished writting js file: ");
