@@ -23,7 +23,7 @@ https.get(url, function(response) {
        file.close();
        console.log("File Saved: " + file.path);
 
-       const stringFile = fs.readFileSync("./dist/resourceDescriptors.yaml");
+       const stringFile = fs.readFileSync("./src/dist/resourceDescriptors.yaml");
        console.log("Converting ymal to js");
        const resourceDesciptors = yaml.load(stringFile);
        console.log(resourceDesciptors.length + " Resource Descriptors converted");
@@ -33,7 +33,7 @@ https.get(url, function(response) {
        );
        console.log("Finished writting js file: ");
        console.log("Deleting old yaml file");
-       fs.unlinkSync("./dist/resourceDescriptors.yaml");
+       fs.unlinkSync("./src/dist/resourceDescriptors.yaml");
        console.log("Resource Descriptors Build has Completed");
    });
 });
