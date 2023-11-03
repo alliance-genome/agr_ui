@@ -8,4 +8,33 @@ module.exports = function(app) {
 						changeOrigin: true,
 				})
 		);
+
+		app.use(
+				'/jbrowse',
+				createProxyMiddleware({
+						target:	 process.env.API_URL || 'http://localhost:8080',
+						changeOrigin: true,
+				})
+		);
+		app.use(
+				'/bluegenes',
+				createProxyMiddleware({
+						target:	 process.env.API_URL || 'http://localhost:8080',
+						changeOrigin: true,
+				})
+		);
+		app.use(
+				'/swagger-ui',
+				createProxyMiddleware({
+						target:	 process.env.API_URL || 'http://localhost:8080',
+						changeOrigin: true,
+				})
+		);
+		app.use(
+				'/openapi',
+				createProxyMiddleware({
+						target:	 process.env.API_URL || 'http://localhost:8080',
+						changeOrigin: true,
+				})
+		);
 };
