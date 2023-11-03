@@ -1,5 +1,5 @@
 import {DEFAULT_TABLE_STATE} from '../constants';
-import {usePaginatedQuery} from 'react-query';
+import {useQuery} from 'react-query';
 import fetchData from '../lib/fetchData';
 import {buildTableQueryString} from '../lib/utils';
 import { useEffect, useReducer } from 'react';
@@ -48,16 +48,19 @@ export default function useDataTableQuery(baseUrl, config, initialTableState, fe
     dispatch({type: 'reset', payload: enabledBoolean && baseUrl});
   }, [baseUrl, enabledBoolean]);
   const setTableState = tableState => dispatch({type: 'update', payload: tableState});
-  const query = usePaginatedQuery(
+  const query = useQuery(
     [url, tableState],
     () => fetchData(getFullUrl(url, tableState), fetchOptins, fetchTimeout),
     config
   );
+
+  if(baseUrl.includes("molecular_interaction")) console.log("table state", query);
+
   return {
     ...query,
-    data: query.resolvedData ? query.resolvedData.results : [],
+    data: query?.data?.results,
     setTableState,
     tableState,
-    totalRows: query.resolvedData ? query.resolvedData.total : 0,
+    totalRows: query?.data?.total,
   };
 }

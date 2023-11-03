@@ -27,7 +27,7 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
     return `${DEFAULT_TABLE_KEY}-${fieldKey}-${rowIndex}`;
   };
 
-  const data = results.map((interaction = {}) => ({
+  const data = results?.map((interaction = {}) => ({
     id: interaction.primaryKey,
     moleculeType: interaction.interactorAType,
     interactorGeneSymbol: interaction.geneB,
@@ -39,6 +39,7 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
     sourceDatabase: interaction.sourceDatabase,
     reference: interaction.publication,
   }));
+
 
   const columns = [
     {
