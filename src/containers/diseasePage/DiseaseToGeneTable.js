@@ -106,7 +106,7 @@ const DiseaseToGeneTable = ({id}) => {
 
   // need to pull out species in a separate field because we can't have
   // two columns based on the gene field
-  const rows = results.map(association => ({
+  const rows = results?.map(association => ({
     species: association.gene.species,
     ...association,
   }));
