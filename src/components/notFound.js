@@ -13,7 +13,7 @@ class NotFound extends Component {
             If you continue to see this page, please email <a href={`mailto:${HELP_EMAIL}`}>{HELP_EMAIL}</a>.
           </p>
         </div>
-        <img src={notFoundImg} style={{ display: 'block', maxWidth: '45rem', margin: '0 auto', padding: '3rem 0' }} />
+        <img alt="" src={notFoundImg} style={{ display: 'block', maxWidth: '45rem', margin: '0 auto', padding: '3rem 0' }} />
       </div>
     );
   }

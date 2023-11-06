@@ -189,6 +189,8 @@ export const getURLForEntry = (category, id, alterationType) => {
       return `/variant/${id}`;
     }
     return `/allele/${id}`;
+  default:
+    return "";
   }
 };
 

@@ -18,10 +18,10 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "agr_genomefeaturecomponent": "^0.3.24",
-    "bootstrap": "4.6.1",
-    "buffer": "^6.0.3",
     "aws-cdk": "^2.95.1",
     "aws-cdk-lib": "^2.95.1",
+    "bootstrap": "4.6.1",
+    "buffer": "^6.0.3",
     "constructs": "^10.2.70",
     "custom-event-polyfill": "^1.0.6",
     "d3-selection": "2.0.0",
@@ -43,7 +43,7 @@
     "react-ga": "^3.3.1",
     "react-ga4": "^2.1.0",
     "react-helmet": "^6.0.0",
-    "react-query": "^3.34.15",
+    "react-query": "2.26.4",
     "react-redux": "7.2.3",
     "react-router-dom": "^5.2.0",
     "react-router-hash-link": "^1.2.0",
@@ -85,5 +85,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "overrides": {
+    "autoprefixer": "10.4.5"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }

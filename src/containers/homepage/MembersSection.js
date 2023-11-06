@@ -19,49 +19,49 @@ const MembersSection = () => {
         <div className='d-flex flex-wrap'>
           <div className={style.member} >
             <Link to='/members/flybase'>
-              <img src={flybaseLogo}/>
+              <img alt="" src={flybaseLogo}/>
               FlyBase
             </Link>
           </div>
           <div className={style.member} >
             <Link to='/members/mgd'>
-              <img src={mgdLogo} />
+              <img alt="" src={mgdLogo} />
               MGD
             </Link>
           </div>
           <div className={style.member} >
             <Link to='/members/rgd'>
-              <img src={rgdLogo} />
+              <img alt="" src={rgdLogo} />
               RGD
             </Link>
           </div>
           <div className={style.member} >
             <Link to='/members/sgd'>
-              <img src={sgdLogo} />
+              <img alt="" src={sgdLogo} />
               SGD
             </Link>
           </div>
           <div className={style.member} >
             <Link to='/members/wormbase'>
-              <img src={wormbaseLogo} />
+              <img alt="" src={wormbaseLogo} />
               WormBase
             </Link>
           </div>
           <div className={style.member} >
             <Link to='/members/xenbase'>
-              <img src={xenbaseLogo} />
+              <img alt="" src={xenbaseLogo} />
               Xenbase
             </Link>
           </div>
           <div className={style.member} >
             <Link to='/members/zfin'>
-              <img src={zfinLogo} />
+              <img alt="" src={zfinLogo} />
               ZFIN
             </Link>
           </div>
           <div className={style.member} >
             <Link to='/members/goc'>
-              <img src={gocLogo} />
+              <img alt="" src={gocLogo} />
               GOC
             </Link>
           </div>

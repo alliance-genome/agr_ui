@@ -110,6 +110,7 @@ const OrthologPicker =({
       }
     }
     onChange(selectedOrthologs);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orthology.isLoading, checkboxValue, stringency, selectedSpecies]);
 
   // if the stringency changes, ensure the checkbox is enabled but not on the
@@ -124,6 +125,7 @@ const OrthologPicker =({
     if (stringency) {
       onCheckboxValueChange(true);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stringency]);
 
   // if the selected species change, ensure the checkbox is enabled
@@ -131,6 +133,7 @@ const OrthologPicker =({
     if (selectedSpecies.length) {
       onCheckboxValueChange(true);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedSpecies.length]);
 
   // when the focus gene changes, ensure that the species is allowed to have
@@ -143,6 +146,7 @@ const OrthologPicker =({
     } else {
       setInputDisabled(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focusTaxonId]);
 
   const toggleVertebrates = (checked) => {

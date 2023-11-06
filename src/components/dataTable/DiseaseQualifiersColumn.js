@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CommaSeparatedList from '../commaSeparatedList';
-import EvidenceCodeCuration from './EvidenceCodeCuration';
 
 const DiseaseQualifiersColumn = ({qualifiers}) => {
 

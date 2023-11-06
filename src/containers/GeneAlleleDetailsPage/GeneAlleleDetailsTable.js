@@ -13,7 +13,6 @@ import SynonymList from '../../components/synonymList';
 import NoData from '../../components/noData';
 import VariantJBrowseLink from '../../components/variant/VariantJBrowseLink';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import { getSingleGenomeLocation, findFminFmax, getTableUrl } from '../../lib/utils';
 import VariantsSequenceViewer from '../genePage/VariantsSequenceViewer';
 import ErrorBoundary from '../../components/errorBoundary';
@@ -46,11 +45,7 @@ const getPolyphenStyle = (polyphen) => {
   }
 };
 
-const GeneAlleleDetailsTable = ({geneId}) => {
-  const { isLoading: isLoadingGene, isError: isErrorGene, data: gene } = usePageLoadingQuery(`/api/gene/${geneId}`);
-  if (isLoadingGene || isErrorGene) {
-    return null;
-  }
+const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
   const geneLocation = getSingleGenomeLocation(gene.genomeLocations);
   const baseUrl = `/api/gene/${geneId}/allele-variant-detail`;
 
@@ -291,6 +286,7 @@ const GeneAlleleDetailsTable = ({geneId}) => {
       allelesVisible: allelesFiltered.data ? allelesFiltered.data.results.map(({allele}) => formatAllele(allele.id)) : [],
       onAllelesSelect: setAlleleIdsSelected,
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading, allelesFiltered.data, alleleIdsSelected, setAlleleIdsSelected]);
 
   const selectRow = useMemo(() => {

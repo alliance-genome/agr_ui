@@ -23,6 +23,8 @@ class SecondaryNav extends Component {
       return style.citeMenuContainer;
     case 'post':
       return style.postMenuContainer;
+    default:
+      return;
     }
   }
 
