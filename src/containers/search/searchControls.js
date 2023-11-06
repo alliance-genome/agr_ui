@@ -68,5 +68,5 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-export { SearchControlsComponent as SearchControlsComponent };
+export { SearchControlsComponent };
 export default connect(mapStateToProps)(SearchControlsComponent);

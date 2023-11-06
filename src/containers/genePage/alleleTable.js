@@ -16,15 +16,10 @@ import RotatedHeaderCell from '../../components/dataTable/RotatedHeaderCell';
 import BooleanLinkCell from '../../components/dataTable/BooleanLinkCell';
 import VariantsSequenceViewer from './VariantsSequenceViewer';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import useAllVariants from '../../hooks/useAllVariants';
 
-const AlleleTable = ({geneId}) => {
+const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
 
-  const { isLoading: isLoadingGene, isError: isErrorGene, data: gene } = usePageLoadingQuery(`/api/gene/${geneId}`);
-  if (isLoadingGene || isErrorGene) {
-    return null;
-  }
   const geneLocation = getSingleGenomeLocation(gene.genomeLocations);
 
   const tableProps = useDataTableQuery(`/api/gene/${geneId}/alleles`);
@@ -44,6 +39,7 @@ const AlleleTable = ({geneId}) => {
       },
       disease: allele.diseases.sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
     })) : [];
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resolvedData]);
 
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
@@ -81,6 +77,7 @@ const AlleleTable = ({geneId}) => {
       allelesVisible: alleleIdsFiltered.map(formatAllele),
       onAllelesSelect: setAlleleIdsSelected,
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resolvedData, allelesFiltered.data, alleleIdsSelected, setAlleleIdsSelected]);
 
   const selectRow = useMemo(() => ({

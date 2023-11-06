@@ -12,6 +12,7 @@ const PageNavEntity = ({children, entityName, icon, truncateName}) => {
     if (truncateName && node !== null) {
       setAttachTooltip(node.scrollWidth > node.clientWidth);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entityName, truncateName]);
 
   return (

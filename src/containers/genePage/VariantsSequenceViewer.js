@@ -7,7 +7,7 @@ const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisi
 
   const genomeLocationList = gene.genomeLocations;
   const genomeLocation = getSingleGenomeLocation(genomeLocationList);
-  const displayType = gene.species.name == "Homo sapiens" ? 'ISOFORM' : 'ISOFORM_AND_VARIANT';
+  const displayType = gene.species.name === "Homo sapiens" ? 'ISOFORM' : 'ISOFORM_AND_VARIANT';
 
   // TODO: remove when onAllelesSelect is in use
   // onAllelesSelect is to be called with a list of allele IDs, when selecting alleles throw the viewer.
@@ -24,7 +24,6 @@ const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisi
       assembly={genomeLocation.assembly}
       biotype={gene.soTermName}
       chromosome={genomeLocation.chromosome}
-      displayType='ISOFORM_AND_VARIANT'
       displayType={displayType}
       fmax={fmax}
       fmin={fmin}

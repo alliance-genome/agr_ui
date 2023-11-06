@@ -3,7 +3,7 @@ import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
 import { getResourceUrl } from "./getResourceUrl";
 
 export const renderPaginationShowsTotal = (start, end, total) => {
-  return <span>Showing { start } - { end } of { total.toLocaleString() } rows</span>;
+  return <span>Showing { start } - { end } of { total?.toLocaleString() } rows</span>;
 };
 
 export const getDistinctFieldValue = (response, field) => {

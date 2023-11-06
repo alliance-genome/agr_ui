@@ -167,6 +167,7 @@ const GeneGeneticInteractionDetailTable = ({
         filterName: 'reference',
       }
     ]
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   ), [focusGeneDisplayName, tableProps]);
 
   const sortOptions = useMemo(() => (
