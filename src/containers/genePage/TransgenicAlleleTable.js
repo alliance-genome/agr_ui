@@ -26,7 +26,7 @@ const TransgenicAlleleTable = ({geneId}) => {
     ...tableProps
   } = useDataTableQuery(`/api/gene/${geneId}/transgenic-alleles`);
 
-  const data = results?.map(result => ({
+  const data = results.map(result => ({
     ...result,
     constructExpressedGene: result.constructs.map(construct => ({
       id: construct.id,
