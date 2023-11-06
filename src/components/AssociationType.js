@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 const NOT = <span className='text-danger'>NOT</span>;
 
 const AssociationType = ({type, showOnlyNot = false}) => {
-  type = type.toLowerCase();
+  type = type?.toLowerCase();
 
-  if (showOnlyNot && type.indexOf('_not_') < 0) {
+  if (showOnlyNot && type?.indexOf('_not_') < 0) {
     return null;
   }
 
@@ -14,13 +14,12 @@ const AssociationType = ({type, showOnlyNot = false}) => {
     return <>does {NOT} model</>;
   }
 
-  const words = type
-    .replaceAll('_', ' ')
+  const words = type?.replaceAll('_', ' ')
     .split(/(?:^| )not(?: |$)/, 2);
   return (
     <>
-      {words[0]}
-      {words.length > 1 && <> {NOT} {words[1]}</>}
+      {words?.[0]}
+      {words?.length > 1 && <> {NOT} {words[1]}</>}
     </>
   );
 };

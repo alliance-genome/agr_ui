@@ -14,7 +14,6 @@ import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
 import PathwayWidget from '../../components/pathway/pathwayWidget';
 import NotFound from '../../components/notFound';
 import Subsection from '../../components/subsection';
-import AlleleTable from './alleleTable';
 import {
   GenePhysicalInteractionDetailTable,
   GeneGeneticInteractionDetailTable,
@@ -48,6 +47,7 @@ import SequenceFeatureViewerSectionHelp from '../../components/sequenceFeatureVi
 import SequencePanelSectionHelp from '../../components/sequencePanel/sequencePanelSectionHelp';
 import TransgenicAlleleSectionHelp from '../../components/transgenicAlleles/transgenicAllelesSectionHelp';
 import DiseaseSectionHelp from '../../components/disease/diseaseSectionHelp';
+import { AlleleTableWrapper } from './alleleTableWrapper';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
@@ -176,9 +176,7 @@ const GenePage = ({geneId}) => {
         </Subsection>
 
         <Subsection help={<AlleleTableSectionHelp />} title={ALLELES}>
-          <AlleleTable
-            geneId={data.id}
-          />
+          <AlleleTableWrapper geneId={data.id}/>
         </Subsection>
 
         <Subsection help={<TransgenicAlleleSectionHelp />}title={TG_ALLELES}>

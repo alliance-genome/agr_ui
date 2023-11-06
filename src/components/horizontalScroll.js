@@ -35,6 +35,7 @@ const HorizontalScroll = ({children, width}) => {
   useEffect(() => {
     window.addEventListener('resize', throttledUpdate);
     return () => window.removeEventListener('resize', throttledUpdate);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

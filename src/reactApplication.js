@@ -7,7 +7,7 @@ import { logPageView } from './lib/analytics';
 import RouteListener from './components/routeListener';
 import routes from './routes';
 import { ScrollContext } from 'react-router-scroll-4';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryConfigProvider } from 'react-query';
 import ReleaseContextProvider from './hooks/ReleaseContextProvider';
 
 const isBrowser = (typeof window !== 'undefined');
@@ -21,14 +21,12 @@ const queryConfig = {
   }
 };
 
-const queryClient = new QueryClient();
-
 class ReactApp extends Component {
   render() {
     const Router = this.props.router || BrowserRouter;
     return (
       <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
+        <ReactQueryConfigProvider config={queryConfig}>
           <ReleaseContextProvider>
             <Router>
               {
@@ -42,7 +40,7 @@ class ReactApp extends Component {
               }
             </Router>
           </ReleaseContextProvider>
-        </QueryClientProvider>
+        </ReactQueryConfigProvider>
       </Provider>
     );
   }
@@ -56,3 +54,4 @@ ReactApp.propTypes = {
 };
 
 export default ReactApp;
+

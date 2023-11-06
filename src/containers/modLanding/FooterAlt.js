@@ -10,7 +10,7 @@ const FooterAlt = ({link, links, note, footerStyle, logoImgSrc, titleBarStyle, m
               <div className="row">
                 <div data-testid={'footer_div'} className="col-med-2 col-md-2 col-lg-2 col-xl-2">
                   <a data-testid={'footer_link'} href={link}>
-                      <img data-testid={'footer_hex'} src={logoImgSrc} height="50px" />
+                      <img alt="" data-testid={'footer_hex'} src={logoImgSrc} height="50px" />
                   </a> 
                   <span className={style.modFooterLabel} 
                         dangerouslySetInnerHTML={{__html: modShortName}}

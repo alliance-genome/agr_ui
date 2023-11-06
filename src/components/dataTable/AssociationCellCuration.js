@@ -1,5 +1,5 @@
 function AssociationCellCuration({ association }){
-  if(!association) return;
+  if(!association) return null;
   return association.replaceAll('_', ' ');
 }
 

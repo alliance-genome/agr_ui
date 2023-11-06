@@ -1,5 +1,3 @@
-const JOIN_HIGHLIGHT_BY = '...';
-
 import {
   makeFieldDisplayName,
   makeValueDisplayName
@@ -9,6 +7,8 @@ import {
   DUPLICATE_HIGHLIGHTED_FIELDS,
   NON_HIGHLIGHTED_FIELDS
 } from '../constants';
+
+const JOIN_HIGHLIGHT_BY = '...';
 
 function flattenWithPrettyFieldNames(highlights, category='') {
   if (highlights === undefined) {
