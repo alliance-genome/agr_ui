@@ -19,7 +19,7 @@ const AlleleVariantsSummary = ({allele, alleleId}) => {
   return (
     <>
       {
-        data?.map(variant => {
+        data.map(variant => {
           const {
             displayName,
           } = variant || {};

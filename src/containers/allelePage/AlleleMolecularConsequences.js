@@ -39,7 +39,7 @@ const AlleleMolecularConsequences = ({
     const { genomeLocations: geneLocations } = gene;
     const [geneLocation] = geneLocations || [];
 
-    return data?.map((variant) => ({
+    return data.map((variant) => ({
       ...variant,
       geneLocation,
       species: allele.species

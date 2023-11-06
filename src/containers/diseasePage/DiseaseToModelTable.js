@@ -109,7 +109,7 @@ const DiseaseToModelTable = ({id}) => {
 
   // need to pull out species in a separate field because we can't have
   // two columns based on the model field
-  const data = results?.map(association => ({
+  const data = results.map(association => ({
     species: association.model.species,
     ...association,
   }));
