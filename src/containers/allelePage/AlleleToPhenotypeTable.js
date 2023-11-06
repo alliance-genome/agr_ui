@@ -47,7 +47,7 @@ const AlleleToPhenotypeTable = ({alleleId}) => {
     },
   ];
 
-  const data = results?.map(record => ({
+  const data = results.map(record => ({
     ...record,
     id: hash(record),
   }));

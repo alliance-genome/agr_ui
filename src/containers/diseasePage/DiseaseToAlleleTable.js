@@ -24,7 +24,7 @@ const DiseaseToAlleleTable = ({id}) => {
     ...tableProps
   } = useDataTableQuery(`/api/disease/${id}/alleles`, undefined, { sizePerPage: 10, }, {}, 60000);
 
-  const data = results?.map(association => ({
+  const data = results.map(association => ({
     ...association,
     species: association.allele.species,
   }));
