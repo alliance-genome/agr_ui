@@ -21,7 +21,7 @@ const GeneGeneticInteractionDetailTable = ({
     [
       {
         dataField: 'interactorARole',
-        text: `${focusGeneDisplayName} role`,
+        text: `Role`,
         helpPopupProps: {
           id: 'gene-page--genetic-interaction-table--role-help',
           children: <span>The role (e.g., suppressed gene, epistatic gene) of the focus gene (i.e., this report’s gene) in the genetic interaction. There are 7 possible roles: enhanced gene, enhancer gene, epistatic gene, hypostatic gene, suppressed gene, suppressor gene, unspecified role.</span>,
@@ -35,7 +35,7 @@ const GeneGeneticInteractionDetailTable = ({
       },
       {
         dataField: 'alleleA',
-        text: `${focusGeneDisplayName} genetic perturbation`,
+        text: `Genetic perturbation`,
         helpPopupProps: {
           id: 'gene-page--genetic-interaction-table--genetic-perturbation-help',
           children: <span>The genetic perturbation (e.g., variant, allele, RNAi-knockdown) of the focus gene involved in the genetic interaction.</span>,
