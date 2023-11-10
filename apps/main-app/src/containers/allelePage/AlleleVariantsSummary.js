@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
@@ -53,14 +52,16 @@ const AlleleVariantsSummary = ({allele, alleleId}) => {
 
 AlleleVariantsSummary.propTypes = {
   alleleId: PropTypes.string.isRequired,
-  allele: {
-    gene: {
-      genomeLocations: PropTypes.any,
-    },
-    species: {
-      name: PropTypes.string
-    },
-  }
+  allele: PropTypes.shape({
+    allele: {
+      gene: {
+        genomeLocations: PropTypes.any,
+      },
+      species: {
+        name: PropTypes.string
+      },
+    }
+  })
 };
 
 export default AlleleVariantsSummary;
