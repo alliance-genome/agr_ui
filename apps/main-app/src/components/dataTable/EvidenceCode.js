@@ -11,13 +11,13 @@ const EvidenceCode = ({code}) => {
         <span className="d-inline-block" ref={tooltipRef}>{code.displaySynonym}</span>
         <UncontrolledTooltip
           target={tooltipRef}
-          delay={{show: 300, hide: 150}}
-          placement='right'
           modifiers={{
             preventOverflow: {
               enabled: false
             }
           }}
+          delay={{show: 300, hide: 150}}
+          placement='right'
         >
           {code.name}
         </UncontrolledTooltip>
@@ -28,7 +28,7 @@ const EvidenceCode = ({code}) => {
   }
 };
 
-EvidenceCode.PropTypes = {
+EvidenceCode.propTypes = {
   code: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
