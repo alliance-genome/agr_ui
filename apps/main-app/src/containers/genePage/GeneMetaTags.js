@@ -28,7 +28,6 @@ const GeneMetaTags = ({gene}) => {
       datePublished: dateProduced,
       dateModified: dateProduced,
       description: [
-        gene.name,
         gene.automatedGeneSynopsis,
         gene.geneSynopsis,
         gene.geneSynopsisUrl
@@ -41,7 +40,7 @@ const GeneMetaTags = ({gene}) => {
         'name': 'Alliance of Genome Resources'
       },
       version: '2.0',
-      license: "https://creativecommons.org/licenses/by/4.0",
+      license: 'CC BY 4.0',
     },
     // based on this: https://github.com/BioSchemas/specifications/tree/master/Gene/examples
     // bioschemas section
