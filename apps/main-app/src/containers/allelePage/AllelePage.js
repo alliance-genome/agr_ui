@@ -1,4 +1,3 @@
-import React  from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -20,7 +19,7 @@ import {Link} from 'react-router-dom';
 import AlleleToPhenotypeTable from './AlleleToPhenotypeTable';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
 import AlleleToDiseaseTable from './AlleleToDiseaseTable';
-// import AlleleToVariantTable from './AlleleToVariantTable';
+import AlleleToVariantTable from './AlleleToVariantTable';
 import AlleleSequenceView from './AlleleSequenceView';
 import AlleleTransgenicConstructs from './AlleleTransgenicConstructs';
 import AlleleMolecularConsequences from './AlleleMolecularConsequences';
@@ -91,6 +90,7 @@ const AllelePage = ({ alleleId }) => {
 
         <Subsection title={VARIANTS}>
           <ErrorBoundary>
+            <></>
             <AlleleVariantsSummary allele={data} alleleId={alleleId} />
             {/* <AlleleToVariantTable allele={data} alleleId={alleleId} /> */}
           </ErrorBoundary>
@@ -104,6 +104,7 @@ const AllelePage = ({ alleleId }) => {
           <AlleleMolecularConsequences allele={data} alleleId={alleleId} />
         </Subsection>
 
+         
         <Subsection title={PHENOTYPES}>
           <AlleleToPhenotypeTable alleleId={alleleId} />
         </Subsection>
