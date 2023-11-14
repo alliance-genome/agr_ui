@@ -85,7 +85,7 @@ function AnnotatedEntitiesPopupCuration(props) {
                 entities.map(entity => {
                   const provider = buildProviderWithUrl(entity);
                   return (
-                    <tr key={entity.subject.curie}>
+                    <tr key={entity.id}>
                       <td>{renderLink(entity)}</td>
                       <td><TypeCellCuration subject={entity.subject}/></td>
                       <td><AssociationCellCuration association={entity.relation?.name}/></td>
