@@ -53,15 +53,9 @@ const AlleleVariantsSummary = ({allele, alleleId}) => {
 AlleleVariantsSummary.propTypes = {
   alleleId: PropTypes.string.isRequired,
   allele: PropTypes.shape({
-    allele: {
-      gene: {
-        genomeLocations: PropTypes.any,
-      },
-      species: {
-        name: PropTypes.string
-      },
-    }
-  })
+      gene: PropTypes.any,
+      species: PropTypes.any
+    })
 };
 
 export default AlleleVariantsSummary;
