@@ -5,6 +5,7 @@ import sgdLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_l
 import wormbaseLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_wormbase.png';
 import zfinLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_zfin.png';
 import gocLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_goc.png';
+import zenbaseLogo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_xenbase.png';
 
 import style from './style.scss';
 
@@ -66,7 +67,7 @@ export const MODContent = {
       ['WormBase Release Schedule',                            'https://wormbase.org/about/release_schedule#01--10'],
       ['Worm Labs',                                            'https://wormbase.org/resources/laboratory#012--10)'],
       ['<i class="fa fa-fw fa-youtube"></i> WormBase YouTube', 'https://www.youtube.com/user/WormBaseHD'],
-      ['WormBase Copyright',                                   'https://wormbase.org/about/policies#2--10'], 
+      ['WormBase Copyright',                                   'https://wormbase.org/about/policies#2--10'],
       ['WormBase Developer Documentation',                     'https://wormbase.org/about/userguide/for_developers#012345--10'],
       ['',                                                     ''],
       ['WormBase FAQ',                                         'https://wormbase.org/about/Frequently_asked_questions#5d39afc2687b4e01--10'],
@@ -125,7 +126,7 @@ export const MODContent = {
       ['SGD Blog',                                          'https://www.yeastgenome.org/blog'],
       ['Stanford Privacy Policy',                           'https://www.stanford.edu/site/privacy/'],
       ['<i class="fa fa-fw fa-facebook"></i> @yeastgenome', 'https://www.facebook.com/yeastgenome'],
-      ['SGD Help',                                          'https://sites.google.com/view/yeastgenome-help/sgd-general-help'], 
+      ['SGD Help',                                          'https://sites.google.com/view/yeastgenome-help/sgd-general-help'],
       ['Stanford Genetics Dept',                            'https://med.stanford.edu/genetics.html'],
       ['<i class="fa fa-fw fa-youtube"></i> SGD YouTube',   'https://www.youtube.com/SaccharomycesGenomeDatabase'],
       ['Download SGD Data',                                 'http://sgd-archive.yeastgenome.org/'],
@@ -291,7 +292,7 @@ export const MODContent = {
   },
   'mgd': {
     about: '<p>The Mouse Genome Database (MGD) is the database resource for the laboratory mouse, and ' +
-    'provides integrated biological data to facilitate the study of human health and disease.</p>' + 
+    'provides integrated biological data to facilitate the study of human health and disease.</p>' +
     '<p>MGD is a core database in the Mouse Genome Informatics (MGI) consortium and founding member of the ' +
     'Alliance of Genome Resources Project.</p>',
     link: 'http://www.informatics.jax.org/',
@@ -372,6 +373,53 @@ export const MODContent = {
       ['GO Funding Information',                                   'https://reporter.nih.gov/project-details/9209989'],
       ['',                                                         ''],
       ['<i class="fa fa-fw fa-github"></i> geneontology/helpdesk', 'https://github.com/geneontology/helpdesk/discussions'],
+    ],
+  },
+  'xenbase': {
+    about: '<p>Xenbase’s mission is to provide a comprehensive, integrated and easy to use website that gives ' +
+      'access to the diverse and rich genomic, expression and functional data available from <i>Xenopus</i> ' +
+      'research. Xenbase also provides a critical data sharing infrastructure for many other NIH-funded projects, ' +
+      'and is a key resource hub for the <i>Xenopus</i> research community.</p>',
+    link: 'https://www.xenbase.org/',
+    modShortName: 'Xenbase',
+    modFullName: 'Xenbase',
+    modVisitButtonText: 'Xenbase',
+    bannerStyle: style.banner__XB,
+    titleBarStyle: style.titleBar__XB,
+    sectionStyle: style.section__XB,
+    footerStyle: style.modFooter__XB,
+    logoImgSrc: zenbaseLogo,
+    hasNews: true,
+    newsURL: 'https://www.xenbase.org/xenbase/doNewsList.do',
+    hasMeetings: true,
+    meetingsURL: 'https://www.xenbase.org/xenbase/doNewsRead.do?id=219',
+    search: [
+      ['<i>Xenopus laevis</i>', 'search?species=Xenopus laevis&category=gene'],
+      ['<i>Xenopus tropicalis</i>', 'search?species=Xenopus tropicalis&category=gene'],
+    ],
+    resources: [
+      ['<i>Xenopus</i> Gene Search',        'https://www.xenbase.org/entry/gene/gene.do'],
+      ['<i>Xenopus</i> Gene Expression',    'https://www.xenbase.org/geneExpression/geneExpressionSearch.do?method=display'],
+      ['<i>Xenopus</i> Phenotype Data',     'https://www.xenbase.org/entry/searchPhenotype.do?method=display'],
+      ['<i>Xenopus</i> Literature ',        'https://www.xenbase.org/literature/articles.do'],
+      ['<i>Xenopus</i> Disease Models',     'https://www.xenbase.org/entry/searchPhenotype.do?method=display&keyword=disease&tabName=disease'],
+      ['<i>Xenopus</i> Lines & Mutants',    'https://www.xenbase.org/entry/stockCenter/searchLines.do?supplier=&searchIn=1&searchValue=*&searchSpecies=11&orderBy=CREATE_DATE&orderDirection=DESC&method=searchLines'],
+      ['GEO data on Xenbase',               'https://www.xenbase.org/geneExpression/gseCurationSearch.do?method=search'],
+      ['<i>Xenopus</i> Drawings',           'https://www.xenbase.org/entry/zahn.do'],
+      ['<i>Xenopus</i> Staging Landmarks Table',  'https://www.xenbase.org/entry/landmarks-table.do'],
+      ['<i>Xenopus</i> Data Downloads',     'https://www.xenbase.org/entry/static-xenbase/ftpDatafiles.jsp'],
+      ['<i>Xenopus</i> Gene Reports',       'https://ftp.xenbase.org/pub/GenePageReports/'],
+    ],
+    footer: [
+      ['Xenbase User Support',                                     'https://www.xenbase.org/entry/static-xenbase/contactUs.jsp'],
+      ['Xine e-newsletter',                                        'https://www.xenbase.org/xenbase/static-xenbase/xine/xine.jsp'],
+      ['<i class="fa fa-fw fa-twitter"></i>  @Xenbase',            'https://twitter.com/Xenbase'],
+      ['Xenbase Citation Policy',                                  'https://www.xenbase.org/other/static-xenbase/citingMOD.jsp'],
+      ['Xenbase Funding & Copyright',                              'https://www.xenbase.org/entry/static-xenbase/aboutMOD.jsp'],
+      ['<i class="fa fa-fw fa-facebook"></i> @XenbaseTips',        'https://www.youtube.com/user/XenbaseTips'],
+      // ['GO Funding Information',                                   'https://reporter.nih.gov/project-details/9209989'],
+      // ['',                                                         ''],
+      // ['<i class="fa fa-fw fa-github"></i> geneontology/helpdesk', 'https://github.com/geneontology/helpdesk/discussions'],
     ],
   }
 }
