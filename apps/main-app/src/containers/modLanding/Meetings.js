@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import MeetingsZfin from "./MeetingsZfin"
 import MeetingsRgd from "./MeetingsRgd"
 import GoogleapisMeetings from "./googleapisMeetings"
+import ExternalLink from '../../components/ExternalLink';
 
 const Meetings = ({content}) => {
   return (
@@ -11,7 +12,7 @@ const Meetings = ({content}) => {
       <div data-testid={'meetings_div'} className={`${style.section} ${content.sectionStyle}`}>
         <h2 data-testid={'meetings_header'} className={style.sectionTitle}>Meetings</h2>
         {(() => {
-          if (content.googleapisMeetingsBaseURL) { 
+          if (content.googleapisMeetingsBaseURL) {
             return (<GoogleapisMeetings urlMeetingsMod={content.googleapisMeetingsBaseURL} fetchMeetingsCount={content.fetchMeetingsCount}
                                         linkToMeetingsPage={content.linkToMeetingsPage} />); }
           else if (content.zfinMeetingsAPI) {
@@ -21,10 +22,11 @@ const Meetings = ({content}) => {
             // rgd modeled their api news+meetings format after flybase news, so very similar
             return (<MeetingsRgd urlMeetingsMod={content.rgdMeetingsAPI} fetchMeetingsCount={content.fetchMeetingsCount}
                                  linkToMeetingsPage={content.linkToMeetingsPage} />); }
-          else if (content.meetingsURL) { 
+          else if (content.meetingsURL) {
             return (<h5 data-testid={'meetings_link_header'} className={style.externalNews} >
-                      <a data-testid={'more_meetings_link'} href={content.meetingsURL}>
-                        Click here for the latest meetings from {content.modShortName}</a></h5>); }
+                      <ExternalLink data-testid={'more_meetings_link'} href={content.meetingsURL}>
+                        Discover upcoming {content.modShortName} related meetings</ExternalLink>
+                    </h5>); }
           return (<div>No Meetings</div>);
         })()}
       </div>
