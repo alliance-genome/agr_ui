@@ -134,8 +134,7 @@ export const NAV_MENU = [
       {
         label: 'Xenbase',
         shortLabel: 'Xenbase',
-        route: 'https://www.xenbase.org/',
-        external: true,
+        route: '/members/xenbase'
       },
       {
         label: 'Zebrafish Information Network',
