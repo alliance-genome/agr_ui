@@ -416,7 +416,7 @@ export const MODContent = {
       ['<i class="fa fa-fw fa-twitter"></i>  @Xenbase',            'https://twitter.com/Xenbase'],
       ['Xenbase Citation Policy',                                  'https://www.xenbase.org/other/static-xenbase/citingMOD.jsp'],
       ['Xenbase Funding & Copyright',                              'https://www.xenbase.org/entry/static-xenbase/aboutMOD.jsp'],
-      ['<i class="fa fa-fw fa-facebook"></i> @XenbaseTips',        'https://www.youtube.com/user/XenbaseTips'],
+      ['<i class="fa fa-fw fa-youtube"></i> @XenbaseTips',         'https://www.youtube.com/user/XenbaseTips'],
       // ['GO Funding Information',                                   'https://reporter.nih.gov/project-details/9209989'],
       // ['',                                                         ''],
       // ['<i class="fa fa-fw fa-github"></i> geneontology/helpdesk', 'https://github.com/geneontology/helpdesk/discussions'],
