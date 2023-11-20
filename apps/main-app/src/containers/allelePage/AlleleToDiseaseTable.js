@@ -19,7 +19,7 @@ const AlleleToDiseaseTable = ({alleleId}) => {
     ...tableProps
   } = useDataTableQuery(`/api/allele/${alleleId}/diseases`);
 
-  let dqsforfilter = new Set();
+  let AllDisQualifiers = new Set();
 
   function consolidateDiseaseQualifiers(annotation) {    
     let diseaseQualifiers = new Set();
@@ -27,9 +27,9 @@ const AlleleToDiseaseTable = ({alleleId}) => {
     annotation.primaryAnnotations.forEach(pa => {      
       if(pa.diseaseQualifiers){        
         pa.diseaseQualifiers.forEach(dq => { 
-          const filter = dq.name.replace(/_/g, ' ');
-          diseaseQualifiers.add(filter)
-          dqsforfilter.add(filter);
+          const DQname = dq.name.replace(/_/g, ' ');
+          diseaseQualifiers.add(DQname)
+          AllDisQualifiers.add(DQname);
         });
       }
     })   
@@ -56,7 +56,8 @@ const AlleleToDiseaseTable = ({alleleId}) => {
       text: 'Disease Qualifier',
       formatter: diseaseQualifiers => <DiseaseQualifiersColumn qualifiers={diseaseQualifiers}/>,
       headerStyle: {width: '110px'},
-      filterable: Array.from(dqsforfilter),
+      // filterable: Array.from(AllDisQualifiers),  TODO: the filter is failing to select the rows
+      filterable: false,
       filterType: 'checkbox',
       filterName: 'diseaseQualifier'
     },
