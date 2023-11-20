@@ -15,9 +15,32 @@ import useDataTableQuery from '../../hooks/useDataTableQuery';
 const AlleleToDiseaseTable = ({alleleId}) => {
   const {
     resolvedData,
-    data,
+    data: results,
     ...tableProps
   } = useDataTableQuery(`/api/allele/${alleleId}/diseases`);
+
+  let AllDisQualifiers = new Set();
+
+  function consolidateDiseaseQualifiers(annotation) {    
+    let diseaseQualifiers = new Set();
+    
+    annotation.primaryAnnotations.forEach(pa => {      
+      if(pa.diseaseQualifiers){        
+        pa.diseaseQualifiers.forEach(dq => { 
+          const DQname = dq.name.replace(/_/g, ' ');
+          diseaseQualifiers.add(DQname)
+          AllDisQualifiers.add(DQname);
+        });
+      }
+    })   
+    return Array.from(diseaseQualifiers);
+  }
+
+  const tableData = results.map(annotation => ({
+    consolidatedDiseaseQualifiers: consolidateDiseaseQualifiers(annotation),
+      ...annotation,
+  }));
+
 
   const columns = [
     {
@@ -29,12 +52,14 @@ const AlleleToDiseaseTable = ({alleleId}) => {
       filterFormatter: type => <AssociationType type={type} />,
     },
     {
-      dataField: 'diseaseQualifiers',
+      dataField: 'consolidatedDiseaseQualifiers',
       text: 'Disease Qualifier',
       formatter: diseaseQualifiers => <DiseaseQualifiersColumn qualifiers={diseaseQualifiers}/>,
       headerStyle: {width: '110px'},
-      filterable: getDistinctFieldValue(resolvedData, 'diseaseQualifiers'),
-      filterType: 'checkbox'
+      // filterable: Array.from(AllDisQualifiers),  TODO: the filter is failing to select the rows
+      filterable: false,
+      filterType: 'checkbox',
+      filterName: 'diseaseQualifier'
     },
     {
       dataField: 'object',
@@ -72,11 +97,12 @@ const AlleleToDiseaseTable = ({alleleId}) => {
     },
   ];
 
+  
   return (
     <DataTable
       {...tableProps}
       columns={columns}
-      data={data}
+      data={tableData}
       downloadUrl={`/api/allele/${alleleId}/diseases/download`}
       keyField='uniqueId'
     />
