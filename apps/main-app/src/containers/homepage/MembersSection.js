@@ -48,10 +48,10 @@ const MembersSection = () => {
             </Link>
           </div>
           <div className={style.member} >
-            <a href='https://www.xenbase.org/entry/'>
+            <Link to='/members/xenbase'>
               <img src={xenbaseLogo} />
               Xenbase
-            </a>
+            </Link>
           </div>
           <div className={style.member} >
             <Link to='/members/zfin'>

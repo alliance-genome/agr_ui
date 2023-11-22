@@ -12,6 +12,7 @@ $primaryColor__GO: #264370;
 $primaryColor__RGD: #699fc8;
 $primaryColor__MGD: #dfeffe;
 $secondaryColor__MGD: #143055;
+$primaryColor__XB: #7d8e7b;
 
 .modFooterText {
   vertical-align: middle;
@@ -69,7 +70,11 @@ $secondaryColor__MGD: #143055;
   color: $secondaryColor__MGD !important;
 }
 
-.modFooter__WB a, .modFooter__FB a, .modFooter__SGD a, .modFooter__ZFIN a, .modFooter__GO a, .modFooter__RGD a {
+.modFooter__XB, .titleBar__XB {
+  background-color: $primaryColor__XB;
+}
+
+.modFooter__WB a, .modFooter__FB a, .modFooter__SGD a, .modFooter__ZFIN a, .modFooter__GO a, .modFooter__XB a, .modFooter__RGD a {
   color: white;
 }
 
@@ -191,6 +196,10 @@ $secondaryColor__MGD: #143055;
   border-color: $primaryColor__WB;
 }
 
+.section__XB{
+  border-color: $primaryColor__XB;
+}
+
 .banner {
 //   background-size: cover;
 //   background-position: center center;
@@ -240,6 +249,12 @@ $secondaryColor__MGD: #143055;
   background-image: url('assets/topBannerGOC.png');
   background-size: cover;
   background-position: center center;
+}
+
+.banner__XB {
+  background-image: url('assets/topBannerXB.png');
+  background-size: auto;
+  background-position-x: center;
 }
 
 :global(.sharedaddy) {
