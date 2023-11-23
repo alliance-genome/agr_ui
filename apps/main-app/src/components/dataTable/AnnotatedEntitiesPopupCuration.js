@@ -67,11 +67,9 @@ function AnnotatedEntitiesPopupCuration(props) {
                 <th>Name</th>
                 <th>Type</th>
                 <th className={style.associationCell}>Association</th>
-                <th>Additional implicated genes</th>
                 <th>Experimental condition</th>
                 <th></th>
                 <th>Genetic Modifiers</th>
-                <th>Strain Background</th>
                 <th>Genetic Sex</th>
                 <th className={style.relatedNotes}>Notes</th>
                 <th>Annotation type</th>
@@ -89,11 +87,9 @@ function AnnotatedEntitiesPopupCuration(props) {
                       <td>{renderLink(entity)}</td>
                       <td><TypeCellCuration subject={entity.subject}/></td>
                       <td><AssociationCellCuration association={entity.relation?.name}/></td>
-                      <td><AssertedGenes assertedGenes={entity.assertedGenes} mainRowCurie={mainRowCurie}/></td>
                       <td><ExperimentalConditionCellCuration conditions={entity.conditionRelations}/></td>
                       <td><ExperimentalConditionCellCuration conditions={entity.conditionModifiers}/></td>
                       <td><GeneticModifiersCellCuration relation={entity.diseaseGeneticModifierRelation} modifiers={entity.diseaseGeneticModifiers}/></td>
-                      <td><StrainBackground strainBackground={entity.sgdStrainBackground}/></td>
                       <td><GeneticSex geneticSex={entity.geneticSex}/></td>
                       <td><RelatedNotes className={style.relatedNotes} relatedNotes={entity.relatedNotes}/></td>
                       <td><AnnotationType  annotationType={entity.annotationType}/></td>
