@@ -4,20 +4,27 @@ import {
   EvidenceCodesCellCuration,
   ReferencesCellCuration,
 } from '../../components/dataTable';
-import AlleleSource from '../../components/dataTable/AlleleSource';
 import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration';
 import AssociationType from '../../components/AssociationType';
 import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration';
 import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn';
-import { getDistinctFieldValue } from '../../components/dataTable/utils';
+import { 
+  buildProvidersWithUrl,
+  getDistinctFieldValue } from '../../components/dataTable/utils';
+import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 
 const AlleleToDiseaseTable = ({alleleId}) => {
   const {
     resolvedData,
-    data,
+    data: results,
     ...tableProps
   } = useDataTableQuery(`/api/allele/${alleleId}/diseases`);
+
+  const tableData = results.map(annotation => ({
+    providers: buildProvidersWithUrl(annotation.primaryAnnotations),
+    ...annotation,
+  }));
 
   const columns = [
     {
@@ -56,11 +63,12 @@ const AlleleToDiseaseTable = ({alleleId}) => {
       headerStyle: {width: '100px'},
     },
     {
-      dataField: 'subject',
+      dataField: 'providers',
       text: 'Source',   
-      formatter: subject => <AlleleSource dataProvider={subject?.dataProvider}/>,
+      formatter: providers => providers && <ProvidersCellCuration providers={providers} />,
+      filterable: true,
       headerStyle: {width: '100px'},
-      filterable: true
+      filterName: 'dataProvider',
     },
     {
       dataField: 'references',
@@ -76,7 +84,7 @@ const AlleleToDiseaseTable = ({alleleId}) => {
     <DataTable
       {...tableProps}
       columns={columns}
-      data={data}
+      data={tableData}
       downloadUrl={`/api/allele/${alleleId}/diseases/download`}
       keyField='uniqueId'
     />
