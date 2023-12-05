@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 import style from './style.scss';
 import SingleFilterSelector from './singleFilterSelector';
@@ -53,7 +55,7 @@ class FilterSelectorComponent extends Component {
       <div>
         <p><CategoryLabel category={this.props.activeCategory} /></p>
         <p>
-          <Link to={newHref}><i className='fa fa-chevron-left' /> Show all Categories</Link>
+          <Link to={newHref}><FontAwesomeIcon icon={faCircleChevronLeft} /> Show all Categories</Link>
         </p>
       </div>
     );
