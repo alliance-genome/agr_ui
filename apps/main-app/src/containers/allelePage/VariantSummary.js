@@ -197,16 +197,12 @@ const VariantSummary = ({variant}) => {
 };
 
 VariantSummary.propTypes = {
-  variantId: PropTypes.string.isRequired,
+  variantId: PropTypes.string,
   variant: PropTypes.object.isRequired,
-  allele: {
-    gene: {
-      genomeLocations: PropTypes.any,
-    },
-    species: {
-      name: PropTypes.string
-    },
-  }
+  allele: PropTypes.shape({
+    gene: PropTypes.any,
+    species: PropTypes.any
+  })
 };
 
 export default VariantSummary;
