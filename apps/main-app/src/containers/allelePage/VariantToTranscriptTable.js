@@ -199,7 +199,7 @@ const VariantToTranscriptTable = ({variant}) => {
 VariantToTranscriptTable.propTypes = {
   variant: PropTypes.shape({
     id: PropTypes.string.isRequired,
-    type: PropTypes.object,
+    type: PropTypes.any,
   }).isRequired,
 };
 
