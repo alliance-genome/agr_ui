@@ -220,7 +220,6 @@ export const MODContent = {
       ['Search FlyBase',        'https://flybase.org/'],
       ['FlyBase BLAST',         'https://flybase.org/blast/'],
       ['FlyBase JBrowse',       'https://flybase.org/jbrowse/?data=data/json/dmel'],
-      ['Fly RNA-Seq',           'https://flybase.org/rnaseq/rnaseq'],
       ['Fly Vocabularies',      'https://flybase.org/vocabularies'],
       ['Fly ID Validator',      'https://flybase.org/convert/id'],
       ['Fly Batch Download',    'https://flybase.org/batchdownload'],
