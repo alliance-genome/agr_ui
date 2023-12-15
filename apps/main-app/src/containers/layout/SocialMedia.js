@@ -1,18 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebookF, faXTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
 import style from './style.scss';
 
 const SocialMedia = ({showText = false}) => {
   return (
     <div className={style.socialLinks}>
       <a href='https://www.facebook.com/AllianceOfGenomeResources'>
-        <i className='fa fa-fw fa-facebook'/> {showText && 'Facebook'}
+        <FontAwesomeIcon icon={faFacebookF} fixedWidth /> {showText && 'Facebook'}
       </a>
       <a href='https://twitter.com/alliancegenome'>
-        <i className='fa fa-fw fa-twitter'/> {showText && 'Twitter'}
+        <FontAwesomeIcon icon={faXTwitter} fixedWidth /> {showText && 'Twitter'}
       </a>
       <a href='https://github.com/alliance-genome'>
-        <i className='fa fa-fw fa-github'/> {showText && 'Github'}
+        <FontAwesomeIcon icon={faGithub} fixedWidth /> {showText && 'Github'}
       </a>
     </div>
   );

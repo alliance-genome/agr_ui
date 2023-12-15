@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 
 import {
   getQueryParamWithoutPage,
@@ -47,7 +49,7 @@ const SearchBreadcrumbs = ({queryParams}) => {
 
         return (
           <Link className='btn btn-primary mr-2 mb-2' key={`bc${key}.${value}`} to={newLocation}>
-            {key !== 'category' && fieldLabel} {labelNode} <i className='fa fa-times' />
+            {key !== 'category' && fieldLabel} {labelNode} <FontAwesomeIcon icon={faCircleXmark} />
           </Link>
         );
       });

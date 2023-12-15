@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 
 import style from './style.scss';
 
@@ -13,6 +15,7 @@ const CollapsibleList = ({ children, collapsedSize, showBullets }) => {
   const toggle = () => setCollapsed(prev => !prev);
   const childCount = React.Children.count(children);
   const label = ' ' + (collapsed ? ('Show All ' + childCount) : ('Show First ' + collapsedSize));
+  const caretIcon = (collapsed ? faCaretDown : faCaretUp);
   return (
     <div>
       <ul className={`${style.collapsibleList} ${showBullets ? style.bulleted : ''}`}>
@@ -26,7 +29,7 @@ const CollapsibleList = ({ children, collapsedSize, showBullets }) => {
       {childCount > collapsedSize && (
         <span>
           <button className={`btn btn-link btn-sm ${style.toggleLink}`} onClick={toggle}>
-            <i className={`${style.toggleIcon} fa fa-caret-up ${collapsed ? 'fa-rotate-180' : ''}`} />
+            <FontAwesomeIcon icon={caretIcon} className={`${style.toggleIcon}`} />
             {label}
           </button>
         </span>
