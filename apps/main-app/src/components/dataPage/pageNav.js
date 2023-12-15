@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { HashLink } from 'react-router-hash-link';
 import { Collapse } from 'reactstrap';
 import Scrollspy from 'react-scrollspy';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 import { makeId } from '../../lib/utils';
 
@@ -19,7 +21,7 @@ const PageNav = ({children, sections}) => {
             {children}
           </div>
           <button className='navbar-toggler ml-auto' onClick={() => setIsOpen(!isOpen)} type='button'>
-            <i className='fa fa-fw fa-bars' />
+            <FontAwesomeIcon icon={faBars} fixedWidth />
           </button>
         </div>
         <Collapse isOpen={isOpen} navbar>

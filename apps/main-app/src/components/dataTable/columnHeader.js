@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { UncontrolledButtonDropdown, DropdownMenu, DropdownToggle } from 'reactstrap';
 import HelpPopup from '../helpPopup';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFilter } from '@fortawesome/free-solid-svg-icons';
 
 import style from './style.scss';
 
@@ -22,7 +24,7 @@ class ColumnHeader extends React.Component {
         {filterElement &&
           <UncontrolledButtonDropdown>
             <DropdownToggle className={`${style.filterToggle} ${active ? style.active : ''}`} color='link' tag='span'>
-              <i className={'fa fa-filter'} />
+              <FontAwesomeIcon icon={faFilter} />
             </DropdownToggle>
             <DropdownMenu className='shadow-sm px-4 py-3' modifiers={popperModifiers} positionFixed>
               {filterElement}

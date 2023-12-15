@@ -2,7 +2,7 @@ import WarningBanner from './WarningBanner';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {Link, withRouter} from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import style from './style.scss';
 import Loader from './loader/index';
 import logo from '../../../../../libs/shared-assets/src/lib/assets/alliance_logo_agr.png';
@@ -12,6 +12,8 @@ import ReleaseBanner from './ReleaseBanner';
 import WordpressInject from '../wordpress/wordpressInject';
 import { selectPageLoading } from '../../selectors/loadingSelector';
 import Footer from './Footer';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 class Layout extends Component {
   constructor(props) {
@@ -66,7 +68,7 @@ class Layout extends Component {
                 <WordpressInject slug='agr-topbar' />
               </div>
               <button className="navbar-toggler d-md-none" onClick={() => this.setState({menuOpen: !menuOpen})} type="button">
-                <i className='fa fa-fw fa-bars' />
+                <FontAwesomeIcon icon={faBars} fixedWidth />
               </button>
             </div>
             <div className='col-md d-flex justify-content-md-end'>

@@ -1,5 +1,7 @@
 import React from 'react';
 import WordpressInject from '../wordpress/wordpressInject';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faComments } from '@fortawesome/free-solid-svg-icons';
 
 import style from './style.scss';
 
@@ -20,7 +22,7 @@ const AboutSection = () => {
             >
               <div className='alert alert-primary'>
                 <h4 className='alert-heading'>
-                  <i className="fa fa-comments" aria-hidden="true" /> Join the Alliance User Community
+                  <FontAwesomeIcon icon={faComments} /> Join the Alliance User Community
                 </h4>
                 <p>
                   Click here to access official announcements, ask questions, and view discussions with other members of the Alliance Community.
