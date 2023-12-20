@@ -268,7 +268,7 @@ export const MODContent = {
       ['RGD Gene Search',                         'https://rgd.mcw.edu/rgdweb/search/genes.html'],
       ['RGD Strain search',                       'https://rgd.mcw.edu/rgdweb/search/strains.html'],
       ['Rat Genetic Models',                      'https://rgd.mcw.edu/rgdweb/models/allModels.html'],
-      ['OntoMate Literature Search',              'https://rgd.mcw.edu/QueryBuilder/'],
+      ['OntoMate Literature Search',              'https://ontomate.rgd.mcw.edu/QueryBuilder/'],
       ['RGD Disease Portals',                     'https://rgd.mcw.edu/rgdweb/portal/index.jsp'],
       ['RGD Variant Visualizer',                  'https://rgd.mcw.edu/rgdweb/front/config.html'],
       ['Multi-Ontology Enrichment Tool (MOET)',   'https://rgd.mcw.edu/rgdweb/enrichment/start.html'],
