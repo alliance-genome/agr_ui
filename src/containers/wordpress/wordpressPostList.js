@@ -26,7 +26,7 @@ const WordpressPostList = () => {
             {isLoading && <LoadingSpinner />}
             {
               postList && postList.map(post => {
-                if (post.status !== 'publish') { return; }
+                if (post.status !== 'publish') { return null; }
                 const link = `/news/${post.slug}`;
                 return (
                   <div className={style.postContainer} key={post.id}>

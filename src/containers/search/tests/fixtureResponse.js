@@ -1,3 +1,4 @@
+/*eslint-disable import/no-anonymous-default-export*/
 /*eslint-disable quotes */
 export default {
   "aggregations": [
