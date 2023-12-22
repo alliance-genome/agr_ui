@@ -9,6 +9,8 @@ import CommaSeparatedGeneList from './CommaSeparatedGeneList';
 import NoData from '../../components/noData';
 import {Link} from 'react-router-dom';
 import ConstructLink from '../../components/ConstructLink';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 const AlleleTransgenicConstructs = ({constructs}) => {
   if (!constructs || constructs.length === 0) {
@@ -50,7 +52,7 @@ const AlleleTransgenicConstructs = ({constructs}) => {
             </AttributeValue>
           </AttributeList>
           <Link to={`/search?category=allele&constructs=${construct.id}`}>
-            All alleles with this construct <i className='fa fa-search' />
+            All alleles with this construct <FontAwesomeIcon icon={faMagnifyingGlass} />
           </Link>
         </div>
       ))}

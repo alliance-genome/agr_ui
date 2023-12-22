@@ -9,6 +9,8 @@ import Subsection from '../../components/subsection';
 import NoData from '../../components/noData';
 import useAllAlleleVariants from '../../hooks/useAlleleVariants';
 import VariantSummary from './VariantSummary';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 const AlleleVariantsSummary = ({allele, alleleId}) => {
   const {
@@ -31,10 +33,10 @@ const AlleleVariantsSummary = ({allele, alleleId}) => {
                   ...variant,
                   gene: gene,
                   species: species
-                }} 
+                }}
                 />
               </AttributeList>
-              <Link to={`/search?q=${displayName}`}>All alleles with this variant <i className='fa fa-search' /></Link>
+              <Link to={`/search?q=${displayName}`}>All alleles with this variant <FontAwesomeIcon icon={faMagnifyingGlass} /></Link>
             </Subsection>
           );
         })
