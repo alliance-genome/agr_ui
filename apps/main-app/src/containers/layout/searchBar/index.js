@@ -9,6 +9,8 @@ import {
   DropdownToggle,
   UncontrolledDropdown
 } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 import style from './style.scss';
 import CategoryLabel from '../../search/categoryLabel';
@@ -216,7 +218,7 @@ class SearchBarComponent extends Component {
               className={`btn text-primary border-left-0 ${style.searchButton}`}
               type='submit'
             >
-              <i className='fa fa-search' />
+              <FontAwesomeIcon icon={faMagnifyingGlass} />
             </button>
           </div>
         </div>

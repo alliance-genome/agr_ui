@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Select from 'react-select';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 import style from './style.scss';
 import {
@@ -101,7 +103,7 @@ class SingleFilterSelector extends Component {
       return null;
     }
     let moreLabel = (this.state.numVisible !== MAX_NUM_VISIBLE) ? 'Show More' : `Show ${SMALL_NUM_VISIBLE}`;
-    let modeLabelNode = this.state.isSearchMode ? <span>List</span> : <span><i className='fa fa-search' /></span>;
+    let modeLabelNode = this.state.isSearchMode ? <span>List</span> : <span><FontAwesomeIcon icon={faMagnifyingGlass} /></span>;
     let moreLabelNode = this.state.isSearchMode ? <span /> : <a href='#' onClick={this.handleControlClick.bind(this)}>{moreLabel}</a>;
     return (
       <p className={style.singleFacetControl}>
