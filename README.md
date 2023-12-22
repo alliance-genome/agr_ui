@@ -1,150 +1,70 @@
-![project logo](https://raw.githubusercontent.com/alliance-genome/agr_ui/master/src/containers/layout/agrLogo.png)
+# Getting Started with Create React App
 
-# Alliance of Genome Resources UI
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Frontend code for the Alliance of Genome Resources website.
+## Available Scripts
 
-This repository uses [Nx](https://nx.dev/react) to facilitate development of multiple apps and libraries in a single [monorepo](https://nx.dev/latest/react/core-concepts/why-monorepos).
+In the project directory, you can run:
 
-The [Nx CLI](https://nx.dev/latest/react/getting-started/cli-overview) or the interactive [Nx Console]() is used to build, run, test apps and libs, as well as generating library or application code with modern tooling enabled (such as ESLint/TSlint, Prettier, Jest, Cypress, Storybook).
+### `npm start`
 
-## Folder structure
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-**If you developed in this repo before it was reorganizated, you will find that code moved to [apps/main-app/](apps/main-app/).**
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-`apps/` contains frontend sites that can be developed and deployed independently
+### `npm test`
 
-`libs/` contains shared libraries across apps. These libaraies can be published for use outside of this repo. But publishing a library is not necessary for using it within the repo.
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-`package.json`, `package-lock.json` and `node_modules/` track the dependencies for by all apps and libs. This means that dependencies installation for any app or library should happend at the **root** of the project.
+### `npm run build`
 
-`workspace.json` is where configuration for apps and libs are defined.
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-## Prerequisites
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-nvm is used to manage Node.js versions. [Follow these instructions](https://github.com/nvm-sh/nvm#installing-and-updating) to install nvm.
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-It is not strictly required, but highly recommended that you have configured your development environment to use [EditorConfig](https://editorconfig.org/) and [ESLint](https://eslint.org/docs/user-guide/integrations).
+### `npm run eject`
 
-## Installation
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-Ensure the correct version of Node.js is **installed**, if using the particular version of Node.js for the same time:
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-```bash
-nvm install
-```
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-_Note: the command uses **nvm**, not npm. Nvm deals with the version of Node.js itself._
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-Ensure the correct version of Node.js is **activated**:
-(Applicable every time when changing into the directory for this project)
+## Learn More
 
-```bash
-nvm use
-```
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-Install dependencies after first cloning the repository or after pulling in new changes to `package.json`:
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-```bash
-npm install
-```
+### Code Splitting
 
-_Note: the command uses **npm**, not nvm. NPM deals with package dependencies._
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-## Development
+### Analyzing the Bundle Size
 
-### Development of the [Main App](apps/main-app/)
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-[apps/main-app/](apps/main-app/) holds most of the AGR UI code written before the re-organization of this repo.
+### Making a Progressive Web App
 
-Development is done using a webpack development server, which is configured using [these configurations](apps/main-app/webpack.js).
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-To start the development server:
+### Advanced Configuration
 
-```
-npm start
-```
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-The development server will be started at [http://localhost:2992](http://localhost:2992).
+### Deployment
 
-When you edit source files, the changes will automatically be compiled and updated in your browser.
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-The development server proxies API requests to the API server. The API server can be specified using the `API_URL` environment variable. It is set to `https://build.alliancegenome.org` by default.
+### `npm run build` fails to minify
 
-To change the API server host for the proxy, run:
-
-```bash
-export API_URL=https://stage.alliancegenome.org  # to send proxied requests to the stage server.
-```
-
-and re-start the development server.
-
-### Development of Additional Apps
-
-To start the development environment for other apps found in [apps](apps/), the command can be run with the respective app name.
-
-Take the [example-app](apps/example-app/) for example, to start the development server, run:
-
-```bash
-npm start example-app
-```
-
-## Tests
-
-To run linter on source files:
-
-```bash
-npm run lint  # for the main-app
-```
-
-OR
-
-```bash
-npm run lint [app-name]  # for other apps or libs
-```
-
-Execute tests:
-
-```bash
-npm run test  # for the main-app
-```
-
-OR
-
-```bash
-npm run test [app-name]  # for other apps or libs
-```
-
-## Build
-
-To build an app or lib for production
-
-```bash
-npm run build --prod # for the main-app
-```
-
-OR
-
-```bash
-npm run build [app-name] --prod # for other apps or libs
-```
-
-## Create a Shared Library
-
-To create a library interactively via CLI:
-
-```bash
-
-npm run nx generate @nrwl/react:library [lib-name]
-```
-
-Or using a graphical interface via the [Nx Console VSCode plugin](https://nx.dev/latest/react/getting-started/console).
-
-## Frameworks & Tools
-
-- [React](https://reactjs.org/) for routing and building user interface components
-- [Nx](https://nx.dev/) for consistent code generation and execution, and managing multiple node modules in one repo
-- [Redux](https://redux.js.org/) and [Immutable](https://immutable-js.github.io/immutable-js/) for state management
-- [Bootstrap](https://getbootstrap.com/), [reactstrap](https://reactstrap.github.io), [Sass](https://sass-lang.com/), [CSS Modules](https://github.com/css-modules/css-modules) for styling
-- [Mocha](https://mochajs.org/) for testing
-- [Webpack](https://webpack.js.org/) and [Babel](https://babeljs.io/) for compiling and bundling
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

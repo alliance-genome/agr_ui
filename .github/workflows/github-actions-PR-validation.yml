@@ -24,7 +24,7 @@ jobs:
           git diff --name-only origin/${{ github.base_ref }} origin/${{ github.head_ref }}
       - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 18
       - name: Report runtime details
         run: |
           echo "Github runner OS: ${{ runner.os }}"
