@@ -13,8 +13,6 @@ import ExternalLink from '../ExternalLink';
 import { Link } from 'react-router-dom';
 import { getResourceUrl } from "./getResourceUrl";
 import TypeCellCuration from './TypeCellCuration';
-import StrainBackground from './StrainBackground';
-import AssertedGenes from './AssertedGenes';
 import RelatedNotes from './RelatedNotes';
 import EvidenceCodesCellCuration from './evidenceCodesCellCuration';
 import ProviderCellCuration from './ProviderCellCuration';
@@ -42,7 +40,7 @@ function renderLink(entity) {
 }
 
 function AnnotatedEntitiesPopupCuration(props) {
-  const {children, entities, mainRowCurie} = props;
+  const {children, entities } = props;
 
   if (!entities || !entities.length) {
     return null;

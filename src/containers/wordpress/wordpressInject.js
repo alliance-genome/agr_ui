@@ -21,7 +21,6 @@ const WordpressInject = ({slug}) => {
     return null;
   }
 
-  const title = post.title.rendered;
   return (
     <ReplaceLinks html={post.content.rendered} />
   );

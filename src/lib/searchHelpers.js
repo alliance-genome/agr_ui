@@ -233,6 +233,7 @@ export function markAsExcluded(queryObject, value){
 
   let newValue = '-' + value.name;
 
+  // eslint-disable-next-line array-callback-return
   qKeys.find(key =>{
     if(Array.isArray(qp[key])){
       if(qp[key].find(item => item === value.name)){

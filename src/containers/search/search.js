@@ -188,5 +188,5 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-export { SearchComponent as SearchComponent };
+export { SearchComponent };
 export default connect(mapStateToProps)(SearchComponent);

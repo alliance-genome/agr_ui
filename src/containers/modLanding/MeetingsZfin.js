@@ -29,11 +29,11 @@ const MeetingsZfin = ({urlMeetingsMod, fetchMeetingsCount, linkToMeetingsPage}) 
             {isLoading && <LoadingSpinner />}
             {
               postList && parseZfinPosts(postList).map(post => {
-                if (count > fetchMeetingsCount) { return; }
+                if (count > fetchMeetingsCount) { return null; }
                 count++;
                 let key = "meetings_" + count;
                 if (post.text !== undefined) {
-                  post.text = post.text.replace(/\[&hellip;\]/, '<a href="' + post.link + '">[&hellip;]<\a>');
+                  post.text = post.text.replace(/\[&hellip;\]/, '<a href="' + post.link + '">[&hellip;]<\\a>');
                 }
                 return (
                   <div className={style.postContainer} key={key} data-testid={'div_meetings_' + count}>

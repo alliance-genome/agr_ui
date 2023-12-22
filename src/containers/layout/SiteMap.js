@@ -13,7 +13,7 @@ const SiteMap = () => {
         NAV_MENU.map(page => {
           // no need for the Home link here
           if (page.route === '/') {
-            return;
+            return null;
           }
           const item = page.route ?
             <Link to={page.route}>{page.label}</Link> :
