@@ -34,10 +34,10 @@ const MeetingsRgd = ({urlMeetingsMod, fetchMeetingsCount, linkToMeetingsPage}) =
             {isLoading && <LoadingSpinner />}
             {
               postList && parseRgdPosts(postList).map(post => {
-                if (count > fetchMeetingsCount) { return; }
+                if (count > fetchMeetingsCount) { return null; }
                 count++;
                 let key = "meetings_" + count;
-                post.text = post.text.replace(/\[&hellip;\]/, '<a href="' + post.link + '">[&hellip;]<\a>');
+                post.text = post.text.replace(/\[&hellip;\]/, '<a href="' + post.link + '">[&hellip;]<\\a>');
                 return (
                   <div className={style.postContainer} key={key} data-testid={'div_meetings_' + count}>
                     <a href={post.link} data-testid={'href_meetings_' + count}>

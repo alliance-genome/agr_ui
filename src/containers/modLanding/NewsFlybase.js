@@ -29,10 +29,10 @@ const NewsFlybase = ({urlNewsMod, fetchNewsCount, linkToNewsPage}) => {
             {isLoading && <LoadingSpinner />}
             {
               postList && parseFlybasePosts(postList).map(post => {
-                if (count > fetchNewsCount) { return; }
+                if (count > fetchNewsCount) { return null; }
                 count++;
                 let key = "news_" + count;
-                post.text = post.text.replace(/\[&hellip;\]/, '<a href="' + post.link + '">[&hellip;]<\a>');
+                post.text = post.text.replace(/\[&hellip;\]/, '<a href="' + post.link + '">[&hellip;]<\\a>');
                 return (
                   <div className={style.postContainer} key={key} data-testid={'div_news_' + count}>
                     <a href={post.link} data-testid={'href_news_' + count}>

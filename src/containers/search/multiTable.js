@@ -170,5 +170,5 @@ function mapStateToProps(state) {
   };
 }
 
-export { MultiTableComponent as MultiTableComponent };
+export { MultiTableComponent };
 export default connect(mapStateToProps)(MultiTableComponent);

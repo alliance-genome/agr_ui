@@ -26,7 +26,8 @@ import SequenceFeatureViewerSubsectionHelp from '../../components/sequenceFeatur
 
 const APOLLO_SERVER_PREFIX = '/apollo/';
 const LINK_BUFFER = 1.2;
-const helpSequenceViewer = 'The Allele/Variant Sequence Viewer shows the positions of allele-associated variants, where this data exists, in the context of the transcripts for the gene. Since the viewer is showing the genomic positions, alleles where the genomic location of the alteration is not known currently will not be displayed in the viewer. Polymorphisms determined by whole genome or whole exon sequencing are also not shown in this view due to the overwhelming number of these variants. To view these, use the link to the Alliance JBrowse below the viewer.';
+//is this needed?
+// const helpSequenceViewer = 'The Allele/Variant Sequence Viewer shows the positions of allele-associated variants, where this data exists, in the context of the transcripts for the gene. Since the viewer is showing the genomic positions, alleles where the genomic location of the alteration is not known currently will not be displayed in the viewer. Polymorphisms determined by whole genome or whole exon sequencing are also not shown in this view due to the overwhelming number of these variants. To view these, use the link to the Alliance JBrowse below the viewer.';
 
 
 
@@ -91,7 +92,7 @@ class GenomeFeatureWrapper extends Component {
 
   generateJBrowseLink(chr, start, end) {
     const geneSymbolUrl = '&lookupSymbol=' + this.props.geneSymbol;
-    const externalJBrowsePrefix = '/jbrowse/?' + 'data=data%2F' + encodeURIComponent(getSpecies(this.props.species).jBrowseName);
+    const externalJBrowsePrefix = '/jbrowse/?data=data%2F' + encodeURIComponent(getSpecies(this.props.species).jBrowseName);
     const linkLength = end - start;
     let bufferedMin = Math.round(start - (linkLength * LINK_BUFFER / 2.0));
     bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;

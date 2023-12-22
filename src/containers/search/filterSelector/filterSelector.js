@@ -96,5 +96,5 @@ function mapStateToProps(state) {
   };
 }
 
-export { FilterSelectorComponent as FilterSelectorComponent };
+export { FilterSelectorComponent };
 export default connect(mapStateToProps)(FilterSelectorComponent);

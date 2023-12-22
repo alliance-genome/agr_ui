@@ -31,11 +31,11 @@ const WordpressNews = ({urlNewsMod, fetchNewsCount, linkToNewsPage}) => {
             {isLoading && <LoadingSpinner />}
             {
               postList && parseWordpressPosts(postList).map(post => {
-                if (post.status !== 'publish') { return; }
-                if (count > fetchNewsCount) { return; }
+                if (post.status !== 'publish') { return null; }
+                if (count > fetchNewsCount) { return null; }
                 count++;
                 let key = "news_" + count;
-                post.text = post.text.replace(/\[&hellip;\]/, '<a href="' + post.link + '">[&hellip;]<\a>');
+                post.text = post.text.replace(/\[&hellip;\]/, '<a href="' + post.link + '">[&hellip;]<\\a>');
                 return (
                   <div className={style.postContainer}
                        key={key}
