@@ -10,6 +10,7 @@ package-lock.json
 # dependencies
 /node_modules
 /dist
+/build
 /src/dist
 /src/public/sitemap.xml
 /src/public/main-sitemap.xml
