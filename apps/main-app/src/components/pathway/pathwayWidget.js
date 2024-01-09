@@ -500,9 +500,10 @@ class PathwayWidget extends Component {
                     <p>Read more about the <ExternalLink href='http://geneontology.org/docs/gocam-overview/'>GO-CAM Data Model</ExternalLink>.</p>
                 </div>
                 }
-
-            {(this.state.gocams.loaded && this.state.gocams.list && this.state.gocams.list.length > 0)  ?
-            <ExternalLink href={this.state.gocams.selected}>Open in Noctua GO-CAM</ExternalLink> : "" }
+          {
+            (this.state.gocams.loaded && this.state.gocams.list && this.state.gocams.list.length > 0)  ?
+              <ExternalLink href={this.state.gocams.selected}>View GO-CAM at Gene Ontology</ExternalLink> : ""
+          }
         </div>
       </HorizontalScroll>
     )
