@@ -465,41 +465,42 @@ class PathwayWidget extends Component {
     return (
       <HorizontalScroll className='text-nowrap'>
         <div id="modPathway" style={gocstyles}>
-
-            {(this.state.gocams.loaded && this.state.gocams.list && this.state.gocams.list.length > 0) ?
-                <div style={{ "padding": "1rem 0.2rem" }}>
-                <span style={{ "paddingRight": "1rem"}}>Available GO-CAMs: </span>
+          {
+            (this.state.gocams.loaded && this.state.gocams.list && this.state.gocams.list.length > 0) ?
+              <div style={{ "padding": "1rem 0.2rem" }}>
+                <span  pan style={{ "paddingRight": "1rem"}}>Available GO-CAMs: </span>
                 <select id="modPathwaySelect" value={this.state.gocams.selected} onChange={(evt) => this.gocamChanged(evt) } style={{ "minWidth": "1130px" }}>
-                    {this.state.gocams.list.map(elt => {
-                        return <option value={elt.gocam}>{elt.title}</option>
-                    })}
+                  {this.state.gocams.list.map(elt => {
+                    return <option value={elt.gocam}>{elt.title}</option>
+                  })}
                 </select>
-                </div>
-            : ""}
-
-            {(this.state.gocams.loaded && this.state.gocams.list && this.state.gocams.list.length > 0 && (this.state.selectedTab && this.state.selectedTab == "MODPathways")) ?
-            <div>
+              </div>
+            : ""
+          }
+          {
+            (this.state.gocams.loaded && this.state.gocams.list && this.state.gocams.list.length > 0 && (this.state.selectedTab && this.state.selectedTab == "MODPathways")) ?
+              <div>
                 <wc-gocam-viz
-                    id="gocam-1"
-                    repository="release"
-                    gocam-id={this.state.cutils.getCurie(this.state.gocams.selected)}
-                    show-go-cam-selector="false"
-                    show-has-input="false"
-                    show-has-output="false"
-                    show-gene-product="true"
-                    show-activity="false"
-                    show-isolated-activity="true"
-                    show-legend="false"
-                    style={{ "maxWidth": "1280px" }}
+                  id="gocam-1"
+                  repository="release"
+                  gocam-id={this.state.cutils.getCurie(this.state.gocams.selected)}
+                  show-go-cam-selector="false"
+                  show-has-input="false"
+                  show-has-output="false"
+                  show-gene-product="true"
+                  show-activity="false"
+                  show-isolated-activity="true"
+                  show-legend="false"
+                  style={{ "maxWidth": "1280px" }}
                 ></wc-gocam-viz>
                 <img src={gocamLegend} style={{"width" : "600px"}}/>
-                </div>
-                : <div>
-                    <NoData/>
-                    <br/><br/>
-                    <p>Read more about the <ExternalLink href='http://geneontology.org/docs/gocam-overview/'>GO-CAM Data Model</ExternalLink>.</p>
-                </div>
-                }
+              </div>
+            : <div>
+                <NoData/>
+                <br/><br/>
+                <p>Read more about the <ExternalLink href='http://geneontology.org/docs/gocam-overview/'>GO-CAM Data Model</ExternalLink>.</p>
+              </div>
+          }
           {
             (this.state.gocams.loaded && this.state.gocams.list && this.state.gocams.list.length > 0)  ?
               <ExternalLink href={this.state.gocams.selected}>View GO-CAM at Gene Ontology</ExternalLink> : ""
