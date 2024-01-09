@@ -21,7 +21,7 @@ import '@testing-library/jest-dom'
 
  // Mock the fetching of the data from http
  // See mock file FetchData.js in __mocks__ in lib directory.
- jest.mock('./../../../../src/lib/fetchData');
+ jest.mock('../../../../lib/fetchData');
 
  // rgd uses the same format as flybase, so uses NewsFlybase component
  describe('App', () => {
