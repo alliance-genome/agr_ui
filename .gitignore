@@ -5,6 +5,7 @@ package-lock.json
 /dist
 /tmp
 /out-tsc
+/build
 
 # dependencies
 /node_modules
