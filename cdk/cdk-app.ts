@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib';
 import { AmplifyALBStack } from './amplify-alb-stack';
+import { AmplifyStageStack } from './amplify-stage-stack';
 
 const app = new cdk.App();
 
@@ -32,4 +33,22 @@ new AmplifyALBStack(app, 'prod-alb-stack', {
     region: process.env.CDK_DEFAULT_REGION,
     account: process.env.CDK_DEFAULT_ACCOUNT,
   },
+});
+
+/*
+new AmplifyRulesStack(app, 'stage-rules-stack', {
+  stackName: 'stage-rules-stack'
+});
+
+new AmplifyRulesStack(app, 'test-rules-stack', {
+  stackName: 'stage-rules-stack'
+});
+
+new AmplifyRulesStack(app, 'prod-rules-stack', {
+  stackName: 'stage-rules-stack'
+});
+*/
+
+new AmplifyStageStack(app, 'agruistage', {
+  stackName: 'agruistage'
 });
