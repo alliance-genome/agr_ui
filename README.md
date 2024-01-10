@@ -1,70 +1,95 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Alliance of Genome Resources UI
 
-## Available Scripts
+Frontend code for the Alliance of Genome Resources website.
 
-In the project directory, you can run:
+## Folder structure
 
-### `npm start`
+`package.json`, `package-lock.json` and `node_modules/` track the dependencies for by all apps and libs. This means that dependencies installation for any app or library should happend at the **root** of the project.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Prerequisites
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+nvm is used to manage Node.js versions. [Follow these instructions](https://github.com/nvm-sh/nvm#installing-and-updating) to install nvm.
 
-### `npm test`
+## Installation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Ensure the correct version of Node.js is **installed**, if using the particular version of Node.js for the first time:
 
-### `npm run build`
+```bash
+nvm install
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+_Note: the command uses **nvm**, not npm. Nvm deals with the version of Node.js itself._
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Ensure the correct version of Node.js is **activated**:
+(Applicable every time when changing into the directory for this project)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+nvm use
+```
 
-### `npm run eject`
+Install dependencies after first cloning the repository or after pulling in new changes to `package.json`:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+npm install
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+_Note: the command uses **npm**, not nvm. NPM deals with package dependencies._
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Build
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+To build an app or lib for production
 
-## Learn More
+```bash
+npm run build 
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Development
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Development of the [App](/src)
 
-### Code Splitting
+[/src](/src) holds most of the AGR UI code written before the re-organization of this repo.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+To start the development server:
 
-### Analyzing the Bundle Size
+```
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+The development server will be started at [http://localhost:3000](http://localhost:3000).
 
-### Making a Progressive Web App
+When you edit source files, the changes will automatically be compiled and updated in your browser.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+The development server proxies API requests to the API server. The API server can be specified using the `API_URL` environment variable.
 
-### Advanced Configuration
+If need be the API_URL can be changed by setting it on the command line before running the UI:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```bash
+>	export API_URL=https://stage.alliancegenome.org; npm start # to send proxied requests to the stage server.
+```
 
-### Deployment
+Additionally, there are two convenience commands that will proxy `/api` requests to either the stage or test environments
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```bash
+> make uirunstage
+```
 
-### `npm run build` fails to minify
+```bash
+> make uiruntest
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Tests
+
+Execute tests:
+
+```bash
+npm run test  
+```
+## Frameworks & Tools
+
+- [React](https://reactjs.org/) for routing and building user interface components
+- [Redux](https://redux.js.org/), [Immutable](https://immutable-js.github.io/immutable-js/), and [React Query](https://tanstack.com/query/v3/docs/react/overview) for state management
+- [Bootstrap](https://getbootstrap.com/), [reactstrap](https://reactstrap.github.io), [Sass](https://sass-lang.com/), [CSS Modules](https://github.com/css-modules/css-modules) for styling
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro) for testing
+- [Webpack](https://webpack.js.org/) and [Babel](https://babeljs.io/) for compiling and bundling
+
