@@ -5,11 +5,11 @@ frontend:
       commands:
         - mkdir dist
         - nvm use
-        - npm install
+        - npm install --legacy-peer-deps
     build:
       commands:
-        - NODE_ENV=$BUILD_ENV npm run build
+        - npm run build
   artifacts:
-    baseDirectory: dist/apps/main-app
+    baseDirectory: build
     files:
-      - '**/*'
+      - "**/*"
