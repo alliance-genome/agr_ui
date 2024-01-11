@@ -48,36 +48,11 @@ export class AmplifyStageStack extends cdk.Stack {
       { source: '</^[^.]+$|\.(?!(css|xml|gif|ico|jpg|js|png|txt|svg|woff|woff2|ttf|map|json|webp)$)([^.]+$)/>', target: '/index.html',                status: amplify.RedirectStatus.REWRITE }
     ];
 
-    const amplifyApp = new amplify.App(this, 'agruistage', {
+    const amplifyApp = new amplify.App(this, 'agr-ui-stage', {
       sourceCodeProvider: new amplify.GitHubSourceCodeProvider({
         owner: 'alliance-genome',
         repository: 'agr_ui',
         oauthToken: cdk.SecretValue.secretsManager('GithubOauthDevopsToken'),
-      }),
-      buildSpec: codebuild.BuildSpec.fromObjectToYaml({
-        version: 1,
-        frontend: {
-          phases: {
-            preBuild: {
-              commands: [
-                'mkdir dist',
-                'nvm use',
-                'npm install --legacy-peer-deps',
-              ]
-            },
-            build: {
-              commands: [
-                'npm run build',
-              ],
-            },
-          },
-          artifacts: {
-            baseDirectory: "build",
-            files: [
-              '**/*'
-            ]
-          }
-        }
       }),
       autoBranchCreation: {
         patterns: ['SCRUM-*', 'KANBAN-*'],
@@ -85,6 +60,8 @@ export class AmplifyStageStack extends cdk.Stack {
       autoBranchDeletion: true,
     });
 
+    //const main = amplifyApp.addBranch('main', { autoBuild: true, branchName: 'main', stage: 'PRODUCTION' });
+    //const test = amplifyApp.addBranch('test', { autoBuild: true, branchName: 'test', stage: 'BETA' });
     const stage = amplifyApp.addBranch('stage', { autoBuild: true, branchName: 'stage', stage: 'PRODUCTION' });
 
     const domain = amplifyApp.addDomain('alliancegenome.org', {
@@ -92,7 +69,7 @@ export class AmplifyStageStack extends cdk.Stack {
       autoSubdomainCreationPatterns: ['scrum-*', 'kanban-*'], // regex for branches that should auto register subdomains
     });
 
-    domain.mapRoot(stage);
+    //domain.mapRoot(stage);
     domain.mapSubDomain(stage, 'stage');
 
     for(let path of stage_paths) {

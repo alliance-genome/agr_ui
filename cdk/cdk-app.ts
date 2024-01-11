@@ -49,6 +49,6 @@ new AmplifyRulesStack(app, 'prod-rules-stack', {
 });
 */
 
-new AmplifyStageStack(app, 'agruistage', {
-  stackName: 'agruistage'
+new AmplifyStageStack(app, 'agr-ui-stage', {
+  stackName: 'agr-ui-stage'
 });
