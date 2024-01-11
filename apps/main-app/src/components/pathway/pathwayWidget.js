@@ -468,7 +468,7 @@ class PathwayWidget extends Component {
           {
             (this.state.gocams.loaded && this.state.gocams.list && this.state.gocams.list.length > 0) ?
               <div style={{ "padding": "1rem 0.2rem" }}>
-                <span  pan style={{ "paddingRight": "1rem"}}>Available GO-CAMs: </span>
+                <span style={{ "paddingRight": "1rem"}}>Available GO-CAMs: </span>
                 <select id="modPathwaySelect" value={this.state.gocams.selected} onChange={(evt) => this.gocamChanged(evt) } style={{ "minWidth": "1130px" }}>
                   {this.state.gocams.list.map(elt => {
                     return <option value={elt.gocam}>{elt.title}</option>
