@@ -1,4 +1,4 @@
-import { resourceDescriptors } from "../../dist/resourceDescriptors";
+import { resourceDescriptors } from "../../resourceDescriptors";
 
 export const getResourceUrl = (curie, type, subtype ) => {
   const [prefix, id] = curie.split(':');
