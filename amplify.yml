@@ -3,7 +3,6 @@ frontend:
   phases:
     preBuild:
       commands:
-        - mkdir dist
         - nvm use
         - npm install --legacy-peer-deps
     build:
