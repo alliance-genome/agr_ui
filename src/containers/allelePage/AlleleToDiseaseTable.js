@@ -53,7 +53,7 @@ const AlleleToDiseaseTable = ({alleleId}) => {
     {
       dataField: 'primaryAnnotations',
       text: 'Annotation details',
-      formatter: entities => <AnnotatedEntitiesPopupCuration entities={entities}/>,
+      formatter: entities => <AnnotatedEntitiesPopupCuration parentPage='allele' entities={entities}/>,
       headerStyle: {width: '90px'},
     },
     {
