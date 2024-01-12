@@ -13,6 +13,3 @@ frontend:
     baseDirectory: dist/apps/main-app
     files:
       - '**/*'
-  cache:
-    paths:
-      - node_modules/**/*
