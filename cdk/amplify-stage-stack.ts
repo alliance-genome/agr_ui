@@ -1,6 +1,6 @@
 import * as amplify from '@aws-cdk/aws-amplify-alpha';
 import * as cdk from 'aws-cdk-lib';
-import * as codebuild from 'aws-cdk-lib/aws-codebuild';
+import * as iam from 'aws-cdk-lib/aws-iam';
 
 export class AmplifyStageStack extends cdk.Stack {
 
@@ -45,7 +45,7 @@ export class AmplifyStageStack extends cdk.Stack {
       { source: '/textpresso/wb/',                     target: 'https://stage.alliancegenome.org/textpresso/wb/tpc',                                  status: amplify.RedirectStatus.PERMANENT_REDIRECT },
       { source: '/textpresso/wb/<*>',                  target: 'https://wb-textpresso.alliancegenome.org/<*>',                                        status: amplify.RedirectStatus.REWRITE },
       { source: '/<*>',                                target: '/index.html',                                                                         status: amplify.RedirectStatus.NOT_FOUND_REWRITE },
-      { source: '</^[^.]+$|\.(?!(css|xml|gif|ico|jpg|js|png|txt|svg|woff|woff2|ttf|map|json|webp)$)([^.]+$)/>', target: '/index.html',                status: amplify.RedirectStatus.REWRITE }
+      { source: '</^[^.]+$/>',                         target: '/index.html',                                                                         status: amplify.RedirectStatus.REWRITE }
     ];
 
     const amplifyApp = new amplify.App(this, 'agr-ui-stage', {
@@ -55,18 +55,17 @@ export class AmplifyStageStack extends cdk.Stack {
         oauthToken: cdk.SecretValue.secretsManager('GithubOauthDevopsToken'),
       }),
       autoBranchCreation: {
-        patterns: ['SCRUM-*', 'KANBAN-*'],
+        patterns: ['SCRUM-*'],
       },
       autoBranchDeletion: true,
+      role: iam.Role.fromRoleArn(this, "AmplifyALBRole", 'arn:aws:iam::100225593120:role/StageAmplifyRole'),
     });
 
-    //const main = amplifyApp.addBranch('main', { autoBuild: true, branchName: 'main', stage: 'PRODUCTION' });
-    //const test = amplifyApp.addBranch('test', { autoBuild: true, branchName: 'test', stage: 'BETA' });
     const stage = amplifyApp.addBranch('stage', { autoBuild: true, branchName: 'stage', stage: 'PRODUCTION' });
 
     const domain = amplifyApp.addDomain('alliancegenome.org', {
       enableAutoSubdomain: true, // in case subdomains should be auto registered for branches
-      autoSubdomainCreationPatterns: ['scrum-*', 'kanban-*'], // regex for branches that should auto register subdomains
+      autoSubdomainCreationPatterns: ['scrum-*'], // regex for branches that should auto register subdomains
     });
 
     //domain.mapRoot(stage);
