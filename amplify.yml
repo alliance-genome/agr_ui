@@ -9,7 +9,6 @@ frontend:
     build:
       commands:
         - npm run build
-        - npx aws-cdk deploy test-alb-stack
   artifacts:
     baseDirectory: dist/apps/main-app
     files:
