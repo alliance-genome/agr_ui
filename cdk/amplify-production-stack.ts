@@ -23,6 +23,20 @@ export class AmplifyProductionStack extends cdk.Stack {
       { source: '/swagger-ui',                         target: 'https://www.alliancegenome.org/swagger-ui/',                                          status: amplify.RedirectStatus.PERMANENT_REDIRECT },
 
       { source: '/api/<*>',                            target: 'https://prod-alb.alliancegenome.org/api/<*>',                                         status: amplify.RedirectStatus.REWRITE },
+      
+      { source: '/jbrowse/worms/protein',              target: 'https://www.alliancegenome.org/jbrowse/worms/protein/',                              status: amplify.RedirectStatus.PERMANENT_REDIRECT },
+      { source: '/jbrowse/worms/protein/',             target: 'https://main.djgvd7iswt7yy.amplifyapp.com/',                                          status: amplify.RedirectStatus.REWRITE },
+      { source: '/jbrowse/worms/protein/<*>',          target: 'https://main.djgvd7iswt7yy.amplifyapp.com/<*>',                                       status: amplify.RedirectStatus.REWRITE },
+      { source: '/jbrowse/worms/jbrowse-simple',       target: 'https://www.alliancegenome.org/jbrowse/worms/jbrowse-simple/',                       status: amplify.RedirectStatus.PERMANENT_REDIRECT },
+      { source: '/jbrowse/worms/jbrowse-simple/',      target: 'https://main.d341oo3yism9gt.amplifyapp.com/jbrowse-simple/',                          status: amplify.RedirectStatus.REWRITE },
+      { source: '/jbrowse/worms/jbrowse-simple/<*>',   target: 'https://main.d341oo3yism9gt.amplifyapp.com/jbrowse-simple/<*>',                       status: amplify.RedirectStatus.REWRITE },
+      { source: '/jbrowse/worms/jbrowse',              target: 'https://www.alliancegenome.org/jbrowse/worms/jbrowse/',                              status: amplify.RedirectStatus.PERMANENT_REDIRECT },
+      { source: '/jbrowse/worms/jbrowse/',             target: 'https://main.d341oo3yism9gt.amplifyapp.com/jbrowse/',                                 status: amplify.RedirectStatus.REWRITE },
+      { source: '/jbrowse/worms/jbrowse/<*>',          target: 'https://main.d341oo3yism9gt.amplifyapp.com/jbrowse/<*>',                              status: amplify.RedirectStatus.REWRITE },
+      { source: '/jbrowse/worms/jbrowse2',             target: 'https://www.alliancegenome.org/jbrowse/worms/jbrowse2/',                             status: amplify.RedirectStatus.PERMANENT_REDIRECT },
+      { source: '/jbrowse/worms/jbrowse2/',            target: 'https://main.d2jjb0xowet5mr.amplifyapp.com/',                                         status: amplify.RedirectStatus.REWRITE },
+      { source: '/jbrowse/worms/jbrowse2/<*>',         target: 'https://main.d2jjb0xowet5mr.amplifyapp.com/<*>',                                      status: amplify.RedirectStatus.REWRITE },
+      
       { source: '/jbrowse/<*>',                        target: 'https://prod-alb.alliancegenome.org/jbrowse/<*>',                                     status: amplify.RedirectStatus.REWRITE },
       { source: '/apollo/<*>',                         target: 'https://prod-alb.alliancegenome.org/apollo/<*>',                                      status: amplify.RedirectStatus.REWRITE },
       { source: '/agr_simplemine.cgi',                 target: 'https://caltech-curation.textpressolab.com/pub/cgi-bin/forms/agr_simplemine.cgi',     status: amplify.RedirectStatus.REWRITE },
@@ -43,7 +57,7 @@ export class AmplifyProductionStack extends cdk.Stack {
       { source: '/textpresso/wb/<*>',                  target: 'https://wb-textpresso.alliancegenome.org/<*>',                                        status: amplify.RedirectStatus.REWRITE },
 
       { source: '/<*>',                                target: '/index.html',                                                                         status: amplify.RedirectStatus.NOT_FOUND_REWRITE },
-      { source: '</^[^.]+$|\.(?!(css|xml|gif|ico|jpg|js|png|txt|svg|woff|woff2|ttf|map|json|webp)$)([^.]+$)/>',      target: '/index.html',           status: amplify.RedirectStatus.REWRITE }
+      { source: '</^[^.]+$/>',                         target: '/index.html',                                                                         status: amplify.RedirectStatus.REWRITE }
   
     ];
 
@@ -56,8 +70,8 @@ export class AmplifyProductionStack extends cdk.Stack {
       role: iam.Role.fromRoleArn(this, "AmplifyALBRole", 'arn:aws:iam::100225593120:role/StageAmplifyRole'),
     });
 
-    amplifyApp.addEnvironment("NODE_ENV", "production");
-    
+    amplifyApp.addEnvironment("BUILD_ENV", "production");
+
     const main = amplifyApp.addBranch('main', { autoBuild: true, branchName: 'main', stage: 'PRODUCTION' });
 
     const domain = amplifyApp.addDomain('alliancegenome.org');
