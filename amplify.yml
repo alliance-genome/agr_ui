@@ -1,0 +1,18 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - mkdir dist
+        - nvm use
+        - npm install
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    baseDirectory: dist/apps/main-app
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
