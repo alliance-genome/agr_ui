@@ -20,8 +20,10 @@ import ProviderCellCuration from './ProviderCellCuration';
 import GeneticSex from './GeneticSex';
 import AnnotationType from './AnnotationType';
 import AssociationCellCuration from './AssociationCellCuration';
+import AssertedGenes from './AssertedGenes';
 import GeneticModifiersCellCuration from './GeneticModifiersCellCuration';
 import { buildProviderWithUrl } from './utils';
+import StrainBackground from './StrainBackground';
 
 function renderLink(entity) {
   const url = getResourceUrl(entity.subject.curie, entity.subject.type, entity.subject.subtype)
@@ -41,7 +43,7 @@ function renderLink(entity) {
 }
 
 function AnnotatedEntitiesPopupCuration(props) {
-  const {children, entities } = props;
+  const {children, entities, parentPage, mainRowCurie } = props;
 
   if (!entities || !entities.length) {
     return null;
@@ -66,9 +68,11 @@ function AnnotatedEntitiesPopupCuration(props) {
                 <th>Name</th>
                 <th>Type</th>
                 <th className={style.associationCell}>Association</th>
+                { parentPage === 'gene' ? <th>Additional implicated genes</th> : <></> }
                 <th>Experimental condition</th>
                 <th></th>
                 <th>Genetic Modifiers</th>
+                { parentPage === 'gene' ? <th>Strain Background</th> : <></> }
                 <th>Genetic Sex</th>
                 <th className={style.relatedNotes}>Notes</th>
                 <th>Annotation type</th>
@@ -86,9 +90,11 @@ function AnnotatedEntitiesPopupCuration(props) {
                       <td>{renderLink(entity)}</td>
                       <td><TypeCellCuration subject={entity.subject}/></td>
                       <td><AssociationCellCuration association={entity.relation?.name}/></td>
+                      { parentPage === 'gene' ?  <td><AssertedGenes assertedGenes={entity.assertedGenes} mainRowCurie={mainRowCurie}/></td> : <></>}
                       <td><ExperimentalConditionCellCuration conditions={entity.conditionRelations}/></td>
                       <td><ExperimentalConditionCellCuration conditions={entity.conditionModifiers}/></td>
                       <td><GeneticModifiersCellCuration relation={entity.diseaseGeneticModifierRelation} modifiers={entity.diseaseGeneticModifiers}/></td>
+                      { parentPage === 'gene' ? <td><StrainBackground strainBackground={entity.sgdStrainBackground}/></td> : <></> }
                       <td><GeneticSex geneticSex={entity.geneticSex}/></td>
                       <td><RelatedNotes className={style.relatedNotes} relatedNotes={entity.relatedNotes}/></td>
                       <td><AnnotationType  annotationType={entity.annotationType}/></td>
@@ -110,6 +116,7 @@ function AnnotatedEntitiesPopupCuration(props) {
 AnnotatedEntitiesPopupCuration.propTypes = {
   children: PropTypes.node,
   entities: PropTypes.array,
+  parentPage: PropTypes.string
 };
 
 export default AnnotatedEntitiesPopupCuration;
