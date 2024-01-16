@@ -2,6 +2,8 @@
 import * as cdk from 'aws-cdk-lib';
 import { AmplifyALBStack } from './amplify-alb-stack';
 import { AmplifyStageStack } from './amplify-stage-stack';
+import { AmplifyTestStack } from './amplify-test-stack';
+import { AmplifyProductionStack } from './amplify-production-stack';
 
 const app = new cdk.App();
 
@@ -35,20 +37,12 @@ new AmplifyALBStack(app, 'prod-alb-stack', {
   },
 });
 
-/*
-new AmplifyRulesStack(app, 'stage-rules-stack', {
-  stackName: 'stage-rules-stack'
-});
-
-new AmplifyRulesStack(app, 'test-rules-stack', {
-  stackName: 'stage-rules-stack'
-});
-
-new AmplifyRulesStack(app, 'prod-rules-stack', {
-  stackName: 'stage-rules-stack'
-});
-*/
-
 new AmplifyStageStack(app, 'agr-ui-stage', {
   stackName: 'agr-ui-stage'
+});
+new AmplifyTestStack(app, 'agr-ui-test', {
+  stackName: 'agr-ui-test'
+});
+new AmplifyProductionStack(app, 'agr-ui-production', {
+  stackName: 'agr-ui-production'
 });
