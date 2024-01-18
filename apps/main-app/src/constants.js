@@ -173,17 +173,17 @@ export const NAV_MENU = [
         route: '/funding'
       },
       {
+        label: 'Publications',
+        route: '/publications',
+      },
+      {
         label: 'Organization and Governance',
         route: '/organization-and-governance'
       },
       {
-        label: 'Privacy, Warranty, and Licensing',
+        label: 'Privacy, Warranty, Licensing, and Data Preservation Commitment',
         route: '/privacy-warranty-licensing'
       },
-      {
-        label: 'Publications',
-        route: '/publications',
-      }
     ]
   },
   {
