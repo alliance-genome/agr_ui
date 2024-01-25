@@ -24,16 +24,16 @@ export class AmplifyProductionStack extends cdk.Stack {
 
       { source: '/api/<*>',                            target: 'https://prod-alb.alliancegenome.org/api/<*>',                                         status: amplify.RedirectStatus.REWRITE },
       
-      { source: '/jbrowse/worms/protein',              target: 'https://www.alliancegenome.org/jbrowse/worms/protein/',                              status: amplify.RedirectStatus.PERMANENT_REDIRECT },
+      { source: '/jbrowse/worms/protein',              target: 'https://www.alliancegenome.org/jbrowse/worms/protein/',                               status: amplify.RedirectStatus.PERMANENT_REDIRECT },
       { source: '/jbrowse/worms/protein/',             target: 'https://main.djgvd7iswt7yy.amplifyapp.com/',                                          status: amplify.RedirectStatus.REWRITE },
       { source: '/jbrowse/worms/protein/<*>',          target: 'https://main.djgvd7iswt7yy.amplifyapp.com/<*>',                                       status: amplify.RedirectStatus.REWRITE },
-      { source: '/jbrowse/worms/jbrowse-simple',       target: 'https://www.alliancegenome.org/jbrowse/worms/jbrowse-simple/',                       status: amplify.RedirectStatus.PERMANENT_REDIRECT },
+      { source: '/jbrowse/worms/jbrowse-simple',       target: 'https://www.alliancegenome.org/jbrowse/worms/jbrowse-simple/',                        status: amplify.RedirectStatus.PERMANENT_REDIRECT },
       { source: '/jbrowse/worms/jbrowse-simple/',      target: 'https://main.d341oo3yism9gt.amplifyapp.com/jbrowse-simple/',                          status: amplify.RedirectStatus.REWRITE },
       { source: '/jbrowse/worms/jbrowse-simple/<*>',   target: 'https://main.d341oo3yism9gt.amplifyapp.com/jbrowse-simple/<*>',                       status: amplify.RedirectStatus.REWRITE },
-      { source: '/jbrowse/worms/jbrowse',              target: 'https://www.alliancegenome.org/jbrowse/worms/jbrowse/',                              status: amplify.RedirectStatus.PERMANENT_REDIRECT },
+      { source: '/jbrowse/worms/jbrowse',              target: 'https://www.alliancegenome.org/jbrowse/worms/jbrowse/',                               status: amplify.RedirectStatus.PERMANENT_REDIRECT },
       { source: '/jbrowse/worms/jbrowse/',             target: 'https://main.d341oo3yism9gt.amplifyapp.com/jbrowse/',                                 status: amplify.RedirectStatus.REWRITE },
       { source: '/jbrowse/worms/jbrowse/<*>',          target: 'https://main.d341oo3yism9gt.amplifyapp.com/jbrowse/<*>',                              status: amplify.RedirectStatus.REWRITE },
-      { source: '/jbrowse/worms/jbrowse2',             target: 'https://www.alliancegenome.org/jbrowse/worms/jbrowse2/',                             status: amplify.RedirectStatus.PERMANENT_REDIRECT },
+      { source: '/jbrowse/worms/jbrowse2',             target: 'https://www.alliancegenome.org/jbrowse/worms/jbrowse2/',                              status: amplify.RedirectStatus.PERMANENT_REDIRECT },
       { source: '/jbrowse/worms/jbrowse2/',            target: 'https://main.d2jjb0xowet5mr.amplifyapp.com/',                                         status: amplify.RedirectStatus.REWRITE },
       { source: '/jbrowse/worms/jbrowse2/<*>',         target: 'https://main.d2jjb0xowet5mr.amplifyapp.com/<*>',                                      status: amplify.RedirectStatus.REWRITE },
       
