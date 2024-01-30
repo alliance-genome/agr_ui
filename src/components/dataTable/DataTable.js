@@ -96,7 +96,7 @@ const DataTable = ({
   }
 
   // the initial fetch is happening, show spinner, don't render the table yet
-  if (isLoading || isFetching) {
+  if (isLoading) {
     return <LoadingSpinner />;
   }
 
