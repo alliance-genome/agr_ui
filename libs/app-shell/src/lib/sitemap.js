@@ -15,6 +15,10 @@ const sitemap = [
         route: '/api/swagger-ui',
       },
       {
+        label: 'Submit Data',
+        route: '/submit-data',
+      },
+      {
         label: 'Tools and Prototypes',
         route: '/prototypes',
       },
@@ -25,7 +29,7 @@ const sitemap = [
       {
         label: 'JBrowse',
         route: '/jbrowse?data=data%2FHomo%20sapiens',
-      }
+      },
     ],
   },
   {
