@@ -84,6 +84,10 @@ export const NAV_MENU = [
         external: true,
       },
       {
+        label: 'Submit Data',
+        route: '/submit-data',
+      },
+      {
         label: 'Tools and Prototypes',
         route: '/prototypes',
       },
