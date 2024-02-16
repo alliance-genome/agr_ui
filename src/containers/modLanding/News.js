@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import WordpressNews from "./wordpressNews"
 import NewsFlybase from "./NewsFlybase"
 import NewsZfin from "./NewsZfin"
+import ExternalLink from '../../components/ExternalLink';
 
 const News = ({content}) => {
   return (
@@ -11,24 +12,23 @@ const News = ({content}) => {
       <div data-testid={'news_div'} className={`${style.section} ${content.sectionStyle}`}>
         <h2 data-testid={'news_header'} className={style.sectionTitle}>News</h2>
         {(() => {
-          if (content.wordpressNewsBaseURL) { 
+          if (content.wordpressNewsBaseURL) {
             return (<WordpressNews urlNewsMod={content.wordpressNewsBaseURL} fetchNewsCount={content.fetchNewsCount}
                                    linkToNewsPage={content.linkToNewsPage} />); }
-          else if (content.zfinNewsAPI) { 
+          else if (content.zfinNewsAPI) {
             return (<NewsZfin urlNewsMod={content.zfinNewsAPI} fetchNewsCount={content.fetchNewsCount}
                               linkToNewsPage={content.linkToNewsPage} />); }
-          else if (content.flybaseNewsAPI) { 
+          else if (content.flybaseNewsAPI) {
             return (<NewsFlybase urlNewsMod={content.flybaseNewsAPI} fetchNewsCount={content.fetchNewsCount}
                                  linkToNewsPage={content.linkToNewsPage} />); }
           else if (content.rgdNewsAPI) {
             // rgd modeled their api format after flybase, so uses same
             return (<NewsFlybase urlNewsMod={content.rgdNewsAPI} fetchNewsCount={content.fetchNewsCount}
                                  linkToNewsPage={content.linkToNewsPage} />); }
-          else if (content.newsURL) { 
+          else if (content.newsURL) {
             return (<h5 data-testid={'news_link_header'} className={style.externalNews} >
-                      <a data-testid={'more_news_link'} href={content.newsURL}>
-                         Click here for the latest news from {content.modShortName}
-                      </a>
+                      <ExternalLink href={content.newsURL} data-testid={'more_news_link'}>
+                        Read the latest news from {content.modShortName}</ExternalLink>
                     </h5>); }
           return (<div>No News</div>);
         })()}

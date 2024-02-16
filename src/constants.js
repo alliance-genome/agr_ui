@@ -84,6 +84,10 @@ export const NAV_MENU = [
         external: true,
       },
       {
+        label: 'Submit Data',
+        route: '/submit-data',
+      },
+      {
         label: 'Tools and Prototypes',
         route: '/prototypes',
       },
@@ -134,8 +138,7 @@ export const NAV_MENU = [
       {
         label: 'Xenbase',
         shortLabel: 'Xenbase',
-        route: 'https://www.xenbase.org/',
-        external: true,
+        route: '/members/xenbase'
       },
       {
         label: 'Zebrafish Information Network',
@@ -174,17 +177,17 @@ export const NAV_MENU = [
         route: '/funding'
       },
       {
+        label: 'Publications',
+        route: '/publications',
+      },
+      {
         label: 'Organization and Governance',
         route: '/organization-and-governance'
       },
       {
-        label: 'Privacy, Warranty, and Licensing',
+        label: 'Privacy, Warranty, Licensing, and Data Preservation Commitment',
         route: '/privacy-warranty-licensing'
       },
-      {
-        label: 'Publications',
-        route: '/publications',
-      }
     ]
   },
   {
