@@ -3,11 +3,9 @@
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 
-.externalLink:after {
-  font-family: FontAwesome;
-  content: "\f08e";
-  padding-left: 3px;
-  font-size: 85%;
+.externalLink {
+  padding-left: 4px;
+  font-size: 75%;
 }
 
 .loadingText {

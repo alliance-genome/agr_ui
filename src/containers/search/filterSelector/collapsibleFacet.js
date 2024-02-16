@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import style from './style.module.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
 
 class CollapsibleFacet extends Component {
@@ -38,7 +40,8 @@ class CollapsibleFacet extends Component {
           >
             {actionText}
             {actionText === 'Hide' ? '' :
-              <i className={`fa fa-angle-down ${style.filterCaret}`} />}
+              <FontAwesomeIcon icon={faAngleDown} className={`${style.filterCaret}`} />
+            }
           </a>
           {this.state.isCollapsed ? this.renderActiveNode() : this.renderInactiveNode()}
         </div>
