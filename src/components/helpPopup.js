@@ -1,4 +1,3 @@
-import style from './style.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { PopoverBody, UncontrolledPopover } from 'reactstrap';
