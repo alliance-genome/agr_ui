@@ -24,7 +24,8 @@ const SearchSection = () => {
         </ul>
         <div className='d-flex justify-content-around flex-wrap'>
           <ActionButton
-            icon='fa-download'
+            icon='download'
+            size='2x'
             id='action-download'
             to='/downloads'
             tooltip='Access downloadable bulk data files by species or combined for a variety of data types'
@@ -32,7 +33,8 @@ const SearchSection = () => {
             Download Data
           </ActionButton>
           <ActionButton
-            icon='fa-code'
+            icon='code'
+            size='2x'
             id='action-api'
             to='/api/swagger-ui'
             tooltip='Read documentation for accessing Alliance data programmatically via REST APIs'
@@ -40,7 +42,8 @@ const SearchSection = () => {
             Browse APIs
           </ActionButton>
           <ActionButton
-            icon='fa-book'
+            icon='book-open'
+            size='2x'
             id='action-pubs'
             to='/publications'
             tooltip='See publications about the Alliance written by Alliance members'
@@ -48,7 +51,8 @@ const SearchSection = () => {
             View Publications
           </ActionButton>
           <ActionButton
-            icon='fa-lightbulb-o'
+            icon='lightbulb'
+            size='2x'
             id='action-tutorial'
             to='/tutorials'
             tooltip='Dive deeper into using the Alliance with video and text-based tutorials'

@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 import style from './style.module.scss';
 
 const LoadingOverlay = ({loading}) => {
   return (
     <div className={`${style.loadingOverlay} ${loading ? style.loading : ''}`}>
-      {loading && <i className='fa fa-spinner fa-spin' />}
+      {loading && <FontAwesomeIcon icon={faSpinner} spin />}
     </div>
   );
 };
