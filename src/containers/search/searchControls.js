@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 import style from './style.module.scss';
 import {
@@ -35,13 +37,13 @@ const SearchControlsComponent = (props) => {
           className={`btn btn-outline-secondary${isPrevDisabled ? ' disabled' : ''}`}
           to={prevHef}
         >
-          <i className='fa fa-chevron-left'/>
+          <FontAwesomeIcon icon={faChevronLeft} />
         </Link>
         <Link
           className={`btn btn-outline-secondary${isNextDisabled ? ' disabled' : ''}`}
           to={nextHef}
         >
-          <i className='fa fa-chevron-right'/>
+          <FontAwesomeIcon icon={faChevronRight} />
         </Link>
       </div>
     </div>

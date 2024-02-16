@@ -4,6 +4,13 @@
   "private": true,
   "dependencies": {
     "@aws-cdk/aws-amplify-alpha": "^2.118.0-alpha.0",
+    "@emotion/react": "11.1.5",
+    "@emotion/server": "11.0.0",
+    "@emotion/styled": "11.1.5",
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-brands-svg-icons": "^6.4.2",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@geneontology/curie-util-es5": "^1.2.4",
     "@geneontology/wc-gocam-viz": "0.0.51",
     "@geneontology/wc-ribbon-strips": "0.0.37",
