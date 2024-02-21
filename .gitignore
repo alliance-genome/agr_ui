@@ -13,6 +13,7 @@ package-lock.json
 /build
 /src/dist
 /public/sitemap.xml
+/public/robots.txt
 /public/main-sitemap.xml
 /src/resourceDescriptors.js
 
