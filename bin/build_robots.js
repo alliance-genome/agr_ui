@@ -13,7 +13,7 @@ Sitemap: https://www.alliancegenome.org/api/sitemap.xml`;
 
 const OTHER_CONTENT = `# https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Disallow: /
 `;
 
 const content = env === 'production' ? PROD_CONTENT : OTHER_CONTENT;
