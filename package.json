@@ -66,7 +66,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prebuild": "npm run resource-descriptors npm run sitemap && npm run robots",
+    "prebuild": "npm run resource-descriptors && npm run sitemap && npm run robots",
     "robots": "node bin/build_robots.js",
     "sitemap": "node bin/build_sitemap.js",
     "resource-descriptors": "node bin/build_resource_descriptors.js"
