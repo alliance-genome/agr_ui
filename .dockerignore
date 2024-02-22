@@ -2,3 +2,4 @@ node_modules
 npm-debug.log
 .git
 dist
+package-lock.json
