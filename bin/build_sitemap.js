@@ -7,7 +7,7 @@ var sitemapindex = sm.buildSitemapIndex({
   ]
 });
 
-fs.writeFileSync('src/public/sitemap.xml', sitemapindex.toString());
+fs.writeFileSync('public/sitemap.xml', sitemapindex.toString());
 
 var sitemap = sm.createSitemap({
   hostname: 'https://www.alliancegenome.org',
@@ -29,4 +29,4 @@ var sitemap = sm.createSitemap({
   ]
 });
 
-fs.writeFileSync('src/public/main-sitemap.xml', sitemap.toString());
+fs.writeFileSync('public/main-sitemap.xml', sitemap.toString());
