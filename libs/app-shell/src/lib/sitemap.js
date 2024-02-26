@@ -12,7 +12,7 @@ const sitemap = [
       },
       {
         label: 'API',
-        route: '/api/swagger-ui',
+        route: '/swagger-ui',
       },
       {
         label: 'Submit Data',
