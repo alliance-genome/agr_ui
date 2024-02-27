@@ -12,8 +12,9 @@ package-lock.json
 /dist
 /build
 /src/dist
-/src/public/sitemap.xml
-/src/public/main-sitemap.xml
+/public/sitemap.xml
+/public/robots.txt
+/public/main-sitemap.xml
 /src/resourceDescriptors.js
 
 # IDEs and editors

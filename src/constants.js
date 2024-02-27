@@ -84,6 +84,10 @@ export const NAV_MENU = [
         external: true,
       },
       {
+        label: 'Submit Data',
+        route: '/submit-data',
+      },
+      {
         label: 'Tools and Prototypes',
         route: '/prototypes',
       },
@@ -134,8 +138,7 @@ export const NAV_MENU = [
       {
         label: 'Xenbase',
         shortLabel: 'Xenbase',
-        route: 'https://www.xenbase.org/',
-        external: true,
+        route: '/members/xenbase'
       },
       {
         label: 'Zebrafish Information Network',
@@ -174,17 +177,17 @@ export const NAV_MENU = [
         route: '/funding'
       },
       {
+        label: 'Publications',
+        route: '/publications',
+      },
+      {
         label: 'Organization and Governance',
         route: '/organization-and-governance'
       },
       {
-        label: 'Privacy, Warranty, and Licensing',
+        label: 'Privacy, Warranty, Licensing, and Data Preservation Commitment',
         route: '/privacy-warranty-licensing'
       },
-      {
-        label: 'Publications',
-        route: '/publications',
-      }
     ]
   },
   {
@@ -380,6 +383,9 @@ export const SPECIES = [
     apolloName: 'SARS-CoV-2',
     apolloTrack: '/Mature%20peptides/',
     jBrowseName: 'SARS-CoV-2',
+    jBrowsenclistbaseurl: `https://s3.amazonaws.com/agrjbrowse/docker/3.2.0/SARS-CoV-2/`,
+    jBrowseurltemplate: 'tracks/All Genes/{refseq}/trackData.jsonz',
+    jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_000001405.40_GRCh38.p14_genomic.fna.gz',
     suppressFlatten: true,
     vertebrate: false,
     enableSingleCellExpressionAtlasLink: false,
