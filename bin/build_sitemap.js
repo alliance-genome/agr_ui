@@ -7,7 +7,7 @@ var sitemapindex = sm.buildSitemapIndex({
   ]
 });
 
-fs.writeFileSync('src/public/sitemap.xml', sitemapindex.toString());
+fs.writeFileSync('public/sitemap.xml', sitemapindex.toString());
 
 var sitemap = sm.createSitemap({
   hostname: 'https://www.alliancegenome.org',
@@ -24,8 +24,9 @@ var sitemap = sm.createSitemap({
     { url: '/publications',  changefreq: 'monthly', priority: 0.7, lastmodrealtime: true },
     { url: '/genome-features',      changefreq: 'monthly', priority: 0.7, lastmodrealtime: true },
     { url: '/administrative-supplement',    changefreq: 'monthly', priority: 0.7, lastmodrealtime: true },
-    { url: '/phenotypes-and-disease-models',    changefreq: 'monthly', priority: 0.7, lastmodrealtime: true }
+    { url: '/phenotypes-and-disease-models',    changefreq: 'monthly', priority: 0.7, lastmodrealtime: true },
+    { url: '/submit-data',    changefreq: 'monthly', priority: 0.7, lastmodrealtime: true }
   ]
 });
 
-fs.writeFileSync('src/public/main-sitemap.xml', sitemap.toString());
+fs.writeFileSync('public/main-sitemap.xml', sitemap.toString());
