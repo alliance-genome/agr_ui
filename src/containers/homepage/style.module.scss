@@ -1,0 +1,92 @@
+@import "../../theme.module";
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+$max-width: 800px;
+
+.section {
+  padding: 3rem 1rem;
+  border-bottom: 1px solid $border-color;
+}
+
+.searchBackground {
+  background: $primary-300;
+  /* fallback for old browsers */
+  background: linear-gradient(13deg, $accent-300 0%, $tertiary-300 25%, $primary-300 100%);
+}
+
+.contentContainer {
+  width: 100%;
+  margin: 0 auto;
+
+  @media (min-width: $max-width) {
+    max-width: $max-width;
+  }
+}
+
+.searchBarContainer {
+  font-size: 150%;
+  width: 100%;
+
+  @media (min-width: $max-width) {
+    font-size: 185%;
+  }
+}
+
+.searchExampleList {
+  color: $gray-700;
+  padding-left: 0;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+
+  li {
+    padding: 0.25rem;
+  }
+}
+
+.actionButton {
+  color: $gray-700;
+  display: inline-flex;
+  flex: 1 0 0;
+  font-size: 1rem;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 1rem;
+  white-space: nowrap;
+  position: relative;
+  transition: transform 100ms ease-out;
+
+  &:hover {
+    text-decoration: none;
+    color: inherit;
+    transform: translateY(-3px);
+  }
+
+  @media (min-width: $max-width) {
+    font-size: 1.25rem;
+  }
+
+  .icon {
+    pointer-events: none;
+  }
+}
+
+.member {
+  width: 12.5%;
+  min-width: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  padding: 0.25rem;
+  text-align: center;
+
+  img {
+    max-width: 100%;
+    margin-bottom: 0.5rem;
+  }
+}

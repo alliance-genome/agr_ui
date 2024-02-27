@@ -1,0 +1,112 @@
+@import "../../theme.module";
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+.socialLinks i {
+  padding-left: 0.3rem;
+  font-size: 20px;
+  vertical-align: middle;
+}
+
+.content {
+  margin: auto;
+}
+
+.topBar {
+  background: $primary;
+  color: white;
+
+  a {
+    color: white;
+  }
+}
+
+.loaderContentContainer {
+  position: relative;
+}
+
+.contentContainer {
+  min-height: 400px;
+}
+
+.agrLogo {
+  width: 13rem;
+  padding-right: 1rem;
+}
+
+.version {
+  font-size: 0.7rem;
+  padding-bottom: 1px;
+}
+
+.warningBar {
+  overflow: auto;
+  background: orange;
+  padding: 1rem;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.warningBar > p:last-of-type {
+  margin: 0
+}
+
+.headerSearchContainer {
+  width: 100%;
+
+  @include media-breakpoint-up(md) {
+    max-width: 500px;
+  }
+}
+
+.footer {
+  background-color: $primary;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  color: white;
+
+  @include media-breakpoint-up(md) {
+    flex-direction: row;
+  }
+
+  a {
+    color: white;
+  }
+
+  .footerLogo {
+    margin-right: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .siteMapContainer {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 460px;
+
+    @include media-breakpoint-up(md) {
+      height: 235px;
+    }
+  }
+
+  .siteMapGroup {
+    margin-bottom: 0.5rem;
+    width: 50%;
+
+    @include media-breakpoint-up(md) {
+      width: 15%;
+    }
+  }
+
+  .siteMapHeader {
+    font-weight: bold;
+  }
+
+  .socialLinks {
+    display: flex;
+    flex-direction: column;
+  }
+}
