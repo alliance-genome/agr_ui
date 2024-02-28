@@ -17,6 +17,9 @@ export class AmplifyStageStack extends cdk.Stack {
 
     const stage_paths = [
       { source: '/api/<*>',                            target: 'https://stage-api.alliancegenome.org/api/<*>',                                        status: amplify.RedirectStatus.REWRITE },
+      { source: '/jbrowse2',                           target: 'https://stage.alliancegenome.org/jbrowse2/',                                          status: amplify.RedirectStatus.PERMANENT_REDIRECT },
+      { source: '/jbrowse2/',                          target: 'https://stage.dgaayxgqoarxf.amplifyapp.com/',                                       status: amplify.RedirectStatus.REWRITE },
+      { source: '/jbrowse2/<*>',                       target: 'https://stage.dgaayxgqoarxf.amplifyapp.com/<*>',                                    status: amplify.RedirectStatus.REWRITE }, 
       { source: '/jbrowse/worms/protein',              target: 'https://stage.alliancegenome.org/jbrowse/worms/protein/',                             status: amplify.RedirectStatus.PERMANENT_REDIRECT },
       { source: '/jbrowse/worms/protein/',             target: 'https://staging.djgvd7iswt7yy.amplifyapp.com/',                                       status: amplify.RedirectStatus.REWRITE },
       { source: '/jbrowse/worms/protein/<*>',          target: 'https://staging.djgvd7iswt7yy.amplifyapp.com/<*>',                                    status: amplify.RedirectStatus.REWRITE },
