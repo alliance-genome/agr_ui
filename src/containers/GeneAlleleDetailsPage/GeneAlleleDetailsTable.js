@@ -120,6 +120,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
             location={variant.location}
             species={gene.species && gene.species.name}
             type={variant.variantType && variant.variantType.name}
+	    taxonid={gene.species && gene.species.taxonId}
           >{variant.displayName}</VariantJBrowseLink>
         </div>
       ) : null,

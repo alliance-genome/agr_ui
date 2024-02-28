@@ -19,7 +19,6 @@ import useDataTableQuery from '../../hooks/useDataTableQuery';
 import useAllVariants from '../../hooks/useAllVariants';
 
 const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
-
   const geneLocation = getSingleGenomeLocation(gene.genomeLocations);
 
   const tableProps = useDataTableQuery(`/api/gene/${geneId}/alleles`);
@@ -170,6 +169,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
                       location={location}
                       species={gene.species && gene.species.name}
                       type={type.name}
+		      taxonid={gene.species && gene.species.taxonId}
                     >{id}</VariantJBrowseLink>
                   }
                 </div>
