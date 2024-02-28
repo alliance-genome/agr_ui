@@ -16,7 +16,6 @@ export class AmplifyTestStack extends cdk.Stack {
 */
 
     const test_paths = [
-      { source: '/<*>',                                target: '/index.html',                                                                         status: amplify.RedirectStatus.NOT_FOUND_REWRITE },
       { source: '/api/<*>',                            target: 'https://test-alb.alliancegenome.org/api/<*>',                                         status: amplify.RedirectStatus.REWRITE },
 
       { source: '/jbrowse/worms/protein',              target: 'https://test.alliancegenome.org/jbrowse/worms/protein/',                              status: amplify.RedirectStatus.PERMANENT_REDIRECT },
@@ -34,6 +33,9 @@ export class AmplifyTestStack extends cdk.Stack {
 
       { source: '/agr_simplemine.cgi',                 target: 'https://caltech-curation.textpressolab.com/pub/cgi-bin/forms/agr_simplemine.cgi',     status: amplify.RedirectStatus.REWRITE },
 
+      { source: '/jbrowse/<*>',                        target: 'https://test-alb.alliancegenome.org/jbrowse/<*>',                                     status: amplify.RedirectStatus.REWRITE },
+      { source: '/apollo/<*>',                         target: 'https://test-alb.alliancegenome.org/apollo/<*>',                                      status: amplify.RedirectStatus.REWRITE },
+
       { source: '/alliancemine',                       target: 'https://production-alliancemine.alliancegenome.org/alliancemine/',                    status: amplify.RedirectStatus.REWRITE },
       { source: '/alliancemine/',                      target: 'https://production-alliancemine.alliancegenome.org/alliancemine/',                    status: amplify.RedirectStatus.REWRITE },
       { source: '/alliancemine/<*>',                   target: 'https://production-alliancemine.alliancegenome.org/alliancemine/<*>',                 status: amplify.RedirectStatus.REWRITE },
@@ -41,12 +43,12 @@ export class AmplifyTestStack extends cdk.Stack {
       { source: '/bluegenes/',                         target: 'https://production-alliancemine.alliancegenome.org:444/bluegenes/alliancemine',       status: amplify.RedirectStatus.REWRITE },
       { source: '/bluegenes/<*>',                      target: 'https://production-alliancemine.alliancegenome.org:444/bluegenes/<*>',                status: amplify.RedirectStatus.REWRITE },
 
-      { source: '/jbrowse/<*>',                        target: 'https://test-alb.alliancegenome.org/jbrowse/<*>',                                     status: amplify.RedirectStatus.REWRITE },
-      { source: '/apollo/<*>',                         target: 'https://test-alb.alliancegenome.org/apollo/<*>',                                      status: amplify.RedirectStatus.REWRITE },
       { source: '/swagger-ui',                         target: 'https://test-alb.alliancegenome.org/swagger-ui',                                      status: amplify.RedirectStatus.REWRITE },
       { source: '/swagger-ui/',                        target: 'https://test-alb.alliancegenome.org/swagger-ui/',                                     status: amplify.RedirectStatus.REWRITE },
       { source: '/swagger-ui/<*>',                     target: 'https://test-alb.alliancegenome.org/swagger-ui/<*>',                                  status: amplify.RedirectStatus.REWRITE },
       { source: '/openapi',                            target: 'https://test-alb.alliancegenome.org/openapi',                                         status: amplify.RedirectStatus.REWRITE },
+
+      { source: '/<*>',                                target: '/index.html',                                                                         status: amplify.RedirectStatus.NOT_FOUND_REWRITE },
       { source: '</^[^.]+$/>',                         target: '/index.html',                                                                         status: amplify.RedirectStatus.REWRITE }
     ];
 
