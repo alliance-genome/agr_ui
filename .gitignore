@@ -5,9 +5,17 @@ package-lock.json
 /dist
 /tmp
 /out-tsc
+/build
 
 # dependencies
-node_modules
+/node_modules
+/dist
+/build
+/src/dist
+/public/sitemap.xml
+/public/robots.txt
+/public/main-sitemap.xml
+/src/resourceDescriptors.js
 
 # IDEs and editors
 /.idea
