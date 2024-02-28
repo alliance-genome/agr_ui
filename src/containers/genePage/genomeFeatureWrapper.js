@@ -96,7 +96,7 @@ class GenomeFeatureWrapper extends Component {
     const assembly = (getSpecies(this.props.species).jBrowseName).replace(" ","_");
 
     // this vvv will obviously have to be replaced with a proxied agr url
-    const externalJBrowsePrefix = 'https://stage.dgaayxgqoarxf.amplifyapp.com/?tracklist=true&assembly=' + assembly;
+    const externalJBrowsePrefix = '/jbrowse2?tracklist=true&assembly=' + assembly;
     const linkLength = end - start;
     let bufferedMin = Math.round(start - (linkLength * LINK_BUFFER / 2.0));
     bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
