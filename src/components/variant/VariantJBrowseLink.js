@@ -37,7 +37,7 @@ const buildAssembly = (taxonid) => {
 }
 
 
-const VariantJBrowseLink = ({children, location, type, geneSymbol, geneLocation, species, taxonid}) => {
+const VariantJBrowseLink = ({children, location, type, geneSymbol, geneLocation, taxonid}) => {
   return (
     location ?
       <ExternalLink
@@ -72,9 +72,8 @@ VariantJBrowseLink.propTypes = {
     end: PropTypes.number,
     chromosome: PropTypes.string,
   }),
-  species: PropTypes.string.isRequired,
   type: PropTypes.string,
-  taxonid: PropTypes.string
+  taxonid: PropTypes.string.isRequired
 };
 
 export default VariantJBrowseLink;
