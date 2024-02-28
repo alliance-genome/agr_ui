@@ -15,6 +15,7 @@ import { buildProvidersWithUrl } from '../../components/dataTable/utils';
 import SpeciesCell from '../../components/dataTable/SpeciesCell';
 import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration';
 import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn';
+import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration';
 
 //TODO: once tickets SCRUM-3647, SCRUM-3648, and SCRUM-3649 are complete, refactor this and the diseaseAnnotationTable component
 //if needed
@@ -25,7 +26,7 @@ const DiseaseToGeneTable = ({id}) => {
     ...tableProps
   } = useDataTableQuery(`/api/disease/${id}/genes`, undefined, { sizePerPage: 10, }, {}, 60000);
 
-  let columns = [
+  const columns = [
     {
       dataField: 'subject.taxon',
       text: 'Species',
@@ -38,6 +39,11 @@ const DiseaseToGeneTable = ({id}) => {
       formatter:  (curie, row) => (
         <React.Fragment>
           <div>{GeneCellCuration(row.subject)}</div>
+          <small>
+            <AnnotatedEntitiesPopupCuration parentPage='disease' entities={row.primaryAnnotations} mainRowCurie={row.subject.curie}>
+              Annotation details
+            </AnnotatedEntitiesPopupCuration>
+          </small>
         </React.Fragment>
       ),
       headerStyle: {width: '75px'},
