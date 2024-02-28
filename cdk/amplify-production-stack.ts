@@ -43,9 +43,9 @@ export class AmplifyProductionStack extends cdk.Stack {
       { source: '/alliancemine',                       target: 'https://production-alliancemine.alliancegenome.org/alliancemine/',                    status: amplify.RedirectStatus.REWRITE },
       { source: '/alliancemine/',                      target: 'https://production-alliancemine.alliancegenome.org/alliancemine/',                    status: amplify.RedirectStatus.REWRITE },
       { source: '/alliancemine/<*>',                   target: 'https://production-alliancemine.alliancegenome.org/alliancemine/<*>',                 status: amplify.RedirectStatus.REWRITE },
-      { source: '/bluegenes',                          target: 'https://production-alliancemine.alliancegenome.org/bluegenes/alliancemine',           status: amplify.RedirectStatus.REWRITE },
-      { source: '/bluegenes/',                         target: 'https://production-alliancemine.alliancegenome.org/bluegenes/alliancemine',           status: amplify.RedirectStatus.REWRITE },
-      { source: '/bluegenes/<*>',                      target: 'https://production-alliancemine.alliancegenome.org/bluegenes/<*>',                    status: amplify.RedirectStatus.REWRITE },
+      { source: '/bluegenes',                          target: 'https://production-alliancemine.alliancegenome.org:444/bluegenes/alliancemine',       status: amplify.RedirectStatus.REWRITE },
+      { source: '/bluegenes/',                         target: 'https://production-alliancemine.alliancegenome.org:444/bluegenes/alliancemine',       status: amplify.RedirectStatus.REWRITE },
+      { source: '/bluegenes/<*>',                      target: 'https://production-alliancemine.alliancegenome.org:444/bluegenes/<*>',                status: amplify.RedirectStatus.REWRITE },
 
       { source: '/swagger-ui',                         target: 'https://prod-alb.alliancegenome.org/swagger-ui/',                                     status: amplify.RedirectStatus.REWRITE },
       { source: '/swagger-ui/',                        target: 'https://prod-alb.alliancegenome.org/swagger-ui/',                                     status: amplify.RedirectStatus.REWRITE },
