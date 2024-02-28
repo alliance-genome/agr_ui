@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@aws-cdk/aws-amplify-alpha": "^2.118.0-alpha.0",
     "@emotion/react": "11.1.5",
     "@emotion/server": "11.0.0",
@@ -91,8 +92,5 @@
   },
   "overrides": {
     "autoprefixer": "10.4.5"
-  },
-  "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }
