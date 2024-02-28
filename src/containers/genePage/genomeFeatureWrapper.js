@@ -96,7 +96,7 @@ class GenomeFeatureWrapper extends Component {
     const assembly = (getSpecies(this.props.species).jBrowseName).replace(" ","_");
 
     // this vvv will obviously have to be replaced with a proxied agr url
-    const externalJBrowsePrefix = 'https://stage.dgaayxgqoarxf.amplifyapp.com/?assembly=' + assembly;
+    const externalJBrowsePrefix = 'https://stage.dgaayxgqoarxf.amplifyapp.com/?tracklist=true&assembly=' + assembly;
     const linkLength = end - start;
     let bufferedMin = Math.round(start - (linkLength * LINK_BUFFER / 2.0));
     bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
@@ -106,7 +106,11 @@ class GenomeFeatureWrapper extends Component {
     }
     const externalLocationString = chr + ':' + bufferedMin + '..' + bufferedMax;
     // TODO: handle bufferedMax exceeding chromosome length, though I think it has a good default.
-    const tracks = [assembly+'_variants', assembly+'_all_genes', assembly+'_ht_variants'];
+    const tracks = [];
+    const trackList = getSpecies(this.props.species).jBrowsetracks.split(',');
+    for (const track of trackList) {
+        tracks.push( assembly + track );
+    }
     return externalJBrowsePrefix +
       '&tracks=' + tracks.join(',') +
       '&loc=' + encodeURIComponent(externalLocationString);
