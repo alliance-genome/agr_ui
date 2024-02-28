@@ -40,14 +40,14 @@ export class AmplifyProductionStack extends cdk.Stack {
       { source: '/jbrowse/<*>',                        target: 'https://prod-alb.alliancegenome.org/jbrowse/<*>',                                     status: amplify.RedirectStatus.REWRITE },
       { source: '/apollo/<*>',                         target: 'https://prod-alb.alliancegenome.org/apollo/<*>',                                      status: amplify.RedirectStatus.REWRITE },
 
-      { source: '/alliancemine',                       target: 'https://production-alliancemine.alliancegenome.org/alliancemine/',                    status: amplify.RedirectStatus.REWRITE },
+      { source: '/alliancemine',                       target: 'https://www.alliancegenome.org/alliancemine/',                                        status: amplify.RedirectStatus.PERMANENT_REDIRECT },
       { source: '/alliancemine/',                      target: 'https://production-alliancemine.alliancegenome.org/alliancemine/',                    status: amplify.RedirectStatus.REWRITE },
       { source: '/alliancemine/<*>',                   target: 'https://production-alliancemine.alliancegenome.org/alliancemine/<*>',                 status: amplify.RedirectStatus.REWRITE },
-      { source: '/bluegenes',                          target: 'https://production-alliancemine.alliancegenome.org:444/bluegenes/alliancemine',       status: amplify.RedirectStatus.REWRITE },
+      { source: '/bluegenes',                          target: 'https://www.alliancegenome.org/bluegenes/',                                           status: amplify.RedirectStatus.PERMANENT_REDIRECT },
       { source: '/bluegenes/',                         target: 'https://production-alliancemine.alliancegenome.org:444/bluegenes/alliancemine',       status: amplify.RedirectStatus.REWRITE },
       { source: '/bluegenes/<*>',                      target: 'https://production-alliancemine.alliancegenome.org:444/bluegenes/<*>',                status: amplify.RedirectStatus.REWRITE },
 
-      { source: '/swagger-ui',                         target: 'https://prod-alb.alliancegenome.org/swagger-ui/',                                     status: amplify.RedirectStatus.REWRITE },
+      { source: '/swagger-ui',                         target: 'https://www.alliancegenome.org/swagger-ui/',                                          status: amplify.RedirectStatus.PERMANENT_REDIRECT },
       { source: '/swagger-ui/',                        target: 'https://prod-alb.alliancegenome.org/swagger-ui/',                                     status: amplify.RedirectStatus.REWRITE },
       { source: '/swagger-ui/<*>',                     target: 'https://prod-alb.alliancegenome.org/swagger-ui/<*>',                                  status: amplify.RedirectStatus.REWRITE },
       { source: '/openapi',                            target: 'https://prod-alb.alliancegenome.org/openapi',                                         status: amplify.RedirectStatus.REWRITE },
@@ -73,7 +73,7 @@ export class AmplifyProductionStack extends cdk.Stack {
       role: iam.Role.fromRoleArn(this, "AmplifyALBRole", 'arn:aws:iam::100225593120:role/StageAmplifyRole'),
     });
 
-    amplifyApp.addEnvironment("BUILD_ENV", "production");
+    amplifyApp.addEnvironment("NODE_ENV", "production");
 
     const main = amplifyApp.addBranch('main', { autoBuild: true, branchName: 'main', stage: 'PRODUCTION' });
 
