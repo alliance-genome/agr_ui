@@ -2,7 +2,12 @@ import React  from 'react';
 import PropTypes from 'prop-types';
 import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPage';
 import BasicGeneInfo from './basicGeneInfo';
-import { OrthologyFilteredTable, HomologyUserGuide, OrthologyBasicInfo } from '../../components/orthology';
+import {
+  OrthologyFilteredTable, 
+  HomologyUserGuide, 
+  OrthologyBasicInfo, 
+  OrthologyJBrowseLinkPanel
+} from '../../components/orthology';
 import ParalogyTable from '../../components/paralogy/paralogyTable'
 import ParalogyUserGuide from '../../components/paralogy/paralogyUserGuide'
 import GoUserGuide from '../../components/geneOntologyRibbon/goUserGuide';
@@ -135,6 +140,10 @@ const GenePage = ({geneId}) => {
         <Subsection help={<HomologyUserGuide />} title={ORTHOLOGY}>
           <OrthologyBasicInfo pantherCrossReference={data.crossReferenceMap.panther} />
           <OrthologyFilteredTable geneId={data.id} />
+	  <OrthologyJBrowseLinkPanel
+	    geneLocation={genomeLocation}
+	    taxonid={data.species.taxonId}
+	  />
         </Subsection>
 
         <Subsection help={<ParalogyUserGuide />} title={PARALOGY}>
