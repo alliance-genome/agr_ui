@@ -31,7 +31,7 @@ const buildAnchor = (filterlevel) => {
 const OrthologyJBrowseLink = ({filterlevel, geneLocation, taxonid}) => {
   return (
       <ExternalLink
-        href={'/jbrowse?' + stringifyQuery({
+        href={'/jbrowse2?' + stringifyQuery({
 	  tracklist: 'true',
           loc: buildLocation(geneLocation, taxonid),
           assembly: buildAssembly(taxonid),
