@@ -63,6 +63,7 @@ const VariantEffectDetails = ({
         location={variant.location}
         species={variant.species && variant.species.name}
         type={variant.variantType && variant.variantType.name}
+	taxonid={variant.species && variant.species.taxonId}
       >
         <span className="text-break">{variant.id}</span>
       </VariantJBrowseLink> on <strong>{transcript.name}</strong></h5>
