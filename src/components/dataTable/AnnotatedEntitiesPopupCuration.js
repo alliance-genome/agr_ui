@@ -68,11 +68,11 @@ function AnnotatedEntitiesPopupCuration(props) {
                 <th>Name</th>
                 <th>Type</th>
                 <th className={style.associationCell}>Association</th>
-                { parentPage === 'gene' ? <th>Additional implicated genes</th> : <></> }
+                { parentPage === 'gene' || 'disease' ? <th>Additional implicated genes</th> : <></> }
                 <th>Experimental condition</th>
                 <th></th>
                 <th>Genetic Modifiers</th>
-                { parentPage === 'gene' ? <th>Strain Background</th> : <></> }
+                { parentPage === 'gene' || 'disease' ? <th>Strain Background</th> : <></> }
                 <th>Genetic Sex</th>
                 <th className={style.relatedNotes}>Notes</th>
                 <th>Annotation type</th>
