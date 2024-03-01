@@ -1,26 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  EvidenceCodesCell,
-  GeneCell,
-  ReferenceCell,
-  SpeciesCell,
+  BasedOnGeneCellCuration,
   DataTable,
-  BasedOnGeneCell
+  EvidenceCodesCellCuration,
+  GeneCellCuration,
+  ReferencesCellCuration,
 } from '../../components/dataTable';
-import {
-  compareByFixedOrder,
-} from '../../lib/utils';
-import AnnotatedEntitiesPopup
-  from '../../components/dataTable/AnnotatedEntitiesPopup';
-import DiseaseLink from '../../components/disease/DiseaseLink';
-import {getDistinctFieldValue} from '../../components/dataTable/utils';
-import {SPECIES_NAME_ORDER} from '../../constants';
-import ProvidersCell from '../../components/dataTable/ProvidersCell';
-import useDataTableQuery from '../../hooks/useDataTableQuery';
-import SpeciesName from '../../components/SpeciesName';
-import AssociationType from '../../components/AssociationType';
 
+import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration';
+import useDataTableQuery from '../../hooks/useDataTableQuery';
+import AssociationType from '../../components/AssociationType';
+import { buildProvidersWithUrl } from '../../components/dataTable/utils';
+import SpeciesCell from '../../components/dataTable/SpeciesCell';
+import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration';
+import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn';
+import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration';
+
+//TODO: once tickets SCRUM-3647, SCRUM-3648, and SCRUM-3649 are complete, refactor this and the diseaseAnnotationTable component
+//if needed
 const DiseaseToGeneTable = ({id}) => {
   const {
     data: results,
@@ -30,110 +28,97 @@ const DiseaseToGeneTable = ({id}) => {
 
   const columns = [
     {
-      dataField: 'gene',
+      dataField: 'subject.taxon',
+      text: 'Species',
+      headerStyle: {width: '100px'},
+      formatter: species => <SpeciesCell species={species} />,
+    },
+    {
+      dataField: 'subject.curie',
       text: 'Gene',
-      formatter: (gene, row) => (
+      formatter:  (curie, row) => (
         <React.Fragment>
-          <div>{GeneCell(gene)}</div>
+          <div>{GeneCellCuration(row.subject)}</div>
           <small>
-            <AnnotatedEntitiesPopup entities={row.primaryAnnotatedEntities}>
+            <AnnotatedEntitiesPopupCuration parentPage='disease' entities={row.primaryAnnotations} mainRowCurie={row.subject.curie}>
               Annotation details
-            </AnnotatedEntitiesPopup>
+            </AnnotatedEntitiesPopupCuration>
           </small>
         </React.Fragment>
       ),
-      filterable: true,
-      filterName: 'geneName',
+      headerStyle: {width: '75px'},
+    },
+    {
+      dataField: 'generatedRelationString',
+      text: 'Association',
+      helpPopupProps: {
+        id: 'disease-page--gene-disease-associations-table--association-help',
+        children: <div>
+          <p>"Is Implicated in" means that some variant of the gene is shown to function in causing or modifying a disease (for human) or a disease model state.</p>
+          <p>"Is a marker for" is used when there is evidence of an association but insufficient evidence to establish causality and does not necessarily imply that the existence of, or change in the biomarker is causal for the disease, but rather may result from it.</p>
+        </div>,
+      },
+      formatter: type => <AssociationType type={type} />,
       headerStyle: {width: '120px'},
     },
     {
-      dataField: 'species',
-      text: 'Species',
-      formatter: species => <SpeciesCell species={species}/>,
-      filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
-      filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
-      headerStyle: {width: '105px'},
+      dataField: 'diseaseQualifiers',
+      text: 'Disease Qualifier',
+      headerStyle: {width: '100px'},
+      formatter: diseaseQualifiers => <DiseaseQualifiersColumn qualifiers={diseaseQualifiers} />,
     },
     {
-      dataField: 'associationType',
-      text: 'Association',
-      formatter: type => <AssociationType type={type} />,
-      filterable: getDistinctFieldValue(resolvedData, 'associationType'),
-      filterFormatter: type => <AssociationType type={type} />,
-      headerStyle: {width: '110px'},
-    },
-    {
-      dataField: 'disease',
+      dataField: 'object.curie',
       text: 'Disease',
-      formatter: disease => <DiseaseLink disease={disease}/>,
-      filterable: true,
       headerStyle: {width: '150px'},
+      formatter: (curie, row) => <DiseaseLinkCuration disease={row.object} />,
     },
     {
       dataField: 'evidenceCodes',
       text: 'Evidence',
-      formatter: codes => <EvidenceCodesCell evidenceCodes={codes} />,
-      filterable: true,
-      filterName: 'evidenceCode',
-      headerStyle: {width: '95px'},
-    },
-    {
-      dataField: 'orthologyGenes',
-      text: 'Based On',
-      formatter: BasedOnGeneCell,
-      filterable: true,
-      filterName: 'basedOnGeneSymbol',
-      headerStyle: {width: '120px'},
+      helpPopupProps: {
+        id: 'disease-page--gene-disease-associations-table--evidence-help',
+        children: <span>Mouse-over to decipher the evidence code. The Alliance uses these <a href='https://www.alliancegenome.org/help#docodes'>evidence codes</a> to justify DO annotations.</span>,
+      },
+      headerStyle: {width: '100px'},
+      formatter: codes => <EvidenceCodesCellCuration evidenceCodes={codes} />,
     },
     {
       dataField: 'providers',
       text: 'Source',
-      formatter: providers => providers &&
-        <ProvidersCell providers={providers}/>,
-      filterable: true,
-      headerStyle: {width: '85px'},
-      filterName: 'provider',
+      formatter: providers => providers && <ProvidersCellCuration providers={providers} />,
+      headerStyle: {width: '100px'},
     },
     {
-      dataField: 'publications',
-      text: 'References',
-      formatter: ReferenceCell,
-      filterable: true,
-      filterName: 'reference',
-      headerStyle: {width: '150px'},
+      dataField: 'basedOnGenes',
+      text: 'Based On',
+      helpPopupProps: {
+        id: 'disease-page--gene-disease-associations-table--based-on-help',
+        children: <span>SGD uses orthology to human genes to associate yeast genes with the disease.</span>
+      },
+      headerStyle: {width: '100px'},
+      formatter: BasedOnGeneCellCuration,
     },
+    {
+      dataField: 'references',
+      text: 'References',
+      headerStyle: {width: '150px'},
+      formatter: ReferencesCellCuration,
+    }
   ];
 
-  // need to pull out species in a separate field because we can't have
-  // two columns based on the gene field
   const rows = results.map(association => ({
-    species: association.gene.species,
+    species: association.subject.taxon,
+    providers: buildProvidersWithUrl(association.primaryAnnotations),
     ...association,
   }));
-
-  const sortOptions = [
-    {
-      value: 'disease',
-      label: 'Disease',
-    },
-    {
-      value: 'gene',
-      label: 'Gene',
-    },
-    {
-      value: 'species',
-      label: 'Species',
-    },
-  ];
 
   return (
     <DataTable
       {...tableProps}
       columns={columns}
       data={rows}
-      downloadUrl={`/api/disease/${id}/genes/download`}
       keyField='primaryKey'
-      sortOptions={sortOptions}
     />
   );
 };
