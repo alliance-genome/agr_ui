@@ -28,12 +28,6 @@ const DiseaseToGeneTable = ({id}) => {
 
   const columns = [
     {
-      dataField: 'subject.taxon',
-      text: 'Species',
-      headerStyle: {width: '100px'},
-      formatter: species => <SpeciesCell species={species} />,
-    },
-    {
       dataField: 'subject.curie',
       text: 'Gene',
       formatter:  (curie, row) => (
@@ -47,6 +41,12 @@ const DiseaseToGeneTable = ({id}) => {
         </React.Fragment>
       ),
       headerStyle: {width: '75px'},
+    },
+    {
+      dataField: 'subject.taxon',
+      text: 'Species',
+      headerStyle: {width: '100px'},
+      formatter: species => <SpeciesCell species={species} />,
     },
     {
       dataField: 'generatedRelationString',
@@ -84,12 +84,6 @@ const DiseaseToGeneTable = ({id}) => {
       formatter: codes => <EvidenceCodesCellCuration evidenceCodes={codes} />,
     },
     {
-      dataField: 'providers',
-      text: 'Source',
-      formatter: providers => providers && <ProvidersCellCuration providers={providers} />,
-      headerStyle: {width: '100px'},
-    },
-    {
       dataField: 'basedOnGenes',
       text: 'Based On',
       helpPopupProps: {
@@ -98,6 +92,12 @@ const DiseaseToGeneTable = ({id}) => {
       },
       headerStyle: {width: '100px'},
       formatter: BasedOnGeneCellCuration,
+    },
+    {
+      dataField: 'providers',
+      text: 'Source',
+      formatter: providers => providers && <ProvidersCellCuration providers={providers} />,
+      headerStyle: {width: '100px'},
     },
     {
       dataField: 'references',
