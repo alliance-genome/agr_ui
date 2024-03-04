@@ -11,42 +11,51 @@ import {
 import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import AssociationType from '../../components/AssociationType';
-import { buildProvidersWithUrl } from '../../components/dataTable/utils';
+import { buildProvidersWithUrl, getIsViaOrthology } from '../../components/dataTable/utils';
 import SpeciesCell from '../../components/dataTable/SpeciesCell';
 import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration';
 import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn';
 import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration';
+import ReferenceCellViaOrthologyCuration from '../../components/dataTable/ReferencesCellViaOrthologyCuration';
+import EvidenceCodeViaOrthologyCuration from '../../components/dataTable/EvidenceCodeViaOrthologyCuration';
 
 //TODO: once tickets SCRUM-3647, SCRUM-3648, and SCRUM-3649 are complete, refactor this and the diseaseAnnotationTable component
 //if needed
-const DiseaseToGeneTable = ({id}) => {
+const DiseaseToGeneTable = ({ id }) => {
   const {
     data: results,
     resolvedData,
     ...tableProps
   } = useDataTableQuery(`/api/disease/${id}/genes`, undefined, { sizePerPage: 10, }, {}, 60000);
 
+
+
   const columns = [
-    {
-      dataField: 'subject.taxon',
-      text: 'Species',
-      headerStyle: {width: '100px'},
-      formatter: species => <SpeciesCell species={species} />,
-    },
     {
       dataField: 'subject.curie',
       text: 'Gene',
-      formatter:  (curie, row) => (
-        <React.Fragment>
-          <div>{GeneCellCuration(row.subject)}</div>
-          <small>
-            <AnnotatedEntitiesPopupCuration parentPage='disease' entities={row.primaryAnnotations} mainRowCurie={row.subject.curie}>
-              Annotation details
-            </AnnotatedEntitiesPopupCuration>
-          </small>
-        </React.Fragment>
-      ),
-      headerStyle: {width: '75px'},
+      formatter: (curie, row) => {
+        const isViaOrthology = getIsViaOrthology(row);
+        return (
+          <React.Fragment>
+            <div>{GeneCellCuration(row.subject)}</div>
+            {!isViaOrthology && (
+              <small>
+                <AnnotatedEntitiesPopupCuration parentPage='disease' entities={row.primaryAnnotations} mainRowCurie={row.subject.curie}>
+                  Annotation details
+                </AnnotatedEntitiesPopupCuration>
+              </small>
+            )}
+          </React.Fragment>
+        );
+      },
+      headerStyle: { width: '75px' },
+    },
+    {
+      dataField: 'subject.taxon',
+      text: 'Species',
+      headerStyle: { width: '100px' },
+      formatter: species => <SpeciesCell species={species} />,
     },
     {
       dataField: 'generatedRelationString',
@@ -59,18 +68,18 @@ const DiseaseToGeneTable = ({id}) => {
         </div>,
       },
       formatter: type => <AssociationType type={type} />,
-      headerStyle: {width: '120px'},
+      headerStyle: { width: '120px' },
     },
     {
       dataField: 'diseaseQualifiers',
       text: 'Disease Qualifier',
-      headerStyle: {width: '100px'},
+      headerStyle: { width: '100px' },
       formatter: diseaseQualifiers => <DiseaseQualifiersColumn qualifiers={diseaseQualifiers} />,
     },
     {
       dataField: 'object.curie',
       text: 'Disease',
-      headerStyle: {width: '150px'},
+      headerStyle: { width: '150px' },
       formatter: (curie, row) => <DiseaseLinkCuration disease={row.object} />,
     },
     {
@@ -80,14 +89,12 @@ const DiseaseToGeneTable = ({id}) => {
         id: 'disease-page--gene-disease-associations-table--evidence-help',
         children: <span>Mouse-over to decipher the evidence code. The Alliance uses these <a href='https://www.alliancegenome.org/help#docodes'>evidence codes</a> to justify DO annotations.</span>,
       },
-      headerStyle: {width: '100px'},
-      formatter: codes => <EvidenceCodesCellCuration evidenceCodes={codes} />,
-    },
-    {
-      dataField: 'providers',
-      text: 'Source',
-      formatter: providers => providers && <ProvidersCellCuration providers={providers} />,
-      headerStyle: {width: '100px'},
+      headerStyle: { width: '100px' },
+      formatter: (codes, row) => {
+        const isViaOrthology = getIsViaOrthology(row);
+        if(!isViaOrthology) return <EvidenceCodesCellCuration evidenceCodes={codes} />;
+        return <EvidenceCodeViaOrthologyCuration/>
+      }
     },
     {
       dataField: 'basedOnGenes',
@@ -96,14 +103,24 @@ const DiseaseToGeneTable = ({id}) => {
         id: 'disease-page--gene-disease-associations-table--based-on-help',
         children: <span>SGD uses orthology to human genes to associate yeast genes with the disease.</span>
       },
-      headerStyle: {width: '100px'},
+      headerStyle: { width: '100px' },
       formatter: BasedOnGeneCellCuration,
+    },
+    {
+      dataField: 'providers',
+      text: 'Source',
+      formatter: providers => providers && <ProvidersCellCuration providers={providers} />,
+      headerStyle: { width: '100px' },
     },
     {
       dataField: 'references',
       text: 'References',
-      headerStyle: {width: '150px'},
-      formatter: ReferencesCellCuration,
+      headerStyle: { width: '150px' },
+      formatter: (references, row) => {
+        const isViaOrthology = getIsViaOrthology(row);
+        if(!isViaOrthology) return ReferencesCellCuration(references);
+        return <ReferenceCellViaOrthologyCuration/>
+      }
     }
   ];
 
