@@ -11,11 +11,13 @@ import {
 import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import AssociationType from '../../components/AssociationType';
-import { buildProvidersWithUrl } from '../../components/dataTable/utils';
+import { buildProvidersWithUrl, getIsViaOrthology } from '../../components/dataTable/utils';
 import SpeciesCell from '../../components/dataTable/SpeciesCell';
 import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration';
 import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn';
 import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration';
+import ReferenceCellViaOrthologyCuration from '../../components/dataTable/ReferencesCellViaOrthologyCuration';
+import EvidenceCodeViaOrthologyCuration from '../../components/dataTable/EvidenceCodeViaOrthologyCuration';
 
 //TODO: once tickets SCRUM-3647, SCRUM-3648, and SCRUM-3649 are complete, refactor this and the diseaseAnnotationTable component
 //if needed
@@ -112,7 +114,11 @@ const DiseaseToGeneTable = ({ id }) => {
       dataField: 'references',
       text: 'References',
       headerStyle: { width: '150px' },
-      formatter: ReferencesCellCuration,
+      formatter: (references, row) => {
+        const isViaOrthology = getIsViaOrthology(row);
+        if(!isViaOrthology) return ReferencesCellCuration(references);
+        return <ReferenceCellViaOrthologyCuration/>
+      }
     }
   ];
 

@@ -18,6 +18,10 @@ export const getDistinctFieldValue = (response, field) => {
     ));
 };
 
+export const getIsViaOrthology = (annotation) => {
+  return annotation.generatedRelationString.includes("orthology");
+};
+
 export function getRefStrings(referenceItems) {
   if (!referenceItems)
     return;
