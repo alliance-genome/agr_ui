@@ -155,12 +155,28 @@ const DiseaseToGeneTable = ({ id }) => {
     ...association,
   }));
 
+  const sortOptions = [
+    {
+      value: 'disease',
+      label: 'Disease',
+    },
+    {
+      value: 'gene',
+      label: 'Gene',
+    },
+    {
+      value: 'species',
+      label: 'Species',
+    },
+  ];
+
   return (
     <DataTable
       {...tableProps}
       columns={columns}
       data={rows}
       keyField='primaryKey'
+      sortOptions={sortOptions}
     />
   );
 };
