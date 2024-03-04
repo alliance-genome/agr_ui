@@ -28,9 +28,7 @@ const DiseaseToGeneTable = ({ id }) => {
     ...tableProps
   } = useDataTableQuery(`/api/disease/${id}/genes`, undefined, { sizePerPage: 10, }, {}, 60000);
 
-  const getIsViaOrthology = (annotation) => {
-    return annotation.generatedRelationString.includes("orthology");
-  };
+
 
   const columns = [
     {
@@ -92,7 +90,11 @@ const DiseaseToGeneTable = ({ id }) => {
         children: <span>Mouse-over to decipher the evidence code. The Alliance uses these <a href='https://www.alliancegenome.org/help#docodes'>evidence codes</a> to justify DO annotations.</span>,
       },
       headerStyle: { width: '100px' },
-      formatter: codes => <EvidenceCodesCellCuration evidenceCodes={codes} />,
+      formatter: (codes, row) => {
+        const isViaOrthology = getIsViaOrthology(row);
+        if(!isViaOrthology) return <EvidenceCodesCellCuration evidenceCodes={codes} />;
+        return <EvidenceCodeViaOrthologyCuration/>
+      }
     },
     {
       dataField: 'basedOnGenes',
