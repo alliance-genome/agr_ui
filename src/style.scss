@@ -125,3 +125,47 @@ wc-ribbon-cell.ribbon__subject--cell--no-annotation {
   --gocam-panel-h1-color: #2598C5;
   --gocam-panel-h1-weight: 400;
 }
+
+wc-gocam-viz {
+  --activity-background-active: #af732a;
+  --activity-color-active: #fff;
+  --button-background: #DDD;
+  --button-color: #000;
+  --button-background-hover: #BBB;
+  --button-border-width: 1px;
+  --button-border-color: #ccc;
+
+  // Panel
+  --panel-header-background:	#ececec;
+  --panel-border-color: #AAA;
+
+   // Process
+   --process-label-background:	#7a548d;
+   --process-label-color: #fff;
+
+  --process-label-padding: 0.5rem;
+  --activity-padding: 0.5rem;
+  --gene-product-padding: 0 0 0.5rem 0;
+  --function-label-padding: 0 0 0.5rem 0;
+
+  --graph-padding: 8px;
+
+--panel-header-padding: 8px;
+
+--panel-border-color: #CCC;
+
+--panel-border-width: 1px;
+--process-border-width: 1px;
+
+
+//Legend
+--legend-padding: 8px;
+--legend-header-padding: 8px;
+
+}
+
+
+.gocam-viz-legend-container {
+  padding: 0 1.2rem;
+  width: 800px;
+}
