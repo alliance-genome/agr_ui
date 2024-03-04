@@ -42,8 +42,7 @@ function renderLink(entity) {
   }
 }
 
-function AnnotatedEntitiesPopupCuration(props) {
-  const {children, entities, parentPage, mainRowCurie } = props;
+function AnnotatedEntitiesPopupCuration({ children, entities, parentPage, mainRowCurie }) {
 
   if (!entities || !entities.length) {
     return null;
@@ -90,11 +89,11 @@ function AnnotatedEntitiesPopupCuration(props) {
                       <td>{renderLink(entity)}</td>
                       <td><TypeCellCuration subject={entity.subject}/></td>
                       <td><AssociationCellCuration association={entity.relation?.name}/></td>
-                      { parentPage === 'gene' ?  <td><AssertedGenes assertedGenes={entity.assertedGenes} mainRowCurie={mainRowCurie}/></td> : <></>}
+                      { parentPage === 'gene' || 'disease' ?  <td><AssertedGenes assertedGenes={entity.assertedGenes} mainRowCurie={mainRowCurie}/></td> : <></>}
                       <td><ExperimentalConditionCellCuration conditions={entity.conditionRelations}/></td>
                       <td><ExperimentalConditionCellCuration conditions={entity.conditionModifiers}/></td>
                       <td><GeneticModifiersCellCuration relation={entity.diseaseGeneticModifierRelation} modifiers={entity.diseaseGeneticModifiers}/></td>
-                      { parentPage === 'gene' ? <td><StrainBackground strainBackground={entity.sgdStrainBackground}/></td> : <></> }
+                      { parentPage === 'gene' || 'disease' ? <td><StrainBackground strainBackground={entity.sgdStrainBackground}/></td> : <></> }
                       <td><GeneticSex geneticSex={entity.geneticSex}/></td>
                       <td><RelatedNotes className={style.relatedNotes} relatedNotes={entity.relatedNotes}/></td>
                       <td><AnnotationType  annotationType={entity.annotationType}/></td>
