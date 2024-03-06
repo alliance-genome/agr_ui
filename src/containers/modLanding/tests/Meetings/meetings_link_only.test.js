@@ -24,7 +24,7 @@ describe('wormbase static link to meetings', () => {
         expect(div).toContainElement(header2);
         expect(header2).toContainElement(link);
         expect(link).toHaveAttribute('href', content.meetingsURL);
-        expect(link).toHaveTextContent('Click here for the latest meetings from ' + content.modShortName);
+        expect(link).toHaveTextContent(`Discover upcoming ${content.modShortName} related meetings`);
 
     });
 });

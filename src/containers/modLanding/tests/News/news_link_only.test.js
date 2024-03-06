@@ -24,7 +24,7 @@ describe('goc static link to news', () => {
         expect(div).toContainElement(header2);
         expect(header2).toContainElement(link);
         expect(link).toHaveAttribute('href', content.newsURL);
-        expect(link).toHaveTextContent('Click here for the latest news from ' + content.modShortName);
+        expect(link).toHaveTextContent('Read the latest news from ' + content.modShortName);
 
     });
 });
