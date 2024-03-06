@@ -39,10 +39,10 @@ describe('WormBase Footer', () => {
     for (let i=0; i<content.footer.length; i++){
 
          let footer = screen.getByTestId("href_footer_" + i);
-         expect(footer).toHaveAttribute('href', content.footer[i][1]);
+         expect(footer).toHaveAttribute('href', content.footer[i][2]);
 
          let label = screen.getByTestId('footer_label_' + i)
-         expect(label).toContainHTML(content.footer[i][0]);
+         expect(label).toContainHTML(content.footer[i][1]);
         }
    });
 
