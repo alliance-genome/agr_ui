@@ -20,7 +20,6 @@ import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration';
 import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn';
 import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration';
 import ReferenceCellViaOrthologyCuration from '../../components/dataTable/ReferencesCellViaOrthologyCuration';
-import EvidenceCodeViaOrthologyCuration from '../../components/dataTable/EvidenceCodeViaOrthologyCuration';
 
 //TODO: once tickets SCRUM-3647, SCRUM-3648, and SCRUM-3649 are complete, refactor this and the diseaseAnnotationTable component
 //if needed
@@ -107,11 +106,7 @@ const DiseaseToGeneTable = ({ id }) => {
         children: <span>Mouse-over to decipher the evidence code. The Alliance uses these <a href='https://www.alliancegenome.org/help#docodes'>evidence codes</a> to justify DO annotations.</span>,
       },
       headerStyle: { width: '100px' },
-      formatter: (codes, row) => {
-        const isViaOrthology = getIsViaOrthology(row);
-        if(!isViaOrthology) return <EvidenceCodesCellCuration evidenceCodes={codes} />;
-        return <EvidenceCodeViaOrthologyCuration/>
-      },
+      formatter: (codes) => <EvidenceCodesCellCuration evidenceCodes={codes}/>,
       filterable: true,
       filterName: 'evidenceCode',
     },
