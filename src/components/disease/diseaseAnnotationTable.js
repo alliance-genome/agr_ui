@@ -103,7 +103,7 @@ const DiseaseAnnotationTable = ({
       formatter: diseaseQualifiers => <DiseaseQualifiersColumn qualifiers={diseaseQualifiers} />,
     },
     {
-      dataField: 'object.curie',
+      dataField: 'disease',
       text: 'Disease',
       filterable: true,
       headerStyle: {width: '150px'},
