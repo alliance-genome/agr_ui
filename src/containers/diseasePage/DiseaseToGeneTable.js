@@ -11,13 +11,15 @@ import {
 import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import AssociationType from '../../components/AssociationType';
-import { buildProvidersWithUrl, getIsViaOrthology } from '../../components/dataTable/utils';
+import { buildProvidersWithUrl, getIsViaOrthology, getDistinctFieldValue } from '../../components/dataTable/utils';
+import { compareByFixedOrder } from '../../lib/utils';
+import { SPECIES_NAME_ORDER } from '../../constants';
 import SpeciesCell from '../../components/dataTable/SpeciesCell';
+import SpeciesName from '../../components/SpeciesName';
 import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration';
 import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn';
 import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration';
 import ReferenceCellViaOrthologyCuration from '../../components/dataTable/ReferencesCellViaOrthologyCuration';
-import EvidenceCodeViaOrthologyCuration from '../../components/dataTable/EvidenceCodeViaOrthologyCuration';
 
 //TODO: once tickets SCRUM-3647, SCRUM-3648, and SCRUM-3649 are complete, refactor this and the diseaseAnnotationTable component
 //if needed
@@ -50,12 +52,18 @@ const DiseaseToGeneTable = ({ id }) => {
         );
       },
       headerStyle: { width: '75px' },
+      filterable: true,
+      filterName: 'subject.symbol',
     },
     {
       dataField: 'subject.taxon',
       text: 'Species',
       headerStyle: { width: '100px' },
       formatter: species => <SpeciesCell species={species} />,
+      filterName: 'species',
+      filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
+      filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
+      filterType: 'checkbox',
     },
     {
       dataField: 'generatedRelationString',
@@ -69,18 +77,26 @@ const DiseaseToGeneTable = ({ id }) => {
       },
       formatter: type => <AssociationType type={type} />,
       headerStyle: { width: '120px' },
+      filterName: 'associationType',
+      filterable: getDistinctFieldValue(resolvedData, 'associationType'),
+      filterFormatter: type => <AssociationType type={type} />,
+      filterType: 'checkbox',
     },
     {
       dataField: 'diseaseQualifiers',
       text: 'Disease Qualifier',
       headerStyle: { width: '100px' },
       formatter: diseaseQualifiers => <DiseaseQualifiersColumn qualifiers={diseaseQualifiers} />,
+      filterable: getDistinctFieldValue(resolvedData, 'diseaseQualifiers'),
+      filterName: 'diseaseQualifier',
+      filterType: 'checkbox',
     },
     {
       dataField: 'object.curie',
       text: 'Disease',
       headerStyle: { width: '150px' },
       formatter: (curie, row) => <DiseaseLinkCuration disease={row.object} />,
+      filterable: true,
     },
     {
       dataField: 'evidenceCodes',
@@ -90,11 +106,9 @@ const DiseaseToGeneTable = ({ id }) => {
         children: <span>Mouse-over to decipher the evidence code. The Alliance uses these <a href='https://www.alliancegenome.org/help#docodes'>evidence codes</a> to justify DO annotations.</span>,
       },
       headerStyle: { width: '100px' },
-      formatter: (codes, row) => {
-        const isViaOrthology = getIsViaOrthology(row);
-        if(!isViaOrthology) return <EvidenceCodesCellCuration evidenceCodes={codes} />;
-        return <EvidenceCodeViaOrthologyCuration/>
-      }
+      formatter: (codes) => <EvidenceCodesCellCuration evidenceCodes={codes}/>,
+      filterable: true,
+      filterName: 'evidenceCode',
     },
     {
       dataField: 'basedOnGenes',
@@ -105,12 +119,16 @@ const DiseaseToGeneTable = ({ id }) => {
       },
       headerStyle: { width: '100px' },
       formatter: BasedOnGeneCellCuration,
+      filterable: true,
+      filterName: 'basedOnGeneSymbol',
     },
     {
       dataField: 'providers',
       text: 'Source',
       formatter: providers => providers && <ProvidersCellCuration providers={providers} />,
       headerStyle: { width: '100px' },
+      filterable: true,
+      filterName: 'dataProvider',
     },
     {
       dataField: 'references',
@@ -120,7 +138,9 @@ const DiseaseToGeneTable = ({ id }) => {
         const isViaOrthology = getIsViaOrthology(row);
         if(!isViaOrthology) return ReferencesCellCuration(references);
         return <ReferenceCellViaOrthologyCuration/>
-      }
+      },
+      filterable: true,
+      filterName: 'reference',
     }
   ];
 
@@ -130,12 +150,28 @@ const DiseaseToGeneTable = ({ id }) => {
     ...association,
   }));
 
+  const sortOptions = [
+    {
+      value: 'disease',
+      label: 'Disease',
+    },
+    {
+      value: 'gene',
+      label: 'Gene',
+    },
+    {
+      value: 'species',
+      label: 'Species',
+    },
+  ];
+
   return (
     <DataTable
       {...tableProps}
       columns={columns}
       data={rows}
       keyField='primaryKey'
+      sortOptions={sortOptions}
     />
   );
 };
