@@ -170,6 +170,7 @@ const DiseaseToGeneTable = ({ id }) => {
       {...tableProps}
       columns={columns}
       data={rows}
+      downloadUrl={`/api/disease/${id}/genes/download`}
       keyField='primaryKey'
       sortOptions={sortOptions}
     />
