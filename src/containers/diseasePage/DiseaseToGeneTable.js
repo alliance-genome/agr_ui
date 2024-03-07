@@ -92,7 +92,7 @@ const DiseaseToGeneTable = ({ id }) => {
       filterType: 'checkbox',
     },
     {
-      dataField: 'object.curie',
+      dataField: 'disease',
       text: 'Disease',
       headerStyle: { width: '150px' },
       formatter: (curie, row) => <DiseaseLinkCuration disease={row.object} />,
