@@ -53,7 +53,7 @@ const DiseaseToGeneTable = ({ id }) => {
       },
       headerStyle: { width: '75px' },
       filterable: true,
-      filterName: 'subject.symbol',
+      filterName: 'geneName',
     },
     {
       dataField: 'subject.taxon',
@@ -115,7 +115,9 @@ const DiseaseToGeneTable = ({ id }) => {
       text: 'Based On',
       helpPopupProps: {
         id: 'disease-page--gene-disease-associations-table--based-on-help',
-        children: <span>SGD uses orthology to human genes to associate yeast genes with the disease.</span>
+        children: <span>SGD uses orthology to human genes to associate yeast genes with the disease. 
+          The Based On column is also used for inferred via-orthology disease annotations to indicate the gene that was directly (experimentally) annotated to the disease
+          </span>
       },
       headerStyle: { width: '100px' },
       formatter: BasedOnGeneCellCuration,
