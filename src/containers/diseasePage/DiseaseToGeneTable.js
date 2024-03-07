@@ -53,7 +53,7 @@ const DiseaseToGeneTable = ({ id }) => {
       },
       headerStyle: { width: '75px' },
       filterable: true,
-      filterName: 'subject.symbol',
+      filterName: 'geneName',
     },
     {
       dataField: 'subject.taxon',
