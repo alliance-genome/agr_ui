@@ -79,8 +79,13 @@ export const getSingleReferenceCurieAndUrl = (reference) => {
   return {curie, url};
 }
 
-export const getMultipleReferencesCuriesAndUrls = (references) => {
-  return references.map((reference) => getSingleReferenceCurieAndUrl(reference));
+export const getSingleReferenceUrl = (pubModId) => {
+  const url = getResourceUrl(pubModId);
+  return {pubModId, url};
+}
+
+export const getMultipleReferencesUrls = (pubModIds) => {
+  return pubModIds.map((pubModId) => getSingleReferenceUrl(pubModId));
 }
 
 const buildProvider = (annotation) => {

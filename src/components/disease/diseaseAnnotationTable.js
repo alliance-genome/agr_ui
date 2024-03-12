@@ -142,12 +142,12 @@ const DiseaseAnnotationTable = ({
       formatter: BasedOnGeneCellCuration,
     },
     {
-      dataField: 'references',
+      dataField: 'pubmedPubModIDs',
       text: 'References',
       filterable: true,
       filterName: 'reference',
       headerStyle: {width: '150px'},
-      formatter: ReferencesCellCuration,
+      formatter: (pubModIds) => <ReferencesCellCuration pubModIds={pubModIds}/>,
     }
   ];
 
