@@ -133,12 +133,12 @@ const DiseaseToGeneTable = ({ id }) => {
       filterName: 'dataProvider',
     },
     {
-      dataField: 'references',
+      dataField: 'pubmedPubModIDs',
       text: 'References',
       headerStyle: { width: '150px' },
-      formatter: (references, row) => {
+      formatter: (pubModIds, row) => {
         const isViaOrthology = getIsViaOrthology(row);
-        if(!isViaOrthology) return ReferencesCellCuration(references);
+        if(!isViaOrthology) return <ReferencesCellCuration pubModIds={pubModIds}/>
         return <ReferenceCellViaOrthologyCuration/>
       },
       filterable: true,
