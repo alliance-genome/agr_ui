@@ -71,9 +71,9 @@ const AlleleToDiseaseTable = ({alleleId}) => {
       filterName: 'dataProvider',
     },
     {
-      dataField: 'references',
+      dataField: 'pubmedPubModIDs',
       text: 'References',
-      formatter: references => ReferencesCellCuration(references),
+      formatter: (pubModIds) => <ReferencesCellCuration pubModIds={pubModIds}/>,
       headerStyle: {width: '150px'},
       filterable: true,
       filterName: 'reference',
