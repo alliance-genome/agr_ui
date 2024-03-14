@@ -21,8 +21,6 @@ import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifier
 import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration';
 import ReferenceCellViaOrthologyCuration from '../../components/dataTable/ReferencesCellViaOrthologyCuration';
 
-//TODO: once tickets SCRUM-3647, SCRUM-3648, and SCRUM-3649 are complete, refactor this and the diseaseAnnotationTable component
-//if needed
 const DiseaseToGeneTable = ({ id }) => {
   const {
     data: results,
