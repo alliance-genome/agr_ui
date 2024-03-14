@@ -22,15 +22,6 @@ export const getIsViaOrthology = (annotation) => {
   return annotation.generatedRelationString.includes("orthology");
 };
 
-export function getRefStrings(referenceItems) {
-  if (!referenceItems)
-    return;
-
-  let refStrings = referenceItems.map((referenceItem) => getRefString(referenceItem));
-
-  return refStrings.sort();
-}
-
 export function getRefString(referenceItem) {
   if (!referenceItem)
     return;
@@ -85,7 +76,7 @@ export const getSingleReferenceUrl = (pubModId) => {
 }
 
 export const getMultipleReferencesUrls = (pubModIds) => {
-  return pubModIds.map((pubModId) => getSingleReferenceUrl(pubModId));
+  return pubModIds.sort().map((pubModId) => getSingleReferenceUrl(pubModId));
 }
 
 const buildProvider = (annotation) => {
