@@ -67,7 +67,12 @@ const DiseaseAnnotationTable = ({
         <React.Fragment>
           <div>{GeneCellCuration(row.subject)}</div>
           <small>
-            <AnnotatedEntitiesPopupCuration parentPage='gene' entities={row.primaryAnnotations} mainRowCurie={row.subject.curie}>
+            <AnnotatedEntitiesPopupCuration
+              parentPage='gene'
+              entities={row.primaryAnnotations}
+              mainRowCurie={row.subject.curie}
+              pubModIds={row.pubmedPubModIDs}
+            >
               Annotation details
             </AnnotatedEntitiesPopupCuration>
           </small>
@@ -142,12 +147,12 @@ const DiseaseAnnotationTable = ({
       formatter: BasedOnGeneCellCuration,
     },
     {
-      dataField: 'references',
+      dataField: 'pubmedPubModIDs',
       text: 'References',
       filterable: true,
       filterName: 'reference',
       headerStyle: {width: '150px'},
-      formatter: ReferencesCellCuration,
+      formatter: (pubModIds) => <ReferencesCellCuration pubModIds={pubModIds}/>,
     }
   ];
 

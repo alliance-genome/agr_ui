@@ -21,8 +21,6 @@ import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifier
 import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration';
 import ReferenceCellViaOrthologyCuration from '../../components/dataTable/ReferencesCellViaOrthologyCuration';
 
-//TODO: once tickets SCRUM-3647, SCRUM-3648, and SCRUM-3649 are complete, refactor this and the diseaseAnnotationTable component
-//if needed
 const DiseaseToGeneTable = ({ id }) => {
   const {
     data: results,
@@ -43,7 +41,12 @@ const DiseaseToGeneTable = ({ id }) => {
             <div>{GeneCellCuration(row.subject)}</div>
             {!isViaOrthology && (
               <small>
-                <AnnotatedEntitiesPopupCuration parentPage='disease' entities={row.primaryAnnotations} mainRowCurie={row.subject.curie}>
+                <AnnotatedEntitiesPopupCuration
+                  parentPage='disease'
+                  entities={row.primaryAnnotations}
+                  mainRowCurie={row.subject.curie}
+                  pubModIds={row.pubmedPubModIDs}
+                >
                   Annotation details
                 </AnnotatedEntitiesPopupCuration>
               </small>
@@ -133,12 +136,12 @@ const DiseaseToGeneTable = ({ id }) => {
       filterName: 'dataProvider',
     },
     {
-      dataField: 'references',
+      dataField: 'pubmedPubModIDs',
       text: 'References',
       headerStyle: { width: '150px' },
-      formatter: (references, row) => {
+      formatter: (pubModIds, row) => {
         const isViaOrthology = getIsViaOrthology(row);
-        if(!isViaOrthology) return ReferencesCellCuration(references);
+        if(!isViaOrthology) return <ReferencesCellCuration pubModIds={pubModIds}/>
         return <ReferenceCellViaOrthologyCuration/>
       },
       filterable: true,
