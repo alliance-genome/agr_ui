@@ -7,10 +7,10 @@ const DiseaseQualifiersColumn = ({qualifiers}) => {
   if (!qualifiers || !qualifiers.length) {
     return null;
   }
-
+  
   return (
     <CommaSeparatedList>
-      {qualifiers.map(qualifier => qualifier)}
+      {qualifiers.map(qualifier => qualifier.replaceAll("_", " "))}
     </CommaSeparatedList>
   );
 };
