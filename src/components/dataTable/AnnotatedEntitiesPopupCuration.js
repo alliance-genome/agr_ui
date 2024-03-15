@@ -38,11 +38,13 @@ function renderLink(entity) {
       return <Link to={`/gene/${entity.subject.curie}`}>{inner}</Link>;
   } else {
       const inner = <span dangerouslySetInnerHTML={{__html: entity.subject.name}}/>;
-    return <ExternalLink href={url}>{inner}</ExternalLink>;
+      return <ExternalLink href={url}>{inner}</ExternalLink>;
   }
 }
 
-function AnnotatedEntitiesPopupCuration({ children, entities, parentPage, mainRowCurie }) {
+
+
+function AnnotatedEntitiesPopupCuration({ children, entities, parentPage, mainRowCurie, pubModIds }) {
 
   if (!entities || !entities.length) {
     return null;
@@ -99,7 +101,7 @@ function AnnotatedEntitiesPopupCuration({ children, entities, parentPage, mainRo
                       <td><AnnotationType  annotationType={entity.annotationType}/></td>
                       <td><EvidenceCodesCellCuration evidenceCodes={entity.evidenceCodes}/></td>
                       <td><ProviderCellCuration provider={provider} /></td>
-                      <td><SingleReferenceCellCuration singleReference={entity.singleReference}/></td>
+                      <td><SingleReferenceCellCuration singleReference={entity.singleReference} pubModIds={pubModIds}/></td>
                     </tr>
                 )
               })

@@ -67,7 +67,12 @@ const DiseaseAnnotationTable = ({
         <React.Fragment>
           <div>{GeneCellCuration(row.subject)}</div>
           <small>
-            <AnnotatedEntitiesPopupCuration parentPage='gene' entities={row.primaryAnnotations} mainRowCurie={row.subject.curie}>
+            <AnnotatedEntitiesPopupCuration
+              parentPage='gene'
+              entities={row.primaryAnnotations}
+              mainRowCurie={row.subject.curie}
+              pubModIds={row.pubmedPubModIDs}
+            >
               Annotation details
             </AnnotatedEntitiesPopupCuration>
           </small>
