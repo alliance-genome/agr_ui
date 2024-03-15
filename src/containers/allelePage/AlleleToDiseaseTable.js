@@ -53,7 +53,7 @@ const AlleleToDiseaseTable = ({alleleId}) => {
     {
       dataField: 'primaryAnnotations',
       text: 'Annotation details',
-      formatter: entities => <AnnotatedEntitiesPopupCuration parentPage='allele' entities={entities}/>,
+      formatter: (entities, row) => <AnnotatedEntitiesPopupCuration parentPage='allele' entities={entities} pubModIds={row.pubmedPubModIDs}/>,
       headerStyle: {width: '90px'},
     },
     {
@@ -71,9 +71,9 @@ const AlleleToDiseaseTable = ({alleleId}) => {
       filterName: 'dataProvider',
     },
     {
-      dataField: 'references',
+      dataField: 'pubmedPubModIDs',
       text: 'References',
-      formatter: references => ReferencesCellCuration(references),
+      formatter: (pubModIds) => <ReferencesCellCuration pubModIds={pubModIds}/>,
       headerStyle: {width: '150px'},
       filterable: true,
       filterName: 'reference',
