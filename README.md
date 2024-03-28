@@ -31,7 +31,7 @@ nvm use
 Install dependencies after first cloning the repository or after pulling in new changes to `package.json`:
 
 ```bash
-npm install
+npm install --legacy-peer-deps
 ```
 
 _Note: the command uses **npm**, not nvm. NPM deals with package dependencies._
