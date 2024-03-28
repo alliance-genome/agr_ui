@@ -25,7 +25,8 @@ var sitemap = sm.createSitemap({
     { url: '/genome-features',      changefreq: 'monthly', priority: 0.7, lastmodrealtime: true },
     { url: '/administrative-supplement',    changefreq: 'monthly', priority: 0.7, lastmodrealtime: true },
     { url: '/phenotypes-and-disease-models',    changefreq: 'monthly', priority: 0.7, lastmodrealtime: true },
-    { url: '/submit-data',    changefreq: 'monthly', priority: 0.7, lastmodrealtime: true }
+    { url: '/submit-data',    changefreq: 'monthly', priority: 0.7, lastmodrealtime: true },
+    { url: '/textpresso',    changefreq: 'monthly', priority: 0.7, lastmodrealtime: true }
   ]
 });
 
