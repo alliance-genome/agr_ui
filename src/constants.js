@@ -88,6 +88,10 @@ export const NAV_MENU = [
         route: '/submit-data',
       },
       {
+        label: 'Textpresso',
+        route: '/textpresso',
+      },
+      {
         label: 'Tools and Prototypes',
         route: '/prototypes',
       },
