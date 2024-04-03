@@ -20,7 +20,7 @@ const calculateHighlight = (location, type) => {
   }
 };
 
-
+const LINK_BUFFER = 1.2;
 
 const buildTrackList = (taxonid) => {
   const tracks = [];
@@ -36,20 +36,25 @@ const buildAssembly = (taxonid) => {
     return getSpecies(taxonid).jBrowseName.replace(' ', '_');
 }
 
+const buildLoc = (location) => {
+    const start = location.start || 0;
+    const end   = location.end || 0
+    const linkLength = end - start;
+    if (linkLength === 0 ) { return; } 
+    let bufferedMin = Math.round(start - (linkLength * LINK_BUFFER / 2.5));
+    bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
+    const bufferedMax = Math.round(end + (linkLength * LINK_BUFFER ));
+    return location.chromosome + ':' + bufferedMin + '..' + bufferedMax ;
+}
 
 const VariantJBrowseLink = ({children, location, type, geneSymbol, geneLocation, taxonid}) => {
   return (
     location ?
       <ExternalLink
         href={'/jbrowse2/?' + stringifyQuery({
-/*          data: `data/${species}`, */
 	  tracklist: 'true',
-          loc: (geneLocation && geneLocation.start && geneLocation.end) ?
-            `${geneLocation.chromosome || location.chromosome}:${geneLocation.start || 0}..${geneLocation.end || 0}` :
-            geneSymbol,
-/*          tracks: ['Variants', 'Multiple-Variant Alleles', 'High Throughput Variants', 'All Genes', 'DNA'].join(','),  */
+          loc: buildLoc(geneLocation || location ) ,
           assembly: buildAssembly(taxonid),
-/*          loc: `${geneLocation.chromosome || location.chromosome}:${geneLocation.start || 0}..${geneLocation.end || 0}`, */
           tracks: buildTrackList(taxonid), 
           highlight: calculateHighlight(location, type)
         })}
