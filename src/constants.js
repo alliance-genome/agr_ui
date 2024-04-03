@@ -101,8 +101,8 @@ export const NAV_MENU = [
         external: true,
       },
       {
-        label: 'JBrowse',
-        route: '/jbrowse/?data=data%2FHomo%20sapiens',
+        label: 'JBrowse 2',
+        route: '/jbrowse2/',
         external: true,
       }
     ]
