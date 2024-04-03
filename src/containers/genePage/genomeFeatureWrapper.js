@@ -90,13 +90,18 @@ class GenomeFeatureWrapper extends Component {
     this.gfc.closeModal();
   }
 
-  generateJBrowseLink(chr, start, end) {
+  generateJBrowseLink(chr, start, end, htpVariant) {
     //const geneSymbolUrl = '&lookupSymbol=' + this.props.geneSymbol;
     //  maybe will use this ^^^ haven't decided
     const assembly = (getSpecies(this.props.species).jBrowseName).replace(" ","_");
+    var externalJBrowsePrefix = '/jbrowse2?tracklist=true&assembly=' + assembly;
 
-    // this vvv will obviously have to be replaced with a proxied agr url
-    const externalJBrowsePrefix = '/jbrowse2?tracklist=true&assembly=' + assembly;
+	  //  htpVariant is a loc string of the format 'chr:start' for a variant
+    if (htpVariant) {
+        const pieces  = htpVariant.split(':');
+        externalJBrowsePrefix = externalJBrowsePrefix + '&highlight=' + pieces[0] + ':' + pieces[1] + '-' + pieces[1];
+    }
+
     const linkLength = end - start;
     let bufferedMin = Math.round(start - (linkLength * LINK_BUFFER / 2.0));
     bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
@@ -220,13 +225,14 @@ class GenomeFeatureWrapper extends Component {
   }
 
   render() {
-    const {assembly, id, displayType,genomeLocationList} = this.props;
+    const {assembly, id, displayType,genomeLocationList,htpVariant} = this.props;
     const genomeLocation = getSingleGenomeLocation(genomeLocationList);
 
     const coordinates = genomeLocationList.map(location => {
+	    //htpVariant contains location of variant info; can use that to set hightlight
       return(
         <span key={location.chromosome+location.start+location.end}>
-          <ExternalLink href={this.generateJBrowseLink(location.chromosome,location.start,location.end)}>
+          <ExternalLink href={this.generateJBrowseLink(location.chromosome,location.start,location.end,htpVariant)}>
             {location.chromosome.toLowerCase().startsWith('chr') || location.chromosome.toLowerCase().startsWith('scaffold') ? location.chromosome : 'Chr' + location.chromosome}:{location.start}...{location.end}
           </ExternalLink> {location.strand} ({numeral((location.end - location.start) / 1000.0).format('0,0.00')} kb)
         </span>
