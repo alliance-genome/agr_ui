@@ -8,8 +8,8 @@ import {
   SpeciesCell
 } from '../../components/dataTable';
 import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration';
-import DiseaseLink from '../../components/disease/DiseaseLink';
-import {getDistinctFieldValue, getAlleleSymbol, getIdentifier} from '../../components/dataTable/utils';
+import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration';
+import {getDistinctFieldValue} from '../../components/dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
@@ -69,7 +69,7 @@ const DiseaseToAlleleTable = ({id}) => {
     {
       dataField: 'object',
       text: 'Disease',
-      formatter: object => <DiseaseLink disease={object} />,
+      formatter: object => <DiseaseLinkCuration disease={object} />,
       headerStyle: {width: '120px'},
       filterable: true,
     },
