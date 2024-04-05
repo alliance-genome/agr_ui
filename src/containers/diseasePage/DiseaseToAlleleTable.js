@@ -30,12 +30,12 @@ const DiseaseToAlleleTable = ({id}) => {
       dataField: 'subject',
       text: 'Allele',
       formatter: (subject) => {
-      const allele = getAlleleObject(subject);
-      return(
-        <React.Fragment>
-      <AlleleCell allele={allele}/>
-      </React.Fragment>
-      )
+        const allele = getAlleleObject(subject);
+        return(
+          <React.Fragment>
+            <AlleleCell allele={allele}/>
+          </React.Fragment>
+        )
       },
       headerStyle: { width: '75px' },
       filterable: true,
@@ -69,8 +69,7 @@ const DiseaseToAlleleTable = ({id}) => {
     {
       dataField: 'object',
       text: 'Disease',
-      formatter: object => 
-      <DiseaseLink disease={object} />,
+      formatter: object => <DiseaseLink disease={object} />,
       headerStyle: {width: '120px'},
       filterable: true,
     },
@@ -78,7 +77,7 @@ const DiseaseToAlleleTable = ({id}) => {
       dataField: 'evidenceCodes',
       text: 'Evidence',
       helpPopupProps: {
-        id: 'disease-page--gene-disease-associations-table--evidence-help',
+        id: 'disease-page--allele-disease-associations-table--evidence-help',
         children: <span>Mouse-over to decipher the evidence code. The Alliance uses these <a href='https://www.alliancegenome.org/help#docodes'>evidence codes</a> to justify DO annotations.</span>,
       },
       formatter: codes => <EvidenceCodesCellCuration evidenceCodes={codes} />,
