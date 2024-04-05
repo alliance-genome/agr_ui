@@ -45,8 +45,10 @@ const DiseaseToAlleleTable = ({id}) => {
       dataField: 'subject.taxon',
       text: 'Species',
       formatter: species => <SpeciesCell species={species}/>,
+      filterName: 'species',
       filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
+      filterType: 'checkbox',
       headerStyle: {width: '100px'},
     },
     {
@@ -54,8 +56,10 @@ const DiseaseToAlleleTable = ({id}) => {
       text: 'Association',
       formatter: type => <AssociationType type={type} />,
       headerStyle: {width: '110px'},
+      filterName: 'associationType',
       filterable: getDistinctFieldValue(resolvedData, 'associationType'),
       filterFormatter: type => <AssociationType type={type} />,
+      filterType: 'checkbox',
     },
     {
       dataField: 'diseaseQualifiers',
@@ -71,6 +75,7 @@ const DiseaseToAlleleTable = ({id}) => {
       text: 'Disease',
       formatter: object => <DiseaseLinkCuration disease={object} />,
       headerStyle: {width: '120px'},
+      filterName: 'disease',
       filterable: true,
     },
     {
@@ -91,6 +96,7 @@ const DiseaseToAlleleTable = ({id}) => {
       formatter: providers => providers && <ProvidersCellCuration providers={providers} />,
       headerStyle: {width: '100px'},
       filterable: true,
+      filterName: 'dataProvider',
     },
     {
       dataField: 'pubmedPubModIDs',
