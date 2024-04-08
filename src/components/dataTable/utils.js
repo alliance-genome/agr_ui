@@ -36,6 +36,15 @@ export const getAlleleObject = (subject) => {
   return allele;
 }
 
+export const getGeneObject = (subject) => {
+  if(!subject) return;
+  const gene = {
+    curie: getIdentifier(subject),
+    geneSymbol: subject.geneSymbol,  
+  }
+  return gene;
+}
+
 export const getSingleReferenceUrl = (pubModId) => {
   const url = getResourceUrl(pubModId);
   return {pubModId, url};
