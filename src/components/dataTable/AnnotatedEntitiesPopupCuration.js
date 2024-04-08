@@ -22,23 +22,22 @@ import AnnotationType from './AnnotationType';
 import AssociationCellCuration from './AssociationCellCuration';
 import AssertedGenes from './AssertedGenes';
 import GeneticModifiersCellCuration from './GeneticModifiersCellCuration';
-import { buildProviderWithUrl, getIdentifier } from './utils';
+import { buildProviderWithUrl } from './utils';
 import StrainBackground from './StrainBackground';
 
 function renderLink(entity) {
-  const curie = getIdentifier(entity.diseaseAnnotationSubject);
-  const url = getResourceUrl(curie, entity.diseaseAnnotationSubject.type, entity.diseaseAnnotationSubject.subtype)
+  const url = getResourceUrl(entity.subject.curie, entity.subject.type, entity.subject.subtype)
 
   if (entity.type === 'AlleleDiseaseAnnotation') {
-    const innerText = entity.diseaseAnnotationSubject.alleleSymbol ? entity.diseaseAnnotationSubject.alleleSymbol.displayText : entity.diseaseAnnotationSubject.name;
+    const innerText = entity.subject.alleleSymbol ? entity.subject.alleleSymbol.displayText : entity.subject.name;
     const inner = <span dangerouslySetInnerHTML={{__html: innerText}}/>;
-    return <Link to={`/allele/${curie}`}>{inner}</Link>;
+    return <Link to={`/allele/${entity.subject.curie}`}>{inner}</Link>;
   } else if(entity.type === 'GeneDiseaseAnnotation'){
-      const innerText = entity.diseaseAnnotationSubject.geneSymbol ? entity.diseaseAnnotationSubject.geneSymbol.displayText : entity.diseaseAnnotationSubject.name;
+      const innerText = entity.subject.geneSymbol ? entity.subject.geneSymbol.displayText : entity.subject.name;
       const inner = <span dangerouslySetInnerHTML={{__html: innerText}}/>;
-      return <Link to={`/gene/${curie}`}>{inner}</Link>;
+      return <Link to={`/gene/${entity.subject.curie}`}>{inner}</Link>;
   } else {
-      const inner = <span dangerouslySetInnerHTML={{__html: entity.diseaseAnnotationSubject.name}}/>;
+      const inner = <span dangerouslySetInnerHTML={{__html: entity.subject.name}}/>;
       return <ExternalLink href={url}>{inner}</ExternalLink>;
   }
 }
@@ -90,7 +89,7 @@ function AnnotatedEntitiesPopupCuration({ children, entities, parentPage, mainRo
                   return (
                     <tr key={entity.id}>
                       <td>{renderLink(entity)}</td>
-                      <td><TypeCellCuration subject={entity.diseaseAnnotationSubject}/></td>
+                      <td><TypeCellCuration subject={entity.subject}/></td>
                       <td><AssociationCellCuration association={entity.relation?.name}/></td>
                       { parentPage === 'gene' || 'disease' ?  <td><AssertedGenes assertedGenes={entity.assertedGenes} mainRowCurie={mainRowCurie}/></td> : <></>}
                       <td><ExperimentalConditionCellCuration conditions={entity.conditionRelations}/></td>

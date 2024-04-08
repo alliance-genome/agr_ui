@@ -22,29 +22,6 @@ export const getIsViaOrthology = (annotation) => {
   return annotation.generatedRelationString.includes("orthology");
 };
 
-export const getIdentifier = (subject) => {
-  if(!subject) return;
-  return subject.curie?subject.curie:(subject.modEntityId?subject.modEntityId:subject.modInternalId);
-}
-
-export const getAlleleObject = (subject) => {
-  if(!subject) return;
-  const allele = {
-    id: getIdentifier(subject),
-    symbol: subject.alleleSymbol?.displayText,  
-  }
-  return allele;
-}
-
-export const getGeneObject = (subject) => {
-  if(!subject) return;
-  const gene = {
-    curie: getIdentifier(subject),
-    geneSymbol: subject.geneSymbol,  
-  }
-  return gene;
-}
-
 export const getSingleReferenceUrl = (pubModId) => {
   const url = getResourceUrl(pubModId);
   return {pubModId, url};
