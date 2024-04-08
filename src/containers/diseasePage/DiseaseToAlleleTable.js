@@ -3,19 +3,20 @@ import PropTypes from 'prop-types';
 import {
   AlleleCell,
   DataTable,
-  EvidenceCodesCell,
-  ReferenceCell,
+  EvidenceCodesCellCuration,
+  ReferencesCellCuration,
   SpeciesCell
 } from '../../components/dataTable';
-import AnnotatedEntitiesPopup
-  from '../../components/dataTable/AnnotatedEntitiesPopup';
-import DiseaseLink from '../../components/disease/DiseaseLink';
+import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration';
+import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration';
 import {getDistinctFieldValue} from '../../components/dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import SpeciesName from '../../components/SpeciesName';
 import AssociationType from '../../components/AssociationType';
+import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn';
+import { getAlleleObject, buildProvidersWithUrl } from '../../components/dataTable/utils';
 
 const DiseaseToAlleleTable = ({id}) => {
   const {
@@ -24,100 +25,103 @@ const DiseaseToAlleleTable = ({id}) => {
     ...tableProps
   } = useDataTableQuery(`/api/disease/${id}/alleles`, undefined, { sizePerPage: 10, }, {}, 60000);
 
-  const data = results.map(association => ({
-    ...association,
-    species: association.allele.species,
-  }));
-
   const columns = [
     {
-      dataField: 'allele',
+      dataField: 'subject',
       text: 'Allele',
-      formatter: (allele, row) => (
-        <React.Fragment>
-          <div><AlleleCell allele={allele}/></div>
-          <small>
-            <AnnotatedEntitiesPopup entities={row.primaryAnnotatedEntities}>
-              Annotation details
-            </AnnotatedEntitiesPopup>
-          </small>
-        </React.Fragment>
-      ),
-      headerStyle: {width: '185px'},
+      formatter: (subject) => {
+        const allele = getAlleleObject(subject);
+        return(
+          <React.Fragment>
+            <AlleleCell allele={allele}/>
+          </React.Fragment>
+        )
+      },
+      headerStyle: { width: '75px' },
       filterable: true,
       filterName: 'alleleName',
     },
     {
-      dataField: 'species',
+      dataField: 'subject.taxon',
       text: 'Species',
       formatter: species => <SpeciesCell species={species}/>,
+      filterName: 'species',
       filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
-      headerStyle: {width: '105px'},
+      filterType: 'checkbox',
+      headerStyle: {width: '100px'},
     },
     {
-      dataField: 'associationType',
+      dataField: 'generatedRelationString',
       text: 'Association',
       formatter: type => <AssociationType type={type} />,
       headerStyle: {width: '110px'},
+      filterName: 'associationType',
       filterable: getDistinctFieldValue(resolvedData, 'associationType'),
       filterFormatter: type => <AssociationType type={type} />,
+      filterType: 'checkbox',
     },
     {
-      dataField: 'disease',
+      dataField: 'diseaseQualifiers',
+      text: 'Disease Qualifier',
+      headerStyle: { width: '110px' },
+      formatter: diseaseQualifiers => <DiseaseQualifiersColumn qualifiers={diseaseQualifiers} />,
+      filterable: getDistinctFieldValue(resolvedData, 'diseaseQualifiers'),
+      filterName: 'diseaseQualifier',
+      filterType: 'checkbox',
+    },
+    {
+      dataField: 'object',
       text: 'Disease',
-      formatter: disease => <DiseaseLink disease={disease} />,
-      headerStyle: {width: '150px'},
+      formatter: object => <DiseaseLinkCuration disease={object} />,
+      headerStyle: {width: '120px'},
+      filterName: 'disease',
       filterable: true,
     },
     {
       dataField: 'evidenceCodes',
       text: 'Evidence',
-      formatter: codes => <EvidenceCodesCell evidenceCodes={codes} />,
+      helpPopupProps: {
+        id: 'disease-page--allele-disease-associations-table--evidence-help',
+        children: <span>Mouse-over to decipher the evidence code. The Alliance uses these <a href='https://www.alliancegenome.org/help#docodes'>evidence codes</a> to justify DO annotations.</span>,
+      },
+      formatter: codes => <EvidenceCodesCellCuration evidenceCodes={codes} />,
       headerStyle: {width: '100px'},
       filterable: true,
       filterName: 'evidenceCode',
     },
     {
-      dataField: 'source',
+      dataField: 'providers',
       text: 'Source',
-      formatter: source => source.name,
+      formatter: providers => providers && <ProvidersCellCuration providers={providers} />,
       headerStyle: {width: '100px'},
       filterable: true,
+      filterName: 'dataProvider',
     },
     {
-      dataField: 'publications',
+      dataField: 'pubmedPubModIDs',
       text: 'References',
-      formatter: ReferenceCell,
+      formatter: (pubmedPubModIDs) => {
+        return <ReferencesCellCuration pubModIds={pubmedPubModIDs}/>
+      },
       headerStyle: {width: '150px'},
       filterable: true,
       filterName: 'reference',
     }
   ];
 
-  const sortOptions = [
-    {
-      value: 'disease',
-      label: 'Disease',
-    },
-    {
-      value: 'allele',
-      label: 'Allele',
-    },
-    {
-      value: 'species',
-      label: 'Species',
-    },
-  ];
+  const rows = results.map(association => ({
+    species: association.subject.taxon,
+    providers: buildProvidersWithUrl(association.primaryAnnotations),
+    ...association,
+  }));
 
   return (
     <DataTable
       {...tableProps}
       columns={columns}
-      data={data}
-      downloadUrl={`/api/disease/${id}/alleles/download`}
+      data={rows}
       keyField='primaryKey'
-      sortOptions={sortOptions}
     />
   );
 };
