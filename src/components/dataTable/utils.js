@@ -17,18 +17,10 @@ export const getDistinctFieldValue = (response, field) => {
       value && value.trim()
     ));
 };
+
 export const getIdentifier = (subject) => {
   if(!subject) return;
   return subject.curie ? subject.curie : (subject.modEntityId ? subject.modEntityId : subject.modInternalId);
-}
-
-export const getGeneObject = (subject) => {
-  if(!subject) return;
-  const gene = {
-    curie: getIdentifier(subject),
-    geneSymbol: subject.geneSymbol,  
-  }
-  return gene;
 }
 
 export const getIsViaOrthology = (annotation) => {
