@@ -18,6 +18,11 @@ export const getDistinctFieldValue = (response, field) => {
     ));
 };
 
+export const getIdentifier = (subject) => {
+  if(!subject) return;
+  return subject.curie ? subject.curie : (subject.modEntityId ? subject.modEntityId : subject.modInternalId);
+}
+
 export const getIsViaOrthology = (annotation) => {
   return annotation.generatedRelationString.includes("orthology");
 };
