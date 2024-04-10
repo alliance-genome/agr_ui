@@ -11,7 +11,7 @@ import {
 import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import AssociationType from '../../components/AssociationType';
-import { buildProvidersWithUrl, getIsViaOrthology, getDistinctFieldValue } from '../../components/dataTable/utils';
+import { buildProvidersWithUrl, getIsViaOrthology, getDistinctFieldValue, getIdentifier } from '../../components/dataTable/utils';
 import { compareByFixedOrder } from '../../lib/utils';
 import { SPECIES_NAME_ORDER } from '../../constants';
 import SpeciesCell from '../../components/dataTable/SpeciesCell';
@@ -32,19 +32,21 @@ const DiseaseToGeneTable = ({ id }) => {
 
   const columns = [
     {
-      dataField: 'subject.curie',
+      dataField: 'subject',
       text: 'Gene',
-      formatter: (curie, row) => {
+      formatter: (subject, row) => {
         const isViaOrthology = getIsViaOrthology(row);
         return (
           <React.Fragment>
-            <div>{GeneCellCuration(row.subject)}</div>
+            <div>
+              <GeneCellCuration curie={getIdentifier(subject)} geneSymbol={subject.geneSymbol} />
+            </div>
             {!isViaOrthology && (
               <small>
                 <AnnotatedEntitiesPopupCuration
                   parentPage='disease'
                   entities={row.primaryAnnotations}
-                  mainRowCurie={row.subject.curie}
+                  mainRowCurie={getIdentifier(subject)}
                   pubModIds={row.pubmedPubModIDs}
                 >
                   Annotation details
