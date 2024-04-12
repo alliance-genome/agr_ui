@@ -23,17 +23,13 @@ export const getIdentifier = (subject) => {
   return subject.curie ? subject.curie : (subject.modEntityId ? subject.modEntityId : subject.modInternalId);
 }
 
-export const getIsViaOrthology = (annotation) => {
-  return annotation.generatedRelationString.includes("orthology");
-};
-
-export const getAlleleObject = (subject) => {
+export const getGeneObject = (subject) => {
   if(!subject) return;
-  const allele = {
-    id: getIdentifier(subject),
-    symbol: subject.alleleSymbol?.displayText,  
+  const gene = {
+    curie: getIdentifier(subject),
+    geneSymbol: subject.geneSymbol,  
   }
-  return allele;
+  return gene;
 }
 
 export const getSingleReferenceUrl = (pubModId) => {
