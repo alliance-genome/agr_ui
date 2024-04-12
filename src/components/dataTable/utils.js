@@ -27,15 +27,6 @@ export const getIdentifier = (subject) => {
   return subject.curie?subject.curie:(subject.modEntityId?subject.modEntityId:subject.modInternalId);
 }
 
-export const getAlleleObject = (subject) => {
-  if(!subject) return;
-  const allele = {
-    id: getIdentifier(subject),
-    symbol: subject.alleleSymbol?.displayText,  
-  }
-  return allele;
-}
-
 export const getGeneObject = (subject) => {
   if(!subject) return;
   const gene = {

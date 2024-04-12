@@ -16,7 +16,8 @@ import useDataTableQuery from '../../hooks/useDataTableQuery';
 import SpeciesName from '../../components/SpeciesName';
 import AssociationType from '../../components/AssociationType';
 import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn';
-import { getAlleleObject, buildProvidersWithUrl } from '../../components/dataTable/utils';
+import { getIdentifier, buildProvidersWithUrl } from '../../components/dataTable/utils';
+import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration';
 
 const DiseaseToAlleleTable = ({id}) => {
   const {
@@ -29,11 +30,20 @@ const DiseaseToAlleleTable = ({id}) => {
     {
       dataField: 'subject',
       text: 'Allele',
-      formatter: (subject) => {
-        const allele = getAlleleObject(subject);
+      formatter: (subject, rowData) => {
         return(
           <React.Fragment>
-            <AlleleCell allele={allele}/>
+            <AlleleCell allele={{ id : getIdentifier(subject), symbol : subject.alleleSymbol?.displayText }} />
+            <small>
+              <AnnotatedEntitiesPopupCuration
+                parentPage='disease'
+                entities={rowData.primaryAnnotations}
+                mainRowCurie={getIdentifier(subject)}
+                pubModIds={rowData.pubmedPubModIDs}
+              >
+                Annotation details
+              </AnnotatedEntitiesPopupCuration>
+            </small>
           </React.Fragment>
         )
       },
@@ -116,12 +126,29 @@ const DiseaseToAlleleTable = ({id}) => {
     ...association,
   }));
 
+  const sortOptions = [
+    {
+      value: 'disease',
+      label: 'Disease',
+    },
+    {
+      value: 'allele',
+      label: 'Allele',
+    },
+    {
+      value: 'species',
+      label: 'Species',
+    },
+  ];
+
   return (
     <DataTable
       {...tableProps}
       columns={columns}
       data={rows}
+      downloadUrl={`/api/disease/${id}/alleles/download`}
       keyField='primaryKey'
+      sortOptions={sortOptions}
     />
   );
 };
