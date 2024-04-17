@@ -64,10 +64,12 @@ const DataTable = ({
   };
 
   let disabled = false;
+  
   const setDisabled = (value) => {
     disabled = value;
     return true;
   };
+
   const scrollIntoView = () => {
     containerRef.current.scrollIntoView({
       behavior: 'smooth',
