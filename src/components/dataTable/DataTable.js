@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import { Form, Input, Label } from 'reactstrap';
 import paginationFactory, {
@@ -64,7 +64,7 @@ const DataTable = ({
   };
 
   let disabled = false;
-  
+
   const setDisabled = (value) => {
     disabled = value;
     return true;
