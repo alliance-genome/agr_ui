@@ -25,7 +25,7 @@ import HorizontalScroll from '../horizontalScroll';
 import { buildTableQueryString } from '../../lib/utils';
 import LoadingSpinner from '../loadingSpinner';
 import DropdownNoDataFilter from './DropdownNoDataFilter';
-import {ROW_THRESHOLD} from '../../constants';
+import {DATA_TABLE_MAX_ROWS} from '../../constants';
 import { Link } from 'react-router-dom';
 
 const DataTable = ({
@@ -61,13 +61,6 @@ const DataTable = ({
       }
     });
     return filters;
-  };
-
-  let disabled = false;
-
-  const setDisabled = (value) => {
-    disabled = value;
-    return true;
   };
 
   const scrollIntoView = () => {
@@ -128,6 +121,8 @@ const DataTable = ({
     onPageChange: scrollIntoView,
     onSizePerPageChange: scrollIntoView
   });
+
+  let disabled = paginationObj.options?.totalSize > DATA_TABLE_MAX_ROWS;
 
   columns.forEach(column => {
     const filterField = column.filterName || column.dataField;
@@ -231,7 +226,7 @@ const DataTable = ({
         }
       </PaginationProvider>
       {
-        downloadUrl && (paginationObj.options?.totalSize < ROW_THRESHOLD ? setDisabled(false) : setDisabled(true)) &&
+        downloadUrl &&
           <DownloadButton
             downloadUrl={`${downloadUrl}${downloadUrl.indexOf('?') < 0 ? '?' : '&'}${buildTableQueryString(tableState)}`}
             disabled={disabled}
@@ -241,7 +236,7 @@ const DataTable = ({
         disabled && 
           <div style={{color: 'red'}}>
             The table above cannot be downloaded because there are too many rows in the unfiltered table. 
-            Please apply filter(s) to limit the number of rows to less than {ROW_THRESHOLD} to enable the Download button or visit our 
+            Please apply filter(s) to limit the number of rows to less than {DATA_TABLE_MAX_ROWS} to enable the Download button or visit our 
             <Link to="/downloads"> Downloads page </Link>
             to download the entire disease annotation set.
           </div>
