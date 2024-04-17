@@ -26,6 +26,7 @@ import { buildTableQueryString } from '../../lib/utils';
 import LoadingSpinner from '../loadingSpinner';
 import DropdownNoDataFilter from './DropdownNoDataFilter';
 import {ROW_THRESHOLD} from '../../constants';
+import { Link } from 'react-router-dom';
 
 const DataTable = ({
   className,
@@ -227,16 +228,23 @@ const DataTable = ({
           )
         }
       </PaginationProvider>
-      {downloadUrl && (paginationObj.options?.totalSize < ROW_THRESHOLD? setDisabled(false) : setDisabled(true)) &&
-      <DownloadButton
-        downloadUrl={`${downloadUrl}${downloadUrl.indexOf('?') < 0 ? '?' : '&'}${buildTableQueryString(tableState)}`}
-        disabled = {disabled}
-      />
+      {
+        downloadUrl && (paginationObj.options?.totalSize < ROW_THRESHOLD ? setDisabled(false) : setDisabled(true)) &&
+          <DownloadButton
+            downloadUrl={`${downloadUrl}${downloadUrl.indexOf('?') < 0 ? '?' : '&'}${buildTableQueryString(tableState)}`}
+            disabled={disabled}
+          />
       }
-     { 
-     disabled && <div style = {{color: 'red'}}>The table above cannot be downloaded because there are too many rows in the unfiltered table. Please apply filter(s) to limit the number of rows to less than {ROW_THRESHOLD} to enable the Download button or visit our to download the entire disease annotation set.</div>
-     }
-     </div>
+      { 
+        disabled && 
+          <div style={{color: 'red'}}>
+            The table above cannot be downloaded because there are too many rows in the unfiltered table. 
+            Please apply filter(s) to limit the number of rows to less than {ROW_THRESHOLD} to enable the Download button or visit our 
+            <Link to="/downloads"> Downloads page </Link>
+            to download the entire disease annotation set.
+          </div>
+      }
+    </div>
   );
 };
 
