@@ -84,6 +84,16 @@ export const NAV_MENU = [
         external: true,
       },
       {
+        label: 'AllianceMine',
+        route: '/bluegenes/alliancemine',
+        external: true,
+      },
+      {
+        label: 'JBrowse',
+        route: '/jbrowse/?data=data%2FHomo%20sapiens',
+        external: true,
+      },
+      {
         label: 'Submit Data',
         route: '/submit-data',
       },
@@ -98,16 +108,6 @@ export const NAV_MENU = [
       {
         label: 'COVID-19 Information',
         route: '/coronavirus-resources',
-      },
-      {
-        label: 'AllianceMine',
-        route: '/bluegenes/alliancemine',
-        external: true,
-      },
-      {
-        label: 'JBrowse',
-        route: '/jbrowse/?data=data%2FHomo%20sapiens',
-        external: true,
       }
     ]
   },
