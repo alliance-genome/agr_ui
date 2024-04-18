@@ -25,7 +25,7 @@ import HorizontalScroll from '../horizontalScroll';
 import { buildTableQueryString } from '../../lib/utils';
 import LoadingSpinner from '../loadingSpinner';
 import DropdownNoDataFilter from './DropdownNoDataFilter';
-import {DATA_TABLE_MAX_ROWS} from '../../constants';
+import {DOWNLOAD_BUTTON_THRESHOLD} from '../../constants';
 import { Link } from 'react-router-dom';
 
 const DataTable = ({
@@ -122,7 +122,7 @@ const DataTable = ({
     onSizePerPageChange: scrollIntoView
   });
 
-  let disabled = paginationObj.options?.totalSize > DATA_TABLE_MAX_ROWS;
+  let disabled = paginationObj.options?.totalSize > DOWNLOAD_BUTTON_THRESHOLD;
 
   columns.forEach(column => {
     const filterField = column.filterName || column.dataField;
@@ -236,9 +236,9 @@ const DataTable = ({
         disabled && 
           <div style={{color: 'red'}}>
             The table above cannot be downloaded because there are too many rows in the unfiltered table. 
-            Please apply filter(s) to limit the number of rows to less than {DATA_TABLE_MAX_ROWS} to enable the Download button or visit our 
+            Please apply filter(s) to limit the number of rows to less than {DOWNLOAD_BUTTON_THRESHOLD} to enable the Download button or visit our 
             <Link to="/downloads"> Downloads page </Link>
-            to download the entire disease annotation set.
+            to download the entire data set.
           </div>
       }
     </div>
