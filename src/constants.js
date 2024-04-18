@@ -431,3 +431,4 @@ export const GA_EVENT_ACTION = {
   SET_PAGE_SIZE: 'Set page size'
 };
 
+export const DOWNLOAD_BUTTON_THRESHOLD = 90000;
