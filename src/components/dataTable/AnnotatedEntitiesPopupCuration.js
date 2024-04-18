@@ -70,11 +70,11 @@ function AnnotatedEntitiesPopupCuration({ children, entities, parentPage, mainRo
                 <th>Name</th>
                 <th>Type</th>
                 <th className={style.associationCell}>Association</th>
-                { parentPage === 'gene' || 'disease' ? <th>Additional implicated genes</th> : <></> }
+                { parentPage === 'gene' || parentPage === 'disease' ? <th>Additional implicated genes</th> : <></> }
                 <th>Experimental condition</th>
                 <th></th>
                 <th>Genetic Modifiers</th>
-                { parentPage === 'gene' || 'disease' ? <th>Strain Background</th> : <></> }
+                { parentPage === 'gene' || parentPage === 'disease' ? <th>Strain Background</th> : <></> }
                 <th>Genetic Sex</th>
                 <th className={style.relatedNotes}>Notes</th>
                 <th>Annotation type</th>
