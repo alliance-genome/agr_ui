@@ -431,4 +431,4 @@ export const GA_EVENT_ACTION = {
   SET_PAGE_SIZE: 'Set page size'
 };
 
-export const DATA_TABLE_MAX_ROWS = 90000;
+export const DOWNLOAD_BUTTON_THRESHOLD = 90000;
