@@ -92,11 +92,11 @@ function AnnotatedEntitiesPopupCuration({ children, entities, parentPage, mainRo
                       <td>{renderLink(entity)}</td>
                       <td><TypeCellCuration subject={entity.diseaseAnnotationSubject}/></td>
                       <td><AssociationCellCuration association={entity.relation?.name}/></td>
-                      { parentPage === 'gene' || 'disease' ?  <td><AssertedGenes assertedGenes={entity.assertedGenes} mainRowCurie={mainRowCurie}/></td> : <></>}
+                      { parentPage === 'gene' || parentPage === 'disease' ?  <td><AssertedGenes assertedGenes={entity.assertedGenes} mainRowCurie={mainRowCurie}/></td> : <></>}
                       <td><ExperimentalConditionCellCuration conditions={entity.conditionRelations}/></td>
                       <td><ExperimentalConditionCellCuration conditions={entity.conditionModifiers}/></td>
                       <td><GeneticModifiersCellCuration relation={entity.diseaseGeneticModifierRelation} modifiers={entity.diseaseGeneticModifiers}/></td>
-                      { parentPage === 'gene' || 'disease' ? <td><StrainBackground strainBackground={entity.sgdStrainBackground}/></td> : <></> }
+                      { parentPage === 'gene' || parentPage === 'disease' ? <td><StrainBackground strainBackground={entity.sgdStrainBackground}/></td> : <></> }
                       <td><GeneticSex geneticSex={entity.geneticSex}/></td>
                       <td><RelatedNotes className={style.relatedNotes} relatedNotes={entity.relatedNotes}/></td>
                       <td><AnnotationType  annotationType={entity.annotationType}/></td>
