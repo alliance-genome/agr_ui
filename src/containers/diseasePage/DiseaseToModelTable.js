@@ -6,17 +6,16 @@ import {
   ReferenceCell,
   SpeciesCell
 } from '../../components/dataTable';
-import AnnotatedEntitiesPopup
-  from '../../components/dataTable/AnnotatedEntitiesPopup';
-import ExperimentalConditionCell from '../../components/dataTable/ExperimentalConditionCell';
+import ExperimentalConditionCellCuration from '../../components/dataTable/ExperimentalConditionCellCuration';
 import ExternalLink from '../../components/ExternalLink';
-import DiseaseLink from '../../components/disease/DiseaseLink';
-import {getDistinctFieldValue} from '../../components/dataTable/utils';
+import {getDistinctFieldValue, buildProvidersWithUrl, extractExperimentalConditions} from '../../components/dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import SpeciesName from '../../components/SpeciesName';
 import AssociationType from '../../components/AssociationType';
+import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration';
+import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration';
 
 const DiseaseToModelTable = ({id}) => {
   const {
@@ -27,28 +26,23 @@ const DiseaseToModelTable = ({id}) => {
 
   const columns = [
     {
-      dataField: 'model',
+      dataField: 'subject',
       text: 'Model',
-      formatter: (model, row) => (
-        <React.Fragment>
+      formatter: (subject, row) => (
+        <>
           <div>
-            <ExternalLink href={model.modCrossRefCompleteUrl}>
-              <span dangerouslySetInnerHTML={{__html: model.name}} />
+            <ExternalLink href={subject.modCrossRefCompleteUrl}>
+              <span dangerouslySetInnerHTML={{__html: subject.name}} />
             </ExternalLink>
           </div>
-          <small>
-            <AnnotatedEntitiesPopup entities={row.primaryAnnotatedEntities}>
-              Annotation details
-            </AnnotatedEntitiesPopup>
-          </small>
-        </React.Fragment>
+        </>
       ),
       filterable: true,
       filterName: 'modelName',
       headerStyle: {width: '280px'},
     },
     {
-      dataField: 'species',
+      dataField: 'subject.taxon',
       text: 'Species',
       formatter: species => <SpeciesCell species={species} />,
       filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
@@ -56,9 +50,9 @@ const DiseaseToModelTable = ({id}) => {
       headerStyle: {width: '105px'},
     },
     {
-      dataField: 'conditions',
+      dataField: 'experimentalConditions',
       text: 'Experimental condition',
-      formatter: conditions => <ExperimentalConditionCell conditions={conditions} />,
+      formatter: conditions => <ExperimentalConditionCellCuration conditions={conditions} />,
       headerStyle: {width: '220px'},
     },
     {
@@ -72,14 +66,14 @@ const DiseaseToModelTable = ({id}) => {
     {
       dataField: 'disease',
       text: 'Disease',
-      formatter: disease => <DiseaseLink disease={disease} />,
+      headerStyle: { width: '150px' },
+      formatter: (curie, row) => <DiseaseLinkCuration disease={row.object} />,
       filterable: true,
-      headerStyle: {width: '150px'},
     },
     {
       dataField: 'conditionModifiers',
       text: 'Modifier',
-      formatter: conditions => <ExperimentalConditionCell conditions={conditions} />,
+      formatter: conditions => <ExperimentalConditionCellCuration conditions={conditions} />,
       headerStyle: {width: '220px'},
     },
     {
@@ -91,11 +85,12 @@ const DiseaseToModelTable = ({id}) => {
       filterName: 'evidenceCode',
     },
     {
-      dataField: 'source',
+      dataField: 'providers',
       text: 'Source',
-      formatter: source => source.name,
+      formatter: providers => providers && <ProvidersCellCuration providers={providers} />,
+      headerStyle: { width: '100px' },
       filterable: true,
-      headerStyle: {width: '85px'},
+      filterName: 'dataProvider',
     },
     {
       dataField: 'publications',
@@ -107,10 +102,10 @@ const DiseaseToModelTable = ({id}) => {
     }
   ];
 
-  // need to pull out species in a separate field because we can't have
-  // two columns based on the model field
   const data = results.map(association => ({
-    species: association.model.species,
+    species: association.subject?.species,
+    providers: buildProvidersWithUrl(association.primaryAnnotations),
+    experimentalConditions: extractExperimentalConditions(association.primaryAnnotations),
     ...association,
   }));
 
