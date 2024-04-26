@@ -8,16 +8,14 @@ import {
 } from '../../components/dataTable';
 import ExperimentalConditionCellCuration from '../../components/dataTable/ExperimentalConditionCellCuration';
 import GeneticModifiersCellCuration from '../../components/dataTable/GeneticModifiersCellCuration';
-import ExternalLink from '../../components/ExternalLink';
-import {getDistinctFieldValue, buildProvidersWithUrl} from '../../components/dataTable/utils';
-import {compareByFixedOrder} from '../../lib/utils';
-import {SPECIES_NAME_ORDER} from '../../constants';
+import { buildProvidersWithUrl } from '../../components/dataTable/utils';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import SpeciesName from '../../components/SpeciesName';
 import AssociationType from '../../components/AssociationType';
 import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration';
 import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration';
 import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn';
+import ModelCellCuration from '../../components/dataTable/ModelCellCuration';
 
 const DiseaseToModelTable = ({id}) => {
   const {
@@ -30,16 +28,13 @@ const DiseaseToModelTable = ({id}) => {
     {
       dataField: 'subject',
       text: 'Model',
-      formatter: (subject, row) => (
+      formatter: (subject) => (
         <>
           <div>
-            <ExternalLink href={subject.modCrossRefCompleteUrl}>
-              <span dangerouslySetInnerHTML={{__html: subject.name}} />
-            </ExternalLink>
+            <ModelCellCuration model={subject}/>
           </div>
         </>
       ),
-      filterable: true,
       filterName: 'modelName',
       headerStyle: {width: '280px'},
     },
@@ -47,7 +42,6 @@ const DiseaseToModelTable = ({id}) => {
       dataField: 'subject.taxon',
       text: 'Species',
       formatter: species => <SpeciesCell species={species} />,
-      filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
       headerStyle: {width: '105px'},
     },
@@ -61,7 +55,6 @@ const DiseaseToModelTable = ({id}) => {
       dataField: 'associationType',
       text: 'Association',
       formatter: type => <AssociationType type={type} />,
-      filterable: getDistinctFieldValue(resolvedData, 'associationType'),
       filterFormatter: type => <AssociationType type={type} />,
       headerStyle: {width: '120px'},
     },
@@ -70,14 +63,12 @@ const DiseaseToModelTable = ({id}) => {
       text: 'Disease Qualifiers',
       headerStyle: { width: '150px' },
       formatter: qualifiers => <DiseaseQualifiersColumn qualifiers={qualifiers}/>,
-      filterable: true,
     },
     {
       dataField: 'disease',
       text: 'Disease',
       headerStyle: { width: '150px' },
       formatter: (curie, row) => <DiseaseLinkCuration disease={row.object} />,
-      filterable: true,
     },
     {
       dataField: 'conditionModifierList',
@@ -96,7 +87,6 @@ const DiseaseToModelTable = ({id}) => {
       text: 'Evidence',
       formatter: codes => <EvidenceCodesCell evidenceCodes={codes} />,
       headerStyle: {width: '100px'},
-      filterable: true,
       filterName: 'evidenceCode',
     },
     {
@@ -104,7 +94,6 @@ const DiseaseToModelTable = ({id}) => {
       text: 'Source',
       formatter: providers => providers && <ProvidersCellCuration providers={providers} />,
       headerStyle: { width: '100px' },
-      filterable: true,
       filterName: 'dataProvider',
     },
     {
@@ -112,7 +101,6 @@ const DiseaseToModelTable = ({id}) => {
       text: 'References',
       formatter: ReferenceCell,
       headerStyle: {width: '150px'},
-      filterable: true,
       filterName: 'reference'
     }
   ];
@@ -123,17 +111,6 @@ const DiseaseToModelTable = ({id}) => {
     ...association,
   }));
 
-  const sortOptions = [
-    {
-      value: 'model',
-      label: 'Model',
-    },
-    {
-      value: 'disease',
-      label: 'Disease',
-    },
-  ];
-
 
   return (
     <DataTable
@@ -142,7 +119,6 @@ const DiseaseToModelTable = ({id}) => {
       data={data}
       downloadUrl={`/api/disease/${id}/models/download`}
       keyField='primaryKey'
-      sortOptions={sortOptions}
     />
   );
 };
