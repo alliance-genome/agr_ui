@@ -133,12 +133,3 @@ export function removeDuplicates(objects, keyFunction){
 
   return uniqueObjects;
 }
-export function extractConditionRelations(associations, validConditions){
-  if(!associations || !validConditions) return;
-  return associations.flatMap((association) => {
-    return association.conditionRelations;
-  }).filter((condition) => {
-    const name = condition.conditionRelationType?.name
-    return validConditions.has(name);
-  })
-}
