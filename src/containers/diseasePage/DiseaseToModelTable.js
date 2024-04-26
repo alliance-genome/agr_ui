@@ -7,8 +7,9 @@ import {
   SpeciesCell
 } from '../../components/dataTable';
 import ExperimentalConditionCellCuration from '../../components/dataTable/ExperimentalConditionCellCuration';
+import GeneticModifiersCellCuration from '../../components/dataTable/GeneticModifiersCellCuration';
 import ExternalLink from '../../components/ExternalLink';
-import {getDistinctFieldValue, buildProvidersWithUrl, extractConditionRelations } from '../../components/dataTable/utils';
+import {getDistinctFieldValue, buildProvidersWithUrl} from '../../components/dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
@@ -16,6 +17,7 @@ import SpeciesName from '../../components/SpeciesName';
 import AssociationType from '../../components/AssociationType';
 import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration';
 import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration';
+import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn';
 
 const DiseaseToModelTable = ({id}) => {
   const {
@@ -50,7 +52,7 @@ const DiseaseToModelTable = ({id}) => {
       headerStyle: {width: '105px'},
     },
     {
-      dataField: 'experimentalConditions',
+      dataField: 'experimentalConditionList',
       text: 'Experimental condition',
       formatter: conditions => <ExperimentalConditionCellCuration conditions={conditions} />,
       headerStyle: {width: '220px'},
@@ -64,6 +66,13 @@ const DiseaseToModelTable = ({id}) => {
       headerStyle: {width: '120px'},
     },
     {
+      dataField: 'diseaseQualifiers',
+      text: 'Disease Qualifiers',
+      headerStyle: { width: '150px' },
+      formatter: qualifiers => <DiseaseQualifiersColumn qualifiers={qualifiers}/>,
+      filterable: true,
+    },
+    {
       dataField: 'disease',
       text: 'Disease',
       headerStyle: { width: '150px' },
@@ -71,9 +80,15 @@ const DiseaseToModelTable = ({id}) => {
       filterable: true,
     },
     {
-      dataField: 'conditionModifiers',
+      dataField: 'conditionModifierList',
       text: 'Condition Modifier',
       formatter: conditions => <ExperimentalConditionCellCuration conditions={conditions} />,
+      headerStyle: {width: '220px'},
+    },
+    {
+      dataField: 'geneticModifierList',
+      text: 'Genetic Modifier',
+      formatter: (modifiers, row) => <GeneticModifiersCellCuration relation={row.geneticModifierRelation} modifiers={modifiers} />,
       headerStyle: {width: '220px'},
     },
     {
@@ -105,9 +120,6 @@ const DiseaseToModelTable = ({id}) => {
   const data = results.map(association => ({
     species: association.subject?.species,
     providers: buildProvidersWithUrl(association.primaryAnnotations),
-    experimentalConditions: extractConditionRelations(association.primaryAnnotations, new Set(["has_condition", "induced_by"])),
-    conditionModifiers: extractConditionRelations(association.primaryAnnotations, 
-      new Set(["ameliorated_by", "not_ameliorated_by", "exacerbated_by", "not_exacerbated_by"])),
     ...association,
   }));
 
