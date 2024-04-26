@@ -8,7 +8,7 @@ import {
 } from '../../components/dataTable';
 import ExperimentalConditionCellCuration from '../../components/dataTable/ExperimentalConditionCellCuration';
 import ExternalLink from '../../components/ExternalLink';
-import {getDistinctFieldValue, buildProvidersWithUrl, extractExperimentalConditions} from '../../components/dataTable/utils';
+import {getDistinctFieldValue, buildProvidersWithUrl, extractConditionRelations } from '../../components/dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
@@ -72,7 +72,7 @@ const DiseaseToModelTable = ({id}) => {
     },
     {
       dataField: 'conditionModifiers',
-      text: 'Modifier',
+      text: 'Condition Modifier',
       formatter: conditions => <ExperimentalConditionCellCuration conditions={conditions} />,
       headerStyle: {width: '220px'},
     },
@@ -105,7 +105,9 @@ const DiseaseToModelTable = ({id}) => {
   const data = results.map(association => ({
     species: association.subject?.species,
     providers: buildProvidersWithUrl(association.primaryAnnotations),
-    experimentalConditions: extractExperimentalConditions(association.primaryAnnotations),
+    experimentalConditions: extractConditionRelations(association.primaryAnnotations, new Set(["has_condition", "induced_by"])),
+    conditionModifiers: extractConditionRelations(association.primaryAnnotations, 
+      new Set(["ameliorated_by", "not_ameliorated_by", "exacerbated_by", "not_exacerbated_by"])),
     ...association,
   }));
 
