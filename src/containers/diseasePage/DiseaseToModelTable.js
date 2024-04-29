@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   DataTable,
-  EvidenceCodesCell,
-  ReferenceCell,
+  EvidenceCodesCellCuration,
+  ReferencesCellCuration,
   SpeciesCell
 } from '../../components/dataTable';
 import ExperimentalConditionCellCuration from '../../components/dataTable/ExperimentalConditionCellCuration';
@@ -52,7 +52,7 @@ const DiseaseToModelTable = ({id}) => {
       headerStyle: {width: '220px'},
     },
     {
-      dataField: 'associationType',
+      dataField: 'generatedRelationString',
       text: 'Association',
       formatter: type => <AssociationType type={type} />,
       filterFormatter: type => <AssociationType type={type} />,
@@ -85,7 +85,7 @@ const DiseaseToModelTable = ({id}) => {
     {
       dataField: 'evidenceCodes',
       text: 'Evidence',
-      formatter: codes => <EvidenceCodesCell evidenceCodes={codes} />,
+      formatter: codes => <EvidenceCodesCellCuration evidenceCodes={codes} />,
       headerStyle: {width: '100px'},
       filterName: 'evidenceCode',
     },
@@ -97,9 +97,9 @@ const DiseaseToModelTable = ({id}) => {
       filterName: 'dataProvider',
     },
     {
-      dataField: 'publications',
+      dataField: 'pubmedPubModIDs',
       text: 'References',
-      formatter: ReferenceCell,
+      formatter: (pubModIds) => <ReferencesCellCuration pubModIds={pubModIds}/>,
       headerStyle: {width: '150px'},
       filterName: 'reference'
     }
