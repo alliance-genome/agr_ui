@@ -8,7 +8,7 @@ import {
 } from '../../components/dataTable';
 import ExperimentalConditionCellCuration from '../../components/dataTable/ExperimentalConditionCellCuration';
 import GeneticModifiersCellCuration from '../../components/dataTable/GeneticModifiersCellCuration';
-import { buildProvidersWithUrl } from '../../components/dataTable/utils';
+import { buildProvidersWithUrl, getIdentifier } from '../../components/dataTable/utils';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import SpeciesName from '../../components/SpeciesName';
 import AssociationType from '../../components/AssociationType';
@@ -16,6 +16,8 @@ import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCurat
 import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration';
 import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn';
 import ModelCellCuration from '../../components/dataTable/ModelCellCuration';
+import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration';
+
 
 const DiseaseToModelTable = ({id}) => {
   const {
@@ -28,11 +30,21 @@ const DiseaseToModelTable = ({id}) => {
     {
       dataField: 'subject',
       text: 'Model',
-      formatter: (subject) => (
+      formatter: (subject, rowData) => (
         <>
           <div>
             <ModelCellCuration model={subject}/>
           </div>
+          <small>
+            <AnnotatedEntitiesPopupCuration
+              parentPage='disease-page-model-table'
+              entities={rowData.primaryAnnotations}
+              mainRowCurie={getIdentifier(subject)}
+              pubModIds={rowData.pubmedPubModIDs}
+            >
+              Annotation details
+            </AnnotatedEntitiesPopupCuration>
+          </small>
         </>
       ),
       filterName: 'modelName',

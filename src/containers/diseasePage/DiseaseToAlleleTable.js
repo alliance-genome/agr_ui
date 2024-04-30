@@ -32,7 +32,7 @@ const DiseaseToAlleleTable = ({id}) => {
       text: 'Allele',
       formatter: (subject, rowData) => {
         return(
-          <React.Fragment>
+          <>
             <AlleleCell allele={{ id : getIdentifier(subject), symbol : subject.alleleSymbol?.displayText }} />
             <small>
               <AnnotatedEntitiesPopupCuration
@@ -44,7 +44,7 @@ const DiseaseToAlleleTable = ({id}) => {
                 Annotation details
               </AnnotatedEntitiesPopupCuration>
             </small>
-          </React.Fragment>
+          </>
         )
       },
       headerStyle: { width: '75px' },
