@@ -20,6 +20,7 @@ import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration';
 import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn';
 import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration';
 import ReferenceCellViaOrthologyCuration from '../../components/dataTable/ReferencesCellViaOrthologyCuration';
+import { GENE_DETAILS_COLUMNS } from './constants';
 
 const DiseaseToGeneTable = ({ id }) => {
   const {
@@ -48,6 +49,7 @@ const DiseaseToGeneTable = ({ id }) => {
                   entities={row.primaryAnnotations}
                   mainRowCurie={getIdentifier(subject)}
                   pubModIds={row.pubmedPubModIDs}
+                  columnNameSet={GENE_DETAILS_COLUMNS}
                 >
                   Annotation details
                 </AnnotatedEntitiesPopupCuration>

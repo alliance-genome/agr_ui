@@ -17,6 +17,7 @@ import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration';
 import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn';
 import ModelCellCuration from '../../components/dataTable/ModelCellCuration';
 import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration';
+import { MODEL_DETAILS_COLUMNS } from './constants';
 
 
 const DiseaseToModelTable = ({id}) => {
@@ -41,6 +42,7 @@ const DiseaseToModelTable = ({id}) => {
               entities={rowData.primaryAnnotations}
               mainRowCurie={getIdentifier(subject)}
               pubModIds={rowData.pubmedPubModIDs}
+              columnNameSet={MODEL_DETAILS_COLUMNS}
             >
               Annotation details
             </AnnotatedEntitiesPopupCuration>
