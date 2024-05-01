@@ -4,7 +4,7 @@ export const MODEL_DETAILS_COLUMNS = new Set([
   "Genetic Sex",
   "Notes",
   "Annotation Type",
-  "Evidence Code",
+  "Evidence Codes",
   "Source",
   "References"
 ]);
@@ -20,7 +20,7 @@ export const GENE_DETAILS_COLUMNS = new Set([
   "Genetic Sex", 
   "Notes", 
   "Annotation Type", 
-  "Evidence Code", 
+  "Evidence Codes", 
   "Source", 
   "References"
 ]);
@@ -34,7 +34,7 @@ export const ALLELE_DETAILS_COLUMNS = new Set([
   "Genetic Sex",
   "Notes",
   "Annotation Type",
-  "Evidence Code",
+  "Evidence Codes",
   "Source",
   "References",
 ]);
