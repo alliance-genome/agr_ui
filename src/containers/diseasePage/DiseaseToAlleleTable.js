@@ -18,7 +18,7 @@ import AssociationType from '../../components/AssociationType';
 import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn';
 import { getIdentifier, buildProvidersWithUrl } from '../../components/dataTable/utils';
 import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration';
-import { ALLELE_DETAILS_COLUMNS } from './constants';
+import { ALLELE_DETAILS_COLUMNS } from '../../components/dataTable/constants';
 
 const DiseaseToAlleleTable = ({id}) => {
   const {
