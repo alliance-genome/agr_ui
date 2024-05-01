@@ -16,7 +16,7 @@ nvm is used to manage Node.js versions. [Follow these instructions](https://gith
 Ensure the correct version of Node.js is **installed**, if using the particular version of Node.js for the first time:
 
 ```bash
-nvm install
+nvm install 
 ```
 
 _Note: the command uses **nvm**, not npm. Nvm deals with the version of Node.js itself._

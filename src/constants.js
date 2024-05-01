@@ -84,18 +84,6 @@ export const NAV_MENU = [
         external: true,
       },
       {
-        label: 'Submit Data',
-        route: '/submit-data',
-      },
-      {
-        label: 'Tools and Prototypes',
-        route: '/prototypes',
-      },
-      {
-        label: 'COVID-19 Information',
-        route: '/coronavirus-resources',
-      },
-      {
         label: 'AllianceMine',
         route: '/bluegenes/alliancemine',
         external: true,
@@ -104,6 +92,22 @@ export const NAV_MENU = [
         label: 'JBrowse 2',
         route: '/jbrowse2/',
         external: true,
+      },
+      {
+        label: 'Submit Data',
+        route: '/submit-data',
+      },
+      {
+        label: 'Textpresso',
+        route: '/textpresso',
+      },
+      {
+        label: 'Tools and Prototypes',
+        route: '/prototypes',
+      },
+      {
+        label: 'COVID-19 Information',
+        route: '/coronavirus-resources',
       }
     ]
   },
