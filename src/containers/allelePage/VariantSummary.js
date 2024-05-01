@@ -39,7 +39,7 @@ const VariantSummary = ({variant}) => {
   } = variant || {};
 
   const genomeLocation = getVariantGenomeLocation(variant);
-
+  console.log(species);
   return (
     <>
       <AttributeLabel>Symbol</AttributeLabel>
@@ -51,6 +51,7 @@ const VariantSummary = ({variant}) => {
             location={location}
             species={species && species.name}
             type={type && type.name}
+	    taxonid={species && species.taxonId}
           >
             <span className="text-break">{symbol || displayName || variantId}</span>
           </VariantJBrowseLink>

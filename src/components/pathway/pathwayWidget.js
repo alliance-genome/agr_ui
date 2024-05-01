@@ -482,18 +482,10 @@ class PathwayWidget extends Component {
               <div>
                 <wc-gocam-viz
                   id="gocam-1"
-                  repository="release"
                   gocam-id={this.state.cutils.getCurie(this.state.gocams.selected)}
-                  show-go-cam-selector="false"
-                  show-has-input="false"
-                  show-has-output="false"
-                  show-gene-product="true"
-                  show-activity="false"
-                  show-isolated-activity="true"
-                  show-legend="false"
-                  style={{ "maxWidth": "1280px" }}
-                ></wc-gocam-viz>
-                <img src={gocamLegend} style={{"width" : "600px"}}/>
+                  show-legend="true"
+                  style={{ "maxWidth": "1280px" }}>
+                </wc-gocam-viz>
               </div>
             : <div>
                 <NoData/>
