@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  AlleleCell,
   DataTable,
   EvidenceCodesCellCuration,
   ReferencesCellCuration,
@@ -19,6 +18,7 @@ import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifier
 import { getIdentifier, buildProvidersWithUrl } from '../../components/dataTable/utils';
 import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration';
 import { ALLELE_DETAILS_COLUMNS } from '../../components/dataTable/constants';
+import AlleleCellCuration from '../../components/dataTable/AlleleCellCuration';
 
 const DiseaseToAlleleTable = ({id}) => {
   const {
@@ -34,7 +34,10 @@ const DiseaseToAlleleTable = ({id}) => {
       formatter: (subject, rowData) => {
         return(
           <>
-            <AlleleCell allele={{ id : getIdentifier(subject), symbol : subject.alleleSymbol?.displayText }} />
+            <AlleleCellCuration 
+              identifier={getIdentifier(subject) }
+              alleleSymbol={subject?.alleleSymbol}
+            />
             <small>
               <AnnotatedEntitiesPopupCuration
                 entities={rowData.primaryAnnotations}
