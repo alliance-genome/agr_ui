@@ -13,7 +13,7 @@ export const GENE_DETAILS_COLUMNS = new Set([
   "Name",
   "Type",
   "Association",
-  "Additional Implication Genes",
+  "Additional Implicated Genes",
   "Experimental Condition",
   "Genetic Modifiers",
   "Strain Background",

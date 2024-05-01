@@ -17,7 +17,7 @@ import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration';
 import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn';
 import ModelCellCuration from '../../components/dataTable/ModelCellCuration';
 import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration';
-import { MODEL_DETAILS_COLUMNS } from './constants';
+import { MODEL_DETAILS_COLUMNS } from '../../components/dataTable/constants';
 
 
 const DiseaseToModelTable = ({id}) => {

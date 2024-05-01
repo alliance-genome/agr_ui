@@ -20,7 +20,7 @@ import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration';
 import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn';
 import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration';
 import ReferenceCellViaOrthologyCuration from '../../components/dataTable/ReferencesCellViaOrthologyCuration';
-import { GENE_DETAILS_COLUMNS } from './constants';
+import { GENE_DETAILS_COLUMNS } from '../../components/dataTable/constants';
 
 const DiseaseToGeneTable = ({ id }) => {
   const {
