@@ -21,7 +21,14 @@ export class AmplifyProductionStack extends cdk.Stack {
       { source: 'https://alliancegenome.org',          target: 'https://www.alliancegenome.org',                                                      status: amplify.RedirectStatus.PERMANENT_REDIRECT },
 
       { source: '/api/<*>',                            target: 'https://prod-alb.alliancegenome.org/api/<*>',                                         status: amplify.RedirectStatus.REWRITE },
-      
+
+      { source: '/jbrowse2',                           target: 'https://www.alliancegenome.org/jbrowse2/',                                            status: amplify.RedirectStatus.PERMANENT_REDIRECT },
+      { source: '/jbrowse2/',                          target: 'https://main.dgaayxgqoarxf.amplifyapp.com/',                                          status: amplify.RedirectStatus.REWRITE },
+      { source: '/jbrowse2/<*>',                       target: 'https://main.dgaayxgqoarxf.amplifyapp.com/<*>',                                       status: amplify.RedirectStatus.REWRITE },
+      { source: '/jbrowsedata/XenBaseXTJBrowse/<*>',   target: 'https://jbrowse.xenbase.org/XenJBrowse/data/xt9_1/<*>',                               status: amplify.RedirectStatus.REWRITE },
+      { source: '/jbrowsedata/XenBaseXLJBrowse/<*>',   target: 'https://jbrowse.xenbase.org/XenJBrowse/data/xl9_2/<*>',                               status: amplify.RedirectStatus.REWRITE },
+      { source: '/jbrowsedata/XenBaseData/<*>',        target: 'https://jbrowse.xenbase.org/XenJBrowse/<*>',                                          status: amplify.RedirectStatus.REWRITE },
+      { source: '/jbrowsedata/RGDJBrowse/<*>',         target: 'https://rgd.mcw.edu/jbrowse2/<*>',                                                    status: amplify.RedirectStatus.REWRITE },
       { source: '/jbrowse/worms/protein',              target: 'https://www.alliancegenome.org/jbrowse/worms/protein/',                               status: amplify.RedirectStatus.PERMANENT_REDIRECT },
       { source: '/jbrowse/worms/protein/',             target: 'https://main.djgvd7iswt7yy.amplifyapp.com/',                                          status: amplify.RedirectStatus.REWRITE },
       { source: '/jbrowse/worms/protein/<*>',          target: 'https://main.djgvd7iswt7yy.amplifyapp.com/<*>',                                       status: amplify.RedirectStatus.REWRITE },
