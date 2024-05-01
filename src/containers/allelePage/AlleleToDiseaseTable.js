@@ -13,6 +13,7 @@ import {
   getDistinctFieldValue } from '../../components/dataTable/utils';
 import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
+import { ALLELE_DETAILS_COLUMNS } from '../../components/dataTable/constants';
 
 const AlleleToDiseaseTable = ({alleleId}) => {
   const {
@@ -53,7 +54,12 @@ const AlleleToDiseaseTable = ({alleleId}) => {
     {
       dataField: 'primaryAnnotations',
       text: 'Annotation details',
-      formatter: (entities, row) => <AnnotatedEntitiesPopupCuration parentPage='allele' entities={entities} pubModIds={row.pubmedPubModIDs}/>,
+      formatter: (entities, row) => <AnnotatedEntitiesPopupCuration 
+        parentPage='allele' 
+        entities={entities} 
+        pubModIds={row.pubmedPubModIDs} 
+        columnNameSet={ALLELE_DETAILS_COLUMNS}
+      />,
       headerStyle: {width: '90px'},
     },
     {
