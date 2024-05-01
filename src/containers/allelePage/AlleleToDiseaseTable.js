@@ -55,7 +55,6 @@ const AlleleToDiseaseTable = ({alleleId}) => {
       dataField: 'primaryAnnotations',
       text: 'Annotation details',
       formatter: (entities, row) => <AnnotatedEntitiesPopupCuration 
-        parentPage='allele' 
         entities={entities} 
         pubModIds={row.pubmedPubModIDs} 
         columnNameSet={ALLELE_DETAILS_COLUMNS}

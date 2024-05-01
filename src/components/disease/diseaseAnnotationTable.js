@@ -69,7 +69,6 @@ const DiseaseAnnotationTable = ({
           <GeneCellCuration curie={getIdentifier(subject)} geneSymbol={subject.geneSymbol} />
           <small>
             <AnnotatedEntitiesPopupCuration
-              parentPage='gene'
               entities={row.primaryAnnotations}
               mainRowCurie={getIdentifier(subject)}
               pubModIds={row.pubmedPubModIDs}
