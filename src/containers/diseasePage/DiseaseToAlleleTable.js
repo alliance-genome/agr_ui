@@ -37,7 +37,6 @@ const DiseaseToAlleleTable = ({id}) => {
             <AlleleCell allele={{ id : getIdentifier(subject), symbol : subject.alleleSymbol?.displayText }} />
             <small>
               <AnnotatedEntitiesPopupCuration
-                parentPage='disease-page-allele-table'
                 entities={rowData.primaryAnnotations}
                 mainRowCurie={getIdentifier(subject)}
                 pubModIds={rowData.pubmedPubModIDs}

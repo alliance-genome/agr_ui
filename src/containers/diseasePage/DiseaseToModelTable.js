@@ -38,7 +38,6 @@ const DiseaseToModelTable = ({id}) => {
           </div>
           <small>
             <AnnotatedEntitiesPopupCuration
-              parentPage='disease-page-model-table'
               entities={rowData.primaryAnnotations}
               mainRowCurie={getIdentifier(subject)}
               pubModIds={rowData.pubmedPubModIDs}

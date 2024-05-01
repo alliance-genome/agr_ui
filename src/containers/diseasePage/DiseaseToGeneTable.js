@@ -45,7 +45,6 @@ const DiseaseToGeneTable = ({ id }) => {
             {!isViaOrthology && (
               <small>
                 <AnnotatedEntitiesPopupCuration
-                  parentPage='disease'
                   entities={row.primaryAnnotations}
                   mainRowCurie={getIdentifier(subject)}
                   pubModIds={row.pubmedPubModIDs}

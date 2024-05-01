@@ -45,7 +45,7 @@ function renderLink(entity) {
 
 
 
-function AnnotatedEntitiesPopupCuration({ children, entities, parentPage, mainRowCurie, pubModIds, columnNameSet }) {
+function AnnotatedEntitiesPopupCuration({ children, entities, mainRowCurie, pubModIds, columnNameSet }) {
 
   if (!entities || !entities.length) {
     return null;
@@ -117,7 +117,9 @@ function AnnotatedEntitiesPopupCuration({ children, entities, parentPage, mainRo
 AnnotatedEntitiesPopupCuration.propTypes = {
   children: PropTypes.node,
   entities: PropTypes.array,
-  parentPage: PropTypes.string
+  mainRowCurie: PropTypes.string,
+  pubModIds: PropTypes.array,
+  columnNameSet: PropTypes.object
 };
 
 export default AnnotatedEntitiesPopupCuration;
