@@ -32,5 +32,8 @@ jobs:
         run: npm install --legacy-peer-deps
       - name: Make Dist Folder
         run: mkdir dist
-      - name: Npm build
-        run: npm run build
+      - name: Run UI Tests and Build
+        run: |
+          npm run build
+          npm test -- --watchAll=false
+
