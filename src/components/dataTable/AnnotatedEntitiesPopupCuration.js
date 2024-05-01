@@ -77,7 +77,7 @@ function AnnotatedEntitiesPopupCuration({ children, entities, mainRowCurie, pubM
                 {columnNameSet.has("Genetic Sex") && <th>Genetic Sex</th>}
                 {columnNameSet.has("Notes") && <th className={style.relatedNotes}>Notes</th>}
                 {columnNameSet.has("Annotation Type") && <th>Annotation type</th>}
-                {columnNameSet.has("Evidence Code") && <th>Evidence Code</th>}
+                {columnNameSet.has("Evidence Codes") && <th>Evidence Codes</th>}
                 {columnNameSet.has("Source") && <th>Source</th>}
                 {columnNameSet.has("References") && <th>References</th>}
               </tr>
@@ -99,7 +99,7 @@ function AnnotatedEntitiesPopupCuration({ children, entities, mainRowCurie, pubM
                       {columnNameSet.has("Genetic Sex") && <td><GeneticSex geneticSex={entity.geneticSex}/></td>}
                       {columnNameSet.has("Notes") && <td><RelatedNotes className={style.relatedNotes} relatedNotes={entity.relatedNotes}/></td>}
                       {columnNameSet.has("Annotation Type") && <td><AnnotationType  annotationType={entity.annotationType}/></td>}
-                      {columnNameSet.has("Evidence Code") && <td><EvidenceCodesCellCuration evidenceCodes={entity.evidenceCodes}/></td>}
+                      {columnNameSet.has("Evidence Codes") && <td><EvidenceCodesCellCuration evidenceCodes={entity.evidenceCodes}/></td>}
                       {columnNameSet.has("Source") && <td><ProviderCellCuration provider={provider} /></td>}
                       {columnNameSet.has("References") && <td><SingleReferenceCellCuration singleReference={entity.singleReference} pubModIds={pubModIds}/></td>}
                     </tr>
