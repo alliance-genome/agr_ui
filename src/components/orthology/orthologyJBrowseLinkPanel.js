@@ -15,7 +15,7 @@ const geneLocationIsInvalid = (geneLocation) => {
 
 const OrthologyJBrowseLinkPanel = ({geneLocation, taxonid}) => {
   return (
-    geneLocationIsInvalid(geneLocation) ? null :
+    (geneLocationIsInvalid(geneLocation) || taxonid === 'NCBITaxon:2697049') ? null :
     <div id='orthologyJBrowseLinkPanel'>
         <span>Links to orthology data in JBrowse by filter level: </span>
 	<OrthologyJBrowseLink
