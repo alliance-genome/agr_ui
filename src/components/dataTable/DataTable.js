@@ -25,6 +25,8 @@ import HorizontalScroll from '../horizontalScroll';
 import { buildTableQueryString } from '../../lib/utils';
 import LoadingSpinner from '../loadingSpinner';
 import DropdownNoDataFilter from './DropdownNoDataFilter';
+import {DOWNLOAD_BUTTON_THRESHOLD} from '../../constants';
+import { Link } from 'react-router-dom';
 
 const DataTable = ({
   className,
@@ -119,6 +121,8 @@ const DataTable = ({
     onPageChange: scrollIntoView,
     onSizePerPageChange: scrollIntoView
   });
+
+  let disabled = paginationObj.options?.totalSize > DOWNLOAD_BUTTON_THRESHOLD;
 
   columns.forEach(column => {
     const filterField = column.filterName || column.dataField;
@@ -221,10 +225,21 @@ const DataTable = ({
           )
         }
       </PaginationProvider>
-      {downloadUrl &&
-      <DownloadButton
-        downloadUrl={`${downloadUrl}${downloadUrl.indexOf('?') < 0 ? '?' : '&'}${buildTableQueryString(tableState)}`}
-      />
+      {
+        downloadUrl &&
+          <DownloadButton
+            downloadUrl={`${downloadUrl}${downloadUrl.indexOf('?') < 0 ? '?' : '&'}${buildTableQueryString(tableState)}`}
+            disabled={disabled}
+          />
+      }
+      { 
+        disabled && 
+          <div style={{color: 'red'}}>
+            The table above cannot be downloaded because there are too many rows in the unfiltered table. 
+            Please apply filter(s) to limit the number of rows to less than {DOWNLOAD_BUTTON_THRESHOLD} to enable the Download button or visit our 
+            <Link to="/downloads"> Downloads page </Link>
+            to download the entire data set.
+          </div>
       }
     </div>
   );
