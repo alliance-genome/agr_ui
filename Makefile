@@ -32,6 +32,15 @@ test-alb-deploy:
 prod-alb-deploy:
 	npx aws-cdk deploy prod-alb-stack
 
+stage-ui-deploy:
+	npx aws-cdk deploy agr-ui-stage
+
+test-ui-deploy:
+	npx aws-cdk deploy agr-ui-test
+
+prod-ui-deploy:
+	npx aws-cdk deploy agr-ui-production
+
 uirun:
 	npm start
 
