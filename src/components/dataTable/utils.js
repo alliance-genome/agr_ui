@@ -18,65 +18,22 @@ export const getDistinctFieldValue = (response, field) => {
     ));
 };
 
-export function getRefStrings(referenceItems) {
-  if (!referenceItems)
-    return;
-
-  let refStrings = referenceItems.map((referenceItem) => getRefString(referenceItem));
-
-  return refStrings.sort();
+export const getIdentifier = (subject) => {
+  if(!subject) return;
+  return subject.curie ? subject.curie : (subject.modEntityId ? subject.modEntityId : subject.modInternalId);
 }
 
-export function getRefString(referenceItem) {
-  if (!referenceItem)
-    return;
+export const getIsViaOrthology = (annotation) => {
+  return annotation.generatedRelationString.includes("orthology");
+};
 
-  if (!referenceItem.cross_references && !referenceItem.crossReferences){
-    return referenceItem.curie
-  }
-  let xrefCuries = referenceItem.crossReferences.map((crossReference) => crossReference.referencedCurie);
-  let primaryXrefCurie = '';
-
-  if (indexWithPrefix(xrefCuries, 'PMID:') > -1) {
-    [primaryXrefCurie] = xrefCuries.splice(indexWithPrefix(xrefCuries, 'PMID:'), 1);
-  } else if (indexWithPrefix(xrefCuries, 'FB:') > -1) {
-    [primaryXrefCurie] = xrefCuries.splice(indexWithPrefix(xrefCuries, 'FB:'), 1);
-  } else if (indexWithPrefix(xrefCuries, 'MGI:') > -1) {
-    [primaryXrefCurie] = xrefCuries.splice(indexWithPrefix(xrefCuries, 'MGI:'), 1);
-  } else if (indexWithPrefix(xrefCuries, 'RGD:') > -1) {
-    [primaryXrefCurie] = xrefCuries.splice(indexWithPrefix(xrefCuries, 'RGD:'), 1);
-  } else if (indexWithPrefix(xrefCuries, 'SGD:') > -1) {
-    [primaryXrefCurie] = xrefCuries.splice(indexWithPrefix(xrefCuries, 'SGD:'), 1);
-  } else if (indexWithPrefix(xrefCuries, 'WB:') > -1) {
-    [primaryXrefCurie] = xrefCuries.splice(indexWithPrefix(xrefCuries, 'WB:'), 1);
-  } else if (indexWithPrefix(xrefCuries, 'ZFIN:') > -1) {
-    [primaryXrefCurie] = xrefCuries.splice(indexWithPrefix(xrefCuries, 'ZFIN:'), 1);
-  } else {
-    [primaryXrefCurie] = xrefCuries.splice(0, 1);
-  }
-
-  return primaryXrefCurie;
+export const getSingleReferenceUrl = (pubModId) => {
+  const url = getResourceUrl(pubModId);
+  return {pubModId, url};
 }
 
-
-function indexWithPrefix(array, prefix) {
-
-  for (let i = 0; i < array.length; i++) {
-    if (array[i].startsWith(prefix)) {
-      return i;
-    }
-  }
-  return -1;
-}
-
-export const getSingleReferenceCurieAndUrl = (reference) => {
-  const curie = getRefString(reference);
-  const url = getResourceUrl(curie);
-  return {curie, url};
-}
-
-export const getMultipleReferencesCuriesAndUrls = (references) => {
-  return references.map((reference) => getSingleReferenceCurieAndUrl(reference));
+export const getMultipleReferencesUrls = (pubModIds) => {
+  return pubModIds.sort().map((pubModId) => getSingleReferenceUrl(pubModId));
 }
 
 const buildProvider = (annotation) => {

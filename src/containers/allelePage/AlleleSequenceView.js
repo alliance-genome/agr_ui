@@ -22,6 +22,13 @@ function findFminFmax(genomeLocation, variants) {
   return { fmin, fmax };
 }
 
+function findAlleleStart(variants) {
+  if (variants && variants.data.results) {
+//just get the start of the first variant
+    return variants[0].data.results.location.start;
+  }
+}
+
 const AlleleSequenceView = ({ allele }) => {
   const variants = useAllAlleleVariants(allele.id);
   const visibleTranscripts = useDataTableQuery(`/api/allele/${allele.id}/variants`);
@@ -41,8 +48,9 @@ const AlleleSequenceView = ({ allele }) => {
     isoformFilter = visibleTranscripts.data[0].transcriptList.map(a => a.id.split(':').pop());
   }
 
-
   const { fmin, fmax } = findFminFmax(genomeLocation, variants);
+	//highjacking the htpVaraint to send the start of the variant itself
+  const htpVariant = findAlleleStart(variants);
   return (
     <GenomeFeatureWrapper
       assembly={genomeLocation.assembly}
@@ -51,6 +59,7 @@ const AlleleSequenceView = ({ allele }) => {
       displayType='ISOFORM_AND_VARIANT'
       fmax={fmax}
       fmin={fmin}
+      htpVariant={htpVariant}
       geneSymbol={allele.symbol}
       genomeLocationList={genomeLocations}
       height='200px'

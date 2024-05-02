@@ -32,6 +32,7 @@ const AlleleToVariantTable = ({allele = {}, alleleId}) => {
           location={location}
           species={species.name}
           type={type.name}
+	  taxonid={species.taxonId}
         >
           <span className="text-break">{name}</span>
         </VariantJBrowseLink>
@@ -94,6 +95,7 @@ AlleleToVariantTable.propTypes = {
     }),
     species: PropTypes.shape({
       name: PropTypes.string,
+      taxonid: PropTypes.string
     })
   }),
   alleleId: PropTypes.any,

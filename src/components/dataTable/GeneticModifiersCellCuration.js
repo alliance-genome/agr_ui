@@ -3,14 +3,16 @@ import { CollapsibleList } from '../collapsibleList';
 import ExternalLink from '../ExternalLink';
 import { getResourceUrl } from './getResourceUrl';
 import { Link } from 'react-router-dom';
+import { getIdentifier } from './utils';
 
 
 function GeneticModifierLink(modifier) {
+    const identifier = getIdentifier(modifier);
     switch(modifier?.type) {
         case 'Gene':
             if (modifier.geneSymbol) {
                 return (
-                    <Link to={`/gene/${modifier.curie}`} target='_blank'>
+                    <Link to={`/gene/${identifier}`} target='_blank'>
                         <span dangerouslySetInnerHTML={{__html: modifier.geneSymbol.displayText}}/>
                     </Link>);
             }
@@ -18,13 +20,13 @@ function GeneticModifierLink(modifier) {
         case 'Allele':
             if (modifier.alleleSymbol) {
                 return (
-                    <Link to={`/allele/${modifier.curie}`}  target='_blank'>
+                    <Link to={`/allele/${identifier}`}  target='_blank'>
                         <span dangerouslySetInnerHTML={{__html: modifier.alleleSymbol.displayText}}/>
                     </Link>);
             }
             break;
         case 'AffectedGenomicModel':
-            let url = getResourceUrl(modifier.curie, modifier.type, modifier.subtype);
+            let url = getResourceUrl(identifier, modifier.type, modifier.subtype);
             if (url && modifier.name) {                
                 return ( 
                     <ExternalLink href={url}>

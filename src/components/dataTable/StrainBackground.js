@@ -1,13 +1,16 @@
 import ExternalLink from '../ExternalLink';
+import { getIdentifier } from './utils';
 
 
 function StrainBackground({strainBackground}) {
-  if(strainBackground?.curie && strainBackground?.name) {
-    const strainName = <span dangerouslySetInnerHTML={{__html: strainBackground.name}}/>;
-    const strain = strainBackground.curie.slice('SGD:'.length);
-    return <ExternalLink href={`https://www.yeastgenome.org/strain/${strain}`}>{strainName}</ExternalLink>;
-  }
-  return <></>;
+  const indentifier = getIdentifier(strainBackground);
+
+  if(!indentifier || !strainBackground?.name) return null;
+
+  const strainName = <span dangerouslySetInnerHTML={{__html: strainBackground.name}}/>;
+  const strain = indentifier.slice('SGD:'.length);
+
+  return <ExternalLink href={`https://www.yeastgenome.org/strain/${strain}`}>{strainName}</ExternalLink>;
 }
 
 export default StrainBackground;

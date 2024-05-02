@@ -9,7 +9,7 @@ import {
   SpeciesCell,
 } from '../dataTable';
 import AnnotatedEntitiesPopupCuration from '../dataTable/AnnotatedEntitiesPopupCuration';
-import { getDistinctFieldValue, buildProvidersWithUrl } from '../dataTable/utils';
+import { getIdentifier, getDistinctFieldValue, buildProvidersWithUrl } from '../dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
 import ProvidersCellCuration from '../dataTable/ProvidersCellCuration';
@@ -61,13 +61,18 @@ const DiseaseAnnotationTable = ({
       hidden: !orthologGenes || !orthologGenes.length
     },
     {
-      dataField: 'subject.curie',
+      dataField: 'subject',
       text: 'Gene',
-      formatter:  (curie, row) => (
+      formatter:  (subject, row) => (
         <React.Fragment>
-          <div>{GeneCellCuration(row.subject)}</div>
+          <GeneCellCuration curie={getIdentifier(subject)} geneSymbol={subject.geneSymbol} />
           <small>
-            <AnnotatedEntitiesPopupCuration parentPage='gene' entities={row.primaryAnnotations} mainRowCurie={row.subject.curie}>
+            <AnnotatedEntitiesPopupCuration
+              parentPage='gene'
+              entities={row.primaryAnnotations}
+              mainRowCurie={getIdentifier(subject)}
+              pubModIds={row.pubmedPubModIDs}
+            >
               Annotation details
             </AnnotatedEntitiesPopupCuration>
           </small>
@@ -103,7 +108,7 @@ const DiseaseAnnotationTable = ({
       formatter: diseaseQualifiers => <DiseaseQualifiersColumn qualifiers={diseaseQualifiers} />,
     },
     {
-      dataField: 'object.curie',
+      dataField: 'disease',
       text: 'Disease',
       filterable: true,
       headerStyle: {width: '150px'},
@@ -142,12 +147,12 @@ const DiseaseAnnotationTable = ({
       formatter: BasedOnGeneCellCuration,
     },
     {
-      dataField: 'references',
+      dataField: 'pubmedPubModIDs',
       text: 'References',
       filterable: true,
       filterName: 'reference',
       headerStyle: {width: '150px'},
-      formatter: ReferencesCellCuration,
+      formatter: (pubModIds) => <ReferencesCellCuration pubModIds={pubModIds}/>,
     }
   ];
 

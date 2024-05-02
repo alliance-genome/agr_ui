@@ -2,7 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {stringify as stringifyQuery} from 'qs';
 import ExternalLink from '../ExternalLink';
+import {
+  getSpecies
+} from '../../lib/utils';
 
+// this will return when the get parameter 'highlight' is added to JB2
 const calculateHighlight = (location, type) => {
   switch(type){
   case 'insertion':
@@ -16,16 +20,42 @@ const calculateHighlight = (location, type) => {
   }
 };
 
-const VariantJBrowseLink = ({children, location, type, geneSymbol, geneLocation, species}) => {
+const LINK_BUFFER = 1.2;
+
+const buildTrackList = (taxonid) => {
+  const tracks = [];
+  const trackList = getSpecies(taxonid).jBrowsetracks.split(',');
+  const assembly = buildAssembly(taxonid);
+  for (const track of trackList) {
+    tracks.push( assembly + track );
+  }
+  return tracks.join(',');
+};
+
+const buildAssembly = (taxonid) => {
+    return getSpecies(taxonid).jBrowseName.replace(' ', '_');
+}
+
+const buildLoc = (location) => {
+    const start = location.start || 0;
+    const end   = location.end || 0
+    const linkLength = end - start;
+    if (linkLength === 0 ) { return; } 
+    let bufferedMin = Math.round(start - (linkLength * LINK_BUFFER / 2.5));
+    bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
+    const bufferedMax = Math.round(end + (linkLength * LINK_BUFFER ));
+    return location.chromosome + ':' + bufferedMin + '..' + bufferedMax ;
+}
+
+const VariantJBrowseLink = ({children, location, type, geneSymbol, geneLocation, taxonid}) => {
   return (
     location ?
       <ExternalLink
-        href={'/jbrowse/?' + stringifyQuery({
-          data: `data/${species}`,
-          loc: (geneLocation && geneLocation.start && geneLocation.end) ?
-            `${geneLocation.chromosome || location.chromosome}:${geneLocation.start || 0}..${geneLocation.end || 0}` :
-            geneSymbol,
-          tracks: ['Variants', 'Multiple-Variant Alleles', 'High Throughput Variants', 'All Genes', 'DNA'].join(','),
+        href={'/jbrowse2/?' + stringifyQuery({
+	  tracklist: 'true',
+          loc: buildLoc(geneLocation || location ) ,
+          assembly: buildAssembly(taxonid),
+          tracks: buildTrackList(taxonid), 
           highlight: calculateHighlight(location, type)
         })}
       >
@@ -47,8 +77,8 @@ VariantJBrowseLink.propTypes = {
     end: PropTypes.number,
     chromosome: PropTypes.string,
   }),
-  species: PropTypes.string.isRequired,
-  type: PropTypes.string
+  type: PropTypes.string,
+  taxonid: PropTypes.string.isRequired
 };
 
 export default VariantJBrowseLink;

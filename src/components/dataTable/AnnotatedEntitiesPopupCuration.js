@@ -22,28 +22,30 @@ import AnnotationType from './AnnotationType';
 import AssociationCellCuration from './AssociationCellCuration';
 import AssertedGenes from './AssertedGenes';
 import GeneticModifiersCellCuration from './GeneticModifiersCellCuration';
-import { buildProviderWithUrl } from './utils';
+import { buildProviderWithUrl, getIdentifier } from './utils';
 import StrainBackground from './StrainBackground';
 
 function renderLink(entity) {
-  const url = getResourceUrl(entity.subject.curie, entity.subject.type, entity.subject.subtype)
+  const curie = getIdentifier(entity.diseaseAnnotationSubject);
+  const url = getResourceUrl(curie, entity.diseaseAnnotationSubject.type, entity.diseaseAnnotationSubject.subtype)
 
   if (entity.type === 'AlleleDiseaseAnnotation') {
-    const innerText = entity.subject.alleleSymbol ? entity.subject.alleleSymbol.displayText : entity.subject.name;
+    const innerText = entity.diseaseAnnotationSubject.alleleSymbol ? entity.diseaseAnnotationSubject.alleleSymbol.displayText : entity.diseaseAnnotationSubject.name;
     const inner = <span dangerouslySetInnerHTML={{__html: innerText}}/>;
-    return <Link to={`/allele/${entity.subject.curie}`}>{inner}</Link>;
+    return <Link to={`/allele/${curie}`}>{inner}</Link>;
   } else if(entity.type === 'GeneDiseaseAnnotation'){
-      const innerText = entity.subject.geneSymbol ? entity.subject.geneSymbol.displayText : entity.subject.name;
+      const innerText = entity.diseaseAnnotationSubject.geneSymbol ? entity.diseaseAnnotationSubject.geneSymbol.displayText : entity.diseaseAnnotationSubject.name;
       const inner = <span dangerouslySetInnerHTML={{__html: innerText}}/>;
-      return <Link to={`/gene/${entity.subject.curie}`}>{inner}</Link>;
+      return <Link to={`/gene/${curie}`}>{inner}</Link>;
   } else {
-      const inner = <span dangerouslySetInnerHTML={{__html: entity.subject.name}}/>;
-    return <ExternalLink href={url}>{inner}</ExternalLink>;
+      const inner = <span dangerouslySetInnerHTML={{__html: entity.diseaseAnnotationSubject.name}}/>;
+      return <ExternalLink href={url}>{inner}</ExternalLink>;
   }
 }
 
-function AnnotatedEntitiesPopupCuration(props) {
-  const {children, entities, parentPage, mainRowCurie } = props;
+
+
+function AnnotatedEntitiesPopupCuration({ children, entities, parentPage, mainRowCurie, pubModIds }) {
 
   if (!entities || !entities.length) {
     return null;
@@ -68,11 +70,11 @@ function AnnotatedEntitiesPopupCuration(props) {
                 <th>Name</th>
                 <th>Type</th>
                 <th className={style.associationCell}>Association</th>
-                { parentPage === 'gene' ? <th>Additional implicated genes</th> : <></> }
+                { parentPage === 'gene' || parentPage === 'disease' ? <th>Additional implicated genes</th> : <></> }
                 <th>Experimental condition</th>
                 <th></th>
                 <th>Genetic Modifiers</th>
-                { parentPage === 'gene' ? <th>Strain Background</th> : <></> }
+                { parentPage === 'gene' || parentPage === 'disease' ? <th>Strain Background</th> : <></> }
                 <th>Genetic Sex</th>
                 <th className={style.relatedNotes}>Notes</th>
                 <th>Annotation type</th>
@@ -88,19 +90,19 @@ function AnnotatedEntitiesPopupCuration(props) {
                   return (
                     <tr key={entity.id}>
                       <td>{renderLink(entity)}</td>
-                      <td><TypeCellCuration subject={entity.subject}/></td>
+                      <td><TypeCellCuration subject={entity.diseaseAnnotationSubject}/></td>
                       <td><AssociationCellCuration association={entity.relation?.name}/></td>
-                      { parentPage === 'gene' ?  <td><AssertedGenes assertedGenes={entity.assertedGenes} mainRowCurie={mainRowCurie}/></td> : <></>}
+                      { parentPage === 'gene' || parentPage === 'disease' ?  <td><AssertedGenes assertedGenes={entity.assertedGenes} mainRowCurie={mainRowCurie}/></td> : <></>}
                       <td><ExperimentalConditionCellCuration conditions={entity.conditionRelations}/></td>
                       <td><ExperimentalConditionCellCuration conditions={entity.conditionModifiers}/></td>
                       <td><GeneticModifiersCellCuration relation={entity.diseaseGeneticModifierRelation} modifiers={entity.diseaseGeneticModifiers}/></td>
-                      { parentPage === 'gene' ? <td><StrainBackground strainBackground={entity.sgdStrainBackground}/></td> : <></> }
+                      { parentPage === 'gene' || parentPage === 'disease' ? <td><StrainBackground strainBackground={entity.sgdStrainBackground}/></td> : <></> }
                       <td><GeneticSex geneticSex={entity.geneticSex}/></td>
                       <td><RelatedNotes className={style.relatedNotes} relatedNotes={entity.relatedNotes}/></td>
                       <td><AnnotationType  annotationType={entity.annotationType}/></td>
                       <td><EvidenceCodesCellCuration evidenceCodes={entity.evidenceCodes}/></td>
                       <td><ProviderCellCuration provider={provider} /></td>
-                      <td><SingleReferenceCellCuration singleReference={entity.singleReference}/></td>
+                      <td><SingleReferenceCellCuration singleReference={entity.singleReference} pubModIds={pubModIds}/></td>
                     </tr>
                 )
               })
