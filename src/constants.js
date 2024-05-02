@@ -409,6 +409,7 @@ export const SPECIES = [
     jBrowseurltemplate: 'tracks/All Genes/{refseq}/trackData.jsonz',
     jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_000001405.40_GRCh38.p14_genomic.fna.gz',
     jBrowsetracks: '_all_genes',
+    jBrowseOrthologyTracks:'',
     suppressFlatten: true,
     vertebrate: false,
     enableSingleCellExpressionAtlasLink: false,
