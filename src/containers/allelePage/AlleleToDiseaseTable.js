@@ -50,6 +50,7 @@ const AlleleToDiseaseTable = ({alleleId}) => {
       text: 'Disease',
       formatter: disease => <DiseaseLinkCuration disease={disease} />,
       headerStyle: {width: '100px'},
+      filterName: 'disease',
       filterable: true,
     },
     {
