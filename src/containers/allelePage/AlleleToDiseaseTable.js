@@ -42,6 +42,7 @@ const AlleleToDiseaseTable = ({alleleId}) => {
       formatter: diseaseQualifiers => <DiseaseQualifiersColumn qualifiers={diseaseQualifiers}/>,
       headerStyle: {width: '110px'},
       filterable: getDistinctFieldValue(resolvedData, 'diseaseQualifiers'),
+      filterName: 'diseaseQualifier',
       filterType: 'checkbox'
     },
     {
