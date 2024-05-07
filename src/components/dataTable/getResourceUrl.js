@@ -1,6 +1,6 @@
 import { resourceDescriptors } from "../../resourceDescriptors";
 
-export const getResourceUrl = (curie, type, subtype ) => {
+export const getResourceUrl = ({ curie, type, subtype }) => {
   const [prefix, id] = curie.split(':');
 
   let resource;
