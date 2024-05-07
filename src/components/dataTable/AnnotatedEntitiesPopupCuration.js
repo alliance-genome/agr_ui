@@ -27,7 +27,11 @@ import StrainBackground from './StrainBackground';
 
 function renderLink(entity) {
   const curie = getIdentifier(entity.diseaseAnnotationSubject);
-  const url = getResourceUrl(curie, entity.diseaseAnnotationSubject.type, entity.diseaseAnnotationSubject.subtype)
+  const url = getResourceUrl({
+    curie, 
+    type: entity.diseaseAnnotationSubject.type, 
+    subtype: entity.diseaseAnnotationSubject.subtype
+  })
 
   if (entity.type === 'AlleleDiseaseAnnotation') {
     const innerText = entity.diseaseAnnotationSubject.alleleSymbol ? entity.diseaseAnnotationSubject.alleleSymbol.displayText : entity.diseaseAnnotationSubject.name;
