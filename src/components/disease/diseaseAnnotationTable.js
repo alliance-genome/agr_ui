@@ -18,6 +18,7 @@ import SpeciesName from '../SpeciesName';
 import AssociationType from '../AssociationType';
 import DiseaseLinkCuration from './DiseaseLinkCuration';
 import DiseaseQualifiersColumn from "../dataTable/DiseaseQualifiersColumn";
+import { GENE_DETAILS_COLUMNS } from '../dataTable/constants';
 
 
 /*
@@ -68,10 +69,10 @@ const DiseaseAnnotationTable = ({
           <GeneCellCuration curie={getIdentifier(subject)} geneSymbol={subject.geneSymbol} />
           <small>
             <AnnotatedEntitiesPopupCuration
-              parentPage='gene'
               entities={row.primaryAnnotations}
               mainRowCurie={getIdentifier(subject)}
               pubModIds={row.pubmedPubModIDs}
+              columnNameSet={GENE_DETAILS_COLUMNS}
             >
               Annotation details
             </AnnotatedEntitiesPopupCuration>
