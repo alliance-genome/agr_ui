@@ -2,21 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   DataTable,
-  EvidenceCodesCell,
-  ReferenceCell,
+  EvidenceCodesCellCuration,
+  ReferencesCellCuration,
   SpeciesCell
 } from '../../components/dataTable';
-import AnnotatedEntitiesPopup
-  from '../../components/dataTable/AnnotatedEntitiesPopup';
-import ExperimentalConditionCell from '../../components/dataTable/ExperimentalConditionCell';
-import ExternalLink from '../../components/ExternalLink';
-import DiseaseLink from '../../components/disease/DiseaseLink';
-import {getDistinctFieldValue} from '../../components/dataTable/utils';
-import {compareByFixedOrder} from '../../lib/utils';
-import {SPECIES_NAME_ORDER} from '../../constants';
+import ExperimentalConditionCellCuration from '../../components/dataTable/ExperimentalConditionCellCuration';
+import GeneticModifiersCellCuration from '../../components/dataTable/GeneticModifiersCellCuration';
+import { buildProvidersWithUrl, getIdentifier, getDistinctFieldValue } from '../../components/dataTable/utils';
+import { compareByFixedOrder } from '../../lib/utils';
+import { SPECIES_NAME_ORDER } from '../../constants';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import SpeciesName from '../../components/SpeciesName';
 import AssociationType from '../../components/AssociationType';
+import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration';
+import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration';
+import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn';
+import ModelCellCuration from '../../components/dataTable/ModelCellCuration';
+import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration';
+import { MODEL_DETAILS_COLUMNS } from '../../components/dataTable/constants';
+
 
 const DiseaseToModelTable = ({id}) => {
   const {
@@ -27,104 +31,135 @@ const DiseaseToModelTable = ({id}) => {
 
   const columns = [
     {
-      dataField: 'model',
+      dataField: 'subject',
       text: 'Model',
-      formatter: (model, row) => (
-        <React.Fragment>
+      formatter: (subject, rowData) => (
+        <>
           <div>
-            <ExternalLink href={model.modCrossRefCompleteUrl}>
-              <span dangerouslySetInnerHTML={{__html: model.name}} />
-            </ExternalLink>
+            <ModelCellCuration model={subject}/>
           </div>
           <small>
-            <AnnotatedEntitiesPopup entities={row.primaryAnnotatedEntities}>
+            <AnnotatedEntitiesPopupCuration
+              entities={rowData.primaryAnnotations}
+              mainRowCurie={getIdentifier(subject)}
+              pubModIds={rowData.pubmedPubModIDs}
+              columnNameSet={MODEL_DETAILS_COLUMNS}
+            >
               Annotation details
-            </AnnotatedEntitiesPopup>
+            </AnnotatedEntitiesPopupCuration>
           </small>
-        </React.Fragment>
+        </>
       ),
       filterable: true,
       filterName: 'modelName',
       headerStyle: {width: '280px'},
     },
     {
-      dataField: 'species',
+      dataField: 'subject.taxon',
       text: 'Species',
       formatter: species => <SpeciesCell species={species} />,
-      filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
       headerStyle: {width: '105px'},
+      filterName: 'species',
+      filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
+      filterType: 'checkbox',
     },
     {
-      dataField: 'conditions',
+      dataField: 'experimentalConditionList',
       text: 'Experimental condition',
-      formatter: conditions => <ExperimentalConditionCell conditions={conditions} />,
+      formatter: conditions => <ExperimentalConditionCellCuration conditions={conditions} />,
       headerStyle: {width: '220px'},
+      filterName: "experimentalCondition",
+      filterable: true,
     },
     {
-      dataField: 'associationType',
+      dataField: 'generatedRelationString',
       text: 'Association',
       formatter: type => <AssociationType type={type} />,
-      filterable: getDistinctFieldValue(resolvedData, 'associationType'),
       filterFormatter: type => <AssociationType type={type} />,
       headerStyle: {width: '120px'},
+      filterName: 'associationType',
+      filterable: getDistinctFieldValue(resolvedData, 'associationType'),
+      filterType: 'checkbox',
+    },
+    {
+      dataField: 'diseaseQualifiers',
+      text: 'Disease Qualifiers',
+      headerStyle: { width: '150px' },
+      formatter: qualifiers => <DiseaseQualifiersColumn qualifiers={qualifiers}/>,
+      filterable: getDistinctFieldValue(resolvedData, 'diseaseQualifiers'),
+      filterName: 'diseaseQualifier',
+      filterType: 'checkbox',
     },
     {
       dataField: 'disease',
       text: 'Disease',
-      formatter: disease => <DiseaseLink disease={disease} />,
+      headerStyle: { width: '150px' },
+      formatter: (curie, row) => <DiseaseLinkCuration disease={row.object} />,
       filterable: true,
-      headerStyle: {width: '150px'},
     },
     {
-      dataField: 'conditionModifiers',
-      text: 'Modifier',
-      formatter: conditions => <ExperimentalConditionCell conditions={conditions} />,
+      dataField: 'conditionModifierList',
+      text: 'Condition Modifier',
+      formatter: conditions => <ExperimentalConditionCellCuration conditions={conditions} />,
       headerStyle: {width: '220px'},
+      filterName: "conditionModifier",
+      filterable: true,
+    },
+    {
+      dataField: 'geneticModifierList',
+      text: 'Genetic Modifier',
+      formatter: (modifiers, row) => <GeneticModifiersCellCuration relation={row.geneticModifierRelation} modifiers={modifiers} />,
+      headerStyle: {width: '220px'},
+      filterName: "geneticModifier",
+      filterable: true,
     },
     {
       dataField: 'evidenceCodes',
       text: 'Evidence',
-      formatter: codes => <EvidenceCodesCell evidenceCodes={codes} />,
       headerStyle: {width: '100px'},
-      filterable: true,
       filterName: 'evidenceCode',
+      formatter: (codes) => <EvidenceCodesCellCuration evidenceCodes={codes}/>,
+      filterable: true,
     },
     {
-      dataField: 'source',
+      dataField: 'providers',
       text: 'Source',
-      formatter: source => source.name,
+      formatter: providers => providers && <ProvidersCellCuration providers={providers} />,
+      headerStyle: { width: '100px' },
+      filterName: 'dataProvider',
       filterable: true,
-      headerStyle: {width: '85px'},
     },
     {
-      dataField: 'publications',
+      dataField: 'pubmedPubModIDs',
       text: 'References',
-      formatter: ReferenceCell,
+      formatter: (pubModIds) => <ReferencesCellCuration pubModIds={pubModIds}/>,
       headerStyle: {width: '150px'},
+      filterName: 'reference',
       filterable: true,
-      filterName: 'reference'
     }
   ];
 
-  // need to pull out species in a separate field because we can't have
-  // two columns based on the model field
   const data = results.map(association => ({
-    species: association.model.species,
+    species: association.subject?.species,
+    providers: buildProvidersWithUrl(association.primaryAnnotations),
     ...association,
   }));
 
   const sortOptions = [
     {
+      value: 'disease',
+      label: 'Disease',
+    },
+    {
       value: 'model',
       label: 'Model',
     },
     {
-      value: 'disease',
-      label: 'Disease',
+      value: 'species',
+      label: 'Species',
     },
   ];
-
 
   return (
     <DataTable
