@@ -41,7 +41,7 @@ export class AmplifyProductionStack extends cdk.Stack {
       { source: '/jbrowse/worms/jbrowse2',             target: 'https://www.alliancegenome.org/jbrowse/worms/jbrowse2/',                              status: amplify.RedirectStatus.PERMANENT_REDIRECT },
       { source: '/jbrowse/worms/jbrowse2/',            target: 'https://main.d2jjb0xowet5mr.amplifyapp.com/',                                         status: amplify.RedirectStatus.REWRITE },
       { source: '/jbrowse/worms/jbrowse2/<*>',         target: 'https://main.d2jjb0xowet5mr.amplifyapp.com/<*>',                                      status: amplify.RedirectStatus.REWRITE },
-      
+
       { source: '/agr_simplemine.cgi',                 target: 'https://caltech-curation.textpressolab.com/pub/cgi-bin/forms/agr_simplemine.cgi',     status: amplify.RedirectStatus.REWRITE },
 
       { source: '/jbrowse/<*>',                        target: 'https://prod-alb.alliancegenome.org/jbrowse/<*>',                                     status: amplify.RedirectStatus.REWRITE },
@@ -65,10 +65,19 @@ export class AmplifyProductionStack extends cdk.Stack {
       { source: '/textpresso/wb',                      target: 'https://www.alliancegenome.org/textpresso/wb/tpc',                                    status: amplify.RedirectStatus.PERMANENT_REDIRECT },
       { source: '/textpresso/wb/',                     target: 'https://www.alliancegenome.org/textpresso/wb/tpc',                                    status: amplify.RedirectStatus.PERMANENT_REDIRECT },
       { source: '/textpresso/wb/<*>',                  target: 'https://wb-textpresso.alliancegenome.org/<*>',                                        status: amplify.RedirectStatus.REWRITE },
+      { source: '/textpresso/mgi',                     target: 'https://www.alliancegenome.org/textpresso/mgi/tpc',                                   status: amplify.RedirectStatus.PERMANENT_REDIRECT },
+      { source: '/textpresso/mgi/',                    target: 'https://www.alliancegenome.org/textpresso/mgi/tpc',                                   status: amplify.RedirectStatus.PERMANENT_REDIRECT },
+      { source: '/textpresso/mgi/<*>',                 target: 'https://mgi-textpresso.alliancegenome.org/<*>',                                       status: amplify.RedirectStatus.REWRITE },
+      { source: '/textpresso/zfin',                    target: 'https://www.alliancegenome.org/textpresso/zfin/tpc',                                  status: amplify.RedirectStatus.PERMANENT_REDIRECT },
+      { source: '/textpresso/zfin/',                   target: 'https://www.alliancegenome.org/textpresso/zfin/tpc',                                  status: amplify.RedirectStatus.PERMANENT_REDIRECT },
+      { source: '/textpresso/zfin/<*>',                target: 'https://zfin-textpresso.alliancegenome.org/<*>',                                      status: amplify.RedirectStatus.REWRITE },
+      { source: '/textpresso/fb',                      target: 'https://www.alliancegenome.org/textpresso/fb/tpc',                                    status: amplify.RedirectStatus.PERMANENT_REDIRECT },
+      { source: '/textpresso/fb/',                     target: 'https://www.alliancegenome.org/textpresso/fb/tpc',                                    status: amplify.RedirectStatus.PERMANENT_REDIRECT },
+      { source: '/textpresso/fb/<*>',                  target: 'https://fb-textpresso.alliancegenome.org/<*>',                                        status: amplify.RedirectStatus.REWRITE },
 
       { source: '/<*>',                                target: '/index.html',                                                                         status: amplify.RedirectStatus.NOT_FOUND_REWRITE },
       { source: '</^[^.]+$/>',                         target: '/index.html',                                                                         status: amplify.RedirectStatus.REWRITE }
-  
+
     ];
 
     const amplifyApp = new amplify.App(this, 'agr-ui-production', {
