@@ -55,7 +55,7 @@ export const MODContent = {
       ['<i>Caenorhabditis</i> Genetics Center', 'https://cgc.umn.edu/'],
       ['WormBook',                              'http://www.wormbook.org/'],
       ['WormAtlas',                             'https://www.wormatlas.org/'],
-      ['Nematode.net',                          'http://nematode.net/NN3_frontpage.cgi'],
+      ['WormBoard',                             'https://wiki.wormbase.org/index.php/WormBoard'],
       ['Nematodes.org',                         'http://www.nematodes.org/'],
       ['microPublication',                      'https://www.micropublication.org/'],
       ['WormWiring',                            'https://www.wormwiring.org/'],
