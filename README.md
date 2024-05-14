@@ -85,6 +85,19 @@ Execute tests:
 ```bash
 npm run test  
 ```
+
+## AWS - Feature Branch Previews
+Provides a way to verify the story in the test environment (without merging code). Once the branch is merged into test, the branch preview is deleted.
+
+#### _GitHub_
+Create a pull request of your branch KANBAN-# into test (_don't merge_).
+#### _AWS_
+Browse to https://us-east-1.console.aws.amazon.com/amplify/home?region=us-east-1#/
+
+Click on the 'agr-ui-test'  View App button
+
+Look for your KANBAN-# branch and copy the url(eg:  https://kanban-568.d39tao9vl33upy.amplifyapp.com/). Use this url for testing the story (send to curator), before merging code into the test branch. Once testing is complete, merge your branch into test.
+
 ## Frameworks & Tools
 
 - [React](https://reactjs.org/) for routing and building user interface components
