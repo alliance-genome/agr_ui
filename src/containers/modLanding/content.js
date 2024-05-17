@@ -43,7 +43,7 @@ export const MODContent = {
     fetchNewsCount: 3,
     linkToNewsPage: 'https://blog.wormbase.org/',
     search: [
-      ['<i>C. elegans</i>', 'search?species=Caenorhabditis elegans&category=gene'],
+      ['<i>C. elegans</i>', '/search?species=Caenorhabditis elegans&category=gene'],
     ],
     resources: [
       ['WormBase Guidelines for Nomenclature',  'https://wormbase.org/about/userguide/nomenclature#gi9m5c264k8be0afldh71j3--10'],
@@ -105,7 +105,7 @@ export const MODContent = {
     fetchNewsCount: 3,
     linkToNewsPage: 'https://yeastgenomeblog.wordpress.com/',
     search: [
-      ['<i>S. cerevisiae</i>', 'search?species=Saccharomyces cerevisiae&category=gene'],
+      ['<i>S. cerevisiae</i>', '/search?species=Saccharomyces cerevisiae&category=gene'],
     ],
     resources: [
       ['Search SGD',                        'https://www.yeastgenome.org/search?q=&is_quick=true'],
@@ -163,7 +163,7 @@ export const MODContent = {
     zfinNewsAPI: 'https://zfin.org/action/api/wiki/news?limit=5&page=1',
     fetchNewsCount: 3,
     search: [
-      ['<i>D. rerio</i>', 'search?species=Danio rerio&category=gene'],
+      ['<i>D. rerio</i>', '/search?species=Danio rerio&category=gene'],
     ],
     resources: [
       ['Search and Retrieve Zebrafish Data',      'https://zfin.org/search?category=&q='],
@@ -215,7 +215,7 @@ export const MODContent = {
     newsURL: 'https://flybase.org/commentaries',
     linkToNewsPage: 'https://flybase.org/commentaries',
     search: [
-      ['<i>D. melanogaster</i>', 'search?species=Drosophila melanogaster&category=gene'],
+      ['<i>D. melanogaster</i>', '/search?species=Drosophila melanogaster&category=gene'],
     ],
     resources: [
       ['Search FlyBase',        'https://flybase.org/'],
@@ -263,7 +263,7 @@ export const MODContent = {
     newsURL: 'https://rgd.mcw.edu/wg/news2/',
     linkToNewsPage: 'https://rgd.mcw.edu/wg/news2/',
     search: [
-      ['<i>R. norvegicus</i>', 'search?species=Rattus norvegicus&category=gene'],
+      ['<i>R. norvegicus</i>', '/search?species=Rattus norvegicus&category=gene'],
     ],
     resources: [
       ['RGD Gene Search',                         'https://rgd.mcw.edu/rgdweb/search/genes.html'],
@@ -306,7 +306,7 @@ export const MODContent = {
     hasNews: true,
     newsURL: 'http://www.informatics.jax.org/mgihome/news/whatsnew.shtml',
     search: [
-      ['<i>M. musculus</i>', 'search?species=Mus musculus&category=gene'],
+      ['<i>M. musculus</i>', '/search?species=Mus musculus&category=gene'],
     ],
     resources: [
       ['Mouse Genes',                           'http://www.informatics.jax.org/genes.shtml'],
@@ -349,7 +349,7 @@ export const MODContent = {
     hasNews: true,
     newsURL: 'https://twitter.com/news4go',
     search: [
-      ['Gene Ontology', 'search?category=go'],
+      ['Gene Ontology', '/search?category=go'],
     ],
     resources: [
       ['PANTHER Enrichment Analysis', 'http://pantherdb.org/'],
@@ -393,8 +393,8 @@ export const MODContent = {
     hasMeetings: true,
     meetingsURL: 'https://www.xenbase.org/xenbase/doNewsRead.do?id=219',
     search: [
-      ['<i>Xenopus laevis</i>', 'search?species=Xenopus laevis&category=gene'],
-      ['<i>Xenopus tropicalis</i>', 'search?species=Xenopus tropicalis&category=gene'],
+      ['<i>Xenopus laevis</i>', '/search?species=Xenopus laevis&category=gene'],
+      ['<i>Xenopus tropicalis</i>', '/search?species=Xenopus tropicalis&category=gene'],
     ],
     resources: [
       ['<i>Xenopus</i> Gene Search',        'https://www.xenbase.org/entry/gene/gene.do'],
