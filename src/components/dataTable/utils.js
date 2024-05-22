@@ -28,9 +28,9 @@ export const getIdentifier = (subject) => {
 export const getSingleReferenceUrl = (pubModId) => {
   let url;
   if(pubModId.includes("PMID")){
-    url = getResourceUrl({curie: pubModId});
+    url = getResourceUrl({identifier: pubModId});
   } else {
-    url = getResourceUrl({curie: pubModId, type: "reference"});
+    url = getResourceUrl({identifier: pubModId, type: "reference"});
   }
   return {pubModId, url};
 }

@@ -26,9 +26,9 @@ import { buildProviderWithUrl, getIdentifier } from './utils';
 import StrainBackground from './StrainBackground';
 
 function renderLink(entity) {
-  const curie = getIdentifier(entity.diseaseAnnotationSubject);
+  const identifier = getIdentifier(entity.diseaseAnnotationSubject);
   const url = getResourceUrl({
-    curie, 
+    identifier, 
     type: entity.diseaseAnnotationSubject.type, 
     subtype: entity.diseaseAnnotationSubject.subtype
   })
@@ -36,11 +36,11 @@ function renderLink(entity) {
   if (entity.type === 'AlleleDiseaseAnnotation') {
     const innerText = entity.diseaseAnnotationSubject.alleleSymbol ? entity.diseaseAnnotationSubject.alleleSymbol.displayText : entity.diseaseAnnotationSubject.name;
     const inner = <span dangerouslySetInnerHTML={{__html: innerText}}/>;
-    return <Link to={`/allele/${curie}`}>{inner}</Link>;
+    return <Link to={`/allele/${identifier}`}>{inner}</Link>;
   } else if(entity.type === 'GeneDiseaseAnnotation'){
       const innerText = entity.diseaseAnnotationSubject.geneSymbol ? entity.diseaseAnnotationSubject.geneSymbol.displayText : entity.diseaseAnnotationSubject.name;
       const inner = <span dangerouslySetInnerHTML={{__html: innerText}}/>;
-      return <Link to={`/gene/${curie}`}>{inner}</Link>;
+      return <Link to={`/gene/${identifier}`}>{inner}</Link>;
   } else {
       const inner = <span dangerouslySetInnerHTML={{__html: entity.diseaseAnnotationSubject.name}}/>;
       return <ExternalLink href={url}>{inner}</ExternalLink>;

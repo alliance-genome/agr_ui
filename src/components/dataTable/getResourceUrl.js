@@ -1,7 +1,7 @@
 import { resourceDescriptors } from "../../resourceDescriptors";
 
-export const getResourceUrl = ({ curie, type, subtype }) => {
-  const [prefix, id] = curie.split(':');
+export const getResourceUrl = ({ identifier, type, subtype }) => {
+  const [prefix, id] = identifier?.split(':');
 
   let resource;
   if(subtype){
@@ -25,6 +25,6 @@ export const getResourceUrl = ({ curie, type, subtype }) => {
   return resource + id;
 }
 
-export const getResourceUrls = (curies) => {
-  return curies.map(curie => getResourceUrl(curie));
+export const getResourceUrls = (identifiers) => {
+  return identifiers?.map(curie => getResourceUrl(curie));
 }
