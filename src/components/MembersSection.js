@@ -1,15 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import flybaseLogo from '../../assets/images/alliance_logo_flybase.png';
-import mgdLogo from '../../assets/images/alliance_logo_mgd.png';
-import rgdLogo from '../../assets/images/alliance_logo_rgd.png';
-import sgdLogo from '../../assets/images/alliance_logo_sgd.png';
-import wormbaseLogo from '../../assets/images/alliance_logo_wormbase.png';
-import zfinLogo from '../../assets/images/alliance_logo_zfin.png';
-import xenbaseLogo from '../../assets/images/alliance_logo_xenbase.png';
-import gocLogo from '../../assets/images/alliance_logo_goc.png';
+import flybaseLogo from '../assets/images/alliance_logo_flybase.png';
+import mgdLogo from '../assets/images/alliance_logo_mgd.png';
+import rgdLogo from '../assets/images/alliance_logo_rgd.png';
+import sgdLogo from '../assets/images/alliance_logo_sgd.png';
+import wormbaseLogo from '../assets/images/alliance_logo_wormbase.png';
+import zfinLogo from '../assets/images/alliance_logo_zfin.png';
+import xenbaseLogo from '../assets/images/alliance_logo_xenbase.png';
+import gocLogo from '../assets/images/alliance_logo_goc.png';
 
-import style from './style.module.scss';
+import style from './MembersSection.module.scss';
 
 const MembersSection = () => {
   return (

@@ -3,7 +3,7 @@ import HeadMetaTags from '../../components/headMetaTags';
 import PapersSection from './PapersSection';
 import ResourcesSection from './ResourcesSection';
 import DiseasePortalSection from './DiseasePortalSection';
-import MembersSection from './MembersSection';
+import MembersSection from '../../components/MembersSection';
 
 
 const AlzheimersPage = () => {

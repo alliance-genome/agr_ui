@@ -8,7 +8,7 @@ import style from './style.module.scss';
 const EntityButton = ({children, id, to, tooltip,}) => {
   return (
     <>
-      <Link className={style.actionButton} id={id} to={to}>
+      <Link className={style.entityButton} id={id} to={to}>
         {children}
         {tooltip && (
           <UncontrolledTooltip placement='bottom' target={id}>{tooltip}</UncontrolledTooltip>
