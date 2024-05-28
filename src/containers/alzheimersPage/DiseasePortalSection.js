@@ -28,35 +28,35 @@ const DiseasePortalSection = () => {
             to='/disease/DOID:10652#associated-models'
             tooltip='View all associated models'
           >
-            3000<br />Models
+            [3000]<br />Models
           </EntityButton>
           <EntityButton
             id='entity-genes'
             to='/disease/DOID:10652#associated-genes'
             tooltip='View all associated genes'
           >
-            1221<br />Genes
+            [1221]<br />Genes
           </EntityButton>
           <EntityButton
             id='entity-alleles'
             to='/disease/DOID:10652#associated-alleles'
             tooltip='View all associated alleles'
           >
-            1000<br />Alleles
+            [1000]<br />Alleles
           </EntityButton>
           <EntityButton
             id='entity-publications'
             to=''
             tooltip='View all associated publications'
           >
-            96000<br />Publications
+            [96000]<br />Publications
           </EntityButton>
           <EntityButton
             id='entity-species'
             to=''
             tooltip='View all associated species'
           >
-            9<br />Species
+            [9]<br />Species
           </EntityButton>
         </div>
       </div>
