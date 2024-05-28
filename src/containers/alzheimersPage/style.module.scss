@@ -47,7 +47,7 @@ $max-width: 800px;
   }
 }
 
-.actionButton {
+.entityButton {
   color: $gray-700;
   display: inline-flex;
   flex: 1 0 0;
@@ -72,21 +72,5 @@ $max-width: 800px;
 
   .icon {
     pointer-events: none;
-  }
-}
-
-.member {
-  width: 12.5%;
-  min-width: 80px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 auto;
-  padding: 0.25rem;
-  text-align: center;
-
-  img {
-    max-width: 100%;
-    margin-bottom: 0.5rem;
   }
 }
