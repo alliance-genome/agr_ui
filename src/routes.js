@@ -35,7 +35,7 @@ export default (
       <Route exact path='/news' component={WordpressPostList} />
       <Route exact path='/downloads' component={DownloadsPage} />
       <Route exact path='/members/:id' render={({ match }) => <MODLanding modId={match.params.id} />} />
-      <Route exact path='/disease-portal/alzheimers' component={AlzheimersPage} />
+      <Route exact path='/disease-portal/alzheimers-disease' component={AlzheimersPage} />
 
 
       {/* this one needs to be handled outside of the main application */}
