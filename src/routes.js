@@ -19,6 +19,7 @@ import DownloadsPage from './containers/downloadsPage';
 import AllelePage from './containers/allelePage/AllelePage';
 import VariantPage from './containers/allelePage/VariantPage';
 import MODLanding from './containers/modLanding/Main';
+import AlzheimersPage from './containers/alzheimersPage';
 
 export default (
   <Layout>
@@ -34,6 +35,8 @@ export default (
       <Route exact path='/news' component={WordpressPostList} />
       <Route exact path='/downloads' component={DownloadsPage} />
       <Route exact path='/members/:id' render={({ match }) => <MODLanding modId={match.params.id} />} />
+      <Route exact path='/disease-portal/alzheimers' component={AlzheimersPage} />
+
 
       {/* this one needs to be handled outside of the main application */}
       <Route
