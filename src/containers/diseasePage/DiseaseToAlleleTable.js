@@ -34,10 +34,12 @@ const DiseaseToAlleleTable = ({id}) => {
       formatter: (subject, rowData) => {
         return(
           <>
-            <AlleleCellCuration 
-              identifier={getIdentifier(subject) }
-              alleleSymbol={subject?.alleleSymbol}
-            />
+            <div>
+              <AlleleCellCuration
+                identifier={getIdentifier(subject)}
+                alleleSymbol={subject?.alleleSymbol}
+              />
+            </div>
             <small>
               <AnnotatedEntitiesPopupCuration
                 entities={rowData.primaryAnnotations}
@@ -51,7 +53,7 @@ const DiseaseToAlleleTable = ({id}) => {
           </>
         )
       },
-      headerStyle: { width: '75px' },
+      headerStyle: { width: '210px' },
       filterable: true,
       filterName: 'alleleName',
     },
