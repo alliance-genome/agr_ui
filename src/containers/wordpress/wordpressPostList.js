@@ -40,7 +40,7 @@ const WordpressPostList = () => {
             }
           </div>
           <div className='col-md-4 border-left'>
-            <TwitterFeed />
+            {/* <TwitterFeed />   NOTE: Replace with Mastodom feed - KANBAN-581 */}
           </div>
         </div>
       </div>
