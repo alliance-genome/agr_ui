@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import style from './style.module.scss';
 import SecondaryNav from './secondaryNav';
 import HeadMetaTags from '../../components/headMetaTags';
-import TwitterFeed from '../../components/TwitterFeed';
+// import TwitterFeed from '../../components/TwitterFeed';    --  NOTE: Replace with Mastodom feed - KANBAN-581
 import LoadingSpinner from '../../components/loadingSpinner';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import { WORDPRESS_POST_BASE_URL } from '../../constants';
@@ -40,7 +40,7 @@ const WordpressPostList = () => {
             }
           </div>
           <div className='col-md-4 border-left'>
-            <TwitterFeed />
+            {/* <TwitterFeed />   NOTE: Replace with Mastodom feed - KANBAN-581 */}
           </div>
         </div>
       </div>

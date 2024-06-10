@@ -228,10 +228,15 @@ export const NAV_MENU = [
         external: true,
       },
       {
-        label: 'Twitter',
-        route: 'https://twitter.com/alliancegenome',
+        label: 'Mastodon',
+        route: 'https://genomic.social/@AllianceGenome',
         external: true,
-      }
+      },
+      {
+        label: 'Bluesky',
+        route: 'https://bsky.app/profile/alliancegenome.bsky.social',
+        external: true,
+      },
     ]
   },
   {
