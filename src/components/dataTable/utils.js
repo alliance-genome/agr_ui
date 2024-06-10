@@ -17,22 +17,20 @@ export const getDistinctFieldValue = (response, field) => {
       value && value.trim()
     ));
 };
-
+export const getIsViaOrthology = (annotation) => {
+  return annotation.generatedRelationString.includes("orthology");
+};
 export const getIdentifier = (subject) => {
   if(!subject) return;
   return subject.curie ? subject.curie : (subject.modEntityId ? subject.modEntityId : subject.modInternalId);
 }
 
-export const getIsViaOrthology = (annotation) => {
-  return annotation.generatedRelationString.includes("orthology");
-};
-
 export const getSingleReferenceUrl = (pubModId) => {
   let url;
   if(pubModId.includes("PMID")){
-    url = getResourceUrl({curie: pubModId});
+    url = getResourceUrl({identifier: pubModId});
   } else {
-    url = getResourceUrl({curie: pubModId, type: "reference"});
+    url = getResourceUrl({identifier: pubModId, type: "reference"});
   }
   return {pubModId, url};
 }
@@ -138,4 +136,3 @@ export function removeDuplicates(objects, keyFunction){
 
   return uniqueObjects;
 }
-

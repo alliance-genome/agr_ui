@@ -5,7 +5,7 @@ const ExperimentalConditionCellCuration = ({ conditions }) => {
     <dl>
       {
         conditions.map(condition=> {
-            const { conditions, id } = condition;
+          const { conditions, id } = condition;
           const summaries = conditions.map(({conditionSummary}) => conditionSummary);
           return (
             <React.Fragment key={id}>
