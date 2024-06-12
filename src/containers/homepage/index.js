@@ -2,7 +2,7 @@ import React from 'react';
 import HeadMetaTags from '../../components/headMetaTags';
 import SearchSection from './SearchSection';
 import AboutSection from './AboutSection';
-import MembersSection from './MembersSection';
+import MembersSection from '../../components/MembersSection';
 import style from './style.module.scss';
 import WordpressInject from '../wordpress/wordpressInject';
 
