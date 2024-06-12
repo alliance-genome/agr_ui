@@ -26,9 +26,9 @@ import { buildProviderWithUrl, getIdentifier } from './utils';
 import StrainBackground from './StrainBackground';
 
 function renderLink(entity) {
-  const curie = getIdentifier(entity.diseaseAnnotationSubject);
+  const identifier = getIdentifier(entity.diseaseAnnotationSubject);
   const url = getResourceUrl({
-    curie, 
+    identifier, 
     type: entity.diseaseAnnotationSubject.type, 
     subtype: entity.diseaseAnnotationSubject.subtype
   })
@@ -36,11 +36,11 @@ function renderLink(entity) {
   if (entity.type === 'AlleleDiseaseAnnotation') {
     const innerText = entity.diseaseAnnotationSubject.alleleSymbol ? entity.diseaseAnnotationSubject.alleleSymbol.displayText : entity.diseaseAnnotationSubject.name;
     const inner = <span dangerouslySetInnerHTML={{__html: innerText}}/>;
-    return <Link to={`/allele/${curie}`}>{inner}</Link>;
+    return <Link to={`/allele/${identifier}`}>{inner}</Link>;
   } else if(entity.type === 'GeneDiseaseAnnotation'){
       const innerText = entity.diseaseAnnotationSubject.geneSymbol ? entity.diseaseAnnotationSubject.geneSymbol.displayText : entity.diseaseAnnotationSubject.name;
       const inner = <span dangerouslySetInnerHTML={{__html: innerText}}/>;
-      return <Link to={`/gene/${curie}`}>{inner}</Link>;
+      return <Link to={`/gene/${identifier}`}>{inner}</Link>;
   } else {
       const inner = <span dangerouslySetInnerHTML={{__html: entity.diseaseAnnotationSubject.name}}/>;
       return <ExternalLink href={url}>{inner}</ExternalLink>;
@@ -49,7 +49,7 @@ function renderLink(entity) {
 
 
 
-function AnnotatedEntitiesPopupCuration({ children, entities, parentPage, mainRowCurie, pubModIds }) {
+function AnnotatedEntitiesPopupCuration({ children, entities, mainRowCurie, pubModIds, columnNameSet }) {
 
   if (!entities || !entities.length) {
     return null;
@@ -71,20 +71,19 @@ function AnnotatedEntitiesPopupCuration({ children, entities, parentPage, mainRo
           <table className='table table-sm'>
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Type</th>
-                <th className={style.associationCell}>Association</th>
-                { parentPage === 'gene' || parentPage === 'disease' ? <th>Additional implicated genes</th> : <></> }
-                <th>Experimental condition</th>
-                <th></th>
-                <th>Genetic Modifiers</th>
-                { parentPage === 'gene' || parentPage === 'disease' ? <th>Strain Background</th> : <></> }
-                <th>Genetic Sex</th>
-                <th className={style.relatedNotes}>Notes</th>
-                <th>Annotation type</th>
-                <th>Evidence Code</th>
-                <th>Source</th>
-                <th>References</th>
+                {columnNameSet.has("Name") && <th>Name</th>}
+                {columnNameSet.has("Type") && <th>Type</th>}
+                {columnNameSet.has("Association") && <th className={style.associationCell}>Association</th>}
+                {columnNameSet.has("Additional Implicated Genes") && <th>Additional implicated genes</th>}
+                {columnNameSet.has("Experimental Condition") && <th>Experimental condition</th>}
+                {columnNameSet.has("Genetic Modifiers") && <th>Genetic Modifiers</th>}
+                {columnNameSet.has("Strain Background") && <th>Strain Background</th>}
+                {columnNameSet.has("Genetic Sex") && <th>Genetic Sex</th>}
+                {columnNameSet.has("Notes") && <th className={style.relatedNotes}>Notes</th>}
+                {columnNameSet.has("Annotation Type") && <th>Annotation type</th>}
+                {columnNameSet.has("Evidence Codes") && <th>Evidence Codes</th>}
+                {columnNameSet.has("Source") && <th>Source</th>}
+                {columnNameSet.has("References") && <th>References</th>}
               </tr>
             </thead>
             <tbody>
@@ -93,20 +92,20 @@ function AnnotatedEntitiesPopupCuration({ children, entities, parentPage, mainRo
                   const provider = buildProviderWithUrl(entity);
                   return (
                     <tr key={entity.id}>
-                      <td>{renderLink(entity)}</td>
-                      <td><TypeCellCuration subject={entity.diseaseAnnotationSubject}/></td>
-                      <td><AssociationCellCuration association={entity.relation?.name}/></td>
-                      { parentPage === 'gene' || parentPage === 'disease' ?  <td><AssertedGenes assertedGenes={entity.assertedGenes} mainRowCurie={mainRowCurie}/></td> : <></>}
-                      <td><ExperimentalConditionCellCuration conditions={entity.conditionRelations}/></td>
-                      <td><ExperimentalConditionCellCuration conditions={entity.conditionModifiers}/></td>
-                      <td><GeneticModifiersCellCuration relation={entity.diseaseGeneticModifierRelation} modifiers={entity.diseaseGeneticModifiers}/></td>
-                      { parentPage === 'gene' || parentPage === 'disease' ? <td><StrainBackground strainBackground={entity.sgdStrainBackground}/></td> : <></> }
-                      <td><GeneticSex geneticSex={entity.geneticSex}/></td>
-                      <td><RelatedNotes className={style.relatedNotes} relatedNotes={entity.relatedNotes}/></td>
-                      <td><AnnotationType  annotationType={entity.annotationType}/></td>
-                      <td><EvidenceCodesCellCuration evidenceCodes={entity.evidenceCodes}/></td>
-                      <td><ProviderCellCuration provider={provider} /></td>
-                      <td><SingleReferenceCellCuration singleReference={entity.singleReference} pubModIds={pubModIds}/></td>
+                      {columnNameSet.has("Name") && <td>{renderLink(entity)}</td>}
+                      {columnNameSet.has("Type") && <td><TypeCellCuration subject={entity.diseaseAnnotationSubject}/></td>}
+                      {columnNameSet.has("Association") && <td><AssociationCellCuration association={entity.relation?.name}/></td>}
+                      {columnNameSet.has("Additional Implicated Genes") && <td><AssertedGenes assertedGenes={entity.assertedGenes} mainRowCurie={mainRowCurie}/></td>}
+                      {(columnNameSet.has("Experimental Condition") && entity.conditionRelations) && <td><ExperimentalConditionCellCuration conditions={entity.conditionRelations}/></td>}
+                      {(columnNameSet.has("Experimental Condition") && entity.conditionModifiers) && <td><ExperimentalConditionCellCuration conditions={entity.conditionModifiers}/></td>}
+                      {columnNameSet.has("Genetic Modifiers") && <td><GeneticModifiersCellCuration relation={entity.diseaseGeneticModifierRelation} modifiers={entity.diseaseGeneticModifiers}/></td>}
+                      {columnNameSet.has("Strain Background") && <td><StrainBackground strainBackground={entity.sgdStrainBackground}/></td>}
+                      {columnNameSet.has("Genetic Sex") && <td><GeneticSex geneticSex={entity.geneticSex}/></td>}
+                      {columnNameSet.has("Notes") && <td><RelatedNotes className={style.relatedNotes} relatedNotes={entity.relatedNotes}/></td>}
+                      {columnNameSet.has("Annotation Type") && <td><AnnotationType  annotationType={entity.annotationType}/></td>}
+                      {columnNameSet.has("Evidence Codes") && <td><EvidenceCodesCellCuration evidenceCodes={entity.evidenceCodes}/></td>}
+                      {columnNameSet.has("Source") && <td><ProviderCellCuration provider={provider} /></td>}
+                      {columnNameSet.has("References") && <td><SingleReferenceCellCuration singleReference={entity.singleReference} pubModIds={pubModIds}/></td>}
                     </tr>
                 )
               })
@@ -122,7 +121,9 @@ function AnnotatedEntitiesPopupCuration({ children, entities, parentPage, mainRo
 AnnotatedEntitiesPopupCuration.propTypes = {
   children: PropTypes.node,
   entities: PropTypes.array,
-  parentPage: PropTypes.string
+  mainRowCurie: PropTypes.string,
+  pubModIds: PropTypes.array,
+  columnNameSet: PropTypes.object
 };
 
 export default AnnotatedEntitiesPopupCuration;
