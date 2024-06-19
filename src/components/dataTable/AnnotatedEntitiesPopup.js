@@ -15,7 +15,7 @@ import {Link} from 'react-router-dom';
 
 function renderLink(entity) {
   const inner = <span dangerouslySetInnerHTML={{__html: entity.name}} />;
-  if (entity.type === 'ALLELE') {
+  if ((entity.type).toLowerCase() === 'allele') {
     return <Link to={`/allele/${entity.id}`}>{inner}</Link>;
   } else {
     return <ExternalLink href={entity.url}>{inner}</ExternalLink>;
