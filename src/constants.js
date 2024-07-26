@@ -256,7 +256,7 @@ export const DEFAULT_TABLE_STATE = {
   filters: {},
 };
 
-const RELEASE = '7.0.0';
+const RELEASE = '7.3.0';
 
 export const SPECIES = [
   {
