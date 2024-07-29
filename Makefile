@@ -42,7 +42,7 @@ prod-ui-deploy:
 	npx aws-cdk deploy agr-ui-production
 
 uirun:
-	npm start
+	npm start REACT_APP_JBROWSE_AGR_RELEASE=${REACT_APP_JBROWSE_AGR_RELEASE}
 
 uirunstage:
 	API_URL=https://stage.alliancegenome.org npm start
