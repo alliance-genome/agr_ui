@@ -161,3 +161,19 @@ export function findFminFmax(locations) {
     fmin,
   };
 }
+
+export async function getReleaseVersion(envUrl = '') {
+  const releaseInfoURL = `${envUrl}/api/releaseInfo`
+  return fetch(releaseInfoURL)
+    .then((response) => {
+      if( response.ok ){
+        return response.json();
+      }
+      else{
+        throw new Error('Error while retrieving releaseInfo.')
+      }
+
+    }).then((data) => {
+      return data.releaseVersion
+    })
+};
