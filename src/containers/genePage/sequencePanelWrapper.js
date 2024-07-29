@@ -2,17 +2,21 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import { GenericGeneSeqPanel } from 'generic-sequence-panel';
-import { getSpecies } from '../../lib/utils';
+import { getSpecies, getReleaseVersion } from '../../lib/utils';
 import { Buffer } from 'buffer';
 
 window.Buffer = Buffer
+
+const releaseVersion = await getReleaseVersion()
 
 class SequencePanel extends Component {
 
   constructor(props) {
     super(props);
 
-    this.jBrowsenclistbaseurl = getSpecies(this.props.species).jBrowsenclistbaseurl;
+    const jBrowsenclistbaseurl = getSpecies(this.props.species).jBrowsenclistbaseurltemplate.replace('{release}', releaseVersion)
+
+    this.jBrowsenclistbaseurl = jBrowsenclistbaseurl;
     this.jBrowseurltemplate   = getSpecies(this.props.species).jBrowseurltemplate;
     this.jBrowsefastaurl      = getSpecies(this.props.species).jBrowsefastaurl;
   }
