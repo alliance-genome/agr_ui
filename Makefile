@@ -19,7 +19,7 @@ install:
 build:
 	npm run build
 test:
-	npm test
+	npm test -- --watchAll=false
 run:
 	npm start
 
