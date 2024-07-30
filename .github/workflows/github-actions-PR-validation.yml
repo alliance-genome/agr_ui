@@ -17,12 +17,12 @@ jobs:
           echo "Repository ${{ github.repository }}."
           echo "Trigger ref ${{ github.ref }}, base-ref ${{ github.base_ref }}, head_ref ${{ github.head_ref }}."
       - name: Check out repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Report files updated in PR
         run: |
           git fetch -q origin ${{ github.base_ref }} ${{ github.head_ref }}
           git diff --name-only origin/${{ github.base_ref }} origin/${{ github.head_ref }}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
       - name: Report runtime details

@@ -1,5 +1,5 @@
-import { STRINGENCY_HIGH, STRINGENCY_MED } from '../components/homology/constants';
-import { DEFAULT_TABLE_STATE, SPECIES } from '../constants';
+import { STRINGENCY_HIGH, STRINGENCY_MED } from '../components/homology/constants.js';
+import { DEFAULT_TABLE_STATE, SPECIES } from '../constants.js';
 import { stringify } from 'qs';
 
 export function makeId(string) {
