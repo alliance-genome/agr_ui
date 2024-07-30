@@ -1,44 +1,50 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { GenericGeneSeqPanel } from 'generic-sequence-panel';
-import { getSpecies, getReleaseVersion } from '../../lib/utils';
+import { getSpecies } from '../../lib/utils';
 import { Buffer } from 'buffer';
+
+import { useRelease } from '../../hooks/ReleaseContextProvider';
 
 window.Buffer = Buffer
 
-const releaseVersion = process.env.REACT_APP_JBROWSE_AGR_RELEASE || getReleaseVersion()
-console.info(`sequencePanelWrapper releaseVersion: ${releaseVersion}`)
+const SequencePanel = ({species, gene, refseq, start, end}) => {
 
-class SequencePanel extends Component {
+  const useGetReleaseVersion = () => {
+    const release = useRelease();
 
-  constructor(props) {
-    super(props);
-
-    const jBrowsenclistbaseurl = getSpecies(this.props.species).jBrowsenclistbaseurltemplate.replace('{release}', releaseVersion)
-
-    this.jBrowsenclistbaseurl = jBrowsenclistbaseurl;
-    this.jBrowseurltemplate   = getSpecies(this.props.species).jBrowseurltemplate;
-    this.jBrowsefastaurl      = getSpecies(this.props.species).jBrowsefastaurl;
-  }
-
-  render() {
-    var refseq = this.props.refseq;
-    if((this.props.species === 'NCBITaxon:559292' || this.props.species === 'NCBITaxon:8355') && !this.props.refseq.startsWith('chr') && !this.props.refseq.toLowerCase().startsWith('scaffold')){
-      refseq = 'chr' + refseq;
+    if( !release.isLoading && !release.isError ){
+      return release.data.releaseVersion
     }
-    return (
-      <GenericGeneSeqPanel
-            refseq={refseq}
-            start={this.props.start}
-            end={this.props.end}
-            gene={this.props.gene}
-            nclistbaseurl={this.jBrowsenclistbaseurl}
-            urltemplate={this.jBrowseurltemplate}
-            fastaurl={this.jBrowsefastaurl} 
-      />
-    );
+    else{
+      return 'unknown'
+    }
   }
+
+  const contextReleaseVersion = useGetReleaseVersion()
+  const releaseVersion = process.env.REACT_APP_JBROWSE_AGR_RELEASE || contextReleaseVersion
+  console.info(`sequencePanelWrapper releaseVersion: ${releaseVersion}`)
+
+  const jBrowsenclistbaseurl = getSpecies(species).jBrowsenclistbaseurltemplate.replace('{release}', releaseVersion)
+  const jBrowseurltemplate   = getSpecies(species).jBrowseurltemplate;
+  const jBrowsefastaurl      = getSpecies(species).jBrowsefastaurl;
+
+  if((species === 'NCBITaxon:559292' || species === 'NCBITaxon:8355') && !refseq.startsWith('chr') && !refseq.toLowerCase().startsWith('scaffold')){
+    refseq = 'chr' + refseq;
+  }
+
+  return (
+    <GenericGeneSeqPanel
+          refseq={refseq}
+          start={start}
+          end={end}
+          gene={gene}
+          nclistbaseurl={jBrowsenclistbaseurl}
+          urltemplate={jBrowseurltemplate}
+          fastaurl={jBrowsefastaurl}
+    />
+  );
 }
 
 SequencePanel.propTypes = {
