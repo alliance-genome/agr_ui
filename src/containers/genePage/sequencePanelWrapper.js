@@ -7,7 +7,7 @@ import { Buffer } from 'buffer';
 
 window.Buffer = Buffer
 
-const releaseVersion = process.env.REACT_APP_JBROWSE_AGR_RELEASE || await getReleaseVersion()
+const releaseVersion = process.env.REACT_APP_JBROWSE_AGR_RELEASE || getReleaseVersion()
 console.info(`sequencePanelWrapper releaseVersion: ${releaseVersion}`)
 
 class SequencePanel extends Component {
