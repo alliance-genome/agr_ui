@@ -15,7 +15,7 @@ endif
 all: install build test
 
 install:
-	npm install
+	npm install --legacy-peer-deps
 build:
 	npm run build
 test:
