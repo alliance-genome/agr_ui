@@ -7,7 +7,7 @@ const PapersSection = () => {
       <div className={style.contentContainer}>
         <div className='row'>
           <div className='col-lg-12'>
-            <p>Recent Papers</p>
+            <h2>Recent Papers</h2>
           </div>
         </div>
       </div>
