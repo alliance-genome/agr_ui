@@ -15,11 +15,11 @@ endif
 all: install build test
 
 install:
-	npm install
+	npm install --legacy-peer-deps
 build:
 	npm run build
 test:
-	npm test
+	npm test -- --watchAll=false
 run:
 	npm start
 
@@ -42,13 +42,15 @@ prod-ui-deploy:
 	npx aws-cdk deploy agr-ui-production
 
 uirun:
-	npm start
+	REACT_APP_JBROWSE_AGR_RELEASE=${REACT_APP_JBROWSE_AGR_RELEASE} API_URL=${API_URL} npm start
 
+uirunstage: API_URL=https://stage.alliancegenome.org
 uirunstage:
-	API_URL=https://stage.alliancegenome.org npm start
+	@$(MAKE) --no-print-directory uirun API_URL=${API_URL}
 
+uiruntest: API_URL=https://test.alliancegenome.org
 uiruntest:
-	API_URL=https://test.alliancegenome.org npm start
+	@$(MAKE) --no-print-directory uirun API_URL=${API_URL}
 
 docker-build-nginx:
 	docker build -t ${REG}/agr_ui_server:${DOCKER_BUILD_TAG} --build-arg REG=${REG} --build-arg DOCKER_PULL_TAG=${DOCKER_PULL_TAG} .
