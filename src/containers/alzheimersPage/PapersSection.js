@@ -22,9 +22,9 @@ const PapersSection = () => {
               <div>
                 {publications.map((publication) => {
                   return (
-                    <div>
+                    <p>
                       <ExternalLink href={'https://www.ncbi.nlm.nih.gov/pubmed/' + publication.pmid}>{publication.title}</ExternalLink>
-                    </div>
+                    </p>
                   )
                 })}
               </div>
