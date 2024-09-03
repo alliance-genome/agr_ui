@@ -47,7 +47,6 @@ const DiseasePortalSection = () => {
           <EntityButton
             id='entity-publications'
             to='/disease-portal/alzheimers-disease'
-            tooltip='View all associated publications'
           >
             96,000<br />Publications
           </EntityButton>
