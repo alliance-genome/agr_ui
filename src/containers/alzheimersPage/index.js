@@ -6,7 +6,7 @@ import DiseasePortalSection from './DiseasePortalSection';
 import MembersSection from '../../components/MembersSection';
 import { HELP_EMAIL } from '../../constants';
 
-
+// Delete this comment after F2F presetnations
 
 const AlzheimersPage = () => {
   return (
