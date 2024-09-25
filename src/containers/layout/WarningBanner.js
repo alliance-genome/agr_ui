@@ -1,5 +1,5 @@
 import React from 'react';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { WARNING_BANNER_SLUG, WORDPRESS_PAGE_BASE_URL } from '../../constants';
 import style from './style.module.scss';
 import ReplaceLinks from '../wordpress/ReplaceLinks';

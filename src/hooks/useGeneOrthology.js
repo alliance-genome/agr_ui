@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import fetchData from '../lib/fetchData';
 
 export default function useGeneOrthology(geneId) {

@@ -1,5 +1,5 @@
 import { stringify } from 'qs';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import fetchData from '../lib/fetchData';
 import { getOrthologId } from '../components/orthology';
 import { htmlToPlainText } from '../lib/utils';
