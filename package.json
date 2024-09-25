@@ -46,7 +46,7 @@
     "react-ga": "^3.3.1",
     "react-ga4": "^2.1.0",
     "react-helmet": "^6.0.0",
-    "react-query": "2.26.4",
+    "react-query": "4.32.0",
     "react-redux": "7.2.3",
     "react-router-dom": "^5.2.0",
     "react-router-hash-link": "^1.2.0",
