@@ -7,26 +7,29 @@ import { logPageView } from './lib/analytics';
 import RouteListener from './components/routeListener';
 import routes from './routes';
 import { ScrollContext } from 'react-router-scroll-4';
-import { ReactQueryConfigProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider  } from '@tanstack/react-query/reactjs';
 import ReleaseContextProvider from './hooks/ReleaseContextProvider';
 
 const isBrowser = (typeof window !== 'undefined');
 const store = configureStore();
 
-const queryConfig = {
-  queries: {
-    refetchOnWindowFocus: false,
-    retry: false,
-    staleTime: Infinity,
-  }
-};
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: false,
+      staleTime: Infinity,
+    }
+  },
+})
+
 
 class ReactApp extends Component {
   render() {
     const Router = this.props.router || BrowserRouter;
     return (
       <Provider store={store}>
-        <ReactQueryConfigProvider config={queryConfig}>
+        <QueryClientProvider client={queryClient}>
           <ReleaseContextProvider>
             <Router>
               {
@@ -40,7 +43,7 @@ class ReactApp extends Component {
               }
             </Router>
           </ReleaseContextProvider>
-        </ReactQueryConfigProvider>
+        </QueryClientProvider>
       </Provider>
     );
   }

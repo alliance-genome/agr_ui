@@ -1,7 +1,7 @@
-import {DEFAULT_TABLE_STATE} from '../constants';
-import {usePaginatedQuery} from '@tanstack/react-query';
+import { DEFAULT_TABLE_STATE } from '../constants';
+import { useQuery } from '@tanstack/react-query';
 import fetchData from '../lib/fetchData';
-import {buildTableQueryString} from '../lib/utils';
+import { buildTableQueryString } from '../lib/utils';
 import { useEffect, useReducer } from 'react';
 
 // when the baseUrl changes, the page should go back to 1 (this can happen when
@@ -37,22 +37,29 @@ function getFullUrl(baseUrl, tableState) {
   return baseUrl + separator + buildTableQueryString(tableState);
 }
 
-export default function useDataTableQuery(baseUrl, config, initialTableState, fetchOptins={}, fetchTimeout) {
+export default function useDataTableQuery(baseUrl, config, initialTableState, fetchOptionss = {}, fetchTimeout) {
   const initialState = {
     url: null,
-    tableState:  {...DEFAULT_TABLE_STATE, ...(initialTableState || {})},
+    tableState: { ...DEFAULT_TABLE_STATE, ...(initialTableState || {}) },
   };
   const [{ url, tableState }, dispatch] = useReducer(reducer, initialState);
   const enabledBoolean = Boolean((config && config.hasOwnProperty('enabled')) ? config.enabled : true);
+
   useEffect(() => {
-    dispatch({type: 'reset', payload: enabledBoolean && baseUrl});
+    dispatch({ type: 'reset', payload: enabledBoolean && baseUrl });
   }, [baseUrl, enabledBoolean]);
-  const setTableState = tableState => dispatch({type: 'update', payload: tableState});
-  const query = usePaginatedQuery(
+
+  const setTableState = tableState => dispatch({ type: 'update', payload: tableState });
+
+  const query = useQuery(
     [url, tableState],
-    () => fetchData(getFullUrl(url, tableState), fetchOptins, fetchTimeout),
-    config
+    () => fetchData(getFullUrl(url, tableState), fetchOptionss, fetchTimeout),
+    {
+      ...config,
+      keepPreviousData: true,
+    }
   );
+
   return {
     ...query,
     data: query?.resolvedData?.results || [],
