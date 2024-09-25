@@ -1,5 +1,5 @@
 import {DEFAULT_TABLE_STATE} from '../constants';
-import {usePaginatedQuery} from 'react-query';
+import {usePaginatedQuery} from '@tanstack/react-query';
 import fetchData from '../lib/fetchData';
 import {buildTableQueryString} from '../lib/utils';
 import { useEffect, useReducer } from 'react';

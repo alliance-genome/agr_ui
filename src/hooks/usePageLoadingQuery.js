@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useDispatch } from 'react-redux';
 import { setPageLoading } from '../actions/loadingActions';
 import fetchData from '../lib/fetchData';

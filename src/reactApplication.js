@@ -7,7 +7,7 @@ import { logPageView } from './lib/analytics';
 import RouteListener from './components/routeListener';
 import routes from './routes';
 import { ScrollContext } from 'react-router-scroll-4';
-import { ReactQueryConfigProvider } from 'react-query';
+import { ReactQueryConfigProvider } from '@tanstack/react-query';
 import ReleaseContextProvider from './hooks/ReleaseContextProvider';
 
 const isBrowser = (typeof window !== 'undefined');
