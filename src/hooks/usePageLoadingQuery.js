@@ -5,7 +5,7 @@ import fetchData from '../lib/fetchData';
 
 export default function usePageLoadingQuery(url, fetchFn = fetchData) {
   const dispatch = useDispatch();
-  return useQuery(url, () => {
+  return useQuery([url], () => {
     dispatch(setPageLoading(true));
     return fetchFn(url)
       .finally(() => dispatch(setPageLoading(false)));
