@@ -12,11 +12,10 @@ import useDataTableQuery from '../../hooks/useDataTableQuery';
 const PhenotypeTable = ({geneId}) => {
   const {
     data: results,
-    resolvedData,
     ...tableProps
   } = useDataTableQuery(`/api/gene/${geneId}/phenotypes`);
 
-  const data = results?.map(record => ({
+  const data = results?.results?.map(record => ({
     ...record,
     id: hash(record),
   }));
@@ -54,8 +53,8 @@ const PhenotypeTable = ({geneId}) => {
       downloadUrl={`/api/gene/${geneId}/phenotypes/download`}
       keyField='id'
       summaryProps={
-        (resolvedData && resolvedData.supplementalData) ? {
-          ...resolvedData.supplementalData.annotationSummary,
+        (data && data.supplementalData) ? {
+          ...data.supplementalData.annotationSummary,
           entityType: 'phenotype'
         } : null
       }
