@@ -27,7 +27,7 @@ function timeoutPromise(timeout, promise) {
 
 export default async function fetchData(url, options = {}, fetchTimeout=TIMEOUT) {
   if (!url) {
-    return Promise.resolve();
+    return Promise.resolve(null);
   }
   const _type = options.type || 'GET';
   const headers = {
