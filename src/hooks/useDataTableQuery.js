@@ -37,7 +37,7 @@ function getFullUrl(baseUrl, tableState) {
   return baseUrl + separator + buildTableQueryString(tableState);
 }
 
-export default function useDataTableQuery(baseUrl, config, initialTableState, fetchOptionss = {}, fetchTimeout) {
+export default function useDataTableQuery(baseUrl, config, initialTableState, fetchOptions = {}, fetchTimeout) {
   const initialState = {
     url: null,
     tableState: { ...DEFAULT_TABLE_STATE, ...(initialTableState || {}) },
@@ -51,14 +51,12 @@ export default function useDataTableQuery(baseUrl, config, initialTableState, fe
 
   const setTableState = tableState => dispatch({ type: 'update', payload: tableState });
 
-  const query = useQuery(
-    [url, tableState],
-    () => fetchData(getFullUrl(url, tableState), fetchOptionss, fetchTimeout),
-    {
-      ...config,
-      keepPreviousData: true,
-    }
-  );
+  const query = useQuery({
+    queryKey: [url, tableState],
+    queryFn: () => fetchData(getFullUrl(url, tableState), fetchOptions, fetchTimeout),
+    keepPreviousData: true,
+    ...config,
+  });
 
   return {
     ...query,

@@ -12,7 +12,7 @@ const WarningBanner = () => {
       .catch((error) => {
         // we can safely ignore this error because the banner is not always up
         if (error.message === 'Page not found') {
-          return;
+          return null;
         }
         throw error;
       })
