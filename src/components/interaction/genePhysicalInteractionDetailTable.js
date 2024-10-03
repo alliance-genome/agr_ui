@@ -18,7 +18,6 @@ const DEFAULT_TABLE_KEY = 'physicalInteractionTable';
 
 const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId}) => {
   const {
-    resolvedData,
     data: results,
     ...tableProps
   } = useDataTableQuery(`/api/gene/${focusGeneId}/interactions?filter.joinType=molecular_interaction`);
@@ -27,7 +26,7 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
     return `${DEFAULT_TABLE_KEY}-${fieldKey}-${rowIndex}`;
   };
 
-  const data = results?.map((interaction = {}) => ({
+  const data = results?.results?.map((interaction = {}) => ({
     id: interaction.primaryKey,
     moleculeType: interaction.interactorAType,
     interactorGeneSymbol: interaction.geneB,
@@ -67,7 +66,7 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
       headerStyle: {width: '6em'},
       headerClasses: style.columnHeaderGroup1,
       classes: style.columnGroup1,
-      filterable: getDistinctFieldValue(resolvedData, 'filter.moleculeType'),
+      filterable: getDistinctFieldValue(data, 'filter.moleculeType'),
     },
     {
       dataField: 'interactorGeneSymbol',
@@ -85,7 +84,7 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
       headerStyle: {width: '8em'},
       headerClasses: style.columnHeaderGroup2,
       classes: style.columnGroup2,
-      filterable: getDistinctFieldValue(resolvedData, 'filter.interactorSpecies').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
+      filterable: getDistinctFieldValue(data, 'filter.interactorSpecies').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
     },
     {
@@ -100,7 +99,7 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
       headerStyle: {width: '6em'},
       headerClasses: style.columnHeaderGroup2,
       classes: style.columnGroup2,
-      filterable: getDistinctFieldValue(resolvedData, 'filter.interactorMoleculeType'),
+      filterable: getDistinctFieldValue(data, 'filter.interactorMoleculeType'),
     },
     {
       dataField: 'detectionMethod',
@@ -198,8 +197,8 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
       keyField='id'
       sortOptions={sortOptions}
       summaryProps={
-        (resolvedData && resolvedData.supplementalData) ? {
-          ...resolvedData.supplementalData.annotationSummary,
+        (data && data.supplementalData) ? {
+          ...data.supplementalData.annotationSummary,
           entityType: 'interactor gene'
         } : null
       }
