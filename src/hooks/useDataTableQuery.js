@@ -63,6 +63,6 @@ export default function useDataTableQuery(baseUrl, config, initialTableState, fe
     data: query?.resolvedData?.results || [],
     setTableState,
     tableState,
-    totalRows: query.resolvedData ? query.resolvedData.total : 0,
+    totalRows: query.data ? query.data.total : 0,
   };
 }
