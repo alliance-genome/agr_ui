@@ -22,7 +22,7 @@
     "agr_genomefeaturecomponent": "^0.3.24",
     "aws-cdk": "^2.118.0",
     "aws-cdk-lib": "^2.118.0",
-    "bootstrap": "4.6.1",
+    "bootstrap": "5.0.0",
     "buffer": "^6.0.3",
     "constructs": "^10.2.70",
     "custom-event-polyfill": "^1.0.6",
