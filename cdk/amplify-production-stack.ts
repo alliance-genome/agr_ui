@@ -29,6 +29,7 @@ export class AmplifyProductionStack extends cdk.Stack {
       { source: '/jbrowsedata/XenBaseXLJBrowse/<*>',   target: 'https://jbrowse.xenbase.org/XenJBrowse/data/xl9_2/<*>',                               status: amplify.RedirectStatus.REWRITE },
       { source: '/jbrowsedata/XenBaseData/<*>',        target: 'https://jbrowse.xenbase.org/XenJBrowse/<*>',                                          status: amplify.RedirectStatus.REWRITE },
       { source: '/jbrowsedata/RGDJBrowse/<*>',         target: 'https://rgd.mcw.edu/jbrowse2/<*>',                                                    status: amplify.RedirectStatus.REWRITE },
+      { source: '/jbrowsedata/XenBaseBigFtp/<*>',      target: 'https://bigftp.xenbase.org/pub/xenbase/genomics/<*>',                                 status: amplify.RedirectStatus.REWRITE },
       { source: '/jbrowse/worms/protein',              target: 'https://www.alliancegenome.org/jbrowse/worms/protein/',                               status: amplify.RedirectStatus.PERMANENT_REDIRECT },
       { source: '/jbrowse/worms/protein/',             target: 'https://main.djgvd7iswt7yy.amplifyapp.com/',                                          status: amplify.RedirectStatus.REWRITE },
       { source: '/jbrowse/worms/protein/<*>',          target: 'https://main.djgvd7iswt7yy.amplifyapp.com/<*>',                                       status: amplify.RedirectStatus.REWRITE },
