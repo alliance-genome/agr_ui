@@ -15,7 +15,7 @@ const ParalogyTable = ({geneId}) => {
   if (isLoading) {
     return <LoadingSpinner />;
   }
-  if (data?.results.length === 0) {
+  if (data?.results?.length === 0) {
     return <NoData>No paralogs for the gene.</NoData>
   }
 

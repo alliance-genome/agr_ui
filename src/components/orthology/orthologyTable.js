@@ -58,8 +58,7 @@ class OrthologyTable extends Component {
               (orthDataA, orthDataB) => orthDataB.predictionMethodsMatched.length - orthDataA.predictionMethodsMatched.length
             ]).map((orthData, idx, orthList) => {
               const scoreNumerator = orthData.predictionMethodsMatched.length;
-              const scoreDemominator = scoreNumerator +
-                orthData.predictionMethodsNotMatched.length;
+              const scoreDemominator = scoreNumerator + orthData.predictionMethodsNotMatched?.length;
               const orthId = getOrthologId(orthData);
 
               if (idx > 0 && getOrthologSpeciesName(orthList[idx - 1]) !== getOrthologSpeciesName(orthData)) {
