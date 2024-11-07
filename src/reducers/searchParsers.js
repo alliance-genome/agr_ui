@@ -126,7 +126,7 @@ function parseValue(value, currentValue) {
     displayName: makeValueDisplayName(value.key),
     key: value.key,
     total: value.total,
-    values: value.values.map(v => parseValue(v, currentValue)),
+    values: value.values?.map(v => parseValue(v, currentValue)),
     isActive: _isActive
   };
 }

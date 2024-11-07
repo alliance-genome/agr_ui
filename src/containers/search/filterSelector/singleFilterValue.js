@@ -24,7 +24,7 @@ const  SingleFilterValue = ({name, queryParams, value, SEARCH_PATH, displayName}
     nameNode = <span>{value.displayName}</span>;
   }
   let newQueryObj = getQueryParamWithoutPage(name, value.key, queryParams);
-  let values = (<ul className={style.filterList}>{value.values.map(v =>
+  let values = (<ul className={style.filterList}>{value.values?.map(v =>
     (<SingleFilterValue
       key={_key + '.' + v.name}
       value={v}
