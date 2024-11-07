@@ -78,7 +78,7 @@ function replaceHighlightValue(value, unhighlightedValue, highlight) {
 
 
 export function parseResults(results) {
-  return results.map(d => {
+  return results?.map(d => {
     switch (d.category) {
     case 'gene':
       return parseGeneResult(d);
@@ -104,7 +104,7 @@ export function parseAggs(rawAggs, queryObject) {
 
 function parseAgg(agg, queryObject) {
   let currentValue = queryObject[agg.key];
-  let _values = agg.values.map(value => parseValue(value, currentValue));
+  let _values = agg.values?.map(value => parseValue(value, currentValue)) || [];
   return {
     name: agg.key,
     displayName: makeFieldDisplayName(agg.key, queryObject['category']),

@@ -157,7 +157,7 @@ const DiseaseAnnotationTable = ({
     }
   ];
 
-  const data = results.map(annotation => ({
+  const data = results?.map(annotation => ({
     species: annotation.subject.taxon,
     providers: buildProvidersWithUrl(annotation.primaryAnnotations),
     basedOn: buildWith(annotation),
@@ -168,7 +168,7 @@ const DiseaseAnnotationTable = ({
     <DataTable
       {...tableProps}
       columns={columns}
-      data={data}
+      data={data || []}
       downloadUrl={downloadUrl}
       keyField='id'
     />
