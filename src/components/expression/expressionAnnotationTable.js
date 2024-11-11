@@ -96,7 +96,7 @@ const ExpressionAnnotationTable = ({
   ];
 
 
-  const data = results.map(result => ({
+  const data = results?.map(result => ({
     key: hash(result),
     species: result.gene.species.name,
     gene: result.gene,
@@ -134,7 +134,7 @@ const ExpressionAnnotationTable = ({
     <DataTable
       {...tableProps}
       columns={columns}
-      data={data}
+      data={data || []}
       downloadUrl={downloadUrl}
       keyField='key'
       sortOptions={sortOptions}

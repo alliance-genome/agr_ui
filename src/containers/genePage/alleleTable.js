@@ -28,7 +28,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
   } = tableProps;
 
   const data = useMemo(() => {
-    return resolvedData ? resolvedData.results.map(allele => ({
+    return resolvedData ? resolvedData.results?.map(allele => ({
       ...allele,
       symbol: allele.symbol,
       synonym: allele.synonyms,
@@ -36,7 +36,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
         dataProvider: gene.dataProvider,
         url: allele.crossReferenceMap.primary.url,
       },
-      disease: allele.diseases.sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
+      disease: allele.diseases?.sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
     })) : [];
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resolvedData]);
@@ -50,12 +50,12 @@ const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
   const allelesFiltered = useAllVariants(geneId, tableProps.tableState);
 
   const variantsSequenceViewerProps = useMemo(() => {
-    const variantsFiltered = allelesFiltered.data ? allelesFiltered.data.results.flatMap(
+    const variantsFiltered = (allelesFiltered.data && allelesFiltered.data.results) ? allelesFiltered.data.results.flatMap(
       allele => (allele && allele.variants) || []
     ) : [];
     const variantLocations = variantsFiltered.map(variant => variant && variant.location);
     const { fmin, fmax } = findFminFmax([geneLocation, ...variantLocations]);
-    const alleleIdsFiltered = allelesFiltered.data ? allelesFiltered.data.results.map(allele => (allele.id)) : [];
+    const alleleIdsFiltered = (allelesFiltered.data && allelesFiltered.data.results) ? allelesFiltered.data.results.map(allele => (allele.id)) : [];
 
     /*
        Warning!
@@ -151,7 +151,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
       formatter: (variants) => (
         <div>
           {
-            variants.map(({id, variantType: type = {}, location = {}, transcriptLevelConsequence}) => (
+            variants?.map(({id, variantType: type = {}, location = {}, transcriptLevelConsequence}) => (
               <div key={id} style={{display: 'flex'}}>
                 <div
                   style={{
