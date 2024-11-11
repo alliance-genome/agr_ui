@@ -44,10 +44,9 @@ class SingleFilterSelector extends Component {
   }
 
   renderFilterValues() {
-    let values = removeBlankValue(this.props.values)
-      .slice(0, this.state.numVisible);
+    let values = removeBlankValue(this.props.values)?.slice(0, this.state.numVisible);
 
-    return values.map( value =>
+    return values?.map( value =>
       (<SingleFilterValue
         key={`fv.${this.props.name}.${value.name}`}
         value={value}
@@ -101,7 +100,7 @@ class SingleFilterSelector extends Component {
   }
 
   renderControlNode() {
-    if (this.props.values.length <= SMALL_NUM_VISIBLE) {
+    if (this.props.values?.length <= SMALL_NUM_VISIBLE) {
       return null;
     }
     let moreLabel = (this.state.numVisible !== MAX_NUM_VISIBLE) ? 'Show More' : `Show ${SMALL_NUM_VISIBLE}`;
@@ -125,7 +124,7 @@ class SingleFilterSelector extends Component {
 
   render() {
     // don't render an empty filter
-    if (this.props.values.length === 0) {
+    if (this.props.values?.length === 0) {
       return null;
     }
     let selectableNode = this.state.isSearchMode ? this.renderSearchNode() : this.renderListNode();

@@ -94,7 +94,7 @@ export const selectHomologyGroupTotal = createSelector(
 
 export const selectResults = createSelector(
   [selectSearchDomain],
-  (search) => search.get('results').toJS()
+  (search) => search.get('results')?.toJS()
 );
 
 export const selectTotal = createSelector(
