@@ -39,7 +39,7 @@ const AlleleTransgenicConstructs = ({constructs}) => {
 
             <AttributeLabel>Knock-down Targets</AttributeLabel>
             <AttributeValue placeholder='None'>
-              {construct.targetGenes.length && (
+              {construct.targetGenes?.length && (
                 <CommaSeparatedGeneList genes={construct.targetGenes} />
               )}
             </AttributeValue>
