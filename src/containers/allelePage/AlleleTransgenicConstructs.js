@@ -32,7 +32,7 @@ const AlleleTransgenicConstructs = ({constructs}) => {
 
             <AttributeLabel>Expressed Components</AttributeLabel>
             <AttributeValue placeholder='None'>
-              {construct.expressedGenes.length && (
+              {construct.expressedGenes?.length && (
                 <CommaSeparatedGeneList genes={construct.expressedGenes} />
               )}
             </AttributeValue>
@@ -46,7 +46,7 @@ const AlleleTransgenicConstructs = ({constructs}) => {
 
             <AttributeLabel>Regulatory Regions</AttributeLabel>
             <AttributeValue placeholder='None'>
-              {construct.regulatedByGenes.length && (
+              {construct.regulatedByGenes?.length && (
                 <CommaSeparatedGeneList genes={construct.regulatedByGenes} />
               )}
             </AttributeValue>
