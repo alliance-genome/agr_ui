@@ -94,7 +94,7 @@ function AnnotatedEntitiesPopupCuration({ children, entities, mainRowCurie, pubM
                     <tr key={entity.id}>
                       {columnNameSet.has("Name") && <td>{renderLink(entity)}</td>}
                       {columnNameSet.has("Type") && <td><TypeCellCuration subject={entity.diseaseAnnotationSubject}/></td>}
-                      {columnNameSet.has("Association") && <td><AssociationCellCuration association={entity.relation?.name}/></td>}
+                      {columnNameSet.has("Association") && <td><AssociationCellCuration association={entity.fullRelationString}/></td>}
                       {columnNameSet.has("Additional Implicated Genes") && <td><AssertedGenes assertedGenes={entity.assertedGenes} mainRowCurie={mainRowCurie}/></td>}
                       {(columnNameSet.has("Experimental Condition") && entity.conditionRelations) && <td><ExperimentalConditionCellCuration conditions={entity.conditionRelations}/></td>}
                       {(columnNameSet.has("Experimental Condition") && entity.conditionModifiers) && <td><ExperimentalConditionCellCuration conditions={entity.conditionModifiers}/></td>}
