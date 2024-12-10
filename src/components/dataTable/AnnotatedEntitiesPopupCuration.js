@@ -97,13 +97,17 @@ function AnnotatedEntitiesPopupCuration({ children, entities, mainRowCurie, pubM
                   if(entity.diseaseGeneticModifierAgms != null){
                     diseaseGeneticModifiers = entity.diseaseGeneticModifierAgms;
                   }
+                  var expCondition = entity.conditionRelations;
+                  if(entity.conditionModifiers != null){
+                    expCondition = entity.conditionModifiers;
+                  }
                   return (
                     <tr key={entity.id}>
                       {columnNameSet.has("Name") && <td>{renderLink(entity)}</td>}
                       {columnNameSet.has("Type") && <td><TypeCellCuration subject={entity.diseaseAnnotationSubject}/></td>}
                       {columnNameSet.has("Association") && <td><AssociationCellCuration association={entity.fullRelationString}/></td>}
                       {columnNameSet.has("Additional Implicated Genes") && <td><AssertedGenes assertedGenes={entity.assertedGenes} mainRowCurie={mainRowCurie}/></td>}
-                      {columnNameSet.has("Experimental Condition") && <td><ExperimentalConditionCellCuration conditions={entity.conditionRelations}/></td>}
+                      {columnNameSet.has("Experimental Condition") && <td><ExperimentalConditionCellCuration conditions={expCondition}/></td>}
                       {columnNameSet.has("Genetic Modifiers") && <td><GeneticModifiersCellCuration relation={entity.diseaseGeneticModifierRelation} modifiers={diseaseGeneticModifiers}/></td>}
                       {columnNameSet.has("Strain Background") && <td><StrainBackground strainBackground={entity.sgdStrainBackground}/></td>}
                       {columnNameSet.has("Genetic Sex") && <td><GeneticSex geneticSex={entity.geneticSex}/></td>}
