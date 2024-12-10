@@ -28,8 +28,8 @@ import StrainBackground from './StrainBackground';
 function renderLink(entity) {
   const identifier = getIdentifier(entity.diseaseAnnotationSubject);
   const url = getResourceUrl({
-    identifier, 
-    type: entity.diseaseAnnotationSubject.type, 
+    identifier,
+    type: entity.diseaseAnnotationSubject.type,
     subtype: entity.diseaseAnnotationSubject.subtype
   })
 
@@ -90,15 +90,21 @@ function AnnotatedEntitiesPopupCuration({ children, entities, mainRowCurie, pubM
               {
                 entities.map(entity => {
                   const provider = buildProviderWithUrl(entity);
+                  var diseaseGeneticModifiers = entity.diseaseGeneticModifierAlleles;
+                  if(entity.diseaseGeneticModifierGenes != null){
+                    diseaseGeneticModifiers = entity.diseaseGeneticModifierGenes;
+                  }
+                  if(entity.diseaseGeneticModifierAgms != null){
+                    diseaseGeneticModifiers = entity.diseaseGeneticModifierAgms;
+                  }
                   return (
                     <tr key={entity.id}>
                       {columnNameSet.has("Name") && <td>{renderLink(entity)}</td>}
                       {columnNameSet.has("Type") && <td><TypeCellCuration subject={entity.diseaseAnnotationSubject}/></td>}
                       {columnNameSet.has("Association") && <td><AssociationCellCuration association={entity.fullRelationString}/></td>}
                       {columnNameSet.has("Additional Implicated Genes") && <td><AssertedGenes assertedGenes={entity.assertedGenes} mainRowCurie={mainRowCurie}/></td>}
-                      {(columnNameSet.has("Experimental Condition") && entity.conditionRelations) && <td><ExperimentalConditionCellCuration conditions={entity.conditionRelations}/></td>}
-                      {(columnNameSet.has("Experimental Condition") && entity.conditionModifiers) && <td><ExperimentalConditionCellCuration conditions={entity.conditionModifiers}/></td>}
-                      {columnNameSet.has("Genetic Modifiers") && <td><GeneticModifiersCellCuration relation={entity.diseaseGeneticModifierRelation} modifiers={entity.diseaseGeneticModifierGenes}/></td>}
+                      {columnNameSet.has("Experimental Condition") && <td><ExperimentalConditionCellCuration conditions={entity.conditionRelations}/></td>}
+                      {columnNameSet.has("Genetic Modifiers") && <td><GeneticModifiersCellCuration relation={entity.diseaseGeneticModifierRelation} modifiers={diseaseGeneticModifiers}/></td>}
                       {columnNameSet.has("Strain Background") && <td><StrainBackground strainBackground={entity.sgdStrainBackground}/></td>}
                       {columnNameSet.has("Genetic Sex") && <td><GeneticSex geneticSex={entity.geneticSex}/></td>}
                       {columnNameSet.has("Notes") && <td><RelatedNotes className={style.relatedNotes} relatedNotes={entity.relatedNotes}/></td>}
