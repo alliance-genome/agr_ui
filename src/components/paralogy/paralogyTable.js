@@ -15,11 +15,11 @@ const ParalogyTable = ({geneId}) => {
   if (isLoading) {
     return <LoadingSpinner />;
   }
-  if (data?.results.length === 0) {
+  if (data?.results?.length === 0) {
     return <NoData>No paralogs for the gene.</NoData>
   }
 
-  const results = data.results.sort( (a,b) => {
+  const results = data.results?.sort( (a,b) => {
     if (Number(a.rank) < Number(b.rank)) {
       return -1;
     }
@@ -47,7 +47,7 @@ const ParalogyTable = ({geneId}) => {
                 </thead>
                 <tbody>                 
                 {              
-                  results.map( result => {
+                  results?.map( result => {
                     const rowKey = 'paralogyrowkey-' + result.homologGene.id.replace(/\s/g, '-');
                     return (<tr key={rowKey}>
                       <td>

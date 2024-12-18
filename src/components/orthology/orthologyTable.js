@@ -57,9 +57,8 @@ class OrthologyTable extends Component {
               compareByFixedOrder(TAXON_ORDER, o => getOrthologSpeciesId(o)),
               (orthDataA, orthDataB) => orthDataB.predictionMethodsMatched.length - orthDataA.predictionMethodsMatched.length
             ]).map((orthData, idx, orthList) => {
-              const scoreNumerator = orthData.predictionMethodsMatched.length;
-              const scoreDemominator = scoreNumerator +
-                orthData.predictionMethodsNotMatched.length;
+              const scoreNumerator = orthData.predictionMethodsMatched?.length;
+              const scoreDemominator = scoreNumerator + (orthData.predictionMethodsNotMatched?.length || 0);
               const orthId = getOrthologId(orthData);
 
               if (idx > 0 && getOrthologSpeciesName(orthList[idx - 1]) !== getOrthologSpeciesName(orthData)) {

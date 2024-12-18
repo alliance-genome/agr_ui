@@ -32,21 +32,21 @@ const AlleleTransgenicConstructs = ({constructs}) => {
 
             <AttributeLabel>Expressed Components</AttributeLabel>
             <AttributeValue placeholder='None'>
-              {construct.expressedGenes.length && (
+              {construct.expressedGenes?.length && (
                 <CommaSeparatedGeneList genes={construct.expressedGenes} />
               )}
             </AttributeValue>
 
             <AttributeLabel>Knock-down Targets</AttributeLabel>
             <AttributeValue placeholder='None'>
-              {construct.targetGenes.length && (
+              {construct.targetGenes?.length && (
                 <CommaSeparatedGeneList genes={construct.targetGenes} />
               )}
             </AttributeValue>
 
             <AttributeLabel>Regulatory Regions</AttributeLabel>
             <AttributeValue placeholder='None'>
-              {construct.regulatedByGenes.length && (
+              {construct.regulatedByGenes?.length && (
                 <CommaSeparatedGeneList genes={construct.regulatedByGenes} />
               )}
             </AttributeValue>

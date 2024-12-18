@@ -39,7 +39,7 @@ const AlleleSequenceView = ({ allele }) => {
 
   const genomeLocations = allele.gene.genomeLocations;
   const genomeLocation = genomeLocations && genomeLocations.length > 0 ? genomeLocations[0] : null;
-  if (!genomeLocation || variants.isLoading || variants.isError || variants.data.length === 0 ||visibleTranscripts.data.length === 0) {
+  if (!genomeLocation || variants.isLoading || variants.isError || !variants.data || variants.data.length === 0 || visibleTranscripts.data.length === 0) {
     return null;
   }
 

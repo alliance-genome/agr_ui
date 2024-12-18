@@ -269,5 +269,5 @@ export function isBlankValue(value){
 }
 
 export function removeBlankValue(values){
-  return values.filter(value => !isBlankValue(value));
+  return values?.filter(value => !isBlankValue(value));
 }

@@ -132,7 +132,7 @@ const GeneGeneticInteractionDetailTable = ({
         headerStyle: {
           width: '250px',
         },
-        formatter: (crossReferences = [], {sourceDatabase = {}, aggregationDatabase = {}} = {}) => (
+        formatter: (crossReferences = [], {sourceDatabase = {}, aggregationDatabase} = {}) => (
           <div>
             {
               crossReferences && crossReferences.map(({primaryKey, displayName, prefix, crossRefCompleteUrl} = {}) => (
@@ -142,7 +142,7 @@ const GeneGeneticInteractionDetailTable = ({
               ))
             }
             {
-              (!aggregationDatabase || sourceDatabase.label === aggregationDatabase.label) ?
+              (!aggregationDatabase || sourceDatabase?.label === aggregationDatabase?.label) ?
                 null :
                 <span>
                   <ExternalLink href={sourceDatabase.url}>{sourceDatabase.label}</ExternalLink>
