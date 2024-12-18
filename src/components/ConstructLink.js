@@ -4,7 +4,7 @@ import DataSourceLink from './dataSourceLink';
 
 const ConstructLink = ({construct}) => {
   return (
-    <DataSourceLink reference={construct.crossReferenceMap.primary}>
+    <DataSourceLink reference={construct.crossReferenceMap?.primary}>
       <span dangerouslySetInnerHTML={{__html: construct.name}} />
     </DataSourceLink>
   );

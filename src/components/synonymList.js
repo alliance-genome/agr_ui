@@ -4,13 +4,13 @@ import { CollapsibleList } from './collapsibleList';
 import { compareAlphabeticalCaseInsensitive } from '../lib/utils';
 
 const SynonymList = ({synonyms}) => {
-  return synonyms &&
+  return (synonyms &&
     <CollapsibleList>
       {synonyms
         .sort(compareAlphabeticalCaseInsensitive())
         .map(synonym => <span dangerouslySetInnerHTML={{__html: synonym}} key={synonym} />)
       }
-    </CollapsibleList>;
+    </CollapsibleList>) || <></>;
 };
 
 SynonymList.propTypes = {

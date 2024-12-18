@@ -27,7 +27,7 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
     return `${DEFAULT_TABLE_KEY}-${fieldKey}-${rowIndex}`;
   };
 
-  const data = results.map((interaction = {}) => ({
+  const data = results?.map((interaction = {}) => ({
     id: interaction.primaryKey,
     moleculeType: interaction.interactorAType,
     interactorGeneSymbol: interaction.geneB,
@@ -193,7 +193,7 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
     <DataTable
       {...tableProps}
       columns={columns}
-      data={data}
+      data={data || []}
       downloadUrl={`/api/gene/${focusGeneId}/interactions/download?filter.joinType=molecular_interaction`}
       keyField='id'
       sortOptions={sortOptions}
