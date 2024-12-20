@@ -20,7 +20,7 @@ new AmplifyALBStack(app, 'stage-alb-stack', {
 new AmplifyALBStack(app, 'test-alb-stack', {
   stackName: 'test-alb-stack',
   dnsName: 'test',
-  targetInstanceId: 'i-09809bd286e3e570d',
+  targetInstanceId: 'i-0af918724cfc524c8',
   env: {
     region: process.env.CDK_DEFAULT_REGION,
     account: process.env.CDK_DEFAULT_ACCOUNT,
@@ -30,7 +30,7 @@ new AmplifyALBStack(app, 'test-alb-stack', {
 new AmplifyALBStack(app, 'prod-alb-stack', {
   stackName: 'prod-alb-stack',
   dnsName: 'prod',
-  targetInstanceId: 'i-09809bd286e3e570d',
+  targetInstanceId: 'i-0af918724cfc524c8',
   env: {
     region: process.env.CDK_DEFAULT_REGION,
     account: process.env.CDK_DEFAULT_ACCOUNT,
