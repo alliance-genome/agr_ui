@@ -145,7 +145,7 @@ class ResultsList extends Component {
   }
 
   renderRows() {
-    return this.props.entries.map( (d, i) => {
+    return this.props.entries?.map( (d, i) => {
       if (d.category === 'gene') {
         return this.renderGeneEntry(d, i);
       } else if (['allele', 'dataset','disease', 'go'].includes(d.category)) {
@@ -153,7 +153,7 @@ class ResultsList extends Component {
       } else {
         return this.renderEntry(d,i, ['id','synonyms']);
       }
-    });
+    }) || [];
   }
 
   render() {
