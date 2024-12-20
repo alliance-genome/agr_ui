@@ -22,7 +22,7 @@ const AlleleToDiseaseTable = ({alleleId}) => {
     ...tableProps
   } = useDataTableQuery(`/api/allele/${alleleId}/diseases`);
 
-  const tableData = results.map(annotation => ({
+  const tableData = results?.map(annotation => ({
     providers: buildProvidersWithUrl(annotation.primaryAnnotations),
     ...annotation,
   }));

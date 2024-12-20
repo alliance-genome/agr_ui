@@ -35,7 +35,7 @@ const AlleleSummary = ({allele}) => {
         {allele.constructs && allele.constructs.length && (
           <CommaSeparatedList>
             {allele.constructs.map(construct => (
-              <DataSourceLink key={construct.id} reference={construct.crossReferenceMap.primary}>
+              <DataSourceLink key={construct.id} reference={construct.crossReferenceMap?.primary}>
                 <span dangerouslySetInnerHTML={{__html: construct.name}} />
               </DataSourceLink>
             ))}
