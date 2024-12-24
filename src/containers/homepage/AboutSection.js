@@ -41,7 +41,7 @@ const AboutSection = () => {
                   <FontAwesomeIcon icon={faComments} /> Join the Alliance User Community
                 </h4>
                 <p>
-                  Click here to access official announcements, ask questions, and view discussions with other members of the Alliance Community.
+                  Access official announcements, ask questions, and view discussions with other members of the Alliance Community.
                 </p>
                 <p className='mb-0'>
                   Join today to stay up-to-date.
