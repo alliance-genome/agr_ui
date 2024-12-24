@@ -1,7 +1,7 @@
 import React from 'react';
 import WordpressInject from '../wordpress/wordpressInject';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faComments } from '@fortawesome/free-solid-svg-icons';
+import { faComments, faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 
 import style from './style.module.scss';
 
@@ -12,6 +12,22 @@ const AboutSection = () => {
         <div className='row'>
           <div className='col-lg-12'>
             <WordpressInject  slug='agr-summary-homepage' />
+          </div>
+          <div className='col-md-4'>
+            <a
+              className='text-decoration-none'
+              href='/event-calendar'
+              rel="noopener noreferrer"
+            >
+              <div className='alert alert-secondary'>
+                <h4 className='alert-heading'>
+                  <FontAwesomeIcon icon={faCalendarDays} /> Watch Live Events
+                </h4>
+                <p>
+                  Register for scheduled webinars and view previous recorded Alliance events.
+                </p>
+              </div>
+            </a>
           </div>
           <div className='col-md-4'>
             <a
