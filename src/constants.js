@@ -166,6 +166,10 @@ export const NAV_MENU = [
       {
         label: 'Release Notes',
         route: '/release-notes'
+      },
+      {
+        label: 'Event Calendar',
+        route: '/event-calendar'
       }
     ]
   },
