@@ -51,16 +51,19 @@ export default function useDataTableQuery(baseUrl, config, initialTableState, fe
 
   const setTableState = tableState => dispatch({ type: 'update', payload: tableState });
 
-  const query = useQuery({
-    queryKey: [url, tableState],
-    queryFn: () => fetchData(getFullUrl(url, tableState), fetchOptions, fetchTimeout),
-    keepPreviousData: true,
-    ...config,
-  });
+  const query = useQuery(
+    [url, tableState],
+    () => fetchData(getFullUrl(url, tableState), fetchOptions, fetchTimeout),
+    {
+      keepPreviousData: true,
+      placeholderData: [],
+      ...config,
+    }
+  );
 
   return {
     ...query,
-    data: query?.resolvedData?.results || [],
+    data: query?.data?.results || [],
     setTableState,
     tableState,
     totalRows: query.data ? query.data.total : 0,
