@@ -58,7 +58,7 @@ const ExpressionComparisonRibbon = ({
   let updatedSummary;
   if (summary.data) {
     const taxonIdYeast = 'NCBITaxon:559292';
-    const categories = summary.data.categories.filter(category => !(
+    const categories = summary.data?.categories?.filter(category => !(
       selectedOrthologs.length === 0 &&
       geneTaxon === taxonIdYeast &&
       category.id.startsWith('UBERON:')

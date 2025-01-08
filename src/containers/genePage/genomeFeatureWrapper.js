@@ -219,6 +219,7 @@ class GenomeFeatureWrapper extends Component {
     // const visibleVariants = allelesVisible && allelesVisible.length>0 ? allelesVisible.map( a => a.id ) : undefined;
     const trackConfig = this.generateTrackConfig(fmin, fmax, chromosome, species, nameSuffixString, visibleVariants, displayType,isoformFilter,htpVariant,allelesSelected);
     this.gfc = new GenomeFeatureViewer(trackConfig, `#${id}`, 900, undefined);
+    console.log('genome feature viewer',this.gfc);
     this.setState({
       helpText: this.gfc.generateLegend()
     });

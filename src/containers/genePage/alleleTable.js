@@ -23,12 +23,12 @@ const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
 
   const tableProps = useDataTableQuery(`/api/gene/${geneId}/alleles`);
   const {
-    resolvedData,
+    data: resolvedData,
     isLoading,
   } = tableProps;
 
   const data = useMemo(() => {
-    return resolvedData ? resolvedData.results?.map(allele => ({
+    return resolvedData ? resolvedData?.map(allele => ({
       ...allele,
       symbol: allele.symbol,
       synonym: allele.synonyms,
