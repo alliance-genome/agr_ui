@@ -9,7 +9,6 @@ import {
 } from '../../components/dataTable';
 import NoData from '../../components/noData';
 import { CollapsibleList } from '../../components/collapsibleList';
-import {getDistinctFieldValue, } from '../../components/dataTable/utils';
 import ExternalLink from '../../components/ExternalLink';
 import {VariantJBrowseLink} from '../../components/variant';
 import RotatedHeaderCell from '../../components/dataTable/RotatedHeaderCell';
@@ -139,7 +138,8 @@ const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
       },
       headerStyle: {width: '140px'},
       filterName: 'alleleCategory',
-      filterable: getDistinctFieldValue(resolvedData, 'filter.alleleCategory'),
+      filterType: 'checkbox',
+      filterable: true,
     },
     {
       dataField: 'variants',
@@ -212,8 +212,8 @@ const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
       style: {
         display: 'none',
       },
-      // filterable: ['delins', 'point mutation', 'insertion', 'deletion', 'MNV'],
-      filterable: getDistinctFieldValue(resolvedData, 'filter.variantType'),
+      filterType: 'checkbox',
+      filterable: true,
     },
     {
       dataField: 'variants.transcriptLevelConsequence',
@@ -228,7 +228,8 @@ const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
         display: 'none',
       },
       filterName: 'molecularConsequence',
-      filterable: getDistinctFieldValue(resolvedData, 'filter.molecularConsequence'),
+      filterType: 'checkbox',
+      filterable: true,
     },
     {
       dataField: 'hasDisease',

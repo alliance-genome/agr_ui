@@ -7,6 +7,7 @@ import '@testing-library/jest-dom'
 import thunk from 'redux-thunk';
 import configureMockStore from "redux-mock-store";
 import { Provider } from 'react-redux';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const initialState = {isLoading:false, payload: []}
 const middlewares = [thunk];
@@ -27,7 +28,14 @@ describe('WormBase Title', () => {
     members.forEach(element => {
         it('Should render mod landing page for ' + element, async () => {
             let content = MODContent[element];
-            render(<Provider store={store}> <Main modId={element}/> </Provider>);
+            const queryClient = new QueryClient();
+            render(
+                <QueryClientProvider client={queryClient}>
+                    <Provider store={store}> 
+                        <Main modId={element}/> 
+                    </Provider>
+                </QueryClientProvider>
+            );
 
             const news_div = await waitFor(() => screen.findByTestId("div_news_2"), { timeout: 8000 });
 
@@ -48,7 +56,14 @@ describe('WormBase Title', () => {
         const oth_mem = ['rgd', 'goc', 'mgd'];
         it('Should render mod landing page for ' + element, () => {
             let content = MODContent[element];
-            render(<Provider store={store}> <Main modId={element}/> </Provider>);
+            const queryClient = new QueryClient();
+            render(
+                <QueryClientProvider client={queryClient}>
+                    <Provider store={store}> 
+                        <Main modId={element}/> 
+                    </Provider>
+                </QueryClientProvider>
+            );
 
             const top_div = screen.getByTestId("modlanding_div");
             const aboutnewsmeet = screen.getByTestId("modlanding_middle");
