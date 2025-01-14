@@ -31,6 +31,7 @@ const GeneGeneticInteractionDetailTable = ({
         },
         formatter: (term, _, rowIndex) => <MITerm {...term} id={`genetic_interaction-interactorARole-${rowIndex}`} />,
         filterable: true,
+        filterType: 'checkbox',
         filterName: 'role',
       },
       {
@@ -65,6 +66,7 @@ const GeneGeneticInteractionDetailTable = ({
         },
         formatter: (species) => <SpeciesCell species={species} />,
         filterable: true,
+        filterType: 'checkbox',
         filterName: 'interactorSpecies',
       },
       {
@@ -79,6 +81,7 @@ const GeneGeneticInteractionDetailTable = ({
         },
         formatter: (term, _, rowIndex) => <MITerm {...term} id={`genetic_interaction-interactorBRole-${rowIndex}`} />,
         filterable: true,
+        filterType: 'checkbox',
         filterName: 'interacotorRole',
       },
       {
@@ -107,6 +110,7 @@ const GeneGeneticInteractionDetailTable = ({
         },
         formatter: (term, _, rowIndex) => <MITerm {...term} id={`genetic_interaction-interactionType-${rowIndex}`} />,
         filterable: true,
+        filterType: 'checkbox',
       },
       {
         dataField: 'phenotypes',
@@ -186,7 +190,7 @@ const GeneGeneticInteractionDetailTable = ({
   return (
     <DataTable
       {...tableProps}
-      data={tableProps?.data?.results}
+      data={tableProps?.data}
       downloadUrl={`/api/gene/${focusGeneId}/interactions/download?filter.joinType=genetic_interaction`}
       columns={columns}
       sortOptions={sortOptions}

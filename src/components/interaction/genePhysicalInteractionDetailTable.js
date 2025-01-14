@@ -26,7 +26,7 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
     return `${DEFAULT_TABLE_KEY}-${fieldKey}-${rowIndex}`;
   };
 
-  const data = results?.results?.map((interaction = {}) => ({
+  const data = results?.map((interaction = {}) => ({
     id: interaction.primaryKey,
     moleculeType: interaction.interactorAType,
     interactorGeneSymbol: interaction.geneB,
@@ -66,7 +66,8 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
       headerStyle: {width: '6em'},
       headerClasses: style.columnHeaderGroup1,
       classes: style.columnGroup1,
-      filterable: getDistinctFieldValue(data, 'filter.moleculeType'),
+      filterType: 'checkbox',
+      filterable: true,
     },
     {
       dataField: 'interactorGeneSymbol',
@@ -84,7 +85,8 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
       headerStyle: {width: '8em'},
       headerClasses: style.columnHeaderGroup2,
       classes: style.columnGroup2,
-      filterable: getDistinctFieldValue(data, 'filter.interactorSpecies').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
+      filterType: 'checkbox',
+      filterable: getDistinctFieldValue(tableProps.supplementalData, 'filter.interactorSpecies').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
     },
     {
@@ -99,7 +101,8 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
       headerStyle: {width: '6em'},
       headerClasses: style.columnHeaderGroup2,
       classes: style.columnGroup2,
-      filterable: getDistinctFieldValue(data, 'filter.interactorMoleculeType'),
+      filterType: 'checkbox',
+      filterable: true,
     },
     {
       dataField: 'detectionMethod',
@@ -197,8 +200,8 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
       keyField='id'
       sortOptions={sortOptions}
       summaryProps={
-        (data && data.supplementalData) ? {
-          ...data.supplementalData.annotationSummary,
+        (tableProps && tableProps.supplementalData) ? {
+          ...tableProps.supplementalData.annotationSummary,
           entityType: 'interactor gene'
         } : null
       }

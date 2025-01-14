@@ -15,8 +15,6 @@ const PhenotypeTable = ({geneId}) => {
     ...tableProps
   } = useDataTableQuery(`/api/gene/${geneId}/phenotypes`);
 
-  console.log('results', results);
-
   const data = results?.map(record => ({
     ...record,
     id: hash(record),

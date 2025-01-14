@@ -64,6 +64,7 @@ export default function useDataTableQuery(baseUrl, config, initialTableState, fe
   return {
     ...query,
     data: query?.data?.results || [],
+    supplementalData: query?.data?.supplementalData || {},
     setTableState,
     tableState,
     totalRows: query.data ? query.data.total : 0,

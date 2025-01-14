@@ -7,6 +7,7 @@ import {MODContent} from '../../content';
 import { Provider } from 'react-redux';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
  const content = MODContent['zfin'];
 
@@ -25,11 +26,19 @@ import '@testing-library/jest-dom'
 
  describe('App', () => {
      beforeEach(() => {
-       render(<Provider store={store}> <MeetingsZfin
-              urlMeetingsMod={content.zfinMeetingsAPI}
-              fetchMeetingsCount={content.fetchMeetingsCount}
-              linkToMeetingsPage={content.linkToMeetingsPage}
-              sectionStyle={content.sectionStyle} /></Provider>)
+      const queryClient = new QueryClient();
+      render(
+         <QueryClientProvider client={queryClient}>
+            <Provider store={store}> 
+               <MeetingsZfin
+                  urlMeetingsMod={content.zfinMeetingsAPI}
+                  fetchMeetingsCount={content.fetchMeetingsCount}
+                  linkToMeetingsPage={content.linkToMeetingsPage}
+                  sectionStyle={content.sectionStyle} 
+               />
+            </Provider>
+         </QueryClientProvider>
+      )
      });
 
      it('should render successfully', async () => {

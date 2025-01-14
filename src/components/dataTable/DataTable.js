@@ -32,6 +32,7 @@ const DataTable = ({
   className,
   columns,
   data,
+  supplementalData,
   downloadUrl,
   error,
   isError,
@@ -147,7 +148,7 @@ const DataTable = ({
 
       const distinctFieldValues = Array.isArray(column.filterable) ?
         column.filterable :
-        getDistinctFieldValue(data, `filter.${filterField}`);
+        getDistinctFieldValue(supplementalData, `filter.${filterField}`);
 
       if (distinctFieldValues && distinctFieldValues.length > 0) {
         column.filterRenderer = (onFilter, column) => (
@@ -252,6 +253,7 @@ DataTable.propTypes = {
   className: PropTypes.string,
   columns: PropTypes.array.isRequired,
   data: PropTypes.arrayOf(PropTypes.object),
+  supplementalData: PropTypes.object,
   downloadUrl: PropTypes.string,
   error: PropTypes.object,
   isError: PropTypes.bool,
