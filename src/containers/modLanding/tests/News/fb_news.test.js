@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import NewsFlybase from "../../NewsFlybase";
 import thunk from 'redux-thunk';
 import configureMockStore from "redux-mock-store";
@@ -25,10 +26,18 @@ import '@testing-library/jest-dom'
 
  describe('App', () => {
      beforeEach(() => {
-       render(<Provider store={store}> <NewsFlybase
-              urlNewsMod={content.flybaseNewsAPI}
-              linkToNewsPage={content.linkToNewsPage}
-              fetchNewsCount={content.fetchNewsCount}/></Provider>)
+      const queryClient = new QueryClient();
+       render(
+         <QueryClientProvider client={queryClient}>
+            <Provider store={store}>
+               <NewsFlybase
+                  urlNewsMod={content.flybaseNewsAPI}
+                  linkToNewsPage={content.linkToNewsPage}
+                  fetchNewsCount={content.fetchNewsCount}
+               />
+            </Provider>
+         </QueryClientProvider>
+      )
      });
 
      it('should render successfully', async () => {
