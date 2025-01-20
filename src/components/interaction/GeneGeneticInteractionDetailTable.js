@@ -122,7 +122,7 @@ const GeneGeneticInteractionDetailTable = ({
           <CollapsibleList>
             {
               (phenotypes || []).map(({phenotypeStatement}) => {
-                return <span key={phenotypeStatement}>{phenotypeStatement}</span>;
+                return phenotypeStatement && <span key={phenotypeStatement}>{phenotypeStatement}</span>;
               })
             }
           </CollapsibleList>
