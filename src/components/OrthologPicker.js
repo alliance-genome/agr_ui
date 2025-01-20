@@ -99,17 +99,17 @@ const OrthologPicker =({
       return;
     }
     let selectedOrthologs = [];
-    if (checkboxValue) {
-      selectedOrthologs = orthology.data.results?.sort(compareBySpeciesThenAlphabetical)
+    if (checkboxValue || orthology.data.results) {
+      selectedOrthologs = orthology.data.results.sort(compareBySpeciesThenAlphabetical)
         .filter(o => geneHasData(getOrthologId(o)));
       if (stringency) {
-        selectedOrthologs = selectedOrthologs?.filter(byStringency(stringency.value));
+        selectedOrthologs = selectedOrthologs.filter(byStringency(stringency.value));
       }
       if (selectedSpecies.length) {
-        selectedOrthologs = selectedOrthologs?.filter(bySpecies(selectedSpecies));
+        selectedOrthologs = selectedOrthologs.filter(bySpecies(selectedSpecies));
       }
     }
-    onChange(selectedOrthologs || []);
+    onChange(selectedOrthologs);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orthology.isLoading, checkboxValue, stringency, selectedSpecies]);
 
