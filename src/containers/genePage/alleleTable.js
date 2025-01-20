@@ -27,7 +27,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
   } = tableProps;
 
   const data = useMemo(() => {
-    return resolvedData ? resolvedData?.map(allele => ({
+    return (resolvedData || []).map(allele => ({
       ...allele,
       symbol: allele.symbol,
       synonym: allele.synonyms,
@@ -36,7 +36,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
         url: allele.crossReferenceMap.primary.url,
       },
       disease: allele.diseases?.sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
-    })) : [];
+    }));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resolvedData]);
 
