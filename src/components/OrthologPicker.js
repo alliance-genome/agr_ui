@@ -83,13 +83,14 @@ const OrthologPicker =({
   // data from API
   const orthology = useGeneOrthology(focusGeneId);
 
+  
   const geneHasData = (id) => {
     if (!geneHasDataTest) {
       return true;
     }
     return geneHasDataTest(orthology.data.supplementalData[id]);
   };
-
+  
   // if the orthology data has settled, filter it and pass it back to the parent
   // via the `onChange` callback whenever the orthology or one of the UI controls
   // has changed
@@ -98,14 +99,14 @@ const OrthologPicker =({
       return;
     }
     let selectedOrthologs = [];
-    if (checkboxValue) {
-      selectedOrthologs = orthology.data.results?.sort(compareBySpeciesThenAlphabetical)
+    if (checkboxValue || orthology.data.results) {
+      selectedOrthologs = orthology.data.results.sort(compareBySpeciesThenAlphabetical)
         .filter(o => geneHasData(getOrthologId(o)));
       if (stringency) {
-        selectedOrthologs = selectedOrthologs?.filter(byStringency(stringency.value));
+        selectedOrthologs = selectedOrthologs.filter(byStringency(stringency.value));
       }
       if (selectedSpecies.length) {
-        selectedOrthologs = selectedOrthologs?.filter(bySpecies(selectedSpecies));
+        selectedOrthologs = selectedOrthologs.filter(bySpecies(selectedSpecies));
       }
     }
     onChange(selectedOrthologs);
