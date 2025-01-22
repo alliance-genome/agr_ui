@@ -20,6 +20,8 @@ import DiseaseLinkCuration from './DiseaseLinkCuration';
 import DiseaseQualifiersColumn from "../dataTable/DiseaseQualifiersColumn";
 import { GENE_DETAILS_COLUMNS } from '../dataTable/constants';
 
+import hash from 'object-hash';
+
 
 /*
  * Disease ribbon-table
@@ -162,6 +164,7 @@ const DiseaseAnnotationTable = ({
     species: annotation.subject.taxon,
     providers: buildProvidersWithUrl(annotation.primaryAnnotations),
     basedOn: buildWith(annotation),
+    id: hash(annotation),
     ...annotation,
   }));
 

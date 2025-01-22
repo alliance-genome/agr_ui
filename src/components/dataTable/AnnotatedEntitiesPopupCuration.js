@@ -8,6 +8,7 @@ import {
 } from 'reactstrap';
 import { SingleReferenceCellCuration } from './index';
 import ExperimentalConditionCellCuration from './ExperimentalConditionCellCuration';
+import hash from 'object-hash';
 
 import style from './style.module.scss';
 import ExternalLink from '../ExternalLink';
@@ -90,7 +91,7 @@ function AnnotatedEntitiesPopupCuration({ children, entities, mainRowCurie, pubM
               {
                 entities.map(entity => {
                   const provider = buildProviderWithUrl(entity);
-                  const timeStamp = entity.dateCreated;
+                  const key = hash(entity);
 
                   var diseaseGeneticModifiers = entity.diseaseGeneticModifierAlleles;
                   if(entity.diseaseGeneticModifierGenes != null){
@@ -103,23 +104,23 @@ function AnnotatedEntitiesPopupCuration({ children, entities, mainRowCurie, pubM
                   if(entity.conditionModifiers != null){
                     expCondition = entity.conditionModifiers;
                   }
-                  return (
-                    <tr key={timeStamp}>
-                      {columnNameSet.has("Name") && <td key={`name-${timeStamp}`}>{renderLink(entity)}</td>}
-                      {columnNameSet.has("Type") && <td key={`type-${timeStamp}`}><TypeCellCuration subject={entity.diseaseAnnotationSubject}/></td>}
-                      {columnNameSet.has("Association") && <td key={`association-${timeStamp}`}><AssociationCellCuration association={entity.fullRelationString}/></td>}
-                      {columnNameSet.has("Additional Implicated Genes") && <td key={`genes-${timeStamp}`}><AssertedGenes assertedGenes={entity.assertedGenes} mainRowCurie={mainRowCurie}/></td>}
-                      {columnNameSet.has("Experimental Condition") && <td key={`condition-${timeStamp}`}><ExperimentalConditionCellCuration conditions={expCondition}/></td>}
-                      {columnNameSet.has("Genetic Modifiers") && <td key={`modifiers-${timeStamp}`}><GeneticModifiersCellCuration relation={entity.diseaseGeneticModifierRelation} modifiers={diseaseGeneticModifiers}/></td>}
-                      {columnNameSet.has("Strain Background") && <td key={`strain-${timeStamp}`}><StrainBackground strainBackground={entity.sgdStrainBackground}/></td>}
-                      {columnNameSet.has("Genetic Sex") && <td key={`sex-${timeStamp}`}><GeneticSex geneticSex={entity.geneticSex}/></td>}
-                      {columnNameSet.has("Notes") && <td key={`notes-${timeStamp}`}><RelatedNotes className={style.relatedNotes} relatedNotes={entity.relatedNotes}/></td>}
-                      {columnNameSet.has("Annotation Type") && <td key={`ann-type-${timeStamp}`}><AnnotationType annotationType={entity.annotationType}/></td>}
-                      {columnNameSet.has("Evidence Codes") && <td key={`evidence-${timeStamp}`}><EvidenceCodesCellCuration evidenceCodes={entity.evidenceCodes}/></td>}
-                      {columnNameSet.has("Source") && <td key={`providers-${timeStamp}`}><ProviderCellCuration provider={provider} /></td>}
-                      {columnNameSet.has("References") && <td key={`reference-${timeStamp}`}><SingleReferenceCellCuration singleReference={entity.singleReference} pubModIds={pubModIds}/></td>}
+                    return (
+                    <tr key={key}>
+                      {columnNameSet.has("Name") && <td>{renderLink(entity)}</td>}
+                      {columnNameSet.has("Type") && <td><TypeCellCuration subject={entity.diseaseAnnotationSubject}/></td>}
+                      {columnNameSet.has("Association") && <td><AssociationCellCuration association={entity.fullRelationString}/></td>}
+                      {columnNameSet.has("Additional Implicated Genes") && <td><AssertedGenes assertedGenes={entity.assertedGenes} mainRowCurie={mainRowCurie}/></td>}
+                      {columnNameSet.has("Experimental Condition") && <td><ExperimentalConditionCellCuration conditions={expCondition}/></td>}
+                      {columnNameSet.has("Genetic Modifiers") && <td><GeneticModifiersCellCuration relation={entity.diseaseGeneticModifierRelation} modifiers={diseaseGeneticModifiers}/></td>}
+                      {columnNameSet.has("Strain Background") && <td><StrainBackground strainBackground={entity.sgdStrainBackground}/></td>}
+                      {columnNameSet.has("Genetic Sex") && <td><GeneticSex geneticSex={entity.geneticSex}/></td>}
+                      {columnNameSet.has("Notes") && <td><RelatedNotes className={style.relatedNotes} relatedNotes={entity.relatedNotes}/></td>}
+                      {columnNameSet.has("Annotation Type") && <td><AnnotationType annotationType={entity.annotationType}/></td>}
+                      {columnNameSet.has("Evidence Codes") && <td><EvidenceCodesCellCuration evidenceCodes={entity.evidenceCodes}/></td>}
+                      {columnNameSet.has("Source") && <td><ProviderCellCuration provider={provider} /></td>}
+                      {columnNameSet.has("References") && <td><SingleReferenceCellCuration singleReference={entity.singleReference} pubModIds={pubModIds}/></td>}
                     </tr>
-                )
+                  )
               })
               }
             </tbody>

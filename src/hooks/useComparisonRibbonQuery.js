@@ -35,7 +35,10 @@ export default function useComparisonRibbonQuery(
     }, 
     // this prevents a request from being fired before orthology data is loaded
     enabled: !!comparisonGenes,
-    placeholderData: null,
+    placeholderData: {
+      categories: [],
+      subjects: [],
+    },
     keepPreviousData: true,
 });
 }

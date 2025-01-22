@@ -16,7 +16,7 @@ const BasedOnGeneCellCuration = (genes) => {
   const uniqueGenes = removeDuplicates(genes, (gene) => gene.geneSymbol.displayText);
   return (
     <CollapsibleList collapsedSize={uniqueGenes.length}>
-      {uniqueGenes.map(gene => <GeneLink gene={gene} /> )}
+      {uniqueGenes.map(gene => <GeneLink key={gene.geneSymbol.displayText} gene={gene} /> )}
     </CollapsibleList>
   );
 };
