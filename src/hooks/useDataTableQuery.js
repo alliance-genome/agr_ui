@@ -56,7 +56,6 @@ export default function useDataTableQuery(baseUrl, config, initialTableState, fe
     () => fetchData(getFullUrl(url, tableState), fetchOptions, fetchTimeout),
     {
       keepPreviousData: true,
-      placeholderData: [],
       ...config,
     }
   );

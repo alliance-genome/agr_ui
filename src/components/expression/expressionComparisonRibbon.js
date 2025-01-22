@@ -56,7 +56,7 @@ const ExpressionComparisonRibbon = ({
 
   // we only show the GO CC category if only a yeast gene is being shown
   let updatedSummary;
-  if (summary.data) {
+  if (summary.data && selectedOrthologs) {
     const taxonIdYeast = 'NCBITaxon:559292';
     let categories = summary.data.categories || [];
     if (categories && selectedOrthologs.length === 0 && geneTaxon === taxonIdYeast) {
