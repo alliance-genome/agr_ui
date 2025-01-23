@@ -153,7 +153,7 @@ const DiseaseToAlleleTable = ({id}) => {
       columns={columns}
       data={rows}
       downloadUrl={`/api/disease/${id}/alleles/download`}
-      keyField='primaryKey'
+      keyField='uniqueId'
       sortOptions={sortOptions}
     />
   );

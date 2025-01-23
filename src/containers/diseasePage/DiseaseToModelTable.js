@@ -167,7 +167,7 @@ const DiseaseToModelTable = ({id}) => {
       columns={columns}
       data={data}
       downloadUrl={`/api/disease/${id}/models/download`}
-      keyField='primaryKey'
+      keyField='uniqueId'
       sortOptions={sortOptions}
     />
   );

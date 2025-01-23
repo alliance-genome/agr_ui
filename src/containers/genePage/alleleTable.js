@@ -281,10 +281,6 @@ const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
     //   label: 'Allele symbol',
     // }, // default
     {
-      value: 'disease',
-      label: 'Associated Human Disease',
-    },
-    {
       value: 'variant',
       label: 'Variant',
     },
