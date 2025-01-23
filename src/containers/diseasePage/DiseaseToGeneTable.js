@@ -179,7 +179,7 @@ const DiseaseToGeneTable = ({ id }) => {
       columns={columns}
       data={rows}
       downloadUrl={`/api/disease/${id}/genes/download`}
-      keyField='primaryKey'
+      keyField='uniqueId'
       sortOptions={sortOptions}
     />
   );
