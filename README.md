@@ -38,7 +38,7 @@ _Note: the command uses **npm**, not nvm. NPM deals with package dependencies._
 
 ## Build
 
-To build an app or lib for production
+To build an app or lib for production and to also to build the resource descriptors file when running locally: 
 
 ```bash
 npm run build 
