@@ -102,6 +102,10 @@ export const NAV_MENU = [
         route: '/textpresso',
       },
       {
+        label: 'BLAST Service',
+        route: '/blast',
+      },
+      {
         label: 'Tools and Prototypes',
         route: '/prototypes',
       },
