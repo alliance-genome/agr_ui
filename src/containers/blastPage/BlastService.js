@@ -5,9 +5,9 @@ function listPublicServers(blastEnv) {
   const mods = Object.entries(blastEnv);
   let blastServerList = [];
 
-  mods.map(([mod, modServers]) => {
+  mods.forEach(([mod, modServers]) => {
     const servers = Object.entries(modServers);
-    servers.map(([server, serverData]) => {
+    servers.forEach(([server, serverData]) => {
       if (serverData.public) {
         const serverItem = { name: server, ...serverData };
         blastServerList.push(serverItem);
