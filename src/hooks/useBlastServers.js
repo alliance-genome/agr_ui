@@ -6,6 +6,6 @@ const BLAST_SERVER_ENVIRONMENT_URL = 'https://blast.alliancegenome.org/blast/env
 export default function useBlastServers() {
   return useQuery(['blast-servers'], () => {
     // I changed this from quoted with back-ticks to qouted with single qoutes
-    return fetchData('https://blast.alliancegenome.org/blast/environment_info.json');
+    return fetchData(BLAST_SERVER_ENVIRONMENT_URL);
   });
 }
