@@ -20,6 +20,7 @@ import AllelePage from './containers/allelePage/AllelePage';
 import VariantPage from './containers/allelePage/VariantPage';
 import MODLanding from './containers/modLanding/Main';
 import AlzheimersPage from './containers/alzheimersPage';
+import BlastPage from './containers/blastPage';
 
 export default (
   <Layout>
@@ -36,6 +37,7 @@ export default (
       <Route exact path='/downloads' component={DownloadsPage} />
       <Route exact path='/members/:id' render={({ match }) => <MODLanding modId={match.params.id} />} />
       <Route exact path='/disease-portal/alzheimers-disease' component={AlzheimersPage} />
+      <Route exact path='/blast' component={BlastPage} />
 
 
       {/* this one needs to be handled outside of the main application */}

@@ -51,6 +51,10 @@ export class AmplifyTestStack extends cdk.Stack {
       { source: '/bluegenes/',                         target: 'https://production-alliancemine.alliancegenome.org:444/bluegenes/alliancemine',       status: amplify.RedirectStatus.REWRITE },
       { source: '/bluegenes/<*>',                      target: 'https://production-alliancemine.alliancegenome.org:444/bluegenes/<*>',                status: amplify.RedirectStatus.REWRITE },
 
+      { source: '/blast',                              target: 'https://test.alliancegenome.org/blast',                                               status: amplify.RedirectStatus.REWRITE },
+      { source: '/blast/',                             target: 'https://test.alliancegenome.org/blast/',                                              status: amplify.RedirectStatus.REWRITE },
+      { source: '/blast/<*>',                          target: 'https://blast.alliancegenome.org/blast/<*>',                                          status: amplify.RedirectStatus.REWRITE },
+
       { source: '/swagger-ui',                         target: 'https://test-alb.alliancegenome.org/swagger-ui',                                      status: amplify.RedirectStatus.REWRITE },
       { source: '/swagger-ui/',                        target: 'https://test-alb.alliancegenome.org/swagger-ui/',                                     status: amplify.RedirectStatus.REWRITE },
       { source: '/swagger-ui/<*>',                     target: 'https://test-alb.alliancegenome.org/swagger-ui/<*>',                                  status: amplify.RedirectStatus.REWRITE },
