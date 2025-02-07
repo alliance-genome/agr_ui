@@ -69,6 +69,9 @@ export class AmplifyStageStack extends cdk.Stack {
       { source: '/textpresso/fb/',                     target: 'https://stage.alliancegenome.org/textpresso/fb/tpc',                                    status: amplify.RedirectStatus.PERMANENT_REDIRECT },
       { source: '/textpresso/fb/<*>',                  target: 'https://fb-textpresso.alliancegenome.org/<*>',                                        status: amplify.RedirectStatus.REWRITE },
 
+      { source: '/blast/',                             target: 'https://stage.alliancegenome.org/blast',                                              status: amplify.RedirectStatus.PERMANENT_REDIRECT },
+      { source: '/blast/<*>',                          target: 'https://blast.alliancegenome.org/blast/<*>',                                          status: amplify.RedirectStatus.REWRITE },
+
       { source: '/<*>',                                target: '/index.html',                                                                         status: amplify.RedirectStatus.NOT_FOUND_REWRITE },
       { source: '</^[^.]+$/>',                         target: '/index.html',                                                                         status: amplify.RedirectStatus.REWRITE }
     ];
