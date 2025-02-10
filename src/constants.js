@@ -101,6 +101,11 @@ export const NAV_MENU = [
         label: 'Textpresso',
         route: '/textpresso',
       },
+      // Uncomment when BLAST Service menu item is ready for test/prod
+      // {
+      //   label: 'BLAST Service',
+      //   route: '/blast',
+      // },
       {
         label: 'Tools and Prototypes',
         route: '/prototypes',
@@ -166,6 +171,10 @@ export const NAV_MENU = [
       {
         label: 'Release Notes',
         route: '/release-notes'
+      },
+      {
+        label: 'Event Calendar',
+        route: '/event-calendar'
       }
     ]
   },
