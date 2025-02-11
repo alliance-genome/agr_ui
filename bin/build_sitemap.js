@@ -27,7 +27,8 @@ var sitemap = sm.createSitemap({
     { url: '/phenotypes-and-disease-models',    changefreq: 'monthly', priority: 0.7, lastmodrealtime: true },
     { url: '/submit-data',    changefreq: 'monthly', priority: 0.7, lastmodrealtime: true },
     { url: '/textpresso',    changefreq: 'monthly', priority: 0.7, lastmodrealtime: true },
-    { url: '/event-calendar',    changefreq: 'monthly', priority: 0.7, lastmodrealtime: true }
+    { url: '/event-calendar',    changefreq: 'monthly', priority: 0.7, lastmodrealtime: true },
+    { url: '/blast',    changefreq: 'monthly', priority: 0.7, lastmodrealtime: true }
   ]
 });
 
