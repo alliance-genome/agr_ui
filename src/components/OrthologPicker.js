@@ -100,7 +100,7 @@ const OrthologPicker =({
       return;
     }
     let selectedOrthologs = [];
-    if (checkboxValue || orthologyResults) {
+    if (checkboxValue && orthologyResults) {
       selectedOrthologs = orthologyResults.sort(compareBySpeciesThenAlphabetical)
         .filter(o => geneHasData(getOrthologId(o)));
       if (stringency) {
