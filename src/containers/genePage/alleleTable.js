@@ -9,7 +9,6 @@ import {
 } from '../../components/dataTable';
 import NoData from '../../components/noData';
 import { CollapsibleList } from '../../components/collapsibleList';
-import {getDistinctFieldValue, } from '../../components/dataTable/utils';
 import ExternalLink from '../../components/ExternalLink';
 import {VariantJBrowseLink} from '../../components/variant';
 import RotatedHeaderCell from '../../components/dataTable/RotatedHeaderCell';
@@ -23,12 +22,12 @@ const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
 
   const tableProps = useDataTableQuery(`/api/gene/${geneId}/alleles`);
   const {
-    resolvedData,
+    data: resolvedData,
     isLoading,
   } = tableProps;
 
   const data = useMemo(() => {
-    return resolvedData ? resolvedData.results?.map(allele => ({
+    return (resolvedData || []).map(allele => ({
       ...allele,
       symbol: allele.symbol,
       synonym: allele.synonyms,
@@ -37,14 +36,14 @@ const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
         url: allele.crossReferenceMap.primary.url,
       },
       disease: allele.diseases?.sort(compareAlphabeticalCaseInsensitive(disease => disease.name))
-    })) : [];
+    }));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resolvedData]);
 
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
 
-  const hasAlleles = resolvedData && resolvedData.total > 0;
-  const hasManyAlleles = resolvedData && resolvedData.total > 20000;
+  const hasAlleles = resolvedData && resolvedData.length > 0;
+  const hasManyAlleles = resolvedData && resolvedData.length > 20000;
 
   // filtered but not paginate list of alleles
   const allelesFiltered = useAllVariants(geneId, tableProps.tableState);
@@ -139,7 +138,8 @@ const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
       },
       headerStyle: {width: '140px'},
       filterName: 'alleleCategory',
-      filterable: getDistinctFieldValue(resolvedData, 'filter.alleleCategory'),
+      filterType: 'checkbox',
+      filterable: true,
     },
     {
       dataField: 'variants',
@@ -212,8 +212,8 @@ const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
       style: {
         display: 'none',
       },
-      // filterable: ['delins', 'point mutation', 'insertion', 'deletion', 'MNV'],
-      filterable: getDistinctFieldValue(resolvedData, 'filter.variantType'),
+      filterType: 'checkbox',
+      filterable: true,
     },
     {
       dataField: 'variants.transcriptLevelConsequence',
@@ -228,7 +228,8 @@ const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
         display: 'none',
       },
       filterName: 'molecularConsequence',
-      filterable: getDistinctFieldValue(resolvedData, 'filter.molecularConsequence'),
+      filterType: 'checkbox',
+      filterable: true,
     },
     {
       dataField: 'hasDisease',
@@ -279,10 +280,6 @@ const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
     //   value: 'alleleSymbol',
     //   label: 'Allele symbol',
     // }, // default
-    {
-      value: 'disease',
-      label: 'Associated Human Disease',
-    },
     {
       value: 'variant',
       label: 'Variant',

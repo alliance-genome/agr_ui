@@ -20,6 +20,8 @@ import DiseaseLinkCuration from './DiseaseLinkCuration';
 import DiseaseQualifiersColumn from "../dataTable/DiseaseQualifiersColumn";
 import { GENE_DETAILS_COLUMNS } from '../dataTable/constants';
 
+import hash from 'object-hash';
+
 
 /*
  * Disease ribbon-table
@@ -39,7 +41,7 @@ const DiseaseAnnotationTable = ({
   const {
     downloadUrl,
     data: results,
-    resolvedData,
+    supplementalData,
     ...tableProps
   } = useComparisonRibbonTableQuery('/api/disease', focusGeneId, focusTaxonId, orthologGenes, term, params);
 
@@ -55,8 +57,9 @@ const DiseaseAnnotationTable = ({
       dataField: 'subject.taxon',
       text: 'Species',
       filterName: 'species',
-      filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
+      filterable: getDistinctFieldValue(supplementalData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
+      filterType: 'checkbox',
       headerStyle: {width: '100px'},
       formatter: species => <SpeciesCell species={species} />,
       hidden: !orthologGenes || !orthologGenes.length
@@ -95,14 +98,14 @@ const DiseaseAnnotationTable = ({
       },
       formatter: type => <AssociationType type={type} />,
       filterName: 'associationType',
-      filterable: getDistinctFieldValue(resolvedData, 'associationType'),
+      filterable: getDistinctFieldValue(supplementalData, 'associationType'),
       filterFormatter: type => <AssociationType type={type} />,
       headerStyle: {width: '120px'},
     },
     {
       dataField: 'diseaseQualifiers',
       text: 'Disease Qualifier',
-      filterable: getDistinctFieldValue(resolvedData, 'diseaseQualifiers'),
+      filterable: getDistinctFieldValue(supplementalData, 'diseaseQualifiers'),
       filterName: 'diseaseQualifier',
       filterType: 'checkbox',
       headerStyle: {width: '100px'},
@@ -161,6 +164,7 @@ const DiseaseAnnotationTable = ({
     species: annotation.subject.taxon,
     providers: buildProvidersWithUrl(annotation.primaryAnnotations),
     basedOn: buildWith(annotation),
+    id: hash(annotation),
     ...annotation,
   }));
 
@@ -169,6 +173,7 @@ const DiseaseAnnotationTable = ({
       {...tableProps}
       columns={columns}
       data={data || []}
+      supplementalData={supplementalData}
       downloadUrl={downloadUrl}
       keyField='id'
     />
