@@ -6,7 +6,9 @@ function RelatedNotes({relatedNotes}) {
   if(relatedNotes && relatedNotes.length > 0) {
     return (
         <CollapsibleList collapsedSize={relatedNotes.length}>
-            {relatedNotes.map(NoteCell)}
+            {relatedNotes.map(note => {
+              return <NoteCell key={note.freeText} note={note} />;
+            })}
         </CollapsibleList>
         );
   }

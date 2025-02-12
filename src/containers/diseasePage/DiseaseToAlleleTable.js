@@ -23,7 +23,7 @@ import AlleleCellCuration from '../../components/dataTable/AlleleCellCuration';
 const DiseaseToAlleleTable = ({id}) => {
   const {
     data: results,
-    resolvedData,
+    supplementalData,
     ...tableProps
   } = useDataTableQuery(`/api/disease/${id}/alleles`, undefined, { sizePerPage: 10, }, {}, 60000);
 
@@ -62,7 +62,7 @@ const DiseaseToAlleleTable = ({id}) => {
       text: 'Species',
       formatter: species => <SpeciesCell species={species}/>,
       filterName: 'species',
-      filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
+      filterable: getDistinctFieldValue(supplementalData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
       filterType: 'checkbox',
       headerStyle: {width: '100px'},
@@ -73,7 +73,7 @@ const DiseaseToAlleleTable = ({id}) => {
       formatter: type => <AssociationType type={type} />,
       headerStyle: {width: '110px'},
       filterName: 'associationType',
-      filterable: getDistinctFieldValue(resolvedData, 'associationType'),
+      filterable: getDistinctFieldValue(supplementalData, 'associationType'),
       filterFormatter: type => <AssociationType type={type} />,
       filterType: 'checkbox',
     },
@@ -82,7 +82,7 @@ const DiseaseToAlleleTable = ({id}) => {
       text: 'Disease Qualifier',
       headerStyle: { width: '110px' },
       formatter: diseaseQualifiers => <DiseaseQualifiersColumn qualifiers={diseaseQualifiers} />,
-      filterable: getDistinctFieldValue(resolvedData, 'diseaseQualifiers'),
+      filterable: getDistinctFieldValue(supplementalData, 'diseaseQualifiers'),
       filterName: 'diseaseQualifier',
       filterType: 'checkbox',
     },
@@ -153,7 +153,7 @@ const DiseaseToAlleleTable = ({id}) => {
       columns={columns}
       data={rows}
       downloadUrl={`/api/disease/${id}/alleles/download`}
-      keyField='primaryKey'
+      keyField='uniqueId'
       sortOptions={sortOptions}
     />
   );
