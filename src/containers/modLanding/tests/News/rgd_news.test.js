@@ -7,6 +7,7 @@ import {MODContent} from '../../content';
 import { Provider } from 'react-redux';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
  const content = MODContent['rgd'];
 
@@ -26,10 +27,18 @@ import '@testing-library/jest-dom'
  // rgd uses the same format as flybase, so uses NewsFlybase component
  describe('App', () => {
      beforeEach(() => {
-       render(<Provider store={store}> <NewsFlybase
-              urlNewsMod={content.rgdNewsAPI}
-              linkToNewsPage={content.linkToNewsPage}
-              fetchNewsCount={content.fetchNewsCount}/></Provider>)
+      const queryClient = new QueryClient();
+      render(
+         <QueryClientProvider client={queryClient}>
+            <Provider store={store}> 
+               <NewsFlybase
+                  urlNewsMod={content.rgdNewsAPI}
+                  linkToNewsPage={content.linkToNewsPage}
+                  fetchNewsCount={content.fetchNewsCount}
+               />
+            </Provider>
+         </QueryClientProvider>
+      )
      });
 
      it('should render successfully', async () => {

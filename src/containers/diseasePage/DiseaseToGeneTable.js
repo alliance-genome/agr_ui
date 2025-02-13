@@ -25,7 +25,7 @@ import { GENE_DETAILS_COLUMNS } from '../../components/dataTable/constants';
 const DiseaseToGeneTable = ({ id }) => {
   const {
     data: results,
-    resolvedData,
+    supplementalData,
     ...tableProps
   } = useDataTableQuery(`/api/disease/${id}/genes`, undefined, { sizePerPage: 10, }, {}, 60000);
 
@@ -67,7 +67,7 @@ const DiseaseToGeneTable = ({ id }) => {
       headerStyle: { width: '100px' },
       formatter: species => <SpeciesCell species={species} />,
       filterName: 'species',
-      filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
+      filterable: getDistinctFieldValue(supplementalData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
       filterType: 'checkbox',
     },
@@ -84,7 +84,7 @@ const DiseaseToGeneTable = ({ id }) => {
       formatter: type => <AssociationType type={type} />,
       headerStyle: { width: '120px' },
       filterName: 'associationType',
-      filterable: getDistinctFieldValue(resolvedData, 'associationType'),
+      filterable: getDistinctFieldValue(supplementalData, 'associationType'),
       filterFormatter: type => <AssociationType type={type} />,
       filterType: 'checkbox',
     },
@@ -93,7 +93,7 @@ const DiseaseToGeneTable = ({ id }) => {
       text: 'Disease Qualifier',
       headerStyle: { width: '100px' },
       formatter: diseaseQualifiers => <DiseaseQualifiersColumn qualifiers={diseaseQualifiers} />,
-      filterable: getDistinctFieldValue(resolvedData, 'diseaseQualifiers'),
+      filterable: getDistinctFieldValue(supplementalData, 'diseaseQualifiers'),
       filterName: 'diseaseQualifier',
       filterType: 'checkbox',
     },
@@ -179,7 +179,7 @@ const DiseaseToGeneTable = ({ id }) => {
       columns={columns}
       data={rows}
       downloadUrl={`/api/disease/${id}/genes/download`}
-      keyField='primaryKey'
+      keyField='uniqueId'
       sortOptions={sortOptions}
     />
   );

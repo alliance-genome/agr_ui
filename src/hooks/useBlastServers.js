@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import fetchData from '../lib/fetchData';
 
 const BLAST_SERVER_ENVIRONMENT_URL = 'https://blast.alliancegenome.org/blast/environment_info.json';
