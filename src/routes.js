@@ -37,7 +37,7 @@ export default (
       <Route exact path='/downloads' component={DownloadsPage} />
       <Route exact path='/members/:id' render={({ match }) => <MODLanding modId={match.params.id} />} />
       <Route exact path='/disease-portal/alzheimers-disease' component={AlzheimersPage} />
-      <Route exact path='/blast' component={BlastPage} />
+      <Route exact path='/blastservice' component={BlastPage} />
 
 
       {/* this one needs to be handled outside of the main application */}

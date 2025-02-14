@@ -2,7 +2,7 @@ import CommaSeparatedList from '../commaSeparatedList';
 import ProviderCellCuration from './ProviderCellCuration';
 import { removeDuplicates } from './utils';
 
-const ProvidersCellCuration = ({ providers }) => {
+const ProvidersCellCuration = ({ rowId, providers }) => {
   if(!providers) return null;
 
   const uniqueProviders = removeDuplicates(providers, (provider) => provider.dataProvider.abbreviation);
@@ -11,7 +11,7 @@ const ProvidersCellCuration = ({ providers }) => {
     <CommaSeparatedList listItemClassName='d-block'>
       {
         uniqueProviders?.map(provider => {
-          return <ProviderCellCuration provider={provider} />
+          return <ProviderCellCuration key={provider.dataProvider.abbreviation} provider={provider} />
         })
       }
     </CommaSeparatedList>

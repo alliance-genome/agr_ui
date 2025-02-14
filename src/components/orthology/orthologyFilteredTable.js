@@ -192,7 +192,7 @@ const OrthologyFilteredTable = ({geneId}) => {
                 <option value="all">All</option>
                 {
                   all_methods.map((method) => (
-                    <option key={method} value={method}>{method}</option>
+                    method && <option key={method} value={method}>{method}</option>
                   ))
                 }
               </select>

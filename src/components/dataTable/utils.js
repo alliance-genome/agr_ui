@@ -6,9 +6,9 @@ export const renderPaginationShowsTotal = (start, end, total) => {
   return <span>Showing { start } - { end } of { total?.toLocaleString() } rows</span>;
 };
 
-export const getDistinctFieldValue = (response, field) => {
-  response = response || {};
-  const {distinctFieldValues = {}} = response.supplementalData || {};
+export const getDistinctFieldValue = (supplementalData, field) => {
+  if(!supplementalData) return [];
+  const {distinctFieldValues = {}} = supplementalData || {};
   return (distinctFieldValues[field] || [])
     .sort(compareAlphabeticalCaseInsensitive)
      // TODO: remove when backend is fixed, see https://agr-jira.atlassian.net/browse/SCRUM-2649

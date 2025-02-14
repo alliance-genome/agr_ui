@@ -104,7 +104,7 @@ export const NAV_MENU = [
       // Uncomment when BLAST Service menu item is ready for test/prod
       // {
       //   label: 'BLAST Service',
-      //   route: '/blast',
+      //   route: '/blastservice',
       // },
       {
         label: 'Tools and Prototypes',
