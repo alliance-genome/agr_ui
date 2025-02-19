@@ -23,6 +23,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
   const tableProps = useDataTableQuery(`/api/gene/${geneId}/alleles`);
   const {
     data: resolvedData,
+    totalRows,
     isLoading,
   } = tableProps;
 
@@ -42,8 +43,8 @@ const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
 
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
 
-  const hasAlleles = resolvedData && resolvedData.length > 0;
-  const hasManyAlleles = resolvedData && resolvedData.length > 20000;
+  const hasAlleles = totalRows > 0;
+  const hasManyAlleles = totalRows > 20000;
 
   // filtered but not paginate list of alleles
   const allelesFiltered = useAllVariants(geneId, tableProps.tableState);
