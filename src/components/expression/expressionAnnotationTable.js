@@ -26,7 +26,7 @@ const ExpressionAnnotationTable = ({
 }) => {
   const {
     downloadUrl,
-    resolvedData,
+    supplementalData,
     data: results,
     ...tableProps
   } = useComparisonRibbonTableQuery('/api/expression', focusGeneId, focusTaxonId, orthologGenes, term);
@@ -41,7 +41,7 @@ const ExpressionAnnotationTable = ({
       dataField: 'species',
       text: 'Species',
       formatter: s => <SpeciesName>{s}</SpeciesName>,
-      filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
+      filterable: getDistinctFieldValue(supplementalData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
       headerStyle: {width: '100px'},
       hidden: !orthologGenes || !orthologGenes.length,

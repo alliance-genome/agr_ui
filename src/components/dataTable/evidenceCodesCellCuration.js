@@ -25,7 +25,7 @@ const EvidenceCodesCellCuration = ({evidenceCodes}) => {
 
 EvidenceCodesCellCuration.propTypes = {
   evidenceCodes: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     name: PropTypes.string,
     displaySynonym: PropTypes.string,
   })),

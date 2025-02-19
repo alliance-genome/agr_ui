@@ -12,6 +12,7 @@ import ExperimentalConditionCell from './ExperimentalConditionCell';
 import style from './style.module.scss';
 import ExternalLink from '../ExternalLink';
 import {Link} from 'react-router-dom';
+import hash from 'object-hash';
 
 function renderLink(entity) {
   const inner = <span dangerouslySetInnerHTML={{__html: entity.name}} />;
@@ -57,21 +58,23 @@ function AnnotatedEntitiesPopup(props) {
             </thead>
             <tbody>
               {
-                entities.map(entity => (
-                  <tr key={entity.id}>
-                    <td>{renderLink(entity)}</td>
-                    <td className='text-capitalize'>{(entity.type || '').toLowerCase()}</td>
-                    <td>
-                      <ExperimentalConditionCell conditions={entity.conditions} />
-                    </td>
-                    <td>
-                      <ExperimentalConditionCell conditions={entity.conditionModifiers} />
-                    </td>
-                    <td>{entity.publicationEvidenceCodes &&
-                      ReferenceCell(entity.publicationEvidenceCodes.map(pec => pec.publication))
-                    }</td>
-                  </tr>
-                ))
+                entities.map(entity => {
+                  const key = hash(entity);
+                  return (
+                    <tr key={key}>
+                      <td>{renderLink(entity)}</td>
+                      <td className='text-capitalize'>{(entity.type || '').toLowerCase()}</td>
+                      <td>
+                        <ExperimentalConditionCell conditions={entity.conditions} />
+                      </td>
+                      <td>
+                        <ExperimentalConditionCell conditions={entity.conditionModifiers} />
+                      </td>
+                      <td>{entity.publicationEvidenceCodes &&
+                        ReferenceCell(entity.publicationEvidenceCodes.map(pec => pec.publication))
+                      }</td>
+                    </tr>
+                )})
               }
             </tbody>
           </table>

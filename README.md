@@ -83,7 +83,7 @@ Additionally, there are two convenience commands that will proxy `/api` requests
 Execute tests:
 
 ```bash
-npm run test  
+make test
 ```
 
 ## AWS - Feature Branch Previews
