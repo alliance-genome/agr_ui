@@ -19,15 +19,22 @@ const ParalogyTable = ({geneId}) => {
     return <NoData>No paralogs for the gene.</NoData>
   }
 
-  const results = data.results?.sort( (a,b) => {
-    if (Number(a.rank) < Number(b.rank)) {
-      return -1;
+  const getMethods = (methods) => methods.map(element => element.name);
+
+  const getTotalMethodCount = (result) => {
+    const { predictionMethodsMatched, predictionMethodsNotMatched } = result.geneToGeneParalogy;
+
+    if (!predictionMethodsMatched && !predictionMethodsNotMatched) {
+      return 0;
     }
-    if (Number(a.rank) > Number(b.rank)) {
-      return 1;
+    if (!predictionMethodsMatched) {
+      return predictionMethodsNotMatched.length;
     }
-    return 0;
-  });
+    if (!predictionMethodsNotMatched) {
+      return predictionMethodsMatched.length;
+    }
+    return predictionMethodsMatched.length + predictionMethodsNotMatched.length;
+  }
 
   return (
     <div>
@@ -47,7 +54,7 @@ const ParalogyTable = ({geneId}) => {
                 </thead>
                 <tbody>
                 {
-                  results?.map( result => {
+                  data.results?.map( result => {
                     const rowKey = 'paralogyrowkey-' + result.geneToGeneParalogy.objectGene.primaryExternalId.replace(/\s/g, '-');
                     return (<tr key={rowKey}>
                       <td>
@@ -59,10 +66,10 @@ const ParalogyTable = ({geneId}) => {
                       <td>{result.geneToGeneParalogy.length}</td>
                       <td>{result.geneToGeneParalogy.similarity}</td>
                       <td>{result.geneToGeneParalogy.identity}</td>
-                      <td>{result.methodCount} of {result.totalMethodCount}</td>
+                      <td>{(result.geneToGeneParalogy.predictionMethodsMatched.length)} of {getTotalMethodCount(result)}</td>
                       <MethodCell
-                        predictionMethodsMatched={result.predictionMethodsMatched}
-                        predictionMethodsNotMatched={result.predictionMethodsNotMatched}
+                        predictionMethodsMatched={getMethods(result.geneToGeneParalogy.predictionMethodsMatched)}
+                        predictionMethodsNotMatched={getMethods(result.geneToGeneParalogy.predictionMethodsNotMatched)}
                         rowKey={result.geneToGeneParalogy.objectGene.primaryExternalId}
                         paralogy={true}/>
                     </tr>)})
