@@ -35,7 +35,7 @@ const bySpecies = species => orthology => species
 const byStringency = stringency => orthology => orthologyMeetsStringency(orthology, stringency);
 const compareBySpeciesThenAlphabetical = compareBy([
   compareByFixedOrder(TAXON_ORDER, o => getOrthologSpeciesId(o)),
-  compareAlphabeticalCaseInsensitive(o => getOrthologSymbol(o))
+  compareAlphabeticalCaseInsensitive(o => getOrthologSymbol(o.geneToGeneOrthologyGenerated))
 ]);
 
 const STRINGENCY_OPTIONS = [
@@ -89,7 +89,8 @@ const OrthologPicker =({
     if (!geneHasDataTest) {
       return true;
     }
-    return geneHasDataTest(orthology.data.supplementalData[id]);
+    //TODO: see is this is needed
+    // return geneHasDataTest(orthology.data.supplementalData[id]);
   };
   
   // if the orthology data has settled, filter it and pass it back to the parent
