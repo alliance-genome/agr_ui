@@ -2,11 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import hash from 'object-hash';
 import {
-  ReferenceCell,
   DataTable, ReferencesCellCuration, GeneCellCuration
 } from '../../components/dataTable';
-import AnnotatedEntitiesPopup
-  from '../../components/dataTable/AnnotatedEntitiesPopup';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import {getIdentifier} from "../../components/dataTable/utils";
 import AnnotatedPhenotypePopupCuration from "../../components/dataTable/AnnotatedPhenotypePopupCuration";
