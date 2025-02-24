@@ -365,7 +365,7 @@ class GeneOntologyRibbon extends Component {
   }
 
   getGeneIdList() {
-    return [this.props.geneId].concat(this.state.selectedOrthologs.map(ortho => ortho.geneToGeneOrthologyGenerated).map(getOrthologId));
+    return [this.props.geneId].concat(this.state.selectedOrthologs.map(getOrthologId));
   }
 
   associationKey(assoc) {

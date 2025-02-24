@@ -32,10 +32,10 @@ import SpeciesName from './SpeciesName';
 const bySpecies = species => orthology => species
   .map(s => s.taxonId)
   .indexOf(getOrthologSpeciesId(orthology)) >= 0;
-const byStringency = stringency => orthology => orthologyMeetsStringency(orthology.geneToGeneOrthologyGenerated, stringency);
+const byStringency = stringency => orthology => orthologyMeetsStringency(orthology, stringency);
 const compareBySpeciesThenAlphabetical = compareBy([
-  compareByFixedOrder(TAXON_ORDER, o => getOrthologSpeciesId(o.geneToGeneOrthologyGenerated)),
-  compareAlphabeticalCaseInsensitive(o => getOrthologSymbol(o.geneToGeneOrthologyGenerated))
+  compareByFixedOrder(TAXON_ORDER, o => getOrthologSpeciesId(o)),
+  compareAlphabeticalCaseInsensitive(o => getOrthologSymbol(o))
 ]);
 
 const STRINGENCY_OPTIONS = [

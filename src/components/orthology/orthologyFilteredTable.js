@@ -55,26 +55,15 @@ const OrthologyFilteredTable = ({geneId}) => {
 
   const filterCallback = (dat) => {
     const meetMethodFilter = filterMethod ?
-    dat.geneToGeneOrthologyGenerated.predictionMethodsMatched.some(method => method.name === filterMethod) :
-    true;
-    // console.log("inside of filterCallback");
-    // console.log("meetMethodFilter: ", meetMethodFilter);
-    // console.log("dat.geneToGeneOrthologyGenerated.predictionMethodsMatched: ", dat.geneToGeneOrthologyGenerated.predictionMethodsMatched);
-    // console.log("dat.geneToGeneOrthologyGenerated.predictionMethodsMatched.some(method => method.name === filterMethod): ", dat.geneToGeneOrthologyGenerated.predictionMethodsMatched.some(method => method.name === filterMethod));
-    // console.log("dat.geneToGeneOrthologyGenerated.predictionMethodsMatched.length: ", dat.geneToGeneOrthologyGenerated.predictionMethodsMatched.length);
-    // console.log("filterScoreGreaterThan: ", filterScoreGreaterThan);
-    // console.log("isBest(dat.geneToGeneOrthologyGenerated.isBestScore.name): ", isBest(dat.geneToGeneOrthologyGenerated.isBestScore.name));
-    // console.log("isBest(dat.geneToGeneOrthologyGenerated.isBestScoreReverse.name): ", isBest(dat.geneToGeneOrthologyGenerated.isBestScoreReverse.name));
-    // console.log("getOrthologSpeciesName(dat.geneToGeneOrthologyGenerated.subjectGene): ", getOrthologSpeciesName(dat.geneToGeneOrthologyGenerated));
-    // console.log("orthologyMeetsStringency(dat.geneToGeneOrthologyGenerated, stringencyLevel): ", orthologyMeetsStringency(dat.geneToGeneOrthologyGenerated, stringencyLevel));
+    dat.predictionMethodsMatched.some(method => method.name === filterMethod) : true;
     
     return (
       meetMethodFilter &&
-      dat.geneToGeneOrthologyGenerated.predictionMethodsMatched.length > filterScoreGreaterThan &&
-      (filterBest ? isBest(dat.geneToGeneOrthologyGenerated.isBestScore.name) : true) &&
-      (filterReverseBest ? isBest(dat.geneToGeneOrthologyGenerated.isBestScoreReverse.name) : true) &&
-      (filterSpecies ? getOrthologSpeciesName(dat.geneToGeneOrthologyGenerated) === filterSpecies : true) 
-      && orthologyMeetsStringency(dat.geneToGeneOrthologyGenerated, stringencyLevel)
+      dat.predictionMethodsMatched.length > filterScoreGreaterThan &&
+      (filterBest ? isBest(dat.isBestScore.name) : true) &&
+      (filterReverseBest ? isBest(dat.isBestScoreReverse.name) : true) &&
+      (filterSpecies ? getOrthologSpeciesName(dat) === filterSpecies : true) 
+      && orthologyMeetsStringency(dat, stringencyLevel)
     );
   };
 
@@ -96,8 +85,8 @@ const OrthologyFilteredTable = ({geneId}) => {
   }
 
   const filteredData = data.results.filter(filterCallback);
-  const all_methods = data.results[0].geneToGeneOrthologyGenerated.predictionMethodsMatched.concat(
-    data.results[0].geneToGeneOrthologyGenerated.predictionMethodsNotCalled
+  const all_methods = data.results[0].predictionMethodsMatched.concat(
+    data.results[0].predictionMethodsNotCalled
   ).map(method => method.name).sort(compareAlphabeticalCaseInsensitive);
 
   const labelStyle = {
@@ -183,7 +172,7 @@ const OrthologyFilteredTable = ({geneId}) => {
                 <option value="all">All</option>
                 {
                   data.results.reduce((all_species, dat) => {
-                    const speciesName = getOrthologSpeciesName(dat.geneToGeneOrthologyGenerated);
+                    const speciesName = getOrthologSpeciesName(dat);
                     if (all_species.indexOf(speciesName) === -1) {
                       return all_species.concat([speciesName]);
                     } else {
