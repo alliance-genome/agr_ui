@@ -32,9 +32,9 @@ import SpeciesName from './SpeciesName';
 const bySpecies = species => orthology => species
   .map(s => s.taxonId)
   .indexOf(getOrthologSpeciesId(orthology)) >= 0;
-const byStringency = stringency => orthology => orthologyMeetsStringency(orthology, stringency);
+const byStringency = stringency => orthology => orthologyMeetsStringency(orthology.geneToGeneOrthologyGenerated, stringency);
 const compareBySpeciesThenAlphabetical = compareBy([
-  compareByFixedOrder(TAXON_ORDER, o => getOrthologSpeciesId(o)),
+  compareByFixedOrder(TAXON_ORDER, o => getOrthologSpeciesId(o.geneToGeneOrthologyGenerated)),
   compareAlphabeticalCaseInsensitive(o => getOrthologSymbol(o.geneToGeneOrthologyGenerated))
 ]);
 
@@ -104,13 +104,23 @@ const OrthologPicker =({
     if (checkboxValue && orthologyResults) {
       selectedOrthologs = orthologyResults.sort(compareBySpeciesThenAlphabetical)
         .filter(o => geneHasData(getOrthologId(o)));
+    console.log("selectedOrthologs1 -- orthology picker",selectedOrthologs);
+
+      console.log("stringency -- orthology picker",stringency);
+      console.log("selectedSpecies -- orthology picker",selectedSpecies);
+
       if (stringency) {
         selectedOrthologs = selectedOrthologs.filter(byStringency(stringency.value));
       }
-      if (selectedSpecies.length) {
-        selectedOrthologs = selectedOrthologs.filter(bySpecies(selectedSpecies));
-      }
+    console.log("selectedOrthologs2 -- orthology picker",selectedOrthologs);
+    
+    if (selectedSpecies.length) {
+      selectedOrthologs = selectedOrthologs?.filter(bySpecies(selectedSpecies));
     }
+    console.log("selectedOrthologs3 -- orthology picker",selectedOrthologs);
+    }
+    console.log("selectedOrthologs4 -- orthology picker",selectedOrthologs);
+    console.log("orthology -- orthology picker", orthology);
     onChange(selectedOrthologs);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orthology.isLoading, checkboxValue, stringency, selectedSpecies]);

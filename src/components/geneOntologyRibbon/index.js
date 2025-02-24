@@ -260,6 +260,7 @@ class GeneOntologyRibbon extends Component {
   }
 
   handleOrthologyChange(selectedOrthologs) {
+    console.log("selectedOrthologs go ribbon", selectedOrthologs);
     this.setState({ 'applyingFilters': true });
     this.setState({ selectedOrthologs }, () => {
       this.fetchSummaryData(this.state.subset, this.getGeneIdList()).then(data => {
@@ -364,7 +365,7 @@ class GeneOntologyRibbon extends Component {
   }
 
   getGeneIdList() {
-    return [this.props.geneId].concat(this.state.selectedOrthologs.map(getOrthologId));
+    return [this.props.geneId].concat(this.state.selectedOrthologs.map(ortho => ortho.geneToGeneOrthologyGenerated).map(getOrthologId));
   }
 
   associationKey(assoc) {
