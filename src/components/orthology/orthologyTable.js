@@ -54,41 +54,41 @@ class OrthologyTable extends Component {
         <tbody>
           {
             sortBy(this.props.data, [
-              compareByFixedOrder(TAXON_ORDER, o => getOrthologSpeciesId(o.geneToGeneOrthologyGenerated)),
-              (orthDataA, orthDataB) => orthDataB.geneToGeneOrthologyGenerated.predictionMethodsMatched.length - orthDataA.geneToGeneOrthologyGenerated.predictionMethodsMatched.length
+              compareByFixedOrder(TAXON_ORDER, o => getOrthologSpeciesId(o)),
+              (orthDataA, orthDataB) => orthDataB.predictionMethodsMatched.length - orthDataA.predictionMethodsMatched.length
             ]).map((orthData, idx, orthList) => {
-              const scoreNumerator = orthData.geneToGeneOrthologyGenerated.predictionMethodsMatched?.length;
-              const scoreDemominator = scoreNumerator + (orthData.geneToGeneOrthologyGenerated.predictionMethodsNotMatched?.length || 0);
-              const orthId = getOrthologId(orthData.geneToGeneOrthologyGenerated);
+              const scoreNumerator = orthData.predictionMethodsMatched?.length;
+              const scoreDemominator = scoreNumerator + (orthData.predictionMethodsNotMatched?.length || 0);
+              const orthId = getOrthologId(orthData);
 
-              if (idx > 0 && getOrthologSpeciesName(orthList[idx - 1]) !== getOrthologSpeciesName(orthData.geneToGeneOrthologyGenerated)) {
+              if (idx > 0 && getOrthologSpeciesName(orthList[idx - 1]) !== getOrthologSpeciesName(orthData)) {
                 rowGroup += 1;
               }
               return (
                 <tr className={rowGroup % 2 === 0 ? style.groupedRow : ''} key={orthId}>
-                  <td><SpeciesName>{getOrthologSpeciesName(orthData.geneToGeneOrthologyGenerated)}</SpeciesName></td>
+                  <td><SpeciesName>{getOrthologSpeciesName(orthData)}</SpeciesName></td>
                   <td>
                     <Link to={`/gene/${orthId}`}>
-                      <span dangerouslySetInnerHTML={{__html: getOrthologSymbol(orthData.geneToGeneOrthologyGenerated)}} />
+                      <span dangerouslySetInnerHTML={{__html: getOrthologSymbol(orthData)}} />
                     </Link>
                   </td>
                   <td>{`${scoreNumerator} of ${scoreDemominator}`}</td>
                   <BooleanCell
                     isTrueFunc={isBest}
                     render={
-                      orthData.geneToGeneOrthologyGenerated.isBestScore === 'Yes_Adjusted' ?
+                      orthData.isBestScore?.name === 'Yes_Adjusted' ?
                         () => 'Yes *' :
                         null
                     }
-                    value={orthData.geneToGeneOrthologyGenerated.isBestScore.name}
+                    value={orthData.isBestScore.name}
                   />
                   <BooleanCell
                     isTrueFunc={isBest}
-                    value={orthData.geneToGeneOrthologyGenerated.isBestScoreReverse.name}
+                    value={orthData.isBestScoreReverse.name}
                   />
                   <MethodCell
-                    predictionMethodsMatched={orthData.geneToGeneOrthologyGenerated.predictionMethodsMatched?.map(method => method.name)}
-                    predictionMethodsNotMatched={orthData.geneToGeneOrthologyGenerated.predictionMethodsNotMatched?.map(method => method.name)}
+                    predictionMethodsMatched={orthData.predictionMethodsMatched?.map(method => method.name)}
+                    predictionMethodsNotMatched={orthData.predictionMethodsNotMatched?.map(method => method.name)}
                     rowKey={orthId}
                     paralogy={false}
                   />
