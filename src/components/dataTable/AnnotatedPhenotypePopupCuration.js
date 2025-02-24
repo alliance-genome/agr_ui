@@ -14,16 +14,7 @@ import ExternalLink from '../ExternalLink';
 import { Link } from 'react-router-dom';
 import { getResourceUrl } from "./getResourceUrl";
 import TypeCellCuration from './TypeCellCuration';
-import RelatedNotes from './RelatedNotes';
-import EvidenceCodesCellCuration from './evidenceCodesCellCuration';
-import ProviderCellCuration from './ProviderCellCuration';
-import GeneticSex from './GeneticSex';
-import AnnotationType from './AnnotationType';
-import AssociationCellCuration from './AssociationCellCuration';
-import AssertedGenes from './AssertedGenes';
-import GeneticModifiersCellCuration from './GeneticModifiersCellCuration';
-import { buildProviderWithUrl, getIdentifier } from './utils';
-import StrainBackground from './StrainBackground';
+import { getIdentifier } from './utils';
 
 function renderLink(entity) {
   const identifier = getIdentifier(entity.phenotypeAnnotationSubject);
