@@ -66,7 +66,7 @@ const OrthologyFilteredTable = ({geneId}) => {
     // console.log("isBest(dat.geneToGeneOrthologyGenerated.isBestScore.name): ", isBest(dat.geneToGeneOrthologyGenerated.isBestScore.name));
     // console.log("isBest(dat.geneToGeneOrthologyGenerated.isBestScoreReverse.name): ", isBest(dat.geneToGeneOrthologyGenerated.isBestScoreReverse.name));
     // console.log("getOrthologSpeciesName(dat.geneToGeneOrthologyGenerated.subjectGene): ", getOrthologSpeciesName(dat.geneToGeneOrthologyGenerated));
-    console.log("orthologyMeetsStringency(dat.geneToGeneOrthologyGenerated, stringencyLevel): ", orthologyMeetsStringency(dat.geneToGeneOrthologyGenerated, stringencyLevel));
+    // console.log("orthologyMeetsStringency(dat.geneToGeneOrthologyGenerated, stringencyLevel): ", orthologyMeetsStringency(dat.geneToGeneOrthologyGenerated, stringencyLevel));
     
     return (
       meetMethodFilter &&
@@ -175,7 +175,6 @@ const OrthologyFilteredTable = ({geneId}) => {
                 Species:
               <select
                 onChange={(event) => {
-                  console.log("event.target.value: ", event.target.value);
                   setFilterSpecies(event.target.value === 'all' ? null : event.target.value)
                 }}
                 style={inputStyle}

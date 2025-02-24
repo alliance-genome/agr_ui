@@ -59,8 +59,6 @@ class OrthologyTable extends Component {
             ]).map((orthData, idx, orthList) => {
               const scoreNumerator = orthData.geneToGeneOrthologyGenerated.predictionMethodsMatched?.length;
               const scoreDemominator = scoreNumerator + (orthData.geneToGeneOrthologyGenerated.predictionMethodsNotMatched?.length || 0);
-              console.log('scoreNumerator: ', scoreNumerator);
-              console.log('scoreDemominator: ', scoreDemominator);
               const orthId = getOrthologId(orthData.geneToGeneOrthologyGenerated);
 
               if (idx > 0 && getOrthologSpeciesName(orthList[idx - 1]) !== getOrthologSpeciesName(orthData.geneToGeneOrthologyGenerated)) {
