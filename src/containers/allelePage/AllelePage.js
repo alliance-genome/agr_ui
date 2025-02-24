@@ -27,6 +27,8 @@ import MolecularConsequenceHelp from './MolecularConsequenceHelp';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import GeneSymbol from '../../components/GeneSymbol';
 import SpeciesName from '../../components/SpeciesName';
+import PhenotypeTable from "../genePage/phenotypeTable";
+import React from "react";
 
 const SUMMARY = 'Summary';
 const PHENOTYPES = 'Phenotypes';
@@ -105,7 +107,7 @@ const AllelePage = ({ alleleId }) => {
 
          
         <Subsection title={PHENOTYPES}>
-          <AlleleToPhenotypeTable alleleId={alleleId} />
+          <PhenotypeTable geneId={alleleId} entityType={'allele'} />
         </Subsection>
 
         <Subsection title={DISEASE}>
