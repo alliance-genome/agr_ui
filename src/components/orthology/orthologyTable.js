@@ -27,7 +27,7 @@ const columns = [
 ];
 
 export function isBest(value = '') {
-  return typeof value === 'boolean' ? value : value.match(/yes/i);
+  return typeof value === 'boolean' ? value : !!value.match(/yes/i);
 }
 
 class OrthologyTable extends Component {
@@ -54,42 +54,43 @@ class OrthologyTable extends Component {
         <tbody>
           {
             sortBy(this.props.data, [
-              compareByFixedOrder(TAXON_ORDER, o => getOrthologSpeciesId(o)),
-              (orthDataA, orthDataB) => orthDataB.predictionMethodsMatched.length - orthDataA.predictionMethodsMatched.length
+              compareByFixedOrder(TAXON_ORDER, o => getOrthologSpeciesId(o.geneToGeneOrthologyGenerated)),
+              (orthDataA, orthDataB) => orthDataB.geneToGeneOrthologyGenerated.predictionMethodsMatched.length - orthDataA.geneToGeneOrthologyGenerated.predictionMethodsMatched.length
             ]).map((orthData, idx, orthList) => {
-              const scoreNumerator = orthData.predictionMethodsMatched?.length;
-              const scoreDemominator = scoreNumerator + (orthData.predictionMethodsNotMatched?.length || 0);
-              const orthId = getOrthologId(orthData);
+              const scoreNumerator = orthData.geneToGeneOrthologyGenerated.predictionMethodsMatched?.length;
+              const scoreDemominator = scoreNumerator + (orthData.geneToGeneOrthologyGenerated.predictionMethodsNotMatched?.length || 0);
+              console.log('scoreNumerator: ', scoreNumerator);
+              console.log('scoreDemominator: ', scoreDemominator);
+              const orthId = getOrthologId(orthData.geneToGeneOrthologyGenerated);
 
-              if (idx > 0 && getOrthologSpeciesName(orthList[idx - 1]) !== getOrthologSpeciesName(orthData)) {
+              if (idx > 0 && getOrthologSpeciesName(orthList[idx - 1]) !== getOrthologSpeciesName(orthData.geneToGeneOrthologyGenerated)) {
                 rowGroup += 1;
               }
-
               return (
                 <tr className={rowGroup % 2 === 0 ? style.groupedRow : ''} key={orthId}>
-                  <td><SpeciesName>{getOrthologSpeciesName(orthData)}</SpeciesName></td>
+                  <td><SpeciesName>{getOrthologSpeciesName(orthData.geneToGeneOrthologyGenerated)}</SpeciesName></td>
                   <td>
                     <Link to={`/gene/${orthId}`}>
-                      <span dangerouslySetInnerHTML={{__html: getOrthologSymbol(orthData)}} />
+                      <span dangerouslySetInnerHTML={{__html: getOrthologSymbol(orthData.geneToGeneOrthologyGenerated)}} />
                     </Link>
                   </td>
                   <td>{`${scoreNumerator} of ${scoreDemominator}`}</td>
                   <BooleanCell
                     isTrueFunc={isBest}
                     render={
-                      orthData.best === 'Yes_Adjusted' ?
+                      orthData.geneToGeneOrthologyGenerated.isBestScore === 'Yes_Adjusted' ?
                         () => 'Yes *' :
                         null
                     }
-                    value={orthData.best}
+                    value={orthData.geneToGeneOrthologyGenerated.isBestScore.name}
                   />
                   <BooleanCell
                     isTrueFunc={isBest}
-                    value={orthData.bestReverse}
+                    value={orthData.geneToGeneOrthologyGenerated.isBestScoreReverse.name}
                   />
                   <MethodCell
-                    predictionMethodsMatched={orthData.predictionMethodsMatched}
-                    predictionMethodsNotMatched={orthData.predictionMethodsNotMatched}
+                    predictionMethodsMatched={orthData.geneToGeneOrthologyGenerated.predictionMethodsMatched?.map(method => method.name)}
+                    predictionMethodsNotMatched={orthData.geneToGeneOrthologyGenerated.predictionMethodsNotMatched?.map(method => method.name)}
                     rowKey={orthId}
                     paralogy={false}
                   />
