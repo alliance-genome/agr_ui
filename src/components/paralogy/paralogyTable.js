@@ -19,7 +19,7 @@ const ParalogyTable = ({geneId}) => {
     return <NoData>No paralogs for the gene.</NoData>
   }
 
-  const getMethods = (methods) => methods.map(element => element.name);
+  const getMethods = (methods) => methods?.map(element => element.name);
 
   const getTotalMethodCount = (result) => {
     const { predictionMethodsMatched, predictionMethodsNotMatched } = result.geneToGeneParalogy;
