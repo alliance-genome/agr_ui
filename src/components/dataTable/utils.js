@@ -22,7 +22,7 @@ export const getIsViaOrthology = (annotation) => {
 };
 export const getIdentifier = (subject) => {
   if(!subject) return;
-  return subject.curie ? subject.curie : (subject.modEntityId ? subject.modEntityId : subject.modInternalId);
+  return subject.curie ? subject.curie : (subject.primaryExternalId ? subject.primaryExternalId : subject.modInternalId);
 }
 
 export const getSingleReferenceUrl = (pubModId) => {
@@ -42,8 +42,15 @@ export const getMultipleReferencesUrls = (pubModIds) => {
 const buildProvider = (annotation) => {
   if(!annotation) return;
   return {
-    dataProvider: annotation.dataProvider,
-    secondaryDataProvider: annotation.secondaryDataProvider
+    dataProvider: {
+      sourceOrganization: annotation.dataProvider,
+      crossReference: annotation.dataProviderCrossReference
+    },
+    secondaryDataProvider: 
+    {
+      sourceOrganization: annotation.secondaryDataProvider,
+      crossReference: annotation.secondaryDataProviderCrossReference
+    }
   }
 }
 
@@ -57,8 +64,7 @@ export const buildProviders = (annotations) => {
 export const buildProviderWithUrl = (annotation) => {
 
   const { dataProvider, secondaryDataProvider } = buildProvider(annotation);
-
-  if(secondaryDataProvider){
+  if(secondaryDataProvider.sourceOrganization){
     return {
       dataProvider: {
           id: dataProvider.id,  
