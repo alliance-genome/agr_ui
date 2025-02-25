@@ -16,6 +16,10 @@ all: install build test
 
 install:
 	npm install --legacy-peer-deps
+update:
+	npm update --legacy-peer-deps
+update-deps-lock:
+	npm update --legacy-peer-deps --package-lock-only
 build:
 	npm run build
 test:
