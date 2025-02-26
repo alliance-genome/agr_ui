@@ -8,6 +8,7 @@ import {
 } from 'reactstrap';
 import { SingleReferenceCellCuration } from './index';
 import ExperimentalConditionCellCuration from './ExperimentalConditionCellCuration';
+import hash from 'object-hash';
 
 import style from './style.module.scss';
 import ExternalLink from '../ExternalLink';
@@ -90,6 +91,8 @@ function AnnotatedEntitiesPopupCuration({ children, entities, mainRowCurie, pubM
               {
                 entities.map(entity => {
                   const provider = buildProviderWithUrl(entity);
+                  const key = hash(entity);
+
                   var diseaseGeneticModifiers = entity.diseaseGeneticModifierAlleles;
                   if(entity.diseaseGeneticModifierGenes != null){
                     diseaseGeneticModifiers = entity.diseaseGeneticModifierGenes;
@@ -101,8 +104,8 @@ function AnnotatedEntitiesPopupCuration({ children, entities, mainRowCurie, pubM
                   if(entity.conditionModifiers != null){
                     expCondition = entity.conditionModifiers;
                   }
-                  return (
-                    <tr key={entity.id}>
+                    return (
+                    <tr key={key}>
                       {columnNameSet.has("Name") && <td>{renderLink(entity)}</td>}
                       {columnNameSet.has("Type") && <td><TypeCellCuration subject={entity.diseaseAnnotationSubject}/></td>}
                       {columnNameSet.has("Association") && <td><AssociationCellCuration association={entity.fullRelationString}/></td>}
@@ -112,12 +115,12 @@ function AnnotatedEntitiesPopupCuration({ children, entities, mainRowCurie, pubM
                       {columnNameSet.has("Strain Background") && <td><StrainBackground strainBackground={entity.sgdStrainBackground}/></td>}
                       {columnNameSet.has("Genetic Sex") && <td><GeneticSex geneticSex={entity.geneticSex}/></td>}
                       {columnNameSet.has("Notes") && <td><RelatedNotes className={style.relatedNotes} relatedNotes={entity.relatedNotes}/></td>}
-                      {columnNameSet.has("Annotation Type") && <td><AnnotationType  annotationType={entity.annotationType}/></td>}
+                      {columnNameSet.has("Annotation Type") && <td><AnnotationType annotationType={entity.annotationType}/></td>}
                       {columnNameSet.has("Evidence Codes") && <td><EvidenceCodesCellCuration evidenceCodes={entity.evidenceCodes}/></td>}
                       {columnNameSet.has("Source") && <td><ProviderCellCuration provider={provider} /></td>}
                       {columnNameSet.has("References") && <td><SingleReferenceCellCuration singleReference={entity.singleReference} pubModIds={pubModIds}/></td>}
                     </tr>
-                )
+                  )
               })
               }
             </tbody>
