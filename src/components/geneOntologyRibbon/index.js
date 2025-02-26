@@ -260,7 +260,6 @@ class GeneOntologyRibbon extends Component {
   }
 
   handleOrthologyChange(selectedOrthologs) {
-    console.log("selectedOrthologs go ribbon", selectedOrthologs);
     this.setState({ 'applyingFilters': true });
     this.setState({ selectedOrthologs }, () => {
       this.fetchSummaryData(this.state.subset, this.getGeneIdList()).then(data => {
