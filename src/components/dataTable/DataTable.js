@@ -32,7 +32,7 @@ const DataTable = ({
   className,
   columns,
   data,
-  resolvedData,
+  supplementalData,
   downloadUrl,
   error,
   isError,
@@ -107,6 +107,10 @@ const DataTable = ({
     return <NoData>{noDataMessage}</NoData>;
   }
 
+  if (!data) {
+    return <NoData>{noDataMessage}</NoData>;
+  }
+
   // if we reached this far, we want to show the table
 
   const paginationObj = paginationFactory({
@@ -144,7 +148,7 @@ const DataTable = ({
 
       const distinctFieldValues = Array.isArray(column.filterable) ?
         column.filterable :
-        getDistinctFieldValue(resolvedData, `filter.${filterField}`);
+        getDistinctFieldValue(supplementalData, `filter.${filterField}`);
 
       if (distinctFieldValues && distinctFieldValues.length > 0) {
         column.filterRenderer = (onFilter, column) => (
@@ -249,7 +253,7 @@ DataTable.propTypes = {
   className: PropTypes.string,
   columns: PropTypes.array.isRequired,
   data: PropTypes.arrayOf(PropTypes.object),
-  resolvedData: PropTypes.object,
+  supplementalData: PropTypes.object,
   downloadUrl: PropTypes.string,
   error: PropTypes.object,
   isError: PropTypes.bool,
