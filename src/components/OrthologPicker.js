@@ -89,8 +89,7 @@ const OrthologPicker =({
     if (!geneHasDataTest) {
       return true;
     }
-    //TODO: see is this is needed
-    // return geneHasDataTest(orthology.data.supplementalData[id]);
+    return geneHasDataTest(orthology.data.supplementalData[id]);
   };
   
   // if the orthology data has settled, filter it and pass it back to the parent
@@ -104,23 +103,16 @@ const OrthologPicker =({
     if (checkboxValue && orthologyResults) {
       selectedOrthologs = orthologyResults.sort(compareBySpeciesThenAlphabetical)
         .filter(o => geneHasData(getOrthologId(o)));
-    console.log("selectedOrthologs1 -- orthology picker",selectedOrthologs);
 
-      console.log("stringency -- orthology picker",stringency);
-      console.log("selectedSpecies -- orthology picker",selectedSpecies);
 
       if (stringency) {
         selectedOrthologs = selectedOrthologs.filter(byStringency(stringency.value));
       }
-    console.log("selectedOrthologs2 -- orthology picker",selectedOrthologs);
     
     if (selectedSpecies.length) {
       selectedOrthologs = selectedOrthologs?.filter(bySpecies(selectedSpecies));
     }
-    console.log("selectedOrthologs3 -- orthology picker",selectedOrthologs);
     }
-    console.log("selectedOrthologs4 -- orthology picker",selectedOrthologs);
-    console.log("orthology -- orthology picker", orthology);
     onChange(selectedOrthologs);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orthology.isLoading, checkboxValue, stringency, selectedSpecies]);
