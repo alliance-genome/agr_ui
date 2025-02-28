@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import {
   AlleleCell,
   BooleanLinkCell,
@@ -53,6 +53,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     sizePerPage: 25,
   }, {}, 300000);
   const { isLoading } = tableQuery;
+
   const data = tableQuery.data.map((row) => ({
     ...row,
     key: `${row.allele.id}-${row.variant && row.variant.id}-${row.consequence && row.consequence.transcript && row.consequence.transcript.id}`,
@@ -258,9 +259,10 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
       300000
     );
   });
+
   const variantsSequenceViewerProps = useMemo(() => {
 
-    const variants = allelesFiltered.data ?
+    const variants = allelesFiltered.data?.results ?
       allelesFiltered.data.results.flatMap(
         row => (row && row.variant) || []
       ) :
@@ -284,7 +286,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
       fmax: fmax,
       hasVariants: isLoading ? undefined : Boolean(variants && variants.length),
       allelesSelected: alleleIdsSelected.map(formatAllele),
-      allelesVisible: allelesFiltered.data ? allelesFiltered.data.results.map(({allele}) => formatAllele(allele.id)) : [],
+      allelesVisible: allelesFiltered.data?.results ? allelesFiltered.data.results.map(({allele}) => formatAllele(allele.id)) : [],
       onAllelesSelect: setAlleleIdsSelected,
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -8,7 +8,7 @@ import {MODContent} from '../../content';
 import { Provider } from 'react-redux';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom'
-
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
  const content = MODContent['sgd'];
 
 
@@ -26,10 +26,18 @@ import '@testing-library/jest-dom'
 
  describe('App', () => {
      beforeEach(() => {
-        render(<Provider store={store}> <GoogleapisMeetings 
-            urlMeetingsMod={content.googleapisMeetingsBaseURL}
-            fetchMeetingsCount={content.fetchMeetingsCount}
-            linkToMeetingsPage={content.linkToMeetingsPage} /></Provider>)
+      const queryClient = new QueryClient();
+      render(
+         <QueryClientProvider client={queryClient}>
+            <Provider store={store}> 
+               <GoogleapisMeetings 
+                  urlMeetingsMod={content.googleapisMeetingsBaseURL}
+                  fetchMeetingsCount={content.fetchMeetingsCount}
+                  linkToMeetingsPage={content.linkToMeetingsPage} 
+               />
+            </Provider>
+         </QueryClientProvider>
+      )
      });
 
      it('should render successfully', async () => {

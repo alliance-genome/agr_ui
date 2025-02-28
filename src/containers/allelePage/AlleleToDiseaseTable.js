@@ -17,7 +17,7 @@ import { ALLELE_DETAILS_COLUMNS } from '../../components/dataTable/constants';
 
 const AlleleToDiseaseTable = ({alleleId}) => {
   const {
-    resolvedData,
+    supplementalData,
     data: results,
     ...tableProps
   } = useDataTableQuery(`/api/allele/${alleleId}/diseases`);
@@ -33,7 +33,7 @@ const AlleleToDiseaseTable = ({alleleId}) => {
       text: 'Association',
       formatter: type => <AssociationType type={type} />,
       headerStyle: {width: '110px'},
-      filterable: getDistinctFieldValue(resolvedData, 'associationType'),
+      filterable: getDistinctFieldValue(supplementalData, 'associationType'),
       filterFormatter: type => <AssociationType type={type} />,
     },
     {
@@ -41,7 +41,7 @@ const AlleleToDiseaseTable = ({alleleId}) => {
       text: 'Disease Qualifier',
       formatter: diseaseQualifiers => <DiseaseQualifiersColumn qualifiers={diseaseQualifiers}/>,
       headerStyle: {width: '110px'},
-      filterable: getDistinctFieldValue(resolvedData, 'diseaseQualifiers'),
+      filterable: getDistinctFieldValue(supplementalData, 'diseaseQualifiers'),
       filterName: 'diseaseQualifier',
       filterType: 'checkbox'
     },

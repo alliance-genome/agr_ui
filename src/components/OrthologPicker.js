@@ -83,13 +83,15 @@ const OrthologPicker =({
   // data from API
   const orthology = useGeneOrthology(focusGeneId);
 
+  const orthologyResults = orthology.data?.results || [];
+  
   const geneHasData = (id) => {
     if (!geneHasDataTest) {
       return true;
     }
     return geneHasDataTest(orthology.data.supplementalData[id]);
   };
-
+  
   // if the orthology data has settled, filter it and pass it back to the parent
   // via the `onChange` callback whenever the orthology or one of the UI controls
   // has changed
@@ -98,14 +100,14 @@ const OrthologPicker =({
       return;
     }
     let selectedOrthologs = [];
-    if (checkboxValue) {
-      selectedOrthologs = orthology.data.results?.sort(compareBySpeciesThenAlphabetical)
+    if (checkboxValue && orthologyResults) {
+      selectedOrthologs = orthologyResults.sort(compareBySpeciesThenAlphabetical)
         .filter(o => geneHasData(getOrthologId(o)));
       if (stringency) {
-        selectedOrthologs = selectedOrthologs?.filter(byStringency(stringency.value));
+        selectedOrthologs = selectedOrthologs.filter(byStringency(stringency.value));
       }
       if (selectedSpecies.length) {
-        selectedOrthologs = selectedOrthologs?.filter(bySpecies(selectedSpecies));
+        selectedOrthologs = selectedOrthologs.filter(bySpecies(selectedSpecies));
       }
     }
     onChange(selectedOrthologs);
@@ -193,13 +195,13 @@ const OrthologPicker =({
     if (!geneHasDataTest) {
       return true;
     }
-    return orthology.data.results?.filter(bySpecies([species]))
+    return orthologyResults?.filter(bySpecies([species]))
       .map(getOrthologId)
       .some(geneHasData);
   };
 
   const speciesHasOrthologsMeetingStringency = (species) => {
-    return orthology.data.results?.filter(bySpecies([species]))
+    return orthologyResults?.filter(bySpecies([species]))
       .filter(o => stringency ? orthologyMeetsStringency(o, stringency.value) : true)
       .some(o => geneHasData(getOrthologId(o)));
   };
@@ -296,7 +298,7 @@ const OrthologPicker =({
                   .filter(species => focusTaxonId ? species.taxonId !== focusTaxonId : true)
                   .map(species => {
                     const checkId = id + makeId(species.taxonId);
-                    const hasOrthologs = orthology.data.results?.findIndex(o => getOrthologSpeciesId(o) === species.taxonId) >= 0;
+                    const hasOrthologs = orthologyResults?.findIndex(o => getOrthologSpeciesId(o) === species.taxonId) >= 0;
                     const hasOrthologsWithData = speciesHasOrthologsWithData(species);
                     const hasOrthologsMeetingStringency = speciesHasOrthologsMeetingStringency(species);
                     const disabled = !hasOrthologs || !hasOrthologsWithData || !hasOrthologsMeetingStringency;

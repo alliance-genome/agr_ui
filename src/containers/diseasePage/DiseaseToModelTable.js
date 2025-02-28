@@ -25,7 +25,7 @@ import { MODEL_DETAILS_COLUMNS } from '../../components/dataTable/constants';
 const DiseaseToModelTable = ({id}) => {
   const {
     data: results,
-    resolvedData,
+    supplementalData,
     ...tableProps
   } = useDataTableQuery(`/api/disease/${id}/models`, undefined, { sizePerPage: 10, }, {}, 60000);
 
@@ -61,7 +61,7 @@ const DiseaseToModelTable = ({id}) => {
       filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
       headerStyle: {width: '105px'},
       filterName: 'species',
-      filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
+      filterable: getDistinctFieldValue(supplementalData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       filterType: 'checkbox',
     },
     {
@@ -79,7 +79,7 @@ const DiseaseToModelTable = ({id}) => {
       filterFormatter: type => <AssociationType type={type} />,
       headerStyle: {width: '120px'},
       filterName: 'associationType',
-      filterable: getDistinctFieldValue(resolvedData, 'associationType'),
+      filterable: getDistinctFieldValue(supplementalData, 'associationType'),
       filterType: 'checkbox',
     },
     {
@@ -87,7 +87,7 @@ const DiseaseToModelTable = ({id}) => {
       text: 'Disease Qualifiers',
       headerStyle: { width: '150px' },
       formatter: qualifiers => <DiseaseQualifiersColumn qualifiers={qualifiers}/>,
-      filterable: getDistinctFieldValue(resolvedData, 'diseaseQualifiers'),
+      filterable: getDistinctFieldValue(supplementalData, 'diseaseQualifiers'),
       filterName: 'diseaseQualifier',
       filterType: 'checkbox',
     },
@@ -167,7 +167,7 @@ const DiseaseToModelTable = ({id}) => {
       columns={columns}
       data={data}
       downloadUrl={`/api/disease/${id}/models/download`}
-      keyField='primaryKey'
+      keyField='uniqueId'
       sortOptions={sortOptions}
     />
   );

@@ -15,7 +15,6 @@ import useDataTableQuery from '../../hooks/useDataTableQuery';
 
 const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId}) => {
   const tableProps = useDataTableQuery(`/api/gene/${focusGeneId}/molecular-interactions`);
-  console.log(tableProps)
   const columns = [
    {
       dataField: 'geneMolecularInteraction.interactorAType',

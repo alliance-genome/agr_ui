@@ -72,7 +72,8 @@ export class AmplifyTestStack extends cdk.Stack {
       { source: '/textpresso/fb/',                     target: 'https://test.alliancegenome.org/textpresso/fb/tpc',                                    status: amplify.RedirectStatus.PERMANENT_REDIRECT },
       { source: '/textpresso/fb/<*>',                  target: 'https://fb-textpresso.alliancegenome.org/<*>',                                        status: amplify.RedirectStatus.REWRITE },
 
-      { source: '/blast/',                             target: 'https://test.alliancegenome.org/blast',                                              status: amplify.RedirectStatus.PERMANENT_REDIRECT },
+      { source: '/blast',                              target: 'https://test.alliancegenome.org/blastservice',                                       status: amplify.RedirectStatus.PERMANENT_REDIRECT},
+      { source: '/blast/',                             target: 'https://test.alliancegenome.org/blastservice',                                       status: amplify.RedirectStatus.PERMANENT_REDIRECT},
       { source: '/blast/<*>',                          target: 'https://blast.alliancegenome.org/blast/<*>',                                          status: amplify.RedirectStatus.REWRITE },
 
       { source: '/<*>',                                target: '/index.html',                                                                         status: amplify.RedirectStatus.NOT_FOUND_REWRITE },
