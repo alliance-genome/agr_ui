@@ -8,6 +8,7 @@ import useDataTableQuery from '../../hooks/useDataTableQuery';
 import {getIdentifier} from "../../components/dataTable/utils";
 import AnnotatedPhenotypePopupCuration from "../../components/dataTable/AnnotatedPhenotypePopupCuration";
 import {GENE_DETAILS_COLUMNS} from "../../components/dataTable/constants";
+import ProvidersCellCuration from "../../components/dataTable/ProvidersCellCuration";
 
 const PhenotypeTable = ({geneId, entityType}) => {
   const {
@@ -50,6 +51,14 @@ const PhenotypeTable = ({geneId, entityType}) => {
       headerStyle: {width: '90px'},
     },
     {
+      dataField: 'providers',
+      text: 'Source',
+      formatter: providers => providers && <ProvidersCellCuration providers={providers} />,
+      filterable: true,
+      headerStyle: {width: '100px'},
+      filterName: 'dataProvider',
+    },
+    {
       dataField: 'pubmedPubModIDs',
       text: 'References',
       filterable: true,
@@ -64,7 +73,7 @@ const PhenotypeTable = ({geneId, entityType}) => {
       {...tableProps}
       columns={columns}
       data={data}
-      downloadUrl={`/api/gene/${geneId}/phenotypes/download`}
+      downloadUrl={`/api/${entityType}/${geneId}/phenotypes/download`}
       keyField='id'
       summaryProps={
         (data && data.supplementalData) ? {
