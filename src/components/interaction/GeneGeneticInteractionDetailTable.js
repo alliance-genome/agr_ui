@@ -33,6 +33,7 @@ const GeneGeneticInteractionDetailTable = ({
         },
         formatter: (term, _, rowIndex) => <MITerm {...term} id={`genetic_interaction-interactorARole-${rowIndex}`} />,
         filterable: true,
+        filterType: 'checkbox',
         filterName: 'role',
       },
       {
@@ -75,6 +76,7 @@ const GeneGeneticInteractionDetailTable = ({
         },
         formatter: (species) => <SpeciesCell species={species} />,
         filterable: true,
+        filterType: 'checkbox',
         filterName: 'interactorSpecies',
       },
       {

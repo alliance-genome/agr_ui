@@ -22,7 +22,7 @@ const constructsRelatedGenesFormatter = constructRelatedGenes => (
 const TransgenicAlleleTable = ({geneId}) => {
   const {
     data: results,
-    resolvedData,
+    supplementalData,
     ...tableProps
   } = useDataTableQuery(`/api/gene/${geneId}/transgenic-alleles`);
 
@@ -54,7 +54,7 @@ const TransgenicAlleleTable = ({geneId}) => {
         </>
       ),
       formatter: species => <SpeciesCell species={species} />,
-      filterable: getDistinctFieldValue(resolvedData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
+      filterable: getDistinctFieldValue(supplementalData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
       headerStyle: {width: '100px'},
     },
