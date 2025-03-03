@@ -16,7 +16,6 @@ import SpeciesIcon from '../../components/speciesIcon';
 import PageNavEntity from '../../components/dataPage/PageNavEntity';
 import DataSourceLink from '../../components/dataSourceLink';
 import {Link} from 'react-router-dom';
-import AlleleToPhenotypeTable from './AlleleToPhenotypeTable';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
 import AlleleToDiseaseTable from './AlleleToDiseaseTable';
 import AlleleSequenceView from './AlleleSequenceView';
@@ -27,6 +26,8 @@ import MolecularConsequenceHelp from './MolecularConsequenceHelp';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import GeneSymbol from '../../components/GeneSymbol';
 import SpeciesName from '../../components/SpeciesName';
+import PhenotypeTable from "../genePage/phenotypeTable";
+import React from "react";
 
 const SUMMARY = 'Summary';
 const PHENOTYPES = 'Phenotypes';
@@ -105,7 +106,7 @@ const AllelePage = ({ alleleId }) => {
 
          
         <Subsection title={PHENOTYPES}>
-          <AlleleToPhenotypeTable alleleId={alleleId} />
+          <PhenotypeTable geneId={alleleId} entityType={'allele'} />
         </Subsection>
 
         <Subsection title={DISEASE}>
