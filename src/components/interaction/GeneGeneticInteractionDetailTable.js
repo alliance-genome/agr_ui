@@ -2,25 +2,27 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
   DataTable,
-  GeneCell,
-  AlleleCell,
+  GeneCellCuration,
   SpeciesCell,
 } from '../dataTable';
+import { getResourceUrl } from '../dataTable/getResourceUrl';
+import { getIdentifier, getSingleReferenceUrl } from '../dataTable/utils';
 import ExternalLink from '../ExternalLink';
 import MITerm from './MITerm';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
+import AlleleCellCuration from '../../components/dataTable/AlleleCellCuration';
 import { CollapsibleList } from '../collapsibleList';
 
 const GeneGeneticInteractionDetailTable = ({
   focusGeneId,
   focusGeneDisplayName,
 }) => {
-  const tableProps = useDataTableQuery(`/api/gene/${focusGeneId}/interactions?filter.joinType=genetic_interaction`);
-
+  const tableProps = useDataTableQuery(`/api/gene/${focusGeneId}/genetic-interactions`);
+  
   const columns = useMemo(() => (
     [
       {
-        dataField: 'interactorARole',
+        dataField: 'geneGeneticInteraction.interactorARole',
         text: `${focusGeneDisplayName} role`,
         helpPopupProps: {
           id: 'gene-page--genetic-interaction-table--role-help',
@@ -35,7 +37,7 @@ const GeneGeneticInteractionDetailTable = ({
         filterName: 'role',
       },
       {
-        dataField: 'alleleA',
+        dataField: 'geneGeneticInteraction.interactorAGeneticPerturbation',
         text: `${focusGeneDisplayName} genetic perturbation`,
         helpPopupProps: {
           id: 'gene-page--genetic-interaction-table--genetic-perturbation-help',
@@ -44,22 +46,30 @@ const GeneGeneticInteractionDetailTable = ({
         headerStyle: {
           width: '150px',
         },
-        formatter: (allele) => (allele ? <AlleleCell allele={allele} /> : null),
+        formatter:  (perturbation) => (perturbation ?
+          <React.Fragment>
+            <AlleleCellCuration identifier = {getIdentifier(perturbation)} alleleSymbol={perturbation} />
+          </React.Fragment> : null
+        ),
         filterable: true,
         filterName: 'geneticPerturbation',
       },
       {
-        dataField: 'geneB',
+        dataField: 'geneGeneticInteraction.geneGeneAssociationObject',
         text: 'Interactor gene',
         headerStyle: {
           width: '150px',
         },
-        formatter: GeneCell,
+        formatter:  (object) => (
+          <React.Fragment>
+            <GeneCellCuration curie={getIdentifier(object)} geneSymbol={object.geneSymbol} />
+          </React.Fragment>
+        ),
         filterable: true,
         filterName: 'interactorGeneSymbol',
       },
       {
-        dataField: 'geneB.species',
+        dataField: 'geneGeneticInteraction.geneGeneAssociationObject.taxon',
         text: 'Interactor species',
         headerStyle: {
           width: '200px',
@@ -70,7 +80,7 @@ const GeneGeneticInteractionDetailTable = ({
         filterName: 'interactorSpecies',
       },
       {
-        dataField: 'interactorBRole',
+        dataField: 'geneGeneticInteraction.interactorBRole',
         text: 'Interactor role',
         helpPopupProps: {
           id: 'gene-page--genetic-interaction-table--interactor-role-help',
@@ -81,11 +91,10 @@ const GeneGeneticInteractionDetailTable = ({
         },
         formatter: (term, _, rowIndex) => <MITerm {...term} id={`genetic_interaction-interactorBRole-${rowIndex}`} />,
         filterable: true,
-        filterType: 'checkbox',
-        filterName: 'interacotorRole',
+        filterName: 'interactorRole',
       },
       {
-        dataField: 'alleleB',
+        dataField: 'geneGeneticInteraction.interactorBGeneticPerturbation',
         text: 'Interactor genetic perturbation',
         helpPopupProps: {
           id: 'gene-page--genetic-interaction-table--interactor-genetic-perturbation-help',
@@ -94,12 +103,16 @@ const GeneGeneticInteractionDetailTable = ({
         headerStyle: {
           width: '150px',
         },
-        formatter: (allele) => (allele ? <AlleleCell allele={allele} /> : null),
+        formatter:  (perturbation) => (perturbation ?
+          <React.Fragment>
+            <AlleleCellCuration identifier = {getIdentifier(perturbation)} alleleSymbol={perturbation} />
+          </React.Fragment> : null
+        ),
         filterable: true,
         filterName: 'interactorGeneticPerturbation',
       },
       {
-        dataField: 'interactionType',
+        dataField: 'geneGeneticInteraction.interactionType',
         text: 'Interaction type',
         helpPopupProps: {
           id: 'gene-page--genetic-interaction-table--interaction-type-help',
@@ -110,63 +123,42 @@ const GeneGeneticInteractionDetailTable = ({
         },
         formatter: (term, _, rowIndex) => <MITerm {...term} id={`genetic_interaction-interactionType-${rowIndex}`} />,
         filterable: true,
-        filterType: 'checkbox',
+        filterName: 'interactionType'
       },
       {
-        dataField: 'phenotypes',
+        dataField: 'geneGeneticInteraction.phenotypesOrTraits',
         text: 'Phenotype or trait',
         headerStyle: {
           width: '130px',
         },
-        formatter: (phenotypes) => (
-          <CollapsibleList>
-            {
-              (phenotypes || []).map(({phenotypeStatement}) => {
-                return phenotypeStatement && <span key={phenotypeStatement}>{phenotypeStatement}</span>;
-              })
-            }
-          </CollapsibleList>
+        formatter: (phenotypesOrTraits) => (
+          <CollapsibleList>{phenotypesOrTraits}</CollapsibleList>
         ),
         filterable: true,
         filterName: 'phenotypes',
       },
       {
-        dataField: 'crossReferences',
+        dataField: 'geneGeneticInteraction.crossReferences',
         text: 'Source',
         headerStyle: {
           width: '250px',
         },
-        formatter: (crossReferences = [], {sourceDatabase = {}, aggregationDatabase} = {}) => (
-          <div>
-            {
-              crossReferences && crossReferences.map(({primaryKey, displayName, prefix, crossRefCompleteUrl} = {}) => (
-                <div key={primaryKey}>
-                  <ExternalLink href={crossRefCompleteUrl}>{prefix}:{displayName}</ExternalLink>
-                </div>
-              ))
-            }
-            {
-              (!aggregationDatabase || sourceDatabase?.label === aggregationDatabase?.label) ?
-                null :
-                <span>
-                  <ExternalLink href={sourceDatabase.url}>{sourceDatabase.label}</ExternalLink>
-                  <i><span> via </span></i>
-                  <ExternalLink href={aggregationDatabase.url}>{aggregationDatabase.label}</ExternalLink>
-                </span>
-            }
-          </div>
+        formatter: (xrefs) => (xrefs ? 
+           <ExternalLink href={getResourceUrl({identifier:xrefs[0].referencedCurie.toUpperCase(), type:"gene/interactions"})}>{xrefs[0].displayName}</ExternalLink> : null
         ),
         filterable: true,
         filterName: 'source',
       },
       {
-        dataField: 'publication',
+        dataField: 'geneGeneticInteraction.evidence',
         text: 'Reference',
         headerStyle: {
           width: '150px',
         },
         // eslint-disable-next-line react/prop-types
-        formatter: ({pubMedUrl, primaryKey} = {}) => <ExternalLink href={pubMedUrl}>{primaryKey}</ExternalLink>,
+        formatter: (reference) => {
+          return <ExternalLink href={getSingleReferenceUrl(reference[0].referenceID).url} key={reference[0].referenceID} title={reference[0].referenceID}>{reference[0].referenceID}</ExternalLink>;
+        },
         filterable: true,
         filterName: 'reference',
       }
@@ -177,11 +169,11 @@ const GeneGeneticInteractionDetailTable = ({
   const sortOptions = useMemo(() => (
     [
       {
-        value: 'interactorGeneSymbol',
+        value: 'geneGeneticInteraction.geneGeneAssociationObject.geneSymbol.displayText.keyword',
         label: 'Interactor gene',
       },
       {
-        value: 'interactorSpecies',
+        value: 'geneGeneticInteraction.geneGeneAssociationObject.taxon.name.keyword',
         label: 'Interactor species',
       },
     ]
@@ -190,11 +182,10 @@ const GeneGeneticInteractionDetailTable = ({
   return (
     <DataTable
       {...tableProps}
-      data={tableProps?.data}
-      downloadUrl={`/api/gene/${focusGeneId}/interactions/download?filter.joinType=genetic_interaction`}
+      downloadUrl={`/api/gene/${focusGeneId}/genetic-interactions/download`}
       columns={columns}
       sortOptions={sortOptions}
-      keyField='primaryKey'
+      keyField='id'
     />
   );
 };
