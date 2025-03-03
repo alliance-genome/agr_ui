@@ -89,7 +89,8 @@ const OrthologPicker =({
     if (!geneHasDataTest) {
       return true;
     }
-    return geneHasDataTest(orthology.data.supplementalData[id]);
+    //uncomment when geneHasDataTest is implemented
+    // return geneHasDataTest(orthology.data.supplementalData[id]);
   };
   
   // if the orthology data has settled, filter it and pass it back to the parent

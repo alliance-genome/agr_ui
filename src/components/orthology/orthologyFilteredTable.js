@@ -86,7 +86,8 @@ const OrthologyFilteredTable = ({geneId}) => {
 
   const filteredData = data.results.filter(filterCallback);
   const all_methods = data.results[0].predictionMethodsMatched.concat(
-    data.results[0].predictionMethodsNotCalled
+    data.results[0].predictionMethodsNotCalled,
+    data.results[0].predictionMethodsNotMatched
   ).map(method => method.name).sort(compareAlphabeticalCaseInsensitive);
 
   const labelStyle = {

@@ -79,33 +79,6 @@ export function getTableUrl(baseUrl, tableState) {
   return baseUrl + separator + buildTableQueryString(tableState);
 }
 
-/**
- * Checks if the orthology has a stringency filter of 'stringent'.
- *
- * @param {Object} orthology - The orthology object to check.
- * @returns {boolean} True if the stringency filter is 'stringent', otherwise false.
- */
-function isHighStringency(orthology) {
-  return orthology.stringencyFilter === 'stringent';
-}
-
-/**
- * Checks if the orthology has a stringency filter of 'stringent' or 'moderate'.
- *
- * @param {Object} orthology - The orthology object to check.
- * @returns {boolean} True if the stringency filter is 'stringent' or 'moderate', otherwise false.
- */
-function isModerateStringency(orthology) {
-  return orthology.stringencyFilter === 'stringent' ||
-    orthology.stringencyFilter === 'moderate';
-}
-
-// if (ortho.isStrictFilter()) {
-//   view.setStringencyFilter("stringent");
-// } else if (ortho.isModerateFilter()) {
-//   view.setStringencyFilter("moderate");
-// }
-
 export function orthologyMeetsStringency(orthology, stringency) {
   switch (stringency) {
   case STRINGENCY_HIGH:
