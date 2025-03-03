@@ -2,52 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   DataTable,
-  GeneCell,
+  GeneCellCuration,
+  SpeciesCell
 } from '../dataTable';
-import CommaSeparatedList from '../commaSeparatedList';
+import { getResourceUrl } from '../dataTable/getResourceUrl';
+import { getIdentifier, getSingleReferenceUrl } from '../dataTable/utils';
 import ExternalLink from '../ExternalLink';
 import MITerm from './MITerm';
 import style from './genePhysicalInteractionDetailTable.module.scss';
-import {getDistinctFieldValue} from '../dataTable/utils';
-import { compareByFixedOrder, htmlToPlainText } from '../../lib/utils';
-import {SPECIES_NAME_ORDER} from '../../constants';
+import { htmlToPlainText } from '../../lib/utils';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import SpeciesName from '../SpeciesName';
-
-const DEFAULT_TABLE_KEY = 'physicalInteractionTable';
 
 const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId}) => {
-  const {
-    data: results,
-    ...tableProps
-  } = useDataTableQuery(`/api/gene/${focusGeneId}/interactions?filter.joinType=molecular_interaction`);
-
-  const getCellId = (fieldKey, rowIndex) => {
-    return `${DEFAULT_TABLE_KEY}-${fieldKey}-${rowIndex}`;
-  };
-
-  const data = results?.map((interaction = {}) => ({
-    id: interaction.primaryKey,
-    moleculeType: interaction.interactorAType,
-    interactorGeneSymbol: interaction.geneB,
-    interactorSpecies: interaction.geneB.species,
-    interactorMoleculeType: interaction.interactorBType,
-    detectionMethod: interaction.detectionsMethods,
-    source: interaction.crossReferences,
-    aggregationDatabase: interaction.aggregationDatabase,
-    sourceDatabase: interaction.sourceDatabase,
-    reference: interaction.publication,
-  }));
-
+  const tableProps = useDataTableQuery(`/api/gene/${focusGeneId}/molecular-interactions`);
   const columns = [
-    {
-      dataField: 'id',
-      text: 'id',
-      hidden: true,
-    },
-    {
-      dataField: 'moleculeType',
-      text: 'moleculeType',
+   {
+      dataField: 'geneMolecularInteraction.interactorAType',
+      text: 'Molecule Type',
       // headerNode is not part of the react-bootstrap-table column specification,
       // but it gets picked up in our ColumnHeader component to get around the fact
       // that `text` cannot be a JSX node. this property is only needed if the
@@ -57,136 +28,103 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
           <span className="text-transform-none" dangerouslySetInnerHTML={{__html: focusGeneDisplayName}} /> molecule type
         </>
       ),
-      formatter: (fieldData = {}, row, rowIndex) => {
-        const id = getCellId('interactorAType', rowIndex);
-        return (
-          <MITerm {...fieldData} id={id} />
-        );
-      },
+      formatter: (moleculeType, _, rowIndex) => <MITerm {...moleculeType} id={`molecular_interaction-interactorAType-${rowIndex}`} />,
       headerStyle: {width: '6em'},
       headerClasses: style.columnHeaderGroup1,
       classes: style.columnGroup1,
-      filterType: 'checkbox',
       filterable: true,
+      filterName: 'moleculeType',
     },
     {
-      dataField: 'interactorGeneSymbol',
+      dataField: 'geneMolecularInteraction.geneGeneAssociationObject',
       text: 'Interactor gene',
-      formatter: GeneCell,
+      formatter:  (object) => (
+        <React.Fragment>
+          <GeneCellCuration curie={getIdentifier(object)} geneSymbol={object.geneSymbol} />
+        </React.Fragment>
+      ),
       headerStyle: {width: '6em'},
       headerClasses: style.columnHeaderGroup2,
       classes: style.columnGroup2,
       filterable: true,
+      filterName: 'interactorGeneSymbol',
     },
     {
-      dataField: 'interactorSpecies',
+      dataField: 'geneMolecularInteraction.geneGeneAssociationObject.taxon',
       text: 'Interactor species',
-      formatter: species => <SpeciesName>{species.name}</SpeciesName>,
+      formatter: (species) => <SpeciesCell species={species}/>,
       headerStyle: {width: '8em'},
       headerClasses: style.columnHeaderGroup2,
       classes: style.columnGroup2,
-      filterType: 'checkbox',
-      filterable: getDistinctFieldValue(tableProps.supplementalData, 'filter.interactorSpecies').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
-      filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
+      filterable: true,
+      filterName: 'interactorSpecies'
     },
     {
-      dataField: 'interactorMoleculeType',
+      dataField: 'geneMolecularInteraction.interactorBType',
       text: 'Interactor molecule type',
-      formatter: (fieldData = {}, row, rowIndex) => {
-        const id = getCellId('interactorBType', rowIndex);
-        return (
-          <MITerm {...fieldData} id={id} />
-        );
-      },
+      formatter: (term, _, rowIndex) => <MITerm {...term} id={`molecular_interaction-interactorBType-${rowIndex}`} />,
       headerStyle: {width: '6em'},
       headerClasses: style.columnHeaderGroup2,
       classes: style.columnGroup2,
-      filterType: 'checkbox',
       filterable: true,
+      filterName: 'interactorMoleculeType',
     },
     {
-      dataField: 'detectionMethod',
-      text: 'Detection methods',
-      formatter: (items, row, rowIndex) => {
-        return (
-          <CommaSeparatedList>
-            {
-              items && items.map(
-                (props = {}, index) => {
-                  const id = getCellId('detectionsMethods', `${rowIndex}-${index}`);
-                  return (
-                    <MITerm key={id} {...props} id={id} />
-                  );
-                }
-              )
-            }
-          </CommaSeparatedList>
-        );
-      },
+      dataField: 'geneMolecularInteraction.detectionMethod',
+      text: 'Detection method',
+      formatter: (term, _, rowIndex) => <MITerm {...term} id={`molecular_interaction-detectionMethod-${rowIndex}`} />,
       headerStyle: {width: '12em'},
       headerClasses: style.columnHeaderGroup3,
       classes: style.columnGroup3,
       filterable: true,
+      filterName: 'detectionMethod',
     },
     {
-      dataField: 'source',
+      dataField: 'geneMolecularInteraction.crossReferences',
       text: 'Source',
-      formatter: (crossReferences = [], {sourceDatabase = {}, aggregationDatabase = {}} = {}) => (
-        <div>
-          {
-            crossReferences.map(({primaryKey, displayName, prefix, crossRefCompleteUrl} = {}) => (
-              <div key={primaryKey}>
-                <ExternalLink href={crossRefCompleteUrl}>{prefix}:{displayName}</ExternalLink>
-              </div>
-            ))
-          }
-          {
-            (!aggregationDatabase || sourceDatabase.label === aggregationDatabase.label) ?
-              null :
-              <span>
-                <ExternalLink href={sourceDatabase.url}>{sourceDatabase.label}</ExternalLink>
-                <i><span> via </span></i>
-                <ExternalLink href={aggregationDatabase.url}>{aggregationDatabase.label}</ExternalLink>
-              </span>
-          }
-        </div>
+      formatter: (source) => (source ? 
+          <ExternalLink href={getResourceUrl({identifier:source[0].referencedCurie.toUpperCase(), type:"gene/interactions"})}>{source[0].displayName}</ExternalLink> : null
       ),
       headerStyle: {width: '16em'},
       headerClasses: style.columnHeaderGroup0,
       classes: style.columnGroup0,
       filterable: true,
+      filterName: 'source',
     },
     {
-      dataField: 'reference',
+      dataField: 'geneMolecularInteraction.evidence',
       text: 'Reference',
       // eslint-disable-next-line react/prop-types
-      formatter: ({pubMedUrl, primaryKey} = {}) => <ExternalLink href={pubMedUrl}>{primaryKey}</ExternalLink>,
+      formatter: (reference) => {
+        return <ExternalLink href={getSingleReferenceUrl(reference[0].referenceID).url} key={reference[0].referenceID} title={reference[0].referenceID}>{reference[0].referenceID}</ExternalLink>;
+      },
       headerStyle: {width: '10em'},
       headerClasses: style.columnHeaderGroup3,
       classes: style.columnGroup3,
       filterable: true,
+      filterName: 'reference',
     },
   ];
 
   const sortOptions = [
     {
-      value: 'moleculeType',
+      value: 'geneMolecularInteraction.interactorAType.name.keyword',
       label: `${htmlToPlainText(focusGeneDisplayName)} molecule type`,
     },
     {
-      value: 'interactorGeneSymbol',
+      value: 'geneMolecularInteraction.geneGeneAssociationObject.geneSymbol.displayText.keyword',
       label: 'Interactor gene',
     },
     {
-      value: 'interactorSpecies',
+      value: 'geneMolecularInteraction.geneGeneAssociationObject.taxon.name.keyword',
       label: 'Interactor species',
     },
     {
-      value: 'interactorMoleculeType',
+      value: 'geneMolecularInteraction.interactorBType.name.keyword',
       label: 'Interactor molecule type',
     },
     {
-      value: 'interactorDetectionMethod',
+      value: 'geneMolecularInteraction.interactorDetectionMethod.name.keyword',
       label: 'Detection method',
     },
   ];
@@ -195,16 +133,9 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
     <DataTable
       {...tableProps}
       columns={columns}
-      data={data || []}
-      downloadUrl={`/api/gene/${focusGeneId}/interactions/download?filter.joinType=molecular_interaction`}
+      downloadUrl={`/api/gene/${focusGeneId}/molecular-interactions/download`}
       keyField='id'
       sortOptions={sortOptions}
-      summaryProps={
-        (tableProps && tableProps.supplementalData) ? {
-          ...tableProps.supplementalData.annotationSummary,
-          entityType: 'interactor gene'
-        } : null
-      }
     />
   );
 };
