@@ -51,12 +51,13 @@ const PhenotypeTable = ({geneId, entityType}) => {
       headerStyle: {width: '90px'},
     },
     {
-      dataField: 'providers',
+      dataField: 'primaryAnnotations',
       text: 'Source',
-      formatter: providers => providers && <ProvidersCellCuration providers={providers} />,
+      formatter: primaryAnnotations => primaryAnnotations && <ProvidersCellCuration providers={primaryAnnotations} />,
       filterable: true,
       headerStyle: {width: '100px'},
       filterName: 'dataProvider',
+
     },
     {
       dataField: 'pubmedPubModIDs',
