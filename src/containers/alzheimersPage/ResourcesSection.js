@@ -5,10 +5,10 @@ import ExternalLink from '../../components/ExternalLink';
 
 const ResourcesSection = () => {
   const resourceLinks = [
-    {title: "Alzhemiers.gov", url: 'https://www.alzheimers.gov/'},
-    {title: "Alzhemier's Association", url: 'https://www.alz.org/'},
+    {title: "Alzheimers.gov", url: 'https://www.alzheimers.gov/'},
+    {title: "Alzheimer's Association", url: 'https://www.alz.org/'},
     {title: "Alzheimer's Disease Clinical Trials", url: 'https://www.clinicaltrials.gov/search?cond=Alzheimer%20Disease'},
-    {title: "Alzhemier's Foundation of America", url: 'https://alzfdn.org/'},
+    {title: "Alzheimer's Foundation of America", url: 'https://alzfdn.org/'},
     {title: "National Institute on Aging", url: 'https://www.nia.nih.gov/'},
     {title: "OMIM", url: 'https://omim.org/entry/104300'},
   ];
