@@ -88,7 +88,7 @@ const OrthologyFilteredTable = ({geneId}) => {
   const all_methods = data.results[0].predictionMethodsMatched.concat(
     data.results[0].predictionMethodsNotCalled,
     data.results[0].predictionMethodsNotMatched
-  ).map(method => method.name).sort(compareAlphabeticalCaseInsensitive);
+  ).map(method => method?.name).sort(compareAlphabeticalCaseInsensitive);
 
   const labelStyle = {
     margin: '0em 1em 0em 0',
