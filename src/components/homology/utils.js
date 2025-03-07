@@ -1,27 +1,27 @@
-export function getOrthologSpeciesName(ortholog = {}) {
+export function getOrthologSpeciesName(orthology = {}) {
   const {
-    homologGene = {}
-  } = ortholog;
-  return (homologGene.species || {}).name;
+    objectGene = {}
+  } = orthology;
+  return (objectGene.taxon || {}).name;
 }
 
-export function getOrthologSpeciesId(ortholog = {}) {
+export function getOrthologSpeciesId(orthology = {}) {
   const {
-    homologGene = {}
-  } = ortholog;
-  return (homologGene.species || {}).taxonId;
+    objectGene = {}
+  } = orthology;
+  return (objectGene.taxon || {}).curie;
 }
 
-export function getOrthologId(ortholog = {}) {
+export function getOrthologId(orthology = {}) {
   const {
-    homologGene = {}
-  } = ortholog;
-  return homologGene.id;
+    objectGene = {}
+  } = orthology;
+  return objectGene.primaryExternalId;
 }
 
-export function getOrthologSymbol(ortholog = {}) {
+export function getOrthologSymbol(orthology = {}) {
   const {
-    homologGene = {}
-  } = ortholog;
-  return homologGene.symbol;
+    objectGene = {}
+  } = orthology;
+  return objectGene.geneSymbol.displayText;
 }

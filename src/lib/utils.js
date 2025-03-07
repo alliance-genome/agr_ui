@@ -79,22 +79,12 @@ export function getTableUrl(baseUrl, tableState) {
   return baseUrl + separator + buildTableQueryString(tableState);
 }
 
-
-function isHighStringency(orthology) {
-  return orthology.stringencyFilter === 'stringent';
-}
-
-function isModerateStringency(orthology) {
-  return orthology.stringencyFilter === 'stringent' ||
-    orthology.stringencyFilter === 'moderate';
-}
-
 export function orthologyMeetsStringency(orthology, stringency) {
   switch (stringency) {
   case STRINGENCY_HIGH:
-    return isHighStringency(orthology);
+    return orthology.strictFilter;
   case STRINGENCY_MED:
-    return isModerateStringency(orthology);
+    return orthology.moderateFilter || orthology.strictFilter;
   default:
     return true;
   }
