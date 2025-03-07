@@ -79,6 +79,7 @@ const DiseaseComparisonRibbon = ({geneId, geneTaxon, history}) => {
             defaultStringency={STRINGENCY_HIGH}
             focusGeneId={geneId}
             focusTaxonId={geneTaxon}
+            geneHasDataTest={info => info.hasDiseaseAnnotations}
             id='disease-ortho-picker'
             onChange={handleOrthologyChange}
             onCheckboxValueChange={setCompareOrthologs}

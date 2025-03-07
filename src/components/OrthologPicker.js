@@ -85,11 +85,11 @@ const OrthologPicker =({
 
   const orthologyResults = orthology.data?.results || [];
   
-  const geneHasData = (id) => {
+  const geneHasData = (orthology, id) => {
     if (!geneHasDataTest) {
       return true;
     }
-    return geneHasDataTest(orthology.data.supplementalData[id]);
+    return geneHasDataTest(orthology.geneAnnotations[id]);
   };
   
   // if the orthology data has settled, filter it and pass it back to the parent
@@ -102,13 +102,16 @@ const OrthologPicker =({
     let selectedOrthologs = [];
     if (checkboxValue && orthologyResults) {
       selectedOrthologs = orthologyResults.sort(compareBySpeciesThenAlphabetical)
-        .filter(o => geneHasData(getOrthologId(o)));
+        .filter(o => geneHasData(o, getOrthologId(o)));
+
+
       if (stringency) {
         selectedOrthologs = selectedOrthologs.filter(byStringency(stringency.value));
       }
-      if (selectedSpecies.length) {
-        selectedOrthologs = selectedOrthologs.filter(bySpecies(selectedSpecies));
-      }
+    
+    if (selectedSpecies.length) {
+      selectedOrthologs = selectedOrthologs?.filter(bySpecies(selectedSpecies));
+    }
     }
     onChange(selectedOrthologs);
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -196,14 +199,13 @@ const OrthologPicker =({
       return true;
     }
     return orthologyResults?.filter(bySpecies([species]))
-      .map(getOrthologId)
-      .some(geneHasData);
+      .some(o => geneHasData(o, getOrthologId(o)));
   };
 
   const speciesHasOrthologsMeetingStringency = (species) => {
     return orthologyResults?.filter(bySpecies([species]))
       .filter(o => stringency ? orthologyMeetsStringency(o, stringency.value) : true)
-      .some(o => geneHasData(getOrthologId(o)));
+      .some(o => geneHasData(o, getOrthologId(o)));
   };
 
   if (orthology.isLoading || !orthology.data) {
