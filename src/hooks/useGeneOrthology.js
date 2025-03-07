@@ -14,7 +14,12 @@ const fetchAndMapGeneOrthology = async (geneId) => {
   const response = await fetchGeneOrthology(geneId);
   return {
     ...response,
-    results: response.results?.map(result => result.geneToGeneOrthologyGenerated) || []
+    results: response.results?.map(result => {
+      return {
+        ...result,
+        ...(result.geneToGeneOrthologyGenerated || {})
+      };
+    }) || []
   };
 };
 

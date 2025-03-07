@@ -83,7 +83,7 @@ const ExpressionComparisonRibbon = ({
             defaultStringency={STRINGENCY_HIGH}
             focusGeneId={geneId}
             focusTaxonId={geneTaxon}
-            // geneHasDataTest={info => info.hasExpressionAnnotations}
+            geneHasDataTest={info => info.hasExpressionAnnotations}
             id='expression-ortho-picker'
             onChange={handleOrthologChange}
             onCheckboxValueChange={setCompareOrthologs}
