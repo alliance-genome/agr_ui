@@ -19,9 +19,9 @@ const ResourcesSection = () => {
           <div className='col-lg-12'>
             <h2>Community Resoures</h2>
               <div>
-                {resourceLinks.map((resourceLink) => {
+                {resourceLinks.map((resourceLink, index) => {
                   return (
-                    <div>
+                    <div key={'resources-' + index}>
                       <ExternalLink href={resourceLink.url}>{resourceLink.title}</ExternalLink>
                     </div>
                   )
