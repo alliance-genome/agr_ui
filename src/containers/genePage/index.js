@@ -136,7 +136,7 @@ const GenePage = ({geneId}) => {
         <Subsection hideTitle title={SUMMARY}>
           <BasicGeneInfo gene={data} />
         </Subsection>
-xxxxxxxxxxx
+
         <Subsection help={<HomologyUserGuide />} title={ORTHOLOGY}>
           <OrthologyBasicInfo pantherCrossReference={data.crossReferenceMap.panther} />
           <OrthologyFilteredTable geneId={data.id} />

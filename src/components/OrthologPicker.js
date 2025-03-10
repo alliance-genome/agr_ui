@@ -84,7 +84,6 @@ const OrthologPicker =({
 
   // data from API
   const orthology = useGeneOrthology(focusGeneId);
-
   const orthologyResults = orthology.data?.results || [];
 
   const geneHasData = (id) => {
@@ -93,7 +92,6 @@ const OrthologPicker =({
     }
     return geneHasDataTest(orthology.data.supplementalData[id]);
   };
-
   // if the orthology data has settled, filter it and pass it back to the parent
   // via the `onChange` callback whenever the orthology or one of the UI controls
   // has changed
