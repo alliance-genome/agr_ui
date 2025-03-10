@@ -5,8 +5,8 @@ import ControlsContainer from '../controlsContainer';
 import { STRINGENCY_HIGH } from '../homology/constants';
 import ExpressionAnnotationTable from './expressionAnnotationTable';
 import HorizontalScroll from '../horizontalScroll';
-import HelpPopup from '../helpPopup';
-import ExpressionControlsHelp from './expressionControlsHelp';
+//import HelpPopup from '../helpPopup';
+//import ExpressionControlsHelp from './expressionControlsHelp';
 import OrthologPicker from '../OrthologPicker';
 import LoadingSpinner from '../loadingSpinner';
 import useEventListener from '../../hooks/useEventListener';
@@ -73,11 +73,7 @@ const ExpressionComparisonRibbon = ({
     <React.Fragment>
       <div className='pb-4'>
         <ControlsContainer>
-          <span className='pull-right'>
-            <HelpPopup id='expression-controls-help'>
-              <ExpressionControlsHelp />
-            </HelpPopup>
-          </span>
+
           <OrthologPicker
             checkboxValue={compareOrthologs}
             defaultStringency={STRINGENCY_HIGH}

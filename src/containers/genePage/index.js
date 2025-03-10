@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPage';
 import BasicGeneInfo from './basicGeneInfo';
 import {
-  OrthologyFilteredTable, 
-  HomologyUserGuide, 
-  OrthologyBasicInfo, 
+  OrthologyFilteredTable,
+  HomologyUserGuide,
+  OrthologyBasicInfo,
   OrthologyJBrowseLinkPanel
 } from '../../components/orthology';
 import ParalogyTable from '../../components/paralogy/paralogyTable'
@@ -136,7 +136,7 @@ const GenePage = ({geneId}) => {
         <Subsection hideTitle title={SUMMARY}>
           <BasicGeneInfo gene={data} />
         </Subsection>
-
+xxxxxxxxxxx
         <Subsection help={<HomologyUserGuide />} title={ORTHOLOGY}>
           <OrthologyBasicInfo pantherCrossReference={data.crossReferenceMap.panther} />
           <OrthologyFilteredTable geneId={data.id} />
@@ -220,7 +220,7 @@ const GenePage = ({geneId}) => {
           />
         </Subsection>
 
-        <Subsection 
+        <Subsection
           help={<SequencePanelSectionHelp />}
           title={SEQUENCE_DETAILS}
         >
