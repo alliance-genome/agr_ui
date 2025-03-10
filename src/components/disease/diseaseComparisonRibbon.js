@@ -69,7 +69,6 @@ const DiseaseComparisonRibbon = ({geneId, geneTaxon, history}) => {
     <div>
       <div>
         <ControlsContainer>
-
           <OrthologPicker
             checkboxValue={compareOrthologs}
             defaultStringency={STRINGENCY_HIGH}
