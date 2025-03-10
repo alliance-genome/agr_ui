@@ -220,7 +220,7 @@ const GenePage = ({geneId}) => {
           />
         </Subsection>
 
-        <Subsection
+        <Subsection g
           help={<SequencePanelSectionHelp />}
           title={SEQUENCE_DETAILS}
         >

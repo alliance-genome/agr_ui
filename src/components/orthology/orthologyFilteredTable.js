@@ -113,7 +113,6 @@ const OrthologyFilteredTable = ({geneId}) => {
   return (
     <div>
       <ControlsContainer>
-
         <StringencySelection
           level={stringencyLevel}
           onChange={setStringencyLevel}
@@ -159,8 +158,7 @@ const OrthologyFilteredTable = ({geneId}) => {
                 {
                   all_methods.map((method, index) => {
                     const scoreGreaterThanValue = index + 1;
-                    return <option key={scoreGreaterThanValue}
-                                   value={scoreGreaterThanValue}>&gt; {scoreGreaterThanValue}</option>;
+                    return <option key={scoreGreaterThanValue} value={scoreGreaterThanValue}>&gt; {scoreGreaterThanValue}</option>;
                   })
                 }
               </select>

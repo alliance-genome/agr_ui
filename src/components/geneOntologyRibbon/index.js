@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import HorizontalScroll from '../horizontalScroll';
 
 import { STRINGENCY_HIGH } from '../homology/constants';
-//import HelpPopup from '../helpPopup';
-//import GoControlsHelp from './goControlsHelp';
 import ControlsContainer from '../controlsContainer';
 import OrthologPicker from '../OrthologPicker';
 import { getOrthologId } from '../orthology';
@@ -235,8 +233,6 @@ class GeneOntologyRibbon extends Component {
         }).catch(() => {
           this.setState({ loading: false, error : true });
         });
-
-
       // regular group
     } else {
       this.fetchAssociationData(subject.id, group.id)
@@ -409,7 +405,6 @@ class GeneOntologyRibbon extends Component {
 
     return (
       <ControlsContainer>
-
         <OrthologPicker
           checkboxValue={compareOrthologs}
           defaultStringency={STRINGENCY_HIGH}
