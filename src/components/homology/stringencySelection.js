@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { STRINGENCY_HIGH, STRINGENCY_MED, STRINGNECY_LOW } from './constants';
+import HelpPopup from '../helpPopup';
+import HomologyFilterHelp from '../homology/homologyFilterHelp';
 
 class StringencySelection extends React.Component {
   constructor(props) {
@@ -37,7 +39,7 @@ class StringencySelection extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{display: 'inline'}}>
         <span>Stringency:</span>
         {this.renderStringencyOption(STRINGENCY_HIGH, 'Stringent')}
         {this.renderStringencyOption(STRINGENCY_MED, 'Moderate')}
