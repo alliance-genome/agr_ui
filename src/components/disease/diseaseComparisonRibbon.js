@@ -8,8 +8,6 @@ import PropTypes from 'prop-types';
 import DiseaseAnnotationTable from './diseaseAnnotationTable';
 import HorizontalScroll from '../horizontalScroll';
 import { STRINGENCY_HIGH } from '../homology/constants';
-import HelpPopup from '../helpPopup';
-import DiseaseControlsHelp from './diseaseControlsHelp';
 import ControlsContainer from '../controlsContainer';
 import LoadingSpinner from '../loadingSpinner';
 import OrthologPicker from '../OrthologPicker';
