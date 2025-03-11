@@ -1,6 +1,6 @@
 import React from 'react';
 
-const DiseaseControlsHelp = () => (
+const OrthologPickerHelp = () => (
   <div>
     <p>There are three precomputed stringency options, described below.</p>
 
@@ -35,4 +35,4 @@ const DiseaseControlsHelp = () => (
   </div>
 );
 
-export default DiseaseControlsHelp;
+export default OrthologPickerHelp;
