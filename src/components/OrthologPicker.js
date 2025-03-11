@@ -29,7 +29,7 @@ import useGeneOrthology from '../hooks/useGeneOrthology';
 import useResettableState from '../hooks/useResettableState';
 import SpeciesName from './SpeciesName';
 import HelpPopup from "./helpPopup";
-import OrthologPickerHelp from "./disease/OrthologPickerHelp";
+import OrthologPickerHelp from "./OrthologPickerHelp";
 
 const bySpecies = species => orthology => species
   .map(s => s.taxonId)
