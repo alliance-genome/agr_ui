@@ -29,7 +29,7 @@ import useGeneOrthology from '../hooks/useGeneOrthology';
 import useResettableState from '../hooks/useResettableState';
 import SpeciesName from './SpeciesName';
 import HelpPopup from "./helpPopup";
-import DiseaseControlsHelp from "./disease/diseaseControlsHelp";
+import OrthologPickerHelp from "./disease/OrthologPickerHelp";
 
 const bySpecies = species => orthology => species
   .map(s => s.taxonId)
@@ -228,8 +228,8 @@ const OrthologPicker =({
         </div>
         <div style={{display: 'inline'}} onclick={(e) => {e.stopPropagation()}}>
            <span>
-            <HelpPopup id='disease-controls-help'>
-              <DiseaseControlsHelp/>
+            <HelpPopup id='ortholog-picker-help'>
+              <OrthologPickerHelp/>
             </HelpPopup>
           </span>
         </div>
