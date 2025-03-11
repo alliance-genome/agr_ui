@@ -75,6 +75,10 @@
     color: white;
   }
 
+  > div {
+    white-space: nowrap;
+  }
+
   .footerLogo {
     margin-right: 2rem;
     margin-bottom: 1rem;
