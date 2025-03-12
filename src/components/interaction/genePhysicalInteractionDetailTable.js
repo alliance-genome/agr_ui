@@ -10,6 +10,7 @@ import { getResourceUrl } from '../dataTable/getResourceUrl';
 import { getIdentifier, getSingleReferenceUrl } from '../dataTable/utils';
 import ExternalLink from '../ExternalLink';
 import MITerm from './MITerm';
+import MITermURL from './MITermURL';
 import style from './genePhysicalInteractionDetailTable.module.scss';
 import { htmlToPlainText } from '../../lib/utils';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
@@ -97,9 +98,9 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
             (!geneMolecularInteraction.aggregationDatabase || geneMolecularInteraction.interactionSource.curie === geneMolecularInteraction.aggregationDatabase.curie) ?
               null :
               <span>
-                <ExternalLink href={getResourceUrl({identifier:geneMolecularInteraction.interactionSource.name.toUpperCase()})}>{getFormattedDatabaseName(geneMolecularInteraction.interactionSource.name)}</ExternalLink>
+                <MITermURL {...geneMolecularInteraction.interactionSource}/>
                 <i><span> via </span></i>
-                <ExternalLink href={getResourceUrl({identifier:geneMolecularInteraction.aggregationDatabase.name.toUpperCase()})}>{getFormattedDatabaseName(geneMolecularInteraction.aggregationDatabase.name)}</ExternalLink>
+                <MITermURL {...geneMolecularInteraction.aggregationDatabase}/>
               </span>
           }
         </div>
@@ -125,35 +126,68 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
     },
   ];
 
-  const getFormattedDatabaseName = (miTerm) => {
-    if (miTerm.name === 'intact') {
-      return 'IntAct';
+  const getSourceUrl = (miTerm) => {
+    let url = "";
+    let displayName = miTerm.name.toUpperCase();
+    if (miTerm.name === 'mbinfo') {
+      displayName = 'MBInfo';
+    } else if (miTerm.name === 'iid') {
+      url = 'https://iid.ophid.utoronto.ca';
+    } else if (miTerm.name === 'ntnu') {
+      url = 'https://www.ntnu.no/home';
+    } else if (miTerm.name === 'molecular connections') {
+      displayName = 'Molecular Connections';
+      url = 'https://molecularconnections.com';
+    } else if (miTerm.name === 'bhf-ucl') {
+      url = 'https://www.ebi.ac.uk/GOA/CVI';
+    } else if (miTerm.name === 'uniprot knowledge base') {
+      displayName = 'UniProtKB';
+      url = 'https://www.uniprot.org';
+    } else if (miTerm.name === 'hpidb') {
+      url = 'https://cales.arizona.edu/hpidb/';
+    } else if (miTerm.name === 'intact') {
+      displayName = 'IntAct';
+      url = "https://www.ebi.ac.uk/intact";
+    } else if (miTerm.name === 'mint') {
+      url = 'https://mint.bio.uniroma2.it';
+    } else if (miTerm.name === 'matrixdb') {
+      url = 'https://matrixdb.univ-lyon1.fr'
+      displayName = 'MatrixDB';
+    } else if (miTerm.name === 'innatedb') {
+      displayName = 'InnateDB';
+      url = 'https://www.innatedb.ca';
+    } else if (miTerm.name === 'mpidb') {
+      url = "https://www.ebi.ac.uk/intact";
+    } else if (miTerm.name === 'imex') {
+      url = "https://www.imexconsortium.org";
     }
-    if (miTerm.name === 'imex') {
-      return 'IMEx';
-    }
-    return miTerm.name.toUpperCase();
-  }
 
+    if (url === "") {
+      return <span>{displayName}</span>;
+    }
+
+    return <ExternalLink href={url}>{displayName}</ExternalLink>
+  }
+  
   const sortOptions = [
     {
-      value: 'geneMolecularInteraction.interactorAType.name.keyword',
+      value: 'geneMolecularInteraction.interactorAType.name.sort',
       label: `${htmlToPlainText(focusGeneDisplayName)} molecule type`,
     },
     {
-      value: 'geneMolecularInteraction.geneGeneAssociationObject.geneSymbol.displayText.keyword',
+      value: 'geneMolecularInteraction.geneGeneAssociationObject.geneSymbol.displayText.sort',
       label: 'Interactor gene',
     },
     {
-      value: 'geneMolecularInteraction.geneGeneAssociationObject.taxon.name.keyword',
+      value: 'geneMolecularInteraction.geneGeneAssociationObject.taxon.name.sort',
       label: 'Interactor species',
     },
     {
-      value: 'geneMolecularInteraction.interactorBType.name.keyword',
+      value: 'geneMolecularInteraction.interactorBType.name.sort',
       label: 'Interactor molecule type',
     },
     {
-      value: 'geneMolecularInteraction.detectionMethod.name.keyword',
+      value: 'geneMolecularInteraction.detectionMethod.name.sort',
       label: 'Detection method',
     },
   ];

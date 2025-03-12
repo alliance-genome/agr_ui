@@ -178,11 +178,11 @@ const GeneGeneticInteractionDetailTable = ({
   const sortOptions = useMemo(() => (
     [
       {
-        value: 'geneGeneticInteraction.geneGeneAssociationObject.geneSymbol.displayText.keyword',
+        value: 'geneGeneticInteraction.geneGeneAssociationObject.geneSymbol.displayText.sort',
         label: 'Interactor gene',
       },
       {
-        value: 'geneGeneticInteraction.geneGeneAssociationObject.taxon.name.keyword',
+        value: 'geneGeneticInteraction.geneGeneAssociationObject.taxon.name.sort',
         label: 'Interactor species',
       },
     ]
