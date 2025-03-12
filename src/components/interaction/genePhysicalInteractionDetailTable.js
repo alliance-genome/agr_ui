@@ -125,49 +125,6 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
       filterName: 'reference',
     },
   ];
-
-  const getSourceUrl = (miTerm) => {
-    let url = "";
-    let displayName = miTerm.name.toUpperCase();
-    if (miTerm.name === 'mbinfo') {
-      displayName = 'MBInfo';
-    } else if (miTerm.name === 'iid') {
-      url = 'https://iid.ophid.utoronto.ca';
-    } else if (miTerm.name === 'ntnu') {
-      url = 'https://www.ntnu.no/home';
-    } else if (miTerm.name === 'molecular connections') {
-      displayName = 'Molecular Connections';
-      url = 'https://molecularconnections.com';
-    } else if (miTerm.name === 'bhf-ucl') {
-      url = 'https://www.ebi.ac.uk/GOA/CVI';
-    } else if (miTerm.name === 'uniprot knowledge base') {
-      displayName = 'UniProtKB';
-      url = 'https://www.uniprot.org';
-    } else if (miTerm.name === 'hpidb') {
-      url = 'https://cales.arizona.edu/hpidb/';
-    } else if (miTerm.name === 'intact') {
-      displayName = 'IntAct';
-      url = "https://www.ebi.ac.uk/intact";
-    } else if (miTerm.name === 'mint') {
-      url = 'https://mint.bio.uniroma2.it';
-    } else if (miTerm.name === 'matrixdb') {
-      url = 'https://matrixdb.univ-lyon1.fr'
-      displayName = 'MatrixDB';
-    } else if (miTerm.name === 'innatedb') {
-      displayName = 'InnateDB';
-      url = 'https://www.innatedb.ca';
-    } else if (miTerm.name === 'mpidb') {
-      url = "https://www.ebi.ac.uk/intact";
-    } else if (miTerm.name === 'imex') {
-      url = "https://www.imexconsortium.org";
-    }
-
-    if (url === "") {
-      return <span>{displayName}</span>;
-    }
-
-    return <ExternalLink href={url}>{displayName}</ExternalLink>
-  }
   
   const sortOptions = [
     {
