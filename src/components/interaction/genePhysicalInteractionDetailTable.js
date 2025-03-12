@@ -5,10 +5,12 @@ import {
   GeneCellCuration,
   SpeciesCell
 } from '../dataTable';
+import SpeciesName from '../SpeciesName';
 import { getResourceUrl } from '../dataTable/getResourceUrl';
 import { getIdentifier, getSingleReferenceUrl } from '../dataTable/utils';
 import ExternalLink from '../ExternalLink';
 import MITerm from './MITerm';
+import MITermURL from './MITermURL';
 import style from './genePhysicalInteractionDetailTable.module.scss';
 import { htmlToPlainText } from '../../lib/utils';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
@@ -57,7 +59,8 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
       headerClasses: style.columnHeaderGroup2,
       classes: style.columnGroup2,
       filterable: true,
-      filterName: 'interactorSpecies'
+      filterName: 'interactorSpecies',
+      filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
     },
     {
       dataField: 'geneMolecularInteraction.interactorBType',
@@ -82,8 +85,25 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
     {
       dataField: 'geneMolecularInteraction.crossReferences',
       text: 'Source',
-      formatter: (source) => (source ? 
-          <ExternalLink href={getResourceUrl({identifier:source[0].referencedCurie.toUpperCase(), type:"gene/interactions"})}>{source[0].displayName}</ExternalLink> : null
+      formatter: (crossReferences = [], {geneMolecularInteraction = {}} = {}) => (
+        <div>
+          {
+            crossReferences.map(({referencedCurie, displayName} = {}) => (
+              <div key={referencedCurie}>
+                <ExternalLink href={getResourceUrl({identifier:referencedCurie.toUpperCase(), type:"gene/interactions"})}>{displayName}</ExternalLink>
+              </div>
+            ))
+          }
+          {
+            (!geneMolecularInteraction.aggregationDatabase || geneMolecularInteraction.interactionSource.curie === geneMolecularInteraction.aggregationDatabase.curie) ?
+              null :
+              <span>
+                <MITermURL {...geneMolecularInteraction.interactionSource}/>
+                <i><span> via </span></i>
+                <MITermURL {...geneMolecularInteraction.aggregationDatabase}/>
+              </span>
+          }
+        </div>
       ),
       headerStyle: {width: '16em'},
       headerClasses: style.columnHeaderGroup0,
@@ -105,26 +125,26 @@ const GenePhysicalInteractionDetailTable = ({focusGeneDisplayName, focusGeneId})
       filterName: 'reference',
     },
   ];
-
+  
   const sortOptions = [
     {
-      value: 'geneMolecularInteraction.interactorAType.name.keyword',
+      value: 'geneMolecularInteraction.interactorAType.name.sort',
       label: `${htmlToPlainText(focusGeneDisplayName)} molecule type`,
     },
     {
-      value: 'geneMolecularInteraction.geneGeneAssociationObject.geneSymbol.displayText.keyword',
+      value: 'geneMolecularInteraction.geneGeneAssociationObject.geneSymbol.displayText.sort',
       label: 'Interactor gene',
     },
     {
-      value: 'geneMolecularInteraction.geneGeneAssociationObject.taxon.name.keyword',
+      value: 'geneMolecularInteraction.geneGeneAssociationObject.taxon.name.sort',
       label: 'Interactor species',
     },
     {
-      value: 'geneMolecularInteraction.interactorBType.name.keyword',
+      value: 'geneMolecularInteraction.interactorBType.name.sort',
       label: 'Interactor molecule type',
     },
     {
-      value: 'geneMolecularInteraction.interactorDetectionMethod.name.keyword',
+      value: 'geneMolecularInteraction.detectionMethod.name.sort',
       label: 'Detection method',
     },
   ];

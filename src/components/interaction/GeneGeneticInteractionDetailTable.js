@@ -7,6 +7,7 @@ import {
 } from '../dataTable';
 import { getResourceUrl } from '../dataTable/getResourceUrl';
 import { getIdentifier, getSingleReferenceUrl } from '../dataTable/utils';
+import SpeciesName from '../SpeciesName';
 import ExternalLink from '../ExternalLink';
 import MITerm from './MITerm';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
@@ -33,7 +34,6 @@ const GeneGeneticInteractionDetailTable = ({
         },
         formatter: (term, _, rowIndex) => <MITerm {...term} id={`genetic_interaction-interactorARole-${rowIndex}`} />,
         filterable: true,
-        filterType: 'checkbox',
         filterName: 'role',
       },
       {
@@ -78,6 +78,7 @@ const GeneGeneticInteractionDetailTable = ({
         filterable: true,
         filterType: 'checkbox',
         filterName: 'interactorSpecies',
+        filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
       },
       {
         dataField: 'geneGeneticInteraction.interactorBRole',
@@ -143,8 +144,16 @@ const GeneGeneticInteractionDetailTable = ({
         headerStyle: {
           width: '250px',
         },
-        formatter: (xrefs) => (xrefs ? 
-           <ExternalLink href={getResourceUrl({identifier:xrefs[0].referencedCurie.toUpperCase(), type:"gene/interactions"})}>{xrefs[0].displayName}</ExternalLink> : null
+        formatter: (crossReferences = []) => (
+          <div>
+            {
+              crossReferences.map(({referencedCurie, displayName} = {}) => (
+                <div key={referencedCurie}>
+                  <ExternalLink href={getResourceUrl({identifier:referencedCurie.toUpperCase(), type:"gene/interactions"})}>{displayName}</ExternalLink>
+                </div>
+              ))
+            }
+          </div>
         ),
         filterable: true,
         filterName: 'source',
@@ -169,11 +178,11 @@ const GeneGeneticInteractionDetailTable = ({
   const sortOptions = useMemo(() => (
     [
       {
-        value: 'geneGeneticInteraction.geneGeneAssociationObject.geneSymbol.displayText.keyword',
+        value: 'geneGeneticInteraction.geneGeneAssociationObject.geneSymbol.displayText.sort',
         label: 'Interactor gene',
       },
       {
-        value: 'geneGeneticInteraction.geneGeneAssociationObject.taxon.name.keyword',
+        value: 'geneGeneticInteraction.geneGeneAssociationObject.taxon.name.sort',
         label: 'Interactor species',
       },
     ]
