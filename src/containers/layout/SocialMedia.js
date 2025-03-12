@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faMastodon, faBluesky, faGithub } from '@fortawesome/free-brands-svg-icons';
 import style from './style.module.scss';
 
+// This component may not be used anywhere now that it is no longer called by the Footer component.
+
 const SocialMedia = ({showText = false}) => {
   return (
     <div className={style.socialLinks}>

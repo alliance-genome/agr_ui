@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import logo from '../../assets/images/alliance_logo_light.png';
-import SocialMedia from './SocialMedia';
+// import SocialMedia from './SocialMedia';
 import SiteMap from './SiteMap';
 
 import style from './style.module.scss';
