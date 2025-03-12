@@ -140,10 +140,10 @@ const GenePage = ({geneId}) => {
         <Subsection help={<HomologyUserGuide />} title={ORTHOLOGY}>
           <OrthologyBasicInfo pantherCrossReference={data.crossReferenceMap.panther} />
           <OrthologyFilteredTable geneId={data.id} />
-	  <OrthologyJBrowseLinkPanel
-	    geneLocation={genomeLocation}
-	    taxonid={data.species.taxonId}
-	  />
+          <OrthologyJBrowseLinkPanel
+            geneLocation={genomeLocation}
+            taxonid={data.species.taxonId}
+          />
         </Subsection>
 
         <Subsection help={<ParalogyUserGuide />} title={PARALOGY}>
