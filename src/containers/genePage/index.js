@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPage';
 import BasicGeneInfo from './basicGeneInfo';
 import {
-  OrthologyFilteredTable, 
-  HomologyUserGuide, 
-  OrthologyBasicInfo, 
+  OrthologyFilteredTable,
+  HomologyUserGuide,
+  OrthologyBasicInfo,
   OrthologyJBrowseLinkPanel
 } from '../../components/orthology';
 import ParalogyTable from '../../components/paralogy/paralogyTable'
@@ -220,7 +220,7 @@ const GenePage = ({geneId}) => {
           />
         </Subsection>
 
-        <Subsection 
+        <Subsection
           help={<SequencePanelSectionHelp />}
           title={SEQUENCE_DETAILS}
         >

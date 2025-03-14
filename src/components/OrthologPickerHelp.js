@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ExpressionControlsHelp = () => (
+const OrthologPickerHelp = () => (
   <div>
     <p>There are three precomputed stringency options, described below.</p>
 
@@ -32,10 +32,7 @@ const ExpressionControlsHelp = () => (
       select the "No filter" option.
     </p>
 
-    <p>
-      <b>Regardless of the selected stringency, only genes with expression data are shown.</b>
-    </p>
   </div>
 );
 
-export default ExpressionControlsHelp;
+export default OrthologPickerHelp;
