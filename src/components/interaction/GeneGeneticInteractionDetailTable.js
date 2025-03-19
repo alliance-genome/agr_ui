@@ -48,7 +48,7 @@ const GeneGeneticInteractionDetailTable = ({
         },
         formatter:  (perturbation) => (perturbation ?
           <React.Fragment>
-            <AlleleCellCuration identifier = {getIdentifier(perturbation)} alleleSymbol={perturbation} />
+            <AlleleCellCuration identifier = {getIdentifier(perturbation)} alleleSymbol={perturbation.alleleSymbol} />
           </React.Fragment> : null
         ),
         filterable: true,
@@ -106,7 +106,7 @@ const GeneGeneticInteractionDetailTable = ({
         },
         formatter:  (perturbation) => (perturbation ?
           <React.Fragment>
-            <AlleleCellCuration identifier = {getIdentifier(perturbation)} alleleSymbol={perturbation} />
+            <AlleleCellCuration identifier = {getIdentifier(perturbation)} alleleSymbol={perturbation.alleleSymbol} />
           </React.Fragment> : null
         ),
         filterable: true,
