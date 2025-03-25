@@ -71,6 +71,8 @@ $page-nav-width: 220px;
   .scrollSpy {
     flex-grow: 1;
     width: 100%;
+    max-height: 70vh;
+    overflow-y: auto;
   }
 }
 
