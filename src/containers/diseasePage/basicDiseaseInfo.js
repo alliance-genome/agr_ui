@@ -33,8 +33,8 @@ class BasicDiseaseInfo extends Component {
       <CommaSeparatedList>
         {
           sources.map((source) => (
-            <ExternalLink href={source.url} key={`source-${source.name}`}>
-              {source.name}
+            <ExternalLink href={source.url} key={`source-${source.source}`}>
+              {source.source}
             </ExternalLink>
           ))
         }
@@ -74,21 +74,44 @@ class BasicDiseaseInfo extends Component {
 
   render() {
     const { disease } = this.props;
+
+    const transformCrossReferenceLinkUrls = (crossReferenceLinkUrls) => {
+      if (!Array.isArray(crossReferenceLinkUrls)) {
+        return [];
+      }
+    
+      return crossReferenceLinkUrls.map(item => {
+        const { referencedCurie, url } = item;
+        return {
+          crossRefCompleteUrl: url,
+          name: referencedCurie,
+          displayName: referencedCurie
+        };
+      });
+    };
+
+    const transformSynonyms = (synonyms) => {
+      if (!Array.isArray(synonyms)) {
+        return [];
+      }
+      return synonyms.map(item => item.name);
+    };
+
     return (
       <AttributeList>
         <AttributeLabel>Definition</AttributeLabel>
         <AttributeValue>
-          {this.renderDefinition(disease)}
+          {this.renderDefinition(disease.doTerm)}
         </AttributeValue>
 
         <AttributeLabel>Synonyms</AttributeLabel>
         <AttributeValue placeholder='None'>
-          {disease.synonyms && <SynonymList synonyms={disease.synonyms} />}
+          {disease.doTerm.synonyms && <SynonymList synonyms={transformSynonyms(disease.doTerm.synonyms)} />}
         </AttributeValue>
 
         <AttributeLabel>Cross References</AttributeLabel>
         <AttributeValue>
-          {disease.crossReferences && <CrossReferenceList crossReferences={disease.crossReferences.other} />}
+          {disease.crossReferenceLinkUrls && <CrossReferenceList crossReferences={transformCrossReferenceLinkUrls(disease.crossReferenceLinkUrls)} />}
         </AttributeValue>
 
         <AttributeLabel>Parent Terms</AttributeLabel>
@@ -98,7 +121,7 @@ class BasicDiseaseInfo extends Component {
         <AttributeValue placeholder='None'>{this.renderTermList(disease.children)}</AttributeValue>
 
         <AttributeLabel>Sources of Associations</AttributeLabel>
-        <AttributeValue>{this.renderSourceList(disease.sources)}</AttributeValue>
+        <AttributeValue>{this.renderSourceList(disease.sourceReferenceLinkUrls)}</AttributeValue>
       </AttributeList>
     );
   }
