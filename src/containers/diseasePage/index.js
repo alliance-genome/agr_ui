@@ -41,10 +41,10 @@ const DiseasePage = ({diseaseId}) => {
 
   const title = data.doTerm.name || data.doTerm.curie;
 
-//  let definitions = [data.definition];
-//  if (data.doTerm.definitionUrls && data.doTerms.definitionUrls.length > 0) {
-//    definitions.push(data.doTerm.definitionUrls[0]);
-//   }
+ let description;
+ if (data.doTerm?.definitionUrls?.length > 0) {
+   description = data.doTerm.definition + " " + data.doTerm.definitionUrls[0];
+  }
 
   let keywords = ['disease', data.doTerm.curie, data.doTerm.name, data.doTerm.definition];
   if(data.doTerm.synonyms){
@@ -59,7 +59,7 @@ const DiseasePage = ({diseaseId}) => {
       '@type': 'Dataset',
       '@id': data.doTerm.id,
       name: data.doTerm.name,
-      description: data.doTerm.definition,
+      description: description,
       url: siteUrl,
       keywords: keywords.join(' '),
       includedInDataCatalog: 'https://www.alliancegenome.org',
