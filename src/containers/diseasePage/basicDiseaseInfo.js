@@ -23,7 +23,7 @@ class BasicDiseaseInfo extends Component {
       <CollapsibleList>
         {terms
           .sort(compareAlphabeticalCaseInsensitive(term => term.name))
-          .map(term => <Link key={term.id} to={`/disease/${term.id}`}>{term.name}</Link>)
+          .map(term => <Link key={term.curie} to={`/disease/${term.curie}`}>{term.name}</Link>)
         }
       </CollapsibleList>;
   }
@@ -42,11 +42,11 @@ class BasicDiseaseInfo extends Component {
   }
 
   renderDefinition(disease) {
-    return (disease.definition || (disease.definitionLinks && disease.definitionLinks.length > 0)) && (
+    return (disease.definition || (disease.definitionUrls && disease.definitionUrls.length > 0)) && (
       <div>
         {disease.definition}
         {' '}
-        {this.renderDefinitionLinks(disease.definitionLinks)}
+        {this.renderDefinitionLinks(disease.definitionUrls)}
       </div>
     );
   }
@@ -79,7 +79,7 @@ class BasicDiseaseInfo extends Component {
       if (!Array.isArray(crossReferenceLinkUrls)) {
         return [];
       }
-    
+
       return crossReferenceLinkUrls.map(item => {
         const { referencedCurie, url } = item;
         return {
