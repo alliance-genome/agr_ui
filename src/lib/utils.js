@@ -24,10 +24,10 @@ export function compareAlphabeticalCaseInsensitive(accessor) {
   };
 }
 
-export function alphaSort(accessor) {
+export function smartAlphaSort(accessor) {
   //implements a natural sort
   //https://wikipedia.org/wiki/Natural_sort_order
-  
+
   accessor = functionOrIdentity(accessor);
   return function (a, b) {
     const ax = accessor(a).toLowerCase();
