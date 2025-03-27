@@ -41,9 +41,9 @@ const DiseasePage = ({diseaseId}) => {
 
   const title = data.doTerm.name || data.doTerm.curie;
 
- let description;
- if (data.doTerm?.definitionUrls?.length > 0) {
-   description = data.doTerm.definition + " " + data.doTerm.definitionUrls[0];
+  let description = data.doTerm.definition;
+  if (data.doTerm.definitionUrls?.length > 0) {
+    description += ' ' + data.doTerm.definitionUrls[0];
   }
 
   let keywords = ['disease', data.doTerm.curie, data.doTerm.name, data.doTerm.definition];
