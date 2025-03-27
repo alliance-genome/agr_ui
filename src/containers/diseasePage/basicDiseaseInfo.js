@@ -14,7 +14,7 @@ import ExternalLink from '../../components/ExternalLink';
 import CrossReferenceList from '../../components/crossReferenceList';
 import CommaSeparatedList from '../../components/commaSeparatedList';
 import { CollapsibleList } from '../../components/collapsibleList';
-import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
+import { alphaSort } from '../../lib/utils';
 import SynonymList from '../../components/synonymList';
 import { formatLink } from './utils';
 
@@ -23,7 +23,7 @@ class BasicDiseaseInfo extends Component {
     return terms &&
       <CollapsibleList>
         {terms
-          .sort(compareAlphabeticalCaseInsensitive(term => term.name))
+          .sort(alphaSort(term => term.name))
           .map(term => <Link key={term.curie} to={`/disease/${term.curie}`}>{term.name}</Link>)
         }
       </CollapsibleList>;
