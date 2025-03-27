@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { UncontrolledTooltip } from 'reactstrap';
@@ -16,6 +16,7 @@ import CommaSeparatedList from '../../components/commaSeparatedList';
 import { CollapsibleList } from '../../components/collapsibleList';
 import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
 import SynonymList from '../../components/synonymList';
+import { formatLink } from './utils';
 
 class BasicDiseaseInfo extends Component {
   renderTermList(terms) {
@@ -51,23 +52,29 @@ class BasicDiseaseInfo extends Component {
     );
   }
 
+  
+
   renderDefinitionLinks(links) {
     return links &&
       <CommaSeparatedList>
         {
-          links.map((link, idx) => (
-            <span key={link}>
-              <ExternalLink href={link} id={`definition-link-${idx}`}>[{idx + 1}]</ExternalLink>
-              <UncontrolledTooltip
-                delay={{show: 200, hide: 0}}
-                innerClassName={style.urlTooltip}
-                placement='bottom'
-                target={`definition-link-${idx}`}
-              >
-                {link}
-              </UncontrolledTooltip>
-            </span>
-          ))
+          links.map((link, idx) => {
+            const formatedLink = formatLink(link);
+            return (
+              <span key={link}>
+                <ExternalLink href={formatedLink} id={`definition-link-${idx}`}>[{idx + 1}]</ExternalLink>
+                <UncontrolledTooltip
+                  delay={{ show: 200, hide: 0 }}
+                  innerClassName={style.urlTooltip}
+                  placement='bottom'
+                  target={`definition-link-${idx}`}
+                >
+                  {formatedLink}
+                </UncontrolledTooltip>
+              </span>
+            )
+          }
+          )
         }
       </CommaSeparatedList>;
   }
