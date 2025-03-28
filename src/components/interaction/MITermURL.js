@@ -35,6 +35,8 @@ export default function MITermURL({name} = {}) {
         url = "https://www.ebi.ac.uk/intact";
       } else if (name === 'imex') {
         url = "https://www.imexconsortium.org";
+      } else if (name === 'dip') {
+        url = "https://dip.doe-mbi.ucla.edu/";
       }
   
       if (url === "") {
