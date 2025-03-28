@@ -8,8 +8,6 @@ import PropTypes from 'prop-types';
 import DiseaseAnnotationTable from './diseaseAnnotationTable';
 import HorizontalScroll from '../horizontalScroll';
 import { STRINGENCY_HIGH } from '../homology/constants';
-import HelpPopup from '../helpPopup';
-import DiseaseControlsHelp from './diseaseControlsHelp';
 import ControlsContainer from '../controlsContainer';
 import LoadingSpinner from '../loadingSpinner';
 import OrthologPicker from '../OrthologPicker';
@@ -69,11 +67,6 @@ const DiseaseComparisonRibbon = ({geneId, geneTaxon, history}) => {
     <div>
       <div>
         <ControlsContainer>
-          <span className='pull-right'>
-            <HelpPopup id='disease-controls-help'>
-              <DiseaseControlsHelp />
-            </HelpPopup>
-          </span>
           <OrthologPicker
             checkboxValue={compareOrthologs}
             defaultStringency={STRINGENCY_HIGH}

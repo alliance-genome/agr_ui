@@ -113,15 +113,17 @@ const OrthologyFilteredTable = ({geneId}) => {
   return (
     <div>
       <ControlsContainer>
-        <span className='pull-right'>
-          <HelpPopup id='orthology-controls-help'>
-            <HomologyFilterHelp ortholog={true}/>
-          </HelpPopup>
-        </span>
         <StringencySelection
           level={stringencyLevel}
           onChange={setStringencyLevel}
         />
+        <div style={{display: "inline"}} onClick={event => event.stopPropagation()}>
+          <span>
+            <HelpPopup id='orthology-controls-help'>
+            <HomologyFilterHelp ortholog={true}/>
+            </HelpPopup>
+          </span>
+        </div>
         <Collapse isOpen={showFilterPanel}>
           <div>
             <span style={docTextStyle}>Additional filters to further constrain the results:</span>
@@ -133,7 +135,7 @@ const OrthologyFilteredTable = ({geneId}) => {
                   style={inputStyle}
                   type="checkbox"
                 />
-                  Best Score Only
+                Best Score Only
               </label>
               <label style={labelStyle}>
                 <input
@@ -142,11 +144,11 @@ const OrthologyFilteredTable = ({geneId}) => {
                   style={inputStyle}
                   type="checkbox"
                 />
-                  Best Reverse Score Only
+                Best Reverse Score Only
               </label>
             </div>
             <label style={labelStyle}>
-                Count:
+              Count:
               <select
                 onChange={(event) => setFilterScoreGreaterThan(+event.target.value)}
                 style={inputStyle}
@@ -162,7 +164,7 @@ const OrthologyFilteredTable = ({geneId}) => {
               </select>
             </label>
             <label style={labelStyle}>
-                Species:
+              Species:
               <select
                 onChange={(event) => {
                   setFilterSpecies(event.target.value === 'all' ? null : event.target.value)
@@ -186,7 +188,7 @@ const OrthologyFilteredTable = ({geneId}) => {
               </select>
             </label>
             <label>
-                Methods:
+              Methods:
               <select
                 onChange={(event) => setFilterMethod(event.target.value === 'all' ? null : event.target.value)}
                 style={inputStyle}
@@ -214,7 +216,8 @@ const OrthologyFilteredTable = ({geneId}) => {
             onClick={resetFilters}
             style={buttonStyle}
             type="button"
-          >Reset filters</button>
+          >Reset filters
+          </button>
         </div>
       </ControlsContainer>
 

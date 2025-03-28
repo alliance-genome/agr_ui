@@ -37,26 +37,30 @@ const DiseasePage = ({diseaseId}) => {
     return null; // the main page loading bar is sufficient
   }
 
-  const title = data.name || data.id;
+  console.log(data);
 
-  let keywords = ['disease', data.id, data.name, data.definition];
-  if(data.synonyms){
-    keywords.push(...data.synonyms);
+  const title = data.doTerm.name || data.doTerm.curie;
+
+  let description = data.doTerm.definition;
+  if (data.doTerm.definitionUrls?.length > 0) {
+    description += ' ' + data.doTerm.definitionUrls[0];
   }
 
-  let definitions = [data.definition];
-  if (data.definitionLinks && data.definitionLinks.length > 0) {
-    definitions.push(data.definitionLinks[0]);
+  let keywords = ['disease', data.doTerm.curie, data.doTerm.name, data.doTerm.definition];
+  if(data.doTerm.synonyms){
+    keywords.push(...data.doTerm.synonyms);
   }
+
+  let siteUrl = 'https://www.alliancegenome.org/disease/' + data.doTerm.curie;
 
   const jsonLd = [
     {
       '@context': 'http://schema.org',
       '@type': 'Dataset',
-      '@id': data.id,
-      name: data.name,
-      description: [definitions].filter(a => !!a).join(' '),
-      url: 'https://www.alliancegenome.org/disease/' + data.id,
+      '@id': data.doTerm.id,
+      name: data.doTerm.name,
+      description: description,
+      url: siteUrl,
       keywords: keywords.join(' '),
       includedInDataCatalog: 'https://www.alliancegenome.org',
       creator: {
@@ -69,23 +73,23 @@ const DiseasePage = ({diseaseId}) => {
     {
       '@context': 'http://schema.org',
       '@type': 'MedicalCondition',
-      '@id': data.id,
-      identifier: data.id,
-      name: data.name,
-      url: `https://www.alliancegenome.org/disease/${data.id}`,
-      description: data.description,
-      'sameAs': data.url, // TODO: add resolver here
+      '@id': data.doTerm.id,
+      identifier: data.doTerm.id,
+      name: data.doTerm.name,
+      url: siteUrl,
+      description: data.doTerm.description,
+      'sameAs': siteUrl, // TODO: add resolver here
     }
   ];
 
-  const showCoronavirusResourcesLink = (data.id === 'DOID:0080599') || (data.id === 'DOID:0080600');
+  const showCoronavirusResourcesLink = (data.doTerm.curie === 'DOID:0080599') || (data.doTerm.curie === 'DOID:0080600');
 
   return (
     <DataPage>
       <HeadMetaTags jsonLd={jsonLd} title={title} />
       <PageNav sections={SECTIONS}>
-        <PageNavEntity entityName={<DiseaseName disease={data} />}>
-          <ExternalLink href={data.url}>{data.id}</ExternalLink>
+        <PageNavEntity entityName={<DiseaseName disease={data.doTerm} />}>
+          <ExternalLink href={siteUrl}>{data.doTerm.curie}</ExternalLink>
         </PageNavEntity>
       </PageNav>
       <PageData>
@@ -99,22 +103,22 @@ const DiseasePage = ({diseaseId}) => {
           </div>
         )}
         <PageCategoryLabel category='disease' />
-        <PageHeader>{data.name}</PageHeader>
+        <PageHeader>{data.doTerm.name}</PageHeader>
 
         <Subsection hideTitle title={SUMMARY}>
           <BasicDiseaseInfo disease={data} />
         </Subsection>
 
         <Subsection title={GENES}>
-          <DiseaseToGeneTable id={data.id} />
+          <DiseaseToGeneTable id={data.doTerm.curie} />
         </Subsection>
 
         <Subsection title={ALLELES}>
-          <DiseaseToAlleleTable id={data.id} />
+          <DiseaseToAlleleTable id={data.doTerm.curie} />
         </Subsection>
 
         <Subsection title={MODELS}>
-          <DiseaseToModelTable id={data.id} />
+          <DiseaseToModelTable id={data.doTerm.curie} />
         </Subsection>
       </PageData>
     </DataPage>
