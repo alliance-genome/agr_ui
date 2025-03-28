@@ -55,15 +55,15 @@ const OrthologyFilteredTable = ({geneId}) => {
 
   const filterCallback = (dat) => {
     const meetMethodFilter = filterMethod ?
-      dat.predictionMethodsMatched.indexOf(filterMethod) > -1 :
-      true;
+    dat.predictionMethodsMatched.some(method => method.name === filterMethod) : true;
+    
     return (
       meetMethodFilter &&
       dat.predictionMethodsMatched.length > filterScoreGreaterThan &&
-      (filterBest ? isBest(dat.best) : true) &&
-      (filterReverseBest ? isBest(dat.bestReverse) : true) &&
-      (filterSpecies ? getOrthologSpeciesName(dat) === filterSpecies : true) &&
-      orthologyMeetsStringency(dat, stringencyLevel)
+      (filterBest ? isBest(dat.isBestScore.name) : true) &&
+      (filterReverseBest ? isBest(dat.isBestScoreReverse.name) : true) &&
+      (filterSpecies ? getOrthologSpeciesName(dat) === filterSpecies : true) 
+      && orthologyMeetsStringency(dat, stringencyLevel)
     );
   };
 
@@ -88,7 +88,7 @@ const OrthologyFilteredTable = ({geneId}) => {
   const all_methods = data.results[0].predictionMethodsMatched.concat(
     data.results[0].predictionMethodsNotCalled,
     data.results[0].predictionMethodsNotMatched
-  ).sort(compareAlphabeticalCaseInsensitive);
+  ).map(method => method?.name).sort(compareAlphabeticalCaseInsensitive);
 
   const labelStyle = {
     margin: '0em 1em 0em 0',
@@ -166,15 +166,18 @@ const OrthologyFilteredTable = ({geneId}) => {
             <label style={labelStyle}>
               Species:
               <select
-                onChange={(event) => setFilterSpecies(event.target.value === 'all' ? null : event.target.value)}
+                onChange={(event) => {
+                  setFilterSpecies(event.target.value === 'all' ? null : event.target.value)
+                }}
                 style={inputStyle}
                 value={filterSpecies || 'all'}
               >
                 <option value="all">All</option>
                 {
                   data.results.reduce((all_species, dat) => {
-                    if (all_species.indexOf(getOrthologSpeciesName(dat)) === -1) {
-                      return all_species.concat([getOrthologSpeciesName(dat)]);
+                    const speciesName = getOrthologSpeciesName(dat);
+                    if (all_species.indexOf(speciesName) === -1) {
+                      return all_species.concat([speciesName]);
                     } else {
                       return all_species;
                     }

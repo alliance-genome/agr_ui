@@ -27,7 +27,7 @@ const columns = [
 ];
 
 export function isBest(value = '') {
-  return typeof value === 'boolean' ? value : value.match(/yes/i);
+  return typeof value === 'boolean' ? value : !!value.match(/yes/i);
 }
 
 class OrthologyTable extends Component {
@@ -64,7 +64,6 @@ class OrthologyTable extends Component {
               if (idx > 0 && getOrthologSpeciesName(orthList[idx - 1]) !== getOrthologSpeciesName(orthData)) {
                 rowGroup += 1;
               }
-
               return (
                 <tr className={rowGroup % 2 === 0 ? style.groupedRow : ''} key={orthId}>
                   <td><SpeciesName>{getOrthologSpeciesName(orthData)}</SpeciesName></td>
@@ -77,19 +76,19 @@ class OrthologyTable extends Component {
                   <BooleanCell
                     isTrueFunc={isBest}
                     render={
-                      orthData.best === 'Yes_Adjusted' ?
+                      orthData.isBestScore?.name === 'Yes_Adjusted' ?
                         () => 'Yes *' :
                         null
                     }
-                    value={orthData.best}
+                    value={orthData.isBestScore.name}
                   />
                   <BooleanCell
                     isTrueFunc={isBest}
-                    value={orthData.bestReverse}
+                    value={orthData.isBestScoreReverse.name}
                   />
                   <MethodCell
-                    predictionMethodsMatched={orthData.predictionMethodsMatched}
-                    predictionMethodsNotMatched={orthData.predictionMethodsNotMatched}
+                    predictionMethodsMatched={orthData.predictionMethodsMatched?.map(method => method.name)}
+                    predictionMethodsNotMatched={orthData.predictionMethodsNotMatched?.map(method => method.name)}
                     rowKey={orthId}
                     paralogy={false}
                   />
