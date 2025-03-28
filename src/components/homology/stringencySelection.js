@@ -37,7 +37,7 @@ class StringencySelection extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{display: 'inline'}}>
         <span>Stringency:</span>
         {this.renderStringencyOption(STRINGENCY_HIGH, 'Stringent')}
         {this.renderStringencyOption(STRINGENCY_MED, 'Moderate')}

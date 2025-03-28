@@ -108,11 +108,8 @@ export const NAV_MENU = [
       // },
       {
         label: 'Tools and Prototypes',
+        shortLabel: 'Tools',
         route: '/prototypes',
-      },
-      {
-        label: 'COVID-19 Information',
-        route: '/coronavirus-resources',
       }
     ]
   },
@@ -166,6 +163,7 @@ export const NAV_MENU = [
     sub: [
       {
         label: 'News and Events',
+        shortLabel: 'News / Events',
         route: '/news'
       },
       {
@@ -195,23 +193,22 @@ export const NAV_MENU = [
       },
       {
         label: 'Organization and Governance',
+        shortLabel: 'Organization / Governance',
         route: '/organization-and-governance'
       },
       {
         label: 'Privacy, Warranty, Licensing, and Data Preservation Commitment',
+        shortLabel: 'Licensing, Privacy, etc',
         route: '/privacy-warranty-licensing'
       },
     ]
-  },
-  {
-    label: 'Working Groups',
-    route: '/working-groups',
   },
   {
     label: 'Help',
     sub: [
       {
         label: 'FAQ / Known Issues',
+        shortLabel: 'FAQ',
         route: '/faq'
       },
       {
@@ -224,6 +221,7 @@ export const NAV_MENU = [
       },
       {
         label: 'User Documentation',
+        shortLabel: 'User Docs',
         route: '/help'
       },
     ]
@@ -233,7 +231,13 @@ export const NAV_MENU = [
     sub: [
       {
         label: 'Alliance User Community',
+        shortLabel: 'Alliance Users',
         route: 'https://community.alliancegenome.org/categories',
+        external: true,
+      },
+      {
+        label: 'Facebook',
+        route: 'https://www.facebook.com/AllianceOfGenomeResources',
         external: true,
       },
       {
@@ -244,6 +248,11 @@ export const NAV_MENU = [
       {
         label: 'Bluesky',
         route: 'https://bsky.app/profile/alliancegenome.bsky.social',
+        external: true,
+      },
+      {
+        label: 'Github',
+        route: 'https://github.com/alliance-genome',
         external: true,
       },
     ]

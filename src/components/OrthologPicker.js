@@ -28,6 +28,8 @@ import {
 import useGeneOrthology from '../hooks/useGeneOrthology';
 import useResettableState from '../hooks/useResettableState';
 import SpeciesName from './SpeciesName';
+import HelpPopup from "./helpPopup";
+import OrthologPickerHelp from "./OrthologPickerHelp";
 
 const bySpecies = species => orthology => species
   .map(s => s.taxonId)
@@ -82,16 +84,14 @@ const OrthologPicker =({
 
   // data from API
   const orthology = useGeneOrthology(focusGeneId);
-
   const orthologyResults = orthology.data?.results || [];
-  
+
   const geneHasData = (orthology, id) => {
     if (!geneHasDataTest) {
       return true;
     }
     return geneHasDataTest(orthology.geneAnnotationsMap[id]);
   };
-  
   // if the orthology data has settled, filter it and pass it back to the parent
   // via the `onChange` callback whenever the orthology or one of the UI controls
   // has changed
@@ -108,7 +108,7 @@ const OrthologPicker =({
       if (stringency) {
         selectedOrthologs = selectedOrthologs.filter(byStringency(stringency.value));
       }
-    
+
     if (selectedSpecies.length) {
       selectedOrthologs = selectedOrthologs?.filter(bySpecies(selectedSpecies));
     }
@@ -228,10 +228,18 @@ const OrthologPicker =({
             <b>Compare ortholog genes</b>
           </label>
         </div>
+        <div style={{display: 'inline'}} onclick={(e) => {e.stopPropagation()}}>
+           <span>
+            <HelpPopup id='ortholog-picker-help'>
+              <OrthologPickerHelp/>
+            </HelpPopup>
+          </span>
+        </div>
       </div>
       <div className='ml-3'>
         <UncontrolledDropdown className='pr-2' tag='span'>
-          <DropdownToggle caret className='align-baseline' color='primary' disabled={inputDisabled} outline={!checkboxValue || !stringency}>
+          <DropdownToggle caret className='align-baseline' color='primary' disabled={inputDisabled}
+                          outline={!checkboxValue || !stringency}>
             <span>Stringency{stringency && `: ${stringency.label}`}</span>
           </DropdownToggle>
           <DropdownMenu>
