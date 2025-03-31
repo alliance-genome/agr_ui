@@ -1,8 +1,11 @@
 import { resourceDescriptors } from "../../resourceDescriptors";
 
 export const getResourceUrl = ({ identifier, type, subtype }) => {
-  const [prefix, id] = identifier?.split(':');
+  let [prefix, id] = identifier?.split(':');
 
+  if(prefix.toLowerCase() === 'dip') {
+    id = id.replace(/\D/g,'');
+  }
   let resource;
   if(subtype){
     [resource] = resourceDescriptors
