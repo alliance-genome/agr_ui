@@ -128,7 +128,9 @@ const DataTable = ({
 
   let disabled = paginationObj.options?.totalSize > DOWNLOAD_BUTTON_THRESHOLD;
 
-  columns.forEach(column => {
+  const filteredColumns = columns.filter(column => !column.hide);
+
+  filteredColumns.forEach(column => {
     const filterField = column.filterName || column.dataField;
     const columnFilter = filters &&
       filters[filterField] &&
@@ -204,7 +206,7 @@ const DataTable = ({
                   {...bootstrapTableProps}
                   bootstrap4
                   bordered={false}
-                  columns={columns}
+                  columns={filteredColumns}
                   condensed
                   data={data}
                   filter={filterFactory()}

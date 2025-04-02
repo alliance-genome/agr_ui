@@ -177,7 +177,7 @@ const GenePage = ({geneId}) => {
               data.crossReferenceMap.phenotypes_impc
             ]}
           />
-          <PhenotypeTable geneId={data.id} entityType={'gene'} />
+          <PhenotypeTable geneId={data.id} entityType={'gene'} hideSourceColumn={true} />
         </Subsection>
 
         <Subsection help={<DiseaseSectionHelp />}title={DISEASE}>
