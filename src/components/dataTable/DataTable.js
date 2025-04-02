@@ -131,9 +131,6 @@ const DataTable = ({
   const filteredColumns = columns.filter(column => !column.hide);
 
   filteredColumns.forEach(column => {
-    if(!column.hide){
-        return;
-    }
     const filterField = column.filterName || column.dataField;
     const columnFilter = filters &&
       filters[filterField] &&
