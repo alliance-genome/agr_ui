@@ -13,7 +13,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@geneontology/curie-util-es5": "^1.2.4",
-    "@geneontology/wc-gocam-viz": "1.0.1-beta.2",
+    "@geneontology/wc-gocam-viz": "1.1.2",
     "@geneontology/wc-ribbon-strips": "0.0.37",
     "@geneontology/wc-ribbon-table": "0.0.57",
     "@tanstack/react-query": "^4.36.1",
