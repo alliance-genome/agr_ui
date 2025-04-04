@@ -10,7 +10,7 @@ import AnnotatedPhenotypePopupCuration from "../../components/dataTable/Annotate
 import {GENE_DETAILS_COLUMNS} from "../../components/dataTable/constants";
 import ProvidersCellCuration from "../../components/dataTable/ProvidersCellCuration";
 
-const PhenotypeTable = ({geneId, entityType}) => {
+const PhenotypeTable = ({geneId, entityType, hideSourceColumn = false}) => {
   const {
     data: results,
     ...tableProps
@@ -57,7 +57,7 @@ const PhenotypeTable = ({geneId, entityType}) => {
       filterable: true,
       headerStyle: {width: '100px'},
       filterName: 'dataProvider',
-
+      hide: hideSourceColumn
     },
     {
       dataField: 'pubmedPubModIDs',
@@ -89,6 +89,7 @@ const PhenotypeTable = ({geneId, entityType}) => {
 PhenotypeTable.propTypes = {
   geneId: PropTypes.string.isRequired,
   entityType: PropTypes.string.isRequired,
+  hideSourceColumn: PropTypes.bool,
 };
 
 export default PhenotypeTable;
