@@ -228,7 +228,7 @@ const OrthologPicker =({
             <b>Compare ortholog genes</b>
           </label>
         </div>
-        <div style={{display: 'inline'}} onclick={(e) => {e.stopPropagation()}}>
+        <div style={{display: 'inline'}} onClick={(e) => {e.stopPropagation()}}>
            <span>
             <HelpPopup id='ortholog-picker-help'>
               <OrthologPickerHelp/>

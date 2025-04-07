@@ -1,4 +1,4 @@
-const TIMEOUT = 30000;
+const TIMEOUT = 120_000;
 
 class ApiError extends Error {
   constructor(response, json) {
@@ -31,7 +31,7 @@ export default async function fetchData(url, options = {}, fetchTimeout=TIMEOUT)
   }
   const _type = options.type || 'GET';
   const headers = {
-    // 'Content-Type': 'application/json'
+     'Content-Type': 'application/json'
   };
   let requestOptions= {
     method: _type,
@@ -43,7 +43,7 @@ export default async function fetchData(url, options = {}, fetchTimeout=TIMEOUT)
   if (options.data) {
     requestOptions.body = JSON.stringify(options.data);
   }
-  
+
   const response = await timeoutPromise(fetchTimeout, fetch(url, requestOptions));
   const body = await response.json();
   if (!response.ok) {

@@ -112,9 +112,9 @@ OrthologyTable.propTypes = {
           name: PropTypes.string,
         }),
       }),
-      predictionMethodsMatched: PropTypes.arrayOf(PropTypes.string),
-      predictionMethodsNotCalled: PropTypes.arrayOf(PropTypes.string),
-      predictionMethodsNotMatched: PropTypes.arrayOf(PropTypes.string),
+      predictionMethodsMatched: PropTypes.arrayOf(PropTypes.object),
+      predictionMethodsNotCalled: PropTypes.arrayOf(PropTypes.object),
+      predictionMethodsNotMatched: PropTypes.arrayOf(PropTypes.object),
       best: PropTypes.oneOfType([
         PropTypes.bool,
         PropTypes.string
