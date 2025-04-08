@@ -17,7 +17,6 @@ export default function useComparisonRibbonTableQuery(
   const params = {
     ...additionalQueryParams,
     focusTaxonId: focusTaxonId,
-    geneID: geneIds,
   };
   if (termId && termId !== 'all') {
     params.termID = termId;
@@ -28,12 +27,19 @@ export default function useComparisonRibbonTableQuery(
   });
 
   const downloadUrl = `${baseUrl}/download${queryString}`;
+  const fetchOptions = {
+    type: 'POST',
+    data: geneIds
+  };
 
   const query = useDataTableQuery(
     baseUrl + queryString,
     {
       enabled: orthologGenes !== null,
-    }
+    },
+    null,
+    fetchOptions,
+    90_000,
   );
 
   return {
