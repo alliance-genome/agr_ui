@@ -39,6 +39,7 @@ export default function useComparisonRibbonTableQuery(
     },
     null,
     fetchOptions,
+    90_000,
   );
 
   return {

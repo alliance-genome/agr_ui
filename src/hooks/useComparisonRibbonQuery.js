@@ -22,7 +22,7 @@ export default function useComparisonRibbonQuery(
 
       // ribbon does not support HTML-encoded labels, so for now translate to plain text
       // see: https://github.com/geneontology/wc-ribbon/issues/27
-      const response = await fetchData(baseUrl, options);
+      const response = await fetchData(baseUrl, options, 90_000);
       return {
         ...response,
         subjects: response.subjects.map(subject => ({
