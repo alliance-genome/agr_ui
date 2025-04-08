@@ -1,4 +1,4 @@
-const TIMEOUT = 120_000;
+const TIMEOUT = 30_000;
 
 class ApiError extends Error {
   constructor(response, json) {
