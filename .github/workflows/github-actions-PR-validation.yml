@@ -15,7 +15,7 @@ jobs:
       steps:
         - name: Fail in case Pull Request is labeled with do-not-merge
           run: |
-            echo "Pull Request labeled as \"don't merge\"!"
+            echo "Pull Request labeled as do-not-merge!"
             exit 1
   test-install-build:
     if: github.event.action != 'edited' || github.event.changes.base
