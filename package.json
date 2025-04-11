@@ -23,7 +23,7 @@
     "abortcontroller-polyfill": "^1.7.8",
     "agr_genomefeaturecomponent": "^0.3.24",
     "aws-cdk": "^2.118.0",
-    "aws-cdk-lib": "^2.185.0",
+    "aws-cdk-lib": "^2.189.0",
     "bootstrap": "4.6.1",
     "buffer": "^6.0.3",
     "constructs": "^10.2.70",
