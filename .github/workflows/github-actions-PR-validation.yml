@@ -13,7 +13,7 @@ jobs:
       runs-on: ubuntu-latest
       continue-on-error: true
       steps:
-        - name: Fail in case Pull Request is labeled with "don't merge"
+        - name: Fail in case Pull Request is labeled with dont merge
           run: |
             echo "Pull Request labeled as \"don't merge\"!"
             exit 1
