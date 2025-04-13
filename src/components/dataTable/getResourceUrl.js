@@ -20,6 +20,9 @@ export const getResourceUrl = ({ identifier, type, subtype }) => {
         .split('[')
         || [];
   } else {
+    if(prefix === 'ORPHA') {
+      prefix = 'Orphanet';
+    }
     [resource] = resourceDescriptors
         .find(resource => resource.db_prefix === prefix)?.default_url
         .split('[')
