@@ -27,7 +27,7 @@ export const getIdentifier = (subject) => {
 
 export const getSingleReferenceUrl = (pubModId) => {
   let url;
-  if(pubModId.includes("PMID") || pubModId.includes("ORPHA")){
+  if(pubModId.includes("PMID") || pubModId.includes("ORPHA")|| pubModId.includes("ORPHA")){
     url = getResourceUrl({identifier: pubModId});
   } else {
     url = getResourceUrl({identifier: pubModId, type: "reference"});
