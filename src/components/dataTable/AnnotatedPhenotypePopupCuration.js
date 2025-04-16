@@ -80,7 +80,7 @@ function AnnotatedPhenotypePopupCuration({ children, entities, mainRowCurie, pub
                       {columnNameSet.has("Name") && <td>{renderLink(entity)}</td>}
                       {columnNameSet.has("Type") && <td><TypeCellCuration subject={entity.phenotypeAnnotationSubject}/></td>}
                       {columnNameSet.has("Experimental Condition") && <td><ExperimentalConditionCellCuration conditions={expCondition}/></td>}
-                      {columnNameSet.has("References") && <td><SingleReferenceCellCuration singleReference={entity.singleReference} pubModIds={pubModIds}/></td>}
+                      {columnNameSet.has("References") && <td><SingleReferenceCellCuration singleReference={entity.evidenceItem} pubModIds={pubModIds}/></td>}
                     </tr>
                 )
               })
