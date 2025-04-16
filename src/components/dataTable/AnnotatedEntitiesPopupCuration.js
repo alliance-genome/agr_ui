@@ -118,7 +118,7 @@ function AnnotatedEntitiesPopupCuration({ children, entities, mainRowCurie, pubM
                       {columnNameSet.has("Annotation Type") && <td><AnnotationType annotationType={entity.annotationType}/></td>}
                       {columnNameSet.has("Evidence Codes") && <td><EvidenceCodesCellCuration evidenceCodes={entity.evidenceCodes}/></td>}
                       {columnNameSet.has("Source") && <td><ProviderCellCuration provider={provider} /></td>}
-                      {columnNameSet.has("References") && <td><SingleReferenceCellCuration singleReference={entity.singleReference} pubModIds={pubModIds}/></td>}
+                      {columnNameSet.has("References") && <td><SingleReferenceCellCuration singleReference={entity.evidenceItem} pubModIds={pubModIds}/></td>}
                     </tr>
                   )
               })
