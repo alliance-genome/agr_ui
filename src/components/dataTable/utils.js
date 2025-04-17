@@ -142,3 +142,27 @@ export function removeDuplicates(objects, keyFunction){
 
   return uniqueObjects;
 }
+
+//takes an array of disease/phenotype annotations and returns the array of annotations naturally sorted by the annotation subject symbol/name
+export function naturalSortByAnnotationSubject(annotations) {
+  const annotationMap = new Map();
+  for (const annotation of annotations) {
+    if (annotation.type === "AGMDiseaseAnnotation") {
+      annotationMap.set(annotation.diseaseAnnotationSubject.name, annotation);
+    } else if (annotation.type === 'AlleleDiseaseAnnotation') {
+      annotationMap.set(annotation.diseaseAnnotationSubject.alleleSymbol.displayText, annotation);
+    } else if(annotation.type === 'GeneDiseaseAnnotation'){
+      annotationMap.set(annotation.diseaseAnnotationSubject.geneSymbol.displayText, annotation);
+    } else if(annotation.type === 'AGMPhenotypeAnnotation'){
+      annotationMap.set(annotation.phenotypeAnnotationSubject.name, annotation);
+    } else if(annotation.type === 'AllelePhenotypeAnnotation'){
+      annotationMap.set(annotation.phenotypeAnnotationSubject.alleleSymbol.displayText, annotation);
+    } else if(annotation.type === 'GenePhenotypeAnnotation'){
+      annotationMap.set(annotation.phenotypeAnnotationSubject.geneSymbol.displayText, annotation);
+    }
+  }
+
+  return Array.from(annotationMap.entries())
+    .sort(([keyA], [keyB]) => keyA.localeCompare(keyB, undefined, { numeric: true, sensitivity: 'base' }))
+    .map(([_, value]) => value);
+}
