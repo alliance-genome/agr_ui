@@ -23,7 +23,7 @@ import AnnotationType from './AnnotationType';
 import AssociationCellCuration from './AssociationCellCuration';
 import AssertedGenes from './AssertedGenes';
 import GeneticModifiersCellCuration from './GeneticModifiersCellCuration';
-import { buildProviderWithUrl, getIdentifier } from './utils';
+import { buildProviderWithUrl, getIdentifier, naturalSortByAnnotationSubject } from './utils';
 import StrainBackground from './StrainBackground';
 
 function renderLink(entity) {
@@ -56,6 +56,8 @@ function AnnotatedEntitiesPopupCuration({ children, entities, mainRowCurie, pubM
     return null;
   }
 
+  const sortedEntities = naturalSortByAnnotationSubject(entities);
+  
   const popperModifiers = {
     preventOverflow: {
       boundariesElement: 'window',
@@ -89,7 +91,7 @@ function AnnotatedEntitiesPopupCuration({ children, entities, mainRowCurie, pubM
             </thead>
             <tbody>
               {
-                entities.map(entity => {
+                sortedEntities.map(entity => {
                   const provider = buildProviderWithUrl(entity);
                   const key = hash(entity);
 
