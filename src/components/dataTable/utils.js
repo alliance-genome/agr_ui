@@ -1,6 +1,7 @@
 import React from 'react';
 import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
 import { getResourceUrl } from "./getResourceUrl";
+import { smartAlphaSort } from '../../lib/utils';
 
 export const renderPaginationShowsTotal = (start, end, total) => {
   return <span>Showing { start } - { end } of { total?.toLocaleString() } rows</span>;
@@ -145,24 +146,23 @@ export function removeDuplicates(objects, keyFunction){
 
 //takes an array of disease/phenotype annotations and returns the array of annotations naturally sorted by the annotation subject symbol/name
 export function naturalSortByAnnotationSubject(annotations) {
-  const annotationMap = new Map();
-  for (const annotation of annotations) {
-    if (annotation.type === "AGMDiseaseAnnotation") {
-      annotationMap.set(annotation.diseaseAnnotationSubject.name, annotation);
-    } else if (annotation.type === 'AlleleDiseaseAnnotation') {
-      annotationMap.set(annotation.diseaseAnnotationSubject.alleleSymbol.displayText, annotation);
-    } else if(annotation.type === 'GeneDiseaseAnnotation'){
-      annotationMap.set(annotation.diseaseAnnotationSubject.geneSymbol.displayText, annotation);
-    } else if(annotation.type === 'AGMPhenotypeAnnotation'){
-      annotationMap.set(annotation.phenotypeAnnotationSubject.name, annotation);
-    } else if(annotation.type === 'AllelePhenotypeAnnotation'){
-      annotationMap.set(annotation.phenotypeAnnotationSubject.alleleSymbol.displayText, annotation);
-    } else if(annotation.type === 'GenePhenotypeAnnotation'){
-      annotationMap.set(annotation.phenotypeAnnotationSubject.geneSymbol.displayText, annotation);
-    }
-  }
+  return annotations.sort(smartAlphaSort(annotation => getAnnotationSubject(annotation)));
+}
 
-  return Array.from(annotationMap.entries())
-    .sort(([keyA], [keyB]) => keyA.localeCompare(keyB, undefined, { numeric: true, sensitivity: 'base' }))
-    .map(([_, value]) => value);
+export function getAnnotationSubject(annotation) {
+  if (annotation.type === "AGMDiseaseAnnotation") {
+    return annotation.diseaseAnnotationSubject.name;
+  } else if (annotation.type === 'AlleleDiseaseAnnotation') {
+    return annotation.diseaseAnnotationSubject.alleleSymbol.displayText;
+  } else if(annotation.type === 'GeneDiseaseAnnotation'){
+    return annotation.diseaseAnnotationSubject.geneSymbol.displayText;
+  } else if(annotation.type === 'AGMPhenotypeAnnotation'){
+    return annotation.phenotypeAnnotationSubject.name;
+  } else if(annotation.type === 'AllelePhenotypeAnnotation'){
+    return annotation.phenotypeAnnotationSubject.alleleSymbol.displayText;
+  } else if(annotation.type === 'GenePhenotypeAnnotation'){
+    return annotation.phenotypeAnnotationSubject.geneSymbol.displayText;
+  } else {
+    return null;
+  }
 }
