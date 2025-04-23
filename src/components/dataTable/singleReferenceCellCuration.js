@@ -11,6 +11,8 @@ const SingleReferenceCellCuration = ({ singleReference, pubModIds }) => {
 };
 
 const getSingleReferencePubModId = (reference, pubModIds) => {
+  // for human references we have orphanet IDs coming from ExternalDatabase
+  if(!reference.crossReferences) return reference.curie;
   return reference.crossReferences
     .filter(crossRef => pubModIds.includes(crossRef.referencedCurie))
     .map(crossRef => crossRef.referencedCurie)[0];
