@@ -14,7 +14,7 @@ import ExternalLink from '../ExternalLink';
 import { Link } from 'react-router-dom';
 import { getResourceUrl } from "./getResourceUrl";
 import TypeCellCuration from './TypeCellCuration';
-import { getIdentifier } from './utils';
+import { getIdentifier, naturalSortByAnnotationSubject } from './utils';
 
 function renderLink(entity) {
   const identifier = getIdentifier(entity.phenotypeAnnotationSubject);
@@ -46,6 +46,8 @@ function AnnotatedPhenotypePopupCuration({ children, entities, mainRowCurie, pub
     return null;
   }
 
+  const sortedEntities = naturalSortByAnnotationSubject(entities);
+
   const popperModifiers = {
     preventOverflow: {
       boundariesElement: 'window',
@@ -70,7 +72,7 @@ function AnnotatedPhenotypePopupCuration({ children, entities, mainRowCurie, pub
             </thead>
             <tbody>
               {
-                entities.map(entity => {
+                sortedEntities.map(entity => {
                   var expCondition = entity.conditionRelations;
                   if(entity.conditionModifiers != null){
                     expCondition = entity.conditionModifiers;
@@ -80,7 +82,7 @@ function AnnotatedPhenotypePopupCuration({ children, entities, mainRowCurie, pub
                       {columnNameSet.has("Name") && <td>{renderLink(entity)}</td>}
                       {columnNameSet.has("Type") && <td><TypeCellCuration subject={entity.phenotypeAnnotationSubject}/></td>}
                       {columnNameSet.has("Experimental Condition") && <td><ExperimentalConditionCellCuration conditions={expCondition}/></td>}
-                      {columnNameSet.has("References") && <td><SingleReferenceCellCuration singleReference={entity.singleReference} pubModIds={pubModIds}/></td>}
+                      {columnNameSet.has("References") && <td><SingleReferenceCellCuration singleReference={entity.evidenceItem} pubModIds={pubModIds}/></td>}
                     </tr>
                 )
               })
