@@ -149,20 +149,10 @@ class PathwayWidget extends Component {
           geneId = uniprotIds[0];
         }
       }
-      let iri = curieUtils.getIri(geneId);
       this.setState({ "cutils" : curieUtils})
-      return iri;
-
-    }).then(iri => {
-
-      // This should be a temporary fix, but MGI:MGI: has been a long standing issue that need to be fixed
-      // at the server level but also at the dbxrefs.yaml & equivalent e.g. http://identifiers.org/mgi/MGI:88177
-      if(iri.includes("mgi") && !iri.includes("MGI:")) {
-        iri = iri.replace("/mgi/", "/mgi/MGI:");
-      }
 
       // new query parameter to indicate we want models with at least 2 causal MFs
-      let gocams = "https://api.geneontology.xyz/gp/" + encodeURIComponent(iri) + "/models?causalmf=2"
+      let gocams = "https://api.geneontology.org/api/gp/" + geneId + "/models?causalmf=2"
       fetch(gocams)
       .then(data => {
         return data.json();

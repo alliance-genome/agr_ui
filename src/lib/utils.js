@@ -24,6 +24,41 @@ export function compareAlphabeticalCaseInsensitive(accessor) {
   };
 }
 
+export function smartAlphaSort(accessor) {
+  //implements a natural sort
+  //https://wikipedia.org/wiki/Natural_sort_order
+
+  accessor = functionOrIdentity(accessor);
+  return function (a, b) {
+    const ax = accessor(a).toLowerCase();
+    const bx = accessor(b).toLowerCase();
+    
+    // Split strings into chunks of strings and numbers
+    const splitRegex = /([0-9]+|[^0-9]+)/g;
+    const aChunksArray = ax.match(splitRegex);
+    const bChunksArray = bx.match(splitRegex);
+
+    const len = Math.min(aChunksArray.length, bChunksArray.length);
+    
+    for (let i = 0; i < len; i++) {
+      // If both parts are numeric, compare as numbers
+      if (!isNaN(aChunksArray[i]) && !isNaN(bChunksArray[i])) {
+        const diff = parseInt(aChunksArray[i]) - parseInt(bChunksArray[i]);
+        if (diff !== 0) return diff;
+      }
+      // Otherwise compare as strings
+      else {
+        const diff = aChunksArray[i].localeCompare(bChunksArray[i]);
+        if (diff !== 0) return diff;
+      }
+    }
+    
+    // If all parts are equal up to the length of the shorter string,
+    // the shorter string comes first
+    return aChunksArray.length - bChunksArray.length;
+  };
+}
+
 export function compareByFixedOrder(order, accessor) {
   accessor = functionOrIdentity(accessor);
   const indexOf = value => {
@@ -79,22 +114,12 @@ export function getTableUrl(baseUrl, tableState) {
   return baseUrl + separator + buildTableQueryString(tableState);
 }
 
-
-function isHighStringency(orthology) {
-  return orthology.stringencyFilter === 'stringent';
-}
-
-function isModerateStringency(orthology) {
-  return orthology.stringencyFilter === 'stringent' ||
-    orthology.stringencyFilter === 'moderate';
-}
-
 export function orthologyMeetsStringency(orthology, stringency) {
   switch (stringency) {
   case STRINGENCY_HIGH:
-    return isHighStringency(orthology);
+    return orthology.strictFilter;
   case STRINGENCY_MED:
-    return isModerateStringency(orthology);
+    return orthology.moderateFilter || orthology.strictFilter;
   default:
     return true;
   }

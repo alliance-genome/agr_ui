@@ -1,8 +1,11 @@
 import { resourceDescriptors } from "../../resourceDescriptors";
 
 export const getResourceUrl = ({ identifier, type, subtype }) => {
-  const [prefix, id] = identifier?.split(':');
+  let [prefix, id] = identifier?.split(':');
 
+  if(prefix.toLowerCase() === 'dip') {
+    id = id.replace(/\D/g,'');
+  }
   let resource;
   if(subtype){
     [resource] = resourceDescriptors
@@ -17,6 +20,9 @@ export const getResourceUrl = ({ identifier, type, subtype }) => {
         .split('[')
         || [];
   } else {
+    if(prefix === 'ORPHA') {
+      prefix = 'Orphanet';
+    }
     [resource] = resourceDescriptors
         .find(resource => resource.db_prefix === prefix)?.default_url
         .split('[')

@@ -19,20 +19,27 @@ const ParalogyTable = ({geneId}) => {
     return <NoData>No paralogs for the gene.</NoData>
   }
 
-  const results = data.results?.sort( (a,b) => {
-    if (Number(a.rank) < Number(b.rank)) {
-      return -1;
+  const getMethods = (methods) => methods?.map(element => element.name);
+
+  const getTotalMethodCount = (result) => {
+    const { predictionMethodsMatched, predictionMethodsNotMatched } = result.geneToGeneParalogy;
+
+    if (!predictionMethodsMatched && !predictionMethodsNotMatched) {
+      return 0;
     }
-    if (Number(a.rank) > Number(b.rank)) {
-      return 1;
+    if (!predictionMethodsMatched) {
+      return predictionMethodsNotMatched.length;
     }
-    return 0;
-  });
-  
+    if (!predictionMethodsNotMatched) {
+      return predictionMethodsMatched.length;
+    }
+    return predictionMethodsMatched.length + predictionMethodsNotMatched.length;
+  }
+
   return (
     <div>
       <div style={{marginBottom: '1rem'}}>
-            <HorizontalScroll width={800}>              
+            <HorizontalScroll width={800}>
               <table className='table'>
                 <thead>
                   <tr>
@@ -45,31 +52,31 @@ const ParalogyTable = ({geneId}) => {
                     <MethodHeader name="Method" paralogy={true}/>
                   </tr>
                 </thead>
-                <tbody>                 
-                {              
-                  results?.map( result => {
-                    const rowKey = 'paralogyrowkey-' + result.homologGene.id.replace(/\s/g, '-');
+                <tbody>
+                {
+                  data.results?.map( result => {
+                    const rowKey = 'paralogyrowkey-' + result.geneToGeneParalogy.objectGene.primaryExternalId.replace(/\s/g, '-');
                     return (<tr key={rowKey}>
                       <td>
-                        <Link to={`/gene/${result.homologGene.id}`} target="_blank">
-                          <span dangerouslySetInnerHTML={{__html: result.homologGene.symbol}} />
+                        <Link to={`/gene/${result.geneToGeneParalogy.objectGene.primaryExternalId}`} target="_blank">
+                          <span dangerouslySetInnerHTML={{__html: result.geneToGeneParalogy.objectGene.geneSymbol.displayText}} />
                         </Link>
-                      </td>                    
-                      <td>{result.rank}</td>
-                      <td>{result.length}</td>
-                      <td>{result.similarity}</td>
-                      <td>{result.identity}</td>
-                      <td>{result.methodCount} of {result.totalMethodCount}</td>
+                      </td>
+                      <td>{result.geneToGeneParalogy.rank}</td>
+                      <td>{result.geneToGeneParalogy.length}</td>
+                      <td>{result.geneToGeneParalogy.similarity}</td>
+                      <td>{result.geneToGeneParalogy.identity}</td>
+                      <td>{(result.geneToGeneParalogy.predictionMethodsMatched.length)} of {getTotalMethodCount(result)}</td>
                       <MethodCell
-                        predictionMethodsMatched={result.predictionMethodsMatched}
-                        predictionMethodsNotMatched={result.predictionMethodsNotMatched}
-                        rowKey={result.homologGene.id}
+                        predictionMethodsMatched={getMethods(result.geneToGeneParalogy.predictionMethodsMatched)}
+                        predictionMethodsNotMatched={getMethods(result.geneToGeneParalogy.predictionMethodsNotMatched)}
+                        rowKey={result.geneToGeneParalogy.objectGene.primaryExternalId}
                         paralogy={true}/>
                     </tr>)})
                 }
                 </tbody>
               </table>
-            </HorizontalScroll> 
+            </HorizontalScroll>
       </div>
     </div>
   );

@@ -1,15 +1,22 @@
 import ExternalLink from "../ExternalLink";
 
-function ProviderCellCuration({ provider }) {
-    if(!provider) return null;
+function ProviderCellCuration({provider}) {
+    if (!provider) return null;
 
-    const { dataProvider, secondaryDataProvider } = provider;
+    const {dataProvider, secondaryDataProvider} = provider;
 
     return (
         <span>
-            <ExternalLink href={dataProvider.url} key={dataProvider.id} title={dataProvider.abbreviation}>
-                {dataProvider.abbreviation}
-            </ExternalLink>
+            {
+                dataProvider.url &&
+                <ExternalLink href={dataProvider.url} key={dataProvider.id} title={dataProvider.abbreviation}>
+                    {dataProvider.abbreviation}
+                </ExternalLink>
+            }
+            {
+                !dataProvider.url &&
+                    dataProvider.abbreviation
+            }
             {
                 secondaryDataProvider &&
                 <>

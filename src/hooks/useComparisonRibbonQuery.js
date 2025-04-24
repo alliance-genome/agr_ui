@@ -1,4 +1,3 @@
-import { stringify } from 'qs';
 import { useQuery } from '@tanstack/react-query';
 import fetchData from '../lib/fetchData';
 import { getOrthologId } from '../components/orthology';
@@ -11,20 +10,19 @@ export default function useComparisonRibbonQuery(
   additionalParams
 ) {
   return useQuery({
-    queryKey: [baseUrl, focusGeneId, comparisonGenes, additionalParams], 
+    queryKey: [baseUrl, focusGeneId, comparisonGenes, additionalParams],
     queryFn: async () => {
       const comparisonGeneIds = comparisonGenes.map(getOrthologId);
-      const queryString = stringify({
+
+      const options = {
         ...additionalParams,
-        geneID: [focusGeneId].concat(comparisonGeneIds)
-      }, {
-        addQueryPrefix: true,
-        arrayFormat: 'repeat'
-      });
-      const url = baseUrl + queryString;
+        type: 'POST',
+        data: [focusGeneId].concat(comparisonGeneIds)
+      };
+
       // ribbon does not support HTML-encoded labels, so for now translate to plain text
       // see: https://github.com/geneontology/wc-ribbon/issues/27
-      const response = await fetchData(url);
+      const response = await fetchData(baseUrl, options, 90_000);
       return {
         ...response,
         subjects: response.subjects.map(subject => ({
@@ -32,7 +30,7 @@ export default function useComparisonRibbonQuery(
           label: htmlToPlainText(subject.label),
         }))
       };
-    }, 
+    },
     // this prevents a request from being fired before orthology data is loaded
     enabled: !!comparisonGenes,
     placeholderData: {
