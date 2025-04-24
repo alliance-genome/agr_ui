@@ -119,53 +119,56 @@ wc-ribbon-cell.ribbon__subject--cell--no-annotation {
   --gocam-width: 815px;
   --gocam-border-size: 1px;
   --gocam-box-shadow: none;
-  --gocam-panel-box-shadow: 0px 0px 1px 0px rgb(134,134,134);
-  --gocam-panel-process-color: #2598C5;
+  --gocam-panel-box-shadow: 0px 0px 1px 0px rgb(134, 134, 134);
+  --gocam-panel-process-color: #2598c5;
   --gocam-panel-process-font-weight: 400;
-  --gocam-panel-h1-color: #2598C5;
+  --gocam-panel-h1-color: #2598c5;
   --gocam-panel-h1-weight: 400;
 }
 
 wc-gocam-viz {
-  --activity-background-active: #af732a;
-  --activity-color-active: #fff;
-  --button-background: #DDD;
-  --button-color: #000;
-  --button-background-hover: #BBB;
+  font-size: 1rem;
+  --gocamviz-primary-color: #2598c5;
+  --gocamviz-primary-color-light: #217ca0;
+
+  --activity-background-active: #c0e8f7;
+  --activity-color-active: #000;
+
+  &::part(legend-header) {
+    padding-top: 0.25rem;
+    border-bottom: 1px solid black;
+  }
+
+  // Button
+  --button-background: var(--gocamviz-primary-color);
+  --button-background-hover: var(--gocamviz-primary-color-light);
+  --button-color: #fff;
   --button-border-width: 1px;
   --button-border-color: #ccc;
 
   // Panel
-  --panel-header-background:	#ececec;
-  --panel-border-color: #AAA;
+  --panel-header-background: #ececec;
+  --panel-border-color: #aaa;
 
-   // Process
-   --process-label-background:	#7a548d;
-   --process-label-color: #fff;
+  // Process
+  --process-label-background: var(--gocamviz-primary-color);
+  --process-label-color: #fff;
 
   --process-label-padding: 0.5rem;
   --activity-padding: 0.5rem;
   --gene-product-padding: 0 0 0.5rem 0;
   --function-label-padding: 0 0 0.5rem 0;
 
-  --graph-padding: 8px;
+  --graph-padding: 0.5rem;
 
---panel-header-padding: 8px;
+  --panel-header-padding: 0.5rem;
 
---panel-border-color: #CCC;
+  --panel-border-color: #ccc;
 
---panel-border-width: 1px;
---process-border-width: 1px;
+  --panel-border-width: 1px;
+  --process-border-width: 1px;
 
-
-//Legend
---legend-padding: 8px;
---legend-header-padding: 8px;
-
-}
-
-
-.gocam-viz-legend-container {
-  padding: 0 1.2rem;
-  width: 800px;
+  //Legend
+  --legend-padding: 0.5rem;
+  --legend-header-padding: 0.5rem;
 }
