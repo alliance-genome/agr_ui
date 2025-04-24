@@ -1,37 +1,13 @@
 import { DEFAULT_TABLE_STATE } from '../constants';
 import { useQuery } from '@tanstack/react-query';
 import fetchData from '../lib/fetchData';
-import { buildTableQueryString } from '../lib/utils';
 import { useEffect, useReducer, useRef } from 'react';
+import { getFullUrl, createBaseReducer, createQueryResult, getEnabledBoolean } from './utils';
 
-function reducer(state, action) {
-  switch (action.type) {
-  case 'reset':
-    return {
-      url: action.payload.url,
-      body: action.payload.body,
-      tableState: {
-        ...state.tableState,
-        page: 1,
-      },
-    };
-  case 'update':
-    return {
-      ...state,
-      tableState: action.payload,
-    };
-  default:
-    return state;
-  }
-}
-
-function getFullUrl(baseUrl, tableState) {
-  if (!baseUrl) {
-    return null;
-  }
-  const separator = baseUrl.indexOf('?') < 0 ? '?' : '&';
-  return baseUrl + separator + buildTableQueryString(tableState);
-}
+const reducer = createBaseReducer((payload) => ({
+  url: payload.url,
+  body: payload.body
+}));
 
 export default function usePostDataTableQuery(baseUrl, body, config, initialTableState, fetchTimeout) {
   const initialState = {
@@ -40,13 +16,13 @@ export default function usePostDataTableQuery(baseUrl, body, config, initialTabl
     tableState: { ...DEFAULT_TABLE_STATE, ...(initialTableState || {}) },
   };
   const [{ url, body: currentBody, tableState }, dispatch] = useReducer(reducer, initialState);
-  const enabledBoolean = Boolean((config && config.hasOwnProperty('enabled')) ? config.enabled : true);
+  const enabledBoolean = getEnabledBoolean(config);
   const timeoutRef = useRef(null);
 
+  //the timeout prevents unnecessary calls to the API on initial render
   useEffect(() => {
     clearTimeout(timeoutRef.current);
     
-    // Debounce the reset action by 300ms
     timeoutRef.current = setTimeout(() => {
       dispatch({ 
         type: 'reset', 
@@ -74,17 +50,14 @@ export default function usePostDataTableQuery(baseUrl, body, config, initialTabl
     ),
     {
       keepPreviousData: true,
-      staleTime: 30000, // Consider data fresh for 30 seconds
+      staleTime: 30000, 
       ...config,
     }
   );
 
   return {
-    ...query,
-    data: query?.data?.results || [],
-    supplementalData: query?.data?.supplementalData || {},
+    ...createQueryResult(query),
     setTableState,
     tableState,
-    totalRows: query.data ? query.data.total : 0,
   };
 }
