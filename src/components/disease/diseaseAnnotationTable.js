@@ -62,7 +62,7 @@ const DiseaseAnnotationTable = ({
       filterType: 'checkbox',
       headerStyle: {width: '100px'},
       formatter: species => <SpeciesCell species={species} />,
-      hidden: !orthologGenes || !orthologGenes.length
+      hide: !orthologGenes || !orthologGenes.length
     },
     {
       dataField: 'subject',
