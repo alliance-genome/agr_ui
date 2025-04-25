@@ -4,47 +4,43 @@ import fetchData from '../lib/fetchData';
 import { useEffect, useReducer, useRef } from 'react';
 import { getFullUrl, createBaseReducer, createQueryResult, getEnabledBoolean } from './utils';
 
-const reducer = createBaseReducer((payload) => ({
-  url: payload.url,
-  body: payload.body
-}));
+// Keep the reducer simple like useDataTableQuery
+const reducer = createBaseReducer(url => ({ url }));
 
 export default function usePostDataTableQuery(baseUrl, body, config, initialTableState, fetchTimeout) {
   const initialState = {
     url: null,
-    body: null,
     tableState: { ...DEFAULT_TABLE_STATE, ...(initialTableState || {}) },
   };
-  const [{ url, body: currentBody, tableState }, dispatch] = useReducer(reducer, initialState);
+  const [{ url, tableState }, dispatch] = useReducer(reducer, initialState);
   const enabledBoolean = getEnabledBoolean(config);
+  const bodyRef = useRef(body);
   const timeoutRef = useRef(null);
 
-  //the timeout prevents unnecessary calls to the API on initial render
   useEffect(() => {
     clearTimeout(timeoutRef.current);
+    bodyRef.current = body;
     
     timeoutRef.current = setTimeout(() => {
       dispatch({ 
         type: 'reset', 
-        payload: {
-          url: enabledBoolean && baseUrl,
-          body
-        }
+        payload: enabledBoolean && baseUrl
       });
     }, 300);
 
     return () => clearTimeout(timeoutRef.current);
-  }, [baseUrl, body, enabledBoolean]);
+    // eslint-disable-next-line 
+  }, [baseUrl, enabledBoolean]);
 
   const setTableState = tableState => dispatch({ type: 'update', payload: tableState });
 
   const query = useQuery(
-    [url, currentBody, tableState],
+    [url, body, tableState],
     () => fetchData(
       getFullUrl(url, tableState),
       {
         type: 'POST',
-        data: currentBody
+        data: body
       },
       fetchTimeout
     ),
