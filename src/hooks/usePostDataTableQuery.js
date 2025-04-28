@@ -1,10 +1,9 @@
 import { DEFAULT_TABLE_STATE } from '../constants';
 import { useQuery } from '@tanstack/react-query';
 import fetchData from '../lib/fetchData';
-import { useEffect, useReducer, useRef } from 'react';
+import { useEffect, useReducer } from 'react';
 import { getFullUrl, createBaseReducer, createQueryResult, getEnabledBoolean } from './utils';
 
-// Keep the reducer simple like useDataTableQuery
 const reducer = createBaseReducer(url => ({ url }));
 
 export default function usePostDataTableQuery(baseUrl, body, config, initialTableState, fetchTimeout) {
@@ -14,22 +13,9 @@ export default function usePostDataTableQuery(baseUrl, body, config, initialTabl
   };
   const [{ url, tableState }, dispatch] = useReducer(reducer, initialState);
   const enabledBoolean = getEnabledBoolean(config);
-  const bodyRef = useRef(body);
-  const timeoutRef = useRef(null);
 
   useEffect(() => {
-    clearTimeout(timeoutRef.current);
-    bodyRef.current = body;
-    
-    timeoutRef.current = setTimeout(() => {
-      dispatch({ 
-        type: 'reset', 
-        payload: enabledBoolean && baseUrl
-      });
-    }, 300);
-
-    return () => clearTimeout(timeoutRef.current);
-    // eslint-disable-next-line 
+    dispatch({ type: 'reset', payload: enabledBoolean && baseUrl });
   }, [baseUrl, enabledBoolean]);
 
   const setTableState = tableState => dispatch({ type: 'update', payload: tableState });
@@ -46,7 +32,7 @@ export default function usePostDataTableQuery(baseUrl, body, config, initialTabl
     ),
     {
       keepPreviousData: true,
-      staleTime: 30000, 
+      staleTime: 30000,
       ...config,
     }
   );
