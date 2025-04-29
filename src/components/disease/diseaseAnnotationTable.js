@@ -112,11 +112,12 @@ const DiseaseAnnotationTable = ({
       formatter: diseaseQualifiers => <DiseaseQualifiersColumn qualifiers={diseaseQualifiers} />,
     },
     {
+      //kept as disease instead of object so that the filter works
       dataField: 'disease',
       text: 'Disease',
       filterable: true,
       headerStyle: {width: '150px'},
-      formatter: (curie, row) => <DiseaseLinkCuration disease={row.object} />,
+      formatter: disease => <DiseaseLinkCuration disease={disease} />,
     },
     {
       dataField: 'evidenceCodes',
@@ -165,6 +166,7 @@ const DiseaseAnnotationTable = ({
     providers: buildProvidersWithUrl(annotation.primaryAnnotations),
     basedOn: buildWith(annotation),
     id: hash(annotation),
+    disease: annotation.object,
     ...annotation,
   }));
 
