@@ -79,7 +79,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resolvedData, allelesFiltered.data, alleleIdsSelected, setAlleleIdsSelected]);
 
-  //uncomment when sequence viewer is working again
+  //uncomment when sequence viewer is working again per SCRUM-5102
   //const selectRow = useMemo(() => ({
   //  mode: 'checkbox',
   //  clickToSelect: true,
@@ -314,7 +314,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
           data={data}
           downloadUrl={`/api/gene/${geneId}/alleles/download`}
           keyField='id'
-          //uncomment when sequence viewer is working again
+          //uncomment when sequence viewer is working again per SCRUM-5102
           //rowStyle={{cursor: 'pointer'}}
           //selectRow={selectRow}
           sortOptions={sortOptions}
