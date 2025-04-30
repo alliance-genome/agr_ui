@@ -79,27 +79,28 @@ const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resolvedData, allelesFiltered.data, alleleIdsSelected, setAlleleIdsSelected]);
 
-  const selectRow = useMemo(() => ({
-    mode: 'checkbox',
-    clickToSelect: true,
-    hideSelectColumn: true,
-    selected: alleleIdsSelected,
-    onSelect: (row) => {
-      const alleleIdRow = row.id;
-      setAlleleIdsSelected(alleleIdsSelectedPrev => {
-        if (alleleIdsSelectedPrev.includes(alleleIdRow)) {
-          const indexAlleleId = alleleIdsSelectedPrev.indexOf(alleleIdRow);
-          return [
-            ...alleleIdsSelectedPrev.slice(0, indexAlleleId),
-            ...alleleIdsSelectedPrev.slice(indexAlleleId + 1)
-          ];
-        } else {
-          return [...alleleIdsSelectedPrev, alleleIdRow];
-        }
-      });
-    },
-    style: { backgroundColor: '#ffffd4' },
-  }), [alleleIdsSelected, setAlleleIdsSelected]);
+  //uncomment when sequence viewer is working again per SCRUM-5102
+  //const selectRow = useMemo(() => ({
+  //  mode: 'checkbox',
+  //  clickToSelect: true,
+  //  hideSelectColumn: true,
+  //  selected: alleleIdsSelected,
+  //  onSelect: (row) => {
+  //    const alleleIdRow = row.id;
+  //    setAlleleIdsSelected(alleleIdsSelectedPrev => {
+  //      if (alleleIdsSelectedPrev.includes(alleleIdRow)) {
+  //        const indexAlleleId = alleleIdsSelectedPrev.indexOf(alleleIdRow);
+  //        return [
+  //          ...alleleIdsSelectedPrev.slice(0, indexAlleleId),
+  //          ...alleleIdsSelectedPrev.slice(indexAlleleId + 1)
+  //        ];
+  //      } else {
+  //        return [...alleleIdsSelectedPrev, alleleIdRow];
+  //      }
+  //    });
+  //  },
+  //  style: { backgroundColor: '#ffffd4' },
+  //}), [alleleIdsSelected, setAlleleIdsSelected]);
 
   const variantNameColWidth = 300;
   const variantTypeColWidth = 150;
@@ -313,8 +314,9 @@ const AlleleTable = ({ isLoadingGene, gene, geneId}) => {
           data={data}
           downloadUrl={`/api/gene/${geneId}/alleles/download`}
           keyField='id'
-          rowStyle={{cursor: 'pointer'}}
-          selectRow={selectRow}
+          //uncomment when sequence viewer is working again per SCRUM-5102
+          //rowStyle={{cursor: 'pointer'}}
+          //selectRow={selectRow}
           sortOptions={sortOptions}
         />
         <div className="d-flex flex-column align-items-start my-2 mx-auto">
