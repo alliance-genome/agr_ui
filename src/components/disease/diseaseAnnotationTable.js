@@ -62,7 +62,7 @@ const DiseaseAnnotationTable = ({
       filterType: 'checkbox',
       headerStyle: {width: '100px'},
       formatter: species => <SpeciesCell species={species} />,
-      hidden: !orthologGenes || !orthologGenes.length
+      hide: !orthologGenes || !orthologGenes.length
     },
     {
       dataField: 'subject',
@@ -112,11 +112,12 @@ const DiseaseAnnotationTable = ({
       formatter: diseaseQualifiers => <DiseaseQualifiersColumn qualifiers={diseaseQualifiers} />,
     },
     {
+      //kept as disease instead of object so that the filter works
       dataField: 'disease',
       text: 'Disease',
       filterable: true,
       headerStyle: {width: '150px'},
-      formatter: (curie, row) => <DiseaseLinkCuration disease={row.object} />,
+      formatter: disease => <DiseaseLinkCuration disease={disease} />,
     },
     {
       dataField: 'evidenceCodes',
@@ -165,6 +166,7 @@ const DiseaseAnnotationTable = ({
     providers: buildProvidersWithUrl(annotation.primaryAnnotations),
     basedOn: buildWith(annotation),
     id: hash(annotation),
+    disease: annotation.object,
     ...annotation,
   }));
 
@@ -174,7 +176,8 @@ const DiseaseAnnotationTable = ({
       columns={columns}
       data={data || []}
       supplementalData={supplementalData}
-      downloadUrl={downloadUrl}
+      //temporarily remove download button due to bug see SCRUM-5109
+      //downloadUrl={downloadUrl}
       keyField='id'
     />
   );

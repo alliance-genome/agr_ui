@@ -6,7 +6,7 @@ import { getFullUrl, createBaseReducer, createQueryResult, getEnabledBoolean } f
 
 const reducer = createBaseReducer(url => ({ url }));
 
-export default function useDataTableQuery(baseUrl, config, initialTableState, fetchOptions = {}, fetchTimeout) {
+export default function usePostDataTableQuery(baseUrl, body, config, initialTableState, fetchTimeout) {
   const initialState = {
     url: null,
     tableState: { ...DEFAULT_TABLE_STATE, ...(initialTableState || {}) },
@@ -21,10 +21,18 @@ export default function useDataTableQuery(baseUrl, config, initialTableState, fe
   const setTableState = tableState => dispatch({ type: 'update', payload: tableState });
 
   const query = useQuery(
-    [url, tableState],
-    () => fetchData(getFullUrl(url, tableState), fetchOptions, fetchTimeout),
+    [url, body, tableState],
+    () => fetchData(
+      getFullUrl(url, tableState),
+      {
+        type: 'POST',
+        data: body
+      },
+      fetchTimeout
+    ),
     {
       keepPreviousData: true,
+      staleTime: 30000,
       ...config,
     }
   );

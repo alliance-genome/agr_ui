@@ -1,4 +1,4 @@
-import useDataTableQuery from './useDataTableQuery';
+import usePostDataTableQuery from './usePostDataTableQuery';
 import { getOrthologId } from '../components/orthology';
 import qs from 'qs';
 
@@ -21,24 +21,21 @@ export default function useComparisonRibbonTableQuery(
   if (termId && termId !== 'all') {
     params.termID = termId;
   }
+  
   const queryString = qs.stringify(params, {
     addQueryPrefix: true,
     arrayFormat: 'repeat',
   });
 
   const downloadUrl = `${baseUrl}/download${queryString}`;
-  const fetchOptions = {
-    type: 'POST',
-    data: geneIds
-  };
-
-  const query = useDataTableQuery(
+  
+  const query = usePostDataTableQuery(
     baseUrl + queryString,
+    geneIds,
     {
       enabled: orthologGenes !== null,
     },
     null,
-    fetchOptions,
     90_000,
   );
 
