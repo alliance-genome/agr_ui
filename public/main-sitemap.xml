@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+<url> <loc>https://www.alliancegenome.org/</loc> <changefreq>monthly</changefreq> <priority>0.1</priority> </url>
+<url> <loc>https://www.alliancegenome.org/about-us</loc> <changefreq>monthly</changefreq> <priority>0.8</priority> </url>
+<url> <loc>https://www.alliancegenome.org/contact-us</loc> <changefreq>monthly</changefreq> <priority>0.8</priority> </url>
+<url> <loc>https://www.alliancegenome.org/cite-us</loc> <changefreq>monthly</changefreq> <priority>0.8</priority> </url>
+<url> <loc>https://www.alliancegenome.org/frequently-asked-questions</loc> <changefreq>monthly</changefreq> <priority>0.8</priority> </url>
+<url> <loc>https://www.alliancegenome.org/release-notes</loc> <changefreq>monthly</changefreq> <priority>0.8</priority> </url>
+<url> <loc>https://www.alliancegenome.org/funding</loc> <changefreq>monthly</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://www.alliancegenome.org/organization-and-governance</loc> <changefreq>monthly</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://www.alliancegenome.org/privacy-warranty-licensing</loc> <changefreq>monthly</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://www.alliancegenome.org/publications</loc> <changefreq>monthly</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://www.alliancegenome.org/genome-features</loc> <changefreq>monthly</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://www.alliancegenome.org/administrative-supplement</loc> <changefreq>monthly</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://www.alliancegenome.org/phenotypes-and-disease-models</loc> <changefreq>monthly</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://www.alliancegenome.org/submit-data</loc> <changefreq>monthly</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://www.alliancegenome.org/textpresso</loc> <changefreq>monthly</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://www.alliancegenome.org/event-calendar</loc> <changefreq>monthly</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://www.alliancegenome.org/blast</loc> <changefreq>monthly</changefreq> <priority>0.7</priority> </url>
+</urlset>
