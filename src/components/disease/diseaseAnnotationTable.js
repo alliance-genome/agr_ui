@@ -176,8 +176,7 @@ const DiseaseAnnotationTable = ({
       columns={columns}
       data={data || []}
       supplementalData={supplementalData}
-      //temporarily remove download button due to bug see SCRUM-5109
-      //downloadUrl={downloadUrl}
+      downloadUrl={downloadUrl}
       keyField='id'
     />
   );
