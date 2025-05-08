@@ -1,0 +1,11 @@
+@import "../../theme.module";
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+.booleanTrueBackground {
+  background-color: $boolean-true-green;
+}
+
+.groupedRow {
+  background-color: $table-accent-bg;
+}
