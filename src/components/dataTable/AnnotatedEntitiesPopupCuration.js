@@ -23,7 +23,7 @@ import AnnotationType from './AnnotationType';
 import AssociationCellCuration from './AssociationCellCuration';
 import AssertedGenes from './AssertedGenes';
 import GeneticModifiersCellCuration from './GeneticModifiersCellCuration';
-import { buildProviderWithUrl, getIdentifier, naturalSortByAnnotationSubject } from './utils';
+import { getAnnotationSubjectText, buildProviderWithUrl, getIdentifier, naturalSortByAnnotationSubject } from './utils';
 import StrainBackground from './StrainBackground';
 
 function renderLink(entity) {
@@ -34,16 +34,14 @@ function renderLink(entity) {
     subtype: entity.diseaseAnnotationSubject.subtype
   })
 
+  const innerText = getAnnotationSubjectText(entity);
+  const inner = <span dangerouslySetInnerHTML={{__html: innerText}}/>;
+
   if (entity.type === 'AlleleDiseaseAnnotation') {
-    const innerText = entity.diseaseAnnotationSubject.alleleSymbol ? entity.diseaseAnnotationSubject.alleleSymbol.displayText : entity.diseaseAnnotationSubject.name;
-    const inner = <span dangerouslySetInnerHTML={{__html: innerText}}/>;
     return <Link to={`/allele/${identifier}`}>{inner}</Link>;
   } else if(entity.type === 'GeneDiseaseAnnotation'){
-      const innerText = entity.diseaseAnnotationSubject.geneSymbol ? entity.diseaseAnnotationSubject.geneSymbol.displayText : entity.diseaseAnnotationSubject.name;
-      const inner = <span dangerouslySetInnerHTML={{__html: innerText}}/>;
       return <Link to={`/gene/${identifier}`}>{inner}</Link>;
   } else {
-      const inner = <span dangerouslySetInnerHTML={{__html: entity.diseaseAnnotationSubject.name}}/>;
       return <ExternalLink href={url}>{inner}</ExternalLink>;
   }
 }
@@ -57,7 +55,7 @@ function AnnotatedEntitiesPopupCuration({ children, entities, mainRowCurie, pubM
   }
 
   const sortedEntities = naturalSortByAnnotationSubject(entities);
-  
+
   const popperModifiers = {
     preventOverflow: {
       boundariesElement: 'window',
