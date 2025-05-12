@@ -14,7 +14,7 @@ import ExternalLink from '../ExternalLink';
 import { Link } from 'react-router-dom';
 import { getResourceUrl } from "./getResourceUrl";
 import TypeCellCuration from './TypeCellCuration';
-import { getIdentifier, naturalSortByAnnotationSubject } from './utils';
+import { getAnnotationSubjectText, getIdentifier, naturalSortByAnnotationSubject } from './utils';
 
 function renderLink(entity) {
   const identifier = getIdentifier(entity.phenotypeAnnotationSubject);
@@ -24,16 +24,14 @@ function renderLink(entity) {
     subtype: entity.phenotypeAnnotationSubject.subtype
   })
 
+  const innerText = getAnnotationSubjectText(entity);
+  const inner = <span dangerouslySetInnerHTML={{__html: innerText}}/>;
+
   if (entity.type === 'AllelePhenotypeAnnotation') {
-    const innerText = entity.phenotypeAnnotationSubject.alleleSymbol ? entity.phenotypeAnnotationSubject.alleleSymbol.displayText : entity.v.name;
-    const inner = <span dangerouslySetInnerHTML={{__html: innerText}}/>;
     return <Link to={`/allele/${identifier}`}>{inner}</Link>;
   } else if(entity.type === 'GenePhenotypeAnnotation'){
-      const innerText = entity.phenotypeAnnotationSubject.geneSymbol ? entity.phenotypeAnnotationSubject.geneSymbol.displayText : entity.phenotypeAnnotationSubject.name;
-      const inner = <span dangerouslySetInnerHTML={{__html: innerText}}/>;
       return <Link to={`/gene/${identifier}`}>{inner}</Link>;
   } else {
-      const inner = <span dangerouslySetInnerHTML={{__html: entity.phenotypeAnnotationSubject.name}}/>;
       return <ExternalLink href={url}>{inner}</ExternalLink>;
   }
 }
