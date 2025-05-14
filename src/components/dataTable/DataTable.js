@@ -77,6 +77,26 @@ const DataTable = ({
       sizePerPage: newState.sizePerPage,
       filters: translateFilterNames(newState.filters),
     });
+
+    requestAnimationFrame(() => {
+      const popup = document.querySelector('.shadow-sm.px-4.py-3.dropdown-menu.show');
+      let icon = null;
+
+      if (popup) {
+        const column = popup.closest('th, td');
+        if (column) {
+          icon = column.querySelector('svg[data-icon="filter"]');
+        }
+
+        if (icon) {
+          const iconRect = icon.getBoundingClientRect();
+
+          const x = iconRect.left;
+          const y = iconRect.bottom;
+          popup.style.transform = `translate3d(${x}px, ${y}px, 0px) translateZ(0)`; // ✅ remove transform override
+        }
+      }
+    });
   };
 
   const handleSortChange = (event) => {
@@ -238,11 +258,11 @@ const DataTable = ({
             disabled={disabled}
           />
       }
-      { 
-        disabled && 
+      {
+        disabled &&
           <div style={{color: 'red'}}>
-            The table above cannot be downloaded because there are too many rows in the unfiltered table. 
-            Please apply filter(s) to limit the number of rows to less than {DOWNLOAD_BUTTON_THRESHOLD} to enable the Download button or visit our 
+            The table above cannot be downloaded because there are too many rows in the unfiltered table.
+            Please apply filter(s) to limit the number of rows to less than {DOWNLOAD_BUTTON_THRESHOLD} to enable the Download button or visit our
             <Link to="/downloads"> Downloads page </Link>
             to download the entire data set.
           </div>
