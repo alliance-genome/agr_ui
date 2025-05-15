@@ -38,7 +38,7 @@ describe('GO footer tests.', () => {
     
     for (let i=0; i<content.footer.length; i++){
 
-         let footer = screen.getByTestId("href_footer_" + i);
+         let footer = screen.getByTestId("footer_link_" + i);
          expect(footer).toHaveAttribute('href', content.footer[i][2]);
 
          let label = screen.getByTestId('footer_label_' + i)
@@ -50,7 +50,7 @@ describe('GO footer tests.', () => {
    // Check for something we expect to be there.
    // GO Helpdesk should always be the first one.?
    if('Should render GO Helpdesk as the first footer link', () => {
-      const footer = screen(getByTestId("href_footer_0")); // First item
+      const footer = screen(getByTestId("footer_link_0")); // First item
       expect(footer).toHaveAttribute('href', 'https://help.geneontology.org/');
       const label = screen.getByTestId('footer_label_0')
       expect(label).toContainHTML('GO Helpdesk');

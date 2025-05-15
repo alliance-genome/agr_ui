@@ -3,7 +3,7 @@ import style from './style.module.scss';
 import PropTypes from "prop-types";
 import MeetingsZfin from "./MeetingsZfin"
 import MeetingsRgd from "./MeetingsRgd"
-import GoogleapisMeetings from "./googleapisMeetings"
+import MeetingsGoogleApis from "./MeetingsGoogleApis"
 import ExternalLink from '../../components/ExternalLink';
 
 const Meetings = ({content}) => {
@@ -12,8 +12,8 @@ const Meetings = ({content}) => {
       <div data-testid={'meetings_div'} className={`${style.section} ${content.sectionStyle}`}>
         <h2 data-testid={'meetings_header'} className={style.sectionTitle}>Meetings</h2>
         {(() => {
-          if (content.googleapisMeetingsBaseURL) {
-            return (<GoogleapisMeetings urlMeetingsMod={content.googleapisMeetingsBaseURL} fetchMeetingsCount={content.fetchMeetingsCount}
+          if (content.meetingsGoogleApisBaseURL) {
+            return (<MeetingsGoogleApis urlMeetingsMod={content.meetingsGoogleApisBaseURL} fetchMeetingsCount={content.fetchMeetingsCount}
                                         linkToMeetingsPage={content.linkToMeetingsPage} />); }
           else if (content.zfinMeetingsAPI) {
             return (<MeetingsZfin urlMeetingsMod={content.zfinMeetingsAPI} fetchMeetingsCount={content.fetchMeetingsCount}
