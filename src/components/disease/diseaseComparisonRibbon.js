@@ -92,7 +92,6 @@ const DiseaseComparisonRibbon = ({geneId, geneTaxon, history}) => {
           </div>
         </ControlsContainer>
       </div>
-
       <HorizontalScroll>
         <div className='text-nowrap'>
           <wc-ribbon-strips
