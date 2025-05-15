@@ -80,22 +80,11 @@ const DataTable = ({
 
     requestAnimationFrame(() => {
       const popup = document.querySelector('.shadow-sm.px-4.py-3.dropdown-menu.show');
-      let icon = null;
+      const icon = popup?.closest('th, td')?.querySelector('svg[data-icon="filter"]');
+      if (!popup || !icon) return;
 
-      if (popup) {
-        const column = popup.closest('th, td');
-        if (column) {
-          icon = column.querySelector('svg[data-icon="filter"]');
-        }
-
-        if (icon) {
-          const iconRect = icon.getBoundingClientRect();
-
-          const x = iconRect.left;
-          const y = iconRect.bottom;
-          popup.style.transform = `translate3d(${x}px, ${y}px, 0px) translateZ(0)`; // ✅ remove transform override
-        }
-      }
+      const {left: x, bottom: y} = icon.getBoundingClientRect();
+      popup.style.transform = `translate3d(${x}px, ${y}px, 0px) translateZ(0)`;
     });
   };
 
