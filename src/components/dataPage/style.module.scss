@@ -1,0 +1,89 @@
+@import "../../theme.module";
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+$page-nav-width: 220px;
+
+.dataPage {
+  max-width: 1520px;
+  display: flex;
+  flex-direction: column;
+
+  @include media-breakpoint-up(md) {
+    flex-direction: row;
+    padding-top: 1rem;
+  }
+}
+
+.dataContainer {
+  width: 100%;
+  max-width: 100%;
+  padding: 0 15px;
+
+  @include media-breakpoint-up(md) {
+    border-left: 1px solid $border-color;
+    max-width: calc(100vw - #{$page-nav-width});
+  }
+}
+
+.pageNav {
+  position: -webkit-sticky;
+  position: sticky;
+  top: -1px;
+  background: white;
+  z-index: 101;
+  padding: 0;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+
+  @include media-breakpoint-up(md) {
+    height: 100%;
+    max-width: $page-nav-width;
+    min-width: $page-nav-width;
+    box-shadow: none;
+  }
+
+  a {
+    border: 0;
+    color: $link-color;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .entity {
+    display: flex;
+    align-items: center;
+    margin: 0 0.75rem;
+    padding: 0.75rem 0;
+    color: $gray-700;
+
+    @include media-breakpoint-up(md) {
+      border-bottom: 1px solid $border-color;
+    }
+
+    h4 {
+      color: $gray-700;
+    }
+  }
+
+  .scrollSpy {
+    flex-grow: 1;
+    width: 100%;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+}
+
+.titleTooltip {
+  max-width: 100%;
+  font-size: 1rem;
+}
+
+.pageCategory {
+  font-size: 0.8rem;
+  color: $gray-600;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+}

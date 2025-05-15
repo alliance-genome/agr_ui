@@ -1,0 +1,33 @@
+.row {
+  padding: 0.5em 0;
+  border-bottom: 1px solid #eee;
+
+  &:first-child {
+    padding-top: 0;
+  }
+
+  &:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+}
+
+.detailRow {
+  padding: 1em;
+  border-left: 4px solid #eee;
+}
+
+
+.summaryRow {
+  margin: 2em 0;
+}
+
+.attributeList {
+  margin: 0;
+}
+
+.variantToTranscriptTable {
+  :global(.react-bootstrap-table th[data-row-selection]) {
+    width: 120px;
+  }
+}

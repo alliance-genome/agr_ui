@@ -1,0 +1,174 @@
+@import "theme.module";
+@import "mixins.module";
+@import "~bootstrap/scss/bootstrap";
+
+.react-bootstrap-table table, .table {
+  margin-bottom: 0;
+  table-layout: auto;
+
+  td, th {
+    white-space: normal;
+    text-overflow: clip;
+  }
+
+  th {
+    border-top: none;
+  }
+}
+
+.react-bootstrap-table > table {
+  table-layout: fixed;
+}
+
+.react-bootstrap-table {
+  > div {
+    overflow: visible;
+  }
+  thead {
+    text-transform: capitalize;
+  }
+  th {
+    vertical-align: bottom !important;
+  }
+  @include webkit-scrollbar;
+}
+
+.form-check.disabled > .form-check-label {
+  color: $text-muted;
+}
+input[type='checkbox'][disabled] {
+  pointer-events: none;
+}
+
+.form-check-label {
+  text-transform: capitalize;
+}
+
+.hyphenate {
+  hyphens: auto;
+}
+
+.text-transform-none {
+  text-transform: none !important;
+}
+
+$ribbon-base-size: 0.8rem;
+$ribbon-block-size: $ribbon-base-size * 1.5;
+
+.ribbon__subject {
+  line-height: 1;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  margin-bottom: -1px;
+}
+
+.ribbon__category--cell {
+  font-size: $ribbon-base-size;
+  width: calc(#{$ribbon-block-size} - 1px);
+  transform: translateX(2px) rotate(-45deg);
+
+  &:hover {
+    font-weight: 800;
+  }
+}
+
+.ribbon__subject--cell,
+.ribbon__subject--cell--no-annotation {
+  text-align: unset;
+  box-shadow: none;
+}
+
+td.ribbon__subject--cell {
+  width: calc(#{$ribbon-block-size} - 2px);
+  height: calc(#{$ribbon-block-size} - 2px);
+  border: none;
+
+  &.clicked {
+    border: 2px solid $accent-500;
+  }
+}
+
+wc-ribbon-cell.ribbon__subject--cell,
+wc-ribbon-cell.ribbon__subject--cell--no-annotation {
+  width: $ribbon-block-size;
+  height: $ribbon-block-size;
+  margin-right: -1px;
+  border: 1px solid $border-color;
+}
+
+.ribbon__subject__label--link {
+  color: $link-color;
+
+  &:hover {
+    font-weight: normal;
+  }
+}
+
+.table__row__supercell__cell__link {
+  color: $link-color
+}
+
+.ribbon-loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+:root {
+  --gocam-width: 815px;
+  --gocam-border-size: 1px;
+  --gocam-box-shadow: none;
+  --gocam-panel-box-shadow: 0px 0px 1px 0px rgb(134, 134, 134);
+  --gocam-panel-process-color: #2598c5;
+  --gocam-panel-process-font-weight: 400;
+  --gocam-panel-h1-color: #2598c5;
+  --gocam-panel-h1-weight: 400;
+}
+
+wc-gocam-viz {
+  font-size: 1rem;
+  --gocamviz-primary-color: #2598c5;
+  --gocamviz-primary-color-light: #217ca0;
+
+  --activity-background-active: #c0e8f7;
+  --activity-color-active: #000;
+
+  &::part(legend-header) {
+    padding-top: 0.25rem;
+    border-bottom: 1px solid black;
+  }
+
+  // Button
+  --button-background: var(--gocamviz-primary-color);
+  --button-background-hover: var(--gocamviz-primary-color-light);
+  --button-color: #fff;
+  --button-border-width: 1px;
+  --button-border-color: #ccc;
+
+  // Panel
+  --panel-header-background: #ececec;
+  --panel-border-color: #aaa;
+
+  // Process
+  --process-label-background: var(--gocamviz-primary-color);
+  --process-label-color: #fff;
+
+  --process-label-padding: 0.5rem;
+  --activity-padding: 0.5rem;
+  --gene-product-padding: 0 0 0.5rem 0;
+  --function-label-padding: 0 0 0.5rem 0;
+
+  --graph-padding: 0.5rem;
+
+  --panel-header-padding: 0.5rem;
+
+  --panel-border-color: #ccc;
+
+  --panel-border-width: 1px;
+  --process-border-width: 1px;
+
+  //Legend
+  --legend-padding: 0.5rem;
+  --legend-header-padding: 0.5rem;
+}
