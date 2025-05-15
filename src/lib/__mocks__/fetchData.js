@@ -90,7 +90,7 @@ export default async function fetchData(url, options = {}, fetchTimeout=TIMEOUT)
   } // rgd meetings end if
 
   // WormBase News wordpress Version 2
-  // wordpressNewsBaseURL: 'https://public-api.wordpress.com/wp/v2/sites/blog.wormbase.org/posts'
+  // newsWordpressBaseURL: 'https://public-api.wordpress.com/wp/v2/sites/blog.wormbase.org/posts'
   if (url.includes('wormbase')) {
     const response = [
       { type: 'post',
@@ -110,7 +110,7 @@ export default async function fetchData(url, options = {}, fetchTimeout=TIMEOUT)
   } // wormbase end if
 
   // SGD News wordpress Version 1.1
-  // wordpressNewsBaseURL: 'https://public-api.wordpress.com/rest/v1.1/sites/yeastgenomeblog.wordpress.com/posts/',
+  // newsWordpressBaseURL: 'https://public-api.wordpress.com/rest/v1.1/sites/yeastgenomeblog.wordpress.com/posts/',
   if (url.includes('yeastgenomeblog.wordpress.com')) {
     const response = {
     "found": 4,
@@ -145,7 +145,7 @@ export default async function fetchData(url, options = {}, fetchTimeout=TIMEOUT)
   } // sgd end if
 
   // SGD Meetings googleapis
-  // googleapisMeetingsBaseURL: 'https://www.googleapis.com/calendar/v3/calendars/mhv058nk936st3jd3qjernajdk@group.calendar.google.com/events?key=AIzaSyDXypHUsRcWWBx2UClUV_wrag8TIlNYbSc',
+  // meetingsGoogleApisBaseURL: 'https://www.googleapis.com/calendar/v3/calendars/mhv058nk936st3jd3qjernajdk@group.calendar.google.com/events?key=AIzaSyDXypHUsRcWWBx2UClUV_wrag8TIlNYbSc',
   if (url.includes('mhv058nk936st3jd3qjernajdk')) {
     const response = {
       "items": [

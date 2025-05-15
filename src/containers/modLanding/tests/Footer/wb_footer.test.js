@@ -38,7 +38,7 @@ describe('WormBase Footer', () => {
     
     for (let i=0; i<content.footer.length; i++){
 
-         let footer = screen.getByTestId("href_footer_" + i);
+         let footer = screen.getByTestId("footer_link_" + i);
          expect(footer).toHaveAttribute('href', content.footer[i][2]);
 
          let label = screen.getByTestId('footer_label_' + i)
@@ -49,8 +49,8 @@ describe('WormBase Footer', () => {
    // Sanity check in case content.js gets corrupted.
    // Check for something we expect to be there.
    // Citing wormbase should always be the first one.?
-   if('Should render citing Wormbase as the first footer link', () => {
-      const footer = screen(getByTestId("href_footer_0")); // First item
+   if('Should render Citing Wormbase as the first footer link', () => {
+      const footer = screen(getByTestId("footer_link_0")); // First item
       expect(footer).toHaveAttribute('href', 'https://wormbase.org/about/citing_wormbase#012--10');
       const label = screen.getByTestId('footer_label_0')
       expect(label).toContainHTML('Citing WormBase');

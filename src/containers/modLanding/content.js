@@ -39,7 +39,7 @@ export const MODContent = {
     hasMeetings: true,
     meetingsURL: 'https://wormbase.org//#012-43-5',
     hasNews: true,
-    wordpressNewsBaseURL: 'https://public-api.wordpress.com/wp/v2/sites/blog.wormbase.org/posts',
+    newsWordpressBaseURL: 'https://public-api.wordpress.com/wp/v2/sites/blog.wormbase.org/posts',
     fetchNewsCount: 3,
     linkToNewsPage: 'https://blog.wormbase.org/',
     search: [
@@ -97,11 +97,11 @@ export const MODContent = {
     sectionStyle: style.section__SGD,
     logoImgSrc: sgdLogo,
     hasMeetings: true,
-    googleapisMeetingsBaseURL: 'https://www.googleapis.com/calendar/v3/calendars/mhv058nk936st3jd3qjernajdk@group.calendar.google.com/events?key=AIzaSyDXypHUsRcWWBx2UClUV_wrag8TIlNYbSc',
+    meetingsGoogleApisBaseURL: 'https://www.googleapis.com/calendar/v3/calendars/mhv058nk936st3jd3qjernajdk@group.calendar.google.com/events?key=AIzaSyDXypHUsRcWWBx2UClUV_wrag8TIlNYbSc',
     linkToMeetingsPage: 'https://www.yeastgenome.org/',
     fetchMeetingsCount: 3,
     hasNews: true,
-    wordpressNewsBaseURL: 'https://public-api.wordpress.com/rest/v1.1/sites/yeastgenomeblog.wordpress.com/posts/',
+    newsWordpressBaseURL: 'https://public-api.wordpress.com/rest/v1.1/sites/yeastgenomeblog.wordpress.com/posts/',
     fetchNewsCount: 3,
     linkToNewsPage: 'https://yeastgenomeblog.wordpress.com/',
     search: [

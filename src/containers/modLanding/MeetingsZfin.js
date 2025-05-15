@@ -1,5 +1,6 @@
 import React  from 'react';
 import style from './style.module.scss';
+import ExternalLink from '../../components/ExternalLink';
 import LoadingSpinner from '../../components/loadingSpinner';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import PropTypes from "prop-types";
@@ -46,8 +47,9 @@ const MeetingsZfin = ({urlMeetingsMod, fetchMeetingsCount, linkToMeetingsPage}) 
             }
           </div>
         </div>
-        { linkToMeetingsPage && <div className={`row ${style.moreNews}`} data-testid={'more_meetings_div'}>
-                              <a href={linkToMeetingsPage} data-testid={'more_meetings_link'} ><i>more meetings&hellip;</i></a></div> }
+        {linkToMeetingsPage && <div className={`row ${style.moreNews}`} data-testid={'more_meetings_div'}>
+          <ExternalLink data-testid={'more_meetings_link'} href={linkToMeetingsPage}><i>more meetings&hellip;</i></ExternalLink>
+        </div>}
       </div>
     </div>
   );

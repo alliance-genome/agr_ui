@@ -1,5 +1,6 @@
 import React  from 'react';
 import style from './style.module.scss';
+import ExternalLink from '../../components/ExternalLink';
 import LoadingSpinner from '../../components/loadingSpinner';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import PropTypes from "prop-types";
@@ -47,7 +48,7 @@ const sortGoogleapiPosts = (googleAPIRes) => {
   return (upcomingMeetings);
 }
 
-const GoogleapisMeetings = ({urlMeetingsMod, fetchMeetingsCount, linkToMeetingsPage}) => {
+const MeetingsGoogleApis = ({urlMeetingsMod, fetchMeetingsCount, linkToMeetingsPage}) => {
   const {
     data: postList,
     isLoading
@@ -71,9 +72,9 @@ const GoogleapisMeetings = ({urlMeetingsMod, fetchMeetingsCount, linkToMeetingsP
                 const post = upcomingMeetings[keys[i]];
                 wantedMeetings.push(
                   <div className={style.postContainer} key={i} data-testid={'div_meetings_' + i}>
-                    <a href={post.link} data-testid={'href_meetings_' + i}>
-                      <h4 className={style.h4extra} dangerouslySetInnerHTML={{ __html: post.summary}}  data-testid={'header_meetings_' + i}/>
-                    </a>
+                    <h4 className={style.h4extra} data-testid={'header_meetings_' + i}>
+                      <ExternalLink data-testid={'href_meetings_' + i} href={post.link}>{post.summary}</ExternalLink>
+                    </h4>
                     <p dangerouslySetInnerHTML={{ __html: post.text}} data-testid={'text_meetings_' + i} />
                   </div>
                 )
@@ -82,16 +83,17 @@ const GoogleapisMeetings = ({urlMeetingsMod, fetchMeetingsCount, linkToMeetingsP
             }
           })()}
         </div>
-        { linkToMeetingsPage && <div className={`row ${style.moreNews}`} data-testid={'more_meetings_div'}>
-                              <a href={linkToMeetingsPage} data-testid={'more_meetings_link'} ><i>more meetings&hellip;</i></a></div> }
+        {linkToMeetingsPage && <div className={`row ${style.moreNews}`} data-testid={'more_meetings_div'}>
+          <ExternalLink data-testid={'more_meetings_link'} href={linkToMeetingsPage}><i>more meetings&hellip;</i></ExternalLink>
+        </div>}
       </div>
     </div>
   );
 };
 
-GoogleapisMeetings.propTypes = {
+MeetingsGoogleApis.propTypes = {
   urlMeetingsMod: PropTypes.string.isRequired,
   fetchMeetingsCount: PropTypes.number.isRequired
 }
 
-export default GoogleapisMeetings;
+export default MeetingsGoogleApis;

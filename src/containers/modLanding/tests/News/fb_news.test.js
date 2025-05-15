@@ -61,7 +61,7 @@ import '@testing-library/jest-dom'
          const news_div = await waitFor(() => screen.findByTestId("div_news_2"), { timeout: 8000 });
          const href = screen.getByTestId("href_news_2");
          const head = screen.getByTestId("header_news_2");
-         expect(href).toContainElement(head);
+         expect(head).toContainElement(href);
       }, 10000);
 
       it('news href should have a header and be equal to', async () => {

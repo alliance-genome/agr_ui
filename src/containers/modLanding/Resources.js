@@ -1,5 +1,6 @@
 import React from 'react';
 import style from './style.module.scss';
+import ExternalLink from '../../components/ExternalLink';
 
 const Resources = ({links, sectionStyle}) => {
   return (
@@ -8,17 +9,15 @@ const Resources = ({links, sectionStyle}) => {
         <div data-testid={'resources_topdiv'} className={`${style.section} ${sectionStyle}`}>
         <h2 data-testid={'resources_header'} className={style.sectionTitle}>Resources</h2>
           <div data-testid={'resources_link_div'} className={style.resourceDiv} >
-          { links && links.map((link, index) => {
-                      return (
-                        <div key={index}>
-                          <p>
-                            <a href={link[1]} data-testid={'href_resources_' + index} >
-                            <span dangerouslySetInnerHTML={{__html: link[0]}} 
-                                  data-testid={'resources_label_' + index}/>
-                          </a></p>
-                        </div>
-                      );
-                    })}
+            {links && links.map((link, index) => {
+              return (
+                <div key={index}>
+                  <ExternalLink data-testid={'ext_resource_link_' + index} href={link[1]}>
+                    <span dangerouslySetInnerHTML={{ __html: link[0]}} />
+                  </ExternalLink>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
