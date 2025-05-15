@@ -30,6 +30,7 @@ const FooterAlt = ({link, links, note, footerStyle, logoImgSrc, titleBarStyle, m
                           displaying non-empty links */
                       let extLink = ( link[1] )
                                   ? <ExternalLink data-testid={'footer_link_' + index} href={link[2]}>
+                                      {link[0] && <FontAwesomeIcon icon={['fab', link[0]]} fixedWidth />}
                                       <span data-testid={'footer_label_' + index}>{link[1]}</span>
                                     </ExternalLink>
                                   : <a data-testid={'footer_link_' + index} href={link[2]}>
