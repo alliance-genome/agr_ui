@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import ControlsContainer from '../controlsContainer.jsx';
 import { STRINGENCY_HIGH } from '../homology/constants';
 import ExpressionAnnotationTable from './expressionAnnotationTable.jsx';
@@ -9,11 +8,11 @@ import OrthologPicker from '../OrthologPicker.jsx';
 import LoadingSpinner from '../loadingSpinner.jsx';
 import useEventListener from '../../hooks/useEventListener';
 import useComparisonRibbonQuery from '../../hooks/useComparisonRibbonQuery';
+import {useNavigate} from "react-router-dom";
 
 const ExpressionComparisonRibbon = ({
   geneId,
-  geneTaxon,
-  history,
+  geneTaxon
 }) => {
   const [compareOrthologs, setCompareOrthologs] = useState(true);
   const [selectedOrthologs, setSelectedOrthologs] = useState(null);
@@ -21,6 +20,7 @@ const ExpressionComparisonRibbon = ({
     group: null,
     subject: null,
   });
+  const navigate = useNavigate();
 
   const summary = useComparisonRibbonQuery('/api/expression/ribbon-summary', geneId, selectedOrthologs);
 
@@ -29,9 +29,7 @@ const ExpressionComparisonRibbon = ({
     e.detail.originalEvent.preventDefault();
 
     // but re-route to alliance gene page
-    history.push({
-      pathname: '/gene/' + e.detail.subject.id
-    });
+    navigate('/gene/' + e.detail.subject.id);
   };
 
   const onCellClick = (e) => {
@@ -119,9 +117,8 @@ const ExpressionComparisonRibbon = ({
 
 ExpressionComparisonRibbon.propTypes = {
   geneId: PropTypes.string.isRequired,
-  geneTaxon: PropTypes.string.isRequired,
-  history: PropTypes.object,
+  geneTaxon: PropTypes.string.isRequired
 };
 
-//TODO: withRouter - FC
-export default withRouter(ExpressionComparisonRibbon);
+//TODO: withRouter - test
+export default ExpressionComparisonRibbon;

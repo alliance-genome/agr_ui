@@ -2,7 +2,7 @@ import WarningBanner from './WarningBanner.jsx';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {Link, withRouter} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import style from './style.module.scss';
 import Loader from './loader/index.jsx';
 import logo from '../../assets/images/alliance_logo_agr.png';
@@ -110,5 +110,22 @@ const mapStateToProps = state => ({
   pageLoading: selectPageLoading(state),
 });
 
-//TODO: withRouter - Non Trivial
-export default withRouter(connect(mapStateToProps)(Layout));
+/*
+* TODO: convert component to functional component utilizing useLocation
+*
+* The wrapper component is simply a stop-gap solution since converting the component
+* is non-trivial and would stand in the way of completing the vite/react upgrade.
+* */
+
+const LayoutWithLocation = props => {
+  const location = useLocation();
+  return <Layout location={location} {...props} />;
+};
+
+LayoutWithLocation.propTypes = {
+  children: PropTypes.node,
+  pageLoading: PropTypes.bool,
+};
+
+//TODO: withRouter - test
+export default connect(mapStateToProps)(LayoutWithLocation);

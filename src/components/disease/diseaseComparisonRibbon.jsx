@@ -11,11 +11,11 @@ import { STRINGENCY_HIGH } from '../homology/constants';
 import ControlsContainer from '../controlsContainer.jsx';
 import LoadingSpinner from '../loadingSpinner.jsx';
 import OrthologPicker from '../OrthologPicker.jsx';
-import { withRouter } from 'react-router-dom';
 import useEventListener from '../../hooks/useEventListener';
 import useComparisonRibbonQuery from '../../hooks/useComparisonRibbonQuery';
+import {useNavigate} from "react-router-dom";
 
-const DiseaseComparisonRibbon = ({geneId, geneTaxon, history}) => {
+const DiseaseComparisonRibbon = ({geneId, geneTaxon}) => {
   const [includeNotAnnotations, setIncludeNotAnnotations] = useState(false);
   const [compareOrthologs, setCompareOrthologs] = useState(true);
   const [selectedOrthologs, setSelectedOrthologs] = useState(null);
@@ -28,6 +28,7 @@ const DiseaseComparisonRibbon = ({geneId, geneTaxon, history}) => {
       id: geneId,
     }
   });
+  const navigate = useNavigate();
 
   const params = {};
   if (includeNotAnnotations) {
@@ -40,9 +41,7 @@ const DiseaseComparisonRibbon = ({geneId, geneTaxon, history}) => {
     e.detail.originalEvent.preventDefault();
 
     // but re-route to alliance gene page
-    history.push({
-      pathname: '/gene/' + e.detail.subject.id
-    });
+    navigate('/gene/' + e.detail.subject.id);
   };
 
   const onCellClick = (e) => {
@@ -133,9 +132,8 @@ const DiseaseComparisonRibbon = ({geneId, geneTaxon, history}) => {
 
 DiseaseComparisonRibbon.propTypes = {
   geneId: PropTypes.string,
-  geneTaxon: PropTypes.string,
-  history: PropTypes.object,
+  geneTaxon: PropTypes.string
 };
 
-//TODO: withRouter - FC
-export default withRouter(DiseaseComparisonRibbon);
+//TODO: withRouter - test
+export default DiseaseComparisonRibbon;

@@ -1,6 +1,6 @@
 import React from 'react';
 import style from './style.module.scss';
-// import {SearchBarComponent} from '../layout/searchBar';
+// import SearchBarComponent from '../layout/searchBar';
 // import SearchExample from './SearchExample';
 import EntityButton from './EntityButton.jsx';
 // import {Link} from 'react-router-dom';

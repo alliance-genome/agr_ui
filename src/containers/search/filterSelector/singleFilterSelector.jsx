@@ -3,7 +3,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import Select from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
@@ -14,6 +13,7 @@ import {
   stringifyQuery
 } from '../../../lib/searchHelpers.jsx';
 import SingleFilterValue from './singleFilterValue.jsx';
+import {useNavigate} from "react-router-dom";
 
 const DELIMITER = '@@';
 const SMALL_NUM_VISIBLE = 5;
@@ -40,7 +40,7 @@ class SingleFilterSelector extends Component {
     let simpleValues = newValues.map( d => d.name );
     let newQp = getQueryParamWithoutPage(this.props.name, simpleValues, this.props.queryParams);
     let newPath = { pathname: SEARCH_PATH, search: stringifyQuery(newQp) };
-    this.props.history.push(newPath);
+    this.props.navigate(newPath);
   }
 
   renderFilterValues() {
@@ -141,14 +141,33 @@ class SingleFilterSelector extends Component {
 SingleFilterSelector.propTypes = {
   dispatch: PropTypes.func,
   displayName: PropTypes.string,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+  navigate: PropTypes.func.isRequired,
   isShowMore: PropTypes.bool,
   name: PropTypes.string,
   queryParams: PropTypes.object,
   values: PropTypes.array,
 };
 
-//TODO: withRouter - Non Trivial
-export default withRouter(connect()(SingleFilterSelector));
+/*
+* TODO: convert component to functional component utilizing useNavigate
+*
+* The wrapper component is simply a stop-gap solution since converting the component
+* is non-trivial and would stand in the way of completing the vite/react upgrade.
+* */
+
+const SingleFilterSelectorWithNavigate = props => {
+  const navigate = useNavigate();
+  return <SingleFilterSelector navigate={navigate} {...props} />;
+};
+
+SingleFilterSelectorWithNavigate.propTypes = {
+  dispatch: PropTypes.func,
+  displayName: PropTypes.string,
+  isShowMore: PropTypes.bool,
+  name: PropTypes.string,
+  queryParams: PropTypes.object,
+  values: PropTypes.array,
+};
+
+//TODO: withRouter - test
+export default connect()(SingleFilterSelectorWithNavigate);

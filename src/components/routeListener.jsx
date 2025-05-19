@@ -28,7 +28,19 @@ RouteListener.propTypes = {
   onRouteChange: PropTypes.func.isRequired,
 };
 
-const RouterListenerFC = ({ onRouteChange, children }) => {
+
+/*
+* TODO: Replace this component with either a hook, or the useEffect below
+*
+* Returning children unmodified is an antipattern. This component is purely functional,
+* and thus should either be a hook, or just place the same useEffect where needed since
+* location is accessible anywhere in the app.
+*
+* The only location where the component is used is in ReactApp, which is currently a class component,
+* and would need converted to a functional component either way, which suggests the useEffect option
+* would be best.
+* */
+const RouteListenerFC = ({ onRouteChange, children }) => {
 
   const location = useLocation();
 
@@ -39,6 +51,10 @@ const RouterListenerFC = ({ onRouteChange, children }) => {
   return children;
 };
 
-//TODO: withRouter - Trivial
-// export default withRouter(RouteListener);
-export { RouterListenerFC };
+RouteListenerFC.propTypes = {
+  children: PropTypes.node,
+  onRouteChange: PropTypes.func.isRequired,
+};
+
+//TODO: withRouter - test
+export default RouteListenerFC;

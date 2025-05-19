@@ -10,9 +10,8 @@ import fetchData from '../../lib/fetchData';
 
 import LoadingSpinner from '../loadingSpinner.jsx';
 
-import { withRouter } from 'react-router';
-
 import NoData from '../noData.jsx';
+import {useNavigate} from "react-router-dom";
 
 
 const GO_API_URL = 'https://api.geneontology.org/api/';
@@ -517,8 +516,26 @@ GeneOntologyRibbon.propTypes = {
   geneId: PropTypes.string.isRequired,
   geneSpecies: PropTypes.object,
   geneSymbol: PropTypes.string,
-  history: PropTypes.object,
+  navigate: PropTypes.func.isRequired,
 };
 
-//TODO: withRouter - Non Trivial
-export default withRouter(GeneOntologyRibbon);
+/*
+* TODO: convert component to functional component utilizing useNavigate
+*
+* The wrapper component is simply a stop-gap solution since converting the component
+* is non-trivial and would stand in the way of completing the vite/react upgrade.
+* */
+
+const GeneOntologyRibbonWithNavigate = props => {
+  const navigate = useNavigate();
+  return <GeneOntologyRibbon navigate={navigate} {...props} />;
+};
+
+GeneOntologyRibbonWithNavigate.propTypes = {
+  geneId: PropTypes.string.isRequired,
+  geneSpecies: PropTypes.object,
+  geneSymbol: PropTypes.string
+};
+
+//TODO: withRouter - test
+export default GeneOntologyRibbonWithNavigate;

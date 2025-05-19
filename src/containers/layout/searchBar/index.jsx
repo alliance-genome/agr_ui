@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Autosuggest from 'react-autosuggest';
 import { parseQueryString, stringifyQuery } from '../../../lib/searchHelpers.jsx';
-import { withRouter } from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {
   DropdownItem,
   DropdownMenu,
@@ -112,7 +112,7 @@ class SearchBarComponent extends Component {
       const url = getURLForEntry(item.suggestion.category, id);
       if (url) {
         autocompleteGoToPageEvent(id);
-        this.props.history.push({ pathname: url });
+        this.props.navigate(url);
       } else {
         //use name if name_key isn't available
         let query = item.suggestion.name_key ? item.suggestion.name_key : item.suggestion.name;
@@ -132,7 +132,7 @@ class SearchBarComponent extends Component {
       newQp.category = newCat;
     }
     autocompleteSearchEvent(query);
-    this.props.history.push({
+    this.props.navigate({
       pathname: '/search',
       search: stringifyQuery(newQp)
     });
@@ -231,9 +231,7 @@ class SearchBarComponent extends Component {
 SearchBarComponent.propTypes = {
   autoFocus: PropTypes.bool,
   dispatch: PropTypes.func,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+  navigate: PropTypes.func.isRequired,
   location: PropTypes.shape({
     search: PropTypes.string.isRequired,
   }).isRequired,
@@ -244,9 +242,20 @@ SearchBarComponent.defaultProps = {
   placeholder: 'search: RPB7, kinase, asthma, liver',
 };
 
-//TODO: withRouter - Non Trivial
-const SearchBarComponentWithHistory = withRouter(SearchBarComponent);
+/*
+* TODO: convert component to functional component utilizing useNavigate and useLocation
+*
+* The wrapper component is simply a stop-gap solution since converting the component
+* is non-trivial and would stand in the way of completing the vite/react upgrade.
+* */
 
-export { SearchBarComponentWithHistory as SearchBarComponent };
-export default SearchBarComponentWithHistory;
+const SearchBarComponentWithNavigateAndLocation = props => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  return <SearchBarComponent navigate={navigate} location={location} {...props} />;
+};
+
+
+//TODO: withRouter - test
+export default SearchBarComponentWithNavigateAndLocation;
 

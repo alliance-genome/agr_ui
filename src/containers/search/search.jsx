@@ -32,7 +32,7 @@ import {
 } from '../../selectors/searchSelectors';
 import {setPageLoading} from '../../actions/loadingActions';
 import TotalCount from './TotalCount.jsx';
-import {SearchBarComponent} from '../layout/searchBar/index.jsx';
+import SearchBarComponent from '../layout/searchBar/index.jsx';
 
 const BASE_SEARCH_URL = '/api/search';
 

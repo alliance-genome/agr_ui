@@ -7,14 +7,10 @@ import HorizontalScroll from '../horizontalScroll.jsx';
 import { STRINGENCY_HIGH } from '../homology/constants';
 import fetchData from '../../lib/fetchData';
 
-import { withRouter } from 'react-router-dom';
-
 import NoData from '../noData.jsx';
 
 import * as cutils from "@geneontology/curie-util-es5";
 import ExternalLink from '../ExternalLink.jsx';
-
-import gocamLegend from './pathwayLegend.png';
 
 const GO_CONTEXT_LD = "https://raw.githubusercontent.com/prefixcommons/biocontext/master/registry/go_context.jsonld"
 const REACTOME_PATHWAY_BROWSER = "https://reactome.org/PathwayBrowser/#/";
@@ -498,9 +494,7 @@ PathwayWidget.propTypes = {
   geneId: PropTypes.string.isRequired,
   geneSpecies: PropTypes.object,
   geneSymbol: PropTypes.string,
-  history: PropTypes.object,
   xrefs: PropTypes.object,
 };
 
-//TODO: withRouter - Non Trivial
-export default withRouter(PathwayWidget);
+export default PathwayWidget;
