@@ -7,11 +7,11 @@ import {
 } from '../../components/attribute';
 import {Link} from 'react-router-dom';
 import AlleleSymbol from './AlleleSymbol.jsx';
-import SynonymList from '../../components/synonymList';
-import DataSourceLink from '../../components/dataSourceLink';
-import CommaSeparatedList from '../../components/commaSeparatedList';
-import GeneSymbol from '../../components/GeneSymbol';
-import SpeciesName from '../../components/SpeciesName';
+import SynonymList from '../../components/synonymList.jsx';
+import DataSourceLink from '../../components/dataSourceLink.jsx';
+import CommaSeparatedList from '../../components/commaSeparatedList.jsx';
+import GeneSymbol from '../../components/GeneSymbol.jsx';
+import SpeciesName from '../../components/SpeciesName.jsx';
 
 const AlleleSummary = ({allele}) => {
   return (

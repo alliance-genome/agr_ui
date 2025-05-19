@@ -1,6 +1,6 @@
 import ExternalLink from "../ExternalLink.jsx";
-import { getResourceUrl } from "./getResourceUrl";
-import { getIdentifier } from "./utils";
+import { getResourceUrl } from "./getResourceUrl.jsx";
+import { getIdentifier } from "./utils.jsx";
 
 const ModelCellCuration = ({ model }) => {
   if(!model) return null;

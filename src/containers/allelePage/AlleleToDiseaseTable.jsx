@@ -4,14 +4,14 @@ import {
   EvidenceCodesCellCuration,
   ReferencesCellCuration,
 } from '../../components/dataTable';
-import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration';
-import AssociationType from '../../components/AssociationType';
-import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration';
-import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn';
-import { 
+import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration.jsx';
+import AssociationType from '../../components/AssociationType.jsx';
+import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration.jsx';
+import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn.jsx';
+import {
   buildProvidersWithUrl,
-  getDistinctFieldValue } from '../../components/dataTable/utils';
-import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration';
+  getDistinctFieldValue } from '../../components/dataTable/utils.jsx';
+import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration.jsx';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import { ALLELE_DETAILS_COLUMNS } from '../../components/dataTable/constants';
 
@@ -56,9 +56,9 @@ const AlleleToDiseaseTable = ({alleleId}) => {
     {
       dataField: 'primaryAnnotations',
       text: 'Annotation details',
-      formatter: (entities, row) => <AnnotatedEntitiesPopupCuration 
-        entities={entities} 
-        pubModIds={row.pubmedPubModIDs} 
+      formatter: (entities, row) => <AnnotatedEntitiesPopupCuration
+        entities={entities}
+        pubModIds={row.pubmedPubModIDs}
         columnNameSet={ALLELE_DETAILS_COLUMNS}
       />,
       headerStyle: {width: '90px'},
@@ -71,7 +71,7 @@ const AlleleToDiseaseTable = ({alleleId}) => {
     },
     {
       dataField: 'providers',
-      text: 'Source',   
+      text: 'Source',
       formatter: providers => providers && <ProvidersCellCuration providers={providers} />,
       filterable: true,
       headerStyle: {width: '100px'},

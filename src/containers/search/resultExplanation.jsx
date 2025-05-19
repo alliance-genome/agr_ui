@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import style from './style.module.scss';
-import { makeFieldDisplayName } from '../../lib/searchHelpers';
-import ExplainNode from './explainNode';
+import { makeFieldDisplayName } from '../../lib/searchHelpers.jsx';
+import ExplainNode from './explainNode.jsx';
 
 class ResultExplanation extends Component {
 

@@ -1,10 +1,10 @@
 import React  from 'react';
 import { Link } from 'react-router-dom';
 import style from './style.module.scss';
-import SecondaryNav from './secondaryNav';
-import HeadMetaTags from '../../components/headMetaTags';
+import SecondaryNav from './secondaryNav.jsx';
+import HeadMetaTags from '../../components/headMetaTags.jsx';
 // import TwitterFeed from '../../components/TwitterFeed';    --  NOTE: Replace with Mastodom feed - KANBAN-581
-import LoadingSpinner from '../../components/loadingSpinner';
+import LoadingSpinner from '../../components/loadingSpinner.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import { WORDPRESS_POST_BASE_URL } from '../../constants';
 

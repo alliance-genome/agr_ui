@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 // import WordpressNews from "../../wordpressNews";
-import GoogleapisMeetings from "../../googleapisMeetings"
+import GoogleapisMeetings from "../../googleapisMeetings.jsx"
 import thunk from 'redux-thunk';
 import configureMockStore from "redux-mock-store";
-import {MODContent} from '../../content';
+import {MODContent} from '../../content.jsx';
 import { Provider } from 'react-redux';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom'
@@ -29,11 +29,11 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
       const queryClient = new QueryClient();
       render(
          <QueryClientProvider client={queryClient}>
-            <Provider store={store}> 
-               <GoogleapisMeetings 
+            <Provider store={store}>
+               <GoogleapisMeetings
                   urlMeetingsMod={content.googleapisMeetingsBaseURL}
                   fetchMeetingsCount={content.fetchMeetingsCount}
-                  linkToMeetingsPage={content.linkToMeetingsPage} 
+                  linkToMeetingsPage={content.linkToMeetingsPage}
                />
             </Provider>
          </QueryClientProvider>
@@ -77,7 +77,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
         expect(screen.getByTestId("div_meetings_0")).toContainElement(meetings_text);
      }, 10000);
 
-    
+
      it('more meetings link checks', async () => {
         const meetings_div = await waitFor(() => screen.findByTestId("div_meetings_0"), { timeout: 8000 });
         const more_div = screen.getByTestId("more_meetings_div");

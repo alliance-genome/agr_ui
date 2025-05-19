@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import OrthologyJBrowseLink from './orthologyJBrowseLink';
+import OrthologyJBrowseLink from './orthologyJBrowseLink.jsx';
 
 const geneLocationIsInvalid = (geneLocation) => {
   if (typeof geneLocation.chromosome === 'undefined') {

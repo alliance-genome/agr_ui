@@ -6,9 +6,9 @@ import PropTypes from 'prop-types';
 import style from './style.module.scss';
 import { makeId } from '../lib/utils';
 
-import NoData from './noData';
-import ErrorBoundary from './errorBoundary';
-import HelpPopup from './helpPopup';
+import NoData from './noData.jsx';
+import ErrorBoundary from './errorBoundary.jsx';
+import HelpPopup from './helpPopup.jsx';
 
 class Subsection extends Component {
   render() {

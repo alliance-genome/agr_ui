@@ -73,8 +73,8 @@ export class AmplifyStageStack extends cdk.Stack {
       { source: '/blast/',                             target: 'https://stage.alliancegenome.org/blastservice',                                       status: amplify.RedirectStatus.PERMANENT_REDIRECT},
       { source: '/blast/<*>',                          target: 'https://blast.alliancegenome.org/blast/<*>',                                          status: amplify.RedirectStatus.REWRITE },
 
-      { source: '/<*>',                                target: '/index.html',                                                                         status: amplify.RedirectStatus.NOT_FOUND_REWRITE },
-      { source: '</^[^.]+$/>',                         target: '/index.html',                                                                         status: amplify.RedirectStatus.REWRITE }
+      { source: '/<*>',                                target: '/index.vite_original.html',                                                                         status: amplify.RedirectStatus.NOT_FOUND_REWRITE },
+      { source: '</^[^.]+$/>',                         target: '/index.vite_original.html',                                                                         status: amplify.RedirectStatus.REWRITE }
     ];
 
     const amplifyApp = new amplify.App(this, 'agr-ui-stage', {

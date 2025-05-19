@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import HorizontalScroll from '../horizontalScroll.jsx';
 
 import { STRINGENCY_HIGH } from '../homology/constants';
-import ControlsContainer from '../controlsContainer';
+import ControlsContainer from '../controlsContainer.jsx';
 import OrthologPicker from '../OrthologPicker.jsx';
 import { getOrthologId } from '../orthology';
 import fetchData from '../../lib/fetchData';
@@ -520,4 +520,5 @@ GeneOntologyRibbon.propTypes = {
   history: PropTypes.object,
 };
 
+//TODO: withRouter - Non Trivial
 export default withRouter(GeneOntologyRibbon);

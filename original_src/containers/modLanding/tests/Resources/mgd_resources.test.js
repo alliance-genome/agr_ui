@@ -23,12 +23,12 @@ describe('MGD Resources', () => {
         expect(header).toHaveTextContent("Resources");
 
         expect(top_div).toContainElement(link_div);
-        
-        expect(link_div).toContainElement(link);     
+
+        expect(link_div).toContainElement(link);
      });
 
-   it('should render the correct hrefs with correct label in correct order from content.js', () => {
-    
+   it('should render the correct hrefs with correct label in correct order from content.jsx', () => {
+
     for (let i=0; i<content.resources.length; i++){
 
          let resources = screen.getByTestId("href_resources_" + i);
@@ -39,7 +39,7 @@ describe('MGD Resources', () => {
         }
    });
 
-   // Sanity check in case content.js gets corrupted.
+   // Sanity check in case content.jsx gets corrupted.
    // Check for something we expect to be there.
    // Mouse Genes should always be the first one.?
    if('Should render Mouse Genes as the first footer link', () => {

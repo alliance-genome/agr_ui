@@ -1,24 +1,24 @@
 import React  from 'react';
 import PropTypes from 'prop-types';
 import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPage';
-import BasicGeneInfo from './basicGeneInfo';
+import BasicGeneInfo from './basicGeneInfo.jsx';
 import {
   OrthologyFilteredTable,
   HomologyUserGuide,
   OrthologyBasicInfo,
   OrthologyJBrowseLinkPanel
 } from '../../components/orthology';
-import ParalogyTable from '../../components/paralogy/paralogyTable'
-import ParalogyUserGuide from '../../components/paralogy/paralogyUserGuide'
-import GoUserGuide from '../../components/geneOntologyRibbon/goUserGuide';
-import PathwayUserGuide from '../../components/pathway/pathwayUserGuide';
-import ModelSectionHelp from '../../components/model/modelSectionHelp';
-import AlleleTableSectionHelp from '../../components/alleleTable/alleleTableSectionHelp';
+import ParalogyTable from '../../components/paralogy/paralogyTable.jsx'
+import ParalogyUserGuide from '../../components/paralogy/paralogyUserGuide.jsx'
+import GoUserGuide from '../../components/geneOntologyRibbon/goUserGuide.jsx';
+import PathwayUserGuide from '../../components/pathway/pathwayUserGuide.jsx';
+import ModelSectionHelp from '../../components/model/modelSectionHelp.jsx';
+import AlleleTableSectionHelp from '../../components/alleleTable/alleleTableSectionHelp.jsx';
 
-import GeneOntologyRibbon from '../../components/geneOntologyRibbon';
-import PathwayWidget from '../../components/pathway/pathwayWidget';
-import NotFound from '../../components/notFound';
-import Subsection from '../../components/subsection';
+import GeneOntologyRibbon from '../../components/geneOntologyRibbon/index.jsx';
+import PathwayWidget from '../../components/pathway/pathwayWidget.jsx';
+import NotFound from '../../components/notFound.jsx';
+import Subsection from '../../components/subsection.jsx';
 import {
   GenePhysicalInteractionDetailTable,
   GeneGeneticInteractionDetailTable,
@@ -26,33 +26,33 @@ import {
   InteractionUserGuide,
   GeneticInteractionSectionHelp
 } from '../../components/interaction';
-import GenomeFeatureWrapper from './genomeFeatureWrapper';
-import SequencePanel from './sequencePanelWrapper';
-import ExpressionLinks from './expressionLinks';
+import GenomeFeatureWrapper from './genomeFeatureWrapper.jsx';
+import SequencePanel from './sequencePanelWrapper.jsx';
+import ExpressionLinks from './expressionLinks.jsx';
 
-import SpeciesIcon from '../../components/speciesIcon';
-import DataSourceLink from '../../components/dataSourceLink';
-import PhenotypeTable from './phenotypeTable';
+import SpeciesIcon from '../../components/speciesIcon/index.jsx';
+import DataSourceLink from '../../components/dataSourceLink.jsx';
+import PhenotypeTable from './phenotypeTable.jsx';
 import {
   ExpressionComparisonRibbon,
   ExpressionUserGuide
 } from '../../components/expression';
 import { DiseaseComparisonRibbon } from '../../components/disease';
-import GeneModelsTable from './GeneModelsTable';
-import GeneMetaTags from './GeneMetaTags';
-import PageNavEntity from '../../components/dataPage/PageNavEntity';
-import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
+import GeneModelsTable from './GeneModelsTable.jsx';
+import GeneMetaTags from './GeneMetaTags.jsx';
+import PageNavEntity from '../../components/dataPage/PageNavEntity.jsx';
+import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import { getSpecies, getSingleGenomeLocation } from '../../lib/utils';
-import TransgenicAlleleTable from './TransgenicAlleleTable';
-import GeneSymbol from '../../components/GeneSymbol';
-import PhenotypeCrossRefs from './PhenotypeCrossRefs';
-import SpeciesName from '../../components/SpeciesName';
-import SequenceFeatureViewerSectionHelp from '../../components/sequenceFeatureViewer/sequenceFeatureViewerSectionHelp';
-import SequencePanelSectionHelp from '../../components/sequencePanel/sequencePanelSectionHelp';
-import TransgenicAlleleSectionHelp from '../../components/transgenicAlleles/transgenicAllelesSectionHelp';
-import DiseaseSectionHelp from '../../components/disease/diseaseSectionHelp';
-import { AlleleTableWrapper } from './alleleTableWrapper';
+import TransgenicAlleleTable from './TransgenicAlleleTable.jsx';
+import GeneSymbol from '../../components/GeneSymbol.jsx';
+import PhenotypeCrossRefs from './PhenotypeCrossRefs.jsx';
+import SpeciesName from '../../components/SpeciesName.jsx';
+import SequenceFeatureViewerSectionHelp from '../../components/sequenceFeatureViewer/sequenceFeatureViewerSectionHelp.jsx';
+import SequencePanelSectionHelp from '../../components/sequencePanel/sequencePanelSectionHelp.jsx';
+import TransgenicAlleleSectionHelp from '../../components/transgenicAlleles/transgenicAllelesSectionHelp.jsx';
+import DiseaseSectionHelp from '../../components/disease/diseaseSectionHelp.jsx';
+import { AlleleTableWrapper } from './alleleTableWrapper.jsx';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VariantJBrowseLink } from '../../components/variant';
-import Sequence from './Sequence';
+import Sequence from './Sequence.jsx';
 import useAllAlleleVariants from '../../hooks/useAlleleVariants';
 import { DataTable } from '../../components/dataTable';
 

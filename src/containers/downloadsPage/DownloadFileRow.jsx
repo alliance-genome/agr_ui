@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import DownloadFileLink from './downloadFileLink';
+import DownloadFileLink from './downloadFileLink.jsx';
 
 const DownloadFileRow = ({description, files}) => {
   // remove any undefined entries in the array

@@ -1,17 +1,17 @@
-import WarningBanner from './WarningBanner';
+import WarningBanner from './WarningBanner.jsx';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {Link, withRouter} from 'react-router-dom';
 import style from './style.module.scss';
-import Loader from './loader/index';
+import Loader from './loader/index.jsx';
 import logo from '../../assets/images/alliance_logo_agr.png';
-import SearchBar from './searchBar';
-import { MenuItems } from './navigation';
-import ReleaseBanner from './ReleaseBanner';
+import SearchBar from './searchBar/index.jsx';
+import { MenuItems } from './navigation/index.jsx';
+import ReleaseBanner from './ReleaseBanner.jsx';
 import WordpressInject from '../wordpress/wordpressInject.jsx';
 import { selectPageLoading } from '../../selectors/loadingSelector';
-import Footer from './Footer';
+import Footer from './Footer.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 
@@ -110,4 +110,5 @@ const mapStateToProps = state => ({
   pageLoading: selectPageLoading(state),
 });
 
+//TODO: withRouter - Non Trivial
 export default withRouter(connect(mapStateToProps)(Layout));

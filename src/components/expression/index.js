@@ -1,5 +1,5 @@
-import ExpressionComparisonRibbon from './expressionComparisonRibbon';
-import ExpressionUserGuide from './expressionUserGuide';
+import ExpressionComparisonRibbon from './expressionComparisonRibbon.jsx';
+import ExpressionUserGuide from './expressionUserGuide.jsx';
 
 export {
   ExpressionComparisonRibbon,

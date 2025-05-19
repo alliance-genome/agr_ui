@@ -5,10 +5,10 @@ import {
   AttributeList,
   AttributeValue
 } from '../../components/attribute';
-import CommaSeparatedGeneList from './CommaSeparatedGeneList';
-import NoData from '../../components/noData';
+import CommaSeparatedGeneList from './CommaSeparatedGeneList.jsx';
+import NoData from '../../components/noData.jsx';
 import {Link} from 'react-router-dom';
-import ConstructLink from '../../components/ConstructLink';
+import ConstructLink from '../../components/ConstructLink.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 

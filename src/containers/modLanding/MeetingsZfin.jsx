@@ -1,6 +1,6 @@
 import React  from 'react';
 import style from './style.module.scss';
-import LoadingSpinner from '../../components/loadingSpinner';
+import LoadingSpinner from '../../components/loadingSpinner.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import PropTypes from "prop-types";
 

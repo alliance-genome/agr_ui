@@ -1,1 +1,1 @@
-export { default as VariantJBrowseLink } from './VariantJBrowseLink';
+export { default as VariantJBrowseLink } from './VariantJBrowseLink.jsx';

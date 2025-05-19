@@ -4,10 +4,10 @@ import {
   AttributeList,
 } from '../../components/attribute';
 import { DownloadButton } from '../../components/dataTable';
-import Subsection from '../../components/subsection';
-import NoData from '../../components/noData';
+import Subsection from '../../components/subsection.jsx';
+import NoData from '../../components/noData.jsx';
 import useAllAlleleVariants from '../../hooks/useAlleleVariants';
-import VariantSummary from './VariantSummary';
+import VariantSummary from './VariantSummary.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 

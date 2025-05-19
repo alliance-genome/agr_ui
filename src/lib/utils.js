@@ -32,14 +32,14 @@ export function smartAlphaSort(accessor) {
   return function (a, b) {
     const ax = accessor(a).toLowerCase();
     const bx = accessor(b).toLowerCase();
-    
+
     // Split strings into chunks of strings and numbers
     const splitRegex = /([0-9]+|[^0-9]+)/g;
     const aChunksArray = ax.match(splitRegex);
     const bChunksArray = bx.match(splitRegex);
 
     const len = Math.min(aChunksArray.length, bChunksArray.length);
-    
+
     for (let i = 0; i < len; i++) {
       // If both parts are numeric, compare as numbers
       if (!isNaN(aChunksArray[i]) && !isNaN(bChunksArray[i])) {
@@ -52,7 +52,7 @@ export function smartAlphaSort(accessor) {
         if (diff !== 0) return diff;
       }
     }
-    
+
     // If all parts are equal up to the length of the shorter string,
     // the shorter string comes first
     return aChunksArray.length - bChunksArray.length;
@@ -148,7 +148,7 @@ export function htmlToPlainText(html) {
 }
 
 export function getSingleGenomeLocation(genomeLocations) {
-  // extracted from container/genePage/index.js
+  // extracted from container/genePage/index.jsx
   // todo, add chromosome
   let genomeLocation = {};
   if (genomeLocations) {

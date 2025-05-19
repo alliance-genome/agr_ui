@@ -4,11 +4,11 @@ import HorizontalScroll from '../horizontalScroll.jsx';
 import LoadingSpinner from '../loadingSpinner.jsx';
 import NoData from '../noData.jsx';
 import useGeneParalogy from '../../hooks/useGeneParalogy';
-import MethodHeader from '../homology/methodHeader';
-import MethodCell from '../homology/methodCell';
+import MethodHeader from '../homology/methodHeader.jsx';
+import MethodCell from '../homology/methodCell.jsx';
 import HelpPopup from '../helpPopup.jsx';
-import RankHelp from './rankHelp';
-import AlignmentHelp from './alignmentHelp';
+import RankHelp from './rankHelp.jsx';
+import AlignmentHelp from './alignmentHelp.jsx';
 
 const ParalogyTable = ({geneId}) => {
   const { data, isLoading } = useGeneParalogy(geneId);

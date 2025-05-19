@@ -1,8 +1,8 @@
 import React from 'react';
 import style from './style.module.scss';
-import {SearchBarComponent} from '../layout/searchBar';
-import SearchExample from './SearchExample';
-import ActionButton from './ActionButton';
+import {SearchBarComponent} from '../layout/searchBar/index.jsx';
+import SearchExample from './SearchExample.jsx';
+import ActionButton from './ActionButton.jsx';
 import {Link} from 'react-router-dom';
 
 const SearchSection = () => {

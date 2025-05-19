@@ -1,10 +1,10 @@
 import React from 'react';
 import style from './style.module.scss';
 import PropTypes from "prop-types";
-import MeetingsZfin from "./MeetingsZfin"
-import MeetingsRgd from "./MeetingsRgd"
-import GoogleapisMeetings from "./googleapisMeetings"
-import ExternalLink from '../../components/ExternalLink';
+import MeetingsZfin from "./MeetingsZfin.jsx"
+import MeetingsRgd from "./MeetingsRgd.jsx"
+import GoogleapisMeetings from "./googleapisMeetings.jsx"
+import ExternalLink from '../../components/ExternalLink.jsx';
 
 const Meetings = ({content}) => {
   return (

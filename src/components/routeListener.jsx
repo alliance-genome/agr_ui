@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 
 class RouteListener extends React.Component {
   componentDidMount() {
@@ -28,4 +28,17 @@ RouteListener.propTypes = {
   onRouteChange: PropTypes.func.isRequired,
 };
 
-export default withRouter(RouteListener);
+const RouterListenerFC = ({ onRouteChange, children }) => {
+
+  const location = useLocation();
+
+  useEffect(() => {
+    onRouteChange(location);
+  }, [location, onRouteChange]);
+
+  return children;
+};
+
+//TODO: withRouter - Trivial
+// export default withRouter(RouteListener);
+export { RouterListenerFC };

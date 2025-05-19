@@ -1,11 +1,11 @@
 import { screen, render } from "@testing-library/react";
 import '@testing-library/jest-dom';
 
-import VisitMod from "../../VisitMod";
+import VisitMod from "../../VisitMod.jsx";
 
 describe("VisitMod Section", () => {
     beforeEach(() => {
-        render(<VisitMod 
+        render(<VisitMod
             modVisitButtonText="Button Text"
             linkToMod="www.google.com"
             sectionStyle="aboutStyle"

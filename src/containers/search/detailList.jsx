@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import style from './style.module.scss';
-import { makeFieldDisplayName } from '../../lib/searchHelpers';
-import NoData from '../../components/noData';
+import { makeFieldDisplayName } from '../../lib/searchHelpers.jsx';
+import NoData from '../../components/noData.jsx';
 import { CollapsibleList } from '../../components/collapsibleList';
-import SpeciesName from '../../components/SpeciesName';
+import SpeciesName from '../../components/SpeciesName.jsx';
 
 const COLLAPSIBLE_FIELDS = ['collapsible_synonyms','variantName'];
 

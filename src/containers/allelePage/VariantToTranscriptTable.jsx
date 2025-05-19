@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { DataTable } from '../../components/dataTable';
 import { CollapsibleList } from '../../components/collapsibleList';
-import Translation from './Translation';
-import VariantEffectDetails from './VariantEffectDetails';
+import Translation from './Translation.jsx';
+import VariantEffectDetails from './VariantEffectDetails.jsx';
 import styles from './style.module.scss';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 

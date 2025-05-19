@@ -6,19 +6,19 @@ import {
   ReferencesCellCuration,
   SpeciesCell
 } from '../../components/dataTable';
-import ExperimentalConditionCellCuration from '../../components/dataTable/ExperimentalConditionCellCuration';
-import GeneticModifiersCellCuration from '../../components/dataTable/GeneticModifiersCellCuration';
-import { buildProvidersWithUrl, getIdentifier, getDistinctFieldValue } from '../../components/dataTable/utils';
+import ExperimentalConditionCellCuration from '../../components/dataTable/ExperimentalConditionCellCuration.jsx';
+import GeneticModifiersCellCuration from '../../components/dataTable/GeneticModifiersCellCuration.jsx';
+import { buildProvidersWithUrl, getIdentifier, getDistinctFieldValue } from '../../components/dataTable/utils.jsx';
 import { compareByFixedOrder } from '../../lib/utils';
 import { SPECIES_NAME_ORDER } from '../../constants';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import SpeciesName from '../../components/SpeciesName';
-import AssociationType from '../../components/AssociationType';
-import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration';
-import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration';
-import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn';
-import ModelCellCuration from '../../components/dataTable/ModelCellCuration';
-import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration';
+import SpeciesName from '../../components/SpeciesName.jsx';
+import AssociationType from '../../components/AssociationType.jsx';
+import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration.jsx';
+import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration.jsx';
+import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn.jsx';
+import ModelCellCuration from '../../components/dataTable/ModelCellCuration.jsx';
+import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration.jsx';
 import { MODEL_DETAILS_COLUMNS } from '../../components/dataTable/constants';
 
 

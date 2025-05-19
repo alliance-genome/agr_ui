@@ -6,7 +6,7 @@ import {
 } from '../../components/dataTable';
 import hash from 'object-hash';
 import AnnotatedEntitiesPopup
-  from '../../components/dataTable/AnnotatedEntitiesPopup';
+  from '../../components/dataTable/AnnotatedEntitiesPopup.jsx';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 
 const AlleleToPhenotypeTable = ({alleleId}) => {

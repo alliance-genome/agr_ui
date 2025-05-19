@@ -29,13 +29,13 @@ describe('GO footer tests.', () => {
 
         expect(top_div).toContainElement(top_label);
         expect(top_label).toHaveTextContent("GOC");
-        
-        expect(top_link).toContainElement(link_img);     
+
+        expect(top_link).toContainElement(link_img);
         expect(link_img).toHaveAttribute('src', "alliance_logo_goc.png");
      });
 
-   it('should render the correct hrefs with correct label in correct order from content.js', () => {
-    
+   it('should render the correct hrefs with correct label in correct order from content.jsx', () => {
+
     for (let i=0; i<content.footer.length; i++){
 
          let footer = screen.getByTestId("href_footer_" + i);
@@ -46,7 +46,7 @@ describe('GO footer tests.', () => {
         }
    });
 
-   // Sanity check in case content.js gets corrupted.
+   // Sanity check in case content.jsx gets corrupted.
    // Check for something we expect to be there.
    // GO Helpdesk should always be the first one.?
    if('Should render GO Helpdesk as the first footer link', () => {

@@ -1,10 +1,10 @@
-import OrthologyTable from './orthologyTable';
-import OrthologyFilteredTable from './orthologyFilteredTable';
-import HomologyUserGuide from '../homology/homologyUserGuide';
-import OrthologyBasicInfo from './orthologyBasicInfo';
-import StringencySelection from '../homology/stringencySelection';
-import OrthologyJBrowseLink from './orthologyJBrowseLink';
-import OrthologyJBrowseLinkPanel from './orthologyJBrowseLinkPanel';
+import OrthologyTable from './orthologyTable.jsx';
+import OrthologyFilteredTable from './orthologyFilteredTable.jsx';
+import HomologyUserGuide from '../homology/homologyUserGuide.jsx';
+import OrthologyBasicInfo from './orthologyBasicInfo.jsx';
+import StringencySelection from '../homology/stringencySelection.jsx';
+import OrthologyJBrowseLink from './orthologyJBrowseLink.jsx';
+import OrthologyJBrowseLinkPanel from './orthologyJBrowseLinkPanel.jsx';
 
 export {
   OrthologyBasicInfo,

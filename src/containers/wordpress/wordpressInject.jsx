@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReplaceLinks from './ReplaceLinks';
+import ReplaceLinks from './ReplaceLinks.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import { WORDPRESS_PAGE_BASE_URL } from '../../constants';
 import fetchWordpress from '../../lib/fetchWordpress';
-import LoadingSpinner from '../../components/loadingSpinner';
+import LoadingSpinner from '../../components/loadingSpinner.jsx';
 
 const WordpressInject = ({slug}) => {
   const {

@@ -12,27 +12,27 @@ import {
   AttributeLabel,
   AttributeValue,
 } from '../../components/attribute';
-import HeadMetaTags from '../../components/headMetaTags';
-import Subsection from '../../components/subsection';
-import NotFound from '../../components/notFound';
+import HeadMetaTags from '../../components/headMetaTags.jsx';
+import Subsection from '../../components/subsection.jsx';
+import NotFound from '../../components/notFound.jsx';
 // import AlleleSymbol from './AlleleSymbol';
-import SpeciesIcon from '../../components/speciesIcon';
-import PageNavEntity from '../../components/dataPage/PageNavEntity';
-import DataSourceLink from '../../components/dataSourceLink';
+import SpeciesIcon from '../../components/speciesIcon/index.jsx';
+import PageNavEntity from '../../components/dataPage/PageNavEntity.jsx';
+import DataSourceLink from '../../components/dataSourceLink.jsx';
 import {Link} from 'react-router-dom';
-import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
+import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel.jsx';
 // import AlleleToPhenotypeTable from './AlleleToPhenotypeTable';
 // import AlleleToDiseaseTable from './AlleleToDiseaseTable';
 // import AlleleToVariantTable from './AlleleToVariantTable';
 // import AlleleSequenceView from './AlleleSequenceView';
-import VariantSummary from './VariantSummary';
-import VariantSequenceView from './VariantSequenceView';
-import VariantToTranscriptTable from './VariantToTranscriptTable';
-import MolecularConsequenceHelp from './MolecularConsequenceHelp';
+import VariantSummary from './VariantSummary.jsx';
+import VariantSequenceView from './VariantSequenceView.jsx';
+import VariantToTranscriptTable from './VariantToTranscriptTable.jsx';
+import MolecularConsequenceHelp from './MolecularConsequenceHelp.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
-import GeneSymbol from '../../components/GeneSymbol';
-import SpeciesName from '../../components/SpeciesName';
-import ErrorBoundary from '../../components/errorBoundary';
+import GeneSymbol from '../../components/GeneSymbol.jsx';
+import SpeciesName from '../../components/SpeciesName.jsx';
+import ErrorBoundary from '../../components/errorBoundary.jsx';
 
 const SUMMARY = 'Summary';
 const MOLECULAR_CONSEQUENCE = 'Variant Molecular Consequences';

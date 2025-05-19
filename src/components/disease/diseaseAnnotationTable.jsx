@@ -8,16 +8,16 @@ import {
   ReferencesCellCuration,
   SpeciesCell,
 } from '../dataTable';
-import AnnotatedEntitiesPopupCuration from '../dataTable/AnnotatedEntitiesPopupCuration';
-import { getIdentifier, getDistinctFieldValue, buildProvidersWithUrl } from '../dataTable/utils';
+import AnnotatedEntitiesPopupCuration from '../dataTable/AnnotatedEntitiesPopupCuration.jsx';
+import { getIdentifier, getDistinctFieldValue, buildProvidersWithUrl } from '../dataTable/utils.jsx';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
-import ProvidersCellCuration from '../dataTable/ProvidersCellCuration';
+import ProvidersCellCuration from '../dataTable/ProvidersCellCuration.jsx';
 import useComparisonRibbonTableQuery from '../../hooks/useComparisonRibbonTableQuery';
 import SpeciesName from '../SpeciesName.jsx';
-import AssociationType from '../AssociationType';
-import DiseaseLinkCuration from './DiseaseLinkCuration';
-import DiseaseQualifiersColumn from "../dataTable/DiseaseQualifiersColumn";
+import AssociationType from '../AssociationType.jsx';
+import DiseaseLinkCuration from './DiseaseLinkCuration.jsx';
+import DiseaseQualifiersColumn from "../dataTable/DiseaseQualifiersColumn.jsx";
 import { GENE_DETAILS_COLUMNS } from '../dataTable/constants';
 
 import hash from 'object-hash';

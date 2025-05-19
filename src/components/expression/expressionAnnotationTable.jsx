@@ -7,12 +7,12 @@ import {
   DataTable
 } from '../dataTable';
 import DataSourceLink from '../dataSourceLink.jsx';
-import CommaSeparatedList from '../commaSeparatedList';
+import CommaSeparatedList from '../commaSeparatedList.jsx';
 import {
   compareAlphabeticalCaseInsensitive,
   compareByFixedOrder
 } from '../../lib/utils';
-import {getDistinctFieldValue} from '../dataTable/utils';
+import {getDistinctFieldValue} from '../dataTable/utils.jsx';
 import {SPECIES_NAME_ORDER} from '../../constants';
 import useComparisonRibbonTableQuery
   from '../../hooks/useComparisonRibbonTableQuery';

@@ -1,5 +1,5 @@
 import ExternalLink from '../ExternalLink.jsx';
-import { getIdentifier } from './utils';
+import { getIdentifier } from './utils.jsx';
 
 
 function StrainBackground({strainBackground}) {

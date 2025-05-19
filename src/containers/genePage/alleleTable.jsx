@@ -2,18 +2,18 @@ import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {compareAlphabeticalCaseInsensitive, getSingleGenomeLocation, findFminFmax} from '../../lib/utils';
-import SynonymList from '../../components/synonymList';
+import SynonymList from '../../components/synonymList.jsx';
 import {
   AlleleCell,
   DataTable,
 } from '../../components/dataTable';
-import NoData from '../../components/noData';
+import NoData from '../../components/noData.jsx';
 import { CollapsibleList } from '../../components/collapsibleList';
-import ExternalLink from '../../components/ExternalLink';
+import ExternalLink from '../../components/ExternalLink.jsx';
 import {VariantJBrowseLink} from '../../components/variant';
-import RotatedHeaderCell from '../../components/dataTable/RotatedHeaderCell';
-import BooleanLinkCell from '../../components/dataTable/BooleanLinkCell';
-import VariantsSequenceViewer from './VariantsSequenceViewer';
+import RotatedHeaderCell from '../../components/dataTable/RotatedHeaderCell.jsx';
+import BooleanLinkCell from '../../components/dataTable/BooleanLinkCell.jsx';
+import VariantsSequenceViewer from './VariantsSequenceViewer.jsx';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import useAllVariants from '../../hooks/useAllVariants';
 

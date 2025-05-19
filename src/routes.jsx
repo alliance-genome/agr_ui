@@ -8,19 +8,19 @@ import {
   WordpressPostList,
   WordpressPost,
 } from './containers/wordpress';
-import Homepage from './containers/homepage';
-import Layout from './containers/layout';
+import Homepage from './containers/homepage/index.jsx';
+import Layout from './containers/layout/index.jsx';
 import Search from './containers/search';
-import GenePage from './containers/genePage';
-import GeneAlleleDetailsPage from './containers/GeneAlleleDetailsPage';
-import DiseasePage from './containers/diseasePage';
-import NotFound from './components/notFound';
-import DownloadsPage from './containers/downloadsPage';
-import AllelePage from './containers/allelePage/AllelePage';
-import VariantPage from './containers/allelePage/VariantPage';
-import MODLanding from './containers/modLanding/Main';
-import AlzheimersPage from './containers/alzheimersPage';
-import BlastPage from './containers/blastPage';
+import GenePage from './containers/genePage/index.jsx';
+import GeneAlleleDetailsPage from './containers/GeneAlleleDetailsPage/index.jsx';
+import DiseasePage from './containers/diseasePage/index.jsx';
+import NotFound from './components/notFound.jsx';
+import DownloadsPage from './containers/downloadsPage/index.jsx';
+import AllelePage from './containers/allelePage/AllelePage.jsx';
+import VariantPage from './containers/allelePage/VariantPage.jsx';
+import MODLanding from './containers/modLanding/Main.jsx';
+import AlzheimersPage from './containers/alzheimersPage/index.jsx';
+import BlastPage from './containers/blastPage/index.jsx';
 
 export default (
   <Layout>

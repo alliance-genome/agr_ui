@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import DiseaseName from '../disease/DiseaseName';
+import DiseaseName from './DiseaseName.jsx';
 
 const DiseaseLink = ({disease}) => (
   <Link to={'/disease/' + disease.id}>

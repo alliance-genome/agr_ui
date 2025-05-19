@@ -4,11 +4,10 @@ import configureStore from './lib/configureStore';
 import { BrowserRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { logPageView } from './lib/analytics';
-import RouteListener from './components/routeListener';
-import routes from './routes';
-import { ScrollContext } from 'react-router-scroll-4';
+import {RouterListenerFC} from './components/routeListener.jsx';
+import routes from './routes.jsx';
 import { QueryClient, QueryClientProvider  } from '@tanstack/react-query';
-import ReleaseContextProvider from './hooks/ReleaseContextProvider';
+import ReleaseContextProvider from './hooks/ReleaseContextProvider.jsx';
 
 const isBrowser = (typeof window !== 'undefined');
 const store = configureStore();
@@ -34,11 +33,9 @@ class ReactApp extends Component {
             <Router>
               {
                 isBrowser ?
-                  <ScrollContext>
-                    <RouteListener onRouteChange={logPageView}>
+                    <RouterListenerFC onRouteChange={logPageView}>
                       {routes}
-                    </RouteListener>
-                  </ScrollContext> :
+                    </RouterListenerFC> :
                   routes
               }
             </Router>

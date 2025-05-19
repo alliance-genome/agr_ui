@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { PageHeader } from '../../components/dataPage';
-import NotFound from '../../components/notFound';
+import NotFound from '../../components/notFound.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
-import ErrorBoundary from '../../components/errorBoundary';
-import { GeneAlleleDetailsTableWrapper } from './GeneAlleleDetailsTableWrapper';
+import ErrorBoundary from '../../components/errorBoundary.jsx';
+import { GeneAlleleDetailsTableWrapper } from './GeneAlleleDetailsTableWrapper.jsx';
 
 const GeneAlleleDetailsPage = ({geneId}) => {
   const { isLoading: isLoadingGene, isError: isErrorGene, data: gene } = usePageLoadingQuery(`/api/gene/${geneId}`);

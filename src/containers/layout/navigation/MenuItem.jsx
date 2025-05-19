@@ -8,7 +8,7 @@ import {
   NavItem,
   NavLink,
 } from 'reactstrap';
-import SubMenuItem from './SubMenuItem';
+import SubMenuItem from './SubMenuItem.jsx';
 
 const MenuItem = ({currentRoute, page, onClick}) => {
   const [isOpen, setIsOpen] = useState(false);

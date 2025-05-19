@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ExternalLink from '../../components/ExternalLink';
+import ExternalLink from '../../components/ExternalLink.jsx';
 
 const ModGeneDescription = ({description, url}) => (
   <div>

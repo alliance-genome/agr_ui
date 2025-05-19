@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import Title from "../../Title";
-import {MODContent} from '../../content';
+import Title from "../../Title.jsx";
+import {MODContent} from '../../content.jsx';
 import { getByTestId, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom'
 
@@ -12,8 +12,8 @@ describe('WormBase Title', () => {
     members.forEach(element => {
         it('Should render hex with link to ' + element + ' main page, name ', () => {
             let content = MODContent[element];
-            render(<Title 
-                bannerStyle={content.bannerStyle} 
+            render(<Title
+                bannerStyle={content.bannerStyle}
                 titleBarStyle={content.titleBarStyle}
                 logoImgSrc={content.logoImgSrc}
                 modFullName={content.modFullName}/>);

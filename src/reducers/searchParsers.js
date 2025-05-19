@@ -1,7 +1,7 @@
 import {
   makeFieldDisplayName,
   makeValueDisplayName
-} from '../lib/searchHelpers';
+} from '../lib/searchHelpers.jsx';
 import {
   CATEGORIES,
   DUPLICATE_HIGHLIGHTED_FIELDS,

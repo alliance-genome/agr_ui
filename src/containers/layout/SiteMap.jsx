@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import {NAV_MENU} from '../../constants';
 
 import style from './style.module.scss';
-import SubMenuItem from './navigation/SubMenuItem';
+import SubMenuItem from './navigation/SubMenuItem.jsx';
 
 const SiteMap = () => {
   return (

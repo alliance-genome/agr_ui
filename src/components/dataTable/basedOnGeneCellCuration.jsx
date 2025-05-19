@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { shortSpeciesName } from '../../lib/utils';
 import { CollapsibleList } from '../../components/collapsibleList';
-import { getIdentifier, removeDuplicates } from './utils';
+import { getIdentifier, removeDuplicates } from './utils.jsx';
 import GeneSymbolCuration from '../GeneSymbolCuration.jsx';
 
 const GeneLink = ({ gene }) => {

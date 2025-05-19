@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import style from './style.module.scss';
-import HeadMetaTags from '../../components/headMetaTags';
-import LoadingPage from '../../components/loadingPage';
-import SecondaryNav from './secondaryNav';
-import NotFound from '../../components/notFound';
-import ReplaceLinks from './ReplaceLinks';
+import HeadMetaTags from '../../components/headMetaTags.jsx';
+import LoadingPage from '../../components/loadingPage.jsx';
+import SecondaryNav from './secondaryNav.jsx';
+import NotFound from '../../components/notFound.jsx';
+import ReplaceLinks from './ReplaceLinks.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import fetchWordpress from '../../lib/fetchWordpress';
 import { WORDPRESS_PAGE_BASE_URL } from '../../constants';

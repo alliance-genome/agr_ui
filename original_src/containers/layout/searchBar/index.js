@@ -244,6 +244,7 @@ SearchBarComponent.defaultProps = {
   placeholder: 'search: RPB7, kinase, asthma, liver',
 };
 
+//TODO: withRouter - Non Trivial
 const SearchBarComponentWithHistory = withRouter(SearchBarComponent);
 
 export { SearchBarComponentWithHistory as SearchBarComponent };

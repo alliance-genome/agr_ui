@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Collapse } from 'reactstrap';
 
 import { NAV_MENU } from '../../../constants';
-import MenuItem from './MenuItem';
+import MenuItem from './MenuItem.jsx';
 
 class MenuItems extends Component {
   render () {

@@ -1,9 +1,9 @@
 import React from 'react';
-import HeadMetaTags from '../../components/headMetaTags';
-import PapersSection from './PapersSection';
-import ResourcesSection from './ResourcesSection';
-import DiseasePortalSection from './DiseasePortalSection';
-import MembersSection from '../../components/MembersSection';
+import HeadMetaTags from '../../components/headMetaTags.jsx';
+import PapersSection from './PapersSection.jsx';
+import ResourcesSection from './ResourcesSection.jsx';
+import DiseasePortalSection from './DiseasePortalSection.jsx';
+import MembersSection from '../../components/MembersSection.jsx';
 import { HELP_EMAIL } from '../../constants';
 
 

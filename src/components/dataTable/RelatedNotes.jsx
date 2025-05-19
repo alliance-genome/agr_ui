@@ -1,5 +1,5 @@
-import CollapsibleList from '../collapsibleList/collapsibleList';
-import NoteCell from './NoteCell'
+import CollapsibleList from '../collapsibleList/collapsibleList.jsx';
+import NoteCell from './NoteCell.jsx'
 
 
 function RelatedNotes({relatedNotes}) {

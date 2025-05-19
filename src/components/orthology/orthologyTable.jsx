@@ -1,9 +1,9 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import MethodHeader from '../homology/methodHeader';
-import MethodCell from '../homology/methodCell';
-import BooleanCell from '../homology/booleanCell';
+import MethodHeader from '../homology/methodHeader.jsx';
+import MethodCell from '../homology/methodCell.jsx';
+import BooleanCell from '../homology/booleanCell.jsx';
 import {
   getOrthologSpeciesId,
   getOrthologSpeciesName,

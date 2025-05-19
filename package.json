@@ -45,6 +45,7 @@
     "lodash.isequal": "^4.5.0",
     "lodash.without": "^4.4.0",
     "numeral": "^2.0.6",
+    "object-hash": "^3.0.0",
     "react": "^19.1.0",
     "react-autosuggest": "^10.1.0",
     "react-bootstrap": "^2.10.9",
@@ -63,7 +64,8 @@
     "redux-mock-store": "^1.5.5",
     "redux-thunk": "^3.1.0",
     "reselect": "^5.1.1",
-    "sitemap": "^8.0.0"
+    "sitemap": "^8.0.0",
+    "whatwg-fetch": "^3.6.20"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",

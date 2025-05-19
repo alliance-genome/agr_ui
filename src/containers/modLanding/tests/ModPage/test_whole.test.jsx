@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import Main from "../../Main";
-import {MODContent} from '../../content';
+import Main from "../../Main.jsx";
+import {MODContent} from '../../content.jsx';
 import { getByTestId, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom'
 import thunk from 'redux-thunk';
@@ -31,8 +31,8 @@ describe('WormBase Title', () => {
             const queryClient = new QueryClient();
             render(
                 <QueryClientProvider client={queryClient}>
-                    <Provider store={store}> 
-                        <Main modId={element}/> 
+                    <Provider store={store}>
+                        <Main modId={element}/>
                     </Provider>
                 </QueryClientProvider>
             );
@@ -59,8 +59,8 @@ describe('WormBase Title', () => {
             const queryClient = new QueryClient();
             render(
                 <QueryClientProvider client={queryClient}>
-                    <Provider store={store}> 
-                        <Main modId={element}/> 
+                    <Provider store={store}>
+                        <Main modId={element}/>
                     </Provider>
                 </QueryClientProvider>
             );
@@ -77,7 +77,7 @@ describe('WormBase Title', () => {
             expect(top_div).toContainElement(footer);
             expect(footer).toContainElement(footer_link);
 
-        });        
+        });
 
     });
 });

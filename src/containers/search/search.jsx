@@ -2,19 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import clone from 'lodash.clone';
-import { stringifyQuery } from '../../lib/searchHelpers';
+import { stringifyQuery } from '../../lib/searchHelpers.jsx';
 
 import fetchData from '../../lib/fetchData';
-import FilterSelector from './filterSelector/filterSelector';
+import FilterSelector from './filterSelector/filterSelector.jsx';
 import MultiTable from './multiTable.jsx';
-import SearchBreadcrumbs from './searchBreadcrumbs';
-import SearchControls from './searchControls';
+import SearchBreadcrumbs from './searchBreadcrumbs.jsx';
+import SearchControls from './searchControls.jsx';
 import ResultsList from './resultsList.jsx';
-import ResultsTable from './resultsTable';
+import ResultsTable from './resultsTable.jsx';
 import { SMALL_COL_CLASS, LARGE_COL_CLASS, SEARCH_API_ERROR_MESSAGE } from '../../constants';
 import { receiveResponse, setError } from '../../actions/search';
-import LoadingPage from '../../components/loadingPage';
-import HeadMetaTags from '../../components/headMetaTags';
+import LoadingPage from '../../components/loadingPage.jsx';
+import HeadMetaTags from '../../components/headMetaTags.jsx';
 
 import style from './style.module.scss';
 
@@ -31,8 +31,8 @@ import {
   selectPageSize
 } from '../../selectors/searchSelectors';
 import {setPageLoading} from '../../actions/loadingActions';
-import TotalCount from './TotalCount';
-import {SearchBarComponent} from '../layout/searchBar';
+import TotalCount from './TotalCount.jsx';
+import {SearchBarComponent} from '../layout/searchBar/index.jsx';
 
 const BASE_SEARCH_URL = '/api/search';
 

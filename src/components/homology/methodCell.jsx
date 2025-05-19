@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { UncontrolledTooltip } from 'reactstrap';
 import { ORTHOLOGY_METHODS, methodCellStyle } from './constants';
-import PARALOGY_METHODS from '../paralogy/methods';
+import PARALOGY_METHODS from '../paralogy/methods.jsx';
 
 const MethodCell = (props) => {
   const {
@@ -14,11 +14,11 @@ const MethodCell = (props) => {
   const predictionMethodsMatchedSet = new Set(predictionMethodsMatched);
   const predictionMethodsNotMatchedSet = new Set(predictionMethodsNotMatched);
   const methods = paralogy ? PARALOGY_METHODS : ORTHOLOGY_METHODS;
-  
+
   return (
     <td>
       {
-        methods.map( (method) => {        
+        methods.map( (method) => {
           let symbol, tipText;
           if (predictionMethodsMatchedSet.has(method)) {
             symbol = '\u2611';

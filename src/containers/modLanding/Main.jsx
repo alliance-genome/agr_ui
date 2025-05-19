@@ -1,16 +1,16 @@
 import React from 'react';
-import HeadMetaTags from '../../components/headMetaTags';
+import HeadMetaTags from '../../components/headMetaTags.jsx';
 import PropTypes from 'prop-types';
 import style from './style.module.scss';
-import {MODContent} from './content';
-import About from "./About";
-import Title from "./Title";
-import News from "./News";
-import Meetings from "./Meetings";
-import Search from "./Search";
-import Resources from "./Resources";
-import VisitMod from "./VisitMod";
-import FooterAlt from "./FooterAlt"
+import {MODContent} from './content.jsx';
+import About from "./About.jsx";
+import Title from "./Title.jsx";
+import News from "./News.jsx";
+import Meetings from "./Meetings.jsx";
+import Search from "./Search.jsx";
+import Resources from "./Resources.jsx";
+import VisitMod from "./VisitMod.jsx";
+import FooterAlt from "./FooterAlt.jsx"
 
 const MODLanding = ({modId}) => {
 

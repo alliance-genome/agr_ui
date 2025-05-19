@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import ExternalLink from './ExternalLink';
+import ExternalLink from './ExternalLink.jsx';
 import {dataSourceType} from '../lib/types';
-import {getResourceUrl} from "./dataTable/getResourceUrl";
+import {getResourceUrl} from "./dataTable/getResourceUrl.jsx";
 
 //will be used once the data provider come
 const DataSourceLinkCuration = ({ children, curie, type, subtype }) => {

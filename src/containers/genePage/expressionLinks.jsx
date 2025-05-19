@@ -6,7 +6,7 @@ import {
   AttributeLabel,
   AttributeValue,
 } from '../../components/attribute';
-import CrossReferenceList from '../../components/crossReferenceList';
+import CrossReferenceList from '../../components/crossReferenceList.jsx';
 
 const ExpressionLinks = ({
   allExpressionCrossReference,

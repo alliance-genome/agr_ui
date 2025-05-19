@@ -1,5 +1,5 @@
 import React from 'react';
-import CommaSeparatedList from '../commaSeparatedList';
+import CommaSeparatedList from '../commaSeparatedList.jsx';
 //import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
 import DataSourceLink from '../dataSourceLink.jsx';
 

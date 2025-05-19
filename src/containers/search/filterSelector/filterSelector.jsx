@@ -6,13 +6,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 import style from './style.module.scss';
-import SingleFilterSelector from './singleFilterSelector';
+import SingleFilterSelector from './singleFilterSelector.jsx';
 import {
   getQueryParamWithValueChanged,
   stringifyQuery,
 } from '../../../lib/searchHelpers.jsx';
 import CategoryLabel from '../categoryLabel.jsx';
-import CollapsibleFacet from './collapsibleFacet';
+import CollapsibleFacet from './collapsibleFacet.jsx';
 
 import {
   selectActiveCategory,

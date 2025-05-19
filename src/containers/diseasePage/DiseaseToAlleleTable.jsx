@@ -6,19 +6,19 @@ import {
   ReferencesCellCuration,
   SpeciesCell
 } from '../../components/dataTable';
-import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration';
-import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration';
-import {getDistinctFieldValue} from '../../components/dataTable/utils';
+import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration.jsx';
+import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration.jsx';
+import {getDistinctFieldValue} from '../../components/dataTable/utils.jsx';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import SpeciesName from '../../components/SpeciesName';
-import AssociationType from '../../components/AssociationType';
-import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn';
-import { getIdentifier, buildProvidersWithUrl } from '../../components/dataTable/utils';
-import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration';
+import SpeciesName from '../../components/SpeciesName.jsx';
+import AssociationType from '../../components/AssociationType.jsx';
+import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn.jsx';
+import { getIdentifier, buildProvidersWithUrl } from '../../components/dataTable/utils.jsx';
+import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration.jsx';
 import { ALLELE_DETAILS_COLUMNS } from '../../components/dataTable/constants';
-import AlleleCellCuration from '../../components/dataTable/AlleleCellCuration';
+import AlleleCellCuration from '../../components/dataTable/AlleleCellCuration.jsx';
 
 const DiseaseToAlleleTable = ({id}) => {
   const {

@@ -22,6 +22,7 @@ class ScrollToTop extends Component {
   }
 }
 
+//TODO: withRouter - Trivial
 export default withRouter(ScrollToTop);
 
 ScrollToTop.propTypes = {

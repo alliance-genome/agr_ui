@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import Search from "../../Search";
-import {MODContent} from '../../content';
+import Search from "../../Search.jsx";
+import {MODContent} from '../../content.jsx';
 import { getByTestId, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom'
 
@@ -23,11 +23,11 @@ describe('ZFIN Search', () => {
        expect(header).toHaveTextContent("Search");
 
        expect(top_div).toContainElement(link_div);
-       
-       expect(link_div).toContainElement(link);     
+
+       expect(link_div).toContainElement(link);
     });
 
-    it('should render the correct hrefs with correct label in correct order from content.js', () => {
+    it('should render the correct hrefs with correct label in correct order from content.jsx', () => {
         for (let i=0; i<content.search.length; i++){
             let search = screen.getByTestId("href_search_" + i);
             expect(search).toHaveAttribute('href', content.search[i][1]);
@@ -37,7 +37,7 @@ describe('ZFIN Search', () => {
         }
     });
 
-    // Sanity check in case content.js gets corrupted.
+    // Sanity check in case content.jsx gets corrupted.
     // Check for something we expect to be there.
     // D. rerio should always be the first one.
     if('Should render D. rerio search as the first search link', () => {

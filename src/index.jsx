@@ -14,7 +14,7 @@ import 'react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css
 import 'agr_genomefeaturecomponent/src/GenomeFeatureViewer.css';
 import './style.scss';
 
-import ReactApp from './reactApplication';
+import ReactApp from './reactApplication.jsx';
 
 
 import { applyPolyfills, defineCustomElements } from '@geneontology/wc-ribbon-strips/loader';

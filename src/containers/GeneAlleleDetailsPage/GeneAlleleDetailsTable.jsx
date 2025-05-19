@@ -9,13 +9,13 @@ import {
   VEPTextCell,
 } from '../../components/dataTable';
 import fetchData from '../../lib/fetchData';
-import SynonymList from '../../components/synonymList';
-import NoData from '../../components/noData';
-import VariantJBrowseLink from '../../components/variant/VariantJBrowseLink';
+import SynonymList from '../../components/synonymList.jsx';
+import NoData from '../../components/noData.jsx';
+import VariantJBrowseLink from '../../components/variant/VariantJBrowseLink.jsx';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import { getSingleGenomeLocation, findFminFmax, getTableUrl } from '../../lib/utils';
-import VariantsSequenceViewer from '../genePage/VariantsSequenceViewer';
-import ErrorBoundary from '../../components/errorBoundary';
+import VariantsSequenceViewer from '../genePage/VariantsSequenceViewer.jsx';
+import ErrorBoundary from '../../components/errorBoundary.jsx';
 
 const getSiftStyle = (sift) => {
   switch (sift && sift.toLowerCase()) {

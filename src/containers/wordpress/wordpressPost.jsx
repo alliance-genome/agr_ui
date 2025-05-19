@@ -2,10 +2,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import style from './style.module.scss';
-import HeadMetaTags from '../../components/headMetaTags';
-import LoadingPage from '../../components/loadingPage';
-import SecondaryNav from './secondaryNav';
-import ReplaceLinks from './ReplaceLinks';
+import HeadMetaTags from '../../components/headMetaTags.jsx';
+import LoadingPage from '../../components/loadingPage.jsx';
+import SecondaryNav from './secondaryNav.jsx';
+import ReplaceLinks from './ReplaceLinks.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import { WORDPRESS_POST_URL } from '../../constants';
 import fetchWordpress from '../../lib/fetchWordpress';

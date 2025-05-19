@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import MeetingsRgd from "../../MeetingsRgd"
+import MeetingsRgd from "../../MeetingsRgd.jsx"
 import thunk from 'redux-thunk';
 import configureMockStore from "redux-mock-store";
-import {MODContent} from '../../content';
+import {MODContent} from '../../content.jsx';
 import { Provider } from 'react-redux';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom'
@@ -29,7 +29,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
       const queryClient = new QueryClient();
       render(
          <QueryClientProvider client={queryClient}>
-            <Provider store={store}> 
+            <Provider store={store}>
                <MeetingsRgd
                   urlMeetingsMod={content.rgdMeetingsAPI}
                   linkToMeetingsPage={content.linkToMeetingsPage}

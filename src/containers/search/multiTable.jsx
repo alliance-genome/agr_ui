@@ -5,12 +5,12 @@ import { Link } from 'react-router-dom';
 import clone from 'lodash.clone';
 
 import style from './style.module.scss';
-import ResultsTable from './resultsTable';
-import CategoryLabel from './categoryLabel';
+import ResultsTable from './resultsTable.jsx';
+import CategoryLabel from './categoryLabel.jsx';
 import fetchData from '../../lib/fetchData';
 import { SEARCH_API_ERROR_MESSAGE } from '../../constants';
 import { receiveResponse, setError } from '../../actions/search';
-import { getQueryParamWithValueChanged, stringifyQuery } from '../../lib/searchHelpers';
+import { getQueryParamWithValueChanged, stringifyQuery } from '../../lib/searchHelpers.jsx';
 
 
 import {

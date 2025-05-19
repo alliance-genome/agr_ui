@@ -28,4 +28,5 @@ RouteListener.propTypes = {
   onRouteChange: PropTypes.func.isRequired,
 };
 
+//TODO: withRouter - Trivial
 export default withRouter(RouteListener);

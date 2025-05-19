@@ -1,18 +1,18 @@
 import React from 'react';
-import ExternalLink from '../../components/ExternalLink';
-import Subsection from '../../components/subsection';
+import ExternalLink from '../../components/ExternalLink.jsx';
+import Subsection from '../../components/subsection.jsx';
 import { DataPage, PageData, PageHeader, PageNav } from '../../components/dataPage';
 
-import DownloadFileTable from './downloadFileTable';
-import HelpPopup from '../../components/helpPopup';
-import GeneDescriptionsHelp from './geneDescriptionsHelp';
-import GeneticInteractionsHelp from './geneticInteractionsHelp';
-import VariantsHelp from './variantsHelp';
-import HeadMetaTags from '../../components/headMetaTags';
-import DownloadFileRow from './DownloadFileRow';
-import PageNavEntity from '../../components/dataPage/PageNavEntity';
+import DownloadFileTable from './downloadFileTable.jsx';
+import HelpPopup from '../../components/helpPopup.jsx';
+import GeneDescriptionsHelp from './geneDescriptionsHelp.jsx';
+import GeneticInteractionsHelp from './geneticInteractionsHelp.jsx';
+import VariantsHelp from './variantsHelp.jsx';
+import HeadMetaTags from '../../components/headMetaTags.jsx';
+import DownloadFileRow from './DownloadFileRow.jsx';
+import PageNavEntity from '../../components/dataPage/PageNavEntity.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
-import SpeciesName from '../../components/SpeciesName';
+import SpeciesName from '../../components/SpeciesName.jsx';
 import { useRelease } from '../../hooks/ReleaseContextProvider.jsx';
 
 const DISEASE = 'Disease';

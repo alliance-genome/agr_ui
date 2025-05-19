@@ -5,10 +5,10 @@ import {
   DataTable, ReferencesCellCuration, GeneCellCuration
 } from '../../components/dataTable';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import {getIdentifier} from "../../components/dataTable/utils";
-import AnnotatedPhenotypePopupCuration from "../../components/dataTable/AnnotatedPhenotypePopupCuration";
+import {getIdentifier} from "../../components/dataTable/utils.jsx";
+import AnnotatedPhenotypePopupCuration from "../../components/dataTable/AnnotatedPhenotypePopupCuration.jsx";
 import {GENE_DETAILS_COLUMNS} from "../../components/dataTable/constants";
-import ProvidersCellCuration from "../../components/dataTable/ProvidersCellCuration";
+import ProvidersCellCuration from "../../components/dataTable/ProvidersCellCuration.jsx";
 
 const PhenotypeTable = ({geneId, entityType, hideSourceColumn = false}) => {
   const {

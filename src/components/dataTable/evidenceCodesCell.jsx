@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CommaSeparatedList from '../commaSeparatedList';
-import EvidenceCode from './EvidenceCode';
+import CommaSeparatedList from '../commaSeparatedList.jsx';
+import EvidenceCode from './EvidenceCode.jsx';
 
 const EvidenceCodesCell = ({evidenceCodes}) => {
 

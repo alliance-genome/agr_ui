@@ -9,7 +9,7 @@ import style from './style.module.scss';
 import {
   getQueryParamWithValueChanged,
   stringifyQuery
-} from '../../lib/searchHelpers';
+} from '../../lib/searchHelpers.jsx';
 
 import {selectTotalPages,} from '../../selectors/searchSelectors';
 

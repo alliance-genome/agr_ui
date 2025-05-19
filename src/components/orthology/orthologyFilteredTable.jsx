@@ -1,20 +1,20 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Collapse } from 'reactstrap';
-import StringencySelection from '../homology/stringencySelection';
-import OrthologyTable, { isBest } from './orthologyTable';
+import StringencySelection from '../homology/stringencySelection.jsx';
+import OrthologyTable, { isBest } from './orthologyTable.jsx';
 import { getOrthologSpeciesName } from '../homology/utils';
 import HorizontalScroll from '../horizontalScroll.jsx';
 import LoadingSpinner from '../loadingSpinner.jsx';
 import NoData from '../noData.jsx';
-import ControlsContainer from '../controlsContainer';
+import ControlsContainer from '../controlsContainer.jsx';
 import { STRINGENCY_HIGH } from '../homology/constants';
 import {
   compareAlphabeticalCaseInsensitive,
   orthologyMeetsStringency
 } from '../../lib/utils';
 import HelpPopup from '../helpPopup.jsx';
-import HomologyFilterHelp from '../homology/homologyFilterHelp';
+import HomologyFilterHelp from '../homology/homologyFilterHelp.jsx';
 import useResettableState from '../../hooks/useResettableState';
 import useGeneOrthology from '../../hooks/useGeneOrthology';
 

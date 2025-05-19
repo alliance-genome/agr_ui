@@ -1,4 +1,4 @@
-import CollapsibleList from './collapsibleList';
+import CollapsibleList from './collapsibleList.jsx';
 
 export {
   CollapsibleList,

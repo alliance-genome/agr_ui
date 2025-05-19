@@ -1,6 +1,6 @@
 import React from 'react';
 import style from './style.module.scss';
-import ExternalLink from '../../components/ExternalLink';
+import ExternalLink from '../../components/ExternalLink.jsx';
 
 const resourceLinks = [
   {title: "Alzheimers.gov", url: 'https://www.alzheimers.gov/'},

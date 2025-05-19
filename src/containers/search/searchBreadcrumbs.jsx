@@ -11,7 +11,7 @@ import {
   stringifyQuery,
   strikeThroughLabelNode,
   isExcluded,
-} from '../../lib/searchHelpers';
+} from '../../lib/searchHelpers.jsx';
 
 import CategoryLabel from './categoryLabel.jsx';
 import {compareByFixedOrder} from '../../lib/utils';

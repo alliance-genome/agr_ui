@@ -5,13 +5,13 @@ import {
   GeneCellCuration,
   SpeciesCell,
 } from '../dataTable';
-import { getResourceUrl } from '../dataTable/getResourceUrl';
-import { getIdentifier, getSingleReferenceUrl } from '../dataTable/utils';
+import { getResourceUrl } from '../dataTable/getResourceUrl.jsx';
+import { getIdentifier, getSingleReferenceUrl } from '../dataTable/utils.jsx';
 import SpeciesName from '../SpeciesName.jsx';
 import ExternalLink from '../ExternalLink.jsx';
-import MITerm from './MITerm';
+import MITerm from './MITerm.jsx';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import AlleleCellCuration from '../../components/dataTable/AlleleCellCuration';
+import AlleleCellCuration from '../dataTable/AlleleCellCuration.jsx';
 import { CollapsibleList } from '../collapsibleList';
 
 const GeneGeneticInteractionDetailTable = ({

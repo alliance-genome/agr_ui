@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import GenomeFeatureWrapper from './genomeFeatureWrapper';
+import GenomeFeatureWrapper from './genomeFeatureWrapper.jsx';
 import { getSingleGenomeLocation } from '../../lib/utils';
 
 const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisible, onAllelesSelect }) => {

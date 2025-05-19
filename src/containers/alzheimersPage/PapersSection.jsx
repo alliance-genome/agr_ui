@@ -1,6 +1,6 @@
 import React from 'react';
 import style from './style.module.scss';
-import ExternalLink from '../../components/ExternalLink';
+import ExternalLink from '../../components/ExternalLink.jsx';
 
 const publications = [
   {pmid: '39143479', title: "Gene therapy in Aβ-induced cell and mouse models of Alzheimer's disease through compensating defective mitochondrial complex I function"},

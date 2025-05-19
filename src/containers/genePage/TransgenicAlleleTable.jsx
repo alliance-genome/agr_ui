@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { AlleleCell, DataTable, SpeciesCell } from '../../components/dataTable';
-import ConstructLink from '../../components/ConstructLink';
+import ConstructLink from '../../components/ConstructLink.jsx';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import CommaSeparatedGeneList from '../allelePage/CommaSeparatedGeneList';
-import RotatedHeaderCell from '../../components/dataTable/RotatedHeaderCell';
-import BooleanLinkCell from '../../components/dataTable/BooleanLinkCell';
-import { getDistinctFieldValue } from '../../components/dataTable/utils';
+import CommaSeparatedGeneList from '../allelePage/CommaSeparatedGeneList.jsx';
+import RotatedHeaderCell from '../../components/dataTable/RotatedHeaderCell.jsx';
+import BooleanLinkCell from '../../components/dataTable/BooleanLinkCell.jsx';
+import { getDistinctFieldValue } from '../../components/dataTable/utils.jsx';
 import { compareByFixedOrder } from '../../lib/utils';
 import { SPECIES_NAME_ORDER } from '../../constants';
-import SpeciesName from '../../components/SpeciesName';
+import SpeciesName from '../../components/SpeciesName.jsx';
 
 const constructsRelatedGenesFormatter = constructRelatedGenes => (
   constructRelatedGenes.map(({id, genes}) => (

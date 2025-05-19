@@ -7,14 +7,14 @@ import {
   UncontrolledButtonDropdown
 } from 'reactstrap';
 import { SingleReferenceCellCuration } from './index';
-import ExperimentalConditionCellCuration from './ExperimentalConditionCellCuration';
+import ExperimentalConditionCellCuration from './ExperimentalConditionCellCuration.jsx';
 
 import style from './style.module.scss';
 import ExternalLink from '../ExternalLink.jsx';
 import { Link } from 'react-router-dom';
-import { getResourceUrl } from "./getResourceUrl";
-import TypeCellCuration from './TypeCellCuration';
-import { getIdentifier, naturalSortByAnnotationSubject } from './utils';
+import { getResourceUrl } from "./getResourceUrl.jsx";
+import TypeCellCuration from './TypeCellCuration.jsx';
+import { getIdentifier, naturalSortByAnnotationSubject } from './utils.jsx';
 
 function renderLink(entity) {
   const identifier = getIdentifier(entity.phenotypeAnnotationSubject);

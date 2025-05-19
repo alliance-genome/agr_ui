@@ -2,20 +2,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import style from './style.module.scss';
-import CategoryLabel from './categoryLabel';
-import DetailList from './detailList';
-import ResultExplanation from './resultExplanation';
+import CategoryLabel from './categoryLabel.jsx';
+import DetailList from './detailList.jsx';
+import ResultExplanation from './resultExplanation.jsx';
 import {CATEGORIES, NON_HIGHLIGHTED_FIELDS} from '../../constants';
 import { Link } from 'react-router-dom';
 
-import SpeciesIcon from '../../components/speciesIcon';
+import SpeciesIcon from '../../components/speciesIcon/index.jsx';
 import {
   getLinkForEntry,
   stringifyQuery
-} from '../../lib/searchHelpers';
+} from '../../lib/searchHelpers.jsx';
 import {UncontrolledTooltip} from 'reactstrap';
 import hash from 'object-hash';
-import SpeciesName from '../../components/SpeciesName';
+import SpeciesName from '../../components/SpeciesName.jsx';
 
 const DEFAULT_FIELDS = ['symbol', 'name', 'synonyms', 'sourceHref', 'id', 'type'];
 

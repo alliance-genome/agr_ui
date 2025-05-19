@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import style from './style.module.scss';
 import DetailList from './detailList.jsx';
-import { getLinkForEntry, makeFieldDisplayName } from '../../lib/searchHelpers';
+import { getLinkForEntry, makeFieldDisplayName } from '../../lib/searchHelpers.jsx';
 import { NON_HIGHLIGHTED_FIELDS } from '../../constants';
-import SpeciesName from '../../components/SpeciesName';
+import SpeciesName from '../../components/SpeciesName.jsx';
 
 const MATCH_LABEL = 'match_by';
 const MAX_CHAR = 100;

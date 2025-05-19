@@ -1,6 +1,6 @@
 import React from 'react';
 import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
-import { getResourceUrl } from "./getResourceUrl";
+import { getResourceUrl } from "./getResourceUrl.jsx";
 import { smartAlphaSort } from '../../lib/utils';
 
 export const renderPaginationShowsTotal = (start, end, total) => {
@@ -47,7 +47,7 @@ const buildProvider = (annotation) => {
       sourceOrganization: annotation.dataProvider,
       crossReference: annotation.dataProviderCrossReference
     },
-    secondaryDataProvider: 
+    secondaryDataProvider:
     {
       sourceOrganization: annotation.secondaryDataProvider,
       crossReference: annotation.secondaryDataProviderCrossReference
@@ -68,23 +68,23 @@ export const buildProviderWithUrl = (annotation) => {
   if(secondaryDataProvider.sourceOrganization){
     return {
       dataProvider: {
-          id: dataProvider.id,  
-          abbreviation: dataProvider.sourceOrganization?.abbreviation, 
+          id: dataProvider.id,
+          abbreviation: dataProvider.sourceOrganization?.abbreviation,
           url: buildSourceUrl(dataProvider)
-      }, 
-      secondaryDataProvider: { 
-          id: secondaryDataProvider.id,  
-          abbreviation: secondaryDataProvider.sourceOrganization?.abbreviation, 
+      },
+      secondaryDataProvider: {
+          id: secondaryDataProvider.id,
+          abbreviation: secondaryDataProvider.sourceOrganization?.abbreviation,
           url: buildSourceUrl(secondaryDataProvider)
-      }, 
+      },
     }
   } else {
     return {
       dataProvider: {
-          id: dataProvider.id,  
-          abbreviation: dataProvider.sourceOrganization?.abbreviation, 
+          id: dataProvider.id,
+          abbreviation: dataProvider.sourceOrganization?.abbreviation,
           url: buildSourceUrl(dataProvider)
-      }, 
+      },
     }
   }
 }
@@ -105,9 +105,9 @@ const getReferencedCurie = (dataProvider) => {
 
   const modPrefixException = [ "OMIM", "SGD", "MGI", ];
 
-  if(modPrefixException.includes(abbreviation)) return referencedCurie?.split(":")[1]; 
+  if(modPrefixException.includes(abbreviation)) return referencedCurie?.split(":")[1];
 
-  return referencedCurie; 
+  return referencedCurie;
 }
 
 export const buildSourceUrl = (dataProvider) => {

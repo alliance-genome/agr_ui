@@ -9,22 +9,22 @@ import paginationFactory, {
 } from 'react-bootstrap-table2-paginator';
 import filterFactory, { customFilter } from 'react-bootstrap-table2-filter';
 import PropTypes from 'prop-types';
-import DownloadButton from './downloadButton';
-import TableSummary from './tableSummary';
+import DownloadButton from './downloadButton.jsx';
+import TableSummary from './tableSummary.jsx';
 import {
   renderPaginationShowsTotal,
   getDistinctFieldValue,
-} from './utils';
-import LoadingOverlay from './loadingOverlay';
-import PerPageSizeSelector from './pagePerSizeSelector';
+} from './utils.jsx';
+import LoadingOverlay from './loadingOverlay.jsx';
+import PerPageSizeSelector from './pagePerSizeSelector.jsx';
 import NoData from '../noData.jsx';
-import ColumnHeader from './columnHeader';
-import DropdownTextFilter from './dropdownTextFilter';
-import DropdownCheckboxFilter from './DropdownCheckboxFilter';
+import ColumnHeader from './columnHeader.jsx';
+import DropdownTextFilter from './dropdownTextFilter.jsx';
+import DropdownCheckboxFilter from './DropdownCheckboxFilter.jsx';
 import HorizontalScroll from '../horizontalScroll.jsx';
 import { buildTableQueryString } from '../../lib/utils';
 import LoadingSpinner from '../loadingSpinner.jsx';
-import DropdownNoDataFilter from './DropdownNoDataFilter';
+import DropdownNoDataFilter from './DropdownNoDataFilter.jsx';
 import {DOWNLOAD_BUTTON_THRESHOLD} from '../../constants';
 import { Link } from 'react-router-dom';
 

@@ -6,11 +6,11 @@ import {
   SpeciesCell
 } from '../dataTable';
 import SpeciesName from '../SpeciesName.jsx';
-import { getResourceUrl } from '../dataTable/getResourceUrl';
-import { getIdentifier, getSingleReferenceUrl } from '../dataTable/utils';
+import { getResourceUrl } from '../dataTable/getResourceUrl.jsx';
+import { getIdentifier, getSingleReferenceUrl } from '../dataTable/utils.jsx';
 import ExternalLink from '../ExternalLink.jsx';
-import MITerm from './MITerm';
-import MITermURL from './MITermURL';
+import MITerm from './MITerm.jsx';
+import MITermURL from './MITermURL.jsx';
 import style from './genePhysicalInteractionDetailTable.module.scss';
 import { htmlToPlainText } from '../../lib/utils';
 import useDataTableQuery from '../../hooks/useDataTableQuery';

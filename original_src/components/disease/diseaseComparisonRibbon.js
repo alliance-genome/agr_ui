@@ -137,4 +137,5 @@ DiseaseComparisonRibbon.propTypes = {
   history: PropTypes.object,
 };
 
+//TODO: withRouter - FC
 export default withRouter(DiseaseComparisonRibbon);

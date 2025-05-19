@@ -7,24 +7,24 @@ import {
   UncontrolledButtonDropdown
 } from 'reactstrap';
 import { SingleReferenceCellCuration } from './index';
-import ExperimentalConditionCellCuration from './ExperimentalConditionCellCuration';
+import ExperimentalConditionCellCuration from './ExperimentalConditionCellCuration.jsx';
 import hash from 'object-hash';
 
 import style from './style.module.scss';
 import ExternalLink from '../ExternalLink.jsx';
 import { Link } from 'react-router-dom';
-import { getResourceUrl } from "./getResourceUrl";
-import TypeCellCuration from './TypeCellCuration';
-import RelatedNotes from './RelatedNotes';
-import EvidenceCodesCellCuration from './evidenceCodesCellCuration';
-import ProviderCellCuration from './ProviderCellCuration';
-import GeneticSex from './GeneticSex';
-import AnnotationType from './AnnotationType';
-import AssociationCellCuration from './AssociationCellCuration';
-import AssertedGenes from './AssertedGenes';
-import GeneticModifiersCellCuration from './GeneticModifiersCellCuration';
-import { buildProviderWithUrl, getIdentifier, naturalSortByAnnotationSubject } from './utils';
-import StrainBackground from './StrainBackground';
+import { getResourceUrl } from "./getResourceUrl.jsx";
+import TypeCellCuration from './TypeCellCuration.jsx';
+import RelatedNotes from './RelatedNotes.jsx';
+import EvidenceCodesCellCuration from './evidenceCodesCellCuration.jsx';
+import ProviderCellCuration from './ProviderCellCuration.jsx';
+import GeneticSex from './GeneticSex.jsx';
+import AnnotationType from './AnnotationType.jsx';
+import AssociationCellCuration from './AssociationCellCuration.jsx';
+import AssertedGenes from './AssertedGenes.jsx';
+import GeneticModifiersCellCuration from './GeneticModifiersCellCuration.jsx';
+import { buildProviderWithUrl, getIdentifier, naturalSortByAnnotationSubject } from './utils.jsx';
+import StrainBackground from './StrainBackground.jsx';
 
 function renderLink(entity) {
   const identifier = getIdentifier(entity.diseaseAnnotationSubject);

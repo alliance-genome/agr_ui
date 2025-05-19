@@ -2,7 +2,7 @@ import React from 'react';
 
 import ExternalLink from '../ExternalLink.jsx';
 import { CollapsibleList } from '../collapsibleList';
-import { getMultipleReferencesUrls } from "./utils";
+import { getMultipleReferencesUrls } from "./utils.jsx";
 
 const removeDuplicates = (refs) => {
   const newArray = refs.map((ref) => [ref.pubModId, ref]);

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ExternalLink from '../ExternalLink.jsx';
-import { getSingleReferenceUrl } from "./utils";
+import { getSingleReferenceUrl } from "./utils.jsx";
 
 const SingleReferenceCellCuration = ({ singleReference, pubModIds }) => {
   if (!singleReference) return <></>;

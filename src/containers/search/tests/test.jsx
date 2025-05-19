@@ -5,11 +5,11 @@ import { Provider } from 'react-redux';
 import { MemoryRouter as Router, Route } from 'react-router-dom';
 
 import configureStore from '../../../lib/configureStore';
-import SearchContainer from '../search';
-import { FilterSelectorComponent } from '../filterSelector/filterSelector';
-import ResultsTable from '../resultsTable';
-import SearchBreadcrumbs from '../searchBreadcrumbs';
-import { SearchControlsComponent } from '../searchControls';
+import SearchContainer from '../search.jsx';
+import { FilterSelectorComponent } from '../filterSelector/filterSelector.jsx';
+import ResultsTable from '../resultsTable.jsx';
+import SearchBreadcrumbs from '../searchBreadcrumbs.jsx';
+import { SearchControlsComponent } from '../searchControls.jsx';
 import fixtureResponse from './fixtureResponse';
 import { receiveResponse } from '../../../actions/search';
 

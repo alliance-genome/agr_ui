@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import FooterAlt from "../../FooterAlt";
-import {MODContent} from '../../content';
+import FooterAlt from "../../FooterAlt.jsx";
+import {MODContent} from '../../content.jsx';
 import { getByTestId, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom'
 
@@ -29,13 +29,13 @@ describe('WormBase Footer', () => {
 
         expect(top_div).toContainElement(top_label);
         expect(top_label).toHaveTextContent("WormBase");
-        
-        expect(top_link).toContainElement(link_img);     
+
+        expect(top_link).toContainElement(link_img);
         expect(link_img).toHaveAttribute('src', "alliance_logo_wormbase.png");
      });
 
-   it('should render the correct hrefs with correct label in correct order from content.js', () => {
-    
+   it('should render the correct hrefs with correct label in correct order from content.jsx', () => {
+
     for (let i=0; i<content.footer.length; i++){
 
          let footer = screen.getByTestId("href_footer_" + i);
@@ -46,7 +46,7 @@ describe('WormBase Footer', () => {
         }
    });
 
-   // Sanity check in case content.js gets corrupted.
+   // Sanity check in case content.jsx gets corrupted.
    // Check for something we expect to be there.
    // Citing wormbase should always be the first one.?
    if('Should render citing Wormbase as the first footer link', () => {

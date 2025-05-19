@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import NewsFlybase from "../../NewsFlybase";
+import NewsFlybase from "../../NewsFlybase.jsx";
 import thunk from 'redux-thunk';
 import configureMockStore from "redux-mock-store";
-import {MODContent} from '../../content';
+import {MODContent} from '../../content.jsx';
 import { Provider } from 'react-redux';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom'
@@ -30,7 +30,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
       const queryClient = new QueryClient();
       render(
          <QueryClientProvider client={queryClient}>
-            <Provider store={store}> 
+            <Provider store={store}>
                <NewsFlybase
                   urlNewsMod={content.rgdNewsAPI}
                   linkToNewsPage={content.linkToNewsPage}

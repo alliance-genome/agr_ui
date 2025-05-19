@@ -1,5 +1,5 @@
-import MenuItems from './menuItems';
-import MenuItem from './MenuItem';
+import MenuItems from './menuItems.jsx';
+import MenuItem from './MenuItem.jsx';
 
 export {
   MenuItems,

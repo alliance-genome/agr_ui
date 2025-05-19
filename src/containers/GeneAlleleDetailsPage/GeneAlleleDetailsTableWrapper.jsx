@@ -1,5 +1,5 @@
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
-import GeneAlleleDetailsTable from './GeneAlleleDetailsTable';
+import GeneAlleleDetailsTable from './GeneAlleleDetailsTable.jsx';
 
 export const GeneAlleleDetailsTableWrapper = ({ geneId }) => {
   const { isLoading, isError, data } = usePageLoadingQuery(`/api/gene/${geneId}`);

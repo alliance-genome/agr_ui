@@ -1,6 +1,6 @@
-import CollapsibleList from '../collapsibleList/collapsibleList';
+import CollapsibleList from '../collapsibleList/collapsibleList.jsx';
 import { Link } from 'react-router-dom';
-import { getIdentifier } from './utils';
+import { getIdentifier } from './utils.jsx';
 
 
 function makeAssertedGeneLink(curie, geneSymbol) {

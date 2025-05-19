@@ -6,10 +6,10 @@ import {
   AttributeList,
   AttributeValue
 } from '../../components/attribute';
-import LoadingSpinner from '../../components/loadingSpinner';
-import NoData from '../../components/noData';
+import LoadingSpinner from '../../components/loadingSpinner.jsx';
+import NoData from '../../components/noData.jsx';
 // import { VariantJBrowseLink } from '../../components/variant';
-import Subsection from '../../components/subsection';
+import Subsection from '../../components/subsection.jsx';
 import VariantToTranscriptTable from './VariantToTranscriptTable.jsx';
 import style from './style.module.scss';
 import useAllAlleleVariants from '../../hooks/useAlleleVariants';

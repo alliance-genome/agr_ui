@@ -7,7 +7,7 @@ import {
   UncontrolledButtonDropdown
 } from 'reactstrap';
 import {ReferenceCell} from './index';
-import ExperimentalConditionCell from './ExperimentalConditionCell';
+import ExperimentalConditionCell from './ExperimentalConditionCell.jsx';
 
 import style from './style.module.scss';
 import ExternalLink from '../ExternalLink.jsx';

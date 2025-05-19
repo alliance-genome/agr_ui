@@ -1,9 +1,9 @@
 import React from 'react';
 import { CollapsibleList } from '../collapsibleList';
 import ExternalLink from '../ExternalLink.jsx';
-import { getResourceUrl } from './getResourceUrl';
+import { getResourceUrl } from './getResourceUrl.jsx';
 import { Link } from 'react-router-dom';
-import { getIdentifier } from './utils';
+import { getIdentifier } from './utils.jsx';
 
 
 function GeneticModifierLink(modifier) {

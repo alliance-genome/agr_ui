@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import GenomeFeatureWrapper from '../genePage/genomeFeatureWrapper';
+import GenomeFeatureWrapper from '../genePage/genomeFeatureWrapper.jsx';
 import getVariantGenomeLocation from './getVariantGenomeLocation';
 
 const VariantSequenceView = ({ variant }) => {

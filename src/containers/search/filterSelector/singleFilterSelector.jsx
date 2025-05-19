@@ -13,7 +13,7 @@ import {
   getQueryParamWithoutPage, removeBlankValue,
   stringifyQuery
 } from '../../../lib/searchHelpers.jsx';
-import SingleFilterValue from './singleFilterValue';
+import SingleFilterValue from './singleFilterValue.jsx';
 
 const DELIMITER = '@@';
 const SMALL_NUM_VISIBLE = 5;
@@ -150,4 +150,5 @@ SingleFilterSelector.propTypes = {
   values: PropTypes.array,
 };
 
+//TODO: withRouter - Non Trivial
 export default withRouter(connect()(SingleFilterSelector));

@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import ControlsContainer from '../controlsContainer';
+import ControlsContainer from '../controlsContainer.jsx';
 import { STRINGENCY_HIGH } from '../homology/constants';
-import ExpressionAnnotationTable from './expressionAnnotationTable';
+import ExpressionAnnotationTable from './expressionAnnotationTable.jsx';
 import HorizontalScroll from '../horizontalScroll.jsx';
 import OrthologPicker from '../OrthologPicker.jsx';
 import LoadingSpinner from '../loadingSpinner.jsx';
@@ -123,4 +123,5 @@ ExpressionComparisonRibbon.propTypes = {
   history: PropTypes.object,
 };
 
+//TODO: withRouter - FC
 export default withRouter(ExpressionComparisonRibbon);

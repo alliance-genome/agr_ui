@@ -110,4 +110,5 @@ const mapStateToProps = state => ({
   pageLoading: selectPageLoading(state),
 });
 
+//TODO: withRouter - Non Trivial
 export default withRouter(connect(mapStateToProps)(Layout));

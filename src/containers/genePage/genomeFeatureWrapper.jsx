@@ -6,14 +6,14 @@ import {
   AttributeValue,
 } from '../../components/attribute';
 import numeral from 'numeral';
-import ExternalLink from '../../components/ExternalLink';
+import ExternalLink from '../../components/ExternalLink.jsx';
 import GenomeFeatureViewer from 'agr_genomefeaturecomponent';
 import {getTranscriptTypes} from '../../lib/genomeFeatureTypes';
-import LoadingSpinner from '../../components/loadingSpinner';
-import HorizontalScroll from '../../components/horizontalScroll';
-import HelpPopup from '../../components/helpPopup';
+import LoadingSpinner from '../../components/loadingSpinner.jsx';
+import HorizontalScroll from '../../components/horizontalScroll.jsx';
+import HelpPopup from '../../components/helpPopup.jsx';
 import isEqual from 'lodash.isequal';
-import CommaSeparatedList from '../../components/commaSeparatedList';
+import CommaSeparatedList from '../../components/commaSeparatedList.jsx';
 import {select} from 'd3-selection';
 
 import style from './style.module.scss';
@@ -22,7 +22,7 @@ import {
   getSingleGenomeLocation,
 } from '../../lib/utils';
 
-import SequenceFeatureViewerSubsectionHelp from '../../components/sequenceFeatureViewer/sequenceFeatureViewerSubsectionHelp';
+import SequenceFeatureViewerSubsectionHelp from '../../components/sequenceFeatureViewer/sequenceFeatureViewerSubsectionHelp.jsx';
 
 const APOLLO_SERVER_PREFIX = '/apollo/';
 const LINK_BUFFER = 1.2;

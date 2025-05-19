@@ -6,7 +6,7 @@ import { MemoryRouter as Router } from 'react-router-dom';
 
 import configureStore from '../../lib/configureStore';
 
-import GenePage from './index';
+import GenePage from './index.jsx';
 
 describe('GenePage', () => {
   it('should be able to render to an HTML string', () => {

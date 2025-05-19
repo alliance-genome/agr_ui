@@ -8,10 +8,10 @@ import {
 } from '../../components/attribute';
 import { CollapsibleList } from '../../components/collapsibleList';
 import { VariantJBrowseLink } from '../../components/variant';
-import ExternalLink from '../../components/ExternalLink';
-import DataSourceLink from '../../components/dataSourceLink';
-import { sectionAnchor } from './AlleleMolecularConsequences';
-import Sequence from './Sequence';
+import ExternalLink from '../../components/ExternalLink.jsx';
+import DataSourceLink from '../../components/dataSourceLink.jsx';
+import { sectionAnchor } from './AlleleMolecularConsequences.jsx';
+import Sequence from './Sequence.jsx';
 import getVariantGenomeLocation from './getVariantGenomeLocation';
 
 function formatLocation(location) {

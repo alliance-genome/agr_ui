@@ -5,8 +5,8 @@ import {
 import style from './style.module.scss';
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import ExcludeLink from './excludeLink';
-import FilterLink from './filterLink';
+import ExcludeLink from './excludeLink.jsx';
+import FilterLink from './filterLink.jsx';
 
 
 const  SingleFilterValue = ({name, queryParams, value, SEARCH_PATH, displayName}) => {

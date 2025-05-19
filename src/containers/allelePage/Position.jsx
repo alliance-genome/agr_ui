@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import NoData from '../../components/noData';
+import NoData from '../../components/noData.jsx';
 
 const Position = ({
   start,

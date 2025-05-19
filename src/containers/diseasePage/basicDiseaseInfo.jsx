@@ -10,12 +10,12 @@ import {
   AttributeLabel,
   AttributeValue,
 } from '../../components/attribute';
-import ExternalLink from '../../components/ExternalLink';
-import CrossReferenceList from '../../components/crossReferenceList';
-import CommaSeparatedList from '../../components/commaSeparatedList';
+import ExternalLink from '../../components/ExternalLink.jsx';
+import CrossReferenceList from '../../components/crossReferenceList.jsx';
+import CommaSeparatedList from '../../components/commaSeparatedList.jsx';
 import { CollapsibleList } from '../../components/collapsibleList';
 import { smartAlphaSort } from '../../lib/utils';
-import SynonymList from '../../components/synonymList';
+import SynonymList from '../../components/synonymList.jsx';
 import { formatLink } from './utils';
 
 class BasicDiseaseInfo extends Component {
@@ -52,7 +52,7 @@ class BasicDiseaseInfo extends Component {
     );
   }
 
-  
+
 
   renderDefinitionLinks(links) {
     return links &&

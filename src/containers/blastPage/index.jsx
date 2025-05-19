@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./style.module.scss";
-import HeadMetaTags from "../../components/headMetaTags";
-import BlastService from "./BlastService";
+import HeadMetaTags from "../../components/headMetaTags.jsx";
+import BlastService from "./BlastService.jsx";
 
 const BlastPage = () => {
   return (

@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CommaSeparatedList from '../commaSeparatedList';
+import CommaSeparatedList from '../commaSeparatedList.jsx';
 
 const DiseaseQualifiersColumn = ({qualifiers}) => {
 
   if (!qualifiers || !qualifiers.length) {
     return null;
   }
-  
+
   return (
     <CommaSeparatedList>
       {qualifiers.map(qualifier => qualifier.replaceAll("_", " "))}

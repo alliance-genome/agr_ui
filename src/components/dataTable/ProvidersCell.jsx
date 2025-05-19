@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {dataSourceType} from '../../lib/types';
 import DataSourceLink from '../dataSourceLink.jsx';
-import CommaSeparatedList from '../commaSeparatedList';
+import CommaSeparatedList from '../commaSeparatedList.jsx';
 
 const ProvidersCell = ({providers}) => {
   return (

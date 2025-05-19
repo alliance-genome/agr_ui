@@ -1,6 +1,6 @@
 import React  from 'react';
 import style from './style.module.scss';
-import LoadingSpinner from '../../components/loadingSpinner';
+import LoadingSpinner from '../../components/loadingSpinner.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import PropTypes from "prop-types";
 
@@ -46,7 +46,7 @@ const WordpressNews = ({urlNewsMod, fetchNewsCount, linkToNewsPage}) => {
                           dangerouslySetInnerHTML={{ __html: post.title}}
                           data-testid={'header_news_' + count}/>
                     </a>
-                    <p dangerouslySetInnerHTML={{ __html: post.text}} 
+                    <p dangerouslySetInnerHTML={{ __html: post.text}}
                        data-testid={'text_news_' + count}/>
                   </div>
                 );

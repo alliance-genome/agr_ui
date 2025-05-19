@@ -7,8 +7,8 @@ import {
 } from '../../components/attribute';
 import { CollapsibleList } from '../../components/collapsibleList';
 import { VariantJBrowseLink } from '../../components/variant';
-import Translation from './Translation';
-import Position from './Position';
+import Translation from './Translation.jsx';
+import Position from './Position.jsx';
 import styles from './style.module.scss';
 
 const VariantEffectDetails = ({

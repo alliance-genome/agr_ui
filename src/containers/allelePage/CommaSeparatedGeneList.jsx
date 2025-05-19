@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {shortSpeciesName} from '../../lib/utils';
-import CommaSeparatedList from '../../components/commaSeparatedList';
-import GeneSymbol from '../../components/GeneSymbol';
+import CommaSeparatedList from '../../components/commaSeparatedList.jsx';
+import GeneSymbol from '../../components/GeneSymbol.jsx';
 
 const MaybeLink = ({url, children}) => {
   return url ? <Link to={url}>{children}</Link> : children;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Autosuggest from 'react-autosuggest';
-import { parseQueryString, stringifyQuery } from '../../../lib/searchHelpers';
+import { parseQueryString, stringifyQuery } from '../../../lib/searchHelpers.jsx';
 import { withRouter } from 'react-router-dom';
 import {
   DropdownItem,
@@ -22,7 +22,7 @@ import {
   autocompleteGoToPageEvent,
   autocompleteSearchEvent
 } from '../../../lib/analytics.js';
-import { getURLForEntry } from '../../../lib/searchHelpers';
+import { getURLForEntry } from '../../../lib/searchHelpers.jsx';
 
 const AUTO_BASE_URL = '/api/search_autocomplete';
 const DEFAULT_CAT = CATEGORIES[0];
@@ -244,6 +244,7 @@ SearchBarComponent.defaultProps = {
   placeholder: 'search: RPB7, kinase, asthma, liver',
 };
 
+//TODO: withRouter - Non Trivial
 const SearchBarComponentWithHistory = withRouter(SearchBarComponent);
 
 export { SearchBarComponentWithHistory as SearchBarComponent };

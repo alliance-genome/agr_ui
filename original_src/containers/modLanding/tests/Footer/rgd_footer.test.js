@@ -29,13 +29,13 @@ describe('Rat footer tests', () => {
 
         expect(top_div).toContainElement(top_label);
         expect(top_label).toHaveTextContent("RGD");
-        
-        expect(top_link).toContainElement(link_img);     
+
+        expect(top_link).toContainElement(link_img);
         expect(link_img).toHaveAttribute('src', "alliance_logo_rgd.png");
      });
 
-   it('should render the correct hrefs with correct label in correct order from content.js', () => {
-    
+   it('should render the correct hrefs with correct label in correct order from content.jsx', () => {
+
     for (let i=0; i<content.footer.length; i++){
 
          let footer = screen.getByTestId("href_footer_" + i);
@@ -46,7 +46,7 @@ describe('Rat footer tests', () => {
         }
    });
 
-   // Sanity check in case content.js gets corrupted.
+   // Sanity check in case content.jsx gets corrupted.
    // Check for something we expect to be there.
    if('Should render citing RGD Downloads as the first footer link', () => {
       const footer = screen(getByTestId("href_footer_0")); // First item

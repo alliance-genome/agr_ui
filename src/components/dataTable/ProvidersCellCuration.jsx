@@ -1,6 +1,6 @@
-import CommaSeparatedList from '../commaSeparatedList';
-import ProviderCellCuration from './ProviderCellCuration';
-import { removeDuplicates } from './utils';
+import CommaSeparatedList from '../commaSeparatedList.jsx';
+import ProviderCellCuration from './ProviderCellCuration.jsx';
+import { removeDuplicates } from './utils.jsx';
 
 const ProvidersCellCuration = ({ rowId, providers }) => {
   if(!providers) return null;

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CrossReferenceList from '../crossReferenceList';
+import CrossReferenceList from '../crossReferenceList.jsx';
 import {
   AttributeList,
   AttributeLabel,

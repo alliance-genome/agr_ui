@@ -5,10 +5,10 @@
  */
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import DiseaseAnnotationTable from './diseaseAnnotationTable';
+import DiseaseAnnotationTable from './diseaseAnnotationTable.jsx';
 import HorizontalScroll from '../horizontalScroll.jsx';
 import { STRINGENCY_HIGH } from '../homology/constants';
-import ControlsContainer from '../controlsContainer';
+import ControlsContainer from '../controlsContainer.jsx';
 import LoadingSpinner from '../loadingSpinner.jsx';
 import OrthologPicker from '../OrthologPicker.jsx';
 import { withRouter } from 'react-router-dom';
@@ -137,4 +137,5 @@ DiseaseComparisonRibbon.propTypes = {
   history: PropTypes.object,
 };
 
+//TODO: withRouter - FC
 export default withRouter(DiseaseComparisonRibbon);

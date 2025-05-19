@@ -23,11 +23,11 @@ describe('WormBase Search', () => {
        expect(header).toHaveTextContent("Search");
 
        expect(top_div).toContainElement(link_div);
-       
-       expect(link_div).toContainElement(link);     
+
+       expect(link_div).toContainElement(link);
     });
 
-    it('should render the correct hrefs with correct label in correct order from content.js', () => {
+    it('should render the correct hrefs with correct label in correct order from content.jsx', () => {
         for (let i=0; i<content.search.length; i++){
             let search = screen.getByTestId("href_search_" + i);
             expect(search).toHaveAttribute('href', content.search[i][1]);
@@ -37,7 +37,7 @@ describe('WormBase Search', () => {
         }
     });
 
-    // Sanity check in case content.js gets corrupted.
+    // Sanity check in case content.jsx gets corrupted.
     // Check for something we expect to be there.
     // C. elegans should always be the first one.
     if('Should render C. elegans search as the first search link', () => {

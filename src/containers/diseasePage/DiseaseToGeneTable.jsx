@@ -8,18 +8,18 @@ import {
   ReferencesCellCuration,
 } from '../../components/dataTable';
 
-import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration';
+import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration.jsx';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import AssociationType from '../../components/AssociationType';
-import { buildProvidersWithUrl, getIsViaOrthology, getDistinctFieldValue, getIdentifier } from '../../components/dataTable/utils';
+import AssociationType from '../../components/AssociationType.jsx';
+import { buildProvidersWithUrl, getIsViaOrthology, getDistinctFieldValue, getIdentifier } from '../../components/dataTable/utils.jsx';
 import { compareByFixedOrder } from '../../lib/utils';
 import { SPECIES_NAME_ORDER } from '../../constants';
-import SpeciesCell from '../../components/dataTable/SpeciesCell';
-import SpeciesName from '../../components/SpeciesName';
-import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration';
-import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn';
-import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration';
-import ReferenceCellViaOrthologyCuration from '../../components/dataTable/ReferencesCellViaOrthologyCuration';
+import SpeciesCell from '../../components/dataTable/SpeciesCell.jsx';
+import SpeciesName from '../../components/SpeciesName.jsx';
+import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration.jsx';
+import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn.jsx';
+import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration.jsx';
+import ReferenceCellViaOrthologyCuration from '../../components/dataTable/ReferencesCellViaOrthologyCuration.jsx';
 import { GENE_DETAILS_COLUMNS } from '../../components/dataTable/constants';
 
 const DiseaseToGeneTable = ({ id }) => {
@@ -121,7 +121,7 @@ const DiseaseToGeneTable = ({ id }) => {
       text: 'Based On',
       helpPopupProps: {
         id: 'disease-page--gene-disease-associations-table--based-on-help',
-        children: <span>SGD uses orthology to human genes to associate yeast genes with the disease. 
+        children: <span>SGD uses orthology to human genes to associate yeast genes with the disease.
           The Based On column is also used for inferred via-orthology disease annotations to indicate the gene that was directly (experimentally) annotated to the disease
           </span>
       },

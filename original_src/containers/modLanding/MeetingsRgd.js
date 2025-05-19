@@ -16,8 +16,8 @@ const parseRgdPosts = (rgdAPIRes) => {
 
 // rgd modeled their api news+meetings format after flybase news, so very similar
 // uses different parseRgdPosts ['meetings'] vs ['news'], 'meetings' in test keys,
-// different field in content.js  
-// NewsFlybase could probably be re-parameterized to pass 'news' / 'meetings' to reuse 
+// different field in content.jsx
+// NewsFlybase could probably be re-parameterized to pass 'news' / 'meetings' to reuse
 // that code for this, but not sure how to pass that into the map for parseRgdPosts
 const MeetingsRgd = ({urlMeetingsMod, fetchMeetingsCount, linkToMeetingsPage}) => {
   const {

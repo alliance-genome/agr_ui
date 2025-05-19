@@ -6,26 +6,26 @@ import {
   PageHeader,
   PageNav
 } from '../../components/dataPage';
-import HeadMetaTags from '../../components/headMetaTags';
-import Subsection from '../../components/subsection';
-import NotFound from '../../components/notFound';
-import ErrorBoundary from '../../components/errorBoundary';
-import AlleleSummary from './AlleleSummary';
+import HeadMetaTags from '../../components/headMetaTags.jsx';
+import Subsection from '../../components/subsection.jsx';
+import NotFound from '../../components/notFound.jsx';
+import ErrorBoundary from '../../components/errorBoundary.jsx';
+import AlleleSummary from './AlleleSummary.jsx';
 import AlleleSymbol from './AlleleSymbol.jsx';
-import SpeciesIcon from '../../components/speciesIcon';
-import PageNavEntity from '../../components/dataPage/PageNavEntity';
-import DataSourceLink from '../../components/dataSourceLink';
+import SpeciesIcon from '../../components/speciesIcon/index.jsx';
+import PageNavEntity from '../../components/dataPage/PageNavEntity.jsx';
+import DataSourceLink from '../../components/dataSourceLink.jsx';
 import {Link} from 'react-router-dom';
-import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel';
+import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel.jsx';
 import AlleleToDiseaseTable from './AlleleToDiseaseTable.jsx';
-import AlleleSequenceView from './AlleleSequenceView';
+import AlleleSequenceView from './AlleleSequenceView.jsx';
 import AlleleTransgenicConstructs from './AlleleTransgenicConstructs.jsx';
-import AlleleMolecularConsequences from './AlleleMolecularConsequences';
+import AlleleMolecularConsequences from './AlleleMolecularConsequences.jsx';
 import AlleleVariantsSummary from './AlleleVariantsSummary.jsx';
 import MolecularConsequenceHelp from './MolecularConsequenceHelp.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
-import GeneSymbol from '../../components/GeneSymbol';
-import SpeciesName from '../../components/SpeciesName';
+import GeneSymbol from '../../components/GeneSymbol.jsx';
+import SpeciesName from '../../components/SpeciesName.jsx';
 import PhenotypeTable from "../genePage/phenotypeTable.jsx";
 import React from "react";
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import WordpressNews from "../../wordpressNews";
+import WordpressNews from "../../wordpressNews.jsx";
 import thunk from 'redux-thunk';
 import configureMockStore from "redux-mock-store";
-import {MODContent} from '../../content';
+import {MODContent} from '../../content.jsx';
 import { Provider } from 'react-redux';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom'
@@ -28,12 +28,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
       const queryClient = new QueryClient();
       render(
          <QueryClientProvider client={queryClient}>
-            <Provider store={store}> 
-               <WordpressNews           
+            <Provider store={store}>
+               <WordpressNews
                   urlNewsMod={content.wordpressNewsBaseURL}
                   fetchNewsCount={content.fetchNewsCount}
                   linkToNewsPage={content.linkToNewsPage}
-                  sectionStyle={content.sectionStyle} 
+                  sectionStyle={content.sectionStyle}
                />
             </Provider>
          </QueryClientProvider>
@@ -77,7 +77,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
          expect(screen.getByTestId("div_news_2")).toContainElement(news_text);
       }, 10000);
 
-     
+
       it('more news link checks', async () => {
          const news_div = await waitFor(() => screen.findByTestId("div_news_2"), { timeout: 8000 });
          const more_div = screen.getByTestId("more_news_div");
@@ -93,7 +93,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
         const ex_2 = screen.getByTestId("text_news_3")
         expect(ex_2).toHaveTextContent("excerpt 2");
 
-        // check after is okay  
+        // check after is okay
         // NOTE: counter is still the next one BUT excerpt has jumnped by 2
         //       So one has been missed.
         const ex_4 = screen.getByTestId("text_news_4")

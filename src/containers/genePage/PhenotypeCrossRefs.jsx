@@ -6,7 +6,7 @@ import {
   AttributeList,
   AttributeValue
 } from '../../components/attribute';
-import CrossReferenceList from '../../components/crossReferenceList';
+import CrossReferenceList from '../../components/crossReferenceList.jsx';
 
 const PhenotypeCrossRefs = ({primary, other}) => {
   primary = primary.filter(ref => ref !== undefined);

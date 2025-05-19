@@ -1,11 +1,11 @@
 import { screen, render } from "@testing-library/react";
 import '@testing-library/jest-dom';
 
-import About from "../../About";
+import About from "../../About.jsx";
 
 describe("About Section", () => {
     beforeEach(() => {
-        render(<About 
+        render(<About
             htmlContent="Hello"
             sectionStyle="aboutStyle"
             titleBarStyle="" />)

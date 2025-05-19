@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import HeadMetaTags from '../../components/headMetaTags';
+import HeadMetaTags from '../../components/headMetaTags.jsx';
 import { htmlToPlainText } from '../../lib/utils';
 
 const GeneMetaTags = ({gene}) => {
