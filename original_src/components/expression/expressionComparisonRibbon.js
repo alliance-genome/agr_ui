@@ -123,5 +123,4 @@ ExpressionComparisonRibbon.propTypes = {
   history: PropTypes.object,
 };
 
-//TODO: withRouter - FC
 export default withRouter(ExpressionComparisonRibbon);

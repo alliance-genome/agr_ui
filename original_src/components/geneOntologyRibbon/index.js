@@ -520,5 +520,4 @@ GeneOntologyRibbon.propTypes = {
   history: PropTypes.object,
 };
 
-//TODO: withRouter - Non Trivial
 export default withRouter(GeneOntologyRibbon);

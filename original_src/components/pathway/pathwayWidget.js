@@ -502,5 +502,4 @@ PathwayWidget.propTypes = {
   xrefs: PropTypes.object,
 };
 
-//TODO: withRouter - Non Trivial
 export default withRouter(PathwayWidget);

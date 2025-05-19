@@ -150,5 +150,4 @@ SingleFilterSelector.propTypes = {
   values: PropTypes.array,
 };
 
-//TODO: withRouter - Non Trivial
 export default withRouter(connect()(SingleFilterSelector));
