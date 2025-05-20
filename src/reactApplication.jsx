@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { logPageView } from './lib/analytics';
 import RouteListener from './components/routeListener.jsx';
-import routes from './routes.jsx';
+import LayoutWithRoutes from './routes.jsx';
 import { QueryClient, QueryClientProvider  } from '@tanstack/react-query';
 import ReleaseContextProvider from './hooks/ReleaseContextProvider.jsx';
 
@@ -34,9 +34,9 @@ class ReactApp extends Component {
               {
                 isBrowser ?
                     <RouteListener onRouteChange={logPageView}>
-                      {routes}
+                      <LayoutWithRoutes />
                     </RouteListener> :
-                  routes
+                  <LayoutWithRoutes />
               }
             </Router>
           </ReleaseContextProvider>

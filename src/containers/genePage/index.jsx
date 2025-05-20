@@ -1,5 +1,4 @@
 import React  from 'react';
-import PropTypes from 'prop-types';
 import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPage';
 import BasicGeneInfo from './basicGeneInfo.jsx';
 import {
@@ -53,6 +52,7 @@ import SequencePanelSectionHelp from '../../components/sequencePanel/sequencePan
 import TransgenicAlleleSectionHelp from '../../components/transgenicAlleles/transgenicAllelesSectionHelp.jsx';
 import DiseaseSectionHelp from '../../components/disease/diseaseSectionHelp.jsx';
 import { AlleleTableWrapper } from './alleleTableWrapper.jsx';
+import {useParams} from "react-router-dom";
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
@@ -88,7 +88,8 @@ const SECTIONS = [
   {name: GENETIC_INTERACTIONS},
 ];
 
-const GenePage = ({geneId}) => {
+const GenePage = () => {
+  const { id: geneId } = useParams();
   const { isLoading, isError, data } = usePageLoadingQuery(`/api/gene/${geneId}`);
 
   if (isError) {
@@ -271,8 +272,6 @@ const GenePage = ({geneId}) => {
   );
 };
 
-GenePage.propTypes = {
-  geneId: PropTypes.string.isRequired,
-};
+GenePage.propTypes = {};
 
 export default GenePage;

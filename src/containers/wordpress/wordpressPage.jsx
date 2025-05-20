@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import style from './style.module.scss';
 import HeadMetaTags from '../../components/headMetaTags.jsx';
 import LoadingPage from '../../components/loadingPage.jsx';
@@ -9,8 +8,10 @@ import ReplaceLinks from './ReplaceLinks.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import fetchWordpress from '../../lib/fetchWordpress';
 import { WORDPRESS_PAGE_BASE_URL } from '../../constants';
+import {useParams} from "react-router-dom";
 
-const WordpressPage = ({slug}) => {
+const WordpressPage = () => {
+  const { slug } = useParams();
   const {
     data: page,
     isLoading,
@@ -36,8 +37,6 @@ const WordpressPage = ({slug}) => {
   );
 };
 
-WordpressPage.propTypes = {
-  slug: PropTypes.string,
-};
+WordpressPage.propTypes = {};
 
 export default WordpressPage;

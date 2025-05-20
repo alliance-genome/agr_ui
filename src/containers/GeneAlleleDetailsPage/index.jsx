@@ -1,13 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import { PageHeader } from '../../components/dataPage';
 import NotFound from '../../components/notFound.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import ErrorBoundary from '../../components/errorBoundary.jsx';
 import { GeneAlleleDetailsTableWrapper } from './GeneAlleleDetailsTableWrapper.jsx';
 
-const GeneAlleleDetailsPage = ({geneId}) => {
+const GeneAlleleDetailsPage = () => {
+  const { id: geneId } = useParams();
   const { isLoading: isLoadingGene, isError: isErrorGene, data: gene } = usePageLoadingQuery(`/api/gene/${geneId}`);
   if (isLoadingGene) {
     return null;
@@ -40,8 +40,6 @@ const GeneAlleleDetailsPage = ({geneId}) => {
   );
 };
 
-GeneAlleleDetailsPage.propTypes = {
-  geneId: PropTypes.string.isRequired,
-};
+GeneAlleleDetailsPage.propTypes = {};
 
 export default GeneAlleleDetailsPage;

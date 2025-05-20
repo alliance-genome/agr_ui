@@ -6,7 +6,7 @@ import 'whatwg-fetch';
 import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only';
 
 import React from 'react';
-import { render } from 'react-dom';
+import ReactDOM from "react-dom/client";
 import * as analytics from './lib/analytics';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
@@ -23,10 +23,10 @@ import { applyPolyfills as applyPolyfills3, defineCustomElements as defineCustom
 
 analytics.initialize();
 
-render(<ReactApp />, document.getElementById('app'));
+ReactDOM.createRoot(document.getElementById('app')).render(<ReactApp />);
 
-if (module.hot) {
-  module.hot.accept();
+if (import.meta.webpackHot) {
+  import.meta.webpackHot.accept();
 }
 
 applyPolyfills().then(() => {

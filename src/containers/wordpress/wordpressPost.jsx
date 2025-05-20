@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React from 'react';
-import PropTypes from 'prop-types';
 import style from './style.module.scss';
 import HeadMetaTags from '../../components/headMetaTags.jsx';
 import LoadingPage from '../../components/loadingPage.jsx';
@@ -9,8 +8,10 @@ import ReplaceLinks from './ReplaceLinks.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import { WORDPRESS_POST_URL } from '../../constants';
 import fetchWordpress from '../../lib/fetchWordpress';
+import {useParams} from "react-router-dom";
 
-const WordpressPost = ({slug}) => {
+const WordpressPost = () => {
+  const { slug } = useParams();
   const {
     data: post,
     isLoading,
@@ -42,8 +43,6 @@ const WordpressPost = ({slug}) => {
   );
 };
 
-WordpressPost.propTypes = {
-  slug: PropTypes.string.isRequired,
-};
+WordpressPost.propTypes = {};
 
 export default WordpressPost;

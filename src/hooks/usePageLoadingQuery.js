@@ -5,9 +5,12 @@ import fetchData from '../lib/fetchData';
 
 export default function usePageLoadingQuery(url, fetchFn = fetchData) {
   const dispatch = useDispatch();
-  return useQuery([url], () => {
-    dispatch(setPageLoading(true));
-    return fetchFn(url)
-      .finally(() => dispatch(setPageLoading(false)));
+  return useQuery({
+    queryKey: [url],
+    queryFn: () => {
+      dispatch(setPageLoading(true));
+      return fetchFn(url)
+        .finally(() => dispatch(setPageLoading(false)));
+    }
   });
 }

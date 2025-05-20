@@ -12,14 +12,17 @@ const ReleaseContextProvider = ({children}) => {
     data,
     isLoading,
     isError,
-  } = useQuery([releaseUrl], () => {
-  /*
-    return {
-      'releaseDate': "2021-06-23T04:00:00.000+0000",
-      'releaseVersion': '4.1.0',
-      'snapShotDate': "2021-06-09T15:21:07.880+0000"
-    }; */
-    return fetchData(releaseUrl);
+  } = useQuery({
+    queryKey: [releaseUrl],
+    queryFn: () => {
+      /*
+        return {
+          'releaseDate': "2021-06-23T04:00:00.000+0000",
+          'releaseVersion': '4.1.0',
+          'snapShotDate': "2021-06-09T15:21:07.880+0000"
+        }; */
+      return fetchData(releaseUrl);
+    }
   });
 
   const value = useMemo(() => ({

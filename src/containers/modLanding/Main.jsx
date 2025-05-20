@@ -1,6 +1,5 @@
 import React from 'react';
 import HeadMetaTags from '../../components/headMetaTags.jsx';
-import PropTypes from 'prop-types';
 import style from './style.module.scss';
 import {MODContent} from './content.jsx';
 import About from "./About.jsx";
@@ -11,9 +10,11 @@ import Search from "./Search.jsx";
 import Resources from "./Resources.jsx";
 import VisitMod from "./VisitMod.jsx";
 import FooterAlt from "./FooterAlt.jsx"
+import {useParams} from "react-router-dom";
 
-const MODLanding = ({modId}) => {
+const MODLanding = () => {
 
+  const { id: modId } = useParams();
   const content = MODContent[modId];
 
   return (
@@ -53,6 +54,4 @@ const MODLanding = ({modId}) => {
 
 export default MODLanding;
 
-MODLanding.propTypes = {
-  modId: PropTypes.string.isRequired
-}
+MODLanding.propTypes = {}

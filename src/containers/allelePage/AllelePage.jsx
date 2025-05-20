@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import {
   DataPage,
   PageData,
@@ -15,7 +13,7 @@ import AlleleSymbol from './AlleleSymbol.jsx';
 import SpeciesIcon from '../../components/speciesIcon/index.jsx';
 import PageNavEntity from '../../components/dataPage/PageNavEntity.jsx';
 import DataSourceLink from '../../components/dataSourceLink.jsx';
-import {Link} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel.jsx';
 import AlleleToDiseaseTable from './AlleleToDiseaseTable.jsx';
 import AlleleSequenceView from './AlleleSequenceView.jsx';
@@ -45,7 +43,8 @@ const SECTIONS = [
   {name: DISEASE}
 ];
 
-const AllelePage = ({ alleleId }) => {
+const AllelePage = () => {
+  const { id: alleleId } = useParams();
   const {
     data,
     isLoading,
@@ -118,8 +117,6 @@ const AllelePage = ({ alleleId }) => {
   );
 };
 
-AllelePage.propTypes = {
-  alleleId: PropTypes.string.isRequired,
-};
+AllelePage.propTypes = {};
 
 export default AllelePage;

@@ -40,6 +40,7 @@
     "d3-selection": "^3.0.0",
     "generic-sequence-panel": "^1.7.0",
     "html-react-parser": "^5.2.3",
+    "http-proxy-middleware": "^3.0.5",
     "immutable": "^5.1.2",
     "lodash.clone": "^4.5.0",
     "lodash.isequal": "^4.5.0",

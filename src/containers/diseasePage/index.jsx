@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Subsection from '../../components/subsection.jsx';
 import NotFound from '../../components/notFound.jsx';
 import BasicDiseaseInfo from './basicDiseaseInfo.jsx';
@@ -14,6 +13,7 @@ import DiseaseName from '../../components/disease/DiseaseName.jsx';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import CovidInfoLink from '../../components/CovidInfoLink.jsx';
+import {useParams} from "react-router-dom";
 
 const SUMMARY = 'Summary';
 const GENES = 'Associated Genes';
@@ -26,7 +26,8 @@ const SECTIONS = [
   {name: MODELS},
 ];
 
-const DiseasePage = ({diseaseId}) => {
+const DiseasePage = () => {
+  const { id: diseaseId } = useParams();
   const { isLoading, isError, data } = usePageLoadingQuery(`/api/disease/${diseaseId}`);
 
   if (isError) {
@@ -125,8 +126,6 @@ const DiseasePage = ({diseaseId}) => {
   );
 };
 
-DiseasePage.propTypes = {
-  diseaseId: PropTypes.string.isRequired,
-};
+DiseasePage.propTypes = {};
 
 export default DiseasePage;

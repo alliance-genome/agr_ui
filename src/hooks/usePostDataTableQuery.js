@@ -20,9 +20,9 @@ export default function usePostDataTableQuery(baseUrl, body, config, initialTabl
 
   const setTableState = tableState => dispatch({ type: 'update', payload: tableState });
 
-  const query = useQuery(
-    [url, body, tableState],
-    () => fetchData(
+  const query = useQuery({
+    queryKey: [url, body, tableState],
+    queryFn: () => fetchData(
       getFullUrl(url, tableState),
       {
         type: 'POST',
@@ -30,12 +30,10 @@ export default function usePostDataTableQuery(baseUrl, body, config, initialTabl
       },
       fetchTimeout
     ),
-    {
-      keepPreviousData: true,
-      staleTime: 30000,
-      ...config,
-    }
-  );
+    keepPreviousData: true,
+    staleTime: 30000,
+    ...config
+  });
 
   return {
     ...createQueryResult(query),

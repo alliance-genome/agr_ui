@@ -1,5 +1,4 @@
 import React  from 'react';
-import PropTypes from 'prop-types';
 
 import {
   DataPage,
@@ -19,7 +18,7 @@ import NotFound from '../../components/notFound.jsx';
 import SpeciesIcon from '../../components/speciesIcon/index.jsx';
 import PageNavEntity from '../../components/dataPage/PageNavEntity.jsx';
 import DataSourceLink from '../../components/dataSourceLink.jsx';
-import {Link} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel.jsx';
 // import AlleleToPhenotypeTable from './AlleleToPhenotypeTable';
 // import AlleleToDiseaseTable from './AlleleToDiseaseTable';
@@ -42,7 +41,8 @@ const SECTIONS = [
   {name: MOLECULAR_CONSEQUENCE},
 ];
 
-const VariantPage = ({ variantId }) => {
+const VariantPage = () => {
+  const { id: variantId } = useParams();
   // TODO: enable this one instead of the mock data
   // Comment out this section, if trying out the mock data.
   const {
@@ -126,8 +126,6 @@ const VariantPage = ({ variantId }) => {
   );
 };
 
-VariantPage.propTypes = {
-  variantId: PropTypes.string.isRequired,
-};
+VariantPage.propTypes = {};
 
 export default VariantPage;

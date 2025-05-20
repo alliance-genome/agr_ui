@@ -251,13 +251,16 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     page: 1,
     sizePerPage: 1000,
   }), [tableQuery.tableState]);
-  const allelesFiltered = useQuery([baseUrl, tableStateAlleleFiltered], () => {
-    const nonHTPCategories = ['allele', 'allele with multiple associated variants', 'allele with one associated variant'];
-    return fetchData(
-      getTableUrl(`${baseUrl}?filter.alleleCategory=${encodeURIComponent(nonHTPCategories.join('|'))}`, tableStateAlleleFiltered),
-      {},
-      300000
-    );
+  const allelesFiltered = useQuery({
+    queryKey: [baseUrl, tableStateAlleleFiltered],
+    queryFn: () => {
+      const nonHTPCategories = ['allele', 'allele with multiple associated variants', 'allele with one associated variant'];
+      return fetchData(
+        getTableUrl(`${baseUrl}?filter.alleleCategory=${encodeURIComponent(nonHTPCategories.join('|'))}`, tableStateAlleleFiltered),
+        {},
+        300000
+      );
+    }
   });
 
   const variantsSequenceViewerProps = useMemo(() => {

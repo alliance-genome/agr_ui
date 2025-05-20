@@ -1,10 +1,11 @@
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux';
+import nextRootReducer from '../reducers/index';
 
 // custom reducers
 import reducers from '../reducers';
 
 const configureStore = () => {
-  let combinedReducers = combineReducers(reducers);
+  const combinedReducers = combineReducers(reducers);
 
   // to work with redux-devtools-extension (such as the chrome extension)
   let composeEnhancers;
@@ -16,14 +17,13 @@ const configureStore = () => {
     composeEnhancers = compose;
   }
 
-  let store = createStore(
+  const store = createStore(
     combinedReducers,
     composeEnhancers(applyMiddleware())
   );
-  if (module.hot) {
+  if (import.meta.webpackHot) {
     // Enable Webpack hot module replacement for reducers
-    module.hot.accept('../reducers', () => {
-      const nextRootReducer = require('../reducers/index');
+    import.meta.webpackHot.accept('../reducers', () => {
       store.replaceReducer(nextRootReducer);
     });
   }

@@ -8,7 +8,34 @@ export default defineConfig({
     outDir: 'build'
   },
   server: {
-    port: 3000
+    port: 3000,
+    proxy: {
+      '/api': {
+        target:	 (process.env.API_URL || 'http://localhost:8080'),
+        changeOrigin: true,
+        secure: false,
+      },
+      '/jbrowse': {
+        target:	 (process.env.API_URL || 'http://localhost:8080'),
+        changeOrigin: true,
+        secure: false,
+      },
+      '/bluegenes': {
+        target:	 (process.env.API_URL || 'http://localhost:8080'),
+        changeOrigin: true,
+        secure: false,
+      },
+      '/swagger-ui': {
+        target:	 (process.env.API_URL || 'http://localhost:8080'),
+        changeOrigin: true,
+        secure: false,
+      },
+      '/openapi': {
+        target:	 (process.env.API_URL || 'http://localhost:8080'),
+        changeOrigin: true,
+        secure: false,
+      }
+    }
   },
   resolve: {
     alias: [

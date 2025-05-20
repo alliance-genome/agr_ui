@@ -23,7 +23,11 @@ const fetchAndMapGeneOrthology = async (geneId) => {
 };
 
 const useGeneOrthology = (geneId) => {
-  return useQuery(['geneOrthology', geneId], () => fetchAndMapGeneOrthology(geneId), { enabled: !!geneId });
+  return useQuery({
+    queryKey: ['geneOrthology', geneId],
+    queryFn: () => fetchAndMapGeneOrthology(geneId),
+    enabled: !!geneId
+  });
 };
 
 export default useGeneOrthology;

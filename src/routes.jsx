@@ -1,7 +1,7 @@
 // make the routes easier to read
 /*eslint react/jsx-sort-props:0*/
 import React from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import {Route, Routes, Navigate, useParams, useLocation} from 'react-router-dom';
 
 import {
   WordpressPage,
@@ -22,77 +22,55 @@ import MODLanding from './containers/modLanding/Main.jsx';
 import AlzheimersPage from './containers/alzheimersPage/index.jsx';
 import BlastPage from './containers/blastPage/index.jsx';
 
-export default (
-  <Layout>
-    <Switch>
-      <Route exact path='/' component={Homepage} />
-      <Route exact path='/search' component={Search} />
-      <Route exact path='/gene/:id' render={({match}) => <GenePage geneId={match.params.id} />} />
-      <Route exact path='/gene/:id/allele-details' render={({match}) => <GeneAlleleDetailsPage geneId={match.params.id} />} />
-      <Route exact path='/disease/:id' render={({match}) => <DiseasePage diseaseId={match.params.id} />} />
-      <Route exact path='/allele/:id' render={({match}) => <AllelePage alleleId={match.params.id} />} />
-      <Route exact path='/variant/:id' render={({match}) => <VariantPage variantId={match.params.id} />} />
-      <Route exact path='/news/:slug' render={({match}) => <WordpressPost slug={match.params.slug} />} />
-      <Route exact path='/news' component={WordpressPostList} />
-      <Route exact path='/downloads' component={DownloadsPage} />
-      <Route exact path='/members/:id' render={({ match }) => <MODLanding modId={match.params.id} />} />
-      <Route exact path='/disease-portal/alzheimers-disease' component={AlzheimersPage} />
-      <Route exact path='/blastservice' component={BlastPage} />
+const ExternalRedirect = () => {
+  const location = useLocation();
+  window.location.href = `${location.pathname}${location.search}`;
+  return null;
+};
 
+const WordpressRedirect = () => {
+  const { slug } = useParams();
+  return <Navigate replace to={`/${slug}`} />;
+};
+
+const LayoutWithRoutes = () => (
+  <Layout>
+    <Routes>
+      <Route exact path='/' element={<Homepage />} />
+      <Route exact path='/search' element={<Search/>} />
+      <Route exact path='/gene/:id' element={<GenePage />} />
+      <Route exact path='/gene/:id/allele-details' element={<GeneAlleleDetailsPage />} />
+
+      <Route exact path='/disease/:id' element={<DiseasePage />} />
+      <Route exact path='/allele/:id' element={<AllelePage />} />
+      <Route exact path='/variant/:id' element={<VariantPage />} />
+      <Route exact path='/news/:slug' element={<WordpressPost />} />
+
+      <Route exact path='/news' element={<WordpressPostList />} />
+      <Route exact path='/downloads' element={<DownloadsPage/>} />
+
+      <Route exact path='/members/:id' element={<MODLanding />} />
+
+      <Route exact path='/disease-portal/alzheimers-disease' element={<AlzheimersPage/>} />
+      <Route exact path='/blastservice' element={<BlastPage/>} />
 
       {/* this one needs to be handled outside of the main application */}
-      <Route
-        path='/api'
-        render={(props) => {
-          window.location.href = `${props.location.pathname}${props.location.search}`;
-          return null;
-        }}
-      />
+      <Route path='/api' component={ExternalRedirect}/>
+      <Route path='/swagger-ui' component={ExternalRedirect}/>
+      <Route path='/openapi' component={ExternalRedirect}/>
+      <Route path='/bluegenes' component={ExternalRedirect}/>
+      <Route path='/jbrowse' component={ExternalRedirect}/>
+      <Route path='/apollo' component={ExternalRedirect}/>
 
-      <Route
-        path='/swagger-ui'
-        render={(props) => {
-          window.location.href = `${props.location.pathname}${props.location.search}`;
-          return null;
-        }}
+      <Route exact
+             path='/wordpress/:slug'
+             component={WordpressRedirect}
       />
-
-      <Route
-        path='/openapi'
-        render={(props) => {
-          window.location.href = `${props.location.pathname}${props.location.search}`;
-          return null;
-        }}
-      />
-
-      <Route
-        path='/bluegenes'
-        render={(props) => {
-          window.location.href = `${props.location.pathname}${props.location.search}`;
-          return null;
-        }}
-      />
-
-      <Route
-        path='/jbrowse'
-        render={(props) => {
-          window.location.href = `${props.location.pathname}${props.location.search}`;
-          return null;
-        }}
-      />
-
-      <Route
-        path='/apollo'
-        render={(props) => {
-          window.location.href = `${props.location.pathname}${props.location.search}`;
-          return null;
-        }}
-      />
-
-      <Redirect exact from='/wordpress/:slug' to='/:slug' />
-      <Route path='/:slug' render={({match}) => <WordpressPage slug={match.params.slug} />} />
+      <Route path='/:slug' element={<WordpressPage />} />
 
       <Route component={NotFound} />
-    </Switch>
+    </Routes>
   </Layout>
 );
+
+export default LayoutWithRoutes;
