@@ -25,17 +25,17 @@ describe('ZebraFish footer tests', () => {
         const top_label = screen.getByTestId("modname_footer");
 
         expect(top_div).toContainElement(top_link);
-        expect(top_link).toHaveAttribute('href', "https://www.zfin.org");
+        expect(top_link).toHaveAttribute('href', "https://zfin.org");
 
         expect(top_div).toContainElement(top_label);
         expect(top_label).toHaveTextContent("ZFIN");
-        
-        expect(top_link).toContainElement(link_img);     
+
+        expect(top_link).toContainElement(link_img);
         expect(link_img).toHaveAttribute('src', "alliance_logo_zfin.png");
      });
 
    it('should render the correct hrefs with correct label in correct order from content.js', () => {
-    
+
     for (let i=0; i<content.footer.length; i++){
 
          let footer = screen.getByTestId("href_footer_" + i);

@@ -143,7 +143,7 @@ export const MODContent = {
       'cross-referenced zebrafish research data.' +
       '</p>' +
       '<p>ZFIN is a founding member of the Alliance of Genome Resources Project.</p>',
-    link: 'https://www.zfin.org',
+    link: 'https://zfin.org',
     modShortName: 'ZFIN',
     modFullName: 'Zebrafish Information Network',
     modVisitButtonText: 'ZFIN',
