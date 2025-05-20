@@ -104,7 +104,7 @@ const AllelePage = ({ alleleId }) => {
           <AlleleMolecularConsequences allele={data} alleleId={alleleId} />
         </Subsection>
 
-         
+
         <Subsection title={PHENOTYPES}>
           <PhenotypeTable geneId={alleleId} entityType={'allele'} />
         </Subsection>
