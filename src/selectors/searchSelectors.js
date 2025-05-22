@@ -38,7 +38,7 @@ export const selectIsReady = createSelector(
 export const selectQueryParams = createSelector(
   [selectRoutingDomain],
   ({location}) => {
-    return location.query || parseQueryString(location.search);
+    return parseQueryString(location.search);
   }
 );
 

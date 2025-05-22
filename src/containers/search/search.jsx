@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import clone from 'lodash.clone';
 import { stringifyQuery } from '../../lib/searchHelpers.jsx';
+import { useLocation } from 'react-router-dom';
 
 import fetchData from '../../lib/fetchData';
 import FilterSelector from './filterSelector/filterSelector.jsx';
@@ -188,5 +189,13 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-export { SearchComponent };
-export default connect(mapStateToProps)(SearchComponent);
+const ConnectedSearchComponent = connect(mapStateToProps)(SearchComponent);
+
+//temporary wrapper until SearchComponent is changed to a functional component and we remove redux
+function SearchComponentWithLocation(props) {
+  const location = useLocation();
+  return <ConnectedSearchComponent {...props} location={location} />;
+}
+
+export { SearchComponentWithLocation };
+export default SearchComponentWithLocation;
