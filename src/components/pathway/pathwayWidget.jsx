@@ -393,7 +393,7 @@ class PathwayWidget extends Component {
         <div id="reactomePathway" style={rpstyles}>
             {(this.state.reactomePathways.loaded && !this.state.reactomePathways.error && this.state.reactomePathways.pathways && this.state.reactomePathways.pathways.length > 0) ?
             <div style={{ "padding": "1rem 0.2rem" }}>
-                <span style={{ "paddingRight": "1rem"}}>Available pathways: </span>
+                <span style={{ paddingRight: "1rem"}}>Available pathways: </span>
                 <select id="pathwaySelect" value={this.state.reactomePathways.selected} onChange={(evt) => this.pathwayChanged(evt) } style={{ "minWidth": "1130px" }}>
                 {this.state.reactomePathways.pathways.map(elt => {
                     return <option value={elt.stId}>{elt.displayName}</option>
@@ -402,12 +402,12 @@ class PathwayWidget extends Component {
             </div>
             : <NoData/> }
 
-            <div id="reactomePathwayHolder" style={{ "maxWidth": "1280px" }}></div>
+            <div id="reactomePathwayHolder" style={{ maxWidth: "1280px" }}></div>
 
             {(this.state.reactomePathways.loaded && !this.state.reactomePathways.error && this.state.reactomePathways.pathways.length > 0) ?
             <div>
             <ExternalLink href={REACTOME_PATHWAY_BROWSER + this.state.reactomePathways.selected}>Open in Reactome Pathway</ExternalLink>
-            { !this.isHumanGene() ? <ExternalLink href={REACTOME_INFERRED_EVENTS_DOC} style={{ "display": "inline-block", "text-align": "right", "width": "80%", "font-style": "italic", "font-size": "1.1rem", "font-weight": "800" }}>Computationally inferred by Orthology</ExternalLink> : "" }
+            { !this.isHumanGene() ? <ExternalLink href={REACTOME_INFERRED_EVENTS_DOC} style={{ display: "inline-block", textAlign: "right", width: "80%", fontStyle: "italic", fontSize: "1.1rem", fontWeight: "800" }}>Computationally inferred by Orthology</ExternalLink> : "" }
             </div>
             : "" }
 
@@ -422,9 +422,9 @@ class PathwayWidget extends Component {
       <HorizontalScroll className='text-nowrap'>
         <div id="reactomeReaction" style={rrstyles}>
             {(this.state.reactomeReactions.loaded && !this.state.reactomeReactions.error && this.state.reactomeReactions.reactions && this.state.reactomeReactions.reactions.length > 0) ?
-            <div style={{ "padding": "1rem 0.2rem" }}>
-                <span style={{ "paddingRight": "1rem"}}>Available reactions: </span>
-                <select id="reactionSelect" value={this.state.reactomeReactions.selected} onChange={(evt) => this.reactionChanged(evt) } style={{ "minWidth": "1130px" }}>
+            <div style={{ padding: "1rem 0.2rem" }}>
+                <span style={{ paddingRight: "1rem"}}>Available reactions: </span>
+                <select id="reactionSelect" value={this.state.reactomeReactions.selected} onChange={(evt) => this.reactionChanged(evt) } style={{ minWidth: "1130px" }}>
                     {this.state.reactomeReactions.reactions.map(elt => {
                     return <option value={elt.stId}>{elt.displayName}</option>
                     })}
@@ -432,12 +432,12 @@ class PathwayWidget extends Component {
             </div>
             : <NoData/> }
 
-            <img id="reactomeReactionHolder" src={this.state.reactomeReactions.src} style={{ "maxWidth": "1305px" }}/>
+            <img id="reactomeReactionHolder" src={this.state.reactomeReactions.src} style={{ maxWidth: "1305px" }}/>
 
             {(this.state.reactomeReactions.loaded && this.state.reactomeReactions.reactions && this.state.reactomeReactions.reactions.length > 0)  ?
             <div>
             <ExternalLink href={REACTOME_REACTION_BROWSER + this.state.reactomeReactions.selected}>Open in Reactome Reaction</ExternalLink>
-            { !this.isHumanGene() ? <span style={{ "display": "inline-block", "text-align": "right", "width": "80%", "font-style": "italic" }}>Computationally inferred by Orthology</span> : "" }
+            { !this.isHumanGene() ? <span style={{ display: inlineBlock, textAlign: "right", width: "80%", fontStyle: "italic" }}>Computationally inferred by Orthology</span> : "" }
             </div>
             : "" }
 
@@ -453,9 +453,9 @@ class PathwayWidget extends Component {
         <div id="modPathway" style={gocstyles}>
           {
             (this.state.gocams.loaded && this.state.gocams.list && this.state.gocams.list.length > 0) ?
-              <div style={{ "padding": "1rem 0.2rem" }}>
-                <span style={{ "paddingRight": "1rem"}}>Available GO-CAMs: </span>
-                <select id="modPathwaySelect" value={this.state.gocams.selected} onChange={(evt) => this.gocamChanged(evt) } style={{ "minWidth": "1130px" }}>
+              <div style={{ padding: "1rem 0.2rem" }}>
+                <span style={{ paddingRight: "1rem"}}>Available GO-CAMs: </span>
+                <select id="modPathwaySelect" value={this.state.gocams.selected} onChange={(evt) => this.gocamChanged(evt) } style={{ minWidth: "1130px" }}>
                   {this.state.gocams.list.map(elt => {
                     return <option value={elt.gocam}>{elt.title}</option>
                   })}
@@ -470,7 +470,7 @@ class PathwayWidget extends Component {
                   id="gocam-1"
                   gocam-id={this.state.cutils.getCurie(this.state.gocams.selected)}
                   show-legend="true"
-                  style={{ "maxWidth": "1280px" }}>
+                  style={{ maxWidth: "1280px" }}>
                 </wc-gocam-viz>
               </div>
             : <div>
