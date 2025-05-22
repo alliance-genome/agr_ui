@@ -48,8 +48,8 @@ const SearchBreadcrumbs = ({queryParams}) => {
         labelNode = isExcluded(value) ? strikeThroughLabelNode(labelNode) : labelNode;
 
         return (
-          <Link className='btn btn-primary mr-2 mb-2' key={`bc${key}.${value}`} to={newLocation}>
-            {key !== 'category' && fieldLabel} {labelNode} <FontAwesomeIcon icon={faCircleXmark} />
+          <Link className='btn btn-primary me-2 mb-2 text-white' key={`bc${key}.${value}`} to={newLocation}>
+            {key !== 'category' && fieldLabel} {labelNode} <FontAwesomeIcon icon={faCircleXmark} color='white'/>
           </Link>
         );
       });
