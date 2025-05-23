@@ -10,11 +10,12 @@ export function useDownloadPost() {
         },
         body: JSON.stringify(body),
       });
+
       if (!response.ok) {
         throw new Error('Download failed');
       }
       const blob = await response.blob();
-      
+
       return { blob, response };
     },
   });
