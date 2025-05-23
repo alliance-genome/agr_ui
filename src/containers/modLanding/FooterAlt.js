@@ -15,12 +15,12 @@ const FooterAlt = ({link, links, note, footerStyle, logoImgSrc, titleBarStyle, m
             <div className="container-fluid">
               <div className="row">
                 <div data-testid={'footer_div'} className="col-med-2 col-md-2 col-lg-2 col-xl-2">
-                  <ExternalLink data-testid={'footer_link'} href={link}>
+                  <a data-testid={'footer_link'} href={link}>
                     <img alt="" data-testid={'footer_hex'} src={logoImgSrc} height="50px" />
                     <span className={style.modFooterLabel}
                       dangerouslySetInnerHTML={{ __html: modShortName }}
                       data-testid={'modname_footer'} />
-                  </ExternalLink>
+                  </a>
                 </div>
                 <div className="col-med-10 col-md-10 col-lg-10 col-xl-10">
                   <div className="row">

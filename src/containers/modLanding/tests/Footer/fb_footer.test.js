@@ -48,7 +48,7 @@ describe('FlyBase footer tests', () => {
 
    // Sanity check in case content.js gets corrupted.
    // Check for something we expect to be there.
-   if('Should render citing FlyBase Support as the first footer link', () => {
+   if('Should render FlyBase Support as the first footer link', () => {
       const footer = screen(getByTestId("footer_link_0")); // First item
       expect(footer).toHaveAttribute('href', 'https://flybase.org/wiki/FlyBase:About#FlyBase_Support');
       const label = screen.getByTestId('footer_label_0')

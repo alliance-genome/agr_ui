@@ -48,7 +48,7 @@ describe('Mouse footer tests.', () => {
 
    // Sanity check in case content.js gets corrupted.
    // Check for something we expect to be there.
-   if('Should render citing Citing MGI Resources as the first footer link', () => {
+   if('Should render Citing MGI Resources as the first footer link', () => {
       const footer = screen(getByTestId("footer_link_0")); // First item
       expect(footer).toHaveAttribute('href', 'http://www.informatics.jax.org/mgihome/other/citation.shtml');
       const label = screen.getByTestId('footer_label_0')

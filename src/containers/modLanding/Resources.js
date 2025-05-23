@@ -11,11 +11,11 @@ const Resources = ({links, sectionStyle}) => {
           <div data-testid={'resources_link_div'} className={style.resourceDiv} >
             {links && links.map((link, index) => {
               return (
-                <div key={index}>
+                <p key={index}>
                   <ExternalLink data-testid={'ext_resource_link_' + index} href={link[1]}>
                     <span dangerouslySetInnerHTML={{ __html: link[0]}} />
                   </ExternalLink>
-                </div>
+                </p>
               );
             })}
           </div>
