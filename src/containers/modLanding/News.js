@@ -1,7 +1,7 @@
 import React from 'react';
 import style from './style.module.scss';
 import PropTypes from "prop-types";
-import WordpressNews from "./wordpressNews"
+import NewsWordpress from "./NewsWordpress"
 import NewsFlybase from "./NewsFlybase"
 import NewsZfin from "./NewsZfin"
 import ExternalLink from '../../components/ExternalLink';
@@ -12,8 +12,8 @@ const News = ({content}) => {
       <div data-testid={'news_div'} className={`${style.section} ${content.sectionStyle}`}>
         <h2 data-testid={'news_header'} className={style.sectionTitle}>News</h2>
         {(() => {
-          if (content.wordpressNewsBaseURL) {
-            return (<WordpressNews urlNewsMod={content.wordpressNewsBaseURL} fetchNewsCount={content.fetchNewsCount}
+          if (content.newsWordpressBaseURL) {
+            return (<NewsWordpress urlNewsMod={content.newsWordpressBaseURL} fetchNewsCount={content.fetchNewsCount}
                                    linkToNewsPage={content.linkToNewsPage} />); }
           else if (content.zfinNewsAPI) {
             return (<NewsZfin urlNewsMod={content.zfinNewsAPI} fetchNewsCount={content.fetchNewsCount}

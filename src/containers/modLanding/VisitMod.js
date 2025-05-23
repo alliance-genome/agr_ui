@@ -7,7 +7,8 @@ const VisitMod = ({modVisitButtonText, linkToMod, sectionStyle}) => {
     <div className={`container ${style.containerExtra}`}>
       <div data-testid="visit_mod-inner-container" className={`${style.section} ${sectionStyle}`}>
         <h2 data-testid="visit_mod_header" className={style.sectionTitle}>
-          <a data-testid='visit_mod_link' href={linkToMod}>Visit {modVisitButtonText}</a></h2>
+          <a data-testid={'visit_mod_link'} href={linkToMod}>Visit {modVisitButtonText}</a>
+        </h2>
       </div>
     </div>
   );

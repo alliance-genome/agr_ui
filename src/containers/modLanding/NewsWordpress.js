@@ -1,5 +1,6 @@
 import React  from 'react';
 import style from './style.module.scss';
+import ExternalLink from '../../components/ExternalLink';
 import LoadingSpinner from '../../components/loadingSpinner';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import PropTypes from "prop-types";
@@ -16,7 +17,7 @@ const parseWordpressPosts = (wordPressAPIRes) => {
   }
 }
 
-const WordpressNews = ({urlNewsMod, fetchNewsCount, linkToNewsPage}) => {
+const NewsWordpress = ({urlNewsMod, fetchNewsCount, linkToNewsPage}) => {
   const {
     data: postList,
     isLoading
@@ -35,41 +36,33 @@ const WordpressNews = ({urlNewsMod, fetchNewsCount, linkToNewsPage}) => {
                 if (count > fetchNewsCount) { return null; }
                 count++;
                 let key = "news_" + count;
-                post.text = post.text.replace(/\[&hellip;\]/, '<a href="' + post.link + '">[&hellip;]<\\a>');
+                post.text = post.text.replace(/\[&hellip;\]/, '<a href="' + post.link + '">[&hellip;]</a>');
                 return (
-                  <div className={style.postContainer}
-                       key={key}
-                       data-testid={'div_news_' + count}>
-                    <a href={post.link}
-                       data-testid={'href_news_' + count}>
-                      <h4 className={style.h4extra}
-                          dangerouslySetInnerHTML={{ __html: post.title}}
-                          data-testid={'header_news_' + count}/>
-                    </a>
-                    <p dangerouslySetInnerHTML={{ __html: post.text}} 
-                       data-testid={'text_news_' + count}/>
+                  <div className={style.postContainer} key={key} data-testid={'div_news_' + count}>
+                    <h4 className={style.h4extra} data-testid={'header_news_' + count}>
+                      <ExternalLink data-testid={'href_news_' + count} href={post.link}>{post.title}</ExternalLink>
+                    </h4>
+                    <p dangerouslySetInnerHTML={{ __html: post.text }} data-testid={'text_news_' + count} />
                   </div>
                 );
               })
             }
           </div>
         </div>
-        <div className={`row ${style.moreNews}`}
-             data-testid={'more_news_div'}>
-          <a href={linkToNewsPage}
-            data-testid={'more_news_link'}>
-            <i>more news&hellip;</i>
-          </a>
+        <div className={`row ${style.moreNews}`} >
+          {linkToNewsPage && <div className={`row ${style.moreNews}`} data-testid={'more_news_div'}>
+            <ExternalLink data-testid={'more_news_link'} href={linkToNewsPage}><i>more news&hellip;</i></ExternalLink>
+          </div>}
         </div>
       </div>
     </div>
   );
 };
 
-WordpressNews.propTypes = {
+NewsWordpress.propTypes = {
   urlNewsMod: PropTypes.string.isRequired,
   fetchNewsCount: PropTypes.number.isRequired,
   linkToNewsPage: PropTypes.string.isRequired
 }
 
-export default WordpressNews;
+export default NewsWordpress;

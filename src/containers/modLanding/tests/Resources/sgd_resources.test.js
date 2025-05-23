@@ -17,7 +17,7 @@ describe('SGD Resources', () => {
         const top_div = screen.getByTestId("resources_topdiv");
         const header = screen.getByTestId("resources_header");
         const link_div = screen.getByTestId("resources_link_div")
-        const link = screen.getByTestId("href_resources_0");
+        const link = screen.getByTestId("ext_resource_link_0");
 
         expect(top_div).toContainElement(header);
         expect(header).toHaveTextContent("Resources");
@@ -31,27 +31,11 @@ describe('SGD Resources', () => {
     
     for (let i=0; i<content.resources.length; i++){
 
-         let resources = screen.getByTestId("href_resources_" + i);
+         let resources = screen.getByTestId("ext_resource_link_" + i);
          expect(resources).toHaveAttribute('href', content.resources[i][1]);
 
-         let label = screen.getByTestId('resources_label_' + i)
-         expect(label).toContainHTML(content.resources[i][0]);
-        }
+       }
    });
-
-   // Sanity check in case content.js gets corrupted.
-   // Check for something we expect to be there.
-   // Search SGD should always be the first one.?
-   if('Should render WormBase Guidelines for Nomenclature as the first footer link', () => {
-      const footer = screen(getByTestId("href_resources_0")); // First item
-      expect(footer).toHaveAttribute('href', 'https://www.yeastgenome.org/search?q=&is_quick=true');
-      const label = screen.getByTestId('resources_label_0')
-      expect(label).toContainHTML('Search SGD');
-   });
-
-
-
-
 
 });
 

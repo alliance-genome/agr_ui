@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-// import WordpressNews from "../../wordpressNews";
-import GoogleapisMeetings from "../../googleapisMeetings"
+// import NewsWordpress from "../../NewsWordpress";
+import MeetingsGoogleApis from "../../MeetingsGoogleApis"
 import thunk from 'redux-thunk';
 import configureMockStore from "redux-mock-store";
 import {MODContent} from '../../content';
@@ -30,8 +30,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
       render(
          <QueryClientProvider client={queryClient}>
             <Provider store={store}> 
-               <GoogleapisMeetings 
-                  urlMeetingsMod={content.googleapisMeetingsBaseURL}
+               <MeetingsGoogleApis 
+                  urlMeetingsMod={content.meetingsGoogleApisBaseURL}
                   fetchMeetingsCount={content.fetchMeetingsCount}
                   linkToMeetingsPage={content.linkToMeetingsPage} 
                />
@@ -61,7 +61,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
         const meetings_div = await waitFor(() => screen.findByTestId("div_meetings_0"), { timeout: 8000 });
         const href = screen.getByTestId("href_meetings_0");
         const head = screen.getByTestId("header_meetings_0");
-        expect(href).toContainElement(head);
+        expect(head).toContainElement(href);
      }, 10000);
 
      it('meetings href should have a header and be equal to', async () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import WordpressNews from "../../wordpressNews";
+import NewsWordpress from "../../NewsWordpress";
 import thunk from 'redux-thunk';
 import configureMockStore from "redux-mock-store";
 import {MODContent} from '../../content';
@@ -30,8 +30,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 		render(
 			<QueryClientProvider client={queryClient}>
 				<Provider store={store}> 
-					<WordpressNews           
-						urlNewsMod={content.wordpressNewsBaseURL}
+					<NewsWordpress           
+						urlNewsMod={content.newsWordpressBaseURL}
 						fetchNewsCount={content.fetchNewsCount}
 						linkToNewsPage={content.linkToNewsPage}
 						sectionStyle={content.sectionStyle} 
@@ -62,7 +62,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
          const news_div = await waitFor(() => screen.findByTestId("div_news_2"), { timeout: 8000 });
          const href = screen.getByTestId("href_news_2");
          const head = screen.getByTestId("header_news_2");
-         expect(href).toContainElement(head);
+         expect(head).toContainElement(href);
       }, 10000);
 
       it('news href should have a header and be equal to', async () => {
