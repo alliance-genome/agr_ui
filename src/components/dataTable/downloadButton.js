@@ -8,17 +8,16 @@ const DownloadButton = ({ downloadUrl, text, disabled = false, method = 'GET', b
 
   const handleClick = () => {
     if (method === 'POST') {
-      const [baseUrl, queryString] = downloadUrl.split('?');
-      // Use the body prop if provided, otherwise fallback to parsed params (legacy)
-      let params = body !== undefined ? body : parseQueryString(queryString || '');
+
       mutate(
-        { url: baseUrl, body: params },
+        { url: downloadUrl, body: body },
         {
-          onSuccess: (blob, variables, context) => {
-            // Try to get filename from content-disposition header
+          onSuccess: (data) => {
+            const { blob, response } = data;
+
             let filename = 'download';
-            if (context && context.response) {
-              const disposition = context.response.headers.get('content-disposition');
+            if (response) {
+              const disposition = response.headers.get('content-disposition');
               if (disposition) {
                 const match = disposition.match(/filename="?([^";]+)"?/);
                 if (match && match[1]) {
@@ -34,24 +33,6 @@ const DownloadButton = ({ downloadUrl, text, disabled = false, method = 'GET', b
             a.click();
             a.remove();
             window.URL.revokeObjectURL(url);
-          },
-          // Pass response in context for onSuccess
-          onSettled: (data, error, variables, context) => {},
-          // Override mutationFn to return both blob and response
-          mutationFn: async ({ url, body }) => {
-            const response = await fetch(url, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(body),
-            });
-            if (!response.ok) {
-              throw new Error('Download failed');
-            }
-            const blob = await response.blob();
-            // Attach response to context for onSuccess
-            return Object.assign(blob, { response });
           },
         }
       );

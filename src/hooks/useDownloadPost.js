@@ -14,7 +14,8 @@ export function useDownloadPost() {
         throw new Error('Download failed');
       }
       const blob = await response.blob();
-      return blob;
+      
+      return { blob, response };
     },
   });
 }
