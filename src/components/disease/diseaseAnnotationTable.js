@@ -40,6 +40,7 @@ const DiseaseAnnotationTable = ({
   }
   const {
     downloadUrl,
+    downloadBody,
     data: results,
     supplementalData,
     ...tableProps
@@ -177,6 +178,8 @@ const DiseaseAnnotationTable = ({
       data={data || []}
       supplementalData={supplementalData}
       downloadUrl={downloadUrl}
+      downloadBody={downloadBody}
+      downloadMethod='POST'
       keyField='id'
     />
   );
