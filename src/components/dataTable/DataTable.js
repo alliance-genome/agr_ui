@@ -34,6 +34,8 @@ const DataTable = ({
   data,
   supplementalData,
   downloadUrl,
+  downloadMethod,
+  downloadBody,
   error,
   isError,
   isFetching,
@@ -236,13 +238,15 @@ const DataTable = ({
           <DownloadButton
             downloadUrl={`${downloadUrl}${downloadUrl.indexOf('?') < 0 ? '?' : '&'}${buildTableQueryString(tableState)}`}
             disabled={disabled}
+            method={downloadMethod}
+            body={downloadBody}
           />
       }
-      { 
-        disabled && 
+      {
+        disabled &&
           <div style={{color: 'red'}}>
-            The table above cannot be downloaded because there are too many rows in the unfiltered table. 
-            Please apply filter(s) to limit the number of rows to less than {DOWNLOAD_BUTTON_THRESHOLD} to enable the Download button or visit our 
+            The table above cannot be downloaded because there are too many rows in the unfiltered table.
+            Please apply filter(s) to limit the number of rows to less than {DOWNLOAD_BUTTON_THRESHOLD} to enable the Download button or visit our
             <Link to="/downloads"> Downloads page </Link>
             to download the entire data set.
           </div>
