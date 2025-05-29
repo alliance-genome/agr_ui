@@ -48,7 +48,7 @@ export default defineConfig(({ mode }) => {
           // this is required for the SCSS modules
           find: /^~(.*)$/,
           replacement: '$1',
-        },
+        }
       ],
     },
     css: {

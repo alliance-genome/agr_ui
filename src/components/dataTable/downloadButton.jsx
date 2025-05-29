@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const DownloadButton = ({downloadUrl, text, disabled = false}) => {
+const DownloadButton = ({downloadUrl, text = "Download", disabled = false}) => {
   return(
     <button
       className={'btn btn-outline-secondary'}
@@ -16,10 +16,6 @@ const DownloadButton = ({downloadUrl, text, disabled = false}) => {
 DownloadButton.propTypes = {
   downloadUrl: PropTypes.string.isRequired,
   text: PropTypes.string,
-};
-
-DownloadButton.defaultProps = {
-  text: 'Download',
 };
 
 export default DownloadButton;

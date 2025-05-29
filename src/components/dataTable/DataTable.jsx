@@ -126,7 +126,7 @@ const DataTable = ({
     onSizePerPageChange: scrollIntoView
   });
 
-  let disabled = paginationObj.options?.totalSize > DOWNLOAD_BUTTON_THRESHOLD;
+  const disabled = paginationObj.options?.totalSize > DOWNLOAD_BUTTON_THRESHOLD;
 
   const filteredColumns = columns.filter(column => !column.hide);
 

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import NoData from '../noData.jsx';
 
-const AttributeValue = ({style, children, bsClassName, placeholder}) => {
+const AttributeValue = ({style = {}, children, bsClassName = 'col-md-9', placeholder = 'Not Available'}) => {
   return (
     <dd
       className={bsClassName}
@@ -11,12 +11,6 @@ const AttributeValue = ({style, children, bsClassName, placeholder}) => {
       {children || <NoData>{placeholder}</NoData>}
     </dd>
   );
-};
-
-AttributeValue.defaultProps = {
-  style: {},
-  bsClassName: 'col-md-9',
-  placeholder: 'Not Available',
 };
 
 AttributeValue.propTypes = {

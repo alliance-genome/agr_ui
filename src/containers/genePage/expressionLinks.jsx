@@ -82,7 +82,4 @@ ExpressionLinks.propTypes = {
   wildtypeExpressionCrossReference: PropTypes.object,
 };
 
-ExpressionLinks.defaultProps = {
-};
-
 export default ExpressionLinks;

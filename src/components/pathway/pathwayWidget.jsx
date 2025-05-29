@@ -395,8 +395,8 @@ class PathwayWidget extends Component {
             <div style={{ "padding": "1rem 0.2rem" }}>
                 <span style={{ paddingRight: "1rem"}}>Available pathways: </span>
                 <select id="pathwaySelect" value={this.state.reactomePathways.selected} onChange={(evt) => this.pathwayChanged(evt) } style={{ "minWidth": "1130px" }}>
-                {this.state.reactomePathways.pathways.map(elt => {
-                    return <option value={elt.stId}>{elt.displayName}</option>
+                {this.state.reactomePathways.pathways.map((elt, index) => {
+                    return <option key={`available-pathway-options-${elt.stId}-${index}`} value={elt.stId}>{elt.displayName}</option>
                 })}
                 </select>
             </div>
@@ -437,7 +437,7 @@ class PathwayWidget extends Component {
             {(this.state.reactomeReactions.loaded && this.state.reactomeReactions.reactions && this.state.reactomeReactions.reactions.length > 0)  ?
             <div>
             <ExternalLink href={REACTOME_REACTION_BROWSER + this.state.reactomeReactions.selected}>Open in Reactome Reaction</ExternalLink>
-            { !this.isHumanGene() ? <span style={{ display: inlineBlock, textAlign: "right", width: "80%", fontStyle: "italic" }}>Computationally inferred by Orthology</span> : "" }
+            { !this.isHumanGene() ? <span style={{ display: "inline-block", textAlign: "right", width: "80%", fontStyle: "italic" }}>Computationally inferred by Orthology</span> : "" }
             </div>
             : "" }
 
