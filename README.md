@@ -1,54 +1,63 @@
-# React + TypeScript + Vite
+# Alliance of Genome Resources UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend code for the Alliance of Genome Resources website.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Overview
 
-## Expanding the ESLint configuration
+This repo utilizes these technologies:
+- [vite](https://vite.dev/) - bundler/compiler
+- [npm](https://www.npmjs.com/) - package manager
+- [react (JS & TS)](https://reactjs.org/) - framework
+- [react-router](https://reactrouter.com/home) - routing
+- [scss (w/modules)](https://sass-lang.com/), [bootstrap](https://getbootstrap.com/), [reactstrap](https://reactstrap.github.io), [emotion](https://emotion.sh/docs/styled) - styling
+- [react testing library](https://testing-library.com/docs/react-testing-library/intro), [jest](https://jestjs.io/) - testing
+- [redux](https://redux.js.org/), [context](https://react.dev/reference/react/useContext), [immutable](https://immutable-js.github.io/immutable-js/) - state management
+- [tanstack query (formerly react query)](https://tanstack.com/query/v3/docs/react/overview) - http/async request handling
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Installation
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+1) This repo depends on nvm to manage Node.js versions. [Follow these instructions](https://github.com/nvm-sh/nvm#installing-and-updating) to install nvm.
+2) Run: `npm run local-init`
+   - **Note**: If you are switching to a branch that uses vite from a branch that uses create react app or vise vesa, it is wise to run `rm -rf node_modules` first to avoid package version conflicts.
+   - You may run into an issue with an "nvm: command not found" error, in that case, you can run these commands manually:
+     - `nvm install`
+     - `npm install`
+     - `npm run generators`
+3) You can now run the project locally in one of the following ways:
+   - `npm start`: when you have the API running locally
+   - `npm run start:test`: to connect to the test API
+   - `npm run start:stage`: to connect to the stage API
+   - `API_URL=[CUSTOM_URL_HERE] npm start`: for connecting to a custom API URL
+4) Navigate to `localhost:3000` (or whichever port number is displayed in the console) to view the site
+
+## Build
+
+To build an app or lib for production and to also to build the resource descriptors file when running locally:
+
+```bash
+npm run build 
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Tests
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+Execute tests:
+
+```bash
+make test
 ```
+
+## AWS - Feature Branch Previews
+Provides a way to verify the story in the test environment (without merging code). Once the branch is merged into test, the branch preview is deleted.
+
+#### _GitHub_
+Create a pull request of your branch KANBAN-# into test (_don't merge_).
+#### _AWS_
+Browse to https://us-east-1.console.aws.amazon.com/amplify/home?region=us-east-1#/
+
+Click on the 'agr-ui-test'  View App button
+
+Look for your KANBAN-# branch and copy the url(eg:  https://kanban-568.d39tao9vl33upy.amplifyapp.com/). Use this url for testing the story (send to curator), before merging code into the test branch. Once testing is complete, merge your branch into test.
+

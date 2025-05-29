@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "start": "vite",
+    "start:test": "make uiruntest",
+    "start:stage": "make uirunstage",
     "prebuild": "npm run generators",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
@@ -14,7 +16,7 @@
     "robots": "node bin/build_robots.js",
     "sitemap": "node bin/build_sitemap.js",
     "resource-descriptors": "node bin/build_resource_descriptors.js",
-    "local-init": "nvm use && npm install && npm run generators"
+    "local-init": "nvm install && npm install && npm run generators"
   },
   "dependencies": {
     "@aws-cdk/aws-amplify-alpha": "^2.195.0-alpha.0",
