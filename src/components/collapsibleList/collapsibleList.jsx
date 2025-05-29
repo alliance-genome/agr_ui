@@ -5,7 +5,7 @@ import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 
 import style from './style.module.scss';
 
-const CollapsibleList = ({ children, collapsedSize, showBullets }) => {
+const CollapsibleList = ({ children, collapsedSize = 2, showBullets = false }) => {
   const [ collapsed, setCollapsed ] = useState(true);
 
   if (!children) {
@@ -42,11 +42,6 @@ CollapsibleList.propTypes = {
   children: PropTypes.node,
   collapsedSize: PropTypes.number,
   showBullets: PropTypes.bool,
-};
-
-CollapsibleList.defaultProps = {
-  collapsedSize: 2,
-  showBullets: false,
 };
 
 export default CollapsibleList;

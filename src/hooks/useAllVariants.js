@@ -12,11 +12,14 @@ function getFullUrl(baseUrl, tableState) {
 
 export default function useAllVariants(geneId, tableState) {
   const url = `/api/gene/${geneId}/alleles?` ;
-  return useQuery ([url, tableState], () => {
-    return fetchData(getFullUrl(url, {
-      ...tableState,
-      page: 1,
-      sizePerPage:1000,
-    }));
+  return useQuery({
+    queryKey: [url, tableState],
+    queryFn: () => {
+      return fetchData(getFullUrl(url, {
+        ...tableState,
+        page: 1,
+        sizePerPage:1000,
+      }));
+    }
   });
 }

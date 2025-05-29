@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const AttributeLabel = ({style, children, bsClassName}) => {
+const AttributeLabel = ({style = {}, children, bsClassName = "col-md-3"}) => {
   // default to capitalize, but allow override
   // Labels such as cDNA, HGVS.p should not be capitalized.
   const styleWithTextTransform={ textTransform: 'capitalize', ...style};
@@ -15,10 +15,6 @@ const AttributeLabel = ({style, children, bsClassName}) => {
   );
 };
 
-AttributeLabel.defaultProps = {
-  style: {},
-  bsClassName: 'col-md-3',
-};
 
 AttributeLabel.propTypes = {
   bsClassName: PropTypes.string,

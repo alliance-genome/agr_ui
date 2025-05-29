@@ -1,59 +1,64 @@
-import { defineConfig } from 'vite'
+import {defineConfig, loadEnv} from 'vite'
 import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
 
-export default defineConfig({
-  build: {
-    outDir: 'build'
-  },
-  server: {
-    port: 3000,
-    proxy: {
-      '/api': {
-        target:	 (process.env.API_URL || 'http://localhost:8080'),
-        changeOrigin: true,
-        secure: false,
-      },
-      '/jbrowse': {
-        target:	 (process.env.API_URL || 'http://localhost:8080'),
-        changeOrigin: true,
-        secure: false,
-      },
-      '/bluegenes': {
-        target:	 (process.env.API_URL || 'http://localhost:8080'),
-        changeOrigin: true,
-        secure: false,
-      },
-      '/swagger-ui': {
-        target:	 (process.env.API_URL || 'http://localhost:8080'),
-        changeOrigin: true,
-        secure: false,
-      },
-      '/openapi': {
-        target:	 (process.env.API_URL || 'http://localhost:8080'),
-        changeOrigin: true,
-        secure: false,
-      }
-    }
-  },
-  resolve: {
-    alias: [
-      {
-        // this is required for the SCSS modules
-        find: /^~(.*)$/,
-        replacement: '$1',
-      },
-    ],
-  },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        api: 'modern-compiler',
-        // @ts-expect-error For some reason the type doesn't have this as an option, but it definitely exists
-        silenceDeprecations: ['mixed-decls', 'color-functions', 'global-builtin', 'import']
+const ENV_KEYS_TO_EXPOSE = [
+  'NODE_ENV',
+  'API_URL',
+  'CDK_DEFAULT_REGION',
+  'CDK_DEFAULT_ACCOUNT',
+  'REACT_APP_JBROWSE_AGR_RELEASE'
+];
+
+const PROXY_PATHS = [
+  '/api',
+  '/jbrowse',
+  '/bluegenes',
+  '/swagger-ui',
+  '/openapi',
+];
+
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '');
+  return {
+    build: {
+      outDir: 'build'
+    },
+    define: Object.fromEntries(
+      ENV_KEYS_TO_EXPOSE.map(
+        key => [`process.env.${key}`, JSON.stringify(env[key])]
+      )
+    ),
+    server: {
+      port: 3000,
+      proxy: Object.fromEntries(
+        PROXY_PATHS.map(
+          path => [path, {
+            target:	(process.env.API_URL || 'http://localhost:8080'),
+            changeOrigin: true,
+            secure: false,
+          }]
+        )
+      )
+    },
+    resolve: {
+      alias: [
+        {
+          // this is required for the SCSS modules
+          find: /^~(.*)$/,
+          replacement: '$1',
+        }
+      ],
+    },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern-compiler',
+          silenceDeprecations: ['mixed-decls', 'color-functions', 'global-builtin', 'import']
+        },
       },
     },
-  },
-  plugins: [react()]
+    plugins: [react()]
+  };
 })

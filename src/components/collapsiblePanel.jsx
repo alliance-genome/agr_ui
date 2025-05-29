@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Collapse } from 'reactstrap';
 
+
 class CollapsiblePanel extends Component {
   constructor(props) {
     super(props);
