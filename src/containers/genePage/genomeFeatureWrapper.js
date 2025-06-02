@@ -10,8 +10,9 @@ import ExternalLink from '../../components/ExternalLink';
 import {
   GenomeFeatureViewer,
   fetchNCListData,
-  fetchTabixVcfData
-} from 'agr_genomefeaturecomponent';
+  fetchTabixVcfData,
+  parseLocString
+} from 'genomefeatures';
 import {getTranscriptTypes} from '../../lib/genomeFeatureTypes';
 import LoadingSpinner from '../../components/loadingSpinner';
 import HorizontalScroll from '../../components/horizontalScroll';
@@ -31,16 +32,6 @@ import { useRelease } from '../../hooks/ReleaseContextProvider';
 
 const LINK_BUFFER = 1.2;
 
-// Copy of parseLocString from GMOD genomefeatures/src/util.ts
-function parseLocString(locString) {
-  const [chromosome, range] = locString.split(':');
-  const [start, end] = range.split('..');
-  return {
-    chromosome,
-    start: +start,  // +start converts string to number
-    end: +end,
-  };
-}
 //is this needed?
 // const helpSequenceViewer = 'The Allele/Variant Sequence Viewer shows the positions of allele-associated variants, where this data exists, in the context of the transcripts for the gene. Since the viewer is showing the genomic positions, alleles where the genomic location of the alteration is not known currently will not be displayed in the viewer. Polymorphisms determined by whole genome or whole exon sequencing are also not shown in this view due to the overwhelming number of these variants. To view these, use the link to the Alliance JBrowse below the viewer.';
 
