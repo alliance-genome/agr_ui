@@ -96,9 +96,6 @@ class GenomeFeatureWrapper extends Component {
     const speciesInfo = getSpecies(species);
     const apolloPrefix = speciesInfo.apolloName;
     
-    // Debug logging
-    console.log('generateJBrowseTrackData params:', { fmin, fmax, chromosome, species, releaseVersion });
-    
     // Construct chromosome string with species-specific formatting
     let chrString = chromosome;
     if(apolloPrefix==='yeast' || (apolloPrefix==='x_laevis' && !(chromosome.startsWith('Scaffold')))) {
@@ -119,15 +116,6 @@ class GenomeFeatureWrapper extends Component {
     // Build JBrowse URLs using release version
     const ncListUrlTemplate = speciesInfo.jBrowsenclistbaseurltemplate.replace('{release}', releaseVersion) + 'tracks/All_Genes/{refseq}/trackData.jsonz';
     const vcfTabixUrl = speciesInfo.jBrowseVcfUrlTemplate.replace('{release}', releaseVersion) + 'variants.vcf.gz';
-    
-    // Debug logging
-    console.log('URL construction debug:', { 
-      locString, 
-      parsedRegion, 
-      region, 
-      ncListUrlTemplate,
-      releaseVersion 
-    });
     
     try {
       // Fetch track data from JBrowse NCList files
