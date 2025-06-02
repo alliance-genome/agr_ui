@@ -108,7 +108,7 @@ class GenomeFeatureWrapper extends Component {
     
     // Convert to the format expected by NCList/VCF fetchers
     const region = {
-      refName: parsedRegion.chromosome,
+      chromosome: parsedRegion.chromosome,
       start: parsedRegion.start,
       end: parsedRegion.end
     };
@@ -231,8 +231,8 @@ class GenomeFeatureWrapper extends Component {
     try {
       this.setState({ loadState: 'loading' });
       
-      // Get release version from context or environment
-      const releaseVersion = process.env.REACT_APP_JBROWSE_AGR_RELEASE || this.props.releaseVersion || '8.2.0';
+      // Use hardcoded version for JBrowse data access
+      const releaseVersion = '8.2.0';
       
       // provide unique names
       let nameSuffix = [geneSymbol, ...synonyms, primaryId].filter((x, i, a) => a.indexOf(x) === i).map(x => encodeURI(x));
