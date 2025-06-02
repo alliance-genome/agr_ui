@@ -10,8 +10,7 @@ import ExternalLink from '../../components/ExternalLink';
 import {
   GenomeFeatureViewer,
   fetchNCListData,
-  fetchTabixVcfData,
-  parseLocString
+  fetchTabixVcfData
 } from 'agr_genomefeaturecomponent';
 import {getTranscriptTypes} from '../../lib/genomeFeatureTypes';
 import LoadingSpinner from '../../components/loadingSpinner';
@@ -101,9 +100,12 @@ class GenomeFeatureWrapper extends Component {
       chrString = 'chr' + chromosome;
     }
     
-    // Create location string for JBrowse format
-    const locString = `${chrString}:${fmin}..${fmax}`;
-    const region = parseLocString(locString);
+    // Create region object for JBrowse format
+    const region = {
+      refName: chrString,
+      start: fmin,
+      end: fmax
+    };
     
     // Build JBrowse URLs using release version
     const ncListUrlTemplate = speciesInfo.jBrowsenclistbaseurltemplate.replace('{release}', releaseVersion) + 'tracks/All_Genes/{refseq}/trackData.jsonz';
