@@ -100,7 +100,7 @@ class GenomeFeatureWrapper extends Component {
       chrString = 'chr' + chromosome;
     }
     
-    // Create region object for JBrowse format
+    // Create region object for NCList/VCF data fetching
     const region = {
       refName: chrString,
       start: fmin,
