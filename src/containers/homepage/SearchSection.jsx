@@ -38,6 +38,7 @@ const SearchSection = () => {
             id='action-api'
             to='/swagger-ui'
             tooltip='Read documentation for accessing Alliance data programmatically via REST APIs'
+            external
           >
             Browse APIs
           </ActionButton>

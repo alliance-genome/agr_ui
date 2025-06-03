@@ -1,4 +1,5 @@
-const fs = require('fs');
+import fs from 'fs';
+
 const env = process.env.NODE_ENV;
 const directory = './public';
 const filename = 'robots.txt';

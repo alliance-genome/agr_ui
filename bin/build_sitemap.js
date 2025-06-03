@@ -1,5 +1,5 @@
-
-var sm = require('sitemap'), fs = require('fs'), path = require('path');
+import sm from 'sitemap';
+import fs from 'fs';
 
 var sitemapindex = sm.buildSitemapIndex({
   urls: [

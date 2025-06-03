@@ -1,6 +1,6 @@
-const yaml = require('js-yaml');
-const https = require('https');
-const fs = require('fs');
+import yaml from 'js-yaml';
+import https from 'https';
+import fs from 'fs';
 
 console.log("Build resource desriptors is running...");
 // Get document, or throw exception on error
