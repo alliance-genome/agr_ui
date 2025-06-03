@@ -64,6 +64,7 @@ const DiseaseAnnotationTable = ({
       formatter:  (subject, row) => (
         <React.Fragment>
           <GeneCellCuration curie={getIdentifier(subject)} geneSymbol={subject.geneSymbol} />
+          <br/>
           <small>
             <AnnotatedEntitiesPopupCuration
               countId={row.count}

@@ -52,14 +52,17 @@ function renderLink(entity) {
 function AnnotatedEntitiesPopupCuration({ countId, children, mainRowCurie, pubModIds, columnNameSet }) {
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [pagination, setPagination] = useState({ page: 1, limit: 10 });
 
   const {
     data,
     isLoading,
     error,
-  } = usePopupQuery(`/api/disease/${countId}/primaryannotations`, isOpen);
+  } = usePopupQuery(`/api/disease/${countId}/primaryannotations`, isOpen, pagination);
 
   const entities = data?.results;
+  const totalRecords = data?.total || 0;
+  const totalPages = Math.ceil(totalRecords / pagination.limit);
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -68,6 +71,14 @@ function AnnotatedEntitiesPopupCuration({ countId, children, mainRowCurie, pubMo
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
+  };
+
+  const handlePageChange = (newPage) => {
+    setPagination(prev => ({ ...prev, page: newPage }));
+  };
+
+  const handleLimitChange = (newLimit) => {
+    setPagination({ page: 1, limit: newLimit });
   };
 
   if (!isOpen) {
@@ -183,6 +194,44 @@ function AnnotatedEntitiesPopupCuration({ countId, children, mainRowCurie, pubMo
                 }
               </tbody>
             </table>
+          )}
+          {totalPages > 1 && (
+            <div className="d-flex justify-content-between align-items-center mt-2 px-2">
+              <div className="d-flex align-items-center">
+                <span className="mr-2">Show:</span>
+                <select 
+                  className="form-control form-control-sm" 
+                  style={{ width: 'auto' }}
+                  value={pagination.limit} 
+                  onChange={(e) => handleLimitChange(parseInt(e.target.value))}
+                >
+                  <option value={5}>5</option>
+                  <option value={10}>10</option>
+                  <option value={25}>25</option>
+                  <option value={50}>50</option>
+                </select>
+                <span className="ml-2">entries</span>
+              </div>
+              <div className="d-flex align-items-center">
+                <button 
+                  className="btn btn-sm btn-outline-secondary mr-1"
+                  disabled={pagination.page === 1}
+                  onClick={() => handlePageChange(pagination.page - 1)}
+                >
+                  Previous
+                </button>
+                <span className="mx-2">
+                  Page {pagination.page} of {totalPages} ({totalRecords} total)
+                </span>
+                <button 
+                  className="btn btn-sm btn-outline-secondary ml-1"
+                  disabled={pagination.page >= totalPages}
+                  onClick={() => handlePageChange(pagination.page + 1)}
+                >
+                  Next
+                </button>
+              </div>
+            </div>
           )}
         </div>
       </DropdownMenu>
