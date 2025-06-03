@@ -1,17 +1,11 @@
-import sm from 'sitemap';
+import { simpleSitemapAndIndex } from 'sitemap';
 import fs from 'fs';
 
-var sitemapindex = sm.buildSitemapIndex({
-  urls: [
-    'https://www.alliancegenome.org/main-sitemap.xml'
-  ]
-});
-
-fs.writeFileSync('public/sitemap.xml', sitemapindex.toString());
-
-var sitemap = sm.createSitemap({
+simpleSitemapAndIndex({
   hostname: 'https://www.alliancegenome.org',
-  urls: [
+  destinationDir: './public/',
+  gzip: false,
+  sourceData: [
     { url: '/' ,             changefreq: 'monthly', priority: 0.1, lastmodrealtime: true },
     { url: '/about-us',         changefreq: 'monthly', priority: 0.8, lastmodrealtime: true },
     { url: '/contact-us',       changefreq: 'monthly', priority: 0.8, lastmodrealtime: true },
@@ -30,6 +24,7 @@ var sitemap = sm.createSitemap({
     { url: '/event-calendar',    changefreq: 'monthly', priority: 0.7, lastmodrealtime: true },
     { url: '/blast',    changefreq: 'monthly', priority: 0.7, lastmodrealtime: true }
   ]
+}).then(() => {
+  fs.rename('./public/sitemap-0.xml', './public/main-sitemap.xml', console.error);
+  fs.rename('./public/sitemap-index.xml', './public/sitemap.xml', console.error);
 });
-
-fs.writeFileSync('public/main-sitemap.xml', sitemap.toString());
