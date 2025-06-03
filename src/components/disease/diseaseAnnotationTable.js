@@ -46,13 +46,6 @@ const DiseaseAnnotationTable = ({
     ...tableProps
   } = useComparisonRibbonTableQuery('/api/disease', focusGeneId, focusTaxonId, orthologGenes, term, params);
 
-
-  const buildWith = (annotation) => {
-    const filteredPrimaryAnnotations = annotation.primaryAnnotations.filter(primaryAnnotation => primaryAnnotation.with);
-    const withArray = filteredPrimaryAnnotations.map(primaryAnnotation => primaryAnnotation.with);
-    return withArray.flat(1);
-  }
-
   let columns = [
     {
       dataField: 'subject.taxon',
@@ -73,7 +66,7 @@ const DiseaseAnnotationTable = ({
           <GeneCellCuration curie={getIdentifier(subject)} geneSymbol={subject.geneSymbol} />
           <small>
             <AnnotatedEntitiesPopupCuration
-              entities={row.primaryAnnotations}
+              countId={row.count}
               mainRowCurie={getIdentifier(subject)}
               pubModIds={row.pubmedPubModIDs}
               columnNameSet={GENE_DETAILS_COLUMNS}
@@ -141,7 +134,7 @@ const DiseaseAnnotationTable = ({
       filterName: 'dataProvider',
     },
     {
-      dataField: 'basedOn',
+      dataField: 'basedOnGenes',
       text: 'Based On',
       helpPopupProps: {
         id: 'gene-page--disease-associations-table--based-on-help',
@@ -165,7 +158,6 @@ const DiseaseAnnotationTable = ({
   const data = results?.map(annotation => ({
     species: annotation.subject.taxon,
     providers: buildProvidersWithUrl(annotation.primaryAnnotations),
-    basedOn: buildWith(annotation),
     id: hash(annotation),
     disease: annotation.object,
     ...annotation,
