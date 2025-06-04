@@ -114,7 +114,7 @@ class GenomeFeatureWrapper extends Component {
     };
     
     // Build JBrowse URLs using release version
-    const ncListUrlTemplate = speciesInfo.jBrowsenclistbaseurltemplate.replace('{release}', releaseVersion) + 'tracks/All_Genes/{refseq}/trackData.jsonz';
+    const ncListUrlTemplate = speciesInfo.jBrowsenclistbaseurltemplate.replace('{release}', releaseVersion) + `tracks/All_Genes/${chrString}/trackData.jsonz`;
     const vcfTabixUrl = speciesInfo.jBrowseVcfUrlTemplate.replace('{release}', releaseVersion) + 'variants.vcf.gz';
     
     try {
