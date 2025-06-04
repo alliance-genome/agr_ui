@@ -166,4 +166,239 @@ describe('JBrowse Migration Validation', () => {
       assert(speciesInfo.jBrowsenclistbaseurltemplate, 'Should have JBrowse as primary data source');
     });
   });
+
+  describe('Chromosome Prefix Logic', () => {
+    // Test the chromosome prefix logic from genomeFeatureWrapper.js
+    function applyChromosomePrefixLogic(apolloPrefix, chromosome) {
+      let chrString = chromosome;
+      if(apolloPrefix==='yeast' || (apolloPrefix==='x_laevis' && !(chromosome.startsWith('Scaffold')))) {
+        chrString = 'chr' + chromosome;
+      }
+      return chrString;
+    }
+
+    describe('Yeast chromosome prefixing', () => {
+      it('should add chr prefix to all yeast chromosomes', () => {
+        const yeastChromosomes = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI'];
+        
+        yeastChromosomes.forEach(chr => {
+          const result = applyChromosomePrefixLogic('yeast', chr);
+          assert.strictEqual(result, `chr${chr}`, `Yeast chromosome ${chr} should become chr${chr}`);
+        });
+      });
+
+      it('should handle yeast mitochondrial chromosome', () => {
+        const result = applyChromosomePrefixLogic('yeast', 'Mito');
+        assert.strictEqual(result, 'chrMito', 'Yeast mitochondrial chromosome should become chrMito');
+      });
+    });
+
+    describe('X. laevis chromosome prefixing', () => {
+      it('should add chr prefix to regular X. laevis chromosomes', () => {
+        const xlaevisChromosomes = ['1L', '1S', '2L', '2S', '3L', '3S', '4L', '4S', '5L', '5S', '6L', '6S', '7L', '7S', '8L', '8S', '9_10L', '9_10S'];
+        
+        xlaevisChromosomes.forEach(chr => {
+          const result = applyChromosomePrefixLogic('x_laevis', chr);
+          assert.strictEqual(result, `chr${chr}`, `X. laevis chromosome ${chr} should become chr${chr}`);
+        });
+      });
+
+      it('should NOT add chr prefix to X. laevis scaffold sequences', () => {
+        const scaffolds = ['Scaffold1', 'Scaffold123', 'Scaffold_ABC'];
+        
+        scaffolds.forEach(scaffold => {
+          const result = applyChromosomePrefixLogic('x_laevis', scaffold);
+          assert.strictEqual(result, scaffold, `X. laevis ${scaffold} should remain unchanged`);
+        });
+      });
+    });
+
+    describe('Other species chromosome handling', () => {
+      it('should NOT add chr prefix to human chromosomes', () => {
+        const humanChromosomes = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', 'X', 'Y', 'MT'];
+        
+        humanChromosomes.forEach(chr => {
+          const result = applyChromosomePrefixLogic('human', chr);
+          assert.strictEqual(result, chr, `Human chromosome ${chr} should remain unchanged`);
+        });
+      });
+
+      it('should NOT add chr prefix to mouse chromosomes', () => {
+        const mouseChromosomes = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', 'X', 'Y', 'MT'];
+        
+        mouseChromosomes.forEach(chr => {
+          const result = applyChromosomePrefixLogic('mouse', chr);
+          assert.strictEqual(result, chr, `Mouse chromosome ${chr} should remain unchanged`);
+        });
+      });
+
+      it('should NOT add chr prefix to fly chromosomes', () => {
+        const flyChromosomes = ['2L', '2R', '3L', '3R', '4', 'X', 'Y'];
+        
+        flyChromosomes.forEach(chr => {
+          const result = applyChromosomePrefixLogic('fly', chr);
+          assert.strictEqual(result, chr, `Fly chromosome ${chr} should remain unchanged`);
+        });
+      });
+
+      it('should NOT add chr prefix to worm chromosomes', () => {
+        const wormChromosomes = ['I', 'II', 'III', 'IV', 'V', 'X'];
+        
+        wormChromosomes.forEach(chr => {
+          const result = applyChromosomePrefixLogic('worm', chr);
+          assert.strictEqual(result, chr, `Worm chromosome ${chr} should remain unchanged`);
+        });
+      });
+
+      it('should NOT add chr prefix to zebrafish chromosomes', () => {
+        const zebrafishChromosomes = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25'];
+        
+        zebrafishChromosomes.forEach(chr => {
+          const result = applyChromosomePrefixLogic('zebrafish', chr);
+          assert.strictEqual(result, chr, `Zebrafish chromosome ${chr} should remain unchanged`);
+        });
+      });
+
+      it('should NOT add chr prefix to X. tropicalis chromosomes', () => {
+        const xtropChromosomes = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+        
+        xtropChromosomes.forEach(chr => {
+          const result = applyChromosomePrefixLogic('x_tropicalis', chr);
+          assert.strictEqual(result, chr, `X. tropicalis chromosome ${chr} should remain unchanged`);
+        });
+      });
+    });
+  });
+
+  describe('URL Template Resolution', () => {
+    function buildJBrowseUrls(speciesInfo, releaseVersion, chrString) {
+      const ncListUrlTemplate = speciesInfo.jBrowsenclistbaseurltemplate.replace('{release}', releaseVersion) + `tracks/All_Genes/${chrString}/trackData.jsonz`;
+      const vcfTabixUrl = speciesInfo.jBrowseVcfUrlTemplate.replace('{release}', releaseVersion) + 'variants.vcf.gz';
+      
+      return { ncListUrlTemplate, vcfTabixUrl };
+    }
+
+    it('should properly resolve {refseq} placeholder in URL templates', () => {
+      const speciesInfo = getSpecies('NCBITaxon:10090'); // Mouse
+      const releaseVersion = '8.2.0';
+      const chrString = '1';
+      
+      const { ncListUrlTemplate } = buildJBrowseUrls(speciesInfo, releaseVersion, chrString);
+      
+      // Verify URL is properly constructed
+      assert(ncListUrlTemplate.includes('tracks/All_Genes/1/trackData.jsonz'), 
+        'Should resolve chromosome reference in URL path');
+      assert(!ncListUrlTemplate.includes('{refseq}'), 
+        'Should not contain unresolved {refseq} placeholder');
+      assert(!ncListUrlTemplate.includes('{release}'), 
+        'Should not contain unresolved {release} placeholder');
+    });
+
+    it('should construct valid URLs for yeast with chr prefix', () => {
+      const speciesInfo = getSpecies('NCBITaxon:559292'); // Yeast
+      const releaseVersion = '8.2.0';
+      const chrString = 'chrI'; // Yeast chromosomes get chr prefix
+      
+      const { ncListUrlTemplate } = buildJBrowseUrls(speciesInfo, releaseVersion, chrString);
+      
+      assert(ncListUrlTemplate.includes('tracks/All_Genes/chrI/trackData.jsonz'), 
+        'Should construct URL with chr prefix for yeast');
+      assert(ncListUrlTemplate.includes('SGD/yeast'), 
+        'Should use correct species path for yeast');
+    });
+
+    it('should construct valid URLs for X. laevis with chr prefix', () => {
+      const speciesInfo = getSpecies('NCBITaxon:8355'); // X. laevis
+      const releaseVersion = '8.2.0';
+      const chrString = 'chr1L'; // X. laevis chromosomes get chr prefix
+      
+      const { ncListUrlTemplate } = buildJBrowseUrls(speciesInfo, releaseVersion, chrString);
+      
+      assert(ncListUrlTemplate.includes('tracks/All_Genes/chr1L/trackData.jsonz'), 
+        'Should construct URL with chr prefix for X. laevis');
+      assert(ncListUrlTemplate.includes('XenBase/x_laevis'), 
+        'Should use correct species path for X. laevis');
+    });
+
+    it('should construct valid URLs for fly chromosomes without prefix', () => {
+      const speciesInfo = getSpecies('NCBITaxon:7227'); // Fly
+      const releaseVersion = '8.2.0';
+      const chrString = '2L'; // Fly chromosomes don't get chr prefix
+      
+      const { ncListUrlTemplate } = buildJBrowseUrls(speciesInfo, releaseVersion, chrString);
+      
+      assert(ncListUrlTemplate.includes('tracks/All_Genes/2L/trackData.jsonz'), 
+        'Should construct URL without chr prefix for fly');
+      assert(ncListUrlTemplate.includes('FlyBase/fruitfly'), 
+        'Should use correct species path for fly');
+    });
+
+    it('should handle scaffold sequences correctly for X. laevis', () => {
+      const speciesInfo = getSpecies('NCBITaxon:8355'); // X. laevis
+      const releaseVersion = '8.2.0';
+      const chrString = 'Scaffold123'; // Scaffolds don't get chr prefix
+      
+      const { ncListUrlTemplate } = buildJBrowseUrls(speciesInfo, releaseVersion, chrString);
+      
+      assert(ncListUrlTemplate.includes('tracks/All_Genes/Scaffold123/trackData.jsonz'), 
+        'Should construct URL without chr prefix for X. laevis scaffolds');
+    });
+
+    it('should generate complete and valid S3 URLs', () => {
+      const testCases = [
+        { 
+          taxonId: 'NCBITaxon:10090', 
+          apolloPrefix: 'mouse', 
+          chromosome: '1', 
+          expectedChrString: '1',
+          expectedPath: 'MGI/mouse'
+        },
+        { 
+          taxonId: 'NCBITaxon:559292', 
+          apolloPrefix: 'yeast', 
+          chromosome: 'I', 
+          expectedChrString: 'chrI',
+          expectedPath: 'SGD/yeast'
+        },
+        { 
+          taxonId: 'NCBITaxon:7227', 
+          apolloPrefix: 'fly', 
+          chromosome: '2L', 
+          expectedChrString: '2L',
+          expectedPath: 'FlyBase/fruitfly'
+        },
+        { 
+          taxonId: 'NCBITaxon:6239', 
+          apolloPrefix: 'worm', 
+          chromosome: 'I', 
+          expectedChrString: 'I',
+          expectedPath: 'WormBase/c_elegans_PRJNA13758'
+        }
+      ];
+
+      testCases.forEach(({ taxonId, apolloPrefix, chromosome, expectedChrString, expectedPath }) => {
+        const speciesInfo = getSpecies(taxonId);
+        const releaseVersion = '8.2.0';
+        
+        // Apply chromosome prefix logic
+        let chrString = chromosome;
+        if(apolloPrefix==='yeast' || (apolloPrefix==='x_laevis' && !(chromosome.startsWith('Scaffold')))) {
+          chrString = 'chr' + chromosome;
+        }
+        assert.strictEqual(chrString, expectedChrString, 
+          `Chromosome ${chromosome} should become ${expectedChrString} for ${apolloPrefix}`);
+        
+        // Build URLs
+        const { ncListUrlTemplate, vcfTabixUrl } = buildJBrowseUrls(speciesInfo, releaseVersion, chrString);
+        
+        // Verify URL structure
+        assert(ncListUrlTemplate.includes(`s3.amazonaws.com/agrjbrowse/docker/8.2.0/${expectedPath}`), 
+          `Should use correct S3 path for ${apolloPrefix}`);
+        assert(ncListUrlTemplate.includes(`tracks/All_Genes/${chrString}/trackData.jsonz`), 
+          `Should construct correct track path for ${apolloPrefix} chromosome ${chromosome}`);
+        assert(vcfTabixUrl.includes(`s3.amazonaws.com/agrjbrowse/VCF/8.2.0/${expectedPath}`), 
+          `Should use correct VCF path for ${apolloPrefix}`);
+      });
+    });
+  });
 });
