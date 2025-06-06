@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   DropdownMenu,
@@ -73,6 +73,13 @@ function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCuri
     setDropdownOpen(!dropdownOpen);
   };
 
+  // Ensure dropdown closes when dropdownOpen becomes false
+  useEffect(() => {
+    if (!dropdownOpen) {
+      setIsOpen(false);
+    }
+  }, [dropdownOpen]);
+
   const handlePageChange = (newPage) => {
     setPagination(prev => ({ ...prev, page: newPage }));
   };
@@ -87,8 +94,11 @@ function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCuri
     );
   }
 
-  console.log("isLoading", isLoading);
-  console.log("entities", entities);
+  const popperModifiers = {
+    preventOverflow: {
+      boundariesElement: 'window',
+    }
+  };
 
   if (isLoading) {
     return (
@@ -122,116 +132,114 @@ function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCuri
 
   const sortedEntities = naturalSortByAnnotationSubject(entities || []);
 
-  const popperModifiers = {
-    preventOverflow: {
-      boundariesElement: 'window',
-    }
-  };
-
   return (
     <ButtonDropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
       <DropdownToggle tag='span'>
         <a href='#' onClick={(e) => { e.preventDefault(); handleOpen(); }}>{children || 'View'}</a>
       </DropdownToggle>
-      <DropdownMenu className={`shadow-sm ${style.tablePopup}`} modifiers={popperModifiers} positionFixed>
-        <div className={style.tablePopupInner}>
+      <DropdownMenu className={`shadow-sm ${style.tablePopupWithStickyFooter}`} modifiers={popperModifiers} positionFixed>
+        <div className={style.tablePopupInnerWithStickyFooter}>
           {sortedEntities.length === 0 ? (
             <div>No annotation details available</div>
           ) : (
-            <table className='table table-sm'>
-              <thead>
-                <tr>
-                  {columnNameSet.has("Name") && <th>Name</th>}
-                  {columnNameSet.has("Type") && <th>Type</th>}
-                  {columnNameSet.has("Association") && <th className={style.associationCell}>Association</th>}
-                  {columnNameSet.has("Additional Implicated Genes") && <th>Additional implicated genes</th>}
-                  {columnNameSet.has("Experimental Condition") && <th>Experimental condition</th>}
-                  {columnNameSet.has("Genetic Modifiers") && <th>Genetic Modifiers</th>}
-                  {columnNameSet.has("Strain Background") && <th>Strain Background</th>}
-                  {columnNameSet.has("Genetic Sex") && <th>Genetic Sex</th>}
-                  {columnNameSet.has("Notes") && <th className={style.relatedNotes}>Notes</th>}
-                  {columnNameSet.has("Annotation Type") && <th>Annotation type</th>}
-                  {columnNameSet.has("Evidence Codes") && <th>Evidence Codes</th>}
-                  {columnNameSet.has("Source") && <th>Source</th>}
-                  {columnNameSet.has("References") && <th>References</th>}
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  sortedEntities.map(entity => {
-                    const provider = buildProviderWithUrl(entity);
-                    const key = hash(entity);
+            <>
+              <div className={style.tableContainer}>
+                <table className='table table-sm'>
+                  <thead>
+                    <tr>
+                      {columnNameSet.has("Name") && <th>Name</th>}
+                      {columnNameSet.has("Type") && <th>Type</th>}
+                      {columnNameSet.has("Association") && <th className={style.associationCell}>Association</th>}
+                      {columnNameSet.has("Additional Implicated Genes") && <th>Additional implicated genes</th>}
+                      {columnNameSet.has("Experimental Condition") && <th>Experimental condition</th>}
+                      {columnNameSet.has("Genetic Modifiers") && <th>Genetic Modifiers</th>}
+                      {columnNameSet.has("Strain Background") && <th>Strain Background</th>}
+                      {columnNameSet.has("Genetic Sex") && <th>Genetic Sex</th>}
+                      {columnNameSet.has("Notes") && <th className={style.relatedNotes}>Notes</th>}
+                      {columnNameSet.has("Annotation Type") && <th>Annotation type</th>}
+                      {columnNameSet.has("Evidence Codes") && <th>Evidence Codes</th>}
+                      {columnNameSet.has("Source") && <th>Source</th>}
+                      {columnNameSet.has("References") && <th>References</th>}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      sortedEntities.map(entity => {
+                        const provider = buildProviderWithUrl(entity);
+                        const key = hash(entity);
 
-                    var diseaseGeneticModifiers = entity.diseaseGeneticModifierAlleles;
-                    if(entity.diseaseGeneticModifierGenes != null){
-                      diseaseGeneticModifiers = entity.diseaseGeneticModifierGenes;
+                        var diseaseGeneticModifiers = entity.diseaseGeneticModifierAlleles;
+                        if(entity.diseaseGeneticModifierGenes != null){
+                          diseaseGeneticModifiers = entity.diseaseGeneticModifierGenes;
+                        }
+                        if(entity.diseaseGeneticModifierAgms != null){
+                          diseaseGeneticModifiers = entity.diseaseGeneticModifierAgms;
+                        }
+                        var expCondition = entity.conditionRelations;
+                        if(entity.conditionModifiers != null){
+                          expCondition = entity.conditionModifiers;
+                        }
+                          return (
+                          <tr key={key}>
+                            {columnNameSet.has("Name") && <td>{renderLink(entity)}</td>}
+                            {columnNameSet.has("Type") && <td><TypeCellCuration subject={entity.diseaseAnnotationSubject}/></td>}
+                            {columnNameSet.has("Association") && <td><AssociationCellCuration association={entity.fullRelationString}/></td>}
+                            {columnNameSet.has("Additional Implicated Genes") && <td><AssertedGenes assertedGenes={entity.assertedGenes} mainRowCurie={mainRowCurie}/></td>}
+                            {columnNameSet.has("Experimental Condition") && <td><ExperimentalConditionCellCuration conditions={expCondition}/></td>}
+                            {columnNameSet.has("Genetic Modifiers") && <td><GeneticModifiersCellCuration relation={entity.diseaseGeneticModifierRelation} modifiers={diseaseGeneticModifiers}/></td>}
+                            {columnNameSet.has("Strain Background") && <td><StrainBackground strainBackground={entity.sgdStrainBackground}/></td>}
+                            {columnNameSet.has("Genetic Sex") && <td><GeneticSex geneticSex={entity.geneticSex}/></td>}
+                            {columnNameSet.has("Notes") && <td><RelatedNotes className={style.relatedNotes} relatedNotes={entity.relatedNotes}/></td>}
+                            {columnNameSet.has("Annotation Type") && <td><AnnotationType annotationType={entity.annotationType}/></td>}
+                            {columnNameSet.has("Evidence Codes") && <td><EvidenceCodesCellCuration evidenceCodes={entity.evidenceCodes}/></td>}
+                            {columnNameSet.has("Source") && <td><ProviderCellCuration provider={provider} /></td>}
+                            {columnNameSet.has("References") && <td><SingleReferenceCellCuration singleReference={entity.evidenceItem} pubModIds={pubModIds}/></td>}
+                          </tr>
+                        )
+                    })
                     }
-                    if(entity.diseaseGeneticModifierAgms != null){
-                      diseaseGeneticModifiers = entity.diseaseGeneticModifierAgms;
-                    }
-                    var expCondition = entity.conditionRelations;
-                    if(entity.conditionModifiers != null){
-                      expCondition = entity.conditionModifiers;
-                    }
-                      return (
-                      <tr key={key}>
-                        {columnNameSet.has("Name") && <td>{renderLink(entity)}</td>}
-                        {columnNameSet.has("Type") && <td><TypeCellCuration subject={entity.diseaseAnnotationSubject}/></td>}
-                        {columnNameSet.has("Association") && <td><AssociationCellCuration association={entity.fullRelationString}/></td>}
-                        {columnNameSet.has("Additional Implicated Genes") && <td><AssertedGenes assertedGenes={entity.assertedGenes} mainRowCurie={mainRowCurie}/></td>}
-                        {columnNameSet.has("Experimental Condition") && <td><ExperimentalConditionCellCuration conditions={expCondition}/></td>}
-                        {columnNameSet.has("Genetic Modifiers") && <td><GeneticModifiersCellCuration relation={entity.diseaseGeneticModifierRelation} modifiers={diseaseGeneticModifiers}/></td>}
-                        {columnNameSet.has("Strain Background") && <td><StrainBackground strainBackground={entity.sgdStrainBackground}/></td>}
-                        {columnNameSet.has("Genetic Sex") && <td><GeneticSex geneticSex={entity.geneticSex}/></td>}
-                        {columnNameSet.has("Notes") && <td><RelatedNotes className={style.relatedNotes} relatedNotes={entity.relatedNotes}/></td>}
-                        {columnNameSet.has("Annotation Type") && <td><AnnotationType annotationType={entity.annotationType}/></td>}
-                        {columnNameSet.has("Evidence Codes") && <td><EvidenceCodesCellCuration evidenceCodes={entity.evidenceCodes}/></td>}
-                        {columnNameSet.has("Source") && <td><ProviderCellCuration provider={provider} /></td>}
-                        {columnNameSet.has("References") && <td><SingleReferenceCellCuration singleReference={entity.evidenceItem} pubModIds={pubModIds}/></td>}
-                      </tr>
-                    )
-                })
-                }
-              </tbody>
-            </table>
-          )}
-          {totalPages > 1 && (
-            <div className="d-flex justify-content-between align-items-center mt-2 px-2">
-              <div className="d-flex align-items-center">
-                <span className="mr-2">Show:</span>
-                <select 
-                  className="form-control form-control-sm" 
-                  style={{ width: 'auto' }}
-                  value={pagination.limit} 
-                  onChange={(e) => handleLimitChange(parseInt(e.target.value))}
-                >
-                  <option value={5}>5</option>
-                  <option value={10}>10</option>
-                  <option value={25}>25</option>
-                  <option value={50}>50</option>
-                </select>
-                <span className="ml-2">entries</span>
+                  </tbody>
+                </table>
               </div>
-              <div className="d-flex align-items-center">
-                <button 
-                  className="btn btn-sm btn-outline-secondary mr-1"
-                  disabled={pagination.page === 1}
-                  onClick={() => handlePageChange(pagination.page - 1)}
-                >
-                  Previous
-                </button>
-                <span className="mx-2">
-                  Page {pagination.page} of {totalPages} ({totalRecords} total)
-                </span>
-                <button 
-                  className="btn btn-sm btn-outline-secondary ml-1"
-                  disabled={pagination.page >= totalPages}
-                  onClick={() => handlePageChange(pagination.page + 1)}
-                >
-                  Next
-                </button>
-              </div>
-            </div>
+              {totalPages > 1 && (
+                <div className={`d-flex justify-content-between align-items-center ${style.stickyFooter} px-2`}>
+                  <div className="d-flex align-items-center">
+                    <span className="mr-2">Show:</span>
+                    <select 
+                      className="form-control form-control-sm" 
+                      style={{ width: 'auto' }}
+                      value={pagination.limit} 
+                      onChange={(e) => handleLimitChange(parseInt(e.target.value))}
+                    >
+                      <option value={5}>5</option>
+                      <option value={10}>10</option>
+                      <option value={25}>25</option>
+                      <option value={50}>50</option>
+                    </select>
+                    <span className="ml-2">entries</span>
+                  </div>
+                  <div className="d-flex align-items-center">
+                    <button 
+                      className="btn btn-sm btn-outline-secondary mr-1"
+                      disabled={pagination.page === 1}
+                      onClick={() => handlePageChange(pagination.page - 1)}
+                    >
+                      Previous
+                    </button>
+                    <span className="mx-2">
+                      Page {pagination.page} of {totalPages} ({totalRecords} total)
+                    </span>
+                    <button 
+                      className="btn btn-sm btn-outline-secondary ml-1"
+                      disabled={pagination.page >= totalPages}
+                      onClick={() => handlePageChange(pagination.page + 1)}
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </div>
       </DropdownMenu>
