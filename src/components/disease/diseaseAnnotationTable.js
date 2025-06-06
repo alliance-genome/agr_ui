@@ -8,7 +8,7 @@ import {
   ReferencesCellCuration,
   SpeciesCell,
 } from '../dataTable';
-import AnnotatedEntitiesPopupCuration from '../dataTable/AnnotatedEntitiesPopupCuration';
+import AnnotatedEntitiesPopupCurationGenePage from '../dataTable/AnnotatedEntitiesPopupCurationGenePage';
 import { getIdentifier, getDistinctFieldValue, buildProvidersWithUrl } from '../dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
@@ -66,14 +66,14 @@ const DiseaseAnnotationTable = ({
           <GeneCellCuration curie={getIdentifier(subject)} geneSymbol={subject.geneSymbol} />
           <br/>
           <small>
-            <AnnotatedEntitiesPopupCuration
+            <AnnotatedEntitiesPopupCurationGenePage
               countId={row.count}
               mainRowCurie={getIdentifier(subject)}
               pubModIds={row.pubmedPubModIDs}
               columnNameSet={GENE_DETAILS_COLUMNS}
             >
               Annotation details
-            </AnnotatedEntitiesPopupCuration>
+            </AnnotatedEntitiesPopupCurationGenePage>
           </small>
         </React.Fragment>
       ),
