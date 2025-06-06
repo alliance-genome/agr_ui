@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   DropdownMenu,
@@ -51,7 +51,6 @@ function renderLink(entity) {
 
 function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCurie, pubModIds, columnNameSet }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [pagination, setPagination] = useState({ page: 1, limit: 10 });
 
   const {
@@ -66,19 +65,11 @@ function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCuri
 
   const handleOpen = () => {
     setIsOpen(true);
-    setDropdownOpen(true);
   };
 
   const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
+    setIsOpen(!isOpen);
   };
-
-  // Ensure dropdown closes when dropdownOpen becomes false
-  useEffect(() => {
-    if (!dropdownOpen) {
-      setIsOpen(false);
-    }
-  }, [dropdownOpen]);
 
   const handlePageChange = (newPage) => {
     setPagination(prev => ({ ...prev, page: newPage }));
@@ -102,7 +93,7 @@ function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCuri
 
   if (isLoading) {
     return (
-      <ButtonDropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
+      <ButtonDropdown isOpen={isOpen} toggle={toggleDropdown}>
         <DropdownToggle tag='span'>
           <a href='#' onClick={e => e.preventDefault()}>{children || 'View'}</a>
         </DropdownToggle>
@@ -117,7 +108,7 @@ function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCuri
 
   if (error) {
     return (
-      <ButtonDropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
+      <ButtonDropdown isOpen={isOpen} toggle={toggleDropdown}>
         <DropdownToggle tag='span'>
           <a href='#' onClick={(e) => { e.preventDefault(); handleOpen(); }}>{children || 'View'}</a>
         </DropdownToggle>
@@ -133,7 +124,7 @@ function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCuri
   const sortedEntities = naturalSortByAnnotationSubject(entities || []);
 
   return (
-    <ButtonDropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
+    <ButtonDropdown isOpen={isOpen} toggle={toggleDropdown}>
       <DropdownToggle tag='span'>
         <a href='#' onClick={(e) => { e.preventDefault(); handleOpen(); }}>{children || 'View'}</a>
       </DropdownToggle>
