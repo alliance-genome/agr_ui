@@ -26,6 +26,7 @@ import GeneticModifiersCellCuration from './GeneticModifiersCellCuration';
 import { getAnnotationSubjectText, buildProviderWithUrl, getIdentifier, naturalSortByAnnotationSubject } from './utils';
 import usePopupQuery from '../../hooks/usePopupQuery';
 import StrainBackground from './StrainBackground';
+import LoadingSpinner from '../loadingSpinner';
 
 function renderLink(entity) {
   const identifier = getIdentifier(entity.diseaseAnnotationSubject);
@@ -97,9 +98,13 @@ function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCuri
         <DropdownToggle tag='span'>
           <a href='#' onClick={e => e.preventDefault()}>{children || 'View'}</a>
         </DropdownToggle>
-        <DropdownMenu className={`shadow-sm ${style.tablePopup}`}>
-          <div className={style.tablePopupInner}>
-            Loading...
+        <DropdownMenu className={`shadow-sm ${style.tablePopupWithStickyFooter}`} modifiers={popperModifiers} positionFixed>
+          <div className={style.tablePopupInnerWithStickyFooter}>
+            <div className={`${style.tableContainer} d-flex`}>
+              <div className="d-flex justify-content-center align-items-center w-100" style={{ minHeight: '200px' }}>
+                <LoadingSpinner size="3x" />
+              </div>
+            </div>
           </div>
         </DropdownMenu>
       </ButtonDropdown>
@@ -112,9 +117,13 @@ function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCuri
         <DropdownToggle tag='span'>
           <a href='#' onClick={(e) => { e.preventDefault(); handleOpen(); }}>{children || 'View'}</a>
         </DropdownToggle>
-        <DropdownMenu className={`shadow-sm ${style.tablePopup}`}>
-          <div className={style.tablePopupInner}>
-            Error loading data
+        <DropdownMenu className={`shadow-sm ${style.tablePopupWithStickyFooter}`} modifiers={popperModifiers} positionFixed>
+          <div className={style.tablePopupInnerWithStickyFooter}>
+            <div className={style.tableContainer}>
+              <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '200px' }}>
+                Error loading data
+              </div>
+            </div>
           </div>
         </DropdownMenu>
       </ButtonDropdown>
