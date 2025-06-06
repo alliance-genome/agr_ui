@@ -2,8 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import fetchData from '../lib/fetchData';
 
 /**
- * A simple hook that uses TanStack Query to fetch data only when enabled.
- * Designed for popup components that should only fetch data when opened.
+ * Hook for popup components that should only fetch data when opened.
  * 
  * @param {string} baseUrl - The base API endpoint to fetch from
  * @param {boolean} enabled - Whether the query should be enabled/fired
@@ -18,6 +17,6 @@ export default function usePopupQuery(baseUrl, enabled = false, pagination = { p
     queryKey: [baseUrl, page, limit],
     queryFn: () => fetchData(url),
     enabled: enabled && !!baseUrl,
-    placeholderData: (previousData) => previousData, // Keep previous data while loading new page
+    placeholderData: (previousData) => previousData, 
   });
 }

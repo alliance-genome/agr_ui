@@ -39,12 +39,12 @@ const DiseaseAnnotationTable = ({
     params.includeNegation = true;
   }
   const {
-    downloadUrl,
+    defaultDownloadUrl: downloadUrl,
     downloadBody,
     data: results,
     supplementalData,
     ...tableProps
-  } = useComparisonRibbonTableQuery('/api/disease', focusGeneId, focusTaxonId, orthologGenes, term, params);
+  } = useComparisonRibbonTableQuery('/api/disease/ribbondetails', focusGeneId, focusTaxonId, orthologGenes, term, params, '/api/disease/download');
 
   let columns = [
     {
@@ -67,7 +67,7 @@ const DiseaseAnnotationTable = ({
           <br/>
           <small>
             <AnnotatedEntitiesPopupCurationGenePage
-              countId={row.count}
+              countId={row.countId}
               mainRowCurie={getIdentifier(subject)}
               pubModIds={row.pubmedPubModIDs}
               columnNameSet={GENE_DETAILS_COLUMNS}
