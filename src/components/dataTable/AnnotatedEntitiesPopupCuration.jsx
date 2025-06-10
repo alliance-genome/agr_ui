@@ -58,11 +58,19 @@ function AnnotatedEntitiesPopupCuration({ children, entities, mainRowCurie, pubM
 
   const sortedEntities = naturalSortByAnnotationSubject(entities);
 
-  const popperModifiers = {
-    preventOverflow: {
-      boundariesElement: 'window',
+  // const popperModifiers = {
+  //   preventOverflow: {
+  //     boundariesElement: 'window',
+  //   }
+  // };
+  const popperModifiers = [
+    {
+      name: "preventOverflow",
+      options: {
+        rootBoundary: "viewport"
+      }
     }
-  };
+  ]
 
   return (
     <UncontrolledButtonDropdown>

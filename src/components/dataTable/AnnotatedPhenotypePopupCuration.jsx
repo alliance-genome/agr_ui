@@ -48,11 +48,19 @@ function AnnotatedPhenotypePopupCuration({ children, entities, mainRowCurie, pub
 
   const sortedEntities = naturalSortByAnnotationSubject(entities);
 
-  const popperModifiers = {
-    preventOverflow: {
-      boundariesElement: 'window',
+  // const popperModifiers = {
+  //   preventOverflow: {
+  //     boundariesElement: 'window',
+  //   }
+  // };
+  const popperModifiers = [
+    {
+      name: "preventOverflow",
+      options: {
+        rootBoundary: "viewport"
+      }
     }
-  };
+  ]
 
   return (
     <UncontrolledButtonDropdown>

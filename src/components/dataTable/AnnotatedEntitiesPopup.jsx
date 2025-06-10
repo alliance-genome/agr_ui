@@ -33,11 +33,20 @@ function AnnotatedEntitiesPopup(props) {
     return null;
   }
 
-  const popperModifiers = {
-    preventOverflow: {
-      boundariesElement: 'window',
+  // const popperModifiers = {
+  //   preventOverflow: {
+  //     boundariesElement: 'window',
+  //   }
+  // };
+
+  const popperModifiers = [
+    {
+      name: "preventOverflow",
+      options: {
+        rootBoundary: "viewport"
+      }
     }
-  };
+  ]
 
   return (
     <UncontrolledButtonDropdown>

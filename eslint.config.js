@@ -23,6 +23,9 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
-    },
-  },
+    }
+  },{
+    files: ['**/*.{js,jsx}'],
+    extends: [tseslint.configs.disableTypeChecked]
+  }
 )

@@ -20,7 +20,7 @@ This repo utilizes these technologies:
 
 1) This repo depends on nvm to manage Node.js versions. [Follow these instructions](https://github.com/nvm-sh/nvm#installing-and-updating) to install nvm.
 2) Run: `npm run local-init`
-   - **Note**: If you are switching to a branch that uses vite from a branch that uses create react app or vise vesa, it is wise to run `rm -rf node_modules` first to avoid package version conflicts.
+   - **Note**: If you are switching to a branch that uses vite from a branch that uses create react app or vise vesa, it is wise to run `rm -rf node_modules` (from the repo's root directory) first to avoid package version conflicts.
    - You may run into an issue with an "nvm: command not found" error, in that case, you can run these commands manually:
      - `nvm install`
      - `npm install`

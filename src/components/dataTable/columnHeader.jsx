@@ -11,11 +11,19 @@ class ColumnHeader extends React.Component {
   render() {
     const {column, filter, filterElement} = this.props;
     const classes = '';
-    const popperModifiers = {
-      preventOverflow: {
-        boundariesElement: 'window',
+    // const popperModifiers = {
+    //   preventOverflow: {
+    //     boundariesElement: 'window',
+    //   }
+    // };
+    const popperModifiers = [
+      {
+        name: "preventOverflow",
+        options: {
+          rootBoundary: "viewport"
+        }
       }
-    };
+    ]
     const active = Array.isArray(filter) ? filter.length > 0 : filter;
     const { helpPopupProps } = column;
     return (

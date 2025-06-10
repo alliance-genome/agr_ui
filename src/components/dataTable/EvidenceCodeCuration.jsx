@@ -4,7 +4,14 @@ import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
 
 const EvidenceCodeCuration = ({code}) => {
   const tooltipRef = useRef(null);
-
+  const popperModifiers = [
+    {
+      name: "preventOverflow",
+      options: {
+        rootBoundary: "viewport"
+      }
+    }
+  ]
   if (code.abbreviation) {
     return (
       <React.Fragment>
@@ -13,11 +20,12 @@ const EvidenceCodeCuration = ({code}) => {
           target={tooltipRef}
           delay={{show: 300, hide: 150}}
           placement='right'
-          modifiers={{
-            preventOverflow: {
-              enabled: false
-            }
-          }}
+          // modifiers={{
+          //   preventOverflow: {
+          //     enabled: false
+          //   }
+          // }}
+          modifiers={popperModifiers}
         >
           {code.name}
         </UncontrolledTooltip>
