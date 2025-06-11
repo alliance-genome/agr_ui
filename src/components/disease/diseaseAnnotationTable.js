@@ -8,7 +8,7 @@ import {
   ReferencesCellCuration,
   SpeciesCell,
 } from '../dataTable';
-import AnnotatedEntitiesPopupCuration from '../dataTable/AnnotatedEntitiesPopupCuration';
+import AnnotatedEntitiesPopupCurationGenePage from '../dataTable/AnnotatedEntitiesPopupCurationGenePage';
 import { getIdentifier, getDistinctFieldValue, buildProvidersWithUrl } from '../dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
@@ -39,19 +39,12 @@ const DiseaseAnnotationTable = ({
     params.includeNegation = true;
   }
   const {
-    downloadUrl,
+    defaultDownloadUrl: downloadUrl,
     downloadBody,
     data: results,
     supplementalData,
     ...tableProps
-  } = useComparisonRibbonTableQuery('/api/disease', focusGeneId, focusTaxonId, orthologGenes, term, params);
-
-
-  const buildWith = (annotation) => {
-    const filteredPrimaryAnnotations = annotation.primaryAnnotations.filter(primaryAnnotation => primaryAnnotation.with);
-    const withArray = filteredPrimaryAnnotations.map(primaryAnnotation => primaryAnnotation.with);
-    return withArray.flat(1);
-  }
+  } = useComparisonRibbonTableQuery('/api/disease/ribbondetails', focusGeneId, focusTaxonId, orthologGenes, term, params, '/api/disease/download');
 
   let columns = [
     {
@@ -71,15 +64,16 @@ const DiseaseAnnotationTable = ({
       formatter:  (subject, row) => (
         <React.Fragment>
           <GeneCellCuration curie={getIdentifier(subject)} geneSymbol={subject.geneSymbol} />
+          <br/>
           <small>
-            <AnnotatedEntitiesPopupCuration
-              entities={row.primaryAnnotations}
+            <AnnotatedEntitiesPopupCurationGenePage
+              countId={row.countId}
               mainRowCurie={getIdentifier(subject)}
               pubModIds={row.pubmedPubModIDs}
               columnNameSet={GENE_DETAILS_COLUMNS}
             >
               Annotation details
-            </AnnotatedEntitiesPopupCuration>
+            </AnnotatedEntitiesPopupCurationGenePage>
           </small>
         </React.Fragment>
       ),
@@ -141,7 +135,7 @@ const DiseaseAnnotationTable = ({
       filterName: 'dataProvider',
     },
     {
-      dataField: 'basedOn',
+      dataField: 'basedOnGenes',
       text: 'Based On',
       helpPopupProps: {
         id: 'gene-page--disease-associations-table--based-on-help',
@@ -165,7 +159,6 @@ const DiseaseAnnotationTable = ({
   const data = results?.map(annotation => ({
     species: annotation.subject.taxon,
     providers: buildProvidersWithUrl(annotation.primaryAnnotations),
-    basedOn: buildWith(annotation),
     id: hash(annotation),
     disease: annotation.object,
     ...annotation,
