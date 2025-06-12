@@ -8,7 +8,8 @@ export default function useComparisonRibbonTableQuery(
   focusTaxonId,
   orthologGenes,
   termId,
-  additionalQueryParams
+  additionalQueryParams,
+  downloadUrl
 ) {
   const geneIds = [focusGeneId];
   if (orthologGenes) {
@@ -27,7 +28,7 @@ export default function useComparisonRibbonTableQuery(
     arrayFormat: 'repeat',
   });
 
-  const downloadUrl = `${baseUrl}/download${queryString}`;
+  const defaultDownloadUrl = downloadUrl ? `${downloadUrl}${queryString}` : `${baseUrl}/download${queryString}`;
   
   const query = usePostDataTableQuery(
     baseUrl + queryString,
@@ -41,6 +42,7 @@ export default function useComparisonRibbonTableQuery(
 
   return {
     ...query,
-    downloadUrl,
+    defaultDownloadUrl,
+    downloadBody: geneIds,
   };
 }

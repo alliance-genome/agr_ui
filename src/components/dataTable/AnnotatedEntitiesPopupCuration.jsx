@@ -23,7 +23,7 @@ import AnnotationType from './AnnotationType.jsx';
 import AssociationCellCuration from './AssociationCellCuration.jsx';
 import AssertedGenes from './AssertedGenes.jsx';
 import GeneticModifiersCellCuration from './GeneticModifiersCellCuration.jsx';
-import { buildProviderWithUrl, getIdentifier, naturalSortByAnnotationSubject } from './utils.jsx';
+import { getAnnotationSubjectText, buildProviderWithUrl, getIdentifier, naturalSortByAnnotationSubject } from './utils.jsx';
 import StrainBackground from './StrainBackground.jsx';
 
 function renderLink(entity) {
@@ -34,16 +34,14 @@ function renderLink(entity) {
     subtype: entity.diseaseAnnotationSubject.subtype
   })
 
+  const innerText = getAnnotationSubjectText(entity);
+  const inner = <span dangerouslySetInnerHTML={{__html: innerText}}/>;
+
   if (entity.type === 'AlleleDiseaseAnnotation') {
-    const innerText = entity.diseaseAnnotationSubject.alleleSymbol ? entity.diseaseAnnotationSubject.alleleSymbol.displayText : entity.diseaseAnnotationSubject.name;
-    const inner = <span dangerouslySetInnerHTML={{__html: innerText}}/>;
     return <Link to={`/allele/${identifier}`}>{inner}</Link>;
   } else if(entity.type === 'GeneDiseaseAnnotation'){
-      const innerText = entity.diseaseAnnotationSubject.geneSymbol ? entity.diseaseAnnotationSubject.geneSymbol.displayText : entity.diseaseAnnotationSubject.name;
-      const inner = <span dangerouslySetInnerHTML={{__html: innerText}}/>;
       return <Link to={`/gene/${identifier}`}>{inner}</Link>;
   } else {
-      const inner = <span dangerouslySetInnerHTML={{__html: entity.diseaseAnnotationSubject.name}}/>;
       return <ExternalLink href={url}>{inner}</ExternalLink>;
   }
 }
@@ -58,11 +56,6 @@ function AnnotatedEntitiesPopupCuration({ children, entities, mainRowCurie, pubM
 
   const sortedEntities = naturalSortByAnnotationSubject(entities);
 
-  // const popperModifiers = {
-  //   preventOverflow: {
-  //     boundariesElement: 'window',
-  //   }
-  // };
   const popperModifiers = [
     {
       name: "preventOverflow",
@@ -70,7 +63,7 @@ function AnnotatedEntitiesPopupCuration({ children, entities, mainRowCurie, pubM
         rootBoundary: "viewport"
       }
     }
-  ]
+  ];
 
   return (
     <UncontrolledButtonDropdown>

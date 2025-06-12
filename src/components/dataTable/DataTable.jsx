@@ -34,6 +34,8 @@ const DataTable = ({
   data,
   supplementalData,
   downloadUrl,
+  downloadMethod,
+  downloadBody,
   error,
   isError,
   isFetching,
@@ -236,6 +238,8 @@ const DataTable = ({
           <DownloadButton
             downloadUrl={`${downloadUrl}${downloadUrl.indexOf('?') < 0 ? '?' : '&'}${buildTableQueryString(tableState)}`}
             disabled={disabled}
+            method={downloadMethod}
+            body={downloadBody}
           />
       }
       {

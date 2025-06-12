@@ -146,18 +146,18 @@ export function removeDuplicates(objects, keyFunction){
 
 //takes an array of disease/phenotype annotations and returns the array of annotations naturally sorted by the annotation subject symbol/name
 export function naturalSortByAnnotationSubject(annotations) {
-  return annotations.sort(smartAlphaSort(annotation => getAnnotationSubject(annotation)));
+  return annotations.sort(smartAlphaSort(annotation => getAnnotationSubjectText(annotation)));
 }
 
-export function getAnnotationSubject(annotation) {
+export function getAnnotationSubjectText(annotation) {
   if (annotation.type === "AGMDiseaseAnnotation") {
-    return annotation.diseaseAnnotationSubject.name;
+    return annotation.diseaseAnnotationSubject.agmFullName.displayText;
   } else if (annotation.type === 'AlleleDiseaseAnnotation') {
     return annotation.diseaseAnnotationSubject.alleleSymbol.displayText;
   } else if(annotation.type === 'GeneDiseaseAnnotation'){
     return annotation.diseaseAnnotationSubject.geneSymbol.displayText;
   } else if(annotation.type === 'AGMPhenotypeAnnotation'){
-    return annotation.phenotypeAnnotationSubject.name;
+    return annotation.phenotypeAnnotationSubject.agmFullName.displayText;
   } else if(annotation.type === 'AllelePhenotypeAnnotation'){
     return annotation.phenotypeAnnotationSubject.alleleSymbol.displayText;
   } else if(annotation.type === 'GenePhenotypeAnnotation'){
