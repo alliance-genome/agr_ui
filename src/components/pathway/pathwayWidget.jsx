@@ -56,7 +56,7 @@ class PathwayWidget extends Component {
 
   /**
    * Dynamically load the reactome library the first time the component is mount
-   * Note: has some issue - current favor method is just to add script to public/index.vite_original.html for now
+   * Note: has some issue - current favor method is just to add script to public/index.html for now
    */
   // loadReactomeLibrary() {
   //   const script = document.createElement("script");
