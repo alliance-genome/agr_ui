@@ -231,7 +231,7 @@ const DataTable = ({
                   <span className='text-muted'>
                     <PaginationTotalStandalone {...paginationProps} />
                     <SizePerPageDropdownStandalone {...paginationProps} />
-                      per page
+                      per page yyyy
                   </span>
                   <PaginationListStandalone {...paginationProps} />
                 </div>

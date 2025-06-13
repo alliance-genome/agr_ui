@@ -3,9 +3,17 @@ import style from './style.module.scss';
 // import {SearchBarComponent} from '../layout/searchBar';
 // import SearchExample from './SearchExample';
 import EntityButton from './EntityButton';
+import {useFetchNumber} from "./useFetchNumber";
+import {useAllResultsByNumber} from "./useAllResultsByNumber";
+import LoadingSpinner from "../../components/loadingSpinner";
 // import {Link} from 'react-router-dom';
 
 const DiseasePortalSection = () => {
+
+  const url = '/api/disease/DOID:10652/genes';
+  let number = useFetchNumber(`${url}?limit=1`);
+  const { data, loading, error } = useAllResultsByNumber(url, number);
+
   return (
     <section className={`${style.section} ${style.searchBackground} shadow`}>
       <div className={style.contentContainer}>
@@ -35,7 +43,13 @@ const DiseasePortalSection = () => {
             to='/disease/DOID:10652#associated-genes'
             tooltip='View all associated genes'
           >
-            2,939<br />Genes
+            {loading
+              ? <div><LoadingSpinner /></div>
+              : error
+                ? <div>Error: {error}</div>
+                : <div>{data.length}</div>
+            }
+            Genes
           </EntityButton>
           <EntityButton
             id='entity-alleles'

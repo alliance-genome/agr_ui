@@ -65,7 +65,7 @@ The development server proxies API requests to the API server. The API server ca
 If need be the API_URL can be changed by setting it on the command line before running the UI:
 
 ```bash
->	export API_URL=https://stage.alliancegenome.org; npm start # to send proxied requests to the stage server.
+>	export API_URL=https://test.alliancegenome.org; npm start # to send proxied requests to the stage server.
 ```
 
 Additionally, there are two convenience commands that will proxy `/api` requests to either the stage or test environments
