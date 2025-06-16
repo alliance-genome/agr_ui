@@ -8,7 +8,7 @@ import {
   ReferencesCellCuration,
   SpeciesCell,
 } from '../dataTable';
-import AnnotatedEntitiesPopupCurationGenePage from '../dataTable/AnnotatedEntitiesPopupCurationGenePage,jsx';
+import AnnotatedEntitiesPopupCurationGenePage from '../dataTable/AnnotatedEntitiesPopupCurationGenePage.jsx';
 import { getIdentifier, getDistinctFieldValue, buildProvidersWithUrl } from '../dataTable/utils.jsx';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
