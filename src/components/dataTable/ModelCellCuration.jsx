@@ -9,7 +9,7 @@ const ModelCellCuration = ({ model }) => {
 
   return (
     <ExternalLink href={url}>
-      <span dangerouslySetInnerHTML={{ __html: model.name }} />
+      <span dangerouslySetInnerHTML={{ __html: model.agmFullName.displayText }} />
     </ExternalLink>
   );
 };

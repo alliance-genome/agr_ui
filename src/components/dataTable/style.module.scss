@@ -50,6 +50,32 @@
   }
 }
 
+.tablePopupWithStickyFooter {
+  max-height: 500px;
+  display: flex;
+  flex-direction: column;
+
+  .tablePopupInnerWithStickyFooter {
+    width: 900px;
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+  }
+
+  .tableContainer {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0; 
+  }
+
+  .stickyFooter {
+    border-top: 1px solid #dee2e6;
+    background-color: white;
+    padding: 8px 0;
+    flex-shrink: 0; 
+  }
+}
+
 .helpIconWrapper {
   margin-left: 5px;
 }
