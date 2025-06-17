@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 export const useFetchNumber = (url) => {
-  const [number, setNumber] = useState(null);
+  const [number, setNumber] = useState(2969);
 
   useEffect(() => {
     const fetchNumber = async () => {
