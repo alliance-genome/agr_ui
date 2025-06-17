@@ -5,7 +5,7 @@ import style from './style.module.scss';
 import EntityButton from './EntityButton';
 import {useFetchNumber} from "./useFetchNumber";
 import {useAllResultsByNumber} from "./useAllResultsByNumber";
-import LoadingSpinner from "../../components/loadingSpinner";
+// import LoadingSpinner from "../../components/loadingSpinner";
 // import {Link} from 'react-router-dom';
 
 const DiseasePortalSection = () => {
@@ -44,7 +44,7 @@ const DiseasePortalSection = () => {
             tooltip='View all associated genes'
           >
             {loading
-              ? <div><LoadingSpinner /></div>
+              ? <div>2969</div>
               : error
                 ? <div>Error: {error}</div>
                 : <div>{data.length}</div>
