@@ -4,13 +4,11 @@ import style from './style.module.scss';
 // import SearchExample from './SearchExample';
 import EntityButton from './EntityButton';
 import {useEntityButtonCounts} from "./useEntityButtonCounts";
-// import LoadingSpinner from "../../components/loadingSpinner";
 // import {Link} from 'react-router-dom';
 
 const DiseasePortalSection = () => {
 
   const url = '/api/disease/DOID:10652/genes';
-  // let number = useFetchNumber(`${url}?limit=1`);
   const { counts, loading, error } = useEntityButtonCounts(url, 5000);
 
   return (
