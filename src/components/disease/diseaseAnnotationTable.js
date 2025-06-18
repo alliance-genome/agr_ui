@@ -9,7 +9,7 @@ import {
   SpeciesCell,
 } from '../dataTable';
 import AnnotatedEntitiesPopupCurationGenePage from '../dataTable/AnnotatedEntitiesPopupCurationGenePage';
-import { getIdentifier, getDistinctFieldValue, buildProvidersWithUrl } from '../dataTable/utils';
+import { getIdentifier, getDistinctFieldValue } from '../dataTable/utils';
 import {compareByFixedOrder} from '../../lib/utils';
 import {SPECIES_NAME_ORDER} from '../../constants';
 import ProvidersCellCuration from '../dataTable/ProvidersCellCuration';
@@ -39,12 +39,12 @@ const DiseaseAnnotationTable = ({
     params.includeNegation = true;
   }
   const {
-    defaultDownloadUrl: downloadUrl,
+    downloadUrl,
     downloadBody,
     data: results,
     supplementalData,
     ...tableProps
-  } = useComparisonRibbonTableQuery('/api/disease/ribbondetails', focusGeneId, focusTaxonId, orthologGenes, term, params, '/api/disease/download');
+  } = useComparisonRibbonTableQuery('/api/disease', focusGeneId, focusTaxonId, orthologGenes, term, params);
 
   let columns = [
     {
@@ -158,7 +158,6 @@ const DiseaseAnnotationTable = ({
 
   const data = results?.map(annotation => ({
     species: annotation.subject.taxon,
-    providers: buildProvidersWithUrl(annotation.primaryAnnotations),
     id: hash(annotation),
     disease: annotation.object,
     ...annotation,
