@@ -18,7 +18,6 @@ export function useEntityButtonCounts(url, number) {
         const json = await res.json();
         if (!cancelled) {
           setCounts((filterData(json.results)));
-          // setData(filterData(json.results));
         }
       } catch (err) {
         if (!cancelled) {
