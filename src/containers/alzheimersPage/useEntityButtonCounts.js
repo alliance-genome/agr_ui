@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 
 export function useEntityButtonCounts(url, number) {
   const [counts, setCounts] = useState(2969);
-  // const [data, setData] = useState([]);
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
 
