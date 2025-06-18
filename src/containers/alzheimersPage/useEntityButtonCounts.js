@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 
-export function useAllResultsByNumber(url, number) {
-  const [data, setData] = useState([]);
+export function useEntityButtonCounts(url, number) {
+  const [counts, setCounts] = useState(2969);
+  // const [data, setData] = useState([]);
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -17,7 +18,8 @@ export function useAllResultsByNumber(url, number) {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
         if (!cancelled) {
-          setData(filterData(json.results));
+          setCounts((filterData(json.results)));
+          // setData(filterData(json.results));
         }
       } catch (err) {
         if (!cancelled) {
@@ -38,7 +40,6 @@ export function useAllResultsByNumber(url, number) {
   }, [url, number]);
 
   function filterData(data) {
-    const filtered = [];
     const set = new Set();
 
     data.forEach((each) => {
@@ -46,11 +47,10 @@ export function useAllResultsByNumber(url, number) {
       const type = each.generatedRelationString;
       if (!set.has(symbol) && type !== "is_not_implicated_in") {
         set.add(symbol);
-        filtered.push(each);
       }
     });
-    return filtered;
+    return set.size;
   }
 
-  return { data, error, loading };
+  return { counts, error, loading };
 }
