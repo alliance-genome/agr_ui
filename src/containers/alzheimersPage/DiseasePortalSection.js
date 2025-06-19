@@ -3,9 +3,14 @@ import style from './style.module.scss';
 // import {SearchBarComponent} from '../layout/searchBar';
 // import SearchExample from './SearchExample';
 import EntityButton from './EntityButton';
+import {useEntityButtonCounts} from "./useEntityButtonCounts";
 // import {Link} from 'react-router-dom';
 
 const DiseasePortalSection = () => {
+
+  const url = '/api/disease/DOID:10652/genes';
+  const { counts, loading, error } = useEntityButtonCounts(url, 5000);
+
   return (
     <section className={`${style.section} ${style.searchBackground} shadow`}>
       <div className={style.contentContainer}>
@@ -35,7 +40,13 @@ const DiseasePortalSection = () => {
             to='/disease/DOID:10652#associated-genes'
             tooltip='View all associated genes'
           >
-            2,939<br />Genes
+            {loading
+              ? <div>2969</div>
+              : error
+                ? <div>Error: {error}</div>
+                : <div>{counts}</div>
+            }
+            Genes
           </EntityButton>
           <EntityButton
             id='entity-alleles'
