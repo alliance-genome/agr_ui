@@ -5,6 +5,8 @@ frontend:
       commands:
         - nvm install
         - nvm use
+        - rm package-lock.json
+        - rm -rf node_modules
         - npm install
     build:
       commands:
