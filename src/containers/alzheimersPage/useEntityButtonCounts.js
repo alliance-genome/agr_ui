@@ -1,9 +1,7 @@
 import {useEffect, useState} from 'react';
 
 export function useEntityButtonCounts(url, number) {
-  const [counts, setCounts] = useState(2969);
-  const [error, setError] = useState();
-  const [loading, setLoading] = useState(false);
+  const [counts, setCounts] = useState();
 
   useEffect(() => {
     if (!number || number <= 0) return;
@@ -20,7 +18,7 @@ export function useEntityButtonCounts(url, number) {
         }
       } catch {
         if (!cancelled) {
-          setCounts(undefined); // or some fallback
+          setCounts(undefined);
         }
       }
     }
