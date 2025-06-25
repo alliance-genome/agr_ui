@@ -42,5 +42,6 @@ export default function useComparisonRibbonTableQuery(
   return {
     ...query,
     downloadUrl,
+    downloadBody: geneIds,
   };
 }
