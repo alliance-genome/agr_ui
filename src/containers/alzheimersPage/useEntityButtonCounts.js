@@ -48,7 +48,7 @@ export function useEntityButtonCounts(url, number) {
 
     return set.size;
     function isWrongType(type) {
-      return type == 'is_not_implicated_in' || type == 'does_not_model'
+      return type === 'is_not_implicated_in' || type === 'does_not_model'
     }
   }
 
