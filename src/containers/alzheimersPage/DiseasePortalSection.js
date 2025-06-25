@@ -3,7 +3,7 @@ import style from './style.module.scss';
 // import {SearchBarComponent} from '../layout/searchBar';
 // import SearchExample from './SearchExample';
 import EntityButton from './EntityButton';
-import {useEntityButtonCount, useEntityButtonCounts} from "./useEntityButtonCounts";
+import {useEntityButtonCounts} from "./useEntityButtonCounts";
 // import {Link} from 'react-router-dom';
 
 const DiseasePortalSection = () => {
