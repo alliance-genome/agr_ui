@@ -80,7 +80,7 @@ const GeneModelsTable = ({id}) => {
         id: 'gene-page--model-table--modifier-help',
         children: <span>A secondary condition that ameliorates or exacerbates the phenotype in the model.</span>,
       },
-      formatter: conditions => <ExperimentalConditionCell conditions={conditions} />,
+      formatter: conditions => <ExperimentalConditionCellCuration conditions={conditions} />,
       headerStyle: {width: '220px'},
     },
     {
