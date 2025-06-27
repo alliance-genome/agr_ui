@@ -5,7 +5,6 @@ import { DataTable } from '../../components/dataTable';
 import CollapsibleList from '../../components/collapsibleList/collapsibleList';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import AssociationType from '../../components/AssociationType';
-import ExperimentalConditionCell from '../../components/dataTable/ExperimentalConditionCell';
 import ExperimentalConditionCellCuration from "../../components/dataTable/ExperimentalConditionCellCuration";
 import DiseaseLinkCuration from "../../components/disease/DiseaseLinkCuration";
 import ModelCellCuration from "../../components/dataTable/ModelCellCuration";
