@@ -1,16 +1,16 @@
 import {useEffect, useState} from 'react';
 
-export function useEntityButtonCounts(url, number) {
+export function useEntityButtonCounts(url, limit) {
   const [counts, setCounts] = useState();
 
   useEffect(() => {
-    if (!number || number <= 0) return;
+    if (!limit || limit <= 0) return;
 
     let cancelled = false;
 
     async function fetchCount() {
       try {
-        const response = await fetch(`${url}?limit=${number}`);
+        const response = await fetch(`${url}?limit=${limit}`);
         if (!response.ok) throw new Error(response.status);
         const json = await response.json();
         if (!cancelled) {
@@ -28,7 +28,7 @@ export function useEntityButtonCounts(url, number) {
     return () => {
       cancelled = true;
     };
-  }, [url, number]);
+  }, [url, limit]);
 
   function filterData(items) {
     const set = new Set();
