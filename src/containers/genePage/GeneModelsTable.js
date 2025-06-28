@@ -5,7 +5,6 @@ import { DataTable } from '../../components/dataTable';
 import CollapsibleList from '../../components/collapsibleList/collapsibleList';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import AssociationType from '../../components/AssociationType';
-import ExperimentalConditionCell from '../../components/dataTable/ExperimentalConditionCell';
 import ExperimentalConditionCellCuration from "../../components/dataTable/ExperimentalConditionCellCuration";
 import DiseaseLinkCuration from "../../components/disease/DiseaseLinkCuration";
 import ModelCellCuration from "../../components/dataTable/ModelCellCuration";
@@ -80,7 +79,7 @@ const GeneModelsTable = ({id}) => {
         id: 'gene-page--model-table--modifier-help',
         children: <span>A secondary condition that ameliorates or exacerbates the phenotype in the model.</span>,
       },
-      formatter: conditions => <ExperimentalConditionCell conditions={conditions} />,
+      formatter: conditions => <ExperimentalConditionCellCuration conditions={conditions} />,
       headerStyle: {width: '220px'},
     },
     {
