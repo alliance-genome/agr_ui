@@ -1,54 +1,56 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 
-export function useEntityButtonCounts(url, number) {
-  const [counts, setCounts] = useState(2969);
-  const [error, setError] = useState();
-  const [loading, setLoading] = useState(false);
+export function useEntityButtonCounts(url, limit) {
+  const [counts, setCounts] = useState();
 
   useEffect(() => {
-    if (!number) return;
+    if (!limit || limit <= 0) return;
 
     let cancelled = false;
-    setLoading(true);  // Start loading
 
-    const fetchAll = async () => {
+    async function fetchCount() {
       try {
-        const res = await fetch(`${url}?limit=${number}`);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const json = await res.json();
+        const response = await fetch(`${url}?limit=${limit}`);
+        if (!response.ok) throw new Error(response.status);
+        const json = await response.json();
         if (!cancelled) {
-          setCounts((filterData(json.results)));
+          setCounts(filterData(json.results));
         }
-      } catch (err) {
+      } catch {
         if (!cancelled) {
-          setError(err.message);
-        }
-      } finally {
-        if (!cancelled) {
-          setLoading(false);  // End loading
+          setCounts(undefined);
         }
       }
-    };
+    }
 
-    fetchAll();
+    fetchCount();
 
     return () => {
       cancelled = true;
     };
-  }, [url, number]);
+  }, [url, limit]);
 
-  function filterData(data) {
+  function filterData(items) {
     const set = new Set();
-
-    data.forEach((each) => {
-      const symbol = each.subject.geneSymbol.displayText;
+    for (const each of items) {
+      const subject = each.subject;
+      const symbol = subject.geneSymbol?.displayText
+        ? subject.geneSymbol?.displayText
+          : subject.name
+            ? subject.name
+              : subject.alleleSymbol?.displayText
       const type = each.generatedRelationString;
-      if (!set.has(symbol) && type !== "is_not_implicated_in") {
+
+      if (symbol && !set.has(symbol) && !isWrongType(type)) {
         set.add(symbol);
       }
-    });
+    }
+
     return set.size;
+    function isWrongType(type) {
+      return type === 'is_not_implicated_in' || type === 'does_not_model'
+    }
   }
 
-  return { counts, error, loading };
+  return counts;
 }

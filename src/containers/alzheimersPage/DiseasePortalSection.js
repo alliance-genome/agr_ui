@@ -8,8 +8,10 @@ import {useEntityButtonCounts} from "./useEntityButtonCounts";
 
 const DiseasePortalSection = () => {
 
-  const url = '/api/disease/DOID:10652/genes';
-  const { counts, loading, error } = useEntityButtonCounts(url, 5000);
+  const url = '/api/disease/DOID:10652/';
+  const geneCount = useEntityButtonCounts(url+'genes', 5000);
+  const modelCount = useEntityButtonCounts(url+'models', 5000);
+  const alleleCount = useEntityButtonCounts(url+'alleles', 5000);
 
   return (
     <section className={`${style.section} ${style.searchBackground} shadow`}>
@@ -33,19 +35,15 @@ const DiseasePortalSection = () => {
             to='/disease/DOID:10652#associated-models'
             tooltip='View all associated models'
           >
-            213<br />Models
+          <div>{modelCount ?? '207'}</div>
+            Models
           </EntityButton>
           <EntityButton
             id='entity-genes'
             to='/disease/DOID:10652#associated-genes'
             tooltip='View all associated genes'
           >
-            {loading
-              ? <div>2969</div>
-              : error
-                ? <div>Error: {error}</div>
-                : <div>{counts}</div>
-            }
+             <div>{geneCount ?? '2969'}</div>
             Genes
           </EntityButton>
           <EntityButton
@@ -53,7 +51,8 @@ const DiseasePortalSection = () => {
             to='/disease/DOID:10652#associated-alleles'
             tooltip='View all associated alleles'
           >
-            268<br />Alleles
+            <div>{alleleCount ?? '270'}</div>
+            Alleles
           </EntityButton>
           <EntityButton
             id='entity-publications'
