@@ -16,7 +16,8 @@ jobs:
       contents: read
       pull-requests: write
       issues: write
-      # id-token: write removed - not needed for this workflow
+      # REQUIRED: Must grant id-token permission to the reusable workflow
+      id-token: write
     uses: alliance-genome/.github/.github/workflows/claude-code-review.yml@main
     with:
       model: claude-sonnet-4-20250514
