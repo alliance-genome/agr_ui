@@ -8,14 +8,25 @@ on:
 
 jobs:
   claude-review:
+    # Only run on pull requests and PR comments (not issue comments)
+    if: |
+      github.event_name == 'pull_request' || 
+      (github.event_name == 'issue_comment' && github.event.issue.pull_request)
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+      # id-token: write removed - not needed for this workflow
     uses: alliance-genome/.github/.github/workflows/claude-code-review.yml@main
     with:
       model: claude-sonnet-4-20250514
       max_turns: 30
-      review_focus: "UI/UX accessibility, React best practices, performance optimizations"
-      custom_instructions: |
-        This is the Alliance UI repository using React and TypeScript.
-        Focus on frontend-specific issues like accessibility, performance, and React patterns.
+      # Standardized focus on critical bugs and blockers only
+      review_focus: "critical bugs and blockers that could cause runtime errors, data corruption, or system failures in the React UI application"
+      trigger_phrase: "@claude"
+      use_zen_tools: true
+      pr_size_threshold: "300"
+      skip_threshold: "25"
     secrets:
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
