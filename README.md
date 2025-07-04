@@ -2,7 +2,14 @@
 # Alliance of Genome Resources UI
 
 Frontend code for the Alliance of Genome Resources website.
-Testing Claude Code review thresholds - v2.
+
+## Claude Code Review Testing
+This change tests the new threshold strategy:
+- Skip threshold: ≤3 lines (bottom 10%)
+- Standard review: 3-40 lines (middle 40%)
+- Zen review: >40 lines (top 50%)
+
+This PR should trigger a standard Claude Sonnet review.
 
 ## Folder structure
 
