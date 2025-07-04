@@ -3,6 +3,8 @@
 
 Frontend code for the Alliance of Genome Resources website.
 
+This repository uses automated code review powered by Claude AI.
+
 ## Folder structure
 
 `package.json`, `package-lock.json` and `node_modules/` track the dependencies for by all apps and libs. This means that dependencies installation for any app or library should happend at the **root** of the project.
