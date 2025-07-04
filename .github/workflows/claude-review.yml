@@ -22,8 +22,8 @@ jobs:
     with:
       model: claude-sonnet-4-20250514
       max_turns: 30
-      # Standardized focus on critical bugs and blockers only
-      review_focus: "critical bugs and blockers that could cause runtime errors, data corruption, or system failures in the React UI application"
+      # Frontend-specific focus for React UI application
+      review_focus: "critical bugs, security vulnerabilities, and performance issues in the React frontend application. Focus on: component rendering errors, state management bugs, memory leaks, XSS vulnerabilities, and accessibility violations"
       trigger_phrase: "@claude"
       use_zen_tools: true
       pr_size_threshold: "300"
