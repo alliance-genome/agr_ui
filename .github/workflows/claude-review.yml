@@ -1,0 +1,22 @@
+name: Claude Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  issue_comment:
+    types: [created]
+
+jobs:
+  claude-review:
+    uses: alliance-genome/.github/.github/workflows/claude-code-review.yml@main
+    with:
+      model: claude-sonnet-4-20250514
+      max_turns: 30
+      review_focus: "UI/UX accessibility, React best practices, performance optimizations"
+      custom_instructions: |
+        This is the Alliance UI repository using React and TypeScript.
+        Focus on frontend-specific issues like accessibility, performance, and React patterns.
+    secrets:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
