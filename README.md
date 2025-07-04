@@ -9,7 +9,56 @@ This change tests the new threshold strategy:
 - Standard review: 3-40 lines (middle 40%)
 - Zen review: >40 lines (top 50%)
 
-This PR should trigger a standard Claude Sonnet review.
+This PR should trigger a ZEN REVIEW with O3 model.
+
+### Testing Zen Review Activation
+When this PR is created, it should:
+1. Detect >40 lines changed
+2. Enable zen tools in the workflow
+3. Run mcp__zen__codereview with O3 model
+4. The review should explicitly confirm if O3 was used
+
+Please include in your review:
+- Confirmation that zen tools were enabled
+- Confirmation that O3 model was used
+- Raw output from the zen codereview tool
+
+### Additional Test Content
+Adding more lines to ensure we exceed the 40-line threshold:
+
+#### Section 1: Architecture Overview
+The Alliance of Genome Resources UI is built with modern web technologies:
+- React for component-based UI development
+- Redux for state management
+- React Query for server state and caching
+- Bootstrap and Sass for styling
+- Webpack for bundling
+
+#### Section 2: Development Workflow
+Our development process includes:
+- Feature branch development
+- Automated PR reviews with Claude Code
+- Unit testing with React Testing Library
+- E2E testing capabilities
+- Continuous integration and deployment
+
+#### Section 3: Performance Considerations
+Key performance optimizations:
+- Code splitting for faster initial loads
+- Lazy loading of route components
+- Optimized bundle sizes
+- Efficient state management patterns
+- Caching strategies with React Query
+
+#### Section 4: Security Best Practices
+Security measures in place:
+- Input validation and sanitization
+- XSS prevention strategies
+- Secure API communication
+- Authentication and authorization
+- Regular dependency updates
+
+This extensive change should definitely trigger the zen review!
 
 ## Folder structure
 
