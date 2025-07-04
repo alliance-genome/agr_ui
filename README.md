@@ -2,6 +2,7 @@
 # Alliance of Genome Resources UI
 
 Frontend code for the Alliance of Genome Resources website.
+Testing Claude Code review thresholds.
 
 ## Folder structure
 
