@@ -8,12 +8,9 @@ import OrthologPicker from '../OrthologPicker.jsx';
 import LoadingSpinner from '../loadingSpinner.jsx';
 import useEventListener from '../../hooks/useEventListener';
 import useComparisonRibbonQuery from '../../hooks/useComparisonRibbonQuery';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
-const ExpressionComparisonRibbon = ({
-  geneId,
-  geneTaxon
-}) => {
+const ExpressionComparisonRibbon = ({ geneId, geneTaxon }) => {
   const [compareOrthologs, setCompareOrthologs] = useState(true);
   const [selectedOrthologs, setSelectedOrthologs] = useState(null);
   const [selectedBlock, setSelectedBlock] = useState({
@@ -33,8 +30,8 @@ const ExpressionComparisonRibbon = ({
   };
 
   const onCellClick = (e) => {
-    setSelectedBlock(current => ({
-      group: (current.group && current.group.id === e.detail.group.id) ? null : e.detail.group,
+    setSelectedBlock((current) => ({
+      group: current.group && current.group.id === e.detail.group.id ? null : e.detail.group,
       subject: e.detail.subjects,
     }));
   };
@@ -56,26 +53,26 @@ const ExpressionComparisonRibbon = ({
     const taxonIdYeast = 'NCBITaxon:559292';
     let categories = summary.data.categories || [];
     if (categories && selectedOrthologs.length === 0 && geneTaxon === taxonIdYeast) {
-      categories = categories.filter(category => !category.id.startsWith('UBERON:'));
+      categories = categories.filter((category) => !category.id.startsWith('UBERON:'));
     }
 
     updatedSummary = {
       ...summary.data,
-      categories
+      categories,
     };
   }
 
   return (
     <React.Fragment>
-      <div className='pb-4'>
+      <div className="pb-4">
         <ControlsContainer>
           <OrthologPicker
             checkboxValue={compareOrthologs}
             defaultStringency={STRINGENCY_HIGH}
             focusGeneId={geneId}
             focusTaxonId={geneTaxon}
-            geneHasDataTest={info => info.hasExpressionAnnotations}
-            id='expression-ortho-picker'
+            geneHasDataTest={(info) => info.hasExpressionAnnotations}
+            id="expression-ortho-picker"
             onChange={handleOrthologChange}
             onCheckboxValueChange={setCompareOrthologs}
           />
@@ -83,41 +80,49 @@ const ExpressionComparisonRibbon = ({
       </div>
 
       <HorizontalScroll>
-        <div className='text-nowrap'>
+        <div className="text-nowrap">
           <wc-ribbon-strips
-            category-all-style='1'
-            color-by='0'
+            category-all-style="1"
+            color-by="0"
             data={JSON.stringify(updatedSummary)}
             fire-event-on-empty-cells={false}
             group-clickable={false}
             group-open-new-tab={false}
             new-tab={false}
             ref={ribbonRef}
-            selection-mode='1'
-            subject-base-url='/gene/'
+            selection-mode="1"
+            subject-base-url="/gene/"
             subject-open-new-tab={false}
             subject-position={compareOrthologs ? '1' : '0'}
             update-on-subject-change={false}
           />
         </div>
-        <div className='ribbon-loading-overlay'>{summary.isLoading && <LoadingSpinner />}</div>
-        <div className='text-muted mt-2'>
-          <i>Cell color indicative of annotation volume; red slash indicates species lacks structure or developmental stage.</i>
+        <div className="ribbon-loading-overlay">{summary.isLoading && <LoadingSpinner />}</div>
+        <div className="text-muted mt-2">
+          <i>
+            Cell color indicative of annotation volume; red slash indicates species lacks structure or developmental
+            stage.
+          </i>
         </div>
       </HorizontalScroll>
 
-      {selectedBlock.group &&
-        <div className='pt-4'>
-          <ExpressionAnnotationTable focusGeneId={geneId} focusTaxonId={geneTaxon} orthologGenes={selectedOrthologs} term={selectedBlock.group.id} />
+      {selectedBlock.group && (
+        <div className="pt-4">
+          <ExpressionAnnotationTable
+            focusGeneId={geneId}
+            focusTaxonId={geneTaxon}
+            orthologGenes={selectedOrthologs}
+            term={selectedBlock.group.id}
+          />
         </div>
-      }
+      )}
     </React.Fragment>
   );
 };
 
 ExpressionComparisonRibbon.propTypes = {
   geneId: PropTypes.string.isRequired,
-  geneTaxon: PropTypes.string.isRequired
+  geneTaxon: PropTypes.string.isRequired,
 };
 
 //TODO: withRouter - test

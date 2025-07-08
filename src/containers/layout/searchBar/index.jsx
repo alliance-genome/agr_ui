@@ -2,13 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Autosuggest from 'react-autosuggest';
 import { parseQueryString, stringifyQuery } from '../../../lib/searchHelpers.jsx';
-import {useLocation, useNavigate} from 'react-router-dom';
-import {
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  UncontrolledDropdown
-} from 'reactstrap';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
@@ -18,15 +13,11 @@ import fetchData from '../../../lib/fetchData';
 
 import { CATEGORIES } from '../../../constants';
 
-import {
-  autocompleteGoToPageEvent,
-  autocompleteSearchEvent
-} from '../../../lib/analytics.js';
+import { autocompleteGoToPageEvent, autocompleteSearchEvent } from '../../../lib/analytics.js';
 import { getURLForEntry } from '../../../lib/searchHelpers.jsx';
 
 const AUTO_BASE_URL = '/api/search_autocomplete';
 const DEFAULT_CAT = CATEGORIES[0];
-
 
 class SearchBarComponent extends Component {
   constructor(props) {
@@ -36,7 +27,7 @@ class SearchBarComponent extends Component {
       abortController: null,
       autoOptions: [],
       catOption: DEFAULT_CAT,
-      value: initValue
+      value: initValue,
     };
   }
 
@@ -47,9 +38,7 @@ class SearchBarComponent extends Component {
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         value: queryOptions.q || '',
-        catOption: queryOptions.category ?
-          CATEGORIES.find(cat => cat.name === queryOptions.category) :
-          DEFAULT_CAT,
+        catOption: queryOptions.category ? CATEGORIES.find((cat) => cat.name === queryOptions.category) : DEFAULT_CAT,
       });
     }
   }
@@ -63,7 +52,7 @@ class SearchBarComponent extends Component {
   }
 
   handleSelect(selected) {
-    const newCatOption = CATEGORIES.find(cat => cat.name === selected);
+    const newCatOption = CATEGORIES.find((cat) => cat.name === selected);
     this.setState({ catOption: newCatOption });
   }
 
@@ -81,7 +70,7 @@ class SearchBarComponent extends Component {
   handleFetchData({ value }) {
     let query = value;
     let cat = this.state.catOption.name;
-    let catSegment = cat === DEFAULT_CAT.name ? '' : ('&category=' + cat);
+    let catSegment = cat === DEFAULT_CAT.name ? '' : '&category=' + cat;
     let url = AUTO_BASE_URL + '?q=' + query + catSegment;
     if (this.state.abortController) {
       this.state.abortController.abort();
@@ -89,14 +78,14 @@ class SearchBarComponent extends Component {
     const abortController = new AbortController();
     this.setState({ abortController });
     fetchData(url, { signal: abortController.signal })
-      .then(data => {
+      .then((data) => {
         let newOptions = data.results || [];
         this.setState({
           autoOptions: newOptions,
           abortController: null,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.name === 'AbortError') {
           return;
         }
@@ -134,38 +123,26 @@ class SearchBarComponent extends Component {
     autocompleteSearchEvent(query);
     this.props.navigate({
       pathname: '/search',
-      search: stringifyQuery(newQp)
+      search: stringifyQuery(newQp),
     });
   }
 
   renderDropdown() {
     let _title = this.state.catOption.displayName;
-    let nodes = CATEGORIES.map(d => {
-      let labelNode = (d.name === DEFAULT_CAT.name) ? 'All' :
-        <CategoryLabel category={d.name} />;
+    let nodes = CATEGORIES.map((d) => {
+      let labelNode = d.name === DEFAULT_CAT.name ? 'All' : <CategoryLabel category={d.name} />;
       return (
-        <DropdownItem
-          className={style.dropdownItem}
-          key={d.name}
-          onClick={() => this.handleSelect(d.name)}
-        >
+        <DropdownItem className={style.dropdownItem} key={d.name} onClick={() => this.handleSelect(d.name)}>
           {labelNode}
         </DropdownItem>
       );
     });
     return (
-      <UncontrolledDropdown className='input-group-prepend'>
-        <DropdownToggle
-          caret
-          className={`${style.searchButton} border-right-0`}
-          color='secondary'
-          outline
-        >
+      <UncontrolledDropdown className="input-group-prepend">
+        <DropdownToggle caret className={`${style.searchButton} border-right-0`} color="secondary" outline>
           {_title}
         </DropdownToggle>
-        <DropdownMenu>
-          {nodes}
-        </DropdownMenu>
+        <DropdownMenu>{nodes}</DropdownMenu>
       </UncontrolledDropdown>
     );
   }
@@ -173,7 +150,7 @@ class SearchBarComponent extends Component {
   renderSuggestion(d) {
     return (
       <div className={style.autoListItem}>
-        <span>{d.name_key ? d.name_key : d.name }</span>
+        <span>{d.name_key ? d.name_key : d.name}</span>
         <span className={style.catContainer}>
           <CategoryLabel category={d.category} />
         </span>
@@ -182,7 +159,7 @@ class SearchBarComponent extends Component {
   }
 
   render() {
-    let _getSuggestionValue = (d => d.name_key);
+    let _getSuggestionValue = (d) => d.name_key;
     let _inputProps = {
       autoFocus: this.props.autoFocus,
       placeholder: this.props.placeholder,
@@ -196,13 +173,11 @@ class SearchBarComponent extends Component {
       suggestionsContainer: style.suggestionsContainer,
       suggestionsList: style.suggestionsList,
       suggestion: style.suggestion,
-      suggestionHighlighted: style.suggestionHighlighted
+      suggestionHighlighted: style.suggestionHighlighted,
     };
     return (
       <form onSubmit={this.handleSubmit.bind(this)}>
-        <div
-          className={`input-group flex-nowrap my-1 my-md-0 ${style.searchBarOuter}`}
-        >
+        <div className={`input-group flex-nowrap my-1 my-md-0 ${style.searchBarOuter}`}>
           {this.renderDropdown()}
           <Autosuggest
             getSuggestionValue={_getSuggestionValue}
@@ -214,11 +189,8 @@ class SearchBarComponent extends Component {
             suggestions={this.state.autoOptions}
             theme={_theme}
           />
-          <div className='input-group-append'>
-            <button
-              className={`btn text-primary border-left-0 ${style.searchButton}`}
-              type='submit'
-            >
+          <div className="input-group-append">
+            <button className={`btn text-primary border-left-0 ${style.searchButton}`} type="submit">
               <FontAwesomeIcon icon={faMagnifyingGlass} />
             </button>
           </div>
@@ -243,19 +215,17 @@ SearchBarComponent.defaultProps = {
 };
 
 /*
-* TODO: convert component to functional component utilizing useNavigate and useLocation
-*
-* The wrapper component is simply a stop-gap solution since converting the component
-* is non-trivial and would stand in the way of completing the vite/react upgrade.
-* */
+ * TODO: convert component to functional component utilizing useNavigate and useLocation
+ *
+ * The wrapper component is simply a stop-gap solution since converting the component
+ * is non-trivial and would stand in the way of completing the vite/react upgrade.
+ * */
 
-const SearchBarComponentWithNavigateAndLocation = props => {
+const SearchBarComponentWithNavigateAndLocation = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
   return <SearchBarComponent navigate={navigate} location={location} {...props} />;
 };
 
-
 //TODO: withRouter - test
 export default SearchBarComponentWithNavigateAndLocation;
-

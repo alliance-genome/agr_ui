@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const NOT = <span className='text-danger'>NOT</span>;
+const NOT = <span className="text-danger">NOT</span>;
 
-const AssociationType = ({type, showOnlyNot = false}) => {
+const AssociationType = ({ type, showOnlyNot = false }) => {
   type = type?.toLowerCase();
 
   if (showOnlyNot && type?.indexOf('_not_') < 0) {
@@ -14,12 +14,16 @@ const AssociationType = ({type, showOnlyNot = false}) => {
     return <>does {NOT} model</>;
   }
 
-  const words = type?.replaceAll('_', ' ')
-    .split(/(?:^| )not(?: |$)/, 2);
+  const words = type?.replaceAll('_', ' ').split(/(?:^| )not(?: |$)/, 2);
   return (
     <>
       {words?.[0]}
-      {words?.length > 1 && <> {NOT} {words[1]}</>}
+      {words?.length > 1 && (
+        <>
+          {' '}
+          {NOT} {words[1]}
+        </>
+      )}
     </>
   );
 };
@@ -30,4 +34,3 @@ AssociationType.propTypes = {
 };
 
 export default AssociationType;
-

@@ -6,10 +6,10 @@ import PropTypes from 'prop-types';
 import { logPageView } from './lib/analytics';
 import RouteListener from './components/routeListener.jsx';
 import LayoutWithRoutes from './routes.jsx';
-import { QueryClient, QueryClientProvider  } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import ReleaseContextProvider from './hooks/ReleaseContextProvider.jsx';
 
-const isBrowser = (typeof window !== 'undefined');
+const isBrowser = typeof window !== 'undefined';
 const store = configureStore();
 
 const queryClient = new QueryClient({
@@ -18,10 +18,9 @@ const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
       retry: false,
       staleTime: Infinity,
-    }
+    },
   },
-})
-
+});
 
 class ReactApp extends Component {
   render() {
@@ -31,13 +30,13 @@ class ReactApp extends Component {
         <QueryClientProvider client={queryClient}>
           <ReleaseContextProvider>
             <Router>
-              {
-                isBrowser ?
-                    <RouteListener onRouteChange={logPageView}>
-                      <LayoutWithRoutes />
-                    </RouteListener> :
+              {isBrowser ? (
+                <RouteListener onRouteChange={logPageView}>
                   <LayoutWithRoutes />
-              }
+                </RouteListener>
+              ) : (
+                <LayoutWithRoutes />
+              )}
             </Router>
           </ReleaseContextProvider>
         </QueryClientProvider>
@@ -47,11 +46,7 @@ class ReactApp extends Component {
 }
 
 ReactApp.propTypes = {
-  router: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.func,
-  ]),
+  router: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
 export default ReactApp;
-

@@ -5,7 +5,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 import style from './style.module.scss';
 
-const LoadingOverlay = ({loading}) => {
+const LoadingOverlay = ({ loading }) => {
   return (
     <div className={`${style.loadingOverlay} ${loading ? style.loading : ''}`}>
       {loading && <FontAwesomeIcon icon={faSpinner} spin />}

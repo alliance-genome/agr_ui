@@ -5,14 +5,10 @@ import fetchData from '../lib/fetchData';
 
 const ReleaseContext = createContext();
 
-const ReleaseContextProvider = ({children}) => {
+const ReleaseContextProvider = ({ children }) => {
   const releaseUrl = '/api/releaseInfo';
 
-  const {
-    data,
-    isLoading,
-    isError,
-  } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: [releaseUrl],
     queryFn: () => {
       /*
@@ -22,20 +18,19 @@ const ReleaseContextProvider = ({children}) => {
           'snapShotDate': "2021-06-09T15:21:07.880+0000"
         }; */
       return fetchData(releaseUrl);
-    }
+    },
   });
 
-  const value = useMemo(() => ({
-    data,
-    isLoading,
-    isError,
-  }), [data, isLoading, isError]);
-
-  return (
-    <ReleaseContext.Provider value={value}>
-      {children}
-    </ReleaseContext.Provider>
+  const value = useMemo(
+    () => ({
+      data,
+      isLoading,
+      isError,
+    }),
+    [data, isLoading, isError]
   );
+
+  return <ReleaseContext.Provider value={value}>{children}</ReleaseContext.Provider>;
 };
 
 ReleaseContextProvider.propTypes = {

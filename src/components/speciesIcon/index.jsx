@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import style from './style.module.scss';
 
-const SpeciesIcon = ({inNav = false, species, scale = 1, iconClass}) => {
+const SpeciesIcon = ({ inNav = false, species, scale = 1, iconClass }) => {
   if (!species) {
     return null;
   }

@@ -1,4 +1,2 @@
 import DiseaseComparisonRibbon from './diseaseComparisonRibbon.jsx';
-export {
-  DiseaseComparisonRibbon
-};
+export { DiseaseComparisonRibbon };

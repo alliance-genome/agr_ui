@@ -14,7 +14,7 @@ import {
 } from '../../lib/searchHelpers.jsx';
 
 import CategoryLabel from './categoryLabel.jsx';
-import {compareByFixedOrder} from '../../lib/utils';
+import { compareByFixedOrder } from '../../lib/utils';
 
 const IGNORED_PARAMS = ['page', 'mode', 'q'];
 const SORT_PRIORITY = ['category'];
@@ -22,25 +22,25 @@ const SORT_PRIORITY = ['category'];
 const getLabelNode = (key, value) => {
   const valueDisplay = makeValueDisplayName(value);
   switch (key) {
-  case 'species':
-    return <i>{valueDisplay}</i>;
-  case 'category':
-    return <CategoryLabel category={value} />;
-  default:
-    return valueDisplay;
+    case 'species':
+      return <i>{valueDisplay}</i>;
+    case 'category':
+      return <CategoryLabel category={value} />;
+    default:
+      return valueDisplay;
   }
 };
 
-const SearchBreadcrumbs = ({queryParams}) => {
+const SearchBreadcrumbs = ({ queryParams }) => {
   return Object.keys(queryParams)
-    .filter( d => IGNORED_PARAMS.indexOf(d) < 0)
+    .filter((d) => IGNORED_PARAMS.indexOf(d) < 0)
     .sort(compareByFixedOrder(SORT_PRIORITY))
-    .map(key => {
+    .map((key) => {
       let values = queryParams[key];
       if (!Array.isArray(values)) {
         values = [values];
       }
-      return values.map(value => {
+      return values.map((value) => {
         const newQp = getQueryParamWithoutPage(key, value, queryParams);
         const newLocation = { pathname: '/search', search: stringifyQuery(newQp) };
         const fieldLabel = makeTitleCaseFieldDisplayName(key) + ':';
@@ -48,7 +48,7 @@ const SearchBreadcrumbs = ({queryParams}) => {
         labelNode = isExcluded(value) ? strikeThroughLabelNode(labelNode) : labelNode;
 
         return (
-          <Link className='btn btn-primary mr-2 mb-2' key={`bc${key}.${value}`} to={newLocation}>
+          <Link className="btn btn-primary mr-2 mb-2" key={`bc${key}.${value}`} to={newLocation}>
             {key !== 'category' && fieldLabel} {labelNode} <FontAwesomeIcon icon={faCircleXmark} />
           </Link>
         );

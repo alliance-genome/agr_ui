@@ -10,6 +10,5 @@ function handlePagePayload(data) {
 }
 
 export default function fetchWordpress(url) {
-  return fetchData(url)
-    .then(handlePagePayload);
+  return fetchData(url).then(handlePagePayload);
 }

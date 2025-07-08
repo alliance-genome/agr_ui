@@ -1,5 +1,5 @@
-@import "../theme.module";
-@import "../mixins.module";
+@import '../theme.module';
+@import '../mixins.module';
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 
@@ -31,7 +31,9 @@
     margin-bottom: 1rem;
   }
 
-  h3, h4, h5 {
+  h3,
+  h4,
+  h5 {
     position: relative;
   }
 
@@ -59,10 +61,10 @@
 
 @keyframes fade {
   0% {
-    opacity: 0
+    opacity: 0;
   }
   100% {
-    opacity: 1
+    opacity: 1;
   }
 }
 
@@ -77,11 +79,11 @@
   }
 
   li:after {
-    content: ", ";
+    content: ', ';
   }
 
   li:last-of-type:after {
-    content: "";
+    content: '';
   }
 }
 
@@ -98,12 +100,12 @@ $shadow-width: 20px;
 
   &.left {
     left: 0;
-    background: radial-gradient(ellipse $shadow-width 60% at left, $shadow-color, transparent)
+    background: radial-gradient(ellipse $shadow-width 60% at left, $shadow-color, transparent);
   }
 
   &.right {
     right: 0;
-    background: radial-gradient(ellipse $shadow-width 60% at right, $shadow-color, transparent)
+    background: radial-gradient(ellipse $shadow-width 60% at right, $shadow-color, transparent);
   }
 }
 

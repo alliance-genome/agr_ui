@@ -5,12 +5,11 @@ import style from './style.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
-
 class CollapsibleFacet extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isCollapsed: false
+      isCollapsed: false,
     };
   }
 
@@ -32,32 +31,26 @@ class CollapsibleFacet extends Component {
   render() {
     let actionText = !this.state.isCollapsed ? this.props.label : 'Hide';
     return (
-      <div className='row'>
+      <div className="row">
         <div className={`col-md-12 ${style.mobileToolbar}`}>
-          <a
-            className={`${style.textAction} font-weight-bold`}
-            onClick={() => this.handleToggle()}
-          >
+          <a className={`${style.textAction} font-weight-bold`} onClick={() => this.handleToggle()}>
             {actionText}
-            {actionText === 'Hide' ? '' :
-              <FontAwesomeIcon icon={faAngleDown} className={`${style.filterCaret}`} />
-            }
+            {actionText === 'Hide' ? '' : <FontAwesomeIcon icon={faAngleDown} className={`${style.filterCaret}`} />}
           </a>
           {this.state.isCollapsed ? this.renderActiveNode() : this.renderInactiveNode()}
         </div>
       </div>
     );
   }
-
 }
 
 CollapsibleFacet.propTypes = {
   children: PropTypes.element.isRequired,
-  label: PropTypes.string
+  label: PropTypes.string,
 };
 
 CollapsibleFacet.defaultProps = {
-  label: 'Expand'
+  label: 'Expand',
 };
 
 export default CollapsibleFacet;

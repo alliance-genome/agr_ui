@@ -13,18 +13,18 @@ const MAX_CHAR = 100;
 class ResultsTable extends Component {
   getFields() {
     let fields;
-    switch(this.props.activeCategory) {
-    case 'gene':
-      fields = ['species', 'display_name', 'name', 'synonyms', 'source', 'biotype'];
-      break;
-    case 'go':
-      fields = ['display_name', 'id', 'synonyms', 'go_branch'];
-      break;
-    case 'disease':
-      fields = ['display_name', 'id'];
-      break;
-    default:
-      fields = ['display_name', 'synonyms'];
+    switch (this.props.activeCategory) {
+      case 'gene':
+        fields = ['species', 'display_name', 'name', 'synonyms', 'source', 'biotype'];
+        break;
+      case 'go':
+        fields = ['display_name', 'id', 'synonyms', 'go_branch'];
+        break;
+      case 'disease':
+        fields = ['display_name', 'id'];
+        break;
+      default:
+        fields = ['display_name', 'synonyms'];
     }
     fields.push(MATCH_LABEL);
     return fields;
@@ -32,7 +32,7 @@ class ResultsTable extends Component {
 
   renderHeader() {
     let fields = this.getFields();
-    let nodes = fields.map( (d) => {
+    let nodes = fields.map((d) => {
       let processedName;
       if (this.props.activeCategory === 'gene' && d === 'display_name') {
         processedName = 'symbol';
@@ -41,13 +41,13 @@ class ResultsTable extends Component {
       } else {
         processedName = d;
       }
-      return <th className={style.tableHeadCell} key={`srH.${d}`}>{makeFieldDisplayName(processedName)}</th>;
+      return (
+        <th className={style.tableHeadCell} key={`srH.${d}`}>
+          {makeFieldDisplayName(processedName)}
+        </th>
+      );
     });
-    return (
-      <tr>
-        {nodes}
-      </tr>
-    );
+    return <tr>{nodes}</tr>;
   }
 
   renderTruncatedContent(original) {
@@ -65,52 +65,50 @@ class ResultsTable extends Component {
   renderRows() {
     let entries = this.props.entries;
     let fields = this.getFields();
-    let rowNodes = entries.map( (d, i) => {
-      let nodes = fields.map( (field) => {
+    let rowNodes = entries.map((d, i) => {
+      let nodes = fields.map((field) => {
         let _key = `srtc.${i}.${field}`;
-        switch(field) {
-        case 'display_name':
-        case 'symbol':
-          return <td key={_key}>{getLinkForEntry(d)}</td>;
-        case 'source':
-          return <td key={_key}><a dangerouslySetInnerHTML={{ __html: d.id }} href={d.href} target='_new' /></td>;
-        case MATCH_LABEL:
-          return <td key={_key}>{this.renderHighlight(d.highlight, d.homologs)}</td>;
-        case 'species':
-          return <td key={_key}><SpeciesName dangerouslySetInnerHTML={{ __html: d.species }} /></td>;
-        default:
-          return <td dangerouslySetInnerHTML={{ __html: this.renderTruncatedContent(d[field]) }} key={_key} />;
+        switch (field) {
+          case 'display_name':
+          case 'symbol':
+            return <td key={_key}>{getLinkForEntry(d)}</td>;
+          case 'source':
+            return (
+              <td key={_key}>
+                <a dangerouslySetInnerHTML={{ __html: d.id }} href={d.href} target="_new" />
+              </td>
+            );
+          case MATCH_LABEL:
+            return <td key={_key}>{this.renderHighlight(d.highlight, d.homologs)}</td>;
+          case 'species':
+            return (
+              <td key={_key}>
+                <SpeciesName dangerouslySetInnerHTML={{ __html: d.species }} />
+              </td>
+            );
+          default:
+            return <td dangerouslySetInnerHTML={{ __html: this.renderTruncatedContent(d[field]) }} key={_key} />;
         }
       });
-      return (
-        <tr key={`tr${i}`}>
-          {nodes}
-        </tr>
-      );
+      return <tr key={`tr${i}`}>{nodes}</tr>;
     });
-    return (
-      <tbody>
-        {rowNodes}
-      </tbody>
-    );
+    return <tbody>{rowNodes}</tbody>;
   }
 
   renderHighlight(highlight) {
     let _data = highlight;
-    let _fields = Object.keys(_data).filter( d => {
-      return (NON_HIGHLIGHTED_FIELDS.indexOf(d) < 0);
+    let _fields = Object.keys(_data).filter((d) => {
+      return NON_HIGHLIGHTED_FIELDS.indexOf(d) < 0;
     });
     return <DetailList data={_data} fields={_fields} />;
   }
 
   render() {
-    let emptyNode = (this.props.entries.length === 0) ? <p className={style.tableEmpty}>No results</p> : null;
+    let emptyNode = this.props.entries.length === 0 ? <p className={style.tableEmpty}>No results</p> : null;
     return (
       <div className={style.tableContainer}>
-        <table className='table'>
-          <thead className='thead-default'>
-            {this.renderHeader()}
-          </thead>
+        <table className="table">
+          <thead className="thead-default">{this.renderHeader()}</thead>
           {this.renderRows()}
         </table>
         {emptyNode}

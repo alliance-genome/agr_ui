@@ -1,11 +1,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { HashLink } from 'react-router-hash-link';
-import {
-  AttributeLabel,
-  AttributeList,
-  AttributeValue
-} from '../../components/attribute';
+import { AttributeLabel, AttributeList, AttributeValue } from '../../components/attribute';
 import LoadingSpinner from '../../components/loadingSpinner.jsx';
 import NoData from '../../components/noData.jsx';
 // import { VariantJBrowseLink } from '../../components/variant';
@@ -16,7 +12,7 @@ import useAllAlleleVariants from '../../hooks/useAlleleVariants';
 import { makeId } from '../../lib/utils';
 
 export const sectionTitle = (variant) => {
-  const {id} = variant || {};
+  const { id } = variant || {};
   return `Predicted effect of ${id}`;
 };
 
@@ -24,14 +20,8 @@ export const sectionAnchor = (variant) => {
   return '#' + makeId(sectionTitle(variant));
 };
 
-const AlleleMolecularConsequences = ({
-  alleleId,
-  allele,
-}) => {
-  const {
-    data,
-    isLoading,
-  } = useAllAlleleVariants(alleleId);
+const AlleleMolecularConsequences = ({ alleleId, allele }) => {
+  const { data, isLoading } = useAllAlleleVariants(alleleId);
 
   // annotate variants with location and species information from the allele
   const variants = useMemo(() => {
@@ -42,7 +32,7 @@ const AlleleMolecularConsequences = ({
     return data?.map((variant) => ({
       ...variant,
       geneLocation,
-      species: allele.species
+      species: allele.species,
     }));
   }, [data, allele]);
 
@@ -54,22 +44,18 @@ const AlleleMolecularConsequences = ({
 
   return (
     <>
-      {
-        variants.map((variant) => {
-          const {
-            id: variantId,
-            // location,
-            variantType:type = {}
-          } = variant;
-          return (
-            <Subsection title={sectionTitle(variant)} level={1} key={`consequnce-summary-${variantId}`}>
-              <AttributeList className={style.attributeList}>
-                <AttributeLabel>
-                  Variant
-                </AttributeLabel>
-                <AttributeValue>
-                  {
-                    /*
+      {variants.map((variant) => {
+        const {
+          id: variantId,
+          // location,
+          variantType: type = {},
+        } = variant;
+        return (
+          <Subsection title={sectionTitle(variant)} level={1} key={`consequnce-summary-${variantId}`}>
+            <AttributeList className={style.attributeList}>
+              <AttributeLabel>Variant</AttributeLabel>
+              <AttributeValue>
+                {/*
                       <VariantJBrowseLink
                         geneLocation={variant.geneLocation}
                         location={location}
@@ -78,26 +64,16 @@ const AlleleMolecularConsequences = ({
                       >
                         <span className="text-break">{variantId}</span>
                       </VariantJBrowseLink>
-                    */
-                  }
-                  <HashLink
-                    to={`#${makeId(variantId)}`}
-                  >
-                    {variantId}
-                  </HashLink>
-                </AttributeValue>
-                <AttributeLabel>
-                  Variant type:
-                </AttributeLabel>
-                <AttributeValue>
-                  {type.name}
-                </AttributeValue>
-              </AttributeList>
-              <VariantToTranscriptTable variant={variant} />
-            </Subsection>
-          );
-        })
-      }
+                    */}
+                <HashLink to={`#${makeId(variantId)}`}>{variantId}</HashLink>
+              </AttributeValue>
+              <AttributeLabel>Variant type:</AttributeLabel>
+              <AttributeValue>{type.name}</AttributeValue>
+            </AttributeList>
+            <VariantToTranscriptTable variant={variant} />
+          </Subsection>
+        );
+      })}
     </>
   );
 };

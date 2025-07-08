@@ -1,16 +1,7 @@
-import React  from 'react';
+import React from 'react';
 
-import {
-  DataPage,
-  PageData,
-  PageHeader,
-  PageNav
-} from '../../components/dataPage';
-import {
-  AttributeList,
-  AttributeLabel,
-  AttributeValue,
-} from '../../components/attribute';
+import { DataPage, PageData, PageHeader, PageNav } from '../../components/dataPage';
+import { AttributeList, AttributeLabel, AttributeValue } from '../../components/attribute';
 import HeadMetaTags from '../../components/headMetaTags.jsx';
 import Subsection from '../../components/subsection.jsx';
 import NotFound from '../../components/notFound.jsx';
@@ -18,7 +9,7 @@ import NotFound from '../../components/notFound.jsx';
 import SpeciesIcon from '../../components/speciesIcon/index.jsx';
 import PageNavEntity from '../../components/dataPage/PageNavEntity.jsx';
 import DataSourceLink from '../../components/dataSourceLink.jsx';
-import {Link, useParams} from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel.jsx';
 // import AlleleToPhenotypeTable from './AlleleToPhenotypeTable';
 // import AlleleToDiseaseTable from './AlleleToDiseaseTable';
@@ -36,20 +27,13 @@ import ErrorBoundary from '../../components/errorBoundary.jsx';
 const SUMMARY = 'Summary';
 const MOLECULAR_CONSEQUENCE = 'Variant Molecular Consequences';
 
-const SECTIONS = [
-  {name: SUMMARY},
-  {name: MOLECULAR_CONSEQUENCE},
-];
+const SECTIONS = [{ name: SUMMARY }, { name: MOLECULAR_CONSEQUENCE }];
 
 const VariantPage = () => {
   const { id: variantId } = useParams();
   // TODO: enable this one instead of the mock data
   // Comment out this section, if trying out the mock data.
-  const {
-    data,
-    isLoading,
-    isError,
-  } = usePageLoadingQuery(`/api/variant/${variantId}`);
+  const { data, isLoading, isError } = usePageLoadingQuery(`/api/variant/${variantId}`);
   // END: real data
 
   // TODO: remove these mock data
@@ -78,7 +62,7 @@ const VariantPage = () => {
   }
 
   if (isError) {
-    return <NotFound/>;
+    return <NotFound />;
   }
 
   if (!data || !Object.keys(data).length) {
@@ -91,21 +75,32 @@ const VariantPage = () => {
 
   return (
     <DataPage>
-      <HeadMetaTags title={title}/>
+      <HeadMetaTags title={title} />
       <PageNav sections={SECTIONS}>
-        <PageNavEntity entityName={variantSymbol} icon={<SpeciesIcon inNav scale={0.5} species={data.species && data.species.name} />} truncateName>
+        <PageNavEntity
+          entityName={variantSymbol}
+          icon={<SpeciesIcon inNav scale={0.5} species={data.species && data.species.name} />}
+          truncateName
+        >
           <DataSourceLink reference={reference} />
-          {data.gene && <div>Variant overlaps <Link to={`/gene/${data.gene.id}`}><GeneSymbol gene={data.gene} /></Link></div>}
+          {data.gene && (
+            <div>
+              Variant overlaps{' '}
+              <Link to={`/gene/${data.gene.id}`}>
+                <GeneSymbol gene={data.gene} />
+              </Link>
+            </div>
+          )}
           <SpeciesName>{data.species && data.species.name}</SpeciesName>
         </PageNavEntity>
       </PageNav>
       <PageData>
-        <PageCategoryLabel category='allele' />
+        <PageCategoryLabel category="allele" />
         <PageHeader>{variantSymbol}</PageHeader>
 
         <Subsection hideTitle title={SUMMARY}>
           <ErrorBoundary>
-            <AttributeList className='mb-0'>
+            <AttributeList className="mb-0">
               <AttributeLabel>Species</AttributeLabel>
               <AttributeValue>{data.species && <SpeciesName>{data.species.name}</SpeciesName>}</AttributeValue>
               <VariantSummary variant={data} variantId={variantId} />
@@ -120,7 +115,6 @@ const VariantPage = () => {
         <Subsection help={<MolecularConsequenceHelp />} title={MOLECULAR_CONSEQUENCE}>
           <VariantToTranscriptTable variant={data} />
         </Subsection>
-
       </PageData>
     </DataPage>
   );

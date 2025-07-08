@@ -10,40 +10,56 @@ import NoData from './noData.jsx';
 import ErrorBoundary from './errorBoundary.jsx';
 import HelpPopup from './helpPopup.jsx';
 
-
 class Subsection extends Component {
   render() {
     const id = this.props.title && makeId(this.props.title);
     const target = <a className={style.target} id={id} />;
     const helpPopup = this.props.help && (
-      <span className='small ml-3'>
-        <HelpPopup id={`help-${this.props.title}`}>
-          {this.props.help}
-        </HelpPopup>
+      <span className="small ml-3">
+        <HelpPopup id={`help-${this.props.title}`}>{this.props.help}</HelpPopup>
       </span>
     );
 
     let renderTitle;
     switch (this.props.level) {
-    case 1:
-      renderTitle = <h4>{this.props.isMeta && target}{this.props.title}{helpPopup}</h4>;
-      break;
-    case 2:
-      renderTitle = <h5>{this.props.isMeta && target}{this.props.title}{helpPopup}</h5>;
-      break;
-    default:
-      renderTitle = <h3>{this.props.isMeta && target}{this.props.title}{helpPopup}</h3>;
+      case 1:
+        renderTitle = (
+          <h4>
+            {this.props.isMeta && target}
+            {this.props.title}
+            {helpPopup}
+          </h4>
+        );
+        break;
+      case 2:
+        renderTitle = (
+          <h5>
+            {this.props.isMeta && target}
+            {this.props.title}
+            {helpPopup}
+          </h5>
+        );
+        break;
+      default:
+        renderTitle = (
+          <h3>
+            {this.props.isMeta && target}
+            {this.props.title}
+            {helpPopup}
+          </h3>
+        );
     }
 
     return (
       <div className={style.subsection}>
         {!this.props.isMeta && target}
-        {this.props.hardcoded && <span className='badge badge-danger'>Hardcoded Example Data</span>}
+        {this.props.hardcoded && <span className="badge badge-danger">Hardcoded Example Data</span>}
         {this.props.title && !this.props.hideTitle && renderTitle}
-        {typeof this.props.hasData !== 'undefined' && !this.props.hasData ?
-          <NoData /> :
+        {typeof this.props.hasData !== 'undefined' && !this.props.hasData ? (
+          <NoData />
+        ) : (
           <ErrorBoundary>{this.props.children}</ErrorBoundary>
-        }
+        )}
       </div>
     );
   }

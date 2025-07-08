@@ -2,22 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DownloadFileLink from './downloadFileLink.jsx';
 
-const DownloadFileRow = ({description, files}) => {
+const DownloadFileRow = ({ description, files }) => {
   // remove any undefined entries in the array
-  files = files.filter(u => u);
+  files = files.filter((u) => u);
 
-  if(files.length === 0) return null;
+  if (files.length === 0) return null;
 
   return (
     <tr>
       <td>{description}</td>
       <td>
-        {files.map(file => (
-          <DownloadFileLink
-            fileType={file.dataType.fileExtension}
-            key={file.id}
-            url={file.stableURL}
-          />
+        {files.map((file) => (
+          <DownloadFileLink fileType={file.dataType.fileExtension} key={file.id} url={file.stableURL} />
         ))}
       </td>
     </tr>
@@ -26,13 +22,15 @@ const DownloadFileRow = ({description, files}) => {
 
 DownloadFileRow.propTypes = {
   description: PropTypes.node,
-  files: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number,
-    stableURL: PropTypes.string,
-    dataType: PropTypes.shape({
-      fileExtension: PropTypes.string,
-    }),
-  })),
+  files: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      stableURL: PropTypes.string,
+      dataType: PropTypes.shape({
+        fileExtension: PropTypes.string,
+      }),
+    })
+  ),
 };
 
 export default DownloadFileRow;

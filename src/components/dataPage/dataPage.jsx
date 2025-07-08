@@ -4,19 +4,17 @@ import ErrorBoundary from '../errorBoundary.jsx';
 
 import style from './style.module.scss';
 
-const DataPage = ({children}) => {
+const DataPage = ({ children }) => {
   return (
     <div className={style.dataPage}>
-      <ErrorBoundary>
-        {children}
-      </ErrorBoundary>
+      <ErrorBoundary>{children}</ErrorBoundary>
     </div>
   );
 };
 
 DataPage.propTypes = {
   children: PropTypes.node,
-  data:PropTypes.any,
+  data: PropTypes.any,
   title: PropTypes.string,
 };
 

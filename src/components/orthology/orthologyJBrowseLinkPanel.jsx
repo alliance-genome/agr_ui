@@ -4,43 +4,26 @@ import OrthologyJBrowseLink from './orthologyJBrowseLink.jsx';
 
 const geneLocationIsInvalid = (geneLocation) => {
   if (typeof geneLocation.chromosome === 'undefined') {
-	  return true;
+    return true;
   } else if (typeof geneLocation.start === 'undefined') {
-	  return true;
+    return true;
   } else if (typeof geneLocation.end === 'undefined') {
-	  return true;
+    return true;
   }
   return false;
-}
+};
 
-const OrthologyJBrowseLinkPanel = ({geneLocation, taxonid}) => {
-  return (
-    (geneLocationIsInvalid(geneLocation) || taxonid === 'NCBITaxon:2697049') ? null :
-    <div id='orthologyJBrowseLinkPanel'>
-        <span>Links to orthology data in JBrowse by filter level: </span>
-	<OrthologyJBrowseLink
-            geneLocation={geneLocation}
-	    taxonid={taxonid}
-	    filterlevel='stringent'
-	/>
-	  ,&nbsp;&nbsp;
-        <OrthologyJBrowseLink
-            geneLocation={geneLocation}
-            taxonid={taxonid}
-            filterlevel='moderate'
-        />
-	  ,&nbsp;&nbsp;
-	<OrthologyJBrowseLink
-            geneLocation={geneLocation}
-            taxonid={taxonid}
-            filterlevel='none'
-        />
-	  ,&nbsp;&nbsp;
-	        <OrthologyJBrowseLink
-            geneLocation={geneLocation}
-            taxonid={taxonid}
-            filterlevel='best'
-        />
+const OrthologyJBrowseLinkPanel = ({ geneLocation, taxonid }) => {
+  return geneLocationIsInvalid(geneLocation) || taxonid === 'NCBITaxon:2697049' ? null : (
+    <div id="orthologyJBrowseLinkPanel">
+      <span>Links to orthology data in JBrowse by filter level: </span>
+      <OrthologyJBrowseLink geneLocation={geneLocation} taxonid={taxonid} filterlevel="stringent" />
+      ,&nbsp;&nbsp;
+      <OrthologyJBrowseLink geneLocation={geneLocation} taxonid={taxonid} filterlevel="moderate" />
+      ,&nbsp;&nbsp;
+      <OrthologyJBrowseLink geneLocation={geneLocation} taxonid={taxonid} filterlevel="none" />
+      ,&nbsp;&nbsp;
+      <OrthologyJBrowseLink geneLocation={geneLocation} taxonid={taxonid} filterlevel="best" />
     </div>
   );
 };
@@ -51,7 +34,7 @@ OrthologyJBrowseLinkPanel.propTypes = {
     end: PropTypes.number,
     chromosome: PropTypes.string,
   }),
-  taxonid: PropTypes.string.isRequired
+  taxonid: PropTypes.string.isRequired,
 };
 
 export default OrthologyJBrowseLinkPanel;

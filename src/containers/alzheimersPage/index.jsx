@@ -6,8 +6,6 @@ import DiseasePortalSection from './DiseasePortalSection.jsx';
 import MembersSection from '../../components/MembersSection.jsx';
 import { HELP_EMAIL } from '../../constants';
 
-
-
 const AlzheimersPage = () => {
   return (
     <div>
@@ -17,7 +15,9 @@ const AlzheimersPage = () => {
       <ResourcesSection />
 
       <div>
-        <h4 className='mt-4 text-center'>Need Help? Contact Us: &nbsp;<a href={`mailto:${HELP_EMAIL}`}>{HELP_EMAIL}</a></h4>
+        <h4 className="mt-4 text-center">
+          Need Help? Contact Us: &nbsp;<a href={`mailto:${HELP_EMAIL}`}>{HELP_EMAIL}</a>
+        </h4>
       </div>
 
       <MembersSection />

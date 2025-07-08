@@ -2,51 +2,47 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Collapse } from 'reactstrap';
 
-
 class CollapsiblePanel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      expended: props.initiallyExpended
+      expended: props.initiallyExpended,
     };
   }
 
   handleToggle() {
     this.setState((prevState) => {
       return {
-        expended: !prevState.expended
+        expended: !prevState.expended,
       };
     });
   }
-
 
   render() {
     return (
       <div
         className="card"
         style={{
-          clear: 'both'
+          clear: 'both',
         }}
       >
         <div
           className={`card-header alert-${this.props.backgroundVariants}`}
           onClick={() => this.handleToggle()}
           role="tab"
-          style={{cursor: 'pointer'}}
+          style={{ cursor: 'pointer' }}
         >
           <i
             aria-hidden="true"
             className={`fa fa-chevron-${this.state.expended ? 'up' : 'down'}`}
-            style={{marginRight: '1em'}}
+            style={{ marginRight: '1em' }}
           />
           <span>{this.props.title}</span>
         </div>
 
         <Collapse isOpen={this.state.expended}>
           <div role="tabpanel">
-            <div className="card-body">
-              {this.props.children}
-            </div>
+            <div className="card-body">{this.props.children}</div>
           </div>
         </Collapse>
       </div>
@@ -63,7 +59,7 @@ CollapsiblePanel.propTypes = {
 
 CollapsiblePanel.defaultProps = {
   backgroundVariants: 'info',
-  initiallyExpended: false
+  initiallyExpended: false,
 };
 
 export default CollapsiblePanel;

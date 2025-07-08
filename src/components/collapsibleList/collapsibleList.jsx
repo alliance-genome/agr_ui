@@ -6,16 +6,16 @@ import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import style from './style.module.scss';
 
 const CollapsibleList = ({ children, collapsedSize = 2, showBullets = false }) => {
-  const [ collapsed, setCollapsed ] = useState(true);
+  const [collapsed, setCollapsed] = useState(true);
 
   if (!children) {
     return null;
   }
 
-  const toggle = () => setCollapsed(prev => !prev);
+  const toggle = () => setCollapsed((prev) => !prev);
   const childCount = React.Children.count(children);
-  const label = ' ' + (collapsed ? ('Show All ' + childCount) : ('Show First ' + collapsedSize));
-  const caretIcon = (collapsed ? faCaretDown : faCaretUp);
+  const label = ' ' + (collapsed ? 'Show All ' + childCount : 'Show First ' + collapsedSize);
+  const caretIcon = collapsed ? faCaretDown : faCaretUp;
   return (
     <div>
       <ul className={`${style.collapsibleList} ${showBullets ? style.bulleted : ''}`}>

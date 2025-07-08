@@ -19,7 +19,7 @@ class StringencySelection extends React.Component {
       lineHeight: '2em',
     };
     const inputStyle = {
-      margin: '0 0.5em'
+      margin: '0 0.5em',
     };
     return (
       <label style={labelStyle}>
@@ -37,7 +37,7 @@ class StringencySelection extends React.Component {
 
   render() {
     return (
-      <div style={{display: 'inline'}}>
+      <div style={{ display: 'inline' }}>
         <span>Stringency:</span>
         {this.renderStringencyOption(STRINGENCY_HIGH, 'Stringent')}
         {this.renderStringencyOption(STRINGENCY_MED, 'Moderate')}

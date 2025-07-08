@@ -9,6 +9,6 @@ export default function useBlastServers() {
     queryFn: () => {
       // I changed this from quoted with back-ticks to qouted with single qoutes
       return fetchData(BLAST_SERVER_ENVIRONMENT_URL);
-    }
+    },
   });
 }

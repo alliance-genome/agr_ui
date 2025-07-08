@@ -13,7 +13,7 @@ const DropdownCheckboxFilter = ({
     if (event.target.checked) {
       newValue = [...value, event.target.value];
     } else {
-      newValue = value.filter(v => v !== event.target.value);
+      newValue = value.filter((v) => v !== event.target.value);
     }
     onChange(newValue);
   };
@@ -26,21 +26,19 @@ const DropdownCheckboxFilter = ({
   return (
     <Form>
       <FormGroup>
-        {options.map(option => (
+        {options.map((option) => (
           <FormGroup check key={option}>
             <Label check>
-              <Input
-                checked={value.indexOf(option) > -1}
-                onChange={handleChange}
-                type='checkbox'
-                value={option}
-              /> {formatter ? formatter(option) : option}
+              <Input checked={value.indexOf(option) > -1} onChange={handleChange} type="checkbox" value={option} />{' '}
+              {formatter ? formatter(option) : option}
             </Label>
           </FormGroup>
         ))}
       </FormGroup>
-      <FormGroup className='d-flex justify-content-between'>
-        <Button onClick={handleClear} outline>Clear</Button>
+      <FormGroup className="d-flex justify-content-between">
+        <Button onClick={handleClear} outline>
+          Clear
+        </Button>
       </FormGroup>
     </Form>
   );

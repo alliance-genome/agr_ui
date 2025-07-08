@@ -4,8 +4,8 @@ import DataSourceLink from './dataSourceLink.jsx';
 import { CollapsibleList } from './collapsibleList';
 import { compareAlphabeticalCaseInsensitive } from '../lib/utils';
 
-const CrossReferenceList = ({collapsible = true, crossReferences, sort = true}) => {
-  const byName = compareAlphabeticalCaseInsensitive(xref => (xref.displayName || xref.name));
+const CrossReferenceList = ({ collapsible = true, crossReferences, sort = true }) => {
+  const byName = compareAlphabeticalCaseInsensitive((xref) => xref.displayName || xref.name);
   const byWithLinkThenName = (a, b) => {
     if (a.url && !b.url) {
       return -1;
@@ -28,9 +28,9 @@ const CrossReferenceList = ({collapsible = true, crossReferences, sort = true}) 
 
   return (
     <CollapsibleList collapsedSize={size}>
-      {
-        crossReferences.map(ref => <DataSourceLink key={ref.displayName + ref.name + ref.url} reference={ref} />)
-      }
+      {crossReferences.map((ref) => (
+        <DataSourceLink key={ref.displayName + ref.name + ref.url} reference={ref} />
+      ))}
     </CollapsibleList>
   );
 };

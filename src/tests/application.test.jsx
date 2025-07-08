@@ -20,9 +20,7 @@ describe('ReactApp', () => {
       },
     });
 
-    let htmlString = renderToString(
-      <ReactApp router={MemoryRouter} />
-    );
+    let htmlString = renderToString(<ReactApp router={MemoryRouter} />);
     assert.equal(typeof htmlString, 'string');
   });
 });

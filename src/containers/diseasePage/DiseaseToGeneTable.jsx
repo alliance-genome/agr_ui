@@ -11,7 +11,12 @@ import {
 import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration.jsx';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import AssociationType from '../../components/AssociationType.jsx';
-import { buildProvidersWithUrl, getIsViaOrthology, getDistinctFieldValue, getIdentifier } from '../../components/dataTable/utils.jsx';
+import {
+  buildProvidersWithUrl,
+  getIsViaOrthology,
+  getDistinctFieldValue,
+  getIdentifier,
+} from '../../components/dataTable/utils.jsx';
 import { compareByFixedOrder } from '../../lib/utils';
 import { SPECIES_NAME_ORDER } from '../../constants';
 import SpeciesCell from '../../components/dataTable/SpeciesCell.jsx';
@@ -27,9 +32,7 @@ const DiseaseToGeneTable = ({ id }) => {
     data: results,
     supplementalData,
     ...tableProps
-  } = useDataTableQuery(`/api/disease/${id}/genes`, undefined, { sizePerPage: 10, }, {}, 60000);
-
-
+  } = useDataTableQuery(`/api/disease/${id}/genes`, undefined, { sizePerPage: 10 }, {}, 60000);
 
   const columns = [
     {
@@ -65,10 +68,10 @@ const DiseaseToGeneTable = ({ id }) => {
       dataField: 'subject.taxon',
       text: 'Species',
       headerStyle: { width: '100px' },
-      formatter: species => <SpeciesCell species={species} />,
+      formatter: (species) => <SpeciesCell species={species} />,
       filterName: 'species',
       filterable: getDistinctFieldValue(supplementalData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
-      filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
+      filterFormatter: (speciesName) => <SpeciesName>{speciesName}</SpeciesName>,
       filterType: 'checkbox',
     },
     {
@@ -76,23 +79,32 @@ const DiseaseToGeneTable = ({ id }) => {
       text: 'Association',
       helpPopupProps: {
         id: 'disease-page--gene-disease-associations-table--association-help',
-        children: <div>
-          <p>"Is Implicated in" means that some variant of the gene is shown to function in causing or modifying a disease (for human) or a disease model state.</p>
-          <p>"Is a marker for" is used when there is evidence of an association but insufficient evidence to establish causality and does not necessarily imply that the existence of, or change in the biomarker is causal for the disease, but rather may result from it.</p>
-        </div>,
+        children: (
+          <div>
+            <p>
+              "Is Implicated in" means that some variant of the gene is shown to function in causing or modifying a
+              disease (for human) or a disease model state.
+            </p>
+            <p>
+              "Is a marker for" is used when there is evidence of an association but insufficient evidence to establish
+              causality and does not necessarily imply that the existence of, or change in the biomarker is causal for
+              the disease, but rather may result from it.
+            </p>
+          </div>
+        ),
       },
-      formatter: type => <AssociationType type={type} />,
+      formatter: (type) => <AssociationType type={type} />,
       headerStyle: { width: '120px' },
       filterName: 'associationType',
       filterable: getDistinctFieldValue(supplementalData, 'associationType'),
-      filterFormatter: type => <AssociationType type={type} />,
+      filterFormatter: (type) => <AssociationType type={type} />,
       filterType: 'checkbox',
     },
     {
       dataField: 'diseaseQualifiers',
       text: 'Disease Qualifier',
       headerStyle: { width: '100px' },
-      formatter: diseaseQualifiers => <DiseaseQualifiersColumn qualifiers={diseaseQualifiers} />,
+      formatter: (diseaseQualifiers) => <DiseaseQualifiersColumn qualifiers={diseaseQualifiers} />,
       filterable: getDistinctFieldValue(supplementalData, 'diseaseQualifiers'),
       filterName: 'diseaseQualifier',
       filterType: 'checkbox',
@@ -109,10 +121,15 @@ const DiseaseToGeneTable = ({ id }) => {
       text: 'Evidence',
       helpPopupProps: {
         id: 'disease-page--gene-disease-associations-table--evidence-help',
-        children: <span>Mouse-over to decipher the evidence code. The Alliance uses these <a href='https://www.alliancegenome.org/help#docodes'>evidence codes</a> to justify DO annotations.</span>,
+        children: (
+          <span>
+            Mouse-over to decipher the evidence code. The Alliance uses these{' '}
+            <a href="https://www.alliancegenome.org/help#docodes">evidence codes</a> to justify DO annotations.
+          </span>
+        ),
       },
       headerStyle: { width: '100px' },
-      formatter: (codes) => <EvidenceCodesCellCuration evidenceCodes={codes}/>,
+      formatter: (codes) => <EvidenceCodesCellCuration evidenceCodes={codes} />,
       filterable: true,
       filterName: 'evidenceCode',
     },
@@ -121,9 +138,13 @@ const DiseaseToGeneTable = ({ id }) => {
       text: 'Based On',
       helpPopupProps: {
         id: 'disease-page--gene-disease-associations-table--based-on-help',
-        children: <span>SGD uses orthology to human genes to associate yeast genes with the disease.
-          The Based On column is also used for inferred via-orthology disease annotations to indicate the gene that was directly (experimentally) annotated to the disease
+        children: (
+          <span>
+            SGD uses orthology to human genes to associate yeast genes with the disease. The Based On column is also
+            used for inferred via-orthology disease annotations to indicate the gene that was directly (experimentally)
+            annotated to the disease
           </span>
+        ),
       },
       headerStyle: { width: '100px' },
       formatter: BasedOnGeneCellCuration,
@@ -133,7 +154,7 @@ const DiseaseToGeneTable = ({ id }) => {
     {
       dataField: 'providers',
       text: 'Source',
-      formatter: providers => providers && <ProvidersCellCuration providers={providers} />,
+      formatter: (providers) => providers && <ProvidersCellCuration providers={providers} />,
       headerStyle: { width: '100px' },
       filterable: true,
       filterName: 'dataProvider',
@@ -144,15 +165,15 @@ const DiseaseToGeneTable = ({ id }) => {
       headerStyle: { width: '150px' },
       formatter: (pubModIds, row) => {
         const isViaOrthology = getIsViaOrthology(row);
-        if(!isViaOrthology) return <ReferencesCellCuration pubModIds={pubModIds}/>
-        return <ReferenceCellViaOrthologyCuration/>
+        if (!isViaOrthology) return <ReferencesCellCuration pubModIds={pubModIds} />;
+        return <ReferenceCellViaOrthologyCuration />;
       },
       filterable: true,
       filterName: 'reference',
-    }
+    },
   ];
 
-  const rows = results.map(association => ({
+  const rows = results.map((association) => ({
     species: association.subject.taxon,
     providers: buildProvidersWithUrl(association.primaryAnnotations),
     ...association,
@@ -179,7 +200,7 @@ const DiseaseToGeneTable = ({ id }) => {
       columns={columns}
       data={rows}
       downloadUrl={`/api/disease/${id}/genes/download`}
-      keyField='uniqueId'
+      keyField="uniqueId"
       sortOptions={sortOptions}
     />
   );

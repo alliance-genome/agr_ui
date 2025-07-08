@@ -1,4 +1,4 @@
-@import "../../theme.module";
+@import '../../theme.module';
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 
@@ -12,9 +12,13 @@
   border-bottom: none;
 }
 
-.postMenuContainer, .homeMenuContainer,
-.aboutMenuContainer, .workingGroupsMenuContainer,
-.contactMenuContainer, .helpMenuContainer, .citeMenuContainer {
+.postMenuContainer,
+.homeMenuContainer,
+.aboutMenuContainer,
+.workingGroupsMenuContainer,
+.contactMenuContainer,
+.helpMenuContainer,
+.citeMenuContainer {
   background-size: cover;
   background-color: $gray-900;
   background-repeat: no-repeat;
@@ -46,7 +50,8 @@
   background-image: url('../../assets/images/banner_virus.jpg');
 }
 
-.secondaryNavEmptyRow, .postMenuContainer.secondaryNav {
+.secondaryNavEmptyRow,
+.postMenuContainer.secondaryNav {
   padding: 0;
   margin: 0;
   width: 100%;

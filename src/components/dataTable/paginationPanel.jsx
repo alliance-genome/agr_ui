@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const PaginationPanel = ({components}) => {
+const PaginationPanel = ({ components }) => {
   return (
-    <div className='align-items-baseline col d-flex justify-content-between text-muted'>
-      <span>{components.totalText} {components.sizePerPageDropdown} per page</span>
+    <div className="align-items-baseline col d-flex justify-content-between text-muted">
+      <span>
+        {components.totalText} {components.sizePerPageDropdown} per page
+      </span>
       <span>{components.pageList}</span>
-
     </div>
   );
 };

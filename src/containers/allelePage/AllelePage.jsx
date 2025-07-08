@@ -1,9 +1,4 @@
-import {
-  DataPage,
-  PageData,
-  PageHeader,
-  PageNav
-} from '../../components/dataPage';
+import { DataPage, PageData, PageHeader, PageNav } from '../../components/dataPage';
 import HeadMetaTags from '../../components/headMetaTags.jsx';
 import Subsection from '../../components/subsection.jsx';
 import NotFound from '../../components/notFound.jsx';
@@ -13,7 +8,7 @@ import AlleleSymbol from './AlleleSymbol.jsx';
 import SpeciesIcon from '../../components/speciesIcon/index.jsx';
 import PageNavEntity from '../../components/dataPage/PageNavEntity.jsx';
 import DataSourceLink from '../../components/dataSourceLink.jsx';
-import {Link, useParams} from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel.jsx';
 import AlleleToDiseaseTable from './AlleleToDiseaseTable.jsx';
 import AlleleSequenceView from './AlleleSequenceView.jsx';
@@ -24,8 +19,8 @@ import MolecularConsequenceHelp from './MolecularConsequenceHelp.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import GeneSymbol from '../../components/GeneSymbol.jsx';
 import SpeciesName from '../../components/SpeciesName.jsx';
-import PhenotypeTable from "../genePage/phenotypeTable.jsx";
-import React from "react";
+import PhenotypeTable from '../genePage/phenotypeTable.jsx';
+import React from 'react';
 
 const SUMMARY = 'Summary';
 const PHENOTYPES = 'Phenotypes';
@@ -35,28 +30,24 @@ const CONSTRUCTS = 'Transgenic Constructs';
 const MOLECULAR_CONSEQUENCE = 'Variant Molecular Consequences';
 
 const SECTIONS = [
-  {name: SUMMARY},
-  {name: CONSTRUCTS},
-  {name: VARIANTS},
-  {name: MOLECULAR_CONSEQUENCE},
-  {name: PHENOTYPES},
-  {name: DISEASE}
+  { name: SUMMARY },
+  { name: CONSTRUCTS },
+  { name: VARIANTS },
+  { name: MOLECULAR_CONSEQUENCE },
+  { name: PHENOTYPES },
+  { name: DISEASE },
 ];
 
 const AllelePage = () => {
   const { id: alleleId } = useParams();
-  const {
-    data,
-    isLoading,
-    isError,
-  } = usePageLoadingQuery(`/api/allele/${alleleId}`);
+  const { data, isLoading, isError } = usePageLoadingQuery(`/api/allele/${alleleId}`);
 
   if (isLoading) {
     return null;
   }
 
   if (isError) {
-    return <NotFound/>;
+    return <NotFound />;
   }
 
   if (!data || !Object.keys(data).length) {
@@ -67,17 +58,30 @@ const AllelePage = () => {
 
   return (
     <DataPage>
-      <HeadMetaTags title={title}/>
+      <HeadMetaTags title={title} />
       <PageNav sections={SECTIONS}>
-        <PageNavEntity entityName={<AlleleSymbol allele={data} />} icon={<SpeciesIcon inNav scale={0.5} species={data.species.name} />} truncateName>
+        <PageNavEntity
+          entityName={<AlleleSymbol allele={data} />}
+          icon={<SpeciesIcon inNav scale={0.5} species={data.species.name} />}
+          truncateName
+        >
           <DataSourceLink reference={data.crossReferenceMap.primary} />
-          {data.gene && <div>Allele of <Link to={`/gene/${data.gene.id}`}><GeneSymbol gene={data.gene} /></Link></div>}
+          {data.gene && (
+            <div>
+              Allele of{' '}
+              <Link to={`/gene/${data.gene.id}`}>
+                <GeneSymbol gene={data.gene} />
+              </Link>
+            </div>
+          )}
           <SpeciesName>{data.species.name}</SpeciesName>
         </PageNavEntity>
       </PageNav>
       <PageData>
-        <PageCategoryLabel category='allele' />
-        <PageHeader><AlleleSymbol allele={data} /></PageHeader>
+        <PageCategoryLabel category="allele" />
+        <PageHeader>
+          <AlleleSymbol allele={data} />
+        </PageHeader>
 
         <Subsection hideTitle title={SUMMARY}>
           <AlleleSummary allele={data} />
@@ -103,7 +107,6 @@ const AllelePage = () => {
           <AlleleMolecularConsequences allele={data} alleleId={alleleId} />
         </Subsection>
 
-
         <Subsection title={PHENOTYPES}>
           <PhenotypeTable geneId={alleleId} entityType={'allele'} />
         </Subsection>
@@ -111,7 +114,6 @@ const AllelePage = () => {
         <Subsection title={DISEASE}>
           <AlleleToDiseaseTable alleleId={alleleId} />
         </Subsection>
-
       </PageData>
     </DataPage>
   );

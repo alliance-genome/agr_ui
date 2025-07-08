@@ -42,22 +42,20 @@ describe('Search', () => {
 
 describe('SearchBreadcrumbs', () => {
   it('should be able to render to an HTML string', () => {
-    let htmlString = renderToString(<Router><SearchBreadcrumbs queryParams={{ page: 0, query: 'actin' }} total={5} /></Router>);
+    let htmlString = renderToString(
+      <Router>
+        <SearchBreadcrumbs queryParams={{ page: 0, query: 'actin' }} total={5} />
+      </Router>
+    );
     assert.equal(typeof htmlString, 'string');
   });
 });
-
 
 describe('SearchControls', () => {
   it('should be able to render to an HTML string', () => {
     let htmlString = renderToString(
       <Router>
-        <SearchControlsComponent
-          currentPage={1}
-          isTable
-          queryParams={{}}
-          totalPages={5}
-        />
+        <SearchControlsComponent currentPage={1} isTable queryParams={{}} totalPages={5} />
       </Router>
     );
     assert.equal(typeof htmlString, 'string');
@@ -73,7 +71,11 @@ describe('ResultsTable', () => {
 
 describe('FilterSelector', () => {
   it('should be able to render to an HTML string', () => {
-    let htmlString = renderToString(<Router><FilterSelectorComponent aggregations={[]} /></Router>);
+    let htmlString = renderToString(
+      <Router>
+        <FilterSelectorComponent aggregations={[]} />
+      </Router>
+    );
     assert.equal(typeof htmlString, 'string');
   });
 });

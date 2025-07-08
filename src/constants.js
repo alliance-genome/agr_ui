@@ -14,7 +14,7 @@ export const WARNING_BANNER_SLUG = 'warning-banner';
 export const CATEGORIES = [
   {
     name: 'all',
-    displayName: 'All'
+    displayName: 'All',
   },
   {
     name: 'gene',
@@ -24,7 +24,7 @@ export const CATEGORIES = [
   {
     name: 'go',
     displayName: 'Gene Ontology',
-    displayFields: ['primaryKey', 'collapsible_synonyms', 'branch']
+    displayFields: ['primaryKey', 'collapsible_synonyms', 'branch'],
   },
   {
     name: 'disease',
@@ -34,17 +34,25 @@ export const CATEGORIES = [
   {
     name: 'allele',
     displayName: 'Allele/Variant',
-    displayFields: ['primaryKey','genes', 'synonyms','variantType','molecularConsequence', 'diseases', 'variantName'],
+    displayFields: [
+      'primaryKey',
+      'genes',
+      'synonyms',
+      'variantType',
+      'molecularConsequence',
+      'diseases',
+      'variantName',
+    ],
   },
   {
     name: 'model',
     displayName: 'Model',
-    displayFields: ['primaryKey','synonyms'],
+    displayFields: ['primaryKey', 'synonyms'],
   },
   {
     name: 'dataset',
     displayName: 'HTP Dataset Index',
-    displayFields: ['dataProviderNote', 'idCollection', 'tags', 'summary']
+    displayFields: ['dataProviderNote', 'idCollection', 'tags', 'summary'],
   },
 ];
 
@@ -57,14 +65,11 @@ export const NON_HIGHLIGHTED_FIELDS = [
   'primaryKey',
   'orthologs',
   'homologs.symbol',
-  'homologs.panther_family'
+  'homologs.panther_family',
 ];
 
 //show these fields in both the highlight section and their normal spot
-export const DUPLICATE_HIGHLIGHTED_FIELDS = [
-  'crossReferences',
-  'synonyms'
-];
+export const DUPLICATE_HIGHLIGHTED_FIELDS = ['crossReferences', 'synonyms'];
 
 export const NAV_MENU = [
   {
@@ -110,8 +115,8 @@ export const NAV_MENU = [
         label: 'Tools and Prototypes',
         shortLabel: 'Tools',
         route: '/prototypes',
-      }
-    ]
+      },
+    ],
   },
   {
     label: 'Members',
@@ -119,44 +124,44 @@ export const NAV_MENU = [
       {
         label: 'FlyBase',
         shortLabel: 'FlyBase',
-        route: '/members/flybase'
+        route: '/members/flybase',
       },
       {
         label: 'Mouse Genome Database',
         shortLabel: 'MGD',
-        route: '/members/mgd'
+        route: '/members/mgd',
       },
       {
         label: 'Rat Genome Database',
         shortLabel: 'RGD',
-        route: '/members/rgd'
+        route: '/members/rgd',
       },
       {
         label: 'Saccharomyces Genome Database',
         shortLabel: 'SGD',
-        route: '/members/sgd'
+        route: '/members/sgd',
       },
       {
         label: 'WormBase',
         shortLabel: 'WormBase',
-        route: '/members/wormbase'
+        route: '/members/wormbase',
       },
       {
         label: 'Xenbase',
         shortLabel: 'Xenbase',
-        route: '/members/xenbase'
+        route: '/members/xenbase',
       },
       {
         label: 'Zebrafish Information Network',
         shortLabel: 'ZFIN',
-        route: '/members/zfin'
+        route: '/members/zfin',
       },
       {
         label: 'Gene Ontology Consortium',
         shortLabel: 'GOC',
-        route: '/members/goc'
-      }
-    ]
+        route: '/members/goc',
+      },
+    ],
   },
   {
     label: 'News',
@@ -164,17 +169,17 @@ export const NAV_MENU = [
       {
         label: 'News and Events',
         shortLabel: 'News / Events',
-        route: '/news'
+        route: '/news',
       },
       {
         label: 'Release Notes',
-        route: '/release-notes'
+        route: '/release-notes',
       },
       {
         label: 'Event Calendar',
-        route: '/event-calendar'
-      }
-    ]
+        route: '/event-calendar',
+      },
+    ],
   },
   {
     label: 'About',
@@ -185,7 +190,7 @@ export const NAV_MENU = [
       },
       {
         label: 'Funding',
-        route: '/funding'
+        route: '/funding',
       },
       {
         label: 'Publications',
@@ -194,14 +199,14 @@ export const NAV_MENU = [
       {
         label: 'Organization and Governance',
         shortLabel: 'Organization / Governance',
-        route: '/organization-and-governance'
+        route: '/organization-and-governance',
       },
       {
         label: 'Privacy, Warranty, Licensing, and Data Preservation Commitment',
         shortLabel: 'Licensing, Privacy, etc',
-        route: '/privacy-warranty-licensing'
+        route: '/privacy-warranty-licensing',
       },
-    ]
+    ],
   },
   {
     label: 'Help',
@@ -209,22 +214,22 @@ export const NAV_MENU = [
       {
         label: 'FAQ / Known Issues',
         shortLabel: 'FAQ',
-        route: '/faq'
+        route: '/faq',
       },
       {
         label: 'Glossary',
-        route: '/glossary'
+        route: '/glossary',
       },
       {
         label: 'Tutorials',
-        route: '/tutorials'
+        route: '/tutorials',
       },
       {
         label: 'User Documentation',
         shortLabel: 'User Docs',
-        route: '/help'
+        route: '/help',
       },
-    ]
+    ],
   },
   {
     label: 'Community',
@@ -255,7 +260,7 @@ export const NAV_MENU = [
         route: 'https://github.com/alliance-genome',
         external: true,
       },
-    ]
+    ],
   },
   {
     label: 'Contact Us',
@@ -264,7 +269,7 @@ export const NAV_MENU = [
   {
     label: 'Cite Us',
     route: '/cite-us',
-  }
+  },
 ];
 
 export const DEFAULT_TABLE_STATE = {
@@ -284,9 +289,11 @@ export const SPECIES = [
     jBrowseName: 'Homo sapiens',
     jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/human/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
+    jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/human/',
     jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_000001405.40_GRCh38.p14_genomic.fna.gz',
     jBrowsetracks: '_all_genes,_ht_variants',
-    jBrowseOrthologyTracks: 'Homo_sapiens_all_genes,human2fly.filter.anchors,human2mouse.filter.anchors,human2rat.filter.anchors,human2worm.filter.anchors,human2xenopuslaevis.filter.anchors,human2xenopustropicalis.filter.anchors,human2yeast.filter.anchors,human2zebrafish.filter.anchors',
+    jBrowseOrthologyTracks:
+      'Homo_sapiens_all_genes,human2fly.filter.anchors,human2mouse.filter.anchors,human2rat.filter.anchors,human2worm.filter.anchors,human2xenopuslaevis.filter.anchors,human2xenopustropicalis.filter.anchors,human2yeast.filter.anchors,human2zebrafish.filter.anchors',
     vertebrate: true,
     enableSingleCellExpressionAtlasLink: true,
     enableOrthologComparison: true,
@@ -300,9 +307,11 @@ export const SPECIES = [
     jBrowseName: 'Mus musculus',
     jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/MGI/mouse/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
+    jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/MGI/mouse/',
     jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_000001635.27_GRCm39_genomic.fna.gz',
     jBrowsetracks: '_all_genes,_ht_variants,_variants,_multiple-variant_alleles',
-    jBrowseOrthologyTracks:'Mus_musculus_all_genes,human2mouse.filter.anchors,mouse2fly.filter.anchors,mouse2worm.filter.anchors,mouse2xenopustropicalis.filter.anchors,mouse2yeast.filter.anchors,mouse2zebrafish.filter.anchors,rat2mouse.filter.anchors',
+    jBrowseOrthologyTracks:
+      'Mus_musculus_all_genes,human2mouse.filter.anchors,mouse2fly.filter.anchors,mouse2worm.filter.anchors,mouse2xenopustropicalis.filter.anchors,mouse2yeast.filter.anchors,mouse2zebrafish.filter.anchors,rat2mouse.filter.anchors',
     vertebrate: true,
     enableSingleCellExpressionAtlasLink: true,
     enableOrthologComparison: true,
@@ -316,9 +325,11 @@ export const SPECIES = [
     jBrowseName: 'Rattus norvegicus',
     jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/RGD/rat/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
+    jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/RGD/rat/',
     jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_015227675.2_mRatBN7.2_genomic.fna.gz',
     jBrowsetracks: '_all_genes,_ht_variants,_variants',
-    jBrowseOrthologyTracks:'Rattus_norvegicus_all_genes,human2rat.filter.anchors,rat2fly.filter.anchors,rat2mouse.filter.anchors,rat2worm.filter.anchors,rat2xenopustropicalis.filter.anchors,rat2yeast.filter.anchors,rat2zebrafish.filter.anchors',
+    jBrowseOrthologyTracks:
+      'Rattus_norvegicus_all_genes,human2rat.filter.anchors,rat2fly.filter.anchors,rat2mouse.filter.anchors,rat2worm.filter.anchors,rat2xenopustropicalis.filter.anchors,rat2yeast.filter.anchors,rat2zebrafish.filter.anchors',
     vertebrate: true,
     enableSingleCellExpressionAtlasLink: true,
     enableOrthologComparison: true,
@@ -332,9 +343,11 @@ export const SPECIES = [
     jBrowseName: 'Xenopus laevis',
     jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/XenBase/x_laevis/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
+    jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/XenBase/x_laevis/',
     jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/XENLA_9.2_genome.fa.gz',
     jBrowsetracks: '_all_genes',
-    jBrowseOrthologyTracks:'Xenopus_laevis_all_genes,human2xenopuslaevis.filter.anchors,xenopuslaevis2xenopustropicalis.filter.anchors',
+    jBrowseOrthologyTracks:
+      'Xenopus_laevis_all_genes,human2xenopuslaevis.filter.anchors,xenopuslaevis2xenopustropicalis.filter.anchors',
     vertebrate: true,
     enableSingleCellExpressionAtlasLink: false,
     enableOrthologComparison: true,
@@ -348,9 +361,11 @@ export const SPECIES = [
     jBrowseName: 'Xenopus tropicalis',
     jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/XenBase/x_tropicalis/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
+    jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/XenBase/x_tropicalis/',
     jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/XENTR_9.1_genome.fa.gz',
     jBrowsetracks: '_all_genes',
-    jBrowseOrthologyTracks:'Xenopus_tropicalis_all_genes,human2xenopustropicalis.filter.anchors,mouse2xenopustropicalis.filter.anchors,rat2xenopustropicalis.filter.anchors,xenopuslaevis2xenopustropicalis.filter.anchors,xenopustropicalis2fly.filter.anchors,xenopustropicalis2worm.filter.anchors,xenopustropicalis2yeast.filter.anchors,zebrafish2xenopustropicalis.filter.anchors',
+    jBrowseOrthologyTracks:
+      'Xenopus_tropicalis_all_genes,human2xenopustropicalis.filter.anchors,mouse2xenopustropicalis.filter.anchors,rat2xenopustropicalis.filter.anchors,xenopuslaevis2xenopustropicalis.filter.anchors,xenopustropicalis2fly.filter.anchors,xenopustropicalis2worm.filter.anchors,xenopustropicalis2yeast.filter.anchors,zebrafish2xenopustropicalis.filter.anchors',
     vertebrate: true,
     enableSingleCellExpressionAtlasLink: false,
     enableOrthologComparison: true,
@@ -364,9 +379,11 @@ export const SPECIES = [
     jBrowseName: 'Danio rerio',
     jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/zfin/zebrafish-11/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
+    jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/zfin/zebrafish-11/',
     jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_000002035.6_GRCz11_genomic.fna.gz',
     jBrowsetracks: '_all_genes,_ht_variants,_variants',
-    jBrowseOrthologyTracks:'Danio_rerio_all_genes,human2zebrafish.filter.anchors,mouse2zebrafish.filter.anchors,rat2zebrafish.filter.anchors,zebrafish2fly.filter.anchors,zebrafish2worm.filter.anchors,zebrafish2xenopustropicalis.filter.anchors,zebrafish2yeast.filter.anchors',
+    jBrowseOrthologyTracks:
+      'Danio_rerio_all_genes,human2zebrafish.filter.anchors,mouse2zebrafish.filter.anchors,rat2zebrafish.filter.anchors,zebrafish2fly.filter.anchors,zebrafish2worm.filter.anchors,zebrafish2xenopustropicalis.filter.anchors,zebrafish2yeast.filter.anchors',
     vertebrate: true,
     enableSingleCellExpressionAtlasLink: true,
     enableOrthologComparison: true,
@@ -380,9 +397,11 @@ export const SPECIES = [
     jBrowseName: 'Drosophila melanogaster',
     jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/FlyBase/fruitfly/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
+    jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/FlyBase/fruitfly/',
     jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_000001215.4_Release_6_plus_ISO1_MT_genomic.fna.gz',
     jBrowsetracks: '_all_genes,_ht_variants,_variants,_multiple-variant_alleles',
-    jBrowseOrthologyTracks:'Drosophila_melanogaster_all_genes,fly2yeast.filter.anchors,human2fly.filter.anchors,mouse2fly.filter.anchors,rat2fly.filter.anchors,worm2fly.filter.anchors,xenopustropicalis2fly.filter.anchors,zebrafish2fly.filter.anchors',
+    jBrowseOrthologyTracks:
+      'Drosophila_melanogaster_all_genes,fly2yeast.filter.anchors,human2fly.filter.anchors,mouse2fly.filter.anchors,rat2fly.filter.anchors,worm2fly.filter.anchors,xenopustropicalis2fly.filter.anchors,zebrafish2fly.filter.anchors',
     vertebrate: false,
     enableSingleCellExpressionAtlasLink: true,
     enableOrthologComparison: true,
@@ -396,9 +415,11 @@ export const SPECIES = [
     jBrowseName: 'Caenorhabditis elegans',
     jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/WormBase/c_elegans_PRJNA13758/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
+    jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/WormBase/c_elegans_PRJNA13758/',
     jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_000002985.6_WBcel235_genomic.fna.gz',
     jBrowsetracks: '_all_genes,_ht_variants,_variants',
-    jBrowseOrthologyTracks:'Caenorhabditis_elegans_all_genes,human2worm.filter.anchors,mouse2worm.filter.anchors,rat2worm.filter.anchors,worm2fly.filter.anchors,worm2yeast.filter.anchors,xenopustropicalis2worm.filter.anchors,zebrafish2worm.filter.anchors',
+    jBrowseOrthologyTracks:
+      'Caenorhabditis_elegans_all_genes,human2worm.filter.anchors,mouse2worm.filter.anchors,rat2worm.filter.anchors,worm2fly.filter.anchors,worm2yeast.filter.anchors,xenopustropicalis2worm.filter.anchors,zebrafish2worm.filter.anchors',
     vertebrate: false,
     enableSingleCellExpressionAtlasLink: true,
     enableOrthologComparison: true,
@@ -412,9 +433,11 @@ export const SPECIES = [
     jBrowseName: 'Saccharomyces cerevisiae',
     jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/SGD/yeast/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
+    jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/SGD/yeast/',
     jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_000146045.2_R64_genomic.fna.gz',
     jBrowsetracks: '_all_genes,_ht_variants',
-    jBrowseOrthologyTracks:'Saccharomyces_cerevisiae_all_genes,fly2yeast.filter.anchors,human2yeast.filter.anchors,mouse2yeast.filter.anchors,rat2yeast.filter.anchors,worm2yeast.filter.anchors,xenopustropicalis2yeast.filter.anchors,zebrafish2yeast.filter.anchors',
+    jBrowseOrthologyTracks:
+      'Saccharomyces_cerevisiae_all_genes,fly2yeast.filter.anchors,human2yeast.filter.anchors,mouse2yeast.filter.anchors,rat2yeast.filter.anchors,worm2yeast.filter.anchors,xenopustropicalis2yeast.filter.anchors,zebrafish2yeast.filter.anchors',
     vertebrate: false,
     enableSingleCellExpressionAtlasLink: true,
     enableOrthologComparison: true,
@@ -426,22 +449,23 @@ export const SPECIES = [
     apolloName: 'SARS-CoV-2',
     apolloTrack: '/Mature%20peptides/',
     jBrowseName: 'SARS-CoV-2',
-    jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/3.2.0/SARS-CoV-2/`,
+    jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/SARS-CoV-2/`,
     jBrowseurltemplate: 'tracks/All Genes/{refseq}/trackData.jsonz',
+    jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/SARS-CoV-2/',
     jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_000001405.40_GRCh38.p14_genomic.fna.gz',
     jBrowsetracks: '_all_genes',
-    jBrowseOrthologyTracks:'',
+    jBrowseOrthologyTracks: '',
     suppressFlatten: true,
     vertebrate: false,
     enableSingleCellExpressionAtlasLink: false,
     enableOrthologComparison: false,
     geneSynopsisProvider: 'UniProt',
-  }
+  },
 ];
 
-export const TAXON_ORDER = SPECIES.map(s => s.taxonId);
+export const TAXON_ORDER = SPECIES.map((s) => s.taxonId);
 
-export const SPECIES_NAME_ORDER = SPECIES.map(s => s.fullName);
+export const SPECIES_NAME_ORDER = SPECIES.map((s) => s.fullName);
 
 export const GA_PROPERTY_ID_UA = 'UA-98765810-1';
 export const GA_PROPERTY_ID_GA4 = 'G-H3F65KGJDR';
@@ -454,7 +478,7 @@ export const GA_EVENT_CATEGORY = {
 export const GA_EVENT_ACTION = {
   GO_TO_PAGE: 'Go to page',
   GO_TO_SEARCH_RESULTS: 'Go to search results',
-  SET_PAGE_SIZE: 'Set page size'
+  SET_PAGE_SIZE: 'Set page size',
 };
 
 export const DOWNLOAD_BUTTON_THRESHOLD = 90000;
