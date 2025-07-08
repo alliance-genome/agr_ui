@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {selectTotal} from '../../selectors/searchSelectors';
+import { selectTotal } from '../../selectors/searchSelectors';
 import style from './style.module.scss';
-import {selectPageLoading} from '../../selectors/loadingSelector';
+import { selectPageLoading } from '../../selectors/loadingSelector';
 
-const TotalCount = ({isPending, total}) => {
+const TotalCount = ({ isPending, total }) => {
   if (isPending) {
     return <span className={style.totalPending} />;
   }
@@ -14,10 +14,10 @@ const TotalCount = ({isPending, total}) => {
 
 TotalCount.propTypes = {
   isPending: PropTypes.bool,
-  total: PropTypes.number
+  total: PropTypes.number,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isPending: selectPageLoading(state),
   total: selectTotal(state),
 });

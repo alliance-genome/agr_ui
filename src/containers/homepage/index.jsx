@@ -9,12 +9,12 @@ import WordpressInject from '../wordpress/wordpressInject.jsx';
 const Homepage = () => {
   return (
     <div>
-      <HeadMetaTags title='Home' />
+      <HeadMetaTags title="Home" />
       <SearchSection />
 
       <section className={style.section}>
         <div className={`${style.contentContainer}`}>
-          <WordpressInject  slug='agr-inject-homepage' />
+          <WordpressInject slug="agr-inject-homepage" />
         </div>
       </section>
 

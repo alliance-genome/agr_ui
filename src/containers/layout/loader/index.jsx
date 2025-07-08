@@ -3,29 +3,25 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import style from './style.module.scss';
-import {selectPageLoading} from '../../../selectors/loadingSelector';
+import { selectPageLoading } from '../../../selectors/loadingSelector';
 
 const FINISH_INTERVAL = 250;
 
-const CLASS_NAMES = [
-  style.done,
-  style.pending,
-  style.finishing,
-];
+const CLASS_NAMES = [style.done, style.pending, style.finishing];
 
 class Loader extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      readyState: 0 // 0=done, 1=pending, 2=finishing (transition from pending to complete so loading bar always finished, which is satisfying)
+      readyState: 0, // 0=done, 1=pending, 2=finishing (transition from pending to complete so loading bar always finished, which is satisfying)
     };
   }
 
-  componentDidUpdate(prevProps){
+  componentDidUpdate(prevProps) {
     // wasn't pending -> is pending
     if (!prevProps.isPending && this.props.isPending) {
       this.handleSetPending();
-    // is pending -> not pending, setup quick animation to finish
+      // is pending -> not pending, setup quick animation to finish
     } else if (prevProps.isPending && !this.props.isPending) {
       this.handleSetFinishing();
     }
@@ -40,22 +36,19 @@ class Loader extends Component {
       clearTimeout(this._timeout);
     }
     this.setState({ readyState: 2 });
-    this._timeout = setTimeout( () => {
+    this._timeout = setTimeout(() => {
       this.setState({ readyState: 0 });
     }, FINISH_INTERVAL);
   }
 
   render() {
-    return (
-      <div className={`${style.loader} ${CLASS_NAMES[this.state.readyState]}`} />
-    );
+    return <div className={`${style.loader} ${CLASS_NAMES[this.state.readyState]}`} />;
   }
 }
 
 Loader.propTypes = {
-  isPending: PropTypes.bool
+  isPending: PropTypes.bool,
 };
-
 
 function mapStateToProps(state) {
   return { isPending: selectPageLoading(state) };

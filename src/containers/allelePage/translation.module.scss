@@ -1,4 +1,5 @@
-.aminoAcid, .codon {
+.aminoAcid,
+.codon {
   font-family: monospace;
   font-size: 10pt;
 }
@@ -9,22 +10,22 @@
 }
 
 .aminoAcid:before {
-  content: " ";
+  content: ' ';
   white-space: pre;
 }
 
 .aminoAcid:after {
-  content: " ";
+  content: ' ';
   white-space: pre;
 }
-
 
 .codon:nth-of-type(3n) {
   margin: 0 0.5em 0 0;
 }
 
 .table {
-  td, th {
+  td,
+  th {
     border: none;
     padding: 0 0.5em;
   }

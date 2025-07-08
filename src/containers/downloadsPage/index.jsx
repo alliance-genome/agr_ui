@@ -24,57 +24,51 @@ const ORTHOLOGY = 'Orthology';
 const VARIANTS = 'Variants (VCF)';
 const VARIANT_ALLELE = 'Variants/Alleles';
 const SECTIONS = [
-  {name: DISEASE},
-  {name: EXPRESSION},
-  {name: GENE_DESCRIPTIONS},
-  {name: MOLECULAR_INTERACTIONS},
-  {name: GENETIC_INTERACTIONS},
-  {name: ORTHOLOGY},
-  {name: VARIANTS},
-  {name: VARIANT_ALLELE},
+  { name: DISEASE },
+  { name: EXPRESSION },
+  { name: GENE_DESCRIPTIONS },
+  { name: MOLECULAR_INTERACTIONS },
+  { name: GENETIC_INTERACTIONS },
+  { name: ORTHOLOGY },
+  { name: VARIANTS },
+  { name: VARIANT_ALLELE },
 ];
 const TITLE = 'Downloads';
 const SPECIES_SUBTYPES = [
-  {species: 'Caenorhabditis elegans', subType: 'WB'},
-  {species: 'Danio rerio', subType: 'ZFIN'},
-  {species: 'Drosophila melanogaster', subType: 'FB'},
-  {species: 'Homo sapiens', subType: 'HUMAN'},
-  {species: 'Mus musculus', subType: 'MGI'},
-  {species: 'Rattus norvegicus', subType: 'RGD'},
-  {species: 'Saccharomyces cerevisiae', subType: 'SGD'},
-  {species: 'Xenopus laevis', subType: 'XBXL'},
-  {species: 'Xenopus tropicalis', subType: 'XBXT'}
+  { species: 'Caenorhabditis elegans', subType: 'WB' },
+  { species: 'Danio rerio', subType: 'ZFIN' },
+  { species: 'Drosophila melanogaster', subType: 'FB' },
+  { species: 'Homo sapiens', subType: 'HUMAN' },
+  { species: 'Mus musculus', subType: 'MGI' },
+  { species: 'Rattus norvegicus', subType: 'RGD' },
+  { species: 'Saccharomyces cerevisiae', subType: 'SGD' },
+  { species: 'Xenopus laevis', subType: 'XBXL' },
+  { species: 'Xenopus tropicalis', subType: 'XBXT' },
 ];
 const TAXON_SUBTYPES = [
-  {species: 'Caenorhabditis elegans', subType: 'NCBITaxon6239'},
-  {species: 'Danio rerio', subType: 'NCBITaxon7955'},
-  {species: 'Drosophila melanogaster', subType: 'NCBITaxon7227'},
-  {species: 'Mus musculus', subType: 'NCBITaxon10090'},
-  {species: 'Rattus norvegicus', subType: 'NCBITaxon10116'},
-  {species: 'Saccharomyces cerevisiae', subType: 'NCBITaxon559292'},
+  { species: 'Caenorhabditis elegans', subType: 'NCBITaxon6239' },
+  { species: 'Danio rerio', subType: 'NCBITaxon7955' },
+  { species: 'Drosophila melanogaster', subType: 'NCBITaxon7227' },
+  { species: 'Mus musculus', subType: 'NCBITaxon10090' },
+  { species: 'Rattus norvegicus', subType: 'NCBITaxon10116' },
+  { species: 'Saccharomyces cerevisiae', subType: 'NCBITaxon559292' },
 ];
 
 const DownloadsPage = () => {
-  const {
-    data: dataRelease,
-    isLoading: isLoadingRelease,
-  } = useRelease();
+  const { data: dataRelease, isLoading: isLoadingRelease } = useRelease();
 
   const { releaseVersion } = dataRelease || {};
 
-  const {
-    data: files,
-    isLoading,
-  } = usePageLoadingQuery( `https://fms.alliancegenome.org/api/datafile/by/release/${releaseVersion}?latest=true`);
+  const { data: files, isLoading } = usePageLoadingQuery(
+    `https://fms.alliancegenome.org/api/datafile/by/release/${releaseVersion}?latest=true`
+  );
 
   if (isLoadingRelease || isLoading) {
     return null;
   }
 
   const getFileForDataType = (dataType, dataSubType) => {
-    return files.find(file => (
-      file.dataType.name === dataType && file.dataSubType.name === dataSubType
-    ));
+    return files.find((file) => file.dataType.name === dataType && file.dataSubType.name === dataSubType);
   };
 
   return (
@@ -89,15 +83,19 @@ const DownloadsPage = () => {
         <Subsection title={DISEASE}>
           <DownloadFileTable>
             <DownloadFileRow
-              description='All disease associations'
+              description="All disease associations"
               files={[
                 getFileForDataType('DISEASE-ALLIANCE-JSON', 'COMBINED'),
                 getFileForDataType('DISEASE-ALLIANCE', 'COMBINED'),
               ]}
             />
-            {SPECIES_SUBTYPES.map(speciesSubType => (
+            {SPECIES_SUBTYPES.map((speciesSubType) => (
               <DownloadFileRow
-                description={<><SpeciesName>{speciesSubType.species}</SpeciesName> associations</>}
+                description={
+                  <>
+                    <SpeciesName>{speciesSubType.species}</SpeciesName> associations
+                  </>
+                }
                 key={speciesSubType.species}
                 files={[
                   getFileForDataType('DISEASE-ALLIANCE-JSON', speciesSubType.subType),
@@ -111,15 +109,19 @@ const DownloadsPage = () => {
         <Subsection title={EXPRESSION}>
           <DownloadFileTable>
             <DownloadFileRow
-              description='All expression annotations'
+              description="All expression annotations"
               files={[
                 getFileForDataType('EXPRESSION-ALLIANCE-JSON', 'COMBINED'),
                 getFileForDataType('EXPRESSION-ALLIANCE', 'COMBINED'),
               ]}
             />
-            {SPECIES_SUBTYPES.filter(({subType}) => subType !== 'HUMAN').map(speciesSubType => (
+            {SPECIES_SUBTYPES.filter(({ subType }) => subType !== 'HUMAN').map((speciesSubType) => (
               <DownloadFileRow
-                description={<><SpeciesName>{speciesSubType.species}</SpeciesName> annotations</>}
+                description={
+                  <>
+                    <SpeciesName>{speciesSubType.species}</SpeciesName> annotations
+                  </>
+                }
                 key={speciesSubType.species}
                 files={[
                   getFileForDataType('EXPRESSION-ALLIANCE-JSON', speciesSubType.subType),
@@ -132,9 +134,13 @@ const DownloadsPage = () => {
 
         <Subsection help={<GeneDescriptionsHelp />} title={GENE_DESCRIPTIONS}>
           <DownloadFileTable>
-            {SPECIES_SUBTYPES.map(speciesSubType => (
+            {SPECIES_SUBTYPES.map((speciesSubType) => (
               <DownloadFileRow
-                description={<><SpeciesName>{speciesSubType.species}</SpeciesName> genes</>}
+                description={
+                  <>
+                    <SpeciesName>{speciesSubType.species}</SpeciesName> genes
+                  </>
+                }
                 key={speciesSubType.species}
                 files={[
                   getFileForDataType('GENE-DESCRIPTION-JSON', speciesSubType.subType),
@@ -150,26 +156,39 @@ const DownloadsPage = () => {
           <DownloadFileTable>
             <DownloadFileRow
               description={
-                <span>All molecular interactions <HelpPopup id='interactions-help'>
-                    This file provides a set of annotations of molecular interactions for
-                    genes and gene products for all Alliance species (human, rat, mouse, zebrafish, fruit fly, nematode, and
-                    yeast). The file is in the <ExternalLink href='https://github.com/HUPO-PSI/miTab/blob/master/PSI-MITAB27Format.md'>PSI-MI TAB 2.7 format</ExternalLink>,
-                    a tab-delimited format established by the <ExternalLink href='http://www.psidev.info'>HUPO Proteomics Standards
-                    Initiative</ExternalLink> Molecular Interactions (PSI-MI) working group. The interaction data is sourced from
-                    Alliance members WormBase and FlyBase, as well as the <ExternalLink href='http://www.imexconsortium.org'>IMEx
-                    consortium</ExternalLink> and the <ExternalLink href='https://thebiogrid.org'>BioGRID database</ExternalLink>.
-                </HelpPopup></span>}
+                <span>
+                  All molecular interactions{' '}
+                  <HelpPopup id="interactions-help">
+                    This file provides a set of annotations of molecular interactions for genes and gene products for
+                    all Alliance species (human, rat, mouse, zebrafish, fruit fly, nematode, and yeast). The file is in
+                    the{' '}
+                    <ExternalLink href="https://github.com/HUPO-PSI/miTab/blob/master/PSI-MITAB27Format.md">
+                      PSI-MI TAB 2.7 format
+                    </ExternalLink>
+                    , a tab-delimited format established by the{' '}
+                    <ExternalLink href="http://www.psidev.info">HUPO Proteomics Standards Initiative</ExternalLink>{' '}
+                    Molecular Interactions (PSI-MI) working group. The interaction data is sourced from Alliance members
+                    WormBase and FlyBase, as well as the{' '}
+                    <ExternalLink href="http://www.imexconsortium.org">IMEx consortium</ExternalLink> and the{' '}
+                    <ExternalLink href="https://thebiogrid.org">BioGRID database</ExternalLink>.
+                  </HelpPopup>
+                </span>
+              }
               files={[getFileForDataType('INTERACTION-MOL', 'COMBINED')]}
             />
-            {SPECIES_SUBTYPES.map(speciesSubType => (
+            {SPECIES_SUBTYPES.map((speciesSubType) => (
               <DownloadFileRow
-                description={<><SpeciesName>{speciesSubType.species}</SpeciesName> molecular interactions</>}
+                description={
+                  <>
+                    <SpeciesName>{speciesSubType.species}</SpeciesName> molecular interactions
+                  </>
+                }
                 key={speciesSubType.species}
                 files={[getFileForDataType('INTERACTION-MOL', speciesSubType.subType)]}
               />
             ))}
             <DownloadFileRow
-              description='SARS-CoV-2 molecular interactions'
+              description="SARS-CoV-2 molecular interactions"
               files={[getFileForDataType('INTERACTION-MOL', 'SARS-CoV-2')]}
             />
           </DownloadFileTable>
@@ -178,12 +197,16 @@ const DownloadsPage = () => {
         <Subsection help={<GeneticInteractionsHelp />} title={GENETIC_INTERACTIONS}>
           <DownloadFileTable>
             <DownloadFileRow
-              description='All genetic interactions'
+              description="All genetic interactions"
               files={[getFileForDataType('INTERACTION-GEN', 'COMBINED')]}
             />
-            {SPECIES_SUBTYPES.map(speciesSubType => (
+            {SPECIES_SUBTYPES.map((speciesSubType) => (
               <DownloadFileRow
-                description={<><SpeciesName>{speciesSubType.species}</SpeciesName> genetic interactions</>}
+                description={
+                  <>
+                    <SpeciesName>{speciesSubType.species}</SpeciesName> genetic interactions
+                  </>
+                }
                 key={speciesSubType.species}
                 files={[getFileForDataType('INTERACTION-GEN', speciesSubType.subType)]}
               />
@@ -194,7 +217,7 @@ const DownloadsPage = () => {
         <Subsection title={ORTHOLOGY}>
           <DownloadFileTable>
             <DownloadFileRow
-              description='Alliance combined orthology data'
+              description="Alliance combined orthology data"
               files={[
                 getFileForDataType('ORTHOLOGY-ALLIANCE', 'COMBINED'),
                 getFileForDataType('ORTHOLOGY-ALLIANCE-JSON', 'COMBINED'),
@@ -206,23 +229,43 @@ const DownloadsPage = () => {
         <Subsection help={<VariantsHelp />} title={VARIANTS}>
           <DownloadFileTable>
             <DownloadFileRow
-              description={<><SpeciesName>Caenorhabditis elegans</SpeciesName> variants</>}
+              description={
+                <>
+                  <SpeciesName>Caenorhabditis elegans</SpeciesName> variants
+                </>
+              }
               files={[getFileForDataType('VCF', 'WBcel235')]}
             />
             <DownloadFileRow
-              description={<><SpeciesName>Danio rerio</SpeciesName> variants</>}
+              description={
+                <>
+                  <SpeciesName>Danio rerio</SpeciesName> variants
+                </>
+              }
               files={[getFileForDataType('VCF', 'GRCz11')]}
             />
             <DownloadFileRow
-              description={<><SpeciesName>Drosophila melanogaster</SpeciesName> variants</>}
+              description={
+                <>
+                  <SpeciesName>Drosophila melanogaster</SpeciesName> variants
+                </>
+              }
               files={[getFileForDataType('VCF', 'R6')]}
             />
             <DownloadFileRow
-              description={<><SpeciesName>Mus musculus</SpeciesName> variants</>}
+              description={
+                <>
+                  <SpeciesName>Mus musculus</SpeciesName> variants
+                </>
+              }
               files={[getFileForDataType('VCF', 'GRCm39')]}
             />
             <DownloadFileRow
-              description={<><SpeciesName>Rattus norvegicus</SpeciesName> variants</>}
+              description={
+                <>
+                  <SpeciesName>Rattus norvegicus</SpeciesName> variants
+                </>
+              }
               files={[getFileForDataType('VCF', 'mRatBN7.2')]}
             />
           </DownloadFileTable>
@@ -230,9 +273,13 @@ const DownloadsPage = () => {
 
         <Subsection title={VARIANT_ALLELE}>
           <DownloadFileTable>
-            {TAXON_SUBTYPES.map(taxonSubType => (
+            {TAXON_SUBTYPES.map((taxonSubType) => (
               <DownloadFileRow
-                description={<><SpeciesName>{taxonSubType.species}</SpeciesName> variants/alleles</>}
+                description={
+                  <>
+                    <SpeciesName>{taxonSubType.species}</SpeciesName> variants/alleles
+                  </>
+                }
                 key={taxonSubType.species}
                 files={[
                   getFileForDataType('VARIANT-ALLELE-JSON', taxonSubType.subType),

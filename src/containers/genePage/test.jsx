@@ -13,8 +13,8 @@ describe('GenePage', () => {
     let store = configureStore();
     const match = {
       params: {
-        geneId: 'WBGene00197647'
-      }
+        geneId: 'WBGene00197647',
+      },
     };
     let htmlString = renderToString(
       <Provider store={store}>

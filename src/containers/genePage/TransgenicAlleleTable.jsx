@@ -11,32 +11,31 @@ import { compareByFixedOrder } from '../../lib/utils';
 import { SPECIES_NAME_ORDER } from '../../constants';
 import SpeciesName from '../../components/SpeciesName.jsx';
 
-const constructsRelatedGenesFormatter = constructRelatedGenes => (
-  constructRelatedGenes.map(({id, genes}) => (
+const constructsRelatedGenesFormatter = (constructRelatedGenes) =>
+  constructRelatedGenes.map(({ id, genes }) => (
     <div key={id}>
       <CommaSeparatedGeneList genes={genes} />
     </div>
-  ))
-);
+  ));
 
-const TransgenicAlleleTable = ({geneId}) => {
+const TransgenicAlleleTable = ({ geneId }) => {
   const {
     data: results,
     supplementalData,
     ...tableProps
   } = useDataTableQuery(`/api/gene/${geneId}/transgenic-alleles`);
 
-  const data = results?.map(result => ({
+  const data = results?.map((result) => ({
     ...result,
-    constructExpressedGene: result.constructs.map(construct => ({
+    constructExpressedGene: result.constructs.map((construct) => ({
       id: construct.id,
       genes: construct.expressedGenes,
     })),
-    constructTargetedGene: result.constructs.map(construct => ({
+    constructTargetedGene: result.constructs.map((construct) => ({
       id: construct.id,
       genes: construct.targetGenes,
     })),
-    constructRegulatedGene: result.constructs.map(construct => ({
+    constructRegulatedGene: result.constructs.map((construct) => ({
       id: construct.id,
       genes: construct.regulatedByGenes,
     })),
@@ -50,19 +49,19 @@ const TransgenicAlleleTable = ({geneId}) => {
         <>
           Species
           <br />
-          <small className='text-muted text-transform-none'>(carrying the transgene)</small>
+          <small className="text-muted text-transform-none">(carrying the transgene)</small>
         </>
       ),
-      formatter: species => <SpeciesCell species={species} />,
+      formatter: (species) => <SpeciesCell species={species} />,
       filterable: getDistinctFieldValue(supplementalData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
-      filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
-      headerStyle: {width: '100px'},
+      filterFormatter: (speciesName) => <SpeciesName>{speciesName}</SpeciesName>,
+      headerStyle: { width: '100px' },
     },
     {
       dataField: 'symbol',
       text: 'Allele symbol',
       formatter: (_, allele) => <AlleleCell allele={allele} />,
-      headerStyle: {width: '185px'},
+      headerStyle: { width: '185px' },
       filterable: true,
       filterName: 'allele',
     },
@@ -71,14 +70,20 @@ const TransgenicAlleleTable = ({geneId}) => {
       text: 'Transgenic construct',
       helpPopupProps: {
         id: 'gene-page--transgenetic-allele-table--transgenic-construct-help',
-        children: <span>The symbol of the construct (following species specific guidelines). This represents the construct independent of the host organism.</span>,
+        children: (
+          <span>
+            The symbol of the construct (following species specific guidelines). This represents the construct
+            independent of the host organism.
+          </span>
+        ),
       },
-      formatter: constructs => constructs.map(construct => (
-        <div key={construct.id} className='text-break'>
-          <ConstructLink construct={construct} />
-        </div>
-      )),
-      headerStyle: {width: '185px'},
+      formatter: (constructs) =>
+        constructs.map((construct) => (
+          <div key={construct.id} className="text-break">
+            <ConstructLink construct={construct} />
+          </div>
+        )),
+      headerStyle: { width: '185px' },
       filterable: true,
       filterName: 'construct',
     },
@@ -87,10 +92,15 @@ const TransgenicAlleleTable = ({geneId}) => {
       text: 'Expressed components',
       helpPopupProps: {
         id: 'gene-page--transgenetic-allele-table--expressed-components-help',
-        children: <span>The genetic elements expressed by the construct. These may be full or partial genes and may include both protein coding and non-protein coding genes.</span>,
+        children: (
+          <span>
+            The genetic elements expressed by the construct. These may be full or partial genes and may include both
+            protein coding and non-protein coding genes.
+          </span>
+        ),
       },
       formatter: constructsRelatedGenesFormatter,
-      headerStyle: {width: '130px'},
+      headerStyle: { width: '130px' },
       filterable: true,
     },
     {
@@ -98,10 +108,15 @@ const TransgenicAlleleTable = ({geneId}) => {
       text: 'Knock-down targets',
       helpPopupProps: {
         id: 'gene-page--transgenetic-allele-table--knock-down-targets-help',
-        children: <span>If the transgenic construct contains elements designed to interfere with expression of another gene, then those genes are listed here.</span>,
+        children: (
+          <span>
+            If the transgenic construct contains elements designed to interfere with expression of another gene, then
+            those genes are listed here.
+          </span>
+        ),
       },
       formatter: constructsRelatedGenesFormatter,
-      headerStyle: {width: '120px'},
+      headerStyle: { width: '120px' },
       filterable: true,
     },
     {
@@ -109,20 +124,22 @@ const TransgenicAlleleTable = ({geneId}) => {
       text: 'Regulatory regions',
       helpPopupProps: {
         id: 'gene-page--transgenetic-allele-table--regulatory-regions-help',
-        children: <span>The genetic elements driving expression of the other elements in the construct. Examples are: upstream activation sequence (UAS), human cytomegalovirus (CMV), and in worm, daf-16.</span>,
+        children: (
+          <span>
+            The genetic elements driving expression of the other elements in the construct. Examples are: upstream
+            activation sequence (UAS), human cytomegalovirus (CMV), and in worm, daf-16.
+          </span>
+        ),
       },
       formatter: constructsRelatedGenesFormatter,
-      headerStyle: {width: '120px'},
+      headerStyle: { width: '120px' },
       filterable: true,
     },
     {
       dataField: 'hasDisease',
       text: 'Has Disease Annotations',
       formatter: (hasDisease, allele) => (
-        <BooleanLinkCell
-          to={`/allele/${allele.id}#disease-associations`}
-          value={hasDisease}
-        />
+        <BooleanLinkCell to={`/allele/${allele.id}#disease-associations`} value={hasDisease} />
       ),
       headerNode: <RotatedHeaderCell>Has Disease Annotations</RotatedHeaderCell>,
       headerStyle: {
@@ -130,16 +147,13 @@ const TransgenicAlleleTable = ({geneId}) => {
         height: '130px',
       },
       filterable: ['true', 'false'],
-      filterFormatter: val => val === 'true' ? 'Yes' : 'No',
+      filterFormatter: (val) => (val === 'true' ? 'Yes' : 'No'),
     },
     {
       dataField: 'hasPhenotype',
       text: 'Has Phenotype Annotations',
       formatter: (hasPhenotype, allele) => (
-        <BooleanLinkCell
-          to={`/allele/${allele.id}#phenotypes`}
-          value={hasPhenotype}
-        />
+        <BooleanLinkCell to={`/allele/${allele.id}#phenotypes`} value={hasPhenotype} />
       ),
       headerNode: <RotatedHeaderCell>Has Phenotype Annotations</RotatedHeaderCell>,
       headerStyle: {
@@ -147,14 +161,14 @@ const TransgenicAlleleTable = ({geneId}) => {
         height: '145px',
       },
       filterable: ['true', 'false'],
-      filterFormatter: val => val === 'true' ? 'Yes' : 'No',
+      filterFormatter: (val) => (val === 'true' ? 'Yes' : 'No'),
     },
   ];
 
   return (
     <DataTable
       {...tableProps}
-      keyField='id'
+      keyField="id"
       columns={columns}
       data={data}
       downloadUrl={`/api/gene/${geneId}/transgenic-alleles/download`}

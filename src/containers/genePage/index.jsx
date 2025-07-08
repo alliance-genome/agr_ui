@@ -1,14 +1,14 @@
-import React  from 'react';
+import React from 'react';
 import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPage';
 import BasicGeneInfo from './basicGeneInfo.jsx';
 import {
   OrthologyFilteredTable,
   HomologyUserGuide,
   OrthologyBasicInfo,
-  OrthologyJBrowseLinkPanel
+  OrthologyJBrowseLinkPanel,
 } from '../../components/orthology';
-import ParalogyTable from '../../components/paralogy/paralogyTable.jsx'
-import ParalogyUserGuide from '../../components/paralogy/paralogyUserGuide.jsx'
+import ParalogyTable from '../../components/paralogy/paralogyTable.jsx';
+import ParalogyUserGuide from '../../components/paralogy/paralogyUserGuide.jsx';
 import GoUserGuide from '../../components/geneOntologyRibbon/goUserGuide.jsx';
 import PathwayUserGuide from '../../components/pathway/pathwayUserGuide.jsx';
 import ModelSectionHelp from '../../components/model/modelSectionHelp.jsx';
@@ -23,7 +23,7 @@ import {
   GeneGeneticInteractionDetailTable,
   GeneInteractionCrossReference,
   InteractionUserGuide,
-  GeneticInteractionSectionHelp
+  GeneticInteractionSectionHelp,
 } from '../../components/interaction';
 import GenomeFeatureWrapper from './genomeFeatureWrapper.jsx';
 import SequencePanel from './sequencePanelWrapper.jsx';
@@ -32,10 +32,7 @@ import ExpressionLinks from './expressionLinks.jsx';
 import SpeciesIcon from '../../components/speciesIcon/index.jsx';
 import DataSourceLink from '../../components/dataSourceLink.jsx';
 import PhenotypeTable from './phenotypeTable.jsx';
-import {
-  ExpressionComparisonRibbon,
-  ExpressionUserGuide
-} from '../../components/expression';
+import { ExpressionComparisonRibbon, ExpressionUserGuide } from '../../components/expression';
 import { DiseaseComparisonRibbon } from '../../components/disease';
 import GeneModelsTable from './GeneModelsTable.jsx';
 import GeneMetaTags from './GeneMetaTags.jsx';
@@ -52,7 +49,7 @@ import SequencePanelSectionHelp from '../../components/sequencePanel/sequencePan
 import TransgenicAlleleSectionHelp from '../../components/transgenicAlleles/transgenicAllelesSectionHelp.jsx';
 import DiseaseSectionHelp from '../../components/disease/diseaseSectionHelp.jsx';
 import { AlleleTableWrapper } from './alleleTableWrapper.jsx';
-import {useParams} from "react-router-dom";
+import { useParams } from 'react-router-dom';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
@@ -60,7 +57,7 @@ const SEQUENCE_DETAILS = 'Sequence Details';
 const FUNCTION = 'Function - GO Annotations';
 const PATHWAY = 'Pathways';
 const ORTHOLOGY = 'Orthology';
-const PARALOGY = 'Paralogy'
+const PARALOGY = 'Paralogy';
 const DISEASE = 'Disease Associations';
 const EXPRESSION = 'Expression';
 const ALLELES = 'Alleles and Variants';
@@ -71,21 +68,21 @@ const GENETIC_INTERACTIONS = 'Genetic Interactions';
 const MODELS = 'Models';
 
 const SECTIONS = [
-  {name: SUMMARY},
-  {name: ORTHOLOGY},
-  {name: PARALOGY},
-  {name: FUNCTION},
-  {name: PATHWAY},
-  {name: PHENOTYPES},
-  {name: DISEASE},
-  {name: ALLELES},
-  {name: TG_ALLELES},
-  {name: MODELS},
-  {name: SEQUENCE_FEATURE_VIEWER},
-  {name: SEQUENCE_DETAILS},
-  {name: EXPRESSION},
-  {name: INTERACTIONS},
-  {name: GENETIC_INTERACTIONS},
+  { name: SUMMARY },
+  { name: ORTHOLOGY },
+  { name: PARALOGY },
+  { name: FUNCTION },
+  { name: PATHWAY },
+  { name: PHENOTYPES },
+  { name: DISEASE },
+  { name: ALLELES },
+  { name: TG_ALLELES },
+  { name: MODELS },
+  { name: SEQUENCE_FEATURE_VIEWER },
+  { name: SEQUENCE_DETAILS },
+  { name: EXPRESSION },
+  { name: INTERACTIONS },
+  { name: GENETIC_INTERACTIONS },
 ];
 
 const GenePage = () => {
@@ -131,8 +128,10 @@ const GenePage = () => {
         </PageNavEntity>
       </PageNav>
       <PageData>
-        <PageCategoryLabel category='gene' />
-        <PageHeader><GeneSymbol gene={data} /></PageHeader>
+        <PageCategoryLabel category="gene" />
+        <PageHeader>
+          <GeneSymbol gene={data} />
+        </PageHeader>
 
         <Subsection hideTitle title={SUMMARY}>
           <BasicGeneInfo gene={data} />
@@ -141,10 +140,7 @@ const GenePage = () => {
         <Subsection help={<HomologyUserGuide />} title={ORTHOLOGY}>
           <OrthologyBasicInfo pantherCrossReference={data.crossReferenceMap.panther} />
           <OrthologyFilteredTable geneId={data.id} />
-          <OrthologyJBrowseLinkPanel
-            geneLocation={genomeLocation}
-            taxonid={data.species.taxonId}
-          />
+          <OrthologyJBrowseLinkPanel geneLocation={genomeLocation} taxonid={data.species.taxonId} />
         </Subsection>
 
         <Subsection help={<ParalogyUserGuide />} title={PARALOGY}>
@@ -152,11 +148,7 @@ const GenePage = () => {
         </Subsection>
 
         <Subsection help={<GoUserGuide />} title={FUNCTION}>
-          <GeneOntologyRibbon
-            geneId={data.id}
-            geneSpecies={data.species}
-            geneSymbol={data.symbol}
-          />
+          <GeneOntologyRibbon geneId={data.id} geneSpecies={data.species} geneSymbol={data.symbol} />
         </Subsection>
 
         <Subsection help={<PathwayUserGuide />} title={PATHWAY}>
@@ -170,26 +162,21 @@ const GenePage = () => {
 
         <Subsection title={PHENOTYPES}>
           <PhenotypeCrossRefs
-            primary={[
-              data.crossReferenceMap.phenotypes
-            ]}
-            other={[
-              data.crossReferenceMap.biogrid_orcs,
-              data.crossReferenceMap.phenotypes_impc
-            ]}
+            primary={[data.crossReferenceMap.phenotypes]}
+            other={[data.crossReferenceMap.biogrid_orcs, data.crossReferenceMap.phenotypes_impc]}
           />
           <PhenotypeTable geneId={data.id} entityType={'gene'} hideSourceColumn={true} />
         </Subsection>
 
-        <Subsection help={<DiseaseSectionHelp />}title={DISEASE}>
+        <Subsection help={<DiseaseSectionHelp />} title={DISEASE}>
           <DiseaseComparisonRibbon geneId={data.id} geneTaxon={data.species.taxonId} />
         </Subsection>
 
         <Subsection help={<AlleleTableSectionHelp />} title={ALLELES}>
-          <AlleleTableWrapper geneId={data.id}/>
+          <AlleleTableWrapper geneId={data.id} />
         </Subsection>
 
-        <Subsection help={<TransgenicAlleleSectionHelp />}title={TG_ALLELES}>
+        <Subsection help={<TransgenicAlleleSectionHelp />} title={TG_ALLELES}>
           <TransgenicAlleleTable geneId={data.id} />
         </Subsection>
 
@@ -198,7 +185,11 @@ const GenePage = () => {
         </Subsection>
 
         <Subsection
-          hasData={typeof genomeLocation.chromosome!== 'undefined' && typeof genomeLocation.start !== 'undefined' && typeof genomeLocation.end !== 'undefined'}
+          hasData={
+            typeof genomeLocation.chromosome !== 'undefined' &&
+            typeof genomeLocation.start !== 'undefined' &&
+            typeof genomeLocation.end !== 'undefined'
+          }
           help={<SequenceFeatureViewerSectionHelp />}
           title={SEQUENCE_FEATURE_VIEWER}
         >
@@ -206,33 +197,30 @@ const GenePage = () => {
             assembly={genomeLocation.assembly}
             biotype={data.soTermName}
             chromosome={genomeLocation.chromosome}
-            displayType='ISOFORM_AND_VARIANT'
+            displayType="ISOFORM_AND_VARIANT"
             fmax={genomeLocation.end}
             fmin={genomeLocation.start}
             geneSymbol={data.symbol}
             genomeLocationList={data.genomeLocations}
-            height='200px'
-            id='genome-feature-location-id'
+            height="200px"
+            id="genome-feature-location-id"
             primaryId={data.id}
             species={data.species.taxonId}
             strand={genomeLocation.strand}
             synonyms={data.synonyms}
-            width='600px'
+            width="600px"
           />
         </Subsection>
 
-        <Subsection
-          help={<SequencePanelSectionHelp />}
-          title={SEQUENCE_DETAILS}
-        >
-	  <SequencePanel
+        <Subsection help={<SequencePanelSectionHelp />} title={SEQUENCE_DETAILS}>
+          <SequencePanel
             refseq={genomeLocation.chromosome}
             start={genomeLocation.start}
             end={genomeLocation.end}
             gene={data.symbol}
             species={data.species.taxonId}
-	  />
- 	</Subsection>
+          />
+        </Subsection>
 
         <Subsection help={<ExpressionUserGuide />} title={EXPRESSION}>
           <ExpressionLinks
@@ -242,7 +230,7 @@ const GenePage = () => {
             otherExpressionCrossReferences={[
               data.crossReferenceMap.other_expression,
               singleCellAtlasXRef,
-              data.crossReferenceMap['expression-atlas']
+              data.crossReferenceMap['expression-atlas'],
             ]}
             spellCrossReference={data.crossReferenceMap.spell}
             wildtypeExpressionCrossReference={data.crossReferenceMap.wild_type_expression}
@@ -255,17 +243,11 @@ const GenePage = () => {
             crossReference={data.crossReferenceMap.MODinteractions}
             geneDataProvider={data.dataProvider}
           />
-          <GenePhysicalInteractionDetailTable
-            focusGeneDisplayName={data.symbol}
-            focusGeneId={data.id}
-          />
+          <GenePhysicalInteractionDetailTable focusGeneDisplayName={data.symbol} focusGeneId={data.id} />
         </Subsection>
 
         <Subsection help={<GeneticInteractionSectionHelp />} title={GENETIC_INTERACTIONS}>
-          <GeneGeneticInteractionDetailTable
-            focusGeneDisplayName={data.symbol}
-            focusGeneId={data.id}
-          />
+          <GeneGeneticInteractionDetailTable focusGeneDisplayName={data.symbol} focusGeneId={data.id} />
         </Subsection>
       </PageData>
     </DataPage>

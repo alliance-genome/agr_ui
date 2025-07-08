@@ -11,16 +11,12 @@ const configureStore = () => {
   let composeEnhancers;
   try {
     // include in try block so mocha test doesn't complain about ReferenceError
-    composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ||
-      compose;
+    composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   } catch (e) {
     composeEnhancers = compose;
   }
 
-  const store = createStore(
-    combinedReducers,
-    composeEnhancers(applyMiddleware())
-  );
+  const store = createStore(combinedReducers, composeEnhancers(applyMiddleware()));
   if (import.meta.webpackHot) {
     // Enable Webpack hot module replacement for reducers
     import.meta.webpackHot.accept('../reducers', () => {

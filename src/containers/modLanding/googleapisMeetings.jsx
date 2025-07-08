@@ -1,15 +1,15 @@
-import React  from 'react';
+import React from 'react';
 import style from './style.module.scss';
 import LoadingSpinner from '../../components/loadingSpinner.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 const sortGoogleapiPosts = (googleAPIRes) => {
   let upcomingMeetings = {};
   const dateNow = Date.now();
   if (googleAPIRes !== undefined) {
     if (googleAPIRes['items']) {
-      googleAPIRes['items'].forEach(function(post) {
+      googleAPIRes['items'].forEach(function (post) {
         if (post.start.date) {
           let postStartDate = new Date(post.start.date);
           postStartDate = postStartDate.getTime();
@@ -21,10 +21,10 @@ const sortGoogleapiPosts = (googleAPIRes) => {
               location = post.description.match(/^(http\S+)\s(.*)/).slice(1)[1];
             }
 
-            var monthOptions = { month: 'long'};
-            const startDate = new Date(post.start.date+'T00:00:00.000-08:00');
+            var monthOptions = { month: 'long' };
+            const startDate = new Date(post.start.date + 'T00:00:00.000-08:00');
             // SGD uses Pacific TimeZone, which is -8 but the end date in googleapis is exclusive, so have to shift it by a day
-            const endDate = new Date(post.end.date+'T00:00:00.000+16:00');
+            const endDate = new Date(post.end.date + 'T00:00:00.000+16:00');
 
             const endDateDay = endDate.getDate();
             const endDateMonth = new Intl.DateTimeFormat('en-US', monthOptions).format(endDate);
@@ -35,30 +35,27 @@ const sortGoogleapiPosts = (googleAPIRes) => {
             const startDateMonth = new Intl.DateTimeFormat('en-US', monthOptions).format(startDate);
             const startDateYear = startDate.getFullYear();
             let startDateString = startDateMonth + ' ' + startDateDay;
-            (startDateYear !== endDateYear) && ( startDateString += ', ' + startDateYear );
+            startDateYear !== endDateYear && (startDateString += ', ' + startDateYear);
 
             let text = startDateString + ' to ' + endDateString + '<br />' + location;
-            upcomingMeetings[postStartDate] = {summary: post.summary, link: link, text: text}
+            upcomingMeetings[postStartDate] = { summary: post.summary, link: link, text: text };
           }
         }
       });
     }
   }
-  return (upcomingMeetings);
-}
+  return upcomingMeetings;
+};
 
-const GoogleapisMeetings = ({urlMeetingsMod, fetchMeetingsCount, linkToMeetingsPage}) => {
-  const {
-    data: postList,
-    isLoading
-  } = usePageLoadingQuery(urlMeetingsMod);
+const GoogleapisMeetings = ({ urlMeetingsMod, fetchMeetingsCount, linkToMeetingsPage }) => {
+  const { data: postList, isLoading } = usePageLoadingQuery(urlMeetingsMod);
 
   let upcomingMeetings = {};
 
   return (
     <div className={style.wordPressContainer}>
-      <div className='container'>
-        <div className='row'>
+      <div className="container">
+        <div className="row">
           {isLoading && <LoadingSpinner />}
           {(() => {
             if (postList) {
@@ -66,24 +63,33 @@ const GoogleapisMeetings = ({urlMeetingsMod, fetchMeetingsCount, linkToMeetingsP
               upcomingMeetings = sortGoogleapiPosts(postList);
               let keys = Object.keys(upcomingMeetings);
               keys.sort();
-              (keys.length < fetchMeetingsCount) && (fetchMeetingsCount = keys.length);
+              keys.length < fetchMeetingsCount && (fetchMeetingsCount = keys.length);
               for (let i = 0; i < fetchMeetingsCount; i++) {
                 const post = upcomingMeetings[keys[i]];
                 wantedMeetings.push(
                   <div className={style.postContainer} key={i} data-testid={'div_meetings_' + i}>
                     <a href={post.link} data-testid={'href_meetings_' + i}>
-                      <h4 className={style.h4extra} dangerouslySetInnerHTML={{ __html: post.summary}}  data-testid={'header_meetings_' + i}/>
+                      <h4
+                        className={style.h4extra}
+                        dangerouslySetInnerHTML={{ __html: post.summary }}
+                        data-testid={'header_meetings_' + i}
+                      />
                     </a>
-                    <p dangerouslySetInnerHTML={{ __html: post.text}} data-testid={'text_meetings_' + i} />
+                    <p dangerouslySetInnerHTML={{ __html: post.text }} data-testid={'text_meetings_' + i} />
                   </div>
-                )
+                );
               }
-              return ( <div>{wantedMeetings}</div> );
+              return <div>{wantedMeetings}</div>;
             }
           })()}
         </div>
-        { linkToMeetingsPage && <div className={`row ${style.moreNews}`} data-testid={'more_meetings_div'}>
-                              <a href={linkToMeetingsPage} data-testid={'more_meetings_link'} ><i>more meetings&hellip;</i></a></div> }
+        {linkToMeetingsPage && (
+          <div className={`row ${style.moreNews}`} data-testid={'more_meetings_div'}>
+            <a href={linkToMeetingsPage} data-testid={'more_meetings_link'}>
+              <i>more meetings&hellip;</i>
+            </a>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -91,7 +97,7 @@ const GoogleapisMeetings = ({urlMeetingsMod, fetchMeetingsCount, linkToMeetingsP
 
 GoogleapisMeetings.propTypes = {
   urlMeetingsMod: PropTypes.string.isRequired,
-  fetchMeetingsCount: PropTypes.number.isRequired
-}
+  fetchMeetingsCount: PropTypes.number.isRequired,
+};
 
 export default GoogleapisMeetings;

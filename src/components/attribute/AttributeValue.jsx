@@ -2,12 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import NoData from '../noData.jsx';
 
-const AttributeValue = ({style = {}, children, bsClassName = 'col-md-9', placeholder = 'Not Available'}) => {
+const AttributeValue = ({ style = {}, children, bsClassName = 'col-md-9', placeholder = 'Not Available' }) => {
   return (
-    <dd
-      className={bsClassName}
-      style={style}
-    >
+    <dd className={bsClassName} style={style}>
       {children || <NoData>{placeholder}</NoData>}
     </dd>
   );

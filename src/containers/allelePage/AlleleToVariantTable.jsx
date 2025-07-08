@@ -5,12 +5,9 @@ import Sequence from './Sequence.jsx';
 import useAllAlleleVariants from '../../hooks/useAlleleVariants';
 import { DataTable } from '../../components/dataTable';
 
-const AlleleToVariantTable = ({allele = {}, alleleId}) => {
-  const {
-    data: dataRaw,
-    ...tableProps
-  } = useAllAlleleVariants(alleleId);
-  const [ variant1 = {} ] = dataRaw;
+const AlleleToVariantTable = ({ allele = {}, alleleId }) => {
+  const { data: dataRaw, ...tableProps } = useAllAlleleVariants(alleleId);
+  const [variant1 = {}] = dataRaw;
   const { location: locationVariant1 = {} } = variant1;
   const gene = allele.gene || {};
   const { genomeLocations: geneLocations } = gene;
@@ -19,31 +16,31 @@ const AlleleToVariantTable = ({allele = {}, alleleId}) => {
   const data = dataRaw.map((variant) => ({
     ...variant,
     geneLocation,
-    species: allele.species
+    species: allele.species,
   }));
 
   const columns = [
     {
       dataField: 'displayName',
       text: 'Variant name',
-      formatter: (name, {location, variantType:type = {}, geneLocation = {}, species = {}}) => (
+      formatter: (name, { location, variantType: type = {}, geneLocation = {}, species = {} }) => (
         <VariantJBrowseLink
           geneLocation={geneLocation}
           location={location}
           species={species.name}
           type={type.name}
-	  taxonid={species.taxonId}
+          taxonid={species.taxonId}
         >
           <span className="text-break">{name}</span>
         </VariantJBrowseLink>
       ),
-      headerStyle: {width: '220px'},
+      headerStyle: { width: '220px' },
     },
     {
       dataField: 'variantType',
       text: 'Variant type',
-      formatter: ({name = ''} = {}) => name.replace(/_/g, ' '),
-      headerStyle: {width: '100px'},
+      formatter: ({ name = '' } = {}) => name.replace(/_/g, ' '),
+      headerStyle: { width: '100px' },
     },
     {
       dataField: 'location',
@@ -51,14 +48,14 @@ const AlleleToVariantTable = ({allele = {}, alleleId}) => {
       headerFormatter: () => (
         <React.Fragment>
           Chromosome:position
-          <br/>
+          <br />
           <span className="text-muted">(Assembly: {locationVariant1.assembly})</span>
         </React.Fragment>
       ),
-      formatter: ({chromosome = '', start = '', end = ''} = {}) => {
-        return (start !== end) ? `${chromosome}:${start}-${end}` : `${chromosome}:${start}`;
+      formatter: ({ chromosome = '', start = '', end = '' } = {}) => {
+        return start !== end ? `${chromosome}:${start}-${end}` : `${chromosome}:${start}`;
       },
-      headerStyle: {width: '160px'},
+      headerStyle: { width: '160px' },
     },
     {
       dataField: 'nucleotideChange',
@@ -66,13 +63,13 @@ const AlleleToVariantTable = ({allele = {}, alleleId}) => {
       formatter: (nucleotideChange) => {
         return <Sequence sequence={nucleotideChange || ''} />;
       },
-      headerStyle: {width: '160px'},
+      headerStyle: { width: '160px' },
     },
     {
       dataField: 'consequence',
       text: 'Most severe consequence',
-      formatter: term => term && term.replace(/_/g, ' '),
-      headerStyle: {width: '150px'},
+      formatter: (term) => term && term.replace(/_/g, ' '),
+      headerStyle: { width: '150px' },
     },
   ];
 
@@ -82,8 +79,8 @@ const AlleleToVariantTable = ({allele = {}, alleleId}) => {
       columns={columns}
       data={data}
       downloadUrl={`/api/allele/${alleleId}/variants/download`}
-      keyField='id'
-      noDataMessage='No mapped variant information available'
+      keyField="id"
+      noDataMessage="No mapped variant information available"
       pagination={false}
     />
   );
@@ -95,11 +92,10 @@ AlleleToVariantTable.propTypes = {
     }),
     species: PropTypes.shape({
       name: PropTypes.string,
-      taxonid: PropTypes.string
-    })
+      taxonid: PropTypes.string,
+    }),
   }),
   alleleId: PropTypes.any,
 };
-
 
 export default AlleleToVariantTable;

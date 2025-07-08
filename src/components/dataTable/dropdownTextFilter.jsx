@@ -5,7 +5,7 @@ import { Button, Form, FormGroup, Input } from 'reactstrap';
 class DropdownTextFilter extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: props.defaultFilter || ''};
+    this.state = { value: props.defaultFilter || '' };
     this.inputRef = React.createRef();
 
     this.handleChange = this.handleChange.bind(this);
@@ -22,7 +22,7 @@ class DropdownTextFilter extends React.Component {
   }
 
   handleChange(event) {
-    this.setState({value: event.target.value});
+    this.setState({ value: event.target.value });
   }
 
   handleClick(event) {
@@ -32,7 +32,7 @@ class DropdownTextFilter extends React.Component {
 
   handleClear(event) {
     event.preventDefault();
-    this.setState({value: ''}, () => this.fireCallbacks());
+    this.setState({ value: '' }, () => this.fireCallbacks());
   }
 
   render() {
@@ -43,14 +43,18 @@ class DropdownTextFilter extends React.Component {
             innerRef={this.inputRef}
             onChange={this.handleChange}
             placeholder={`Filter ${this.props.column.text}...`}
-            style={{width: '200px'}}
-            type='text'
+            style={{ width: '200px' }}
+            type="text"
             value={this.state.value}
           />
         </FormGroup>
-        <FormGroup className='d-flex justify-content-between'>
-          <Button onClick={this.handleClear} outline>Clear</Button>
-          <Button color='primary' onClick={this.handleClick}>Apply</Button>
+        <FormGroup className="d-flex justify-content-between">
+          <Button onClick={this.handleClear} outline>
+            Clear
+          </Button>
+          <Button color="primary" onClick={this.handleClick}>
+            Apply
+          </Button>
         </FormGroup>
       </Form>
     );
@@ -60,7 +64,7 @@ class DropdownTextFilter extends React.Component {
 DropdownTextFilter.propTypes = {
   column: PropTypes.object,
   defaultFilter: PropTypes.string,
-  onFilter: PropTypes.func
+  onFilter: PropTypes.func,
 };
 
 export default DropdownTextFilter;

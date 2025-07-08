@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import {PAGE_LOADING} from '../actions/loadingActions';
+import { PAGE_LOADING } from '../actions/loadingActions';
 
 const DEFAULT_STATE = fromJS({
   pageLoading: false,
@@ -7,10 +7,10 @@ const DEFAULT_STATE = fromJS({
 
 const loadingReducer = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
-  case PAGE_LOADING:
-    return state.set('pageLoading', action.payload);
-  default:
-    return state;
+    case PAGE_LOADING:
+      return state.set('pageLoading', action.payload);
+    default:
+      return state;
   }
 };
 
