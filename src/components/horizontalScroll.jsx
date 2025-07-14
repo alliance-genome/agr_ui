@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef }  from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 // import React from 'react';
 import PropTypes from 'prop-types';
 
 import style from './style.module.scss';
 
-const HorizontalScroll = ({children, width}) => {
+const HorizontalScroll = ({ children, width }) => {
   const [startOffset, setStartOffset] = useState(0);
   const [endOffset, setEndOffset] = useState(0);
   const scrollEl = useRef(null);
@@ -35,17 +35,15 @@ const HorizontalScroll = ({children, width}) => {
   useEffect(() => {
     window.addEventListener('resize', throttledUpdate);
     return () => window.removeEventListener('resize', throttledUpdate);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div className='position-relative'>
-      <div className={style.shadow + ' ' + style.left} style={{opacity: startOffset > 0 ? 1 : 0}} />
-      <div className={style.shadow + ' ' + style.right} style={{opacity: endOffset > 0 ? 1 : 0}} />
+    <div className="position-relative">
+      <div className={style.shadow + ' ' + style.left} style={{ opacity: startOffset > 0 ? 1 : 0 }} />
+      <div className={style.shadow + ' ' + style.right} style={{ opacity: endOffset > 0 ? 1 : 0 }} />
       <div className={style.hScrollOuter} onScroll={throttledUpdate} ref={scrollEl}>
-        <div style={{minWidth: width}}>
-          {children}
-        </div>
+        <div style={{ minWidth: width }}>{children}</div>
       </div>
     </div>
   );

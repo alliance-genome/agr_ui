@@ -5,8 +5,7 @@ import { makeId } from '../lib/utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
 
-
-const HelpPopup = ({children, id, placement='top-start', ...otherProps}) => {
+const HelpPopup = ({ children, id, placement = 'top-start', ...otherProps }) => {
   id = makeId(id);
   // const popperModifiers = {
   //   preventOverflow: {
@@ -15,16 +14,22 @@ const HelpPopup = ({children, id, placement='top-start', ...otherProps}) => {
   // };
   const popperModifiers = [
     {
-      name: "preventOverflow",
+      name: 'preventOverflow',
       options: {
-        rootBoundary: "viewport"
-      }
-    }
-  ]
+        rootBoundary: 'viewport',
+      },
+    },
+  ];
   return (
     <React.Fragment>
-      <FontAwesomeIcon icon={faCircleQuestion} id={id} style={{cursor: 'pointer'}} className='text-primary'/>
-      <UncontrolledPopover {...otherProps} modifiers={popperModifiers} placement={placement} target={id} trigger='legacy'>
+      <FontAwesomeIcon icon={faCircleQuestion} id={id} style={{ cursor: 'pointer' }} className="text-primary" />
+      <UncontrolledPopover
+        {...otherProps}
+        modifiers={popperModifiers}
+        placement={placement}
+        target={id}
+        trigger="legacy"
+      >
         <PopoverBody>{children}</PopoverBody>
       </UncontrolledPopover>
     </React.Fragment>

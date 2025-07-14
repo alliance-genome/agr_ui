@@ -19,7 +19,7 @@ Disallow: /
 
 const content = env === 'production' ? PROD_CONTENT : OTHER_CONTENT;
 
-console.log(`writing to... ${directory}/${filename}`)
+console.log(`writing to... ${directory}/${filename}`);
 fs.writeFile(`${directory}/${filename}`, content, (err) => {
   if (err) {
     console.error('Error writing robots.txt file:', err);

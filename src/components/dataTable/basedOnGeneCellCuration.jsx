@@ -9,14 +9,17 @@ const GeneLink = ({ gene }) => {
   return (
     <Link key={identifier} to={`/gene/${identifier}`}>
       <GeneSymbolCuration gene={gene} /> ({shortSpeciesName(gene.taxon.curie)})
-    </Link>);
+    </Link>
+  );
 };
 const BasedOnGeneCellCuration = (genes) => {
   if (!genes) return null;
   const uniqueGenes = removeDuplicates(genes, (gene) => gene.geneSymbol.displayText);
   return (
     <CollapsibleList collapsedSize={uniqueGenes.length}>
-      {uniqueGenes.map(gene => <GeneLink key={gene.geneSymbol.displayText} gene={gene} /> )}
+      {uniqueGenes.map((gene) => (
+        <GeneLink key={gene.geneSymbol.displayText} gene={gene} />
+      ))}
     </CollapsibleList>
   );
 };

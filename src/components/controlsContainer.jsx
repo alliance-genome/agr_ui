@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const ControlsContainer = ({children}) => {
+const ControlsContainer = ({ children }) => {
   return (
-    <div className='card'>
-      <div className='card-body'>
-        {children}
-      </div>
+    <div className="card">
+      <div className="card-body">{children}</div>
     </div>
   );
 };

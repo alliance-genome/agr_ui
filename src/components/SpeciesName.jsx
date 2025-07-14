@@ -6,7 +6,6 @@ const SpeciesName = (props) => {
   return <span {...props} className={style.speciesName} />;
 };
 
-SpeciesName.propTypes = {
-};
+SpeciesName.propTypes = {};
 
 export default SpeciesName;

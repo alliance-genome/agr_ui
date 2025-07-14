@@ -1,8 +1,6 @@
-
-function GeneticSex({geneticSex}) {
- if(geneticSex) 
-    return <>{geneticSex.name}</>;
- return <></>;
+function GeneticSex({ geneticSex }) {
+  if (geneticSex) return <>{geneticSex.name}</>;
+  return <></>;
 }
 
 export default GeneticSex;

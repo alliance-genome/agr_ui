@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import AlleleSymbol from '../../containers/allelePage/AlleleSymbol.jsx';
 
-const AlleleCell = ({allele}) => {
+const AlleleCell = ({ allele }) => {
   return allele.category === 'variant' ? (
     <Link to={`/variant/${allele.id}`}>{allele.symbol}</Link>
   ) : (

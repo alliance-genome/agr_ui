@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 
 import style from './style.module.scss';
 
-const CommaSeparatedList = ({children, listItemClassName}) => {
+const CommaSeparatedList = ({ children, listItemClassName }) => {
   return (
     <ul className={style.commaSeparatedList}>
-      {
-        React.Children.map(children, child => <li className={listItemClassName}>{child}</li>)
-      }
+      {React.Children.map(children, (child) => (
+        <li className={listItemClassName}>{child}</li>
+      ))}
     </ul>
   );
 };

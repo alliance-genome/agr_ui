@@ -6,5 +6,5 @@ export const GeneAlleleDetailsTableWrapper = ({ geneId }) => {
   if (isLoading || isError) {
     return null;
   }
-  return <GeneAlleleDetailsTable isLoadingGene={isLoading} gene={data} geneId={geneId}/>
-}
+  return <GeneAlleleDetailsTable isLoadingGene={isLoading} gene={data} geneId={geneId} />;
+};

@@ -40,5 +40,5 @@ export function createQueryResult(query) {
 }
 
 export function getEnabledBoolean(config) {
-  return Boolean((config && config.hasOwnProperty('enabled')) ? config.enabled : true);
+  return Boolean(config && config.hasOwnProperty('enabled') ? config.enabled : true);
 }

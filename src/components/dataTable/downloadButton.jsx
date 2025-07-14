@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDownloadPost } from '../../hooks/useDownloadPost';
 
-const DownloadButton = ({ downloadUrl, text = "Download", disabled = false, method = 'GET', body }) => {
+const DownloadButton = ({ downloadUrl, text = 'Download', disabled = false, method = 'GET', body }) => {
   const { mutate, isLoading } = useDownloadPost();
 
   const triggerFileDownload = (data) => {
@@ -30,22 +30,14 @@ const DownloadButton = ({ downloadUrl, text = "Download", disabled = false, meth
 
   const handleClick = () => {
     if (method === 'POST') {
-
-      mutate(
-        { url: downloadUrl, body: body },
-        { onSuccess: triggerFileDownload }
-      );
+      mutate({ url: downloadUrl, body: body }, { onSuccess: triggerFileDownload });
     } else {
       window.location.replace(downloadUrl);
     }
   };
 
   return (
-    <button
-      className={'btn btn-outline-secondary'}
-      onClick={handleClick}
-      disabled={disabled || isLoading}
-    >
+    <button className={'btn btn-outline-secondary'} onClick={handleClick} disabled={disabled || isLoading}>
       {isLoading ? 'Downloading...' : text}
     </button>
   );

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { UncontrolledTooltip } from 'reactstrap';
 
-function CellTooltip({tooltip, id, children}) {
+function CellTooltip({ tooltip, id, children }) {
   let tooltipText;
   let isTruncated;
   if (typeof tooltip === 'string') {
@@ -13,14 +13,10 @@ function CellTooltip({tooltip, id, children}) {
   return (
     <div>
       <span id={id}>{children}</span>
-      <UncontrolledTooltip
-        delay={{show: 300, hide: 150}}
-        placement="right"
-        target={id}
-      >
+      <UncontrolledTooltip delay={{ show: 300, hide: 150 }} placement="right" target={id}>
         {
           /* super long tooltip interferes with mouseover event */
-          tooltipText ? isTruncated ? `${tooltipText}...` : tooltipText : tooltip
+          tooltipText ? (isTruncated ? `${tooltipText}...` : tooltipText) : tooltip
         }
       </UncontrolledTooltip>
     </div>
@@ -28,15 +24,9 @@ function CellTooltip({tooltip, id, children}) {
 }
 
 CellTooltip.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element,
-  ]),
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   id: PropTypes.string.isRequired,
-  tooltip: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element,
-  ]),
+  tooltip: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
 };
 
 export default CellTooltip;

@@ -1,4 +1,4 @@
-@import "../../theme.module";
+@import '../../theme.module';
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 
@@ -65,14 +65,14 @@
   .tableContainer {
     flex: 1;
     overflow-y: auto;
-    min-height: 0; 
+    min-height: 0;
   }
 
   .stickyFooter {
     border-top: 1px solid #dee2e6;
     background-color: white;
     padding: 8px 0;
-    flex-shrink: 0; 
+    flex-shrink: 0;
   }
 }
 

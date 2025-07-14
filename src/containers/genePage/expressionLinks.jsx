@@ -1,11 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  AttributeList,
-  AttributeLabel,
-  AttributeValue,
-} from '../../components/attribute';
+import { AttributeList, AttributeLabel, AttributeValue } from '../../components/attribute';
 import CrossReferenceList from '../../components/crossReferenceList.jsx';
 
 const ExpressionLinks = ({
@@ -14,26 +10,25 @@ const ExpressionLinks = ({
   imagesCrossReference,
   otherExpressionCrossReferences,
   spellCrossReference,
-  wildtypeExpressionCrossReference
+  wildtypeExpressionCrossReference,
 }) => {
-
   // override display name to differentiate wild type and all expression
   if (wildtypeExpressionCrossReference) {
     wildtypeExpressionCrossReference = {
       ...wildtypeExpressionCrossReference,
-      displayName: geneDataProvider + ' (wild type)'
+      displayName: geneDataProvider + ' (wild type)',
     };
   }
   if (allExpressionCrossReference) {
     allExpressionCrossReference = {
       ...allExpressionCrossReference,
-      displayName: geneDataProvider + (wildtypeExpressionCrossReference ? ' (all)' : '')
+      displayName: geneDataProvider + (wildtypeExpressionCrossReference ? ' (all)' : ''),
     };
   }
   if (imagesCrossReference) {
     imagesCrossReference = {
       ...imagesCrossReference,
-      displayName: geneDataProvider + ' (images)'
+      displayName: geneDataProvider + ' (images)',
     };
   }
 
@@ -41,37 +36,36 @@ const ExpressionLinks = ({
     allExpressionCrossReference,
     wildtypeExpressionCrossReference,
     imagesCrossReference,
-    spellCrossReference
-  ].filter(ref => ref !== undefined);
+    spellCrossReference,
+  ].filter((ref) => ref !== undefined);
 
   // more than one GEO link? don't show any them.
-  otherExpressionCrossReferences = otherExpressionCrossReferences.filter(ref => ref !== undefined);
+  otherExpressionCrossReferences = otherExpressionCrossReferences.filter((ref) => ref !== undefined);
   if (otherExpressionCrossReferences) {
-    const linkIsGeo = link => link.displayName === 'GEO';
+    const linkIsGeo = (link) => link.displayName === 'GEO';
     if (otherExpressionCrossReferences.filter(linkIsGeo).length > 1) {
-      otherExpressionCrossReferences = otherExpressionCrossReferences.filter(link => !linkIsGeo(link));
+      otherExpressionCrossReferences = otherExpressionCrossReferences.filter((link) => !linkIsGeo(link));
     }
   }
 
   return (
     <AttributeList>
       <AttributeLabel>Primary Sources</AttributeLabel>
-      <AttributeValue placeholder='None'>
-        {primarySources && primarySources.length &&
+      <AttributeValue placeholder="None">
+        {primarySources && primarySources.length && (
           <CrossReferenceList collapsible={false} crossReferences={primarySources} sort={false} />
-        }
+        )}
       </AttributeValue>
 
       <AttributeLabel>Other Sources</AttributeLabel>
-      <AttributeValue placeholder='None'>
-        {otherExpressionCrossReferences && otherExpressionCrossReferences.length &&
+      <AttributeValue placeholder="None">
+        {otherExpressionCrossReferences && otherExpressionCrossReferences.length && (
           <CrossReferenceList collapsible={false} crossReferences={otherExpressionCrossReferences} sort={false} />
-        }
+        )}
       </AttributeValue>
     </AttributeList>
   );
 };
-
 
 ExpressionLinks.propTypes = {
   allExpressionCrossReference: PropTypes.object,

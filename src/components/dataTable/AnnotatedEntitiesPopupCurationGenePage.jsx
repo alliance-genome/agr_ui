@@ -1,11 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  DropdownMenu,
-  DropdownToggle,
-  ButtonDropdown
-} from 'reactstrap';
+import { DropdownMenu, DropdownToggle, ButtonDropdown } from 'reactstrap';
 import { SingleReferenceCellCuration } from './index';
 import ExperimentalConditionCellCuration from './ExperimentalConditionCellCuration';
 import hash from 'object-hash';
@@ -13,7 +9,7 @@ import hash from 'object-hash';
 import style from './style.module.scss';
 import ExternalLink from '../ExternalLink';
 import { Link } from 'react-router-dom';
-import { getResourceUrl } from "./getResourceUrl";
+import { getResourceUrl } from './getResourceUrl';
 import TypeCellCuration from './TypeCellCuration';
 import RelatedNotes from './RelatedNotes';
 import EvidenceCodesCellCuration from './evidenceCodesCellCuration';
@@ -33,32 +29,26 @@ function renderLink(entity) {
   const url = getResourceUrl({
     identifier,
     type: entity.diseaseAnnotationSubject.type,
-    subtype: entity.diseaseAnnotationSubject.subtype
-  })
+    subtype: entity.diseaseAnnotationSubject.subtype,
+  });
 
   const innerText = getAnnotationSubjectText(entity);
-  const inner = <span dangerouslySetInnerHTML={{__html: innerText}}/>;
+  const inner = <span dangerouslySetInnerHTML={{ __html: innerText }} />;
 
   if (entity.type === 'AlleleDiseaseAnnotation') {
     return <Link to={`/allele/${identifier}`}>{inner}</Link>;
-  } else if(entity.type === 'GeneDiseaseAnnotation'){
-      return <Link to={`/gene/${identifier}`}>{inner}</Link>;
+  } else if (entity.type === 'GeneDiseaseAnnotation') {
+    return <Link to={`/gene/${identifier}`}>{inner}</Link>;
   } else {
-      return <ExternalLink href={url}>{inner}</ExternalLink>;
+    return <ExternalLink href={url}>{inner}</ExternalLink>;
   }
 }
-
-
 
 function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCurie, pubModIds, columnNameSet }) {
   const [isOpen, setIsOpen] = useState(false);
   const [pagination, setPagination] = useState({ page: 1, limit: 10 });
 
-  const {
-    data,
-    isLoading,
-    error,
-  } = usePopupQuery(`/api/disease/${countId}/primaryannotations`, isOpen, pagination);
+  const { data, isLoading, error } = usePopupQuery(`/api/disease/${countId}/primaryannotations`, isOpen, pagination);
 
   const entities = data?.results;
   const totalRecords = data?.total || 0;
@@ -73,7 +63,7 @@ function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCuri
   };
 
   const handlePageChange = (newPage) => {
-    setPagination(prev => ({ ...prev, page: newPage }));
+    setPagination((prev) => ({ ...prev, page: newPage }));
   };
 
   const handleLimitChange = (newLimit) => {
@@ -82,23 +72,37 @@ function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCuri
 
   if (!isOpen) {
     return (
-      <a href='#' onClick={(e) => { e.preventDefault(); handleOpen(); }}>{children || 'View'}</a>
+      <a
+        href="#"
+        onClick={(e) => {
+          e.preventDefault();
+          handleOpen();
+        }}
+      >
+        {children || 'View'}
+      </a>
     );
   }
 
   const popperModifiers = {
     preventOverflow: {
       boundariesElement: 'window',
-    }
+    },
   };
 
   if (isLoading) {
     return (
       <ButtonDropdown isOpen={isOpen} toggle={toggleDropdown}>
-        <DropdownToggle tag='span'>
-          <a href='#' onClick={e => e.preventDefault()}>{children || 'View'}</a>
+        <DropdownToggle tag="span">
+          <a href="#" onClick={(e) => e.preventDefault()}>
+            {children || 'View'}
+          </a>
         </DropdownToggle>
-        <DropdownMenu className={`shadow-sm ${style.tablePopupWithStickyFooter}`} modifiers={popperModifiers} strategy="fixed">
+        <DropdownMenu
+          className={`shadow-sm ${style.tablePopupWithStickyFooter}`}
+          modifiers={popperModifiers}
+          strategy="fixed"
+        >
           <div className={style.tablePopupInnerWithStickyFooter}>
             <div className={`${style.tableContainer} d-flex`}>
               <div className="d-flex justify-content-center align-items-center w-100" style={{ minHeight: '200px' }}>
@@ -114,10 +118,22 @@ function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCuri
   if (error) {
     return (
       <ButtonDropdown isOpen={isOpen} toggle={toggleDropdown}>
-        <DropdownToggle tag='span'>
-          <a href='#' onClick={(e) => { e.preventDefault(); handleOpen(); }}>{children || 'View'}</a>
+        <DropdownToggle tag="span">
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              handleOpen();
+            }}
+          >
+            {children || 'View'}
+          </a>
         </DropdownToggle>
-        <DropdownMenu className={`shadow-sm ${style.tablePopupWithStickyFooter}`} modifiers={popperModifiers} strategy="fixed">
+        <DropdownMenu
+          className={`shadow-sm ${style.tablePopupWithStickyFooter}`}
+          modifiers={popperModifiers}
+          strategy="fixed"
+        >
           <div className={style.tablePopupInnerWithStickyFooter}>
             <div className={style.tableContainer}>
               <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '200px' }}>
@@ -134,70 +150,134 @@ function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCuri
 
   return (
     <ButtonDropdown isOpen={isOpen} toggle={toggleDropdown}>
-      <DropdownToggle tag='span'>
-        <a href='#' onClick={(e) => { e.preventDefault(); handleOpen(); }}>{children || 'View'}</a>
+      <DropdownToggle tag="span">
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            handleOpen();
+          }}
+        >
+          {children || 'View'}
+        </a>
       </DropdownToggle>
-      <DropdownMenu className={`shadow-sm ${style.tablePopupWithStickyFooter}`} modifiers={popperModifiers} strategy="fixed">
+      <DropdownMenu
+        className={`shadow-sm ${style.tablePopupWithStickyFooter}`}
+        modifiers={popperModifiers}
+        strategy="fixed"
+      >
         <div className={style.tablePopupInnerWithStickyFooter}>
           {sortedEntities.length === 0 ? (
             <div>No annotation details available</div>
           ) : (
             <>
               <div className={style.tableContainer}>
-                <table className='table table-sm'>
+                <table className="table table-sm">
                   <thead>
                     <tr>
-                      {columnNameSet.has("Name") && <th>Name</th>}
-                      {columnNameSet.has("Type") && <th>Type</th>}
-                      {columnNameSet.has("Association") && <th className={style.associationCell}>Association</th>}
-                      {columnNameSet.has("Additional Implicated Genes") && <th>Additional implicated genes</th>}
-                      {columnNameSet.has("Experimental Condition") && <th>Experimental condition</th>}
-                      {columnNameSet.has("Genetic Modifiers") && <th>Genetic Modifiers</th>}
-                      {columnNameSet.has("Strain Background") && <th>Strain Background</th>}
-                      {columnNameSet.has("Genetic Sex") && <th>Genetic Sex</th>}
-                      {columnNameSet.has("Notes") && <th className={style.relatedNotes}>Notes</th>}
-                      {columnNameSet.has("Annotation Type") && <th>Annotation type</th>}
-                      {columnNameSet.has("Evidence Codes") && <th>Evidence Codes</th>}
-                      {columnNameSet.has("Source") && <th>Source</th>}
-                      {columnNameSet.has("References") && <th>References</th>}
+                      {columnNameSet.has('Name') && <th>Name</th>}
+                      {columnNameSet.has('Type') && <th>Type</th>}
+                      {columnNameSet.has('Association') && <th className={style.associationCell}>Association</th>}
+                      {columnNameSet.has('Additional Implicated Genes') && <th>Additional implicated genes</th>}
+                      {columnNameSet.has('Experimental Condition') && <th>Experimental condition</th>}
+                      {columnNameSet.has('Genetic Modifiers') && <th>Genetic Modifiers</th>}
+                      {columnNameSet.has('Strain Background') && <th>Strain Background</th>}
+                      {columnNameSet.has('Genetic Sex') && <th>Genetic Sex</th>}
+                      {columnNameSet.has('Notes') && <th className={style.relatedNotes}>Notes</th>}
+                      {columnNameSet.has('Annotation Type') && <th>Annotation type</th>}
+                      {columnNameSet.has('Evidence Codes') && <th>Evidence Codes</th>}
+                      {columnNameSet.has('Source') && <th>Source</th>}
+                      {columnNameSet.has('References') && <th>References</th>}
                     </tr>
                   </thead>
                   <tbody>
-                    {
-                      sortedEntities.map(entity => {
-                        const provider = buildProviderWithUrl(entity);
-                        const key = hash(entity);
+                    {sortedEntities.map((entity) => {
+                      const provider = buildProviderWithUrl(entity);
+                      const key = hash(entity);
 
-                        var diseaseGeneticModifiers = entity.diseaseGeneticModifierAlleles;
-                        if(entity.diseaseGeneticModifierGenes != null){
-                          diseaseGeneticModifiers = entity.diseaseGeneticModifierGenes;
-                        }
-                        if(entity.diseaseGeneticModifierAgms != null){
-                          diseaseGeneticModifiers = entity.diseaseGeneticModifierAgms;
-                        }
-                        var expCondition = entity.conditionRelations;
-                        if(entity.conditionModifiers != null){
-                          expCondition = entity.conditionModifiers;
-                        }
-                          return (
-                          <tr key={key}>
-                            {columnNameSet.has("Name") && <td>{renderLink(entity)}</td>}
-                            {columnNameSet.has("Type") && <td><TypeCellCuration subject={entity.diseaseAnnotationSubject}/></td>}
-                            {columnNameSet.has("Association") && <td><AssociationCellCuration association={entity.fullRelationString}/></td>}
-                            {columnNameSet.has("Additional Implicated Genes") && <td><AssertedGenes assertedGenes={entity.assertedGenes} mainRowCurie={mainRowCurie}/></td>}
-                            {columnNameSet.has("Experimental Condition") && <td><ExperimentalConditionCellCuration conditions={expCondition}/></td>}
-                            {columnNameSet.has("Genetic Modifiers") && <td><GeneticModifiersCellCuration relation={entity.diseaseGeneticModifierRelation} modifiers={diseaseGeneticModifiers}/></td>}
-                            {columnNameSet.has("Strain Background") && <td><StrainBackground strainBackground={entity.sgdStrainBackground}/></td>}
-                            {columnNameSet.has("Genetic Sex") && <td><GeneticSex geneticSex={entity.geneticSex}/></td>}
-                            {columnNameSet.has("Notes") && <td><RelatedNotes className={style.relatedNotes} relatedNotes={entity.relatedNotes}/></td>}
-                            {columnNameSet.has("Annotation Type") && <td><AnnotationType annotationType={entity.annotationType}/></td>}
-                            {columnNameSet.has("Evidence Codes") && <td><EvidenceCodesCellCuration evidenceCodes={entity.evidenceCodes}/></td>}
-                            {columnNameSet.has("Source") && <td><ProviderCellCuration provider={provider} /></td>}
-                            {columnNameSet.has("References") && <td><SingleReferenceCellCuration singleReference={entity.evidenceItem} pubModIds={pubModIds}/></td>}
-                          </tr>
-                        )
-                    })
-                    }
+                      var diseaseGeneticModifiers = entity.diseaseGeneticModifierAlleles;
+                      if (entity.diseaseGeneticModifierGenes != null) {
+                        diseaseGeneticModifiers = entity.diseaseGeneticModifierGenes;
+                      }
+                      if (entity.diseaseGeneticModifierAgms != null) {
+                        diseaseGeneticModifiers = entity.diseaseGeneticModifierAgms;
+                      }
+                      var expCondition = entity.conditionRelations;
+                      if (entity.conditionModifiers != null) {
+                        expCondition = entity.conditionModifiers;
+                      }
+                      return (
+                        <tr key={key}>
+                          {columnNameSet.has('Name') && <td>{renderLink(entity)}</td>}
+                          {columnNameSet.has('Type') && (
+                            <td>
+                              <TypeCellCuration subject={entity.diseaseAnnotationSubject} />
+                            </td>
+                          )}
+                          {columnNameSet.has('Association') && (
+                            <td>
+                              <AssociationCellCuration association={entity.fullRelationString} />
+                            </td>
+                          )}
+                          {columnNameSet.has('Additional Implicated Genes') && (
+                            <td>
+                              <AssertedGenes assertedGenes={entity.assertedGenes} mainRowCurie={mainRowCurie} />
+                            </td>
+                          )}
+                          {columnNameSet.has('Experimental Condition') && (
+                            <td>
+                              <ExperimentalConditionCellCuration conditions={expCondition} />
+                            </td>
+                          )}
+                          {columnNameSet.has('Genetic Modifiers') && (
+                            <td>
+                              <GeneticModifiersCellCuration
+                                relation={entity.diseaseGeneticModifierRelation}
+                                modifiers={diseaseGeneticModifiers}
+                              />
+                            </td>
+                          )}
+                          {columnNameSet.has('Strain Background') && (
+                            <td>
+                              <StrainBackground strainBackground={entity.sgdStrainBackground} />
+                            </td>
+                          )}
+                          {columnNameSet.has('Genetic Sex') && (
+                            <td>
+                              <GeneticSex geneticSex={entity.geneticSex} />
+                            </td>
+                          )}
+                          {columnNameSet.has('Notes') && (
+                            <td>
+                              <RelatedNotes className={style.relatedNotes} relatedNotes={entity.relatedNotes} />
+                            </td>
+                          )}
+                          {columnNameSet.has('Annotation Type') && (
+                            <td>
+                              <AnnotationType annotationType={entity.annotationType} />
+                            </td>
+                          )}
+                          {columnNameSet.has('Evidence Codes') && (
+                            <td>
+                              <EvidenceCodesCellCuration evidenceCodes={entity.evidenceCodes} />
+                            </td>
+                          )}
+                          {columnNameSet.has('Source') && (
+                            <td>
+                              <ProviderCellCuration provider={provider} />
+                            </td>
+                          )}
+                          {columnNameSet.has('References') && (
+                            <td>
+                              <SingleReferenceCellCuration
+                                singleReference={entity.evidenceItem}
+                                pubModIds={pubModIds}
+                              />
+                            </td>
+                          )}
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -252,7 +332,7 @@ AnnotatedEntitiesPopupCurationGenePage.propTypes = {
   entities: PropTypes.array,
   mainRowCurie: PropTypes.string,
   pubModIds: PropTypes.array,
-  columnNameSet: PropTypes.object
+  columnNameSet: PropTypes.object,
 };
 
 export default AnnotatedEntitiesPopupCurationGenePage;

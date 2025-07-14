@@ -13,7 +13,7 @@ export {
   HomologyUserGuide,
   StringencySelection,
   OrthologyJBrowseLink,
-  OrthologyJBrowseLinkPanel
+  OrthologyJBrowseLinkPanel,
 };
 
 export * from '../homology/utils';

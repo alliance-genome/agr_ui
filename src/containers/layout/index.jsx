@@ -2,7 +2,7 @@ import WarningBanner from './WarningBanner.jsx';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {Link, useLocation} from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import style from './style.module.scss';
 import Loader from './loader/index.jsx';
 import logo from '../../assets/images/alliance_logo_agr.png';
@@ -57,21 +57,25 @@ class Layout extends Component {
       <div>
         <WarningBanner />
 
-        <div className='container-fluid'>
-          <div className='row align-items-center'>
-            <div className='col-md d-flex justify-content-between'>
-              <div className='navbar-brand d-flex align-items-end'>
-                <Link to='/'>
+        <div className="container-fluid">
+          <div className="row align-items-center">
+            <div className="col-md d-flex justify-content-between">
+              <div className="navbar-brand d-flex align-items-end">
+                <Link to="/">
                   <img alt="" className={style.agrLogo} width="200" src={logo} />
                 </Link>
                 <ReleaseBanner />
-                <WordpressInject slug='agr-topbar' />
+                <WordpressInject slug="agr-topbar" />
               </div>
-              <button className="navbar-toggler d-md-none" onClick={() => this.setState({menuOpen: !menuOpen})} type="button">
+              <button
+                className="navbar-toggler d-md-none"
+                onClick={() => this.setState({ menuOpen: !menuOpen })}
+                type="button"
+              >
                 <FontAwesomeIcon icon={faBars} fixedWidth />
               </button>
             </div>
-            <div className='col-md d-flex justify-content-md-end'>
+            <div className="col-md d-flex justify-content-md-end">
               <div className={style.headerSearchContainer}>
                 {location.pathname !== '/' && location.pathname !== '/search' && <SearchBar />}
               </div>
@@ -82,15 +86,13 @@ class Layout extends Component {
         <MenuItems
           currentRoute={location.pathname}
           menuOpen={menuOpen}
-          onItemClick={() => this.setState({menuOpen: false})}
+          onItemClick={() => this.setState({ menuOpen: false })}
         />
 
         <div className={style.loaderContentContainer}>
           <div className={style.content}>
             <Loader />
-            <div className={style.contentContainer}>
-              {children}
-            </div>
+            <div className={style.contentContainer}>{children}</div>
           </div>
         </div>
 
@@ -106,18 +108,18 @@ Layout.propTypes = {
   pageLoading: PropTypes.bool,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   pageLoading: selectPageLoading(state),
 });
 
 /*
-* TODO: convert component to functional component utilizing useLocation
-*
-* The wrapper component is simply a stop-gap solution since converting the component
-* is non-trivial and would stand in the way of completing the vite/react upgrade.
-* */
+ * TODO: convert component to functional component utilizing useLocation
+ *
+ * The wrapper component is simply a stop-gap solution since converting the component
+ * is non-trivial and would stand in the way of completing the vite/react upgrade.
+ * */
 
-const LayoutWithLocation = props => {
+const LayoutWithLocation = (props) => {
   const location = useLocation();
   return <Layout location={location} {...props} />;
 };

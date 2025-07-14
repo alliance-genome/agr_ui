@@ -2,16 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { HashLink as Link } from 'react-router-hash-link';
 
-const BooleanLinkCell = ({
-  to,
-  value,
-}) => {
+const BooleanLinkCell = ({ to, value }) => {
   if (!value) {
     return null;
   }
-  return (
-    <Link to={to}>Yes</Link>
-  );
+  return <Link to={to}>Yes</Link>;
 };
 
 BooleanLinkCell.propTypes = {

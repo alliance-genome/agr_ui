@@ -7,12 +7,16 @@ const fileExtension = (filename) => {
   return filename.substring(filename.lastIndexOf('.') + 1);
 };
 
-const DownloadFileLink = ({url, fileType}) => {
+const DownloadFileLink = ({ url, fileType }) => {
   if (!url) {
     return null;
   }
   fileType = (fileType || fileExtension(url) || '').toUpperCase();
-  return <a className={style.fileLink} href={url}>{fileType}</a>;
+  return (
+    <a className={style.fileLink} href={url}>
+      {fileType}
+    </a>
+  );
 };
 
 DownloadFileLink.propTypes = {

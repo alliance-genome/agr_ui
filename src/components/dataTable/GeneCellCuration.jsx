@@ -5,9 +5,10 @@ import { Link } from 'react-router-dom';
 import style from './style.module.scss';
 
 const GeneCellCuration = ({ curie, geneSymbol } = {}) => {
-
   return (
-    <Link className={style.breakWords} to={'/gene/' + curie}>{geneSymbol?.displayText}</Link>
+    <Link className={style.breakWords} to={'/gene/' + curie}>
+      {geneSymbol?.displayText}
+    </Link>
   );
 };
 

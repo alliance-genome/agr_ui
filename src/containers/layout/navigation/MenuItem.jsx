@@ -1,18 +1,12 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
-import {
-  Dropdown,
-  DropdownMenu,
-  DropdownToggle,
-  NavItem,
-  NavLink,
-} from 'reactstrap';
+import { Link } from 'react-router-dom';
+import { Dropdown, DropdownMenu, DropdownToggle, NavItem, NavLink } from 'reactstrap';
 import SubMenuItem from './SubMenuItem.jsx';
 
-const MenuItem = ({currentRoute, page, onClick}) => {
+const MenuItem = ({ currentRoute, page, onClick }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const toggle = () => setIsOpen(prevState => !prevState);
+  const toggle = () => setIsOpen((prevState) => !prevState);
   const close = () => setIsOpen(false);
   const handleClick = () => {
     close();
@@ -25,12 +19,7 @@ const MenuItem = ({currentRoute, page, onClick}) => {
   if (typeof page.sub === 'undefined') {
     item = (
       <NavItem>
-        <NavLink
-          className={`mr-3 ${isActive}`}
-          onClick={handleClick}
-          tag={Link}
-          to={page.route}
-        >
+        <NavLink className={`mr-3 ${isActive}`} onClick={handleClick} tag={Link} to={page.route}>
           {page.label}
         </NavLink>
       </NavItem>
@@ -38,22 +27,15 @@ const MenuItem = ({currentRoute, page, onClick}) => {
   } else {
     item = (
       <Dropdown inNavbar isOpen={isOpen} nav toggle={toggle}>
-        <DropdownToggle caret className='mr-3' nav>
+        <DropdownToggle caret className="mr-3" nav>
           {page.label}
         </DropdownToggle>
         <DropdownMenu>
-          {
-            page.sub.map(sub => (
-              <SubMenuItem
-                className={`dropdown-item ${isActive}`}
-                item={sub}
-                key={sub.route}
-                onClick={handleClick}
-              >
-                {sub.label}
-              </SubMenuItem>
-            ))
-          }
+          {page.sub.map((sub) => (
+            <SubMenuItem className={`dropdown-item ${isActive}`} item={sub} key={sub.route} onClick={handleClick}>
+              {sub.label}
+            </SubMenuItem>
+          ))}
         </DropdownMenu>
       </Dropdown>
     );

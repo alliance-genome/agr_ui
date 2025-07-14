@@ -12,7 +12,7 @@ export const autocompleteSearchEvent = (query) => {
   ReactGA4.event({
     category: GA_EVENT_CATEGORY.AUTOCOMPLETE,
     action: GA_EVENT_ACTION.GO_TO_SEARCH_RESULTS,
-    label: query
+    label: query,
   });
 };
 
@@ -20,20 +20,20 @@ export const autocompleteGoToPageEvent = (id) => {
   ReactGA4.event({
     category: GA_EVENT_CATEGORY.AUTOCOMPLETE,
     action: GA_EVENT_ACTION.GO_TO_PAGE,
-    label: id
+    label: id,
   });
 };
 
 export const logPageView = (location) => {
   const page = location.pathname + location.search;
-  ReactGA4.send({ hitType: "pageview", page: page });
+  ReactGA4.send({ hitType: 'pageview', page: page });
 };
 
 export const logTablePageEvent = (page) => {
   ReactGA4.event({
     category: GA_EVENT_CATEGORY.TABLE,
     action: GA_EVENT_ACTION.GO_TO_PAGE,
-    label: page
+    label: page,
   });
 };
 
@@ -41,6 +41,6 @@ export const logTableSizeEvent = (size) => {
   ReactGA4.event({
     category: GA_EVENT_CATEGORY.TABLE,
     action: GA_EVENT_ACTION.SET_PAGE_SIZE,
-    label: size.toString()
+    label: size.toString(),
   });
 };

@@ -1,23 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CrossReferenceList from '../crossReferenceList.jsx';
-import {
-  AttributeList,
-  AttributeLabel,
-  AttributeValue,
-} from '../attribute';
+import { AttributeList, AttributeLabel, AttributeValue } from '../attribute';
 
 export default function GeneInteractionCrossReference(props) {
-  const {
-    crossReference,
-    geneDataProvider,
-  } = props;
+  const { crossReference, geneDataProvider } = props;
 
   return crossReference ? (
     <AttributeList>
       <AttributeLabel>Primary Sources</AttributeLabel>
       <AttributeValue>
-        <CrossReferenceList collapsible={false} crossReferences={[{...crossReference, displayName: geneDataProvider}]} />
+        <CrossReferenceList
+          collapsible={false}
+          crossReferences={[{ ...crossReference, displayName: geneDataProvider }]}
+        />
       </AttributeValue>
     </AttributeList>
   ) : null;

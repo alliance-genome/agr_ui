@@ -16,51 +16,51 @@ const MembersSection = () => {
     <section className={style.section}>
       <div className={style.contentContainer}>
         <h1>Members</h1>
-        <div className='d-flex flex-wrap'>
-          <div className={style.member} >
-            <Link to='/members/flybase'>
-              <img alt="" src={flybaseLogo}/>
+        <div className="d-flex flex-wrap">
+          <div className={style.member}>
+            <Link to="/members/flybase">
+              <img alt="" src={flybaseLogo} />
               FlyBase
             </Link>
           </div>
-          <div className={style.member} >
-            <Link to='/members/mgd'>
+          <div className={style.member}>
+            <Link to="/members/mgd">
               <img alt="" src={mgdLogo} />
               MGD
             </Link>
           </div>
-          <div className={style.member} >
-            <Link to='/members/rgd'>
+          <div className={style.member}>
+            <Link to="/members/rgd">
               <img alt="" src={rgdLogo} />
               RGD
             </Link>
           </div>
-          <div className={style.member} >
-            <Link to='/members/sgd'>
+          <div className={style.member}>
+            <Link to="/members/sgd">
               <img alt="" src={sgdLogo} />
               SGD
             </Link>
           </div>
-          <div className={style.member} >
-            <Link to='/members/wormbase'>
+          <div className={style.member}>
+            <Link to="/members/wormbase">
               <img alt="" src={wormbaseLogo} />
               WormBase
             </Link>
           </div>
-          <div className={style.member} >
-            <Link to='/members/xenbase'>
+          <div className={style.member}>
+            <Link to="/members/xenbase">
               <img alt="" src={xenbaseLogo} />
               Xenbase
             </Link>
           </div>
-          <div className={style.member} >
-            <Link to='/members/zfin'>
+          <div className={style.member}>
+            <Link to="/members/zfin">
               <img alt="" src={zfinLogo} />
               ZFIN
             </Link>
           </div>
-          <div className={style.member} >
-            <Link to='/members/goc'>
+          <div className={style.member}>
+            <Link to="/members/goc">
               <img alt="" src={gocLogo} />
               GOC
             </Link>

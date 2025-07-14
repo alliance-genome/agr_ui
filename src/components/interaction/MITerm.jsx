@@ -2,7 +2,7 @@ import React from 'react';
 import { CellTooltip } from '../dataTable';
 //import ExternalLink from '../externalLink';
 
-export default function MITerm({name, definition, id} = {}) {
+export default function MITerm({ name, definition, id } = {}) {
   if (!name) {
     return null;
   }

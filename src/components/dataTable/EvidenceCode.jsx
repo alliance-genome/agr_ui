@@ -1,23 +1,25 @@
-import React, {useRef} from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
 
-const EvidenceCode = ({code}) => {
+const EvidenceCode = ({ code }) => {
   const tooltipRef = useRef(null);
 
   const popperModifiers = [
     {
-      name: "preventOverflow",
+      name: 'preventOverflow',
       options: {
-        rootBoundary: "viewport"
-      }
-    }
-  ]
+        rootBoundary: 'viewport',
+      },
+    },
+  ];
 
   if (code.displaySynonym) {
     return (
       <React.Fragment>
-        <span className="d-inline-block" ref={tooltipRef}>{code.displaySynonym}</span>
+        <span className="d-inline-block" ref={tooltipRef}>
+          {code.displaySynonym}
+        </span>
         <UncontrolledTooltip
           target={tooltipRef}
           // modifiers={{
@@ -26,8 +28,8 @@ const EvidenceCode = ({code}) => {
           //   }
           // }}
           modifiers={popperModifiers}
-          delay={{show: 300, hide: 150}}
-          placement='right'
+          delay={{ show: 300, hide: 150 }}
+          placement="right"
         >
           {code.name}
         </UncontrolledTooltip>
