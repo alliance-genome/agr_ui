@@ -40,6 +40,8 @@ function renderLink(entity) {
 
 function AnnotatedPhenotypePopupCuration({ children, entities, mainRowCurie, pubModIds, columnNameSet }) {
 
+  console.log("ENTITIES", entities);
+
   if (!entities || !entities.length) {
     return null;
   }
@@ -60,7 +62,7 @@ function AnnotatedPhenotypePopupCuration({ children, entities, mainRowCurie, pub
       <DropdownToggle tag='span'>
         <a href='#' onClick={e => e.preventDefault()}>{children || 'View'}</a>
       </DropdownToggle>
-      <DropdownMenu className={`shadow-sm ${style.tablePopup}`} modifiers={popperModifiers} positionFixed>
+      <DropdownMenu className={`shadow-sm ${style.tablePopup}`} modifiers={popperModifiers} strategy="fixed">
         <div className={style.tablePopupInner}>
           <table className='table table-sm'>
             <thead>

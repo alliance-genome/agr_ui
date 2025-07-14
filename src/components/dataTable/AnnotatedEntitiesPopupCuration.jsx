@@ -70,7 +70,7 @@ function AnnotatedEntitiesPopupCuration({ children, entities, mainRowCurie, pubM
       <DropdownToggle tag='span'>
         <a href='#' onClick={e => e.preventDefault()}>{children || 'View'}</a>
       </DropdownToggle>
-      <DropdownMenu className={`shadow-sm ${style.tablePopup}`} modifiers={popperModifiers} positionFixed>
+      <DropdownMenu className={`shadow-sm ${style.tablePopup}`} modifiers={popperModifiers} strategy="fixed">
         <div className={style.tablePopupInner}>
           <table className='table table-sm'>
             <thead>

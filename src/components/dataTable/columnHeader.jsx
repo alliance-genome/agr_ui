@@ -34,7 +34,7 @@ class ColumnHeader extends React.Component {
             <DropdownToggle className={`${style.filterToggle} ${active ? style.active : ''}`} color='link' tag='span'>
               <FontAwesomeIcon icon={faFilter} />
             </DropdownToggle>
-            <DropdownMenu className='shadow-sm px-4 py-3' modifiers={popperModifiers} positionFixed>
+            <DropdownMenu className='shadow-sm px-4 py-3' modifiers={popperModifiers} strategy="fixed">
               {filterElement}
             </DropdownMenu>
           </UncontrolledButtonDropdown>

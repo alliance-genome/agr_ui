@@ -98,7 +98,7 @@ function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCuri
         <DropdownToggle tag='span'>
           <a href='#' onClick={e => e.preventDefault()}>{children || 'View'}</a>
         </DropdownToggle>
-        <DropdownMenu className={`shadow-sm ${style.tablePopupWithStickyFooter}`} modifiers={popperModifiers} positionFixed>
+        <DropdownMenu className={`shadow-sm ${style.tablePopupWithStickyFooter}`} modifiers={popperModifiers} strategy="fixed">
           <div className={style.tablePopupInnerWithStickyFooter}>
             <div className={`${style.tableContainer} d-flex`}>
               <div className="d-flex justify-content-center align-items-center w-100" style={{ minHeight: '200px' }}>
@@ -117,7 +117,7 @@ function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCuri
         <DropdownToggle tag='span'>
           <a href='#' onClick={(e) => { e.preventDefault(); handleOpen(); }}>{children || 'View'}</a>
         </DropdownToggle>
-        <DropdownMenu className={`shadow-sm ${style.tablePopupWithStickyFooter}`} modifiers={popperModifiers} positionFixed>
+        <DropdownMenu className={`shadow-sm ${style.tablePopupWithStickyFooter}`} modifiers={popperModifiers} strategy="fixed">
           <div className={style.tablePopupInnerWithStickyFooter}>
             <div className={style.tableContainer}>
               <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '200px' }}>
@@ -137,7 +137,7 @@ function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCuri
       <DropdownToggle tag='span'>
         <a href='#' onClick={(e) => { e.preventDefault(); handleOpen(); }}>{children || 'View'}</a>
       </DropdownToggle>
-      <DropdownMenu className={`shadow-sm ${style.tablePopupWithStickyFooter}`} modifiers={popperModifiers} positionFixed>
+      <DropdownMenu className={`shadow-sm ${style.tablePopupWithStickyFooter}`} modifiers={popperModifiers} strategy="fixed">
         <div className={style.tablePopupInnerWithStickyFooter}>
           {sortedEntities.length === 0 ? (
             <div>No annotation details available</div>
@@ -205,10 +205,10 @@ function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCuri
                 <div className={`d-flex justify-content-between align-items-center ${style.stickyFooter} px-2`}>
                   <div className="d-flex align-items-center">
                     <span className="mr-2">Show:</span>
-                    <select 
-                      className="form-control form-control-sm" 
+                    <select
+                      className="form-control form-control-sm"
                       style={{ width: 'auto' }}
-                      value={pagination.limit} 
+                      value={pagination.limit}
                       onChange={(e) => handleLimitChange(parseInt(e.target.value))}
                     >
                       <option value={5}>5</option>
@@ -219,7 +219,7 @@ function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCuri
                     <span className="ml-2">entries</span>
                   </div>
                   <div className="d-flex align-items-center">
-                    <button 
+                    <button
                       className="btn btn-sm btn-outline-secondary mr-1"
                       disabled={pagination.page === 1}
                       onClick={() => handlePageChange(pagination.page - 1)}
@@ -229,7 +229,7 @@ function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCuri
                     <span className="mx-2">
                       Page {pagination.page} of {totalPages} ({totalRecords} total)
                     </span>
-                    <button 
+                    <button
                       className="btn btn-sm btn-outline-secondary ml-1"
                       disabled={pagination.page >= totalPages}
                       onClick={() => handlePageChange(pagination.page + 1)}
