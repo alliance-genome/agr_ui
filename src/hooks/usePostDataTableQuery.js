@@ -4,7 +4,7 @@ import fetchData from '../lib/fetchData';
 import { useEffect, useReducer } from 'react';
 import { getFullUrl, createBaseReducer, createQueryResult, getEnabledBoolean } from './utils';
 
-const reducer = createBaseReducer(url => ({ url }));
+const reducer = createBaseReducer((url) => ({ url }));
 
 export default function usePostDataTableQuery(baseUrl, body, config, initialTableState, fetchTimeout) {
   const initialState = {
@@ -18,24 +18,23 @@ export default function usePostDataTableQuery(baseUrl, body, config, initialTabl
     dispatch({ type: 'reset', payload: enabledBoolean && baseUrl });
   }, [baseUrl, enabledBoolean]);
 
-  const setTableState = tableState => dispatch({ type: 'update', payload: tableState });
+  const setTableState = (tableState) => dispatch({ type: 'update', payload: tableState });
 
-  const query = useQuery(
-    [url, body, tableState],
-    () => fetchData(
-      getFullUrl(url, tableState),
-      {
-        type: 'POST',
-        data: body
-      },
-      fetchTimeout
-    ),
-    {
-      keepPreviousData: true,
-      staleTime: 30000,
-      ...config,
-    }
-  );
+  const query = useQuery({
+    queryKey: [url, body, tableState],
+    queryFn: () =>
+      fetchData(
+        getFullUrl(url, tableState),
+        {
+          type: 'POST',
+          data: body,
+        },
+        fetchTimeout
+      ),
+    keepPreviousData: true,
+    staleTime: 30000,
+    ...config,
+  });
 
   return {
     ...createQueryResult(query),

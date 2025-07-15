@@ -1,3 +1,3 @@
-import AllelePage from './AllelePage';
+import AllelePage from './AllelePage.jsx';
 
 export default AllelePage;

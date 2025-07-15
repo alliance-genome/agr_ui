@@ -25,19 +25,19 @@ function timeoutPromise(timeout, promise) {
   });
 }
 
-export default async function fetchData(url, options = {}, fetchTimeout=TIMEOUT) {
+export default async function fetchData(url, options = {}, fetchTimeout = TIMEOUT) {
   if (!url) {
     return Promise.resolve(null);
   }
   const _type = options.type || 'GET';
   const headers = {
-     'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
   };
-  let requestOptions= {
+  let requestOptions = {
     method: _type,
     mode: 'cors',
     headers: headers,
-    signal: options.signal
+    signal: options.signal,
   };
 
   if (options.data) {

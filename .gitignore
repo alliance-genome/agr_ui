@@ -1,23 +1,34 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
-# compiled output
-/dist
-/tmp
-/out-tsc
+node_modules
+dist
+dist-ssr
+*.local
 /build
 
-# dependencies
-/node_modules
-/dist
-/build
 /src/dist
 /public/sitemap.xml
 /public/robots.txt
 /public/main-sitemap.xml
 /src/resourceDescriptors.js
 
-# IDEs and editors
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 /.idea
 /.vscode
 .project
@@ -31,11 +42,9 @@
 *~
 
 # IDE - VSCode
-.vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
-!.vscode/extensions.json
 
 # misc
 /.sass-cache
@@ -49,10 +58,8 @@ testem.log
 .tmp
 
 # System Files
-.DS_Store
 Thumbs.db
 *.swp
-
 
 cdk-outputs.json
 cdk.context.json
