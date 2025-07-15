@@ -4,7 +4,7 @@ import fetchData from '../lib/fetchData';
 import { useEffect, useReducer } from 'react';
 import { getFullUrl, createBaseReducer, createQueryResult, getEnabledBoolean } from './utils';
 
-const reducer = createBaseReducer(url => ({ url }));
+const reducer = createBaseReducer((url) => ({ url }));
 
 export default function useDataTableQuery(baseUrl, config, initialTableState, fetchOptions = {}, fetchTimeout) {
   const initialState = {
@@ -18,16 +18,14 @@ export default function useDataTableQuery(baseUrl, config, initialTableState, fe
     dispatch({ type: 'reset', payload: enabledBoolean && baseUrl });
   }, [baseUrl, enabledBoolean]);
 
-  const setTableState = tableState => dispatch({ type: 'update', payload: tableState });
+  const setTableState = (tableState) => dispatch({ type: 'update', payload: tableState });
 
-  const query = useQuery(
-    [url, tableState],
-    () => fetchData(getFullUrl(url, tableState), fetchOptions, fetchTimeout),
-    {
-      keepPreviousData: true,
-      ...config,
-    }
-  );
+  const query = useQuery({
+    queryKey: [url, tableState],
+    queryFn: () => fetchData(getFullUrl(url, tableState), fetchOptions, fetchTimeout),
+    keepPreviousData: true,
+    ...config,
+  });
 
   return {
     ...createQueryResult(query),

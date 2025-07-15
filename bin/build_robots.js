@@ -1,4 +1,5 @@
-const fs = require('fs');
+import fs from 'fs';
+
 const env = process.env.NODE_ENV;
 const directory = './public';
 const filename = 'robots.txt';
@@ -18,7 +19,7 @@ Disallow: /
 
 const content = env === 'production' ? PROD_CONTENT : OTHER_CONTENT;
 
-console.log(`writing to... ${directory}/${filename}`)
+console.log(`writing to... ${directory}/${filename}`);
 fs.writeFile(`${directory}/${filename}`, content, (err) => {
   if (err) {
     console.error('Error writing robots.txt file:', err);

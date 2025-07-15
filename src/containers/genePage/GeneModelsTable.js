@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import hash from 'object-hash';
 import { DataTable } from '../../components/dataTable';
-import CollapsibleList from '../../components/collapsibleList/collapsibleList';
+import CollapsibleList from '../../components/collapsibleList/collapsibleList.jsx';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import AssociationType from '../../components/AssociationType';
-import ExperimentalConditionCellCuration from "../../components/dataTable/ExperimentalConditionCellCuration";
-import DiseaseLinkCuration from "../../components/disease/DiseaseLinkCuration";
-import ModelCellCuration from "../../components/dataTable/ModelCellCuration";
+import AssociationType from '../../components/AssociationType.jsx';
+import ExperimentalConditionCellCuration from "../../components/dataTable/ExperimentalConditionCellCuration.jsx";
+import DiseaseLinkCuration from "../../components/disease/DiseaseLinkCuration.jsx";
+import ModelCellCuration from "../../components/dataTable/ModelCellCuration.jsx";
 
 const GeneModelsTable = ({id}) => {
   const tableQuery = useDataTableQuery(`/api/gene/${id}/models`);

@@ -1,10 +1,10 @@
-@import "../../theme.module";
+@import '../../theme.module';
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
 // @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap');
 
-$primaryColor__WB: #85A6BA;
+$primaryColor__WB: #85a6ba;
 $primaryColor__SGD: #696599;
 $primaryColor__ZFIN: #018080;
 $primaryColor__FB: #003568;
@@ -16,12 +16,12 @@ $primaryColor__XB: #7d8e7b;
 
 .modFooterText {
   vertical-align: middle;
-  padding-left: .5rem;
+  padding-left: 0.5rem;
 }
 
 .modFooterLabel {
   vertical-align: middle;
-  padding-left: .5rem;
+  padding-left: 0.5rem;
   font-size: 1.2rem;
 }
 
@@ -41,40 +41,54 @@ $primaryColor__XB: #7d8e7b;
   background-color: #2598c5;
 }
 
-.modFooter__WB, .titleBar__WB {
+.modFooter__WB,
+.titleBar__WB {
   background-color: $primaryColor__WB;
 }
 
-.modFooter__SGD, .titleBar__SGD {
+.modFooter__SGD,
+.titleBar__SGD {
   background-color: $primaryColor__SGD;
 }
 
-.modFooter__ZFIN, .titleBar__ZFIN {
+.modFooter__ZFIN,
+.titleBar__ZFIN {
   background-color: $primaryColor__ZFIN;
 }
 
-.modFooter__FB, .titleBar__FB {
+.modFooter__FB,
+.titleBar__FB {
   background-color: $primaryColor__FB;
 }
 
-.modFooter__GO, .titleBar__GO {
+.modFooter__GO,
+.titleBar__GO {
   background-color: $primaryColor__GO;
 }
 
-.modFooter__RGD, .titleBar__RGD {
+.modFooter__RGD,
+.titleBar__RGD {
   background-color: $primaryColor__RGD;
 }
 
-.modFooter__MGD, .titleBar__MGD {
+.modFooter__MGD,
+.titleBar__MGD {
   background-color: $primaryColor__MGD;
   color: $secondaryColor__MGD !important;
 }
 
-.modFooter__XB, .titleBar__XB {
+.modFooter__XB,
+.titleBar__XB {
   background-color: $primaryColor__XB;
 }
 
-.modFooter__WB a, .modFooter__FB a, .modFooter__SGD a, .modFooter__ZFIN a, .modFooter__GO a, .modFooter__XB a, .modFooter__RGD a {
+.modFooter__WB a,
+.modFooter__FB a,
+.modFooter__SGD a,
+.modFooter__ZFIN a,
+.modFooter__GO a,
+.modFooter__XB a,
+.modFooter__RGD a {
   color: white;
 }
 
@@ -99,7 +113,7 @@ $primaryColor__XB: #7d8e7b;
 
 .titleBarText {
   vertical-align: middle;
-  padding-left: .5rem;
+  padding-left: 0.5rem;
   font-size: 2.25rem;
 }
 
@@ -116,13 +130,13 @@ $primaryColor__XB: #7d8e7b;
 
 .sectionTitle {
   color: #2598c5;
-  padding-bottom: .75rem;
+  padding-bottom: 0.75rem;
   font-size: 1.8rem;
 }
 
-.externalNews{
+.externalNews {
   color: #2598c5;
-  padding-bottom: .75rem;
+  padding-bottom: 0.75rem;
   font-size: 1.25rem;
 }
 
@@ -131,13 +145,16 @@ $primaryColor__XB: #7d8e7b;
   line-height: 1.7;
   background-color: #ffffff;
   border-radius: 5px;
-  box-shadow: 0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12);
-//   font-size: 1rem;
-//   font-family: "Open Sans", sans-serif;
+  box-shadow:
+    0 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0 1px 1px 0 rgba(0, 0, 0, 0.14),
+    0 1px 3px 0 rgba(0, 0, 0, 0.12);
+  //   font-size: 1rem;
+  //   font-family: "Open Sans", sans-serif;
 }
 
 .buttonVisitMod:hover {
-  opacity: .8;
+  opacity: 0.8;
 }
 
 .buttonVisitMod {
@@ -146,12 +163,15 @@ $primaryColor__XB: #7d8e7b;
   width: 100%;
   font-size: 1.5rem;
   border: 0;
-  box-shadow: 0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12);
+  box-shadow:
+    0 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0 1px 1px 0 rgba(0, 0, 0, 0.14),
+    0 1px 3px 0 rgba(0, 0, 0, 0.12);
   border-radius: 5px;
 }
 
 .resourceDiv p {
-  margin-bottom: .7rem;
+  margin-bottom: 0.7rem;
 }
 
 .h4extra {
@@ -159,12 +179,12 @@ $primaryColor__XB: #7d8e7b;
 }
 
 .moreNews {
-  padding-top: .8rem;
+  padding-top: 0.8rem;
   padding-bottom: 1rem;
 }
 
 .containerExtra {
-  margin: 1rem .25rem 0rem .25rem;
+  margin: 1rem 0.25rem 0rem 0.25rem;
   padding-bottom: 1rem;
 }
 
@@ -192,17 +212,17 @@ $primaryColor__XB: #7d8e7b;
   border-color: $primaryColor__MGD;
 }
 
-.section__WB{
+.section__WB {
   border-color: $primaryColor__WB;
 }
 
-.section__XB{
+.section__XB {
   border-color: $primaryColor__XB;
 }
 
 .banner {
-//   background-size: cover;
-//   background-position: center center;
+  //   background-size: cover;
+  //   background-position: center center;
 }
 
 .banner__DEFAULT {

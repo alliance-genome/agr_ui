@@ -1,29 +1,25 @@
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux';
+import nextRootReducer from '../reducers/index';
 
 // custom reducers
 import reducers from '../reducers';
 
 const configureStore = () => {
-  let combinedReducers = combineReducers(reducers);
+  const combinedReducers = combineReducers(reducers);
 
   // to work with redux-devtools-extension (such as the chrome extension)
   let composeEnhancers;
   try {
     // include in try block so mocha test doesn't complain about ReferenceError
-    composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ||
-      compose;
+    composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   } catch (e) {
     composeEnhancers = compose;
   }
 
-  let store = createStore(
-    combinedReducers,
-    composeEnhancers(applyMiddleware())
-  );
-  if (module.hot) {
+  const store = createStore(combinedReducers, composeEnhancers(applyMiddleware()));
+  if (import.meta.webpackHot) {
     // Enable Webpack hot module replacement for reducers
-    module.hot.accept('../reducers', () => {
-      const nextRootReducer = require('../reducers/index');
+    import.meta.webpackHot.accept('../reducers', () => {
       store.replaceReducer(nextRootReducer);
     });
   }

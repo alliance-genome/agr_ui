@@ -30,23 +30,18 @@ describe('genomefeatures package imports', () => {
 
   test('parseLocString should work correctly with test data', () => {
     const { parseLocString } = require('genomefeatures');
-    
+
     const result = parseLocString('2L:130639..135911');
     expect(result).toEqual({
       chromosome: '2L',
       start: 130639,
-      end: 135911
+      end: 135911,
     });
   });
 
   test('should import all functions at once', () => {
-    const { 
-      GenomeFeatureViewer, 
-      fetchNCListData, 
-      fetchTabixVcfData, 
-      parseLocString 
-    } = require('genomefeatures');
-    
+    const { GenomeFeatureViewer, fetchNCListData, fetchTabixVcfData, parseLocString } = require('genomefeatures');
+
     expect(GenomeFeatureViewer).toBeDefined();
     expect(fetchNCListData).toBeDefined();
     expect(fetchTabixVcfData).toBeDefined();
