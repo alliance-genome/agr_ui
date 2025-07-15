@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/jsx-no-comment-textnodes */
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Select from 'react-select';
@@ -8,12 +8,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 import style from './style.module.scss';
-import {
-  getQueryParamWithoutPage, removeBlankValue,
-  stringifyQuery
-} from '../../../lib/searchHelpers.jsx';
+import { getQueryParamWithoutPage, removeBlankValue, stringifyQuery } from '../../../lib/searchHelpers.jsx';
 import SingleFilterValue from './singleFilterValue.jsx';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const DELIMITER = '@@';
 const SMALL_NUM_VISIBLE = 5;
@@ -26,18 +23,18 @@ class SingleFilterSelector extends Component {
     super(props);
     this.state = {
       numVisible: SMALL_NUM_VISIBLE,
-      isSearchMode: false
+      isSearchMode: false,
     };
 
     if (props.isShowMore) {
       this.state = {
-        numVisible: MED_NUM_VISIBLE
+        numVisible: MED_NUM_VISIBLE,
       };
     }
   }
 
   handleSelectChange(newValues) {
-    let simpleValues = newValues.map( d => d.name );
+    let simpleValues = newValues.map((d) => d.name);
     let newQp = getQueryParamWithoutPage(this.props.name, simpleValues, this.props.queryParams);
     let newPath = { pathname: SEARCH_PATH, search: stringifyQuery(newQp) };
     this.props.navigate(newPath);
@@ -46,16 +43,16 @@ class SingleFilterSelector extends Component {
   renderFilterValues() {
     let values = removeBlankValue(this.props.values)?.slice(0, this.state.numVisible);
 
-    return values?.map( value =>
-      (<SingleFilterValue
+    return values?.map((value) => (
+      <SingleFilterValue
         key={`fv.${this.props.name}.${value.name}`}
         value={value}
         name={this.props.name}
         queryParams={this.props.queryParams}
         SEARCH_PATH={SEARCH_PATH}
         displayName={this.props.displayName}
-      />)
-    );
+      />
+    ));
   }
 
   handleControlClick(e) {
@@ -82,17 +79,17 @@ class SingleFilterSelector extends Component {
   }
 
   renderSearchNode() {
-    let currentValues = this.props.values.filter( d => d.isActive );
+    let currentValues = this.props.values.filter((d) => d.isActive);
     return (
       <div className={style.selectContainer}>
         <Select
           delimiter={DELIMITER}
-          getOptionLabel={option => option.displayName}
-          getOptionValue={option => option.name}
+          getOptionLabel={(option) => option.displayName}
+          getOptionValue={(option) => option.name}
           isMulti
           onChange={this.handleSelectChange.bind(this)}
           options={this.props.values}
-          placeholder='Search or Select'
+          placeholder="Search or Select"
           value={currentValues}
         />
       </div>
@@ -103,23 +100,33 @@ class SingleFilterSelector extends Component {
     if (this.props.values?.length <= SMALL_NUM_VISIBLE) {
       return null;
     }
-    let moreLabel = (this.state.numVisible !== MAX_NUM_VISIBLE) ? 'Show More' : `Show ${SMALL_NUM_VISIBLE}`;
-    let modeLabelNode = this.state.isSearchMode ? <span>List</span> : <span><FontAwesomeIcon icon={faMagnifyingGlass} /></span>;
-    let moreLabelNode = this.state.isSearchMode ? <span /> : <a href='#' onClick={this.handleControlClick.bind(this)}>{moreLabel}</a>;
+    let moreLabel = this.state.numVisible !== MAX_NUM_VISIBLE ? 'Show More' : `Show ${SMALL_NUM_VISIBLE}`;
+    let modeLabelNode = this.state.isSearchMode ? (
+      <span>List</span>
+    ) : (
+      <span>
+        <FontAwesomeIcon icon={faMagnifyingGlass} />
+      </span>
+    );
+    let moreLabelNode = this.state.isSearchMode ? (
+      <span />
+    ) : (
+      <a href="#" onClick={this.handleControlClick.bind(this)}>
+        {moreLabel}
+      </a>
+    );
     return (
       <p className={style.singleFacetControl}>
-        <a href='#' onClick={this.handleToggleMode.bind(this)} >{modeLabelNode}</a>
+        <a href="#" onClick={this.handleToggleMode.bind(this)}>
+          {modeLabelNode}
+        </a>
         {moreLabelNode}
       </p>
     );
   }
 
   renderListNode() {
-    return (
-      <ul className='nav nav-pills flex-column'>
-        {this.renderFilterValues(this.props)}
-      </ul>
-    );
+    return <ul className="nav nav-pills flex-column">{this.renderFilterValues(this.props)}</ul>;
   }
 
   render() {
@@ -130,7 +137,9 @@ class SingleFilterSelector extends Component {
     let selectableNode = this.state.isSearchMode ? this.renderSearchNode() : this.renderListNode();
     return (
       <div className={style.aggValContainer}>
-        <p className={style.filterLabel}><b>{this.props.displayName}</b></p>
+        <p className={style.filterLabel}>
+          <b>{this.props.displayName}</b>
+        </p>
         {selectableNode}
         {this.renderControlNode()}
       </div>
@@ -149,13 +158,13 @@ SingleFilterSelector.propTypes = {
 };
 
 /*
-* TODO: convert component to functional component utilizing useNavigate
-*
-* The wrapper component is simply a stop-gap solution since converting the component
-* is non-trivial and would stand in the way of completing the vite/react upgrade.
-* */
+ * TODO: convert component to functional component utilizing useNavigate
+ *
+ * The wrapper component is simply a stop-gap solution since converting the component
+ * is non-trivial and would stand in the way of completing the vite/react upgrade.
+ * */
 
-const SingleFilterSelectorWithNavigate = props => {
+const SingleFilterSelectorWithNavigate = (props) => {
   const navigate = useNavigate();
   return <SingleFilterSelector navigate={navigate} {...props} />;
 };

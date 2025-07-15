@@ -1,11 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  DataTable,
-  EvidenceCodesCellCuration,
-  ReferencesCellCuration,
-  SpeciesCell
-} from '../../components/dataTable';
+import { DataTable, EvidenceCodesCellCuration, ReferencesCellCuration, SpeciesCell } from '../../components/dataTable';
 import ExperimentalConditionCellCuration from '../../components/dataTable/ExperimentalConditionCellCuration.jsx';
 import GeneticModifiersCellCuration from '../../components/dataTable/GeneticModifiersCellCuration.jsx';
 import { buildProvidersWithUrl, getIdentifier, getDistinctFieldValue } from '../../components/dataTable/utils.jsx';
@@ -21,13 +16,12 @@ import ModelCellCuration from '../../components/dataTable/ModelCellCuration.jsx'
 import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration.jsx';
 import { MODEL_DETAILS_COLUMNS } from '../../components/dataTable/constants';
 
-
-const DiseaseToModelTable = ({id}) => {
+const DiseaseToModelTable = ({ id }) => {
   const {
     data: results,
     supplementalData,
     ...tableProps
-  } = useDataTableQuery(`/api/disease/${id}/models`, undefined, { sizePerPage: 10, }, {}, 60000);
+  } = useDataTableQuery(`/api/disease/${id}/models`, undefined, { sizePerPage: 10 }, {}, 60000);
 
   const columns = [
     {
@@ -36,7 +30,7 @@ const DiseaseToModelTable = ({id}) => {
       formatter: (subject, rowData) => (
         <>
           <div>
-            <ModelCellCuration model={subject}/>
+            <ModelCellCuration model={subject} />
           </div>
           <small>
             <AnnotatedEntitiesPopupCuration
@@ -52,14 +46,14 @@ const DiseaseToModelTable = ({id}) => {
       ),
       filterable: true,
       filterName: 'modelName',
-      headerStyle: {width: '280px'},
+      headerStyle: { width: '280px' },
     },
     {
       dataField: 'subject.taxon',
       text: 'Species',
-      formatter: species => <SpeciesCell species={species} />,
-      filterFormatter: speciesName => <SpeciesName>{speciesName}</SpeciesName>,
-      headerStyle: {width: '105px'},
+      formatter: (species) => <SpeciesCell species={species} />,
+      filterFormatter: (speciesName) => <SpeciesName>{speciesName}</SpeciesName>,
+      headerStyle: { width: '105px' },
       filterName: 'species',
       filterable: getDistinctFieldValue(supplementalData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       filterType: 'checkbox',
@@ -67,17 +61,17 @@ const DiseaseToModelTable = ({id}) => {
     {
       dataField: 'experimentalConditionList',
       text: 'Experimental condition',
-      formatter: conditions => <ExperimentalConditionCellCuration conditions={conditions} />,
-      headerStyle: {width: '220px'},
-      filterName: "experimentalCondition",
+      formatter: (conditions) => <ExperimentalConditionCellCuration conditions={conditions} />,
+      headerStyle: { width: '220px' },
+      filterName: 'experimentalCondition',
       filterable: true,
     },
     {
       dataField: 'generatedRelationString',
       text: 'Association',
-      formatter: type => <AssociationType type={type} />,
-      filterFormatter: type => <AssociationType type={type} />,
-      headerStyle: {width: '120px'},
+      formatter: (type) => <AssociationType type={type} />,
+      filterFormatter: (type) => <AssociationType type={type} />,
+      headerStyle: { width: '120px' },
       filterName: 'associationType',
       filterable: getDistinctFieldValue(supplementalData, 'associationType'),
       filterType: 'checkbox',
@@ -86,7 +80,7 @@ const DiseaseToModelTable = ({id}) => {
       dataField: 'diseaseQualifiers',
       text: 'Disease Qualifiers',
       headerStyle: { width: '150px' },
-      formatter: qualifiers => <DiseaseQualifiersColumn qualifiers={qualifiers}/>,
+      formatter: (qualifiers) => <DiseaseQualifiersColumn qualifiers={qualifiers} />,
       filterable: getDistinctFieldValue(supplementalData, 'diseaseQualifiers'),
       filterName: 'diseaseQualifier',
       filterType: 'checkbox',
@@ -101,31 +95,33 @@ const DiseaseToModelTable = ({id}) => {
     {
       dataField: 'conditionModifierList',
       text: 'Condition Modifier',
-      formatter: conditions => <ExperimentalConditionCellCuration conditions={conditions} />,
-      headerStyle: {width: '220px'},
-      filterName: "conditionModifier",
+      formatter: (conditions) => <ExperimentalConditionCellCuration conditions={conditions} />,
+      headerStyle: { width: '220px' },
+      filterName: 'conditionModifier',
       filterable: true,
     },
     {
       dataField: 'geneticModifierList',
       text: 'Genetic Modifier',
-      formatter: (modifiers, row) => <GeneticModifiersCellCuration relation={row.geneticModifierRelation} modifiers={modifiers} />,
-      headerStyle: {width: '220px'},
-      filterName: "geneticModifier",
+      formatter: (modifiers, row) => (
+        <GeneticModifiersCellCuration relation={row.geneticModifierRelation} modifiers={modifiers} />
+      ),
+      headerStyle: { width: '220px' },
+      filterName: 'geneticModifier',
       filterable: true,
     },
     {
       dataField: 'evidenceCodes',
       text: 'Evidence',
-      headerStyle: {width: '100px'},
+      headerStyle: { width: '100px' },
       filterName: 'evidenceCode',
-      formatter: (codes) => <EvidenceCodesCellCuration evidenceCodes={codes}/>,
+      formatter: (codes) => <EvidenceCodesCellCuration evidenceCodes={codes} />,
       filterable: true,
     },
     {
       dataField: 'providers',
       text: 'Source',
-      formatter: providers => providers && <ProvidersCellCuration providers={providers} />,
+      formatter: (providers) => providers && <ProvidersCellCuration providers={providers} />,
       headerStyle: { width: '100px' },
       filterName: 'dataProvider',
       filterable: true,
@@ -133,14 +129,14 @@ const DiseaseToModelTable = ({id}) => {
     {
       dataField: 'pubmedPubModIDs',
       text: 'References',
-      formatter: (pubModIds) => <ReferencesCellCuration pubModIds={pubModIds}/>,
-      headerStyle: {width: '150px'},
+      formatter: (pubModIds) => <ReferencesCellCuration pubModIds={pubModIds} />,
+      headerStyle: { width: '150px' },
       filterName: 'reference',
       filterable: true,
-    }
+    },
   ];
 
-  const data = results.map(association => ({
+  const data = results.map((association) => ({
     species: association.subject?.species,
     providers: buildProvidersWithUrl(association.primaryAnnotations),
     ...association,
@@ -167,7 +163,7 @@ const DiseaseToModelTable = ({id}) => {
       columns={columns}
       data={data}
       downloadUrl={`/api/disease/${id}/models/download`}
-      keyField='uniqueId'
+      keyField="uniqueId"
       sortOptions={sortOptions}
     />
   );

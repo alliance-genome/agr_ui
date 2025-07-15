@@ -6,5 +6,5 @@ export const AlleleTableWrapper = ({ geneId }) => {
   if (isLoading || isError) {
     return null;
   }
-  return <AlleleTable isLoadingGene={isLoading} gene={data} geneId={geneId}/>
-}
+  return <AlleleTable isLoadingGene={isLoading} gene={data} geneId={geneId} />;
+};

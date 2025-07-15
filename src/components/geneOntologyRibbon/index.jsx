@@ -11,22 +11,19 @@ import fetchData from '../../lib/fetchData';
 import LoadingSpinner from '../loadingSpinner.jsx';
 
 import NoData from '../noData.jsx';
-import {useNavigate} from "react-router-dom";
-
+import { useNavigate } from 'react-router-dom';
 
 const GO_API_URL = 'https://api.geneontology.org/api/';
 const EXP_CODES = ['EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP'];
 
-
 class GeneOntologyRibbon extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       compareOrthologs: false,
-      applyingFilters: false,      // if ortholgs are loading or any other filtering is happening
-      loading: true,               // if ribbon strips loading
-      error: false,                // if the ribbon encountered any error while loading (eg ID not present in mygene.info)
+      applyingFilters: false, // if ortholgs are loading or any other filtering is happening
+      loading: true, // if ribbon strips loading
+      error: false, // if the ribbon encountered any error while loading (eg ID not present in mygene.info)
       subjectBaseURL: '/gene/',
       stringency: STRINGENCY_HIGH,
       selectedOrthologs: [],
@@ -40,10 +37,10 @@ class GeneOntologyRibbon extends Component {
         subject: null,
         group: null,
         data: null,
-        loading: false,            // if ribbon table loading
-        error: false               // not used yet but follow the same logic as for the strips - can be used if errors occured while loading the table (should never happened)
+        loading: false, // if ribbon table loading
+        error: false, // not used yet but follow the same logic as for the strips - can be used if errors occured while loading the table (should never happened)
       },
-      search: ''
+      search: '',
     };
     this.handleOrthologyChange = this.handleOrthologyChange.bind(this);
     this.handleCompareOrthologsChange = this.handleCompareOrthologsChange.bind(this);
@@ -56,7 +53,6 @@ class GeneOntologyRibbon extends Component {
     document.addEventListener('cellClick', this.onGroupClicked);
     document.addEventListener('subjectClick', this.onSubjectClicked);
   }
-
 
   // ===================================================================
   //                      API QUERY SECTION
@@ -71,8 +67,15 @@ class GeneOntologyRibbon extends Component {
         exps += '&ecodes=' + exp;
       }
     }
-    return '&exclude_PB=' + this.state.excludePB + '&exclude_IBA=' + excludeIBA +
-      '&cross_aspect=' + this.state.crossAspect + exps;
+    return (
+      '&exclude_PB=' +
+      this.state.excludePB +
+      '&exclude_IBA=' +
+      excludeIBA +
+      '&cross_aspect=' +
+      this.state.crossAspect +
+      exps
+    );
   }
 
   /**
@@ -96,7 +99,7 @@ class GeneOntologyRibbon extends Component {
    */
   fetchAssociationData(subject, group) {
     if (group === 'all') {
-      group = this.state.ribbon.categories.map(elt => {
+      group = this.state.ribbon.categories.map((elt) => {
         return elt.id;
       });
     }
@@ -106,7 +109,6 @@ class GeneOntologyRibbon extends Component {
     let query = GO_API_URL + 'bioentityset/slimmer/function?slim=' + group + '&subject=' + subject + '&rows=-1';
     return fetchData(query);
   }
-
 
   // ===================================================================
   //                    CLIENT-SIDE FILTERING (should be minimized)
@@ -121,25 +123,28 @@ class GeneOntologyRibbon extends Component {
     let filtered = JSON.parse(JSON.stringify(data));
     for (let sub = 0; sub < filtered.length; sub++) {
       if (this.state.excludePB) {
-        filtered[sub].assocs = filtered[sub].assocs.filter(assoc => assoc.object.id !== 'GO:0005515');
+        filtered[sub].assocs = filtered[sub].assocs.filter((assoc) => assoc.object.id !== 'GO:0005515');
       }
       if (!this.state.crossAspect) {
         let aspect = this.getCategoryIdLabel(group);
-        filtered[sub].assocs = filtered[sub].assocs.filter(assoc => {
-          const cat = assoc.object.category[0] === 'molecular_activity' ? 'molecular_function' : assoc.object.category[0];
+        filtered[sub].assocs = filtered[sub].assocs.filter((assoc) => {
+          const cat =
+            assoc.object.category[0] === 'molecular_activity' ? 'molecular_function' : assoc.object.category[0];
           return aspect === undefined || cat === aspect[1];
         });
       }
       if (this.state.filterReference) {
-        filtered[sub].assocs = filtered[sub].assocs.filter(assoc => {
-          assoc.reference = assoc.reference.filter(ref => ref.includes('PMID:') || ref.includes('DOI:') || ref.includes('GO_REF:') || ref.includes('Reactome:'));
+        filtered[sub].assocs = filtered[sub].assocs.filter((assoc) => {
+          assoc.reference = assoc.reference.filter(
+            (ref) =>
+              ref.includes('PMID:') || ref.includes('DOI:') || ref.includes('GO_REF:') || ref.includes('Reactome:')
+          );
           return assoc;
         });
       }
     }
     return filtered;
   }
-
 
   // ===================================================================
   //                          EVENTS HANDLER
@@ -154,7 +159,7 @@ class GeneOntologyRibbon extends Component {
       // but re-route to alliance gene page
       let { history } = this.props;
       history.push({
-        pathname: '/gene/' + e.detail.subject.id
+        pathname: '/gene/' + e.detail.subject.id,
       });
     }
   }
@@ -183,8 +188,8 @@ class GeneOntologyRibbon extends Component {
         group: group,
         data: null,
         loading: true,
-        error: false
-      }
+        error: false,
+      },
     });
 
     // if no group selected, no association to fetch
@@ -195,19 +200,17 @@ class GeneOntologyRibbon extends Component {
     // other group
     if (group.type === 'Other') {
       let aspect = this.getCategory(group);
-      let terms = aspect.groups.filter(elt => {
+      let terms = aspect.groups.filter((elt) => {
         return elt.type === 'Term';
       });
-      terms = terms.map(elt => {
+      terms = terms.map((elt) => {
         return elt.id;
       });
 
       this.fetchAssociationData(subject.id, group.id)
-        .then(data_all => {
-
+        .then((data_all) => {
           this.fetchAssociationData(subject.id, terms)
-            .then(data_terms => {
-
+            .then((data_terms) => {
               let concat_assocs = [];
               for (let array of data_terms) {
                 concat_assocs = concat_assocs.concat(array.assocs);
@@ -223,19 +226,21 @@ class GeneOntologyRibbon extends Component {
                   group: group,
                   data: filtered, // assoc data from BioLink
                   loading: false,
-                  error: false
-                }
+                  error: false,
+                },
               });
-            }).catch(() => {
-              this.setState({ loading: false, error : true });
+            })
+            .catch(() => {
+              this.setState({ loading: false, error: true });
             });
-        }).catch(() => {
-          this.setState({ loading: false, error : true });
+        })
+        .catch(() => {
+          this.setState({ loading: false, error: true });
         });
       // regular group
     } else {
       this.fetchAssociationData(subject.id, group.id)
-        .then(data => {
+        .then((data) => {
           let filtered = this.applyTableFilters(group, data);
           this.setState({
             selected: {
@@ -243,37 +248,43 @@ class GeneOntologyRibbon extends Component {
               group: group,
               data: filtered, // assoc data from BioLink
               loading: false,
-              error: false
-            }
+              error: false,
+            },
           });
-        }).catch(() => {
-          this.setState({ selected: { loading: false, error : true } } );
+        })
+        .catch(() => {
+          this.setState({ selected: { loading: false, error: true } });
         });
-
     }
-
   }
 
   handleOrthologyChange(selectedOrthologs) {
-    this.setState({ 'applyingFilters': true });
+    this.setState({ applyingFilters: true });
     this.setState({ selectedOrthologs }, () => {
-      this.fetchSummaryData(this.state.subset, this.getGeneIdList()).then(data => {
-        data = this.ensureFocusGeneIsPopulated(data);
-        // notify no more filters to apply and data ready
-        this.setState({
-          applyingFilters: false,
-          loading: false,
-          error: false,
-          ribbon: data
-        }, () => {
-          if (this.state.selected.subject && !this.state.ribbon.subjects.some(sub => sub.id === this.state.selected.subject.id)) {
-            this.selectGroup(null, null);
-          }
+      this.fetchSummaryData(this.state.subset, this.getGeneIdList())
+        .then((data) => {
+          data = this.ensureFocusGeneIsPopulated(data);
+          // notify no more filters to apply and data ready
+          this.setState(
+            {
+              applyingFilters: false,
+              loading: false,
+              error: false,
+              ribbon: data,
+            },
+            () => {
+              if (
+                this.state.selected.subject &&
+                !this.state.ribbon.subjects.some((sub) => sub.id === this.state.selected.subject.id)
+              ) {
+                this.selectGroup(null, null);
+              }
+            }
+          );
+        })
+        .catch(() => {
+          this.setState({ loading: false, error: true });
         });
-
-      }).catch(() => {
-        this.setState({ loading: false, error : true });
-      });
     });
   }
 
@@ -282,18 +293,18 @@ class GeneOntologyRibbon extends Component {
   }
 
   handleExpAnnotations(event) {
-    this.setState({ 'applyingFilters': true });
-    this.setState({ 'onlyEXP': event.target.checked }, () => {
-      this.fetchSummaryData(this.state.subset, this.getGeneIdList()).then(data => {
-        data = this.ensureFocusGeneIsPopulated(data);
-        this.setState({ applyingFilters: false, loading: false, error : false, ribbon: data });
-
-      }).catch(() => {
-        this.setState({ loading: false, error : true });
-      });
+    this.setState({ applyingFilters: true });
+    this.setState({ onlyEXP: event.target.checked }, () => {
+      this.fetchSummaryData(this.state.subset, this.getGeneIdList())
+        .then((data) => {
+          data = this.ensureFocusGeneIsPopulated(data);
+          this.setState({ applyingFilters: false, loading: false, error: false, ribbon: data });
+        })
+        .catch(() => {
+          this.setState({ loading: false, error: true });
+        });
     });
   }
-
 
   // ===================================================================
   //                      UTILITY FUNCTIONS
@@ -302,7 +313,7 @@ class GeneOntologyRibbon extends Component {
 
   ensureFocusGeneIsPopulated(data) {
     // Fix AGR-2000: always show the focus gene even if no annotation
-    const hasFocusGene = data.subjects.some(sub => sub.id === this.props.geneId);
+    const hasFocusGene = data.subjects.some((sub) => sub.id === this.props.geneId);
     const subjects = [...data.subjects];
     if (!hasFocusGene) {
       subjects.unshift({
@@ -312,7 +323,7 @@ class GeneOntologyRibbon extends Component {
         nb_classes: 0,
         taxon_id: this.props.geneSpecies.taxonId,
         taxon_label: this.props.geneSpecies.name,
-        groups: {}
+        groups: {},
       });
     }
     return {
@@ -326,8 +337,8 @@ class GeneOntologyRibbon extends Component {
    * @param {*} group group object (eg ontology term)
    */
   getCategory(group) {
-    let cat = this.state.ribbon.categories.filter(cat => {
-      return cat.groups.some(gp => gp.id === group.id);
+    let cat = this.state.ribbon.categories.filter((cat) => {
+      return cat.groups.some((gp) => gp.id === group.id);
     });
     return cat.length > 0 ? cat[0] : undefined;
   }
@@ -337,8 +348,8 @@ class GeneOntologyRibbon extends Component {
    * @param {*} group group object (eg ontology term)
    */
   getCategoryIdLabel(group) {
-    let cat = this.state.ribbon.categories.filter(cat => {
-      return cat.groups.some(gp => gp.id === group.id);
+    let cat = this.state.ribbon.categories.filter((cat) => {
+      return cat.groups.some((gp) => gp.id === group.id);
     });
     return cat.length > 0 ? [cat[0].id, cat[0].label] : undefined;
   }
@@ -370,7 +381,14 @@ class GeneOntologyRibbon extends Component {
   }
 
   fullAssociationKey(assoc) {
-    const key = this.associationKey(assoc) + '@' + assoc.evidence_type + '@' + assoc.provided_by + '@' + assoc.reference.join('#');
+    const key =
+      this.associationKey(assoc) +
+      '@' +
+      assoc.evidence_type +
+      '@' +
+      assoc.provided_by +
+      '@' +
+      assoc.reference.join('#');
     return key;
   }
 
@@ -393,7 +411,6 @@ class GeneOntologyRibbon extends Component {
     return list;
   }
 
-
   // ===================================================================
   //                            RENDERING
   // ===================================================================
@@ -409,19 +426,19 @@ class GeneOntologyRibbon extends Component {
           defaultStringency={STRINGENCY_HIGH}
           focusGeneId={geneId}
           focusTaxonId={geneSpecies.taxonId}
-          id='go-ortho-picker'
+          id="go-ortho-picker"
           onChange={this.handleOrthologyChange}
           onCheckboxValueChange={this.handleCompareOrthologsChange}
         />
 
-        <div className='form-check form-check-inline'>
-          <label className='form-check-label'>
+        <div className="form-check form-check-inline">
+          <label className="form-check-label">
             <input
               checked={this.state.onlyEXP}
-              className='form-check-input'
+              className="form-check-input"
               onChange={this.handleExpAnnotations.bind(this)}
-              title='When showing the GO functions for multiple orthologs, we recommend switching this on as a number of GO functions are inferred through phylogeny (see PAINT tool)'
-              type='checkbox'
+              title="When showing the GO functions for multiple orthologs, we recommend switching this on as a number of GO functions are inferred through phylogeny (see PAINT tool)"
+              type="checkbox"
             />
             <b>Show functions with at least one experimental evidence</b>
           </label>
@@ -433,25 +450,25 @@ class GeneOntologyRibbon extends Component {
   renderRibbonStrips() {
     const { applyingFilters, compareOrthologs, ribbon } = this.state;
     return (
-      <HorizontalScroll className='text-nowrap'>
+      <HorizontalScroll className="text-nowrap">
         <wc-ribbon-strips
-          category-all-style='1'
-          color-by='0'
+          category-all-style="1"
+          color-by="0"
           data={JSON.stringify(ribbon)}
           fire-event-on-empty-cells={false}
           group-clickable={false}
           group-open-new-tab={false}
-          id='go-ribbon'
+          id="go-ribbon"
           new-tab={false}
-          selection-mode='0'
+          selection-mode="0"
           show-other-group
-          subject-base-url='/gene/'
+          subject-base-url="/gene/"
           subject-open-new-tab={false}
           subject-position={compareOrthologs ? '1' : '0'}
           update-on-subject-change={false}
         />
-        <div className='ribbon-loading-overlay'>{applyingFilters && <LoadingSpinner />}</div>
-        <div className='text-muted mt-2'>
+        <div className="ribbon-loading-overlay">{applyingFilters && <LoadingSpinner />}</div>
+        <div className="text-muted mt-2">
           <i>Cell color indicative of annotation volume</i>
         </div>
       </HorizontalScroll>
@@ -459,7 +476,11 @@ class GeneOntologyRibbon extends Component {
   }
 
   renderRibbonTable() {
-    if (this.state.selected.subject && this.state.selected.subject.groups[this.state.selected.group.id] && this.state.onlyEXP) {
+    if (
+      this.state.selected.subject &&
+      this.state.selected.subject.groups[this.state.selected.group.id] &&
+      this.state.onlyEXP
+    ) {
       let gp = this.state.selected.subject.groups[this.state.selected.group.id];
       let keys = Object.keys(gp);
       let hasEXP = false;
@@ -477,10 +498,10 @@ class GeneOntologyRibbon extends Component {
       <wc-ribbon-table
         bio-link-data={JSON.stringify(this.state.selected.data)}
         filter-by={this.state.onlyEXP ? 'evidence:' + EXP_CODES.join(',') : ''}
-        group-by='term'
+        group-by="term"
         // hide-columns={'qualifier,' + (this.state.selectedOrthologs.length == 0 ? 'gene,' : '') + (this.state.selected.group.id != 'all' ? ',aspect' : '')}
         hide-columns={'qualifier,gene,' + (this.state.selected.group.id !== 'all' ? ',aspect' : '')}
-        order-by='term'
+        order-by="term"
       />
     );
   }
@@ -488,11 +509,9 @@ class GeneOntologyRibbon extends Component {
   render() {
     return (
       <div>
-
         {this.renderControls()}
 
         {this.state.error ? this.renderError() : this.renderValid()}
-
       </div>
     );
   }
@@ -505,11 +524,10 @@ class GeneOntologyRibbon extends Component {
     return (
       <div>
         {this.state.loading ? <LoadingSpinner /> : this.renderRibbonStrips()}
-        {this.state.selected.group ? this.state.selected.loading ? <LoadingSpinner/> : this.renderRibbonTable() : ''}
+        {this.state.selected.group ? this.state.selected.loading ? <LoadingSpinner /> : this.renderRibbonTable() : ''}
       </div>
     );
   }
-
 }
 
 GeneOntologyRibbon.propTypes = {
@@ -520,13 +538,13 @@ GeneOntologyRibbon.propTypes = {
 };
 
 /*
-* TODO: convert component to functional component utilizing useNavigate
-*
-* The wrapper component is simply a stop-gap solution since converting the component
-* is non-trivial and would stand in the way of completing the vite/react upgrade.
-* */
+ * TODO: convert component to functional component utilizing useNavigate
+ *
+ * The wrapper component is simply a stop-gap solution since converting the component
+ * is non-trivial and would stand in the way of completing the vite/react upgrade.
+ * */
 
-const GeneOntologyRibbonWithNavigate = props => {
+const GeneOntologyRibbonWithNavigate = (props) => {
   const navigate = useNavigate();
   return <GeneOntologyRibbon navigate={navigate} {...props} />;
 };
@@ -534,7 +552,7 @@ const GeneOntologyRibbonWithNavigate = props => {
 GeneOntologyRibbonWithNavigate.propTypes = {
   geneId: PropTypes.string.isRequired,
   geneSpecies: PropTypes.object,
-  geneSymbol: PropTypes.string
+  geneSymbol: PropTypes.string,
 };
 
 //TODO: withRouter - test

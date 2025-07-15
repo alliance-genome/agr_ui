@@ -5,11 +5,7 @@ import { UncontrolledTooltip } from 'reactstrap';
 
 import style from './style.module.scss';
 
-import {
-  AttributeList,
-  AttributeLabel,
-  AttributeValue,
-} from '../../components/attribute';
+import { AttributeList, AttributeLabel, AttributeValue } from '../../components/attribute';
 import ExternalLink from '../../components/ExternalLink.jsx';
 import CrossReferenceList from '../../components/crossReferenceList.jsx';
 import CommaSeparatedList from '../../components/commaSeparatedList.jsx';
@@ -20,63 +16,68 @@ import { formatLink } from './utils';
 
 class BasicDiseaseInfo extends Component {
   renderTermList(terms) {
-    return terms &&
-      <CollapsibleList>
-        {terms
-          .sort(smartAlphaSort(term => term.name))
-          .map(term => <Link key={term.curie} to={`/disease/${term.curie}`}>{term.name}</Link>)
-        }
-      </CollapsibleList>;
-  }
-
-  renderSourceList(sources) {
-    return sources &&
-      <CommaSeparatedList>
-        {
-          sources.map((source) => (
-            <ExternalLink href={source.url} key={`source-${source.source}`}>
-              {source.source}
-            </ExternalLink>
-          ))
-        }
-      </CommaSeparatedList>;
-  }
-
-  renderDefinition(disease) {
-    return (disease.definition || (disease.definitionUrls && disease.definitionUrls.length > 0)) && (
-      <div>
-        {disease.definition}
-        {' '}
-        {this.renderDefinitionLinks(disease.definitionUrls)}
-      </div>
+    return (
+      terms && (
+        <CollapsibleList>
+          {terms.sort(smartAlphaSort((term) => term.name)).map((term) => (
+            <Link key={term.curie} to={`/disease/${term.curie}`}>
+              {term.name}
+            </Link>
+          ))}
+        </CollapsibleList>
+      )
     );
   }
 
+  renderSourceList(sources) {
+    return (
+      sources && (
+        <CommaSeparatedList>
+          {sources.map((source) => (
+            <ExternalLink href={source.url} key={`source-${source.source}`}>
+              {source.source}
+            </ExternalLink>
+          ))}
+        </CommaSeparatedList>
+      )
+    );
+  }
 
+  renderDefinition(disease) {
+    return (
+      (disease.definition || (disease.definitionUrls && disease.definitionUrls.length > 0)) && (
+        <div>
+          {disease.definition} {this.renderDefinitionLinks(disease.definitionUrls)}
+        </div>
+      )
+    );
+  }
 
   renderDefinitionLinks(links) {
-    return links &&
-      <CommaSeparatedList>
-        {
-          links.map((link, idx) => {
+    return (
+      links && (
+        <CommaSeparatedList>
+          {links.map((link, idx) => {
             const formatedLink = formatLink(link);
             return (
               <span key={link}>
-                <ExternalLink href={formatedLink} id={`definition-link-${idx}`}>[{idx + 1}]</ExternalLink>
+                <ExternalLink href={formatedLink} id={`definition-link-${idx}`}>
+                  [{idx + 1}]
+                </ExternalLink>
                 <UncontrolledTooltip
                   delay={{ show: 200, hide: 0 }}
                   innerClassName={style.urlTooltip}
-                  placement='bottom'
+                  placement="bottom"
                   target={`definition-link-${idx}`}
                 >
                   {formatedLink}
                 </UncontrolledTooltip>
               </span>
-            )
-          }
-          )
-        }
-      </CommaSeparatedList>;
+            );
+          })}
+        </CommaSeparatedList>
+      )
+    );
   }
 
   render() {
@@ -87,12 +88,12 @@ class BasicDiseaseInfo extends Component {
         return [];
       }
 
-      return crossReferenceLinkUrls.map(item => {
+      return crossReferenceLinkUrls.map((item) => {
         const { referencedCurie, url } = item;
         return {
           crossRefCompleteUrl: url,
           name: referencedCurie,
-          displayName: referencedCurie
+          displayName: referencedCurie,
         };
       });
     };
@@ -101,31 +102,31 @@ class BasicDiseaseInfo extends Component {
       if (!Array.isArray(synonyms)) {
         return [];
       }
-      return synonyms.map(item => item.name);
+      return synonyms.map((item) => item.name);
     };
 
     return (
       <AttributeList>
         <AttributeLabel>Definition</AttributeLabel>
-        <AttributeValue>
-          {this.renderDefinition(disease.doTerm)}
-        </AttributeValue>
+        <AttributeValue>{this.renderDefinition(disease.doTerm)}</AttributeValue>
 
         <AttributeLabel>Synonyms</AttributeLabel>
-        <AttributeValue placeholder='None'>
+        <AttributeValue placeholder="None">
           {disease.doTerm.synonyms && <SynonymList synonyms={transformSynonyms(disease.doTerm.synonyms)} />}
         </AttributeValue>
 
         <AttributeLabel>Cross References</AttributeLabel>
         <AttributeValue>
-          {disease.crossReferenceLinkUrls && <CrossReferenceList crossReferences={transformCrossReferenceLinkUrls(disease.crossReferenceLinkUrls)} />}
+          {disease.crossReferenceLinkUrls && (
+            <CrossReferenceList crossReferences={transformCrossReferenceLinkUrls(disease.crossReferenceLinkUrls)} />
+          )}
         </AttributeValue>
 
         <AttributeLabel>Parent Terms</AttributeLabel>
-        <AttributeValue placeholder='None'>{this.renderTermList(disease.parents)}</AttributeValue>
+        <AttributeValue placeholder="None">{this.renderTermList(disease.parents)}</AttributeValue>
 
         <AttributeLabel>Child Terms</AttributeLabel>
-        <AttributeValue placeholder='None'>{this.renderTermList(disease.children)}</AttributeValue>
+        <AttributeValue placeholder="None">{this.renderTermList(disease.children)}</AttributeValue>
 
         <AttributeLabel>Sources of Associations</AttributeLabel>
         <AttributeValue>{this.renderSourceList(disease.sourceReferenceLinkUrls)}</AttributeValue>

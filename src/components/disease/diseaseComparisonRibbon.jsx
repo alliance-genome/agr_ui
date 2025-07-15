@@ -13,9 +13,9 @@ import LoadingSpinner from '../loadingSpinner.jsx';
 import OrthologPicker from '../OrthologPicker.jsx';
 import useEventListener from '../../hooks/useEventListener';
 import useComparisonRibbonQuery from '../../hooks/useComparisonRibbonQuery';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
-const DiseaseComparisonRibbon = ({geneId, geneTaxon}) => {
+const DiseaseComparisonRibbon = ({ geneId, geneTaxon }) => {
   const [includeNotAnnotations, setIncludeNotAnnotations] = useState(false);
   const [compareOrthologs, setCompareOrthologs] = useState(true);
   const [selectedOrthologs, setSelectedOrthologs] = useState(null);
@@ -26,7 +26,7 @@ const DiseaseComparisonRibbon = ({geneId, geneTaxon}) => {
     },
     subject: {
       id: geneId,
-    }
+    },
   });
   const navigate = useNavigate();
 
@@ -45,8 +45,8 @@ const DiseaseComparisonRibbon = ({geneId, geneTaxon}) => {
   };
 
   const onCellClick = (e) => {
-    setSelectedBlock(current => ({
-      group: (current.group && current.group.id === e.detail.group.id) ? null : e.detail.group,
+    setSelectedBlock((current) => ({
+      group: current.group && current.group.id === e.detail.group.id ? null : e.detail.group,
       subject: e.detail.subjects,
     }));
   };
@@ -72,18 +72,18 @@ const DiseaseComparisonRibbon = ({geneId, geneTaxon}) => {
             focusGeneId={geneId}
             focusTaxonId={geneTaxon}
             // geneHasDataTest={info => info.hasDiseaseAnnotations}
-            id='disease-ortho-picker'
+            id="disease-ortho-picker"
             onChange={handleOrthologyChange}
             onCheckboxValueChange={setCompareOrthologs}
           />
 
-          <div className='form-check form-check-inline'>
-            <label className='form-check-label mr-2'>
+          <div className="form-check form-check-inline">
+            <label className="form-check-label mr-2">
               <input
                 checked={includeNotAnnotations}
-                className='form-check-input'
-                onChange={e => setIncludeNotAnnotations(e.target.checked)}
-                type='checkbox'
+                className="form-check-input"
+                onChange={(e) => setIncludeNotAnnotations(e.target.checked)}
+                type="checkbox"
               />
               <b>Include negative annotations</b>
             </label>
@@ -93,46 +93,48 @@ const DiseaseComparisonRibbon = ({geneId, geneTaxon}) => {
       </div>
 
       <HorizontalScroll>
-        <div className='text-nowrap'>
+        <div className="text-nowrap">
           <wc-ribbon-strips
-            category-all-style='1'
-            color-by='0'
+            category-all-style="1"
+            color-by="0"
             data={JSON.stringify(summary.data)}
             fire-event-on-empty-cells={false}
             group-clickable={false}
             group-open-new-tab={false}
             new-tab={false}
             ref={ribbonRef}
-            selected='all'
-            selection-mode='1'
-            subject-base-url='/gene/'
+            selected="all"
+            selection-mode="1"
+            subject-base-url="/gene/"
             subject-open-new-tab={false}
             subject-position={compareOrthologs ? '1' : '0'}
             update-on-subject-change={false}
           />
         </div>
-        <div className='ribbon-loading-overlay'>{summary.isLoading && <LoadingSpinner />}</div>
-        <div className='text-muted mt-2'>
+        <div className="ribbon-loading-overlay">{summary.isLoading && <LoadingSpinner />}</div>
+        <div className="text-muted mt-2">
           <i>Cell color indicative of annotation volume</i>
         </div>
       </HorizontalScroll>
 
-      {selectedBlock.group && <div className='pt-4'>
-        <DiseaseAnnotationTable
-          focusGeneId={geneId}
-          focusTaxonId={geneTaxon}
-          includeNotAnnotations={includeNotAnnotations}
-          orthologGenes={selectedOrthologs}
-          term={selectedBlock.group.id}
-        />
-      </div>}
+      {selectedBlock.group && (
+        <div className="pt-4">
+          <DiseaseAnnotationTable
+            focusGeneId={geneId}
+            focusTaxonId={geneTaxon}
+            includeNotAnnotations={includeNotAnnotations}
+            orthologGenes={selectedOrthologs}
+            term={selectedBlock.group.id}
+          />
+        </div>
+      )}
     </div>
   );
 };
 
 DiseaseComparisonRibbon.propTypes = {
   geneId: PropTypes.string,
-  geneTaxon: PropTypes.string
+  geneTaxon: PropTypes.string,
 };
 
 //TODO: withRouter - test

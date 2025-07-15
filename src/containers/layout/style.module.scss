@@ -1,4 +1,4 @@
-@import "../../theme.module";
+@import '../../theme.module';
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
@@ -49,7 +49,7 @@
 }
 
 .warningBar > p:last-of-type {
-  margin: 0
+  margin: 0;
 }
 
 .headerSearchContainer {

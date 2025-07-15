@@ -6,6 +6,6 @@ export default function useGeneParalogy(geneId) {
     queryKey: ['gene-paralogy', geneId],
     queryFn: () => {
       return fetchData(`/api/gene/${geneId}/paralogs?filter.stringency=all&limit=10000`);
-    }
+    },
   });
 }

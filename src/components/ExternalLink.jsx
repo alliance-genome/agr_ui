@@ -5,20 +5,23 @@ import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 
 import style from './style.module.scss';
 
-const ExternalLink = ({children, className, href, id, title, ...rest}) => {
+const ExternalLink = ({ children, className, href, id, title, ...rest }) => {
   return (
-      <a
-        className={className}
-        href={href || null}
-        id={id}
-        rel="noopener noreferrer"
-        target="_blank"
-        title={title}
-        {...rest}
-      >
-        {children || href}
-        <FontAwesomeIcon icon={faArrowUpRightFromSquare} className={`${style.externalLink} ${className ? style.className : ''}`}/>
-      </a>
+    <a
+      className={className}
+      href={href || null}
+      id={id}
+      rel="noopener noreferrer"
+      target="_blank"
+      title={title}
+      {...rest}
+    >
+      {children || href}
+      <FontAwesomeIcon
+        icon={faArrowUpRightFromSquare}
+        className={`${style.externalLink} ${className ? style.className : ''}`}
+      />
+    </a>
   );
 };
 

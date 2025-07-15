@@ -8,15 +8,11 @@ import ReplaceLinks from './ReplaceLinks.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import { WORDPRESS_POST_URL } from '../../constants';
 import fetchWordpress from '../../lib/fetchWordpress';
-import {useParams} from "react-router-dom";
+import { useParams } from 'react-router-dom';
 
 const WordpressPost = () => {
   const { slug } = useParams();
-  const {
-    data: post,
-    isLoading,
-    isError
-  } = usePageLoadingQuery(WORDPRESS_POST_URL + slug, fetchWordpress);
+  const { data: post, isLoading, isError } = usePageLoadingQuery(WORDPRESS_POST_URL + slug, fetchWordpress);
 
   if (isLoading) {
     return <LoadingPage />;
@@ -30,12 +26,14 @@ const WordpressPost = () => {
   return (
     <div className={style.wordPressContainer}>
       <HeadMetaTags title={title} />
-      <SecondaryNav  title={title} type='post' />
-      <div className='container'>
-        <div className='row'>
-          {post.featured_media_url && <div className={`col-12 col-sm-5 ${style.floatLeft}`}>
-            <img className='img-fluid' src={post.featured_media_url}  />
-          </div>}
+      <SecondaryNav title={title} type="post" />
+      <div className="container">
+        <div className="row">
+          {post.featured_media_url && (
+            <div className={`col-12 col-sm-5 ${style.floatLeft}`}>
+              <img className="img-fluid" src={post.featured_media_url} />
+            </div>
+          )}
           <ReplaceLinks html={post.content.rendered} />
         </div>
       </div>

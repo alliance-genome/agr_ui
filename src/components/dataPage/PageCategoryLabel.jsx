@@ -4,7 +4,7 @@ import CategoryLabel from '../../containers/search/categoryLabel.jsx';
 
 import style from './style.module.scss';
 
-const PageCategoryLabel = ({category}) => (
+const PageCategoryLabel = ({ category }) => (
   <div className={style.pageCategory}>
     <CategoryLabel category={category} />
   </div>

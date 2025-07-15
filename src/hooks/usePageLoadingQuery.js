@@ -9,8 +9,7 @@ export default function usePageLoadingQuery(url, fetchFn = fetchData) {
     queryKey: [url],
     queryFn: () => {
       dispatch(setPageLoading(true));
-      return fetchFn(url)
-        .finally(() => dispatch(setPageLoading(false)));
-    }
+      return fetchFn(url).finally(() => dispatch(setPageLoading(false)));
+    },
   });
 }

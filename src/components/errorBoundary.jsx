@@ -29,7 +29,9 @@ export default class ErrorBoundary extends React.Component {
         <div className="alert alert-danger" role="alert">
           {/* errorMessage to indicate provide more visibility and accountability */}
           <strong>A problem displaying this section{errorMessage ? ':' : null}</strong>
-          <samp style={{fontSize: 'small', paddingLeft: '1em'}}><br /> {errorMessage}</samp>
+          <samp style={{ fontSize: 'small', paddingLeft: '1em' }}>
+            <br /> {errorMessage}
+          </samp>
           <br />
           <span>If you continue to see this message, please contact us at </span>
           <a href={`mailto:${HELP_EMAIL}`}>{HELP_EMAIL}</a>

@@ -4,10 +4,9 @@ import GenomeFeatureWrapper from './genomeFeatureWrapper.jsx';
 import { getSingleGenomeLocation } from '../../lib/utils';
 
 const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisible, onAllelesSelect }) => {
-
   const genomeLocationList = gene.genomeLocations;
   const genomeLocation = getSingleGenomeLocation(genomeLocationList);
-  const displayType = gene.species.name === "Homo sapiens" ? 'ISOFORM' : 'ISOFORM_AND_VARIANT';
+  const displayType = 'ISOFORM_AND_VARIANT';
 
   // TODO: remove when onAllelesSelect is in use
   // onAllelesSelect is to be called with a list of allele IDs, when selecting alleles throw the viewer.
@@ -29,15 +28,15 @@ const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisi
       fmin={fmin}
       geneSymbol={gene.symbol}
       genomeLocationList={genomeLocationList}
-      height='200px'
+      height="200px"
       onAllelesSelect={onAllelesSelect}
-      id='genome-feature-allele-location-id'
+      id="genome-feature-allele-location-id"
       primaryId={gene.id}
       species={gene.species.taxonId}
       strand={genomeLocation.strand}
       synonyms={gene.synonyms}
-      visibleVariants={allelesVisible.map(a => a.id)}
-      width='600px'
+      visibleVariants={allelesVisible.map((a) => a.id)}
+      width="600px"
     />
   );
 };

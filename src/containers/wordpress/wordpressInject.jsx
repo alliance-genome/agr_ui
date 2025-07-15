@@ -6,12 +6,8 @@ import { WORDPRESS_PAGE_BASE_URL } from '../../constants';
 import fetchWordpress from '../../lib/fetchWordpress';
 import LoadingSpinner from '../../components/loadingSpinner.jsx';
 
-const WordpressInject = ({slug}) => {
-  const {
-    data: post,
-    isLoading,
-    isError
-  } = usePageLoadingQuery(WORDPRESS_PAGE_BASE_URL + slug, fetchWordpress);
+const WordpressInject = ({ slug }) => {
+  const { data: post, isLoading, isError } = usePageLoadingQuery(WORDPRESS_PAGE_BASE_URL + slug, fetchWordpress);
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -21,9 +17,7 @@ const WordpressInject = ({slug}) => {
     return null;
   }
 
-  return (
-    <ReplaceLinks html={post.content.rendered} />
-  );
+  return <ReplaceLinks html={post.content.rendered} />;
 };
 
 WordpressInject.propTypes = {

@@ -1,9 +1,5 @@
-import {
-  toCamelCase,
-  markAsExcluded,
-  stringifyQuery
-} from '../../../lib/searchHelpers.jsx';
-import {Link} from 'react-router-dom';
+import { toCamelCase, markAsExcluded, stringifyQuery } from '../../../lib/searchHelpers.jsx';
+import { Link } from 'react-router-dom';
 import React from 'react';
 import * as PropTypes from 'prop-types';
 import style from './style.module.scss';
@@ -13,7 +9,7 @@ import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
  * @return {null}
  */
 function ExcludeLink(props) {
-  let {queryObject, value, displayExclude, SEARCH_PATH, setStrikeThroughFilter, displayName} = props;
+  let { queryObject, value, displayExclude, SEARCH_PATH, setStrikeThroughFilter, displayName } = props;
   let newQueryObject = markAsExcluded(queryObject, value);
   let visibility = displayExclude ? 'visible' : 'hidden';
   let id = displayName + value.displayName;
@@ -22,13 +18,11 @@ function ExcludeLink(props) {
   if (displayName !== 'Category') {
     return (
       <div
-        style={{visibility: visibility}}
+        style={{ visibility: visibility }}
         onMouseEnter={() => setStrikeThroughFilter(true)}
         onMouseLeave={() => setStrikeThroughFilter(false)}
       >
-        <Link
-          to={{pathname: SEARCH_PATH, search: stringifyQuery(newQueryObject)}}
-        >
+        <Link to={{ pathname: SEARCH_PATH, search: stringifyQuery(newQueryObject) }}>
           <span id={id}>&times;</span>
         </Link>
 
@@ -48,8 +42,7 @@ ExcludeLink.propTypes = {
   displayExclude: PropTypes.bool,
   SEARCH_PATH: PropTypes.string,
   setStrikeThroughFilter: PropTypes.func,
-  displayName: PropTypes.string
+  displayName: PropTypes.string,
 };
-
 
 export default ExcludeLink;

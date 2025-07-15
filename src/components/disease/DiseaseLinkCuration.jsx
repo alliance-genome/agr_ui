@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import DiseaseName from './DiseaseName.jsx';
 
-const DiseaseLinkCuration = ({disease}) => (
+const DiseaseLinkCuration = ({ disease }) => (
   <Link to={'/disease/' + disease.curie}>
     <DiseaseName disease={disease} />
   </Link>

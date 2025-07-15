@@ -9,7 +9,7 @@ import style from './style.module.scss';
 
 class ColumnHeader extends React.Component {
   render() {
-    const {column, filter, filterElement} = this.props;
+    const { column, filter, filterElement } = this.props;
     const classes = '';
     // const popperModifiers = {
     //   preventOverflow: {
@@ -18,30 +18,34 @@ class ColumnHeader extends React.Component {
     // };
     const popperModifiers = [
       {
-        name: "preventOverflow",
+        name: 'preventOverflow',
         options: {
-          rootBoundary: "viewport"
-        }
-      }
-    ]
+          rootBoundary: 'viewport',
+        },
+      },
+    ];
     const active = Array.isArray(filter) ? filter.length > 0 : filter;
     const { helpPopupProps } = column;
     return (
       <div className={classes}>
         {column.headerNode || column.text}
-        {filterElement &&
+        {filterElement && (
           <UncontrolledButtonDropdown>
-            <DropdownToggle className={`${style.filterToggle} ${active ? style.active : ''}`} color='link' tag='span'>
+            <DropdownToggle className={`${style.filterToggle} ${active ? style.active : ''}`} color="link" tag="span">
               <FontAwesomeIcon icon={faFilter} />
             </DropdownToggle>
-            <DropdownMenu className='shadow-sm px-4 py-3' modifiers={popperModifiers} positionFixed>
+            <DropdownMenu className="shadow-sm px-4 py-3" modifiers={popperModifiers} strategy="fixed">
               {filterElement}
             </DropdownMenu>
           </UncontrolledButtonDropdown>
-        }
-        {
-          helpPopupProps ? <div className="btn-group"><span className={style.helpIconWrapper}><HelpPopup {...helpPopupProps} /></span></div> : null
-        }
+        )}
+        {helpPopupProps ? (
+          <div className="btn-group">
+            <span className={style.helpIconWrapper}>
+              <HelpPopup {...helpPopupProps} />
+            </span>
+          </div>
+        ) : null}
       </div>
     );
   }

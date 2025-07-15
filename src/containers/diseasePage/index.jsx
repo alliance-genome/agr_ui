@@ -13,18 +13,13 @@ import DiseaseName from '../../components/disease/DiseaseName.jsx';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import CovidInfoLink from '../../components/CovidInfoLink.jsx';
-import {useParams} from "react-router-dom";
+import { useParams } from 'react-router-dom';
 
 const SUMMARY = 'Summary';
 const GENES = 'Associated Genes';
 const ALLELES = 'Associated Alleles';
 const MODELS = 'Associated Models';
-const SECTIONS = [
-  {name: SUMMARY},
-  {name: GENES},
-  {name: ALLELES},
-  {name: MODELS},
-];
+const SECTIONS = [{ name: SUMMARY }, { name: GENES }, { name: ALLELES }, { name: MODELS }];
 
 const DiseasePage = () => {
   const { id: diseaseId } = useParams();
@@ -48,7 +43,7 @@ const DiseasePage = () => {
   }
 
   let keywords = ['disease', data.doTerm.curie, data.doTerm.name, data.doTerm.definition];
-  if(data.doTerm.synonyms){
+  if (data.doTerm.synonyms) {
     keywords.push(...data.doTerm.synonyms);
   }
 
@@ -66,7 +61,7 @@ const DiseasePage = () => {
       includedInDataCatalog: 'https://www.alliancegenome.org',
       creator: {
         '@type': 'Organization',
-        'name': 'Alliance of Genome Resources'
+        name: 'Alliance of Genome Resources',
       },
       version: '2.0',
       license: 'CC BY 4.0',
@@ -79,11 +74,11 @@ const DiseasePage = () => {
       name: data.doTerm.name,
       url: siteUrl,
       description: data.doTerm.description,
-      'sameAs': siteUrl, // TODO: add resolver here
-    }
+      sameAs: siteUrl, // TODO: add resolver here
+    },
   ];
 
-  const showCoronavirusResourcesLink = (data.doTerm.curie === 'DOID:0080599') || (data.doTerm.curie === 'DOID:0080600');
+  const showCoronavirusResourcesLink = data.doTerm.curie === 'DOID:0080599' || data.doTerm.curie === 'DOID:0080600';
 
   return (
     <DataPage>
@@ -95,15 +90,15 @@ const DiseasePage = () => {
       </PageNav>
       <PageData>
         {showCoronavirusResourcesLink && (
-          <div className='mb-2'>
-            <div className='row'>
-              <div className='col col-lg-8 offset-lg-2'>
+          <div className="mb-2">
+            <div className="row">
+              <div className="col col-lg-8 offset-lg-2">
                 <CovidInfoLink />
               </div>
             </div>
           </div>
         )}
-        <PageCategoryLabel category='disease' />
+        <PageCategoryLabel category="disease" />
         <PageHeader>{data.doTerm.name}</PageHeader>
 
         <Subsection hideTitle title={SUMMARY}>

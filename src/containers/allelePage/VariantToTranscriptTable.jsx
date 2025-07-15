@@ -8,8 +8,8 @@ import VariantEffectDetails from './VariantEffectDetails.jsx';
 import styles from './style.module.scss';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 
-const VariantToTranscriptTable = ({variant}) => {
-  const {id: variantId} = variant;
+const VariantToTranscriptTable = ({ variant }) => {
+  const { id: variantId } = variant;
   const tableProps = useDataTableQuery(`/api/variant/${variantId}/transcripts`);
 
   const columns = [
@@ -21,9 +21,7 @@ const VariantToTranscriptTable = ({variant}) => {
     {
       dataField: 'name',
       text: 'Sequence feature',
-      formatter: (name) => (
-        <div>{name}</div>
-      ),
+      formatter: (name) => <div>{name}</div>,
       headerStyle: {
         width: 260,
       },
@@ -60,76 +58,74 @@ const VariantToTranscriptTable = ({variant}) => {
         width: 180,
       },
       attrs: {
-        colSpan: 3
+        colSpan: 3,
       },
       formatter: (consequences = []) => {
         return (
           <div>
-            {
-              consequences.map(({
-                // cDNA
-                // cdnaStartPosition,
-                // cdnaEndPosition,
+            {consequences.map(
+              (
+                {
+                  // cDNA
+                  // cdnaStartPosition,
+                  // cdnaEndPosition,
 
-                // consequence
-                molecularConsequences = [],
+                  // consequence
+                  molecularConsequences = [],
 
-                // protein
-                aminoAcidReference = '',
-                aminoAcidVariation = '',
-                proteinStartPosition,
-                proteinEndPosition,
+                  // protein
+                  aminoAcidReference = '',
+                  aminoAcidVariation = '',
+                  proteinStartPosition,
+                  proteinEndPosition,
 
-                // codon
-                codonReference = '',
-                codonVariation = '',
-                cdsStartPosition,
-                cdsEndPosition,
-
-              }, index) => {
+                  // codon
+                  codonReference = '',
+                  codonVariation = '',
+                  cdsStartPosition,
+                  cdsEndPosition,
+                },
+                index
+              ) => {
                 return (
                   <div className={`row ${styles.row}`} key={index}>
-                    <div className='col'>
+                    <div className="col">
                       <CollapsibleList collapsedSize={1} showBullets>
-                        {molecularConsequences.map(
-                          (consequence) => {
-                            return consequence.replace(/_/g, ' ');
-                          })
-                        }
+                        {molecularConsequences.map((consequence) => {
+                          return consequence.replace(/_/g, ' ');
+                        })}
                       </CollapsibleList>
                     </div>
-                    <div className='col-9'>
-                      {
-                        codonVariation && codonVariation.replace(/-/g, '') ? (
-                          <div className="row flex-nowrap">
-                            <div className='col'>
-                              <Translation
-                                aminoAcids={aminoAcidReference.split('')}
-                                cdsEndPosition={cdsEndPosition}
-                                cdsStartPosition={cdsStartPosition}
-                                codons={codonReference.split('')}
-                                isReference
-                                proteinEndPosition={proteinEndPosition}
-                                proteinStartPosition={proteinStartPosition}
-                              />
-                            </div>
-                            <div className='col-1' style={{textAlign: 'center', alignSelf: 'center'}}>
-                              {codonVariation ? '=>' : null}
-                            </div>
-                            <div className='col'>
-                              <Translation aminoAcids={aminoAcidVariation.split('')} codons={codonVariation.split('')} />
-                            </div>
+                    <div className="col-9">
+                      {codonVariation && codonVariation.replace(/-/g, '') ? (
+                        <div className="row flex-nowrap">
+                          <div className="col">
+                            <Translation
+                              aminoAcids={aminoAcidReference.split('')}
+                              cdsEndPosition={cdsEndPosition}
+                              cdsStartPosition={cdsStartPosition}
+                              codons={codonReference.split('')}
+                              isReference
+                              proteinEndPosition={proteinEndPosition}
+                              proteinStartPosition={proteinStartPosition}
+                            />
                           </div>
-                        ) : null
-                      }
+                          <div className="col-1" style={{ textAlign: 'center', alignSelf: 'center' }}>
+                            {codonVariation ? '=>' : null}
+                          </div>
+                          <div className="col">
+                            <Translation aminoAcids={aminoAcidVariation.split('')} codons={codonVariation.split('')} />
+                          </div>
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                 );
-              })
-            }
+              }
+            )}
           </div>
         );
-      }
+      },
     },
     {
       text: 'Codon and amino acid change',
@@ -144,7 +140,9 @@ const VariantToTranscriptTable = ({variant}) => {
   ];
 
   const ExpandIndicator = ({ expanded }) => (
-    <button className="btn btn-link btn-sm" type="button">{expanded ? 'Hide details' : 'Show details'}</button>
+    <button className="btn btn-link btn-sm" type="button">
+      {expanded ? 'Hide details' : 'Show details'}
+    </button>
   );
 
   ExpandIndicator.propTypes = {
@@ -152,7 +150,9 @@ const VariantToTranscriptTable = ({variant}) => {
   };
 
   const ExpandAllIndicator = ({ isAnyExpands }) => (
-    <button className="btn btn-link btn-sm" type="button">{isAnyExpands ? 'Hide all details' : 'Show all details'}</button>
+    <button className="btn btn-link btn-sm" type="button">
+      {isAnyExpands ? 'Hide all details' : 'Show all details'}
+    </button>
   );
 
   ExpandAllIndicator.propTypes = {
@@ -161,10 +161,7 @@ const VariantToTranscriptTable = ({variant}) => {
 
   const expandRow = {
     renderer: (row) => {
-      const {
-        consequences = [],
-        ...transcript
-      } = row;
+      const { consequences = [], ...transcript } = row;
       return consequences.map((consequence, index) => (
         <VariantEffectDetails
           consequence={consequence}
@@ -176,10 +173,12 @@ const VariantToTranscriptTable = ({variant}) => {
     },
     showExpandColumn: true,
     expandByColumnOnly: true,
-    expandHeaderColumnRenderer: ({ isAnyExpands }) => { // eslint-disable-line react/prop-types
+    expandHeaderColumnRenderer: ({ isAnyExpands }) => {
+      // eslint-disable-line react/prop-types
       return <ExpandAllIndicator isAnyExpands={isAnyExpands} />;
     },
-    expandColumnRenderer: ({ expanded }) => { // eslint-disable-line react/prop-types
+    expandColumnRenderer: ({ expanded }) => {
+      // eslint-disable-line react/prop-types
       return <ExpandIndicator expanded={expanded} />;
     },
   };
@@ -190,8 +189,8 @@ const VariantToTranscriptTable = ({variant}) => {
       className={styles.variantToTranscriptTable}
       columns={columns}
       expandRow={expandRow}
-      keyField='id'
-      noDataMessage='No variant effect information available'
+      keyField="id"
+      noDataMessage="No variant effect information available"
     />
   );
 };

@@ -7,18 +7,12 @@ import { faCircleChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 import style from './style.module.scss';
 import SingleFilterSelector from './singleFilterSelector.jsx';
-import {
-  getQueryParamWithValueChanged,
-  stringifyQuery,
-} from '../../../lib/searchHelpers.jsx';
+import { getQueryParamWithValueChanged, stringifyQuery } from '../../../lib/searchHelpers.jsx';
 import CategoryLabel from '../categoryLabel.jsx';
 import CollapsibleFacet from './collapsibleFacet.jsx';
 
-import {
-  selectActiveCategory,
-  selectAggregations,
-} from '../../../selectors/searchSelectors';
-import {selectPageLoading} from '../../../selectors/loadingSelector';
+import { selectActiveCategory, selectAggregations } from '../../../selectors/searchSelectors';
+import { selectPageLoading } from '../../../selectors/loadingSelector';
 
 class FilterSelectorComponent extends Component {
   renderFilters() {
@@ -30,7 +24,7 @@ class FilterSelectorComponent extends Component {
     if (this.props.activeCategory === 'none' && this.props.isPending) {
       return null;
     }
-    return aggs.map( d => {
+    return aggs.map((d) => {
       let isShowMore = false;
       //This is the "always show all of the values for __ facet" setting, right now
       //species facets are the only ones that get this special honor.  Also, 'all'
@@ -39,8 +33,11 @@ class FilterSelectorComponent extends Component {
         isShowMore = true;
       }
 
-
-      return <div key={`filter${d.name}`}><SingleFilterSelector {...d} isShowMore={isShowMore} queryParams={this.props.queryParams} /></div>;
+      return (
+        <div key={`filter${d.name}`}>
+          <SingleFilterSelector {...d} isShowMore={isShowMore} queryParams={this.props.queryParams} />
+        </div>
+      );
     });
   }
 
@@ -53,9 +50,13 @@ class FilterSelectorComponent extends Component {
     let newHref = { pathname: '/search', search: stringifyQuery(newQp) };
     return (
       <div>
-        <p><CategoryLabel category={this.props.activeCategory} /></p>
         <p>
-          <Link to={newHref}><FontAwesomeIcon icon={faCircleChevronLeft} /> Show all Categories</Link>
+          <CategoryLabel category={this.props.activeCategory} />
+        </p>
+        <p>
+          <Link to={newHref}>
+            <FontAwesomeIcon icon={faCircleChevronLeft} /> Show all Categories
+          </Link>
         </p>
       </div>
     );
@@ -64,12 +65,12 @@ class FilterSelectorComponent extends Component {
   render() {
     return (
       <div>
-        <div className='d-none d-md-block'>
+        <div className="d-none d-md-block">
           {this.renderCatSelector()}
           {this.renderFilters()}
         </div>
-        <div className='d-block d-md-none'>
-          <CollapsibleFacet label='Filter'>
+        <div className="d-block d-md-none">
+          <CollapsibleFacet label="Filter">
             <div className={style.mobileFacetList}>
               {this.renderCatSelector()}
               {this.renderFilters()}
@@ -85,12 +86,12 @@ FilterSelectorComponent.propTypes = {
   activeCategory: PropTypes.string,
   aggregations: PropTypes.array,
   isPending: PropTypes.bool,
-  queryParams: PropTypes.object
+  queryParams: PropTypes.object,
 };
 
 function mapStateToProps(state) {
   return {
-    activeCategory:  selectActiveCategory(state),
+    activeCategory: selectActiveCategory(state),
     aggregations: selectAggregations(state),
     isPending: selectPageLoading(state),
   };

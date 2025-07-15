@@ -4,7 +4,6 @@ import GenomeFeatureWrapper from '../genePage/genomeFeatureWrapper.jsx';
 import getVariantGenomeLocation from './getVariantGenomeLocation';
 
 const VariantSequenceView = ({ variant }) => {
-
   const genomeLocation = getVariantGenomeLocation(variant);
 
   let htpVariant = `${variant.location.chromosome}:${variant.location.start}`;
@@ -13,22 +12,22 @@ const VariantSequenceView = ({ variant }) => {
   return (
     <GenomeFeatureWrapper
       assembly={genomeLocation.assembly}
-      biotype='gene'
+      biotype="gene"
       chromosome={genomeLocation.chromosome}
-      displayType='ISOFORM'
+      displayType="ISOFORM"
       fmax={fmax}
       fmin={fmin}
       geneSymbol={variant.gene.symbol}
       genomeLocationList={[genomeLocation]}
-      height='200px'
-      id='genome-feature-location-id'
+      height="200px"
+      id="genome-feature-location-id"
       htpVariant={htpVariant}
       primaryId={variant.id}
       species={variant.species && variant.species.taxonId}
       strand={genomeLocation.strand}
       synonyms={variant.synonyms}
       visibleVariants={[variant.id]}
-      width='600px'
+      width="600px"
     />
   );
 };

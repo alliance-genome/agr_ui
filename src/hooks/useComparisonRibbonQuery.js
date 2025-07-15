@@ -3,12 +3,7 @@ import fetchData from '../lib/fetchData';
 import { getOrthologId } from '../components/orthology';
 import { htmlToPlainText } from '../lib/utils';
 
-export default function useComparisonRibbonQuery(
-  baseUrl,
-  focusGeneId,
-  comparisonGenes,
-  additionalParams
-) {
+export default function useComparisonRibbonQuery(baseUrl, focusGeneId, comparisonGenes, additionalParams) {
   return useQuery({
     queryKey: [baseUrl, focusGeneId, comparisonGenes, additionalParams],
     queryFn: async () => {
@@ -17,7 +12,7 @@ export default function useComparisonRibbonQuery(
       const options = {
         ...additionalParams,
         type: 'POST',
-        data: [focusGeneId].concat(comparisonGeneIds)
+        data: [focusGeneId].concat(comparisonGeneIds),
       };
 
       // ribbon does not support HTML-encoded labels, so for now translate to plain text
@@ -25,10 +20,10 @@ export default function useComparisonRibbonQuery(
       const response = await fetchData(baseUrl, options, 90_000);
       return {
         ...response,
-        subjects: response.subjects.map(subject => ({
+        subjects: response.subjects.map((subject) => ({
           ...subject,
           label: htmlToPlainText(subject.label),
-        }))
+        })),
       };
     },
     // this prevents a request from being fired before orthology data is loaded
@@ -38,5 +33,5 @@ export default function useComparisonRibbonQuery(
       subjects: [],
     },
     keepPreviousData: true,
-});
+  });
 }
