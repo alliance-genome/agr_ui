@@ -22,11 +22,6 @@ const EvidenceCode = ({ code }) => {
         </span>
         <UncontrolledTooltip
           target={tooltipRef}
-          // modifiers={{
-          //   preventOverflow: {
-          //     enabled: false
-          //   }
-          // }}
           modifiers={popperModifiers}
           delay={{ show: 300, hide: 150 }}
           placement="right"
