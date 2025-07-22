@@ -10,6 +10,7 @@ import useDataTableQuery from '../../hooks/useDataTableQuery';
 import { getSingleGenomeLocation, findFminFmax, getTableUrl } from '../../lib/utils';
 import VariantsSequenceViewer from '../genePage/VariantsSequenceViewer.jsx';
 import ErrorBoundary from '../../components/errorBoundary.jsx';
+import { ALLELE_WITH_ONE_VARIANT, ALLELE_WITH_MULTIPLE_VARIANTS } from '../../constants';
 
 const getSiftStyle = (sift) => {
   switch (sift && sift.toLowerCase()) {
@@ -256,8 +257,8 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     queryFn: () => {
       const nonHTPCategories = [
         'allele',
-        'allele with multiple associated variants',
-        'allele with one associated variant',
+        ALLELE_WITH_MULTIPLE_VARIANTS,
+        ALLELE_WITH_ONE_VARIANT,
       ];
       return fetchData(
         getTableUrl(

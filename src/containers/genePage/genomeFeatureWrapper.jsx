@@ -63,18 +63,20 @@ class GenomeFeatureWrapper extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.primaryId !== prevProps.primaryId) {
       this.loadGenomeFeature();
-      this.gfc.setSelectedAlleles(
-        this.props.allelesSelected !== undefined ? this.props.allelesSelected : [],
-        `#${this.props.id}`
-      );
+      if (this.gfc) {
+        this.gfc.setSelectedAlleles(
+          this.props.allelesSelected !== undefined ? this.props.allelesSelected : [],
+          `#${this.props.id}`
+        );
+      }
     } else if (
       !isEqual(prevProps.allelesSelected, this.props.allelesSelected) &&
       this.props.allelesSelected !== undefined
     ) {
-      this.gfc.setSelectedAlleles(
-        this.props.allelesSelected.map((a) => a.id),
-        `#${this.props.id}`
-      );
+      if (this.gfc) {
+        const alleleIds = this.props.allelesSelected.map((a) => a.id);
+        this.gfc.setSelectedAlleles(alleleIds, `#${this.props.id}`);
+      }
     } else if (!isEqual(prevProps.visibleVariants, this.props.visibleVariants)) {
       this.loadGenomeFeature();
     }
@@ -109,30 +111,70 @@ class GenomeFeatureWrapper extends Component {
     const ncListUrlTemplate =
       speciesInfo.jBrowsenclistbaseurltemplate.replace('{release}', releaseVersion) +
       `tracks/All_Genes/${chrString}/trackData.jsonz`;
-    const vcfTabixUrl = speciesInfo.jBrowseVcfUrlTemplate.replace('{release}', releaseVersion) + 'variants.vcf.gz';
+    
+    // VCF filename mapping based on species
+    const vcfFilenameMap = {
+      'MGI': 'mouse-latest.vcf.gz',
+      'RGD': 'rat-latest.vcf.gz',
+      'ZFIN': 'zebrafish-11-latest.vcf.gz',
+      'FB': 'fly-latest.vcf.gz',
+      'WB': 'worm-latest.vcf.gz',
+      'SGD': 'yeast-latest.vcf.gz'
+    };
+
+    // Determine species prefix based on taxon ID
+    const speciesPrefix = species.startsWith('NCBITaxon:10090') ? 'MGI' :
+                         species.startsWith('NCBITaxon:10116') ? 'RGD' :
+                         species.startsWith('NCBITaxon:7955') ? 'ZFIN' :
+                         species.startsWith('NCBITaxon:7227') ? 'FB' :
+                         species.startsWith('NCBITaxon:6239') ? 'WB' :
+                         species.startsWith('NCBITaxon:559292') ? 'SGD' : null;
+
+    const vcfFilename = vcfFilenameMap[speciesPrefix] || 'variants.vcf.gz';
+
+    // For mouse, use the direct S3 path without species subfolder
+    let vcfTabixUrl;
+    if (speciesPrefix === 'MGI') {
+      vcfTabixUrl = `https://s3.amazonaws.com/agrjbrowse/VCF/${releaseVersion}/${vcfFilename}`;
+    } else {
+      vcfTabixUrl = speciesInfo.jBrowseVcfUrlTemplate.replace('{release}', releaseVersion) + vcfFilename;
+    }
 
     try {
       // Fetch track data from JBrowse NCList files
+      
       const trackData = await fetchNCListData({
         region,
         urlTemplate: ncListUrlTemplate,
       });
 
-      // Fetch variant data from VCF tabix files (if available)
+      // Fetch variant data from VCF tabix files (if available and release version is valid)
       let variantData = null;
-      try {
-        variantData = await fetchTabixVcfData({
-          url: vcfTabixUrl,
-          region,
-        });
-      } catch (vcfError) {
-        // VCF data may not be available for all species/regions
-        console.warn('VCF data not available:', vcfError);
+      // Only attempt to load VCF data if we have a valid release version
+      if (releaseVersion && releaseVersion !== 'unknown') {
+        try {
+          
+          variantData = await fetchTabixVcfData({
+            url: vcfTabixUrl,
+            region,
+          });
+        } catch (vcfError) {
+          // VCF data may not be available for all species/regions
+          console.warn('VCF data not available:', vcfError);
+        }
+      } else {
+        console.info(`Skipping VCF loading for ${this.props.id} - release version not yet available (${releaseVersion})`);
       }
 
       return { trackData, variantData, region };
     } catch (error) {
-      console.error('Error fetching JBrowse data:', error);
+      console.error(`❌ Error fetching JBrowse data for ${this.props.id}:`, {
+        error: error.message,
+        stack: error.stack,
+        viewerId: this.props.id,
+        region,
+        timestamp: new Date().toISOString()
+      });
       throw error;
     }
   }
@@ -305,6 +347,18 @@ class GenomeFeatureWrapper extends Component {
       );
 
       this.gfc = new GenomeFeatureViewer(trackConfig, `#${id}`, 900, undefined);
+
+      // Set selected alleles after initialization
+      if (this.props.allelesSelected && this.props.allelesSelected.length > 0) {
+        const alleleIds = this.props.allelesSelected.map((a) => a.id);
+        
+        // Add a try-catch to see if there are any errors
+        try {
+          this.gfc.setSelectedAlleles(alleleIds, `#${id}`);
+        } catch (error) {
+          console.error('Error calling setSelectedAlleles:', error);
+        }
+      }
 
       this.setState({
         helpText: this.gfc.generateLegend(),

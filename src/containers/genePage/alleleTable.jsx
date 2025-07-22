@@ -13,6 +13,7 @@ import BooleanLinkCell from '../../components/dataTable/BooleanLinkCell.jsx';
 import VariantsSequenceViewer from './VariantsSequenceViewer.jsx';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import useAllVariants from '../../hooks/useAllVariants';
+import { ALLELE_WITH_ONE_VARIANT, ALLELE_WITH_MULTIPLE_VARIANTS } from '../../constants';
 
 const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
   const geneLocation = getSingleGenomeLocation(gene.genomeLocations);
@@ -49,9 +50,16 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
         : [];
     const variantLocations = variantsFiltered.map((variant) => variant && variant.location);
     const { fmin, fmax } = findFminFmax([geneLocation, ...variantLocations]);
+    
+    // Filter to only show variants for alleles with associated variants by default
     const alleleIdsFiltered =
       allelesFiltered.data && allelesFiltered.data.results
-        ? allelesFiltered.data.results.map((allele) => allele.id)
+        ? allelesFiltered.data.results
+            .filter(allele => 
+              allele.category === ALLELE_WITH_ONE_VARIANT ||
+              allele.category === ALLELE_WITH_MULTIPLE_VARIANTS
+            )
+            .map((allele) => allele.id)
         : [];
 
     /*
@@ -62,7 +70,8 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     const formatAllele = (alleleId) => ({
       id: alleleId,
     });
-    return {
+    
+    const props = {
       gene: gene,
       fmin: fmin,
       fmax: fmax,
@@ -71,6 +80,8 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
       allelesVisible: alleleIdsFiltered.map(formatAllele),
       onAllelesSelect: setAlleleIdsSelected,
     };
+    
+    return props;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resolvedData, allelesFiltered.data, alleleIdsSelected, setAlleleIdsSelected]);
 
