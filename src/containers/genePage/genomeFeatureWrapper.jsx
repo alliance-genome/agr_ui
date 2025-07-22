@@ -30,6 +30,7 @@ class GenomeFeatureWrapper extends Component {
     this.state = {
       loadState: 'loading',
       helpText: '',
+      vcfLoadError: null,
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -116,10 +117,10 @@ class GenomeFeatureWrapper extends Component {
     const vcfFilenameMap = {
       'MGI': 'mouse-latest.vcf.gz',
       'RGD': 'rat-latest.vcf.gz',
-      'ZFIN': 'zebrafish-11-latest.vcf.gz',
+      'ZFIN': 'zebrafish-latest.vcf.gz',
       'FB': 'fly-latest.vcf.gz',
       'WB': 'worm-latest.vcf.gz',
-      'SGD': 'yeast-latest.vcf.gz'
+      'SGD': 'HTPOSTVEPVCF_SGD_latest.vcf.gz'
     };
 
     // Determine species prefix based on taxon ID
@@ -132,13 +133,8 @@ class GenomeFeatureWrapper extends Component {
 
     const vcfFilename = vcfFilenameMap[speciesPrefix] || 'variants.vcf.gz';
 
-    // For mouse, use the direct S3 path without species subfolder
-    let vcfTabixUrl;
-    if (speciesPrefix === 'MGI') {
-      vcfTabixUrl = `https://s3.amazonaws.com/agrjbrowse/VCF/${releaseVersion}/${vcfFilename}`;
-    } else {
-      vcfTabixUrl = speciesInfo.jBrowseVcfUrlTemplate.replace('{release}', releaseVersion) + vcfFilename;
-    }
+    // All species VCF files are in the root directory (no species subfolders)
+    const vcfTabixUrl = `https://s3.amazonaws.com/agrjbrowse/VCF/${releaseVersion}/${vcfFilename}`;
 
     try {
       // Fetch track data from JBrowse NCList files
@@ -150,6 +146,7 @@ class GenomeFeatureWrapper extends Component {
 
       // Fetch variant data from VCF tabix files (if available and release version is valid)
       let variantData = null;
+      let vcfError = null;
       // Only attempt to load VCF data if we have a valid release version
       if (releaseVersion && releaseVersion !== 'unknown') {
         try {
@@ -158,15 +155,20 @@ class GenomeFeatureWrapper extends Component {
             url: vcfTabixUrl,
             region,
           });
-        } catch (vcfError) {
+        } catch (error) {
           // VCF data may not be available for all species/regions
-          console.warn('VCF data not available:', vcfError);
+          console.warn('VCF data not available:', error);
+          vcfError = {
+            message: error.message || 'Failed to load variant data',
+            url: vcfTabixUrl,
+            species: this.props.species,
+          };
         }
       } else {
         console.info(`Skipping VCF loading for ${this.props.id} - release version not yet available (${releaseVersion})`);
       }
 
-      return { trackData, variantData, region };
+      return { trackData, variantData, region, vcfError };
     } catch (error) {
       console.error(`❌ Error fetching JBrowse data for ${this.props.id}:`, {
         error: error.message,
@@ -295,7 +297,7 @@ class GenomeFeatureWrapper extends Component {
     } = this.props;
 
     try {
-      this.setState({ loadState: 'loading' });
+      this.setState({ loadState: 'loading', vcfLoadError: null });
 
       // Get release version from context or environment
       const releaseVersion = process.env.REACT_APP_JBROWSE_AGR_RELEASE || this.props.releaseVersion || '8.2.0';
@@ -321,7 +323,7 @@ class GenomeFeatureWrapper extends Component {
       }
 
       // Fetch JBrowse data
-      const { trackData, variantData, region } = await this.generateJBrowseTrackData(
+      const { trackData, variantData, region, vcfError } = await this.generateJBrowseTrackData(
         fmin,
         fmax,
         chromosome,
@@ -363,6 +365,7 @@ class GenomeFeatureWrapper extends Component {
       this.setState({
         helpText: this.gfc.generateLegend(),
         loadState: 'loaded',
+        vcfLoadError: vcfError,
       });
     } catch (error) {
       console.error('Error loading genome feature:', error);
@@ -432,6 +435,16 @@ class GenomeFeatureWrapper extends Component {
             </div>
           )}
           {this.state.loadState === 'error' ? <div className="text-danger">Unable to retrieve data</div> : ''}
+          {this.state.vcfLoadError && displayType === 'ISOFORM_AND_VARIANT' && (
+            <div className="alert alert-danger mt-2" role="alert">
+              <strong>Variant data could not be loaded</strong>
+              <br />
+              <small className="text-muted">
+                Please refresh the page to try again. If this error persists, contact us at{' '}
+                <a href="mailto:help@alliancegenome.org">help@alliancegenome.org</a>
+              </small>
+            </div>
+          )}
         </HorizontalScroll>
       </div>
     );
