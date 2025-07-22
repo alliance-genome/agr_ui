@@ -16,7 +16,8 @@ import './style.scss';
 
 import ReactApp from './reactApplication.jsx';
 
-import { applyPolyfills, defineCustomElements } from '@geneontology/wc-ribbon-strips/loader';
+import  { applyPolyfills, defineCustomElements } from '@geneontology/wc-ribbon-strips/loader';
+import  * as AllTheRest from '@geneontology/wc-ribbon-strips/loader';
 import {
   applyPolyfills as applyPolyfills2,
   defineCustomElements as defineCustomElements2,
@@ -27,6 +28,8 @@ import {
 } from '@geneontology/wc-gocam-viz/loader';
 
 analytics.initialize();
+
+console.log(AllTheRest);
 
 ReactDOM.createRoot(document.getElementById('app')).render(<ReactApp />);
 

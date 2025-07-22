@@ -18,6 +18,7 @@ export default defineConfig(({ mode }) => {
   return {
     build: {
       outDir: 'build',
+      assetsInlineLimit: 0
     },
     define: Object.fromEntries(ENV_KEYS_TO_EXPOSE.map((key) => [`process.env.${key}`, JSON.stringify(env[key])])),
     server: {
