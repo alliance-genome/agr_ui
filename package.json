@@ -17,8 +17,7 @@
     "sitemap": "node bin/build_sitemap.js",
     "resource-descriptors": "node bin/build_resource_descriptors.js",
     "local-init": "nvm install && npm install && npm run generators",
-    "test": "jest",
-    "postinstall": "cd ./node_modules/genomefeatures && npm install && npm run build"
+    "test": "jest"
   },
   "dependencies": {
     "@aws-cdk/aws-amplify-alpha": "^2.195.0-alpha.0",
