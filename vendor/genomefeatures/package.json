@@ -1,0 +1,82 @@
+{
+  "name": "genomefeatures",
+  "version": "1.0.4",
+  "type": "module",
+  "description": "A D3 based genome feature rendering",
+  "license": "MIT",
+  "repository": "https://github.com/GMOD/GenomeFeatureComponent",
+  "keywords": [
+    "genome feature viewer",
+    "genomics",
+    "genes",
+    "transcripts"
+  ],
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/genomefeatures.umd.cjs",
+  "module": "./dist/genomefeatures.js",
+  "types": "./dist/genomefeatures.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/genomefeatures.d.ts",
+      "import": "./dist/genomefeatures.js",
+      "require": "./dist/genomefeatures.umd.cjs"
+    },
+    "./style.css": "./dist/genomefeatures.css",
+    "./dist/genomefeatures.css": "./dist/genomefeatures.css"
+  },
+  "scripts": {
+    "format": "prettier --write .",
+    "dev": "vite",
+    "lint": "eslint --report-unused-disable-directives --max-warnings 0",
+    "build": "vite build -c vite.config.mjs",
+    "preview": "vite preview",
+    "build-demo": "yarn build -c vite-gh-pages.config.ts",
+    "build-site": "yarn build-demo && yarn build-storybook && mv storybook-static out/storybook",
+    "preversion": "npm run lint && npm run build",
+    "postversion": "git push --follow-tags",
+    "predeploy": "yarn build-site",
+    "deploy": "gh-pages -d out --nojekyll",
+    "postdeploy": "git push --follow-tags",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "^3.2.4",
+    "@storybook/addon-essentials": "^8.5.8",
+    "@storybook/addon-interactions": "^8.5.8",
+    "@storybook/blocks": "^8.5.8",
+    "@storybook/html": "^8.5.8",
+    "@storybook/html-vite": "^8.5.8",
+    "@storybook/test": "^8.5.8",
+    "@types/d3": "^7.4.3",
+    "@types/d3-tip": "^3.5.8",
+    "@types/pako": "^2.0.3",
+    "eslint": "^9.21.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-storybook": "^0.12.0",
+    "eslint-plugin-unicorn": "^59.0.0",
+    "gh-pages": "^6.3.0",
+    "prettier": "^3.5.1",
+    "storybook": "^8.5.8",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.24.1",
+    "vite": "^6.1.0",
+    "vite-plugin-dts": "^4.5.0"
+  },
+  "dependencies": {
+    "@gmod/nclist": "^3.0.0",
+    "@gmod/tabix": "^3.0.2",
+    "@gmod/vcf": "^6.0.8",
+    "d3": "^7.9.0",
+    "d3-tip": "^0.9.1",
+    "generic-filehandle2": "^2.0.1",
+    "pako": "^2.1.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
+  }
+}
