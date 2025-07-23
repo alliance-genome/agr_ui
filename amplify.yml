@@ -8,6 +8,7 @@ frontend:
         - rm package-lock.json
         - rm -rf node_modules
         - npm install
+        - cd node_modules/genomefeatures && npm install && npm run build && cd ../..
     build:
       commands:
         - npm run build
