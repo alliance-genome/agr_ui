@@ -29,13 +29,19 @@ const SequencePanel = ({ species, gene, refseq, start, end }) => {
   const jBrowsefastaurl = getSpecies(species).jBrowsefastaurl;
 
   if (
-    (species === 'NCBITaxon:559292' || species === 'NCBITaxon:8355') &&
+    species === 'NCBITaxon:559292' &&
     !refseq.startsWith('chr') &&
     !refseq.toLowerCase().startsWith('scaffold')
   ) {
     refseq = 'chr' + refseq;
   }
-
+  if (
+    (species === 'NCBITaxon:8355' || species === 'NCBITaxon:7955') &&
+    !refseq.startsWith('Chr') &&
+    !refseq.toLowerCase().startsWith('sca')
+  ) {
+    refseq = 'Chr' + refseq;
+  }
   return (
     <GenericGeneSeqPanel
       refseq={refseq}
