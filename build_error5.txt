@@ -1,0 +1,78 @@
+2025-07-23T00:19:08.117Z [INFO]: # Build environment configured with Standard build compute type: 8GiB Memory, 4vCPUs, 128GB Disk Space
+2025-07-23T00:19:08.602Z [INFO]: # Cloning repository: git@github.com:alliance-genome/agr_ui.git
+2025-07-23T00:19:10.490Z [INFO]: 
+2025-07-23T00:19:10.491Z [INFO]: Cloning into 'agr_ui'...
+2025-07-23T00:19:10.491Z [INFO]: # Switching to commit: c666162cc168728f3bc53abe3b98fb08a5b5a7ca
+2025-07-23T00:19:10.610Z [INFO]: Note: switching to 'c666162cc168728f3bc53abe3b98fb08a5b5a7ca'.
+                                 You are in 'detached HEAD' state. You can look around, make experimental
+                                 changes and commit them, and you can discard any commits you make in this
+                                 state without impacting any branches by switching back to a branch.
+                                 If you want to create a new branch to retain commits you create, you may
+                                 do so (now or later) by using -c with the switch command. Example:
+                                 git switch -c <new-branch-name>
+                                 Or undo this operation with:
+                                 git switch -
+                                 Turn off this advice by setting config variable advice.detachedHead to false
+                                 HEAD is now at c666162c Fix: Add postinstall script to build genomefeatures after npm install
+2025-07-23T00:19:10.693Z [INFO]: Successfully cleaned up Git credentials
+2025-07-23T00:19:10.693Z [INFO]: # Checking for Git submodules at: /codebuild/output/src3655363331/src/agr_ui/.gitmodules
+2025-07-23T00:19:10.700Z [INFO]: # Retrieving environment cache...
+2025-07-23T00:19:10.745Z [WARNING]: ! Unable to write cache: {"code":"ERR_BAD_REQUEST","message":"Request failed with status code 404"})}
+2025-07-23T00:19:10.745Z [INFO]: ---- Setting Up SSM Secrets ----
+2025-07-23T00:19:10.745Z [INFO]: SSM params {"Path":"/amplify/d1mrdtdifcvuyq/KANBAN-757/","WithDecryption":true}
+2025-07-23T00:19:11.640Z [INFO]: # No package override configuration found.
+2025-07-23T00:19:11.763Z [INFO]: # Retrieving cache...
+2025-07-23T00:19:11.763Z [INFO]: # Retrieved cache
+2025-07-23T00:19:13.134Z [INFO]: BackendEnvironment name KANBAN-757 for app d1mrdtdifcvuyq is invalid
+2025-07-23T00:19:13.205Z [INFO]: Random environment name rose generated
+2025-07-23T00:19:16.128Z [INFO]: ## Starting Backend Build
+                                 ## Checking for associated backend environment...
+                                 ## No backend environment association found, continuing...
+                                 ## Completed Backend Build
+2025-07-23T00:19:16.131Z [INFO]: {"backendDuration": 0}
+                                 ## Starting Frontend Build
+                                 # Starting phase: preBuild
+                                 # Executing command: nvm install
+2025-07-23T00:19:16.141Z [INFO]: Found '/codebuild/output/src3655363331/src/agr_ui/.nvmrc' with version <v22.14.0>
+2025-07-23T00:19:16.445Z [INFO]: Downloading and installing node v22.14.0...
+2025-07-23T00:19:16.574Z [WARNING]: Downloading https://nodejs.org/dist/v22.14.0/node-v22.14.0-linux-x64.tar.gz...
+2025-07-23T00:19:16.691Z [WARNING]: ###############
+2025-07-23T00:19:16.691Z [WARNING]: 21.2%
+--
+2025-07-23T00:20:23.469Z [INFO]: # Executing command: rm -rf node_modules
+2025-07-23T00:20:23.471Z [INFO]: # Executing command: npm install
+2025-07-23T00:21:04.078Z [WARNING]: npm warn skipping integrity check for git dependency ssh://git@github.com/alliance-genome/genomefeatures.git
+2025-07-23T00:21:06.664Z [WARNING]: npm warn deprecated react-scrollspy@3.4.3: No longer actively maintained. Please use @makotot/ghostui instead.
+2025-07-23T00:21:06.716Z [WARNING]: npm warn deprecated lodash.clone@4.5.0: This package is deprecated. Use structuredClone instead.
+2025-07-23T00:21:06.735Z [WARNING]: npm warn deprecated lodash.isequal@4.5.0: This package is deprecated. Use require('node:util').isDeepStrictEqual instead.
+2025-07-23T00:21:08.514Z [WARNING]: npm warn deprecated popper.js@1.16.1: You can find the new Popper v2 at @popperjs/core, this package is dedicated to the legacy v1
+2025-07-23T00:21:25.879Z [INFO]: > agr_ui@0.0.0 postinstall
+                                 > cd ./node_modules/genomefeatures && npm install && npm run build
+2025-07-23T00:21:38.127Z [INFO]: added 565 packages, and audited 570 packages in 12s
+2025-07-23T00:21:38.132Z [INFO]: 188 packages are looking for funding
+                                 run `npm fund` for details
+                                 2 high severity vulnerabilities
+                                 To address all issues (including breaking changes), run:
+                                 npm audit fix --force
+                                 Run `npm audit` for details.
+2025-07-23T00:21:38.305Z [INFO]: > genomefeatures@1.0.4 build
+                                 > vite build
+2025-07-23T00:21:38.541Z [INFO]: vite v6.3.5 building for production...
+2025-07-23T00:21:38.586Z [INFO]: ✓ 0 modules transformed.
+2025-07-23T00:21:38.588Z [WARNING]: ✗ Build failed in 19ms
+2025-07-23T00:21:38.588Z [WARNING]: error during build:
+                                    Could not resolve entry module "index.html".
+                                    at getRollupError (file:///codebuild/output/src3655363331/src/agr_ui/node_modules/genomefeatures/node_modules/rollup/dist/es/shared/parseAst.js:401:41)
+                                    at error (file:///codebuild/output/src3655363331/src/agr_ui/node_modules/genomefeatures/node_modules/rollup/dist/es/shared/parseAst.js:397:42)
+                                    at ModuleLoader.loadEntryModule (file:///codebuild/output/src3655363331/src/agr_ui/node_modules/genomefeatures/node_modules/rollup/dist/es/shared/node-entry.js:21463:20)
+                                    at async Promise.all (index 0)
+2025-07-23T00:21:38.607Z [WARNING]: npm error code 1
+                                    npm error path /codebuild/output/src3655363331/src/agr_ui
+                                    npm error command failed
+2025-07-23T00:21:38.607Z [WARNING]: npm error command sh -c cd ./node_modules/genomefeatures && npm install && npm run build
+2025-07-23T00:21:38.608Z [WARNING]: npm error A complete log of this run can be found in: /root/.npm/_logs/2025-07-23T00_20_23_527Z-debug-0.log
+2025-07-23T00:21:38.644Z [ERROR]: !!! Build failed
+2025-07-23T00:21:38.644Z [ERROR]: !!! Error: Command failed with exit code 1
+2025-07-23T00:21:38.644Z [INFO]: # Starting environment caching...
+2025-07-23T00:21:38.644Z [INFO]: # Environment caching completed
+

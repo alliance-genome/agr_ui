@@ -1,0 +1,93 @@
+2025-07-23T00:19:08.117Z [INFO]: # Build environment configured with Standard build compute type: 8GiB Memory, 4vCPUs, 128GB Disk Space
+2025-07-23T00:19:08.602Z [INFO]: # Cloning repository: git@github.com:alliance-genome/agr_ui.git
+2025-07-23T00:19:10.490Z [INFO]: 
+2025-07-23T00:19:10.491Z [INFO]: Cloning into 'agr_ui'...
+2025-07-23T00:19:10.491Z [INFO]: # Switching to commit: c666162cc168728f3bc53abe3b98fb08a5b5a7ca
+2025-07-23T00:19:10.610Z [INFO]: Note: switching to 'c666162cc168728f3bc53abe3b98fb08a5b5a7ca'.
+                                 You are in 'detached HEAD' state. You can look around, make experimental
+                                 changes and commit them, and you can discard any commits you make in this
+                                 state without impacting any branches by switching back to a branch.
+                                 If you want to create a new branch to retain commits you create, you may
+                                 do so (now or later) by using -c with the switch command. Example:
+                                 git switch -c <new-branch-name>
+                                 Or undo this operation with:
+                                 git switch -
+                                 Turn off this advice by setting config variable advice.detachedHead to false
+                                 HEAD is now at c666162c Fix: Add postinstall script to build genomefeatures after npm install
+2025-07-23T00:19:10.693Z [INFO]: Successfully cleaned up Git credentials
+2025-07-23T00:19:10.693Z [INFO]: # Checking for Git submodules at: /codebuild/output/src3655363331/src/agr_ui/.gitmodules
+2025-07-23T00:19:10.700Z [INFO]: # Retrieving environment cache...
+2025-07-23T00:19:10.745Z [WARNING]: ! Unable to write cache: {"code":"ERR_BAD_REQUEST","message":"Request failed with status code 404"})}
+2025-07-23T00:19:10.745Z [INFO]: ---- Setting Up SSM Secrets ----
+2025-07-23T00:19:10.745Z [INFO]: SSM params {"Path":"/amplify/d1mrdtdifcvuyq/KANBAN-757/","WithDecryption":true}
+2025-07-23T00:19:11.640Z [INFO]: # No package override configuration found.
+2025-07-23T00:19:11.763Z [INFO]: # Retrieving cache...
+2025-07-23T00:19:11.763Z [INFO]: # Retrieved cache
+2025-07-23T00:19:13.134Z [INFO]: BackendEnvironment name KANBAN-757 for app d1mrdtdifcvuyq is invalid
+2025-07-23T00:19:13.205Z [INFO]: Random environment name rose generated
+2025-07-23T00:19:16.128Z [INFO]: ## Starting Backend Build
+                                 ## Checking for associated backend environment...
+                                 ## No backend environment association found, continuing...
+                                 ## Completed Backend Build
+2025-07-23T00:19:16.131Z [INFO]: {"backendDuration": 0}
+                                 ## Starting Frontend Build
+                                 # Starting phase: preBuild
+                                 # Executing command: nvm install
+2025-07-23T00:19:16.141Z [INFO]: Found '/codebuild/output/src3655363331/src/agr_ui/.nvmrc' with version <v22.14.0>
+2025-07-23T00:19:16.445Z [INFO]: Downloading and installing node v22.14.0...
+2025-07-23T00:19:16.574Z [WARNING]: Downloading https://nodejs.org/dist/v22.14.0/node-v22.14.0-linux-x64.tar.gz...
+2025-07-23T00:19:16.691Z [WARNING]: ###############
+2025-07-23T00:19:16.691Z [WARNING]: 21.2%
+2025-07-23T00:19:16.795Z [WARNING]: ################################
+2025-07-23T00:19:16.796Z [WARNING]: 45.3%
+2025-07-23T00:19:16.895Z [WARNING]: ########################
+2025-07-23T00:19:16.896Z [WARNING]: ###########################                       71.9%
+2025-07-23T00:19:16.974Z [WARNING]: ###########################
+2025-07-23T00:19:16.974Z [WARNING]: ############################################# 100.0%
+2025-07-23T00:19:17.000Z [WARNING]: Computing checksum with sha256sum
+2025-07-23T00:19:17.250Z [WARNING]: Checksums matched!
+2025-07-23T00:19:19.776Z [INFO]: Now using node v22.14.0 (npm v10.9.2)
+2025-07-23T00:19:19.892Z [INFO]: Installing default global packages from /root/.nvm/default-packages...
+2025-07-23T00:19:19.892Z [INFO]: npm install -g --quiet @aws-amplify/cli bower cypress grunt-cli hugo-extended vuepress yarn
+2025-07-23T00:19:56.739Z [WARNING]: npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+2025-07-23T00:19:56.818Z [WARNING]: npm warn deprecated stable@0.1.8: Modern JS already guarantees Array#sort() is a stable sort, so this library is deprecated. See the compatibility table on MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#browser_compatibility
+2025-07-23T00:19:56.819Z [WARNING]: npm warn deprecated source-map-url@0.4.1: See https://github.com/lydell/source-map-url#deprecated
+2025-07-23T00:19:56.833Z [WARNING]: npm warn deprecated move-concurrently@1.0.1: This package is no longer supported.
+2025-07-23T00:19:56.839Z [WARNING]: npm warn deprecated @babel/plugin-proposal-class-properties@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-properties instead.
+2025-07-23T00:19:56.909Z [WARNING]: npm warn deprecated rimraf@2.7.1: Rimraf versions prior to v4 are no longer supported
+2025-07-23T00:19:56.940Z [WARNING]: npm warn deprecated figgy-pudding@3.5.2: This module is no longer supported.
+2025-07-23T00:19:56.973Z [WARNING]: npm warn deprecated urix@0.1.0: Please see https://github.com/lydell/urix#deprecated
+2025-07-23T00:19:56.975Z [WARNING]: npm warn deprecated har-validator@5.1.5: this library is no longer supported
+2025-07-23T00:19:57.024Z [WARNING]: npm warn deprecated lodash.template@4.5.0: This package is deprecated. Use https://socket.dev/npm/package/eta instead.
+2025-07-23T00:19:57.036Z [WARNING]: npm warn deprecated copy-concurrently@1.0.5: This package is no longer supported.
+2025-07-23T00:19:57.138Z [WARNING]: npm warn deprecated consolidate@0.15.1: Please upgrade to consolidate v1.0.0+ as it has been modernized with several long-awaited fixes implemented. Maintenance is supported by Forward Email at https://forwardemail.net ; follow/watch https://github.com/ladjs/consolidate for updates and release changelog
+2025-07-23T00:19:57.145Z [WARNING]: npm warn deprecated resolve-url@0.2.1: https://github.com/lydell/resolve-url#deprecated
+2025-07-23T00:19:57.220Z [WARNING]: npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-07-23T00:19:57.258Z [WARNING]: npm warn deprecated source-map-resolve@0.5.3: See https://github.com/lydell/source-map-resolve#deprecated
+2025-07-23T00:19:57.364Z [WARNING]: npm warn deprecated q@1.5.1: You or someone you depend on is using Q, the JavaScript Promise library that gave JavaScript developers strong feelings about promises. They can almost certainly migrate to the native JavaScript promise now. Thank you literally everyone for joining me in this bet against the odds. Be excellent to each other.
+                                    npm warn deprecated
+                                    npm warn deprecated (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)
+2025-07-23T00:19:57.432Z [WARNING]: npm warn deprecated fs-write-stream-atomic@1.0.10: This package is no longer supported.
+2025-07-23T00:19:57.682Z [WARNING]: npm warn deprecated mkdirp@0.3.0: Legacy versions of mkdirp are no longer supported. Please update to mkdirp 1.x. (Note that the API surface has changed to use Promises in 1.x.)
+2025-07-23T00:19:57.722Z [WARNING]: npm warn deprecated uuid@3.4.0: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+2025-07-23T00:19:57.726Z [WARNING]: npm warn deprecated webpack-chain@4.12.1: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+2025-07-23T00:19:57.839Z [WARNING]: npm warn deprecated webpack-chain@6.5.1: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+2025-07-23T00:19:57.916Z [WARNING]: npm warn deprecated request@2.88.2: request has been deprecated, see https://github.com/request/request/issues/3142
+2025-07-23T00:19:58.438Z [WARNING]: npm warn deprecated svgo@1.3.2: This SVGO version is no longer supported. Upgrade to v2.x.x.
+2025-07-23T00:19:58.478Z [WARNING]: npm warn deprecated docsearch.js@2.6.3: This package has been deprecated and is no longer maintained. Please use @docsearch/js.
+2025-07-23T00:19:59.159Z [WARNING]: npm warn deprecated highlight.js@9.18.5: Support has ended for 9.x series. Upgrade to @latest
+2025-07-23T00:19:59.276Z [WARNING]: npm warn deprecated vue@2.7.16: Vue 2 has reached EOL and is no longer actively maintained. See https://v2.vuejs.org/eol/ for more details.
+2025-07-23T00:20:23.221Z [INFO]: added 1863 packages in 1m
+2025-07-23T00:20:23.227Z [INFO]: 205 packages are looking for funding
+                                 run `npm fund` for details
+2025-07-23T00:20:23.283Z [INFO]: # Executing command: nvm use
+2025-07-23T00:20:23.291Z [INFO]: Found '/codebuild/output/src3655363331/src/agr_ui/.nvmrc' with version <v22.14.0>
+2025-07-23T00:20:23.466Z [INFO]: Now using node v22.14.0 (npm v10.9.2)
+2025-07-23T00:20:23.468Z [INFO]: # Executing command: rm package-lock.json
+2025-07-23T00:20:23.469Z [INFO]: # Executing command: rm -rf node_modules
+2025-07-23T00:20:23.471Z [INFO]: # Executing command: npm install
+2025-07-23T00:21:04.078Z [WARNING]: npm warn skipping integrity check for git dependency ssh://git@github.com/alliance-genome/genomefeatures.git
+2025-07-23T00:21:06.664Z [WARNING]: npm warn deprecated react-scrollspy@3.4.3: No longer actively maintained. Please use @makotot/ghostui instead.
+2025-07-23T00:21:06.716Z [WARNING]: npm warn deprecated lodash.clone@4.5.0: This package is deprecated. Use structuredClone instead.
+2025-07-23T00:21:06.735Z [WARNING]: npm warn deprecated lodash.isequal@4.5.0: This package is deprecated. Use require('node:util').isDeepStrictEqual instead.
+2025-07-23T00:21:08.514Z [WARNING]: npm warn deprecated popper.js@1.16.1: You can find the new Popper v2 at @popperjs/core, this package is dedicated to the legacy v1
