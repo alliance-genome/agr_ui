@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Genome Feature Component Example</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/genomefeatures/dist/genomefeatures.css"
+    />
+  </head>
+  <body>
+    <svg id="svgelement"></svg>
+
+    <script>
+      async function initializeViewer() {
+        // note the CSS import in the header as well
+
+        // we use esm import here. alternatively, you can import as script tag with
+        // https://unpkg.com/genomefeatures/dist/genomefeatures.umd.cjs and access window.GenomeFeatureViewer
+        const {
+          parseLocString,
+          fetchNCListData,
+          fetchTabixVcfData,
+          GenomeFeatureViewer,
+        } = await import(
+          'https://unpkg.com/genomefeatures/dist/genomefeatures.js'
+        )
+
+        const locString = '2L:130639..135911'
+        const genome = 'fly'
+
+        const vcfTabixUrl =
+          'https://s3.amazonaws.com/agrjbrowse/VCF/7.0.0/fly-latest.vcf.gz'
+        const ncListUrlTemplate =
+          'https://s3.amazonaws.com/agrjbrowse/docker/7.0.0/FlyBase/fruitfly/tracks/All_Genes/{refseq}/trackData.jsonz'
+
+        const region = parseLocString(locString)
+        const trackData = await fetchNCListData({
+          region,
+          urlTemplate: ncListUrlTemplate,
+        })
+
+        const variantData = await fetchTabixVcfData({
+          url: vcfTabixUrl,
+          region,
+        })
+
+        const gfc = new GenomeFeatureViewer(
+          {
+            region,
+            genome,
+            tracks: [
+              {
+                type: 'ISOFORM_EMBEDDED_VARIANT',
+                trackData,
+                variantData,
+              },
+            ],
+          },
+          '#svgelement',
+          900,
+          500,
+        )
+      }
+
+      window.addEventListener('load', initializeViewer)
+    </script>
+  </body>
+</html>
