@@ -64,3 +64,10 @@ Thumbs.db
 cdk-outputs.json
 cdk.context.json
 cdk.out
+
+# Build artifacts and logs that may contain credentials
+build*.json
+build*.log
+build*.txt
+*credentials*
+test-npm-github/
