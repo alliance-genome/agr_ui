@@ -42,7 +42,7 @@
     "d3-selection": "^3.0.0",
     "events": "^3.3.0",
     "generic-sequence-panel": "^1.7.0",
-    "genomefeatures": "github:alliance-genome/genomefeatures#feature/add-isoform-embedded-variant-selection",
+    "genomefeatures": "file:./vendor/genomefeatures",
     "html-react-parser": "^5.2.3",
     "http-proxy-middleware": "^3.0.5",
     "immutable": "^5.1.2",
