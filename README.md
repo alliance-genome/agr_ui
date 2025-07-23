@@ -65,3 +65,4 @@ Click on the 'agr-ui-test' View App button
 
 Look for your KANBAN-# branch and copy the url(eg: https://kanban-568.d39tao9vl33upy.amplifyapp.com/). Use this url for testing the story (send to curator), before merging code into the test branch. Once testing is complete, merge your branch into test.
 # Trigger rebuild after genomefeatures fix
+# Build 9 - Fixed genomefeatures exports
