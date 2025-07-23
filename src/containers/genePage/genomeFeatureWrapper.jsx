@@ -147,8 +147,10 @@ class GenomeFeatureWrapper extends Component {
       // Fetch variant data from VCF tabix files (if available and release version is valid)
       let variantData = null;
       let vcfError = null;
-      // Only attempt to load VCF data if we have a valid release version
-      if (releaseVersion && releaseVersion !== 'unknown') {
+      // Only attempt to load VCF data if we have a valid release version and it's not human
+      // Human VCF data is not available in the Alliance
+      const isHuman = species === 'NCBITaxon:9606';
+      if (releaseVersion && releaseVersion !== 'unknown' && !isHuman) {
         try {
           
           variantData = await fetchTabixVcfData({
