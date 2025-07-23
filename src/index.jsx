@@ -11,7 +11,7 @@ import * as analytics from './lib/analytics';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
 import 'react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css';
-import 'genomefeatures/style.css';
+import 'genomefeatures/dist/genomefeatures.css';
 import './style.scss';
 
 import ReactApp from './reactApplication.jsx';
