@@ -147,10 +147,11 @@ class GenomeFeatureWrapper extends Component {
       // Fetch variant data from VCF tabix files (if available and release version is valid)
       let variantData = null;
       let vcfError = null;
-      // Only attempt to load VCF data if we have a valid release version and it's not human
-      // Human VCF data is not available in the Alliance
+      // Only attempt to load VCF data if we have a valid release version and it's not human or SGD
+      // Human and SGD VCF data are not available in the standard format in the Alliance
       const isHuman = species === 'NCBITaxon:9606';
-      if (releaseVersion && releaseVersion !== 'unknown' && !isHuman) {
+      const isSGD = species === 'NCBITaxon:559292';
+      if (releaseVersion && releaseVersion !== 'unknown' && !isHuman && !isSGD) {
         try {
           
           variantData = await fetchTabixVcfData({
@@ -167,7 +168,13 @@ class GenomeFeatureWrapper extends Component {
           };
         }
       } else {
-        console.info(`Skipping VCF loading for ${this.props.id} - release version not yet available (${releaseVersion})`);
+        if (isHuman) {
+          console.info(`Skipping VCF loading for ${this.props.id} - Human VCF data not available`);
+        } else if (isSGD) {
+          console.info(`Skipping VCF loading for ${this.props.id} - SGD VCF data not available in standard format`);
+        } else {
+          console.info(`Skipping VCF loading for ${this.props.id} - release version not yet available (${releaseVersion})`);
+        }
       }
 
       return { trackData, variantData, region, vcfError };
