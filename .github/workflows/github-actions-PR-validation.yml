@@ -27,7 +27,6 @@ jobs:
       - name: Node install
         run: |
           npm install
-          nvm use
       - name: Prettier verification
         run: |
           npx prettier --check .
