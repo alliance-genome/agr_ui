@@ -276,7 +276,7 @@ class GenomeFeatureWrapper extends Component {
         binRatio: 0.01,
         tracks: [
           {
-            type: 'ISOFORM_EMBEDDED_VARIANT',
+            type: 'ISOFORM_AND_VARIANT',
             trackData,
             variantData,
           },
