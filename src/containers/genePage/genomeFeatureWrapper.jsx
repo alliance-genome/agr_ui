@@ -90,13 +90,15 @@ class GenomeFeatureWrapper extends Component {
 
     // Construct chromosome string with species-specific formatting
     let chrString = chromosome;
-    if (apolloPrefix === 'yeast' || (apolloPrefix === 'x_laevis' && !chromosome.startsWith('Scaffold'))) {
+    console.log(chromosome);
+    if (apolloPrefix === 'yeast' ) {
       chrString = 'chr' + chromosome;
     }
-    if ((apolloPrefix === 'x_laevis' || apolloPrefix === 'x_tropicalis') && !chromosome.startsWith('Sca')) {
-      chrString = 'Chr' + chromosome;
-    }
-
+//    if ((apolloPrefix === 'x_laevis' || apolloPrefix === 'x_tropicalis') && !chromosome.startsWith('Sca')) {
+//      chrString = 'Chr' + chromosome;
+//    }
+     console.log(apolloPrefix);
+    console.log(chrString);
     // Create location string and parse it using GMOD format
     const locString = `${chrString}:${fmin}..${fmax}`;
     const parsedRegion = parseLocString(locString);
@@ -157,7 +159,7 @@ class GenomeFeatureWrapper extends Component {
     bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
     const bufferedMax = Math.round(end + (linkLength * LINK_BUFFER) / 2.0);
     if (
-      (this.props.species === 'NCBITaxon:8355' || this.props.species === 'NCBITaxon:7955) &&
+      (this.props.species === 'NCBITaxon:8355' || this.props.species === 'NCBITaxon:7955') &&
       !chr.toLowerCase().startsWith('chr') &&
       !chr.toLowerCase().startsWith('sca')
     ) {
