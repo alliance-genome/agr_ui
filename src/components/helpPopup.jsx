@@ -7,11 +7,6 @@ import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
 
 const HelpPopup = ({ children, id, placement = 'top-start', ...otherProps }) => {
   id = makeId(id);
-  // const popperModifiers = {
-  //   preventOverflow: {
-  //     boundariesElement: 'window',
-  //   }
-  // };
   const popperModifiers = [
     {
       name: 'preventOverflow',

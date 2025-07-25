@@ -22,11 +22,6 @@ const EvidenceCodeCuration = ({ code }) => {
           target={tooltipRef}
           delay={{ show: 300, hide: 150 }}
           placement="right"
-          // modifiers={{
-          //   preventOverflow: {
-          //     enabled: false
-          //   }
-          // }}
           modifiers={popperModifiers}
         >
           {code.name}
