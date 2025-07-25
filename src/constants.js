@@ -344,7 +344,7 @@ export const SPECIES = [
     jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/XenBase/x_laevis/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
     jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/XenBase/x_laevis/',
-    jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/XENLA_9.2_genome.fa.gz',
+    jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_017654675.1_Xenopus_laevis_v10.1_genomic.fna.gz',
     jBrowsetracks: '_all_genes',
     jBrowseOrthologyTracks:
       'Xenopus_laevis_all_genes,human2xenopuslaevis.filter.anchors,xenopuslaevis2xenopustropicalis.filter.anchors',
@@ -362,7 +362,7 @@ export const SPECIES = [
     jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/XenBase/x_tropicalis/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
     jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/XenBase/x_tropicalis/',
-    jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/XENTR_9.1_genome.fa.gz',
+    jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_000004195.4_UCB_Xtro_10.0_genomic.fna.gz',
     jBrowsetracks: '_all_genes',
     jBrowseOrthologyTracks:
       'Xenopus_tropicalis_all_genes,human2xenopustropicalis.filter.anchors,mouse2xenopustropicalis.filter.anchors,rat2xenopustropicalis.filter.anchors,xenopuslaevis2xenopustropicalis.filter.anchors,xenopustropicalis2fly.filter.anchors,xenopustropicalis2worm.filter.anchors,xenopustropicalis2yeast.filter.anchors,zebrafish2xenopustropicalis.filter.anchors',
