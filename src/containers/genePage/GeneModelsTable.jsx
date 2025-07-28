@@ -4,7 +4,7 @@ import hash from 'object-hash';
 import { DataTable } from '../../components/dataTable';
 import CollapsibleList from '../../components/collapsibleList/collapsibleList.jsx';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import AssociationType from '../../components/AssociationType';
+import AssociationType from '../../components/AssociationType.jsx';
 import ExperimentalConditionCell from '../../components/dataTable/ExperimentalConditionCell';
 import ExperimentalConditionCellCuration from '../../components/dataTable/ExperimentalConditionCellCuration.jsx';
 import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration.jsx';
@@ -44,7 +44,7 @@ const GeneModelsTable = ({ id }) => {
       filterable: true,
     },
     {
-      dataField: 'diseaseTerms',
+      dataField: 'diseaseModels',
       text: 'Associated Human Diseases',
       helpPopupProps: {
         id: 'gene-page--model-table--associated-human-diseases-help',
@@ -57,13 +57,13 @@ const GeneModelsTable = ({ id }) => {
           </span>
         ),
       },
-      formatter: (diseaseTerms) =>
-        diseaseTerms && (
-          <CollapsibleList collapsedSize={diseaseTerms.length}>
-            {diseaseTerms.map((diseaseModel) => (
-              <div key={diseaseModel.associationType + diseaseModel.curie}>
+      formatter: (diseaseModels) =>
+          diseaseModels && (
+          <CollapsibleList collapsedSize={diseaseModels.length}>
+            {diseaseModels.map((diseaseModel) => (
+              <div key={diseaseModel.associationType + diseaseModel.disease.curie}>
                 <AssociationType type={diseaseModel.associationType} showOnlyNot />{' '}
-                <DiseaseLinkCuration disease={diseaseModel} />
+                <DiseaseLinkCuration disease={diseaseModel.disease} />
               </div>
             ))}
           </CollapsibleList>
