@@ -10,6 +10,7 @@
     "start:stage": "make uirunstage",
     "prebuild": "npm run generators",
     "build": "tsc -b && vite build",
+    "postbuild": "cp ./node_modules/@geneontology/wc-ribbon-strips/dist/esm-es5/wc-ribbon-cell_3.entry.js ./build/assets/",
     "lint": "eslint .",
     "preview": "vite preview",
     "generators": "npm run resource-descriptors && npm run sitemap && npm run robots",
