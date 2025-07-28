@@ -17,8 +17,7 @@
     "robots": "node bin/build_robots.js",
     "sitemap": "node bin/build_sitemap.js",
     "resource-descriptors": "node bin/build_resource_descriptors.js",
-    "local-init": "nvm install && npm install && npm run generators",
-    "test": "jest"
+    "local-init": "nvm install && npm install && npm run generators"
   },
   "dependencies": {
     "@aws-cdk/aws-amplify-alpha": "^2.195.0-alpha.0",
