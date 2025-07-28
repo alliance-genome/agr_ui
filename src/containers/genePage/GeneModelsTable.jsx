@@ -58,7 +58,7 @@ const GeneModelsTable = ({ id }) => {
         ),
       },
       formatter: (diseaseModels) =>
-          diseaseModels && (
+        diseaseModels && (
           <CollapsibleList collapsedSize={diseaseModels.length}>
             {diseaseModels.map((diseaseModel) => (
               <div key={diseaseModel.associationType + diseaseModel.disease.curie}>
