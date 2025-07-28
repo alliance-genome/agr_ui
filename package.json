@@ -10,14 +10,15 @@
     "start:stage": "make uirunstage",
     "prebuild": "npm run generators",
     "build": "tsc -b && vite build",
-    "postbuild": "cp ./node_modules/@geneontology/wc-ribbon-strips/dist/wc-ribbon-strips.js ./build/assets/",
+    "postbuild": "mkdir ./build/assets/wc-ribbon-strips && cp ./node_modules/@geneontology/wc-ribbon-strips/dist/wc-ribbon-strips.js ./build/assets/ && cp -a ./node_modules/@geneontology/wc-ribbon-strips/dist/wc-ribbon-strips/. ./build/assets/wc-ribbon-strips/",
     "lint": "eslint .",
     "preview": "vite preview",
     "generators": "npm run resource-descriptors && npm run sitemap && npm run robots",
     "robots": "node bin/build_robots.js",
     "sitemap": "node bin/build_sitemap.js",
     "resource-descriptors": "node bin/build_resource_descriptors.js",
-    "local-init": "nvm install && npm install && npm run generators"
+    "local-init": "nvm install && npm install && npm run generators",
+    "test": "jest"
   },
   "dependencies": {
     "@aws-cdk/aws-amplify-alpha": "^2.195.0-alpha.0",
@@ -86,6 +87,8 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
+    "jest": "^30.0.5",
+    "jest-environment-jsdom": "^30.0.5",
     "prettier": "3.5.3",
     "sass-embedded": "^1.87.0",
     "typescript": "~5.8.3",
