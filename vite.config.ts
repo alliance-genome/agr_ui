@@ -1,7 +1,6 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 
-
 // https://vite.dev/config/
 const ENV_KEYS_TO_EXPOSE = [
   'NODE_ENV',
@@ -17,7 +16,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   return {
     build: {
-      outDir: 'build'
+      outDir: 'build',
     },
     define: Object.fromEntries(ENV_KEYS_TO_EXPOSE.map((key) => [`process.env.${key}`, JSON.stringify(env[key])])),
     server: {
