@@ -90,12 +90,12 @@ class GenomeFeatureWrapper extends Component {
 
     // Construct chromosome string with species-specific formatting
     let chrString = chromosome;
-    if (apolloPrefix === 'yeast' ) {
+    if (apolloPrefix === 'yeast') {
       chrString = 'chr' + chromosome;
     }
-//    if ((apolloPrefix === 'x_laevis' || apolloPrefix === 'x_tropicalis') && !chromosome.startsWith('Sca')) {
-//      chrString = 'Chr' + chromosome;
-//    }
+    //    if ((apolloPrefix === 'x_laevis' || apolloPrefix === 'x_tropicalis') && !chromosome.startsWith('Sca')) {
+    //      chrString = 'Chr' + chromosome;
+    //    }
     // Create location string and parse it using GMOD format
     const locString = `${chrString}:${fmin}..${fmax}`;
     const parsedRegion = parseLocString(locString);
@@ -330,8 +330,7 @@ class GenomeFeatureWrapper extends Component {
       return (
         <span key={location.chromosome + location.start + location.end}>
           <ExternalLink href={this.generateJBrowseLink(location.chromosome, location.start, location.end, htpVariant)}>
-            {location.chromosome.toLowerCase().startsWith('chr') ||
-            location.chromosome.toLowerCase().startsWith('sca')
+            {location.chromosome.toLowerCase().startsWith('chr') || location.chromosome.toLowerCase().startsWith('sca')
               ? location.chromosome
               : 'Chr' + location.chromosome}
             :{location.start}...{location.end}
