@@ -1,9 +1,17 @@
-export default {
-  testEnvironment: "jest-environment-jsdom", // Same name of the lib you installed
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"], // The file you created to extend jest config and "implement" the jest-dom environment in the jest globals
+module.exports = {
+  testEnvironment: 'jest-environment-jsdom', // Same name of the lib you installed
+  setupFilesAfterEnv: ['<rootDir>/test/jest.setup.ts'], // The file you created to extend jest config and "implement" the jest-dom environment in the jest globals
+  transformIgnorePatterns: ['/node_modules/d3select/'],
+  transform: {
+    // '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/assetsTransformer.js',
+    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest', // Use babel-jest for JS/JSX/TS/TSX
+    // '^.+\\.css$': 'jest-transform-stub', // Handle CSS imports
+    '\\.(jpg|jpeg|png|gif|webp|svg)$': 'identity-obj-proxy', // Handle image imports
+    // '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/assetsTransformer.js',
+  },
   moduleNameMapper: {
-    "\\.(gif|ttf|eot|svg|png)$": "<rootDir>/test/__mocks__/fileMock.js", // The global stub for weird files
-    "\\.(css|less|sass|scss)$": "identity-obj-proxy", // The mock for style related files
-    "^@/(.*)$": "<rootDir>/src/$1", // [optional] Are you using aliases?
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy', // Map CSS modules if using them
+    '\\.(gif|ttf|eot|svg|png)$': 'identity-obj-proxy',
+    // '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/assetsTransformer.js',
   },
 };

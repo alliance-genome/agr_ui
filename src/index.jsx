@@ -30,8 +30,8 @@ analytics.initialize();
 
 ReactDOM.createRoot(document.getElementById('app')).render(<ReactApp />);
 
-if (import.meta.webpackHot) {
-  import.meta.webpackHot.accept();
+if (import.meta.hot) {
+  import.meta.hot.accept();
 }
 
 // applyPolyfills().then(() => {

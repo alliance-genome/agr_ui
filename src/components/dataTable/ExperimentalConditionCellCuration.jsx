@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import hash from 'object-hash';
 
 const ExperimentalConditionCellCuration = ({ conditions }) => {
@@ -9,7 +9,7 @@ const ExperimentalConditionCellCuration = ({ conditions }) => {
         const summaries = conditions.map(({ conditionSummary }) => conditionSummary);
         const key = hash(condition);
         return (
-          <React.Fragment key={key}>
+          <Fragment key={key}>
             <dt>{condition.conditionRelationType.name.replace(/_/, ' ')}:</dt>
             <dd>
               {summaries.map((summary) => (
@@ -18,7 +18,7 @@ const ExperimentalConditionCellCuration = ({ conditions }) => {
                 </span>
               ))}
             </dd>
-          </React.Fragment>
+          </Fragment>
         );
       })}
     </dl>

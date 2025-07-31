@@ -55,7 +55,7 @@ const DiseaseAnnotationTable = ({ focusGeneId, focusTaxonId, includeNotAnnotatio
       dataField: 'subject',
       text: 'Gene',
       formatter: (subject, row) => (
-        <React.Fragment>
+        <>
           <GeneCellCuration curie={getIdentifier(subject)} geneSymbol={subject.geneSymbol} />
           <br />
           <small>
@@ -68,7 +68,7 @@ const DiseaseAnnotationTable = ({ focusGeneId, focusTaxonId, includeNotAnnotatio
               Annotation details
             </AnnotatedEntitiesPopupCurationGenePage>
           </small>
-        </React.Fragment>
+        </>
       ),
       filterable: true,
       headerStyle: { width: '75px' },
