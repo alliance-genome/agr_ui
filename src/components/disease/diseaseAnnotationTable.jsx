@@ -95,6 +95,7 @@ const DiseaseAnnotationTable = ({ focusGeneId, focusTaxonId, includeNotAnnotatio
       },
       formatter: (type) => <AssociationType type={type} />,
       filterName: 'associationType',
+      filterType: 'checkbox',
       filterable: getDistinctFieldValue(supplementalData, 'associationType'),
       filterFormatter: (type) => <AssociationType type={type} />,
       headerStyle: { width: '120px' },

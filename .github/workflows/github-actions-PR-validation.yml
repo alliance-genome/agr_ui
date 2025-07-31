@@ -17,6 +17,19 @@ jobs:
         run: |
           echo "Pull Request labeled as \"don't merge\"!"
           exit 1
+  prettier-check:
+    if: github.event.action != 'edited' || github.event.changes.base
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Node install
+        run: |
+          npm install
+      - name: Prettier verification
+        run: |
+          npx prettier --check .
   test-install-build:
     if: github.event.action != 'edited' || github.event.changes.base
     runs-on: ubuntu-24.04

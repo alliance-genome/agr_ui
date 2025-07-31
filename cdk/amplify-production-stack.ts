@@ -49,12 +49,12 @@ export class AmplifyProductionStack extends cdk.Stack {
       },
       {
         source: '/jbrowsedata/XenBaseXTJBrowse/<*>',
-        target: 'https://jbrowse.xenbase.org/XenJBrowse/data/xt9_1/<*>',
+        target: 'https://jbrowse.xenbase.org/XenJBrowse/data/xt10_0/<*>',
         status: amplify.RedirectStatus.REWRITE,
       },
       {
         source: '/jbrowsedata/XenBaseXLJBrowse/<*>',
-        target: 'https://jbrowse.xenbase.org/XenJBrowse/data/xl9_2/<*>',
+        target: 'https://jbrowse.xenbase.org/XenJBrowse/data/xl10_1/<*>',
         status: amplify.RedirectStatus.REWRITE,
       },
       {

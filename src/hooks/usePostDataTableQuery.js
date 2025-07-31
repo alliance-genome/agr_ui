@@ -31,7 +31,7 @@ export default function usePostDataTableQuery(baseUrl, body, config, initialTabl
         },
         fetchTimeout
       ),
-    keepPreviousData: true,
+    placeholderData: (previousData) => previousData || [],
     staleTime: 30000,
     ...config,
   });

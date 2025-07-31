@@ -14,10 +14,7 @@ const buildAssembly = (taxonid) => {
 };
 
 const buildLocation = (geneLocation, taxonid) => {
-  const chrom =
-    taxonid === 'NCBITaxon:559292' || (taxonid === 'NCBITaxon:8355' && !geneLocation.chromosome.startsWith('Scaffold'))
-      ? 'chr' + geneLocation.chromosome
-      : geneLocation.chromosome;
+  const chrom = taxonid === 'NCBITaxon:559292' ? 'chr' + geneLocation.chromosome : geneLocation.chromosome;
   return chrom + ':' + geneLocation.start + '..' + geneLocation.end;
 };
 
