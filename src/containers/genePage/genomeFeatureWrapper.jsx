@@ -90,10 +90,12 @@ class GenomeFeatureWrapper extends Component {
 
     // Construct chromosome string with species-specific formatting
     let chrString = chromosome;
-    if (apolloPrefix === 'yeast' || (apolloPrefix === 'x_laevis' && !chromosome.startsWith('Scaffold'))) {
+    if (apolloPrefix === 'yeast') {
       chrString = 'chr' + chromosome;
     }
-
+    //    if ((apolloPrefix === 'x_laevis' || apolloPrefix === 'x_tropicalis') && !chromosome.startsWith('Sca')) {
+    //      chrString = 'Chr' + chromosome;
+    //    }
     // Create location string and parse it using GMOD format
     const locString = `${chrString}:${fmin}..${fmax}`;
     const parsedRegion = parseLocString(locString);
@@ -154,11 +156,11 @@ class GenomeFeatureWrapper extends Component {
     bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
     const bufferedMax = Math.round(end + (linkLength * LINK_BUFFER) / 2.0);
     if (
-      this.props.species === 'NCBITaxon:8355' &&
+      (this.props.species === 'NCBITaxon:8355' || this.props.species === 'NCBITaxon:7955') &&
       !chr.toLowerCase().startsWith('chr') &&
-      !chr.toLowerCase().startsWith('scaffold')
+      !chr.toLowerCase().startsWith('sca')
     ) {
-      chr = 'chr' + chr;
+      chr = 'Chr' + chr;
     }
     const externalLocationString = chr + ':' + bufferedMin + '..' + bufferedMax;
     // TODO: handle bufferedMax exceeding chromosome length, though I think it has a good default.
@@ -328,8 +330,7 @@ class GenomeFeatureWrapper extends Component {
       return (
         <span key={location.chromosome + location.start + location.end}>
           <ExternalLink href={this.generateJBrowseLink(location.chromosome, location.start, location.end, htpVariant)}>
-            {location.chromosome.toLowerCase().startsWith('chr') ||
-            location.chromosome.toLowerCase().startsWith('scaffold')
+            {location.chromosome.toLowerCase().startsWith('chr') || location.chromosome.toLowerCase().startsWith('sca')
               ? location.chromosome
               : 'Chr' + location.chromosome}
             :{location.start}...{location.end}
