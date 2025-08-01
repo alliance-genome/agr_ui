@@ -40,9 +40,9 @@ const GenePhysicalInteractionDetailTable = ({ focusGeneDisplayName, focusGeneId 
       dataField: 'geneMolecularInteraction.geneGeneAssociationObject',
       text: 'Interactor gene',
       formatter: (object) => (
-        <React.Fragment>
+        <>
           <GeneCellCuration curie={getIdentifier(object)} geneSymbol={object.geneSymbol} />
-        </React.Fragment>
+        </>
       ),
       headerStyle: { width: '6em' },
       headerClasses: style.columnHeaderGroup2,
