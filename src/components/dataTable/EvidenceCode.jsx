@@ -16,7 +16,7 @@ const EvidenceCode = ({ code }) => {
 
   if (code.displaySynonym) {
     return (
-      <React.Fragment>
+      <>
         <span className="d-inline-block" ref={tooltipRef}>
           {code.displaySynonym}
         </span>
@@ -33,7 +33,7 @@ const EvidenceCode = ({ code }) => {
         >
           {code.name}
         </UncontrolledTooltip>
-      </React.Fragment>
+      </>
     );
   } else {
     return code.name;

@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 // import WordpressNews from "../../wordpressNews";
 import GoogleapisMeetings from '../../googleapisMeetings.jsx';
-import thunk from 'redux-thunk';
-import configureMockStore from 'redux-mock-store';
+import { thunk } from 'redux-thunk';
+
+import { legacy_configureStore as configureMockStore } from 'redux-mock-store';
 import { MODContent } from '../../content.jsx';
 import { Provider } from 'react-redux';
 import { render, screen, waitFor } from '@testing-library/react';
