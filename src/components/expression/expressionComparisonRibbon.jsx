@@ -63,7 +63,7 @@ const ExpressionComparisonRibbon = ({ geneId, geneTaxon }) => {
   }
 
   return (
-    <React.Fragment>
+    <>
       <div className="pb-4">
         <ControlsContainer>
           <OrthologPicker
@@ -116,7 +116,7 @@ const ExpressionComparisonRibbon = ({ geneId, geneTaxon }) => {
           />
         </div>
       )}
-    </React.Fragment>
+    </>
   );
 };
 
