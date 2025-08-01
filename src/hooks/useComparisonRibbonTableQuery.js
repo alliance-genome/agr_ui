@@ -16,6 +16,8 @@ export default function useComparisonRibbonTableQuery(
   }
   const params = {
     ...additionalQueryParams,
+    // geneIds: orthologGenes,
+    // focusGeneId: focusGeneId,
     focusTaxonId: focusTaxonId,
   };
   if (termId && termId !== 'all') {
