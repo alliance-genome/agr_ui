@@ -14,7 +14,7 @@ const EvidenceCodeCuration = ({ code }) => {
   ];
   if (code.abbreviation) {
     return (
-      <React.Fragment>
+      <>
         <span className="d-inline-block" ref={tooltipRef}>
           {code.abbreviation}
         </span>
@@ -26,7 +26,7 @@ const EvidenceCodeCuration = ({ code }) => {
         >
           {code.name}
         </UncontrolledTooltip>
-      </React.Fragment>
+      </>
     );
   } else {
     return code.name;

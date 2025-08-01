@@ -2,7 +2,6 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 
 // https://vite.dev/config/
-
 const ENV_KEYS_TO_EXPOSE = [
   'NODE_ENV',
   'API_URL',

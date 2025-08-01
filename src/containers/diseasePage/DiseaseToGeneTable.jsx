@@ -41,7 +41,7 @@ const DiseaseToGeneTable = ({ id }) => {
       formatter: (subject, row) => {
         const isViaOrthology = getIsViaOrthology(row);
         return (
-          <React.Fragment>
+          <>
             <div>
               <GeneCellCuration curie={getIdentifier(subject)} geneSymbol={subject.geneSymbol} />
             </div>
@@ -57,7 +57,7 @@ const DiseaseToGeneTable = ({ id }) => {
                 </AnnotatedEntitiesPopupCuration>
               </small>
             )}
-          </React.Fragment>
+          </>
         );
       },
       headerStyle: { width: '75px' },
