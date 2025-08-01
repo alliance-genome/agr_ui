@@ -21,7 +21,7 @@ const HelpPopup = ({ children, id, placement = 'top-start', ...otherProps }) => 
     },
   ];
   return (
-    <React.Fragment>
+    <>
       <FontAwesomeIcon icon={faCircleQuestion} id={id} style={{ cursor: 'pointer' }} className="text-primary" />
       <UncontrolledPopover
         {...otherProps}
@@ -32,7 +32,7 @@ const HelpPopup = ({ children, id, placement = 'top-start', ...otherProps }) => 
       >
         <PopoverBody>{children}</PopoverBody>
       </UncontrolledPopover>
-    </React.Fragment>
+    </>
   );
 };
 

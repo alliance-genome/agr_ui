@@ -29,7 +29,7 @@ const PhenotypeTable = ({ geneId, entityType, hideSourceColumn = false }) => {
       dataField: 'primaryAnnotations',
       text: 'Annotation details',
       formatter: (subject, row) => (
-        <React.Fragment>
+        <>
           <GeneCellCuration curie={getIdentifier(subject)} geneSymbol={subject.geneSymbol} />
           <small>
             <AnnotatedPhenotypePopupCuration
@@ -41,7 +41,7 @@ const PhenotypeTable = ({ geneId, entityType, hideSourceColumn = false }) => {
               View
             </AnnotatedPhenotypePopupCuration>
           </small>
-        </React.Fragment>
+        </>
       ),
       headerStyle: { width: '90px' },
     },

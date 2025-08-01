@@ -46,11 +46,11 @@ const AlleleToVariantTable = ({ allele = {}, alleleId }) => {
       dataField: 'location',
       text: 'Location',
       headerFormatter: () => (
-        <React.Fragment>
+        <>
           Chromosome:position
           <br />
           <span className="text-muted">(Assembly: {locationVariant1.assembly})</span>
-        </React.Fragment>
+        </>
       ),
       formatter: ({ chromosome = '', start = '', end = '' } = {}) => {
         return start !== end ? `${chromosome}:${start}-${end}` : `${chromosome}:${start}`;

@@ -52,9 +52,9 @@ const GeneGeneticInteractionDetailTable = ({ focusGeneId, focusGeneDisplayName }
         },
         formatter: (perturbation) =>
           perturbation ? (
-            <React.Fragment>
+            <>
               <AlleleCellCuration identifier={getIdentifier(perturbation)} alleleSymbol={perturbation.alleleSymbol} />
-            </React.Fragment>
+            </>
           ) : null,
         filterable: true,
         filterName: 'geneticPerturbation',
@@ -66,9 +66,9 @@ const GeneGeneticInteractionDetailTable = ({ focusGeneId, focusGeneDisplayName }
           width: '150px',
         },
         formatter: (object) => (
-          <React.Fragment>
+          <>
             <GeneCellCuration curie={getIdentifier(object)} geneSymbol={object.geneSymbol} />
-          </React.Fragment>
+          </>
         ),
         filterable: true,
         filterName: 'interactorGeneSymbol',
@@ -122,9 +122,9 @@ const GeneGeneticInteractionDetailTable = ({ focusGeneId, focusGeneDisplayName }
         },
         formatter: (perturbation) =>
           perturbation ? (
-            <React.Fragment>
+            <>
               <AlleleCellCuration identifier={getIdentifier(perturbation)} alleleSymbol={perturbation.alleleSymbol} />
-            </React.Fragment>
+            </>
           ) : null,
         filterable: true,
         filterName: 'interactorGeneticPerturbation',

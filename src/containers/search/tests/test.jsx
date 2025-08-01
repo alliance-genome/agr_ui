@@ -2,7 +2,7 @@ import assert from 'assert';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
-import { MemoryRouter as Router, Route } from 'react-router-dom';
+import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
 
 import configureStore from '../../../lib/configureStore';
 import SearchContainer from '../search.jsx';
@@ -19,7 +19,10 @@ describe('Search', () => {
     let htmlString = renderToString(
       <Provider store={store}>
         <Router>
-          <Route component={SearchContainer} />
+          <Routes>
+            <Route path="/" element={<div></div>} />
+            <Route path="/search" element={<SearchContainer />} />
+          </Routes>
         </Router>
       </Provider>
     );
@@ -32,7 +35,10 @@ describe('Search', () => {
     let htmlString = renderToString(
       <Provider store={store}>
         <Router>
-          <Route component={SearchContainer} />
+          <Routes>
+            <Route path="/" element={<div></div>} />
+            <Route path="/search" element={<SearchContainer />} />
+          </Routes>
         </Router>
       </Provider>
     );

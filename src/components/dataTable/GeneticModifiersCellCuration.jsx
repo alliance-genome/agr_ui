@@ -46,12 +46,12 @@ function GeneticModifiersCellCuration({ relation, modifiers }) {
   if (relation && modifiers?.length > 0) {
     return (
       <dl>
-        <React.Fragment>
+        <>
           <dt>{relation.name?.replace(/_/, ' ')}:</dt>
           <dd>
             <CollapsibleList collapsedSize={modifiers.length}>{modifiers.map(GeneticModifierLink)}</CollapsibleList>
           </dd>
-        </React.Fragment>
+        </>
       </dl>
     );
   }

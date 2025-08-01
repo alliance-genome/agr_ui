@@ -32,7 +32,7 @@ jobs:
           npx prettier --check .
   test-install-build:
     if: github.event.action != 'edited' || github.event.changes.base
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - name: Report workflow details
         run: |
@@ -46,15 +46,15 @@ jobs:
           git diff --name-only origin/${{ github.base_ref }} origin/${{ github.head_ref }}
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
       - name: Report runtime details
         run: |
           echo "Github runner OS: ${{ runner.os }}"
       - name: Clean install all npm dependencies to ensure no discrepancies between package-lock.json and package.json
-        run: npm ci --legacy-peer-deps
+        run: npm install
       - name: Make Dist Folder
         run: mkdir dist
       - name: Run UI Tests and Build
         run: |
           npm run build
-          npm test -- --watchAll=false
+          npm run test
