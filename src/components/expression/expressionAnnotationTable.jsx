@@ -12,9 +12,6 @@ import SpeciesName from '../SpeciesName.jsx';
 
 const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, term }) => {
   const params = {};
-  if (includeNotAnnotations) {
-    params.includeNegation = true;
-  }
   const {
     downloadUrl,
     supplementalData,
