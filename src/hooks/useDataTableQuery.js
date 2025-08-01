@@ -23,7 +23,7 @@ export default function useDataTableQuery(baseUrl, config, initialTableState, fe
   const query = useQuery({
     queryKey: [url, tableState],
     queryFn: () => fetchData(getFullUrl(url, tableState), fetchOptions, fetchTimeout),
-    keepPreviousData: true,
+    placeholderData: (previousData) => previousData || [],
     ...config,
   });
 
