@@ -32,7 +32,7 @@ const SequencePanel = ({ species, gene, refseq, start, end }) => {
     refseq = 'chr' + refseq;
   }
   if (
-    (species === 'NCBITaxon:8355' || species === 'NCBITaxon:7955') &&
+    (species === 'NCBITaxon:8355' || species === 'NCBITaxon:8364') &&
     !refseq.startsWith('Chr') &&
     !refseq.toLowerCase().startsWith('sca')
   ) {
