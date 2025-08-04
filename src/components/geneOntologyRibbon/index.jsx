@@ -452,20 +452,20 @@ class GeneOntologyRibbon extends Component {
     return (
       <HorizontalScroll className="text-nowrap">
         <wc-ribbon-strips
-          category-all-style="1"
-          color-by="0"
+          categoryAllStyle={1}
+          colorBy={0}
           data={JSON.stringify(ribbon)}
-          fire-event-on-empty-cells={false}
-          group-clickable={false}
-          group-open-new-tab={false}
+          fireEventOnEmptyCells={false}
+          groupClickable={false}
+          groupOpenNewTab={false}
           id="go-ribbon"
-          new-tab={false}
-          selection-mode="0"
-          show-other-group
-          subject-base-url="/gene/"
-          subject-open-new-tab={false}
-          subject-position={compareOrthologs ? '1' : '0'}
-          update-on-subject-change={false}
+          newTab={false}
+          selectionMode={0}
+          showOtherGroup
+          subjectBaseUrl="/gene/"
+          subjectOpenNewTab={false}
+          subjectPosition={compareOrthologs ? 1 : 0}
+          updateOnSubjectChange={false}
         />
         <div className="ribbon-loading-overlay">{applyingFilters && <LoadingSpinner />}</div>
         <div className="text-muted mt-2">
@@ -496,12 +496,12 @@ class GeneOntologyRibbon extends Component {
 
     return (
       <wc-ribbon-table
-        bio-link-data={JSON.stringify(this.state.selected.data)}
-        filter-by={this.state.onlyEXP ? 'evidence:' + EXP_CODES.join(',') : ''}
-        group-by="term"
-        // hide-columns={'qualifier,' + (this.state.selectedOrthologs.length == 0 ? 'gene,' : '') + (this.state.selected.group.id != 'all' ? ',aspect' : '')}
-        hide-columns={'qualifier,gene,' + (this.state.selected.group.id !== 'all' ? ',aspect' : '')}
-        order-by="term"
+        bioLinkData={JSON.stringify(this.state.selected.data)}
+        filterBy={this.state.onlyEXP ? 'evidence:' + EXP_CODES.join(',') : ''}
+        groupBy="term"
+        // hideColumns={'qualifier,' + (this.state.selectedOrthologs.length == 0 ? 'gene,' : '') + (this.state.selected.group.id != 'all' ? ',aspect' : '')}
+        hideColumns={'qualifier,gene,' + (this.state.selected.group.id !== 'all' ? ',aspect' : '')}
+        orderBy="term"
       />
     );
   }

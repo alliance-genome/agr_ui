@@ -10,14 +10,16 @@
     "start:stage": "make uirunstage",
     "prebuild": "npm run generators",
     "build": "tsc -b && vite build",
-    "postbuild": "mkdir ./build/assets/wc-ribbon-strips && cp ./node_modules/@geneontology/wc-ribbon-strips/dist/wc-ribbon-strips.js ./build/assets/ && cp -a ./node_modules/@geneontology/wc-ribbon-strips/dist/wc-ribbon-strips/. ./build/assets/wc-ribbon-strips/",
+    "postbuild": "make go-ribbons-build-fix",
     "lint": "eslint .",
     "preview": "vite preview",
+    "preview:test": "API_URL=https://test.alliancegenome.org vite preview",
+    "preview:stage": "API_URL=https://stage.alliancegenome.org vite preview",
     "generators": "npm run resource-descriptors && npm run sitemap && npm run robots",
     "robots": "node bin/build_robots.js",
     "sitemap": "node bin/build_sitemap.js",
     "resource-descriptors": "node bin/build_resource_descriptors.js",
-    "local-init": "nvm install && npm install && npm run generators",
+    "local-init": "nvm install && nvm use && npm install && npm run generators",
     "test": "jest"
   },
   "dependencies": {
@@ -141,6 +143,9 @@
       "react": "$react",
       "react-dom": "$react-dom"
     },
-    "core-js": "latest"
+    "core-js": "latest",
+    "@geneontology/wc-ribbon-strips": {
+      "@stencil/core": "latest"
+    }
   }
 }

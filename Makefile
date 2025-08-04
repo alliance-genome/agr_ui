@@ -15,11 +15,11 @@ endif
 all: install build test
 
 install:
-	npm install --legacy-peer-deps
+	npm install
 update:
-	npm update --legacy-peer-deps
+	npm update
 update-deps-lock:
-	npm update --legacy-peer-deps --package-lock-only
+	npm update --package-lock-only
 build:
 	npm run build
 test:
@@ -73,3 +73,8 @@ docker-run:
 
 docker-run-command:
 	npm run start
+
+go-ribbons-build-fix:
+	mkdir ./build/assets/wc-ribbon-strips && cp -a ./node_modules/@geneontology/wc-ribbon-strips/dist/wc-ribbon-strips/ ./build/assets/wc-ribbon-strips/
+	mkdir ./build/assets/wc-ribbon-table  && cp -a ./node_modules/@geneontology/wc-ribbon-table/dist/wc-ribbon-table/   ./build/assets/wc-ribbon-table/
+	mkdir ./build/assets/wc-gocam-viz     && cp -a ./node_modules/@geneontology/wc-gocam-viz/dist/wc-gocam-viz/         ./build/assets/wc-gocam-viz/
