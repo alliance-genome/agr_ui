@@ -3,7 +3,7 @@
  * OrthologPicker, DiseaseRibbon, DiseaseAssociationTable
  * OrthologPicker talks to cc and DiseaseRibbonTalks to DiseaseAssociation Table
  */
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import DiseaseAnnotationTable from './diseaseAnnotationTable.jsx';
 import HorizontalScroll from '../horizontalScroll.jsx';

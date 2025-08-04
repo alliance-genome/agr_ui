@@ -20,7 +20,8 @@
     "sitemap": "node bin/build_sitemap.js",
     "resource-descriptors": "node bin/build_resource_descriptors.js",
     "local-init": "nvm install && nvm use && npm install && npm run generators",
-    "test": "jest"
+    "test": "jest",
+    "format": "npm run lint && prettier --write ."
   },
   "dependencies": {
     "@aws-cdk/aws-amplify-alpha": "^2.195.0-alpha.0",

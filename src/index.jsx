@@ -15,7 +15,7 @@ import 'genomefeatures/style.css';
 import './style.scss';
 
 import ReactApp from './reactApplication.jsx';
-import initializeGOLibraryWebComponents from "../initializeGOLibraryWebComponents.js";
+import initializeGOLibraryWebComponents from '../initializeGOLibraryWebComponents.js';
 
 analytics.initialize();
 

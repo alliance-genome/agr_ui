@@ -28,15 +28,15 @@ export default defineConfig(({ mode }) => {
   return {
     build: {
       outDir: 'build',
-      manifest: "asset-manifest.json",
+      manifest: 'asset-manifest.json',
     },
     define: Object.fromEntries(ENV_KEYS_TO_EXPOSE.map((key) => [`process.env.${key}`, JSON.stringify(env[key])])),
     server: {
       port: 3000,
-      proxy
+      proxy,
     },
     preview: {
-      proxy
+      proxy,
     },
     resolve: {
       alias: [
