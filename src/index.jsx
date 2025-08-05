@@ -15,16 +15,7 @@ import 'genomefeatures/style.css';
 import './style.scss';
 
 import ReactApp from './reactApplication.jsx';
-
-// import  { applyPolyfills, defineCustomElements } from '@geneontology/wc-ribbon-strips/loader';
-import {
-  applyPolyfills as applyPolyfills2,
-  defineCustomElements as defineCustomElements2,
-} from '@geneontology/wc-ribbon-table/loader';
-import {
-  applyPolyfills as applyPolyfills3,
-  defineCustomElements as defineCustomElements3,
-} from '@geneontology/wc-gocam-viz/loader';
+import initializeGOLibraryWebComponents from '../initializeGOLibraryWebComponents.js';
 
 analytics.initialize();
 
@@ -34,14 +25,4 @@ if (import.meta.hot) {
   import.meta.hot.accept();
 }
 
-// applyPolyfills().then(() => {
-//   defineCustomElements(window);
-// });
-
-applyPolyfills2().then(() => {
-  defineCustomElements2(window);
-});
-
-applyPolyfills3().then(() => {
-  defineCustomElements3(window);
-});
+initializeGOLibraryWebComponents();

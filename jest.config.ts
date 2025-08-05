@@ -1,6 +1,6 @@
 module.exports = {
   testEnvironment: 'jest-environment-jsdom',
-  setupFilesAfterEnv: ['<rootDir>/test/jest.setup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   transformIgnorePatterns: ['/node_modules/d3select/'],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
