@@ -11,12 +11,14 @@ import useComparisonRibbonTableQuery from '../../hooks/useComparisonRibbonTableQ
 import SpeciesName from '../SpeciesName.jsx';
 
 const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, term }) => {
+  const params = {};
   const {
     downloadUrl,
     supplementalData,
+    downloadBody,
     data: results,
     ...tableProps
-  } = useComparisonRibbonTableQuery('/api/expression', focusGeneId, focusTaxonId, orthologGenes, term);
+  } = useComparisonRibbonTableQuery('/api/expression', focusGeneId, focusTaxonId, orthologGenes, term, params);
 
   const columns = [
     {
@@ -123,6 +125,8 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
       columns={columns}
       data={data || []}
       downloadUrl={downloadUrl}
+      downloadBody={downloadBody}
+      downloadMethod="POST"
       keyField="key"
       sortOptions={sortOptions}
     />

@@ -156,7 +156,7 @@ class GenomeFeatureWrapper extends Component {
     bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
     const bufferedMax = Math.round(end + (linkLength * LINK_BUFFER) / 2.0);
     if (
-      (this.props.species === 'NCBITaxon:8355' || this.props.species === 'NCBITaxon:7955') &&
+      (this.props.species === 'NCBITaxon:8355' || this.props.species === 'NCBITaxon:8364') &&
       !chr.toLowerCase().startsWith('chr') &&
       !chr.toLowerCase().startsWith('sca')
     ) {
