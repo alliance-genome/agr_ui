@@ -1,7 +1,7 @@
 /**
  * This component will render the following child components
  * OrthologPicker, DiseaseRibbon, DiseaseAssociationTable
- * OthologPicker talks to cc and DiseaseRibbonTalks to DiseaseAssociation Table
+ * OrthologPicker talks to cc and DiseaseRibbonTalks to DiseaseAssociation Table
  */
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
@@ -95,20 +95,20 @@ const DiseaseComparisonRibbon = ({ geneId, geneTaxon }) => {
       <HorizontalScroll>
         <div className="text-nowrap">
           <wc-ribbon-strips
-            category-all-style="1"
-            color-by="0"
+            categoryAllStyle={1}
+            colorBy={0}
             data={JSON.stringify(summary.data)}
-            fire-event-on-empty-cells={false}
-            group-clickable={false}
-            group-open-new-tab={false}
-            new-tab={false}
+            fireEventOnEmptyCells={false}
+            groupClickable={false}
+            groupOpenNewTab={false}
+            newTab={false}
             ref={ribbonRef}
             selected="all"
-            selection-mode="1"
-            subject-base-url="/gene/"
-            subject-open-new-tab={false}
-            subject-position={compareOrthologs ? '1' : '0'}
-            update-on-subject-change={false}
+            selectionMode={1}
+            subjectBaseUrl="/gene/"
+            subjectOpenNewTab={false}
+            subjectPosition={compareOrthologs ? 1 : 0}
+            updateOnSubjectChange={false}
           />
         </div>
         <div className="ribbon-loading-overlay">{summary.isLoading && <LoadingSpinner />}</div>
