@@ -75,6 +75,6 @@ docker-run-command:
 	npm run start
 
 go-ribbons-build-fix:
-	mkdir ./build/assets/wc-ribbon-strips && cp -a ./node_modules/@geneontology/wc-ribbon-strips/dist/wc-ribbon-strips/ ./build/assets/wc-ribbon-strips/
-	mkdir ./build/assets/wc-ribbon-table  && cp -a ./node_modules/@geneontology/wc-ribbon-table/dist/wc-ribbon-table/   ./build/assets/wc-ribbon-table/
-	mkdir ./build/assets/wc-gocam-viz     && cp -a ./node_modules/@geneontology/wc-gocam-viz/dist/wc-gocam-viz/         ./build/assets/wc-gocam-viz/
+	cp -r ./node_modules/@geneontology/wc-ribbon-strips/dist/wc-ribbon-strips/ ./build/assets/wc-ribbon-strips/
+	cp -r ./node_modules/@geneontology/wc-ribbon-table/dist/wc-ribbon-table/   ./build/assets/wc-ribbon-table/
+	cp -r ./node_modules/@geneontology/wc-gocam-viz/dist/wc-gocam-viz/         ./build/assets/wc-gocam-viz/
