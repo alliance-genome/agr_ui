@@ -29,6 +29,7 @@ jobs:
           npm install
       - name: Prettier verification
         run: |
+          echo "IF this fails, run 'make pretty'"
           npx prettier --check .
   test-install-build:
     if: github.event.action != 'edited' || github.event.changes.base
