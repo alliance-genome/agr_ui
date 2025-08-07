@@ -24,7 +24,7 @@ const initializeGOLibraryWebComponents_PRODUCTION = () => {
   head.appendChild(ribbonTableScriptElement);
 
   const goCamVizScriptElement = document.createElement('script');
-  goCamVizScriptElement.src = '/assets/wc-gocam-viz/wc-gocam-viz.js';
+  goCamVizScriptElement.src = '/assets/wc-gocam-viz/wc-gocam-viz.esm.js';
   head.appendChild(goCamVizScriptElement);
 };
 
