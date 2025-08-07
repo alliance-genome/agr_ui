@@ -27,6 +27,9 @@ test:
 run:
 	npm start
 
+pretty:
+	npx prettier --write .
+
 stage-alb-deploy:
 	npx aws-cdk deploy stage-alb-stack
 
