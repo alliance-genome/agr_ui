@@ -581,8 +581,8 @@ class PathwayWidget extends Component {
             <div>
               <wc-gocam-viz
                 id="gocam-1"
-                gocamId={this.state.cutils.getCurie(this.state.gocams.selected)}
-                showLegend="true"
+                gocam-id={this.state.cutils.getCurie(this.state.gocams.selected)}
+                show-legend="true"
                 style={{ maxWidth: '1280px' }}
               ></wc-gocam-viz>
             </div>
