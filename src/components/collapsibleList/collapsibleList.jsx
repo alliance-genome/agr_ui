@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useId } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
@@ -16,6 +16,7 @@ const CollapsibleList = ({ children, collapsedSize = 2, showBullets = false }) =
   const childCount = React.Children.count(children);
   const label = ' ' + (collapsed ? 'Show All ' + childCount : 'Show First ' + collapsedSize);
   const caretIcon = collapsed ? faCaretDown : faCaretUp;
+  const id = useId();
   return (
     <div>
       <ul className={`${style.collapsibleList} ${showBullets ? style.bulleted : ''}`}>
@@ -23,7 +24,7 @@ const CollapsibleList = ({ children, collapsedSize = 2, showBullets = false }) =
           if (collapsed && idx >= collapsedSize) {
             return;
           }
-          return <li>{child}</li>;
+          return <li key={`${id}-${idx}`}>{child}</li>;
         })}
       </ul>
       {childCount > collapsedSize && (
