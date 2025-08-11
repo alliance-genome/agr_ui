@@ -18,11 +18,20 @@ import { ALLELE_WITH_ONE_VARIANT, ALLELE_WITH_MULTIPLE_VARIANTS } from '../../co
 const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
   const geneLocation = getSingleGenomeLocation(gene.genomeLocations);
 
+  // State declarations first
+  const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
+  const [selectionOverride, setSelectionOverride] = useState({
+    active: false,
+    alleleIds: [],
+    originalTableState: null
+  });
+
+  // Regular table query
   const tableProps = useDataTableQuery(`/api/gene/${geneId}/alleles`);
   const { data: resolvedData, totalRows, isLoading } = tableProps;
 
   const data = useMemo(() => {
-    return (resolvedData || []).map((allele) => ({
+    let processedData = (resolvedData || []).map((allele) => ({
       ...allele,
       symbol: allele.symbol,
       synonym: allele.synonyms,
@@ -32,10 +41,46 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
       },
       disease: allele.diseases?.sort(compareAlphabeticalCaseInsensitive((disease) => disease.name)),
     }));
+    
+    // Filter data if in selection override mode
+    if (selectionOverride.active && selectionOverride.alleleIds.length > 0) {
+      processedData = processedData.filter(allele => 
+        selectionOverride.alleleIds.includes(allele.id)
+      );
+    }
+    
+    return processedData;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resolvedData]);
+  }, [resolvedData, selectionOverride]);
 
-  const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
+  // Handler for allele selection that tracks source (table vs viewer)
+  const handleAllelesSelect = React.useCallback((alleleIds, fromViewer = false) => {
+    setAlleleIdsSelected(alleleIds);
+    
+    if (fromViewer && alleleIds.length > 0) {
+      // Activate override mode to show selected alleles
+      setSelectionOverride({
+        active: true,
+        alleleIds: alleleIds,
+        originalTableState: tableProps.tableState
+      });
+      
+      // Scroll to first selected row after data loads
+      setTimeout(() => {
+        const firstRow = document.querySelector(`tr[data-row-key="${alleleIds[0]}"]`);
+        if (firstRow) {
+          firstRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 500);
+    } else if (fromViewer && alleleIds.length === 0) {
+      // Clear override when all selections removed from viewer
+      setSelectionOverride({
+        active: false,
+        alleleIds: [],
+        originalTableState: null
+      });
+    }
+  }, [tableProps.tableState]);
 
   const hasAlleles = totalRows > 0;
   const hasManyAlleles = totalRows > 20000;
@@ -78,12 +123,12 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
       hasVariants: Boolean(variantsFiltered && variantsFiltered.length),
       allelesSelected: alleleIdsSelected.map(formatAllele),
       allelesVisible: alleleIdsFiltered.map(formatAllele),
-      onAllelesSelect: setAlleleIdsSelected,
+      onAllelesSelect: handleAllelesSelect,
     };
     
     return props;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resolvedData, allelesFiltered.data, alleleIdsSelected, setAlleleIdsSelected]);
+  }, [resolvedData, allelesFiltered.data, alleleIdsSelected, handleAllelesSelect]);
 
   const selectRow = useMemo(
     () => ({
@@ -348,6 +393,22 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
           <NoData>No mapped variant information available</NoData>
         ) : null /* in this case, the whole section is empty, and default no data message kicks in */
       }
+      {selectionOverride.active && (
+        <div className="alert alert-info d-flex justify-content-between align-items-center mb-2">
+          <span>
+            <i className="fa fa-filter" /> Showing {selectionOverride.alleleIds.length} selected variant{selectionOverride.alleleIds.length !== 1 ? 's' : ''} from viewer
+          </span>
+          <button 
+            className="btn btn-sm btn-secondary"
+            onClick={() => {
+              setSelectionOverride({ active: false, alleleIds: [], originalTableState: null });
+              setAlleleIdsSelected([]);
+            }}
+          >
+            <i className="fa fa-times" /> Clear Selection & Show All
+          </button>
+        </div>
+      )}
       <div className="position-relative">
         <DataTable
           {...tableProps}
