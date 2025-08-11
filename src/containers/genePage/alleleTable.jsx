@@ -51,6 +51,13 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
       disease: allele.diseases?.sort(compareAlphabeticalCaseInsensitive((disease) => disease.name)),
     }));
     
+    // Filter to only show the selected alleles when in override mode
+    if (selectionOverride.active && selectionOverride.alleleIds.length > 0) {
+      processedData = processedData.filter(allele => 
+        selectionOverride.alleleIds.includes(allele.id)
+      );
+    }
+    
     return processedData;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resolvedData, selectionOverride, selectedAllelesData]);
@@ -444,11 +451,6 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
             Please refresh the page to try again. If this error persists, contact us at{' '}
             <a href={`mailto:${HELP_EMAIL}`}>{HELP_EMAIL}</a>
           </small>
-        </div>
-      )}
-      {isLoadingSelectedAlleles && (
-        <div className="alert alert-info mb-2">
-          <i className="fa fa-spinner fa-spin" /> Loading selected variants...
         </div>
       )}
       <div className="position-relative">
