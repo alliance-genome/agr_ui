@@ -414,6 +414,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
           {...tableProps}
           columns={columns}
           data={data}
+          totalRows={selectionOverride.active ? data.length : totalRows}
           downloadUrl={`/api/gene/${geneId}/alleles/download`}
           keyField="id"
           rowStyle={{ cursor: 'pointer' }}
