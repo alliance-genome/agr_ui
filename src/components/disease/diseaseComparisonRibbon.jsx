@@ -3,7 +3,7 @@
  * OrthologPicker, DiseaseRibbon, DiseaseAssociationTable
  * OrthologPicker talks to cc and DiseaseRibbonTalks to DiseaseAssociation Table
  */
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import DiseaseAnnotationTable from './diseaseAnnotationTable.jsx';
 import HorizontalScroll from '../horizontalScroll.jsx';
@@ -107,7 +107,7 @@ const DiseaseComparisonRibbon = ({ geneId, geneTaxon }) => {
             selection-mode="1"
             subject-base-url="/gene/"
             subject-open-new-tab="false"
-            subject-position={compareOrthologs ? "1" : "0"}
+            subject-position={compareOrthologs ? '1' : '0'}
             update-on-subject-change="false"
           />
         </div>
