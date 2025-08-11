@@ -7,6 +7,7 @@ frontend:
         - nvm use
         - rm package-lock.json
         - rm -rf node_modules
+        - ls -la vendor/genomefeatures/
         - npm install
     build:
       commands:
