@@ -37,26 +37,45 @@ class GenomeFeatureWrapper extends Component {
   }
 
   handleClick(event) {
-    const { id } = event.target;
-    if (!id || id === `${this.props.id}` || typeof this.props.onAllelesSelect === 'undefined') {
+    // Find nearest element with an id attribute within the viewer subtree
+    const targetEl = event.target.closest('[id]');
+    if (!targetEl) return;
+
+    const eltId = targetEl.id;
+    if (!eltId || eltId === this.props.id || typeof this.props.onAllelesSelect === 'undefined') {
       return;
     }
-    let clickedAlleles = select(`#${this.props.id}`).select(`#${id}`).data()[0].alleles;
+
+    // Add debug logging for production troubleshooting
+    console.debug('GenomeFeatureWrapper click:', { 
+      targetId: eltId, 
+      targetEl,
+      event: event.target 
+    });
+
+    // Read bound data robustly using D3's datum() method
+    const datum = select(targetEl).datum();
+    if (!datum || !datum.alleles) {
+      console.debug('No alleles data on clicked element');
+      return;
+    }
+
+    let clickedAlleles = datum.alleles;
     let currentAlleles = this.props.allelesSelected.map((a) => a.id);
     
     // Signal that this selection came from the viewer
     const fromViewer = true;
     
-    //If one or more clicked alleles are currently selected.
-    if (currentAlleles.filter((d) => clickedAlleles.includes(d)).length > 0) {
-      clickedAlleles.forEach(function (element) {
-        let index = currentAlleles.indexOf(element);
-        if (index !== -1) {
-          currentAlleles.splice(index, 1);
-        }
+    // Check if any clicked alleles are currently selected
+    if (currentAlleles.some((d) => clickedAlleles.includes(d))) {
+      // Deselect: remove clicked alleles from current selection
+      clickedAlleles.forEach((element) => {
+        const idx = currentAlleles.indexOf(element);
+        if (idx !== -1) currentAlleles.splice(idx, 1);
       });
       this.props.onAllelesSelect(currentAlleles, fromViewer);
     } else {
+      // Select: add clicked alleles to current selection
       this.props.onAllelesSelect(clickedAlleles.concat(currentAlleles), fromViewer);
     }
   }
@@ -424,8 +443,8 @@ class GenomeFeatureWrapper extends Component {
           </HelpPopup>
         </AttributeList>
         <HorizontalScroll width={960}>
-          <div>
-            <svg id={id} onClick={this.handleClick}>
+          <div onClick={this.handleClick}>
+            <svg id={id}>
               <LoadingSpinner />
             </svg>
           </div>
