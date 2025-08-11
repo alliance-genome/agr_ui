@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { compareAlphabeticalCaseInsensitive, getSingleGenomeLocation, findFminFmax } from '../../lib/utils';
+import fetchData from '../../lib/fetchData';
 import SynonymList from '../../components/synonymList.jsx';
 import { AlleleCell, DataTable } from '../../components/dataTable';
 import NoData from '../../components/noData.jsx';
@@ -13,7 +14,7 @@ import BooleanLinkCell from '../../components/dataTable/BooleanLinkCell.jsx';
 import VariantsSequenceViewer from './VariantsSequenceViewer.jsx';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import useAllVariants from '../../hooks/useAllVariants';
-import { ALLELE_WITH_ONE_VARIANT, ALLELE_WITH_MULTIPLE_VARIANTS } from '../../constants';
+import { ALLELE_WITH_ONE_VARIANT, ALLELE_WITH_MULTIPLE_VARIANTS, HELP_EMAIL } from '../../constants';
 
 const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
   const geneLocation = getSingleGenomeLocation(gene.genomeLocations);
@@ -25,13 +26,21 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     alleleIds: [],
     originalTableState: null
   });
+  const [isLoadingSelectedAlleles, setIsLoadingSelectedAlleles] = useState(false);
+  const [selectedAllelesData, setSelectedAllelesData] = useState(null);
+  const [selectedAllelesError, setSelectedAllelesError] = useState(null);
 
   // Regular table query
   const tableProps = useDataTableQuery(`/api/gene/${geneId}/alleles`);
   const { data: resolvedData, totalRows, isLoading } = tableProps;
 
   const data = useMemo(() => {
-    let processedData = (resolvedData || []).map((allele) => ({
+    // Use selected alleles data when in override mode and data is available
+    const baseData = selectionOverride.active && selectedAllelesData 
+      ? selectedAllelesData 
+      : (resolvedData || []);
+    
+    let processedData = baseData.map((allele) => ({
       ...allele,
       symbol: allele.symbol,
       synonym: allele.synonyms,
@@ -42,28 +51,41 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
       disease: allele.diseases?.sort(compareAlphabeticalCaseInsensitive((disease) => disease.name)),
     }));
     
-    // Filter data if in selection override mode
-    if (selectionOverride.active && selectionOverride.alleleIds.length > 0) {
-      processedData = processedData.filter(allele => 
-        selectionOverride.alleleIds.includes(allele.id)
-      );
-    }
-    
     return processedData;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resolvedData, selectionOverride]);
+  }, [resolvedData, selectionOverride, selectedAllelesData]);
 
   // Handler for allele selection that tracks source (table vs viewer)
-  const handleAllelesSelect = React.useCallback((alleleIds, fromViewer = false) => {
+  const handleAllelesSelect = React.useCallback(async (alleleIds, fromViewer = false) => {
     setAlleleIdsSelected(alleleIds);
     
     if (fromViewer && alleleIds.length > 0) {
-      // Activate override mode to show selected alleles
+      // Activate override mode and fetch selected alleles
       setSelectionOverride({
         active: true,
         alleleIds: alleleIds,
         originalTableState: tableProps.tableState
       });
+      
+      // Show loading state
+      setIsLoadingSelectedAlleles(true);
+      setSelectedAllelesData(null);
+      setSelectedAllelesError(null);
+      
+      try {
+        // Fetch the specific alleles by ID
+        const response = await fetchData(`/api/gene/${geneId}/alleles?filter.id=${alleleIds.join(',')}&sizePerPage=1000`);
+        if (response && response.results) {
+          setSelectedAllelesData(response.results);
+          setSelectedAllelesError(null);
+        }
+      } catch (error) {
+        console.error('Error fetching selected alleles:', error);
+        setSelectedAllelesError(error);
+        setSelectedAllelesData(null);
+      } finally {
+        setIsLoadingSelectedAlleles(false);
+      }
       
       // Scroll to first selected row after data loads
       setTimeout(() => {
@@ -71,7 +93,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
         if (firstRow) {
           firstRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-      }, 500);
+      }, 800);
     } else if (fromViewer && alleleIds.length === 0) {
       // Clear override when all selections removed from viewer
       setSelectionOverride({
@@ -79,8 +101,10 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
         alleleIds: [],
         originalTableState: null
       });
+      setSelectedAllelesData(null);
+      setIsLoadingSelectedAlleles(false);
     }
-  }, [tableProps.tableState]);
+  }, [tableProps.tableState, geneId]);
 
   const hasAlleles = totalRows > 0;
   const hasManyAlleles = totalRows > 20000;
@@ -403,10 +427,28 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
             onClick={() => {
               setSelectionOverride({ active: false, alleleIds: [], originalTableState: null });
               setAlleleIdsSelected([]);
+              setSelectedAllelesData(null);
+              setSelectedAllelesError(null);
+              setIsLoadingSelectedAlleles(false);
             }}
           >
             <i className="fa fa-times" /> Clear Selection & Show All
           </button>
+        </div>
+      )}
+      {selectedAllelesError && (
+        <div className="alert alert-danger mb-2" role="alert">
+          <strong>Unable to load selected variants</strong>
+          <br />
+          <small className="text-muted">
+            Please refresh the page to try again. If this error persists, contact us at{' '}
+            <a href={`mailto:${HELP_EMAIL}`}>{HELP_EMAIL}</a>
+          </small>
+        </div>
+      )}
+      {isLoadingSelectedAlleles && (
+        <div className="alert alert-info mb-2">
+          <i className="fa fa-spinner fa-spin" /> Loading selected variants...
         </div>
       )}
       <div className="position-relative">
