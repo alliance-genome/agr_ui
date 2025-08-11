@@ -43,6 +43,10 @@ class GenomeFeatureWrapper extends Component {
     }
     let clickedAlleles = select(`#${this.props.id}`).select(`#${id}`).data()[0].alleles;
     let currentAlleles = this.props.allelesSelected.map((a) => a.id);
+    
+    // Signal that this selection came from the viewer
+    const fromViewer = true;
+    
     //If one or more clicked alleles are currently selected.
     if (currentAlleles.filter((d) => clickedAlleles.includes(d)).length > 0) {
       clickedAlleles.forEach(function (element) {
@@ -51,9 +55,9 @@ class GenomeFeatureWrapper extends Component {
           currentAlleles.splice(index, 1);
         }
       });
-      this.props.onAllelesSelect(currentAlleles);
+      this.props.onAllelesSelect(currentAlleles, fromViewer);
     } else {
-      this.props.onAllelesSelect(clickedAlleles.concat(currentAlleles));
+      this.props.onAllelesSelect(clickedAlleles.concat(currentAlleles), fromViewer);
     }
   }
 
