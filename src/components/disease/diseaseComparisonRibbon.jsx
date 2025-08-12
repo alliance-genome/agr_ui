@@ -3,7 +3,7 @@
  * OrthologPicker, DiseaseRibbon, DiseaseAssociationTable
  * OrthologPicker talks to cc and DiseaseRibbonTalks to DiseaseAssociation Table
  */
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import DiseaseAnnotationTable from './diseaseAnnotationTable.jsx';
 import HorizontalScroll from '../horizontalScroll.jsx';
@@ -57,7 +57,7 @@ const DiseaseComparisonRibbon = ({ geneId, geneTaxon }) => {
 
   const handleOrthologyChange = (selectedOrthologs) => {
     setSelectedOrthologs(selectedOrthologs);
-    if (selectedBlock.group && ribbonRef.current) {
+    if (selectedBlock.group && ribbonRef.current && ribbonRef.current.selectGroup) {
       ribbonRef.current.selectGroup(selectedBlock.group.id);
     }
   };
@@ -95,20 +95,20 @@ const DiseaseComparisonRibbon = ({ geneId, geneTaxon }) => {
       <HorizontalScroll>
         <div className="text-nowrap">
           <wc-ribbon-strips
-            categoryAllStyle={1}
-            colorBy={0}
+            category-all-style="1"
+            color-by="0"
             data={JSON.stringify(summary.data)}
-            fireEventOnEmptyCells={false}
-            groupClickable={false}
-            groupOpenNewTab={false}
-            newTab={false}
+            fire-event-on-empty-cells="false"
+            group-clickable="false"
+            group-open-new-tab="false"
+            new-tab="false"
             ref={ribbonRef}
             selected="all"
-            selectionMode={1}
-            subjectBaseUrl="/gene/"
-            subjectOpenNewTab={false}
-            subjectPosition={compareOrthologs ? 1 : 0}
-            updateOnSubjectChange={false}
+            selection-mode="1"
+            subject-base-url="/gene/"
+            subject-open-new-tab="false"
+            subject-position={compareOrthologs ? '1' : '0'}
+            update-on-subject-change="false"
           />
         </div>
         <div className="ribbon-loading-overlay">{summary.isLoading && <LoadingSpinner />}</div>
