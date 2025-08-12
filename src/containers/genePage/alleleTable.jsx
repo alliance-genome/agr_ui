@@ -441,7 +441,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
             <i className="fa fa-filter" /> Showing {selectionOverride.alleleIds.length} selected variant{selectionOverride.alleleIds.length !== 1 ? 's' : ''} from viewer
           </span>
           <button 
-            className="btn btn-sm btn-secondary"
+            className="btn btn-sm btn-outline-primary"
             onClick={() => {
               setSelectionOverride({ active: false, alleleIds: [], originalTableState: null });
               setAlleleIdsSelected([]);
