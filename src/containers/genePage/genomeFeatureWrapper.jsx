@@ -326,7 +326,7 @@ class GenomeFeatureWrapper extends Component {
 
     const coordinates = genomeLocationList.map((location) => {
       //htpVariant contains location of variant info; can use that to set hightligh
-      const chromosomeLength = (location.end - location.start) / 1000.0;
+      const genomeLength = (location.end - location.start) / 1000.0;
 
       return (
         <span key={location.chromosome + location.start + location.end}>
@@ -337,7 +337,7 @@ class GenomeFeatureWrapper extends Component {
             :{location.start}...{location.end}
           </ExternalLink>{' '}
           {location.strand} (
-          {chromosomeLength.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} kb)
+          {genomeLength.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} kb)
         </span>
       );
     });
