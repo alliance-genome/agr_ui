@@ -80,11 +80,22 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
       setSelectedAllelesError(null);
       
       try {
-        // Fetch the specific alleles by ID
-        const response = await fetchData(`/api/gene/${geneId}/alleles?filter.id=${alleleIds.join(',')}&sizePerPage=1000`);
-        if (response && response.results) {
-          setSelectedAllelesData(response.results);
+        // Fetch each allele individually since the gene alleles endpoint doesn't support ID filtering
+        const allelePromises = alleleIds.map(id => 
+          fetchData(`/api/allele/${id}`).catch(err => {
+            console.error(`Failed to fetch allele ${id}:`, err);
+            return null;
+          })
+        );
+        
+        const alleles = await Promise.all(allelePromises);
+        const validAlleles = alleles.filter(a => a !== null);
+        
+        if (validAlleles.length > 0) {
+          setSelectedAllelesData(validAlleles);
           setSelectedAllelesError(null);
+        } else {
+          throw new Error('No alleles could be fetched');
         }
       } catch (error) {
         console.error('Error fetching selected alleles:', error);
