@@ -436,22 +436,27 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
         ) : null /* in this case, the whole section is empty, and default no data message kicks in */
       }
       {selectionOverride.active && (
-        <div className="alert alert-info d-flex justify-content-between align-items-center mb-2">
-          <span>
-            <i className="fa fa-filter" /> Showing {selectionOverride.alleleIds.length} selected variant{selectionOverride.alleleIds.length !== 1 ? 's' : ''} from viewer
-          </span>
-          <button 
-            className="btn btn-sm btn-outline-primary"
-            onClick={() => {
-              setSelectionOverride({ active: false, alleleIds: [], originalTableState: null });
-              setAlleleIdsSelected([]);
-              setSelectedAllelesData(null);
-              setSelectedAllelesError(null);
-              setIsLoadingSelectedAlleles(false);
-            }}
-          >
-            <i className="fa fa-times" /> Clear Selection & Show All
-          </button>
+        <div className="alert alert-info mb-2">
+          <div className="d-flex justify-content-between align-items-center">
+            <span>
+              <i className="fa fa-filter" /> Showing {selectionOverride.alleleIds.length} selected variant{selectionOverride.alleleIds.length !== 1 ? 's' : ''} from viewer
+            </span>
+            <button 
+              className="btn btn-sm btn-outline-primary"
+              onClick={() => {
+                setSelectionOverride({ active: false, alleleIds: [], originalTableState: null });
+                setAlleleIdsSelected([]);
+                setSelectedAllelesData(null);
+                setSelectedAllelesError(null);
+                setIsLoadingSelectedAlleles(false);
+              }}
+            >
+              <i className="fa fa-times" /> Clear Selection & Show All
+            </button>
+          </div>
+          <small className="text-muted">
+            <strong>Note:</strong> Table filtering and sorting are temporarily disabled while viewing selected variants from the genome feature viewer.
+          </small>
         </div>
       )}
       {selectedAllelesError && (
