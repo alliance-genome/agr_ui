@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { AttributeList, AttributeLabel, AttributeValue } from '../../components/attribute';
-import numeral from 'numeral';
 import ExternalLink from '../../components/ExternalLink.jsx';
 import { GenomeFeatureViewer, fetchNCListData, fetchTabixVcfData, parseLocString } from 'genomefeatures';
 import { getTranscriptTypes } from '../../lib/genomeFeatureTypes';
@@ -326,7 +325,9 @@ class GenomeFeatureWrapper extends Component {
     const genomeLocation = getSingleGenomeLocation(genomeLocationList);
 
     const coordinates = genomeLocationList.map((location) => {
-      //htpVariant contains location of variant info; can use that to set hightlight
+      //htpVariant contains location of variant info; can use that to set hightligh
+      const genomeLength = (location.end - location.start) / 1000.0;
+
       return (
         <span key={location.chromosome + location.start + location.end}>
           <ExternalLink href={this.generateJBrowseLink(location.chromosome, location.start, location.end, htpVariant)}>
@@ -335,7 +336,8 @@ class GenomeFeatureWrapper extends Component {
               : 'Chr' + location.chromosome}
             :{location.start}...{location.end}
           </ExternalLink>{' '}
-          {location.strand} ({numeral((location.end - location.start) / 1000.0).format('0,0.00')} kb)
+          {location.strand} (
+          {genomeLength.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} kb)
         </span>
       );
     });
