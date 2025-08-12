@@ -85,7 +85,7 @@ const DiseasePage = () => {
       <HeadMetaTags jsonLd={jsonLd} title={title} />
       <PageNav sections={SECTIONS}>
         <PageNavEntity entityName={<DiseaseName disease={data.doTerm} />}>
-          <ExternalLink href={siteUrl}>{data.doTerm.curie}</ExternalLink>
+          <ExternalLink href={data.diseaseURL}>{data.doTerm.curie}</ExternalLink>
         </PageNavEntity>
       </PageNav>
       <PageData>
