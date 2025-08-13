@@ -17,6 +17,8 @@ const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisi
     return null;
   }
 
+  const visibleVariantIds = allelesVisible.map((a) => a.id);
+
   return (
     <GenomeFeatureWrapper
       allelesSelected={allelesSelected}
@@ -35,7 +37,7 @@ const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisi
       species={gene.species.taxonId}
       strand={genomeLocation.strand}
       synonyms={gene.synonyms}
-      visibleVariants={allelesVisible.map((a) => a.id)}
+      visibleVariants={visibleVariantIds}
       width="600px"
     />
   );
