@@ -6,7 +6,7 @@ import { fetchTabixVcfData, fetchNCListData } from 'genomefeatures';
 
 // Mock the genomefeatures module
 jest.mock('genomefeatures', () => ({
-  GenomeFeatureViewer: jest.fn().mockImplementation(function() {
+  GenomeFeatureViewer: jest.fn().mockImplementation(function () {
     this.generateLegend = () => '<div>Legend</div>';
     this.setSelectedAlleles = jest.fn();
     this.closeModal = jest.fn();
@@ -174,7 +174,7 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     // Clear any environment variable that might override the release version
     const originalEnv = process.env.REACT_APP_JBROWSE_AGR_RELEASE;
     delete process.env.REACT_APP_JBROWSE_AGR_RELEASE;
-    
+
     // Set mock to return unknown release version
     mockUseRelease.mockReturnValue({
       isLoading: false,
