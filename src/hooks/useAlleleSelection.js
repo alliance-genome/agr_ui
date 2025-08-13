@@ -16,7 +16,7 @@ export default function useAlleleSelection(tableProps) {
   const [isLoadingSelectedAlleles, setIsLoadingSelectedAlleles] = useState(false);
   const [selectedAllelesData, setSelectedAllelesData] = useState(null);
   const [selectedAllelesError, setSelectedAllelesError] = useState(null);
-  
+
   // Use a request counter to ignore stale responses
   const requestCounter = useRef(0);
 
@@ -27,7 +27,7 @@ export default function useAlleleSelection(tableProps) {
       if (fromViewer && alleleIds.length > 0) {
         // Increment request counter to track this request
         const currentRequest = ++requestCounter.current;
-        
+
         // Activate override mode and fetch selected alleles
         setSelectionOverride({
           active: true,
@@ -50,19 +50,19 @@ export default function useAlleleSelection(tableProps) {
           );
 
           const alleles = await Promise.all(allelePromises);
-          
+
           // Check if this request is still current
           if (currentRequest !== requestCounter.current) {
             // This is a stale request, ignore the results
             return;
           }
-          
+
           const validAlleles = alleles.filter((a) => a !== null);
-          
+
           // Deduplicate alleles based on ID to prevent duplicates
           const uniqueAlleles = [];
           const seenIds = new Set();
-          
+
           for (const allele of validAlleles) {
             if (allele && allele.id && !seenIds.has(allele.id)) {
               seenIds.add(allele.id);
@@ -114,7 +114,7 @@ export default function useAlleleSelection(tableProps) {
   const clearAlleleSelection = useCallback(() => {
     // Increment counter to invalidate any in-flight requests
     requestCounter.current++;
-    
+
     setAlleleIdsSelected([]);
     setSelectionOverride({
       active: false,
