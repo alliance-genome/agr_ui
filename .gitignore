@@ -71,3 +71,10 @@ build*.log
 build*.txt
 *credentials*
 test-npm-github/
+
+# Development tools and temporary files
+.serena/
+bfg.jar
+*.jar
+.bfg-report/
+..bfg-report/
