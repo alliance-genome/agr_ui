@@ -1,8 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { compareAlphabeticalCaseInsensitive, getSingleGenomeLocation, findFminFmax } from '../../lib/utils';
-import fetchData from '../../lib/fetchData';
 import SynonymList from '../../components/synonymList.jsx';
 import { AlleleCell, DataTable } from '../../components/dataTable';
 import NoData from '../../components/noData.jsx';
@@ -14,25 +13,27 @@ import BooleanLinkCell from '../../components/dataTable/BooleanLinkCell.jsx';
 import VariantsSequenceViewer from './VariantsSequenceViewer.jsx';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import useAllVariants from '../../hooks/useAllVariants';
+import useAlleleSelection from '../../hooks/useAlleleSelection';
 import { ALLELE_WITH_ONE_VARIANT, ALLELE_WITH_MULTIPLE_VARIANTS, HELP_EMAIL } from '../../constants';
 
 const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
   const geneLocation = getSingleGenomeLocation(gene.genomeLocations);
 
-  // State declarations first
-  const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
-  const [selectionOverride, setSelectionOverride] = useState({
-    active: false,
-    alleleIds: [],
-    originalTableState: null,
-  });
-  const [isLoadingSelectedAlleles, setIsLoadingSelectedAlleles] = useState(false);
-  const [selectedAllelesData, setSelectedAllelesData] = useState(null);
-  const [selectedAllelesError, setSelectedAllelesError] = useState(null);
-
   // Regular table query
   const tableProps = useDataTableQuery(`/api/gene/${geneId}/alleles`);
   const { data: resolvedData, totalRows, isLoading } = tableProps;
+
+  // Use custom hook for allele selection
+  const {
+    alleleIdsSelected,
+    setAlleleIdsSelected,
+    selectionOverride,
+    isLoadingSelectedAlleles,
+    selectedAllelesData,
+    selectedAllelesError,
+    handleAllelesSelect,
+    clearAlleleSelection,
+  } = useAlleleSelection(tableProps);
 
   const data = useMemo(() => {
     // Use selected alleles data when in override mode and data is available
@@ -57,71 +58,6 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     return processedData;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resolvedData, selectionOverride, selectedAllelesData]);
-
-  // Handler for allele selection that tracks source (table vs viewer)
-  const handleAllelesSelect = React.useCallback(
-    async (alleleIds, fromViewer = false) => {
-      setAlleleIdsSelected(alleleIds);
-
-      if (fromViewer && alleleIds.length > 0) {
-        // Activate override mode and fetch selected alleles
-        setSelectionOverride({
-          active: true,
-          alleleIds: alleleIds,
-          originalTableState: tableProps.tableState,
-        });
-
-        // Show loading state
-        setIsLoadingSelectedAlleles(true);
-        setSelectedAllelesData(null);
-        setSelectedAllelesError(null);
-
-        try {
-          // Fetch each allele individually since the gene alleles endpoint doesn't support ID filtering
-          const allelePromises = alleleIds.map((id) =>
-            fetchData(`/api/allele/${id}`).catch((err) => {
-              console.error(`Failed to fetch allele ${id}:`, err);
-              return null;
-            })
-          );
-
-          const alleles = await Promise.all(allelePromises);
-          const validAlleles = alleles.filter((a) => a !== null);
-
-          if (validAlleles.length > 0) {
-            setSelectedAllelesData(validAlleles);
-            setSelectedAllelesError(null);
-          } else {
-            throw new Error('No alleles could be fetched');
-          }
-        } catch (error) {
-          console.error('Error fetching selected alleles:', error);
-          setSelectedAllelesError(error);
-          setSelectedAllelesData(null);
-        } finally {
-          setIsLoadingSelectedAlleles(false);
-        }
-
-        // Scroll to first selected row after data loads
-        setTimeout(() => {
-          const firstRow = document.querySelector(`tr[data-row-key="${alleleIds[0]}"]`);
-          if (firstRow) {
-            firstRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }
-        }, 800);
-      } else if (fromViewer && alleleIds.length === 0) {
-        // Clear override when all selections removed from viewer
-        setSelectionOverride({
-          active: false,
-          alleleIds: [],
-          originalTableState: null,
-        });
-        setSelectedAllelesData(null);
-        setIsLoadingSelectedAlleles(false);
-      }
-    },
-    [tableProps.tableState, geneId]
-  );
 
   const hasAlleles = totalRows > 0;
   const hasManyAlleles = totalRows > 20000;
@@ -441,16 +377,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
               <i className="fa fa-filter" /> Showing {selectionOverride.alleleIds.length} selected variant
               {selectionOverride.alleleIds.length !== 1 ? 's' : ''} from viewer
             </span>
-            <button
-              className="btn btn-sm btn-outline-primary"
-              onClick={() => {
-                setSelectionOverride({ active: false, alleleIds: [], originalTableState: null });
-                setAlleleIdsSelected([]);
-                setSelectedAllelesData(null);
-                setSelectedAllelesError(null);
-                setIsLoadingSelectedAlleles(false);
-              }}
-            >
+            <button className="btn btn-sm btn-outline-primary" onClick={clearAlleleSelection}>
               <i className="fa fa-times" /> Clear Selection & Show All
             </button>
           </div>
