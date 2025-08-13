@@ -455,17 +455,17 @@ class GeneOntologyRibbon extends Component {
           category-all-style="1"
           color-by="0"
           data={JSON.stringify(ribbon)}
-          fire-event-on-empty-cells={false}
-          group-clickable={false}
-          group-open-new-tab={false}
+          fire-event-on-empty-cells="false"
+          group-clickable="false"
+          group-open-new-tab="false"
           id="go-ribbon"
-          new-tab={false}
+          new-tab="false"
           selection-mode="0"
           show-other-group
           subject-base-url="/gene/"
-          subject-open-new-tab={false}
+          subject-open-new-tab="false"
           subject-position={compareOrthologs ? '1' : '0'}
-          update-on-subject-change={false}
+          update-on-subject-change="false"
         />
         <div className="ribbon-loading-overlay">{applyingFilters && <LoadingSpinner />}</div>
         <div className="text-muted mt-2">

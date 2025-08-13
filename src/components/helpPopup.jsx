@@ -7,11 +7,6 @@ import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
 
 const HelpPopup = ({ children, id, placement = 'top-start', ...otherProps }) => {
   id = makeId(id);
-  // const popperModifiers = {
-  //   preventOverflow: {
-  //     boundariesElement: 'window',
-  //   }
-  // };
   const popperModifiers = [
     {
       name: 'preventOverflow',
@@ -21,7 +16,7 @@ const HelpPopup = ({ children, id, placement = 'top-start', ...otherProps }) => 
     },
   ];
   return (
-    <React.Fragment>
+    <>
       <FontAwesomeIcon icon={faCircleQuestion} id={id} style={{ cursor: 'pointer' }} className="text-primary" />
       <UncontrolledPopover
         {...otherProps}
@@ -32,7 +27,7 @@ const HelpPopup = ({ children, id, placement = 'top-start', ...otherProps }) => 
       >
         <PopoverBody>{children}</PopoverBody>
       </UncontrolledPopover>
-    </React.Fragment>
+    </>
   );
 };
 

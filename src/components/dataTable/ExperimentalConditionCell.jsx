@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 const ExperimentalConditionCell = ({ conditions }) => {
   return conditions ? (
@@ -6,7 +6,7 @@ const ExperimentalConditionCell = ({ conditions }) => {
       {Object.keys(conditions).map((key) => {
         const statements = conditions[key].map(({ conditionStatement }) => conditionStatement);
         return (
-          <React.Fragment key={key}>
+          <Fragment key={key}>
             <dt>{key.replace(/_/, ' ')}:</dt>
             <dd>
               {statements.map((statement) => (
@@ -15,7 +15,7 @@ const ExperimentalConditionCell = ({ conditions }) => {
                 </span>
               ))}
             </dd>
-          </React.Fragment>
+          </Fragment>
         );
       })}
     </dl>
