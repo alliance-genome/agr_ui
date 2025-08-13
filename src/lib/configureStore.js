@@ -17,9 +17,9 @@ const configureStore = () => {
   }
 
   const store = createStore(combinedReducers, composeEnhancers(applyMiddleware()));
-  if (import.meta.webpackHot) {
+  if (import.meta.hot) {
     // Enable Webpack hot module replacement for reducers
-    import.meta.webpackHot.accept('../reducers', () => {
+    import.meta.hot.accept('../reducers', () => {
       store.replaceReducer(nextRootReducer);
     });
   }

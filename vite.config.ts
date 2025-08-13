@@ -2,7 +2,6 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 
 // https://vite.dev/config/
-
 const ENV_KEYS_TO_EXPOSE = [
   'NODE_ENV',
   'API_URL',
@@ -13,25 +12,31 @@ const ENV_KEYS_TO_EXPOSE = [
 
 const PROXY_PATHS = ['/api', '/jbrowse', '/bluegenes', '/swagger-ui', '/openapi'];
 
+const proxy = Object.fromEntries(
+  PROXY_PATHS.map((path) => [
+    path,
+    {
+      target: process.env.API_URL || 'http://localhost:8080',
+      changeOrigin: true,
+      secure: false,
+    },
+  ])
+);
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   return {
     build: {
       outDir: 'build',
+      manifest: 'asset-manifest.json',
     },
     define: Object.fromEntries(ENV_KEYS_TO_EXPOSE.map((key) => [`process.env.${key}`, JSON.stringify(env[key])])),
     server: {
       port: 3000,
-      proxy: Object.fromEntries(
-        PROXY_PATHS.map((path) => [
-          path,
-          {
-            target: process.env.API_URL || 'http://localhost:8080',
-            changeOrigin: true,
-            secure: false,
-          },
-        ])
-      ),
+      proxy,
+    },
+    preview: {
+      proxy,
     },
     resolve: {
       alias: [

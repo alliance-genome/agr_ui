@@ -16,24 +16,19 @@ const EvidenceCode = ({ code }) => {
 
   if (code.displaySynonym) {
     return (
-      <React.Fragment>
+      <>
         <span className="d-inline-block" ref={tooltipRef}>
           {code.displaySynonym}
         </span>
         <UncontrolledTooltip
           target={tooltipRef}
-          // modifiers={{
-          //   preventOverflow: {
-          //     enabled: false
-          //   }
-          // }}
           modifiers={popperModifiers}
           delay={{ show: 300, hide: 150 }}
           placement="right"
         >
           {code.name}
         </UncontrolledTooltip>
-      </React.Fragment>
+      </>
     );
   } else {
     return code.name;

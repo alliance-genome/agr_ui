@@ -16,6 +16,7 @@ This repo utilizes these technologies:
 - [react testing library](https://testing-library.com/docs/react-testing-library/intro), [jest](https://jestjs.io/) - testing
 - [redux](https://redux.js.org/), [context](https://react.dev/reference/react/useContext), [immutable](https://immutable-js.github.io/immutable-js/) - state management
 - [tanstack query (formerly react query)](https://tanstack.com/query/v3/docs/react/overview) - http/async request handling
+- [prettier](https://prettier.io/) - code formatting
 
 ## Installation
 
@@ -47,6 +48,14 @@ Execute tests:
 
 ```bash
 make test
+```
+
+## Prettier Formatting
+
+Fix code formatting using Prettier:
+
+```bash
+make pretty
 ```
 
 ## AWS - Feature Branch Previews

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { AttributeList, AttributeLabel, AttributeValue } from '../../components/attribute';
-import numeral from 'numeral';
 import ExternalLink from '../../components/ExternalLink.jsx';
 import { GenomeFeatureViewer, fetchNCListData, fetchTabixVcfData, parseLocString } from 'genomefeatures';
 import { getTranscriptTypes } from '../../lib/genomeFeatureTypes';
@@ -116,10 +115,12 @@ class GenomeFeatureWrapper extends Component {
 
     // Construct chromosome string with species-specific formatting
     let chrString = chromosome;
-    if (apolloPrefix === 'yeast' || (apolloPrefix === 'x_laevis' && !chromosome.startsWith('Scaffold'))) {
+    if (apolloPrefix === 'yeast') {
       chrString = 'chr' + chromosome;
     }
-
+    //    if ((apolloPrefix === 'x_laevis' || apolloPrefix === 'x_tropicalis') && !chromosome.startsWith('Sca')) {
+    //      chrString = 'Chr' + chromosome;
+    //    }
     // Create location string and parse it using GMOD format
     const locString = `${chrString}:${fmin}..${fmax}`;
     const parsedRegion = parseLocString(locString);
@@ -230,11 +231,11 @@ class GenomeFeatureWrapper extends Component {
     bufferedMin = bufferedMin < 0 ? 0 : bufferedMin;
     const bufferedMax = Math.round(end + (linkLength * LINK_BUFFER) / 2.0);
     if (
-      this.props.species === 'NCBITaxon:8355' &&
+      (this.props.species === 'NCBITaxon:8355' || this.props.species === 'NCBITaxon:8364') &&
       !chr.toLowerCase().startsWith('chr') &&
-      !chr.toLowerCase().startsWith('scaffold')
+      !chr.toLowerCase().startsWith('sca')
     ) {
-      chr = 'chr' + chr;
+      chr = 'Chr' + chr;
     }
     const externalLocationString = chr + ':' + bufferedMin + '..' + bufferedMax;
     // TODO: handle bufferedMax exceeding chromosome length, though I think it has a good default.
@@ -413,17 +414,19 @@ class GenomeFeatureWrapper extends Component {
     const genomeLocation = getSingleGenomeLocation(genomeLocationList);
 
     const coordinates = genomeLocationList.map((location) => {
-      //htpVariant contains location of variant info; can use that to set hightlight
+      //htpVariant contains location of variant info; can use that to set hightligh
+      const genomeLength = (location.end - location.start) / 1000.0;
+
       return (
         <span key={location.chromosome + location.start + location.end}>
           <ExternalLink href={this.generateJBrowseLink(location.chromosome, location.start, location.end, htpVariant)}>
-            {location.chromosome.toLowerCase().startsWith('chr') ||
-            location.chromosome.toLowerCase().startsWith('scaffold')
+            {location.chromosome.toLowerCase().startsWith('chr') || location.chromosome.toLowerCase().startsWith('sca')
               ? location.chromosome
               : 'Chr' + location.chromosome}
             :{location.start}...{location.end}
           </ExternalLink>{' '}
-          {location.strand} ({numeral((location.end - location.start) / 1000.0).format('0,0.00')} kb)
+          {location.strand} (
+          {genomeLength.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} kb)
         </span>
       );
     });

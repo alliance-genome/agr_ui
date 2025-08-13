@@ -42,7 +42,7 @@ const ExpressionComparisonRibbon = ({ geneId, geneTaxon }) => {
 
   const handleOrthologChange = (values) => {
     setSelectedOrthologs(values);
-    if (selectedBlock.group && ribbonRef.current) {
+    if (selectedBlock.group && ribbonRef.current && ribbonRef.current.selectGroup) {
       ribbonRef.current.selectGroup(selectedBlock.group.id);
     }
   };
@@ -63,7 +63,7 @@ const ExpressionComparisonRibbon = ({ geneId, geneTaxon }) => {
   }
 
   return (
-    <React.Fragment>
+    <>
       <div className="pb-4">
         <ControlsContainer>
           <OrthologPicker
@@ -85,16 +85,16 @@ const ExpressionComparisonRibbon = ({ geneId, geneTaxon }) => {
             category-all-style="1"
             color-by="0"
             data={JSON.stringify(updatedSummary)}
-            fire-event-on-empty-cells={false}
-            group-clickable={false}
-            group-open-new-tab={false}
-            new-tab={false}
+            fire-event-on-empty-cells="false"
+            group-clickable="false"
+            group-open-new-tab="false"
+            new-tab="false"
             ref={ribbonRef}
             selection-mode="1"
             subject-base-url="/gene/"
-            subject-open-new-tab={false}
+            subject-open-new-tab="false"
             subject-position={compareOrthologs ? '1' : '0'}
-            update-on-subject-change={false}
+            update-on-subject-change="false"
           />
         </div>
         <div className="ribbon-loading-overlay">{summary.isLoading && <LoadingSpinner />}</div>
@@ -116,7 +116,7 @@ const ExpressionComparisonRibbon = ({ geneId, geneTaxon }) => {
           />
         </div>
       )}
-    </React.Fragment>
+    </>
   );
 };
 

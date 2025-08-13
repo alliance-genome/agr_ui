@@ -14,7 +14,7 @@ const EvidenceCodeCuration = ({ code }) => {
   ];
   if (code.abbreviation) {
     return (
-      <React.Fragment>
+      <>
         <span className="d-inline-block" ref={tooltipRef}>
           {code.abbreviation}
         </span>
@@ -22,16 +22,11 @@ const EvidenceCodeCuration = ({ code }) => {
           target={tooltipRef}
           delay={{ show: 300, hide: 150 }}
           placement="right"
-          // modifiers={{
-          //   preventOverflow: {
-          //     enabled: false
-          //   }
-          // }}
           modifiers={popperModifiers}
         >
           {code.name}
         </UncontrolledTooltip>
-      </React.Fragment>
+      </>
     );
   } else {
     return code.name;
