@@ -46,10 +46,10 @@ class GenomeFeatureWrapper extends Component {
     }
 
     // Add debug logging for production troubleshooting
-    console.debug('GenomeFeatureWrapper click:', { 
-      targetId: eltId, 
+    console.debug('GenomeFeatureWrapper click:', {
+      targetId: eltId,
       targetEl,
-      event: event.target 
+      event: event.target,
     });
 
     // Read bound data robustly using D3's datum() method
@@ -61,10 +61,10 @@ class GenomeFeatureWrapper extends Component {
 
     let clickedAlleles = datum.alleles;
     let currentAlleles = this.props.allelesSelected.map((a) => a.id);
-    
+
     // Signal that this selection came from the viewer
     const fromViewer = true;
-    
+
     // Check if any clicked alleles are currently selected
     if (currentAlleles.some((d) => clickedAlleles.includes(d))) {
       // Deselect: remove clicked alleles from current selection
@@ -136,24 +136,31 @@ class GenomeFeatureWrapper extends Component {
     const ncListUrlTemplate =
       speciesInfo.jBrowsenclistbaseurltemplate.replace('{release}', releaseVersion) +
       `tracks/All_Genes/${chrString}/trackData.jsonz`;
-    
+
     // VCF filename mapping based on species
     const vcfFilenameMap = {
-      'MGI': 'mouse-latest.vcf.gz',
-      'RGD': 'rat-latest.vcf.gz',
-      'ZFIN': 'zebrafish-latest.vcf.gz',
-      'FB': 'fly-latest.vcf.gz',
-      'WB': 'worm-latest.vcf.gz',
-      'SGD': 'HTPOSTVEPVCF_SGD_latest.vcf.gz'
+      MGI: 'mouse-latest.vcf.gz',
+      RGD: 'rat-latest.vcf.gz',
+      ZFIN: 'zebrafish-latest.vcf.gz',
+      FB: 'fly-latest.vcf.gz',
+      WB: 'worm-latest.vcf.gz',
+      SGD: 'HTPOSTVEPVCF_SGD_latest.vcf.gz',
     };
 
     // Determine species prefix based on taxon ID
-    const speciesPrefix = species.startsWith('NCBITaxon:10090') ? 'MGI' :
-                         species.startsWith('NCBITaxon:10116') ? 'RGD' :
-                         species.startsWith('NCBITaxon:7955') ? 'ZFIN' :
-                         species.startsWith('NCBITaxon:7227') ? 'FB' :
-                         species.startsWith('NCBITaxon:6239') ? 'WB' :
-                         species.startsWith('NCBITaxon:559292') ? 'SGD' : null;
+    const speciesPrefix = species.startsWith('NCBITaxon:10090')
+      ? 'MGI'
+      : species.startsWith('NCBITaxon:10116')
+        ? 'RGD'
+        : species.startsWith('NCBITaxon:7955')
+          ? 'ZFIN'
+          : species.startsWith('NCBITaxon:7227')
+            ? 'FB'
+            : species.startsWith('NCBITaxon:6239')
+              ? 'WB'
+              : species.startsWith('NCBITaxon:559292')
+                ? 'SGD'
+                : null;
 
     const vcfFilename = vcfFilenameMap[speciesPrefix] || 'variants.vcf.gz';
 
@@ -162,7 +169,7 @@ class GenomeFeatureWrapper extends Component {
 
     try {
       // Fetch track data from JBrowse NCList files
-      
+
       const trackData = await fetchNCListData({
         region,
         urlTemplate: ncListUrlTemplate,
@@ -177,7 +184,6 @@ class GenomeFeatureWrapper extends Component {
       const isSGD = species === 'NCBITaxon:559292';
       if (releaseVersion && releaseVersion !== 'unknown' && !isHuman && !isSGD) {
         try {
-          
           variantData = await fetchTabixVcfData({
             url: vcfTabixUrl,
             region,
@@ -197,7 +203,9 @@ class GenomeFeatureWrapper extends Component {
         } else if (isSGD) {
           console.info(`Skipping VCF loading for ${this.props.id} - SGD VCF data not available in standard format`);
         } else {
-          console.info(`Skipping VCF loading for ${this.props.id} - release version not yet available (${releaseVersion})`);
+          console.info(
+            `Skipping VCF loading for ${this.props.id} - release version not yet available (${releaseVersion})`
+          );
         }
       }
 
@@ -208,7 +216,7 @@ class GenomeFeatureWrapper extends Component {
         stack: error.stack,
         viewerId: this.props.id,
         region,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
       throw error;
     }
@@ -386,7 +394,7 @@ class GenomeFeatureWrapper extends Component {
       // Set selected alleles after initialization
       if (this.props.allelesSelected && this.props.allelesSelected.length > 0) {
         const alleleIds = this.props.allelesSelected.map((a) => a.id);
-        
+
         // Add a try-catch to see if there are any errors
         try {
           this.gfc.setSelectedAlleles(alleleIds, `#${id}`);

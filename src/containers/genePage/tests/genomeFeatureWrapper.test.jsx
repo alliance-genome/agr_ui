@@ -55,12 +55,14 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     fmin: 1000000,
     fmax: 2000000,
     displayType: 'ISOFORM_AND_VARIANT',
-    genomeLocationList: [{
-      chromosome: '1',
-      start: 1000000,
-      end: 2000000,
-      strand: '+',
-    }],
+    genomeLocationList: [
+      {
+        chromosome: '1',
+        start: 1000000,
+        end: 2000000,
+        strand: '+',
+      },
+    ],
     assembly: 'GRCm39',
   };
 
@@ -73,7 +75,7 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
 
   test('should not show VCF error when VCF loads successfully', async () => {
     const { container } = render(<GenomeFeatureWrapper {...defaultProps} />);
-    
+
     await waitFor(() => {
       expect(fetchTabixVcfData).toHaveBeenCalled();
     });
@@ -88,7 +90,7 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     fetchTabixVcfData.mockRejectedValue(new Error('404 Not Found'));
 
     const { container } = render(<GenomeFeatureWrapper {...defaultProps} />);
-    
+
     await waitFor(() => {
       expect(fetchTabixVcfData).toHaveBeenCalled();
     });
@@ -111,7 +113,7 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     };
 
     const { container } = render(<GenomeFeatureWrapper {...isoformProps} />);
-    
+
     await waitFor(() => {
       expect(fetchNCListData).toHaveBeenCalled();
     });
@@ -126,7 +128,7 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     fetchTabixVcfData.mockRejectedValue(new Error('Network error'));
 
     render(<GenomeFeatureWrapper {...defaultProps} />);
-    
+
     await waitFor(() => {
       expect(fetchTabixVcfData).toHaveBeenCalled();
     });
@@ -143,7 +145,7 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     fetchTabixVcfData.mockRejectedValue(customError);
 
     const { container } = render(<GenomeFeatureWrapper {...defaultProps} />);
-    
+
     await waitFor(() => {
       expect(fetchTabixVcfData).toHaveBeenCalled();
     });
@@ -167,14 +169,14 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     });
 
     render(<GenomeFeatureWrapper {...defaultProps} />);
-    
+
     await waitFor(() => {
       expect(fetchNCListData).toHaveBeenCalled();
     });
 
     // VCF loading should not be attempted
     expect(fetchTabixVcfData).not.toHaveBeenCalled();
-    
+
     // Should not show error alert
     const errorAlert = screen.queryByRole('alert');
     expect(errorAlert).not.toBeInTheDocument();
@@ -185,7 +187,7 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     fetchNCListData.mockRejectedValue(new Error('General loading error'));
 
     const { container } = render(<GenomeFeatureWrapper {...defaultProps} />);
-    
+
     await waitFor(() => {
       expect(fetchNCListData).toHaveBeenCalled();
     });

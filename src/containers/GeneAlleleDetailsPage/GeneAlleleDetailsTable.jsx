@@ -255,11 +255,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
   const allelesFiltered = useQuery({
     queryKey: [baseUrl, tableStateAlleleFiltered],
     queryFn: () => {
-      const nonHTPCategories = [
-        'allele',
-        ALLELE_WITH_MULTIPLE_VARIANTS,
-        ALLELE_WITH_ONE_VARIANT,
-      ];
+      const nonHTPCategories = ['allele', ALLELE_WITH_MULTIPLE_VARIANTS, ALLELE_WITH_ONE_VARIANT];
       return fetchData(
         getTableUrl(
           `${baseUrl}?filter.alleleCategory=${encodeURIComponent(nonHTPCategories.join('|'))}`,
