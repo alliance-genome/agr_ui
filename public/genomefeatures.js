@@ -9957,8 +9957,7 @@ function o_() {
     for (B.max_code = ct, h = g.heap_len >> 1; h >= 1; h--) mt(g, U, h);
     l = L;
     do
-      (h =
-        g.heap[1]),
+      (h = g.heap[1]),
         /*SMALLEST*/
         (g.heap[1] = g.heap[g.heap_len--]),
         /*SMALLEST*/
@@ -9968,16 +9967,15 @@ function o_() {
           1
           /*SMALLEST*/
         ),
-        (V =
-          g.heap[1]),
-          /*SMALLEST*/
+        (V = g.heap[1]),
+        /*SMALLEST*/
         (g.heap[--g.heap_max] = h),
         (g.heap[--g.heap_max] = V),
         (U[l * 2] = U[h * 2] + U[V * 2]),
         (g.depth[l] = (g.depth[h] >= g.depth[V] ? g.depth[h] : g.depth[V]) + 1),
         (U[h * 2 + 1] = U[V * 2 + 1] = l),
         (g.heap[1] =
-        /*SMALLEST*/
+          /*SMALLEST*/
           l++),
         mt(
           g,
@@ -9986,8 +9984,7 @@ function o_() {
           /*SMALLEST*/
         );
     while (g.heap_len >= 2);
-    (g.heap[--g.heap_max] =
-      g.heap[1]),
+    (g.heap[--g.heap_max] = g.heap[1]),
       /*SMALLEST*/
       Rt(g, B),
       Nt(U, ct, g.bl_count);

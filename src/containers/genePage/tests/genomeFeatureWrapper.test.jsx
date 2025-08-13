@@ -6,11 +6,12 @@ import { fetchTabixVcfData, fetchNCListData } from 'genomefeatures';
 
 // Mock the genomefeatures module
 jest.mock('genomefeatures', () => ({
-  GenomeFeatureViewer: jest.fn().mockImplementation(() => ({
-    generateLegend: () => '<div>Legend</div>',
-    setSelectedAlleles: jest.fn(),
-    closeModal: jest.fn(),
-  })),
+  GenomeFeatureViewer: jest.fn().mockImplementation(function() {
+    this.generateLegend = () => '<div>Legend</div>';
+    this.setSelectedAlleles = jest.fn();
+    this.closeModal = jest.fn();
+    return this;
+  }),
   fetchNCListData: jest.fn(),
   fetchTabixVcfData: jest.fn(),
   parseLocString: jest.fn((str) => {
@@ -34,18 +35,31 @@ jest.mock('../../../lib/utils', () => ({
     start: 1000000,
     end: 2000000,
   })),
+  makeId: jest.fn((str) => str.toLowerCase().replace(/[^A-Za-z0-9]/g, '-')),
 }));
 
-// Mock hooks
+// Mock hooks - will be overridden per test as needed
+const mockUseRelease = jest.fn(() => ({
+  isLoading: false,
+  isError: false,
+  data: { releaseVersion: '8.2.0' },
+}));
+
 jest.mock('../../../hooks/ReleaseContextProvider', () => ({
-  useRelease: () => ({
-    isLoading: false,
-    isError: false,
-    data: { releaseVersion: '8.2.0' },
-  }),
+  useRelease: () => mockUseRelease(),
 }));
 
 describe('GenomeFeatureWrapper VCF Error Handling', () => {
+  beforeEach(() => {
+    // Reset all mocks before each test
+    jest.clearAllMocks();
+    mockUseRelease.mockReturnValue({
+      isLoading: false,
+      isError: false,
+      data: { releaseVersion: '8.2.0' },
+    });
+  });
+
   const defaultProps = {
     id: 'test-viewer',
     primaryId: 'MGI:12345',
@@ -157,15 +171,15 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
   });
 
   test('should not attempt to load VCF when release version is unknown', async () => {
-    // Mock release version to be unknown
-    jest.isolateModules(() => {
-      jest.doMock('../../../hooks/ReleaseContextProvider', () => ({
-        useRelease: () => ({
-          isLoading: false,
-          isError: false,
-          data: { releaseVersion: 'unknown' },
-        }),
-      }));
+    // Clear any environment variable that might override the release version
+    const originalEnv = process.env.REACT_APP_JBROWSE_AGR_RELEASE;
+    delete process.env.REACT_APP_JBROWSE_AGR_RELEASE;
+    
+    // Set mock to return unknown release version
+    mockUseRelease.mockReturnValue({
+      isLoading: false,
+      isError: false,
+      data: { releaseVersion: 'unknown' },
     });
 
     render(<GenomeFeatureWrapper {...defaultProps} />);
@@ -180,6 +194,11 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     // Should not show error alert
     const errorAlert = screen.queryByRole('alert');
     expect(errorAlert).not.toBeInTheDocument();
+
+    // Restore environment variable
+    if (originalEnv) {
+      process.env.REACT_APP_JBROWSE_AGR_RELEASE = originalEnv;
+    }
   });
 
   test('should handle general loading error differently from VCF error', async () => {
