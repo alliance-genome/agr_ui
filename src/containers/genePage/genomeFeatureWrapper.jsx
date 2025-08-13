@@ -106,7 +106,9 @@ class GenomeFeatureWrapper extends Component {
   }
 
   componentWillUnmount() {
-    this.gfc.closeModal();
+    if (this.gfc && this.gfc.closeModal) {
+      this.gfc.closeModal();
+    }
   }
 
   async generateJBrowseTrackData(fmin, fmax, chromosome, species, releaseVersion) {
