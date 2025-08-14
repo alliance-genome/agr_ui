@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { compareAlphabeticalCaseInsensitive, getSingleGenomeLocation, findFminFmax } from '../../lib/utils';
@@ -13,15 +13,33 @@ import BooleanLinkCell from '../../components/dataTable/BooleanLinkCell.jsx';
 import VariantsSequenceViewer from './VariantsSequenceViewer.jsx';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import useAllVariants from '../../hooks/useAllVariants';
+import useAlleleSelection from '../../hooks/useAlleleSelection';
+import { ALLELE_WITH_ONE_VARIANT, ALLELE_WITH_MULTIPLE_VARIANTS, HELP_EMAIL } from '../../constants';
 
 const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
   const geneLocation = getSingleGenomeLocation(gene.genomeLocations);
 
+  // Regular table query
   const tableProps = useDataTableQuery(`/api/gene/${geneId}/alleles`);
   const { data: resolvedData, totalRows, isLoading } = tableProps;
 
+  // Use custom hook for allele selection
+  const {
+    alleleIdsSelected,
+    setAlleleIdsSelected,
+    selectionOverride,
+    isLoadingSelectedAlleles,
+    selectedAllelesData,
+    selectedAllelesError,
+    handleAllelesSelect,
+    clearAlleleSelection,
+  } = useAlleleSelection(tableProps);
+
   const data = useMemo(() => {
-    return (resolvedData || []).map((allele) => ({
+    // Use selected alleles data when in override mode and data is available
+    const baseData = selectionOverride.active && selectedAllelesData ? selectedAllelesData : resolvedData || [];
+
+    let processedData = baseData.map((allele) => ({
       ...allele,
       symbol: allele.symbol,
       synonym: allele.synonyms,
@@ -31,10 +49,15 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
       },
       disease: allele.diseases?.sort(compareAlphabeticalCaseInsensitive((disease) => disease.name)),
     }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resolvedData]);
 
-  const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
+    // Filter to only show the selected alleles when in override mode
+    if (selectionOverride.active && selectionOverride.alleleIds.length > 0) {
+      processedData = processedData.filter((allele) => selectionOverride.alleleIds.includes(allele.id));
+    }
+
+    return processedData;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resolvedData, selectionOverride, selectedAllelesData]);
 
   const hasAlleles = totalRows > 0;
   const hasManyAlleles = totalRows > 20000;
@@ -49,9 +72,16 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
         : [];
     const variantLocations = variantsFiltered.map((variant) => variant && variant.location);
     const { fmin, fmax } = findFminFmax([geneLocation, ...variantLocations]);
+
+    // Filter to only show variants for alleles with associated variants by default
     const alleleIdsFiltered =
       allelesFiltered.data && allelesFiltered.data.results
-        ? allelesFiltered.data.results.map((allele) => allele.id)
+        ? allelesFiltered.data.results
+            .filter(
+              (allele) =>
+                allele.category === ALLELE_WITH_ONE_VARIANT || allele.category === ALLELE_WITH_MULTIPLE_VARIANTS
+            )
+            .map((allele) => allele.id)
         : [];
 
     /*
@@ -62,17 +92,20 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     const formatAllele = (alleleId) => ({
       id: alleleId,
     });
-    return {
+
+    const props = {
       gene: gene,
       fmin: fmin,
       fmax: fmax,
       hasVariants: Boolean(variantsFiltered && variantsFiltered.length),
       allelesSelected: alleleIdsSelected.map(formatAllele),
       allelesVisible: alleleIdsFiltered.map(formatAllele),
-      onAllelesSelect: setAlleleIdsSelected,
+      onAllelesSelect: handleAllelesSelect,
     };
+
+    return props;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resolvedData, allelesFiltered.data, alleleIdsSelected, setAlleleIdsSelected]);
+  }, [resolvedData, allelesFiltered.data, alleleIdsSelected, handleAllelesSelect]);
 
   const selectRow = useMemo(
     () => ({
@@ -337,11 +370,39 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
           <NoData>No mapped variant information available</NoData>
         ) : null /* in this case, the whole section is empty, and default no data message kicks in */
       }
+      {selectionOverride.active && (
+        <div className="alert alert-info mb-2">
+          <div className="d-flex justify-content-between align-items-center">
+            <span>
+              <i className="fa fa-filter" /> Showing {selectionOverride.alleleIds.length} selected variant
+              {selectionOverride.alleleIds.length !== 1 ? 's' : ''} from viewer
+            </span>
+            <button className="btn btn-sm btn-outline-primary" onClick={clearAlleleSelection}>
+              <i className="fa fa-times" /> Clear Selection & Show All
+            </button>
+          </div>
+          <small className="text-muted">
+            <strong>Note:</strong> Table filtering and sorting are temporarily disabled while viewing selected variants
+            from the genome feature viewer.
+          </small>
+        </div>
+      )}
+      {selectedAllelesError && (
+        <div className="alert alert-danger mb-2" role="alert">
+          <strong>Unable to load selected variants</strong>
+          <br />
+          <small className="text-muted">
+            Please refresh the page to try again. If this error persists, contact us at{' '}
+            <a href={`mailto:${HELP_EMAIL}`}>{HELP_EMAIL}</a>
+          </small>
+        </div>
+      )}
       <div className="position-relative">
         <DataTable
           {...tableProps}
           columns={columns}
           data={data}
+          totalRows={selectionOverride.active ? data.length : totalRows}
           downloadUrl={`/api/gene/${geneId}/alleles/download`}
           keyField="id"
           rowStyle={{ cursor: 'pointer' }}
