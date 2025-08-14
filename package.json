@@ -43,7 +43,7 @@
     "d3-selection": "^3.0.0",
     "events": "^3.3.0",
     "generic-sequence-panel": "^1.7.0",
-    "genomefeatures": "^1.0.4",
+    "genomefeatures": "^1.0.5",
     "html-react-parser": "^5.2.3",
     "immutable": "^5.1.2",
     "lodash.clone": "^4.5.0",
@@ -139,9 +139,9 @@
       "react": "$react",
       "react-dom": "$react-dom"
     },
-    "core-js": "latest",
+    "core-js": "^3.45.0",
     "@geneontology/wc-ribbon-strips": {
-      "@stencil/core": "latest"
+      "@stencil/core": "^4.0.0"
     }
   }
 }
