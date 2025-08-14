@@ -517,8 +517,12 @@ class PathwayWidget extends Component {
                 onChange={(evt) => this.reactionChanged(evt)}
                 style={{ minWidth: '1130px' }}
               >
-                {this.state.reactomeReactions.reactions.map((elt) => {
-                  return <option value={elt.stId}>{elt.displayName}</option>;
+                {this.state.reactomeReactions.reactions.map((elt, idx) => {
+                  return (
+                    <option key={`${elt.stId}-${idx}`} value={elt.stId}>
+                      {elt.displayName}
+                    </option>
+                  );
                 })}
               </select>
             </div>
@@ -565,8 +569,12 @@ class PathwayWidget extends Component {
                 onChange={(evt) => this.gocamChanged(evt)}
                 style={{ minWidth: '1130px' }}
               >
-                {this.state.gocams.list.map((elt) => {
-                  return <option value={elt.gocam}>{elt.title}</option>;
+                {this.state.gocams.list.map((elt, idx) => {
+                  return (
+                    <option key={`${elt.gocam}-${idx}`} value={elt.gocam}>
+                      {elt.title}
+                    </option>
+                  );
                 })}
               </select>
             </div>
