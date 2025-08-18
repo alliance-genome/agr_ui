@@ -63,7 +63,11 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
   const hasManyAlleles = totalRows > 20000;
 
   // filtered but not paginate list of alleles
-  const allelesFiltered = useAllVariants(geneId, tableProps.tableState);
+  // When in override mode, use table state without column filters for viewer visibility
+  const viewerTableState = selectionOverride.active 
+    ? { ...tableProps.tableState, columnFilters: [] }
+    : tableProps.tableState;
+  const allelesFiltered = useAllVariants(geneId, viewerTableState);
 
   const variantsSequenceViewerProps = useMemo(() => {
     const variantsFiltered =
@@ -74,17 +78,8 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     const { fmin, fmax } = findFminFmax([geneLocation, ...variantLocations]);
 
     // Filter to only show variants for alleles with associated variants by default
-    // When in override mode, use the selected alleles for viewer visibility
-    const alleleIdsFiltered = selectionOverride.active
-      ? selectedAllelesData
-        ? selectedAllelesData
-            .filter(
-              (allele) =>
-                allele.category === ALLELE_WITH_ONE_VARIANT || allele.category === ALLELE_WITH_MULTIPLE_VARIANTS
-            )
-            .map((allele) => allele.id)
-        : []
-      : allelesFiltered.data && allelesFiltered.data.results
+    const alleleIdsFiltered =
+      allelesFiltered.data && allelesFiltered.data.results
         ? allelesFiltered.data.results
             .filter(
               (allele) =>
@@ -114,7 +109,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
 
     return props;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resolvedData, allelesFiltered.data, alleleIdsSelected, handleAllelesSelect, selectionOverride.active, selectedAllelesData]);
+  }, [resolvedData, allelesFiltered.data, alleleIdsSelected, handleAllelesSelect]);
 
   const selectRow = useMemo(
     () => ({
