@@ -287,6 +287,7 @@ class GenomeFeatureWrapper extends Component {
       genome: apolloPrefix,
       transcriptTypes: transcriptTypes,
       htpVariant: htpVariant ? htpVariant : '',
+      geneBounds: { start: fmin, end: fmax }, // Pass gene boundaries for proper scaling
     };
 
     if (displayType === 'ISOFORM') {
