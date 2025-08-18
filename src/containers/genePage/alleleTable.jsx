@@ -74,8 +74,17 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     const { fmin, fmax } = findFminFmax([geneLocation, ...variantLocations]);
 
     // Filter to only show variants for alleles with associated variants by default
-    const alleleIdsFiltered =
-      allelesFiltered.data && allelesFiltered.data.results
+    // When in override mode, use the selected alleles for viewer visibility
+    const alleleIdsFiltered = selectionOverride.active
+      ? selectedAllelesData
+        ? selectedAllelesData
+            .filter(
+              (allele) =>
+                allele.category === ALLELE_WITH_ONE_VARIANT || allele.category === ALLELE_WITH_MULTIPLE_VARIANTS
+            )
+            .map((allele) => allele.id)
+        : []
+      : allelesFiltered.data && allelesFiltered.data.results
         ? allelesFiltered.data.results
             .filter(
               (allele) =>
@@ -105,7 +114,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
 
     return props;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resolvedData, allelesFiltered.data, alleleIdsSelected, handleAllelesSelect]);
+  }, [resolvedData, allelesFiltered.data, alleleIdsSelected, handleAllelesSelect, selectionOverride.active, selectedAllelesData]);
 
   const selectRow = useMemo(
     () => ({
@@ -408,6 +417,8 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
           rowStyle={{ cursor: 'pointer' }}
           selectRow={selectRow}
           sortOptions={sortOptions}
+          // Disable column filters when in override mode
+          setTableState={selectionOverride.active ? undefined : tableProps.setTableState}
         />
         <div className="d-flex flex-column align-items-start my-2 mx-auto">
           {hasAlleles ? (
