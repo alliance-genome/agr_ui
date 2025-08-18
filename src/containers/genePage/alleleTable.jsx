@@ -35,6 +35,16 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     clearAlleleSelection,
   } = useAlleleSelection(tableProps);
 
+  // Calculate total count for override mode
+  const overrideTotalCount = useMemo(() => {
+    if (selectionOverride.active && selectedAllelesData) {
+      return selectedAllelesData.filter((allele) => 
+        selectionOverride.alleleIds.includes(allele.id)
+      ).length;
+    }
+    return 0;
+  }, [selectionOverride, selectedAllelesData]);
+
   const data = useMemo(() => {
     // Use selected alleles data when in override mode and data is available
     const baseData = selectionOverride.active && selectedAllelesData ? selectedAllelesData : resolvedData || [];
@@ -53,11 +63,19 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     // Filter to only show the selected alleles when in override mode
     if (selectionOverride.active && selectionOverride.alleleIds.length > 0) {
       processedData = processedData.filter((allele) => selectionOverride.alleleIds.includes(allele.id));
+      
+      // Apply client-side pagination when in override mode
+      const { page = 1, sizePerPage = 10 } = tableProps.tableState;
+      const startIndex = (page - 1) * sizePerPage;
+      const endIndex = startIndex + sizePerPage;
+      
+      // Return only the current page of data
+      processedData = processedData.slice(startIndex, endIndex);
     }
 
     return processedData;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resolvedData, selectionOverride, selectedAllelesData]);
+  }, [resolvedData, selectionOverride, selectedAllelesData, tableProps.tableState.page, tableProps.tableState.sizePerPage]);
 
   const hasAlleles = totalRows > 0;
   const hasManyAlleles = totalRows > 20000;
@@ -406,7 +424,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
           {...tableProps}
           columns={columns}
           data={data}
-          totalRows={selectionOverride.active ? data.length : totalRows}
+          totalRows={selectionOverride.active ? overrideTotalCount : totalRows}
           downloadUrl={`/api/gene/${geneId}/alleles/download`}
           keyField="id"
           rowStyle={{ cursor: 'pointer' }}
