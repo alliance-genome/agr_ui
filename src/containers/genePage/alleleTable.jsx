@@ -35,6 +35,52 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     clearAlleleSelection,
   } = useAlleleSelection(tableProps);
 
+  // Helper function to apply filters client-side when in override mode
+  const applyClientSideFilters = (data, filters) => {
+    if (!filters || Object.keys(filters).length === 0) {
+      return data;
+    }
+    
+    return data.filter((row) => {
+      for (const [filterName, filterValue] of Object.entries(filters)) {
+        if (!filterValue || filterValue === '') continue;
+        
+        // Check if this is a boolean field (hasDisease, hasPhenotype)
+        if (filterName === 'hasDisease') {
+          const hasDisease = row.diseases && row.diseases.length > 0;
+          if (filterValue === 'true' && !hasDisease) return false;
+          if (filterValue === 'false' && hasDisease) return false;
+        } else if (filterName === 'hasPhenotype') {
+          const hasPhenotype = row.phenotypes && row.phenotypes.length > 0;
+          if (filterValue === 'true' && !hasPhenotype) return false;
+          if (filterValue === 'false' && hasPhenotype) return false;
+        } else if (filterName === 'alleleCategory') {
+          // Handle category filter (checkbox with multiple values)
+          if (Array.isArray(filterValue)) {
+            if (!filterValue.includes(row.category)) return false;
+          } else if (row.category !== filterValue) {
+            return false;
+          }
+        } else {
+          // Handle other fields with direct access
+          const rowValue = row[filterName];
+          if (rowValue === undefined || rowValue === null) return false;
+          
+          // Handle checkbox filters (array of values)
+          if (Array.isArray(filterValue)) {
+            if (!filterValue.includes(rowValue)) return false;
+          } else {
+            // Handle text filters (partial match)
+            if (!String(rowValue).toLowerCase().includes(String(filterValue).toLowerCase())) {
+              return false;
+            }
+          }
+        }
+      }
+      return true;
+    });
+  };
+
   const data = useMemo(() => {
     // Use selected alleles data when in override mode and data is available
     const baseData = selectionOverride.active && selectedAllelesData ? selectedAllelesData : resolvedData || [];
@@ -53,11 +99,16 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     // Filter to only show the selected alleles when in override mode
     if (selectionOverride.active && selectionOverride.alleleIds.length > 0) {
       processedData = processedData.filter((allele) => selectionOverride.alleleIds.includes(allele.id));
+      
+      // Apply column filters client-side when in override mode
+      if (tableProps.tableState.filters) {
+        processedData = applyClientSideFilters(processedData, tableProps.tableState.filters);
+      }
     }
 
     return processedData;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resolvedData, selectionOverride, selectedAllelesData]);
+  }, [resolvedData, selectionOverride, selectedAllelesData, tableProps.tableState.filters]);
 
   const hasAlleles = totalRows > 0;
   const hasManyAlleles = totalRows > 20000;
@@ -380,14 +431,19 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
             <span>
               <i className="fa fa-filter" /> Showing {selectionOverride.alleleIds.length} selected variant
               {selectionOverride.alleleIds.length !== 1 ? 's' : ''} from viewer
+              {tableProps.tableState.filters && Object.keys(tableProps.tableState.filters).length > 0 && 
+                ` (${data.length} after filters)`}
             </span>
-            <button className="btn btn-sm btn-outline-primary" onClick={clearAlleleSelection}>
-              <i className="fa fa-times" /> Clear Selection & Show All
+            <button className="btn btn-sm btn-outline-primary" onClick={() => {
+              clearAlleleSelection();
+              // Also clear all filters
+              tableProps.setTableState({ ...tableProps.tableState, filters: {} });
+            }}>
+              <i className="fa fa-times" /> Clear Selection & Filters
             </button>
           </div>
           <small className="text-muted">
-            <strong>Note:</strong> Table filtering and sorting are temporarily disabled while viewing selected variants
-            from the genome feature viewer.
+            <strong>Note:</strong> Column filters are applied to the selected variants. The viewer always shows all variants.
           </small>
         </div>
       )}
@@ -412,8 +468,6 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
           rowStyle={{ cursor: 'pointer' }}
           selectRow={selectRow}
           sortOptions={sortOptions}
-          // Disable column filters when in override mode
-          setTableState={selectionOverride.active ? undefined : tableProps.setTableState}
         />
         <div className="d-flex flex-column align-items-start my-2 mx-auto">
           {hasAlleles ? (
