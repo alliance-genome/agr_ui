@@ -2322,7 +2322,9 @@ function Nr(t, e) {
     }), a.alleles.forEach((f) => {
       t.includes(f) && (o = !0);
     })), o;
-  }).datum((a) => (a.selected = "true", a)).style("stroke", "black").each(function() {
+  }).each(function(a) {
+    a && (a.selected = "true");
+  }).style("stroke", "black").each(function() {
     let a = Zt(this).attr("x"), o = +Zt(this).attr("width");
     (o === 0 || Number.isNaN(o)) && (o = 3, a = String(+a - o / 2));
     let s = e.select(".deletions.track");
@@ -10249,9 +10251,9 @@ class W_ {
     const i = Zt(n);
     i.selectAll(".highlight").remove(), i.selectAll(
       ".variant-deletion,.variant-SNV,.variant-insertion,.variant-delins"
-    ), i.selectAll(
-      ".variant-deletion,.variant-SNV,.variant-insertion,.variant-delins"
-    ).filter((r) => r.selected === "true").style("stroke", null).datum((r) => (r.selected = "false", r)), Nr(e, i);
+    ).each(function(r) {
+      r && r.selected === "true" && (r.selected = "false");
+    }).style("stroke", null).style("stroke-width", null).style("filter", null), Nr(e, i);
   }
   _initViewer(e) {
     Zt(e).selectAll("*").remove();
