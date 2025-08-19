@@ -45,17 +45,9 @@ class GenomeFeatureWrapper extends Component {
       return;
     }
 
-    // Add debug logging for production troubleshooting
-    console.debug('GenomeFeatureWrapper click:', {
-      targetId: eltId,
-      targetEl,
-      event: event.target,
-    });
-
     // Read bound data robustly using D3's datum() method
     const datum = select(targetEl).datum();
     if (!datum || !datum.alleles) {
-      console.debug('No alleles data on clicked element');
       return;
     }
 
@@ -139,6 +131,7 @@ class GenomeFeatureWrapper extends Component {
       speciesInfo.jBrowsenclistbaseurltemplate.replace('{release}', releaseVersion) +
       `tracks/All_Genes/${chrString}/trackData.jsonz`;
 
+
     // VCF filename mapping based on species
     const vcfFilenameMap = {
       MGI: 'mouse-latest.vcf.gz',
@@ -192,7 +185,6 @@ class GenomeFeatureWrapper extends Component {
           });
         } catch (error) {
           // VCF data may not be available for all species/regions
-          console.warn('VCF data not available:', error);
           vcfError = {
             message: error.message || 'Failed to load variant data',
             url: vcfTabixUrl,
@@ -200,26 +192,11 @@ class GenomeFeatureWrapper extends Component {
           };
         }
       } else {
-        if (isHuman) {
-          console.info(`Skipping VCF loading for ${this.props.id} - Human VCF data not available`);
-        } else if (isSGD) {
-          console.info(`Skipping VCF loading for ${this.props.id} - SGD VCF data not available in standard format`);
-        } else {
-          console.info(
-            `Skipping VCF loading for ${this.props.id} - release version not yet available (${releaseVersion})`
-          );
-        }
+        // VCF data not available for this species/release combination
       }
 
       return { trackData, variantData, region, vcfError };
     } catch (error) {
-      console.error(`❌ Error fetching JBrowse data for ${this.props.id}:`, {
-        error: error.message,
-        stack: error.stack,
-        viewerId: this.props.id,
-        region,
-        timestamp: new Date().toISOString(),
-      });
       throw error;
     }
   }
@@ -318,8 +295,7 @@ class GenomeFeatureWrapper extends Component {
         ],
       };
     } else {
-      // eslint-disable-next-line no-console
-      console.error('Undefined displayType', displayType);
+      // Invalid displayType - skip rendering
     }
   }
 
@@ -342,6 +318,7 @@ class GenomeFeatureWrapper extends Component {
 
     try {
       this.setState({ loadState: 'loading', vcfLoadError: null });
+
 
       // Get release version from context or environment
       const releaseVersion = process.env.REACT_APP_JBROWSE_AGR_RELEASE || this.props.releaseVersion || '8.2.0';
@@ -375,6 +352,7 @@ class GenomeFeatureWrapper extends Component {
         releaseVersion
       );
 
+
       // Generate track configuration with fetched data
       const trackConfig = this.generateTrackConfig(
         fmin,
@@ -392,18 +370,14 @@ class GenomeFeatureWrapper extends Component {
         region
       );
 
+
       this.gfc = new GenomeFeatureViewer(trackConfig, `#${id}`, 900, undefined);
 
       // Set selected alleles after initialization
       if (this.props.allelesSelected && this.props.allelesSelected.length > 0) {
         const alleleIds = this.props.allelesSelected.map((a) => a.id);
 
-        // Add a try-catch to see if there are any errors
-        try {
-          this.gfc.setSelectedAlleles(alleleIds, `#${id}`);
-        } catch (error) {
-          console.error('Error calling setSelectedAlleles:', error);
-        }
+        this.gfc.setSelectedAlleles(alleleIds, `#${id}`);
       }
 
       this.setState({
@@ -412,7 +386,6 @@ class GenomeFeatureWrapper extends Component {
         vcfLoadError: vcfError,
       });
     } catch (error) {
-      console.error('Error loading genome feature:', error);
       this.setState({
         loadState: 'error',
         helpText: 'Error loading genome data',

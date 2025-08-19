@@ -18,6 +18,7 @@ import GeneOntologyRibbon from '../../components/geneOntologyRibbon/index.jsx';
 import PathwayWidget from '../../components/pathway/pathwayWidget.jsx';
 import NotFound from '../../components/notFound.jsx';
 import Subsection from '../../components/subsection.jsx';
+import { useRelease } from '../../hooks/ReleaseContextProvider';
 import {
   GenePhysicalInteractionDetailTable,
   GeneGeneticInteractionDetailTable,
@@ -88,6 +89,7 @@ const SECTIONS = [
 const GenePage = () => {
   const { id: geneId } = useParams();
   const { isLoading, isError, data } = usePageLoadingQuery(`/api/gene/${geneId}`);
+  const release = useRelease();
 
   if (isError) {
     return <NotFound />;
@@ -193,23 +195,25 @@ const GenePage = () => {
           help={<SequenceFeatureViewerSectionHelp />}
           title={SEQUENCE_FEATURE_VIEWER}
         >
-          <GenomeFeatureWrapper
-            assembly={genomeLocation.assembly}
-            biotype={data.soTermName}
-            chromosome={genomeLocation.chromosome}
-            displayType="ISOFORM_AND_VARIANT"
-            fmax={genomeLocation.end}
-            fmin={genomeLocation.start}
-            geneSymbol={data.symbol}
-            genomeLocationList={data.genomeLocations}
-            height="200px"
-            id="genome-feature-location-id"
-            primaryId={data.id}
-            species={data.species.taxonId}
-            strand={genomeLocation.strand}
-            synonyms={data.synonyms}
-            width="600px"
-          />
+          {!release.isLoading && (
+            <GenomeFeatureWrapper
+              assembly={genomeLocation.assembly}
+              biotype={data.soTermName}
+              chromosome={genomeLocation.chromosome}
+              displayType="ISOFORM_AND_VARIANT"
+              fmax={genomeLocation.end}
+              fmin={genomeLocation.start}
+              geneSymbol={data.symbol}
+              genomeLocationList={data.genomeLocations}
+              height="200px"
+              id="genome-feature-location-id"
+              primaryId={data.id}
+              species={data.species.taxonId}
+              strand={genomeLocation.strand}
+              synonyms={data.synonyms}
+              width="600px"
+            />
+          )}
         </Subsection>
 
         <Subsection help={<SequencePanelSectionHelp />} title={SEQUENCE_DETAILS}>

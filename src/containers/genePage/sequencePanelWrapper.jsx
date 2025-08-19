@@ -22,7 +22,6 @@ const SequencePanel = ({ species, gene, refseq, start, end }) => {
 
   const contextReleaseVersion = useGetReleaseVersion();
   const releaseVersion = process.env.REACT_APP_JBROWSE_AGR_RELEASE || contextReleaseVersion;
-  console.info(`sequencePanelWrapper releaseVersion: ${releaseVersion}`);
 
   const jBrowsenclistbaseurl = getSpecies(species).jBrowsenclistbaseurltemplate.replace('{release}', releaseVersion);
   const jBrowseurltemplate = getSpecies(species).jBrowseurltemplate;
