@@ -313,6 +313,7 @@ class GenomeFeatureWrapper extends Component {
             type: 'ISOFORM_AND_VARIANT',
             trackData,
             variantData,
+            geneBounds: { start: fmin, end: fmax },
           },
         ],
       };
