@@ -39,6 +39,7 @@ import GeneMetaTags from './GeneMetaTags.jsx';
 import PageNavEntity from '../../components/dataPage/PageNavEntity.jsx';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
+import { useRelease } from '../../hooks/ReleaseContextProvider';
 import { getSpecies, getSingleGenomeLocation } from '../../lib/utils';
 import TransgenicAlleleTable from './TransgenicAlleleTable.jsx';
 import GeneSymbol from '../../components/GeneSymbol.jsx';
@@ -88,6 +89,7 @@ const SECTIONS = [
 const GenePage = () => {
   const { id: geneId } = useParams();
   const { isLoading, isError, data } = usePageLoadingQuery(`/api/gene/${geneId}`);
+  const release = useRelease();
 
   if (isError) {
     return <NotFound />;
@@ -193,23 +195,25 @@ const GenePage = () => {
           help={<SequenceFeatureViewerSectionHelp />}
           title={SEQUENCE_FEATURE_VIEWER}
         >
-          <GenomeFeatureWrapper
-            assembly={genomeLocation.assembly}
-            biotype={data.soTermName}
-            chromosome={genomeLocation.chromosome}
-            displayType="ISOFORM_AND_VARIANT"
-            fmax={genomeLocation.end}
-            fmin={genomeLocation.start}
-            geneSymbol={data.symbol}
-            genomeLocationList={data.genomeLocations}
-            height="200px"
-            id="genome-feature-location-id"
-            primaryId={data.id}
-            species={data.species.taxonId}
-            strand={genomeLocation.strand}
-            synonyms={data.synonyms}
-            width="600px"
-          />
+          {!release.isLoading && (
+            <GenomeFeatureWrapper
+              assembly={genomeLocation.assembly}
+              biotype={data.soTermName}
+              chromosome={genomeLocation.chromosome}
+              displayType="ISOFORM_AND_VARIANT"
+              fmax={genomeLocation.end}
+              fmin={genomeLocation.start}
+              geneSymbol={data.symbol}
+              genomeLocationList={data.genomeLocations}
+              height="200px"
+              id="genome-feature-location-id"
+              primaryId={data.id}
+              species={data.species.taxonId}
+              strand={genomeLocation.strand}
+              synonyms={data.synonyms}
+              width="600px"
+            />
+          )}
         </Subsection>
 
         <Subsection help={<SequencePanelSectionHelp />} title={SEQUENCE_DETAILS}>
