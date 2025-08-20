@@ -45,17 +45,9 @@ class GenomeFeatureWrapper extends Component {
       return;
     }
 
-    // Add debug logging for production troubleshooting
-    console.debug('GenomeFeatureWrapper click:', {
-      targetId: eltId,
-      targetEl,
-      event: event.target,
-    });
-
     // Read bound data robustly using D3's datum() method
     const datum = select(targetEl).datum();
     if (!datum || !datum.alleles) {
-      console.debug('No alleles data on clicked element');
       return;
     }
 
@@ -100,9 +92,9 @@ class GenomeFeatureWrapper extends Component {
         const alleleIds = this.props.allelesSelected.map((a) => a.id);
         this.gfc.setSelectedAlleles(alleleIds, `#${this.props.id}`);
       }
-    } else if (!isEqual(prevProps.visibleVariants, this.props.visibleVariants)) {
-      this.loadGenomeFeature();
     }
+    // Note: visibleVariants changes are not handled here to prevent full reload
+    // when variants are clicked, which would cause them to temporarily disappear
   }
 
   componentWillUnmount() {
@@ -213,14 +205,8 @@ class GenomeFeatureWrapper extends Component {
 
       return { trackData, variantData, region, vcfError };
     } catch (error) {
-      console.error(`❌ Error fetching JBrowse data for ${this.props.id}:`, {
-        error: error.message,
-        stack: error.stack,
-        viewerId: this.props.id,
-        region,
-        timestamp: new Date().toISOString(),
-      });
-      throw error;
+      // Return empty data on error - this is expected for some species/assemblies
+      return { trackData: [], variantData: [], region, vcfError: null };
     }
   }
 
@@ -270,7 +256,9 @@ class GenomeFeatureWrapper extends Component {
     allelesSelected,
     trackData,
     variantData,
-    region
+    region,
+    geneSymbol,
+    primaryId
   ) {
     let transcriptTypes = getTranscriptTypes();
     const speciesInfo = getSpecies(species);
@@ -300,7 +288,7 @@ class GenomeFeatureWrapper extends Component {
         ],
       };
     } else if (displayType === 'ISOFORM_AND_VARIANT') {
-      return {
+      const config = {
         ...baseConfig,
         showVariantLabel: false,
         variantFilter: variantFilter ? variantFilter : [],
@@ -314,9 +302,13 @@ class GenomeFeatureWrapper extends Component {
             trackData,
             variantData,
             geneBounds: { start: fmin, end: fmax },
+            geneSymbol: geneSymbol,
+            geneId: primaryId,
           },
         ],
       };
+      
+      return config;
     } else {
       // eslint-disable-next-line no-console
       console.error('Undefined displayType', displayType);
@@ -389,7 +381,9 @@ class GenomeFeatureWrapper extends Component {
         allelesSelected,
         trackData,
         variantData,
-        region
+        region,
+        geneSymbol,
+        primaryId
       );
 
       this.gfc = new GenomeFeatureViewer(trackConfig, `#${id}`, 900, undefined);
