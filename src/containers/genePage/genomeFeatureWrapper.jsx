@@ -104,9 +104,6 @@ class GenomeFeatureWrapper extends Component {
   }
 
   async generateJBrowseTrackData(fmin, fmax, chromosome, species, releaseVersion, displayType) {
-    console.log('generateJBrowseTrackData - START:', {
-      fmin, fmax, chromosome, species, releaseVersion, displayType
-    });
     
     const speciesInfo = getSpecies(species);
     const apolloPrefix = speciesInfo.apolloName;
@@ -179,38 +176,17 @@ class GenomeFeatureWrapper extends Component {
       
       // Only attempt to load VCF data if displayType requires variants
       if (displayType === 'ISOFORM_AND_VARIANT') {
-        console.log('VCF Loading Debug - Start:', {
-          displayType,
-          species,
-          speciesPrefix,
-          vcfFilename,
-          vcfTabixUrl,
-          releaseVersion,
-          region
-        });
-        
         // Only attempt to load VCF data if we have a valid release version and it's not human or SGD
         // Human and SGD VCF data are not available in the standard format in the Alliance
         const isHuman = species === 'NCBITaxon:9606';
         const isSGD = species === 'NCBITaxon:559292';
         if (releaseVersion && releaseVersion !== 'unknown' && !isHuman && !isSGD) {
           try {
-            console.log('VCF Loading Debug - Attempting fetch:', vcfTabixUrl);
             variantData = await fetchTabixVcfData({
               url: vcfTabixUrl,
               region,
             });
-            console.log('VCF Loading Debug - Success:', {
-              variantCount: variantData ? variantData.length : 0,
-              firstVariant: variantData && variantData.length > 0 ? variantData[0] : null
-            });
           } catch (error) {
-            console.error('VCF Loading Debug - Error:', {
-              error: error.message,
-              url: vcfTabixUrl,
-              species: this.props.species,
-              region
-            });
             // VCF data may not be available for all species/regions
             // VCF data not available for this species/configuration
             vcfError = {
@@ -289,14 +265,6 @@ class GenomeFeatureWrapper extends Component {
     geneSymbol,
     primaryId
   ) {
-    console.log('generateTrackConfig - Input params:', {
-      variantFilter,
-      variantFilterType: typeof variantFilter,
-      isoformFilter,
-      displayType,
-      geneSymbol,
-      primaryId
-    });
     let transcriptTypes = getTranscriptTypes();
     const speciesInfo = getSpecies(species);
     const apolloPrefix = speciesInfo.apolloName;
@@ -328,14 +296,6 @@ class GenomeFeatureWrapper extends Component {
         ],
       };
     } else if (displayType === 'ISOFORM_AND_VARIANT') {
-      console.log('DEBUG ISOFORM_AND_VARIANT config - inputs:', {
-        allelesSelected,
-        variantFilter,
-        isoformFilter,
-        allelesSelectedIsArray: Array.isArray(allelesSelected),
-        variantFilterIsArray: Array.isArray(variantFilter),
-        isoformFilterIsArray: Array.isArray(isoformFilter)
-      });
       
       // Ensure all arrays are properly initialized
       const safeVariantFilter = Array.isArray(variantFilter) ? variantFilter : [];
@@ -441,28 +401,8 @@ class GenomeFeatureWrapper extends Component {
         primaryId
       );
 
-      // Track configuration generated based on displayType and filters
-      console.log('GenomeFeatureWrapper - trackConfig before GenomeFeatureViewer:', {
-        trackConfig: JSON.parse(JSON.stringify(trackConfig)), // Deep copy to avoid circular refs
-        id,
-        displayType,
-        hasRegion: !!trackConfig.region,
-        region: trackConfig.region,
-        hasTracks: !!trackConfig.tracks,
-        tracksLength: trackConfig.tracks ? trackConfig.tracks.length : 'undefined',
-        firstTrack: trackConfig.tracks && trackConfig.tracks[0] ? trackConfig.tracks[0] : 'no tracks'
-      });
-
-      try {
-        this.gfc = new GenomeFeatureViewer(trackConfig, `#${id}`, 900, 500);
-      } catch (error) {
-        console.error('GenomeFeatureWrapper - Error creating GenomeFeatureViewer:', {
-          error: error.message,
-          stack: error.stack,
-          trackConfig
-        });
-        throw error;
-      }
+      // Create GenomeFeatureViewer with fixed height
+      this.gfc = new GenomeFeatureViewer(trackConfig, `#${id}`, 900, 500);
 
       // Set selected alleles after initialization
       if (this.props.allelesSelected && this.props.allelesSelected.length > 0) {
@@ -482,19 +422,6 @@ class GenomeFeatureWrapper extends Component {
         vcfLoadError: vcfError,
       });
     } catch (error) {
-      console.error('GenomeFeatureWrapper - CRITICAL ERROR:', {
-        error: error.message,
-        stack: error.stack,
-        props: {
-          geneSymbol: this.props.geneSymbol,
-          primaryId: this.props.primaryId,
-          species: this.props.species,
-          chromosome: this.props.chromosome,
-          fmin: this.props.fmin,
-          fmax: this.props.fmax,
-          displayType: this.props.displayType
-        }
-      });
       // Error loading genome feature data
       this.setState({
         loadState: 'error',
