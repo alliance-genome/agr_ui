@@ -217,14 +217,14 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
       },
       formatter: (_, allele) => <AlleleCell allele={allele} />,
       headerStyle: { width: '185px' },
-      filterable: true,
+      filterable: !selectionOverride.active,
     },
     {
       dataField: 'synonyms',
       text: 'Allele Synonyms',
       formatter: (synonyms) => <SynonymList synonyms={synonyms} />,
       headerStyle: { width: '165px' },
-      filterable: true,
+      filterable: !selectionOverride.active,
     },
     {
       dataField: 'category',
@@ -234,16 +234,16 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
         children: (
           <span>
             An indication of whether the referenced object is an allele where the genomic location of the nucleotide
-            change in not known (“allele”), an allele where one or more genomic locations of nucleotide change(s) are
-            known (“allele with N associated variant(s)”), or a variant, i.e., a specific nucleotide change at a
-            specified location on the genome (“variant”).
+            change in not known ("allele"), an allele where one or more genomic locations of nucleotide change(s) are
+            known ("allele with N associated variant(s)"), or a variant, i.e., a specific nucleotide change at a
+            specified location on the genome ("variant").
           </span>
         ),
       },
       headerStyle: { width: '140px' },
       filterName: 'alleleCategory',
       filterType: 'checkbox',
-      filterable: true,
+      filterable: !selectionOverride.active,
     },
     {
       dataField: 'variants',
@@ -334,7 +334,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
         display: 'none',
       },
       filterType: 'checkbox',
-      filterable: true,
+      filterable: !selectionOverride.active,
     },
     {
       dataField: 'variants.transcriptLevelConsequence',
@@ -359,7 +359,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
       },
       filterName: 'molecularConsequence',
       filterType: 'checkbox',
-      filterable: true,
+      filterable: !selectionOverride.active,
     },
     {
       dataField: 'hasDisease',
@@ -373,7 +373,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
         width: '50px',
         height: '130px',
       },
-      filterable: ['true', 'false'],
+      filterable: selectionOverride.active ? false : ['true', 'false'],
       filterFormatter: (val) => (val === 'true' ? 'Yes' : 'No'),
     },
     {
@@ -388,7 +388,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
         width: '115px', // wider because this one is on the end!
         height: '145px',
       },
-      filterable: ['true', 'false'],
+      filterable: selectionOverride.active ? false : ['true', 'false'],
       filterFormatter: (val) => (val === 'true' ? 'Yes' : 'No'),
     },
     // {
