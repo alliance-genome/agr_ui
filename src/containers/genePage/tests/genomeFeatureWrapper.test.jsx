@@ -137,6 +137,22 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     expect(errorAlert).not.toBeInTheDocument();
   });
 
+  test('should not attempt to load VCF data for ISOFORM display type', async () => {
+    const isoformProps = {
+      ...defaultProps,
+      displayType: 'ISOFORM',
+    };
+
+    render(<GenomeFeatureWrapper {...isoformProps} />);
+
+    await waitFor(() => {
+      expect(fetchNCListData).toHaveBeenCalled();
+    });
+
+    // VCF loading should not be attempted for ISOFORM display type
+    expect(fetchTabixVcfData).not.toHaveBeenCalled();
+  });
+
   test('should include help email link in error message', async () => {
     // Mock VCF loading to fail
     fetchTabixVcfData.mockRejectedValue(new Error('Network error'));

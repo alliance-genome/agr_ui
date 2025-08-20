@@ -103,7 +103,7 @@ class GenomeFeatureWrapper extends Component {
     }
   }
 
-  async generateJBrowseTrackData(fmin, fmax, chromosome, species, releaseVersion) {
+  async generateJBrowseTrackData(fmin, fmax, chromosome, species, releaseVersion, displayType) {
     const speciesInfo = getSpecies(species);
     const apolloPrefix = speciesInfo.apolloName;
 
@@ -169,38 +169,44 @@ class GenomeFeatureWrapper extends Component {
         urlTemplate: ncListUrlTemplate,
       });
 
-      // Fetch variant data from VCF tabix files (if available and release version is valid)
+      // Fetch variant data from VCF tabix files (if needed for display type and release version is valid)
       let variantData = null;
       let vcfError = null;
-      // Only attempt to load VCF data if we have a valid release version and it's not human or SGD
-      // Human and SGD VCF data are not available in the standard format in the Alliance
-      const isHuman = species === 'NCBITaxon:9606';
-      const isSGD = species === 'NCBITaxon:559292';
-      if (releaseVersion && releaseVersion !== 'unknown' && !isHuman && !isSGD) {
-        try {
-          variantData = await fetchTabixVcfData({
-            url: vcfTabixUrl,
-            region,
-          });
-        } catch (error) {
-          // VCF data may not be available for all species/regions
-          console.warn('VCF data not available:', error);
-          vcfError = {
-            message: error.message || 'Failed to load variant data',
-            url: vcfTabixUrl,
-            species: this.props.species,
-          };
+      
+      // Only attempt to load VCF data if displayType requires variants
+      if (displayType === 'ISOFORM_AND_VARIANT') {
+        // Only attempt to load VCF data if we have a valid release version and it's not human or SGD
+        // Human and SGD VCF data are not available in the standard format in the Alliance
+        const isHuman = species === 'NCBITaxon:9606';
+        const isSGD = species === 'NCBITaxon:559292';
+        if (releaseVersion && releaseVersion !== 'unknown' && !isHuman && !isSGD) {
+          try {
+            variantData = await fetchTabixVcfData({
+              url: vcfTabixUrl,
+              region,
+            });
+          } catch (error) {
+            // VCF data may not be available for all species/regions
+            console.warn('VCF data not available:', error);
+            vcfError = {
+              message: error.message || 'Failed to load variant data',
+              url: vcfTabixUrl,
+              species: this.props.species,
+            };
+          }
+        } else {
+          if (isHuman) {
+            console.info(`Skipping VCF loading for ${this.props.id} - Human VCF data not available`);
+          } else if (isSGD) {
+            console.info(`Skipping VCF loading for ${this.props.id} - SGD VCF data not available in standard format`);
+          } else {
+            console.info(
+              `Skipping VCF loading for ${this.props.id} - release version not yet available (${releaseVersion})`
+            );
+          }
         }
       } else {
-        if (isHuman) {
-          console.info(`Skipping VCF loading for ${this.props.id} - Human VCF data not available`);
-        } else if (isSGD) {
-          console.info(`Skipping VCF loading for ${this.props.id} - SGD VCF data not available in standard format`);
-        } else {
-          console.info(
-            `Skipping VCF loading for ${this.props.id} - release version not yet available (${releaseVersion})`
-          );
-        }
+        console.info(`Skipping VCF loading for ${this.props.id} - displayType '${displayType}' does not require variant data`);
       }
 
       return { trackData, variantData, region, vcfError };
@@ -284,6 +290,9 @@ class GenomeFeatureWrapper extends Component {
           {
             type: 'ISOFORM',
             trackData,
+            geneBounds: { start: fmin, end: fmax },
+            geneSymbol: geneSymbol,
+            geneId: primaryId,
           },
         ],
       };
@@ -364,7 +373,8 @@ class GenomeFeatureWrapper extends Component {
         fmax,
         chromosome,
         species,
-        releaseVersion
+        releaseVersion,
+        displayType
       );
 
       // Generate track configuration with fetched data

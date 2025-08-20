@@ -200,7 +200,7 @@ const GenePage = () => {
               assembly={genomeLocation.assembly}
               biotype={data.soTermName}
               chromosome={genomeLocation.chromosome}
-              displayType="ISOFORM_AND_VARIANT"
+              displayType="ISOFORM"
               fmax={genomeLocation.end}
               fmin={genomeLocation.start}
               geneSymbol={data.symbol}
