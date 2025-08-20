@@ -7,7 +7,8 @@ import useDataTableQuery from '../../hooks/useDataTableQuery';
 function findFminFmax(genomeLocation, variants) {
   let fmax = genomeLocation.end;
   let fmin = genomeLocation.start;
-  if (variants && variants.data.results) {
+  
+  if (variants && variants.data && variants.data.results) {
     for (let variant of variants.data.results) {
       if (variant.location.start < fmin) {
         fmin = variant.location.start;
@@ -17,14 +18,17 @@ function findFminFmax(genomeLocation, variants) {
       }
     }
   }
+  
   return { fmin, fmax };
 }
 
 function findAlleleStart(variants) {
-  if (variants && variants.data.results) {
+  if (variants && variants.data && variants.data.results && variants.data.results.length > 0) {
     //just get the start of the first variant
-    return variants[0].data.results.location.start;
+    const start = variants.data.results[0].location.start;
+    return `${variants.data.results[0].location.chromosome}:${start}`;
   }
+  return null;
 }
 
 const AlleleSequenceView = ({ allele }) => {
@@ -56,6 +60,7 @@ const AlleleSequenceView = ({ allele }) => {
   const { fmin, fmax } = findFminFmax(genomeLocation, variants);
   //highjacking the htpVaraint to send the start of the variant itself
   const htpVariant = findAlleleStart(variants);
+  
   return (
     <GenomeFeatureWrapper
       assembly={genomeLocation.assembly}
@@ -65,12 +70,12 @@ const AlleleSequenceView = ({ allele }) => {
       fmax={fmax}
       fmin={fmin}
       htpVariant={htpVariant}
-      geneSymbol={allele.symbol}
+      geneSymbol={allele.gene?.symbol}
       genomeLocationList={genomeLocations}
       height="200px"
       id="genome-feature-location-id"
       isoformFilter={isoformFilter}
-      primaryId={allele.id}
+      primaryId={allele.gene?.modEntityId || allele.id}
       species={allele.species.taxonId}
       strand={genomeLocation.strand}
       synonyms={allele.synonyms}
