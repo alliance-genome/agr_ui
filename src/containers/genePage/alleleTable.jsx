@@ -119,7 +119,10 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
         ? allelesFiltered.data.results.flatMap((allele) => (allele && allele.variants) || [])
         : [];
     const variantLocations = variantsFiltered.map((variant) => variant && variant.location);
-    const { fmin, fmax } = findFminFmax([geneLocation, ...variantLocations]);
+    
+    // Use only gene bounds to prevent viewer from showing excessive region
+    // This keeps the focus on the target gene instead of expanding based on distant variants
+    const { fmin, fmax } = findFminFmax([geneLocation]);
 
     // Filter to only show variants for alleles with associated variants by default
     // When in override mode, use the selected alleles for viewer visibility

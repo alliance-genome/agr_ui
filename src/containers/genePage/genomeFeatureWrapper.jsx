@@ -294,7 +294,7 @@ class GenomeFeatureWrapper extends Component {
         variantFilter: variantFilter ? variantFilter : [],
         isoformFilter: isoformFilter ? isoformFilter : [],
         initialHighlight: allelesSelected ? allelesSelected.map((a) => a.id) : [],
-        visibleVariants: undefined,
+        visibleVariants: variantFilter,
         binRatio: 0.01,
         tracks: [
           {
