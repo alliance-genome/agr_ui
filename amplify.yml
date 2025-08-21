@@ -3,9 +3,21 @@ frontend:
   phases:
     preBuild:
       commands:
-        - nvm install
+        - |
+          # Retry nvm install with timeout to avoid indefinite hangs
+          for i in {1..3}; do
+            echo "Attempt $i to install Node from .nvmrc"
+            if timeout 120 nvm install; then
+              echo "Node installation successful"
+              break
+            fi
+            echo "Install attempt $i failed or timed out; retrying..."
+            sleep 5
+          done
         - nvm use
-        - rm package-lock.json
+        - node -v
+        - npm -v
+        - rm -f package-lock.json
         - rm -rf node_modules
         - npm install
     build:
