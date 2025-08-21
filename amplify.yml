@@ -3,6 +3,7 @@ frontend:
   phases:
     preBuild:
       commands:
+        - export NVM_SKIP_DEFAULT_PACKAGES=true
         - nvm install
         - nvm use
         - rm package-lock.json
