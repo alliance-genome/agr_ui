@@ -7,20 +7,6 @@ const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisi
   const genomeLocationList = gene.genomeLocations;
   const genomeLocation = getSingleGenomeLocation(genomeLocationList);
   const displayType = 'ISOFORM_AND_VARIANT';
-  
-  // Debug logging for ZFIN
-  if (gene.species?.taxonId === 'NCBITaxon:7955') {
-    console.log('ZFIN VariantsSequenceViewer rendering:', {
-      gene,
-      genomeLocation,
-      displayType,
-      allelesSelected,
-      allelesVisible,
-      chromosome: genomeLocation?.chromosome,
-      fmin,
-      fmax
-    });
-  }
 
   // TODO: remove when onAllelesSelect is in use
   // onAllelesSelect is to be called with a list of allele IDs, when selecting alleles throw the viewer.
@@ -28,21 +14,10 @@ const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisi
   // console.log(onAllelesSelect); // eslint-disable-line no-console
 
   if (!genomeLocation.chromosome) {
-    console.log('ZFIN VariantsSequenceViewer: No chromosome, returning null', {
-      genomeLocation,
-      genomeLocationKeys: Object.keys(genomeLocation || {}),
-      genomeLocationList,
-      gene: gene.species?.taxonId
-    });
     return null;
   }
   
   if (!fmin || !fmax) {
-    console.log('ZFIN VariantsSequenceViewer: No fmin/fmax, returning null', {
-      fmin,
-      fmax,
-      gene: gene.species?.taxonId
-    });
     return null;
   }
 
