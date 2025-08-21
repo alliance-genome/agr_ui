@@ -104,6 +104,17 @@ class GenomeFeatureWrapper extends Component {
   }
 
   async generateJBrowseTrackData(fmin, fmax, chromosome, species, releaseVersion, displayType) {
+    // Debug logging for ZFIN
+    if (species === 'NCBITaxon:7955') {
+      console.log('ZFIN generateJBrowseTrackData called:', {
+        fmin,
+        fmax,
+        chromosome,
+        species,
+        releaseVersion,
+        displayType
+      });
+    }
     
     const speciesInfo = getSpecies(species);
     const apolloPrefix = speciesInfo.apolloName;
@@ -371,6 +382,20 @@ class GenomeFeatureWrapper extends Component {
       htpVariant,
       allelesSelected,
     } = this.props;
+    
+    // Debug logging for ZFIN
+    if (species === 'NCBITaxon:7955') {
+      console.log('ZFIN loadGenomeFeature called:', {
+        displayType,
+        species,
+        geneSymbol,
+        primaryId,
+        chromosome,
+        fmin,
+        fmax,
+        allelesSelected
+      });
+    }
 
     try {
       this.setState({ loadState: 'loading', vcfLoadError: null });
@@ -578,6 +603,16 @@ const GenomeFeatureWrapperWithRelease = (props) => {
 
   const contextReleaseVersion = useGetReleaseVersion();
   const releaseVersion = process.env.REACT_APP_JBROWSE_AGR_RELEASE || contextReleaseVersion;
+  
+  // Debug logging for ZFIN
+  if (props.species === 'NCBITaxon:7955') {
+    console.log('ZFIN GenomeFeatureWrapperWithRelease:', {
+      releaseVersion,
+      contextReleaseVersion,
+      envVar: process.env.REACT_APP_JBROWSE_AGR_RELEASE,
+      species: props.species
+    });
+  }
 
   return <GenomeFeatureWrapper {...props} releaseVersion={releaseVersion} />;
 };
