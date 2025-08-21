@@ -180,6 +180,20 @@ class GenomeFeatureWrapper extends Component {
         // Human and SGD VCF data are not available in the standard format in the Alliance
         const isHuman = species === 'NCBITaxon:9606';
         const isSGD = species === 'NCBITaxon:559292';
+        
+        // Debug logging for ZFIN data loading
+        if (species === 'NCBITaxon:7955') {
+          console.log('ZFIN VCF Debug Info:', {
+            species,
+            speciesPrefix,
+            vcfFilename,
+            vcfTabixUrl,
+            releaseVersion,
+            region,
+            displayType
+          });
+        }
+        
         if (releaseVersion && releaseVersion !== 'unknown' && !isHuman && !isSGD) {
           try {
             variantData = await fetchTabixVcfData({
@@ -189,6 +203,18 @@ class GenomeFeatureWrapper extends Component {
           } catch (error) {
             // VCF data may not be available for all species/regions
             // VCF data not available for this species/configuration
+            
+            // Debug logging for ZFIN errors
+            if (species === 'NCBITaxon:7955') {
+              console.error('ZFIN VCF Loading Error:', {
+                errorMessage: error.message,
+                errorStack: error.stack,
+                url: vcfTabixUrl,
+                species,
+                region
+              });
+            }
+            
             vcfError = {
               message: error.message || 'Failed to load variant data',
               url: vcfTabixUrl,
@@ -493,11 +519,17 @@ class GenomeFeatureWrapper extends Component {
           )}
           {this.state.loadState === 'error' ? <div className="text-danger">Unable to retrieve data</div> : ''}
           {this.state.vcfLoadError && displayType === 'ISOFORM_AND_VARIANT' && (
-            <div className="alert alert-danger mt-2" role="alert">
+            <div className="alert alert-warning mt-2" role="alert">
               <strong>Variant data could not be loaded</strong>
               <br />
+              {this.props.species === 'NCBITaxon:7955' && (
+                <div>
+                  <small>ZFIN variant data is currently unavailable.</small>
+                  <br />
+                </div>
+              )}
               <small className="text-muted">
-                Please refresh the page to try again. If this error persists, contact us at{' '}
+                If you believe this is an error, please contact us at{' '}
                 <a href="mailto:help@alliancegenome.org">help@alliancegenome.org</a>
               </small>
             </div>
