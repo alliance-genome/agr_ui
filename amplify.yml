@@ -3,7 +3,11 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm install --prefer-offline --no-audit --no-fund --loglevel error
+        - nvm install
+        - nvm use
+        - rm package-lock.json
+        - rm -rf node_modules
+        - npm install
     build:
       commands:
         - npm run build
