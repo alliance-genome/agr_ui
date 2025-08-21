@@ -3,17 +3,8 @@ frontend:
   phases:
     preBuild:
       commands:
-        - |
-          # Retry nvm install with timeout to avoid indefinite hangs
-          for i in {1..3}; do
-            echo "Attempt $i to install Node from .nvmrc"
-            if timeout 120 nvm install; then
-              echo "Node installation successful"
-              break
-            fi
-            echo "Install attempt $i failed or timed out; retrying..."
-            sleep 5
-          done
+        - echo "Installing Node v20.17.0 (LTS) with retry logic"
+        - timeout 120 nvm install || timeout 120 nvm install || nvm install
         - nvm use
         - node -v
         - npm -v
