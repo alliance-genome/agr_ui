@@ -190,16 +190,7 @@ class GenomeFeatureWrapper extends Component {
             // VCF data may not be available for all species/regions
             // VCF data not available for this species/configuration
             
-            // Debug logging for ZFIN errors
-            if (species === 'NCBITaxon:7955') {
-              console.error('ZFIN VCF Loading Error:', {
-                errorMessage: error.message,
-                errorStack: error.stack,
-                url: vcfTabixUrl,
-                species,
-                region
-              });
-            }
+            // Intentionally suppress console logging in production
             
             vcfError = {
               message: error.message || 'Failed to load variant data',
@@ -358,19 +349,7 @@ class GenomeFeatureWrapper extends Component {
       allelesSelected,
     } = this.props;
     
-    // Debug logging for ZFIN
-    if (species === 'NCBITaxon:7955') {
-      console.log('ZFIN loadGenomeFeature called:', {
-        displayType,
-        species,
-        geneSymbol,
-        primaryId,
-        chromosome,
-        fmin,
-        fmax,
-        allelesSelected
-      });
-    }
+    // Debug logging removed for production
 
     try {
       this.setState({ loadState: 'loading', vcfLoadError: null });
@@ -433,13 +412,7 @@ class GenomeFeatureWrapper extends Component {
       // Set selected alleles after initialization
       if (this.props.allelesSelected && this.props.allelesSelected.length > 0) {
         const alleleIds = this.props.allelesSelected.map((a) => a.id);
-
-        // Add a try-catch to see if there are any errors
-        try {
-          this.gfc.setSelectedAlleles(alleleIds, `#${id}`);
-        } catch (error) {
-          // Error setting selected alleles - continue without highlighting
-        }
+        this.gfc.setSelectedAlleles(alleleIds, `#${id}`);
       }
 
       this.setState({
@@ -579,15 +552,7 @@ const GenomeFeatureWrapperWithRelease = (props) => {
   const contextReleaseVersion = useGetReleaseVersion();
   const releaseVersion = process.env.REACT_APP_JBROWSE_AGR_RELEASE || contextReleaseVersion;
   
-  // Debug logging for ZFIN
-  if (props.species === 'NCBITaxon:7955') {
-    console.log('ZFIN GenomeFeatureWrapperWithRelease:', {
-      releaseVersion,
-      contextReleaseVersion,
-      envVar: process.env.REACT_APP_JBROWSE_AGR_RELEASE,
-      species: props.species
-    });
-  }
+  // Debug logging removed for production
 
   return <GenomeFeatureWrapper {...props} releaseVersion={releaseVersion} />;
 };
