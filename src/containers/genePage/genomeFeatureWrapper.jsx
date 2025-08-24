@@ -104,18 +104,6 @@ class GenomeFeatureWrapper extends Component {
   }
 
   async generateJBrowseTrackData(fmin, fmax, chromosome, species, releaseVersion, displayType) {
-    // Debug logging for ZFIN
-    if (species === 'NCBITaxon:7955') {
-      console.log('ZFIN generateJBrowseTrackData called:', {
-        fmin,
-        fmax,
-        chromosome,
-        species,
-        releaseVersion,
-        displayType
-      });
-    }
-    
     const speciesInfo = getSpecies(species);
     const apolloPrefix = speciesInfo.apolloName;
 
@@ -191,19 +179,6 @@ class GenomeFeatureWrapper extends Component {
         // Human and SGD VCF data are not available in the standard format in the Alliance
         const isHuman = species === 'NCBITaxon:9606';
         const isSGD = species === 'NCBITaxon:559292';
-        
-        // Debug logging for ZFIN data loading
-        if (species === 'NCBITaxon:7955') {
-          console.log('ZFIN VCF Debug Info:', {
-            species,
-            speciesPrefix,
-            vcfFilename,
-            vcfTabixUrl,
-            releaseVersion,
-            region,
-            displayType
-          });
-        }
         
         if (releaseVersion && releaseVersion !== 'unknown' && !isHuman && !isSGD) {
           try {
