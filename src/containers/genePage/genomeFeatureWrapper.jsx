@@ -388,8 +388,6 @@ class GenomeFeatureWrapper extends Component {
 
       // Generate track configuration with fetched data
 
-      console.log('variantData items:', variantData ? variantData.length : 'null');
-
       const trackConfig = this.generateTrackConfig(
         fmin,
         fmax,

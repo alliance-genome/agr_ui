@@ -95,7 +95,7 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     });
 
     // Should not find the error alert
-    const errorAlert = container.querySelector('.alert.alert-danger');
+    const errorAlert = container.querySelector('.alert.alert-warning');
     expect(errorAlert).not.toBeInTheDocument();
   });
 
@@ -110,7 +110,7 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     });
 
     // Should find the error alert
-    const errorAlert = container.querySelector('.alert.alert-danger');
+    const errorAlert = container.querySelector('.alert.alert-warning');
     expect(errorAlert).toBeInTheDocument();
     expect(errorAlert).toHaveTextContent('Variant data could not be loaded');
     expect(errorAlert).toHaveTextContent('Please refresh the page to try again');
@@ -133,7 +133,7 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     });
 
     // Should not find the error alert for ISOFORM display type
-    const errorAlert = container.querySelector('.alert.alert-danger');
+    const errorAlert = container.querySelector('.alert.alert-warning');
     expect(errorAlert).not.toBeInTheDocument();
   });
 
@@ -181,7 +181,7 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     });
 
     // Should still show the generic user-friendly message
-    const errorAlert = container.querySelector('.alert.alert-danger');
+    const errorAlert = container.querySelector('.alert.alert-warning');
     expect(errorAlert).toBeInTheDocument();
     expect(errorAlert).toHaveTextContent('Variant data could not be loaded');
   });
@@ -233,7 +233,7 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     expect(generalError).toHaveClass('text-danger');
 
     // Should not show the VCF-specific alert
-    const vcfAlert = container.querySelector('.alert.alert-danger');
+    const vcfAlert = container.querySelector('.alert.alert-warning');
     expect(vcfAlert).not.toBeInTheDocument();
   });
 });
