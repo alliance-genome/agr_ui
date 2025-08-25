@@ -134,8 +134,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     let alleleIdsFiltered = selectionOverride.active ? selectedAllelesData : allelesFiltered.data?.results;
     alleleIdsFiltered = (alleleIdsFiltered || [])
       .filter(
-        (allele) =>
-          allele.category === ALLELE_WITH_ONE_VARIANT || allele.category === ALLELE_WITH_MULTIPLE_VARIANTS
+        (allele) => allele.category === ALLELE_WITH_ONE_VARIANT || allele.category === ALLELE_WITH_MULTIPLE_VARIANTS
       )
       .map((allele) => allele.id);
 
@@ -477,7 +476,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
               tableProps)}
           columns={columns}
           data={data}
-          totalRows={selectionOverride.active ? (selectedAllelesData?.length || 0) : totalRows}
+          totalRows={selectionOverride.active ? selectedAllelesData?.length || 0 : totalRows}
           downloadUrl={`/api/gene/${geneId}/alleles/download`}
           keyField="id"
           rowStyle={{ cursor: 'pointer' }}
