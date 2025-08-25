@@ -161,61 +161,56 @@ class GenomeFeatureWrapper extends Component {
     // All species VCF files are in the root directory (no species subfolders)
     const vcfTabixUrl = `https://s3.amazonaws.com/agrjbrowse/VCF/${releaseVersion}/${vcfFilename}`;
 
-    try {
-      // Fetch track data from JBrowse NCList files
+    // Fetch track data from JBrowse NCList files
+    // This is critical data - let errors propagate so the component can show error state
+    const trackData = await fetchNCListData({
+      region,
+      urlTemplate: ncListUrlTemplate,
+    });
 
-      const trackData = await fetchNCListData({
-        region,
-        urlTemplate: ncListUrlTemplate,
-      });
+    // Fetch variant data from VCF tabix files (if needed for display type and release version is valid)
+    let variantData = null;
+    let vcfError = null;
 
-      // Fetch variant data from VCF tabix files (if needed for display type and release version is valid)
-      let variantData = null;
-      let vcfError = null;
+    // Only attempt to load VCF data if displayType requires variants
+    if (displayType === 'ISOFORM_AND_VARIANT') {
+      // Only attempt to load VCF data if we have a valid release version and it's not human or SGD
+      // Human and SGD VCF data are not available in the standard format in the Alliance
+      const isHuman = species === 'NCBITaxon:9606';
+      const isSGD = species === 'NCBITaxon:559292';
 
-      // Only attempt to load VCF data if displayType requires variants
-      if (displayType === 'ISOFORM_AND_VARIANT') {
-        // Only attempt to load VCF data if we have a valid release version and it's not human or SGD
-        // Human and SGD VCF data are not available in the standard format in the Alliance
-        const isHuman = species === 'NCBITaxon:9606';
-        const isSGD = species === 'NCBITaxon:559292';
+      if (releaseVersion && releaseVersion !== 'unknown' && !isHuman && !isSGD) {
+        try {
+          variantData = await fetchTabixVcfData({
+            url: vcfTabixUrl,
+            region,
+          });
+        } catch (error) {
+          // VCF data may not be available for all species/regions
+          // VCF data not available for this species/configuration
 
-        if (releaseVersion && releaseVersion !== 'unknown' && !isHuman && !isSGD) {
-          try {
-            variantData = await fetchTabixVcfData({
-              url: vcfTabixUrl,
-              region,
-            });
-          } catch (error) {
-            // VCF data may not be available for all species/regions
-            // VCF data not available for this species/configuration
+          // Intentionally suppress console logging in production
 
-            // Intentionally suppress console logging in production
-
-            vcfError = {
-              message: error.message || 'Failed to load variant data',
-              url: vcfTabixUrl,
-              species: this.props.species,
-            };
-          }
-        } else {
-          if (isHuman) {
-            // Skip VCF loading - Human VCF data not available
-          } else if (isSGD) {
-            // Skip VCF loading - SGD VCF data not available in standard format
-          } else {
-            // Skip VCF loading - release version not yet available
-          }
+          vcfError = {
+            message: error.message || 'Failed to load variant data',
+            url: vcfTabixUrl,
+            species: this.props.species,
+          };
         }
       } else {
-        // Skip VCF loading - displayType does not require variant data
+        if (isHuman) {
+          // Skip VCF loading - Human VCF data not available
+        } else if (isSGD) {
+          // Skip VCF loading - SGD VCF data not available in standard format
+        } else {
+          // Skip VCF loading - release version not yet available
+        }
       }
-
-      return { trackData, variantData, region, vcfError };
-    } catch (error) {
-      // Return empty data on error - this is expected for some species/assemblies
-      return { trackData: [], variantData: [], region, vcfError: null };
+    } else {
+      // Skip VCF loading - displayType does not require variant data
     }
+
+    return { trackData, variantData, region, vcfError };
   }
 
   generateJBrowseLink(chr, start, end, htpVariant) {
