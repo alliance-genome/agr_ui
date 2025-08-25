@@ -167,7 +167,6 @@ class GenomeFeatureWrapper extends Component {
       region,
       urlTemplate: ncListUrlTemplate,
     });
-    
 
     // Fetch variant data from VCF tabix files (if needed for display type and release version is valid)
     let variantData = null;
@@ -175,12 +174,10 @@ class GenomeFeatureWrapper extends Component {
 
     // Only attempt to load VCF data if displayType requires variants
     if (displayType === 'ISOFORM_AND_VARIANT') {
-      
       // Only attempt to load VCF data if we have a valid release version and it's not human or SGD
       // Human and SGD VCF data are not available in the standard format in the Alliance
       const isHuman = species === 'NCBITaxon:9606';
       const isSGD = species === 'NCBITaxon:559292';
-
 
       if (releaseVersion && releaseVersion !== 'unknown' && !isHuman && !isSGD) {
         try {
@@ -293,7 +290,7 @@ class GenomeFeatureWrapper extends Component {
             geneBounds: { start: fmin, end: fmax },
             geneSymbol: geneSymbol,
             geneId: primaryId,
-            speciesTaxonId: species,  // Pass species taxon ID to track
+            speciesTaxonId: species, // Pass species taxon ID to track
           },
         ],
       };
@@ -322,7 +319,7 @@ class GenomeFeatureWrapper extends Component {
             geneBounds: { start: fmin, end: fmax },
             geneSymbol: geneSymbol,
             geneId: primaryId,
-            speciesTaxonId: species,  // Pass species taxon ID to track
+            speciesTaxonId: species, // Pass species taxon ID to track
           },
         ],
       };
@@ -390,9 +387,9 @@ class GenomeFeatureWrapper extends Component {
       );
 
       // Generate track configuration with fetched data
-      
+
       console.log('variantData items:', variantData ? variantData.length : 'null');
-      
+
       const trackConfig = this.generateTrackConfig(
         fmin,
         fmax,

@@ -6,7 +6,7 @@ import { getSingleGenomeLocation } from '../../lib/utils';
 const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisible, onAllelesSelect }) => {
   const genomeLocationList = gene.genomeLocations;
   const genomeLocation = getSingleGenomeLocation(genomeLocationList);
-  
+
   // Use ISOFORM display type for human and SGD since they don't have variants to display at the moment
   // This avoids showing error messages about missing variant data
   // TODO: Change back to ISOFORM_AND_VARIANT when variant data is available for these species
