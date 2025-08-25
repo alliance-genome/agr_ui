@@ -3,8 +3,8 @@ frontend:
   phases:
     preBuild:
       commands:
-        - echo "Installing Node v20.17.0 (LTS) with retry logic"
-        - timeout 120 nvm install || timeout 120 nvm install || nvm install
+        - echo "Installing Node v20.17.0 (LTS)"
+        - nvm install
         - nvm use
         - node -v
         - npm -v
