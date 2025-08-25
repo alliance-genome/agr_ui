@@ -8,6 +8,7 @@ import configureStore from '../../lib/configureStore';
 
 import GenePage from './index.jsx';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import ReleaseContextProvider from '../../hooks/ReleaseContextProvider';
 
 describe('GenePage', () => {
   it('should be able to render to an HTML string', () => {
@@ -21,9 +22,11 @@ describe('GenePage', () => {
     let htmlString = renderToString(
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-          <Router>
-            <GenePage match={match} />
-          </Router>
+          <ReleaseContextProvider>
+            <Router>
+              <GenePage match={match} />
+            </Router>
+          </ReleaseContextProvider>
         </QueryClientProvider>
       </Provider>
     );

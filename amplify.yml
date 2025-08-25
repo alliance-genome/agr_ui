@@ -3,9 +3,12 @@ frontend:
   phases:
     preBuild:
       commands:
+        - echo "Installing Node v20.17.0 (LTS)"
         - nvm install
         - nvm use
-        - rm package-lock.json
+        - node -v
+        - npm -v
+        - rm -f package-lock.json
         - rm -rf node_modules
         - npm install
     build:
