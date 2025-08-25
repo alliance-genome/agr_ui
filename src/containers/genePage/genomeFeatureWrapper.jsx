@@ -494,17 +494,11 @@ class GenomeFeatureWrapper extends Component {
           )}
           {this.state.loadState === 'error' ? <div className="text-danger">Unable to retrieve data</div> : ''}
           {this.state.vcfLoadError && displayType === 'ISOFORM_AND_VARIANT' && (
-            <div className="alert alert-danger mt-2" role="alert">
+            <div className="alert alert-warning mt-2" role="alert">
               <strong>Variant data could not be loaded</strong>
               <br />
-              {this.props.species === 'NCBITaxon:7955' && (
-                <div>
-                  <small>ZFIN variant data is currently unavailable.</small>
-                  <br />
-                </div>
-              )}
               <small>
-                Please refresh the page to try again. If you believe this is an error, please contact us at{' '}
+                Please refresh the page to try again. If this error persists, please contact us at{' '}
                 <a href="mailto:help@alliancegenome.org">help@alliancegenome.org</a>
               </small>
             </div>
