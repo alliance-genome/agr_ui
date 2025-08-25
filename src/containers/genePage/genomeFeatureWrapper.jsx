@@ -172,14 +172,14 @@ class GenomeFeatureWrapper extends Component {
       // Fetch variant data from VCF tabix files (if needed for display type and release version is valid)
       let variantData = null;
       let vcfError = null;
-      
+
       // Only attempt to load VCF data if displayType requires variants
       if (displayType === 'ISOFORM_AND_VARIANT') {
         // Only attempt to load VCF data if we have a valid release version and it's not human or SGD
         // Human and SGD VCF data are not available in the standard format in the Alliance
         const isHuman = species === 'NCBITaxon:9606';
         const isSGD = species === 'NCBITaxon:559292';
-        
+
         if (releaseVersion && releaseVersion !== 'unknown' && !isHuman && !isSGD) {
           try {
             variantData = await fetchTabixVcfData({
@@ -189,9 +189,9 @@ class GenomeFeatureWrapper extends Component {
           } catch (error) {
             // VCF data may not be available for all species/regions
             // VCF data not available for this species/configuration
-            
+
             // Intentionally suppress console logging in production
-            
+
             vcfError = {
               message: error.message || 'Failed to load variant data',
               url: vcfTabixUrl,
@@ -299,18 +299,20 @@ class GenomeFeatureWrapper extends Component {
         ],
       };
     } else if (displayType === 'ISOFORM_AND_VARIANT') {
-      
       // Ensure all arrays are properly initialized
       const safeVariantFilter = Array.isArray(variantFilter) ? variantFilter : [];
       const safeIsoformFilter = Array.isArray(isoformFilter) ? isoformFilter : [];
       const safeAllelesSelected = Array.isArray(allelesSelected) ? allelesSelected : [];
-      
+
       const config = {
         ...baseConfig,
         showVariantLabel: false,
         variantFilter: safeVariantFilter,
         isoformFilter: safeIsoformFilter,
-        initialHighlight: safeAllelesSelected.length > 0 ? safeAllelesSelected.map((a) => a && a.id ? a.id : null).filter(id => id !== null) : [],
+        initialHighlight:
+          safeAllelesSelected.length > 0
+            ? safeAllelesSelected.map((a) => (a && a.id ? a.id : null)).filter((id) => id !== null)
+            : [],
         visibleVariants: safeVariantFilter,
         binRatio: 0.01,
         tracks: [
@@ -324,7 +326,7 @@ class GenomeFeatureWrapper extends Component {
           },
         ],
       };
-      
+
       return config;
     } else {
       // eslint-disable-next-line no-console
@@ -348,7 +350,7 @@ class GenomeFeatureWrapper extends Component {
       htpVariant,
       allelesSelected,
     } = this.props;
-    
+
     // Debug logging removed for production
 
     try {
@@ -425,7 +427,7 @@ class GenomeFeatureWrapper extends Component {
       this.setState({
         loadState: 'error',
         helpText: 'Error loading genome data',
-        errorDetails: error.message
+        errorDetails: error.message,
       });
     }
   }
@@ -551,7 +553,7 @@ const GenomeFeatureWrapperWithRelease = (props) => {
 
   const contextReleaseVersion = useGetReleaseVersion();
   const releaseVersion = process.env.REACT_APP_JBROWSE_AGR_RELEASE || contextReleaseVersion;
-  
+
   // Debug logging removed for production
 
   return <GenomeFeatureWrapper {...props} releaseVersion={releaseVersion} />;

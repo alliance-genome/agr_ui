@@ -16,7 +16,7 @@ const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisi
   if (!genomeLocation.chromosome) {
     return null;
   }
-  
+
   if (!fmin || !fmax) {
     return null;
   }

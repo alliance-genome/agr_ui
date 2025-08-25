@@ -47,36 +47,39 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
   }, [selectionOverride.active]);
 
   // Get pagination info - use override values when in override mode
-  const currentPage = selectionOverride.active ? overridePage : (tableProps.tableState?.page || 1);
-  const pageSize = selectionOverride.active ? overridePageSize : (tableProps.tableState?.size || 10);
+  const currentPage = selectionOverride.active ? overridePage : tableProps.tableState?.page || 1;
+  const pageSize = selectionOverride.active ? overridePageSize : tableProps.tableState?.size || 10;
 
   // Custom table state handler for override mode
-  const handleTableStateChange = useCallback((newState) => {
-    if (selectionOverride.active) {
-      // In override mode, handle pagination locally
-      let shouldResetPage = false;
-      
-      // Check if size is actually changing
-      if (newState.sizePerPage !== undefined && newState.sizePerPage !== overridePageSize) {
-        setOverridePageSize(newState.sizePerPage);
-        shouldResetPage = true;
-      } else if (newState.size !== undefined && newState.size !== overridePageSize) {
-        // Also handle 'size' for backwards compatibility
-        setOverridePageSize(newState.size);
-        shouldResetPage = true;
+  const handleTableStateChange = useCallback(
+    (newState) => {
+      if (selectionOverride.active) {
+        // In override mode, handle pagination locally
+        let shouldResetPage = false;
+
+        // Check if size is actually changing
+        if (newState.sizePerPage !== undefined && newState.sizePerPage !== overridePageSize) {
+          setOverridePageSize(newState.sizePerPage);
+          shouldResetPage = true;
+        } else if (newState.size !== undefined && newState.size !== overridePageSize) {
+          // Also handle 'size' for backwards compatibility
+          setOverridePageSize(newState.size);
+          shouldResetPage = true;
+        }
+
+        // Update page - either to the requested page or reset to 1 if size changed
+        if (shouldResetPage) {
+          setOverridePage(1);
+        } else if (newState.page !== undefined) {
+          setOverridePage(newState.page);
+        }
+      } else {
+        // Not in override mode, use the original handler
+        tableProps.setTableState(newState);
       }
-      
-      // Update page - either to the requested page or reset to 1 if size changed
-      if (shouldResetPage) {
-        setOverridePage(1);
-      } else if (newState.page !== undefined) {
-        setOverridePage(newState.page);
-      }
-    } else {
-      // Not in override mode, use the original handler
-      tableProps.setTableState(newState);
-    }
-  }, [selectionOverride.active, overridePageSize, tableProps.setTableState]);
+    },
+    [selectionOverride.active, overridePageSize, tableProps.setTableState]
+  );
 
   const data = useMemo(() => {
     // Use selected alleles data when in override mode and data is available
@@ -96,7 +99,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     // Filter to only show the selected alleles when in override mode
     if (selectionOverride.active && selectionOverride.alleleIds.length > 0) {
       processedData = processedData.filter((allele) => selectionOverride.alleleIds.includes(allele.id));
-      
+
       // Apply client-side pagination when in override mode
       const startIndex = (currentPage - 1) * pageSize;
       const endIndex = startIndex + pageSize;
@@ -119,7 +122,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
         ? allelesFiltered.data.results.flatMap((allele) => (allele && allele.variants) || [])
         : [];
     const variantLocations = variantsFiltered.map((variant) => variant && variant.location);
-    
+
     // Use only gene bounds to prevent viewer from showing excessive region
     // This keeps the focus on the target gene instead of expanding based on distant variants
     const { fmin, fmax } = findFminFmax([geneLocation]);
@@ -165,7 +168,14 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
 
     return props;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resolvedData, allelesFiltered.data, alleleIdsSelected, handleAllelesSelect, selectionOverride.active, selectedAllelesData]);
+  }, [
+    resolvedData,
+    allelesFiltered.data,
+    alleleIdsSelected,
+    handleAllelesSelect,
+    selectionOverride.active,
+    selectedAllelesData,
+  ]);
 
   const selectRow = useMemo(
     () => ({
@@ -459,21 +469,20 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
       )}
       <div className="position-relative">
         <DataTable
-          {...(selectionOverride.active ? 
-            // When in override mode, spread tableProps but override specific properties
-            {
-              ...tableProps,
-              tableState: {
-                ...tableProps.tableState,
-                page: overridePage,
-                sizePerPage: overridePageSize,
-                size: overridePageSize
-              },
-              setTableState: handleTableStateChange
-            } : 
-            // When not in override mode, use tableProps as-is
-            tableProps
-          )}
+          {...(selectionOverride.active
+            ? // When in override mode, spread tableProps but override specific properties
+              {
+                ...tableProps,
+                tableState: {
+                  ...tableProps.tableState,
+                  page: overridePage,
+                  sizePerPage: overridePageSize,
+                  size: overridePageSize,
+                },
+                setTableState: handleTableStateChange,
+              }
+            : // When not in override mode, use tableProps as-is
+              tableProps)}
           columns={columns}
           data={data}
           totalRows={selectionOverride.active ? (selectedAllelesData ? selectedAllelesData.length : 0) : totalRows}

@@ -7,7 +7,7 @@ import useDataTableQuery from '../../hooks/useDataTableQuery';
 function findFminFmax(genomeLocation, variants) {
   let fmax = genomeLocation.end;
   let fmin = genomeLocation.start;
-  
+
   if (variants && variants.data && variants.data.results) {
     for (let variant of variants.data.results) {
       if (variant.location.start < fmin) {
@@ -18,7 +18,7 @@ function findFminFmax(genomeLocation, variants) {
       }
     }
   }
-  
+
   return { fmin, fmax };
 }
 
@@ -60,7 +60,7 @@ const AlleleSequenceView = ({ allele }) => {
   const { fmin, fmax } = findFminFmax(genomeLocation, variants);
   //highjacking the htpVaraint to send the start of the variant itself
   const htpVariant = findAlleleStart(variants);
-  
+
   return (
     <GenomeFeatureWrapper
       assembly={genomeLocation.assembly}
