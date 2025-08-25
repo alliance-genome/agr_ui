@@ -45,17 +45,9 @@ class GenomeFeatureWrapper extends Component {
       return;
     }
 
-    // Add debug logging for production troubleshooting
-    console.debug('GenomeFeatureWrapper click:', {
-      targetId: eltId,
-      targetEl,
-      event: event.target,
-    });
-
     // Read bound data robustly using D3's datum() method
     const datum = select(targetEl).datum();
     if (!datum || !datum.alleles) {
-      console.debug('No alleles data on clicked element');
       return;
     }
 
@@ -100,9 +92,9 @@ class GenomeFeatureWrapper extends Component {
         const alleleIds = this.props.allelesSelected.map((a) => a.id);
         this.gfc.setSelectedAlleles(alleleIds, `#${this.props.id}`);
       }
-    } else if (!isEqual(prevProps.visibleVariants, this.props.visibleVariants)) {
-      this.loadGenomeFeature();
     }
+    // Note: visibleVariants changes are not handled here to prevent full reload
+    // when variants are clicked, which would cause them to temporarily disappear
   }
 
   componentWillUnmount() {
@@ -111,7 +103,7 @@ class GenomeFeatureWrapper extends Component {
     }
   }
 
-  async generateJBrowseTrackData(fmin, fmax, chromosome, species, releaseVersion) {
+  async generateJBrowseTrackData(fmin, fmax, chromosome, species, releaseVersion, displayType) {
     const speciesInfo = getSpecies(species);
     const apolloPrefix = speciesInfo.apolloName;
 
@@ -169,21 +161,24 @@ class GenomeFeatureWrapper extends Component {
     // All species VCF files are in the root directory (no species subfolders)
     const vcfTabixUrl = `https://s3.amazonaws.com/agrjbrowse/VCF/${releaseVersion}/${vcfFilename}`;
 
-    try {
-      // Fetch track data from JBrowse NCList files
+    // Fetch track data from JBrowse NCList files
+    // This is critical data - let errors propagate so the component can show error state
+    const trackData = await fetchNCListData({
+      region,
+      urlTemplate: ncListUrlTemplate,
+    });
 
-      const trackData = await fetchNCListData({
-        region,
-        urlTemplate: ncListUrlTemplate,
-      });
+    // Fetch variant data from VCF tabix files (if needed for display type and release version is valid)
+    let variantData = null;
+    let vcfError = null;
 
-      // Fetch variant data from VCF tabix files (if available and release version is valid)
-      let variantData = null;
-      let vcfError = null;
+    // Only attempt to load VCF data if displayType requires variants
+    if (displayType === 'ISOFORM_AND_VARIANT') {
       // Only attempt to load VCF data if we have a valid release version and it's not human or SGD
       // Human and SGD VCF data are not available in the standard format in the Alliance
       const isHuman = species === 'NCBITaxon:9606';
       const isSGD = species === 'NCBITaxon:559292';
+
       if (releaseVersion && releaseVersion !== 'unknown' && !isHuman && !isSGD) {
         try {
           variantData = await fetchTabixVcfData({
@@ -192,7 +187,10 @@ class GenomeFeatureWrapper extends Component {
           });
         } catch (error) {
           // VCF data may not be available for all species/regions
-          console.warn('VCF data not available:', error);
+          // VCF data not available for this species/configuration
+
+          // Intentionally suppress console logging in production
+
           vcfError = {
             message: error.message || 'Failed to load variant data',
             url: vcfTabixUrl,
@@ -201,27 +199,18 @@ class GenomeFeatureWrapper extends Component {
         }
       } else {
         if (isHuman) {
-          console.info(`Skipping VCF loading for ${this.props.id} - Human VCF data not available`);
+          // Skip VCF loading - Human VCF data not available
         } else if (isSGD) {
-          console.info(`Skipping VCF loading for ${this.props.id} - SGD VCF data not available in standard format`);
+          // Skip VCF loading - SGD VCF data not available in standard format
         } else {
-          console.info(
-            `Skipping VCF loading for ${this.props.id} - release version not yet available (${releaseVersion})`
-          );
+          // Skip VCF loading - release version not yet available
         }
       }
-
-      return { trackData, variantData, region, vcfError };
-    } catch (error) {
-      console.error(`❌ Error fetching JBrowse data for ${this.props.id}:`, {
-        error: error.message,
-        stack: error.stack,
-        viewerId: this.props.id,
-        region,
-        timestamp: new Date().toISOString(),
-      });
-      throw error;
+    } else {
+      // Skip VCF loading - displayType does not require variant data
     }
+
+    return { trackData, variantData, region, vcfError };
   }
 
   generateJBrowseLink(chr, start, end, htpVariant) {
@@ -270,7 +259,9 @@ class GenomeFeatureWrapper extends Component {
     allelesSelected,
     trackData,
     variantData,
-    region
+    region,
+    geneSymbol,
+    primaryId
   ) {
     let transcriptTypes = getTranscriptTypes();
     const speciesInfo = getSpecies(species);
@@ -296,29 +287,47 @@ class GenomeFeatureWrapper extends Component {
           {
             type: 'ISOFORM',
             trackData,
+            geneBounds: { start: fmin, end: fmax },
+            geneSymbol: geneSymbol,
+            geneId: primaryId,
+            speciesTaxonId: species, // Pass species taxon ID to track
           },
         ],
       };
     } else if (displayType === 'ISOFORM_AND_VARIANT') {
-      return {
+      // Ensure all arrays are properly initialized
+      const safeVariantFilter = Array.isArray(variantFilter) ? variantFilter : [];
+      const safeIsoformFilter = Array.isArray(isoformFilter) ? isoformFilter : [];
+      const safeAllelesSelected = Array.isArray(allelesSelected) ? allelesSelected : [];
+
+      const config = {
         ...baseConfig,
         showVariantLabel: false,
-        variantFilter: variantFilter ? variantFilter : [],
-        isoformFilter: isoformFilter ? isoformFilter : [],
-        initialHighlight: allelesSelected ? allelesSelected.map((a) => a.id) : [],
-        visibleVariants: undefined,
+        variantFilter: safeVariantFilter,
+        isoformFilter: safeIsoformFilter,
+        initialHighlight:
+          safeAllelesSelected.length > 0
+            ? safeAllelesSelected.map((a) => (a && a.id ? a.id : null)).filter((id) => id !== null)
+            : [],
+        visibleVariants: safeVariantFilter,
         binRatio: 0.01,
         tracks: [
           {
             type: 'ISOFORM_AND_VARIANT',
             trackData,
             variantData,
+            geneBounds: { start: fmin, end: fmax },
+            geneSymbol: geneSymbol,
+            geneId: primaryId,
+            speciesTaxonId: species, // Pass species taxon ID to track
           },
         ],
       };
+
+      return config;
     } else {
       // eslint-disable-next-line no-console
-      console.error('Undefined displayType', displayType);
+      // Undefined displayType - using default rendering
     }
   }
 
@@ -338,6 +347,8 @@ class GenomeFeatureWrapper extends Component {
       htpVariant,
       allelesSelected,
     } = this.props;
+
+    // Debug logging removed for production
 
     try {
       this.setState({ loadState: 'loading', vcfLoadError: null });
@@ -371,10 +382,12 @@ class GenomeFeatureWrapper extends Component {
         fmax,
         chromosome,
         species,
-        releaseVersion
+        releaseVersion,
+        displayType
       );
 
       // Generate track configuration with fetched data
+
       const trackConfig = this.generateTrackConfig(
         fmin,
         fmax,
@@ -388,21 +401,18 @@ class GenomeFeatureWrapper extends Component {
         allelesSelected,
         trackData,
         variantData,
-        region
+        region,
+        geneSymbol,
+        primaryId
       );
 
-      this.gfc = new GenomeFeatureViewer(trackConfig, `#${id}`, 900, undefined);
+      // Create GenomeFeatureViewer with fixed height
+      this.gfc = new GenomeFeatureViewer(trackConfig, `#${id}`, 900, 500);
 
       // Set selected alleles after initialization
       if (this.props.allelesSelected && this.props.allelesSelected.length > 0) {
         const alleleIds = this.props.allelesSelected.map((a) => a.id);
-
-        // Add a try-catch to see if there are any errors
-        try {
-          this.gfc.setSelectedAlleles(alleleIds, `#${id}`);
-        } catch (error) {
-          console.error('Error calling setSelectedAlleles:', error);
-        }
+        this.gfc.setSelectedAlleles(alleleIds, `#${id}`);
       }
 
       this.setState({
@@ -411,10 +421,11 @@ class GenomeFeatureWrapper extends Component {
         vcfLoadError: vcfError,
       });
     } catch (error) {
-      console.error('Error loading genome feature:', error);
+      // Error loading genome feature data
       this.setState({
         loadState: 'error',
         helpText: 'Error loading genome data',
+        errorDetails: error.message,
       });
     }
   }
@@ -481,11 +492,11 @@ class GenomeFeatureWrapper extends Component {
           )}
           {this.state.loadState === 'error' ? <div className="text-danger">Unable to retrieve data</div> : ''}
           {this.state.vcfLoadError && displayType === 'ISOFORM_AND_VARIANT' && (
-            <div className="alert alert-danger mt-2" role="alert">
+            <div className="alert alert-warning mt-2" role="alert">
               <strong>Variant data could not be loaded</strong>
               <br />
-              <small className="text-muted">
-                Please refresh the page to try again. If this error persists, contact us at{' '}
+              <small>
+                Please refresh the page to try again. If this error persists, please contact us at{' '}
                 <a href="mailto:help@alliancegenome.org">help@alliancegenome.org</a>
               </small>
             </div>
@@ -534,6 +545,8 @@ const GenomeFeatureWrapperWithRelease = (props) => {
 
   const contextReleaseVersion = useGetReleaseVersion();
   const releaseVersion = process.env.REACT_APP_JBROWSE_AGR_RELEASE || contextReleaseVersion;
+
+  // Debug logging removed for production
 
   return <GenomeFeatureWrapper {...props} releaseVersion={releaseVersion} />;
 };

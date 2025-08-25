@@ -66,7 +66,23 @@ export default function useAlleleSelection(tableProps) {
           for (const allele of validAlleles) {
             if (allele && allele.id && !seenIds.has(allele.id)) {
               seenIds.add(allele.id);
-              uniqueAlleles.push(allele);
+
+              // Compute correct category based on variant count
+              // The individual allele API doesn't return the computed category
+              // so we need to calculate it based on the variants array
+              let computedCategory = allele.category || 'allele';
+              if (allele.variants && Array.isArray(allele.variants)) {
+                if (allele.variants.length === 1) {
+                  computedCategory = 'allele with one associated variant';
+                } else if (allele.variants.length > 1) {
+                  computedCategory = 'allele with multiple associated variants';
+                }
+              }
+
+              uniqueAlleles.push({
+                ...allele,
+                category: computedCategory,
+              });
             }
           }
 
