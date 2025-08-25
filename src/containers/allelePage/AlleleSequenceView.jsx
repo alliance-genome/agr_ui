@@ -8,7 +8,7 @@ function findFminFmax(genomeLocation, variants) {
   let fmax = genomeLocation.end;
   let fmin = genomeLocation.start;
 
-  if (variants && variants.data && variants.data.results) {
+  if (variants?.data?.results) {
     for (let variant of variants.data.results) {
       if (variant.location.start < fmin) {
         fmin = variant.location.start;
@@ -23,10 +23,11 @@ function findFminFmax(genomeLocation, variants) {
 }
 
 function findAlleleStart(variants) {
-  if (variants && variants.data && variants.data.results && variants.data.results.length > 0) {
+  // Explicitly check for length > 0 to ensure we have at least one result
+  if (variants?.data?.results?.length > 0) {
     //just get the start of the first variant
-    const start = variants.data.results[0].location.start;
-    return `${variants.data.results[0].location.chromosome}:${start}`;
+    const { start, chromosome } = variants.data.results[0].location;
+    return `${chromosome}:${start}`;
   }
   return null;
 }

@@ -47,6 +47,8 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
   }, [selectionOverride.active]);
 
   // Get pagination info - use override values when in override mode
+  // TODO: Consider refactoring selection override logic to useReducer if it becomes more complex
+  // This would provide better state management for related state variables
   const currentPage = selectionOverride.active ? overridePage : tableProps.tableState?.page || 1;
   const pageSize = selectionOverride.active ? overridePageSize : tableProps.tableState?.size || 10;
 
@@ -129,23 +131,13 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
 
     // Filter to only show variants for alleles with associated variants by default
     // When in override mode, use the selected alleles for viewer visibility
-    const alleleIdsFiltered = selectionOverride.active
-      ? selectedAllelesData
-        ? selectedAllelesData
-            .filter(
-              (allele) =>
-                allele.category === ALLELE_WITH_ONE_VARIANT || allele.category === ALLELE_WITH_MULTIPLE_VARIANTS
-            )
-            .map((allele) => allele.id)
-        : []
-      : allelesFiltered.data && allelesFiltered.data.results
-        ? allelesFiltered.data.results
-            .filter(
-              (allele) =>
-                allele.category === ALLELE_WITH_ONE_VARIANT || allele.category === ALLELE_WITH_MULTIPLE_VARIANTS
-            )
-            .map((allele) => allele.id)
-        : [];
+    let alleleIdsFiltered = selectionOverride.active ? selectedAllelesData : allelesFiltered.data?.results;
+    alleleIdsFiltered = (alleleIdsFiltered || [])
+      .filter(
+        (allele) =>
+          allele.category === ALLELE_WITH_ONE_VARIANT || allele.category === ALLELE_WITH_MULTIPLE_VARIANTS
+      )
+      .map((allele) => allele.id);
 
     /*
        Warning!
@@ -167,14 +159,14 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     };
 
     return props;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    resolvedData,
     allelesFiltered.data,
     alleleIdsSelected,
     handleAllelesSelect,
     selectionOverride.active,
     selectedAllelesData,
+    gene,
+    geneLocation,
   ]);
 
   const selectRow = useMemo(
@@ -485,7 +477,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
               tableProps)}
           columns={columns}
           data={data}
-          totalRows={selectionOverride.active ? (selectedAllelesData ? selectedAllelesData.length : 0) : totalRows}
+          totalRows={selectionOverride.active ? (selectedAllelesData?.length || 0) : totalRows}
           downloadUrl={`/api/gene/${geneId}/alleles/download`}
           keyField="id"
           rowStyle={{ cursor: 'pointer' }}
