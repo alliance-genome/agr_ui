@@ -68,7 +68,7 @@ const AlleleSummary = ({
       <AttributeLabel>Additional Information</AttributeLabel>
       <AttributeValue>
         {allele.crossReferences && (
-          <DataSourceLinkCuration reference={allele.crossReferences}>Literature</DataSourceLinkCuration>
+          <DataSourceLinkCuration reference={allele.crossReferences[0]}>Literature</DataSourceLinkCuration>
         )}
       </AttributeValue>
     </AttributeList>
