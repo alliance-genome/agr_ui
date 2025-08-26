@@ -89,6 +89,7 @@ const AllelePage = () => {
             category={data.category}
             description={data.description}
             alleleOfGene={data.alleleOfGene}
+            constructSlimList={data.constructSlimList}
           />
         </Subsection>
 

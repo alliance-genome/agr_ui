@@ -15,6 +15,7 @@ const AlleleSummary = ({
   category,
   description,
   alleleOfGene,
+  constructSlimList
 }) => {
 
   return (
@@ -43,12 +44,12 @@ const AlleleSummary = ({
 
       <AttributeLabel>Transgenic Constructs</AttributeLabel>
       <AttributeValue placeholder="None">
-        {allele.constructs && allele.constructs.length && (
+        {constructSlimList && constructSlimList.length && (
           <CommaSeparatedList>
-            {allele.constructs.map((construct) => (
-              <DataSourceLink key={construct.id} reference={construct.crossReferenceMap?.primary}>
+            {constructSlimList.map((construct) => (
+              <DataSourceLinkCuration key={construct.primaryExternalId} reference={construct.dataProviderCrossReference}>
                 <span dangerouslySetInnerHTML={{ __html: construct.name }} />
-              </DataSourceLink>
+              </DataSourceLinkCuration>
             ))}
           </CommaSeparatedList>
         )}
