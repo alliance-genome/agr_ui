@@ -7,11 +7,14 @@ import SynonymListCuration from '../../components/SynonymListCuration.jsx';
 import CommaSeparatedList from '../../components/commaSeparatedList.jsx';
 import GeneSymbol from '../../components/GeneSymbol.jsx';
 import SpeciesName from '../../components/SpeciesName.jsx';
+import DataSourceLinkCuration from '../../components/dataSourceLinkCuration.jsx';
+import GeneSymbolCuration from '../../components/GeneSymbolCuration.jsx';
 
 const AlleleSummary = ({
   allele,
   category,
   description,
+  alleleOfGene,
 }) => {
 
   return (
@@ -31,9 +34,9 @@ const AlleleSummary = ({
 
       <AttributeLabel>Allele of gene</AttributeLabel>
       <AttributeValue placeholder="None">
-        {allele.gene && (
-          <Link to={`/gene/${allele.gene.id}`}>
-            <GeneSymbol gene={allele.gene} />
+        {alleleOfGene && (
+          <Link to={`/gene/${alleleOfGene.primaryExternalId}`}>
+            <GeneSymbolCuration gene={alleleOfGene} />
           </Link>
         )}
       </AttributeValue>
