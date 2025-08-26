@@ -180,3 +180,21 @@ export function findFminFmax(locations) {
     fmin,
   };
 }
+
+  export function buildUrlFromTemplate(crossReference) {
+    if(!crossReference) return null;
+
+    const referencedCurie = crossReference.referencedCurie;
+    const urlTemplate = crossReference.resourceDescriptorPage?.urlTemplate;
+
+    let parts = referencedCurie.split(":");
+
+    if (parts.length >= 2) {
+      let prefix = parts[0];
+      let localId = parts[1];
+
+      return urlTemplate.replace("[%s]", localId);
+    }
+
+    return null;
+  }

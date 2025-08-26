@@ -22,6 +22,7 @@ import SpeciesName from '../../components/SpeciesName.jsx';
 import PhenotypeTable from '../genePage/phenotypeTable.jsx';
 import React from 'react';
 import GeneSymbolCuration from '../../components/GeneSymbolCuration.jsx';
+import DataSourceLinkCuration from '../../components/dataSourceLinkCuration.jsx';
 
 const SUMMARY = 'Summary';
 const PHENOTYPES = 'Phenotypes';
@@ -66,6 +67,9 @@ const AllelePage = () => {
           icon={<SpeciesIcon inNav scale={0.5} species={data.allele.taxon.name} />}
           truncateName
         >
+          <DataSourceLinkCuration reference={data.allele.dataProviderCrossReference}>
+            {data.allele.dataProviderCrossReference.referencedCurie}
+          </DataSourceLinkCuration>
           {data.alleleOfGene && (
             <div>
               Allele of{' '}
