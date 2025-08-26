@@ -54,15 +54,15 @@ const AllelePage = () => {
     return null;
   }
 
-  const title = `${data.symbolText} | ${data.species.name} allele`;
+  const title = `${data.allele.alleleSymbol?.formatText } | ${data.allele.taxon.name} allele`;
 
   return (
     <DataPage>
       <HeadMetaTags title={title} />
       <PageNav sections={SECTIONS}>
         <PageNavEntity
-          entityName={<AlleleSymbol allele={data} />}
-          icon={<SpeciesIcon inNav scale={0.5} species={data.species.name} />}
+          entityName={<AlleleSymbol allele={data.allele} />}
+          icon={<SpeciesIcon inNav scale={0.5} species={data.allele.taxon.name} />}
           truncateName
         >
           <DataSourceLink reference={data.crossReferenceMap.primary} />
@@ -74,17 +74,21 @@ const AllelePage = () => {
               </Link>
             </div>
           )}
-          <SpeciesName>{data.species.name}</SpeciesName>
+          <SpeciesName>{data.allele.taxon.name}</SpeciesName>
         </PageNavEntity>
       </PageNav>
       <PageData>
         <PageCategoryLabel category="allele" />
         <PageHeader>
-          <AlleleSymbol allele={data} />
+          <AlleleSymbol allele={data.allele} />
         </PageHeader>
 
         <Subsection hideTitle title={SUMMARY}>
-          <AlleleSummary allele={data} />
+          <AlleleSummary
+            allele={data.allele}
+            category={data.category}
+            description={data.description}
+          />
         </Subsection>
 
         <Subsection title={CONSTRUCTS}>
