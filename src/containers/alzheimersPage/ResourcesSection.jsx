@@ -21,7 +21,7 @@ const ResourcesSection = () => {
       <div className={style.contentContainer}>
         <div className="row">
           <div className="col-lg-12">
-            <h2>Community Resoures</h2>
+            <h2>Community Resources</h2>
             <div>
               {resourceLinks.map((resourceLink, index) => {
                 return (
