@@ -10,7 +10,7 @@ const app = new cdk.App();
 new AmplifyALBStack(app, 'test-alb-stack', {
   stackName: 'test-alb-stack',
   dnsName: 'test',
-  targetInstanceId: 'i-0ebadbf0e1a9240ba',
+  targetInstanceId: "i-0375ccb1ca2ec3d4f",
   env: {
     region: process.env.CDK_DEFAULT_REGION,
     account: process.env.CDK_DEFAULT_ACCOUNT,
@@ -20,7 +20,7 @@ new AmplifyALBStack(app, 'test-alb-stack', {
 new AmplifyALBStack(app, 'prod-alb-stack', {
   stackName: 'prod-alb-stack',
   dnsName: 'prod',
-  targetInstanceId: 'i-0ebadbf0e1a9240ba',
+  targetInstanceId: "i-0375ccb1ca2ec3d4f",
   env: {
     region: process.env.CDK_DEFAULT_REGION,
     account: process.env.CDK_DEFAULT_ACCOUNT,
