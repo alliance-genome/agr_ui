@@ -11,6 +11,7 @@ const resourceLinks = [
   },
   { title: "Alzheimer's Foundation of America", url: 'https://alzfdn.org/' },
   { title: 'National Institute on Aging', url: 'https://www.nia.nih.gov/' },
+  { title: 'NIAGADS', url: 'https://www.niagads.org/' },
   { title: 'OMIM', url: 'https://omim.org/entry/104300' },
 ];
 
@@ -20,7 +21,7 @@ const ResourcesSection = () => {
       <div className={style.contentContainer}>
         <div className="row">
           <div className="col-lg-12">
-            <h2>Community Resoures</h2>
+            <h2>Community Resources</h2>
             <div>
               {resourceLinks.map((resourceLink, index) => {
                 return (
