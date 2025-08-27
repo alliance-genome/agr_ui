@@ -11,6 +11,7 @@ const resourceLinks = [
   },
   { title: "Alzheimer's Foundation of America", url: 'https://alzfdn.org/' },
   { title: 'National Institute on Aging', url: 'https://www.nia.nih.gov/' },
+  { title: 'NIAGADS', url: 'https://www.niagads.org/' },
   { title: 'OMIM', url: 'https://omim.org/entry/104300' },
 ];
 
