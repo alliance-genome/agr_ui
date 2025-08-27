@@ -11,7 +11,7 @@ export function useEntityButtonCounts(url, limit) {
     async function fetchCount() {
       try {
         const response = await fetch(`${url}?limit=${limit}`);
-        if (!response.ok) throw new Error(response.status);
+        if (!response.ok) throw new Error(`Failed to fetch entity counts from ${url}: HTTP ${response.status}`);
         const json = await response.json();
         if (!cancelled) {
           setCounts(filterData(json.results));
@@ -31,6 +31,10 @@ export function useEntityButtonCounts(url, limit) {
   }, [url, limit]);
 
   function filterData(items) {
+    const isWrongType = (type) => {
+      return type === 'is_not_implicated_in' || type === 'does_not_model';
+    };
+
     const set = new Set();
     for (const each of items) {
       const subject = each.subject;
@@ -47,9 +51,6 @@ export function useEntityButtonCounts(url, limit) {
     }
 
     return set.size;
-    function isWrongType(type) {
-      return type === 'is_not_implicated_in' || type === 'does_not_model';
-    }
   }
 
   return counts;
