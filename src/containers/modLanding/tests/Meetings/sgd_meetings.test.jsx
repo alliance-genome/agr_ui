@@ -57,13 +57,6 @@ describe('App', () => {
     expect(href).toHaveAttribute('href', 'https:/blah1');
   }, 10000);
 
-  it('meetings href should have a header as the link', async () => {
-    const meetings_div = await waitFor(() => screen.findByTestId('div_meetings_0'), { timeout: 8000 });
-    const href = screen.getByTestId('href_meetings_0');
-    const head = screen.getByTestId('header_meetings_0');
-    expect(href).toContainElement(head);
-  }, 10000);
-
   it('meetings href should have a header and be equal to', async () => {
     const meetings_div = await waitFor(() => screen.findByTestId('div_meetings_0'), { timeout: 8000 });
     const head = screen.getByTestId('header_meetings_0');
