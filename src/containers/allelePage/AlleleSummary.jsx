@@ -9,6 +9,7 @@ import GeneSymbol from '../../components/GeneSymbol.jsx';
 import SpeciesName from '../../components/SpeciesName.jsx';
 import DataSourceLinkCuration from '../../components/dataSourceLinkCuration.jsx';
 import GeneSymbolCuration from '../../components/GeneSymbolCuration.jsx';
+import { getSpeciesNameCorrected } from '../../lib/utils.js';
 
 const AlleleSummary = ({
   allele,
@@ -19,11 +20,13 @@ const AlleleSummary = ({
   constructSlimList
 }) => {
 
+  const speciesName = getSpeciesNameCorrected(allele.taxon?.name);
+
   return (
     <AttributeList>
       <AttributeLabel>Species</AttributeLabel>
       <AttributeValue>
-        <SpeciesName>{allele.taxon.name}</SpeciesName>
+        <SpeciesName>{speciesName}</SpeciesName>
       </AttributeValue>
 
       <AttributeLabel>Symbol</AttributeLabel>

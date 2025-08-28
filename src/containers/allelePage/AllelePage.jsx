@@ -23,6 +23,7 @@ import PhenotypeTable from '../genePage/phenotypeTable.jsx';
 import React from 'react';
 import GeneSymbolCuration from '../../components/GeneSymbolCuration.jsx';
 import DataSourceLinkCuration from '../../components/dataSourceLinkCuration.jsx';
+import { getSpeciesNameCorrected } from '../../lib/utils.js';
 
 const SUMMARY = 'Summary';
 const PHENOTYPES = 'Phenotypes';
@@ -56,7 +57,9 @@ const AllelePage = () => {
     return null;
   }
 
-  const title = `${data.allele.alleleSymbol?.formatText } | ${data.allele.taxon.name} allele`;
+  const speciesName = getSpeciesNameCorrected(data.allele.taxon?.name);
+
+  const title = `${data.allele.alleleSymbol?.formatText } | ${speciesName} allele`;
 
   return (
     <DataPage>
@@ -64,7 +67,7 @@ const AllelePage = () => {
       <PageNav sections={SECTIONS}>
         <PageNavEntity
           entityName={<AlleleSymbol allele={data.allele} />}
-          icon={<SpeciesIcon inNav scale={0.5} species={data.allele.taxon.name} />}
+          icon={<SpeciesIcon inNav scale={0.5} species={speciesName} />}
           truncateName
         >
           <DataSourceLinkCuration reference={data.allele.dataProviderCrossReference}>
@@ -78,7 +81,7 @@ const AllelePage = () => {
               </Link>
             </div>
           )}
-          <SpeciesName>{data.allele.taxon.name}</SpeciesName>
+          <SpeciesName>{speciesName}</SpeciesName>
         </PageNavEntity>
       </PageNav>
       <PageData>
