@@ -10,8 +10,8 @@ frontend:
         - npm -v
         - rm -f package-lock.json
         - rm -rf node_modules
-        - npm install
-        - npm install --no-save typescript vite @vitejs/plugin-react
+        - unset NODE_ENV && npm install
+        - unset NODE_ENV && npm install typescript vite @vitejs/plugin-react --save-dev
     build:
       commands:
         - npm run build
