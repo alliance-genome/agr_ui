@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import Resources from '../../Resources.js';
-import { MODContent } from '../../content.js';
+import Resources from '../../Resources.jsx';
+import { MODContent } from '../../content.jsx';
 import { getByTestId, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
@@ -26,7 +26,7 @@ describe('WormBase Resources', () => {
     expect(link_div).toContainElement(link);
   });
 
-  it('should render the correct hrefs with correct label in correct order from content.js', () => {
+  it('should render the correct hrefs with correct label in correct order from content.jsx', () => {
     for (let i = 0; i < content.resources.length; i++) {
       let resources = screen.getByTestId('href_resources_' + i);
       expect(resources).toHaveAttribute('href', content.resources[i][1]);

@@ -1,13 +1,13 @@
 import React from 'react';
 import HeadMetaTags from '../../components/headMetaTags.jsx';
 import style from './style.module.scss';
-import { MODContent } from './content.js';
+import { MODContent } from './content.jsx';
 import About from './About.jsx';
 import Title from './Title.jsx';
-import News from './News.js';
-import Meetings from './Meetings.js';
+import News from './News.jsx';
+import Meetings from './Meetings.jsx';
 import Search from './Search.jsx';
-import Resources from './Resources.js';
+import Resources from './Resources.jsx';
 import VisitMod from './VisitMod.jsx';
 import FooterAlt from './FooterAlt.jsx';
 import { useParams } from 'react-router-dom';

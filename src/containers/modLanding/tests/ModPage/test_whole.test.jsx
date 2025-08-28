@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import Main from '../../Main.js';
-import { MODContent } from '../../content.js';
+import Main from '../../Main.jsx';
+import { MODContent } from '../../content.jsx';
 import { getByTestId, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { thunk } from 'redux-thunk';
@@ -32,7 +32,7 @@ jest.mock('react-router-dom', () => ({
   useParams: () => ({ id: 'testMod' }),
 }));
 
-jest.mock('../../content.js', () => ({
+jest.mock('../../content.jsx', () => ({
   MODContent: {
     testMod: {
       about: '<p>About testMod</p>',

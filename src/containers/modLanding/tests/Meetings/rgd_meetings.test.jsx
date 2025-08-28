@@ -4,7 +4,7 @@ import MeetingsRgd from '../../MeetingsRgd.jsx';
 import { thunk } from 'redux-thunk';
 
 import { legacy_configureStore as configureMockStore } from 'redux-mock-store';
-import { MODContent } from '../../content.js';
+import { MODContent } from '../../content.jsx';
 import { Provider } from 'react-redux';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';

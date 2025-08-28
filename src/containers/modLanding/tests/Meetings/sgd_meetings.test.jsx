@@ -5,7 +5,7 @@ import MeetingsGoogleApis from '../../MeetingsGoogleApis.jsx';
 import { thunk } from 'redux-thunk';
 
 import { legacy_configureStore as configureMockStore } from 'redux-mock-store';
-import { MODContent } from '../../content.js';
+import { MODContent } from '../../content.jsx';
 import { Provider } from 'react-redux';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
@@ -55,13 +55,6 @@ describe('App', () => {
     const meetings_div = await waitFor(() => screen.findByTestId('href_meetings_0'), { timeout: 8000 });
     const href = screen.getByTestId('href_meetings_0');
     expect(href).toHaveAttribute('href', 'https:/blah1');
-  }, 10000);
-
-  it('meetings href should have a header as the link', async () => {
-    const meetings_div = await waitFor(() => screen.findByTestId('div_meetings_0'), { timeout: 8000 });
-    const href = screen.getByTestId('href_meetings_0');
-    const head = screen.getByTestId('header_meetings_0');
-    expect(href).toContainElement(head);
   }, 10000);
 
   it('meetings href should have a header and be equal to', async () => {

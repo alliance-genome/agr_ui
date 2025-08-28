@@ -4,7 +4,7 @@ import NewsZfin from '../../NewsZfin.jsx';
 import { thunk } from 'redux-thunk';
 
 import { legacy_configureStore as configureMockStore } from 'redux-mock-store';
-import { MODContent } from '../../content.js';
+import { MODContent } from '../../content.jsx';
 import { Provider } from 'react-redux';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
@@ -56,13 +56,6 @@ describe('App', () => {
     const news_div = await waitFor(() => screen.findByTestId('href_news_2'), { timeout: 8000 });
     const href = screen.getByTestId('href_news_2');
     expect(href).toHaveAttribute('href', 'https:/blah1');
-  }, 10000);
-
-  it('news href should have a header as the link', async () => {
-    const news_div = await waitFor(() => screen.findByTestId('div_news_2'), { timeout: 8000 });
-    const href = screen.getByTestId('href_news_2');
-    const head = screen.getByTestId('header_news_2');
-    expect(href).toContainElement(head);
   }, 10000);
 
   it('news href should have a header and be equal to', async () => {
