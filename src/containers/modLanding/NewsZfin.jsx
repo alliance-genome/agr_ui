@@ -38,16 +38,22 @@ const NewsZfin = ({ urlNewsMod, fetchNewsCount, linkToNewsPage }) => {
                 return (
                   <div className={style.postContainer} key={key} data-testid={'div_news_' + count}>
                     <h4 className={style.h4extra} data-testid={'header_news_' + count}>
-                      <ExternalLink data-testid={'href_news_' + count} href={post.link}>{post.title}</ExternalLink>
+                      <ExternalLink data-testid={'href_news_' + count} href={post.link}>
+                        {post.title}
+                      </ExternalLink>
                     </h4>
                   </div>
                 );
               })}
           </div>
         </div>
-        {linkToNewsPage && <div className={`row ${style.moreNews}`} data-testid={'more_news_div'}>
-          <ExternalLink data-testid={'more_news_link'} href={linkToNewsPage}><i>more news&hellip;</i></ExternalLink>
-        </div>}
+        {linkToNewsPage && (
+          <div className={`row ${style.moreNews}`} data-testid={'more_news_div'}>
+            <ExternalLink data-testid={'more_news_link'} href={linkToNewsPage}>
+              <i>more news&hellip;</i>
+            </ExternalLink>
+          </div>
+        )}
       </div>
     </div>
   );

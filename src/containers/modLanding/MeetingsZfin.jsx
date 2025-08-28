@@ -49,9 +49,13 @@ const MeetingsZfin = ({ urlMeetingsMod, fetchMeetingsCount, linkToMeetingsPage }
               })}
           </div>
         </div>
-        {linkToMeetingsPage && <div className={`row ${style.moreNews}`} data-testid={'more_meetings_div'}>
-          <ExternalLink data-testid={'more_meetings_link'} href={linkToMeetingsPage}><i>more meetings&hellip;</i></ExternalLink>
-        </div>}
+        {linkToMeetingsPage && (
+          <div className={`row ${style.moreNews}`} data-testid={'more_meetings_div'}>
+            <ExternalLink data-testid={'more_meetings_link'} href={linkToMeetingsPage}>
+              <i>more meetings&hellip;</i>
+            </ExternalLink>
+          </div>
+        )}
       </div>
     </div>
   );
