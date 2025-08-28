@@ -8,7 +8,7 @@ const SynonymListCuration = ({ synonyms }) => {
     (synonyms && (
       <CollapsibleList>
         {synonyms.sort(synonym => compareAlphabeticalCaseInsensitive(synonym => synonym.formatText)).map((synonym) => (
-          <span dangerouslySetInnerHTML={{ __html: synonym.formatText }} key={synonym.formatText} />
+          <span dangerouslySetInnerHTML={{ __html: synonym.displayText }} key={synonym.formatText} />
         ))}
       </CollapsibleList>
     )) || <></>
