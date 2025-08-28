@@ -8,10 +8,8 @@ frontend:
         - nvm use
         - node -v
         - npm -v
-        - rm -f package-lock.json
         - rm -rf node_modules
-        - npm install
-        - npm install --no-save typescript vite @vitejs/plugin-react
+        - npm ci --include=dev
     build:
       commands:
         - npm run build
