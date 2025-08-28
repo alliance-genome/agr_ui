@@ -12,8 +12,6 @@ frontend:
         - rm -rf node_modules
         - unset NODE_ENV && npm install
         - unset NODE_ENV && npm install typescript vite @vitejs/plugin-react --save-dev
-        - ls -la node_modules/.bin/tsc || echo "tsc not found"
-        - npx tsc --version || echo "tsc not available"
     build:
       commands:
         - npm run build
