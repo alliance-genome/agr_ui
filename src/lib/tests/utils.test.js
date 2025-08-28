@@ -1,10 +1,6 @@
 import assert from 'assert';
 
-import {
-  compareByFixedOrder,
-  compareAlphabeticalCaseInsensitive,
-  sortBy
-} from '../utils';
+import { compareByFixedOrder, compareAlphabeticalCaseInsensitive, sortBy } from '../utils';
 
 describe('utils', () => {
   describe('#compareByFixedOrder', () => {
@@ -46,9 +42,9 @@ describe('utils', () => {
     });
 
     it('should accept an accessor function', () => {
-      const compareWithAccessor = compareByFixedOrder(order, val => val.name);
-      const a = {name: 'C', value: 2};
-      const b = {name: 'D', value: 5};
+      const compareWithAccessor = compareByFixedOrder(order, (val) => val.name);
+      const a = { name: 'C', value: 2 };
+      const b = { name: 'D', value: 5 };
       const result = compareWithAccessor(a, b);
       assert(result > 0);
     });
@@ -84,14 +80,14 @@ describe('utils', () => {
     });
 
     it('should accept an accessor function', () => {
-      const compareWithAccessor = compareAlphabeticalCaseInsensitive(val => val.name);
-      const a = {name: 'sox9a', count: 2};
-      const b = {name: 'Pten', count: 9};
+      const compareWithAccessor = compareAlphabeticalCaseInsensitive((val) => val.name);
+      const a = { name: 'sox9a', count: 2 };
+      const b = { name: 'Pten', count: 9 };
       const result = compareWithAccessor(a, b);
       assert(result > 0);
     });
 
-    it ('returned function should work wtih Array.sort()', () => {
+    it('returned function should work wtih Array.sort()', () => {
       const original = ['Finn', 'and', 'Zoe', 'Are', 'fluffy', 'cats'];
       const expected = ['and', 'Are', 'cats', 'Finn', 'fluffy', 'Zoe'];
       const actual = original.sort(compare);
@@ -104,10 +100,7 @@ describe('utils', () => {
       const order = ['ONE', 'TWO', 'THREE'];
       const original = ['THREE', 'TWO', 'FIVE', 'FOUR', 'FIVE', 'ONE', 'THREE', 'ONE'];
       const expected = ['ONE', 'ONE', 'TWO', 'THREE', 'THREE', 'FIVE', 'FIVE', 'FOUR'];
-      const actual = sortBy(original, [
-        compareByFixedOrder(order),
-        compareAlphabeticalCaseInsensitive()
-      ]);
+      const actual = sortBy(original, [compareByFixedOrder(order), compareAlphabeticalCaseInsensitive()]);
       assert.deepEqual(actual, expected);
     });
   });

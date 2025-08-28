@@ -27,50 +27,56 @@ const DEFAULT_STATE = fromJS({
 
 const searchReducer = function (state = DEFAULT_STATE, action) {
   // TODO cleanup fromJS/toJS handling here.
-  switch(action.type) {
-  case 'SEARCH_ERROR':
-    if (!action.payload) {
-      return state.set('errorMessage', '').set('isError', false);
+  switch (action.type) {
+    case 'SEARCH_ERROR':
+      if (!action.payload) {
+        return state.set('errorMessage', '').set('isError', false);
+      }
+      return state.set('errorMessage', action.payload).set('isError', true);
+    case '@@router/LOCATION_CHANGE': {
+      // update active cat
+      let newActiveCat = action.payload.query.category || 'none';
+      // parse aggs to update active state during route change
+      return state
+        .set('aggregations', fromJS(parseAggs(state.get('aggregations').toJS(), action.payload.query)))
+        .set('activeCategory', newActiveCat);
     }
-    return state.set('errorMessage', action.payload).set('isError', true);
-  case '@@router/LOCATION_CHANGE': {
-    // update active cat
-    let newActiveCat = action.payload.query.category || 'none';
-    // parse aggs to update active state during route change
-    return state.set('aggregations', fromJS(parseAggs(state.get('aggregations').toJS(), action.payload.query)))
-      .set('activeCategory', newActiveCat);
-  }
-  case 'SEARCH_RESPONSE': {
-    let actionCat = action.category || 'none';
-    let resultsTargetsVals = {
-      'gene': 'geneResults',
-      'go': 'goResults',
-      'disease': 'diseaseResults',
-      'allele': 'alleleResults',
-      'none': 'results'
-    };
-    let totalTargetsVals = {
-      'gene': 'geneTotal',
-      'go': 'goTotal',
-      'disease': 'diseaseTotal',
-      'allele': 'alleleTotal',
-      'none': 'total'
-    };
-    let resultsTarget = resultsTargetsVals[actionCat] || 'results';
-    let totalTarget = totalTargetsVals[actionCat] || 'total';
-    // maybe parse aggs
-    let newAggs = (actionCat === 'none') ? fromJS(parseAggs(action.payload.aggregations, action.queryParams)) : state.get('aggregations');
-    // parse meta
-    return state
-      .set(totalTarget, action.payload.total)
-      .set('aggregations', newAggs)
-      .set('activeCategory', action.queryParams.category || 'none')
-      .set('isReady', true)
-      // parse results
-      .set(resultsTarget, fromJS(parseResults(action.payload.results)));
-  }
-  default:
-    return state;
+    case 'SEARCH_RESPONSE': {
+      let actionCat = action.category || 'none';
+      let resultsTargetsVals = {
+        gene: 'geneResults',
+        go: 'goResults',
+        disease: 'diseaseResults',
+        allele: 'alleleResults',
+        none: 'results',
+      };
+      let totalTargetsVals = {
+        gene: 'geneTotal',
+        go: 'goTotal',
+        disease: 'diseaseTotal',
+        allele: 'alleleTotal',
+        none: 'total',
+      };
+      let resultsTarget = resultsTargetsVals[actionCat] || 'results';
+      let totalTarget = totalTargetsVals[actionCat] || 'total';
+      // maybe parse aggs
+      let newAggs =
+        actionCat === 'none'
+          ? fromJS(parseAggs(action.payload.aggregations, action.queryParams))
+          : state.get('aggregations');
+      // parse meta
+      return (
+        state
+          .set(totalTarget, action.payload.total)
+          .set('aggregations', newAggs)
+          .set('activeCategory', action.queryParams.category || 'none')
+          .set('isReady', true)
+          // parse results
+          .set(resultsTarget, fromJS(parseResults(action.payload.results)))
+      );
+    }
+    default:
+      return state;
   }
 };
 

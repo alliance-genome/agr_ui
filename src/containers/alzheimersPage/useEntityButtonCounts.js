@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 
 export function useEntityButtonCounts(url, limit) {
   const [counts, setCounts] = useState();
@@ -36,9 +36,9 @@ export function useEntityButtonCounts(url, limit) {
       const subject = each.subject;
       const symbol = subject.geneSymbol?.displayText
         ? subject.geneSymbol?.displayText
-          : subject.name
-            ? subject.name
-              : subject.alleleSymbol?.displayText
+        : subject.name
+          ? subject.name
+          : subject.alleleSymbol?.displayText;
       const type = each.generatedRelationString;
 
       if (symbol && !set.has(symbol) && !isWrongType(type)) {
@@ -48,7 +48,7 @@ export function useEntityButtonCounts(url, limit) {
 
     return set.size;
     function isWrongType(type) {
-      return type === 'is_not_implicated_in' || type === 'does_not_model'
+      return type === 'is_not_implicated_in' || type === 'does_not_model';
     }
   }
 

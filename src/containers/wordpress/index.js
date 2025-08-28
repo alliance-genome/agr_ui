@@ -1,9 +1,5 @@
-import WordpressPage from './wordpressPage';
-import WordpressPost from './wordpressPost';
-import WordpressPostList from './wordpressPostList';
+import WordpressPage from './wordpressPage.jsx';
+import WordpressPost from './wordpressPost.jsx';
+import WordpressPostList from './wordpressPostList.jsx';
 
-export {
-  WordpressPage,
-  WordpressPost,
-  WordpressPostList,
-};
+export { WordpressPage, WordpressPost, WordpressPostList };

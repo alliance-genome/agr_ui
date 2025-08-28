@@ -1,0 +1,33 @@
+name: Claude Code Review
+
+# IMPORTANT: This workflow automatically runs ONLY when a PR is first opened.
+# To request another review after making changes, comment "@claude Please review my changes."
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  issue_comment:
+    types: [created]
+
+jobs:
+  claude-review:
+    # Only run on pull requests and PR comments (not issue comments)
+    if: |
+      (github.event_name == 'pull_request' && github.event.action == 'opened') || 
+      (github.event_name == 'issue_comment' && github.event.issue.pull_request)
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+      # REQUIRED: Must grant id-token permission to the reusable workflow
+      id-token: write
+    uses: alliance-genome/.github/.github/workflows/claude-code-review.yml@main
+    with:
+      model: claude-sonnet-4-20250514
+      max_turns: 30
+      # Frontend-specific focus for React UI application
+      review_focus: 'critical bugs, security vulnerabilities, and performance issues in the React frontend application. Focus on: component rendering errors, state management bugs, memory leaks, XSS vulnerabilities, and accessibility violations'
+      trigger_phrase: '@claude'
+      # Use centralized threshold from .github repo (skip_threshold: 3)
+    secrets:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}

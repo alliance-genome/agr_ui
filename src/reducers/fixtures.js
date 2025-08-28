@@ -1,7 +1,7 @@
 const FIXTURE_HREF = 'https://google.com';
 
 export const FIXTURE_SEARCH_STATE = {
-  query: 'huntington\'s',
+  query: "huntington's",
   results: [
     {
       symbol: 'NTPCR',
@@ -16,10 +16,10 @@ export const FIXTURE_SEARCH_STATE = {
       relativeStartCoordinates: 100,
       relativeStopCoordinates: 1000,
       species: 'Mus musculus',
-      disease: 'lore ipsum <mark>huntington\'s</mark> sit onsectetur adipiscing elit, sed do eiusmod',
+      disease: "lore ipsum <mark>huntington's</mark> sit onsectetur adipiscing elit, sed do eiusmod",
       highlight: {
-        disease: ['lorem ipsum <mark>huntington\'s</mark> sit onsectetur adipiscing elit, sed do eiusmod']
-      }
+        disease: ["lorem ipsum <mark>huntington's</mark> sit onsectetur adipiscing elit, sed do eiusmod"],
+      },
     },
     {
       symbol: 'Ctag2',
@@ -34,11 +34,11 @@ export const FIXTURE_SEARCH_STATE = {
       relativeStartCoordinates: 100,
       relativeStopCoordinates: 1000,
       species: 'Mus musculus',
-      disease: 'lorem ipsum <mark>huntington\'s</mark> sit onsectetur adipiscing elit, sed do eiusmod',
+      disease: "lorem ipsum <mark>huntington's</mark> sit onsectetur adipiscing elit, sed do eiusmod",
       highlight: {
-        disease: ['lorem ipsum <mark>huntington\'s</mark> sit onsectetur adipiscing elit, sed do eiusmod']
-      }
-    }
+        disease: ["lorem ipsum <mark>huntington's</mark> sit onsectetur adipiscing elit, sed do eiusmod"],
+      },
+    },
   ],
   activeCategory: 'gene',
   aggregations: [
@@ -50,21 +50,21 @@ export const FIXTURE_SEARCH_STATE = {
           name: 'Mus musculus',
           displayName: 'Mus musculus',
           total: 2,
-          isActive: true
+          isActive: true,
         },
         {
           name: 'Danio rerio',
           displayName: 'Danio rerio',
           total: 2,
-          isActive: false
+          isActive: false,
         },
         {
           name: 'Saccharomyces cerevisiae',
           displayName: 'Saccharomyces cerevisiae',
           total: 1,
-          isActive: false
-        }
-      ]
+          isActive: false,
+        },
+      ],
     },
     {
       name: 'go',
@@ -74,33 +74,33 @@ export const FIXTURE_SEARCH_STATE = {
           name: 'mediator complex',
           displayName: 'Mediator Complex',
           total: 3,
-          isActive: false
+          isActive: false,
         },
         {
           name: 'mitochondrial inner membrane',
           displayName: 'Mitochondrial Inner Membrane',
           total: 1,
-          isActive: false
+          isActive: false,
         },
         {
           name: 'cell periphery',
           displayName: 'Cell Periphery',
           total: 1,
-          isActive: false
-        }
-      ]
+          isActive: false,
+        },
+      ],
     },
     {
       name: 'disease',
       displayName: 'Disease',
       values: [
         {
-          name: 'huntington\'s Disease',
-          displayName: 'Huntington\'s disease',
+          name: "huntington's Disease",
+          displayName: "Huntington's disease",
           total: 5,
-          isActive: false
-        }
-      ]
+          isActive: false,
+        },
+      ],
     },
     {
       name: 'ortholog groups',
@@ -110,17 +110,17 @@ export const FIXTURE_SEARCH_STATE = {
           name: 'group A',
           displayName: 'group A',
           total: 3,
-          isActive: false
+          isActive: false,
         },
         {
           name: 'group B',
           displayName: 'group B',
           total: 1,
-          isActive: false
-        }
-      ]
-    }
+          isActive: false,
+        },
+      ],
+    },
   ],
   total: 2,
-  isPending: false
+  isPending: false,
 };

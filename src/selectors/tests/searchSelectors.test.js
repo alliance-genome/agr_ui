@@ -1,7 +1,5 @@
 import assert from 'assert';
-import {
-  fromJS
-} from 'immutable';
+import { fromJS } from 'immutable';
 
 import {
   selectSearchDomain,
@@ -41,7 +39,7 @@ describe('SearchSelectors', () => {
 
   it('selectResults', () => {
     const searchState = {
-      results: [1, 2, 3, 4]
+      results: [1, 2, 3, 4],
     };
     const mockedState = {
       search: fromJS(searchState),
@@ -51,7 +49,7 @@ describe('SearchSelectors', () => {
 
   it('selectErrorMessage', () => {
     const searchState = {
-      errorMessage: 'This is an error'
+      errorMessage: 'This is an error',
     };
     const mockedState = {
       search: fromJS(searchState),
@@ -61,7 +59,7 @@ describe('SearchSelectors', () => {
 
   it('selectIsError', () => {
     const searchState = {
-      isError: true
+      isError: true,
     };
     const mockedState = {
       search: fromJS(searchState),
@@ -71,7 +69,7 @@ describe('SearchSelectors', () => {
 
   it('selectTotal', () => {
     const searchState = {
-      total: 10
+      total: 10,
     };
     const mockedState = {
       search: fromJS(searchState),
@@ -81,7 +79,7 @@ describe('SearchSelectors', () => {
 
   it('selectPageSize', () => {
     const searchState = {
-      pageSize: 33
+      pageSize: 33,
     };
     const mockedState = {
       search: fromJS(searchState),
@@ -92,7 +90,7 @@ describe('SearchSelectors', () => {
   it('selectTotalPages', () => {
     let searchState = {
       total: 10,
-      pageSize: 50
+      pageSize: 50,
     };
     let mockedState = {
       search: fromJS(searchState),
@@ -101,7 +99,7 @@ describe('SearchSelectors', () => {
 
     searchState = {
       total: 101,
-      pageSize: 50
+      pageSize: 50,
     };
     mockedState = {
       search: fromJS(searchState),
@@ -111,7 +109,7 @@ describe('SearchSelectors', () => {
 
   it('selectActiveCategory', () => {
     const searchState = {
-      activeCategory: 'my category'
+      activeCategory: 'my category',
     };
     const mockedState = {
       search: fromJS(searchState),
@@ -121,13 +119,16 @@ describe('SearchSelectors', () => {
 
   it('selectAggregations', () => {
     const searchState = {
-      aggregations: [{
-        name: 'myagg1',
-        displayName: 'My agg1'
-      }, {
-        name: 'myagg2',
-        displayName: 'My agg2'
-      }]
+      aggregations: [
+        {
+          name: 'myagg1',
+          displayName: 'My agg1',
+        },
+        {
+          name: 'myagg2',
+          displayName: 'My agg2',
+        },
+      ],
     };
     const mockedState = {
       search: fromJS(searchState),
