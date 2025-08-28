@@ -14,6 +14,7 @@ const AlleleSummary = ({
   allele,
   category,
   description,
+  crossReference,
   alleleOfGene,
   constructSlimList
 }) => {
@@ -67,8 +68,8 @@ const AlleleSummary = ({
 
       <AttributeLabel>Additional Information</AttributeLabel>
       <AttributeValue>
-        {allele.crossReferences && (
-          <DataSourceLinkCuration reference={allele.crossReferences[0]}>Literature</DataSourceLinkCuration>
+        {crossReference && (
+          <DataSourceLinkCuration reference={crossReference}>Literature</DataSourceLinkCuration>
         )}
       </AttributeValue>
     </AttributeList>

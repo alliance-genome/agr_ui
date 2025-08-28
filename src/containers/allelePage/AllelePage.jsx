@@ -92,6 +92,7 @@ const AllelePage = () => {
             allele={data.allele}
             category={data.category}
             description={data.description}
+            crossReference={data.crossReference}
             alleleOfGene={data.alleleOfGene}
             constructSlimList={data.constructSlimList}
           />
