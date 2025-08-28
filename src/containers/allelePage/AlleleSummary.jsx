@@ -49,7 +49,7 @@ const AlleleSummary = ({
           <CommaSeparatedList>
             {constructSlimList.map((construct) => (
               <DataSourceLinkCuration key={construct.primaryExternalId} reference={construct.dataProviderCrossReference}>
-                <span dangerouslySetInnerHTML={{ __html: construct.name }} />
+                <span dangerouslySetInnerHTML={{ __html: construct.constructSymbol?.displayText }} />
               </DataSourceLinkCuration>
             ))}
           </CommaSeparatedList>
