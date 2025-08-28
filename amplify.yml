@@ -10,10 +10,10 @@ frontend:
         - npm -v
         - rm -f package-lock.json
         - rm -rf node_modules
-        - npm install
-        - npm install -D typescript vite @vitejs/plugin-react
+        - unset NODE_ENV && npm install
+        - unset NODE_ENV && npm install typescript vite @vitejs/plugin-react --save-dev
         - ls -la node_modules/.bin/tsc || echo "tsc not found"
-        - which tsc || npx tsc --version
+        - npx tsc --version || echo "tsc not available"
     build:
       commands:
         - npm run build
