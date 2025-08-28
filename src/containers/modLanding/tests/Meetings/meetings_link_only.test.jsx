@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import Meetings from '../../Meetings.js';
-import { MODContent } from '../../content.js';
+import Meetings from '../../Meetings.jsx';
+import { MODContent } from '../../content.jsx';
 import { getByTestId, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 

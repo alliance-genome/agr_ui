@@ -1,8 +1,8 @@
 import React from 'react';
 import HeadMetaTags from '../../components/headMetaTags.jsx';
 import PapersSection from './PapersSection.jsx';
-import ResourcesSection from './ResourcesSection.js';
-import DiseasePortalSection from './DiseasePortalSection.js';
+import ResourcesSection from './ResourcesSection.jsx';
+import DiseasePortalSection from './DiseasePortalSection.jsx';
 import MembersSection from '../../components/MembersSection.jsx';
 import { HELP_EMAIL } from '../../constants';
 

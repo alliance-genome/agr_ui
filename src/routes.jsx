@@ -14,7 +14,7 @@ import NotFound from './components/notFound.jsx';
 import DownloadsPage from './containers/downloadsPage/index.jsx';
 import AllelePage from './containers/allelePage/AllelePage.jsx';
 import VariantPage from './containers/allelePage/VariantPage.jsx';
-import MODLanding from './containers/modLanding/Main.js';
+import MODLanding from './containers/modLanding/Main.jsx';
 import AlzheimersPage from './containers/alzheimersPage/index.jsx';
 import BlastPage from './containers/blastPage/index.jsx';
 

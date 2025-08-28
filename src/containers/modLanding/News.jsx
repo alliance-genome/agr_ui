@@ -2,7 +2,7 @@ import React from 'react';
 import style from './style.module.scss';
 import PropTypes from 'prop-types';
 import WordpressNews from './wordpressNews.jsx';
-import NewsFlybase from './NewsFlybase.js';
+import NewsFlybase from './NewsFlybase.jsx';
 import NewsZfin from './NewsZfin.jsx';
 import ExternalLink from '../../components/ExternalLink.jsx';
 

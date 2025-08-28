@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import Search from '../../Search.jsx';
-import { MODContent } from '../../content.js';
+import { MODContent } from '../../content.jsx';
 import { getByTestId, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
@@ -26,7 +26,7 @@ describe('MGD Search', () => {
     expect(link_div).toContainElement(link);
   });
 
-  it('should render the correct hrefs with correct label in correct order from content.js', () => {
+  it('should render the correct hrefs with correct label in correct order from content.jsx', () => {
     for (let i = 0; i < content.search.length; i++) {
       let search = screen.getByTestId('href_search_' + i);
       expect(search).toHaveAttribute('href', content.search[i][1]);
