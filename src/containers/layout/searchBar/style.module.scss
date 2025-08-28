@@ -1,27 +1,27 @@
-@import "../../../theme.module";
+@import '../../../theme.module';
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 
 .searchBarOuter {
   border-radius: $border-radius;
-  box-shadow: 0 .075em .075em rgba(black, .3);
+  box-shadow: 0 0.075em 0.075em rgba(black, 0.3);
 }
 
 .dropdownItem {
-	padding-left: 0.5rem;
-	opacity: 0.75;
+  padding-left: 0.5rem;
+  opacity: 0.75;
 }
 
 .dropdownItem:hover {
-	opacity: 1;
+  opacity: 1;
 }
 
 .dropdownItem a {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 .autoContainer {
-	flex-grow: 1;
+  flex-grow: 1;
   position: relative;
 }
 
@@ -40,44 +40,44 @@
 }
 
 .autoInput:focus {
-	outline: none;
+  outline: none;
 }
 
 .suggestionsContainer {
-	position: absolute;
-	background: white;
-	border-radius: 0 0 0.25rem 0.25rem;
+  position: absolute;
+  background: white;
+  border-radius: 0 0 0.25rem 0.25rem;
   border: 1px solid $secondary;
   border-top-width: 0;
   width: 100%;
-	z-index: 102;
+  z-index: 102;
   font-size: $font-size-base;
 }
 
 .suggestionsList {
-	list-style: none;
-	padding: 0;
-	margin-bottom: 0;
+  list-style: none;
+  padding: 0;
+  margin-bottom: 0;
 }
 
 .autoContainer .suggestionsContainer {
-	display: none;
+  display: none;
 }
 
 .autoContainerOpen .suggestionsContainer {
-	display: block !important;
+  display: block !important;
 }
 
 .catContainer {
-	white-space: nowrap;
+  white-space: nowrap;
 }
 
 .autoListItem {
-	display: flex;
-	justify-content: space-between;
-	padding: 0.1rem 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.1rem 0.5rem;
 }
 
 .suggestionHighlighted {
-	background: $primary-100;
+  background: $primary-100;
 }

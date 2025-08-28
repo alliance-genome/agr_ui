@@ -1,11 +1,6 @@
-import DataPage from './dataPage';
-import PageData from './pageData';
-import PageHeader from './pageHeader';
-import PageNav from './pageNav';
+import DataPage from './dataPage.jsx';
+import PageData from './pageData.jsx';
+import PageHeader from './pageHeader.jsx';
+import PageNav from './pageNav.jsx';
 
-export {
-  DataPage,
-  PageData,
-  PageHeader,
-  PageNav,
-};
+export { DataPage, PageData, PageHeader, PageNav };

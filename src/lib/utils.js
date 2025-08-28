@@ -6,7 +6,7 @@ export function makeId(string) {
   return string.toLowerCase().replace(/[^A-Za-z0-9]/g, '-');
 }
 
-export function stripHtml (string) {
+export function stripHtml(string) {
   if (!string) {
     return '';
   }
@@ -14,7 +14,7 @@ export function stripHtml (string) {
 }
 
 function functionOrIdentity(func) {
-  return func || (val => val);
+  return func || ((val) => val);
 }
 
 export function compareAlphabeticalCaseInsensitive(accessor) {
@@ -32,14 +32,14 @@ export function smartAlphaSort(accessor) {
   return function (a, b) {
     const ax = accessor(a).toLowerCase();
     const bx = accessor(b).toLowerCase();
-    
+
     // Split strings into chunks of strings and numbers
     const splitRegex = /([0-9]+|[^0-9]+)/g;
     const aChunksArray = ax.match(splitRegex);
     const bChunksArray = bx.match(splitRegex);
 
     const len = Math.min(aChunksArray.length, bChunksArray.length);
-    
+
     for (let i = 0; i < len; i++) {
       // If both parts are numeric, compare as numbers
       if (!isNaN(aChunksArray[i]) && !isNaN(bChunksArray[i])) {
@@ -52,7 +52,7 @@ export function smartAlphaSort(accessor) {
         if (diff !== 0) return diff;
       }
     }
-    
+
     // If all parts are equal up to the length of the shorter string,
     // the shorter string comes first
     return aChunksArray.length - bChunksArray.length;
@@ -61,7 +61,7 @@ export function smartAlphaSort(accessor) {
 
 export function compareByFixedOrder(order, accessor) {
   accessor = functionOrIdentity(accessor);
-  const indexOf = value => {
+  const indexOf = (value) => {
     const index = order.indexOf(value);
     return index < 0 ? order.length : index;
   };
@@ -90,17 +90,14 @@ export function buildTableQueryString(options) {
     options = DEFAULT_TABLE_STATE;
   }
   const queryParams = {};
-  Object.entries(options.filters || {})
-    .forEach(([field, filter]) => {
-      let value = Array.isArray(filter.filterVal) ?
-        filter.filterVal.join('|') :
-        filter.filterVal;
-      queryParams[`filter.${field}`] = value || null;
-    });
+  Object.entries(options.filters || {}).forEach(([field, filter]) => {
+    let value = Array.isArray(filter.filterVal) ? filter.filterVal.join('|') : filter.filterVal;
+    queryParams[`filter.${field}`] = value || null;
+  });
   // these "or nulls" could be removed if https://github.com/ljharb/qs/issues/372 is resolved
   queryParams.page = options.page || null;
   queryParams.limit = options.sizePerPage || null;
-  queryParams.sortBy =  options.sort || null;
+  queryParams.sortBy = options.sort || null;
   return stringify(queryParams, {
     skipNull: true,
   });
@@ -116,46 +113,43 @@ export function getTableUrl(baseUrl, tableState) {
 
 export function orthologyMeetsStringency(orthology, stringency) {
   switch (stringency) {
-  case STRINGENCY_HIGH:
-    return orthology.strictFilter;
-  case STRINGENCY_MED:
-    return orthology.moderateFilter || orthology.strictFilter;
-  default:
-    return true;
+    case STRINGENCY_HIGH:
+      return orthology.strictFilter;
+    case STRINGENCY_MED:
+      return orthology.moderateFilter || orthology.strictFilter;
+    default:
+      return true;
   }
 }
 
 export function filterOrthologyByStringency(orthologyList, stringency) {
-  return orthologyList.filter(o => orthologyMeetsStringency(o, stringency));
+  return orthologyList.filter((o) => orthologyMeetsStringency(o, stringency));
 }
 
 export function getSpecies(taxonId) {
-  return SPECIES.find(s => s.taxonId === taxonId) || {};
+  return SPECIES.find((s) => s.taxonId === taxonId) || {};
 }
 
-export const shortSpeciesName = taxonId => {
+export const shortSpeciesName = (taxonId) => {
   return getSpecies(taxonId).shortName;
 };
 
-export const fullSpeciesName = taxonId => {
+export const fullSpeciesName = (taxonId) => {
   return getSpecies(taxonId).fullName;
 };
 
 export function htmlToPlainText(html) {
-  return html
-    .replaceAll('<sup>', '[')
-    .replaceAll('</sup>', ']');
+  return html.replaceAll('<sup>', '[').replaceAll('</sup>', ']');
 }
 
 export function getSingleGenomeLocation(genomeLocations) {
-  // extracted from container/genePage/index.js
+  // extracted from container/genePage/index.jsx
   // todo, add chromosome
   let genomeLocation = {};
   if (genomeLocations) {
     if (genomeLocations.length === 1) {
       genomeLocation = genomeLocations[0];
-    }
-    else if (genomeLocations.length > 1) {
+    } else if (genomeLocations.length > 1) {
       // TODO: figure out the proper assembly
       for (let i in genomeLocations) {
         let tempGenomeLocation = genomeLocations[i];
@@ -172,7 +166,7 @@ export function findFminFmax(locations) {
   let fmax;
   let fmin;
   (locations || []).forEach((location) => {
-    const {start, end} = location || {};
+    const { start, end } = location || {};
 
     if (typeof fmin === 'undefined' || (typeof start !== 'undefined' && start < fmin)) {
       fmin = start;

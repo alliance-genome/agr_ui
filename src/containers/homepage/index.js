@@ -1,20 +1,20 @@
 import React from 'react';
-import HeadMetaTags from '../../components/headMetaTags';
-import SearchSection from './SearchSection';
-import AboutSection from './AboutSection';
-import MembersSection from '../../components/MembersSection';
+import HeadMetaTags from '../../components/headMetaTags.jsx';
+import SearchSection from './SearchSection.jsx';
+import AboutSection from './AboutSection.jsx';
+import MembersSection from '../../components/MembersSection.jsx';
 import style from './style.module.scss';
-import WordpressInject from '../wordpress/wordpressInject';
+import WordpressInject from '../wordpress/wordpressInject.jsx';
 
 const Homepage = () => {
   return (
     <div>
-      <HeadMetaTags title='Home' />
+      <HeadMetaTags title="Home" />
       <SearchSection />
 
       <section className={style.section}>
         <div className={`${style.contentContainer}`}>
-          <WordpressInject  slug='agr-inject-homepage' />
+          <WordpressInject slug="agr-inject-homepage" />
         </div>
       </section>
 

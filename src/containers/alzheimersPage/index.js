@@ -1,12 +1,10 @@
 import React from 'react';
-import HeadMetaTags from '../../components/headMetaTags';
-import PapersSection from './PapersSection';
-import ResourcesSection from './ResourcesSection';
-import DiseasePortalSection from './DiseasePortalSection';
-import MembersSection from '../../components/MembersSection';
+import HeadMetaTags from '../../components/headMetaTags.jsx';
+import PapersSection from './PapersSection.jsx';
+import ResourcesSection from './ResourcesSection.js';
+import DiseasePortalSection from './DiseasePortalSection.js';
+import MembersSection from '../../components/MembersSection.jsx';
 import { HELP_EMAIL } from '../../constants';
-
-
 
 const AlzheimersPage = () => {
   return (
@@ -17,7 +15,9 @@ const AlzheimersPage = () => {
       <ResourcesSection />
 
       <div>
-        <h4 className='mt-4 text-center'>Need Help? Contact Us: &nbsp;<a href={`mailto:${HELP_EMAIL}`}>{HELP_EMAIL}</a></h4>
+        <h4 className="mt-4 text-center">
+          Need Help? Contact Us: &nbsp;<a href={`mailto:${HELP_EMAIL}`}>{HELP_EMAIL}</a>
+        </h4>
       </div>
 
       <MembersSection />

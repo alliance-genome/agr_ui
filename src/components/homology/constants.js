@@ -1,5 +1,17 @@
-const ORTHOLOGY_METHODS = ['Ensembl Compara', 'HGNC','Hieranoid','InParanoid','OMA','OrthoFinder',
-  'OrthoInspector','PANTHER','PhylomeDB','SonicParanoid','Xenbase','ZFIN'];
+const ORTHOLOGY_METHODS = [
+  'Ensembl Compara',
+  'HGNC',
+  'Hieranoid',
+  'InParanoid',
+  'OMA',
+  'OrthoFinder',
+  'OrthoInspector',
+  'PANTHER',
+  'PhylomeDB',
+  'SonicParanoid',
+  'Xenbase',
+  'ZFIN',
+];
 
 const methodCellWidth = 25;
 
@@ -35,5 +47,5 @@ export {
   methodHeaderStyle,
   STRINGENCY_HIGH,
   STRINGENCY_MED,
-  STRINGNECY_LOW
+  STRINGNECY_LOW,
 };

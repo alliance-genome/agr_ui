@@ -16,19 +16,21 @@ export default function useComparisonRibbonTableQuery(
   }
   const params = {
     ...additionalQueryParams,
+    // geneIds: orthologGenes,
+    // focusGeneId: focusGeneId,
     focusTaxonId: focusTaxonId,
   };
   if (termId && termId !== 'all') {
     params.termID = termId;
   }
-  
+
   const queryString = qs.stringify(params, {
     addQueryPrefix: true,
     arrayFormat: 'repeat',
   });
 
   const downloadUrl = `${baseUrl}/download${queryString}`;
-  
+
   const query = usePostDataTableQuery(
     baseUrl + queryString,
     geneIds,
@@ -36,11 +38,12 @@ export default function useComparisonRibbonTableQuery(
       enabled: orthologGenes !== null,
     },
     null,
-    90_000,
+    90_000
   );
 
   return {
     ...query,
     downloadUrl,
+    downloadBody: geneIds,
   };
 }
