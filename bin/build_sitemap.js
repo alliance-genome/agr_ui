@@ -24,7 +24,4 @@ simpleSitemapAndIndex({
     { url: '/event-calendar', changefreq: 'monthly', priority: 0.7, lastmodrealtime: true },
     { url: '/blast', changefreq: 'monthly', priority: 0.7, lastmodrealtime: true },
   ],
-}).then(() => {
-  fs.rename('./public/sitemap-0.xml', './public/main-sitemap.xml', console.error);
-  fs.rename('./public/sitemap-index.xml', './public/sitemap.xml', console.error);
 });
