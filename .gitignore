@@ -15,6 +15,7 @@ dist-ssr
 
 /src/dist
 /public/robots.txt
+/public/sitemap-*
 /src/resourceDescriptors.js
 
 # Editor directories and files
