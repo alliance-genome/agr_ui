@@ -14,9 +14,6 @@ frontend:
     build:
       commands:
         - export PATH=$PATH:`pwd`/node_modules/typescript/bin && npm run build
-        - npm run resource-descriptors
-        - npm run sitemap
-        - npm run robots
   artifacts:
     baseDirectory: build
     files:
