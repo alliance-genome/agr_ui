@@ -10,11 +10,10 @@ frontend:
         - npm -v
         - rm -f package-lock.json
         - rm -rf node_modules
-        - export PATH=$PATH:`pwd`/node_modules/typescript/bin
         - npm install
     build:
       commands:
-        - npm run build
+        - export PATH=$PATH:`pwd`/node_modules/typescript/bin && npm run build
   artifacts:
     baseDirectory: build
     files:
