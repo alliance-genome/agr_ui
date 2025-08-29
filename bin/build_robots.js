@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-const env = process.env.NODE_ENV;
+const env = process.env.SERVER_ENV;
 const directory = './public';
 const filename = 'robots.txt';
 
