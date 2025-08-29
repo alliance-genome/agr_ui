@@ -3,7 +3,7 @@ import style from './style.module.scss';
 import PropTypes from 'prop-types';
 import MeetingsZfin from './MeetingsZfin.jsx';
 import MeetingsRgd from './MeetingsRgd.jsx';
-import GoogleapisMeetings from './googleapisMeetings.jsx';
+import MeetingsGoogleApis from './MeetingsGoogleApis.jsx';
 import ExternalLink from '../../components/ExternalLink.jsx';
 
 const Meetings = ({ content }) => {
@@ -16,7 +16,7 @@ const Meetings = ({ content }) => {
         {(() => {
           if (content.googleapisMeetingsBaseURL) {
             return (
-              <GoogleapisMeetings
+              <MeetingsGoogleApis
                 urlMeetingsMod={content.googleapisMeetingsBaseURL}
                 fetchMeetingsCount={content.fetchMeetingsCount}
                 linkToMeetingsPage={content.linkToMeetingsPage}

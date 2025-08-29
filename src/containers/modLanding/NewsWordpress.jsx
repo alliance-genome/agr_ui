@@ -5,17 +5,21 @@ import LoadingSpinner from '../../components/loadingSpinner.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import PropTypes from 'prop-types';
 
-const parseZfinPosts = (zfinAPIRes) => {
-  if (zfinAPIRes !== undefined) {
-    if (zfinAPIRes['results']) {
-      return zfinAPIRes['results'].map((post) => {
-        return { title: post.title, link: post.url };
-      });
-    }
+const parseWordpressPosts = (wordPressAPIRes) => {
+  if (wordPressAPIRes.posts !== undefined)
+    // WP API version 1.1
+    return wordPressAPIRes.posts.map((post) => {
+      return { title: post.title, text: post.excerpt, link: post.URL, status: post.status };
+    });
+  else {
+    // WP API v2
+    return wordPressAPIRes.map((post) => {
+      return { title: post.title.rendered, text: post.excerpt.rendered, link: post.link, status: post.status };
+    });
   }
 };
 
-const NewsZfin = ({ urlNewsMod, fetchNewsCount, linkToNewsPage }) => {
+const NewsWordpress = ({ urlNewsMod, fetchNewsCount, linkToNewsPage }) => {
   const { data: postList, isLoading } = usePageLoadingQuery(urlNewsMod);
 
   let count = 1;
@@ -26,15 +30,16 @@ const NewsZfin = ({ urlNewsMod, fetchNewsCount, linkToNewsPage }) => {
           <div>
             {isLoading && <LoadingSpinner />}
             {postList &&
-              parseZfinPosts(postList).map((post) => {
+              parseWordpressPosts(postList).map((post) => {
+                if (post.status !== 'publish') {
+                  return null;
+                }
                 if (count > fetchNewsCount) {
                   return null;
                 }
                 count++;
                 let key = 'news_' + count;
-                if (post.text !== undefined) {
-                  post.text = post.text.replace(/\[&hellip;\]/, '<a href="' + post.link + '">[&hellip;]<\\a>');
-                }
+                post.text = post.text.replace(/\[&hellip;\]/, '<a href="' + post.link + '">[&hellip;]</a>');
                 return (
                   <div className={style.postContainer} key={key} data-testid={'div_news_' + count}>
                     <h4 className={style.h4extra} data-testid={'header_news_' + count}>
@@ -42,30 +47,30 @@ const NewsZfin = ({ urlNewsMod, fetchNewsCount, linkToNewsPage }) => {
                         {post.title}
                       </ExternalLink>
                     </h4>
+                    <p dangerouslySetInnerHTML={{ __html: post.text }} data-testid={'text_news_' + count} />
                   </div>
                 );
               })}
           </div>
         </div>
-        {linkToNewsPage && (
-          <div className={`row ${style.moreNews}`} data-testid={'more_news_div'}>
-            <ExternalLink data-testid={'more_news_link'} href={linkToNewsPage}>
-              <i>more news&hellip;</i>
-            </ExternalLink>
-          </div>
-        )}
+        <div className={`row ${style.moreNews}`}>
+          {linkToNewsPage && (
+            <div className={`row ${style.moreNews}`} data-testid={'more_news_div'}>
+              <ExternalLink data-testid={'more_news_link'} href={linkToNewsPage}>
+                <i>more news&hellip;</i>
+              </ExternalLink>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
 };
 
-// Zfin News API does not have text / excerpt content, if gets added, put this line after the <a> tag
-//                     <p dangerouslySetInnerHTML={{ __html: post.text}} data-testid={'text_news_' + count} />
-// and extract  text: post.excerpt,  into the parseZfinPosts.
-
-NewsZfin.propTypes = {
+NewsWordpress.propTypes = {
   urlNewsMod: PropTypes.string.isRequired,
   fetchNewsCount: PropTypes.number.isRequired,
+  linkToNewsPage: PropTypes.string.isRequired,
 };
 
-export default NewsZfin;
+export default NewsWordpress;

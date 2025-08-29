@@ -14,9 +14,8 @@ dist-ssr
 /build
 
 /src/dist
-/public/sitemap.xml
 /public/robots.txt
-/public/main-sitemap.xml
+/public/sitemap-*
 /src/resourceDescriptors.js
 
 # Editor directories and files

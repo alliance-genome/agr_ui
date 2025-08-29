@@ -36,7 +36,7 @@ describe('SGD Search', () => {
     }
   });
 
-  // Sanity check in case content.jsx gets corrupted.
+  // Sanity check in case content.js gets corrupted.
   // Check for something we expect to be there.
   // S. cerevisiae should always be the first one.
   if (

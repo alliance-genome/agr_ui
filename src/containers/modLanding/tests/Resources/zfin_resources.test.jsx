@@ -36,7 +36,7 @@ describe('ZFIN Resources', () => {
     }
   });
 
-  // Sanity check in case content.jsx gets corrupted.
+  // Sanity check in case content.js gets corrupted.
   // Check for something we expect to be there.
   // Search and Retrieve Zebrafish Data should always be the first one.?
   if (

@@ -36,7 +36,7 @@ describe('GOC Resources', () => {
     }
   });
 
-  // Sanity check in case content.jsx gets corrupted.
+  // Sanity check in case content.js gets corrupted.
   // Check for something we expect to be there.
   // PANTHER Enrichment Analysis should always be the first one.?
   if (
