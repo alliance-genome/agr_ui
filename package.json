@@ -15,7 +15,7 @@
     "preview": "vite preview",
     "preview:test": "API_URL=https://test.alliancegenome.org vite preview",
     "preview:stage": "API_URL=https://stage.alliancegenome.org vite preview",
-    "generators": "",
+    "generators": "npm run resource-descriptors && npm run sitemap && npm run robots",
     "robots": "node bin/build_robots.js",
     "sitemap": "node bin/build_sitemap.js",
     "resource-descriptors": "node bin/build_resource_descriptors.js",
