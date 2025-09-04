@@ -7,9 +7,11 @@ const SynonymListCuration = ({ synonyms }) => {
   return (
     (synonyms && (
       <CollapsibleList>
-        {synonyms.sort(synonym => compareAlphabeticalCaseInsensitive(synonym => synonym.formatText)).map((synonym) => (
-          <span dangerouslySetInnerHTML={{ __html: synonym.displayText }} key={synonym.formatText} />
-        ))}
+        {synonyms
+          .sort((a, b) => compareAlphabeticalCaseInsensitive(a.formatText, b.formatText))
+          .map((synonym) => (
+            <span dangerouslySetInnerHTML={{ __html: synonym.displayText }} key={synonym.formatText} />
+          ))}
       </CollapsibleList>
     )) || <></>
   );

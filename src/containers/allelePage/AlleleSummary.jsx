@@ -11,15 +11,7 @@ import DataSourceLinkCuration from '../../components/dataSourceLinkCuration.jsx'
 import GeneSymbolCuration from '../../components/GeneSymbolCuration.jsx';
 import { getSpeciesNameCorrected } from '../../lib/utils.js';
 
-const AlleleSummary = ({
-  allele,
-  category,
-  description,
-  crossReference,
-  alleleOfGene,
-  constructSlimList
-}) => {
-
+const AlleleSummary = ({ allele, category, description, crossReference, alleleOfGene, constructSlimList }) => {
   const speciesName = getSpeciesNameCorrected(allele.taxon?.name);
 
   return (
@@ -51,7 +43,10 @@ const AlleleSummary = ({
         {constructSlimList && constructSlimList.length && (
           <CommaSeparatedList>
             {constructSlimList.map((construct) => (
-              <DataSourceLinkCuration key={construct.primaryExternalId} reference={construct.dataProviderCrossReference}>
+              <DataSourceLinkCuration
+                key={construct.primaryExternalId}
+                reference={construct.dataProviderCrossReference}
+              >
                 <span dangerouslySetInnerHTML={{ __html: construct.constructSymbol?.displayText }} />
               </DataSourceLinkCuration>
             ))}
@@ -61,19 +56,17 @@ const AlleleSummary = ({
 
       <AttributeLabel>Synonyms</AttributeLabel>
       <AttributeValue placeholder="None">
-        {allele.alleleSynonyms && allele.alleleSynonyms.length && <SynonymListCuration synonyms={allele.alleleSynonyms} />}
+        {allele.alleleSynonyms && allele.alleleSynonyms.length && (
+          <SynonymListCuration synonyms={allele.alleleSynonyms} />
+        )}
       </AttributeValue>
 
       <AttributeLabel>Description</AttributeLabel>
-      <AttributeValue>
-        {description && <span dangerouslySetInnerHTML={{ __html: description }} />}
-      </AttributeValue>
+      <AttributeValue>{description && <span dangerouslySetInnerHTML={{ __html: description }} />}</AttributeValue>
 
       <AttributeLabel>Additional Information</AttributeLabel>
       <AttributeValue>
-        {crossReference && (
-          <DataSourceLinkCuration reference={crossReference}>Literature</DataSourceLinkCuration>
-        )}
+        {crossReference && <DataSourceLinkCuration reference={crossReference}>Literature</DataSourceLinkCuration>}
       </AttributeValue>
     </AttributeList>
   );
@@ -81,6 +74,11 @@ const AlleleSummary = ({
 
 AlleleSummary.propTypes = {
   allele: PropTypes.object,
+  category: PropTypes.string,
+  description: PropTypes.string,
+  crossReference: PropTypes.object,
+  alleleOfGene: PropTypes.object,
+  constructSlimList: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default AlleleSummary;

@@ -182,18 +182,18 @@ export function findFminFmax(locations) {
 }
 
 export function buildUrlFromTemplate(crossReference) {
-  if(!crossReference) return null;
+  if (!crossReference) return null;
 
   const referencedCurie = crossReference.referencedCurie;
   const urlTemplate = crossReference.resourceDescriptorPage?.urlTemplate;
 
-  let parts = referencedCurie.split(":");
+  let parts = referencedCurie.split(':');
 
   if (parts.length >= 2) {
     let prefix = parts[0];
     let localId = parts[1];
 
-    return urlTemplate.replace("[%s]", localId);
+    return urlTemplate.replace('[%s]', localId);
   }
 
   return null;
@@ -205,6 +205,4 @@ export function getSpeciesNameCorrected(name) {
     return 'Saccharomyces cerevisiae';
   }
   return name;
-
 }
-

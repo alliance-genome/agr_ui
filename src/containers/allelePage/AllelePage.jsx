@@ -59,7 +59,7 @@ const AllelePage = () => {
 
   const speciesName = getSpeciesNameCorrected(data.allele.taxon?.name);
 
-  const title = `${data.allele.alleleSymbol?.formatText } | ${speciesName} allele`;
+  const title = `${data.allele.alleleSymbol?.formatText} | ${speciesName} allele`;
 
   return (
     <DataPage>
