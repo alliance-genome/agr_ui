@@ -27,7 +27,11 @@ const CommaSeparatedSourceList = ({ sources }) => {
 
 const PubSourceLink = ({ ref }) => {
   const publisher = ref.resource_title; // or ref.publisher?
-  const pubDate = new Date(ref.date_published + 'T00:00:00'); // must add a time, or Date assumes midnight in Greenwich, which usually means you see the previous day instead
+  // this should not need to be done here; talk to Blue Team about fixing these date formats (e.g. "1999.7.30")
+  const date_pub_fixed = ref.date_published.replace(/\.(\d{1})[\.|$]/g, '.0$1.').replace(/\.+/g, '-');
+  // console.log(date_pub_fixed);
+  if (!publisher && !date_pub_fixed) return <i className="text-muted">Not Available</i>;
+  const pubDate = new Date(date_pub_fixed + 'T00:00:00'); // must add a time, or Date assumes midnight in Greenwich, which usually means you see the previous day instead
   const dateOptions = { year: 'numeric', month: 'short', day: 'numeric' };
   const dateParts = new Intl.DateTimeFormat('en-US', dateOptions).formatToParts(pubDate);
   const datePartValues = dateParts.map((p) => p.value);
@@ -57,6 +61,25 @@ const ReferenceSummary = ({ ref }) => {
   };
 
   // need to handle category: "correction", because these have no authors and my author map throws an error
+  const AuthorList = ({ ref }) => {
+    if (ref.authors === null) return <i className="text-muted">Not Available</i>;
+    return (
+      <CommaSeparatedList>
+        {ref.authors.map((auth) => (
+          <span dangerouslySetInnerHTML={{ __html: auth.name }} />
+        ))}
+      </CommaSeparatedList>
+    );
+  };
+
+  const ExternalCrossReferences = ({ xrefs }) => {
+    if (xrefs.length === 0) return <i className="text-muted">Not Available</i>;
+    return <CommaSeparatedSourceList sources={xrefs} />;
+  };
+  const MODidentifiers = ({ xrefs }) => {
+    if (xrefs.length === 0) return <i className="text-muted">Not Available</i>;
+    return <CommaSeparatedSourceList sources={xrefs} />;
+  };
 
   return (
     <AttributeList>
@@ -66,15 +89,13 @@ const ReferenceSummary = ({ ref }) => {
       </AttributeValue>
       <AttributeLabel>Authors</AttributeLabel>
       <AttributeValue>
-        <CommaSeparatedList>
-          {ref.authors.map((auth) => (
-            <span dangerouslySetInnerHTML={{ __html: auth.name }} />
-          ))}
-        </CommaSeparatedList>
+        <AuthorList ref={ref} />
       </AttributeValue>
       <AttributeLabel>Publication Source</AttributeLabel>
       <AttributeValue>
-        <PubSourceLink ref={ref}></PubSourceLink>
+        <div style={{ display: 'inline-block', backgroundColor: '#fec' }}>
+          <PubSourceLink ref={ref}></PubSourceLink>
+        </div>
         <button
           onClick={handleCopy}
           style={{ float: 'right', padding: '0 0.75rem', margin: -1 }}
@@ -86,11 +107,11 @@ const ReferenceSummary = ({ ref }) => {
 
       <AttributeLabel>Cross References</AttributeLabel>
       <AttributeValue placeholder="None">
-        <CommaSeparatedSourceList sources={ref.extXrefs} />
+        <ExternalCrossReferences xrefs={ref.extXrefs} />
       </AttributeValue>
       <AttributeLabel>MOD Identifier</AttributeLabel>
       <AttributeValue placeholder="None">
-        <CommaSeparatedSourceList sources={ref.modXrefs} />
+        <MODidentifiers xrefs={ref.modXrefs} />
       </AttributeValue>
       <AttributeLabel>Alliance Publication Type</AttributeLabel>
       <AttributeValue>{ref.category.replace(/_/g, ' ')}</AttributeValue>

@@ -9,12 +9,11 @@ import ExternalLink from '../../components/ExternalLink.jsx';
 import { CollapsibleList } from '../../components/collapsibleList';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
-import ApplySpeciesNameFormat from './SpeciesFinderFormatter.jsx';
 import ReferenceSummary from './ReferenceSummary.jsx';
+import ApplySpeciesNameFormat from './SpeciesFinderFormatter.jsx';
 import { useParams } from 'react-router-dom';
 import { getSingleReferenceUrl } from '../../components/dataTable/utils.jsx';
 import styles from './style.module.scss';
-import SpeciesName from '../../components/SpeciesName.jsx';
 
 // const MODS = 'Mods';
 const CITATION = 'Citation';
@@ -48,7 +47,7 @@ const SourceList = ({ sources }) => {
         <CollapsibleList>
           {sources.map((ref) => {
             return (
-              <ExternalLink href={getSingleReferenceUrl(ref.curie).url} key={ref.curie} className="" title={ref.curie}>
+              <ExternalLink href={getSingleReferenceUrl(ref.curie).url} key={ref.curie} title={ref.curie}>
                 {ref.curie}
               </ExternalLink>
             );
@@ -67,6 +66,7 @@ const ModSprites = ({ xrefs, size }) => {
   for (let i = 0; i < prefs.length; i++) {
     if (speciesMap[prefs[i]]) mods.push(speciesMap[prefs[i]]);
   }
+  if (xrefs.length === 0) return <SpeciesIcon scale={scale} species={'Homo sapiens'} key="Hsap-sprite" />;
   return (
     <div style={{ textIndent: wth / 2 }} className={styles.speciesSprites}>
       {/* <SpeciesIcon scale={scale} species={'Homo sapiens'} key="Hsap-sprite" /> */}
@@ -83,18 +83,16 @@ const ModSprites = ({ xrefs, size }) => {
 
 const ReferencePage = () => {
   const { id: referenceId } = useParams();
-  // const { data, isLoading, isError } = usePageLoadingQuery(`/api/reference/${referenceId}`);
-  const { data, isLoading, isError } = usePageLoadingQuery(
-    `https://literature-rest.alliancegenome.org/reference/${referenceId}`
-  );
-  // const ref = data.literatureSummary;
-  const ref = data;
+  const { data, isLoading, isError } = usePageLoadingQuery(`/api/reference/${referenceId}`);
+  // const { data, isLoading, isError } = usePageLoadingQuery(    `https://literature-rest.alliancegenome.org/reference/${referenceId}`  );
   if (isError) {
     return <NotFound />;
   }
   if (isLoading) {
     return null;
   }
+  const ref = data.literatureSummary;
+  // const ref = data;
 
   // separate xrefs into mod xrefs and external xrefs here, and attach them to ref object
   ref.modXrefs = [];
@@ -107,6 +105,12 @@ const ReferencePage = () => {
   }
   // console.log(ref.modXrefs);
 
+  const FormattedAbstract = ({ abstract }) => {
+    if (!abstract) return <i className="text-muted">Not Available</i>;
+    if (abstract === null) return <i className="text-muted">Not Available</i>;
+    return <ApplySpeciesNameFormat text={abstract} />;
+  };
+
   return (
     <DataPage>
       <HeadMetaTags title={ref.title} />
@@ -115,9 +119,11 @@ const ReferencePage = () => {
         <PageNavEntity>
           <ModSprites xrefs={ref.modXrefs} size="48" />
         </PageNavEntity>
-        <PageNavEntity entityName={ref.citation_short}>
-          <SourceList sources={ref.modXrefs} />
-        </PageNavEntity>
+        <div style={{ backgroundColor: '#fec' }}>
+          <PageNavEntity entityName={ref.citation_short || ref.shortCitation || ref.citation}>
+            <SourceList sources={ref.modXrefs} />
+          </PageNavEntity>
+        </div>
       </PageNav>
 
       <PageData>
@@ -129,7 +135,7 @@ const ReferencePage = () => {
           <ReferenceSummary ref={ref} />
         </Subsection>
         <Subsection title={ABSTRACT}>
-          <ApplySpeciesNameFormat text={ref.abstract} />
+          <FormattedAbstract abstract={ref.abstract} />
         </Subsection>
       </PageData>
     </DataPage>
