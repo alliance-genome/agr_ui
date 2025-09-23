@@ -66,17 +66,17 @@ const ModSprites = ({ xrefs, size }) => {
   for (let i = 0; i < prefs.length; i++) {
     if (speciesMap[prefs[i]]) mods.push(speciesMap[prefs[i]]);
   }
-  if (xrefs.length === 0) return <SpeciesIcon scale={scale} species={'Homo sapiens'} key="Hsap-sprite" />;
+  if (xrefs.length === 0)
+    return (
+      <div style={{ textIndent: wth / 2 }} className={styles.speciesSprites}>
+        <SpeciesIcon scale={scale} species={'Homo sapiens'} key="Hsap-sprite" />
+      </div>
+    );
   return (
     <div style={{ textIndent: wth / 2 }} className={styles.speciesSprites}>
-      {/* <SpeciesIcon scale={scale} species={'Homo sapiens'} key="Hsap-sprite" /> */}
       {mods.map((mid) => (
-        <SpeciesIcon scale={scale} species={mid} key={`${mid}-sprite`} iconClass="speciesSprite" />
+        <SpeciesIcon scale={scale} species={mid} key={`${mid}-sprite`} />
       ))}
-      {/* <SpeciesIcon scale={scale} species={'Danio rerio'} key="Drer-sprite" /> */}
-      {/* <SpeciesIcon scale={scale} species={'Saccharomyces cerevisiae'} key="Drer-sprite" /> */}
-      {/* <SpeciesIcon scale={scale} species={'Rattus norvegicus'} key="Drer-sprite" /> */}
-      {/* <SpeciesIcon scale={scale} species={'Drosophila melanogaster'} key="Drer-sprite" /> */}
     </div>
   );
 };
