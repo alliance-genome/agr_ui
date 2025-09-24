@@ -42,9 +42,7 @@ const BlastService = () => {
       <ul>
         {blastServers.map((server) => (
           <li key={server.dataProvider + server.name}>
-            <a href={'/blast/' + server.dataProvider + '/' + server.name}>
-              {server.dataProvider + ' - ' + server.name}
-            </a>
+            <a href={'/blast/' + server.dataProvider + '/' + server.name}>{server.display_name}</a>
           </li>
         ))}
       </ul>
