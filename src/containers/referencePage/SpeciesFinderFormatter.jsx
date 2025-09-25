@@ -20,7 +20,7 @@ const ApplySpeciesNameFormat = ({ text }) => {
 };
 
 ApplySpeciesNameFormat.propTypes = {
-  text: PropTypes.text,
+  text: PropTypes.string,
 };
 
 export default ApplySpeciesNameFormat;
