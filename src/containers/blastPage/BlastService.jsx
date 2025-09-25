@@ -23,7 +23,8 @@ const BlastService = () => {
   const { data, isLoading, error } = useBlastServers();
 
   if (error) {
-    return console.log('ERROR: BlastServerList: ', error);
+    console.log('ERROR: BlastServerList: ', error);
+    return null;
   }
   if (isLoading) {
     return <LoadingPage />;
