@@ -43,7 +43,7 @@ const speciesMap = {
 const SourceList = ({ sources }) => {
   return (
     sources && (
-      <div style={{ textIndent: 8 }}>
+      <div style={{ textIndent: 8, marginTop: 6 }}>
         <CollapsibleList>
           {sources.map((ref) => {
             return (
@@ -119,7 +119,8 @@ const ReferencePage = () => {
         <PageNavEntity>
           <ModSprites xrefs={ref.modXrefs} size="48" />
         </PageNavEntity>
-        <div style={{ backgroundColor: '#fec' }}>
+        {/* <div style={{ backgroundColor: '#fec' }}> */}
+        <div>
           <PageNavEntity entityName={ref.citation_short || ref.shortCitation || ref.citation}>
             <SourceList sources={ref.modXrefs} />
           </PageNavEntity>

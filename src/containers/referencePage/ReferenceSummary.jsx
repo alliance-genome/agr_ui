@@ -26,6 +26,7 @@ const CommaSeparatedSourceList = ({ sources }) => {
 };
 
 const PubSourceLink = ({ ref }) => {
+  return <i className="text-muted">Not Available</i>;
   const publisher = ref.resource_title; // or ref.publisher?
   // this should not need to be done here; talk to Blue Team about fixing these date formats (e.g. "1999.7.30")
   const date_pub_fixed = ref.date_published.replace(/\b(\d)\b/g, '0$1').replace(/\.+/g, '-');
@@ -92,9 +93,9 @@ const ReferenceSummary = ({ ref }) => {
       </AttributeValue>
       <AttributeLabel>Publication Source</AttributeLabel>
       <AttributeValue>
-        <div style={{ display: 'inline-block', backgroundColor: '#fec' }}>
-          <PubSourceLink ref={ref}></PubSourceLink>
-        </div>
+        {/* <div style={{ display: 'inline-block', backgroundColor: '#fec' }}> */}
+        <PubSourceLink ref={ref}></PubSourceLink>
+        {/* </div> */}
         <button
           onClick={handleCopy}
           style={{ float: 'right', padding: '0 0.75rem', margin: -1 }}
