@@ -36,7 +36,7 @@ describe('MGD Resources', () => {
     }
   });
 
-  // Sanity check in case content.jsx gets corrupted.
+  // Sanity check in case content.js gets corrupted.
   // Check for something we expect to be there.
   // Mouse Genes should always be the first one.?
   if (

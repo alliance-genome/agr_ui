@@ -3,9 +3,15 @@ import style from './style.module.scss';
 // import SearchBarComponent from '../layout/searchBar';
 // import SearchExample from './SearchExample';
 import EntityButton from './EntityButton.jsx';
+import { useEntityButtonCounts } from './useEntityButtonCounts.js';
 // import {Link} from 'react-router-dom';
 
 const DiseasePortalSection = () => {
+  const url = '/api/disease/DOID:10652/';
+  const geneCount = useEntityButtonCounts(url + 'genes', 5000);
+  const modelCount = useEntityButtonCounts(url + 'models', 5000);
+  const alleleCount = useEntityButtonCounts(url + 'alleles', 5000);
+
   return (
     <section className={`${style.section} ${style.searchBackground} shadow`}>
       <div className={style.contentContainer}>
@@ -28,13 +34,11 @@ const DiseasePortalSection = () => {
             to="/disease/DOID:10652#associated-models"
             tooltip="View all associated models"
           >
-            213
-            <br />
+            <div>{modelCount ?? '213'}</div>
             Models
           </EntityButton>
           <EntityButton id="entity-genes" to="/disease/DOID:10652#associated-genes" tooltip="View all associated genes">
-            2,939
-            <br />
+            <div>{geneCount ?? '2,939'}</div>
             Genes
           </EntityButton>
           <EntityButton
@@ -42,8 +46,7 @@ const DiseasePortalSection = () => {
             to="/disease/DOID:10652#associated-alleles"
             tooltip="View all associated alleles"
           >
-            268
-            <br />
+            <div>{alleleCount ?? '268'}</div>
             Alleles
           </EntityButton>
           <EntityButton id="entity-publications" to="/disease-portal/alzheimers-disease">

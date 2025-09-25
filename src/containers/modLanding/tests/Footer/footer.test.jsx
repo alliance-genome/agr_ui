@@ -51,7 +51,7 @@ describe('MOD footer tests', () => {
 
   it('should render the correct hrefs with correct label in correct order from content.jsx', () => {
     for (let i = 0; i < defaultContent.footer.length; i++) {
-      let footer = screen.getByTestId('href_footer_' + i);
+      let footer = screen.getByTestId('footer_link_' + i);
       expect(footer).toHaveAttribute('href', defaultContent.footer[i][2]);
 
       let label = screen.getByTestId('footer_label_' + i);

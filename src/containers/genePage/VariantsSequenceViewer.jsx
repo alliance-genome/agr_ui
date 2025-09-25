@@ -6,7 +6,13 @@ import { getSingleGenomeLocation } from '../../lib/utils';
 const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisible, onAllelesSelect }) => {
   const genomeLocationList = gene.genomeLocations;
   const genomeLocation = getSingleGenomeLocation(genomeLocationList);
-  const displayType = 'ISOFORM_AND_VARIANT';
+
+  // Use ISOFORM display type for human and SGD since they don't have variants to display at the moment
+  // This avoids showing error messages about missing variant data
+  // TODO: Change back to ISOFORM_AND_VARIANT when variant data is available for these species
+  const species = gene.species?.taxonId;
+  const isHumanOrSGD = species === 'NCBITaxon:9606' || species === 'NCBITaxon:559292';
+  const displayType = isHumanOrSGD ? 'ISOFORM' : 'ISOFORM_AND_VARIANT';
 
   // TODO: remove when onAllelesSelect is in use
   // onAllelesSelect is to be called with a list of allele IDs, when selecting alleles throw the viewer.
@@ -14,6 +20,10 @@ const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisi
   // console.log(onAllelesSelect); // eslint-disable-line no-console
 
   if (!genomeLocation.chromosome) {
+    return null;
+  }
+
+  if (!fmin || !fmax) {
     return null;
   }
 

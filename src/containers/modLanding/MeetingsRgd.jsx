@@ -1,5 +1,6 @@
 import React from 'react';
 import style from './style.module.scss';
+import ExternalLink from '../../components/ExternalLink.jsx';
 import LoadingSpinner from '../../components/loadingSpinner.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import PropTypes from 'prop-types';
@@ -16,7 +17,7 @@ const parseRgdPosts = (rgdAPIRes) => {
 
 // rgd modeled their api news+meetings format after flybase news, so very similar
 // uses different parseRgdPosts ['meetings'] vs ['news'], 'meetings' in test keys,
-// different field in content.jsx
+// different field in content.js
 // NewsFlybase could probably be re-parameterized to pass 'news' / 'meetings' to reuse
 // that code for this, but not sure how to pass that into the map for parseRgdPosts
 const MeetingsRgd = ({ urlMeetingsMod, fetchMeetingsCount, linkToMeetingsPage }) => {
@@ -54,9 +55,9 @@ const MeetingsRgd = ({ urlMeetingsMod, fetchMeetingsCount, linkToMeetingsPage })
         </div>
         {linkToMeetingsPage && (
           <div className={`row ${style.moreNews}`} data-testid={'more_meetings_div'}>
-            <a href={linkToMeetingsPage} data-testid={'more_meetings_link'}>
+            <ExternalLink data-testid={'more_meetings_link'} href={linkToMeetingsPage}>
               <i>more meetings&hellip;</i>
-            </a>
+            </ExternalLink>
           </div>
         )}
       </div>

@@ -302,7 +302,7 @@ export class AmplifyProductionStack extends cdk.Stack {
       role: iam.Role.fromRoleArn(this, 'AmplifyALBRole', 'arn:aws:iam::100225593120:role/StageAmplifyRole'),
     });
 
-    amplifyApp.addEnvironment('NODE_ENV', 'production');
+    amplifyApp.addEnvironment('SERVER_ENV', 'production');
 
     const main = amplifyApp.addBranch('main', { autoBuild: true, branchName: 'main', stage: 'PRODUCTION' });
 
