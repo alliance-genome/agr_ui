@@ -37,7 +37,7 @@ const CommaSeparatedGeneList = ({ genes }) => {
 CommaSeparatedGeneList.propTypes = {
   genes: PropTypes.arrayOf(
     PropTypes.shape({
-        primaryExternalId: PropTypes.string,
+      primaryExternalId: PropTypes.string,
       species: PropTypes.shape({
         taxonId: PropTypes.string,
       }),

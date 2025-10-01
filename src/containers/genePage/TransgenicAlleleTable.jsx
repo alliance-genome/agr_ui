@@ -6,8 +6,8 @@ import useDataTableQuery from '../../hooks/useDataTableQuery';
 import CommaSeparatedGeneList from '../allelePage/CommaSeparatedGeneList.jsx';
 import RotatedHeaderCell from '../../components/dataTable/RotatedHeaderCell.jsx';
 import BooleanLinkCell from '../../components/dataTable/BooleanLinkCell.jsx';
-import {getDistinctFieldValue, simplifySpeciesNameSC} from '../../components/dataTable/utils.jsx';
-import {compareByFixedOrder, getSpeciesNameCorrected} from '../../lib/utils';
+import { getDistinctFieldValue, simplifySpeciesNameSC } from '../../components/dataTable/utils.jsx';
+import { compareByFixedOrder, getSpeciesNameCorrected } from '../../lib/utils';
 import { SPECIES_NAME_ORDER } from '../../constants';
 import SpeciesName from '../../components/SpeciesName.jsx';
 
@@ -82,7 +82,7 @@ const TransgenicAlleleTable = ({ geneId }) => {
         ),
       },
       formatter: (constructs) =>
-          constructs.map((transgenicAlleleConstruct) => (
+        constructs.map((transgenicAlleleConstruct) => (
           <div className="text-break">
             <div key={transgenicAlleleConstruct.construct.primaryExternalId} className="text-break">
               <ConstructLink construct={transgenicAlleleConstruct.construct} />
