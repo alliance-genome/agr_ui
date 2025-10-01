@@ -47,7 +47,7 @@ const TransgenicAlleleTable = ({ geneId }) => {
 
   const columns = [
     {
-      dataField: 'alleleDocument',
+      dataField: 'alleleDocument.allele.taxon',
       text: 'Species',
       headerNode: (
         <>
@@ -56,21 +56,21 @@ const TransgenicAlleleTable = ({ geneId }) => {
           <small className="text-muted text-transform-none">(carrying the transgene)</small>
         </>
       ),
-      formatter: (alleleDocument) => <SpeciesName>{simplifySpeciesNameSC(alleleDocument.allele.taxon?.name)}</SpeciesName>,
+      formatter: (taxon) => <SpeciesName>{simplifySpeciesNameSC(taxon?.name)}</SpeciesName>,
       filterable: getDistinctFieldValue(supplementalData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
-      filterFormatter: (alleleDocument) => <SpeciesName>{alleleDocument.allele.taxon.name}</SpeciesName>,
+      filterFormatter: (taxon) => <SpeciesName>{taxon.name}</SpeciesName>,
       headerStyle: { width: '100px' },
     },
     {
-      dataField: 'alleleDocument',
+      dataField: 'alleleDocument.allele',
       text: 'Allele symbol',
-      formatter: (alleleDocument) => <AlleleCell allele={alleleDocument.allele} />,
+      formatter: (allele) => <AlleleCell allele={allele} />,
       headerStyle: { width: '185px' },
       filterable: true,
       filterName: 'allele',
     },
     {
-      dataField: 'alleleDocument',
+      dataField: 'alleleDocument.transgenicAlleleConstructs',
       text: 'Transgenic construct',
       helpPopupProps: {
         id: 'gene-page--transgenetic-allele-table--transgenic-construct-help',
@@ -81,8 +81,8 @@ const TransgenicAlleleTable = ({ geneId }) => {
           </span>
         ),
       },
-      formatter: (alleleDocument) =>
-          alleleDocument.transgenicAlleleConstructs.map((transgenicAlleleConstruct) => (
+      formatter: (constructs) =>
+          constructs.map((transgenicAlleleConstruct) => (
           <div className="text-break">
             <div key={transgenicAlleleConstruct.construct.primaryExternalId} className="text-break">
               <ConstructLink construct={transgenicAlleleConstruct.construct} />
