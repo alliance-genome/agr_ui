@@ -26,6 +26,7 @@ const CommaSeparatedGeneList = ({ genes }) => {
         return (
           <MaybeLink key={gene.geneSymbol.displayText} url={url}>
             {gene.geneSymbol.displayText}
+            {gene.taxon && ` (${shortSpeciesName(gene.taxon.curie)})`}
           </MaybeLink>
         );
       })}

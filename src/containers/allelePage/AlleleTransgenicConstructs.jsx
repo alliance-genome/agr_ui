@@ -7,27 +7,21 @@ import { Link } from 'react-router-dom';
 import ConstructLink from '../../components/ConstructLink.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import usePageLoadingQuery from "../../hooks/usePageLoadingQuery.js";
-import NotFound from "../../components/notFound.jsx";
+import useTransgenicAllele from "../../hooks/useTransgenicAllele.js";
 
 const AlleleTransgenicConstructs = ({ alleleId }) => {
-    const { data, isLoading, isError } = usePageLoadingQuery(`/api/allele/${alleleId}/constructs`);
-
-    if (!alleleId ) {
-        return <Div>{alleleId}</Div>;
-    }
+    const { data, isLoading, isError } = useTransgenicAllele(alleleId);
 
     if (isLoading) {
         return null;
     }
 
-    if (isError) {
-        return <NotFound />;
+    if (isError || !data.constructs ) {
+        return <NoData />;
     }
 
-
     return (
-    <> wer
+    <>
       <span className="badge badge-secondary mb-3">
         This allele contains {data.transgenicAlleleConstructs.length} transgenic construct{data.transgenicAlleleConstructs.length !== 1 ? 's' : ''}
       </span>
