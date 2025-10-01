@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../../assets/images/alliance_logo_light.png';
+import logo from '../../assets/images/alliance_logo_light_minimal.png';
 // import SocialMedia from './SocialMedia';
 import SiteMap from './SiteMap.jsx';
 
@@ -12,7 +12,7 @@ const Footer = () => {
       <div className="container d-flex flex-column flex-lg-row">
         <div className={style.footerLogo}>
           <Link to="/">
-            <img alt="Alliance of Genome Resources logo" height="50" src={logo} />
+            <img alt="Alliance of Genome Resources logo" height="125" src={logo} />
           </Link>
         </div>
 
