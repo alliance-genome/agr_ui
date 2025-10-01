@@ -102,7 +102,9 @@ const AllelePage = () => {
         </Subsection>
 
         <Subsection title={CONSTRUCTS}>
-          <AlleleTransgenicConstructs constructs={data.constructs} />
+{
+          <AlleleTransgenicConstructs alleleId={alleleId} />
+}
         </Subsection>
 
         <Subsection title={VARIANTS}>

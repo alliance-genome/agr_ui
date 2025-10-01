@@ -22,11 +22,10 @@ const CommaSeparatedGeneList = ({ genes }) => {
   return (
     <CommaSeparatedList>
       {genes.map((gene) => {
-        const url = gene.id ? `/gene/${gene.id}` : null;
+        const url = gene.primaryExternalId ? `/gene/${gene.primaryExternalId}` : null;
         return (
-          <MaybeLink key={gene.symbol} url={url}>
-            <GeneSymbol gene={gene} />
-            {gene.species && ` (${shortSpeciesName(gene.species.taxonId)})`}
+          <MaybeLink key={gene.geneSymbol.displayText} url={url}>
+            {gene.geneSymbol.displayText}
           </MaybeLink>
         );
       })}
@@ -37,8 +36,7 @@ const CommaSeparatedGeneList = ({ genes }) => {
 CommaSeparatedGeneList.propTypes = {
   genes: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string,
-      symbol: PropTypes.string.isRequired,
+        primaryExternalId: PropTypes.string,
       species: PropTypes.shape({
         taxonId: PropTypes.string,
       }),

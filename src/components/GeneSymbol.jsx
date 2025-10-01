@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const GeneSymbol = ({ gene }) => {
-  return <span dangerouslySetInnerHTML={{ __html: gene.symbol }} />;
+const GeneSymbol = ({ symbol }) => {
+  return <span dangerouslySetInnerHTML={{ __html: symbol }} />;
 };
 
 GeneSymbol.propTypes = {
-  gene: PropTypes.shape({
     symbol: PropTypes.string,
-  }),
 };
 
 export default GeneSymbol;

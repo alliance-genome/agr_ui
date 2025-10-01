@@ -7,41 +7,54 @@ import { Link } from 'react-router-dom';
 import ConstructLink from '../../components/ConstructLink.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import usePageLoadingQuery from "../../hooks/usePageLoadingQuery.js";
+import NotFound from "../../components/notFound.jsx";
 
-const AlleleTransgenicConstructs = ({ constructs }) => {
-  if (!constructs || constructs.length === 0) {
-    return <NoData />;
-  }
+const AlleleTransgenicConstructs = ({ alleleId }) => {
+    const { data, isLoading, isError } = usePageLoadingQuery(`/api/allele/${alleleId}/constructs`);
 
-  return (
-    <>
+    if (!alleleId ) {
+        return <Div>{alleleId}</Div>;
+    }
+
+    if (isLoading) {
+        return null;
+    }
+
+    if (isError) {
+        return <NotFound />;
+    }
+
+
+    return (
+    <> wer
       <span className="badge badge-secondary mb-3">
-        This allele contains {constructs.length} transgenic construct{constructs.length !== 1 ? 's' : ''}
+        This allele contains {data.transgenicAlleleConstructs.length} transgenic construct{data.transgenicAlleleConstructs.length !== 1 ? 's' : ''}
       </span>
-      {constructs.map((construct) => (
-        <div className="mb-3" key={construct.id}>
+      {data.transgenicAlleleConstructs.map((transgenicAlleleConstruct) => (
+        <div className="mb-3" key={transgenicAlleleConstruct.id}>
           <AttributeList className="mb-0">
             <AttributeLabel>Symbol</AttributeLabel>
-            <AttributeValue>
-              <ConstructLink construct={construct} />
+            <AttributeValue>{transgenicAlleleConstruct.construct.constructSymbol.displayText}
+              <ConstructLink construct={transgenicAlleleConstruct.construct} />
             </AttributeValue>
 
             <AttributeLabel>Expressed Components</AttributeLabel>
             <AttributeValue placeholder="None">
-              {construct.expressedGenes?.length && <CommaSeparatedGeneList genes={construct.expressedGenes} />}
+              {transgenicAlleleConstruct.expressedGenes?.length && <CommaSeparatedGeneList genes={transgenicAlleleConstruct.expressedGenes} />}
             </AttributeValue>
 
             <AttributeLabel>Knock-down Targets</AttributeLabel>
             <AttributeValue placeholder="None">
-              {construct.targetGenes?.length && <CommaSeparatedGeneList genes={construct.targetGenes} />}
+              {transgenicAlleleConstruct.targetGenes?.length && <CommaSeparatedGeneList genes={transgenicAlleleConstruct.targetGenes} />}
             </AttributeValue>
 
             <AttributeLabel>Regulatory Regions</AttributeLabel>
             <AttributeValue placeholder="None">
-              {construct.regulatedByGenes?.length && <CommaSeparatedGeneList genes={construct.regulatedByGenes} />}
+              {transgenicAlleleConstruct.regulatedByGenes?.length && <CommaSeparatedGeneList genes={transgenicAlleleConstruct.regulatedByGenes} />}
             </AttributeValue>
           </AttributeList>
-          <Link to={`/search?category=allele&constructs=${construct.id}`}>
+          <Link to={`/search?category=allele&constructs=${transgenicAlleleConstruct.id}`}>
             All alleles with this construct <FontAwesomeIcon icon={faMagnifyingGlass} />
           </Link>
         </div>
@@ -51,13 +64,7 @@ const AlleleTransgenicConstructs = ({ constructs }) => {
 };
 
 AlleleTransgenicConstructs.propTypes = {
-  constructs: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      crossReferences: PropTypes.object,
-    })
-  ),
+    alleleId: PropTypes.string,
 };
 
 export default AlleleTransgenicConstructs;
