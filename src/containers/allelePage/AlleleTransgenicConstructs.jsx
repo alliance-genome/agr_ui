@@ -16,7 +16,7 @@ const AlleleTransgenicConstructs = ({ alleleId }) => {
     return null;
   }
 
-  if (isError || !data.constructs) {
+  if (isError || !data.transgenicAlleleConstructs) {
     return <NoData />;
   }
 
