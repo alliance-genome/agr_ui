@@ -70,7 +70,7 @@ const AllelePage = () => {
           truncateName
         >
           <DataSourceLinkCuration reference={data.allele.dataProviderCrossReference}>
-            {data.allele.dataProviderCrossReference.referencedCurie}
+            {data.allele?.dataProviderCrossReference?.referencedCurie}
           </DataSourceLinkCuration>
           {data.alleleOfGene && (
             <div>

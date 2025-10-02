@@ -182,7 +182,7 @@ export function findFminFmax(locations) {
 }
 
 export function buildUrlFromTemplate(crossReference) {
-  if (!crossReference) return null;
+  if (!crossReference || !crossReference.referencedCurie || !crossReference.resourceDescriptorPage) return null;
 
   const referencedCurie = crossReference.referencedCurie;
   const urlTemplate = crossReference.resourceDescriptorPage?.urlTemplate;
