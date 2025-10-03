@@ -67,6 +67,7 @@
     "react-router-hash-link": "^2.4.3",
     "react-scrollspy": "^3.4.3",
     "react-select": "^5.10.1",
+    "react-transition-group": "file:react-transition-group-wrapper",
     "reactstrap": "^9.2.3",
     "redux": "^5.0.1",
     "redux-mock-store": "^1.5.5",
@@ -120,6 +121,22 @@
     ]
   },
   "overrides": {
+    "reactstrap": {
+      "react-transition-group": "$react-transition-group"
+    },
+    "react-select": {
+      "react-transition-group": "$react-transition-group"
+    },
+    "react-bootstrap": {
+      "react-transition-group": "$react-transition-group"
+    },
+    "generic-sequence-panel": {
+      "@jbrowse/core": {
+        "@mui/material": {
+          "react-transition-group": "$react-transition-group"
+        }
+      }
+    },
     "react-popper": {
       "react": "$react",
       "react-dom": "$react-dom"
@@ -130,7 +147,8 @@
     },
     "react-bootstrap-table-next": {
       "react": "$react",
-      "react-dom": "$react-dom"
+      "react-dom": "$react-dom",
+      "react-transition-group": "$react-transition-group"
     },
     "react-bootstrap-table2-filter": {
       "react": "$react",
