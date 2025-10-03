@@ -7,12 +7,12 @@ export class AmplifyStageStack extends cdk.Stack {
     super(scope, id, props);
 
     /*
-	REWRITE					Rewrite (200).
-	PERMANENT_REDIRECT	Permanent redirect (301).
-	TEMPORARY_REDIRECT	Temporary redirect (302).
-	NOT_FOUND				Not found (404).
-	NOT_FOUND_REWRITE		Not found rewrite (404).
-*/
+      REWRITE					Rewrite (200).
+      PERMANENT_REDIRECT	Permanent redirect (301).
+      TEMPORARY_REDIRECT	Temporary redirect (302).
+      NOT_FOUND				Not found (404).
+      NOT_FOUND_REWRITE		Not found rewrite (404).
+    */
 
     const stage_paths = [
       {
