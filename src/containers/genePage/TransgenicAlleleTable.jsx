@@ -10,6 +10,7 @@ import { getDistinctFieldValue, simplifySpeciesNameSC } from '../../components/d
 import { compareByFixedOrder, getSpeciesNameCorrected } from '../../lib/utils';
 import { SPECIES_NAME_ORDER } from '../../constants';
 import SpeciesName from '../../components/SpeciesName.jsx';
+import DataSourceLinkCuration from "../../components/dataSourceLinkCuration.jsx";
 
 const constructsRelatedGenesFormatter = (constructRelatedGenes) =>
   constructRelatedGenes.map(({ id, genes }) => (
@@ -64,7 +65,7 @@ const TransgenicAlleleTable = ({ geneId }) => {
     {
       dataField: 'alleleDocument.allele',
       text: 'Allele symbol',
-      formatter: (allele) => <AlleleCell allele={allele} />,
+      formatter: (allele) => <AlleleCell allele={allele} usePeid={true} />,
       headerStyle: { width: '185px' },
       filterable: true,
       filterName: 'allele',
@@ -85,7 +86,9 @@ const TransgenicAlleleTable = ({ geneId }) => {
         constructs.map((transgenicAlleleConstruct) => (
           <div className="text-break">
             <div key={transgenicAlleleConstruct.construct.primaryExternalId} className="text-break">
-              <ConstructLink construct={transgenicAlleleConstruct.construct} />
+              <DataSourceLinkCuration reference={transgenicAlleleConstruct.construct.dataProviderCrossReference}>
+                {transgenicAlleleConstruct.construct?.dataProviderCrossReference?.referencedCurie}
+              </DataSourceLinkCuration>
             </div>
           </div>
         )),
