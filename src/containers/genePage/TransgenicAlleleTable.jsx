@@ -10,7 +10,7 @@ import { getDistinctFieldValue, simplifySpeciesNameSC } from '../../components/d
 import { compareByFixedOrder, getSpeciesNameCorrected } from '../../lib/utils';
 import { SPECIES_NAME_ORDER } from '../../constants';
 import SpeciesName from '../../components/SpeciesName.jsx';
-import DataSourceLinkCuration from "../../components/dataSourceLinkCuration.jsx";
+import DataSourceLinkCuration from '../../components/dataSourceLinkCuration.jsx';
 
 const constructsRelatedGenesFormatter = (constructRelatedGenes) =>
   constructRelatedGenes.map(({ id, genes }) => (

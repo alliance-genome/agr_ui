@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const ConstructLink = ({ construct }) => {
-    return <span dangerouslySetInnerHTML={{ __html: construct.constructSymbol.displayText }} />;
+  return <span dangerouslySetInnerHTML={{ __html: construct.constructSymbol.displayText }} />;
 };
 
 ConstructLink.propTypes = {

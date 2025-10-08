@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import AlleleSymbol from '../../containers/allelePage/AlleleSymbol.jsx';
 
-const AlleleCell = ({ allele, usePeid = false}) => {
+const AlleleCell = ({ allele, usePeid = false }) => {
   return allele.category === 'variant' ? (
     <Link to={`/variant/${allele.id}`}>{allele.symbol}</Link>
-  ) : (
-      usePeid ?
+  ) : usePeid ? (
     <Link to={`/allele/${allele.primaryExternalId}`}>
       <AlleleSymbol allele={allele} wrap />
-    </Link> :
+    </Link>
+  ) : (
     <Link to={`/allele/${allele.id}`}>
       <AlleleSymbol allele={allele} wrap />
     </Link>
