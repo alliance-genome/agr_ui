@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import DataSourceLink from './dataSourceLink.jsx';
 
 const ConstructLink = ({ construct }) => {
   return <span dangerouslySetInnerHTML={{ __html: construct.constructSymbol.displayText }} />;
