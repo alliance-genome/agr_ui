@@ -8,7 +8,7 @@ import ConstructLink from '../../components/ConstructLink.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import useTransgenicAllele from '../../hooks/useTransgenicAllele.js';
-import DataSourceLinkCuration from "../../components/dataSourceLinkCuration.jsx";
+import DataSourceLinkCuration from '../../components/dataSourceLinkCuration.jsx';
 
 const AlleleTransgenicConstructs = ({ alleleId }) => {
   const { data, isLoading, isError } = useTransgenicAllele(alleleId);
