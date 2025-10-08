@@ -87,7 +87,7 @@ const TransgenicAlleleTable = ({ geneId }) => {
           <div className="text-break">
             <div key={transgenicAlleleConstruct.construct.primaryExternalId} className="text-break">
               <DataSourceLinkCuration reference={transgenicAlleleConstruct.construct.dataProviderCrossReference}>
-                {transgenicAlleleConstruct.construct?.dataProviderCrossReference?.referencedCurie}
+                {transgenicAlleleConstruct.construct.constructSymbol.displayText}
               </DataSourceLinkCuration>
             </div>
           </div>

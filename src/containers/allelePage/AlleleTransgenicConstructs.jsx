@@ -8,6 +8,7 @@ import ConstructLink from '../../components/ConstructLink.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import useTransgenicAllele from '../../hooks/useTransgenicAllele.js';
+import DataSourceLinkCuration from "../../components/dataSourceLinkCuration.jsx";
 
 const AlleleTransgenicConstructs = ({ alleleId }) => {
   const { data, isLoading, isError } = useTransgenicAllele(alleleId);
@@ -31,8 +32,9 @@ const AlleleTransgenicConstructs = ({ alleleId }) => {
           <AttributeList className="mb-0">
             <AttributeLabel>Symbol</AttributeLabel>
             <AttributeValue>
-              {transgenicAlleleConstruct.construct.constructSymbol.displayText}
-              <ConstructLink construct={transgenicAlleleConstruct.construct} />
+              <DataSourceLinkCuration reference={transgenicAlleleConstruct.construct.dataProviderCrossReference}>
+                {transgenicAlleleConstruct.construct.constructSymbol.displayText}
+              </DataSourceLinkCuration>
             </AttributeValue>
 
             <AttributeLabel>Expressed Components</AttributeLabel>
