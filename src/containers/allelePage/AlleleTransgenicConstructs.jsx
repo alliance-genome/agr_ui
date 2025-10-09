@@ -53,8 +53,8 @@ const AlleleTransgenicConstructs = ({ alleleId }) => {
 
             <AttributeLabel>Regulatory Regions</AttributeLabel>
             <AttributeValue placeholder="None">
-              {transgenicAlleleConstruct.regulatedByGenes?.length && (
-                <CommaSeparatedGeneList genes={transgenicAlleleConstruct.regulatedByGenes} />
+              {transgenicAlleleConstruct.regulatoryGenes?.length && (
+                <CommaSeparatedGeneList genes={transgenicAlleleConstruct.regulatoryGenes} />
               )}
             </AttributeValue>
           </AttributeList>
