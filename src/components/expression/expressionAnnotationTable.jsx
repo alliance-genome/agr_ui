@@ -45,12 +45,7 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
         if (!geneCell) {
           return null;
         }
-        return (
-            <GeneCell
-                id={geneCell.primaryExternalId}
-                symbol={geneCell.geneSymbol.displayText}
-            />
-        );
+        return <GeneCell id={geneCell.primaryExternalId} symbol={geneCell.geneSymbol.displayText} />;
       },
       filterable: true,
       headerStyle: { width: '120px' },
@@ -74,8 +69,8 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
       formatter: (assayCell) => {
         if (!assayCell) return null;
         const assayName = assayCell.name;
-        const displaySynonym = assayCell.synonyms?.find(synonym => synonym.isDisplaySynonym)?.name;
-        return <span title={assayName}>{displaySynonym}</span>
+        const displaySynonym = assayCell.synonyms?.find((synonym) => synonym.isDisplaySynonym)?.name;
+        return <span title={assayName}>{displaySynonym}</span>;
       },
       filterable: true,
       headerStyle: { width: '150px' },
@@ -83,12 +78,15 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
     {
       dataField: 'source',
       text: 'Source',
-      formatter: (crossReferences = [] = {}) => (
+      formatter: (crossReferences = ([] = {})) => (
         <div>
           {crossReferences?.map(({ referencedCurie, displayName } = {}) => (
             <div key={referencedCurie}>
               <ExternalLink
-                href={getResourceUrl({ identifier: referencedCurie.toUpperCase(), type: 'gene/expression/annotation/detail' })}
+                href={getResourceUrl({
+                  identifier: referencedCurie.toUpperCase(),
+                  type: 'gene/expression/annotation/detail',
+                })}
               >
                 {displayName}
               </ExternalLink>
@@ -105,11 +103,7 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
       text: 'Reference',
       formatter: (referenceId) => {
         return (
-          <ExternalLink
-            href={getSingleReferenceUrl(referenceId).url}
-            key={referenceId}
-            title={referenceId}
-          >
+          <ExternalLink href={getSingleReferenceUrl(referenceId).url} key={referenceId} title={referenceId}>
             {referenceId}
           </ExternalLink>
         );
