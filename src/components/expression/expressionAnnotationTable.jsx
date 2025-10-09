@@ -5,10 +5,13 @@ import { ReferenceCell, GeneCell, DataTable } from '../dataTable';
 import DataSourceLink from '../dataSourceLink.jsx';
 import CommaSeparatedList from '../commaSeparatedList.jsx';
 import { compareAlphabeticalCaseInsensitive, compareByFixedOrder } from '../../lib/utils';
+import { getResourceUrl } from '../dataTable/getResourceUrl.jsx';
+import { getIdentifier, getSingleReferenceUrl } from '../dataTable/utils.jsx';
 import { getDistinctFieldValue } from '../dataTable/utils.jsx';
 import { SPECIES_NAME_ORDER } from '../../constants';
 import useComparisonRibbonTableQuery from '../../hooks/useComparisonRibbonTableQuery';
 import SpeciesName from '../SpeciesName.jsx';
+import ExternalLink from '../ExternalLink.jsx';
 
 const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, term }) => {
   const params = {};
@@ -38,13 +41,23 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
     {
       dataField: 'gene',
       text: 'Gene',
-      formatter: GeneCell,
+      formatter: (geneCell) => {
+        if (!geneCell) {
+          return null;
+        }
+        return (
+            <GeneCell
+                id={geneCell.primaryExternalId}
+                symbol={geneCell.geneSymbol.displayText}
+            />
+        );
+      },
       filterable: true,
       headerStyle: { width: '120px' },
       hidden: !orthologGenes || !orthologGenes.length,
     },
     {
-      dataField: 'term',
+      dataField: 'location',
       text: 'Location',
       filterable: true,
       headerStyle: { width: '150px' },
@@ -58,42 +71,64 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
     {
       dataField: 'assay',
       text: 'Assay',
-      formatter: (a) => <span title={a.name}>{a.displaySynonym}</span>,
+      formatter: (assayCell) => {
+        if (!assayCell) return null;
+        const assayName = assayCell.name;
+        const displaySynonym = assayCell.synonyms?.find(synonym => synonym.isDisplaySynonym)?.name;
+        return <span title={assayName}>{displaySynonym}</span>
+      },
       filterable: true,
       headerStyle: { width: '150px' },
     },
     {
       dataField: 'source',
       text: 'Source',
-      filterable: true,
-      formatter: (refs) =>
-        refs && (
-          <CommaSeparatedList>
-            {refs.sort(compareAlphabeticalCaseInsensitive((ref) => ref.name)).map((ref) => (
-              <DataSourceLink key={ref.name} reference={ref} />
-            ))}
-          </CommaSeparatedList>
-        ),
+      formatter: (crossReferences = [] = {}) => (
+        <div>
+          {crossReferences?.map(({ referencedCurie, displayName } = {}) => (
+            <div key={referencedCurie}>
+              <ExternalLink
+                href={getResourceUrl({ identifier: referencedCurie.toUpperCase(), type: 'gene/expression/annotation/detail' })}
+              >
+                {displayName}
+              </ExternalLink>
+            </div>
+          ))}
+        </div>
+      ),
       headerStyle: { width: '200px' },
+      filterable: true,
+      filterName: 'source',
     },
     {
       dataField: 'reference',
-      text: 'References',
-      formatter: ReferenceCell,
-      filterable: true,
+      text: 'Reference',
+      formatter: (referenceId) => {
+        return (
+          <ExternalLink
+            href={getSingleReferenceUrl(referenceId).url}
+            key={referenceId}
+            title={referenceId}
+          >
+            {referenceId}
+          </ExternalLink>
+        );
+      },
       headerStyle: { width: '150px' },
+      filterable: true,
+      filterName: 'reference',
     },
   ];
 
   const data = results?.map((result) => ({
     key: hash(result),
-    species: result.gene.species.name,
-    gene: result.gene,
-    term: result.termName,
-    stage: result.stage && result.stage.stageID,
-    assay: result.assay,
-    source: result ? result.crossReferences : null,
-    reference: result.publications,
+    species: result.geneExpressionAnnotation.expressionAnnotationSubject.taxon.name,
+    gene: result.geneExpressionAnnotation.expressionAnnotationSubject,
+    location: result.geneExpressionAnnotation.whereExpressedStatement,
+    stage: result.geneExpressionAnnotation.whenExpressedStageName,
+    assay: result.geneExpressionAnnotation.expressionAssayUsed,
+    source: result.geneExpressionAnnotation.crossReferences ? result.geneExpressionAnnotation.crossReferences : null,
+    reference: result.referenceId,
   }));
 
   const sortOptions = [
