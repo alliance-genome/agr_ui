@@ -17,6 +17,7 @@ import AlleleMolecularConsequences from './AlleleMolecularConsequences.jsx';
 import AlleleVariantsSummary from './AlleleVariantsSummary.jsx';
 import MolecularConsequenceHelp from './MolecularConsequenceHelp.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
+import useTransgenicAllele from '../../hooks/useTransgenicAllele.js';
 import SpeciesName from '../../components/SpeciesName.jsx';
 import PhenotypeTable from '../genePage/phenotypeTable.jsx';
 import React from 'react';
@@ -43,6 +44,7 @@ const SECTIONS = [
 const AllelePage = () => {
   const { id: alleleId } = useParams();
   const { data, isLoading, isError } = usePageLoadingQuery(`/api/allele/${alleleId}`);
+  const { data: alleleConstructData, isLoading: alleleConstructIsLoading, isError: alleleConstructIsError } = useTransgenicAllele(alleleId);
 
   if (isLoading) {
     return null;
@@ -96,11 +98,18 @@ const AllelePage = () => {
             description={data.description}
             crossReference={data.crossReference}
             alleleOfGene={data.alleleOfGene}
-            constructSlimList={data.constructSlimList}
+            transgenicAlleleConstructs={alleleConstructData?.transgenicAlleleConstructs}
           />
         </Subsection>
 
-        <Subsection title={CONSTRUCTS}>{<AlleleTransgenicConstructs alleleId={alleleId} />}</Subsection>
+        <Subsection title={CONSTRUCTS}>
+          <AlleleTransgenicConstructs
+            data={alleleConstructData}
+            isLoading={alleleConstructIsLoading}
+            isError={alleleConstructIsError}
+          />
+        </Subsection>
+
 
         <Subsection title={VARIANTS}>
           <ErrorBoundary>
