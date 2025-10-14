@@ -11,7 +11,6 @@ import useTransgenicAllele from '../../hooks/useTransgenicAllele.js';
 import DataSourceLinkCuration from '../../components/dataSourceLinkCuration.jsx';
 
 const AlleleTransgenicConstructs = ({ data, isLoading, isError }) => {
-
   if (isLoading) {
     return null;
   }
@@ -67,7 +66,9 @@ const AlleleTransgenicConstructs = ({ data, isLoading, isError }) => {
 };
 
 AlleleTransgenicConstructs.propTypes = {
-  alleleId: PropTypes.string,
+  data: PropTypes.object,
+  isLoading: PropTypes.boolean,
+  isError: PropTypes.boolean,
 };
 
 export default AlleleTransgenicConstructs;

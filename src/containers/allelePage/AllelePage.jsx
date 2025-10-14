@@ -44,7 +44,11 @@ const SECTIONS = [
 const AllelePage = () => {
   const { id: alleleId } = useParams();
   const { data, isLoading, isError } = usePageLoadingQuery(`/api/allele/${alleleId}`);
-  const { data: alleleConstructData, isLoading: alleleConstructIsLoading, isError: alleleConstructIsError } = useTransgenicAllele(alleleId);
+  const {
+    data: alleleConstructData,
+    isLoading: alleleConstructIsLoading,
+    isError: alleleConstructIsError,
+  } = useTransgenicAllele(alleleId);
 
   if (isLoading) {
     return null;
@@ -109,7 +113,6 @@ const AllelePage = () => {
             isError={alleleConstructIsError}
           />
         </Subsection>
-
 
         <Subsection title={VARIANTS}>
           <ErrorBoundary>
