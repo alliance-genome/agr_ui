@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { AttributeLabel, AttributeList, AttributeValue } from '../../components/attribute';
 import { Link } from 'react-router-dom';
@@ -11,8 +11,12 @@ import DataSourceLinkCuration from '../../components/dataSourceLinkCuration.jsx'
 import GeneSymbolCuration from '../../components/GeneSymbolCuration.jsx';
 import { getSpeciesNameCorrected } from '../../lib/utils.js';
 
-const AlleleSummary = ({ allele, category, description, crossReference, alleleOfGene, constructSlimList }) => {
+const AlleleSummary = ({ allele, category, description, crossReference, alleleOfGene, transgenicAlleleConstructs }) => {
   const speciesName = getSpeciesNameCorrected(allele.taxon?.name);
+  const constructSlimList = useMemo(
+    () => transgenicAlleleConstructs?.map((transgenicAlleleConstruct) => transgenicAlleleConstruct.construct),
+    [transgenicAlleleConstructs]
+  );
 
   return (
     <AttributeList>
@@ -78,7 +82,7 @@ AlleleSummary.propTypes = {
   description: PropTypes.string,
   crossReference: PropTypes.object,
   alleleOfGene: PropTypes.object,
-  constructSlimList: PropTypes.arrayOf(PropTypes.object),
+  transgenicAlleleConstructs: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default AlleleSummary;
