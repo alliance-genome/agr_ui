@@ -28,6 +28,8 @@ const TransgenicAlleleTable = ({ geneId }) => {
 
   const data = results?.map((result) => ({
     ...result,
+    hasPhenotype: result.alleleDocument.hasPhenotypeAnnotations,
+    hasDisease: result.alleleDocument.hasDiseaseAnnotations,
     construct: result.alleleDocument.transgenicAlleleConstructs.map((transgenicAlleleConstruct) => ({
       id: transgenicAlleleConstruct.construct.id,
       construct: transgenicAlleleConstruct.construct,
@@ -147,8 +149,11 @@ const TransgenicAlleleTable = ({ geneId }) => {
     {
       dataField: 'hasDisease',
       text: 'Has Disease Annotations',
-      formatter: (hasDisease, allele) => (
-        <BooleanLinkCell to={`/allele/${allele.id}#disease-associations`} value={hasDisease} />
+      formatter: (hasDisease, transgenicAllele) => (
+        <BooleanLinkCell
+          to={`/allele/${transgenicAllele.alleleDocument.allele.primaryExternalId}#disease-associations`}
+          value={hasDisease}
+        />
       ),
       headerNode: <RotatedHeaderCell>Has Disease Annotations</RotatedHeaderCell>,
       headerStyle: {
@@ -161,8 +166,11 @@ const TransgenicAlleleTable = ({ geneId }) => {
     {
       dataField: 'hasPhenotype',
       text: 'Has Phenotype Annotations',
-      formatter: (hasPhenotype, allele) => (
-        <BooleanLinkCell to={`/allele/${allele.id}#phenotypes`} value={hasPhenotype} />
+      formatter: (hasPhenotype, transgenicAllele) => (
+        <BooleanLinkCell
+          to={`/allele/${transgenicAllele.alleleDocument.allele.primaryExternalId}#phenotypes`}
+          value={hasPhenotype}
+        />
       ),
       headerNode: <RotatedHeaderCell>Has Phenotype Annotations</RotatedHeaderCell>,
       headerStyle: {
