@@ -12,7 +12,7 @@ const AlleleCell = ({ allele, usePeid = false }) => {
     </Link>
   ) : (
     <Link to={`/allele/${allele.id}`}>
-      <AlleleSymbol allele={allele} wrap />
+        <span dangerouslySetInnerHTML={{ __html: allele.symbol }} />
     </Link>
   );
 };
