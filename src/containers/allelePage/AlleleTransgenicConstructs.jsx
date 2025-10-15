@@ -10,9 +10,7 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import useTransgenicAllele from '../../hooks/useTransgenicAllele.js';
 import DataSourceLinkCuration from '../../components/dataSourceLinkCuration.jsx';
 
-const AlleleTransgenicConstructs = ({ alleleId }) => {
-  const { data, isLoading, isError } = useTransgenicAllele(alleleId);
-
+const AlleleTransgenicConstructs = ({ data, isLoading, isError }) => {
   if (isLoading) {
     return null;
   }
@@ -68,7 +66,9 @@ const AlleleTransgenicConstructs = ({ alleleId }) => {
 };
 
 AlleleTransgenicConstructs.propTypes = {
-  alleleId: PropTypes.string,
+  data: PropTypes.object,
+  isLoading: PropTypes.boolean,
+  isError: PropTypes.boolean,
 };
 
 export default AlleleTransgenicConstructs;
