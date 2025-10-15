@@ -150,7 +150,10 @@ const TransgenicAlleleTable = ({ geneId }) => {
       dataField: 'hasDisease',
       text: 'Has Disease Annotations',
       formatter: (hasDisease, transgenicAllele) => (
-        <BooleanLinkCell to={`/allele/${transgenicAllele.alleleDocument.allele.primaryExternalId}#disease-associations`} value={hasDisease} />
+        <BooleanLinkCell
+          to={`/allele/${transgenicAllele.alleleDocument.allele.primaryExternalId}#disease-associations`}
+          value={hasDisease}
+        />
       ),
       headerNode: <RotatedHeaderCell>Has Disease Annotations</RotatedHeaderCell>,
       headerStyle: {
@@ -164,7 +167,10 @@ const TransgenicAlleleTable = ({ geneId }) => {
       dataField: 'hasPhenotype',
       text: 'Has Phenotype Annotations',
       formatter: (hasPhenotype, transgenicAllele) => (
-        <BooleanLinkCell to={`/allele/${transgenicAllele.alleleDocument.allele.primaryExternalId}#phenotypes`} value={hasPhenotype} />
+        <BooleanLinkCell
+          to={`/allele/${transgenicAllele.alleleDocument.allele.primaryExternalId}#phenotypes`}
+          value={hasPhenotype}
+        />
       ),
       headerNode: <RotatedHeaderCell>Has Phenotype Annotations</RotatedHeaderCell>,
       headerStyle: {
