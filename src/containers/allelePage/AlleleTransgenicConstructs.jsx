@@ -56,7 +56,7 @@ const AlleleTransgenicConstructs = ({ data, isLoading, isError }) => {
               )}
             </AttributeValue>
           </AttributeList>
-          <Link to={`/search?category=allele&constructs=${transgenicAlleleConstruct.id}`}>
+          <Link to={`/search?category=allele&constructs=${transgenicAlleleConstruct.construct.primaryExternalId}`}>
             All alleles with this construct <FontAwesomeIcon icon={faMagnifyingGlass} />
           </Link>
         </div>
