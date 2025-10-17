@@ -193,7 +193,7 @@ export function buildUrlFromTemplate(crossReference) {
     let prefix = parts[0];
     let localId = parts[1];
 
-    return urlTemplate.replace('[%s]', localId);
+    return urlTemplate?.replace('[%s]', localId);
   }
 
   return null;
