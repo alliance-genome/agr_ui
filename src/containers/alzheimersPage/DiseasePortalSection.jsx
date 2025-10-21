@@ -34,11 +34,11 @@ const DiseasePortalSection = () => {
             to="/disease/DOID:10652#associated-models"
             tooltip="View all associated models"
           >
-            <div>{modelCount ? modelCount.toLocaleString() : ''}</div>
+            <div>{modelCount ? modelCount.toLocaleString() : '312'}</div>
             Models
           </EntityButton>
           <EntityButton id="entity-genes" to="/disease/DOID:10652#associated-genes" tooltip="View all associated genes">
-            <div>{geneCount ? geneCount.toLocaleString() : ''}</div>
+            <div>{geneCount ? geneCount.toLocaleString() : '4,709'}</div>
             Genes
           </EntityButton>
           <EntityButton
@@ -46,11 +46,11 @@ const DiseasePortalSection = () => {
             to="/disease/DOID:10652#associated-alleles"
             tooltip="View all associated alleles"
           >
-            <div>{alleleCount ? alleleCount.toLocaleString() : ''}</div>
+            <div>{alleleCount ? alleleCount.toLocaleString() : '322'}</div>
             Alleles
           </EntityButton>
           <EntityButton id="entity-publications" to="/disease-portal/alzheimers-disease">
-            96,000
+            13,865
             <br />
             Publications
           </EntityButton>
