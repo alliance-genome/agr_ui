@@ -54,32 +54,28 @@ const WordpressPostList = () => {
     </div>
   );
 };
-// window.addEventListener('load', () => {
-//   const myTimeline = new MastodonTimeline.Init({
-//     instanceUrl: "https://mastodon.online",
-//     timelineType: "profile",
-//     userId: "000180745",
-//     profileName: "@idotj",
-//   });
-// });
 
 (async () => {
-  const instanceUrl = "https://genomic.social";
-  const localUser = "AllianceGenome";
-  const res = await fetch(`${instanceUrl}/api/v1/accounts/lookup?acct=${encodeURIComponent(localUser)}`);
-  const user = await res.json();
+  try {
+    const instanceUrl = "https://genomic.social";
+    const localUser = "AllianceGenome";
+    const res = await fetch(`${instanceUrl}/api/v1/accounts/lookup?acct=${encodeURIComponent(localUser)}`);
+    const user = await res.json();
 
-  new MastodonTimeline.Init({
-    instanceUrl,
-    timelineType: "profile",
-    userId: String(user.id),
-    profileName: "@AllianceGenome",
+    new MastodonTimeline.Init({
+      instanceUrl,
+      timelineType: "profile",
+      userId: String(user.id),
+      profileName: "@AllianceGenome",
 
-    maxNbPostFetch: "10",
-    maxNbPostShow: "5",
-    // previewMaxLines: "3",
-    hidePreviewLink: true,
-    txtMaxLines: "3"
-  });
+      maxNbPostFetch: "10",
+      maxNbPostShow: "5",
+      // previewMaxLines: "3",
+      hidePreviewLink: true,
+      txtMaxLines: "3"
+    });
+  } catch (error) {
+    console.error('Failed to load Mastodon timeline:', error);
+  }
 })();
 export default WordpressPostList;
