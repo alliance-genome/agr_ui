@@ -33,6 +33,7 @@
     "@geneontology/wc-gocam-viz": "^1.1.2",
     "@geneontology/wc-ribbon-strips": "^0.0.37",
     "@geneontology/wc-ribbon-table": "^0.0.57",
+    "@idotj/mastodon-embed-timeline": "^4.7.0",
     "@tanstack/react-query": "^5.75.5",
     "abortcontroller-polyfill": "^1.7.8",
     "aws-cdk": "^2.1014.0",
