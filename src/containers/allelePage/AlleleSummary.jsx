@@ -67,7 +67,7 @@ const AlleleSummary = ({ allele, category, description, crossReference, alleleOf
       </AttributeValue>
 
       <AttributeLabel>Description</AttributeLabel>
-      <AttributeValue>{allele.relatedNotes && <AlleleSummaryDescription notes={allele.relatedNotes}/>}</AttributeValue>
+      <AttributeValue>{allele.relatedNotes && <AlleleSummaryDescription notes={allele.relatedNotes} />}</AttributeValue>
 
       <AttributeLabel>Additional Information</AttributeLabel>
       <AttributeValue>
