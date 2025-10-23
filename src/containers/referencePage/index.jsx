@@ -97,7 +97,6 @@ const ReferencePage = () => {
   // separate xrefs into mod xrefs and external xrefs here, and attach them to ref object
   ref.modXrefs = [];
   ref.extXrefs = [];
-  const prefs = ref.cross_references.map((xref) => xref.curie.substring(0, xref.curie.indexOf(':')));
   for (let xr = 0; xr < ref.cross_references.length; xr++) {
     if (speciesMap[ref.cross_references[xr].curie.substring(0, ref.cross_references[xr].curie.indexOf(':'))])
       ref.modXrefs.push(ref.cross_references[xr]);
@@ -109,6 +108,7 @@ const ReferencePage = () => {
     if (!abstract) return <i className="text-muted">Not Available</i>;
     if (abstract === null) return <i className="text-muted">Not Available</i>;
     return <ApplySpeciesNameFormat text={abstract} />;
+    // return abstract;
   };
 
   return (
@@ -119,9 +119,8 @@ const ReferencePage = () => {
         <PageNavEntity>
           <ModSprites xrefs={ref.modXrefs} size="48" />
         </PageNavEntity>
-        {/* <div style={{ backgroundColor: '#fec' }}> */}
         <div>
-          <PageNavEntity entityName={ref.citation_short || ref.shortCitation || ref.citation}>
+          <PageNavEntity entityName={ref.short_citation || ref.shortCitation || ref.citation}>
             <SourceList sources={ref.modXrefs} />
           </PageNavEntity>
         </div>

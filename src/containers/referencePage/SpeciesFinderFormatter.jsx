@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import SpeciesName from '../../components/SpeciesName.jsx';
 
 const speciesRegex = new RegExp(
-  /(C\.\s+elegans|Caenorhabditis\s+elegans|D\.\s+rerio|Danio\s+rerio|D\.\s+melanogaster|Drosophila\s+melanogaster|Mus\smusculus|M\.\s+musculus|Rattus\snorvegicus|R\.\s+norvegicus|Saccharomyces\scerevisiae|S\.\s+cerevisiae|Xenopus\slaevis|X\.\s+laevis|Xenopus\stropicalis|X\.\s+tropicalis)/g
+  /(H\.\s+sapiens|Homo\s+sapiens|C\.\s+elegans|Caenorhabditis\s+elegans|D\.\s+rerio|Danio\s+rerio|D\.\s+melanogaster|Drosophila\s+melanogaster|Mus\smusculus|M\.\s+musculus|Rattus\snorvegicus|R\.\s+norvegicus|Saccharomyces\scerevisiae|S\.\s+cerevisiae|Schizosaccharomyces\spombe|S\.\spombe|Xenopus\slaevis|X\.\s+laevis|Xenopus\stropicalis|X\.\s+tropicalis)/g
 );
 const ApplySpeciesNameFormat = ({ text }) => {
   const splitText = text.split(speciesRegex);
