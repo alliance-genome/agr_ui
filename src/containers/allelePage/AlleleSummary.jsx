@@ -9,6 +9,7 @@ import GeneSymbol from '../../components/GeneSymbol.jsx';
 import SpeciesName from '../../components/SpeciesName.jsx';
 import DataSourceLinkCuration from '../../components/dataSourceLinkCuration.jsx';
 import GeneSymbolCuration from '../../components/GeneSymbolCuration.jsx';
+import AlleleSummaryDescription from '../../components/AlleleSummaryDescription.jsx';
 import { getSpeciesNameCorrected } from '../../lib/utils.js';
 
 const AlleleSummary = ({ allele, category, description, crossReference, alleleOfGene, transgenicAlleleConstructs }) => {
@@ -66,7 +67,7 @@ const AlleleSummary = ({ allele, category, description, crossReference, alleleOf
       </AttributeValue>
 
       <AttributeLabel>Description</AttributeLabel>
-      <AttributeValue>{description && <span dangerouslySetInnerHTML={{ __html: description }} />}</AttributeValue>
+      <AttributeValue>{allele.relatedNotes && <AlleleSummaryDescription notes={allele.relatedNotes}/>}</AttributeValue>
 
       <AttributeLabel>Additional Information</AttributeLabel>
       <AttributeValue>
