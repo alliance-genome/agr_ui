@@ -26,13 +26,11 @@ const CommaSeparatedSourceList = ({ sources }) => {
 };
 
 const PubSourceLink = ({ ref }) => {
-  return <i className="text-muted">Not Available</i>;
-  const publisher = ref.resource_title; // or ref.publisher?
+  const publisher = ref.resource_title;
   // this should not need to be done here; talk to Blue Team about fixing these date formats (e.g. "1999.7.30")
   const date_pub_fixed = ref.date_published.replace(/\b(\d)\b/g, '0$1').replace(/\.+/g, '-');
-  // console.log(date_pub_fixed);
   if (!publisher && !date_pub_fixed) return <i className="text-muted">Not Available</i>;
-  const pubDate = new Date(date_pub_fixed + 'T00:00:00'); // must add a time, or Date assumes midnight in Greenwich, which usually means you see the previous day instead
+  const pubDate = new Date(date_pub_fixed + 'T00:00:00'); // must add a time, or Date assumes midnight in Greenwich, which usually (i.e. in the US) means you see the previous day instead
   const dateOptions = { year: 'numeric', month: 'short', day: 'numeric' };
   const dateParts = new Intl.DateTimeFormat('en-US', dateOptions).formatToParts(pubDate);
   const datePartValues = dateParts.map((p) => p.value);
@@ -40,13 +38,23 @@ const PubSourceLink = ({ ref }) => {
   const pubVol = ref.volume;
   const pubIss = ref.issue_name ? `(${ref.issue_name})` : '';
   const pubRng = ref.page_range;
-  const pubURL = ref.cross_references[0].url; // will this always be the DOI xref?
-  return (
-    <ExternalLink href={pubURL} className="">
-      {publisher}. {dateString}; {pubVol}
-      {pubIss}:{pubRng}
-    </ExternalLink>
-  );
+  // extract DOI URL
+  let DOI_URL = '';
+  for (let xr = 0; xr < ref.cross_references.length; xr++) {
+    if (ref.cross_references[xr].curie.match(/^doi\:/i)) {
+      DOI_URL = ref.cross_references[xr].curie;
+      break;
+    }
+  }
+  // build link text string
+  const pubsrc = publisher + '. ' + dateString + '; ' + pubVol + ' ' + pubIss + ':' + pubRng;
+  if (DOI_URL)
+    return (
+      <ExternalLink href={DOI_URL} className="">
+        {pubsrc}
+      </ExternalLink>
+    );
+  else return <span>{pubsrc}</span>;
 };
 
 const ReferenceSummary = ({ ref }) => {
