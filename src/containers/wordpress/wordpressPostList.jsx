@@ -72,7 +72,7 @@ const WordpressPostList = () => {
       maxNbPostShow: '5',
       // previewMaxLines: '3',
       hidePreviewLink: true,
-      txtMaxLines: '3'
+      txtMaxLines: '3',
     });
   } catch (error) {
     console.error('Failed to load Mastodon timeline:', error);
