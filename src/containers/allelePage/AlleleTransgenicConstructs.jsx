@@ -31,10 +31,12 @@ const AlleleTransgenicConstructs = ({ data, isLoading, isError }) => {
             <AttributeLabel>Symbol</AttributeLabel>
             <AttributeValue>
               <DataSourceLinkCuration
-                  key={transgenicAlleleConstruct.construct.primaryExternalId}
-                  reference={transgenicAlleleConstruct.construct.dataProviderCrossReference}
+                key={transgenicAlleleConstruct.construct.primaryExternalId}
+                reference={transgenicAlleleConstruct.construct.dataProviderCrossReference}
               >
-                <span dangerouslySetInnerHTML={{ __html: transgenicAlleleConstruct.construct.constructSymbol?.displayText }} />
+                <span
+                  dangerouslySetInnerHTML={{ __html: transgenicAlleleConstruct.construct.constructSymbol?.displayText }}
+                />
               </DataSourceLinkCuration>
             </AttributeValue>
 
