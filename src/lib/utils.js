@@ -182,7 +182,7 @@ export function findFminFmax(locations) {
 }
 
 export function buildUrlFromTemplate(crossReference) {
-  if (!crossReference) return null;
+  if (!crossReference || !crossReference.referencedCurie || !crossReference.resourceDescriptorPage) return null;
 
   const referencedCurie = crossReference.referencedCurie;
   const urlTemplate = crossReference.resourceDescriptorPage?.urlTemplate;
@@ -193,7 +193,7 @@ export function buildUrlFromTemplate(crossReference) {
     let prefix = parts[0];
     let localId = parts[1];
 
-    return urlTemplate.replace('[%s]', localId);
+    return urlTemplate?.replace('[%s]', localId);
   }
 
   return null;
