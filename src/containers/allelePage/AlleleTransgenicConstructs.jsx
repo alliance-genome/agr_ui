@@ -30,8 +30,11 @@ const AlleleTransgenicConstructs = ({ data, isLoading, isError }) => {
           <AttributeList className="mb-0">
             <AttributeLabel>Symbol</AttributeLabel>
             <AttributeValue>
-              <DataSourceLinkCuration reference={transgenicAlleleConstruct.construct.dataProviderCrossReference}>
-                {transgenicAlleleConstruct.construct.constructSymbol.displayText}
+              <DataSourceLinkCuration
+                  key={transgenicAlleleConstruct.construct.primaryExternalId}
+                  reference={transgenicAlleleConstruct.construct.dataProviderCrossReference}
+              >
+                <span dangerouslySetInnerHTML={{ __html: transgenicAlleleConstruct.construct.constructSymbol?.displayText }} />
               </DataSourceLinkCuration>
             </AttributeValue>
 
