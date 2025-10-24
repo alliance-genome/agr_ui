@@ -30,8 +30,13 @@ const AlleleTransgenicConstructs = ({ data, isLoading, isError }) => {
           <AttributeList className="mb-0">
             <AttributeLabel>Symbol</AttributeLabel>
             <AttributeValue>
-              <DataSourceLinkCuration reference={transgenicAlleleConstruct.construct.dataProviderCrossReference}>
-                {transgenicAlleleConstruct.construct.constructSymbol.displayText}
+              <DataSourceLinkCuration
+                key={transgenicAlleleConstruct.construct.primaryExternalId}
+                reference={transgenicAlleleConstruct.construct.dataProviderCrossReference}
+              >
+                <span
+                  dangerouslySetInnerHTML={{ __html: transgenicAlleleConstruct.construct.constructSymbol?.displayText }}
+                />
               </DataSourceLinkCuration>
             </AttributeValue>
 
@@ -44,8 +49,8 @@ const AlleleTransgenicConstructs = ({ data, isLoading, isError }) => {
 
             <AttributeLabel>Knock-down Targets</AttributeLabel>
             <AttributeValue placeholder="None">
-              {transgenicAlleleConstruct.targetGenes?.length && (
-                <CommaSeparatedGeneList genes={transgenicAlleleConstruct.targetGenes} />
+              {transgenicAlleleConstruct.targetedGenes?.length && (
+                <CommaSeparatedGeneList genes={transgenicAlleleConstruct.targetedGenes} />
               )}
             </AttributeValue>
 

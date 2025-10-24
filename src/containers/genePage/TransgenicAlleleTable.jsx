@@ -40,7 +40,7 @@ const TransgenicAlleleTable = ({ geneId }) => {
     })),
     constructTargetedGene: result.alleleDocument.transgenicAlleleConstructs.map((transgenicAlleleConstruct) => ({
       id: transgenicAlleleConstruct.construct.id,
-      genes: transgenicAlleleConstruct.construct.targetGenes,
+      genes: transgenicAlleleConstruct.targetedGenes,
     })),
     constructRegulatedGene: result.alleleDocument.transgenicAlleleConstructs.map((transgenicAlleleConstruct) => ({
       id: transgenicAlleleConstruct.construct.id,
