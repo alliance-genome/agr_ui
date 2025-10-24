@@ -64,9 +64,9 @@ const WordpressPostList = () => {
 
     new MastodonTimeline.Init({
       instanceUrl,
-      timelineType: "profile",
+      timelineType: 'profile',
       userId: String(user.id),
-      profileName: "@AllianceGenome",
+      profileName: '@AllianceGenome',
 
       maxNbPostFetch: '10',
       maxNbPostShow: '5',
