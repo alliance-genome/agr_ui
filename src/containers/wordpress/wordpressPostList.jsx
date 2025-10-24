@@ -7,8 +7,8 @@ import HeadMetaTags from '../../components/headMetaTags.jsx';
 import LoadingSpinner from '../../components/loadingSpinner.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import { WORDPRESS_POST_BASE_URL } from '../../constants';
-import * as MastodonTimeline from "@idotj/mastodon-embed-timeline";
-import '../../css/mastodon-timeline.min.css'
+import * as MastodonTimeline from '@idotj/mastodon-embed-timeline';
+import '../../css/mastodon-timeline.min.css';
 
 const WordpressPostList = () => {
   const { data: postList, isLoading } = usePageLoadingQuery(WORDPRESS_POST_BASE_URL);
@@ -57,8 +57,8 @@ const WordpressPostList = () => {
 
 (async () => {
   try {
-    const instanceUrl = "https://genomic.social";
-    const localUser = "AllianceGenome";
+    const instanceUrl = 'https://genomic.social';
+    const localUser = 'AllianceGenome';
     const res = await fetch(`${instanceUrl}/api/v1/accounts/lookup?acct=${encodeURIComponent(localUser)}`);
     const user = await res.json();
 
@@ -68,11 +68,11 @@ const WordpressPostList = () => {
       userId: String(user.id),
       profileName: "@AllianceGenome",
 
-      maxNbPostFetch: "10",
-      maxNbPostShow: "5",
-      // previewMaxLines: "3",
+      maxNbPostFetch: '10',
+      maxNbPostShow: '5',
+      // previewMaxLines: '3',
       hidePreviewLink: true,
-      txtMaxLines: "3"
+      txtMaxLines: '3'
     });
   } catch (error) {
     console.error('Failed to load Mastodon timeline:', error);
