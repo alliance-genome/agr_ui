@@ -92,9 +92,9 @@ function initMt() {
 
         maxNbPostFetch: '10',
         maxNbPostShow: '5',
-        // previewMaxLines: "3",
         hidePreviewLink: true,
         txtMaxLines: '3',
+        btnSeeMore: '',
       });
     } catch (error) {
       console.error('Failed to load Mastodon timeline:', error);
@@ -102,5 +102,4 @@ function initMt() {
   })();
 }
 
-document.addEventListener('DOMContentLoaded', initMt);
 export default WordpressPostList;
