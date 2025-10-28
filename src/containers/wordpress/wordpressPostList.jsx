@@ -43,6 +43,8 @@ const WordpressPostList = () => {
             {/* <TwitterFeed />   NOTE: Replace with Mastodom feed - KANBAN-581 */}
             <div className="dummy-wrapper-timeline">
               <div id="mt-container" className="mt-container">
+              <a className="mt-btn-violet btn-see-more" href="https://genomic.social/@AllianceGenome"
+                 rel="nofollow noopener noreferrer" target="_blank" style={{ display: 'inline-block', textAlign: 'center' }}>Alliance Mastodon</a>                
                 <div className="mt-body" role="feed">
                   <div className="mt-loading-spinner"></div>
                 </div>
