@@ -47,10 +47,10 @@ const PubSourceLink = ({ ref }) => {
     }
   }
   // build link text string
-  const pubsrc = publisher + '. ' + dateString + '; ' + pubVol + ' ' + pubIss + ':' + pubRng;
+  const pubsrc = `${publisher}. ${dateString}; ${pubVol} ${pubIss}:${pubRng}`;
   if (DOI_URL)
     return (
-      <ExternalLink href={DOI_URL} className="">
+      <ExternalLink href={getSingleReferenceUrl(DOI_URL).url} key={`source-${DOI_URL}`}>
         {pubsrc}
       </ExternalLink>
     );

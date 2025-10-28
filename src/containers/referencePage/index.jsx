@@ -44,7 +44,7 @@ const SourceList = ({ sources }) => {
   return (
     sources && (
       <div style={{ textIndent: 8, marginTop: 6 }}>
-        <CollapsibleList>
+        <CollapsibleList collapsedSize={3}>
           {sources.map((ref) => {
             return (
               <ExternalLink href={getSingleReferenceUrl(ref.curie).url} key={ref.curie} title={ref.curie}>
@@ -120,7 +120,7 @@ const ReferencePage = () => {
           <ModSprites xrefs={ref.modXrefs} size="48" />
         </PageNavEntity>
         <div>
-          <PageNavEntity entityName={ref.short_citation || ref.shortCitation || ref.citation}>
+          <PageNavEntity entityName={ref.short_citation || ref.citation}>
             <SourceList sources={ref.modXrefs} />
           </PageNavEntity>
         </div>
