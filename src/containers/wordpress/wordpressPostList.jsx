@@ -20,11 +20,11 @@ const WordpressPostList = () => {
   const [init, setInit] = useState(false);
 
   useEffect(() => {
-      if(containerRef.current != null && !init) {
-          setInit(true);
-          initMt();
-      }
-  }, [containerRef.current, init]);  
+    if (containerRef.current != null && !init) {
+      setInit(true);
+      initMt();
+    }
+  }, [containerRef.current, init]);
 
   return (
     <div className={style.wordPressContainer}>
@@ -62,7 +62,7 @@ const WordpressPostList = () => {
                   style={{ display: 'inline-block', textAlign: 'center' }}
                 >
                   Alliance Mastodon
-                </a>             
+                </a>
                 <div className="mt-body" role="feed">
                   <div className="mt-loading-spinner"></div>
                 </div>
