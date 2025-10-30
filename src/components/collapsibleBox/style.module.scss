@@ -1,0 +1,13 @@
+.folded {
+  overflow: hidden;
+  position: relative;
+  &:after {
+    background: linear-gradient(180deg, hsla(0, 0%, 100%, 0), #fff 90%);
+    bottom: 0;
+    content: '';
+    height: 50%;
+    position: absolute;
+    right: 0;
+    width: 100%;
+  }
+}
