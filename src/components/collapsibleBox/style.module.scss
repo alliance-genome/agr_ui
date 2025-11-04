@@ -11,3 +11,33 @@
     width: 100%;
   }
 }
+
+.collapsible-box {
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+
+  &::after {
+      background: linear-gradient(180deg, hsla(0, 0%, 100%, 0), #fff 90%);
+      bottom: 0;
+      content: '';
+      height: 50%;
+      position: absolute;
+      right: 0;
+      width: 100%;
+      opacity: 0;
+      transition: opacity .5s ease-out;
+  }
+
+  &.collapsed::after {
+    opacity: 1;
+    transition: opacity .5s ease-out;
+  }
+
+}
+
+
+.children-wrapper {
+  margin: 0;
+  padding: 0;
+}
