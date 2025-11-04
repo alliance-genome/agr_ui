@@ -85,7 +85,7 @@ const TransgenicAlleleTable = ({ geneId }) => {
         ),
       },
       formatter: (constructs) =>
-        constructs.map((transgenicAlleleConstruct) => (
+        constructs.map((transgenicAlleleConstruct) => !transgenicAlleleConstruct.construct.placeholder && (
           <div className="text-break">
             <div key={transgenicAlleleConstruct.construct.primaryExternalId} className="text-break">
               <DataSourceLinkCuration reference={transgenicAlleleConstruct.construct.dataProviderCrossReference}>
