@@ -85,15 +85,18 @@ const TransgenicAlleleTable = ({ geneId }) => {
         ),
       },
       formatter: (constructs) =>
-        constructs.map((transgenicAlleleConstruct) => !transgenicAlleleConstruct.construct.placeholder && (
-          <div className="text-break">
-            <div key={transgenicAlleleConstruct.construct.primaryExternalId} className="text-break">
-              <DataSourceLinkCuration reference={transgenicAlleleConstruct.construct.dataProviderCrossReference}>
-                {transgenicAlleleConstruct.construct.constructSymbol.displayText}
-              </DataSourceLinkCuration>
-            </div>
-          </div>
-        )),
+        constructs.map(
+          (transgenicAlleleConstruct) =>
+            !transgenicAlleleConstruct.construct.placeholder && (
+              <div className="text-break">
+                <div key={transgenicAlleleConstruct.construct.primaryExternalId} className="text-break">
+                  <DataSourceLinkCuration reference={transgenicAlleleConstruct.construct.dataProviderCrossReference}>
+                    {transgenicAlleleConstruct.construct.constructSymbol.displayText}
+                  </DataSourceLinkCuration>
+                </div>
+              </div>
+            )
+        ),
       headerStyle: { width: '185px' },
       filterable: true,
       filterName: 'construct',
