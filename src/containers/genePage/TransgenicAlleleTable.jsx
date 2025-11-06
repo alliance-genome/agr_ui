@@ -28,6 +28,8 @@ const TransgenicAlleleTable = ({ geneId }) => {
 
   const data = results?.map((result) => ({
     ...result,
+    id: result.alleleDocument.allele.primaryExternalId,
+    species: result.alleleDocument.allele.taxon,
     hasPhenotype: result.alleleDocument.hasPhenotypeAnnotations,
     hasDisease: result.alleleDocument.hasDiseaseAnnotations,
     construct: result.alleleDocument.transgenicAlleleConstructs.map((transgenicAlleleConstruct) => ({
@@ -50,7 +52,7 @@ const TransgenicAlleleTable = ({ geneId }) => {
 
   const columns = [
     {
-      dataField: 'alleleDocument.allele.taxon',
+      dataField: 'species',
       text: 'Species',
       headerNode: (
         <>
@@ -59,9 +61,9 @@ const TransgenicAlleleTable = ({ geneId }) => {
           <small className="text-muted text-transform-none">(carrying the transgene)</small>
         </>
       ),
-      formatter: (taxon) => <SpeciesName>{simplifySpeciesNameSC(taxon?.name)}</SpeciesName>,
+      formatter: (taxon) => <SpeciesName>{taxon?.name ? simplifySpeciesNameSC(taxon.name) : ''}</SpeciesName>,
       filterable: getDistinctFieldValue(supplementalData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
-      filterFormatter: (taxon) => <SpeciesName>{taxon.name}</SpeciesName>,
+      filterFormatter: (species) => <SpeciesName>{simplifySpeciesNameSC(species)}</SpeciesName>,
       headerStyle: { width: '100px' },
     },
     {
