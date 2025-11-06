@@ -36,7 +36,9 @@ const AlleleTransgenicConstructs = ({ data, isLoading, isError }) => {
                   reference={transgenicAlleleConstruct.construct.dataProviderCrossReference}
                 >
                   <span
-                    dangerouslySetInnerHTML={{ __html: transgenicAlleleConstruct.construct.constructSymbol?.displayText }}
+                    dangerouslySetInnerHTML={{
+                      __html: transgenicAlleleConstruct.construct.constructSymbol?.displayText,
+                    }}
                   />
                 </DataSourceLinkCuration>
               )}
