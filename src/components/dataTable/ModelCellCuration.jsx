@@ -1,10 +1,16 @@
 import ExternalLink from '../ExternalLink.jsx';
-import { buildUrlFromTemplate } from '../../lib/utils';
+import { getResourceUrl } from './getResourceUrl.jsx';
+import { getIdentifier } from './utils.jsx';
 
 const ModelCellCuration = ({ model }) => {
   if (!model) return null;
 
-  const url = buildUrlFromTemplate(model.dataProviderCrossReference);
+  const identifier = getIdentifier(model);
+  const url = getResourceUrl({
+    identifier,
+    type: model.type,
+    subtype: model.subtype,
+  });
 
   return (
     <ExternalLink href={url}>
