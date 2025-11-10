@@ -42,7 +42,7 @@ const CollapsiblePanel = ({ backgroundVariants = 'info', children, initiallyExpa
 CollapsiblePanel.propTypes = {
   backgroundVariants: PropTypes.string,
   children: PropTypes.element.isRequired,
-  initiallyExpended: PropTypes.bool,
+  initiallyExpanded: PropTypes.bool,
   title: PropTypes.string.isRequired,
 };
 
