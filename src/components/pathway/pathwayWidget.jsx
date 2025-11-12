@@ -366,10 +366,10 @@ class PathwayWidget extends Component {
 
         let isOvering = false;
         elt.addEventListener('mouseenter', (e) => {
-          ((isOvering = true),
+          (isOvering = true),
             setTimeout(() => {
               elt.setAutoFocus(true);
-            }, 3000));
+            }, 3000);
         });
 
         elt.addEventListener('mouseleave', (e) => {
