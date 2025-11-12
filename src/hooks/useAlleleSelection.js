@@ -42,12 +42,15 @@ export default function useAlleleSelection(tableProps) {
 
         try {
           // Fetch each allele individually since the gene alleles endpoint doesn't support ID filtering
-          const allelePromises = alleleIds.map((id) =>
-            fetchData(`/api/allele/${id}`).catch((err) => {
+          // URL-encode the allele IDs to handle special characters like colons in CURIEs (e.g., MGI:7525371)
+          const allelePromises = alleleIds.map((id) => {
+            const encodedId = encodeURIComponent(id);
+            const url = `/api/allele/${encodedId}`;
+            return fetchData(url).catch((err) => {
               console.error(`Failed to fetch allele ${id}:`, err);
               return null;
-            })
-          );
+            });
+          });
 
           const alleles = await Promise.all(allelePromises);
 
@@ -57,7 +60,32 @@ export default function useAlleleSelection(tableProps) {
             return;
           }
 
-          const validAlleles = alleles.filter((a) => a !== null);
+          // Extract the nested allele object from the API response
+          // API returns: { category: "allele_summary", allele: {...}, alterationType: "...", ... }
+          // We need to map the individual allele API response to match the gene alleles list format
+          const validAlleles = alleles
+            .filter((a) => a !== null && a.allele)
+            .map((response) => {
+              const allele = response.allele;
+              return {
+                ...allele,
+                id: allele.primaryExternalId, // Map primaryExternalId to id
+                symbol: allele.alleleSymbol?.displayText || allele.alleleSymbol?.formatText,
+                synonyms: allele.alleleSynonyms?.map(s => s.displayText || s.formatText) || [],
+                category: response.alterationType || response.category || 'allele',
+                // Map crossReference structure to crossReferenceMap for table compatibility
+                crossReferenceMap: {
+                  primary: {
+                    url: response.crossReference?.resourceDescriptorPage?.urlTemplate?.replace('[%s]', allele.primaryExternalId?.split(':')[1] || '')
+                      || allele.dataProviderCrossReference?.resourceDescriptorPage?.urlTemplate?.replace('[%s]', allele.primaryExternalId?.split(':')[1] || '')
+                  }
+                },
+                // Note: variants and diseases are not returned by individual allele endpoint
+                // They would need separate API calls if needed
+                variants: [],
+                diseases: []
+              };
+            });
 
           // Deduplicate alleles based on ID to prevent duplicates
           const uniqueAlleles = [];
