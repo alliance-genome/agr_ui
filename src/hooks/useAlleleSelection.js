@@ -71,19 +71,26 @@ export default function useAlleleSelection(tableProps) {
                 ...allele,
                 id: allele.primaryExternalId, // Map primaryExternalId to id
                 symbol: allele.alleleSymbol?.displayText || allele.alleleSymbol?.formatText,
-                synonyms: allele.alleleSynonyms?.map(s => s.displayText || s.formatText) || [],
+                synonyms: allele.alleleSynonyms?.map((s) => s.displayText || s.formatText) || [],
                 category: response.alterationType || response.category || 'allele',
                 // Map crossReference structure to crossReferenceMap for table compatibility
                 crossReferenceMap: {
                   primary: {
-                    url: response.crossReference?.resourceDescriptorPage?.urlTemplate?.replace('[%s]', allele.primaryExternalId?.split(':')[1] || '')
-                      || allele.dataProviderCrossReference?.resourceDescriptorPage?.urlTemplate?.replace('[%s]', allele.primaryExternalId?.split(':')[1] || '')
-                  }
+                    url:
+                      response.crossReference?.resourceDescriptorPage?.urlTemplate?.replace(
+                        '[%s]',
+                        allele.primaryExternalId?.split(':')[1] || ''
+                      ) ||
+                      allele.dataProviderCrossReference?.resourceDescriptorPage?.urlTemplate?.replace(
+                        '[%s]',
+                        allele.primaryExternalId?.split(':')[1] || ''
+                      ),
+                  },
                 },
                 // Note: variants and diseases are not returned by individual allele endpoint
                 // They would need separate API calls if needed
                 variants: [],
-                diseases: []
+                diseases: [],
               };
             });
 
