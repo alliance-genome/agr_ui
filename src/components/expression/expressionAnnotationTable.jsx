@@ -101,7 +101,7 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
     {
       dataField: 'reference',
       text: 'Reference',
-      formatter: (reference) => <ReferencesCellCuration pubModIds={reference}/>,
+      formatter: (reference) => <ReferencesCellCuration pubModIds={reference} />,
       headerStyle: { width: '150px' },
       filterable: true,
       filterName: 'reference',
