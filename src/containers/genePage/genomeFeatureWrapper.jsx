@@ -47,6 +47,7 @@ class GenomeFeatureWrapper extends Component {
 
     // Read bound data robustly using D3's datum() method
     const datum = select(targetEl).datum();
+
     if (!datum || !datum.alleles) {
       return;
     }
