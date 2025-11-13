@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import hash from 'object-hash';
-import { ReferenceCell, GeneCell, DataTable } from '../dataTable';
+import { ReferenceCell, GeneCell, DataTable, ReferencesCellCuration } from '../dataTable';
 import DataSourceLink from '../dataSourceLink.jsx';
 import CommaSeparatedList from '../commaSeparatedList.jsx';
 import { compareAlphabeticalCaseInsensitive, compareByFixedOrder } from '../../lib/utils';
@@ -69,7 +69,7 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
       formatter: (assayCell) => {
         if (!assayCell) return null;
         const assayName = assayCell.name;
-        const displaySynonym = assayCell.synonyms?.find((synonym) => synonym.isDisplaySynonym)?.name;
+        const displaySynonym = assayCell.synonyms?.find((synonym) => synonym.isDisplaySynonym)?.name || assayName;
         return <span title={assayName}>{displaySynonym}</span>;
       },
       filterable: true,
@@ -101,13 +101,7 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
     {
       dataField: 'reference',
       text: 'Reference',
-      formatter: (referenceId) => {
-        return (
-          <ExternalLink href={getSingleReferenceUrl(referenceId).url} key={referenceId} title={referenceId}>
-            {referenceId}
-          </ExternalLink>
-        );
-      },
+      formatter: (reference) => <ReferencesCellCuration pubModIds={reference} />,
       headerStyle: { width: '150px' },
       filterable: true,
       filterName: 'reference',
