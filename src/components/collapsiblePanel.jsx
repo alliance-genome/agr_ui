@@ -1,65 +1,49 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Collapse } from 'reactstrap';
+import classNames from 'classnames';
 
-class CollapsiblePanel extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      expended: props.initiallyExpended,
-    };
-  }
+const CollapsiblePanel = ({ backgroundVariants = 'info', children, initiallyExpanded = false, title }) => {
+  const [expanded, setExpanded] = useState(initiallyExpanded);
 
-  handleToggle() {
-    this.setState((prevState) => {
-      return {
-        expended: !prevState.expended,
-      };
-    });
-  }
-
-  render() {
-    return (
+  return (
+    <div
+      className="card"
+      style={{
+        clear: 'both',
+      }}
+    >
       <div
-        className="card"
-        style={{
-          clear: 'both',
-        }}
+        className={`card-header alert-${backgroundVariants}`}
+        onClick={() => setExpanded(!expanded)}
+        role="tab"
+        style={{ cursor: 'pointer' }}
       >
-        <div
-          className={`card-header alert-${this.props.backgroundVariants}`}
-          onClick={() => this.handleToggle()}
-          role="tab"
-          style={{ cursor: 'pointer' }}
-        >
-          <i
-            aria-hidden="true"
-            className={`fa fa-chevron-${this.state.expended ? 'up' : 'down'}`}
-            style={{ marginRight: '1em' }}
-          />
-          <span>{this.props.title}</span>
-        </div>
-
-        <Collapse isOpen={this.state.expended}>
-          <div role="tabpanel">
-            <div className="card-body">{this.props.children}</div>
-          </div>
-        </Collapse>
+        <i
+          aria-hidden="true"
+          className={classNames('fa', {
+            'fa-chevron-up': expanded,
+            'fa-chevron-down': !expanded,
+          })}
+          style={{ marginRight: '1em' }}
+        />
+        <span>{title}</span>
       </div>
-    );
-  }
-}
+
+      <Collapse isOpen={expanded}>
+        <div role="tabpanel">
+          <div className="card-body">{children}</div>
+        </div>
+      </Collapse>
+    </div>
+  );
+};
 
 CollapsiblePanel.propTypes = {
   backgroundVariants: PropTypes.string,
   children: PropTypes.element.isRequired,
   initiallyExpended: PropTypes.bool,
   title: PropTypes.string.isRequired,
-};
-
-CollapsiblePanel.defaultProps = {
-  backgroundVariants: 'info',
-  initiallyExpended: false,
 };
 
 export default CollapsiblePanel;
