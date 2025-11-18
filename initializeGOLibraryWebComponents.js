@@ -1,14 +1,6 @@
 const initializeGOLibraryWebComponents_DEVELOPMENT = () => {
-  import('@geneontology/wc-ribbon-strips/loader').then(({ applyPolyfills, defineCustomElements }) =>
-    applyPolyfills().then((_) => defineCustomElements(window))
-  );
-
-  import('@geneontology/wc-ribbon-table/loader').then(({ applyPolyfills, defineCustomElements }) =>
-    applyPolyfills().then((_) => defineCustomElements(window))
-  );
-
-  import('@geneontology/wc-gocam-viz/loader').then(({ applyPolyfills, defineCustomElements }) =>
-    applyPolyfills().then((_) => defineCustomElements(window))
+  import('@geneontology/web-components/loader').then(({ defineCustomElements }) =>
+    defineCustomElements(window)
   );
 };
 
@@ -16,15 +8,15 @@ const initializeGOLibraryWebComponents_PRODUCTION = () => {
   const head = document.querySelector('head');
 
   const ribbonStripsScriptElement = document.createElement('script');
-  ribbonStripsScriptElement.src = '/assets/wc-ribbon-strips/wc-ribbon-strips.js';
+  ribbonStripsScriptElement.src = '/assets/web-components/web-components.esm.js';
   head.appendChild(ribbonStripsScriptElement);
 
   const ribbonTableScriptElement = document.createElement('script');
-  ribbonTableScriptElement.src = '/assets/wc-ribbon-table/wc-ribbon-table.js';
+  ribbonTableScriptElement.src = '/assets/web-components/web-components.esm.js';
   head.appendChild(ribbonTableScriptElement);
 
   const goCamVizScriptElement = document.createElement('script');
-  goCamVizScriptElement.src = '/assets/wc-gocam-viz/wc-gocam-viz.esm.js';
+  goCamVizScriptElement.src = '/assets/web-components/web-components.esm.js';
   head.appendChild(goCamVizScriptElement);
 };
 
