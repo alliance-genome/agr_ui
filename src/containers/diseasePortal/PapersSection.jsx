@@ -19,7 +19,7 @@ const PapersSection = ({ disease }) => {
                       <Link to={`/reference/${publication.curie}`}>{publication.title}</Link>
                     </p>
                   );
-                else
+                else if (publication.pmid)
                   return (
                     <p key={'publications-' + index}>
                       <ExternalLink href={'https://www.ncbi.nlm.nih.gov/pubmed/' + publication.pmid}>
@@ -27,6 +27,7 @@ const PapersSection = ({ disease }) => {
                       </ExternalLink>
                     </p>
                   );
+                else return <p key={'publications-' + index}>{publication.title}</p>;
               })}
             </div>
           </div>
