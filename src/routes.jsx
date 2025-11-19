@@ -16,12 +16,16 @@ import DownloadsPage from './containers/downloadsPage/index.jsx';
 import AllelePage from './containers/allelePage/AllelePage.jsx';
 import VariantPage from './containers/allelePage/VariantPage.jsx';
 import MODLanding from './containers/modLanding/Main.jsx';
+import DiseasePortalPage from './containers/diseasePortal/index.jsx';
 import AlzheimersPage from './containers/alzheimersPage/index.jsx';
 import BlastPage from './containers/blastPage/index.jsx';
 
 const WordpressRedirect = () => {
   const { slug } = useParams();
   return <Navigate replace to={`/${slug}`} />;
+};
+const AlzheimersPageRedirect = () => {
+  return <Navigate replace to={`/disease-portal/DOID:10652`} />;
 };
 
 const LayoutWithRoutes = () => (
@@ -32,7 +36,6 @@ const LayoutWithRoutes = () => (
       <Route exact path="/gene/:id" element={<GenePage />} />
       <Route exact path="/gene/:id/allele-details" element={<GeneAlleleDetailsPage />} />
 
-      <Route exact path="/disease" element={<DiseasesPage />} />
       <Route exact path="/disease/:id" element={<DiseasePage />} />
       <Route exact path="/allele/:id" element={<AllelePage />} />
       <Route exact path="/variant/:id" element={<VariantPage />} />
@@ -43,7 +46,10 @@ const LayoutWithRoutes = () => (
 
       <Route exact path="/members/:id" element={<MODLanding />} />
 
-      <Route exact path="/disease-portal/alzheimers-disease" element={<AlzheimersPage />} />
+      <Route exact path="/disease-portal" element={<DiseasePortalPage name="human" />} />
+      <Route exact path="/disease-portal/:name" element={<DiseasePortalPage />} />
+      {/* <Route exact path="/disease-portal/alzheimers-disease" component={AlzheimersPageRedirect} /> */}
+      {/* <Route exact path="/disease-portal/alzheimers-disease" element={<AlzheimersPage />} /> */}
       <Route exact path="/blastservice" element={<BlastPage />} />
 
       <Route exact path="/wordpress/:slug" component={WordpressRedirect} />
