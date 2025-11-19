@@ -1,6 +1,7 @@
 import React from 'react';
 import HeadMetaTags from '../../components/headMetaTags.jsx';
 import PapersSection from './PapersSection.jsx';
+import PortalListSection from './PortalListSection.jsx';
 import ResourcesSection from './ResourcesSection.jsx';
 import DiseasePortalSection from './DiseasePortalSection.jsx';
 import MembersSection from '../../components/MembersSection.jsx';
@@ -16,20 +17,7 @@ const DiseasePortalPage = () => {
     <div>
       <HeadMetaTags title={`${diseaseData.pageName} Portal`} />
       <DiseasePortalSection disease={diseaseData} />
-      {dname ? (
-        <PapersSection disease={diseaseData} />
-      ) : (
-        <section className={style.section}>
-          <div className={style.contentContainer}>
-            <div className="row">
-              <div className="col-lg-12">
-                <h2>Alliance Disease Portals</h2>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-      {/* add logic 'human ? <HierarchySection /> : <PapersSection />' */}
+      {dname ? <PapersSection disease={diseaseData} /> : <PortalListSection />}
       <ResourcesSection disease={diseaseData} />
       <div>
         <h4 className="mt-4 text-center">
