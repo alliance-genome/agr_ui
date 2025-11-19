@@ -18,44 +18,43 @@ export const data = {
     pageName: "Alzheimer's Disease",
     publications: [
       {
-        curie: '',
-        pmid: '39143479',
+        curie: 'AGRKB:101000001189286',
+        pmid: 'PMID:40305608',
         title:
-          "Gene therapy in Aβ-induced cell and mouse models of Alzheimer's disease through compensating defective mitochondrial complex I function",
+          "Impaired parvalbumin interneurons in the retrosplenial cortex as the cause of sex-dependent vulnerability in Alzheimer's disease.",
       },
       {
-        curie: '',
-        pmid: '38526283',
+        curie: 'AGRKB:101000001188014',
+        pmid: 'PMID:40064497',
         title:
-          "Activation of autophagy by Citri Reticulatae Semen extract ameliorates amyloid-beta-induced cell death and cognition deficits in Alzheimer's disease",
+          'GFAP mutation and astrocyte dysfunction lead to a neurodegenerative profile with impaired synaptic plasticity and cognitive deficits in a rat model of Alexander disease.',
       },
       {
-        curie: '',
-        pmid: '38950494',
-        title: "Nesfatin-1 ameliorates pathological abnormalities in Drosophila hTau model of Alzheimer's disease",
-      },
-      {
-        curie: '',
-        pmid: '38827230',
+        curie: 'AGRKB:101000000971426',
+        pmid: 'PMID:37515920',
         title:
-          "Aluminum chloride and D-galactose induced a zebrafish model of Alzheimer's disease with cognitive deficits and aging",
+          "Discovery of triazole-bridged aryl adamantane analogs as an intriguing class of multifunctional agents for treatment of Alzheimer's disease.",
       },
       {
-        curie: '',
-        pmid: '37515920',
+        curie: 'AGRKB:101000001201875',
+        pmid: 'PMID:40927301',
+        title: "Target the Heart: A New Axis of Alzheimer's Disease Prevention.",
+      },
+      {
+        curie: 'AGRKB:101000001185360',
+        pmid: 'PMID:40393985',
+        title: "An integrative systems-biology approach defines mechanisms of Alzheimer's disease neurodegeneration.",
+      },
+      {
+        curie: 'AGRKB:101000001163279',
+        pmid: 'PMID:40158246',
         title:
-          "Discovery of triazole-bridged aryl adamantane analogs as an intriguing class of multifunctional agents for treatment of Alzheimer's disease",
+          "Cerium-doped carbon dots as dual-target agents against Alzheimer's β-amyloid fibrillogenesis and reactive oxygen species.",
       },
       {
-        curie: '',
-        pmid: '39009412',
-        title: "c-KIT inhibitors reduce pathology and improve behavior in the Tg(SwDI) model of Alzheimer's disease",
-      },
-      {
-        curie: '',
-        pmid: '37736695',
-        title:
-          'Melatonin regulates the circadian rhythm to ameliorate postoperative sleep disorder and neurobehavioral abnormalities in aged mice',
+        curie: 'AGRKB:101000001197720',
+        pmid: 'PMID:40775600',
+        title: "Tau Protein Disrupts Mitochondrial Homeostasis in a Yeast Model: Implications for Alzheimer's Disease.",
       },
     ],
     resources: [
