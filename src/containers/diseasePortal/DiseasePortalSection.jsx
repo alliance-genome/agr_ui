@@ -6,11 +6,7 @@ import { data } from './portalData.js';
 
 const DiseasePortalSection = ({ disease }) => {
   const url = `/api/disease/${disease.doid}/`;
-  console.log(url);
-  console.log(url + 'genes_counts');
-  console.log(`${url}genes_counts`);
   const geneCount = useEntityButtonCounts(url + 'genes_counts');
-  console.log(geneCount);
   const modelCount = useEntityButtonCounts(url + 'models_counts');
   const alleleCount = useEntityButtonCounts(url + 'alleles_counts');
 

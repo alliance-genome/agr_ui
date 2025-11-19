@@ -11,9 +11,7 @@ import style from './style.module.scss';
 
 const DiseasePortalPage = () => {
   const { name: dname } = useParams();
-  console.log(dname);
   const diseaseData = dname ? data[dname] : data['human'];
-  console.log(diseaseData.doid);
   return (
     <div>
       <HeadMetaTags title={`${diseaseData.pageName} Portal`} />
