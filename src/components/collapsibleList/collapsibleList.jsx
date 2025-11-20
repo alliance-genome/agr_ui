@@ -24,7 +24,11 @@ const CollapsibleList = ({ children, collapsedSize = 2, showBullets = false }) =
           if (collapsed && idx >= collapsedSize) {
             return;
           }
-          return <li key={`${id}-${idx}`}>{child}</li>;
+          return (
+            <li key={`${id}-${idx}`} className="text-break">
+              {child}
+            </li>
+          );
         })}
       </ul>
       {childCount > collapsedSize && (
