@@ -1,5 +1,5 @@
 import { defineCustomElements } from '@geneontology/web-components/loader';
-
+//unlock
 const initializeGOLibraryWebComponents_DEVELOPMENT = () => {
   defineCustomElements();
 };
