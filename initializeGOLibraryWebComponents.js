@@ -1,5 +1,7 @@
+import { defineCustomElements } from '@geneontology/web-components/loader';
+
 const initializeGOLibraryWebComponents_DEVELOPMENT = () => {
-  import('@geneontology/web-components/loader').then(({ defineCustomElements }) => defineCustomElements(window));
+  defineCustomElements();
 };
 
 const initializeGOLibraryWebComponents_PRODUCTION = () => {
