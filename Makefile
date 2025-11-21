@@ -77,5 +77,4 @@ docker-run:
 docker-run-command:
 	npm run start
 
-go-ribbons-build-fix:
-	cp -r ./node_modules/@geneontology/web-components/dist/ ./build/assets/web-components/
+
