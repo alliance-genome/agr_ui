@@ -43,13 +43,30 @@ export default function useAlleleSelection(tableProps) {
         try {
           // Fetch each allele individually since the gene alleles endpoint doesn't support ID filtering
           // URL-encode the allele IDs to handle special characters like colons in CURIEs (e.g., MGI:7525371)
-          const allelePromises = alleleIds.map((id) => {
+          // Also fetch variants for each allele to populate the Variant and Variant Type columns
+          const allelePromises = alleleIds.map(async (id) => {
             const encodedId = encodeURIComponent(id);
-            const url = `/api/allele/${encodedId}`;
-            return fetchData(url).catch((err) => {
-              console.error(`Failed to fetch allele ${id}:`, err);
-              return null;
-            });
+
+            // Fetch both allele data and its variants in parallel
+            const [alleleData, variantsData] = await Promise.all([
+              fetchData(`/api/allele/${encodedId}`).catch((err) => {
+                console.error(`Failed to fetch allele ${id}:`, err);
+                return null;
+              }),
+              fetchData(`/api/allele/${encodedId}/variants`).catch((err) => {
+                console.error(`Failed to fetch variants for allele ${id}:`, err);
+                return null;
+              }),
+            ]);
+
+            // Combine allele data with variants
+            if (alleleData && variantsData) {
+              return {
+                ...alleleData,
+                variants: variantsData.results || [],
+              };
+            }
+            return alleleData;
           });
 
           const alleles = await Promise.all(allelePromises);
@@ -61,7 +78,7 @@ export default function useAlleleSelection(tableProps) {
           }
 
           // Extract the nested allele object from the API response
-          // API returns: { category: "allele_summary", allele: {...}, alterationType: "...", ... }
+          // API returns: { category: "allele_summary", allele: {...}, alterationType: "...", variants: [...] }
           // We need to map the individual allele API response to match the gene alleles list format
           const validAlleles = alleles
             .filter((a) => a !== null && a.allele)
@@ -87,9 +104,8 @@ export default function useAlleleSelection(tableProps) {
                       ),
                   },
                 },
-                // Note: variants and diseases are not returned by individual allele endpoint
-                // They would need separate API calls if needed
-                variants: [],
+                // Include variants fetched from /api/allele/{id}/variants endpoint
+                variants: response.variants || [],
                 diseases: [],
               };
             });
