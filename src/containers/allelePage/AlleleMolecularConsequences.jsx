@@ -65,7 +65,9 @@ const AlleleMolecularConsequences = ({ alleleId, allele }) => {
                         <span className="text-break">{variantId}</span>
                       </VariantJBrowseLink>
                     */}
-                <HashLink to={`#${makeId(variantId)}`}>{variantId}</HashLink>
+                <HashLink to={`#${makeId(variantId)}`}>
+                  <span className="text-break">{variantId}</span>
+                </HashLink>
               </AttributeValue>
               <AttributeLabel>Variant type:</AttributeLabel>
               <AttributeValue>{type.name}</AttributeValue>
