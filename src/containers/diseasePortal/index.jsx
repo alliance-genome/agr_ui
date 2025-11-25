@@ -8,7 +8,6 @@ import MembersSection from '../../components/MembersSection.jsx';
 import { HELP_EMAIL } from '../../constants';
 import { useParams } from 'react-router-dom';
 import { data } from './portalData.js';
-import style from './style.module.scss';
 
 const DiseasePortalPage = () => {
   const { name: dname } = useParams();

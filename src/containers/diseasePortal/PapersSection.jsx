@@ -1,8 +1,26 @@
 import React from 'react';
+import NotFound from '../../components/notFound.jsx';
 import style from './style.module.scss';
 import { Link } from 'react-router-dom';
 import ExternalLink from '../../components/ExternalLink.jsx';
-import { data } from './portalData.js';
+import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
+
+const CitationLink = ({ curie }) => {
+  const { data: pubData, isLoading, isError } = usePageLoadingQuery(`/api/reference/${curie}`);
+  if (isError) {
+    return <NotFound />;
+  }
+  if (isLoading) {
+    return null;
+  }
+
+  if (pubData) {
+    const ref = pubData.literatureSummary;
+    return <Link to={`/reference/${curie}`}>{ref.short_citation}</Link>;
+  }
+
+  console.log(`what happened to ${curie}?`);
+};
 
 const PapersSection = ({ disease }) => {
   return (
@@ -13,13 +31,14 @@ const PapersSection = ({ disease }) => {
             <h2>Recent Papers</h2>
             <div>
               {disease.publications.map((publication, index) => {
-                if (publication.curie)
+                if (publication.curie) {
                   return (
                     <p key={'publications-' + index}>
-                      <Link to={`/reference/${publication.curie}`}>{publication.title}</Link>
+                      <CitationLink curie={publication.curie} />
                     </p>
                   );
-                else if (publication.pmid)
+                }
+                if (publication.pmid) {
                   return (
                     <p key={'publications-' + index}>
                       <ExternalLink href={'https://www.ncbi.nlm.nih.gov/pubmed/' + publication.pmid}>
@@ -27,7 +46,8 @@ const PapersSection = ({ disease }) => {
                       </ExternalLink>
                     </p>
                   );
-                else return <p key={'publications-' + index}>{publication.title}</p>;
+                }
+                return <p key={'publications-' + index}>{publication.title}</p>;
               })}
             </div>
           </div>

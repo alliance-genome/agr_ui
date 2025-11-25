@@ -2,7 +2,6 @@ import React from 'react';
 import style from './style.module.scss';
 import EntityButton from './EntityButton.jsx';
 import { useEntityButtonCounts } from './useEntityButtonCounts.js';
-import { data } from './portalData.js';
 
 const DiseasePortalSection = ({ disease }) => {
   const url = `/api/disease/${disease.doid}/`;

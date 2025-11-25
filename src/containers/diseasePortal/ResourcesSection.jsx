@@ -1,7 +1,6 @@
 import React from 'react';
 import style from './style.module.scss';
 import ExternalLink from '../../components/ExternalLink.jsx';
-import { data } from './portalData.js';
 
 const ResourcesSection = ({ disease }) => {
   return (
@@ -13,9 +12,9 @@ const ResourcesSection = ({ disease }) => {
             <div>
               {disease.resources.map((resourceLink, index) => {
                 return (
-                  <div key={'resources-' + index}>
+                  <p key={'resources-' + index}>
                     <ExternalLink href={resourceLink.url}>{resourceLink.title}</ExternalLink>
-                  </div>
+                  </p>
                 );
               })}
             </div>
