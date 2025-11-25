@@ -93,7 +93,7 @@ const DiseaseComparisonRibbon = ({ geneId, geneTaxon }) => {
       </div>
       <HorizontalScroll>
         <div className="text-nowrap">
-          <wc-ribbon-strips
+          <go-annotation-ribbon-strips
             category-all-style="1"
             color-by="0"
             data={JSON.stringify(summary.data)}

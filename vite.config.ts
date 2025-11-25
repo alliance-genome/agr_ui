@@ -51,7 +51,7 @@ export default defineConfig(({ mode }) => {
       preprocessorOptions: {
         scss: {
           api: 'modern-compiler',
-          silenceDeprecations: ['mixed-decls', 'color-functions', 'global-builtin', 'import', 'abs-percent'],
+          silenceDeprecations: ['color-functions', 'global-builtin', 'import', 'abs-percent'],
         },
       },
     },
