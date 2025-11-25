@@ -30,8 +30,9 @@ const modMap = {
   Xenbase: 'xenbase',
   ZFIN: 'zfin',
 };
-const speciesMap = {
+export const speciesMap = {
   FB: 'Drosophila melanogaster',
+  Hsap: 'Homo sapiens',
   MGI: 'Mus musculus',
   RGI: 'Rattus norvegicus',
   SGD: 'Saccharomyces cerevisiae',

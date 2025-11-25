@@ -1,8 +1,10 @@
 import React from 'react';
 import NotFound from '../../components/notFound.jsx';
+import ExternalLink from '../../components/ExternalLink.jsx';
+import SpeciesIcon from '../../components/speciesIcon/index.jsx';
+import { speciesMap } from '../referencePage/index.jsx';
 import style from './style.module.scss';
 import { Link } from 'react-router-dom';
-import ExternalLink from '../../components/ExternalLink.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 
 const CitationLink = ({ curie }) => {
@@ -16,10 +18,35 @@ const CitationLink = ({ curie }) => {
 
   if (pubData) {
     const ref = pubData.literatureSummary;
-    return <Link to={`/reference/${curie}`}>{ref.short_citation}</Link>;
-  }
 
-  console.log(`what happened to ${curie}?`);
+    ref.modXrefs = [];
+    ref.extXrefs = [];
+    for (let xr = 0; xr < ref.cross_references.length; xr++) {
+      if (speciesMap[ref.cross_references[xr].curie.substring(0, ref.cross_references[xr].curie.indexOf(':'))])
+        ref.modXrefs.push(ref.cross_references[xr]);
+      else ref.extXrefs.push(ref.cross_references[xr]);
+    }
+
+    const scale = 4 / 13;
+    const prefs = ref.modXrefs.map((xref) => xref.curie.substring(0, xref.curie.indexOf(':')));
+    let mods = [];
+    for (let i = 0; i < prefs.length; i++) {
+      if (speciesMap[prefs[i]]) mods.push(speciesMap[prefs[i]]);
+    }
+    if (prefs.length === 0) mods.push('Homo sapiens');
+
+    return (
+      <>
+        {mods.map((mid) => (
+          <sub style={{ bottom: '-0.5em' }}>
+            <SpeciesIcon scale={scale} species={mid} key={`${mid}-sprite`} />
+          </sub>
+        ))}
+        &emsp;
+        <Link to={`/reference/${curie}`}>{ref.short_citation}</Link>
+      </>
+    );
+  }
 };
 
 const PapersSection = ({ disease }) => {
