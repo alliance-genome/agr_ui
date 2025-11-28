@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import style from './style.module.scss';
 import { makeFieldDisplayName } from '../../lib/searchHelpers.jsx';
 import NoData from '../../components/noData.jsx';
+import CollapsibleBox from '../../components/collapsibleBox/collapsibleBox.jsx';
 import { CollapsibleList } from '../../components/collapsibleList';
 import SpeciesName from '../../components/SpeciesName.jsx';
 
@@ -38,6 +39,16 @@ class DetailList extends Component {
         } else {
           valueNode = <span dangerouslySetInnerHTML={{ __html: value }} />;
         }
+      }
+
+      if (field.toLocaleString() === 'summary') {
+        return (
+          <div key={`sumField.${field}`}>
+            <CollapsibleBox>
+              <strong>{makeFieldDisplayName(field)}:</strong> <span className={style.detailValue}>{valueNode}</span>
+            </CollapsibleBox>
+          </div>
+        );
       }
 
       if (field.toLocaleString() === 'dataProviderNote') {
