@@ -18,6 +18,7 @@ import GeneticSex from './GeneticSex.jsx';
 import AnnotationType from './AnnotationType.jsx';
 import AssociationCellCuration from './AssociationCellCuration.jsx';
 import AssertedGenes from './AssertedGenes.jsx';
+import AssertedAlleles from './AssertedAlleles.jsx';
 import GeneticModifiersCellCuration from './GeneticModifiersCellCuration.jsx';
 import {
   getAnnotationSubjectText,
@@ -78,7 +79,12 @@ function AnnotatedEntitiesPopupCuration({ children, entities, mainRowCurie, pubM
                 {columnNameSet.has('Name') && <th>Name</th>}
                 {columnNameSet.has('Type') && <th>Type</th>}
                 {columnNameSet.has('Association') && <th className={style.associationCell}>Association</th>}
-                {columnNameSet.has('Additional Implicated Genes') && <th>Additional implicated genes</th>}
+                {columnNameSet.has('Additional Implicated Genes') && (
+                  <th className={style.implicatedEntity}>Additional implicated genes</th>
+                )}
+                {columnNameSet.has('Additional Implicated Alleles') && (
+                  <th className={style.implicatedEntity}>Additional implicated alleles</th>
+                )}
                 {columnNameSet.has('Experimental Condition') && <th>Experimental condition</th>}
                 {columnNameSet.has('Genetic Modifiers') && <th>Genetic Modifiers</th>}
                 {columnNameSet.has('Strain Background') && <th>Strain Background</th>}
@@ -122,6 +128,11 @@ function AnnotatedEntitiesPopupCuration({ children, entities, mainRowCurie, pubM
                     {columnNameSet.has('Additional Implicated Genes') && (
                       <td>
                         <AssertedGenes assertedGenes={entity.assertedGenes} mainRowCurie={mainRowCurie} />
+                      </td>
+                    )}
+                    {columnNameSet.has('Additional Implicated Alleles') && (
+                      <td>
+                        <AssertedAlleles assertedAlleles={entity.assertedAlleles} />
                       </td>
                     )}
                     {columnNameSet.has('Experimental Condition') && (
