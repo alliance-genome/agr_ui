@@ -30,19 +30,16 @@ function renderLink(entity) {
   const identifier = getIdentifier(entity.diseaseAnnotationSubject);
   const type = entity.type;
 
-  switch(type){
+  switch (type) {
     case 'AlleleDiseaseAnnotation':
       return <AlleleCellCuration identifier={identifier} allele={entity.diseaseAnnotationSubject} />;
     case 'GeneDiseaseAnnotation':
       return <GeneCellCuration curie={identifier} geneSymbol={entity.diseaseAnnotationSubject.geneSymbol} />;
     case 'AGMDiseaseAnnotation':
-      return <ModelCellCuration model={entity.diseaseAnnotationSubject}/>;
+      return <ModelCellCuration model={entity.diseaseAnnotationSubject} />;
     default:
-      return null
+      return null;
   }
-
-
-
 }
 
 function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCurie, pubModIds, columnNameSet }) {
