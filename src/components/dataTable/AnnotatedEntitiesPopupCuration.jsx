@@ -7,9 +7,6 @@ import ExperimentalConditionCellCuration from './ExperimentalConditionCellCurati
 import hash from 'object-hash';
 
 import style from './style.module.scss';
-import ExternalLink from '../ExternalLink.jsx';
-import { Link } from 'react-router-dom';
-import { getResourceUrl } from './getResourceUrl.jsx';
 import TypeCellCuration from './TypeCellCuration.jsx';
 import RelatedNotes from './RelatedNotes.jsx';
 import EvidenceCodesCellCuration from './evidenceCodesCellCuration.jsx';
@@ -20,12 +17,7 @@ import AssociationCellCuration from './AssociationCellCuration.jsx';
 import AssertedGenes from './AssertedGenes.jsx';
 import AssertedAlleles from './AssertedAlleles.jsx';
 import GeneticModifiersCellCuration from './GeneticModifiersCellCuration.jsx';
-import {
-  getAnnotationSubjectText,
-  buildProviderWithUrl,
-  getIdentifier,
-  naturalSortByAnnotationSubject,
-} from './utils.jsx';
+import { buildProviderWithUrl, getIdentifier, naturalSortByAnnotationSubject } from './utils.jsx';
 import StrainBackground from './StrainBackground.jsx';
 
 function renderLink(entity) {

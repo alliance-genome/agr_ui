@@ -7,9 +7,6 @@ import ExperimentalConditionCellCuration from './ExperimentalConditionCellCurati
 import hash from 'object-hash';
 
 import style from './style.module.scss';
-import ExternalLink from '../ExternalLink';
-import { Link } from 'react-router-dom';
-import { getResourceUrl } from './getResourceUrl';
 import TypeCellCuration from './TypeCellCuration';
 import RelatedNotes from './RelatedNotes';
 import EvidenceCodesCellCuration from './evidenceCodesCellCuration';
@@ -19,7 +16,7 @@ import AnnotationType from './AnnotationType';
 import AssociationCellCuration from './AssociationCellCuration';
 import AssertedGenes from './AssertedGenes';
 import GeneticModifiersCellCuration from './GeneticModifiersCellCuration';
-import { getAnnotationSubjectText, buildProviderWithUrl, getIdentifier, naturalSortByAnnotationSubject } from './utils';
+import { buildProviderWithUrl, getIdentifier, naturalSortByAnnotationSubject } from './utils';
 import usePopupQuery from '../../hooks/usePopupQuery';
 import StrainBackground from './StrainBackground';
 import LoadingSpinner from '../loadingSpinner';
@@ -329,11 +326,11 @@ function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCuri
 }
 
 AnnotatedEntitiesPopupCurationGenePage.propTypes = {
+  countId: PropTypes.string,
   children: PropTypes.node,
-  entities: PropTypes.array,
   mainRowCurie: PropTypes.string,
   pubModIds: PropTypes.array,
-  columnNameSet: PropTypes.object,
+  columnNameSet: PropTypes.instanceOf(Set),
 };
 
 export default AnnotatedEntitiesPopupCurationGenePage;
