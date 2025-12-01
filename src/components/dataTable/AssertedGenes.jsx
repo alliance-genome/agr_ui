@@ -2,10 +2,10 @@ import CollapsibleList from '../collapsibleList/collapsibleList.jsx';
 import { Link } from 'react-router-dom';
 import { getIdentifier } from './utils.jsx';
 
-function makeAssertedGeneLink(curie, geneSymbol) {
-  if (curie) {
+function makeAssertedGeneLink(identifier, geneSymbol) {
+  if (identifier) {
     const symbol = <span dangerouslySetInnerHTML={{ __html: geneSymbol }} />;
-    return <Link to={`/gene/${curie}`}>{symbol}</Link>;
+    return <Link to={`/gene/${identifier}`}>{symbol}</Link>;
   }
   return null;
 }
