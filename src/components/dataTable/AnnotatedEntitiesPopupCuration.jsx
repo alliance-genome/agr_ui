@@ -79,8 +79,12 @@ function AnnotatedEntitiesPopupCuration({ children, entities, mainRowCurie, pubM
                 {columnNameSet.has('Name') && <th>Name</th>}
                 {columnNameSet.has('Type') && <th>Type</th>}
                 {columnNameSet.has('Association') && <th className={style.associationCell}>Association</th>}
-                {columnNameSet.has('Additional Implicated Genes') && <th className={style.implicatedEntity}>Additional implicated genes</th>}
-                {columnNameSet.has('Additional Implicated Alleles') && <th className={style.implicatedEntity}>Additional implicated alleles</th>}
+                {columnNameSet.has('Additional Implicated Genes') && (
+                  <th className={style.implicatedEntity}>Additional implicated genes</th>
+                )}
+                {columnNameSet.has('Additional Implicated Alleles') && (
+                  <th className={style.implicatedEntity}>Additional implicated alleles</th>
+                )}
                 {columnNameSet.has('Experimental Condition') && <th>Experimental condition</th>}
                 {columnNameSet.has('Genetic Modifiers') && <th>Genetic Modifiers</th>}
                 {columnNameSet.has('Strain Background') && <th>Strain Background</th>}

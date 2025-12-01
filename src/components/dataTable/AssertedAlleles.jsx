@@ -2,7 +2,6 @@ import CollapsibleList from '../collapsibleList/collapsibleList.jsx';
 import { Link } from 'react-router-dom';
 import { getIdentifier } from './utils.jsx';
 
-
 function makeAssertedAlleleLink(identifier, alleleSymbol) {
   if (identifier) {
     const symbol = <span dangerouslySetInnerHTML={{ __html: alleleSymbol }} />;
@@ -19,7 +18,6 @@ function AssertedAlleles({ assertedAlleles }) {
       {assertedAlleles.map((allele) => makeAssertedAlleleLink(getIdentifier(allele), allele.alleleSymbol.displayText))}
     </CollapsibleList>
   );
-
 }
 
 export default AssertedAlleles;
