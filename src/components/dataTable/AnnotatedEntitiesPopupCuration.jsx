@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DropdownMenu, DropdownToggle, UncontrolledButtonDropdown } from 'reactstrap';
-import { SingleReferenceCellCuration } from './index';
+import { SingleReferenceCellCuration, GeneCellCuration, AlleleCellCuration, ModelCellCuration } from './index';
 import ExperimentalConditionCellCuration from './ExperimentalConditionCellCuration.jsx';
 import hash from 'object-hash';
 
@@ -29,23 +29,22 @@ import {
 import StrainBackground from './StrainBackground.jsx';
 
 function renderLink(entity) {
+  if (!entity) return null;
+
   const identifier = getIdentifier(entity.diseaseAnnotationSubject);
-  const url = getResourceUrl({
-    identifier,
-    type: entity.diseaseAnnotationSubject.type,
-    subtype: entity.diseaseAnnotationSubject.subtype,
-  });
+  const type = entity.type;
 
-  const innerText = getAnnotationSubjectText(entity);
-  const inner = <span dangerouslySetInnerHTML={{ __html: innerText }} />;
-
-  if (entity.type === 'AlleleDiseaseAnnotation') {
-    return <Link to={`/allele/${identifier}`}>{inner}</Link>;
-  } else if (entity.type === 'GeneDiseaseAnnotation') {
-    return <Link to={`/gene/${identifier}`}>{inner}</Link>;
-  } else {
-    return <ExternalLink href={url}>{inner}</ExternalLink>;
+  switch(type){
+    case 'AlleleDiseaseAnnotation':
+      return <AlleleCellCuration identifier={identifier} allele={entity.diseaseAnnotationSubject} />;
+    case 'GeneDiseaseAnnotation':
+      return <GeneCellCuration curie={identifier} geneSymbol={entity.diseaseAnnotationSubject.geneSymbol} />;
+    case 'AGMDiseaseAnnotation':
+      return <ModelCellCuration model={entity.diseaseAnnotationSubject}/>;
+    default:
+      return null
   }
+
 }
 
 function AnnotatedEntitiesPopupCuration({ children, entities, mainRowCurie, pubModIds, columnNameSet }) {
