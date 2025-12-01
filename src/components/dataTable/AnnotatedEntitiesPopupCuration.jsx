@@ -132,7 +132,7 @@ function AnnotatedEntitiesPopupCuration({ children, entities, mainRowCurie, pubM
                     )}
                     {columnNameSet.has('Additional Implicated Alleles') && (
                       <td>
-                        <AssertedAlleles assertedAlleles={entity.assertedAlleles} mainRowCurie={mainRowCurie} />
+                        <AssertedAlleles assertedAlleles={entity.assertedAlleles} />
                       </td>
                     )}
                     {columnNameSet.has('Experimental Condition') && (

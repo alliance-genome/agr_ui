@@ -11,11 +11,11 @@ function makeAssertedAlleleLink(identifier, alleleSymbol) {
 }
 
 function AssertedAlleles({ assertedAlleles }) {
-  if (!assertedAlleles || assertedAlleles.length == 0) return <></>;
+  if (!assertedAlleles || assertedAlleles.length === 0) return <></>;
 
   return (
     <CollapsibleList collapsedSize={assertedAlleles.length}>
-      {assertedAlleles.map((allele) => makeAssertedAlleleLink(getIdentifier(allele), allele.alleleSymbol.displayText))}
+      {assertedAlleles.map((allele) => makeAssertedAlleleLink(getIdentifier(allele), allele.alleleSymbol?.displayText))}
     </CollapsibleList>
   );
 }

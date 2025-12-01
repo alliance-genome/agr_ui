@@ -11,15 +11,17 @@ function makeAssertedGeneLink(identifier, geneSymbol) {
 }
 
 function AssertedGenes({ assertedGenes, mainRowCurie }) {
-  const filteredAssertedGenes = assertedGenes?.filter((gene) => getIdentifier(gene) !== mainRowCurie);
-  if (assertedGenes && assertedGenes.length > 1) {
-    return (
-      <CollapsibleList collapsedSize={assertedGenes.length}>
-        {filteredAssertedGenes.map((gene) => makeAssertedGeneLink(getIdentifier(gene), gene.geneSymbol.displayText))}
-      </CollapsibleList>
-    );
-  }
-  return <></>;
+  if (!assertedGenes || assertedGenes.length === 0) return <></>;
+
+  const filteredAssertedGenes = assertedGenes.filter((gene) => getIdentifier(gene) !== mainRowCurie);
+
+  if (filteredAssertedGenes.length === 0) return <></>;
+
+  return (
+    <CollapsibleList collapsedSize={assertedGenes.length}>
+      {filteredAssertedGenes.map((gene) => makeAssertedGeneLink(getIdentifier(gene), gene.geneSymbol?.displayText))}
+    </CollapsibleList>
+  );
 }
 
 export default AssertedGenes;
