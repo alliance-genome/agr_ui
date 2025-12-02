@@ -38,12 +38,13 @@ const CitationLink = ({ curie }) => {
     return (
       <>
         {mods.map((mid) => (
-          <sub style={{ bottom: '-0.5em' }}>
-            <SpeciesIcon scale={scale} species={mid} key={`${mid}-sprite`} />
+          <sub style={{ bottom: '-0.5em' }} key={`${mid}-sprite`}>
+            <SpeciesIcon scale={scale} species={mid} />
           </sub>
         ))}
         &emsp;
-        <Link to={`/reference/${curie}`}>{ref.citation}</Link>
+        {/* <Link to={`/reference/${curie}`}>{ref.citation}</Link> */}
+        <Link to={`/reference/${curie}`} dangerouslySetInnerHTML={{ __html: ref.citation }} />
       </>
     );
   }
