@@ -43,7 +43,7 @@ const CitationLink = ({ curie }) => {
           </sub>
         ))}
         &emsp;
-        <Link to={`/reference/${curie}`}>{ref.short_citation}</Link>
+        <Link to={`/reference/${curie}`}>{ref.citation}</Link>
       </>
     );
   }
