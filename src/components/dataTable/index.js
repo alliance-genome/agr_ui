@@ -2,6 +2,8 @@ import AlleleCell from './AlleleCell.jsx';
 import BooleanLinkCell from './BooleanLinkCell.jsx';
 import GeneCell from './geneCell.jsx';
 import GeneCellCuration from './GeneCellCuration.jsx';
+import ModelCellCuration from './ModelCellCuration.jsx';
+import AlleleCellCuration from './AlleleCellCuration.jsx';
 import EvidenceCodesCell from './evidenceCodesCell.jsx';
 import EvidenceCodesCellCuration from './evidenceCodesCellCuration.jsx';
 import ReferenceCell from './referenceCell.jsx';
@@ -23,6 +25,8 @@ export {
   BooleanLinkCell,
   GeneCell,
   GeneCellCuration,
+  ModelCellCuration,
+  AlleleCellCuration,
   EvidenceCodesCell,
   EvidenceCodesCellCuration,
   ReferenceCell,

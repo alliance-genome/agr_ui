@@ -2,14 +2,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { DropdownMenu, DropdownToggle, ButtonDropdown } from 'reactstrap';
-import { SingleReferenceCellCuration } from './index';
+import { GeneCellCuration, AlleleCellCuration, ModelCellCuration, SingleReferenceCellCuration } from './index';
 import ExperimentalConditionCellCuration from './ExperimentalConditionCellCuration';
 import hash from 'object-hash';
 
 import style from './style.module.scss';
-import ExternalLink from '../ExternalLink';
-import { Link } from 'react-router-dom';
-import { getResourceUrl } from './getResourceUrl';
 import TypeCellCuration from './TypeCellCuration';
 import RelatedNotes from './RelatedNotes';
 import EvidenceCodesCellCuration from './evidenceCodesCellCuration';
@@ -19,28 +16,26 @@ import AnnotationType from './AnnotationType';
 import AssociationCellCuration from './AssociationCellCuration';
 import AssertedGenes from './AssertedGenes';
 import GeneticModifiersCellCuration from './GeneticModifiersCellCuration';
-import { getAnnotationSubjectText, buildProviderWithUrl, getIdentifier, naturalSortByAnnotationSubject } from './utils';
+import { buildProviderWithUrl, getIdentifier, naturalSortByAnnotationSubject } from './utils';
 import usePopupQuery from '../../hooks/usePopupQuery';
 import StrainBackground from './StrainBackground';
 import LoadingSpinner from '../loadingSpinner';
 
 function renderLink(entity) {
+  if (!entity) return null;
+
   const identifier = getIdentifier(entity.diseaseAnnotationSubject);
-  const url = getResourceUrl({
-    identifier,
-    type: entity.diseaseAnnotationSubject.type,
-    subtype: entity.diseaseAnnotationSubject.subtype,
-  });
+  const type = entity.type;
 
-  const innerText = getAnnotationSubjectText(entity);
-  const inner = <span dangerouslySetInnerHTML={{ __html: innerText }} />;
-
-  if (entity.type === 'AlleleDiseaseAnnotation') {
-    return <Link to={`/allele/${identifier}`}>{inner}</Link>;
-  } else if (entity.type === 'GeneDiseaseAnnotation') {
-    return <Link to={`/gene/${identifier}`}>{inner}</Link>;
-  } else {
-    return <ExternalLink href={url}>{inner}</ExternalLink>;
+  switch (type) {
+    case 'AlleleDiseaseAnnotation':
+      return <AlleleCellCuration identifier={identifier} allele={entity.diseaseAnnotationSubject} />;
+    case 'GeneDiseaseAnnotation':
+      return <GeneCellCuration curie={identifier} geneSymbol={entity.diseaseAnnotationSubject.geneSymbol} />;
+    case 'AGMDiseaseAnnotation':
+      return <ModelCellCuration model={entity.diseaseAnnotationSubject} />;
+    default:
+      return null;
   }
 }
 
@@ -331,11 +326,11 @@ function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCuri
 }
 
 AnnotatedEntitiesPopupCurationGenePage.propTypes = {
+  countId: PropTypes.string,
   children: PropTypes.node,
-  entities: PropTypes.array,
   mainRowCurie: PropTypes.string,
   pubModIds: PropTypes.array,
-  columnNameSet: PropTypes.object,
+  columnNameSet: PropTypes.instanceOf(Set),
 };
 
 export default AnnotatedEntitiesPopupCurationGenePage;
