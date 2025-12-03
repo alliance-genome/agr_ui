@@ -24,7 +24,7 @@ class Subsection extends Component {
     switch (this.props.level) {
       case 1:
         renderTitle = (
-          <h4>
+          <h4 className="text-break">
             {this.props.isMeta && target}
             {this.props.title}
             {helpPopup}
