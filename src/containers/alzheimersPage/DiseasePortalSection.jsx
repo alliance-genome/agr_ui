@@ -8,9 +8,9 @@ import { useEntityButtonCounts } from './useEntityButtonCounts.js';
 
 const DiseasePortalSection = () => {
   const url = '/api/disease/DOID:10652/';
-  const geneCount = useEntityButtonCounts(url + 'genes', 5000);
-  const modelCount = useEntityButtonCounts(url + 'models', 5000);
-  const alleleCount = useEntityButtonCounts(url + 'alleles', 5000);
+  const geneCount = useEntityButtonCounts(url + 'genes_counts');
+  const modelCount = useEntityButtonCounts(url + 'models_counts');
+  const alleleCount = useEntityButtonCounts(url + 'alleles_counts');
 
   return (
     <section className={`${style.section} ${style.searchBackground} shadow`}>
@@ -34,11 +34,11 @@ const DiseasePortalSection = () => {
             to="/disease/DOID:10652#associated-models"
             tooltip="View all associated models"
           >
-            <div>{modelCount ?? '213'}</div>
+            <div>{modelCount ? modelCount.toLocaleString() : '312'}</div>
             Models
           </EntityButton>
           <EntityButton id="entity-genes" to="/disease/DOID:10652#associated-genes" tooltip="View all associated genes">
-            <div>{geneCount ?? '2,939'}</div>
+            <div>{geneCount ? geneCount.toLocaleString() : '4,709'}</div>
             Genes
           </EntityButton>
           <EntityButton
@@ -46,11 +46,11 @@ const DiseasePortalSection = () => {
             to="/disease/DOID:10652#associated-alleles"
             tooltip="View all associated alleles"
           >
-            <div>{alleleCount ?? '268'}</div>
+            <div>{alleleCount ? alleleCount.toLocaleString() : '322'}</div>
             Alleles
           </EntityButton>
           <EntityButton id="entity-publications" to="/disease-portal/alzheimers-disease">
-            96,000
+            13,865
             <br />
             Publications
           </EntityButton>
