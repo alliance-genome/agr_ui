@@ -1,20 +1,29 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { AttributeLabel, AttributeList, AttributeValue } from '../../components/attribute';
 import { Link } from 'react-router-dom';
 import AlleleSymbol from './AlleleSymbol.jsx';
-import SynonymList from '../../components/synonymList.jsx';
-import DataSourceLink from '../../components/dataSourceLink.jsx';
+import SynonymListCuration from '../../components/SynonymListCuration.jsx';
 import CommaSeparatedList from '../../components/commaSeparatedList.jsx';
 import GeneSymbol from '../../components/GeneSymbol.jsx';
 import SpeciesName from '../../components/SpeciesName.jsx';
+import DataSourceLinkCuration from '../../components/dataSourceLinkCuration.jsx';
+import GeneSymbolCuration from '../../components/GeneSymbolCuration.jsx';
+import AlleleSummaryDescription from '../../components/AlleleSummaryDescription.jsx';
+import { getSpeciesNameCorrected } from '../../lib/utils.js';
 
-const AlleleSummary = ({ allele }) => {
+const AlleleSummary = ({ allele, category, description, crossReference, alleleOfGene, transgenicAlleleConstructs }) => {
+  const speciesName = getSpeciesNameCorrected(allele.taxon?.name);
+  const constructSlimList = useMemo(
+    () => transgenicAlleleConstructs?.map((transgenicAlleleConstruct) => transgenicAlleleConstruct.construct),
+    [transgenicAlleleConstructs]
+  );
+
   return (
     <AttributeList>
       <AttributeLabel>Species</AttributeLabel>
       <AttributeValue>
-        <SpeciesName>{allele.species.name}</SpeciesName>
+        <SpeciesName>{speciesName}</SpeciesName>
       </AttributeValue>
 
       <AttributeLabel>Symbol</AttributeLabel>
@@ -23,45 +32,49 @@ const AlleleSummary = ({ allele }) => {
       </AttributeValue>
 
       <AttributeLabel>Category</AttributeLabel>
-      <AttributeValue>{allele.category}</AttributeValue>
+      <AttributeValue>{category === 'allele_summary' ? 'allele' : null}</AttributeValue>
 
       <AttributeLabel>Allele of gene</AttributeLabel>
       <AttributeValue placeholder="None">
-        {allele.gene && (
-          <Link to={`/gene/${allele.gene.id}`}>
-            <GeneSymbol gene={allele.gene} />
+        {alleleOfGene && (
+          <Link to={`/gene/${alleleOfGene.primaryExternalId}`}>
+            <GeneSymbolCuration gene={alleleOfGene} />
           </Link>
         )}
       </AttributeValue>
 
       <AttributeLabel>Transgenic Constructs</AttributeLabel>
       <AttributeValue placeholder="None">
-        {allele.constructs && allele.constructs.length && (
+        {constructSlimList && constructSlimList.length && (
           <CommaSeparatedList>
-            {allele.constructs.map((construct) => (
-              <DataSourceLink key={construct.id} reference={construct.crossReferenceMap?.primary}>
-                <span dangerouslySetInnerHTML={{ __html: construct.name }} />
-              </DataSourceLink>
-            ))}
+            {constructSlimList.map(
+              (construct) =>
+                !construct.placeholder && (
+                  <DataSourceLinkCuration
+                    key={construct.primaryExternalId}
+                    reference={construct.dataProviderCrossReference}
+                  >
+                    <span dangerouslySetInnerHTML={{ __html: construct.constructSymbol?.displayText }} />
+                  </DataSourceLinkCuration>
+                )
+            )}
           </CommaSeparatedList>
         )}
       </AttributeValue>
 
       <AttributeLabel>Synonyms</AttributeLabel>
       <AttributeValue placeholder="None">
-        {allele.synonyms && allele.synonyms.length && <SynonymList synonyms={allele.synonyms} />}
+        {allele.alleleSynonyms && allele.alleleSynonyms.length && (
+          <SynonymListCuration synonyms={allele.alleleSynonyms} />
+        )}
       </AttributeValue>
 
       <AttributeLabel>Description</AttributeLabel>
-      <AttributeValue>
-        {allele.description && <span dangerouslySetInnerHTML={{ __html: allele.description }} />}
-      </AttributeValue>
+      <AttributeValue>{allele.relatedNotes && <AlleleSummaryDescription notes={allele.relatedNotes} />}</AttributeValue>
 
       <AttributeLabel>Additional Information</AttributeLabel>
       <AttributeValue>
-        {allele.crossReferenceMap.references && (
-          <DataSourceLink reference={allele.crossReferenceMap.references}>Literature</DataSourceLink>
-        )}
+        {crossReference && <DataSourceLinkCuration reference={crossReference}>Literature</DataSourceLinkCuration>}
       </AttributeValue>
     </AttributeList>
   );
@@ -69,6 +82,11 @@ const AlleleSummary = ({ allele }) => {
 
 AlleleSummary.propTypes = {
   allele: PropTypes.object,
+  category: PropTypes.string,
+  description: PropTypes.string,
+  crossReference: PropTypes.object,
+  alleleOfGene: PropTypes.object,
+  transgenicAlleleConstructs: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default AlleleSummary;

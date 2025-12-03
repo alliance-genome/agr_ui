@@ -53,7 +53,7 @@ const GeneGeneticInteractionDetailTable = ({ focusGeneId, focusGeneDisplayName }
         formatter: (perturbation) =>
           perturbation ? (
             <>
-              <AlleleCellCuration identifier={getIdentifier(perturbation)} alleleSymbol={perturbation.alleleSymbol} />
+              <AlleleCellCuration identifier={getIdentifier(perturbation)} allele={perturbation} />
             </>
           ) : null,
         filterable: true,
@@ -123,7 +123,7 @@ const GeneGeneticInteractionDetailTable = ({ focusGeneId, focusGeneDisplayName }
         formatter: (perturbation) =>
           perturbation ? (
             <>
-              <AlleleCellCuration identifier={getIdentifier(perturbation)} alleleSymbol={perturbation.alleleSymbol} />
+              <AlleleCellCuration identifier={getIdentifier(perturbation)} allele={perturbation} />
             </>
           ) : null,
         filterable: true,

@@ -17,10 +17,13 @@ import AlleleMolecularConsequences from './AlleleMolecularConsequences.jsx';
 import AlleleVariantsSummary from './AlleleVariantsSummary.jsx';
 import MolecularConsequenceHelp from './MolecularConsequenceHelp.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
-import GeneSymbol from '../../components/GeneSymbol.jsx';
+import useTransgenicAllele from '../../hooks/useTransgenicAllele.js';
 import SpeciesName from '../../components/SpeciesName.jsx';
 import PhenotypeTable from '../genePage/phenotypeTable.jsx';
 import React from 'react';
+import GeneSymbolCuration from '../../components/GeneSymbolCuration.jsx';
+import DataSourceLinkCuration from '../../components/dataSourceLinkCuration.jsx';
+import { getSpeciesNameCorrected } from '../../lib/utils.js';
 
 const SUMMARY = 'Summary';
 const PHENOTYPES = 'Phenotypes';
@@ -41,6 +44,11 @@ const SECTIONS = [
 const AllelePage = () => {
   const { id: alleleId } = useParams();
   const { data, isLoading, isError } = usePageLoadingQuery(`/api/allele/${alleleId}`);
+  const {
+    data: alleleConstructData,
+    isLoading: alleleConstructIsLoading,
+    isError: alleleConstructIsError,
+  } = useTransgenicAllele(alleleId);
 
   if (isLoading) {
     return null;
@@ -54,41 +62,56 @@ const AllelePage = () => {
     return null;
   }
 
-  const title = `${data.symbolText} | ${data.species.name} allele`;
+  const speciesName = getSpeciesNameCorrected(data.allele.taxon?.name);
+
+  const title = `${data.allele.alleleSymbol?.formatText} | ${speciesName} allele`;
 
   return (
     <DataPage>
       <HeadMetaTags title={title} />
       <PageNav sections={SECTIONS}>
         <PageNavEntity
-          entityName={<AlleleSymbol allele={data} />}
-          icon={<SpeciesIcon inNav scale={0.5} species={data.species.name} />}
+          entityName={<AlleleSymbol allele={data.allele} />}
+          icon={<SpeciesIcon inNav scale={0.5} species={speciesName} />}
           truncateName
         >
-          <DataSourceLink reference={data.crossReferenceMap.primary} />
-          {data.gene && (
+          <DataSourceLinkCuration reference={data.allele.dataProviderCrossReference}>
+            {data.allele?.dataProviderCrossReference?.referencedCurie}
+          </DataSourceLinkCuration>
+          {data.alleleOfGene && (
             <div>
               Allele of{' '}
-              <Link to={`/gene/${data.gene.id}`}>
-                <GeneSymbol gene={data.gene} />
+              <Link to={`/gene/${data.alleleOfGene?.primaryExternalId}`}>
+                <GeneSymbolCuration gene={data.alleleOfGene} />
               </Link>
             </div>
           )}
-          <SpeciesName>{data.species.name}</SpeciesName>
+          <SpeciesName>{speciesName}</SpeciesName>
         </PageNavEntity>
       </PageNav>
       <PageData>
         <PageCategoryLabel category="allele" />
         <PageHeader>
-          <AlleleSymbol allele={data} />
+          <AlleleSymbol allele={data.allele} />
         </PageHeader>
 
         <Subsection hideTitle title={SUMMARY}>
-          <AlleleSummary allele={data} />
+          <AlleleSummary
+            allele={data.allele}
+            category={data.category}
+            description={data.description}
+            crossReference={data.crossReference}
+            alleleOfGene={data.alleleOfGene}
+            transgenicAlleleConstructs={alleleConstructData?.transgenicAlleleConstructs}
+          />
         </Subsection>
 
         <Subsection title={CONSTRUCTS}>
-          <AlleleTransgenicConstructs constructs={data.constructs} />
+          <AlleleTransgenicConstructs
+            data={alleleConstructData}
+            isLoading={alleleConstructIsLoading}
+            isError={alleleConstructIsError}
+          />
         </Subsection>
 
         <Subsection title={VARIANTS}>

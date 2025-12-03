@@ -4,8 +4,13 @@ import { getIdentifier } from './utils.jsx';
 
 const ModelCellCuration = ({ model }) => {
   if (!model) return null;
+
   const identifier = getIdentifier(model);
-  const url = getResourceUrl({ identifier, type: model.type, subtype: model.subtype });
+  const url = getResourceUrl({
+    identifier,
+    type: model.type,
+    subtype: model.subtype,
+  });
 
   return (
     <ExternalLink href={url}>

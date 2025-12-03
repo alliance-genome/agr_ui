@@ -180,3 +180,29 @@ export function findFminFmax(locations) {
     fmin,
   };
 }
+
+export function buildUrlFromTemplate(crossReference) {
+  if (!crossReference || !crossReference.referencedCurie || !crossReference.resourceDescriptorPage) return null;
+
+  const referencedCurie = crossReference.referencedCurie;
+  const urlTemplate = crossReference.resourceDescriptorPage?.urlTemplate;
+
+  let parts = referencedCurie.split(':');
+
+  if (parts.length >= 2) {
+    let prefix = parts[0];
+    let localId = parts[1];
+
+    return urlTemplate?.replace('[%s]', localId);
+  }
+
+  return null;
+}
+
+// Fix up species name with yeast correction
+export function getSpeciesNameCorrected(name) {
+  if (name === 'Saccharomyces cerevisiae S288C') {
+    return 'Saccharomyces cerevisiae';
+  }
+  return name;
+}

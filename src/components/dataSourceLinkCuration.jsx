@@ -1,17 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import ExternalLink from './ExternalLink.jsx';
-import { dataSourceType } from '../lib/types';
-import { getResourceUrl } from './dataTable/getResourceUrl.jsx';
+import { buildUrlFromTemplate } from '../lib/utils.js';
 
-//will be used once the data provider come
-const DataSourceLinkCuration = ({ children, curie, type, subtype }) => {
-  const url = getResourceUrl(curie, type, subtype);
-  return reference ? (
-    <ExternalLink href={reference && reference.crossRefCompleteUrl}>
-      {children || reference.displayName || reference.name}
-    </ExternalLink>
-  ) : null;
+const DataSourceLinkCuration = ({ children, reference }) => {
+  let url = buildUrlFromTemplate(reference);
+  return reference ? <ExternalLink href={url}>{children}</ExternalLink> : null;
 };
 
 export default DataSourceLinkCuration;

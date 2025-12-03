@@ -1,0 +1,17 @@
+@import '../../theme.module';
+// @import '../../mixins.module';
+@import '~bootstrap/scss/functions';
+// @import '~bootstrap/scss/variables';
+
+.crossRefsListItem {
+  margin-right: 0.5rem;
+}
+
+div.speciesSprites span {
+  margin-bottom: -20px;
+}
+
+.speciesSprites {
+  margin-top: -10px;
+  margin-bottom: 30px;
+}

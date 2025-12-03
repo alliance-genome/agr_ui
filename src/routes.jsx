@@ -14,6 +14,7 @@ import NotFound from './components/notFound.jsx';
 import DownloadsPage from './containers/downloadsPage/index.jsx';
 import AllelePage from './containers/allelePage/AllelePage.jsx';
 import VariantPage from './containers/allelePage/VariantPage.jsx';
+import ReferencePage from './containers/referencePage/index.jsx';
 import MODLanding from './containers/modLanding/Main.jsx';
 import AlzheimersPage from './containers/alzheimersPage/index.jsx';
 import BlastPage from './containers/blastPage/index.jsx';
@@ -34,6 +35,7 @@ const LayoutWithRoutes = () => (
       <Route exact path="/disease/:id" element={<DiseasePage />} />
       <Route exact path="/allele/:id" element={<AllelePage />} />
       <Route exact path="/variant/:id" element={<VariantPage />} />
+      <Route exact path="/reference/:id" element={<ReferencePage />} />
       <Route exact path="/news/:slug" element={<WordpressPost />} />
 
       <Route exact path="/news" element={<WordpressPostList />} />

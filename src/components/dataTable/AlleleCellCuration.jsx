@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import AlleleSymbol from '../../containers/allelePage/AlleleSymbol.jsx';
 
-const AlleleCellCuration = ({ identifier, alleleSymbol }) => {
+const AlleleCellCuration = ({ identifier, allele }) => {
   return (
     <Link to={`/allele/${identifier}`}>
-      <AlleleSymbol allele={{ symbol: alleleSymbol?.displayText }} wrap />
+      <AlleleSymbol allele={allele} wrap />
     </Link>
   );
 };
