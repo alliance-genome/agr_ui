@@ -4,13 +4,13 @@ export const data = {
     pageName: 'Disease',
     publications: [],
     resources: [
-      { title: 'Online Mendelian Inheritance of Man (OMIM)', url: 'https://www.omim.org/' },
       {
         title: 'Human Mouse Disease Connection',
         url: 'http://www.informatics.jax.org/mgihome/projects/aboutHMDC.shtml',
       },
-      { title: 'Portal Kids First DRC', url: 'https://portal.kidsfirstdrc.org/login?redirect_path=/data-exploration' },
       { title: 'Matchmaker Exchange', url: 'https://www.matchmakerexchange.org/' },
+      { title: 'Online Mendelian Inheritance of Man (OMIM)', url: 'https://www.omim.org/' },
+      { title: 'Portal Kids First DRC', url: 'https://portal.kidsfirstdrc.org/login?redirect_path=/data-exploration' },
     ],
   },
   'alzheimers-disease': {
