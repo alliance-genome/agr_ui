@@ -4,38 +4,22 @@ import ExternalLink from '../ExternalLink.jsx';
 import { getResourceUrl } from './getResourceUrl.jsx';
 import { Link } from 'react-router-dom';
 import { getIdentifier } from './utils.jsx';
+import ModelCellCuration from './ModelCellCuration.jsx';
+import GeneCellCuration from './GeneCellCuration.jsx';
+import AlleleCellCuration from './AlleleCellCuration.jsx';
 
 function GeneticModifierLink(modifier) {
   const identifier = getIdentifier(modifier);
   switch (modifier?.type) {
     case 'Gene':
       if (modifier.geneSymbol) {
-        return (
-          <Link to={`/gene/${identifier}`} target="_blank">
-            <span dangerouslySetInnerHTML={{ __html: modifier.geneSymbol.displayText }} />
-          </Link>
-        );
+        return <GeneCellCuration curie={identifier} geneSymbol={modifier.geneSymbol}/>
       }
       break;
     case 'Allele':
-      if (modifier.alleleSymbol) {
-        return (
-          <Link to={`/allele/${identifier}`} target="_blank">
-            <span dangerouslySetInnerHTML={{ __html: modifier.alleleSymbol.displayText }} />
-          </Link>
-        );
-      }
-      break;
+      return <AlleleCellCuration allele={modifier} identifier={identifier}/>
     case 'AffectedGenomicModel':
-      let url = getResourceUrl({ identifier, type: modifier.type, subtype: modifier.subtype });
-      if (url && modifier.agmFullName) {
-        return (
-          <ExternalLink href={url}>
-            <span dangerouslySetInnerHTML={{ __html: modifier.agmFullName.displayText }} />
-          </ExternalLink>
-        );
-      }
-      break;
+      return <ModelCellCuration model={modifier}/>
     default:
       return <></>;
   }
