@@ -12,18 +12,14 @@ function GeneticModifierLink(modifier) {
   const identifier = getIdentifier(modifier);
   switch (modifier?.type) {
     case 'Gene':
-      if (modifier.geneSymbol) {
-        return <GeneCellCuration curie={identifier} geneSymbol={modifier.geneSymbol}/>
-      }
-      break;
+      return <GeneCellCuration identifier={identifier} gene={modifier}/>
     case 'Allele':
-      return <AlleleCellCuration allele={modifier} identifier={identifier}/>
+      return <AlleleCellCuration identifier={identifier} allele={modifier}/>
     case 'AffectedGenomicModel':
       return <ModelCellCuration model={modifier}/>
     default:
       return <></>;
   }
-  return <></>;
 }
 
 function GeneticModifiersCellCuration({ relation, modifiers }) {

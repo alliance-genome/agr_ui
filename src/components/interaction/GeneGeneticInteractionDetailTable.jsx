@@ -67,7 +67,7 @@ const GeneGeneticInteractionDetailTable = ({ focusGeneId, focusGeneDisplayName }
         },
         formatter: (object) => (
           <>
-            <GeneCellCuration curie={getIdentifier(object)} geneSymbol={object.geneSymbol} />
+            <GeneCellCuration identifier={getIdentifier(object)} gene={object} />
           </>
         ),
         filterable: true,
