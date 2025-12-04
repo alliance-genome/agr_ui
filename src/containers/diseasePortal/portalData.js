@@ -79,15 +79,24 @@ export const data = {
       },
     ],
     resources: [
+      { title: 'American Diabetes Association (ADA)', url: 'https://professional.diabetes.org/' },
+      { title: 'Broad Institute - Diabetes', url: 'https://www.broadinstitute.org/diabetes' },
+      {
+        title: 'Centers for Disease Control and Prevention (CDC) - Diabetes',
+        url: 'https://www.cdc.gov/diabetes/index.html',
+      },
+      { title: 'Common Metabolic Diseases Genome Atlas (CMDGA)', url: 'https://cmdga.org/' },
+      { title: 'Common Metabolic Diseases Knowledge Portal', url: 'https://t2d.hugeamp.org/' },
+      { title: 'Diabetes Disease Portal - Rat Genome Database', url: 'https://rgd.mcw.edu/rgdweb/portal/home.jsp?p=4' },
+      {
+        title: 'Human Mouse Disease Connection',
+        url: 'https://www.informatics.jax.org/mgihome/projects/aboutHMDC.shtml',
+      },
       {
         title: 'National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK)',
         url: 'https://www.niddk.nih.gov/',
       },
-      { title: 'Diabetes Disease Portal - Rat Genome Database', url: 'https://rgd.mcw.edu/rgdweb/portal/home.jsp?p=4' },
-      { title: 'Common Metabolic Diseases Knowledge Portal', url: 'https://t2d.hugeamp.org/ ' },
-      { title: 'Common Metabolic Diseases Genome Atlas (CMDGA)', url: 'https://cmdga.org/' },
-      { title: 'American Diabetes Association (ADA)', url: 'https://professional.diabetes.org/' },
-      { title: 'Broad Institute - Diabetes', url: 'https://www.broadinstitute.org/diabetes' },
+      { title: 'World Health Organization (WHO) - Diabetes', url: 'https://www.who.int/health-topics/diabetes' },
     ],
   },
 };
