@@ -27,7 +27,7 @@ const CitationLink = ({ curie }) => {
       else ref.extXrefs.push(ref.cross_references[xr]);
     }
 
-    const scale = 4 / 13;
+    const scale = 6 / 13;
     const prefs = ref.modXrefs.map((xref) => xref.curie.substring(0, xref.curie.indexOf(':')));
     let mods = [];
     for (let i = 0; i < prefs.length; i++) {
@@ -38,12 +38,10 @@ const CitationLink = ({ curie }) => {
     return (
       <>
         {mods.map((mid) => (
-          <sub style={{ bottom: '-0.5em' }} key={`${mid}-sprite`}>
+          <div style={{ float: 'left', lineHeight: 0.9, paddingRight: 8 }} key={`${mid}-sprite`}>
             <SpeciesIcon scale={scale} species={mid} />
-          </sub>
+          </div>
         ))}
-        &emsp;
-        {/* <Link to={`/reference/${curie}`}>{ref.citation}</Link> */}
         <Link to={`/reference/${curie}`} dangerouslySetInnerHTML={{ __html: ref.citation }} />
       </>
     );
