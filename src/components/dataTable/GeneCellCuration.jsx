@@ -13,7 +13,7 @@ const GeneCellCuration = ({ identifier, gene } = {}) => {
 
   return (
     <Link className={style.breakWords} to={'/gene/' + identifier}>
-      {gene.geneSymbol?.displayText}
+      <span dangerouslySetInnerHTML={{ __html: gene.geneSymbol?.displayText }} />
     </Link>
   );
 };

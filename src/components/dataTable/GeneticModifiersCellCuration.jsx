@@ -29,7 +29,13 @@ function GeneticModifiersCellCuration({ relation, modifiers }) {
         <>
           <dt>{relation.name?.replace(/_/, ' ')}:</dt>
           <dd>
-            <CollapsibleList collapsedSize={modifiers.length}>{modifiers.map(GeneticModifierLink)}</CollapsibleList>
+            <CollapsibleList collapsedSize={modifiers.length}>{
+              modifiers.map((modifier, index) => (
+               <React.Fragment key={getIdentifier(modifier) || index}>
+                {GeneticModifierLink(modifier)}
+               </React.Fragment>
+              ))
+            }</CollapsibleList>
           </dd>
         </>
       </dl>
