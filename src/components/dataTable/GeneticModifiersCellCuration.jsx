@@ -12,11 +12,11 @@ function GeneticModifierLink(modifier) {
   const identifier = getIdentifier(modifier);
   switch (modifier?.type) {
     case 'Gene':
-      return <GeneCellCuration identifier={identifier} gene={modifier}/>
+      return <GeneCellCuration identifier={identifier} gene={modifier} />;
     case 'Allele':
-      return <AlleleCellCuration identifier={identifier} allele={modifier}/>
+      return <AlleleCellCuration identifier={identifier} allele={modifier} />;
     case 'AffectedGenomicModel':
-      return <ModelCellCuration model={modifier}/>
+      return <ModelCellCuration model={modifier} />;
     default:
       return <></>;
   }
@@ -29,13 +29,11 @@ function GeneticModifiersCellCuration({ relation, modifiers }) {
         <>
           <dt>{relation.name?.replace(/_/, ' ')}:</dt>
           <dd>
-            <CollapsibleList collapsedSize={modifiers.length}>{
-              modifiers.map((modifier, index) => (
-               <React.Fragment key={getIdentifier(modifier) || index}>
-                {GeneticModifierLink(modifier)}
-               </React.Fragment>
-              ))
-            }</CollapsibleList>
+            <CollapsibleList collapsedSize={modifiers.length}>
+              {modifiers.map((modifier, index) => (
+                <React.Fragment key={getIdentifier(modifier) || index}>{GeneticModifierLink(modifier)}</React.Fragment>
+              ))}
+            </CollapsibleList>
           </dd>
         </>
       </dl>
