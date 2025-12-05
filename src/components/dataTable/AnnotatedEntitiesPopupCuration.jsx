@@ -30,7 +30,7 @@ function renderLink(entity) {
     case 'AlleleDiseaseAnnotation':
       return <AlleleCellCuration identifier={identifier} allele={entity.diseaseAnnotationSubject} />;
     case 'GeneDiseaseAnnotation':
-      return <GeneCellCuration curie={identifier} geneSymbol={entity.diseaseAnnotationSubject.geneSymbol} />;
+      return <GeneCellCuration identifier={identifier} gene={entity.diseaseAnnotationSubject} />;
     case 'AGMDiseaseAnnotation':
       return <ModelCellCuration model={entity.diseaseAnnotationSubject} />;
     default:

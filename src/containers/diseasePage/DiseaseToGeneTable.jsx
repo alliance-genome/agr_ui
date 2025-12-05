@@ -43,7 +43,7 @@ const DiseaseToGeneTable = ({ id }) => {
         return (
           <>
             <div>
-              <GeneCellCuration curie={getIdentifier(subject)} geneSymbol={subject.geneSymbol} />
+              <GeneCellCuration identifier={getIdentifier(subject)} gene={subject} />
             </div>
             {!isViaOrthology && (
               <small>

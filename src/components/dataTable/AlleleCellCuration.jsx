@@ -8,6 +8,8 @@ import AlleleSymbol from '../../containers/allelePage/AlleleSymbol.jsx';
  * @param {object} props.allele - The allele object containing symbol information
  */
 const AlleleCellCuration = ({ identifier, allele }) => {
+  if (!allele) return null;
+
   return (
     <Link to={`/allele/${identifier}`}>
       <AlleleSymbol allele={allele} wrap />

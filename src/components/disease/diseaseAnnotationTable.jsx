@@ -56,7 +56,7 @@ const DiseaseAnnotationTable = ({ focusGeneId, focusTaxonId, includeNotAnnotatio
       text: 'Gene',
       formatter: (subject, row) => (
         <>
-          <GeneCellCuration curie={getIdentifier(subject)} geneSymbol={subject.geneSymbol} />
+          <GeneCellCuration identifier={getIdentifier(subject)} gene={subject} />
           <br />
           <small>
             <AnnotatedEntitiesPopupCurationGenePage

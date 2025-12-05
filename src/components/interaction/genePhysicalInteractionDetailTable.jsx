@@ -41,7 +41,7 @@ const GenePhysicalInteractionDetailTable = ({ focusGeneDisplayName, focusGeneId 
       text: 'Interactor gene',
       formatter: (object) => (
         <>
-          <GeneCellCuration curie={getIdentifier(object)} geneSymbol={object.geneSymbol} />
+          <GeneCellCuration identifier={getIdentifier(object)} gene={object} />
         </>
       ),
       headerStyle: { width: '6em' },
