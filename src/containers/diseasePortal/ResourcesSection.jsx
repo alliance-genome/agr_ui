@@ -12,9 +12,9 @@ const ResourcesSection = ({ disease }) => {
             <div>
               {disease.resources.map((resourceLink, index) => {
                 return (
-                  <p key={'resources-' + index}>
+                  <div key={'resources-' + index}>
                     <ExternalLink href={resourceLink.url}>{resourceLink.title}</ExternalLink>
-                  </p>
+                  </div>
                 );
               })}
             </div>
