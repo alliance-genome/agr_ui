@@ -6,10 +6,7 @@ const AlleleSummaryDescription = ({ notes }) => {
   return (
     <CollapsibleList>
       {notes.map((note, index) => (
-        <span
-          dangerouslySetInnerHTML={{ __html: note.freeText }}
-          key={note.id ?? `note-${index}`}
-        />
+        <span dangerouslySetInnerHTML={{ __html: note.freeText }} key={note.id ?? `note-${index}`} />
       ))}
     </CollapsibleList>
   );
