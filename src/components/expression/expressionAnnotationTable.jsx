@@ -60,7 +60,7 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
     {
       dataField: 'stage',
       text: 'Stage',
-      formatter: (stage) => stage === "N/A" ? "" : stage,
+      formatter: (stage) => (stage === 'N/A' ? '' : stage),
       filterable: true,
       headerStyle: { width: '130px' },
     },
