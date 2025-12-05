@@ -53,6 +53,15 @@ const SearchSection = () => {
             Browse APIs
           </ActionButton>
           <ActionButton
+            icon="stethoscope"
+            size="2x"
+            id="action-disease-portal"
+            to="/disease-portal"
+            tooltip="View the latest curated disease model research from model organism contributors"
+          >
+            Disease Portal
+          </ActionButton>
+          <ActionButton
             icon="book-open"
             size="2x"
             id="action-pubs"
