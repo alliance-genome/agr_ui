@@ -60,6 +60,7 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
     {
       dataField: 'stage',
       text: 'Stage',
+      formatter: (stage) => (stage === 'N/A' ? '' : stage),
       filterable: true,
       headerStyle: { width: '130px' },
     },
@@ -69,8 +70,7 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
       formatter: (assayCell) => {
         if (!assayCell) return null;
         const assayName = assayCell.name;
-        const displaySynonym = assayCell.synonyms?.find((synonym) => synonym.isDisplaySynonym)?.name || assayName;
-        return <span title={assayName}>{displaySynonym}</span>;
+        return <span title={assayName}>{assayName}</span>;
       },
       filterable: true,
       headerStyle: { width: '150px' },
@@ -80,18 +80,21 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
       text: 'Source',
       formatter: (crossReferences = ([] = {})) => (
         <div>
-          {crossReferences?.map(({ referencedCurie, displayName } = {}) => (
-            <div key={referencedCurie}>
-              <ExternalLink
-                href={getResourceUrl({
-                  identifier: referencedCurie.toUpperCase(),
-                  type: 'gene/expression/annotation/detail',
-                })}
-              >
-                {displayName}
-              </ExternalLink>
-            </div>
-          ))}
+          {crossReferences?.map(({ referencedCurie, displayName } = {}) => {
+            if (!referencedCurie || !displayName) return null;
+            return (
+              <div key={referencedCurie}>
+                <ExternalLink
+                  href={getResourceUrl({
+                    identifier: referencedCurie.toUpperCase(),
+                    type: 'gene/expression/annotation/detail',
+                  })}
+                >
+                  {displayName}
+                </ExternalLink>
+              </div>
+            );
+          })}
         </div>
       ),
       headerStyle: { width: '200px' },
