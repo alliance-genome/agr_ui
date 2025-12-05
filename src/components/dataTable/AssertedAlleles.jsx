@@ -10,12 +10,18 @@ function makeAssertedAlleleLink(identifier, alleleSymbol) {
   return null;
 }
 
-function AssertedAlleles({ assertedAlleles }) {
+function AssertedAlleles({ assertedAlleles, mainRowCurie }) {
   if (!assertedAlleles || assertedAlleles.length === 0) return <></>;
 
+  const filteredAssertedAlleles = assertedAlleles.filter((allele) => getIdentifier(allele) !== mainRowCurie);
+
+  if (filteredAssertedAlleles.length === 0) return <></>;
+
   return (
-    <CollapsibleList collapsedSize={assertedAlleles.length}>
-      {assertedAlleles.map((allele) => makeAssertedAlleleLink(getIdentifier(allele), allele.alleleSymbol?.displayText))}
+    <CollapsibleList collapsedSize={filteredAssertedAlleles.length}>
+      {filteredAssertedAlleles.map((allele) =>
+        makeAssertedAlleleLink(getIdentifier(allele), allele.alleleSymbol?.displayText)
+      )}
     </CollapsibleList>
   );
 }

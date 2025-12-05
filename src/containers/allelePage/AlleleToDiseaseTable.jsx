@@ -4,7 +4,7 @@ import AnnotatedEntitiesPopupCuration from '../../components/dataTable/Annotated
 import AssociationType from '../../components/AssociationType.jsx';
 import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration.jsx';
 import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn.jsx';
-import { buildProvidersWithUrl, getDistinctFieldValue } from '../../components/dataTable/utils.jsx';
+import { getIdentifier, buildProvidersWithUrl, getDistinctFieldValue } from '../../components/dataTable/utils.jsx';
 import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration.jsx';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import { ALLELE_DETAILS_COLUMNS } from '../../components/dataTable/constants';
@@ -50,6 +50,7 @@ const AlleleToDiseaseTable = ({ alleleId }) => {
         <AnnotatedEntitiesPopupCuration
           entities={entities}
           pubModIds={row.pubmedPubModIDs}
+          mainRowCurie={getIdentifier(row.subject)}
           columnNameSet={ALLELE_DETAILS_COLUMNS}
         />
       ),
