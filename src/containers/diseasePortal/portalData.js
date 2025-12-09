@@ -60,7 +60,7 @@ export const data = {
         curie: 'AGRKB:101000001203478',
       },
       {
-        curie: 'AGRKB:101000000485876',
+        curie: 'AGRKB:101000001051122',
       },
       {
         curie: 'AGRKB:101000000947661',
