@@ -6,10 +6,11 @@ import useDataTableQuery from '../../hooks/useDataTableQuery';
 import CommaSeparatedGeneList from '../allelePage/CommaSeparatedGeneList.jsx';
 import RotatedHeaderCell from '../../components/dataTable/RotatedHeaderCell.jsx';
 import BooleanLinkCell from '../../components/dataTable/BooleanLinkCell.jsx';
-import { getDistinctFieldValue } from '../../components/dataTable/utils.jsx';
-import { compareByFixedOrder } from '../../lib/utils';
+import { getDistinctFieldValue, simplifySpeciesNameSC } from '../../components/dataTable/utils.jsx';
+import { compareByFixedOrder, getSpeciesNameCorrected } from '../../lib/utils';
 import { SPECIES_NAME_ORDER } from '../../constants';
 import SpeciesName from '../../components/SpeciesName.jsx';
+import DataSourceLinkCuration from '../../components/dataSourceLinkCuration.jsx';
 
 const constructsRelatedGenesFormatter = (constructRelatedGenes) =>
   constructRelatedGenes.map(({ id, genes }) => (
@@ -27,17 +28,25 @@ const TransgenicAlleleTable = ({ geneId }) => {
 
   const data = results?.map((result) => ({
     ...result,
-    constructExpressedGene: result.constructs.map((construct) => ({
-      id: construct.id,
-      genes: construct.expressedGenes,
+    id: result.alleleDocument.allele.primaryExternalId,
+    species: result.alleleDocument.allele.taxon,
+    hasPhenotype: result.alleleDocument.hasPhenotypeAnnotations,
+    hasDisease: result.alleleDocument.hasDiseaseAnnotations,
+    construct: result.alleleDocument.transgenicAlleleConstructs.map((transgenicAlleleConstruct) => ({
+      id: transgenicAlleleConstruct.construct.id,
+      construct: transgenicAlleleConstruct.construct,
     })),
-    constructTargetedGene: result.constructs.map((construct) => ({
-      id: construct.id,
-      genes: construct.targetGenes,
+    constructExpressedGene: result.alleleDocument.transgenicAlleleConstructs.map((transgenicAlleleConstruct) => ({
+      id: transgenicAlleleConstruct.construct.id,
+      genes: transgenicAlleleConstruct.expressedGenes,
     })),
-    constructRegulatedGene: result.constructs.map((construct) => ({
-      id: construct.id,
-      genes: construct.regulatedByGenes,
+    constructTargetedGene: result.alleleDocument.transgenicAlleleConstructs.map((transgenicAlleleConstruct) => ({
+      id: transgenicAlleleConstruct.construct.id,
+      genes: transgenicAlleleConstruct.targetedGenes,
+    })),
+    constructRegulatedGene: result.alleleDocument.transgenicAlleleConstructs.map((transgenicAlleleConstruct) => ({
+      id: transgenicAlleleConstruct.construct.id,
+      genes: transgenicAlleleConstruct.regulatoryGenes,
     })),
   }));
 
@@ -52,21 +61,21 @@ const TransgenicAlleleTable = ({ geneId }) => {
           <small className="text-muted text-transform-none">(carrying the transgene)</small>
         </>
       ),
-      formatter: (species) => <SpeciesCell species={species} />,
+      formatter: (taxon) => <SpeciesName>{taxon?.name ? simplifySpeciesNameSC(taxon.name) : ''}</SpeciesName>,
       filterable: getDistinctFieldValue(supplementalData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
-      filterFormatter: (speciesName) => <SpeciesName>{speciesName}</SpeciesName>,
+      filterFormatter: (species) => <SpeciesName>{simplifySpeciesNameSC(species)}</SpeciesName>,
       headerStyle: { width: '100px' },
     },
     {
-      dataField: 'symbol',
+      dataField: 'alleleDocument.allele',
       text: 'Allele symbol',
-      formatter: (_, allele) => <AlleleCell allele={allele} />,
+      formatter: (allele) => <AlleleCell allele={allele} usePeid={true} />,
       headerStyle: { width: '185px' },
       filterable: true,
       filterName: 'allele',
     },
     {
-      dataField: 'constructs',
+      dataField: 'alleleDocument.transgenicAlleleConstructs',
       text: 'Transgenic construct',
       helpPopupProps: {
         id: 'gene-page--transgenetic-allele-table--transgenic-construct-help',
@@ -78,11 +87,18 @@ const TransgenicAlleleTable = ({ geneId }) => {
         ),
       },
       formatter: (constructs) =>
-        constructs.map((construct) => (
-          <div key={construct.id} className="text-break">
-            <ConstructLink construct={construct} />
-          </div>
-        )),
+        constructs.map(
+          (transgenicAlleleConstruct) =>
+            !transgenicAlleleConstruct.construct.placeholder && (
+              <div className="text-break">
+                <div key={transgenicAlleleConstruct.construct.primaryExternalId} className="text-break">
+                  <DataSourceLinkCuration reference={transgenicAlleleConstruct.construct.dataProviderCrossReference}>
+                    {transgenicAlleleConstruct.construct.constructSymbol.displayText}
+                  </DataSourceLinkCuration>
+                </div>
+              </div>
+            )
+        ),
       headerStyle: { width: '185px' },
       filterable: true,
       filterName: 'construct',
@@ -138,8 +154,11 @@ const TransgenicAlleleTable = ({ geneId }) => {
     {
       dataField: 'hasDisease',
       text: 'Has Disease Annotations',
-      formatter: (hasDisease, allele) => (
-        <BooleanLinkCell to={`/allele/${allele.id}#disease-associations`} value={hasDisease} />
+      formatter: (hasDisease, transgenicAllele) => (
+        <BooleanLinkCell
+          to={`/allele/${transgenicAllele.alleleDocument.allele.primaryExternalId}#disease-associations`}
+          value={hasDisease}
+        />
       ),
       headerNode: <RotatedHeaderCell>Has Disease Annotations</RotatedHeaderCell>,
       headerStyle: {
@@ -152,8 +171,11 @@ const TransgenicAlleleTable = ({ geneId }) => {
     {
       dataField: 'hasPhenotype',
       text: 'Has Phenotype Annotations',
-      formatter: (hasPhenotype, allele) => (
-        <BooleanLinkCell to={`/allele/${allele.id}#phenotypes`} value={hasPhenotype} />
+      formatter: (hasPhenotype, transgenicAllele) => (
+        <BooleanLinkCell
+          to={`/allele/${transgenicAllele.alleleDocument.allele.primaryExternalId}#phenotypes`}
+          value={hasPhenotype}
+        />
       ),
       headerNode: <RotatedHeaderCell>Has Phenotype Annotations</RotatedHeaderCell>,
       headerStyle: {

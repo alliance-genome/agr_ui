@@ -1,19 +1,21 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import style from './style.module.scss';
 
-const GeneCellCuration = ({ curie, geneSymbol } = {}) => {
+/**
+ * @param {object} props
+ * @param {string} props.identifier - The gene identifier
+ * @param {object} props.gene - The gene object containing symbol information
+ */
+const GeneCellCuration = ({ identifier, gene } = {}) => {
+  if (!gene) return null;
+
   return (
-    <Link className={style.breakWords} to={'/gene/' + curie}>
-      {geneSymbol?.displayText}
+    <Link className={style.breakWords} to={'/gene/' + identifier}>
+      <span dangerouslySetInnerHTML={{ __html: gene.geneSymbol?.displayText }} />
     </Link>
   );
 };
 
-GeneCellCuration.propTypes = {
-  id: PropTypes.string,
-  symbol: PropTypes.string,
-};
 export default GeneCellCuration;

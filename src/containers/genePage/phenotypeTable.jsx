@@ -30,7 +30,7 @@ const PhenotypeTable = ({ geneId, entityType, hideSourceColumn = false }) => {
       text: 'Annotation details',
       formatter: (subject, row) => (
         <>
-          <GeneCellCuration curie={getIdentifier(subject)} geneSymbol={subject.geneSymbol} />
+          <GeneCellCuration identifier={getIdentifier(subject)} gene={subject} />
           <small>
             <AnnotatedPhenotypePopupCuration
               entities={row.primaryAnnotations}
