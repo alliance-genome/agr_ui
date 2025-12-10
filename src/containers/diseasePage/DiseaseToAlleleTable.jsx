@@ -30,7 +30,7 @@ const DiseaseToAlleleTable = ({ id }) => {
         return (
           <>
             <div>
-              <AlleleCellCuration identifier={getIdentifier(subject)} alleleSymbol={subject?.alleleSymbol} />
+              <AlleleCellCuration identifier={getIdentifier(subject)} allele={subject} />
             </div>
             <small>
               <AnnotatedEntitiesPopupCuration

@@ -47,14 +47,17 @@ const AlleleSummary = ({ allele, category, description, crossReference, alleleOf
       <AttributeValue placeholder="None">
         {constructSlimList && constructSlimList.length && (
           <CommaSeparatedList>
-            {constructSlimList.map((construct) => (
-              <DataSourceLinkCuration
-                key={construct.primaryExternalId}
-                reference={construct.dataProviderCrossReference}
-              >
-                <span dangerouslySetInnerHTML={{ __html: construct.constructSymbol?.displayText }} />
-              </DataSourceLinkCuration>
-            ))}
+            {constructSlimList.map(
+              (construct) =>
+                !construct.placeholder && (
+                  <DataSourceLinkCuration
+                    key={construct.primaryExternalId}
+                    reference={construct.dataProviderCrossReference}
+                  >
+                    <span dangerouslySetInnerHTML={{ __html: construct.constructSymbol?.displayText }} />
+                  </DataSourceLinkCuration>
+                )
+            )}
           </CommaSeparatedList>
         )}
       </AttributeValue>
