@@ -22,7 +22,11 @@ const LINK_BUFFER = 1.2;
 
 const buildTrackList = (taxonid) => {
   const tracks = [];
-  const trackList = getSpecies(taxonid).jBrowsetracks.split(',');
+  const species = getSpecies(taxonid);
+  if (!species.jBrowsetracks) {
+    return '';
+  }
+  const trackList = species.jBrowsetracks.split(',');
   const assembly = buildAssembly(taxonid);
   for (const track of trackList) {
     tracks.push(assembly + track);
@@ -31,7 +35,8 @@ const buildTrackList = (taxonid) => {
 };
 
 const buildAssembly = (taxonid) => {
-  return getSpecies(taxonid).jBrowseName.replace(' ', '_');
+  const species = getSpecies(taxonid);
+  return species.jBrowseName ? species.jBrowseName.replace(' ', '_') : '';
 };
 
 const buildLoc = (location) => {
@@ -48,7 +53,11 @@ const buildLoc = (location) => {
 };
 
 const VariantJBrowseLink = ({ children, location, type, geneSymbol, geneLocation, taxonid }) => {
-  return location ? (
+  // Check if we have valid data to build a JBrowse link
+  const species = getSpecies(taxonid);
+  const hasValidSpecies = species && species.jBrowseName;
+
+  return location && hasValidSpecies ? (
     <ExternalLink
       href={
         '/jbrowse2/?' +

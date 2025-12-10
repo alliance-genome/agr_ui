@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import hash from 'object-hash';
-import { ReferenceCell, GeneCell, DataTable } from '../dataTable';
+import { ReferenceCell, GeneCell, DataTable, ReferencesCellCuration } from '../dataTable';
 import DataSourceLink from '../dataSourceLink.jsx';
 import CommaSeparatedList from '../commaSeparatedList.jsx';
 import { compareAlphabeticalCaseInsensitive, compareByFixedOrder } from '../../lib/utils';
@@ -60,6 +60,7 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
     {
       dataField: 'stage',
       text: 'Stage',
+      formatter: (stage) => (stage === 'N/A' ? '' : stage),
       filterable: true,
       headerStyle: { width: '130px' },
     },
@@ -69,8 +70,7 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
       formatter: (assayCell) => {
         if (!assayCell) return null;
         const assayName = assayCell.name;
-        const displaySynonym = assayCell.synonyms?.find((synonym) => synonym.isDisplaySynonym)?.name;
-        return <span title={assayName}>{displaySynonym}</span>;
+        return <span title={assayName}>{assayName}</span>;
       },
       filterable: true,
       headerStyle: { width: '150px' },
@@ -80,18 +80,21 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
       text: 'Source',
       formatter: (crossReferences = ([] = {})) => (
         <div>
-          {crossReferences?.map(({ referencedCurie, displayName } = {}) => (
-            <div key={referencedCurie}>
-              <ExternalLink
-                href={getResourceUrl({
-                  identifier: referencedCurie.toUpperCase(),
-                  type: 'gene/expression/annotation/detail',
-                })}
-              >
-                {displayName}
-              </ExternalLink>
-            </div>
-          ))}
+          {crossReferences?.map(({ referencedCurie, displayName } = {}) => {
+            if (!referencedCurie || !displayName) return null;
+            return (
+              <div key={referencedCurie}>
+                <ExternalLink
+                  href={getResourceUrl({
+                    identifier: referencedCurie.toUpperCase(),
+                    type: 'gene/expression/annotation/detail',
+                  })}
+                >
+                  {displayName}
+                </ExternalLink>
+              </div>
+            );
+          })}
         </div>
       ),
       headerStyle: { width: '200px' },
@@ -101,13 +104,7 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
     {
       dataField: 'reference',
       text: 'Reference',
-      formatter: (referenceId) => {
-        return (
-          <ExternalLink href={getSingleReferenceUrl(referenceId).url} key={referenceId} title={referenceId}>
-            {referenceId}
-          </ExternalLink>
-        );
-      },
+      formatter: (reference) => <ReferencesCellCuration pubModIds={reference} />,
       headerStyle: { width: '150px' },
       filterable: true,
       filterName: 'reference',

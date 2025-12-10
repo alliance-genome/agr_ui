@@ -7,6 +7,7 @@ import { ReferencesCellCuration, SourceCell } from '../../components/dataTable';
 import CrossReferenceList from '../../components/crossReferenceList.jsx';
 import CommaSeparatedList from '../../components/commaSeparatedList.jsx';
 import ExternalLink from '../../components/ExternalLink.jsx';
+import NoData from '../../components/noData.jsx';
 import { getSingleReferenceUrl } from '../../components/dataTable/utils.jsx';
 import ApplySpeciesNameFormat from './SpeciesFinderFormatter.jsx';
 import styles from './style.module.scss';
@@ -29,7 +30,7 @@ const PubSourceLink = ({ ref }) => {
   const publisher = ref.resource_title;
   // this should not need to be done here; talk to Blue Team about fixing these date formats (e.g. "1999.7.30")
   const date_pub_fixed = ref.date_published.replace(/\b(\d)\b/g, '0$1').replace(/\.+/g, '-');
-  if (!publisher && !date_pub_fixed) return <i className="text-muted">Not Available</i>;
+  if (!publisher && !date_pub_fixed) return <NoData>Not Available</NoData>;
   const pubDate = new Date(date_pub_fixed + 'T00:00:00'); // must add a time, or Date assumes midnight in Greenwich, which usually (i.e. in the US) means you see the previous day instead
   const dateOptions = { year: 'numeric', month: 'short', day: 'numeric' };
   const dateParts = new Intl.DateTimeFormat('en-US', dateOptions).formatToParts(pubDate);
@@ -71,7 +72,7 @@ const ReferenceSummary = ({ ref }) => {
 
   // need to handle category: "correction", because these have no authors and my author map throws an error
   const AuthorList = ({ ref }) => {
-    if (!ref.authors /*|| ref.authors === null*/) return <i className="text-muted">Not Available</i>;
+    if (!ref.authors /*|| ref.authors === null*/) return <NoData>Not Available</NoData>;
     return (
       <CommaSeparatedList>
         {ref.authors.map((auth) => (
@@ -84,11 +85,11 @@ const ReferenceSummary = ({ ref }) => {
   const authPl = 'Author' + (ref.authors && ref.authors.length === 1 ? '' : 's');
 
   const ExternalCrossReferences = ({ xrefs }) => {
-    if (xrefs.length === 0) return <i className="text-muted">Not Available</i>;
+    if (xrefs.length === 0) return <NoData>Not Available</NoData>;
     return <CommaSeparatedSourceList sources={xrefs} />;
   };
   const MODidentifiers = ({ xrefs }) => {
-    if (xrefs.length === 0) return <i className="text-muted">Not Available</i>;
+    if (xrefs.length === 0) return <NoData>Not Available</NoData>;
     return <CommaSeparatedSourceList sources={xrefs} />;
   };
 
