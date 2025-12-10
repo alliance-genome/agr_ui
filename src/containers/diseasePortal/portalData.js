@@ -5,6 +5,10 @@ export const data = {
     publications: [],
     resources: [
       {
+        title: 'Disease Portals - Rat Genome Database',
+        url: 'https://rgd.mcw.edu/wg/portals/',
+      },
+      {
         title: 'Human Mouse Disease Connection',
         url: 'http://www.informatics.jax.org/mgihome/projects/aboutHMDC.shtml',
       },
