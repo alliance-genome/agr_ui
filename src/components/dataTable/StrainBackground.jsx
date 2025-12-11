@@ -2,12 +2,12 @@ import ExternalLink from '../ExternalLink.jsx';
 import { getIdentifier } from './utils.jsx';
 
 function StrainBackground({ strainBackground }) {
-  const indentifier = getIdentifier(strainBackground);
+  const identifier = getIdentifier(strainBackground);
 
-  if (!indentifier || !strainBackground?.name) return null;
+  if (!identifier || !strainBackground?.agmFullName) return null;
 
-  const strainName = <span dangerouslySetInnerHTML={{ __html: strainBackground.name }} />;
-  const strain = indentifier.slice('SGD:'.length);
+  const strainName = <span dangerouslySetInnerHTML={{ __html: strainBackground.agmFullName.displayText }} />;
+  const strain = identifier.slice('SGD:'.length);
 
   return <ExternalLink href={`https://www.yeastgenome.org/strain/${strain}`}>{strainName}</ExternalLink>;
 }
