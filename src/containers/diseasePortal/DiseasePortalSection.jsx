@@ -9,13 +9,26 @@ const DiseasePortalSection = ({ disease }) => {
   const modelCount = useEntityButtonCounts(url + 'models_counts');
   const alleleCount = useEntityButtonCounts(url + 'alleles_counts');
 
-  const pageTitle = disease.pageName === 'Disease' ? 'Disease Portals' : `${disease.pageName} Portal`;
+  const pageTitle =
+    disease.pageName === 'Disease'
+      ? 'Disease Portals'
+      : // <a href={`/disease/${disease.doid}`}>{`${disease.pageName} Portal`}</a>
+        `${disease.pageName} Portal`;
+  const speciesEntityButton =
+    disease.pageName === 'Disease' ? (
+      <EntityButton id="entity-species" to="/about-us" tooltip="View all associated species">
+        9<br />
+        Species
+      </EntityButton>
+    ) : (
+      ''
+    );
 
   return (
     <section className={`${style.section} ${style.searchBackground} shadow`}>
       <div className={style.contentContainer}>
         <h1 className="display-4 font-weight-normal mb-1 text-center">{pageTitle}</h1>
-        <h4 className="mb-5 text-center">Bringing the power of model systems to the biomedical community.</h4>
+        <h4 className="mb-5 text-center">Bringing the power of model systems to the biomedical community</h4>
         {/* <div className={style.searchBarContainer}>
           <SearchBarComponent autoFocus placeholder='Search for genes, alleles, disease models, and more' />
         </div>
@@ -57,10 +70,7 @@ const DiseasePortalSection = ({ disease }) => {
             <br />
             Publications
           </EntityButton> */}
-          <EntityButton id="entity-species" to="/about-us" tooltip="View all associated species">
-            9<br />
-            Species
-          </EntityButton>
+          {speciesEntityButton}
         </div>
       </div>
     </section>

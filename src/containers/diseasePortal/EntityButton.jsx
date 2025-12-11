@@ -6,7 +6,7 @@ import style from './style.module.scss';
 
 const EntityButton = ({ children, id, to, tooltip }) => {
   return (
-    <>
+    <b>
       <Link className={style.entityButton} id={id} to={to}>
         {children}
         {tooltip && (
@@ -15,7 +15,7 @@ const EntityButton = ({ children, id, to, tooltip }) => {
           </UncontrolledTooltip>
         )}
       </Link>
-    </>
+    </b>
   );
 };
 

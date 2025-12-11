@@ -44,6 +44,10 @@ export const data = {
       },
     ],
     resources: [
+      {
+        title: 'Age and Age-Related Disease Portal - Rat Genome Database',
+        url: 'https://rgd.mcw.edu/rgdweb/portal/home.jsp?p=1',
+      },
       { title: 'Alzheimers.gov', url: 'https://www.alzheimers.gov/' },
       { title: "Alzheimer's Association", url: 'https://www.alz.org/' },
       {
