@@ -1,18 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import DataSourceLink from './dataSourceLink.jsx';
 
 const ConstructLink = ({ construct }) => {
-  return (
-    <DataSourceLink reference={construct.crossReferenceMap?.primary}>
-      <span dangerouslySetInnerHTML={{ __html: construct.name }} />
-    </DataSourceLink>
-  );
+  return <span dangerouslySetInnerHTML={{ __html: construct.constructSymbol.displayText }} />;
 };
 
 ConstructLink.propTypes = {
   construct: PropTypes.shape({
-    name: PropTypes.string,
+    constructSymbol: PropTypes.shape({ displayText: String }),
     crossReferenceMap: PropTypes.shape({
       primary: PropTypes.object,
     }),

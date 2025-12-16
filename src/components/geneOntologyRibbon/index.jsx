@@ -451,7 +451,7 @@ class GeneOntologyRibbon extends Component {
     const { applyingFilters, compareOrthologs, ribbon } = this.state;
     return (
       <HorizontalScroll className="text-nowrap">
-        <wc-ribbon-strips
+        <go-annotation-ribbon-strips
           category-all-style="1"
           color-by="0"
           data={JSON.stringify(ribbon)}
@@ -495,7 +495,7 @@ class GeneOntologyRibbon extends Component {
     }
 
     return (
-      <wc-ribbon-table
+      <go-annotation-ribbon-table
         bio-link-data={JSON.stringify(this.state.selected.data)}
         filter-by={this.state.onlyEXP ? 'evidence:' + EXP_CODES.join(',') : ''}
         group-by="term"
