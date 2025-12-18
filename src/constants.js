@@ -45,11 +45,6 @@ export const CATEGORIES = [
     ],
   },
   {
-    name: 'reference',
-    displayName: 'Reference',
-    displayFields: ['primaryKey', 'abstract'],
-  },
-  {
     name: 'model',
     displayName: 'Model',
     displayFields: ['primaryKey', 'synonyms'],
