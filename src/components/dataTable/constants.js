@@ -30,6 +30,7 @@ export const ALLELE_DETAILS_COLUMNS = new Set([
   'Type',
   'Association',
   'Experimental Condition',
+  'Additional Implicated Alleles',
   'Genetic Modifiers',
   'Genetic Sex',
   'Notes',

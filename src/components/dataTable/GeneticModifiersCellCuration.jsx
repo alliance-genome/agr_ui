@@ -4,42 +4,22 @@ import ExternalLink from '../ExternalLink.jsx';
 import { getResourceUrl } from './getResourceUrl.jsx';
 import { Link } from 'react-router-dom';
 import { getIdentifier } from './utils.jsx';
+import ModelCellCuration from './ModelCellCuration.jsx';
+import GeneCellCuration from './GeneCellCuration.jsx';
+import AlleleCellCuration from './AlleleCellCuration.jsx';
 
 function GeneticModifierLink(modifier) {
   const identifier = getIdentifier(modifier);
   switch (modifier?.type) {
     case 'Gene':
-      if (modifier.geneSymbol) {
-        return (
-          <Link to={`/gene/${identifier}`} target="_blank">
-            <span dangerouslySetInnerHTML={{ __html: modifier.geneSymbol.displayText }} />
-          </Link>
-        );
-      }
-      break;
+      return <GeneCellCuration identifier={identifier} gene={modifier} />;
     case 'Allele':
-      if (modifier.alleleSymbol) {
-        return (
-          <Link to={`/allele/${identifier}`} target="_blank">
-            <span dangerouslySetInnerHTML={{ __html: modifier.alleleSymbol.displayText }} />
-          </Link>
-        );
-      }
-      break;
+      return <AlleleCellCuration identifier={identifier} allele={modifier} />;
     case 'AffectedGenomicModel':
-      let url = getResourceUrl({ identifier, type: modifier.type, subtype: modifier.subtype });
-      if (url && modifier.agmFullName) {
-        return (
-          <ExternalLink href={url}>
-            <span dangerouslySetInnerHTML={{ __html: modifier.agmFullName.displayText }} />
-          </ExternalLink>
-        );
-      }
-      break;
+      return <ModelCellCuration model={modifier} />;
     default:
       return <></>;
   }
-  return <></>;
 }
 
 function GeneticModifiersCellCuration({ relation, modifiers }) {
@@ -49,7 +29,11 @@ function GeneticModifiersCellCuration({ relation, modifiers }) {
         <>
           <dt>{relation.name?.replace(/_/, ' ')}:</dt>
           <dd>
-            <CollapsibleList collapsedSize={modifiers.length}>{modifiers.map(GeneticModifierLink)}</CollapsibleList>
+            <CollapsibleList collapsedSize={modifiers.length}>
+              {modifiers.map((modifier, index) => (
+                <React.Fragment key={getIdentifier(modifier) || index}>{GeneticModifierLink(modifier)}</React.Fragment>
+              ))}
+            </CollapsibleList>
           </dd>
         </>
       </dl>

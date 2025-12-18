@@ -4,9 +4,10 @@ import fetchData from '../lib/fetchData';
 /**
  * Custom hook for managing allele selection state and fetching selected allele data
  * @param {Object} tableProps - The table properties from useDataTableQuery
+ * @param {Array} cachedAlleles - Optional cached allele data with correct categories from useAllVariants
  * @returns {Object} Selection state and handlers
  */
-export default function useAlleleSelection(tableProps) {
+export default function useAlleleSelection(tableProps, cachedAlleles = []) {
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
   const [selectionOverride, setSelectionOverride] = useState({
     active: false,
@@ -42,12 +43,32 @@ export default function useAlleleSelection(tableProps) {
 
         try {
           // Fetch each allele individually since the gene alleles endpoint doesn't support ID filtering
-          const allelePromises = alleleIds.map((id) =>
-            fetchData(`/api/allele/${id}`).catch((err) => {
-              console.error(`Failed to fetch allele ${id}:`, err);
-              return null;
-            })
-          );
+          // URL-encode the allele IDs to handle special characters like colons in CURIEs (e.g., MGI:7525371)
+          // Also fetch variants for each allele to populate the Variant and Variant Type columns
+          const allelePromises = alleleIds.map(async (id) => {
+            const encodedId = encodeURIComponent(id);
+
+            // Fetch both allele data and its variants in parallel
+            const [alleleData, variantsData] = await Promise.all([
+              fetchData(`/api/allele/${encodedId}`).catch((err) => {
+                console.error(`Failed to fetch allele ${id}:`, err);
+                return null;
+              }),
+              fetchData(`/api/allele/${encodedId}/variants`).catch((err) => {
+                console.error(`Failed to fetch variants for allele ${id}:`, err);
+                return null;
+              }),
+            ]);
+
+            // Combine allele data with variants
+            if (alleleData && variantsData) {
+              return {
+                ...alleleData,
+                variants: variantsData.results || [],
+              };
+            }
+            return alleleData;
+          });
 
           const alleles = await Promise.all(allelePromises);
 
@@ -57,7 +78,45 @@ export default function useAlleleSelection(tableProps) {
             return;
           }
 
-          const validAlleles = alleles.filter((a) => a !== null);
+          // Extract the nested allele object from the API response
+          // API returns: { category: "allele_summary", allele: {...}, alterationType: "...", variants: [...] }
+          // We need to map the individual allele API response to match the gene alleles list format
+          const validAlleles = alleles
+            .filter((a) => a !== null && a.allele)
+            .map((response) => {
+              const allele = response.allele;
+              // TEMPORARY FIX (SCRUM-5638): Look up the correct category from cached allele data first.
+              // The individual allele API returns incorrect alterationType (e.g., "allele with one variant"
+              // for alleles that actually have multiple variants), so we prefer the cached category
+              // from the gene alleles endpoint which has the correct value.
+              // TODO: Remove this workaround and the cachedAlleles parameter when SCRUM-5638 backend fix
+              // is implemented to return correct alterationType from /api/allele/{id} endpoint.
+              const cachedAllele = cachedAlleles?.find((a) => a.id === allele.primaryExternalId);
+              return {
+                ...allele,
+                id: allele.primaryExternalId, // Map primaryExternalId to id
+                symbol: allele.alleleSymbol?.displayText || allele.alleleSymbol?.formatText,
+                synonyms: allele.alleleSynonyms?.map((s) => s.displayText || s.formatText) || [],
+                category: cachedAllele?.category || response.alterationType || response.category || 'allele',
+                // Map crossReference structure to crossReferenceMap for table compatibility
+                crossReferenceMap: {
+                  primary: {
+                    url:
+                      response.crossReference?.resourceDescriptorPage?.urlTemplate?.replace(
+                        '[%s]',
+                        allele.primaryExternalId?.split(':')[1] || ''
+                      ) ||
+                      allele.dataProviderCrossReference?.resourceDescriptorPage?.urlTemplate?.replace(
+                        '[%s]',
+                        allele.primaryExternalId?.split(':')[1] || ''
+                      ),
+                  },
+                },
+                // Include variants fetched from /api/allele/{id}/variants endpoint
+                variants: response.variants || [],
+                diseases: [],
+              };
+            });
 
           // Deduplicate alleles based on ID to prevent duplicates
           const uniqueAlleles = [];
@@ -67,14 +126,14 @@ export default function useAlleleSelection(tableProps) {
             if (allele && allele.id && !seenIds.has(allele.id)) {
               seenIds.add(allele.id);
 
-              // Compute correct category based on variant count
-              // The individual allele API doesn't return the computed category
-              // so we need to calculate it based on the variants array
+              // Category is already set correctly from cachedAllele lookup (line 81)
+              // This fallback computation based on variants.length is kept for safety,
+              // but won't trigger since variants array is always empty from individual allele API
               let computedCategory = allele.category || 'allele';
-              if (allele.variants && Array.isArray(allele.variants)) {
+              if (allele.variants && Array.isArray(allele.variants) && allele.variants.length > 0) {
                 if (allele.variants.length === 1) {
                   computedCategory = 'allele with one associated variant';
-                } else if (allele.variants.length > 1) {
+                } else {
                   computedCategory = 'allele with multiple associated variants';
                 }
               }
@@ -124,7 +183,7 @@ export default function useAlleleSelection(tableProps) {
         setIsLoadingSelectedAlleles(false);
       }
     },
-    [tableProps.tableState]
+    [tableProps.tableState, cachedAlleles]
   );
 
   const clearAlleleSelection = useCallback(() => {
