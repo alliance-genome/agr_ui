@@ -1,5 +1,6 @@
 import React from 'react';
 import useBlastServers from '../../hooks/useBlastServers';
+import LoadingPage from '../../components/loadingPage';
 
 function listPublicServers(blastEnv) {
   const mods = Object.entries(blastEnv);
@@ -21,13 +22,17 @@ function listPublicServers(blastEnv) {
 const BlastService = () => {
   const { data, isLoading, error } = useBlastServers();
 
-  if (error) return console.log('ERROR: BlastServerList: ', error);
-  if (isLoading) return null; // maybe change to <loadingPage /> ... or something like that ...
+  if (error) {
+    console.log('ERROR: BlastServerList: ', error);
+    return null;
+  }
+  if (isLoading) {
+    return <LoadingPage />;
+  }
 
   const blastEnv = data.environments;
   const blastServers = listPublicServers(blastEnv);
 
-  // const title = page.title.rendered;
   return (
     <div>
       <h3>Welcome to the BLAST Service for the Alliance of Genome Resources!</h3>
@@ -42,9 +47,7 @@ const BlastService = () => {
       <ul>
         {blastServers.map((server) => (
           <li key={server.dataProvider + server.name}>
-            <a href={'/blast/' + server.dataProvider + '/' + server.name}>
-              {server.dataProvider + ' - ' + server.name}
-            </a>
+            <a href={'/blast/' + server.dataProvider + '/' + server.name}>{server.display_name}</a>
           </li>
         ))}
       </ul>

@@ -33,6 +33,7 @@
     "@geneontology/wc-gocam-viz": "^1.1.2",
     "@geneontology/wc-ribbon-strips": "^0.0.37",
     "@geneontology/wc-ribbon-table": "^0.0.57",
+    "@idotj/mastodon-embed-timeline": "^4.7.0",
     "@tanstack/react-query": "^5.75.5",
     "abortcontroller-polyfill": "^1.7.8",
     "aws-cdk": "^2.1014.0",
@@ -68,6 +69,7 @@
     "react-router-hash-link": "^2.4.3",
     "react-scrollspy": "^3.4.3",
     "react-select": "^5.10.1",
+    "react-transition-group": "file:react-transition-group-wrapper",
     "reactstrap": "^9.2.3",
     "redux": "^5.0.1",
     "redux-mock-store": "^1.5.5",
@@ -92,6 +94,7 @@
     "babel-jest": "^30.0.5",
     "babel-plugin-transform-import-meta": "^2.3.3",
     "babel-preset-vite": "^1.1.3",
+    "baseline-browser-mapping": "^2.8.30",
     "eslint": "^9.25.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-react-hooks": "^5.2.0",
@@ -121,6 +124,22 @@
     ]
   },
   "overrides": {
+    "reactstrap": {
+      "react-transition-group": "$react-transition-group"
+    },
+    "react-select": {
+      "react-transition-group": "$react-transition-group"
+    },
+    "react-bootstrap": {
+      "react-transition-group": "$react-transition-group"
+    },
+    "generic-sequence-panel": {
+      "@jbrowse/core": {
+        "@mui/material": {
+          "react-transition-group": "$react-transition-group"
+        }
+      }
+    },
     "react-popper": {
       "react": "$react",
       "react-dom": "$react-dom"
@@ -131,7 +150,8 @@
     },
     "react-bootstrap-table-next": {
       "react": "$react",
-      "react-dom": "$react-dom"
+      "react-dom": "$react-dom",
+      "react-transition-group": "$react-transition-group"
     },
     "react-bootstrap-table2-filter": {
       "react": "$react",
@@ -141,9 +161,6 @@
       "react": "$react",
       "react-dom": "$react-dom"
     },
-    "core-js": "^3.45.0",
-    "@geneontology/wc-ribbon-strips": {
-      "@stencil/core": "^4.0.0"
-    }
+    "core-js": "^3.45.0"
   }
 }
