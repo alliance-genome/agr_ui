@@ -587,12 +587,12 @@ class PathwayWidget extends Component {
           this.state.selectedTab &&
           this.state.selectedTab == 'MODPathways' ? (
             <div>
-              <go-gocam-viewer
+              <wc-gocam-viz
                 id="gocam-1"
                 gocam-id={this.state.cutils.getCurie(this.state.gocams.selected)}
                 show-legend="true"
                 style={{ maxWidth: '1280px' }}
-              ></go-gocam-viewer>
+              ></wc-gocam-viz>
             </div>
           ) : (
             <div>
