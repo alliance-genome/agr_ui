@@ -20,46 +20,54 @@ const NewVariantSummary = ({variant: variantData}) => {
     const {variant} = variantData || {};
     const variantSubject = variant?.variantAssociationSubject;
 
+    // hgvs is directly on variant, not variantAssociationSubject
+    const symbol = variant?.hgvs;
+
     const {
-        id: variantId,
-        hgvs: symbol,
         taxon: species,
-        hgvs: displayName,
         variantType: type,
-        references: publications,
-        crossReferences: crossReferenceMap,
-        notes,
+        references,
+        crossReferences,
+        relatedNotes: notes,
         referenceSequence,
         variantSequence,
-        variantGenomicLocationAssociationObject,
         predictedVariantConsequences,
     } = variantSubject || {};
 
+    // Get location object - try both possible paths
+    const variantLocationObj = variantSubject?.variantGenomicLocationAssociationObject
+        || variant?.variantGenomicLocationAssociationObject;
+
     // Create location object
     const location = {
-        chromosome: variant?.variantGenomicLocationAssociationObject?.name,
+        chromosome: variantLocationObj?.name,
         start: variant?.start,
         end: variant?.end,
-        assembly: variantGenomicLocationAssociationObject?.genomeAssembly?.primaryExternalId
+        assembly: variantLocationObj?.genomeAssembly?.primaryExternalId
     };
 
-    const assembly = variant.variantGenomicLocationAssociationObject.genomeAssembly
-    // Create nucleotide change
-    const nucleotideChange = variant.referenceSequence
-        ? `${variant.variantSequence ? variant.referenceSequence : 'a' + variant.referenceSequence}>${variant.variantSequence ? variant.variantSequence : 'a'}`
+    const assembly = variantLocationObj?.genomeAssembly?.primaryExternalId;
+
+    // Create nucleotide change - try both possible paths
+    const refSeq = referenceSequence || variantSubject?.referenceSequence || variant?.referenceSequence;
+    const varSeq = variantSequence || variantSubject?.variantSequence || variant?.variantSequence;
+    const nucleotideChange = refSeq
+        ? `${refSeq}>${varSeq || ''}`
         : null;
 
-    // Extract consequence
-    const consequence = variant.predictedVariantConsequences?.[0]?.vepConsequences?.[0]?.name;
+    // Extract consequence - try both possible paths
+    const consequences = predictedVariantConsequences
+        || variantSubject?.predictedVariantConsequences
+        || variant?.predictedVariantConsequences;
+    const consequence = consequences?.[0]?.vepConsequences?.[0]?.name;
 
-    // Extract HGVS names
-    const hgvsG = symbol ? [symbol] : null;
-    const hgvsC = variant.predictedVariantConsequences?.[0]?.hgvsCodingNomenclature
-        ? [variant.predictedVariantConsequences[0].hgvsCodingNomenclature]
-        : null;
-    const hgvsP = variant.predictedVariantConsequences?.[0]?.hgvsProteinNomenclature
-        ? [variant.predictedVariantConsequences[0].hgvsProteinNomenclature]
-        : null;
+    // Extract HGVS names from predictedVariantConsequences
+    const hgvsC = consequences
+        ?.map(c => c.hgvsCodingNomenclature)
+        .filter(Boolean);
+    const hgvsP = consequences
+        ?.map(c => c.hgvsProteinNomenclature)
+        .filter(Boolean);
 
     // Gene overlap - could be extracted from transcript data if needed
     const overlap = null;
@@ -77,7 +85,7 @@ const NewVariantSummary = ({variant: variantData}) => {
                         type={type && type.name}
                         taxonid={species && species.taxonId}
                     >
-                        <span className="text-break">{symbol || displayName || variantId}</span>
+                        <span className="text-break">{symbol}</span>
                     </VariantJBrowseLink>
                 )}
             </AttributeValue>
@@ -92,7 +100,7 @@ const NewVariantSummary = ({variant: variantData}) => {
             <AttributeValue>{overlap && <Link to={`/gene/${overlap.id}`}>{overlap.symbol}</Link>}</AttributeValue>
 
             <AttributeLabel>Genome Assembly</AttributeLabel>
-            <AttributeValue>{assembly.primaryExternalId}</AttributeValue>
+            <AttributeValue>{assembly}</AttributeValue>
 
             <AttributeLabel>Location</AttributeLabel>
             <AttributeValue>
@@ -137,7 +145,7 @@ const NewVariantSummary = ({variant: variantData}) => {
                             {consequence && consequence.replace(/_/g, ' ').split(',')}
                         </CollapsibleList>
 
-                        <HashLink to={sectionAnchor(variant)} className="btn btn-link btn-sm p-0">
+                        <HashLink to={sectionAnchor(symbol)} className="btn btn-link btn-sm p-0">
                             See all consequences
                         </HashLink>
                     </>
@@ -145,7 +153,7 @@ const NewVariantSummary = ({variant: variantData}) => {
             </AttributeValue>
 
             <AttributeLabel>HGVS.g name</AttributeLabel>
-            <AttributeValue>{hgvsG && hgvsG.length ? <CollapsibleList>{hgvsG}</CollapsibleList> : null}</AttributeValue>
+            <AttributeValue>{symbol}</AttributeValue>
 
             <AttributeLabel>HGVS.c name</AttributeLabel>
             <AttributeValue>{hgvsC && hgvsC.length ? <CollapsibleList>{hgvsC}</CollapsibleList> : null}</AttributeValue>
@@ -158,23 +166,25 @@ const NewVariantSummary = ({variant: variantData}) => {
 
             <AttributeLabel>Notes</AttributeLabel>
             <AttributeValue>
-                {variant.notes && variant.notes.length ? <CollapsibleList>{variant.notes.map((note) => note.note)}</CollapsibleList> : null}
+                {notes && notes.length ? <CollapsibleList>{notes.map((note) => note.freeText)}</CollapsibleList> : null}
             </AttributeValue>
 
             <AttributeLabel>Cross references</AttributeLabel>
             <AttributeValue>
-                {crossReferenceMap && crossReferenceMap.primary ? (
-                    <DataSourceLink reference={crossReferenceMap.primary}/>
+{/*
+                {crossReference && crossReference.primary ? (
+                    <DataSourceLink reference={crossReference.primary}/>
                 ) : null}
+*/}
             </AttributeValue>
 
             <AttributeLabel>References</AttributeLabel>
             <AttributeValue>
-                {variantSubject.references && variantSubject.references?.length ? (
+                {references && references.length ? (
                     <CollapsibleList>
-                        {variantSubject.references.map(({referenceID, url}) => (
-                            <ExternalLink key={referenceID} href={url}>
-                                {referenceID}
+                        {references.map((ref) => (
+                            <ExternalLink key={ref.referenceID || ref.curie} href={ref.url || `https://pubmed.ncbi.nlm.nih.gov/${ref.referenceID?.replace('PMID:', '')}`}>
+                                {ref.referenceID || ref.shortCitation}
                             </ExternalLink>
                         ))}
                     </CollapsibleList>

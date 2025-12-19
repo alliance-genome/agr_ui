@@ -16,21 +16,21 @@ const AlleleVariantsSummary = ({ allele, alleleId }) => {
   return (
     <>
       {data &&
-        data.map((variant) => {
-          console.log('vari: '+variant.variant.hgvs)
-          const { displayName } = variant || {};
+        data.map((variantData) => {
+          const hgvs = variantData?.variant?.hgvs;
+          const id = variantData?.variant?.id;
           return (
-            <Subsection title={variant.variant.hgvs} level={1} key={variant.variant.hgvs}>
+            <Subsection title={hgvs} level={1} key={id}>
               <AttributeList className="mb-0">
                 <NewVariantSummary
                   variant={{
-                    ...variant,
+                    ...variantData,
                     gene: gene,
                     species: species,
                   }}
                 />
               </AttributeList>
-              <Link to={`/search?q=${variant.variant.hgvs}`}>
+              <Link to={`/search?q=${hgvs}`}>
                 All alleles with this variant <FontAwesomeIcon icon={faMagnifyingGlass} />
               </Link>
             </Subsection>
