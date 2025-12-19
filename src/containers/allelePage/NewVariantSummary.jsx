@@ -1,206 +1,204 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
-import {HashLink} from 'react-router-hash-link';
-import {AttributeLabel, AttributeValue} from '../../components/attribute';
-import {CollapsibleList} from '../../components/collapsibleList';
-import {VariantJBrowseLink} from '../../components/variant';
+import { Link } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
+import { AttributeLabel, AttributeValue } from '../../components/attribute';
+import { CollapsibleList } from '../../components/collapsibleList';
+import { VariantJBrowseLink } from '../../components/variant';
 import ExternalLink from '../../components/ExternalLink.jsx';
 import DataSourceLink from '../../components/dataSourceLink.jsx';
-import {sectionAnchor} from './AlleleMolecularConsequences.jsx';
+import { sectionAnchor } from './AlleleMolecularConsequences.jsx';
 import Sequence from './Sequence.jsx';
 import getVariantGenomeLocation from './getVariantGenomeLocation';
 
 function formatLocation(location) {
-    const {chromosome = '', start = '', end = ''} = location || {};
-    return start !== end ? `${chromosome}:${start}-${end}` : `${chromosome}:${start}`;
+  const { chromosome = '', start = '', end = '' } = location || {};
+  return start !== end ? `${chromosome}:${start}-${end}` : `${chromosome}:${start}`;
 }
 
-const NewVariantSummary = ({variant: variantData}) => {
-    const {variant} = variantData || {};
-    const variantSubject = variant?.variantAssociationSubject;
+const NewVariantSummary = ({ variant: variantData }) => {
+  const { variant } = variantData || {};
+  const variantSubject = variant?.variantAssociationSubject;
 
-    // hgvs is directly on variant, not variantAssociationSubject
-    const symbol = variant?.hgvs;
+  // hgvs is directly on variant, not variantAssociationSubject
+  const symbol = variant?.hgvs;
 
-    const {
-        taxon: species,
-        variantType: type,
-        references,
-        crossReferences,
-        relatedNotes: notes,
-        referenceSequence,
-        variantSequence,
-        predictedVariantConsequences,
-    } = variantSubject || {};
+  const {
+    taxon: species,
+    variantType: type,
+    references,
+    crossReferences,
+    relatedNotes: notes,
+    referenceSequence,
+    variantSequence,
+    predictedVariantConsequences,
+  } = variantSubject || {};
 
-    // Get location object - try both possible paths
-    const variantLocationObj = variantSubject?.variantGenomicLocationAssociationObject
-        || variant?.variantGenomicLocationAssociationObject;
+  // Get location object - try both possible paths
+  const variantLocationObj =
+    variantSubject?.variantGenomicLocationAssociationObject || variant?.variantGenomicLocationAssociationObject;
 
-    // Create location object
-    const location = {
-        chromosome: variantLocationObj?.name,
-        start: variant?.start,
-        end: variant?.end,
-        assembly: variantLocationObj?.genomeAssembly?.primaryExternalId
-    };
+  // Create location object
+  const location = {
+    chromosome: variantLocationObj?.name,
+    start: variant?.start,
+    end: variant?.end,
+    assembly: variantLocationObj?.genomeAssembly?.primaryExternalId,
+  };
 
-    const assembly = variantLocationObj?.genomeAssembly?.primaryExternalId;
+  const assembly = variantLocationObj?.genomeAssembly?.primaryExternalId;
 
-    // Create nucleotide change - try both possible paths
-    const refSeq = referenceSequence || variantSubject?.referenceSequence || variant?.referenceSequence;
-    const varSeq = variantSequence || variantSubject?.variantSequence || variant?.variantSequence;
-    const nucleotideChange = refSeq
-        ? `${refSeq}>${varSeq || ''}`
-        : null;
+  // Create nucleotide change - try both possible paths
+  const refSeq = referenceSequence || variantSubject?.referenceSequence || variant?.referenceSequence;
+  const varSeq = variantSequence || variantSubject?.variantSequence || variant?.variantSequence;
+  const nucleotideChange = refSeq ? `${refSeq}>${varSeq || ''}` : null;
 
-    // Extract consequence - try both possible paths
-    const consequences = predictedVariantConsequences
-        || variantSubject?.predictedVariantConsequences
-        || variant?.predictedVariantConsequences;
-    const consequence = consequences?.[0]?.vepConsequences?.[0]?.name;
+  // Extract consequence - try both possible paths
+  const consequences =
+    predictedVariantConsequences ||
+    variantSubject?.predictedVariantConsequences ||
+    variant?.predictedVariantConsequences;
+  const consequence = consequences?.[0]?.vepConsequences?.[0]?.name;
 
-    // Extract HGVS names from predictedVariantConsequences
-    const hgvsC = consequences
-        ?.map(c => c.hgvsCodingNomenclature)
-        .filter(Boolean);
-    const hgvsP = consequences
-        ?.map(c => c.hgvsProteinNomenclature)
-        .filter(Boolean);
+  // Extract HGVS names from predictedVariantConsequences
+  const hgvsC = consequences?.map((c) => c.hgvsCodingNomenclature).filter(Boolean);
+  const hgvsP = consequences?.map((c) => c.hgvsProteinNomenclature).filter(Boolean);
 
-    // Gene overlap - could be extracted from transcript data if needed
-    const overlap = null;
+  // Gene overlap - could be extracted from transcript data if needed
+  const overlap = null;
 
-    const genomeLocation = getVariantGenomeLocation(variantData);
-    return (
-        <>
-            <AttributeLabel>Symbol</AttributeLabel>
-            <AttributeValue>
-                {location && (
-                    <VariantJBrowseLink
-                        geneLocation={genomeLocation}
-                        location={location}
-                        species={species && species.name}
-                        type={type && type.name}
-                        taxonid={species && species.taxonId}
-                    >
-                        <span className="text-break">{symbol}</span>
-                    </VariantJBrowseLink>
-                )}
-            </AttributeValue>
+  const genomeLocation = getVariantGenomeLocation(variantData);
+  return (
+    <>
+      <AttributeLabel>Symbol</AttributeLabel>
+      <AttributeValue>
+        {location && (
+          <VariantJBrowseLink
+            geneLocation={genomeLocation}
+            location={location}
+            species={species && species.name}
+            type={type && type.name}
+            taxonid={species && species.taxonId}
+          >
+            <span className="text-break">{symbol}</span>
+          </VariantJBrowseLink>
+        )}
+      </AttributeValue>
 
-            <AttributeLabel>Category</AttributeLabel>
-            <AttributeValue>Variant</AttributeValue>
+      <AttributeLabel>Category</AttributeLabel>
+      <AttributeValue>Variant</AttributeValue>
 
-            <AttributeLabel>Variant type</AttributeLabel>
-            <AttributeValue>{type && type.name && type.name.replace(/_/g, ' ')}</AttributeValue>
+      <AttributeLabel>Variant type</AttributeLabel>
+      <AttributeValue>{type && type.name && type.name.replace(/_/g, ' ')}</AttributeValue>
 
-            <AttributeLabel>Overlaps</AttributeLabel>
-            <AttributeValue>{overlap && <Link to={`/gene/${overlap.id}`}>{overlap.symbol}</Link>}</AttributeValue>
+      <AttributeLabel>Overlaps</AttributeLabel>
+      <AttributeValue>{overlap && <Link to={`/gene/${overlap.id}`}>{overlap.symbol}</Link>}</AttributeValue>
 
-            <AttributeLabel>Genome Assembly</AttributeLabel>
-            <AttributeValue>{assembly}</AttributeValue>
+      <AttributeLabel>Genome Assembly</AttributeLabel>
+      <AttributeValue>{assembly}</AttributeValue>
 
-            <AttributeLabel>Location</AttributeLabel>
-            <AttributeValue>
-                {formatLocation(location)}{' '}
-                {/*
+      <AttributeLabel>Location</AttributeLabel>
+      <AttributeValue>
+        {formatLocation(location)}{' '}
+        {/*
           <small>
             <a href='#'>Highlight in browser</a>
           </small>
           */}
-            </AttributeValue>
+      </AttributeValue>
 
-            <AttributeLabel>Nucleotide Change</AttributeLabel>
-            <AttributeValue>
-                {nucleotideChange && nucleotideChange.length > 300 ? (
-                    <Sequence
-                        sequence={nucleotideChange || ''}
-                        renderLink={(handleToggle) => (
-                            <button className="btn btn-link p-0" onClick={handleToggle} type="button">
-                                Show sequence
-                            </button>
-                        )}
-                    />
-                ) : (
-                    <div
-                        className="text-break"
-                        style={{
-                            fontFamily: 'monospace',
-                            fontSize: 14,
-                            width: '40ch',
-                        }}
-                    >
-                        {nucleotideChange || ''}
-                    </div>
-                )}
-            </AttributeValue>
+      <AttributeLabel>Nucleotide Change</AttributeLabel>
+      <AttributeValue>
+        {nucleotideChange && nucleotideChange.length > 300 ? (
+          <Sequence
+            sequence={nucleotideChange || ''}
+            renderLink={(handleToggle) => (
+              <button className="btn btn-link p-0" onClick={handleToggle} type="button">
+                Show sequence
+              </button>
+            )}
+          />
+        ) : (
+          <div
+            className="text-break"
+            style={{
+              fontFamily: 'monospace',
+              fontSize: 14,
+              width: '40ch',
+            }}
+          >
+            {nucleotideChange || ''}
+          </div>
+        )}
+      </AttributeValue>
 
-            <AttributeLabel>Most Severe Consequence</AttributeLabel>
-            <AttributeValue>
-                {consequence ? (
-                    <>
-                        <CollapsibleList collapsedSize={10}>
-                            {consequence && consequence.replace(/_/g, ' ').split(',')}
-                        </CollapsibleList>
+      <AttributeLabel>Most Severe Consequence</AttributeLabel>
+      <AttributeValue>
+        {consequence ? (
+          <>
+            <CollapsibleList collapsedSize={10}>
+              {consequence && consequence.replace(/_/g, ' ').split(',')}
+            </CollapsibleList>
 
-                        <HashLink to={sectionAnchor(symbol)} className="btn btn-link btn-sm p-0">
-                            See all consequences
-                        </HashLink>
-                    </>
-                ) : null}
-            </AttributeValue>
+            <HashLink to={sectionAnchor(symbol)} className="btn btn-link btn-sm p-0">
+              See all consequences
+            </HashLink>
+          </>
+        ) : null}
+      </AttributeValue>
 
-            <AttributeLabel>HGVS.g name</AttributeLabel>
-            <AttributeValue>{symbol}</AttributeValue>
+      <AttributeLabel>HGVS.g name</AttributeLabel>
+      <AttributeValue>{symbol}</AttributeValue>
 
-            <AttributeLabel>HGVS.c name</AttributeLabel>
-            <AttributeValue>{hgvsC && hgvsC.length ? <CollapsibleList>{hgvsC}</CollapsibleList> : null}</AttributeValue>
+      <AttributeLabel>HGVS.c name</AttributeLabel>
+      <AttributeValue>{hgvsC && hgvsC.length ? <CollapsibleList>{hgvsC}</CollapsibleList> : null}</AttributeValue>
 
-            <AttributeLabel>HGVS.p name</AttributeLabel>
-            <AttributeValue>{hgvsP && hgvsP.length ? <CollapsibleList>{hgvsP}</CollapsibleList> : null}</AttributeValue>
+      <AttributeLabel>HGVS.p name</AttributeLabel>
+      <AttributeValue>{hgvsP && hgvsP.length ? <CollapsibleList>{hgvsP}</CollapsibleList> : null}</AttributeValue>
 
-            <AttributeLabel>Synonyms</AttributeLabel>
-            <AttributeValue>{/* <em>rs##</em> */}</AttributeValue>
+      <AttributeLabel>Synonyms</AttributeLabel>
+      <AttributeValue>{/* <em>rs##</em> */}</AttributeValue>
 
-            <AttributeLabel>Notes</AttributeLabel>
-            <AttributeValue>
-                {notes && notes.length ? <CollapsibleList>{notes.map((note) => note.freeText)}</CollapsibleList> : null}
-            </AttributeValue>
+      <AttributeLabel>Notes</AttributeLabel>
+      <AttributeValue>
+        {notes && notes.length ? <CollapsibleList>{notes.map((note) => note.freeText)}</CollapsibleList> : null}
+      </AttributeValue>
 
-            <AttributeLabel>Cross references</AttributeLabel>
-            <AttributeValue>
-{/*
+      <AttributeLabel>Cross references</AttributeLabel>
+      <AttributeValue>
+        {/*
                 {crossReference && crossReference.primary ? (
                     <DataSourceLink reference={crossReference.primary}/>
                 ) : null}
 */}
-            </AttributeValue>
+      </AttributeValue>
 
-            <AttributeLabel>References</AttributeLabel>
-            <AttributeValue>
-                {references && references.length ? (
-                    <CollapsibleList>
-                        {references.map((ref) => (
-                            <ExternalLink key={ref.referenceID || ref.curie} href={ref.url || `https://pubmed.ncbi.nlm.nih.gov/${ref.referenceID?.replace('PMID:', '')}`}>
-                                {ref.referenceID || ref.shortCitation}
-                            </ExternalLink>
-                        ))}
-                    </CollapsibleList>
-                ) : null}
-            </AttributeValue>
-        </>
-    );
+      <AttributeLabel>References</AttributeLabel>
+      <AttributeValue>
+        {references && references.length ? (
+          <CollapsibleList>
+            {references.map((ref) => (
+              <ExternalLink
+                key={ref.referenceID || ref.curie}
+                href={ref.url || `https://pubmed.ncbi.nlm.nih.gov/${ref.referenceID?.replace('PMID:', '')}`}
+              >
+                {ref.referenceID || ref.shortCitation}
+              </ExternalLink>
+            ))}
+          </CollapsibleList>
+        ) : null}
+      </AttributeValue>
+    </>
+  );
 };
 
 NewVariantSummary.propTypes = {
-    variantId: PropTypes.string,
-    variant: PropTypes.object.isRequired,
-    allele: PropTypes.shape({
-        gene: PropTypes.any,
-        species: PropTypes.any,
-    }),
+  variantId: PropTypes.string,
+  variant: PropTypes.object.isRequired,
+  allele: PropTypes.shape({
+    gene: PropTypes.any,
+    species: PropTypes.any,
+  }),
 };
 
 export default NewVariantSummary;

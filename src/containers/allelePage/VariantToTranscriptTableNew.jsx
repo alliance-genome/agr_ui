@@ -183,35 +183,39 @@ const VariantToTranscriptTableNew = ({ variant, variantHgvs }) => {
   };
 
   // Transform variant data to table row format
-  const data = Array.isArray(variant) ? variant.map((item) => {
-    const transcript = item.variantTranscript || {};
-    return {
-      id: item.id,
-      transcriptId: transcript.transcriptId,
-      name: transcript.name,
-      type: transcript.transcriptType,
-      gene: transcript.gene,
-      intronExonLocation: item.intronExonLocation,
-      consequences: [{
-        molecularConsequences: (item.vepConsequences || []).map(c => c.name),
-        aminoAcidReference: item.aminoAcidReference || '',
-        aminoAcidVariation: item.aminoAcidVariant || '',
-        proteinStartPosition: item.calculatedProteinStart,
-        proteinEndPosition: item.calculatedProteinEnd,
-        codonReference: item.codonReference || '',
-        codonVariation: item.codonVariant || '',
-        cdsStartPosition: item.calculatedCdsStart,
-        cdsEndPosition: item.calculatedCdsEnd,
-        cdnaStartPosition: item.calculatedCdnaStart,
-        cdnaEndPosition: item.calculatedCdnaEnd,
-        impact: item.vepImpact?.name || '',
-        hgvsCodingNomenclature: item.hgvsCodingNomenclature,
-        hgvsProteinNomenclature: item.hgvsProteinNomenclature,
-      }],
-      // Keep original data for expand row
-      _original: item,
-    };
-  }) : [];
+  const data = Array.isArray(variant)
+    ? variant.map((item) => {
+        const transcript = item.variantTranscript || {};
+        return {
+          id: item.id,
+          transcriptId: transcript.transcriptId,
+          name: transcript.name,
+          type: transcript.transcriptType,
+          gene: transcript.gene,
+          intronExonLocation: item.intronExonLocation,
+          consequences: [
+            {
+              molecularConsequences: (item.vepConsequences || []).map((c) => c.name),
+              aminoAcidReference: item.aminoAcidReference || '',
+              aminoAcidVariation: item.aminoAcidVariant || '',
+              proteinStartPosition: item.calculatedProteinStart,
+              proteinEndPosition: item.calculatedProteinEnd,
+              codonReference: item.codonReference || '',
+              codonVariation: item.codonVariant || '',
+              cdsStartPosition: item.calculatedCdsStart,
+              cdsEndPosition: item.calculatedCdsEnd,
+              cdnaStartPosition: item.calculatedCdnaStart,
+              cdnaEndPosition: item.calculatedCdnaEnd,
+              impact: item.vepImpact?.name || '',
+              hgvsCodingNomenclature: item.hgvsCodingNomenclature,
+              hgvsProteinNomenclature: item.hgvsProteinNomenclature,
+            },
+          ],
+          // Keep original data for expand row
+          _original: item,
+        };
+      })
+    : [];
 
   return (
     <DataTable
