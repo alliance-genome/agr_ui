@@ -4,10 +4,9 @@ import fetchData from '../lib/fetchData';
 /**
  * Custom hook for managing allele selection state and fetching selected allele data
  * @param {Object} tableProps - The table properties from useDataTableQuery
- * @param {Array} cachedAlleles - Optional cached allele data with correct categories from useAllVariants
  * @returns {Object} Selection state and handlers
  */
-export default function useAlleleSelection(tableProps, cachedAlleles = []) {
+export default function useAlleleSelection(tableProps) {
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
   const [selectionOverride, setSelectionOverride] = useState({
     active: false,
@@ -85,19 +84,12 @@ export default function useAlleleSelection(tableProps, cachedAlleles = []) {
             .filter((a) => a !== null && a.allele)
             .map((response) => {
               const allele = response.allele;
-              // TEMPORARY FIX (SCRUM-5638): Look up the correct category from cached allele data first.
-              // The individual allele API returns incorrect alterationType (e.g., "allele with one variant"
-              // for alleles that actually have multiple variants), so we prefer the cached category
-              // from the gene alleles endpoint which has the correct value.
-              // TODO: Remove this workaround and the cachedAlleles parameter when SCRUM-5638 backend fix
-              // is implemented to return correct alterationType from /api/allele/{id} endpoint.
-              const cachedAllele = cachedAlleles?.find((a) => a.id === allele.primaryExternalId);
               return {
                 ...allele,
                 id: allele.primaryExternalId, // Map primaryExternalId to id
                 symbol: allele.alleleSymbol?.displayText || allele.alleleSymbol?.formatText,
                 synonyms: allele.alleleSynonyms?.map((s) => s.displayText || s.formatText) || [],
-                category: cachedAllele?.category || response.alterationType || response.category || 'allele',
+                category: response.alterationType || response.category || 'allele',
                 // Map crossReference structure to crossReferenceMap for table compatibility
                 crossReferenceMap: {
                   primary: {
@@ -126,14 +118,14 @@ export default function useAlleleSelection(tableProps, cachedAlleles = []) {
             if (allele && allele.id && !seenIds.has(allele.id)) {
               seenIds.add(allele.id);
 
-              // Category is already set correctly from cachedAllele lookup (line 81)
-              // This fallback computation based on variants.length is kept for safety,
-              // but won't trigger since variants array is always empty from individual allele API
+              // Compute correct category based on variant count
+              // The individual allele API doesn't return the computed category
+              // so we need to calculate it based on the variants array
               let computedCategory = allele.category || 'allele';
-              if (allele.variants && Array.isArray(allele.variants) && allele.variants.length > 0) {
+              if (allele.variants && Array.isArray(allele.variants)) {
                 if (allele.variants.length === 1) {
                   computedCategory = 'allele with one associated variant';
-                } else {
+                } else if (allele.variants.length > 1) {
                   computedCategory = 'allele with multiple associated variants';
                 }
               }
@@ -183,7 +175,7 @@ export default function useAlleleSelection(tableProps, cachedAlleles = []) {
         setIsLoadingSelectedAlleles(false);
       }
     },
-    [tableProps.tableState, cachedAlleles]
+    [tableProps.tableState]
   );
 
   const clearAlleleSelection = useCallback(() => {

@@ -23,12 +23,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
   const tableProps = useDataTableQuery(`/api/gene/${geneId}/alleles`);
   const { data: resolvedData, totalRows, isLoading } = tableProps;
 
-  // Filtered but not paginated list of alleles (used for viewer and category lookup)
-  // Moved before useAlleleSelection so cached categories can be used
-  const allelesFiltered = useAllVariants(geneId, tableProps.tableState);
-
   // Use custom hook for allele selection
-  // Pass allelesFiltered so the hook can use cached categories instead of incorrect API alterationType
   const {
     alleleIdsSelected,
     setAlleleIdsSelected,
@@ -38,7 +33,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     selectedAllelesError,
     handleAllelesSelect,
     clearAlleleSelection,
-  } = useAlleleSelection(tableProps, allelesFiltered?.data?.results);
+  } = useAlleleSelection(tableProps);
 
   // Local state for pagination when in override mode
   const [overridePage, setOverridePage] = useState(1);
@@ -119,6 +114,9 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
 
   const hasAlleles = totalRows > 0;
   const hasManyAlleles = totalRows > 20000;
+
+  // filtered but not paginate list of alleles
+  const allelesFiltered = useAllVariants(geneId, tableProps.tableState);
 
   const variantsSequenceViewerProps = useMemo(() => {
     const variantsFiltered =
