@@ -58,7 +58,7 @@ const VariantEffectDetails = ({ consequence = {}, transcript = {}, variant = {} 
           type={variant.variantType && variant.variantType.name}
           taxonid={variant.species && variant.species.taxonId}
         >
-          <span className="text-break">{variant.id}</span>
+          <span className="text-break">{variant.hgvs || variant.id}</span>
         </VariantJBrowseLink>{' '}
         on <strong>{transcript.name}</strong>
       </h5>
@@ -78,7 +78,7 @@ const VariantEffectDetails = ({ consequence = {}, transcript = {}, variant = {} 
         <AttributeValue>{transcript.type && transcript.type.name}</AttributeValue>
 
         <AttributeLabel>Affected sequence feature accession</AttributeLabel>
-        <AttributeValue>{transcript.id}</AttributeValue>
+        <AttributeValue>{transcript.transcriptId || transcript.id}</AttributeValue>
 
         <AttributeLabel>Variant location in feature</AttributeLabel>
         <AttributeValue>{transcript.intronExonLocation}</AttributeValue>

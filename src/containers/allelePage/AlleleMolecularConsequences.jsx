@@ -6,14 +6,13 @@ import LoadingSpinner from '../../components/loadingSpinner.jsx';
 import NoData from '../../components/noData.jsx';
 // import { VariantJBrowseLink } from '../../components/variant';
 import Subsection from '../../components/subsection.jsx';
-import VariantToTranscriptTable from './VariantToTranscriptTable.jsx';
+import VariantToTranscriptTableNew from './VariantToTranscriptTableNew.jsx';
 import style from './style.module.scss';
 import useAllAlleleVariants from '../../hooks/useAlleleVariants';
 import { makeId } from '../../lib/utils';
 
-export const sectionTitle = (variant) => {
-  const { id } = variant || {};
-  return `Predicted effect of ${id}`;
+export const sectionTitle = (variantHgvs) => {
+  return `Predicted effect of ${variantHgvs}`;
 };
 
 export const sectionAnchor = (variant) => {
@@ -45,13 +44,12 @@ const AlleleMolecularConsequences = ({ alleleId, allele }) => {
   return (
     <>
       {variants.map((variant) => {
-        const {
-          id: variantId,
-          // location,
-          variantType: type = {},
-        } = variant;
+        const variantId = variant.variant?.hgvs;
+        const type = variant.variant?.variantAssociationSubject?.variantType || {};
+        const consequences = variant.variant?.predictedVariantConsequences;
+        console.log('consequences ' + consequences);
         return (
-          <Subsection title={sectionTitle(variant)} level={1} key={`consequnce-summary-${variantId}`}>
+          <Subsection title={sectionTitle(variantId)} level={1} key={`consequnce-summary-${variantId}`}>
             <AttributeList className={style.attributeList}>
               <AttributeLabel>Variant</AttributeLabel>
               <AttributeValue>
@@ -72,7 +70,7 @@ const AlleleMolecularConsequences = ({ alleleId, allele }) => {
               <AttributeLabel>Variant type:</AttributeLabel>
               <AttributeValue>{type.name}</AttributeValue>
             </AttributeList>
-            <VariantToTranscriptTable variant={variant} />
+            <VariantToTranscriptTableNew variant={consequences} variantHgvs={variantId} />
           </Subsection>
         );
       })}
