@@ -57,7 +57,7 @@ const SearchSection = () => {
             size="2x"
             id="action-disease-portal"
             to="/disease-portal"
-            tooltip="Discover the latest curated disease model research from model organism members"
+            tooltip="Discover the latest curated disease model research from model organisms"
           >
             Disease Portal
           </ActionButton>
