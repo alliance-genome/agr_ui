@@ -50,7 +50,7 @@ const DiseasePortalSection = () => {
             Alleles
           </EntityButton>
           <EntityButton id="entity-publications" to="/disease-portal/alzheimers-disease">
-            96,000
+            13,865
             <br />
             Publications
           </EntityButton>

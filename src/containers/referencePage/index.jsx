@@ -7,6 +7,7 @@ import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPa
 import PageNavEntity from '../../components/dataPage/PageNavEntity.jsx';
 import ExternalLink from '../../components/ExternalLink.jsx';
 import { CollapsibleList } from '../../components/collapsibleList';
+import NoData from '../../components/noData.jsx';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import ReferenceSummary from './ReferenceSummary.jsx';
@@ -106,8 +107,8 @@ const ReferencePage = () => {
   // console.log(ref.modXrefs);
 
   const FormattedAbstract = ({ abstract }) => {
-    if (!abstract) return <i className="text-muted">Not Available</i>;
-    if (abstract === null) return <i className="text-muted">Not Available</i>;
+    if (!abstract) return <NoData>Not Available</NoData>;
+    if (abstract === null) return <NoData>Not Available</NoData>;
     return <ApplySpeciesNameFormat text={abstract} />;
     // return abstract;
   };
