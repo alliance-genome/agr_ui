@@ -5,8 +5,7 @@ export default function getVariantGenomeLocation(variantData) {
   const nestedVariant = variantData?.variant;
   const variantSubject = nestedVariant?.variantAssociationSubject;
   const variantLocationObj =
-    variantSubject?.variantGenomicLocationAssociationObject ||
-    nestedVariant?.variantGenomicLocationAssociationObject;
+    variantSubject?.variantGenomicLocationAssociationObject || nestedVariant?.variantGenomicLocationAssociationObject;
 
   // Build location from new structure if available
   if (variantLocationObj && nestedVariant?.start != null) {

@@ -21,7 +21,7 @@ import MolecularConsequenceHelp from './MolecularConsequenceHelp.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import SpeciesName from '../../components/SpeciesName.jsx';
 import ErrorBoundary from '../../components/errorBoundary.jsx';
-import NewVariantSummary from "./NewVariantSummary.jsx";
+import NewVariantSummary from './NewVariantSummary.jsx';
 
 const SUMMARY = 'Summary';
 const MOLECULAR_CONSEQUENCE = 'Variant Molecular Consequences';

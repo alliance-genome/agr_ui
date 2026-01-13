@@ -184,9 +184,7 @@ const VariantToTranscriptTableNew = ({ variant, variantHgvs }) => {
 
   // Transform variant data to table row format
   // Support both array input and object with predictedVariantConsequences
-  const sourceData = Array.isArray(variant)
-    ? variant
-    : variant?.predictedVariantConsequences || [];
+  const sourceData = Array.isArray(variant) ? variant : variant?.predictedVariantConsequences || [];
 
   const data = sourceData.map((item, index) => {
     const transcript = item.variantTranscript || {};

@@ -30,7 +30,7 @@ const NewVariantSummary = ({ variant: variantData }) => {
     relatedNotes: notes,
     referenceSequence,
     variantSequence,
-    predictedVariantConsequences
+    predictedVariantConsequences,
   } = variantSubject || {};
 
   // Get location object - try both possible paths
