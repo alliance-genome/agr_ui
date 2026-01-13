@@ -103,6 +103,10 @@ export const NAV_MENU = [
         external: true,
       },
       {
+        label: 'Disease Portal',
+        route: '/disease-portal',
+      },
+      {
         label: 'Submit Data',
         route: '/submit-data',
       },
