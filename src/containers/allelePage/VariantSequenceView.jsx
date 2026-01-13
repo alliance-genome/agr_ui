@@ -3,12 +3,27 @@ import PropTypes from 'prop-types';
 import GenomeFeatureWrapper from '../genePage/genomeFeatureWrapper.jsx';
 import getVariantGenomeLocation from './getVariantGenomeLocation';
 
-const VariantSequenceView = ({ variant }) => {
-  const genomeLocation = getVariantGenomeLocation(variant);
+const VariantSequenceView = ({ variant: variantData }) => {
+  const genomeLocation = getVariantGenomeLocation(variantData);
 
-  let htpVariant = `${variant.location.chromosome}:${variant.location.start}`;
-  const fmin = Math.min(genomeLocation.start, variant.location.start);
-  const fmax = Math.max(genomeLocation.end, variant.location.end);
+  // Build location from new API data structure
+  const { variant } = variantData || {};
+  const variantSubject = variant?.variantAssociationSubject;
+  const variantLocationObj =
+    variantSubject?.variantGenomicLocationAssociationObject || variant?.variantGenomicLocationAssociationObject;
+
+  const location = {
+    chromosome: variantLocationObj?.name,
+    start: variant?.start,
+    end: variant?.end,
+  };
+
+  let htpVariant = `${location.chromosome}:${location.start}`;
+  const fmin = Math.min(genomeLocation.start, location.start);
+  const fmax = Math.max(genomeLocation.end, location.end);
+  // Extract species from new data structure
+  const species = variantSubject?.taxon;
+
   return (
     <GenomeFeatureWrapper
       assembly={genomeLocation.assembly}
@@ -17,16 +32,16 @@ const VariantSequenceView = ({ variant }) => {
       displayType="ISOFORM"
       fmax={fmax}
       fmin={fmin}
-      geneSymbol={variant.gene.symbol}
+      geneSymbol={variantData.gene?.symbol}
       genomeLocationList={[genomeLocation]}
       height="200px"
       id="genome-feature-location-id"
       htpVariant={htpVariant}
-      primaryId={variant.id}
-      species={variant.species && variant.species.taxonId}
+      primaryId={variantData.id || variant?.id}
+      species={species?.curie}
       strand={genomeLocation.strand}
-      synonyms={variant.synonyms}
-      visibleVariants={[variant.id]}
+      synonyms={variantData.synonyms}
+      visibleVariants={[variantData.id || variant?.id]}
       width="600px"
     />
   );

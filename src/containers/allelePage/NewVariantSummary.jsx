@@ -6,7 +6,6 @@ import { AttributeLabel, AttributeValue } from '../../components/attribute';
 import { CollapsibleList } from '../../components/collapsibleList';
 import { VariantJBrowseLink } from '../../components/variant';
 import ExternalLink from '../../components/ExternalLink.jsx';
-import DataSourceLink from '../../components/dataSourceLink.jsx';
 import { sectionAnchor } from './AlleleMolecularConsequences.jsx';
 import Sequence from './Sequence.jsx';
 import getVariantGenomeLocation from './getVariantGenomeLocation';
@@ -31,7 +30,7 @@ const NewVariantSummary = ({ variant: variantData }) => {
     relatedNotes: notes,
     referenceSequence,
     variantSequence,
-    predictedVariantConsequences,
+    predictedVariantConsequences
   } = variantSubject || {};
 
   // Get location object - try both possible paths
@@ -58,14 +57,14 @@ const NewVariantSummary = ({ variant: variantData }) => {
     predictedVariantConsequences ||
     variantSubject?.predictedVariantConsequences ||
     variant?.predictedVariantConsequences;
-  const consequence = consequences?.[0]?.vepConsequences?.[0]?.name;
+  const consequence = mostSevereConsequence.vepConsequences?.[0]?.name;
 
   // Extract HGVS names from predictedVariantConsequences
   const hgvsC = consequences?.map((c) => c.hgvsCodingNomenclature).filter(Boolean);
   const hgvsP = consequences?.map((c) => c.hgvsProteinNomenclature).filter(Boolean);
 
-  // Gene overlap - could be extracted from transcript data if needed
-  const overlap = null;
+  // Gene overlap - all genes from overlapGenes collection
+  const overlapGenes = variant?.overlapGenes;
 
   const genomeLocation = getVariantGenomeLocation(variantData);
   return (
@@ -78,7 +77,7 @@ const NewVariantSummary = ({ variant: variantData }) => {
             location={location}
             species={species && species.name}
             type={type && type.name}
-            taxonid={species && species.taxonId}
+            taxonid={species && species.curie}
           >
             <span className="text-break">{symbol}</span>
           </VariantJBrowseLink>
@@ -92,7 +91,16 @@ const NewVariantSummary = ({ variant: variantData }) => {
       <AttributeValue>{type && type.name && type.name.replace(/_/g, ' ')}</AttributeValue>
 
       <AttributeLabel>Overlaps</AttributeLabel>
-      <AttributeValue>{overlap && <Link to={`/gene/${overlap.id}`}>{overlap.symbol}</Link>}</AttributeValue>
+      <AttributeValue>
+        {overlapGenes && overlapGenes.length
+          ? overlapGenes.map((gene, index) => (
+              <span key={gene.curie}>
+                <Link to={`/gene/${gene.curie}`}>{gene.geneSymbol.displayText}</Link>
+                {index < overlapGenes.length - 1 && ', '}
+              </span>
+            ))
+          : null}
+      </AttributeValue>
 
       <AttributeLabel>Genome Assembly</AttributeLabel>
       <AttributeValue>{assembly}</AttributeValue>
