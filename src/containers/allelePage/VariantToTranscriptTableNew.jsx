@@ -186,7 +186,7 @@ const VariantToTranscriptTableNew = ({ variant, variantHgvs }) => {
   // Support both array input and object with predictedVariantConsequences
   const sourceData = Array.isArray(variant) ? variant : variant?.predictedVariantConsequences || [];
 
-  const data = sourceData.map((item, index) => {
+  const allData = sourceData.map((item, index) => {
     const transcript = item.variantTranscript || {};
     // Extract gene from transcriptGeneAssociations
     const geneAssoc = transcript.transcriptGeneAssociations?.[0]?.transcriptGeneAssociationObject;
@@ -227,16 +227,23 @@ const VariantToTranscriptTableNew = ({ variant, variantHgvs }) => {
     };
   });
 
+  // Client-side pagination: slice data based on current page and size
+  const { page, sizePerPage } = tableState;
+  const startIndex = (page - 1) * sizePerPage;
+  const endIndex = startIndex + sizePerPage;
+  const paginatedData = allData.slice(startIndex, endIndex);
+
   return (
     <DataTable
       className={styles.variantToTranscriptTable}
       columns={columns}
-      data={data}
+      data={paginatedData}
       expandRow={expandRow}
       keyField="id"
       noDataMessage="No variant effect information available"
       setTableState={setTableState}
       tableState={tableState}
+      totalRows={allData.length}
     />
   );
 };
