@@ -183,39 +183,49 @@ const VariantToTranscriptTableNew = ({ variant, variantHgvs }) => {
   };
 
   // Transform variant data to table row format
-  const data = Array.isArray(variant)
-    ? variant.map((item) => {
-        const transcript = item.variantTranscript || {};
-        return {
-          id: item.id,
-          transcriptId: transcript.transcriptId,
-          name: transcript.name,
-          type: transcript.transcriptType,
-          gene: transcript.gene,
-          intronExonLocation: item.intronExonLocation,
-          consequences: [
-            {
-              molecularConsequences: (item.vepConsequences || []).map((c) => c.name),
-              aminoAcidReference: item.aminoAcidReference || '',
-              aminoAcidVariation: item.aminoAcidVariant || '',
-              proteinStartPosition: item.calculatedProteinStart,
-              proteinEndPosition: item.calculatedProteinEnd,
-              codonReference: item.codonReference || '',
-              codonVariation: item.codonVariant || '',
-              cdsStartPosition: item.calculatedCdsStart,
-              cdsEndPosition: item.calculatedCdsEnd,
-              cdnaStartPosition: item.calculatedCdnaStart,
-              cdnaEndPosition: item.calculatedCdnaEnd,
-              impact: item.vepImpact?.name || '',
-              hgvsCodingNomenclature: item.hgvsCodingNomenclature,
-              hgvsProteinNomenclature: item.hgvsProteinNomenclature,
-            },
-          ],
-          // Keep original data for expand row
-          _original: item,
-        };
-      })
-    : [];
+  // Support both array input and object with predictedVariantConsequences
+  const sourceData = Array.isArray(variant) ? variant : variant?.predictedVariantConsequences || [];
+
+  const data = sourceData.map((item, index) => {
+    const transcript = item.variantTranscript || {};
+    // Extract gene from transcriptGeneAssociations
+    const geneAssoc = transcript.transcriptGeneAssociations?.[0]?.transcriptGeneAssociationObject;
+    const gene = geneAssoc
+      ? {
+          id: geneAssoc.curie,
+          symbol: geneAssoc.geneSymbol?.displayText,
+        }
+      : null;
+
+    return {
+      id: transcript.curie || `row-${index}`,
+      transcriptId: transcript.curie,
+      name: transcript.name,
+      type: transcript.transcriptType,
+      gene: gene,
+      intronExonLocation: item.intronExonLocation,
+      consequences: [
+        {
+          molecularConsequences: (item.vepConsequences || []).map((c) => c.name),
+          aminoAcidReference: item.aminoAcidReference || '',
+          aminoAcidVariation: item.aminoAcidVariant || '',
+          proteinStartPosition: item.calculatedProteinStart,
+          proteinEndPosition: item.calculatedProteinEnd,
+          codonReference: item.codonReference || '',
+          codonVariation: item.codonVariant || '',
+          cdsStartPosition: item.calculatedCdsStart,
+          cdsEndPosition: item.calculatedCdsEnd,
+          cdnaStartPosition: item.calculatedCdnaStart,
+          cdnaEndPosition: item.calculatedCdnaEnd,
+          impact: item.vepImpact?.name || '',
+          hgvsCodingNomenclature: item.hgvsCodingNomenclature,
+          hgvsProteinNomenclature: item.hgvsProteinNomenclature,
+        },
+      ],
+      // Keep original data for expand row
+      _original: item,
+    };
+  });
 
   return (
     <DataTable
@@ -232,7 +242,7 @@ const VariantToTranscriptTableNew = ({ variant, variantHgvs }) => {
 };
 
 VariantToTranscriptTableNew.propTypes = {
-  variant: PropTypes.array.isRequired,
+  variant: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
   variantHgvs: PropTypes.string,
 };
 
