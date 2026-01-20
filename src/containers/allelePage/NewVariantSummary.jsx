@@ -57,7 +57,7 @@ const NewVariantSummary = ({ variant: variantData }) => {
     predictedVariantConsequences ||
     variantSubject?.predictedVariantConsequences ||
     variant?.predictedVariantConsequences;
-  const consequence = mostSevereConsequence.vepConsequences?.[0]?.name;
+  const consequence = consequences?.[0]?.vepConsequences?.[0]?.name;
 
   // Extract HGVS names from predictedVariantConsequences
   const hgvsC = consequences?.map((c) => c.hgvsCodingNomenclature).filter(Boolean);
