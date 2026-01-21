@@ -1,4 +1,12 @@
 // polyfills
+// import '@geneontology/web-components';
+// import '@geneontology/web-components/dist/components/go-annotation-ribbon-strips.js';
+import.meta.glob(
+  './node_modules/@geneontology/web-components/dist/components/*.js',
+  { eager: true }
+);
+import { defineCustomElements } from '@geneontology/web-components/loader';
+
 import 'core-js';
 import 'regenerator-runtime/runtime';
 import 'custom-event-polyfill';
@@ -15,8 +23,9 @@ import './css/genomefeatures.css';
 import './style.scss';
 
 import ReactApp from './reactApplication.jsx';
-import { defineCustomElements } from '@geneontology/web-components/loader';
 
+
+defineCustomElements(window);
 analytics.initialize();
 
 ReactDOM.createRoot(document.getElementById('app')).render(<ReactApp />);
@@ -25,4 +34,5 @@ if (import.meta.hot) {
   import.meta.hot.accept();
 }
 
-defineCustomElements();
+
+

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import ControlsContainer from '../controlsContainer.jsx';
 import { STRINGENCY_HIGH } from '../homology/constants';
@@ -9,6 +9,7 @@ import LoadingSpinner from '../loadingSpinner.jsx';
 import useEventListener from '../../hooks/useEventListener';
 import useComparisonRibbonQuery from '../../hooks/useComparisonRibbonQuery';
 import { useNavigate } from 'react-router-dom';
+import {useEffect } from "react";
 
 const ExpressionComparisonRibbon = ({ geneId, geneTaxon }) => {
   const [compareOrthologs, setCompareOrthologs] = useState(true);
@@ -62,6 +63,94 @@ const ExpressionComparisonRibbon = ({ geneId, geneTaxon }) => {
     };
   }
 
+function convertOldToRibbonData(old) {
+  if (!old || !old.categories || !old.subjects) {
+    return { categories: [], subjects: [] };
+  }
+
+  // Convert categories (unchanged)
+  const categories = old.categories.map(cat => ({
+    id: cat.id,
+    label: cat.label,
+    description: cat.description,
+    groups: cat.groups.map(g => ({
+      id: g.id,
+      label: g.label,
+      description: g.description,
+      type: g.type
+    }))
+  }));
+
+  const subjects = old.subjects.map(sub => {
+    const groups = {};
+
+    // Only copy groups that exist in old.subjects[*].groups
+    Object.entries(sub.groups).forEach(([groupId, evidenceMap]) => {
+      const transformed = {};
+
+      Object.entries(evidenceMap).forEach(([ev, cnt]) => {
+        transformed[ev] = {
+          nb_annotations: cnt.nb_annotations || 0,
+          nb_classes: cnt.nb_classes || 0
+        };
+        if (cnt.terms) transformed[ev].terms = cnt.terms;
+      });
+
+      groups[groupId] = transformed; // NO placeholders
+    });
+
+    return {
+      id: sub.id,
+      label: sub.label,
+      taxon_id: sub.taxon_id,
+      taxon_label: sub.taxon_label,
+      nb_classes: sub.nb_classes,
+      nb_annotations: sub.nb_annotations,
+      groups       // Contains ONLY real groups
+    };
+  });
+
+  return { categories, subjects };
+}
+
+  function applyAGRUnavailableSlashes(ribbonData) {
+  const allGroupIds = ribbonData.categories.flatMap(c =>
+    c.groups.map(g => g.id)
+  );
+
+  ribbonData.subjects.forEach(sub => {
+    allGroupIds.forEach(groupId => {
+      const cell = sub.groups[groupId];
+
+      if (!cell) {
+        // Missing group → slash cell
+        sub.groups[groupId] = {
+          unavailable: true,
+          nb_annotations: 0,
+          nb_classes: 0
+        };
+        return;
+      }
+
+      // Existing group → blank or annotated
+      cell.unavailable = false;
+    });
+  });
+
+  return ribbonData;
+  }
+
+  const ribbonData = useMemo(() => {
+    return convertOldToRibbonData(updatedSummary);
+  }, [updatedSummary]);
+
+  useEffect(() => {
+    if (!ribbonRef.current || !updatedSummary) return;
+    // const ribbonData = convertOldToRibbonData(updatedSummary);
+    //let data = applyAGRUnavailableSlashes(ribbonData);
+    ribbonRef.current.setData(ribbonData);
+  }, [updatedSummary]);
+
   return (
     <>
       <div className="pb-4">
@@ -80,11 +169,24 @@ const ExpressionComparisonRibbon = ({ geneId, geneTaxon }) => {
       </div>
 
       <HorizontalScroll>
-        <div className="text-nowrap">
+        <div className="text-nowrap" style={{ display: "flex", alignItems: "flex-start" }}>
+          <div class="left-labels">
+          <div className="ribbon-subject-list">
+            {ribbonData.subjects.map(sub => {
+              const species = shortSpeciesName(sub.taxon_label);
+              return (
+              <div key={sub.id} className="ribbon-subject-item">
+                <a href={`/gene/${sub.id}`} target="_self">
+                  {sub.label} ({species})
+                </a>
+              </div>
+            )})}
+          </div>
+          </div>
+
           <go-annotation-ribbon-strips
             category-all-style="1"
             color-by="0"
-            data={JSON.stringify(updatedSummary)}
             fire-event-on-empty-cells="false"
             group-clickable="false"
             group-open-new-tab="false"
@@ -95,7 +197,8 @@ const ExpressionComparisonRibbon = ({ geneId, geneTaxon }) => {
             subject-open-new-tab="false"
             subject-position={compareOrthologs ? '1' : '0'}
             update-on-subject-change="false"
-          />
+          >
+          </go-annotation-ribbon-strips>
         </div>
         <div className="ribbon-loading-overlay">{summary.isLoading && <LoadingSpinner />}</div>
         <div className="text-muted mt-2">
@@ -119,6 +222,19 @@ const ExpressionComparisonRibbon = ({ geneId, geneTaxon }) => {
     </>
   );
 };
+
+function shortSpeciesName(taxonLabel) {
+  // "Danio rerio" → "Dre"
+  // "Mus musculus" → "Mmu"
+  // "Rattus norvegicus" → "Rno"
+  if (!taxonLabel) return "";
+  return taxonLabel
+    .split(" ")
+    .map(w => w[0])
+    .join("")
+    .charAt(0).toUpperCase() +
+    taxonLabel.split(" ")[1]?.slice(0,2).toLowerCase();
+}
 
 ExpressionComparisonRibbon.propTypes = {
   geneId: PropTypes.string.isRequired,

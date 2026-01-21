@@ -80,7 +80,9 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
       text: 'Source',
       formatter: (crossReferences = ([] = {})) => (
         <div>
-          {crossReferences?.map(({ referencedCurie, displayName } = {}) => (
+          {crossReferences
+            ?.filter(x => x && x.referencedCurie)
+            .map(({ referencedCurie, displayName } = {}) => (
             <div key={referencedCurie}>
               <ExternalLink
                 href={getResourceUrl({

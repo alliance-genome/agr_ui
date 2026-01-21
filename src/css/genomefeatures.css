@@ -218,3 +218,50 @@ div.gfc-tooltip {
   top: 50%;
   left: 100%;
 }
+
+go-annotation-ribbon-strips {
+  --cell-spacing: 0px;
+  --cell-border-width: 0.5px;
+  --cell-border-style: solid;
+  --cell-border-color: black;
+}
+
+/* Container: aligns left label column + ribbon component */
+.ribbon-container {
+  display: flex;
+  align-items: flex-start;
+}
+
+/* LEFT SUBJECT COLUMN */
+.ribbon-subject-list {
+  display: flex;
+  flex-direction: column;
+  margin-right: 6px;
+  font-size: 14px;
+  line-height: 20px;        /* <-- must match ribbon cell height */
+}
+
+/* EACH LABEL ROW — must match ribbon row height exactly */
+.ribbon-subject-item {
+  height: 20px;             /* <-- SAME height as ribbon row */
+  display: flex;
+  align-items: center;      /* vertically center text */
+  white-space: nowrap;
+}
+
+/* LINK LOOK */
+.ribbon-subject-item a {
+  color: #0a6dbb;
+  text-decoration: none;
+  padding-right: 4px;        /* small spacing to avoid touching ribbon */
+}
+
+.ribbon-subject-item a:hover {
+  text-decoration: underline;
+}
+
+.left-labels {
+  padding-top: 200px; /* adjust this value until it aligns perfectly */
+}
+
+
