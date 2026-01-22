@@ -103,9 +103,7 @@ const NewVariantSummary = ({ variant: variantData }) => {
       <AttributeValue>{assembly}</AttributeValue>
 
       <AttributeLabel>Location</AttributeLabel>
-      <AttributeValue>
-        {formatLocation(location)}{' '}
-      </AttributeValue>
+      <AttributeValue>{formatLocation(location)} </AttributeValue>
 
       <AttributeLabel>Nucleotide Change</AttributeLabel>
       <AttributeValue>
