@@ -47,10 +47,7 @@ const NewVariantSummary = ({ variant: variantData }) => {
 
   const assembly = variantLocationObj?.genomeAssembly?.primaryExternalId;
 
-  // Create nucleotide change - try both possible paths
-  const refSeq = referenceSequence || variantSubject?.referenceSequence || variant?.referenceSequence;
-  const varSeq = variantSequence || variantSubject?.variantSequence || variant?.variantSequence;
-  const nucleotideChange = refSeq ? `${refSeq}>${varSeq || ''}` : null;
+  const nucleotideChange = variant?.nucleotideChange;
 
   // Extract consequence - try both possible paths
   const consequences =
@@ -108,11 +105,6 @@ const NewVariantSummary = ({ variant: variantData }) => {
       <AttributeLabel>Location</AttributeLabel>
       <AttributeValue>
         {formatLocation(location)}{' '}
-        {/*
-          <small>
-            <a href='#'>Highlight in browser</a>
-          </small>
-          */}
       </AttributeValue>
 
       <AttributeLabel>Nucleotide Change</AttributeLabel>
