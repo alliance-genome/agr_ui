@@ -220,6 +220,10 @@ const VariantToTranscriptTableNew = ({ variant, variantHgvs }) => {
           impact: item.vepImpact?.name || '',
           hgvsCodingNomenclature: item.hgvsCodingNomenclature,
           hgvsProteinNomenclature: item.hgvsProteinNomenclature,
+          siftPrediction: item.siftPrediction || '',
+          siftScore: item.siftScore,
+          polyphenPrediction: item.polyphenPrediction || '',
+          polyphenScore: item.polyphenScore,
         },
       ],
       // Keep original data for expand row
