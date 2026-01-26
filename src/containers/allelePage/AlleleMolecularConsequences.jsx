@@ -47,7 +47,6 @@ const AlleleMolecularConsequences = ({ alleleId, allele }) => {
         const variantId = variant.variant?.hgvs;
         const type = variant.variant?.variantAssociationSubject?.variantType || {};
         const consequences = variant.variant?.predictedVariantConsequences;
-        console.log('consequences ' + consequences);
         return (
           <Subsection title={sectionTitle(variantId)} level={1} key={`consequnce-summary-${variantId}`}>
             <AttributeList className={style.attributeList}>

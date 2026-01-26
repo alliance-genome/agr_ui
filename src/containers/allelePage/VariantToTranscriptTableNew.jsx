@@ -57,7 +57,7 @@ const VariantToTranscriptTableNew = ({ variant, variantHgvs }) => {
         width: 180,
       },
       attrs: {
-        colSpan: 2,
+        colSpan: 3,
       },
       formatter: (consequences = []) => {
         return (
@@ -134,27 +134,6 @@ const VariantToTranscriptTableNew = ({ variant, variantHgvs }) => {
         // paddingLeft: '1em',
         textTransform: 'initial',
         width: 540,
-      },
-    },
-    {
-      text: 'SIFT Prediction (Score)',
-      dataField: '_original',
-      headerStyle: {
-        width: 180,
-      },
-      formatter: (_original) => {
-        if (!_original) return null;
-        const predictionName = _original.siftPrediction?.name;
-        const siftScore = _original.siftScore;
-        const hasScore = siftScore !== undefined && siftScore !== null;
-        if (!predictionName && !hasScore) return null;
-        const scoreText = hasScore ? `(${siftScore})` : '';
-        const predictionText = predictionName ? predictionName.replace(/_/g, ' ') : '';
-        const displayText = predictionText
-          ? `${predictionText}${scoreText ? ` ${scoreText}` : ''}`
-          : scoreText;
-        console.log('displayText:', displayText);
-        return <div>{displayText}</div>;
       },
     },
   ];
