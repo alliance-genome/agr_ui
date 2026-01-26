@@ -29,7 +29,9 @@ const VariantEffectDetails = ({ consequence = {}, transcript = {}, variant = {} 
     molecularConsequences = [],
     impact = '',
     siftPrediction = '',
+    siftScore,
     polyphenPrediction = '',
+    polyphenScore,
 
     //hgvs
     hgvsCodingNomenclature,
@@ -94,10 +96,16 @@ const VariantEffectDetails = ({ consequence = {}, transcript = {}, variant = {} 
         <AttributeValue>{impact.toLowerCase()}</AttributeValue>
 
         <AttributeLabel>SIFT prediction (score)</AttributeLabel>
-        <AttributeValue>{siftPrediction && siftPrediction.replace(/_/g, ' ')}</AttributeValue>
+        <AttributeValue>
+          {siftPrediction?.name && siftPrediction.name.replace(/_/g, ' ')}
+          {siftScore != null && ` (${siftScore})`}
+        </AttributeValue>
 
         <AttributeLabel>PolyPhen prediction (score)</AttributeLabel>
-        <AttributeValue>{polyphenPrediction && polyphenPrediction.replace(/_/g, ' ')}</AttributeValue>
+        <AttributeValue>
+          {polyphenPrediction?.name && polyphenPrediction.name.replace(/_/g, ' ')}
+          {polyphenScore != null && ` (${polyphenScore})`}
+        </AttributeValue>
 
         <AttributeLabel style={labelStyle}>Position of Variant in Transcript</AttributeLabel>
         <AttributeValue>

@@ -57,7 +57,7 @@ const VariantToTranscriptTableNew = ({ variant, variantHgvs }) => {
         width: 180,
       },
       attrs: {
-        colSpan: 3,
+        colSpan: 2,
       },
       formatter: (consequences = []) => {
         return (
@@ -134,6 +134,27 @@ const VariantToTranscriptTableNew = ({ variant, variantHgvs }) => {
         // paddingLeft: '1em',
         textTransform: 'initial',
         width: 540,
+      },
+    },
+    {
+      text: 'SIFT Prediction (Score)',
+      dataField: '_original',
+      headerStyle: {
+        width: 180,
+      },
+      formatter: (_original) => {
+        if (!_original) return null;
+        const predictionName = _original.siftPrediction?.name;
+        const siftScore = _original.siftScore;
+        const hasScore = siftScore !== undefined && siftScore !== null;
+        if (!predictionName && !hasScore) return null;
+        const scoreText = hasScore ? `(${siftScore})` : '';
+        const predictionText = predictionName ? predictionName.replace(/_/g, ' ') : '';
+        const displayText = predictionText
+          ? `${predictionText}${scoreText ? ` ${scoreText}` : ''}`
+          : scoreText;
+        console.log('displayText:', displayText);
+        return <div>{displayText}</div>;
       },
     },
   ];
@@ -220,6 +241,10 @@ const VariantToTranscriptTableNew = ({ variant, variantHgvs }) => {
           impact: item.vepImpact?.name || '',
           hgvsCodingNomenclature: item.hgvsCodingNomenclature,
           hgvsProteinNomenclature: item.hgvsProteinNomenclature,
+          siftPrediction: item.siftPrediction || '',
+          siftScore: item.siftScore,
+          polyphenPrediction: item.polyphenPrediction || '',
+          polyphenScore: item.polyphenScore,
         },
       ],
       // Keep original data for expand row
