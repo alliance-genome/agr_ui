@@ -182,17 +182,17 @@ export class AmplifyStageStack extends cdk.Stack {
       },
       {
         source: '/bluegenes',
-        target: 'https://stage.alliancegenome.org/bluegenes/alliancemine',
+        target: 'https://stage.alliancegenome.org/bluegenes/',
         status: amplify.RedirectStatus.PERMANENT_REDIRECT,
       },
       {
         source: '/bluegenes/',
-        target: 'https://stage.alliancegenome.org/bluegenes/alliancemine',
-        status: amplify.RedirectStatus.PERMANENT_REDIRECT,
+        target: 'https://alliancemine.alliancegenome.org/bluegenes/alliancemine',
+        status: amplify.RedirectStatus.REWRITE,
       },
       {
         source: '/bluegenes/<*>',
-        target: 'https://stage-alliancemine.alliancegenome.org:444/bluegenes/<*>',
+        target: 'https://alliancemine.alliancegenome.org/bluegenes/<*>',
         status: amplify.RedirectStatus.REWRITE,
       },
 
