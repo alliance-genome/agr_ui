@@ -16,7 +16,7 @@ import './css/genomefeatures.css';
 import './style.scss';
 
 import ReactApp from './reactApplication.jsx';
-import { defineCustomElements } from '@geneontology/web-components/loader';
+import initializeGOLibraryWebComponents from '../initializeGOLibraryWebComponents.js';
 
 analytics.initialize();
 
@@ -32,4 +32,4 @@ if (import.meta.hot) {
   import.meta.hot.accept();
 }
 
-defineCustomElements();
+initializeGOLibraryWebComponents();
