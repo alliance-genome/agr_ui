@@ -6,6 +6,8 @@ on:
       - test
       - main
       - stage
+      - develop/**/*
+      - release/**/*
 
 jobs:
   fail-by-label:
