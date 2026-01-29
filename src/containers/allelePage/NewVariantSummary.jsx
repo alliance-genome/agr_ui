@@ -12,7 +12,9 @@ import getVariantGenomeLocation from './getVariantGenomeLocation';
 
 function formatLocation(location) {
   const { chromosome = '', start = '', end = '' } = location || {};
-  return start !== end ? `${chromosome}:${start}-${end}` : `${chromosome}:${start}`;
+  const formattedStart = start !== '' ? Number(start).toLocaleString('en-US') : '';
+  const formattedEnd = end !== '' ? Number(end).toLocaleString('en-US') : '';
+  return start !== end ? `${chromosome}:${formattedStart}-${formattedEnd}` : `${chromosome}:${formattedStart}`;
 }
 
 const NewVariantSummary = ({ variant: variantData }) => {
