@@ -21,6 +21,8 @@ jobs:
       issues: write
       # REQUIRED: Must grant id-token permission to the reusable workflow
       id-token: write
+      # REQUIRED: Allow reusable workflow to read CI results
+      actions: read
     uses: alliance-genome/.github/.github/workflows/claude-code-review.yml@main
     with:
       max_turns: 30
