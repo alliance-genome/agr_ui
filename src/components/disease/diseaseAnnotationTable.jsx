@@ -5,7 +5,7 @@ import {
   DataTable,
   EvidenceCodesCellCuration,
   GeneCellCuration,
-  ReferencesCellCuration,
+  ReferenceList,
   SpeciesCell,
 } from '../dataTable';
 import AnnotatedEntitiesPopupCurationGenePage from '../dataTable/AnnotatedEntitiesPopupCurationGenePage.jsx';
@@ -155,12 +155,12 @@ const DiseaseAnnotationTable = ({ focusGeneId, focusTaxonId, includeNotAnnotatio
       formatter: BasedOnGeneCellCuration,
     },
     {
-      dataField: 'pubmedPubModIDs',
+      dataField: 'references',
       text: 'References',
       filterable: true,
       filterName: 'reference',
-      headerStyle: { width: '150px' },
-      formatter: (pubModIds) => <ReferencesCellCuration pubModIds={pubModIds} />,
+      headerStyle: { width: '180px' },
+      formatter: (references) => <ReferenceList refs={references} />,
     },
   ];
 

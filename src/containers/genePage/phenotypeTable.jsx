@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import hash from 'object-hash';
-import { DataTable, ReferencesCellCuration, GeneCellCuration } from '../../components/dataTable';
+import { DataTable, ReferenceList, GeneCellCuration } from '../../components/dataTable';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import { getIdentifier } from '../../components/dataTable/utils.jsx';
 import AnnotatedPhenotypePopupCuration from '../../components/dataTable/AnnotatedPhenotypePopupCuration.jsx';
@@ -55,12 +55,12 @@ const PhenotypeTable = ({ geneId, entityType, hideSourceColumn = false }) => {
       hide: hideSourceColumn,
     },
     {
-      dataField: 'pubmedPubModIDs',
+      dataField: 'references',
       text: 'References',
       filterable: true,
       filterName: 'reference',
-      headerStyle: { width: '150px' },
-      formatter: (pubModIds) => <ReferencesCellCuration pubModIds={pubModIds} />,
+      headerStyle: { width: '180px' },
+      formatter: (references) => <ReferenceList refs={references} />,
     },
   ];
 

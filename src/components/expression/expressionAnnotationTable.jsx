@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import hash from 'object-hash';
-import { ReferenceCell, GeneCell, DataTable, ReferencesCellCuration } from '../dataTable';
+import { ReferenceCell, GeneCell, DataTable, ReferenceList } from '../dataTable';
 import DataSourceLink from '../dataSourceLink.jsx';
 import CommaSeparatedList from '../commaSeparatedList.jsx';
 import { compareAlphabeticalCaseInsensitive, compareByFixedOrder } from '../../lib/utils';
@@ -102,10 +102,10 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
       filterName: 'source',
     },
     {
-      dataField: 'reference',
+      dataField: 'references',
       text: 'Reference',
-      formatter: (reference) => <ReferencesCellCuration pubModIds={reference} />,
-      headerStyle: { width: '150px' },
+      formatter: (references) => <ReferenceList refs={references} />,
+      headerStyle: { width: '180px' },
       filterable: true,
       filterName: 'reference',
     },
@@ -119,7 +119,7 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
     stage: result.geneExpressionAnnotation.whenExpressedStageName,
     assay: result.geneExpressionAnnotation.expressionAssayUsed,
     source: result.geneExpressionAnnotation.crossReferences ? result.geneExpressionAnnotation.crossReferences : null,
-    reference: result.referenceId,
+    references: result.geneExpressionAnnotation.references,
   }));
 
   const sortOptions = [

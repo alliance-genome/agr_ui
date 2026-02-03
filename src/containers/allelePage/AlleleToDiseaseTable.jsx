@@ -1,5 +1,9 @@
 import PropTypes from 'prop-types';
-import { DataTable, EvidenceCodesCellCuration, ReferencesCellCuration } from '../../components/dataTable';
+import {
+  DataTable,
+  EvidenceCodesCellCuration,
+  ReferenceList,
+} from '../../components/dataTable';
 import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration.jsx';
 import AssociationType from '../../components/AssociationType.jsx';
 import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration.jsx';
@@ -71,10 +75,12 @@ const AlleleToDiseaseTable = ({ alleleId }) => {
       filterName: 'dataProvider',
     },
     {
-      dataField: 'pubmedPubModIDs',
+      dataField: 'references',
       text: 'References',
-      formatter: (pubModIds) => <ReferencesCellCuration pubModIds={pubModIds} />,
-      headerStyle: { width: '150px' },
+      formatter: (references) => {
+        return <ReferenceList refs={references} />;
+      },
+      headerStyle: { width: '180px' },
       filterable: true,
       filterName: 'reference',
     },

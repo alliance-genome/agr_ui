@@ -40,6 +40,13 @@
 .breakWords {
   overflow-wrap: break-word;
 }
+.ellipses {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
+  max-width: 100%;
+}
 
 .tablePopup {
   max-height: 500px;

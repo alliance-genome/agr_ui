@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { AttributeLabel, AttributeList, AttributeValue } from '../../components/attribute';
 import { Link } from 'react-router-dom';
 import DataSourceLink from '../../components/dataSourceLink.jsx';
-import { ReferencesCellCuration, SourceCell } from '../../components/dataTable';
+import { SourceCell } from '../../components/dataTable';
 import CrossReferenceList from '../../components/crossReferenceList.jsx';
 import CommaSeparatedList from '../../components/commaSeparatedList.jsx';
 import ExternalLink from '../../components/ExternalLink.jsx';
