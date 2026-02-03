@@ -5,7 +5,7 @@ import { DownloadButton } from '../../components/dataTable';
 import Subsection from '../../components/subsection.jsx';
 import NoData from '../../components/noData.jsx';
 import useAllAlleleVariants from '../../hooks/useAlleleVariants';
-import NewVariantSummary from './NewVariantSummary.jsx';
+import VariantSummaryCuration from './VariantSummaryCuration.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
@@ -22,7 +22,7 @@ const AlleleVariantsSummary = ({ allele, alleleId }) => {
           return (
             <Subsection title={hgvs} level={1} key={id}>
               <AttributeList className="mb-0">
-                <NewVariantSummary
+                <VariantSummaryCuration
                   variant={{
                     ...variantData,
                     gene: gene,
