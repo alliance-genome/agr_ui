@@ -17,7 +17,7 @@ function formatLocation(location) {
   return start !== end ? `${chromosome}:${formattedStart}-${formattedEnd}` : `${chromosome}:${formattedStart}`;
 }
 
-const NewVariantSummary = ({ variant: variantData }) => {
+const VariantSummaryCuration = ({ variant: variantData }) => {
   const { variant } = variantData || {};
   const variantSubject = variant?.variantAssociationSubject;
 
@@ -192,7 +192,7 @@ const NewVariantSummary = ({ variant: variantData }) => {
   );
 };
 
-NewVariantSummary.propTypes = {
+VariantSummaryCuration.propTypes = {
   variantId: PropTypes.string,
   variant: PropTypes.object.isRequired,
   allele: PropTypes.shape({
@@ -201,4 +201,4 @@ NewVariantSummary.propTypes = {
   }),
 };
 
-export default NewVariantSummary;
+export default VariantSummaryCuration;

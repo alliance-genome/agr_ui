@@ -21,7 +21,7 @@ import MolecularConsequenceHelp from './MolecularConsequenceHelp.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import SpeciesName from '../../components/SpeciesName.jsx';
 import ErrorBoundary from '../../components/errorBoundary.jsx';
-import NewVariantSummary from './NewVariantSummary.jsx';
+import VariantSummaryCuration from './VariantSummaryCuration.jsx';
 
 const SUMMARY = 'Summary';
 const MOLECULAR_CONSEQUENCE = 'Variant Molecular Consequences';
@@ -109,7 +109,7 @@ const VariantPage = () => {
                   <SpeciesName>{data.variant.variantAssociationSubject.taxon.name}</SpeciesName>
                 )}
               </AttributeValue>
-              <NewVariantSummary variant={data} variantId={variantId} />
+              <VariantSummaryCuration variant={data} variantId={variantId} />
             </AttributeList>
           </ErrorBoundary>
           <hr />
