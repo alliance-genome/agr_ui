@@ -12,10 +12,12 @@ import getVariantGenomeLocation from './getVariantGenomeLocation';
 
 function formatLocation(location) {
   const { chromosome = '', start = '', end = '' } = location || {};
-  return start !== end ? `${chromosome}:${start}-${end}` : `${chromosome}:${start}`;
+  const formattedStart = start !== '' ? Number(start).toLocaleString('en-US') : '';
+  const formattedEnd = end !== '' ? Number(end).toLocaleString('en-US') : '';
+  return start !== end ? `${chromosome}:${formattedStart}-${formattedEnd}` : `${chromosome}:${formattedStart}`;
 }
 
-const NewVariantSummary = ({ variant: variantData }) => {
+const VariantSummaryCuration = ({ variant: variantData }) => {
   const { variant } = variantData || {};
   const variantSubject = variant?.variantAssociationSubject;
 
@@ -190,7 +192,7 @@ const NewVariantSummary = ({ variant: variantData }) => {
   );
 };
 
-NewVariantSummary.propTypes = {
+VariantSummaryCuration.propTypes = {
   variantId: PropTypes.string,
   variant: PropTypes.object.isRequired,
   allele: PropTypes.shape({
@@ -199,4 +201,4 @@ NewVariantSummary.propTypes = {
   }),
 };
 
-export default NewVariantSummary;
+export default VariantSummaryCuration;
