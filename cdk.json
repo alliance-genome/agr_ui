@@ -1,4 +1,4 @@
 {
-  "app": "npx ts-node --prefer-ts-exts cdk/cdk-app.ts",
+  "app": "npx tsx cdk/cdk-app.ts",
   "context": {}
 }
