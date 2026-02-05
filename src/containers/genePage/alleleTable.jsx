@@ -97,16 +97,11 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
       ...row,
       allele: row.allele,
       synonyms: row.allele.alleleSynonyms,
-      // source: {
-      //   dataProvider: gene.dataProvider,
-      //   url: allele.crossReferenceMap.primary.url,
-      // },
-      //disease: allele.diseases?.sort(compareAlphabeticalCaseInsensitive((disease) => disease.name)),
     }));
 
     // Filter to only show the selected alleles when in override mode
     if (selectionOverride.active && selectionOverride.alleleIds.length > 0) {
-      processedData = processedData.filter((row) => selectionOverride.alleleIds.includes(allele.id));
+      processedData = processedData.filter((row) => selectionOverride.alleleIds.includes(row.id));
 
       // Apply client-side pagination when in override mode
       const startIndex = (currentPage - 1) * pageSize;
@@ -310,11 +305,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
           {variants?.map((variant) => {
             const id = variant.curatedVariantGenomicLocations?.[0]?.hgvs;
             const type = variant.variantType || {};
-            return (
-              <div key={id}>
-                {type?.name?.replace(/_/g, ' ')}
-              </div>
-            );
+            return <div key={id}>{type?.name?.replace(/_/g, ' ')}</div>;
           })}
         </div>
       ),
@@ -344,9 +335,8 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
           {variants?.map((variant) => {
             const loc = variant.curatedVariantGenomicLocations?.[0];
             const id = loc?.hgvs;
-            const consequences = loc?.predictedVariantConsequences?.flatMap(
-              (c) => c.vepConsequences?.map((v) => v.name) || []
-            ) || [];
+            const consequences =
+              loc?.predictedVariantConsequences?.flatMap((c) => c.vepConsequences?.map((v) => v.name) || []) || [];
             return (
               <div key={id}>
                 <CollapsibleList collapsedSize={1}>
