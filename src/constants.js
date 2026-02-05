@@ -119,6 +119,11 @@ export const NAV_MENU = [
         route: '/blastservice',
       },
       {
+        label: 'SimpleMine',
+        route: '/agr_simplemine.cgi',
+        external: true,
+      },
+      {
         label: 'Tools and Prototypes',
         shortLabel: 'Tools',
         route: '/prototypes',
