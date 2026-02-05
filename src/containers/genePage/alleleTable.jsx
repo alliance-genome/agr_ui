@@ -2,8 +2,8 @@ import React, { useMemo, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { compareAlphabeticalCaseInsensitive, getSingleGenomeLocation, findFminFmax } from '../../lib/utils';
-import SynonymList from '../../components/synonymList.jsx';
-import { AlleleCell, DataTable } from '../../components/dataTable';
+import SynonymListCuration from '../../components/SynonymListCuration.jsx';
+import { AlleleCell, AlleleCellCuration, DataTable } from '../../components/dataTable';
 import NoData from '../../components/noData.jsx';
 import { CollapsibleList } from '../../components/collapsibleList';
 import ExternalLink from '../../components/ExternalLink.jsx';
@@ -15,6 +15,7 @@ import useDataTableQuery from '../../hooks/useDataTableQuery';
 import useAllVariants from '../../hooks/useAllVariants';
 import useAlleleSelection from '../../hooks/useAlleleSelection';
 import { ALLELE_WITH_ONE_VARIANT, ALLELE_WITH_MULTIPLE_VARIANTS, HELP_EMAIL } from '../../constants';
+import { getIdentifier } from '../../components/dataTable/utils.jsx';
 
 const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
   const geneLocation = getSingleGenomeLocation(gene.genomeLocations);
@@ -92,20 +93,20 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     // Use selected alleles data when in override mode and data is available
     const baseData = selectionOverride.active && selectedAllelesData ? selectedAllelesData : resolvedData || [];
 
-    let processedData = baseData.map((allele) => ({
-      ...allele,
-      symbol: allele.symbol,
-      synonym: allele.synonyms,
-      source: {
-        dataProvider: gene.dataProvider,
-        url: allele.crossReferenceMap.primary.url,
-      },
-      disease: allele.diseases?.sort(compareAlphabeticalCaseInsensitive((disease) => disease.name)),
+    let processedData = baseData.map((row) => ({
+      ...row,
+      allele: row.allele,
+      synonyms: row.allele.alleleSynonyms,
+      // source: {
+      //   dataProvider: gene.dataProvider,
+      //   url: allele.crossReferenceMap.primary.url,
+      // },
+      //disease: allele.diseases?.sort(compareAlphabeticalCaseInsensitive((disease) => disease.name)),
     }));
 
     // Filter to only show the selected alleles when in override mode
     if (selectionOverride.active && selectionOverride.alleleIds.length > 0) {
-      processedData = processedData.filter((allele) => selectionOverride.alleleIds.includes(allele.id));
+      processedData = processedData.filter((row) => selectionOverride.alleleIds.includes(allele.id));
 
       // Apply client-side pagination when in override mode
       const startIndex = (currentPage - 1) * pageSize;
@@ -207,7 +208,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
       isKey: true,
     },
     {
-      dataField: 'symbol',
+      dataField: 'allele',
       text: 'Allele/Variant Symbol',
       helpPopupProps: {
         id: 'gene-page--alleles-table--allele-variant-symbol-help',
@@ -221,19 +222,19 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
           </span>
         ),
       },
-      formatter: (_, allele) => <AlleleCell allele={allele} />,
+      formatter: (allele) => <AlleleCellCuration identifier={getIdentifier(allele)} allele={allele} />,
       headerStyle: { width: '185px' },
       filterable: !selectionOverride.active,
     },
     {
       dataField: 'synonyms',
       text: 'Allele Synonyms',
-      formatter: (synonyms) => <SynonymList synonyms={synonyms} />,
+      formatter: (synonyms) => <SynonymListCuration synonyms={synonyms} />,
       headerStyle: { width: '165px' },
       filterable: !selectionOverride.active,
     },
     {
-      dataField: 'category',
+      dataField: 'alterationType',
       text: 'Category',
       helpPopupProps: {
         id: 'gene-page--alleles-table--allele-category-help',
@@ -246,7 +247,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
           </span>
         ),
       },
-      headerStyle: { width: '140px' },
+      headerStyle: { width: '160px' },
       filterName: 'alleleCategory',
       filterType: 'checkbox',
       filterable: !selectionOverride.active,
@@ -272,78 +273,57 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
       },
       formatter: (variants) => (
         <div>
-          {variants?.map(({ id, variantType: type = {}, location = {}, transcriptLevelConsequence }) => (
-            <div key={id} style={{ display: 'flex' }}>
-              <div
-                style={{
-                  width: variantNameColWidth,
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  paddingRight: 5,
-                  flex: '0 0 auto',
-                }}
-              >
-                {
-                  <VariantJBrowseLink
-                    geneLocation={geneLocation}
-                    geneSymbol={gene.symbol}
-                    location={location}
-                    species={gene.species && gene.species.name}
-                    type={type.name}
-                    taxonid={gene.species && gene.species.taxonId}
-                  >
-                    {id}
-                  </VariantJBrowseLink>
-                }
+          {variants?.map((variant) => {
+            const loc = variant.curatedVariantGenomicLocations?.[0];
+            const id = loc?.hgvs;
+            const type = variant.variantType || {};
+            const location = {
+              chromosome: loc?.variantGenomicLocationAssociationObject?.name,
+              start: loc?.start,
+              end: loc?.end,
+            };
+            return (
+              <div key={id}>
+                <VariantJBrowseLink
+                  geneLocation={geneLocation}
+                  geneSymbol={gene.symbol}
+                  location={location}
+                  species={gene.species && gene.species.name}
+                  type={type.name}
+                  taxonid={gene.species && gene.species.taxonId}
+                >
+                  {id}
+                </VariantJBrowseLink>
               </div>
-              <div
-                style={{
-                  width: variantTypeColWidth,
-                  flex: '0 0 auto',
-                }}
-              >
-                {type && type.name && type.name.replace(/_/g, ' ')}
-              </div>
-              <div
-                style={{
-                  width: variantConsequenceColWidth,
-                  flex: '0 0 auto',
-                }}
-              >
-                <CollapsibleList collapsedSize={1}>
-                  {[
-                    ...new Set(
-                      transcriptLevelConsequence &&
-                        transcriptLevelConsequence
-                          .flatMap(({ molecularConsequences }) => molecularConsequences)
-                          .map((c) => c.replace(/_/g, ' '))
-                    ),
-                  ]}
-                </CollapsibleList>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       ),
-      attrs: {
-        colSpan: 3,
-      },
       headerStyle: { width: variantNameColWidth },
-      //style: {width: variantNameColWidth + variantTypeColWidth + variantConsequenceColWidth + 50},
       filterable: false,
     },
     {
-      dataField: 'variantType',
+      dataField: 'variants',
       text: 'Variant type',
+      formatter: (variants) => (
+        <div>
+          {variants?.map((variant) => {
+            const id = variant.curatedVariantGenomicLocations?.[0]?.hgvs;
+            const type = variant.variantType || {};
+            return (
+              <div key={id}>
+                {type?.name?.replace(/_/g, ' ')}
+              </div>
+            );
+          })}
+        </div>
+      ),
       headerStyle: { width: variantTypeColWidth },
-      style: {
-        display: 'none',
-      },
       filterType: 'checkbox',
       filterable: !selectionOverride.active,
     },
     {
-      dataField: 'variants.transcriptLevelConsequence',
+      dataField: 'variants',
       text: 'Molecular consequence',
       helpPopupProps: {
         id: 'gene-page--alleles-table--molecular-consequence-help',
@@ -359,10 +339,25 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
           </span>
         ),
       },
+      formatter: (variants) => (
+        <div>
+          {variants?.map((variant) => {
+            const loc = variant.curatedVariantGenomicLocations?.[0];
+            const id = loc?.hgvs;
+            const consequences = loc?.predictedVariantConsequences?.flatMap(
+              (c) => c.vepConsequences?.map((v) => v.name) || []
+            ) || [];
+            return (
+              <div key={id}>
+                <CollapsibleList collapsedSize={1}>
+                  {[...new Set(consequences.map((c) => c.replace(/_/g, ' ')))]}
+                </CollapsibleList>
+              </div>
+            );
+          })}
+        </div>
+      ),
       headerStyle: { width: variantConsequenceColWidth },
-      style: {
-        display: 'none',
-      },
       filterName: 'molecularConsequence',
       filterType: 'checkbox',
       filterable: !selectionOverride.active,

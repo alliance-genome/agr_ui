@@ -56,9 +56,8 @@ export const CATEGORIES = [
   },
 ];
 
-// Allele category constants
-export const ALLELE_WITH_ONE_VARIANT = 'allele with one associated variant';
-export const ALLELE_WITH_MULTIPLE_VARIANTS = 'allele with multiple associated variants';
+export const ALLELE_WITH_ONE_VARIANT = 'allele with one variant';
+export const ALLELE_WITH_MULTIPLE_VARIANTS = 'allele with multiple variants';
 
 export const NON_HIGHLIGHTED_FIELDS = [
   'sourceHref',
