@@ -6,7 +6,6 @@ import { AttributeLabel, AttributeValue } from '../../components/attribute';
 import { CollapsibleList } from '../../components/collapsibleList';
 import { VariantJBrowseLink } from '../../components/variant';
 import ExternalLink from '../../components/ExternalLink.jsx';
-import { sectionAnchor } from './AlleleMolecularConsequences.jsx';
 import Sequence from './Sequence.jsx';
 import getVariantGenomeLocation from './getVariantGenomeLocation';
 
@@ -140,7 +139,7 @@ const VariantSummaryCuration = ({ variant: variantData }) => {
               {consequence && consequence.replace(/_/g, ' ').split(',')}
             </CollapsibleList>
 
-            <HashLink to={sectionAnchor(symbol)} className="btn btn-link btn-sm p-0">
+            <HashLink to="#variant-molecular-consequences" className="btn btn-link btn-sm p-0">
               See all consequences
             </HashLink>
           </>
