@@ -101,7 +101,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
 
     // Filter to only show the selected alleles when in override mode
     if (selectionOverride.active && selectionOverride.alleleIds.length > 0) {
-      processedData = processedData.filter((row) => selectionOverride.alleleIds.includes(row.id));
+      processedData = processedData.filter((row) => selectionOverride.alleleIds.includes(getIdentifier(allele)));
 
       // Apply client-side pagination when in override mode
       const startIndex = (currentPage - 1) * pageSize;
