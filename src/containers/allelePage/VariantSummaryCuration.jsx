@@ -21,7 +21,7 @@ const VariantSummaryCuration = ({ variant: variantData }) => {
   const variantSubject = variant?.variantAssociationSubject;
 
   // hgvs is directly on variant, not variantAssociationSubject
-  const symbol = variant?.hgvs;
+  const symbol = variant?.variantAssociationSubject.curie;
 
   const {
     taxon: species,
@@ -147,7 +147,7 @@ const VariantSummaryCuration = ({ variant: variantData }) => {
       </AttributeValue>
 
       <AttributeLabel>HGVS.g name</AttributeLabel>
-      <AttributeValue>{symbol}</AttributeValue>
+      <AttributeValue>{variant.hgvs}</AttributeValue>
 
       <AttributeLabel>HGVS.c name</AttributeLabel>
       <AttributeValue>{hgvsC && hgvsC.length ? <CollapsibleList>{hgvsC}</CollapsibleList> : null}</AttributeValue>
