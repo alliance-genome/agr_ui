@@ -218,3 +218,14 @@ div.gfc-tooltip {
   top: 50%;
   left: 100%;
 }
+
+go-annotation-ribbon-strips {
+  --cell-border-collapse: collapse;
+  --cell-border-width: 1px;
+  --cell-border-style: solid;
+  --cell-border-color: rgba(227, 231, 238, 0.4);
+  --cell-box-shadow: none;
+  --group-all-font-weight: 700;
+  font-size: 12.9px;
+  line-height: 1;
+}

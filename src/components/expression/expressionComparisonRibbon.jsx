@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import ControlsContainer from '../controlsContainer.jsx';
 import { STRINGENCY_HIGH } from '../homology/constants';
@@ -62,6 +62,43 @@ const ExpressionComparisonRibbon = ({ geneId, geneTaxon }) => {
     };
   }
 
+  function processRibbonData(apiData) {
+    if (!apiData || !apiData.categories || !apiData.subjects) {
+      return apiData;
+    }
+
+    // Deep clone to avoid mutating original data
+    const data = JSON.parse(JSON.stringify(apiData));
+
+    // Normalize the 'available' property (API may return string "false" instead of boolean)
+    data.subjects.forEach(sub => {
+      if (!sub.groups) return;
+
+      Object.values(sub.groups).forEach(group => {
+        // Convert string "false" to boolean false
+        if (group.available === "false" || group.available === false) {
+          group.available = false;
+        }
+        // Also check inside ALL object
+        if (group.ALL?.available === "false" || group.ALL?.available === false) {
+          group.available = false;
+        }
+      });
+    });
+
+    return data;
+  }
+
+  const ribbonData = useMemo(() => {
+    if (!updatedSummary) return { categories: [], subjects: [] };
+    return processRibbonData(updatedSummary);
+  }, [updatedSummary]);
+
+  useEffect(() => {
+    if (!ribbonRef.current || !ribbonData || ribbonData.subjects.length === 0) return;
+    ribbonRef.current.setData(ribbonData);
+  }, [ribbonData]);
+
   return (
     <>
       <div className="pb-4">
@@ -81,19 +118,18 @@ const ExpressionComparisonRibbon = ({ geneId, geneTaxon }) => {
 
       <HorizontalScroll>
         <div className="text-nowrap">
-          <wc-ribbon-strips
+          <go-annotation-ribbon-strips
             category-all-style="1"
-            color-by="0"
-            data={JSON.stringify(updatedSummary)}
+            color-by="annotations"
             fire-event-on-empty-cells="false"
             group-clickable="false"
             group-open-new-tab="false"
             new-tab="false"
             ref={ribbonRef}
-            selection-mode="1"
+            selection-mode="column"
             subject-base-url="/gene/"
             subject-open-new-tab="false"
-            subject-position={compareOrthologs ? '1' : '0'}
+            subject-position={compareOrthologs ? 'left' : 'none'}
             update-on-subject-change="false"
           />
         </div>
