@@ -6,6 +6,7 @@ import { AttributeLabel, AttributeValue } from '../../components/attribute';
 import { CollapsibleList } from '../../components/collapsibleList';
 import { VariantJBrowseLink } from '../../components/variant';
 import ExternalLink from '../../components/ExternalLink.jsx';
+import CrossReferenceList from '../../components/crossReferenceList.jsx';
 import Sequence from './Sequence.jsx';
 import getVariantGenomeLocation from './getVariantGenomeLocation';
 import { sectionAnchor } from './AlleleMolecularConsequences.jsx';
@@ -22,7 +23,7 @@ const VariantSummaryCuration = ({ variant: variantData, variantId }) => {
   const variantSubject = variant?.variantAssociationSubject;
 
   // hgvs is directly on variant, not variantAssociationSubject
-  const symbol = variant?.variantAssociationSubject.curie;
+  const symbol = variant?.hgvs || variant?.variantAssociationSubject.curie;
 
   // Determine the correct anchor for "See all consequences" link
   // On the standalone Variant page (variantId prop is passed), use #variant-molecular-consequences
@@ -171,11 +172,9 @@ const VariantSummaryCuration = ({ variant: variantData, variantId }) => {
 
       <AttributeLabel>Cross references</AttributeLabel>
       <AttributeValue>
-        {/*
-                {crossReference && crossReference.primary ? (
-                    <DataSourceLink reference={crossReference.primary}/>
-                ) : null}
-*/}
+        {crossReferences && crossReferences.length ? (
+          <CrossReferenceList crossReferences={crossReferences} />
+        ) : null}
       </AttributeValue>
 
       <AttributeLabel>References</AttributeLabel>
