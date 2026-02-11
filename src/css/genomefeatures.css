@@ -229,3 +229,7 @@ go-annotation-ribbon-strips {
   font-size: 12.9px;
   line-height: 1;
 }
+
+go-annotation-ribbon-table {
+  --link-color: #2681a6;
+}
