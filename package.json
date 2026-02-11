@@ -10,7 +10,6 @@
     "start:stage": "make uirunstage",
     "prebuild": "npm run generators",
     "build": "tsc -b && vite build",
-    "postbuild": "make go-ribbons-build-fix",
     "lint": "eslint .",
     "preview": "vite preview",
     "preview:test": "API_URL=https://test.alliancegenome.org vite preview",
