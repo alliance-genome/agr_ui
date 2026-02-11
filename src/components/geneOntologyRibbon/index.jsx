@@ -367,13 +367,13 @@ class GeneOntologyRibbon extends Component {
     }
     // The API returns 'available: false' for cells where species can't have data
     // but sometimes as string "false" instead of boolean
-    subjects.forEach(sub => {
+    subjects.forEach((sub) => {
       if (!sub.groups) return;
-      Object.values(sub.groups).forEach(group => {
-        if (group.available === "false" || group.available === false) {
+      Object.values(sub.groups).forEach((group) => {
+        if (group.available === 'false' || group.available === false) {
           group.available = false;
         }
-        if (group.ALL?.available === "false" || group.ALL?.available === false) {
+        if (group.ALL?.available === 'false' || group.ALL?.available === false) {
           group.available = false;
         }
       });

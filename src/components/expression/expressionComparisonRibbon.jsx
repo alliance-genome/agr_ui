@@ -71,16 +71,16 @@ const ExpressionComparisonRibbon = ({ geneId, geneTaxon }) => {
     const data = JSON.parse(JSON.stringify(apiData));
 
     // Normalize the 'available' property (API may return string "false" instead of boolean)
-    data.subjects.forEach(sub => {
+    data.subjects.forEach((sub) => {
       if (!sub.groups) return;
 
-      Object.values(sub.groups).forEach(group => {
+      Object.values(sub.groups).forEach((group) => {
         // Convert string "false" to boolean false
-        if (group.available === "false" || group.available === false) {
+        if (group.available === 'false' || group.available === false) {
           group.available = false;
         }
         // Also check inside ALL object
-        if (group.ALL?.available === "false" || group.ALL?.available === false) {
+        if (group.ALL?.available === 'false' || group.ALL?.available === false) {
           group.available = false;
         }
       });
