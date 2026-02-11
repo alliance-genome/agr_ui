@@ -69,7 +69,7 @@ const VariantPage = () => {
   }
 
   const variantSymbol =
-    data.variant?.variantAssociationSubject.curie || data.variant?.hgvs || data.symbol || data.displayName || data.id;
+    data.variant?.hgvs || data.variant?.variantAssociationSubject.curie || data.symbol || data.displayName || data.id;
   const reference = data.crossReferenceMap ? data.crossReferenceMap.primary : null;
   const title = `${variantSymbol} | ${data.species && data.species.name} allele`;
 
