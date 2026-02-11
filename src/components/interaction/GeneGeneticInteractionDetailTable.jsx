@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { DataTable, GeneCellCuration, SpeciesCell } from '../dataTable';
+import { DataTable, GeneCellCuration, SpeciesCell, ReferenceList } from '../dataTable';
 import { getResourceUrl } from '../dataTable/getResourceUrl.jsx';
 import { getIdentifier, getSingleReferenceUrl } from '../dataTable/utils.jsx';
 import SpeciesName from '../SpeciesName.jsx';
@@ -187,22 +187,11 @@ const GeneGeneticInteractionDetailTable = ({ focusGeneId, focusGeneDisplayName }
       },
       {
         dataField: 'geneGeneticInteraction.evidence',
-        text: 'Reference',
-        headerStyle: {
-          width: '150px',
+        text: 'References',
+        formatter: (references) => {
+          return <ReferenceList refs={references} />;
         },
-        // eslint-disable-next-line react/prop-types
-        formatter: (reference) => {
-          return (
-            <ExternalLink
-              href={getSingleReferenceUrl(reference[0].referenceID).url}
-              key={reference[0].referenceID}
-              title={reference[0].referenceID}
-            >
-              {reference[0].referenceID}
-            </ExternalLink>
-          );
-        },
+        headerStyle: { width: '180px' },
         filterable: true,
         filterName: 'reference',
       },

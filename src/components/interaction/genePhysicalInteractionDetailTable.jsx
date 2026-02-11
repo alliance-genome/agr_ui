@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DataTable, GeneCellCuration, SpeciesCell } from '../dataTable';
+import { DataTable, GeneCellCuration, SpeciesCell, ReferenceList } from '../dataTable';
 import SpeciesName from '../SpeciesName.jsx';
 import { getResourceUrl } from '../dataTable/getResourceUrl.jsx';
 import { getIdentifier, getSingleReferenceUrl } from '../dataTable/utils.jsx';
@@ -116,22 +116,11 @@ const GenePhysicalInteractionDetailTable = ({ focusGeneDisplayName, focusGeneId 
     },
     {
       dataField: 'geneMolecularInteraction.evidence',
-      text: 'Reference',
-      // eslint-disable-next-line react/prop-types
-      formatter: (reference) => {
-        return (
-          <ExternalLink
-            href={getSingleReferenceUrl(reference[0].referenceID).url}
-            key={reference[0].referenceID}
-            title={reference[0].referenceID}
-          >
-            {reference[0].referenceID}
-          </ExternalLink>
-        );
+      text: 'References',
+      formatter: (references) => {
+        return <ReferenceList refs={references} />;
       },
-      headerStyle: { width: '10em' },
-      headerClasses: style.columnHeaderGroup3,
-      classes: style.columnGroup3,
+      headerStyle: { width: '180px' },
       filterable: true,
       filterName: 'reference',
     },
