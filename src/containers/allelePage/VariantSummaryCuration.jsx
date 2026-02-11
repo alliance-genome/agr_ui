@@ -172,9 +172,7 @@ const VariantSummaryCuration = ({ variant: variantData, variantId }) => {
 
       <AttributeLabel>Cross references</AttributeLabel>
       <AttributeValue>
-        {crossReferences && crossReferences.length ? (
-          <CrossReferenceList crossReferences={crossReferences} />
-        ) : null}
+        {crossReferences && crossReferences.length ? <CrossReferenceList crossReferences={crossReferences} /> : null}
       </AttributeValue>
 
       <AttributeLabel>References</AttributeLabel>
