@@ -46,7 +46,7 @@ const DiseaseComparisonRibbon = ({ geneId, geneTaxon }) => {
 
   const onCellClick = (e) => {
     setSelectedBlock((current) => ({
-      group: current.group && current.group.id === e.detail.group.id ? null : e.detail.group,
+      group: current.group && current.group.id === e.detail.group?.id ? null : e.detail.group,
       subject: e.detail.subjects,
     }));
   };
