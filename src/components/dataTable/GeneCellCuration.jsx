@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import style from './style.module.scss';
+import { getIdentifier } from './utils.jsx';
 
 /**
  * @param {object} props
@@ -11,8 +12,10 @@ import style from './style.module.scss';
 const GeneCellCuration = ({ identifier, gene } = {}) => {
   if (!gene) return null;
 
+  let geneIdentifier = identifier || getIdentifier(gene);
+
   return (
-    <Link className={style.breakWords} to={'/gene/' + identifier}>
+    <Link className={style.breakWords} to={'/gene/' + geneIdentifier}>
       <span dangerouslySetInnerHTML={{ __html: gene.geneSymbol?.displayText }} />
     </Link>
   );

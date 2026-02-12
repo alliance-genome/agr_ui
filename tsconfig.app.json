@@ -22,7 +22,13 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    /* path aliasing */
+    "baseUrl": ".",
+    "paths": {
+      "@agr-tanstack-react-table/*": ["./src/lib/agr-tanstack-react-table/*"],
+    }
   },
   "include": ["src"],
   "exclude": ["node_modules"]

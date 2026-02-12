@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import AlleleSymbol from '../../containers/allelePage/AlleleSymbol.jsx';
+import { getIdentifier } from './utils.jsx';
 
 /**
  * @param {object} props
@@ -10,8 +11,10 @@ import AlleleSymbol from '../../containers/allelePage/AlleleSymbol.jsx';
 const AlleleCellCuration = ({ identifier, allele }) => {
   if (!allele) return null;
 
+  let alleleIdentifier = identifier || getIdentifier(allele);
+
   return (
-    <Link to={`/allele/${identifier}`}>
+    <Link to={`/allele/${alleleIdentifier}`}>
       <AlleleSymbol allele={allele} wrap />
     </Link>
   );

@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
+import path from 'path';
 
 // https://vite.dev/config/
 const ENV_KEYS_TO_EXPOSE = [
@@ -44,6 +45,10 @@ export default defineConfig(({ mode }) => {
           // this is required for the SCSS modules
           find: /^~(.*)$/,
           replacement: '$1',
+        },
+        {
+          find: '@agr-tanstack-react-table',
+          replacement: path.resolve(__dirname, './src/lib/agr-tanstack-react-table'),
         },
       ],
     },
