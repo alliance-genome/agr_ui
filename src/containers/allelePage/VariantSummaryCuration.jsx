@@ -6,7 +6,7 @@ import { AttributeLabel, AttributeValue } from '../../components/attribute';
 import { CollapsibleList } from '../../components/collapsibleList';
 import { VariantJBrowseLink } from '../../components/variant';
 import ExternalLink from '../../components/ExternalLink.jsx';
-import CrossReferenceList from '../../components/crossReferenceList.jsx';
+import DataSourceLinkCuration from '../../components/dataSourceLinkCuration.jsx';
 import Sequence from './Sequence.jsx';
 import getVariantGenomeLocation from './getVariantGenomeLocation';
 import { sectionAnchor } from './AlleleMolecularConsequences.jsx';
@@ -64,9 +64,9 @@ const VariantSummaryCuration = ({ variant: variantData, variantId }) => {
     variant?.predictedVariantConsequences;
   const consequence = consequences?.[0]?.vepConsequences?.[0]?.name;
 
-  // Extract HGVS names from predictedVariantConsequences
-  const hgvsC = consequences?.map((c) => c.hgvsCodingNomenclature).filter(Boolean);
-  const hgvsP = consequences?.map((c) => c.hgvsProteinNomenclature).filter(Boolean);
+  // Use pre-sorted and deduplicated HGVS fields from variant object
+  const hgvsC = variant?.hgvsC;
+  const hgvsP = variant?.hgvsP;
 
   // Gene overlap - all genes from overlapGenes collection
   const overlapGenes = variant?.overlapGenes;
@@ -172,7 +172,15 @@ const VariantSummaryCuration = ({ variant: variantData, variantId }) => {
 
       <AttributeLabel>Cross references</AttributeLabel>
       <AttributeValue>
-        {crossReferences && crossReferences.length ? <CrossReferenceList crossReferences={crossReferences} /> : null}
+        {crossReferences && crossReferences.length ? (
+          <CollapsibleList>
+            {crossReferences.map((ref) => (
+              <DataSourceLinkCuration key={ref.referencedCurie} reference={ref}>
+                {ref.displayName}
+              </DataSourceLinkCuration>
+            ))}
+          </CollapsibleList>
+        ) : null}
       </AttributeValue>
 
       <AttributeLabel>References</AttributeLabel>
