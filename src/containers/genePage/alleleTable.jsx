@@ -400,7 +400,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     {
       value: 'alleleSymbol',
       label: 'Allele symbol',
-    }, 
+    },
     {
       value: 'variant',
       label: 'Variant',
