@@ -15,14 +15,14 @@ import useDataTableQuery from '../../hooks/useDataTableQuery';
 import useAllVariants from '../../hooks/useAllVariants';
 import useAlleleSelection from '../../hooks/useAlleleSelection';
 import { ALLELE_WITH_ONE_VARIANT, ALLELE_WITH_MULTIPLE_VARIANTS, HELP_EMAIL } from '../../constants';
-import { getIdentifier } from '../../components/dataTable/utils.jsx';
+import { getIdentifier, getDistinctFieldValue } from '../../components/dataTable/utils.jsx';
 
 const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
   const geneLocation = getSingleGenomeLocation(gene.genomeLocations);
 
   // Regular table query
   const tableProps = useDataTableQuery(`/api/gene/${geneId}/alleles`);
-  const { data: resolvedData, totalRows, isLoading } = tableProps;
+  const { data: resolvedData, totalRows, isLoading, supplementalData } = tableProps;
 
   // Filtered but not paginated list of alleles (used for viewer and category lookup)
   // Moved before useAlleleSelection so cached categories can be used
@@ -95,13 +95,16 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
 
     let processedData = baseData.map((row) => ({
       ...row,
+      id: getIdentifier(row.allele),
       allele: row.allele,
       synonyms: row.allele.alleleSynonyms,
+      variantName: row.variants,
+      variantConsequences: row.variants,
     }));
 
     // Filter to only show the selected alleles when in override mode
     if (selectionOverride.active && selectionOverride.alleleIds.length > 0) {
-      processedData = processedData.filter((row) => selectionOverride.alleleIds.includes(getIdentifier(allele)));
+      processedData = processedData.filter((row) => selectionOverride.alleleIds.includes(row.id));
 
       // Apply client-side pagination when in override mode
       const startIndex = (currentPage - 1) * pageSize;
@@ -131,10 +134,11 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     // When in override mode, use the selected alleles for viewer visibility
     let alleleIdsFiltered = selectionOverride.active ? selectedAllelesData : allelesFiltered.data?.results;
     alleleIdsFiltered = (alleleIdsFiltered || [])
-      .filter(
-        (allele) => allele.category === ALLELE_WITH_ONE_VARIANT || allele.category === ALLELE_WITH_MULTIPLE_VARIANTS
-      )
-      .map((allele) => allele.id);
+      .filter((row) => {
+        const category = row.category || row.alterationType;
+        return category === ALLELE_WITH_ONE_VARIANT || category === ALLELE_WITH_MULTIPLE_VARIANTS;
+      })
+      .map((row) => row.id || getIdentifier(row.allele));
 
     /*
        Warning!
@@ -243,12 +247,12 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
         ),
       },
       headerStyle: { width: '160px' },
+      filterable: selectionOverride.active ? false : getDistinctFieldValue(supplementalData, 'alleleCategory'),
       filterName: 'alleleCategory',
       filterType: 'checkbox',
-      filterable: !selectionOverride.active,
     },
     {
-      dataField: 'variants',
+      dataField: 'variantName',
       text: 'Variant',
       helpPopupProps: {
         id: 'gene-page--alleles-table--allele-variant-help',
@@ -295,7 +299,8 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
         </div>
       ),
       headerStyle: { width: variantNameColWidth },
-      filterable: false,
+      filterable: !selectionOverride.active,
+      filterName: 'variant',
     },
     {
       dataField: 'variants',
@@ -310,11 +315,12 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
         </div>
       ),
       headerStyle: { width: variantTypeColWidth },
+      filterable: selectionOverride.active ? false : getDistinctFieldValue(supplementalData, 'variantType'),
+      filterName: 'variantType',
       filterType: 'checkbox',
-      filterable: !selectionOverride.active,
     },
     {
-      dataField: 'variants',
+      dataField: 'variantConsequences',
       text: 'Molecular consequence',
       helpPopupProps: {
         id: 'gene-page--alleles-table--molecular-consequence-help',
@@ -348,9 +354,9 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
         </div>
       ),
       headerStyle: { width: variantConsequenceColWidth },
+      filterable: selectionOverride.active ? false : getDistinctFieldValue(supplementalData, 'molecularConsequence'),
       filterName: 'molecularConsequence',
       filterType: 'checkbox',
-      filterable: !selectionOverride.active,
     },
     {
       dataField: 'hasDisease',
@@ -391,10 +397,10 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
   ];
 
   const sortOptions = [
-    // {
-    //   value: 'alleleSymbol',
-    //   label: 'Allele symbol',
-    // }, // default
+    {
+      value: 'alleleSymbol',
+      label: 'Allele symbol',
+    }, 
     {
       value: 'variant',
       label: 'Variant',
