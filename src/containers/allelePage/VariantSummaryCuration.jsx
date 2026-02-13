@@ -6,9 +6,10 @@ import { AttributeLabel, AttributeValue } from '../../components/attribute';
 import { CollapsibleList } from '../../components/collapsibleList';
 import { VariantJBrowseLink } from '../../components/variant';
 import ExternalLink from '../../components/ExternalLink.jsx';
-import { sectionAnchor } from './AlleleMolecularConsequences.jsx';
+import CrossReferenceList from '../../components/crossReferenceList.jsx';
 import Sequence from './Sequence.jsx';
 import getVariantGenomeLocation from './getVariantGenomeLocation';
+import { sectionAnchor } from './AlleleMolecularConsequences.jsx';
 
 function formatLocation(location) {
   const { chromosome = '', start = '', end = '' } = location || {};
@@ -17,12 +18,17 @@ function formatLocation(location) {
   return start !== end ? `${chromosome}:${formattedStart}-${formattedEnd}` : `${chromosome}:${formattedStart}`;
 }
 
-const VariantSummaryCuration = ({ variant: variantData }) => {
+const VariantSummaryCuration = ({ variant: variantData, variantId }) => {
   const { variant } = variantData || {};
   const variantSubject = variant?.variantAssociationSubject;
 
   // hgvs is directly on variant, not variantAssociationSubject
-  const symbol = variant?.hgvs;
+  const symbol = variant?.hgvs || variant?.variantAssociationSubject.curie;
+
+  // Determine the correct anchor for "See all consequences" link
+  // On the standalone Variant page (variantId prop is passed), use #variant-molecular-consequences
+  // On the Allele page (no variantId prop), use the dynamic sectionAnchor based on HGVS
+  const consequencesAnchor = variantId ? '#variant-molecular-consequences' : sectionAnchor(variant?.hgvs);
 
   const {
     taxon: species,
@@ -140,7 +146,7 @@ const VariantSummaryCuration = ({ variant: variantData }) => {
               {consequence && consequence.replace(/_/g, ' ').split(',')}
             </CollapsibleList>
 
-            <HashLink to={sectionAnchor(symbol)} className="btn btn-link btn-sm p-0">
+            <HashLink to={consequencesAnchor} className="btn btn-link btn-sm p-0">
               See all consequences
             </HashLink>
           </>
@@ -148,7 +154,7 @@ const VariantSummaryCuration = ({ variant: variantData }) => {
       </AttributeValue>
 
       <AttributeLabel>HGVS.g name</AttributeLabel>
-      <AttributeValue>{symbol}</AttributeValue>
+      <AttributeValue>{variant.hgvs}</AttributeValue>
 
       <AttributeLabel>HGVS.c name</AttributeLabel>
       <AttributeValue>{hgvsC && hgvsC.length ? <CollapsibleList>{hgvsC}</CollapsibleList> : null}</AttributeValue>
@@ -166,11 +172,7 @@ const VariantSummaryCuration = ({ variant: variantData }) => {
 
       <AttributeLabel>Cross references</AttributeLabel>
       <AttributeValue>
-        {/*
-                {crossReference && crossReference.primary ? (
-                    <DataSourceLink reference={crossReference.primary}/>
-                ) : null}
-*/}
+        {crossReferences && crossReferences.length ? <CrossReferenceList crossReferences={crossReferences} /> : null}
       </AttributeValue>
 
       <AttributeLabel>References</AttributeLabel>
