@@ -42,10 +42,11 @@ import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import { useRelease } from '../../hooks/ReleaseContextProvider';
 import {
   getSpecies,
-  getSpeciesNameCorrected,
   getSingleGenomeLocation,
   getGenomicLocations,
   buildCrossReferenceMap,
+  extractGeneFields,
+  getSynonymStrings,
 } from '../../lib/utils';
 import TransgenicAlleleTable from './TransgenicAlleleTable.jsx';
 import GeneSymbolCuration from '../../components/GeneSymbolCuration.jsx';
@@ -106,10 +107,7 @@ const GenePage = () => {
   }
 
   const gene = data.gene;
-  const speciesName = getSpeciesNameCorrected(gene.taxon?.name);
-  const taxonId = gene.taxon?.curie;
-  const geneSymbolText = gene.geneSymbol?.displayText;
-  const dataProviderAbbr = gene.dataProvider?.abbreviation;
+  const { speciesName, taxonId, geneSymbolText, dataProviderAbbr } = extractGeneFields(gene);
 
   // Normalize genome locations
   const genomeLocations = getGenomicLocations(gene);
@@ -136,7 +134,7 @@ const GenePage = () => {
 
   const geneSpecies = { taxonId: taxonId, name: speciesName };
 
-  const synonymStrings = gene.geneSynonyms?.map(s => s.displayText) || [];
+  const synonymStrings = getSynonymStrings(gene);
 
   return (
     <DataPage key={gene.primaryExternalId}>

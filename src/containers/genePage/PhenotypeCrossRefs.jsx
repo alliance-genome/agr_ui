@@ -11,12 +11,12 @@ const PhenotypeCrossRefs = ({ primary, other }) => {
     <AttributeList>
       <AttributeLabel>Primary Sources</AttributeLabel>
       <AttributeValue placeholder="None">
-        {primary && primary.length > 0 && <CrossReferenceListCuration crossReferences={primary} />}
+        {primary && primary.length > 0 && <CrossReferenceListCuration collapsible={false} crossReferences={primary} sort={false} />}
       </AttributeValue>
 
       <AttributeLabel>Other Sources</AttributeLabel>
       <AttributeValue placeholder="None">
-        {other && other.length > 0 && <CrossReferenceListCuration crossReferences={other} />}
+        {other && other.length > 0 && <CrossReferenceListCuration collapsible={false} crossReferences={other} sort={false} />}
       </AttributeValue>
     </AttributeList>
   );

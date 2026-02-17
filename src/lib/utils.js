@@ -276,3 +276,17 @@ export function getNoteText(relatedNotes, noteTypeName) {
   const note = relatedNotes.find(n => n.noteType?.name === noteTypeName);
   return note?.freeText;
 }
+
+export function extractGeneFields(gene) {
+  return {
+    speciesName: getSpeciesNameCorrected(gene.taxon?.name),
+    taxonId: gene.taxon?.curie,
+    geneSymbolText: gene.geneSymbol?.displayText,
+    dataProviderAbbr: gene.dataProvider?.abbreviation,
+    geneId: gene.primaryExternalId,
+  };
+}
+
+export function getSynonymStrings(gene) {
+  return gene.geneSynonyms?.map(s => s.displayText) || [];
+}

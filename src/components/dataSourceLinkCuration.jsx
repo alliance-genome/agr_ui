@@ -5,9 +5,25 @@ import { buildUrlFromTemplate } from '../lib/utils.js';
 
 const DataSourceLinkCuration = ({ children, reference }) => {
   if (!reference) return null;
-  let url = buildUrlFromTemplate(reference);
+
+  let url = reference.crossRefCompleteUrl || buildUrlFromTemplate(reference);
+
   if (!url) return <span>{children}</span>;
-  return reference ? <ExternalLink href={url}>{children || reference.displayName || reference.referencedCurie}</ExternalLink> : null;
+
+  return <ExternalLink href={url}>{children || reference.displayName || reference.referencedCurie}</ExternalLink>;
+};
+
+DataSourceLinkCuration.propTypes = {
+  children: PropTypes.node,
+  reference: PropTypes.shape({
+    displayName: PropTypes.string,
+    referencedCurie: PropTypes.string,
+    crossRefCompleteUrl: PropTypes.string,
+    resourceDescriptorPage: PropTypes.shape({
+      name: PropTypes.string,
+      urlTemplate: PropTypes.string,
+    }),
+  }),
 };
 
 export default DataSourceLinkCuration;

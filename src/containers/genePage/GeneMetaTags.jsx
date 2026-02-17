@@ -1,18 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import HeadMetaTags from '../../components/headMetaTags.jsx';
-import { htmlToPlainText, getSpeciesNameCorrected, getNoteText } from '../../lib/utils';
+import { htmlToPlainText, getNoteText, extractGeneFields, getSynonymStrings } from '../../lib/utils';
 
 const GeneMetaTags = ({ gene }) => {
   if (!gene) {
     return null;
   }
 
-  const symbol = gene.geneSymbol?.displayText || '';
-  const speciesName = getSpeciesNameCorrected(gene.taxon?.name);
-  const geneId = gene.primaryExternalId;
-  const dataProvider = gene.dataProvider?.abbreviation || '';
-  const synonyms = gene.geneSynonyms?.map(s => s.displayText) || [];
+  const { speciesName, taxonId, geneSymbolText, dataProviderAbbr, geneId } = extractGeneFields(gene);
+  const symbol = geneSymbolText || '';
+  const dataProvider = dataProviderAbbr || '';
+  const synonyms = getSynonymStrings(gene);
   const geneName = gene.geneFullName?.displayText;
   const automatedGeneSynopsis = getNoteText(gene.relatedNotes, 'automated_gene_description');
   const geneSynopsis = getNoteText(gene.relatedNotes, 'MOD_provided_gene_description');

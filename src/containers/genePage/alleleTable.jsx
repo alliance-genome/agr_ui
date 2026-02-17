@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { compareAlphabeticalCaseInsensitive, getSingleGenomeLocation, getGenomicLocations, getSpeciesNameCorrected, findFminFmax } from '../../lib/utils';
+import { compareAlphabeticalCaseInsensitive, getSingleGenomeLocation, getGenomicLocations, findFminFmax, extractGeneFields } from '../../lib/utils';
 import SynonymListCuration from '../../components/SynonymListCuration.jsx';
 import { AlleleCell, AlleleCellCuration, DataTable } from '../../components/dataTable';
 import NoData from '../../components/noData.jsx';
@@ -20,9 +20,7 @@ import { getIdentifier, getDistinctFieldValue } from '../../components/dataTable
 const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
   const genomeLocations = getGenomicLocations(gene);
   const geneLocation = getSingleGenomeLocation(genomeLocations);
-  const geneSymbolText = gene.geneSymbol?.displayText;
-  const speciesName = getSpeciesNameCorrected(gene.taxon?.name);
-  const taxonId = gene.taxon?.curie;
+  const { geneSymbolText, speciesName, taxonId } = extractGeneFields(gene);
 
   // Regular table query
   const tableProps = useDataTableQuery(`/api/gene/${geneId}/alleles`);

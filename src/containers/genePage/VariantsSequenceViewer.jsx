@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import GenomeFeatureWrapper from './genomeFeatureWrapper.jsx';
-import { getSingleGenomeLocation, getGenomicLocations } from '../../lib/utils';
+import { getSingleGenomeLocation, getGenomicLocations, getSynonymStrings } from '../../lib/utils';
 
 const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisible, onAllelesSelect }) => {
   const genomeLocationList = getGenomicLocations(gene);
@@ -46,7 +46,7 @@ const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisi
       primaryId={gene.primaryExternalId}
       species={taxonId}
       strand={genomeLocation.strand}
-      synonyms={gene.geneSynonyms?.map(s => s.displayText) || []}
+      synonyms={getSynonymStrings(gene)}
       visibleVariants={visibleVariantIds}
       width="600px"
     />
