@@ -4,8 +4,10 @@ import ExternalLink from './ExternalLink.jsx';
 import { buildUrlFromTemplate } from '../lib/utils.js';
 
 const DataSourceLinkCuration = ({ children, reference }) => {
+  if (!reference) return null;
   let url = buildUrlFromTemplate(reference);
-  return reference ? <ExternalLink href={url}>{children}</ExternalLink> : null;
+  if (!url) return <span>{children}</span>;
+  return <ExternalLink href={url}>{children}</ExternalLink>;
 };
 
 export default DataSourceLinkCuration;
