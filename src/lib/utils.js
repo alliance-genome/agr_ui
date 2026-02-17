@@ -163,13 +163,15 @@ export function getSingleGenomeLocation(genomeLocations) {
 }
 
 export function getGenomicLocations(gene) {
-  return gene.geneGenomicLocationAssociations?.map(loc => ({
-    chromosome: loc.geneGenomicLocationAssociationObject?.name,
-    start: loc.start,
-    end: loc.end,
-    strand: loc.strand,
-    assembly: gene.taxon?.species?.[0]?.assembly_curie,
-  })) || [];
+  return (
+    gene.geneGenomicLocationAssociations?.map((loc) => ({
+      chromosome: loc.geneGenomicLocationAssociationObject?.name,
+      start: loc.start,
+      end: loc.end,
+      strand: loc.strand,
+      assembly: gene.taxon?.species?.[0]?.assembly_curie,
+    })) || []
+  );
 }
 
 export function findFminFmax(locations) {
@@ -220,10 +222,8 @@ export function getSpeciesNameCorrected(name) {
 export function buildCrossReferenceMap(crossReferences) {
   if (!crossReferences) return {};
 
-  const findByPage = (pageName) =>
-    crossReferences.find(ref => ref.resourceDescriptorPage?.name === pageName);
-  const findByPrefix = (prefix) =>
-    crossReferences.filter(ref => ref.referencedCurie?.startsWith(prefix));
+  const findByPage = (pageName) => crossReferences.find((ref) => ref.resourceDescriptorPage?.name === pageName);
+  const findByPrefix = (prefix) => crossReferences.filter((ref) => ref.referencedCurie?.startsWith(prefix));
 
   const addUrl = (ref) => {
     if (!ref) return ref;
@@ -246,14 +246,12 @@ export function buildCrossReferenceMap(crossReferences) {
 
   map.modInteractions = addUrl(
     findByPage('gene/MODinteractions') ||
-    findByPage('gene/MODinteractions_genetic') ||
-    findByPage('gene/MODinteractions_molecular')
+      findByPage('gene/MODinteractions_genetic') ||
+      findByPage('gene/MODinteractions_molecular')
   );
 
   const exprAtlas = findByPrefix('ExpressionAtlas:');
-  map.expressionAtlas = exprAtlas.length > 0
-    ? addUrl({ ...exprAtlas[0], displayName: 'Expression Atlas' })
-    : undefined;
+  map.expressionAtlas = exprAtlas.length > 0 ? addUrl({ ...exprAtlas[0], displayName: 'Expression Atlas' }) : undefined;
 
   const biogrid = findByPrefix('BIOGRID_ORCS:');
   map.biogridOrcs = biogrid.length > 0 ? addUrl(biogrid[0]) : undefined;
@@ -263,17 +261,15 @@ export function buildCrossReferenceMap(crossReferences) {
 
   // "other" = "default" page entries excluding PANTHER
   map.other = crossReferences
-    .filter(ref => ref.resourceDescriptorPage?.name === 'default'
-                && !ref.referencedCurie?.startsWith('PANTHER:'))
+    .filter((ref) => ref.resourceDescriptorPage?.name === 'default' && !ref.referencedCurie?.startsWith('PANTHER:'))
     .map(addUrl);
 
   return map;
 }
 
-
 export function getNoteText(relatedNotes, noteTypeName) {
   if (!relatedNotes) return undefined;
-  const note = relatedNotes.find(n => n.noteType?.name === noteTypeName);
+  const note = relatedNotes.find((n) => n.noteType?.name === noteTypeName);
   return note?.freeText;
 }
 
@@ -288,5 +284,5 @@ export function extractGeneFields(gene) {
 }
 
 export function getSynonymStrings(gene) {
-  return gene.geneSynonyms?.map(s => s.displayText) || [];
+  return gene.geneSynonyms?.map((s) => s.displayText) || [];
 }

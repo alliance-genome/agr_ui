@@ -10,9 +10,7 @@ export default function GeneInteractionCrossReference(props) {
     <AttributeList>
       <AttributeLabel>Primary Sources</AttributeLabel>
       <AttributeValue>
-        <DataSourceLinkCuration reference={crossReference}>
-          {geneDataProvider}
-        </DataSourceLinkCuration>
+        <DataSourceLinkCuration reference={crossReference}>{geneDataProvider}</DataSourceLinkCuration>
       </AttributeValue>
     </AttributeList>
   ) : null;

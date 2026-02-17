@@ -41,7 +41,9 @@ class BasicGeneInfo extends Component {
 
         <AttributeLabel>
           Automated Description{' '}
-          {HELP_AUTOMATED_GENE_DESCRIPTION && <HelpPopup id={'help-gene-auto-desc'}>{HELP_AUTOMATED_GENE_DESCRIPTION}</HelpPopup>}
+          {HELP_AUTOMATED_GENE_DESCRIPTION && (
+            <HelpPopup id={'help-gene-auto-desc'}>{HELP_AUTOMATED_GENE_DESCRIPTION}</HelpPopup>
+          )}
         </AttributeLabel>
         <AttributeValue>{gene.automatedGeneSynopsis}</AttributeValue>
 

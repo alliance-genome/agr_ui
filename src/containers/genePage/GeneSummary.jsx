@@ -20,10 +20,7 @@ const GeneSummary = ({ gene, crossReferenceMap }) => {
   const modDescription = getNoteText(gene.relatedNotes, 'MOD_provided_gene_description');
 
   // Combine geneSynonyms and geneSystematicName
-  const synonyms = [
-    ...(gene.geneSynonyms || []),
-    ...(gene.geneSystematicName ? [gene.geneSystematicName] : []),
-  ];
+  const synonyms = [...(gene.geneSynonyms || []), ...(gene.geneSystematicName ? [gene.geneSystematicName] : [])];
 
   const otherCrossRefs = crossReferenceMap?.other || [];
 
@@ -52,22 +49,18 @@ const GeneSummary = ({ gene, crossReferenceMap }) => {
 
       <AttributeLabel>
         Automated Description{' '}
-        {HELP_AUTOMATED_GENE_DESCRIPTION && <HelpPopup id={'help-gene-auto-desc'}>{HELP_AUTOMATED_GENE_DESCRIPTION}</HelpPopup>}
+        {HELP_AUTOMATED_GENE_DESCRIPTION && (
+          <HelpPopup id={'help-gene-auto-desc'}>{HELP_AUTOMATED_GENE_DESCRIPTION}</HelpPopup>
+        )}
       </AttributeLabel>
       <AttributeValue>{automatedDescription}</AttributeValue>
 
       <AttributeLabel>{synopsisProvider} Description</AttributeLabel>
-      <AttributeValue>
-        {modDescription && (
-          <ModGeneDescription description={modDescription} />
-        )}
-      </AttributeValue>
+      <AttributeValue>{modDescription && <ModGeneDescription description={modDescription} />}</AttributeValue>
 
       <AttributeLabel>Cross References</AttributeLabel>
       <AttributeValue>
-        {otherCrossRefs.length > 0 && (
-          <CrossReferenceListCuration crossReferences={otherCrossRefs} />
-        )}
+        {otherCrossRefs.length > 0 && <CrossReferenceListCuration crossReferences={otherCrossRefs} />}
       </AttributeValue>
 
       <AttributeLabel>Additional Information</AttributeLabel>

@@ -1,7 +1,13 @@
 import React, { useMemo, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { compareAlphabeticalCaseInsensitive, getSingleGenomeLocation, getGenomicLocations, findFminFmax, extractGeneFields } from '../../lib/utils';
+import {
+  compareAlphabeticalCaseInsensitive,
+  getSingleGenomeLocation,
+  getGenomicLocations,
+  findFminFmax,
+  extractGeneFields,
+} from '../../lib/utils';
 import SynonymListCuration from '../../components/SynonymListCuration.jsx';
 import { AlleleCell, AlleleCellCuration, DataTable } from '../../components/dataTable';
 import NoData from '../../components/noData.jsx';

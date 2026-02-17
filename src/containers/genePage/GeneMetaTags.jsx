@@ -17,17 +17,8 @@ const GeneMetaTags = ({ gene }) => {
   const geneSynopsis = getNoteText(gene.relatedNotes, 'MOD_provided_gene_description');
 
   const title = `${htmlToPlainText(symbol)} | ${speciesName} gene`;
-  const keywords = [
-    'gene',
-    dataProvider,
-    symbol,
-    ...synonyms,
-    speciesName,
-    geneId,
-  ];
-  const description = [geneName, automatedGeneSynopsis, geneSynopsis]
-    .filter((a) => !!a)
-    .join(' ');
+  const keywords = ['gene', dataProvider, symbol, ...synonyms, speciesName, geneId];
+  const description = [geneName, automatedGeneSynopsis, geneSynopsis].filter((a) => !!a).join(' ');
   const jsonLd = [
     {
       '@context': 'http://schema.org',

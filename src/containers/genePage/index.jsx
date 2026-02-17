@@ -267,11 +267,17 @@ const GenePage = () => {
             crossReference={crossReferenceMap.modInteractions}
             geneDataProvider={dataProviderAbbr}
           />
-          <GenePhysicalInteractionDetailTable focusGeneDisplayName={geneSymbolText} focusGeneId={gene.primaryExternalId} />
+          <GenePhysicalInteractionDetailTable
+            focusGeneDisplayName={geneSymbolText}
+            focusGeneId={gene.primaryExternalId}
+          />
         </Subsection>
 
         <Subsection help={<GeneticInteractionSectionHelp />} title={GENETIC_INTERACTIONS}>
-          <GeneGeneticInteractionDetailTable focusGeneDisplayName={geneSymbolText} focusGeneId={gene.primaryExternalId} />
+          <GeneGeneticInteractionDetailTable
+            focusGeneDisplayName={geneSymbolText}
+            focusGeneId={gene.primaryExternalId}
+          />
         </Subsection>
       </PageData>
     </DataPage>

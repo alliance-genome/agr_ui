@@ -7,7 +7,9 @@ const OrthologyBasicInfo = ({ pantherCrossReference }) => {
   return (
     <AttributeList>
       <AttributeLabel>Gene tree</AttributeLabel>
-      <AttributeValue>{pantherCrossReference && <DataSourceLinkCuration reference={pantherCrossReference} />}</AttributeValue>
+      <AttributeValue>
+        {pantherCrossReference && <DataSourceLinkCuration reference={pantherCrossReference} />}
+      </AttributeValue>
     </AttributeList>
   );
 };
