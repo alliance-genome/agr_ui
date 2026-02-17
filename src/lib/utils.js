@@ -162,6 +162,18 @@ export function getSingleGenomeLocation(genomeLocations) {
   return genomeLocation;
 }
 
+export function getGenomicLocations(gene) {
+  return (
+    gene.geneGenomicLocationAssociations?.map((loc) => ({
+      chromosome: loc.geneGenomicLocationAssociationObject?.name,
+      start: loc.start,
+      end: loc.end,
+      strand: loc.strand,
+      assembly: gene.taxon?.species?.[0]?.assembly_curie,
+    })) || []
+  );
+}
+
 export function findFminFmax(locations) {
   let fmax;
   let fmin;
@@ -205,4 +217,72 @@ export function getSpeciesNameCorrected(name) {
     return 'Saccharomyces cerevisiae';
   }
   return name;
+}
+
+export function buildCrossReferenceMap(crossReferences) {
+  if (!crossReferences) return {};
+
+  const findByPage = (pageName) => crossReferences.find((ref) => ref.resourceDescriptorPage?.name === pageName);
+  const findByPrefix = (prefix) => crossReferences.filter((ref) => ref.referencedCurie?.startsWith(prefix));
+
+  const addUrl = (ref) => {
+    if (!ref) return ref;
+    return { ...ref, crossRefCompleteUrl: buildUrlFromTemplate(ref) };
+  };
+
+  const map = {};
+  map.primary = addUrl(findByPage('gene'));
+
+  const pantherRefs = findByPrefix('PANTHER:');
+  map.panther = pantherRefs.length > 0 ? addUrl(pantherRefs[0]) : undefined;
+
+  map.phenotypes = addUrl(findByPage('gene/phenotypes'));
+  map.expression = addUrl(findByPage('gene/expression'));
+  map.wildTypeExpression = addUrl(findByPage('gene/wild_type_expression'));
+  map.expressionImages = addUrl(findByPage('gene/expression_images'));
+  map.spell = addUrl(findByPage('gene/spell'));
+  map.otherExpression = addUrl(findByPage('gene/other_expression'));
+  map.references = addUrl(findByPage('gene/references'));
+
+  map.modInteractions = addUrl(
+    findByPage('gene/MODinteractions') ||
+      findByPage('gene/MODinteractions_genetic') ||
+      findByPage('gene/MODinteractions_molecular')
+  );
+
+  const exprAtlas = findByPrefix('ExpressionAtlas:');
+  map.expressionAtlas = exprAtlas.length > 0 ? addUrl({ ...exprAtlas[0], displayName: 'Expression Atlas' }) : undefined;
+
+  const biogrid = findByPrefix('BIOGRID_ORCS:');
+  map.biogridOrcs = biogrid.length > 0 ? addUrl(biogrid[0]) : undefined;
+
+  const impc = findByPrefix('IMPC:');
+  map.phenotypesImpc = impc.length > 0 ? addUrl(impc[0]) : undefined;
+
+  // "other" = "default" page entries excluding PANTHER
+  map.other = crossReferences
+    .filter((ref) => ref.resourceDescriptorPage?.name === 'default' && !ref.referencedCurie?.startsWith('PANTHER:'))
+    .map(addUrl);
+
+  return map;
+}
+
+export function getNoteText(relatedNotes, noteTypeName) {
+  if (!relatedNotes) return undefined;
+  const note = relatedNotes.find((n) => n.noteType?.name === noteTypeName);
+  return note?.freeText;
+}
+
+export function extractGeneFields(gene) {
+  return {
+    speciesName: getSpeciesNameCorrected(gene.taxon?.name),
+    taxonId: gene.taxon?.curie,
+    geneSymbolText: gene.geneSymbol?.displayText,
+    dataProviderAbbr: gene.dataProvider?.abbreviation,
+    geneId: gene.primaryExternalId,
+  };
+}
+
+export function getSynonymStrings(gene) {
+  return gene.geneSynonyms?.map((s) => s.displayText) || [];
 }

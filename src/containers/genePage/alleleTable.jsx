@@ -1,7 +1,13 @@
 import React, { useMemo, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { compareAlphabeticalCaseInsensitive, getSingleGenomeLocation, findFminFmax } from '../../lib/utils';
+import {
+  compareAlphabeticalCaseInsensitive,
+  getSingleGenomeLocation,
+  getGenomicLocations,
+  findFminFmax,
+  extractGeneFields,
+} from '../../lib/utils';
 import SynonymListCuration from '../../components/SynonymListCuration.jsx';
 import { AlleleCell, AlleleCellCuration, DataTable } from '../../components/dataTable';
 import NoData from '../../components/noData.jsx';
@@ -18,7 +24,9 @@ import { ALLELE_WITH_ONE_VARIANT, ALLELE_WITH_MULTIPLE_VARIANTS, HELP_EMAIL } fr
 import { getIdentifier, getDistinctFieldValue } from '../../components/dataTable/utils.jsx';
 
 const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
-  const geneLocation = getSingleGenomeLocation(gene.genomeLocations);
+  const genomeLocations = getGenomicLocations(gene);
+  const geneLocation = getSingleGenomeLocation(genomeLocations);
+  const { geneSymbolText, speciesName, taxonId } = extractGeneFields(gene);
 
   // Regular table query
   const tableProps = useDataTableQuery(`/api/gene/${geneId}/alleles`);
@@ -285,11 +293,11 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
               <div key={id}>
                 <VariantJBrowseLink
                   geneLocation={geneLocation}
-                  geneSymbol={gene.symbol}
+                  geneSymbol={geneSymbolText}
                   location={location}
-                  species={gene.species && gene.species.name}
+                  species={speciesName}
                   type={type.name}
-                  taxonid={gene.species && gene.species.taxonId}
+                  taxonid={taxonId}
                 >
                   {id}
                 </VariantJBrowseLink>
