@@ -7,7 +7,7 @@ const DataSourceLinkCuration = ({ children, reference }) => {
   if (!reference) return null;
   let url = buildUrlFromTemplate(reference);
   if (!url) return <span>{children}</span>;
-  return <ExternalLink href={url}>{children}</ExternalLink>;
+  return reference ? <ExternalLink href={url}>{children || reference.displayName || reference.referencedCurie}</ExternalLink> : null;
 };
 
 export default DataSourceLinkCuration;

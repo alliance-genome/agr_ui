@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { dataSourceType } from '../../lib/types';
 import { AttributeLabel, AttributeList, AttributeValue } from '../../components/attribute';
-import CrossReferenceList from '../../components/crossReferenceList.jsx';
+import CrossReferenceListCuration from '../../components/CrossReferenceListCuration.jsx';
 
 const PhenotypeCrossRefs = ({ primary, other }) => {
   primary = primary.filter((ref) => ref !== undefined);
@@ -12,20 +11,20 @@ const PhenotypeCrossRefs = ({ primary, other }) => {
     <AttributeList>
       <AttributeLabel>Primary Sources</AttributeLabel>
       <AttributeValue placeholder="None">
-        {primary && primary.length && <CrossReferenceList collapsible={false} crossReferences={primary} sort={false} />}
+        {primary && primary.length > 0 && <CrossReferenceListCuration crossReferences={primary} />}
       </AttributeValue>
 
       <AttributeLabel>Other Sources</AttributeLabel>
       <AttributeValue placeholder="None">
-        {other && other.length && <CrossReferenceList collapsible={false} crossReferences={other} sort={false} />}
+        {other && other.length > 0 && <CrossReferenceListCuration crossReferences={other} />}
       </AttributeValue>
     </AttributeList>
   );
 };
 
 PhenotypeCrossRefs.propTypes = {
-  primary: PropTypes.arrayOf(dataSourceType),
-  other: PropTypes.arrayOf(dataSourceType),
+  primary: PropTypes.array,
+  other: PropTypes.array,
 };
 
 export default PhenotypeCrossRefs;
