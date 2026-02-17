@@ -68,7 +68,7 @@ const DiseaseComparisonRibbon = ({ geneId, geneTaxon }) => {
     }
 
     // Deep clone to avoid mutating original data
-    const data = JSON.parse(JSON.stringify(apiData));
+    const data = structuredClone(apiData);
 
     // Normalize the 'available' property (API may return string "false" instead of boolean)
     data.subjects.forEach((sub) => {
