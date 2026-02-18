@@ -232,6 +232,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
       formatter: (allele) => <AlleleCellCuration identifier={getIdentifier(allele)} allele={allele} />,
       headerStyle: { width: '185px' },
       filterable: !selectionOverride.active,
+      filterName: 'symbol',
     },
     {
       dataField: 'synonyms',
