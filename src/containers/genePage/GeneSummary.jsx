@@ -39,6 +39,9 @@ const GeneSummary = ({ gene, crossReferenceMap }) => {
       <AttributeLabel>Name</AttributeLabel>
       <AttributeValue>{gene.geneFullName?.displayText}</AttributeValue>
 
+      <AttributeLabel>Systematic Name</AttributeLabel>
+      <AttributeValue>{gene.geneSystematicName?.displayText}</AttributeValue>
+
       <AttributeLabel>Synonyms</AttributeLabel>
       <AttributeValue placeholder="None">
         {synonyms && synonyms.length > 0 && <SynonymListCuration synonyms={synonyms} />}
