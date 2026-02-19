@@ -183,10 +183,7 @@ const GenePage = () => {
         </Subsection>
 
         <Subsection title={PHENOTYPES}>
-          <PhenotypeCrossRefs
-            crossReferenceMap={crossReferenceMap}
-            geneDataProvider={dataProviderAbbr}
-          />
+          <PhenotypeCrossRefs crossReferenceMap={crossReferenceMap} geneDataProvider={dataProviderAbbr} />
           <PhenotypeTable geneId={gene.primaryExternalId} entityType={'gene'} hideSourceColumn={true} />
         </Subsection>
 

@@ -8,7 +8,10 @@ const PhenotypeCrossRefs = ({ crossReferenceMap, geneDataProvider }) => {
   const other = [];
 
   if (crossReferenceMap.phenotypes) {
-    primary.push({ ...crossReferenceMap.phenotypes, displayName: geneDataProvider || crossReferenceMap.phenotypes.displayName });
+    primary.push({
+      ...crossReferenceMap.phenotypes,
+      displayName: geneDataProvider || crossReferenceMap.phenotypes.displayName,
+    });
   }
 
   if (crossReferenceMap.biogridOrcs) {
@@ -30,9 +33,7 @@ const PhenotypeCrossRefs = ({ crossReferenceMap, geneDataProvider }) => {
 
       <AttributeLabel>Other Sources</AttributeLabel>
       <AttributeValue placeholder="None">
-        {other.length > 0 && (
-          <CrossReferenceListCuration collapsible={false} crossReferences={other} sort={false} />
-        )}
+        {other.length > 0 && <CrossReferenceListCuration collapsible={false} crossReferences={other} sort={false} />}
       </AttributeValue>
     </AttributeList>
   );
