@@ -237,6 +237,7 @@ export function buildCrossReferenceMap(crossReferences) {
   map.panther = pantherRefs.length > 0 ? addUrl(pantherRefs[0]) : undefined;
 
   map.phenotypes = addUrl(findByPage('gene/phenotypes'));
+  map.phenotypesImpc = addUrl(findByPage('gene/phenotypes_impc'));
   map.expression = addUrl(findByPage('gene/expression'));
   map.wildTypeExpression = addUrl(findByPage('gene/wild_type_expression'));
   map.expressionImages = addUrl(findByPage('gene/expression_images'));
@@ -255,9 +256,6 @@ export function buildCrossReferenceMap(crossReferences) {
 
   const biogrid = findByPrefix('BIOGRID_ORCS:');
   map.biogridOrcs = biogrid.length > 0 ? addUrl(biogrid[0]) : undefined;
-
-  const impc = findByPrefix('IMPC:');
-  map.phenotypesImpc = impc.length > 0 ? addUrl(impc[0]) : undefined;
 
   // "other" = "default" page entries excluding PANTHER
   map.other = crossReferences
