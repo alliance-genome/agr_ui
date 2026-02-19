@@ -40,6 +40,7 @@ const HorizontalScroll = ({ children, width }) => {
 
   return (
     <div className="position-relative">
+      <br />
       <div className={style.shadow + ' ' + style.left} style={{ opacity: startOffset > 0 ? 1 : 0 }} />
       <div className={style.shadow + ' ' + style.right} style={{ opacity: endOffset > 0 ? 1 : 0 }} />
       <div className={style.hScrollOuter} onScroll={throttledUpdate} ref={scrollEl}>
