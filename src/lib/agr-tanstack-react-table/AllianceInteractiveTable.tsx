@@ -429,7 +429,7 @@ const AllianceInteractiveTable = <TData extends RowData>({
         </section>
         {download?.url && (
           <DownloadButton
-            downloadUrl={download.url}
+            downloadUrl={download.url + queryParams}
             disabled={downloadDisabled}
             method={download.method}
             body={download.body}

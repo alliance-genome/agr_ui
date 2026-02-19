@@ -326,7 +326,10 @@ const GeneGeneticInteractionDetailTable = ({ focusGeneId, focusGeneDisplayName }
       tableHelper.accessor('geneGeneticInteraction.phenotypesOrTraits', {
         header: `Phenotype Or Trait`,
         cell: ({ cell }) => <CollapsibleList>{cell.getValue()}</CollapsibleList>,
-        meta: { width: '130px', filterKey: 'phenotypes' },
+        meta: {
+          width: '130px',
+          filterKey: 'phenotypes',
+        },
       }),
       tableHelper.accessor('geneGeneticInteraction.crossReferences', {
         header: `Source`,
@@ -343,7 +346,10 @@ const GeneGeneticInteractionDetailTable = ({ focusGeneId, focusGeneDisplayName }
             ))}
           </div>
         ),
-        meta: { width: '250px', filterKey: 'source' },
+        meta: {
+          width: '250px',
+          filterKey: 'source',
+        },
       }),
       tableHelper.accessor('geneGeneticInteraction.evidence', {
         header: `Reference`,
@@ -355,7 +361,10 @@ const GeneGeneticInteractionDetailTable = ({ focusGeneId, focusGeneDisplayName }
             </ExternalLink>
           );
         },
-        meta: { width: '150px', filterKey: 'reference' },
+        meta: {
+          width: '150px',
+          filterKey: 'reference',
+        },
       }),
     ],
     [focusGeneDisplayName]

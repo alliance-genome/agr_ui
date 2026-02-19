@@ -32,16 +32,18 @@ const newColumns = [
     ),
   }),
   tableHelper.accessor('name', {
-    header: 'Sequence feature',
+    header: 'Sequence Feature',
+    enableColumnFilter: false,
     meta: { width: '260px' },
   }),
   tableHelper.accessor('type.name', {
-    header: 'Sequence feature type',
+    header: 'Sequence Feature Type',
+    enableColumnFilter: false,
     meta: { width: '150px' },
   }),
   tableHelper.display({
     id: 'gene',
-    header: 'Associated gene',
+    header: 'Associated Gene',
     cell: (props) =>
       props.row.original.gene && (
         <Link to={`/gene/${props.row.original.gene.id}`}>{props.row.original.gene.symbol}</Link>
@@ -50,11 +52,12 @@ const newColumns = [
   }),
   tableHelper.accessor('intronExonLocation', {
     header: 'Location',
+    enableColumnFilter: false,
     meta: { width: '80px' },
   }),
   tableHelper.display({
     id: 'consequences.molecularConsequences',
-    header: 'Molecular consequence',
+    header: 'Molecular Consequence',
     cell: (props) => {
       const consequences = props.row.original.consequences;
       return (
@@ -81,7 +84,7 @@ const newColumns = [
   }),
   tableHelper.display({
     id: 'consequences.codonAndAminoAcidChange',
-    header: 'Codon and amino acid change',
+    header: 'Codon And Amino Acid Change',
     cell: (props) => {
       const consequences = props.row.original.consequences;
       return (
