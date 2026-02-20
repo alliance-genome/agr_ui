@@ -1,13 +1,14 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useQuery } from '@tanstack/react-query';
-import { AlleleCell, BooleanLinkCell, DataTable, GeneCell, VEPTextCell } from '../../components/dataTable';
+import { BooleanLinkCell, DataTable, GeneCell, VEPTextCell } from '../../components/dataTable';
+import AlleleCellCuration from '../../components/dataTable/AlleleCellCuration.jsx';
 import fetchData from '../../lib/fetchData';
 import SynonymList from '../../components/synonymList.jsx';
 import NoData from '../../components/noData.jsx';
 import VariantJBrowseLink from '../../components/variant/VariantJBrowseLink.jsx';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import { getSingleGenomeLocation, findFminFmax, getTableUrl } from '../../lib/utils';
+import { getGenomicLocations, getSingleGenomeLocation, findFminFmax, getTableUrl } from '../../lib/utils';
 import VariantsSequenceViewer from '../genePage/VariantsSequenceViewer.jsx';
 import ErrorBoundary from '../../components/errorBoundary.jsx';
 import { ALLELE_WITH_ONE_VARIANT, ALLELE_WITH_MULTIPLE_VARIANTS } from '../../constants';
@@ -41,7 +42,8 @@ const getPolyphenStyle = (polyphen) => {
 };
 
 const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
-  const geneLocation = getSingleGenomeLocation(gene.genomeLocations);
+  const genomeLocations = getGenomicLocations(gene);
+  const geneLocation = getSingleGenomeLocation(genomeLocations);
   const baseUrl = `/api/gene/${geneId}/allele-variant-detail`;
 
   const tableQuery = useDataTableQuery(
@@ -57,28 +59,39 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
 
   const data = tableQuery.data.map((row) => ({
     ...row,
-    key: `${row.allele.id}-${row.variant && row.variant.id}-${row.consequence && row.consequence.transcript && row.consequence.transcript.id}`,
+    key: `${row.allele && row.allele.curie}-${row.variant && row.variant.hgvs}-${row.consequence && row.consequence.variantTranscript && row.consequence.variantTranscript.curie}`,
   }));
   const columns = [
     {
       text: 'Allele / Variant Symbol',
       dataField: 'allele',
-      formatter: (allele) => <AlleleCell allele={allele} />,
+      formatter: (allele, row) => {
+        if (!allele) return null;
+        const identifier = allele.modEntityId || allele.curie;
+        if (allele.alleleSymbol) {
+          return <AlleleCellCuration identifier={identifier} allele={allele} />;
+        }
+        const hgvs = row.variant && row.variant.hgvs;
+        if (hgvs) {
+          return <a href={`/variant/${hgvs}`}>{hgvs}</a>;
+        }
+        return <a href={`/allele/${identifier}`}>{allele.curie || identifier}</a>;
+      },
       filterable: true,
       filterName: 'symbol',
       headerStyle: { width: '200px' },
     },
     {
       text: 'Allele / Variant Synonyms',
-      dataField: 'allele.synonyms',
-      formatter: (synonyms) => <SynonymList synonyms={synonyms} />,
+      dataField: 'allele.alleleSynonyms',
+      formatter: (synonyms) => <SynonymList synonyms={synonyms && synonyms.map(s => s.displayText)} />,
       filterable: true,
       filterName: 'synonyms',
       headerStyle: { width: '200px' },
     },
     {
       text: 'Category',
-      dataField: 'allele.category',
+      dataField: 'category',
       filterable: true,
       filterName: 'alleleCategory',
       headerStyle: { width: '250px' },
@@ -87,7 +100,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
       text: 'Has Phenotype',
       dataField: 'allele.hasPhenotype',
       formatter: (hasPhenotype, row) => (
-        <BooleanLinkCell to={`/allele/${row.allele && row.allele.id}#phenotypes`} value={hasPhenotype} />
+        <BooleanLinkCell to={`/allele/${row.allele && (row.allele.modEntityId || row.allele.curie)}#phenotypes`} value={hasPhenotype} />
       ),
       filterName: 'hasPhenotype',
       filterable: ['true', 'false'],
@@ -98,7 +111,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
       text: 'Has Disease',
       dataField: 'allele.hasDisease',
       formatter: (hasDisease, row) => (
-        <BooleanLinkCell to={`/allele/${row.allele && row.allele.id}#disease-associations`} value={hasDisease} />
+        <BooleanLinkCell to={`/allele/${row.allele && (row.allele.modEntityId || row.allele.curie)}#disease-associations`} value={hasDisease} />
       ),
       filterName: 'hasDisease',
       filterable: ['true', 'false'],
@@ -108,28 +121,35 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     {
       text: 'Variant HGVS.g name',
       dataField: 'variant',
-      formatter: (variant) =>
-        variant ? (
+      formatter: (variant) => {
+        if (!variant) return null;
+        const variantLocation = variant.start != null ? {
+          start: variant.start,
+          end: variant.end,
+          chromosome: variant.variantGenomicLocationAssociationObject && variant.variantGenomicLocationAssociationObject.name,
+        } : null;
+        return (
           <div className="text-truncate">
             <VariantJBrowseLink
               geneLocation={geneLocation}
-              geneSymbol={gene.symbol}
-              location={variant.location}
-              species={gene.species && gene.species.name}
-              type={variant.variantType && variant.variantType.name}
-              taxonid={gene.species && gene.species.taxonId}
+              geneSymbol={gene.geneSymbol && gene.geneSymbol.displayText}
+              location={variantLocation}
+              species={gene.taxon && gene.taxon.name}
+              type={variant.variantAssociationSubject && variant.variantAssociationSubject.variantType && variant.variantAssociationSubject.variantType.name}
+              taxonid={gene.taxon && gene.taxon.curie}
             >
-              {variant.displayName}
+              {variant.hgvs}
             </VariantJBrowseLink>
           </div>
-        ) : null,
+        );
+      },
       headerStyle: { width: '300px' },
       filterable: true,
       filterName: 'hgvsgName',
     },
     {
       text: 'Variant Type',
-      dataField: 'variant.variantType.name',
+      dataField: 'variant.variantAssociationSubject.variantType.name',
       formatter: VEPTextCell,
       filterable: true,
       filterName: 'variantType',
@@ -137,45 +157,52 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     },
     {
       text: 'Sequence feature',
-      dataField: 'consequence.transcript.name',
+      dataField: 'consequence.variantTranscript.curie',
       headerStyle: { width: '250px' },
       filterable: true,
       filterName: 'sequenceFeature',
     },
     {
       text: 'Sequence feature type',
-      dataField: 'consequence.sequenceFeatureType',
-      formatter: VEPTextCell,
+      dataField: 'consequence.variantTranscript.transcriptType',
+      formatter: (transcriptType) => transcriptType && transcriptType.name ? transcriptType.name : '',
       filterable: true,
       filterName: 'sequenceFeatureType',
       headerStyle: { width: '200px' },
     },
     {
       text: 'Sequence feature associated gene',
-      dataField: 'consequence.associatedGene',
-      formatter: GeneCell,
+      dataField: 'consequence.variantTranscript.transcriptGeneAssociations',
+      formatter: (associations) => {
+        if (!associations || associations.length === 0) return '';
+        const gene = associations[0].transcriptGeneAssociationObject;
+        if (!gene) return '';
+        const symbol = gene.geneSymbol && gene.geneSymbol.displayText;
+        return symbol ? <a href={`/gene/${gene.curie}`} dangerouslySetInnerHTML={{ __html: symbol }} /> : gene.curie || '';
+      },
       filterable: true,
       filterName: 'associatedGeneSymbol',
       headerStyle: { width: '150px' },
     },
     {
       text: 'Variant Location',
-      dataField: 'consequence.location',
-      headerStyle: { width: '100px' },
+      dataField: 'consequence.intronExonLocation',
+      headerStyle: { width: '150px' },
       filterable: true,
       filterName: 'variantLocation',
     },
     {
       text: 'Molecular consequence',
-      dataField: 'consequence.molecularConsequences',
-      formatter: (molecularConsequences) => <span>{(molecularConsequences || []).join(', ')}</span>,
+      dataField: 'consequence.vepConsequences',
+      formatter: (vepConsequences) => <span>{(vepConsequences || []).map(c => c.name).join(', ')}</span>,
       filterable: true,
       filterName: 'molecularConsequence',
       headerStyle: { width: '350px' },
     },
     {
       text: 'VEP Impact',
-      dataField: 'consequence.impact',
+      dataField: 'consequence.vepImpact',
+      formatter: (vepImpact) => vepImpact && vepImpact.name ? vepImpact.name : '',
       filterable: true,
       filterName: 'variantImpact',
       headerStyle: { width: '120px' },
@@ -183,9 +210,10 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     {
       text: 'SIFT prediction',
       dataField: 'consequence.siftPrediction',
-      formatter: (siftPrediction) => (
-        <span className={getSiftStyle(siftPrediction)}>{siftPrediction && siftPrediction.replace(/_/g, ' ')}</span>
-      ),
+      formatter: (siftPrediction) => {
+        const label = siftPrediction && siftPrediction.name;
+        return label ? <span className={getSiftStyle(label)}>{label.replace(/_/g, ' ')}</span> : '';
+      },
       filterable: true,
       filterName: 'variantSift',
       headerStyle: { width: '200px' },
@@ -193,19 +221,19 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     {
       text: 'SIFT score',
       dataField: 'consequence.siftScore',
-      formatter: (siftScore, { consequence }) => (
-        <span className={getSiftStyle(consequence && consequence.siftPrediction)}>{siftScore}</span>
-      ),
+      formatter: (siftScore, { consequence }) => {
+        const label = consequence && consequence.siftPrediction && consequence.siftPrediction.name;
+        return siftScore != null ? <span className={getSiftStyle(label)}>{siftScore}</span> : '';
+      },
       headerStyle: { width: '100px' },
     },
     {
       text: 'PolyPhen prediction',
       dataField: 'consequence.polyphenPrediction',
-      formatter: (polyphenPrediction) => (
-        <span className={getPolyphenStyle(polyphenPrediction)}>
-          {polyphenPrediction && polyphenPrediction.replace(/_/g, ' ')}
-        </span>
-      ),
+      formatter: (polyphenPrediction) => {
+        const label = polyphenPrediction && polyphenPrediction.name;
+        return label ? <span className={getPolyphenStyle(label)}>{label.replace(/_/g, ' ')}</span> : '';
+      },
       filterable: true,
       filterName: 'variantPolyphen',
       headerStyle: { width: '180px' },
@@ -213,9 +241,10 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     {
       text: 'PolyPhen score',
       dataField: 'consequence.polyphenScore',
-      formatter: (polyphenScore, { consequence }) => (
-        <span className={getPolyphenStyle(consequence && consequence.polyphenPrediction)}>{polyphenScore}</span>
-      ),
+      formatter: (polyphenScore, { consequence }) => {
+        const label = consequence && consequence.polyphenPrediction && consequence.polyphenPrediction.name;
+        return polyphenScore != null ? <span className={getPolyphenStyle(label)}>{polyphenScore}</span> : '';
+      },
       headerStyle: { width: '150px' },
     },
   ];
@@ -271,7 +300,11 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     const variants = allelesFiltered.data?.results
       ? allelesFiltered.data.results.flatMap((row) => (row && row.variant) || [])
       : [];
-    const variantLocations = variants.map((variant) => variant && variant.location);
+    const variantLocations = variants.map((variant) => variant && variant.start != null ? {
+      start: variant.start,
+      end: variant.end,
+      chromosome: variant.variantGenomicLocationAssociationObject && variant.variantGenomicLocationAssociationObject.name,
+    } : null);
     const { fmin, fmax } = findFminFmax([geneLocation, ...variantLocations]);
 
     /*
@@ -289,7 +322,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
       hasVariants: isLoading ? undefined : Boolean(variants && variants.length),
       allelesSelected: alleleIdsSelected.map(formatAllele),
       allelesVisible: allelesFiltered.data?.results
-        ? allelesFiltered.data.results.map(({ allele }) => formatAllele(allele.id))
+        ? allelesFiltered.data.results.map(({ allele }) => formatAllele(allele && (allele.modEntityId || allele.curie)))
         : [],
       onAllelesSelect: setAlleleIdsSelected,
     };
@@ -297,14 +330,15 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
   }, [isLoading, allelesFiltered.data, alleleIdsSelected, setAlleleIdsSelected]);
 
   const selectRow = useMemo(() => {
-    const rowsSelected = data.filter((row) => alleleIdsSelected.indexOf(row.allele.id) > -1);
+    const getAlleleId = (allele) => allele && (allele.modEntityId || allele.curie);
+    const rowsSelected = data.filter((row) => alleleIdsSelected.indexOf(getAlleleId(row.allele)) > -1);
     return {
       mode: 'checkbox',
       clickToSelect: true,
       hideSelectColumn: true,
       selected: rowsSelected.map((row) => row.key),
       onSelect: (row) => {
-        const alleleIdRow = row.allele.id;
+        const alleleIdRow = getAlleleId(row.allele);
         setAlleleIdsSelected((alleleIdsSelectedPrev) => {
           if (alleleIdsSelectedPrev.includes(alleleIdRow)) {
             const indexAlleleId = alleleIdsSelectedPrev.indexOf(alleleIdRow);
