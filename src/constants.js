@@ -107,6 +107,11 @@ export const NAV_MENU = [
         route: '/disease-portal',
       },
       {
+        label: 'SimpleMine',
+        route: '/agr_simplemine.cgi',
+        external: true,
+      },
+      {
         label: 'Submit Data',
         route: '/submit-data',
       },
