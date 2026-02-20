@@ -21,9 +21,18 @@ class Layout extends Component {
     this.state = {
       menuOpen: false,
     };
+    this.scrollObserver = null;
+    this.scrollAttempts = 0;
+    this.maxScrollAttempts = 10;
   }
 
   componentDidMount() {
+    // Disable browser's automatic scroll restoration to prevent conflicts
+    // with our custom scroll-to-hash logic (fixes KANBAN-632)
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
     const { location } = this.props;
     if (location.hash) {
       this.scrollToAnchor();
@@ -35,6 +44,77 @@ class Layout extends Component {
     if (location.hash && prevProps.pageLoading && !pageLoading) {
       this.scrollToAnchor();
     }
+    // Also handle hash changes during navigation (e.g., back button)
+    if (location.hash && location.hash !== prevProps.location?.hash) {
+      this.scrollToAnchor();
+    }
+  }
+
+  componentWillUnmount() {
+    // Clean up observer on unmount
+    if (this.scrollObserver) {
+      this.scrollObserver.disconnect();
+      this.scrollObserver = null;
+    }
+  }
+
+  scrollToAnchor() {
+    const elementId = this.props.location.hash.substr(1);
+    this.scrollAttempts = 0;
+
+    // Clean up any existing observer
+    if (this.scrollObserver) {
+      this.scrollObserver.disconnect();
+      this.scrollObserver = null;
+    }
+
+    this.attemptScroll(elementId);
+  }
+
+  attemptScroll(elementId) {
+    const element = document.getElementById(elementId);
+
+    if (!element) {
+      // Element not yet in DOM, retry with increasing delay
+      this.scrollAttempts++;
+      if (this.scrollAttempts < this.maxScrollAttempts) {
+        setTimeout(() => this.attemptScroll(elementId), 100 * this.scrollAttempts);
+      }
+      return;
+    }
+
+    // Use Intersection Observer to wait for element to be properly positioned
+    // This handles dynamic content loading better than fixed timeouts
+    this.scrollObserver = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry) {
+          // Element is observable, now scroll to it
+          requestAnimationFrame(() => {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+          this.scrollObserver.disconnect();
+          this.scrollObserver = null;
+        }
+      },
+      { threshold: 0, rootMargin: '100px' }
+    );
+
+    this.scrollObserver.observe(element);
+
+    // Fallback: if observer doesn't trigger within 1.5s, force scroll
+    setTimeout(() => {
+      if (this.scrollObserver) {
+        this.scrollObserver.disconnect();
+        this.scrollObserver = null;
+        requestAnimationFrame(() => {
+          const el = document.getElementById(elementId);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      }
+    }, 1500);
   }
 
   scrollToAnchor() {
