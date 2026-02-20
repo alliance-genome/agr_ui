@@ -19,9 +19,6 @@ const GeneSummary = ({ gene, crossReferenceMap }) => {
   const automatedDescription = getNoteText(gene.relatedNotes, 'automated_gene_description');
   const modDescription = getNoteText(gene.relatedNotes, 'MOD_provided_gene_description');
 
-  // Combine geneSynonyms and geneSystematicName
-  const synonyms = [...(gene.geneSynonyms || []), ...(gene.geneSystematicName ? [gene.geneSystematicName] : [])];
-
   const otherCrossRefs = crossReferenceMap?.other || [];
 
   return (
@@ -44,7 +41,7 @@ const GeneSummary = ({ gene, crossReferenceMap }) => {
 
       <AttributeLabel>Synonyms</AttributeLabel>
       <AttributeValue placeholder="None">
-        {synonyms && synonyms.length > 0 && <SynonymListCuration synonyms={synonyms} />}
+        {gene.geneSynonyms && gene.geneSynonyms.length > 0 && <SynonymListCuration synonyms={gene.geneSynonyms} />}
       </AttributeValue>
 
       <AttributeLabel>Biotype</AttributeLabel>
