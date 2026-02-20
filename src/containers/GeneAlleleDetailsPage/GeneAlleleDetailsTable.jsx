@@ -84,7 +84,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     {
       text: 'Allele / Variant Synonyms',
       dataField: 'allele.alleleSynonyms',
-      formatter: (synonyms) => <SynonymList synonyms={synonyms && synonyms.map(s => s.displayText)} />,
+      formatter: (synonyms) => <SynonymList synonyms={synonyms && synonyms.map((s) => s.displayText)} />,
       filterable: true,
       filterName: 'synonyms',
       headerStyle: { width: '200px' },
@@ -100,7 +100,10 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
       text: 'Has Phenotype',
       dataField: 'allele.hasPhenotype',
       formatter: (hasPhenotype, row) => (
-        <BooleanLinkCell to={`/allele/${row.allele && (row.allele.modEntityId || row.allele.curie)}#phenotypes`} value={hasPhenotype} />
+        <BooleanLinkCell
+          to={`/allele/${row.allele && (row.allele.modEntityId || row.allele.curie)}#phenotypes`}
+          value={hasPhenotype}
+        />
       ),
       filterName: 'hasPhenotype',
       filterable: ['true', 'false'],
@@ -111,7 +114,10 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
       text: 'Has Disease',
       dataField: 'allele.hasDisease',
       formatter: (hasDisease, row) => (
-        <BooleanLinkCell to={`/allele/${row.allele && (row.allele.modEntityId || row.allele.curie)}#disease-associations`} value={hasDisease} />
+        <BooleanLinkCell
+          to={`/allele/${row.allele && (row.allele.modEntityId || row.allele.curie)}#disease-associations`}
+          value={hasDisease}
+        />
       ),
       filterName: 'hasDisease',
       filterable: ['true', 'false'],
@@ -123,11 +129,16 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
       dataField: 'variant',
       formatter: (variant) => {
         if (!variant) return null;
-        const variantLocation = variant.start != null ? {
-          start: variant.start,
-          end: variant.end,
-          chromosome: variant.variantGenomicLocationAssociationObject && variant.variantGenomicLocationAssociationObject.name,
-        } : null;
+        const variantLocation =
+          variant.start != null
+            ? {
+                start: variant.start,
+                end: variant.end,
+                chromosome:
+                  variant.variantGenomicLocationAssociationObject &&
+                  variant.variantGenomicLocationAssociationObject.name,
+              }
+            : null;
         return (
           <div className="text-truncate">
             <VariantJBrowseLink
@@ -135,7 +146,11 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
               geneSymbol={gene.geneSymbol && gene.geneSymbol.displayText}
               location={variantLocation}
               species={gene.taxon && gene.taxon.name}
-              type={variant.variantAssociationSubject && variant.variantAssociationSubject.variantType && variant.variantAssociationSubject.variantType.name}
+              type={
+                variant.variantAssociationSubject &&
+                variant.variantAssociationSubject.variantType &&
+                variant.variantAssociationSubject.variantType.name
+              }
               taxonid={gene.taxon && gene.taxon.curie}
             >
               {variant.hgvs}
@@ -165,7 +180,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     {
       text: 'Sequence feature type',
       dataField: 'consequence.variantTranscript.transcriptType',
-      formatter: (transcriptType) => transcriptType && transcriptType.name ? transcriptType.name : '',
+      formatter: (transcriptType) => (transcriptType && transcriptType.name ? transcriptType.name : ''),
       filterable: true,
       filterName: 'sequenceFeatureType',
       headerStyle: { width: '200px' },
@@ -178,7 +193,11 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
         const gene = associations[0].transcriptGeneAssociationObject;
         if (!gene) return '';
         const symbol = gene.geneSymbol && gene.geneSymbol.displayText;
-        return symbol ? <a href={`/gene/${gene.curie}`} dangerouslySetInnerHTML={{ __html: symbol }} /> : gene.curie || '';
+        return symbol ? (
+          <a href={`/gene/${gene.curie}`} dangerouslySetInnerHTML={{ __html: symbol }} />
+        ) : (
+          gene.curie || ''
+        );
       },
       filterable: true,
       filterName: 'associatedGeneSymbol',
@@ -194,7 +213,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     {
       text: 'Molecular consequence',
       dataField: 'consequence.vepConsequences',
-      formatter: (vepConsequences) => <span>{(vepConsequences || []).map(c => c.name).join(', ')}</span>,
+      formatter: (vepConsequences) => <span>{(vepConsequences || []).map((c) => c.name).join(', ')}</span>,
       filterable: true,
       filterName: 'molecularConsequence',
       headerStyle: { width: '350px' },
@@ -202,7 +221,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     {
       text: 'VEP Impact',
       dataField: 'consequence.vepImpact',
-      formatter: (vepImpact) => vepImpact && vepImpact.name ? vepImpact.name : '',
+      formatter: (vepImpact) => (vepImpact && vepImpact.name ? vepImpact.name : ''),
       filterable: true,
       filterName: 'variantImpact',
       headerStyle: { width: '120px' },
@@ -300,11 +319,16 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     const variants = allelesFiltered.data?.results
       ? allelesFiltered.data.results.flatMap((row) => (row && row.variant) || [])
       : [];
-    const variantLocations = variants.map((variant) => variant && variant.start != null ? {
-      start: variant.start,
-      end: variant.end,
-      chromosome: variant.variantGenomicLocationAssociationObject && variant.variantGenomicLocationAssociationObject.name,
-    } : null);
+    const variantLocations = variants.map((variant) =>
+      variant && variant.start != null
+        ? {
+            start: variant.start,
+            end: variant.end,
+            chromosome:
+              variant.variantGenomicLocationAssociationObject && variant.variantGenomicLocationAssociationObject.name,
+          }
+        : null
+    );
     const { fmin, fmax } = findFminFmax([geneLocation, ...variantLocations]);
 
     /*
