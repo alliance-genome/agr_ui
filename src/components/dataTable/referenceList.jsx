@@ -5,13 +5,18 @@ import { CollapsibleList } from '../collapsibleList';
 
 import style from './style.module.scss';
 
-const ReferenceList = ({ refs }) => {
+const ReferenceList = ({ refs, trunc = true }) => {
   return (
     refs && (
       <CollapsibleList>
         {refs.map((ref) => {
           return (
-            <Link to={`/reference/${ref.curie}`} title={ref.shortCitation} className={style.ellipses} key={ref.curie}>
+            <Link
+              to={`/reference/${ref.curie}`}
+              title={ref.shortCitation}
+              className={trunc ? style.ellipses : ''}
+              key={ref.curie}
+            >
               {ref.shortCitation}
             </Link>
           );

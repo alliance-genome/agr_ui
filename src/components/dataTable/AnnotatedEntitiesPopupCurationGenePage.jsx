@@ -2,7 +2,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { DropdownMenu, DropdownToggle, ButtonDropdown } from 'reactstrap';
-import { GeneCellCuration, AlleleCellCuration, ModelCellCuration, SingleReferenceCellCuration } from './index';
+import {
+  GeneCellCuration,
+  AlleleCellCuration,
+  ModelCellCuration,
+  SingleReferenceCellCuration,
+  ReferenceList,
+} from './index';
 import ExperimentalConditionCellCuration from './ExperimentalConditionCellCuration';
 import hash from 'object-hash';
 
@@ -267,10 +273,7 @@ function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCuri
                           )}
                           {columnNameSet.has('References') && (
                             <td>
-                              <SingleReferenceCellCuration
-                                singleReference={entity.evidenceItem}
-                                pubModIds={pubModIds}
-                              />
+                              <ReferenceList refs={[entity.evidenceItem]} />
                             </td>
                           )}
                         </tr>

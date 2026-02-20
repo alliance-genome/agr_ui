@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DropdownMenu, DropdownToggle, UncontrolledButtonDropdown } from 'reactstrap';
-import { SingleReferenceCellCuration } from './index';
+import { SingleReferenceCellCuration, ReferenceList } from './index';
 import ExperimentalConditionCellCuration from './ExperimentalConditionCellCuration.jsx';
 
 import style from './style.module.scss';
@@ -56,14 +56,15 @@ function AnnotatedPhenotypePopupCuration({ children, entities, mainRowCurie, pub
         </a>
       </DropdownToggle>
       <DropdownMenu className={`shadow-sm ${style.tablePopup}`} modifiers={popperModifiers} strategy="fixed">
-        <div className={style.tablePopupInner}>
+        {/* add style.tablePopupInner to this div if table widths interfere with scroll boxes */}
+        <div>
           <table className="table table-sm">
             <thead>
               <tr>
                 {columnNameSet.has('Name') && <th>Name</th>}
                 {columnNameSet.has('Type') && <th>Type</th>}
                 {columnNameSet.has('Experimental Condition') && <th>Experimental condition</th>}
-                {columnNameSet.has('References') && <th>References</th>}
+                {columnNameSet.has('References') && <th style={{ maxWidth: 165 }}>References</th>}
               </tr>
             </thead>
             <tbody>
@@ -87,7 +88,7 @@ function AnnotatedPhenotypePopupCuration({ children, entities, mainRowCurie, pub
                     )}
                     {columnNameSet.has('References') && (
                       <td>
-                        <SingleReferenceCellCuration singleReference={entity.evidenceItem} pubModIds={pubModIds} />
+                        <ReferenceList refs={[entity.evidenceItem]} />
                       </td>
                     )}
                   </tr>
