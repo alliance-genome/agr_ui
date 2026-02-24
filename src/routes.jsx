@@ -20,6 +20,7 @@ import MODLanding from './containers/modLanding/Main.jsx';
 import DiseasePortalPage from './containers/diseasePortal/index.jsx';
 import AlzheimersPage from './containers/alzheimersPage/index.jsx';
 import BlastPage from './containers/blastPage/index.jsx';
+import ContactPage from './containers/contactPage/index.jsx';
 
 const WordpressRedirect = () => {
   const { slug } = useParams();
@@ -53,7 +54,7 @@ const LayoutWithRoutes = () => (
       {/* <Route exact path="/disease-portal/alzheimers-disease" component={AlzheimersPageRedirect} /> */}
       {/* <Route exact path="/disease-portal/alzheimers-disease" element={<AlzheimersPage />} /> */}
       <Route exact path="/blastservice" element={<BlastPage />} />
-
+      <Route exact path="/contact-us" element={<ContactPage />} />
       <Route exact path="/wordpress/:slug" component={WordpressRedirect} />
       <Route path="/:slug" element={<WordpressPage />} />
 
