@@ -1,4 +1,4 @@
-const CONTACT_API_URL = 'https://1ythblxki4.execute-api.us-east-1.amazonaws.com/prod/contact';
+import { CONTACT_API_URL } from '../constants.js';
 
 export const sendContactEmail = async ({ name, email, subject, message }) => {
   const response = await fetch(CONTACT_API_URL, {
@@ -7,8 +7,17 @@ export const sendContactEmail = async ({ name, email, subject, message }) => {
     body: JSON.stringify({ name, email, subject, message }),
   });
   if (!response.ok) {
-    const data = await response.json();
-    throw new Error(data.errors ? data.errors.join(', ') : data.error || 'Failed to send message.');
+    let message = 'Failed to send message.';
+    const text = await response.text();
+
+    try {
+      const data = JSON.parse(text);
+      message = data.errors?.join(', ') || data.error || message;
+    } catch {
+      message = text || message;
+    }
+
+    throw new Error(message);
   }
   return response.json();
 };
