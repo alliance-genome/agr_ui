@@ -73,8 +73,8 @@ const ContactPage = () => {
         <div className="row justify-content-center">
           <div className="col-md-6 col-12">
             <p>
-              Have a question or need help?  &nbsp;&nbsp;Fill out the form below and we will
-              get back to you as soon as possible.
+              Have a question or need help? &nbsp;&nbsp;Fill out the form below and we will get back to you as soon as
+              possible.
             </p>
             <form onSubmit={handleSubmit}>
               <div className="form-group mb-3">
@@ -94,7 +94,10 @@ const ContactPage = () => {
                   className={`form-control ${emailError ? 'is-invalid' : ''}`}
                   id="contact-email"
                   onBlur={(e) => validateEmail(e.target.value)}
-                  onChange={(e) => { setEmail(e.target.value); setEmailError(''); }}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setEmailError('');
+                  }}
                   required
                   type="email"
                   value={email}
@@ -124,23 +127,32 @@ const ContactPage = () => {
                 />
               </div>
               <div className="mb-4">
-                <button className="btn btn-primary" disabled={submitStatus === 'sending'} style={{marginRight: '3rem'}} type="submit">
+                <button
+                  className="btn btn-primary"
+                  disabled={submitStatus === 'sending'}
+                  style={{ marginRight: '3rem' }}
+                  type="submit"
+                >
                   {submitStatus === 'sending' ? 'Sending...' : 'Send'}
                 </button>
-                <button className="btn btn-primary" disabled={submitStatus === 'sending'} onClick={handleReset} type="button">
+                <button
+                  className="btn btn-primary"
+                  disabled={submitStatus === 'sending'}
+                  onClick={handleReset}
+                  type="button"
+                >
                   Reset
                 </button>
               </div>
               {submitStatus === 'success' && (
-                <div className="alert alert-success">Your message has been sent successfully. We will get back to you soon.</div>
+                <div className="alert alert-success">
+                  Your message has been sent successfully. We will get back to you soon.
+                </div>
               )}
-              {submitStatus === 'error' && (
-                <div className="alert alert-danger">{submitError}</div>
-              )}
+              {submitStatus === 'error' && <div className="alert alert-danger">{submitError}</div>}
             </form>
             <p className="mb-5">
-              To email the Alliance of Genome Resources directly: {' '}
-              <a href={`mailto:${HELP_EMAIL}`}>{HELP_EMAIL}</a>
+              To email the Alliance of Genome Resources directly: <a href={`mailto:${HELP_EMAIL}`}>{HELP_EMAIL}</a>
             </p>
           </div>
         </div>
