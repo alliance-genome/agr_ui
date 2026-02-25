@@ -1,5 +1,6 @@
 import { fromJS } from 'immutable';
 
+import { GO_CATEGORY } from '../constants';
 import { parseAggs, parseResults } from './searchParsers';
 
 const DEFAULT_PAGE_SIZE = 50;
@@ -45,14 +46,14 @@ const searchReducer = function (state = DEFAULT_STATE, action) {
       let actionCat = action.category || 'none';
       let resultsTargetsVals = {
         gene: 'geneResults',
-        go: 'goResults',
+        [GO_CATEGORY]: 'goResults',
         disease: 'diseaseResults',
         allele: 'alleleResults',
         none: 'results',
       };
       let totalTargetsVals = {
         gene: 'geneTotal',
-        go: 'goTotal',
+        [GO_CATEGORY]: 'goTotal',
         disease: 'diseaseTotal',
         allele: 'alleleTotal',
         none: 'total',

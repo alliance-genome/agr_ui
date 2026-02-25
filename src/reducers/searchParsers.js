@@ -1,5 +1,5 @@
 import { makeFieldDisplayName, makeValueDisplayName } from '../lib/searchHelpers.jsx';
-import { CATEGORIES, DUPLICATE_HIGHLIGHTED_FIELDS, NON_HIGHLIGHTED_FIELDS } from '../constants';
+import { CATEGORIES, DUPLICATE_HIGHLIGHTED_FIELDS, GO_CATEGORY, NON_HIGHLIGHTED_FIELDS } from '../constants';
 
 const JOIN_HIGHLIGHT_BY = '...';
 
@@ -74,7 +74,7 @@ export function parseResults(results) {
     switch (d.category) {
       case 'gene':
         return parseGeneResult(d);
-      case 'go':
+      case GO_CATEGORY:
         return parseGoResult(d);
       case 'dataset':
         return parseDatasetResult(d);
@@ -182,10 +182,12 @@ function parseGoResult(_d) {
   return {
     ...d,
     display_name: d.name,
+    id: d.curie,
+    primaryKey: d.curie,
+    go_branch: makeValueDisplayName(_d.branch),
     branch: makeValueDisplayName(_d.branch),
     highlight: d.highlights,
-    collapsible_synonyms: d.synonyms, //not just named synonyms,
-    //so that it can be collapsible when others aren't
+    collapsible_synonyms: d.synonyms || [],
     missing: d.missingTerms,
   };
 }

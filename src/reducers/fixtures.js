@@ -1,3 +1,5 @@
+import { GO_CATEGORY } from '../constants';
+
 const FIXTURE_HREF = 'https://google.com';
 
 export const FIXTURE_SEARCH_STATE = {
@@ -67,7 +69,7 @@ export const FIXTURE_SEARCH_STATE = {
       ],
     },
     {
-      name: 'go',
+      name: GO_CATEGORY,
       displayName: 'GO (Gene Ontology)',
       values: [
         {

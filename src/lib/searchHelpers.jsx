@@ -4,6 +4,7 @@ import without from 'lodash.without';
 import { Link } from 'react-router-dom';
 import ExternalLink from '../components/ExternalLink.jsx';
 import qs from 'qs';
+import { GO_CATEGORY } from '../constants';
 
 const SINGLE_VAL_FIELDS = ['mode', 'page'];
 const CLEARING_FIELDS = ['category'];
@@ -62,17 +63,23 @@ export function makeFieldDisplayName(unformattedName, category = '') {
   }
 
   switch (unformattedName) {
-    case 'go':
+    case GO_CATEGORY:
       return 'Gene Ontology';
+    case `${GO_CATEGORY}_type`:
+    case `${GO_CATEGORY}_branch`:
     case 'go_type':
     case 'go_branch':
       return 'GO Branch';
+    case 'curie':
+      return 'ID';
     case 'geneType':
       return 'Gene Type';
     case 'disease_genes':
+    case `${GO_CATEGORY}_genes`:
     case 'go_genes':
       return 'Associated Genes';
     case 'disease_species':
+    case `${GO_CATEGORY}_species`:
     case 'go_species':
       return 'Associated Species';
     case 'dnaChangeTypes':

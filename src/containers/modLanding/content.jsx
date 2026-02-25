@@ -7,6 +7,7 @@ import zfinLogo from '../../assets/images/alliance_logo_zfin.png';
 import gocLogo from '../../assets/images/alliance_logo_goc.png';
 import zenbaseLogo from '../../assets/images/alliance_logo_xenbase.png';
 
+import { GO_CATEGORY } from '../../constants';
 import style from './style.module.scss';
 
 export const MODContent = {
@@ -350,7 +351,7 @@ export const MODContent = {
     logoImgSrc: gocLogo,
     hasNews: true,
     newsURL: 'https://twitter.com/news4go',
-    search: [['Gene Ontology', '/search?category=go']],
+    search: [['Gene Ontology', `/search?category=${GO_CATEGORY}`]],
     resources: [
       ['PANTHER Enrichment Analysis', 'http://pantherdb.org/'],
       ['GO Release Archive', 'http://release.geneontology.org/'],

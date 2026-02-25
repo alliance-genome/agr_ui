@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import style from './style.module.scss';
 import DetailList from './detailList.jsx';
 import { getLinkForEntry, makeFieldDisplayName } from '../../lib/searchHelpers.jsx';
-import { NON_HIGHLIGHTED_FIELDS } from '../../constants';
+import { GO_CATEGORY, NON_HIGHLIGHTED_FIELDS } from '../../constants';
 import SpeciesName from '../../components/SpeciesName.jsx';
 
 const MATCH_LABEL = 'match_by';
@@ -17,7 +17,7 @@ class ResultsTable extends Component {
       case 'gene':
         fields = ['species', 'display_name', 'name', 'synonyms', 'source', 'biotype'];
         break;
-      case 'go':
+      case GO_CATEGORY:
         fields = ['display_name', 'id', 'synonyms', 'go_branch'];
         break;
       case 'disease':

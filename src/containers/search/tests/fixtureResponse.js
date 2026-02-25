@@ -1,5 +1,6 @@
 /*eslint-disable import/no-anonymous-default-export*/
 /*eslint-disable quotes */
+import { GO_CATEGORY } from '../../../constants';
 export default {
   aggregations: [
     {
@@ -19,12 +20,13 @@ export default {
         description: ['<em>kinase</em> activity'],
         name: ['<em>GTPase</em> activity'],
       },
-      href: 'http://www.yeastgenome.org/locus/S000005759/overview',
+      href: 'http://amigo.geneontology.org/amigo/term/GO:0003924',
       name: 'GTPase activity',
-      go_branch: 'Molecular Function',
-      synonym: 'YOR233W',
-      type: null,
-      category: 'go',
+      curie: 'GO:0003924',
+      nameKey: 'GTPase activity',
+      branch: 'molecular_function',
+      synonyms: ['YOR233W'],
+      category: GO_CATEGORY,
     },
     {
       highlights: {

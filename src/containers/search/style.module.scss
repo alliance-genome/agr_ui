@@ -126,7 +126,7 @@ a > span > .sprite {
     bottom: 0.1rem;
     margin-right: 0.15rem;
   }
-  &.go::before {
+  &.go_search_result::before {
     color: $data-type-go;
   }
   &.gene::before {

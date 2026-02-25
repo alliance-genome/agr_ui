@@ -8,7 +8,7 @@ import style from './style.module.scss';
 import ResultsTable from './resultsTable.jsx';
 import CategoryLabel from './categoryLabel.jsx';
 import fetchData from '../../lib/fetchData';
-import { SEARCH_API_ERROR_MESSAGE } from '../../constants';
+import { GO_CATEGORY, SEARCH_API_ERROR_MESSAGE } from '../../constants';
 import { receiveResponse, setError } from '../../actions/search';
 import { getQueryParamWithValueChanged, stringifyQuery } from '../../lib/searchHelpers.jsx';
 
@@ -28,7 +28,7 @@ import { setPageLoading } from '../../actions/loadingActions';
 const BASE_SEARCH_URL = '/api/search';
 const PAGE_SIZE = 5;
 //todo: ideally this would come from constants.js, but we don't want 'all'
-const CATEGORIES = ['gene', 'go', 'disease', 'allele'];
+const CATEGORIES = ['gene', GO_CATEGORY, 'disease', 'allele'];
 const SEARCH_PATH = '/search';
 
 class MultiTableComponent extends Component {
@@ -57,7 +57,7 @@ class MultiTableComponent extends Component {
 
   fetchAllData() {
     let geneUrl = this.getUrlByCategory('gene');
-    let goUrl = this.getUrlByCategory('go');
+    let goUrl = this.getUrlByCategory(GO_CATEGORY);
     let diseaseUrl = this.getUrlByCategory('disease');
     let alleleUrl = this.getUrlByCategory('allele');
     this.props.dispatch(setPageLoading(true));
@@ -67,7 +67,7 @@ class MultiTableComponent extends Component {
       })
       .then(
         fetchData(goUrl).then((goData) => {
-          this.props.dispatch(receiveResponse(goData, this.props.queryParams, 'go'));
+          this.props.dispatch(receiveResponse(goData, this.props.queryParams, GO_CATEGORY));
         })
       )
       .then(
@@ -95,7 +95,7 @@ class MultiTableComponent extends Component {
     if (category === 'gene') {
       return this.props.geneTotal.toLocaleString();
     }
-    if (category === 'go') {
+    if (category === GO_CATEGORY) {
       return this.props.goTotal.toLocaleString();
     }
     if (category === 'disease') {
@@ -111,7 +111,7 @@ class MultiTableComponent extends Component {
     if (category === 'gene') {
       return this.props.geneResults;
     }
-    if (category === 'go') {
+    if (category === GO_CATEGORY) {
       return this.props.goResults;
     }
     if (category === 'disease') {
