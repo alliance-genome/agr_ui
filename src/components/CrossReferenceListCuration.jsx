@@ -4,7 +4,7 @@ import DataSourceLinkCuration from './dataSourceLinkCuration.jsx';
 import { CollapsibleList } from './collapsibleList';
 import { compareAlphabeticalCaseInsensitive } from '../lib/utils';
 
-const CrossReferenceListCuration = ({ collapsible = true, crossReferences, sort = true }) => {
+const CrossReferenceListCuration = ({ collapsible = true, crossReferences, gcrpCrossReference, sort = true }) => {
   const byName = compareAlphabeticalCaseInsensitive((xref) => xref.displayName || xref.referencedCurie);
   const byWithLinkThenName = (a, b) => {
     const aUrl = a.crossRefCompleteUrl || a.resourceDescriptorPage?.urlTemplate;
@@ -28,10 +28,15 @@ const CrossReferenceListCuration = ({ collapsible = true, crossReferences, sort 
     crossReferences.sort(byWithLinkThenName);
   }
 
+  const gcrpCurie = gcrpCrossReference?.referencedCurie;
+
   return (
     <CollapsibleList collapsedSize={size}>
       {crossReferences.map((ref) => (
-        <DataSourceLinkCuration key={ref.referencedCurie || ref.displayName} reference={ref} />
+        <span key={ref.referencedCurie || ref.displayName}>
+          <DataSourceLinkCuration reference={ref} />
+          {gcrpCurie && ref.referencedCurie === gcrpCurie && <span> (GCRP ID)</span>}
+        </span>
       ))}
     </CollapsibleList>
   );
