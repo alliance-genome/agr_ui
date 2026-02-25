@@ -3,7 +3,7 @@
  * OrthologPicker, DiseaseRibbon, DiseaseAssociationTable
  * OrthologPicker talks to cc and DiseaseRibbonTalks to DiseaseAssociation Table
  */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import DiseaseAnnotationTable from './diseaseAnnotationTable.jsx';
 import HorizontalScroll from '../horizontalScroll.jsx';
@@ -46,7 +46,7 @@ const DiseaseComparisonRibbon = ({ geneId, geneTaxon }) => {
 
   const onCellClick = (e) => {
     setSelectedBlock((current) => ({
-      group: current.group && current.group.id === e.detail.group.id ? null : e.detail.group,
+      group: current.group && current.group.id === e.detail.group?.id ? null : e.detail.group,
       subject: e.detail.subjects,
     }));
   };
@@ -61,6 +61,43 @@ const DiseaseComparisonRibbon = ({ geneId, geneTaxon }) => {
       ribbonRef.current.selectGroup(selectedBlock.group.id);
     }
   };
+
+  function processRibbonData(apiData) {
+    if (!apiData || !apiData.categories || !apiData.subjects) {
+      return apiData;
+    }
+
+    // Deep clone to avoid mutating original data
+    const data = structuredClone(apiData);
+
+    // Normalize the 'available' property (API may return string "false" instead of boolean)
+    data.subjects.forEach((sub) => {
+      if (!sub.groups) return;
+
+      Object.values(sub.groups).forEach((group) => {
+        // Convert string "false" to boolean false
+        if (group.available === 'false' || group.available === false) {
+          group.available = false;
+        }
+        // Also check inside ALL object
+        if (group.ALL?.available === 'false' || group.ALL?.available === false) {
+          group.available = false;
+        }
+      });
+    });
+
+    return data;
+  }
+
+  const ribbonData = useMemo(() => {
+    if (!summary.data) return { categories: [], subjects: [] };
+    return processRibbonData(summary.data);
+  }, [summary.data]);
+
+  useEffect(() => {
+    if (!ribbonRef.current || !ribbonData || ribbonData.subjects.length === 0) return;
+    ribbonRef.current.setData(ribbonData);
+  }, [ribbonData]);
 
   return (
     <div>
@@ -93,20 +130,19 @@ const DiseaseComparisonRibbon = ({ geneId, geneTaxon }) => {
       </div>
       <HorizontalScroll>
         <div className="text-nowrap">
-          <wc-ribbon-strips
+          <go-annotation-ribbon-strips
             category-all-style="1"
-            color-by="0"
-            data={JSON.stringify(summary.data)}
+            color-by="annotations"
             fire-event-on-empty-cells="false"
             group-clickable="false"
             group-open-new-tab="false"
             new-tab="false"
             ref={ribbonRef}
             selected="all"
-            selection-mode="1"
+            selection-mode="column"
             subject-base-url="/gene/"
             subject-open-new-tab="false"
-            subject-position={compareOrthologs ? '1' : '0'}
+            subject-position={compareOrthologs ? 'left' : 'none'}
             update-on-subject-change="false"
           />
         </div>

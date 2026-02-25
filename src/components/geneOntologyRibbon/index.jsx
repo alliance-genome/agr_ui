@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import HorizontalScroll from '../horizontalScroll.jsx';
 
@@ -42,6 +42,8 @@ class GeneOntologyRibbon extends Component {
       },
       search: '',
     };
+    this.ribbonRef = React.createRef();
+    this.tableRef = React.createRef();
     this.handleOrthologyChange = this.handleOrthologyChange.bind(this);
     this.handleCompareOrthologsChange = this.handleCompareOrthologsChange.bind(this);
     this.selectGroup = this.selectGroup.bind(this);
@@ -50,10 +52,47 @@ class GeneOntologyRibbon extends Component {
   }
 
   componentDidMount() {
-    document.addEventListener('cellClick', this.onGroupClicked);
-    document.addEventListener('subjectClick', this.onSubjectClicked);
+    this.addEventListeners();
   }
 
+  componentWillUnmount() {
+    this.removeEventListeners();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // Update ribbon data when it changes
+    if (this.state.ribbon && this.state.ribbon !== prevState.ribbon) {
+      if (this.ribbonRef.current) {
+        this.ribbonRef.current.setData(this.state.ribbon);
+      }
+    }
+    // Update table data when it changes
+    if (this.state.selected.data && this.state.selected.data !== prevState.selected.data) {
+      // Use setTimeout to ensure the table component is mounted
+      setTimeout(() => {
+        if (this.tableRef.current && this.tableRef.current.setData) {
+          this.tableRef.current.setData(this.state.selected.data);
+        }
+      }, 0);
+    }
+    // Add event listeners if ref just became available
+    this.addEventListeners();
+  }
+
+  addEventListeners() {
+    if (this.ribbonRef.current && !this.listenersAdded) {
+      this.ribbonRef.current.addEventListener('cellClick', this.onGroupClicked);
+      this.ribbonRef.current.addEventListener('subjectClick', this.onSubjectClicked);
+      this.listenersAdded = true;
+    }
+  }
+
+  removeEventListeners() {
+    if (this.ribbonRef.current) {
+      this.ribbonRef.current.removeEventListener('cellClick', this.onGroupClicked);
+      this.ribbonRef.current.removeEventListener('subjectClick', this.onSubjectClicked);
+    }
+  }
   // ===================================================================
   //                      API QUERY SECTION
   // ===================================================================
@@ -326,6 +365,20 @@ class GeneOntologyRibbon extends Component {
         groups: {},
       });
     }
+    // The API returns 'available: false' for cells where species can't have data
+    // but sometimes as string "false" instead of boolean
+    subjects.forEach((sub) => {
+      if (!sub.groups) return;
+      Object.values(sub.groups).forEach((group) => {
+        if (group.available === 'false' || group.available === false) {
+          group.available = false;
+        }
+        if (group.ALL?.available === 'false' || group.ALL?.available === false) {
+          group.available = false;
+        }
+      });
+    });
+
     return {
       ...data,
       subjects,
@@ -451,20 +504,20 @@ class GeneOntologyRibbon extends Component {
     const { applyingFilters, compareOrthologs, ribbon } = this.state;
     return (
       <HorizontalScroll className="text-nowrap">
-        <wc-ribbon-strips
+        <go-annotation-ribbon-strips
           category-all-style="1"
-          color-by="0"
-          data={JSON.stringify(ribbon)}
+          color-by="annotations"
           fire-event-on-empty-cells="false"
           group-clickable="false"
           group-open-new-tab="false"
           id="go-ribbon"
           new-tab="false"
-          selection-mode="0"
+          ref={this.ribbonRef}
+          selection-mode="cell"
           show-other-group
           subject-base-url="/gene/"
           subject-open-new-tab="false"
-          subject-position={compareOrthologs ? '1' : '0'}
+          subject-position={compareOrthologs ? 'left' : 'none'}
           update-on-subject-change="false"
         />
         <div className="ribbon-loading-overlay">{applyingFilters && <LoadingSpinner />}</div>
@@ -495,8 +548,9 @@ class GeneOntologyRibbon extends Component {
     }
 
     return (
-      <wc-ribbon-table
-        bio-link-data={JSON.stringify(this.state.selected.data)}
+      <go-annotation-ribbon-table
+        ref={this.tableRef}
+        // bio-link-data={JSON.stringify(this.state.selected.data)}
         filter-by={this.state.onlyEXP ? 'evidence:' + EXP_CODES.join(',') : ''}
         group-by="term"
         // hide-columns={'qualifier,' + (this.state.selectedOrthologs.length == 0 ? 'gene,' : '') + (this.state.selected.group.id != 'all' ? ',aspect' : '')}
