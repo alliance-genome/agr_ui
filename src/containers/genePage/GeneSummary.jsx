@@ -7,19 +7,26 @@ import DataSourceLinkCuration from '../../components/dataSourceLinkCuration.jsx'
 import SynonymListCuration from '../../components/SynonymListCuration.jsx';
 import ModGeneDescription from './modGeneDescription.jsx';
 import HelpPopup from '../../components/helpPopup.jsx';
-import { getSpecies, getNoteText, extractGeneFields } from '../../lib/utils';
-import { HELP_AUTOMATED_GENE_DESCRIPTION } from './constants';
+import { getSpecies, getNoteText, extractGeneFields, buildUrlFromTemplate } from '../../lib/utils';
+import { HELP_AUTOMATED_GENE_DESCRIPTION, HELP_CROSS_REFERENCES_GCRP } from './constants';
 import GeneSymbolCuration from '../../components/GeneSymbolCuration.jsx';
 import SpeciesName from '../../components/SpeciesName.jsx';
 
-const GeneSummary = ({ gene, crossReferenceMap }) => {
+const GeneSummary = ({ gene, crossReferenceMap, gcrpCrossReference }) => {
   const { speciesName, taxonId, dataProviderAbbr } = extractGeneFields(gene);
   const synopsisProvider = getSpecies(taxonId)?.geneSynopsisProvider || dataProviderAbbr;
 
   const automatedDescription = getNoteText(gene.relatedNotes, 'automated_gene_description');
   const modDescription = getNoteText(gene.relatedNotes, 'MOD_provided_gene_description');
 
-  const otherCrossRefs = crossReferenceMap?.other || [];
+  // Merge gcrpCrossReference into the "other" cross references if not already present
+  const otherCrossRefs = [...(crossReferenceMap?.other || [])];
+  if (gcrpCrossReference) {
+    const alreadyPresent = otherCrossRefs.some((ref) => ref.referencedCurie === gcrpCrossReference.referencedCurie);
+    if (!alreadyPresent) {
+      otherCrossRefs.push({ ...gcrpCrossReference, crossRefCompleteUrl: buildUrlFromTemplate(gcrpCrossReference) });
+    }
+  }
 
   return (
     <AttributeList>
@@ -58,9 +65,14 @@ const GeneSummary = ({ gene, crossReferenceMap }) => {
       <AttributeLabel>{synopsisProvider} Description</AttributeLabel>
       <AttributeValue>{modDescription && <ModGeneDescription description={modDescription} />}</AttributeValue>
 
-      <AttributeLabel>Cross References</AttributeLabel>
+      <AttributeLabel>
+        Cross References{' '}
+        {gcrpCrossReference && <HelpPopup id={'help-cross-references-gcrp'}>{HELP_CROSS_REFERENCES_GCRP}</HelpPopup>}
+      </AttributeLabel>
       <AttributeValue>
-        {otherCrossRefs.length > 0 && <CrossReferenceListCuration crossReferences={otherCrossRefs} />}
+        {otherCrossRefs.length > 0 && (
+          <CrossReferenceListCuration crossReferences={otherCrossRefs} gcrpCrossReference={gcrpCrossReference} />
+        )}
       </AttributeValue>
 
       <AttributeLabel>Additional Information</AttributeLabel>

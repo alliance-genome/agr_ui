@@ -156,7 +156,7 @@ const GenePage = () => {
         </PageHeader>
 
         <Subsection hideTitle title={SUMMARY}>
-          <GeneSummary gene={gene} crossReferenceMap={crossReferenceMap} />
+          <GeneSummary gene={gene} crossReferenceMap={crossReferenceMap} gcrpCrossReference={gene.gcrpCrossReference} />
         </Subsection>
 
         <Subsection help={<HomologyUserGuide />} title={ORTHOLOGY}>
