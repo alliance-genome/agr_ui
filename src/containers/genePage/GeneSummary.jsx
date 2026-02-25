@@ -67,9 +67,7 @@ const GeneSummary = ({ gene, crossReferenceMap, gcrpCrossReference }) => {
 
       <AttributeLabel>
         Cross References{' '}
-        {gcrpCrossReference && (
-          <HelpPopup id={'help-cross-references-gcrp'}>{HELP_CROSS_REFERENCES_GCRP}</HelpPopup>
-        )}
+        {gcrpCrossReference && <HelpPopup id={'help-cross-references-gcrp'}>{HELP_CROSS_REFERENCES_GCRP}</HelpPopup>}
       </AttributeLabel>
       <AttributeValue>
         {otherCrossRefs.length > 0 && (
