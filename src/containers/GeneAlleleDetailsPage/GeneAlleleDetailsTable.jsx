@@ -91,14 +91,14 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     },
     {
       text: 'Category',
-      dataField: 'category',
+      dataField: 'sequenceSummaryCategory',
       filterable: true,
       filterName: 'alleleCategory',
       headerStyle: { width: '250px' },
     },
     {
       text: 'Has Phenotype',
-      dataField: 'allele.hasPhenotype',
+      dataField: 'hasPhenotype',
       formatter: (hasPhenotype, row) => (
         <BooleanLinkCell
           to={`/allele/${row.allele && (row.allele.modEntityId || row.allele.curie)}#phenotypes`}
@@ -112,7 +112,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     },
     {
       text: 'Has Disease',
-      dataField: 'allele.hasDisease',
+      dataField: 'hasDisease',
       formatter: (hasDisease, row) => (
         <BooleanLinkCell
           to={`/allele/${row.allele && (row.allele.modEntityId || row.allele.curie)}#disease-associations`}
