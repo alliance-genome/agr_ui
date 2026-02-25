@@ -507,9 +507,12 @@
 
     overflow: auto;
     scroll-behavior: smooth;
+    position: relative;
+    display: flex;
+    flex-direction: row;
 
     &::before {
-      position: absolute;
+      position: sticky;
       content: "";
       top: 0;
       bottom: 0;
@@ -520,6 +523,9 @@
       transition: opacity 250ms ease-out;
       left: 0;
       background: radial-gradient(ellipse 20px 60% at left, rgba(0, 0, 0, 0.25), transparent);
+      display: block;
+      flex: none;
+      margin-right: -20px;
     }
 
     &.show-left-shadow::before {
@@ -528,7 +534,7 @@
     }
 
     &::after {
-      position: absolute;
+      position: sticky;
       content: "";
       top: 0;
       bottom: 0;
@@ -539,6 +545,9 @@
       transition: opacity 250ms ease-out;
       right: 0;
       background: radial-gradient(ellipse 20px 60% at right, rgba(0, 0, 0, 0.25), transparent);
+      display: block;
+      flex: none;
+      margin-left: -20px;
     }
 
     &.show-right-shadow::after {
@@ -639,7 +648,7 @@
             vertical-align: top;
 
             a {
-              color: $primary-400;
+              color: $primary-600;
 
               &:not(:hover) {
                 text-decoration: none;
