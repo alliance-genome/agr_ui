@@ -59,11 +59,15 @@ const searchReducer = function (state = DEFAULT_STATE, action) {
       };
       let resultsTarget = resultsTargetsVals[actionCat] || 'results';
       let totalTarget = totalTargetsVals[actionCat] || 'total';
-      // maybe parse aggs
-      let newAggs =
-        actionCat === 'none'
-          ? fromJS(parseAggs(action.payload.aggregations, action.queryParams))
-          : state.get('aggregations');
+      // maybe parse aggs, preserving existing aggregations if new ones are empty
+      let newAggs;
+      if (actionCat === 'none') {
+        let parsedAggs = parseAggs(action.payload.aggregations, action.queryParams);
+        let hasValues = parsedAggs.some((agg) => agg.values && agg.values.length > 0);
+        newAggs = hasValues ? fromJS(parsedAggs) : state.get('aggregations');
+      } else {
+        newAggs = state.get('aggregations');
+      }
       // parse meta
       return (
         state

@@ -54,6 +54,11 @@ export const CATEGORIES = [
     displayName: 'HTP Dataset Index',
     displayFields: ['dataProviderNote', 'idCollection', 'tags', 'summary'],
   },
+  {
+    name: 'variant_search',
+    displayName: 'Variant',
+    displayFields: ['primaryKey', 'variantType', 'categoryType', 'alterationType', 'crossReferences', 'molecularConsequence'],
+  },
 ];
 
 export const ALLELE_WITH_ONE_VARIANT = 'allele with one variant';
