@@ -8,6 +8,7 @@ import SynonymList from '../../components/synonymList.jsx';
 import NoData from '../../components/noData.jsx';
 import VariantJBrowseLink from '../../components/variant/VariantJBrowseLink.jsx';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
+import { getDistinctFieldValue } from '../../components/dataTable/utils.jsx';
 import { getGenomicLocations, getSingleGenomeLocation, findFminFmax, getTableUrl } from '../../lib/utils';
 import VariantsSequenceViewer from '../genePage/VariantsSequenceViewer.jsx';
 import ErrorBoundary from '../../components/errorBoundary.jsx';
@@ -55,7 +56,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     {},
     300000
   );
-  const { isLoading } = tableQuery;
+  const { isLoading, supplementalData } = tableQuery;
 
   const data = tableQuery.data.map((row) => ({
     ...row,
@@ -92,7 +93,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     {
       text: 'Category',
       dataField: 'sequenceSummaryCategory',
-      filterable: true,
+      filterable: getDistinctFieldValue(supplementalData, 'alleleCategory'),
       filterName: 'alleleCategory',
       headerStyle: { width: '250px' },
     },
@@ -166,7 +167,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
       text: 'Variant Type',
       dataField: 'variant.variantAssociationSubject.variantType.name',
       formatter: VEPTextCell,
-      filterable: true,
+      filterable: getDistinctFieldValue(supplementalData, 'variantType'),
       filterName: 'variantType',
       headerStyle: { width: '150px' },
     },
@@ -181,7 +182,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
       text: 'Sequence feature type',
       dataField: 'consequence.variantTranscript.transcriptType',
       formatter: (transcriptType) => (transcriptType && transcriptType.name ? transcriptType.name : ''),
-      filterable: true,
+      filterable: getDistinctFieldValue(supplementalData, 'sequenceFeatureType'),
       filterName: 'sequenceFeatureType',
       headerStyle: { width: '200px' },
     },
@@ -199,7 +200,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
           gene.curie || ''
         );
       },
-      filterable: true,
+      filterable: getDistinctFieldValue(supplementalData, 'associatedGeneSymbol'),
       filterName: 'associatedGeneSymbol',
       headerStyle: { width: '150px' },
     },
@@ -214,7 +215,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
       text: 'Molecular consequence',
       dataField: 'consequence.vepConsequences',
       formatter: (vepConsequences) => <span>{(vepConsequences || []).map((c) => c.name).join(', ')}</span>,
-      filterable: true,
+      filterable: getDistinctFieldValue(supplementalData, 'molecularConsequence'),
       filterName: 'molecularConsequence',
       headerStyle: { width: '350px' },
     },
@@ -222,7 +223,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
       text: 'VEP Impact',
       dataField: 'consequence.vepImpact',
       formatter: (vepImpact) => (vepImpact && vepImpact.name ? vepImpact.name : ''),
-      filterable: true,
+      filterable: getDistinctFieldValue(supplementalData, 'variantImpact'),
       filterName: 'variantImpact',
       headerStyle: { width: '120px' },
     },
@@ -233,7 +234,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
         const label = siftPrediction && siftPrediction.name;
         return label ? <span className={getSiftStyle(label)}>{label.replace(/_/g, ' ')}</span> : '';
       },
-      filterable: true,
+      filterable: getDistinctFieldValue(supplementalData, 'variantSift'),
       filterName: 'variantSift',
       headerStyle: { width: '200px' },
     },
@@ -253,7 +254,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
         const label = polyphenPrediction && polyphenPrediction.name;
         return label ? <span className={getPolyphenStyle(label)}>{label.replace(/_/g, ' ')}</span> : '';
       },
-      filterable: true,
+      filterable: getDistinctFieldValue(supplementalData, 'variantPolyphen'),
       filterName: 'variantPolyphen',
       headerStyle: { width: '180px' },
     },
