@@ -60,7 +60,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
 
   const data = tableQuery.data.map((row) => ({
     ...row,
-    key: `${row.allele && row.allele.curie}-${row.variant && row.variant.hgvs}-${row.consequence && row.consequence.variantTranscript && row.consequence.variantTranscript.curie}`,
+    key: `${row.allele && row.allele.primaryExternalId}-${row.variant && row.variant.hgvs}-${row.consequence && row.consequence.variantTranscript && row.consequence.variantTranscript.curie}`,
   }));
   const columns = [
     {
@@ -68,7 +68,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
       dataField: 'allele',
       formatter: (allele, row) => {
         if (!allele) return null;
-        const identifier = allele.modEntityId || allele.curie;
+        const identifier = allele.primaryExternalId;
         if (allele.alleleSymbol) {
           return <AlleleCellCuration identifier={identifier} allele={allele} />;
         }
@@ -76,7 +76,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
         if (hgvs) {
           return <a href={`/variant/${hgvs}`}>{hgvs}</a>;
         }
-        return <a href={`/allele/${identifier}`}>{allele.curie || identifier}</a>;
+        return <a href={`/allele/${identifier}`}>{identifier}</a>;
       },
       filterable: true,
       filterName: 'symbol',
@@ -93,7 +93,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     {
       text: 'Category',
       dataField: 'sequenceSummaryCategory',
-      filterable: getDistinctFieldValue(supplementalData, 'alleleCategory'),
+      filterable: getDistinctFieldValue(supplementalData, 'filter.alleleCategory'),
       filterName: 'alleleCategory',
       headerStyle: { width: '250px' },
     },
@@ -101,10 +101,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
       text: 'Has Phenotype',
       dataField: 'hasPhenotype',
       formatter: (hasPhenotype, row) => (
-        <BooleanLinkCell
-          to={`/allele/${row.allele && (row.allele.modEntityId || row.allele.curie)}#phenotypes`}
-          value={hasPhenotype}
-        />
+        <BooleanLinkCell to={`/allele/${row.allele && row.allele.primaryExternalId}#phenotypes`} value={hasPhenotype} />
       ),
       filterName: 'hasPhenotype',
       filterable: ['true', 'false'],
@@ -116,7 +113,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
       dataField: 'hasDisease',
       formatter: (hasDisease, row) => (
         <BooleanLinkCell
-          to={`/allele/${row.allele && (row.allele.modEntityId || row.allele.curie)}#disease-associations`}
+          to={`/allele/${row.allele && row.allele.primaryExternalId}#disease-associations`}
           value={hasDisease}
         />
       ),
@@ -167,7 +164,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
       text: 'Variant Type',
       dataField: 'variant.variantAssociationSubject.variantType.name',
       formatter: VEPTextCell,
-      filterable: getDistinctFieldValue(supplementalData, 'variantType'),
+      filterable: getDistinctFieldValue(supplementalData, 'filter.variantType'),
       filterName: 'variantType',
       headerStyle: { width: '150px' },
     },
@@ -182,7 +179,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
       text: 'Sequence feature type',
       dataField: 'consequence.variantTranscript.transcriptType',
       formatter: (transcriptType) => (transcriptType && transcriptType.name ? transcriptType.name : ''),
-      filterable: getDistinctFieldValue(supplementalData, 'sequenceFeatureType'),
+      filterable: getDistinctFieldValue(supplementalData, 'filter.sequenceFeatureType'),
       filterName: 'sequenceFeatureType',
       headerStyle: { width: '200px' },
     },
@@ -200,7 +197,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
           gene.curie || ''
         );
       },
-      filterable: getDistinctFieldValue(supplementalData, 'associatedGeneSymbol'),
+      filterable: getDistinctFieldValue(supplementalData, 'filter.associatedGeneSymbol'),
       filterName: 'associatedGeneSymbol',
       headerStyle: { width: '150px' },
     },
@@ -215,7 +212,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
       text: 'Molecular consequence',
       dataField: 'consequence.vepConsequences',
       formatter: (vepConsequences) => <span>{(vepConsequences || []).map((c) => c.name).join(', ')}</span>,
-      filterable: getDistinctFieldValue(supplementalData, 'molecularConsequence'),
+      filterable: getDistinctFieldValue(supplementalData, 'filter.molecularConsequence'),
       filterName: 'molecularConsequence',
       headerStyle: { width: '350px' },
     },
@@ -223,7 +220,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
       text: 'VEP Impact',
       dataField: 'consequence.vepImpact',
       formatter: (vepImpact) => (vepImpact && vepImpact.name ? vepImpact.name : ''),
-      filterable: getDistinctFieldValue(supplementalData, 'variantImpact'),
+      filterable: getDistinctFieldValue(supplementalData, 'filter.variantImpact'),
       filterName: 'variantImpact',
       headerStyle: { width: '120px' },
     },
@@ -234,7 +231,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
         const label = siftPrediction && siftPrediction.name;
         return label ? <span className={getSiftStyle(label)}>{label.replace(/_/g, ' ')}</span> : '';
       },
-      filterable: getDistinctFieldValue(supplementalData, 'variantSift'),
+      filterable: getDistinctFieldValue(supplementalData, 'filter.variantSift'),
       filterName: 'variantSift',
       headerStyle: { width: '200px' },
     },
@@ -254,7 +251,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
         const label = polyphenPrediction && polyphenPrediction.name;
         return label ? <span className={getPolyphenStyle(label)}>{label.replace(/_/g, ' ')}</span> : '';
       },
-      filterable: getDistinctFieldValue(supplementalData, 'variantPolyphen'),
+      filterable: getDistinctFieldValue(supplementalData, 'filter.variantPolyphen'),
       filterName: 'variantPolyphen',
       headerStyle: { width: '180px' },
     },
@@ -347,7 +344,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
       hasVariants: isLoading ? undefined : Boolean(variants && variants.length),
       allelesSelected: alleleIdsSelected.map(formatAllele),
       allelesVisible: allelesFiltered.data?.results
-        ? allelesFiltered.data.results.map(({ allele }) => formatAllele(allele && (allele.modEntityId || allele.curie)))
+        ? allelesFiltered.data.results.map(({ allele }) => formatAllele(allele && allele.primaryExternalId))
         : [],
       onAllelesSelect: setAlleleIdsSelected,
     };
@@ -355,7 +352,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
   }, [isLoading, allelesFiltered.data, alleleIdsSelected, setAlleleIdsSelected]);
 
   const selectRow = useMemo(() => {
-    const getAlleleId = (allele) => allele && (allele.modEntityId || allele.curie);
+    const getAlleleId = (allele) => allele && allele.primaryExternalId;
     const rowsSelected = data.filter((row) => alleleIdsSelected.indexOf(getAlleleId(row.allele)) > -1);
     return {
       mode: 'checkbox',
