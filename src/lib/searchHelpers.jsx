@@ -65,22 +65,17 @@ export function makeFieldDisplayName(unformattedName, category = '') {
   switch (unformattedName) {
     case GO_CATEGORY:
       return 'Gene Ontology';
-    case `${GO_CATEGORY}_type`:
-    case `${GO_CATEGORY}_branch`:
-    case 'go_type':
-    case 'go_branch':
+    case 'branch':
       return 'GO Branch';
     case 'curie':
       return 'ID';
     case 'geneType':
       return 'Gene Type';
     case 'disease_genes':
-    case `${GO_CATEGORY}_genes`:
-    case 'go_genes':
+    case 'genes':
       return 'Associated Genes';
     case 'disease_species':
-    case `${GO_CATEGORY}_species`:
-    case 'go_species':
+    case 'associatedSpecies':
       return 'Associated Species';
     case 'dnaChangeTypes':
       return 'DNA Change Types';
