@@ -101,10 +101,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
       text: 'Has Phenotype',
       dataField: 'hasPhenotype',
       formatter: (hasPhenotype, row) => (
-        <BooleanLinkCell
-          to={`/allele/${row.allele && row.allele.primaryExternalId}#phenotypes`}
-          value={hasPhenotype}
-        />
+        <BooleanLinkCell to={`/allele/${row.allele && row.allele.primaryExternalId}#phenotypes`} value={hasPhenotype} />
       ),
       filterName: 'hasPhenotype',
       filterable: ['true', 'false'],
