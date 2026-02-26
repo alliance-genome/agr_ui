@@ -2,6 +2,12 @@ export const HELP_EMAIL = 'help@alliancegenome.org';
 export const SEARCH_API_ERROR_MESSAGE = `There was a problem connecting to the server. Please refresh the page. If you continue to see this message, please contact ${HELP_EMAIL}`;
 export const LARGE_COL_CLASS = 'col-md-8 col-12';
 export const SMALL_COL_CLASS = 'col-md-4 col-12';
+export const GENE_CATEGORY = 'gene';
+export const GO_CATEGORY = 'go_search_result';
+export const DISEASE_CATEGORY = 'disease';
+export const ALLELE_CATEGORY = 'allele';
+export const MODEL_CATEGORY = 'model';
+export const DATASET_CATEGORY = 'dataset';
 
 /* Wordpress REST API connection setting */
 export const WORDPRESS_REST_API_BASE = 'https://public-api.wordpress.com/wp/v2/sites/alliancegenome.wordpress.com';
@@ -17,22 +23,22 @@ export const CATEGORIES = [
     displayName: 'All',
   },
   {
-    name: 'gene',
+    name: GENE_CATEGORY,
     displayName: 'Gene',
     displayFields: ['name', 'synonyms', 'primaryKey', 'biotype'],
   },
   {
-    name: 'go',
+    name: GO_CATEGORY,
     displayName: 'Gene Ontology',
-    displayFields: ['primaryKey', 'collapsible_synonyms', 'branch'],
+    displayFields: ['curie', 'collapsible_synonyms', 'branch'],
   },
   {
-    name: 'disease',
+    name: DISEASE_CATEGORY,
     displayName: 'Disease',
     displayFields: ['primaryKey', 'definition'],
   },
   {
-    name: 'allele',
+    name: ALLELE_CATEGORY,
     displayName: 'Allele/Variant',
     displayFields: [
       'primaryKey',
@@ -45,12 +51,12 @@ export const CATEGORIES = [
     ],
   },
   {
-    name: 'model',
+    name: MODEL_CATEGORY,
     displayName: 'Model',
     displayFields: ['primaryKey', 'synonyms'],
   },
   {
-    name: 'dataset',
+    name: DATASET_CATEGORY,
     displayName: 'HTP Dataset Index',
     displayFields: ['dataProviderNote', 'idCollection', 'tags', 'summary'],
   },

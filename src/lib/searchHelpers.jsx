@@ -4,6 +4,7 @@ import without from 'lodash.without';
 import { Link } from 'react-router-dom';
 import ExternalLink from '../components/ExternalLink.jsx';
 import qs from 'qs';
+import { ALLELE_CATEGORY, DATASET_CATEGORY, DISEASE_CATEGORY, GENE_CATEGORY, GO_CATEGORY } from '../constants';
 
 const SINGLE_VAL_FIELDS = ['mode', 'page'];
 const CLEARING_FIELDS = ['category'];
@@ -51,7 +52,7 @@ export function makeFieldDisplayName(unformattedName, category = '') {
   unformattedName = unformattedName.replace('name_key', 'Symbol');
   unformattedName = unformattedName.replace('collapsible_', '');
 
-  if (category === 'dataset') {
+  if (category === DATASET_CATEGORY) {
     if (unformattedName.toLowerCase() === 'expression') {
       unformattedName = 'Cell/Tissues';
     }
@@ -62,18 +63,19 @@ export function makeFieldDisplayName(unformattedName, category = '') {
   }
 
   switch (unformattedName) {
-    case 'go':
+    case GO_CATEGORY:
       return 'Gene Ontology';
-    case 'go_type':
-    case 'go_branch':
+    case 'branch':
       return 'GO Branch';
+    case 'curie':
+      return 'ID';
     case 'geneType':
       return 'Gene Type';
     case 'disease_genes':
-    case 'go_genes':
+    case 'genes':
       return 'Associated Genes';
     case 'disease_species':
-    case 'go_species':
+    case 'associatedSpecies':
       return 'Associated Species';
     case 'dnaChangeTypes':
       return 'DNA Change Types';
@@ -178,11 +180,11 @@ export function getQueryParamWithValueChanged(key, val, queryParams, isClear = f
 
 export const getURLForEntry = (category, id, alterationType) => {
   switch (category) {
-    case 'gene':
+    case GENE_CATEGORY:
       return `/gene/${id}`;
-    case 'disease':
+    case DISEASE_CATEGORY:
       return `/disease/${id}`;
-    case 'allele':
+    case ALLELE_CATEGORY:
       if (alterationType === 'variant') {
         return `/variant/${id}`;
       }
@@ -196,7 +198,7 @@ export const getURLForEntry = (category, id, alterationType) => {
 
 export function getLinkForEntry(entry) {
   let entryText;
-  if (entry.category === 'allele' && entry.alterationType === 'variant') {
+  if (entry.category === ALLELE_CATEGORY && entry.alterationType === 'variant') {
     if (entry.variantName) {
       entryText = entry.variantName;
     } else {
