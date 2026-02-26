@@ -57,7 +57,14 @@ export const CATEGORIES = [
   {
     name: 'variant_search_result',
     displayName: 'Variant',
-    displayFields: ['primaryKey', 'variantType', 'categoryType', 'alterationType', 'crossReferences', 'molecularConsequence'],
+    displayFields: [
+      'primaryKey',
+      'variantType',
+      'categoryType',
+      'alterationType',
+      'crossReferences',
+      'molecularConsequence',
+    ],
   },
 ];
 
