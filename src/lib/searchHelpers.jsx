@@ -116,7 +116,9 @@ export function makeFieldDisplayName(unformattedName, category = '') {
     case 'variantName':
       return 'Variant Name';
     case 'alterationType':
-      return 'Category\u00a0'; //non breaking whitespace char in order to avoid conflict with higher level category value
+      // Non-breaking space prevents key collision with the 'category' field
+      // in flattenWithPrettyFieldNames when both are present in highlights
+      return 'Category\u00a0';
     default:
       //replace fix both camel case and underscores, capitalize the first letter
       return unformattedName
@@ -185,6 +187,8 @@ export const getURLForEntry = (category, id, alterationType) => {
         return `/variant/${id}`;
       }
       return `/allele/${id}`;
+    case 'variant_search_result':
+      return `/variant/${id}`;
     default:
       return '';
   }

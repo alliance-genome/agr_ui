@@ -59,11 +59,14 @@ const searchReducer = function (state = DEFAULT_STATE, action) {
       };
       let resultsTarget = resultsTargetsVals[actionCat] || 'results';
       let totalTarget = totalTargetsVals[actionCat] || 'total';
-      // maybe parse aggs
-      let newAggs =
-        actionCat === 'none'
-          ? fromJS(parseAggs(action.payload.aggregations, action.queryParams))
-          : state.get('aggregations');
+      // parse aggs from response; clear them when the API returns none
+      let newAggs;
+      if (actionCat === 'none') {
+        let parsedAggs = parseAggs(action.payload.aggregations, action.queryParams);
+        newAggs = fromJS(parsedAggs);
+      } else {
+        newAggs = state.get('aggregations');
+      }
       // parse meta
       return (
         state

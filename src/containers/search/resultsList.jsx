@@ -152,10 +152,10 @@ class ResultsList extends Component {
       this.props.entries?.map((d, i) => {
         if (d.category === 'gene') {
           return this.renderGeneEntry(d, i);
-        } else if (['allele', 'dataset', 'disease', 'go'].includes(d.category)) {
-          return this.renderEntry(d, i, CATEGORIES.find((cat) => cat.name === d.category).displayFields);
         } else {
-          return this.renderEntry(d, i, ['id', 'synonyms']);
+          let catMatch = CATEGORIES.find((cat) => cat.name === d.category);
+          let fields = catMatch ? catMatch.displayFields || ['id', 'synonyms'] : ['id', 'synonyms'];
+          return this.renderEntry(d, i, fields);
         }
       }) || []
     );

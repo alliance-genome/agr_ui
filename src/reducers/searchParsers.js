@@ -22,7 +22,8 @@ function flattenWithPrettyFieldNames(highlights, category = '') {
 export function injectHighlightIntoResponse(responseObj) {
   let high = responseObj.highlights || {};
   let highKeys = Object.keys(high);
-  let displayFields = CATEGORIES.find((cat) => cat.name === responseObj.category).displayFields;
+  let categoryMatch = CATEGORIES.find((cat) => cat.name === responseObj.category);
+  let displayFields = categoryMatch ? categoryMatch.displayFields || [] : [];
   let simpleHighObj = {};
   highKeys.forEach((key) => {
     let highArr = high[key];
@@ -83,6 +84,8 @@ export function parseResults(results) {
         return parseAlleleResult(d);
       case 'homology_group':
         return parseHomologyGroupResult(d);
+      case 'variant_search_result':
+        return parseVariantSearchResult(d);
       default:
         return parseDefaultResult(d);
     }
@@ -241,6 +244,19 @@ function parseAlleleResult(_d) {
   };
 }
 
+function parseVariantSearchResult(_d) {
+  let speciesKey = _d.species;
+  let d = injectHighlightIntoResponse(_d);
+  return {
+    ...d,
+    display_name: d.name,
+    highlight: d.highlights,
+    speciesKey: speciesKey,
+    missing: d.missingTerms,
+    ...(d.crossReferences != null && { crossReferences: d.crossReferences }),
+  };
+}
+
 function parseDefaultResult(_d) {
   let d = injectHighlightIntoResponse(_d);
   return {
@@ -249,5 +265,6 @@ function parseDefaultResult(_d) {
     highlight: d.highlights,
     href: _d.modCrossRefCompleteUrl,
     missing: d.missingTerms,
+    ...(d.crossReferences != null && { crossReferences: d.crossReferences }),
   };
 }
