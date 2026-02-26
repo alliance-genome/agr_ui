@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import style from './style.module.scss';
 import DetailList from './detailList.jsx';
 import { getLinkForEntry, makeFieldDisplayName } from '../../lib/searchHelpers.jsx';
-import { GO_CATEGORY, NON_HIGHLIGHTED_FIELDS } from '../../constants';
+import { DISEASE_CATEGORY, GENE_CATEGORY, GO_CATEGORY, NON_HIGHLIGHTED_FIELDS } from '../../constants';
 import SpeciesName from '../../components/SpeciesName.jsx';
 
 const MATCH_LABEL = 'match_by';
@@ -14,13 +14,13 @@ class ResultsTable extends Component {
   getFields() {
     let fields;
     switch (this.props.activeCategory) {
-      case 'gene':
+      case GENE_CATEGORY:
         fields = ['species', 'display_name', 'name', 'synonyms', 'source', 'biotype'];
         break;
       case GO_CATEGORY:
         fields = ['display_name', 'id', 'synonyms', 'go_branch'];
         break;
-      case 'disease':
+      case DISEASE_CATEGORY:
         fields = ['display_name', 'id'];
         break;
       default:
@@ -34,7 +34,7 @@ class ResultsTable extends Component {
     let fields = this.getFields();
     let nodes = fields.map((d) => {
       let processedName;
-      if (this.props.activeCategory === 'gene' && d === 'display_name') {
+      if (this.props.activeCategory === GENE_CATEGORY && d === 'display_name') {
         processedName = 'symbol';
       } else if (d === 'display_name') {
         processedName = 'name';

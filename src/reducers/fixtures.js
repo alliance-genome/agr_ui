@@ -1,4 +1,4 @@
-import { GO_CATEGORY } from '../constants';
+import { DISEASE_CATEGORY, GENE_CATEGORY, GO_CATEGORY } from '../constants';
 
 const FIXTURE_HREF = 'https://google.com';
 
@@ -42,7 +42,7 @@ export const FIXTURE_SEARCH_STATE = {
       },
     },
   ],
-  activeCategory: 'gene',
+  activeCategory: GENE_CATEGORY,
   aggregations: [
     {
       name: 'species',
@@ -93,7 +93,7 @@ export const FIXTURE_SEARCH_STATE = {
       ],
     },
     {
-      name: 'disease',
+      name: DISEASE_CATEGORY,
       displayName: 'Disease',
       values: [
         {

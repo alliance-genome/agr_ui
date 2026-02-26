@@ -1,5 +1,14 @@
 import { makeFieldDisplayName, makeValueDisplayName } from '../lib/searchHelpers.jsx';
-import { CATEGORIES, DUPLICATE_HIGHLIGHTED_FIELDS, GO_CATEGORY, NON_HIGHLIGHTED_FIELDS } from '../constants';
+import {
+  ALLELE_CATEGORY,
+  CATEGORIES,
+  DATASET_CATEGORY,
+  DISEASE_CATEGORY,
+  DUPLICATE_HIGHLIGHTED_FIELDS,
+  GENE_CATEGORY,
+  GO_CATEGORY,
+  NON_HIGHLIGHTED_FIELDS,
+} from '../constants';
 
 const JOIN_HIGHLIGHT_BY = '...';
 
@@ -72,15 +81,15 @@ function replaceHighlightValue(value, unhighlightedValue, highlight) {
 export function parseResults(results) {
   return results?.map((d) => {
     switch (d.category) {
-      case 'gene':
+      case GENE_CATEGORY:
         return parseGeneResult(d);
       case GO_CATEGORY:
         return parseGoResult(d);
-      case 'dataset':
+      case DATASET_CATEGORY:
         return parseDatasetResult(d);
-      case 'disease':
+      case DISEASE_CATEGORY:
         return parseDiseaseResult(d);
-      case 'allele':
+      case ALLELE_CATEGORY:
         return parseAlleleResult(d);
       case 'homology_group':
         return parseHomologyGroupResult(d);
@@ -222,7 +231,7 @@ function parseHomologyGroupResult(_d) {
   let d = injectHighlightIntoResponse(_d);
   return {
     associated_genes: d.associated_genes,
-    category: d.category || 'gene',
+    category: d.category || GENE_CATEGORY,
     display_name: d.name,
     highlight: d.highlights,
     href: d.href,
