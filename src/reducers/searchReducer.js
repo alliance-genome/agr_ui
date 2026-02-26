@@ -59,12 +59,11 @@ const searchReducer = function (state = DEFAULT_STATE, action) {
       };
       let resultsTarget = resultsTargetsVals[actionCat] || 'results';
       let totalTarget = totalTargetsVals[actionCat] || 'total';
-      // maybe parse aggs, preserving existing aggregations if new ones are empty
+      // parse aggs from response; clear them when the API returns none
       let newAggs;
       if (actionCat === 'none') {
         let parsedAggs = parseAggs(action.payload.aggregations, action.queryParams);
-        let hasValues = parsedAggs.some((agg) => agg.values && agg.values.length > 0);
-        newAggs = hasValues ? fromJS(parsedAggs) : state.get('aggregations');
+        newAggs = fromJS(parsedAggs);
       } else {
         newAggs = state.get('aggregations');
       }

@@ -116,7 +116,9 @@ export function makeFieldDisplayName(unformattedName, category = '') {
     case 'variantName':
       return 'Variant Name';
     case 'alterationType':
-      return 'Category';
+      // Non-breaking space prevents key collision with the 'category' field
+      // in flattenWithPrettyFieldNames when both are present in highlights
+      return 'Category\u00a0';
     default:
       //replace fix both camel case and underscores, capitalize the first letter
       return unformattedName
