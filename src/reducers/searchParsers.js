@@ -84,7 +84,7 @@ export function parseResults(results) {
         return parseAlleleResult(d);
       case 'homology_group':
         return parseHomologyGroupResult(d);
-      case 'variant_search':
+      case 'variant_search_result':
         return parseVariantSearchResult(d);
       default:
         return parseDefaultResult(d);

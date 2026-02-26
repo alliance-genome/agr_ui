@@ -55,7 +55,7 @@ export const CATEGORIES = [
     displayFields: ['dataProviderNote', 'idCollection', 'tags', 'summary'],
   },
   {
-    name: 'variant_search',
+    name: 'variant_search_result',
     displayName: 'Variant',
     displayFields: ['primaryKey', 'variantType', 'categoryType', 'alterationType', 'crossReferences', 'molecularConsequence'],
   },

@@ -185,7 +185,7 @@ export const getURLForEntry = (category, id, alterationType) => {
         return `/variant/${id}`;
       }
       return `/allele/${id}`;
-    case 'variant_search':
+    case 'variant_search_result':
       return `/variant/${id}`;
     default:
       return '';
