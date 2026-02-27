@@ -6,7 +6,13 @@ import { compareAlphabeticalCaseInsensitive } from '../lib/utils';
 
 const CrossReferenceListCuration = ({ collapsible = true, crossReferences, gcrpCrossReference, sort = true }) => {
   const byName = compareAlphabeticalCaseInsensitive((xref) => xref.displayName || xref.referencedCurie);
+  const gcrpCurie = gcrpCrossReference?.referencedCurie;
   const byWithLinkThenName = (a, b) => {
+    // GCRP cross-reference always sorts first
+    if (gcrpCurie) {
+      if (a.referencedCurie === gcrpCurie) return -1;
+      if (b.referencedCurie === gcrpCurie) return 1;
+    }
     const aUrl = a.crossRefCompleteUrl || a.resourceDescriptorPage?.urlTemplate;
     const bUrl = b.crossRefCompleteUrl || b.resourceDescriptorPage?.urlTemplate;
     if (aUrl && !bUrl) {
@@ -27,8 +33,6 @@ const CrossReferenceListCuration = ({ collapsible = true, crossReferences, gcrpC
   if (sort) {
     crossReferences.sort(byWithLinkThenName);
   }
-
-  const gcrpCurie = gcrpCrossReference?.referencedCurie;
 
   return (
     <CollapsibleList collapsedSize={size}>
