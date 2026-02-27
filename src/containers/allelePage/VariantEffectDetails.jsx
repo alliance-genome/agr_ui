@@ -45,9 +45,10 @@ const VariantEffectDetails = ({ consequence = {}, transcript = {}, variant = {} 
     hgvsProteinNomenclature,
     hgvsCodingNomenclature,
     hgvsVEPGeneNomenclature,
+    variant.hgvs,
     variant.id,
     variant.name,
-  ].filter((hgvsName) => hgvsName);
+  ].filter((hgvsName, index, self) => hgvsName && self.indexOf(hgvsName) === index);
 
   return (
     <div className={`${styles.row} ${styles.detailRow}`}>

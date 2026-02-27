@@ -8,7 +8,7 @@ import VariantEffectDetails from './VariantEffectDetails.jsx';
 import styles from './style.module.scss';
 import { DEFAULT_TABLE_STATE } from '../../constants';
 
-const VariantToTranscriptTableNew = ({ variant, variantHgvs }) => {
+const VariantToTranscriptTableNew = ({ variant, variantHgvs, variantType }) => {
   const [tableState, setTableState] = useState(DEFAULT_TABLE_STATE);
 
   const columns = [
@@ -166,7 +166,7 @@ const VariantToTranscriptTableNew = ({ variant, variantHgvs }) => {
           consequence={consequence}
           key={`${transcript.id}-${index}`}
           transcript={transcript}
-          variant={{ ..._original, hgvs: variantHgvs }}
+          variant={{ ..._original, hgvs: variantHgvs, variantType }}
         />
       ));
     },
@@ -200,7 +200,7 @@ const VariantToTranscriptTableNew = ({ variant, variantHgvs }) => {
     return {
       id: transcript.curie || `row-${index}`,
       transcriptId: transcript.curie,
-      name: transcript.name,
+      name: transcript.name || transcript.curie,
       type: transcript.transcriptType,
       gene: gene,
       intronExonLocation: item.intronExonLocation,
@@ -255,6 +255,7 @@ const VariantToTranscriptTableNew = ({ variant, variantHgvs }) => {
 VariantToTranscriptTableNew.propTypes = {
   variant: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
   variantHgvs: PropTypes.string,
+  variantType: PropTypes.shape({ name: PropTypes.string }),
 };
 
 export default VariantToTranscriptTableNew;

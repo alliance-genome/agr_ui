@@ -69,7 +69,7 @@ const AlleleMolecularConsequences = ({ alleleId, allele }) => {
               <AttributeLabel>Variant type:</AttributeLabel>
               <AttributeValue>{type.name}</AttributeValue>
             </AttributeList>
-            <VariantToTranscriptTableNew variant={consequences} variantHgvs={variantId} />
+            <VariantToTranscriptTableNew variant={consequences} variantHgvs={variantId} variantType={type} />
           </Subsection>
         );
       })}

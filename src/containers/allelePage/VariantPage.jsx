@@ -120,7 +120,7 @@ const VariantPage = () => {
         </Subsection>
 
         <Subsection help={<MolecularConsequenceHelp />} title={MOLECULAR_CONSEQUENCE}>
-          <VariantToTranscriptTableNew variant={data.variant} variantHgvs={variantId} />
+          <VariantToTranscriptTableNew variant={data.variant} variantHgvs={variantId} variantType={data.variant?.variantAssociationSubject?.variantType} />
         </Subsection>
       </PageData>
     </DataPage>
