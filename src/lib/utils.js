@@ -252,7 +252,6 @@ export function buildCrossReferenceMap(crossReferences) {
       findByPage('gene/MODinteractions_molecular')
   );
 
-
   const biogrid = findByPrefix('BIOGRID_ORCS:');
   map.biogridOrcs = biogrid.length > 0 ? addUrl(biogrid[0]) : undefined;
 
