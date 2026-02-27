@@ -187,7 +187,7 @@ const VariantToTranscriptTableNew = ({ variant, variantHgvs, variantType }) => {
   const sourceData = Array.isArray(variant) ? variant : variant?.predictedVariantConsequences || [];
 
   const allData = sourceData.map((item, index) => {
-    const transcript = item.variantTranscript || {};
+    const transcript = item.variantTranscript || item.transcript || {};
     // Extract gene from transcriptGeneAssociations
     const geneAssoc = transcript.transcriptGeneAssociations?.[0]?.transcriptGeneAssociationObject;
     const gene = geneAssoc
