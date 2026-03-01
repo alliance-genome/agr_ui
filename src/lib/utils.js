@@ -244,15 +244,13 @@ export function buildCrossReferenceMap(crossReferences) {
   map.spell = addUrl(findByPage('gene/spell'));
   map.otherExpression = addUrl(findByPage('gene/other_expression'));
   map.references = addUrl(findByPage('gene/references'));
+  map.expressionAtlas = addUrl(findByPage('expression_atlas'));
 
   map.modInteractions = addUrl(
     findByPage('gene/MODinteractions') ||
       findByPage('gene/MODinteractions_genetic') ||
       findByPage('gene/MODinteractions_molecular')
   );
-
-  const exprAtlas = findByPrefix('ExpressionAtlas:');
-  map.expressionAtlas = exprAtlas.length > 0 ? addUrl({ ...exprAtlas[0], displayName: 'Expression Atlas' }) : undefined;
 
   const biogrid = findByPrefix('BIOGRID_ORCS:');
   map.biogridOrcs = biogrid.length > 0 ? addUrl(biogrid[0]) : undefined;

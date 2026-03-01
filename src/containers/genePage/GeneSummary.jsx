@@ -19,13 +19,10 @@ const GeneSummary = ({ gene, crossReferenceMap, gcrpCrossReference }) => {
   const automatedDescription = getNoteText(gene.relatedNotes, 'automated_gene_description');
   const modDescription = getNoteText(gene.relatedNotes, 'MOD_provided_gene_description');
 
-  // Merge gcrpCrossReference into the "other" cross references if not already present
+  // Merge gcrpCrossReference into the "other" cross references, always at the top
   const otherCrossRefs = [...(crossReferenceMap?.other || [])];
   if (gcrpCrossReference) {
-    const alreadyPresent = otherCrossRefs.some((ref) => ref.referencedCurie === gcrpCrossReference.referencedCurie);
-    if (!alreadyPresent) {
-      otherCrossRefs.push({ ...gcrpCrossReference, crossRefCompleteUrl: buildUrlFromTemplate(gcrpCrossReference) });
-    }
+    otherCrossRefs.unshift({ ...gcrpCrossReference, crossRefCompleteUrl: buildUrlFromTemplate(gcrpCrossReference) });
   }
 
   return (
