@@ -4,7 +4,14 @@ import without from 'lodash.without';
 import { Link } from 'react-router-dom';
 import ExternalLink from '../components/ExternalLink.jsx';
 import qs from 'qs';
-import { ALLELE_CATEGORY, DATASET_CATEGORY, DISEASE_CATEGORY, GENE_CATEGORY, GO_CATEGORY } from '../constants';
+import {
+  ALLELE_CATEGORY,
+  ALLELE_VARIANT_CATEGORY,
+  DATASET_CATEGORY,
+  DISEASE_CATEGORY,
+  GENE_CATEGORY,
+  GO_CATEGORY,
+} from '../constants';
 
 const SINGLE_VAL_FIELDS = ['mode', 'page'];
 const CLEARING_FIELDS = ['category'];
@@ -185,6 +192,7 @@ export const getURLForEntry = (category, id, alterationType) => {
     case DISEASE_CATEGORY:
       return `/disease/${id}`;
     case ALLELE_CATEGORY:
+    case ALLELE_VARIANT_CATEGORY:
       if (alterationType === 'variant') {
         return `/variant/${id}`;
       }

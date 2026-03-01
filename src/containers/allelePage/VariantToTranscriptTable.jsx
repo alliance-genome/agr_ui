@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { DataTable } from '../../components/dataTable';
@@ -6,11 +6,10 @@ import { CollapsibleList } from '../../components/collapsibleList';
 import Translation from './Translation.jsx';
 import VariantEffectDetails from './VariantEffectDetails.jsx';
 import styles from './style.module.scss';
-import useDataTableQuery from '../../hooks/useDataTableQuery';
+import { DEFAULT_TABLE_STATE } from '../../constants';
 
-const VariantToTranscriptTable = ({ variant }) => {
-  const { id: variantId } = variant;
-  const tableProps = useDataTableQuery(`/api/variant/${variantId}/transcripts`);
+const VariantToTranscriptTable = ({ variant, variantHgvs, variantType }) => {
+  const [tableState, setTableState] = useState(DEFAULT_TABLE_STATE);
 
   const columns = [
     {
@@ -161,13 +160,13 @@ const VariantToTranscriptTable = ({ variant }) => {
 
   const expandRow = {
     renderer: (row) => {
-      const { consequences = [], ...transcript } = row;
+      const { consequences = [], _original, ...transcript } = row;
       return consequences.map((consequence, index) => (
         <VariantEffectDetails
           consequence={consequence}
           key={`${transcript.id}-${index}`}
           transcript={transcript}
-          variant={variant}
+          variant={{ ..._original, hgvs: variantHgvs, variantType }}
         />
       ));
     },
@@ -183,23 +182,80 @@ const VariantToTranscriptTable = ({ variant }) => {
     },
   };
 
+  // Transform variant data to table row format
+  // Support both array input and object with predictedVariantConsequences
+  const sourceData = Array.isArray(variant) ? variant : variant?.predictedVariantConsequences || [];
+
+  const allData = sourceData.map((item, index) => {
+    const transcript = item.variantTranscript || item.transcript || {};
+    // Extract gene from transcriptGeneAssociations
+    const geneAssoc = transcript.transcriptGeneAssociations?.[0]?.transcriptGeneAssociationObject;
+    const gene = geneAssoc
+      ? {
+          id: geneAssoc.curie,
+          symbol: geneAssoc.geneSymbol?.displayText,
+        }
+      : null;
+
+    return {
+      id: transcript.curie || `row-${index}`,
+      transcriptId: transcript.curie,
+      name: transcript.name || transcript.curie,
+      type: transcript.transcriptType,
+      gene: gene,
+      intronExonLocation: item.intronExonLocation,
+      consequences: [
+        {
+          molecularConsequences: (item.vepConsequences || []).map((c) => c.name),
+          aminoAcidReference: item.aminoAcidReference || '',
+          aminoAcidVariation: item.aminoAcidVariant || '',
+          proteinStartPosition: item.calculatedProteinStart,
+          proteinEndPosition: item.calculatedProteinEnd,
+          codonReference: item.codonReference || '',
+          codonVariation: item.codonVariant || '',
+          cdsStartPosition: item.calculatedCdsStart,
+          cdsEndPosition: item.calculatedCdsEnd,
+          cdnaStartPosition: item.calculatedCdnaStart,
+          cdnaEndPosition: item.calculatedCdnaEnd,
+          impact: item.vepImpact?.name || '',
+          hgvsCodingNomenclature: item.hgvsCodingNomenclature,
+          hgvsProteinNomenclature: item.hgvsProteinNomenclature,
+          siftPrediction: item.siftPrediction || '',
+          siftScore: item.siftScore,
+          polyphenPrediction: item.polyphenPrediction || '',
+          polyphenScore: item.polyphenScore,
+        },
+      ],
+      // Keep original data for expand row
+      _original: item,
+    };
+  });
+
+  // Client-side pagination: slice data based on current page and size
+  const { page, sizePerPage } = tableState;
+  const startIndex = (page - 1) * sizePerPage;
+  const endIndex = startIndex + sizePerPage;
+  const paginatedData = allData.slice(startIndex, endIndex);
+
   return (
     <DataTable
-      {...tableProps}
       className={styles.variantToTranscriptTable}
       columns={columns}
+      data={paginatedData}
       expandRow={expandRow}
       keyField="id"
       noDataMessage="No variant effect information available"
+      setTableState={setTableState}
+      tableState={tableState}
+      totalRows={allData.length}
     />
   );
 };
 
 VariantToTranscriptTable.propTypes = {
-  variant: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    type: PropTypes.any,
-  }).isRequired,
+  variant: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
+  variantHgvs: PropTypes.string,
+  variantType: PropTypes.shape({ name: PropTypes.string }),
 };
 
 export default VariantToTranscriptTable;

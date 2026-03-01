@@ -57,12 +57,8 @@ const VariantSummaryCuration = ({ variant: variantData, variantId }) => {
 
   const nucleotideChange = variant?.nucleotideChange;
 
-  // Extract consequence - try both possible paths
-  const consequences =
-    predictedVariantConsequences ||
-    variantSubject?.predictedVariantConsequences ||
-    variant?.predictedVariantConsequences;
-  const consequence = consequences?.[0]?.vepConsequences?.[0]?.name;
+  // Use the mostSevereConsequence field which is pre-calculated by the API
+  const consequence = variant?.mostSevereConsequence?.vepConsequences?.[0]?.name;
 
   // Use pre-sorted and deduplicated HGVS fields from variant object
   const hgvsC = variant?.hgvsC;
