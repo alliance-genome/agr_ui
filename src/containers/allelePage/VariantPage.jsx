@@ -16,7 +16,7 @@ import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel.jsx';
 // import AlleleToVariantTable from './AlleleToVariantTable';
 // import AlleleSequenceView from './AlleleSequenceView';
 import VariantSequenceView from './VariantSequenceView.jsx';
-import VariantToTranscriptTableNew from './VariantToTranscriptTableNew.jsx';
+import VariantToTranscriptTable from './VariantToTranscriptTable.jsx';
 import MolecularConsequenceHelp from './MolecularConsequenceHelp.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import SpeciesName from '../../components/SpeciesName.jsx';
@@ -120,7 +120,7 @@ const VariantPage = () => {
         </Subsection>
 
         <Subsection help={<MolecularConsequenceHelp />} title={MOLECULAR_CONSEQUENCE}>
-          <VariantToTranscriptTableNew
+          <VariantToTranscriptTable
             variant={data.variant}
             variantHgvs={variantId}
             variantType={data.variant?.variantAssociationSubject?.variantType}

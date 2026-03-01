@@ -6,7 +6,7 @@ import LoadingSpinner from '../../components/loadingSpinner.jsx';
 import NoData from '../../components/noData.jsx';
 // import { VariantJBrowseLink } from '../../components/variant';
 import Subsection from '../../components/subsection.jsx';
-import VariantToTranscriptTableNew from './VariantToTranscriptTableNew.jsx';
+import VariantToTranscriptTable from './VariantToTranscriptTable.jsx';
 import style from './style.module.scss';
 import useAllAlleleVariants from '../../hooks/useAlleleVariants';
 import { makeId } from '../../lib/utils';
@@ -69,7 +69,7 @@ const AlleleMolecularConsequences = ({ alleleId, allele }) => {
               <AttributeLabel>Variant type:</AttributeLabel>
               <AttributeValue>{type.name}</AttributeValue>
             </AttributeList>
-            <VariantToTranscriptTableNew variant={consequences} variantHgvs={variantId} variantType={type} />
+            <VariantToTranscriptTable variant={consequences} variantHgvs={variantId} variantType={type} />
           </Subsection>
         );
       })}
