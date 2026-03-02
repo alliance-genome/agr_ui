@@ -245,15 +245,13 @@ export function buildCrossReferenceMap(crossReferences) {
   map.otherExpression = addUrl(findByPage('gene/other_expression'));
   map.references = addUrl(findByPage('gene/references'));
   map.expressionAtlas = addUrl(findByPage('expression_atlas'));
+  map.biogridOrcs = addUrl(findByPage('biogrid/orcs'));
 
   map.modInteractions = addUrl(
     findByPage('gene/MODinteractions') ||
       findByPage('gene/MODinteractions_genetic') ||
       findByPage('gene/MODinteractions_molecular')
   );
-
-  const biogrid = findByPrefix('BIOGRID_ORCS:');
-  map.biogridOrcs = biogrid.length > 0 ? addUrl(biogrid[0]) : undefined;
 
   // "other" = "default" page entries excluding PANTHER
   map.other = crossReferences
