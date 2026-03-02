@@ -13,6 +13,7 @@ import { select } from 'd3-selection';
 
 import style from './style.module.scss';
 import { getSpecies, getSingleGenomeLocation } from '../../lib/utils';
+import { getJBrowseDataRelease } from '../../lib/jbrowseRelease';
 
 import SequenceFeatureViewerSubsectionHelp from '../../components/sequenceFeatureViewer/sequenceFeatureViewerSubsectionHelp.jsx';
 import { useRelease } from '../../hooks/ReleaseContextProvider';
@@ -77,7 +78,7 @@ class GenomeFeatureWrapper extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.primaryId !== prevProps.primaryId) {
+    if (this.props.primaryId !== prevProps.primaryId || this.props.releaseVersion !== prevProps.releaseVersion) {
       this.loadGenomeFeature();
       if (this.gfc) {
         this.gfc.setSelectedAlleles(
@@ -354,8 +355,15 @@ class GenomeFeatureWrapper extends Component {
     try {
       this.setState({ loadState: 'loading', vcfLoadError: null });
 
-      // Get release version from context or environment
-      const releaseVersion = process.env.REACT_APP_JBROWSE_AGR_RELEASE || this.props.releaseVersion || '8.2.0';
+      const jbrowseDataRelease = getJBrowseDataRelease({
+        explicitRelease: process.env.REACT_APP_JBROWSE_DATA_RELEASE,
+        legacyRelease: process.env.REACT_APP_JBROWSE_AGR_RELEASE,
+        contextRelease: this.props.releaseVersion,
+      });
+
+      if (!jbrowseDataRelease) {
+        return;
+      }
 
       // provide unique names
       let nameSuffix = [geneSymbol, ...synonyms, primaryId]
@@ -383,7 +391,7 @@ class GenomeFeatureWrapper extends Component {
         fmax,
         chromosome,
         species,
-        releaseVersion,
+        jbrowseDataRelease,
         displayType
       );
 
@@ -545,11 +553,10 @@ const GenomeFeatureWrapperWithRelease = (props) => {
   };
 
   const contextReleaseVersion = useGetReleaseVersion();
-  const releaseVersion = process.env.REACT_APP_JBROWSE_AGR_RELEASE || contextReleaseVersion;
 
   // Debug logging removed for production
 
-  return <GenomeFeatureWrapper {...props} releaseVersion={releaseVersion} />;
+  return <GenomeFeatureWrapper {...props} releaseVersion={contextReleaseVersion} />;
 };
 
 export default GenomeFeatureWrapperWithRelease;

@@ -13,6 +13,55 @@ frontend:
         - npm install
     build:
       commands:
+        - |
+          # Production must block bad JBrowse releases; stage/test should surface warnings but keep deploying.
+          if [ "${AWS_BRANCH:-}" = "main" ]; then
+            export JBROWSE_VALIDATION_MODE=strict
+          else
+            export JBROWSE_VALIDATION_MODE=warn
+          fi
+
+          # Explicit env override wins; otherwise we resolve from releaseInfo for the active branch.
+          jbrowse_release="${REACT_APP_JBROWSE_DATA_RELEASE:-${REACT_APP_JBROWSE_AGR_RELEASE:-}}"
+
+          # If no explicit JBrowse release override is set, derive it from releaseInfo for this branch.
+          if [ -z "${jbrowse_release}" ]; then
+            if [ -n "${JBROWSE_RELEASE_INFO_URL:-}" ]; then
+              release_info_url="${JBROWSE_RELEASE_INFO_URL}"
+            elif [ "${AWS_BRANCH:-}" = "main" ]; then
+              release_info_url="https://www.alliancegenome.org/api/releaseInfo"
+            elif [ "${AWS_BRANCH:-}" = "stage" ]; then
+              release_info_url="https://stage.alliancegenome.org/api/releaseInfo"
+            elif [ "${AWS_BRANCH:-}" = "test" ]; then
+              release_info_url="https://test.alliancegenome.org/api/releaseInfo"
+            elif [ -n "${API_URL:-}" ]; then
+              release_info_url="${API_URL}/api/releaseInfo"
+            else
+              release_info_url="https://stage.alliancegenome.org/api/releaseInfo"
+            fi
+
+            # Parse releaseVersion without adding jq as a build dependency.
+            release_info_json="$(curl -fsSL "${release_info_url}" 2>/dev/null || true)"
+            if [ -n "${release_info_json}" ]; then
+              jbrowse_release="$(
+                printf '%s' "${release_info_json}" | node -e "
+                  let input = '';
+                  process.stdin.on('data', c => (input += c));
+                  process.stdin.on('end', () => {
+                    try {
+                      const parsed = JSON.parse(input);
+                      if (parsed && typeof parsed.releaseVersion === 'string') {
+                        process.stdout.write(parsed.releaseVersion);
+                      }
+                    } catch (e) {}
+                  });
+                "
+              )"
+            fi
+          fi
+
+          echo "Running JBrowse S3 validation (branch=${AWS_BRANCH:-unknown}, mode=${JBROWSE_VALIDATION_MODE}, release=${jbrowse_release:-unset})"
+          JBROWSE_DATA_RELEASE="${jbrowse_release}" bash ./bin/verify_jbrowse_s3_release.sh
         - npm run build
   artifacts:
     baseDirectory: build

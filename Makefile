@@ -81,3 +81,6 @@ go-ribbons-build-fix:
 	cp -r ./node_modules/@geneontology/wc-ribbon-strips/dist/wc-ribbon-strips/ ./build/assets/wc-ribbon-strips/
 	cp -r ./node_modules/@geneontology/wc-ribbon-table/dist/wc-ribbon-table/   ./build/assets/wc-ribbon-table/
 	cp -r ./node_modules/@geneontology/wc-gocam-viz/dist/wc-gocam-viz/         ./build/assets/wc-gocam-viz/
+
+verify-jbrowse-s3-release:
+	bash ./bin/verify_jbrowse_s3_release.sh

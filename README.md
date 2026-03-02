@@ -34,6 +34,26 @@ This repo utilizes these technologies:
    - `API_URL=[CUSTOM_URL_HERE] npm start`: for connecting to a custom API URL
 4. Navigate to `localhost:3000` (or whichever port number is displayed in the console) to view the site
 
+### JBrowse Data Release Override
+
+JBrowse track data can be pinned independently from the site release:
+
+- `REACT_APP_JBROWSE_DATA_RELEASE` (preferred)
+- `REACT_APP_JBROWSE_AGR_RELEASE` (legacy compatibility)
+
+Examples:
+
+- `REACT_APP_JBROWSE_DATA_RELEASE=8.3.0 npm run start:stage`
+- `JBROWSE_DATA_RELEASE=8.3.0 make verify-jbrowse-s3-release`
+
+Amplify build behavior:
+
+- `main` branch runs JBrowse S3 validation in `strict` mode (build fails on missing keys/config).
+- Non-`main` branches (including `stage`/`test`) run validation in `warn` mode (warnings only).
+- Release source for validation:
+  - `REACT_APP_JBROWSE_DATA_RELEASE` (or legacy `REACT_APP_JBROWSE_AGR_RELEASE`) when explicitly set.
+  - otherwise derived from `releaseInfo` API for the current branch (`main`/`stage`/`test`), with optional override via `JBROWSE_RELEASE_INFO_URL`.
+
 ## Build
 
 To build an app or lib for production and to also to build the resource descriptors file when running locally:

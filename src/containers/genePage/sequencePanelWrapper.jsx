@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { GenericGeneSeqPanel } from 'generic-sequence-panel';
 import { getSpecies } from '../../lib/utils';
+import { getJBrowseDataRelease } from '../../lib/jbrowseRelease';
 import { Buffer } from 'buffer';
 
 import { useRelease } from '../../hooks/ReleaseContextProvider.jsx';
@@ -21,8 +22,16 @@ const SequencePanel = ({ species, gene, refseq, start, end }) => {
   };
 
   const contextReleaseVersion = useGetReleaseVersion();
-  const releaseVersion = process.env.REACT_APP_JBROWSE_AGR_RELEASE || contextReleaseVersion;
+  const releaseVersion = getJBrowseDataRelease({
+    explicitRelease: process.env.REACT_APP_JBROWSE_DATA_RELEASE,
+    legacyRelease: process.env.REACT_APP_JBROWSE_AGR_RELEASE,
+    contextRelease: contextReleaseVersion,
+  });
   // Debug logging removed for production
+
+  if (!releaseVersion) {
+    return null;
+  }
 
   const jBrowsenclistbaseurl = getSpecies(species).jBrowsenclistbaseurltemplate.replace('{release}', releaseVersion);
   const jBrowseurltemplate = getSpecies(species).jBrowseurltemplate;

@@ -186,7 +186,7 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     expect(errorAlert).toHaveTextContent('Variant data could not be loaded');
   });
 
-  test('should not attempt to load VCF when release version is unknown', async () => {
+  test('should not attempt to load NCList or VCF when release version is unknown', async () => {
     // Clear any environment variable that might override the release version
     const originalEnv = process.env.REACT_APP_JBROWSE_AGR_RELEASE;
     delete process.env.REACT_APP_JBROWSE_AGR_RELEASE;
@@ -201,10 +201,11 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     render(<GenomeFeatureWrapper {...defaultProps} />);
 
     await waitFor(() => {
-      expect(fetchNCListData).toHaveBeenCalled();
+      expect(fetchNCListData).not.toHaveBeenCalled();
     });
 
-    // VCF loading should not be attempted
+    // Neither NCList nor VCF loading should be attempted
+    expect(fetchNCListData).not.toHaveBeenCalled();
     expect(fetchTabixVcfData).not.toHaveBeenCalled();
 
     // Should not show error alert
@@ -228,8 +229,10 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     });
 
     // Should show the general error message, not the VCF-specific one
+    await waitFor(() => {
+      expect(screen.getByText('Unable to retrieve data')).toBeInTheDocument();
+    });
     const generalError = screen.getByText('Unable to retrieve data');
-    expect(generalError).toBeInTheDocument();
     expect(generalError).toHaveClass('text-danger');
 
     // Should not show the VCF-specific alert
