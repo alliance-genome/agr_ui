@@ -11,6 +11,7 @@ import {
   DISEASE_CATEGORY,
   GENE_CATEGORY,
   GO_CATEGORY,
+  VARIANT_SEARCH_RESULTS_CATEGORY,
 } from '../constants';
 
 const SINGLE_VAL_FIELDS = ['mode', 'page'];
@@ -197,7 +198,7 @@ export const getURLForEntry = (category, id, alterationType) => {
         return `/variant/${id}`;
       }
       return `/allele/${id}`;
-    case 'variant_search_result':
+    case VARIANT_SEARCH_RESULTS_CATEGORY:
       return `/variant/${id}`;
     default:
       return '';
