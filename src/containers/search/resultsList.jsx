@@ -5,7 +5,7 @@ import style from './style.module.scss';
 import CategoryLabel from './categoryLabel.jsx';
 import DetailList from './detailList.jsx';
 import ResultExplanation from './resultExplanation.jsx';
-import { CATEGORIES, GENE_CATEGORY, GO_CATEGORY, NON_HIGHLIGHTED_FIELDS } from '../../constants';
+import { CATEGORIES, GENE_CATEGORY, GO_CATEGORY, ALLELE_CATEGORY, ALLELE_VARIANT_CATEGORY, NON_HIGHLIGHTED_FIELDS } from '../../constants';
 import { Link } from 'react-router-dom';
 
 import SpeciesIcon from '../../components/speciesIcon/index.jsx';
@@ -153,7 +153,8 @@ class ResultsList extends Component {
         if (d.category === GENE_CATEGORY) {
           return this.renderGeneEntry(d, i);
         } else {
-          let catMatch = CATEGORIES.find((cat) => cat.name === d.category);
+          let lookupCategory = (d.category === ALLELE_CATEGORY || d.category === 'variant_search_result') ? ALLELE_VARIANT_CATEGORY : d.category;
+          let catMatch = CATEGORIES.find((cat) => cat.name === lookupCategory);
           let fields = catMatch ? catMatch.displayFields || ['id', 'synonyms'] : ['id', 'synonyms'];
           return this.renderEntry(d, i, fields);
         }
