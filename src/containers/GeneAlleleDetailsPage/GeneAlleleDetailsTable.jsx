@@ -58,9 +58,9 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
   );
   const { isLoading, supplementalData } = tableQuery;
 
-  const data = tableQuery.data.map((row) => ({
+  const data = tableQuery.data.map((row, index) => ({
     ...row,
-    key: `${row.allele && row.allele.primaryExternalId}-${row.variant && row.variant.hgvs}-${row.consequence && row.consequence.variantTranscript && row.consequence.variantTranscript.curie}`,
+    key: `${row.allele && row.allele.primaryExternalId}-${row.variant && row.variant.hgvs}-${row.consequence && row.consequence.variantTranscript && row.consequence.variantTranscript.curie}-${index}`,
   }));
   const columns = [
     {
@@ -92,7 +92,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     },
     {
       text: 'Category',
-      dataField: 'sequenceSummaryCategory',
+      dataField: 'alterationType',
       filterable: getDistinctFieldValue(supplementalData, 'filter.alleleCategory'),
       filterName: 'alleleCategory',
       headerStyle: { width: '250px' },
