@@ -8,6 +8,7 @@ import {
   GENE_CATEGORY,
   GO_CATEGORY,
   NON_HIGHLIGHTED_FIELDS,
+  VARIANT_SEARCH_RESULTS_CATEGORY,
 } from '../constants';
 
 const JOIN_HIGHLIGHT_BY = '...';
@@ -93,7 +94,7 @@ export function parseResults(results) {
         return parseAlleleResult(d);
       case 'homology_group':
         return parseHomologyGroupResult(d);
-      case 'variant_search_result':
+      case VARIANT_SEARCH_RESULTS_CATEGORY:
       case 'allele_variant':
         return parseVariantSearchResult(d);
       default:
