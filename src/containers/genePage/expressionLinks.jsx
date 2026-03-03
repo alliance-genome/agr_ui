@@ -53,14 +53,14 @@ const ExpressionLinks = ({
       <AttributeLabel>Primary Sources</AttributeLabel>
       <AttributeValue placeholder="None">
         {primarySources && primarySources.length > 0 && (
-          <CrossReferenceListCuration crossReferences={primarySources} sort={false} />
+          <CrossReferenceListCuration crossReferences={primarySources} sort={false} collapsible={false} />
         )}
       </AttributeValue>
 
       <AttributeLabel>Other Sources</AttributeLabel>
       <AttributeValue placeholder="None">
         {otherExpressionCrossReferences && otherExpressionCrossReferences.length > 0 && (
-          <CrossReferenceListCuration crossReferences={otherExpressionCrossReferences} />
+          <CrossReferenceListCuration crossReferences={otherExpressionCrossReferences} collapsible={false} />
         )}
       </AttributeValue>
     </AttributeList>
