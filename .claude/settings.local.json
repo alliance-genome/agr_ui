@@ -1,0 +1,10 @@
+{
+  "disabledMcpjsonServers": [
+    "jira"
+  ],
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)"
+    ]
+  }
+}

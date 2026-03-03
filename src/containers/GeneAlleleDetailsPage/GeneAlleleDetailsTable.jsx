@@ -162,7 +162,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     },
     {
       text: 'Variant Type',
-      dataField: 'variantLocation.variantAssociationSubject.variantType.name',
+      dataField: 'variants.variantType.name',
       formatter: VEPTextCell,
       filterable: getDistinctFieldValue(supplementalData, 'filter.variantType'),
       filterName: 'variantType',
