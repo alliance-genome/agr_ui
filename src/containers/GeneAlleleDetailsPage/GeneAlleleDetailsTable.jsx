@@ -60,7 +60,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
 
   const data = tableQuery.data.map((row, index) => ({
     ...row,
-    key: `${row.allele && row.allele.primaryExternalId}-${row.variant && row.variant.hgvs}-${row.consequence && row.consequence.variantTranscript && row.consequence.variantTranscript.curie}-${index}`,
+    key: `${row.allele && row.allele.primaryExternalId}-${row.variantLocation && row.variantLocation.hgvs}-${row.consequence && row.consequence.variantTranscript && row.consequence.variantTranscript.curie}-${index}`,
   }));
   const columns = [
     {
@@ -72,7 +72,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
         if (allele.alleleSymbol) {
           return <AlleleCellCuration identifier={identifier} allele={allele} />;
         }
-        const hgvs = row.variant && row.variant.hgvs;
+        const hgvs = row.variantLocation && row.variantLocation.hgvs;
         if (hgvs) {
           return <a href={`/variant/${hgvs}`}>{hgvs}</a>;
         }
@@ -124,17 +124,17 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     },
     {
       text: 'Variant HGVS.g name',
-      dataField: 'variant',
-      formatter: (variant) => {
-        if (!variant) return null;
-        const variantLocation =
-          variant.start != null
+      dataField: 'variantLocation',
+      formatter: (variantLoc) => {
+        if (!variantLoc) return null;
+        const location =
+          variantLoc.start != null
             ? {
-                start: variant.start,
-                end: variant.end,
+                start: variantLoc.start,
+                end: variantLoc.end,
                 chromosome:
-                  variant.variantGenomicLocationAssociationObject &&
-                  variant.variantGenomicLocationAssociationObject.name,
+                  variantLoc.variantGenomicLocationAssociationObject &&
+                  variantLoc.variantGenomicLocationAssociationObject.name,
               }
             : null;
         return (
@@ -142,16 +142,16 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
             <VariantJBrowseLink
               geneLocation={geneLocation}
               geneSymbol={gene.geneSymbol && gene.geneSymbol.displayText}
-              location={variantLocation}
+              location={location}
               species={gene.taxon && gene.taxon.name}
               type={
-                variant.variantAssociationSubject &&
-                variant.variantAssociationSubject.variantType &&
-                variant.variantAssociationSubject.variantType.name
+                variantLoc.variantAssociationSubject &&
+                variantLoc.variantAssociationSubject.variantType &&
+                variantLoc.variantAssociationSubject.variantType.name
               }
               taxonid={gene.taxon && gene.taxon.curie}
             >
-              {variant.hgvs}
+              {variantLoc.hgvs}
             </VariantJBrowseLink>
           </div>
         );
@@ -162,7 +162,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     },
     {
       text: 'Variant Type',
-      dataField: 'variant.variantAssociationSubject.variantType.name',
+      dataField: 'variantLocation.variantAssociationSubject.variantType.name',
       formatter: VEPTextCell,
       filterable: getDistinctFieldValue(supplementalData, 'filter.variantType'),
       filterName: 'variantType',
@@ -170,7 +170,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     },
     {
       text: 'Sequence feature',
-      dataField: 'consequence.variantTranscript.curie',
+      dataField: 'consequence.variantTranscript.name',
       headerStyle: { width: '250px' },
       filterable: true,
       filterName: 'sequenceFeature',
@@ -315,7 +315,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
 
   const variantsSequenceViewerProps = useMemo(() => {
     const variants = allelesFiltered.data?.results
-      ? allelesFiltered.data.results.flatMap((row) => (row && row.variant) || [])
+      ? allelesFiltered.data.results.flatMap((row) => (row && row.variantLocation) || [])
       : [];
     const variantLocations = variants.map((variant) =>
       variant && variant.start != null
