@@ -72,7 +72,11 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
         if (allele.alleleSymbol) {
           return <AlleleCellCuration identifier={identifier} allele={allele} />;
         }
-        const hgvs = row.variant && row.variant.curatedVariantGenomicLocations && row.variant.curatedVariantGenomicLocations[0] && row.variant.curatedVariantGenomicLocations[0].hgvs;
+        const hgvs =
+          row.variant &&
+          row.variant.curatedVariantGenomicLocations &&
+          row.variant.curatedVariantGenomicLocations[0] &&
+          row.variant.curatedVariantGenomicLocations[0].hgvs;
         if (hgvs) {
           return <a href={`/variant/${hgvs}`}>{hgvs}</a>;
         }
@@ -134,8 +138,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
                 start: loc.start,
                 end: loc.end,
                 chromosome:
-                  loc.variantGenomicLocationAssociationObject &&
-                  loc.variantGenomicLocationAssociationObject.name,
+                  loc.variantGenomicLocationAssociationObject && loc.variantGenomicLocationAssociationObject.name,
               }
             : null;
         return (
@@ -145,10 +148,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
               geneSymbol={gene.geneSymbol && gene.geneSymbol.displayText}
               location={location}
               species={gene.taxon && gene.taxon.name}
-              type={
-                variant.variantType &&
-                variant.variantType.name
-              }
+              type={variant.variantType && variant.variantType.name}
               taxonid={gene.taxon && gene.taxon.curie}
             >
               {loc && loc.hgvs}
@@ -315,7 +315,9 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
 
   const variantsSequenceViewerProps = useMemo(() => {
     const variants = allelesFiltered.data?.results
-      ? allelesFiltered.data.results.flatMap((row) => (row && row.variant && row.variant.curatedVariantGenomicLocations) || [])
+      ? allelesFiltered.data.results.flatMap(
+          (row) => (row && row.variant && row.variant.curatedVariantGenomicLocations) || []
+        )
       : [];
     const variantLocations = variants.map((variant) =>
       variant && variant.start != null
