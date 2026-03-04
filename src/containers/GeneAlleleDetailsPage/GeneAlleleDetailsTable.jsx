@@ -60,7 +60,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
 
   const data = tableQuery.data.map((row, index) => ({
     ...row,
-    key: `${row.allele && row.allele.primaryExternalId}-${row.variantLocation && row.variantLocation.hgvs}-${row.consequence && row.consequence.variantTranscript && row.consequence.variantTranscript.curie}-${index}`,
+    key: `${row.allele && row.allele.primaryExternalId}-${row.variant && row.variant.curatedVariantGenomicLocations && row.variant.curatedVariantGenomicLocations[0] && row.variant.curatedVariantGenomicLocations[0].hgvs}-${row.consequence && row.consequence.variantTranscript && row.consequence.variantTranscript.name}-${index}`,
   }));
   const columns = [
     {
@@ -72,7 +72,11 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
         if (allele.alleleSymbol) {
           return <AlleleCellCuration identifier={identifier} allele={allele} />;
         }
-        const hgvs = row.variantLocation && row.variantLocation.hgvs;
+        const hgvs =
+          row.variant &&
+          row.variant.curatedVariantGenomicLocations &&
+          row.variant.curatedVariantGenomicLocations[0] &&
+          row.variant.curatedVariantGenomicLocations[0].hgvs;
         if (hgvs) {
           return <a href={`/variant/${hgvs}`}>{hgvs}</a>;
         }
@@ -124,17 +128,18 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     },
     {
       text: 'Variant HGVS.g name',
-      dataField: 'variantLocation',
-      formatter: (variantLoc) => {
-        if (!variantLoc) return null;
+      dataField: 'variant',
+      formatter: (variant) => {
+        if (!variant) return null;
+        const loc = variant.curatedVariantGenomicLocations && variant.curatedVariantGenomicLocations[0];
+        if (!loc) return null;
         const location =
-          variantLoc.start != null
+          loc && loc.start != null
             ? {
-                start: variantLoc.start,
-                end: variantLoc.end,
+                start: loc.start,
+                end: loc.end,
                 chromosome:
-                  variantLoc.variantGenomicLocationAssociationObject &&
-                  variantLoc.variantGenomicLocationAssociationObject.name,
+                  loc.variantGenomicLocationAssociationObject && loc.variantGenomicLocationAssociationObject.name,
               }
             : null;
         return (
@@ -144,14 +149,10 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
               geneSymbol={gene.geneSymbol && gene.geneSymbol.displayText}
               location={location}
               species={gene.taxon && gene.taxon.name}
-              type={
-                variantLoc.variantAssociationSubject &&
-                variantLoc.variantAssociationSubject.variantType &&
-                variantLoc.variantAssociationSubject.variantType.name
-              }
+              type={variant.variantType && variant.variantType.name}
               taxonid={gene.taxon && gene.taxon.curie}
             >
-              {variantLoc.hgvs}
+              {loc && loc.hgvs}
             </VariantJBrowseLink>
           </div>
         );
@@ -162,7 +163,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     },
     {
       text: 'Variant Type',
-      dataField: 'variants.variantType.name',
+      dataField: 'variant.variantType.name',
       formatter: VEPTextCell,
       filterable: getDistinctFieldValue(supplementalData, 'filter.variantType'),
       filterName: 'variantType',
@@ -315,7 +316,9 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
 
   const variantsSequenceViewerProps = useMemo(() => {
     const variants = allelesFiltered.data?.results
-      ? allelesFiltered.data.results.flatMap((row) => (row && row.variantLocation) || [])
+      ? allelesFiltered.data.results.flatMap(
+          (row) => (row && row.variant && row.variant.curatedVariantGenomicLocations) || []
+        )
       : [];
     const variantLocations = variants.map((variant) =>
       variant && variant.start != null

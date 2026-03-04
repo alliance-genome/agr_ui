@@ -68,10 +68,12 @@ const VariantPage = () => {
     return null;
   }
 
-  const variantSymbol =
-    data.variant?.hgvs || data.variant?.variantAssociationSubject.curie || data.symbol || data.displayName || data.id;
+  const variant = data.variants && data.variants[0];
+  const variantLocation =
+    variant && variant.curatedVariantGenomicLocations && variant.curatedVariantGenomicLocations[0];
+  const variantSymbol = variantLocation?.hgvs || variant?.curie || data.symbol || data.displayName || data.id;
   const reference = data.crossReferenceMap ? data.crossReferenceMap.primary : null;
-  const title = `${variantSymbol} | ${data.species && data.species.name} allele`;
+  const title = `${variantSymbol} | ${variant?.taxon?.name} allele`;
 
   return (
     <DataPage>
@@ -83,18 +85,18 @@ const VariantPage = () => {
           truncateName
         >
           <DataSourceLink reference={reference} />
-          {data.variant?.overlapGenes?.length > 0 && (
+          {variantLocation?.overlapGenes?.length > 0 && (
             <div>
               Variant overlaps{' '}
-              {data.variant.overlapGenes.map((gene, index) => (
+              {variantLocation.overlapGenes.map((gene, index) => (
                 <span key={gene.curie}>
                   <Link to={`/gene/${gene.curie}`}>{gene.geneSymbol?.displayText}</Link>
-                  {index < data.variant.overlapGenes.length - 1 && ', '}
+                  {index < variantLocation.overlapGenes.length - 1 && ', '}
                 </span>
               ))}
             </div>
           )}
-          <SpeciesName>{data.variant?.variantAssociationSubject?.taxon?.name}</SpeciesName>
+          <SpeciesName>{variant?.taxon?.name}</SpeciesName>
         </PageNavEntity>
       </PageNav>
       <PageData>
@@ -106,9 +108,7 @@ const VariantPage = () => {
             <AttributeList className="mb-0">
               <AttributeLabel>Species</AttributeLabel>
               <AttributeValue>
-                {data.variant.variantAssociationSubject.taxon.curie && (
-                  <SpeciesName>{data.variant.variantAssociationSubject.taxon.name}</SpeciesName>
-                )}
+                {variant?.taxon?.curie && <SpeciesName>{variant.taxon.name}</SpeciesName>}
               </AttributeValue>
               <VariantSummaryCuration variant={data} variantId={variantId} />
             </AttributeList>
@@ -121,9 +121,9 @@ const VariantPage = () => {
 
         <Subsection help={<MolecularConsequenceHelp />} title={MOLECULAR_CONSEQUENCE}>
           <VariantToTranscriptTable
-            variant={data.variant}
+            variant={variantLocation}
             variantHgvs={variantId}
-            variantType={data.variant?.variantAssociationSubject?.variantType}
+            variantType={variant?.variantType}
           />
         </Subsection>
       </PageData>
