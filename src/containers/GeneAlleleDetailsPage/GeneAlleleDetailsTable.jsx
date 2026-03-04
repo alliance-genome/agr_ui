@@ -72,11 +72,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
         if (allele.alleleSymbol) {
           return <AlleleCellCuration identifier={identifier} allele={allele} />;
         }
-        const hgvs =
-          row.variant &&
-          row.variant.curatedVariantGenomicLocations &&
-          row.variant.curatedVariantGenomicLocations[0] &&
-          row.variant.curatedVariantGenomicLocations[0].hgvs;
+        const hgvs = row.variant && row.variant.curatedVariantGenomicLocations && row.variant.curatedVariantGenomicLocations[0] && row.variant.curatedVariantGenomicLocations[0].hgvs;
         if (hgvs) {
           return <a href={`/variant/${hgvs}`}>{hgvs}</a>;
         }
@@ -132,14 +128,22 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
       formatter: (variant) => {
         if (!variant) return null;
         const loc = variant.curatedVariantGenomicLocations && variant.curatedVariantGenomicLocations[0];
+<<<<<<< HEAD
         if (!loc) return null;
+=======
+>>>>>>> 70121132 (SCRUM-4854: revert variantLocation to variant with Variant entity paths)
         const location =
           loc && loc.start != null
             ? {
                 start: loc.start,
                 end: loc.end,
                 chromosome:
+<<<<<<< HEAD
                   loc.variantGenomicLocationAssociationObject && loc.variantGenomicLocationAssociationObject.name,
+=======
+                  loc.variantGenomicLocationAssociationObject &&
+                  loc.variantGenomicLocationAssociationObject.name,
+>>>>>>> 70121132 (SCRUM-4854: revert variantLocation to variant with Variant entity paths)
               }
             : null;
         return (
@@ -149,7 +153,14 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
               geneSymbol={gene.geneSymbol && gene.geneSymbol.displayText}
               location={location}
               species={gene.taxon && gene.taxon.name}
+<<<<<<< HEAD
               type={variant.variantType && variant.variantType.name}
+=======
+              type={
+                variant.variantType &&
+                variant.variantType.name
+              }
+>>>>>>> 70121132 (SCRUM-4854: revert variantLocation to variant with Variant entity paths)
               taxonid={gene.taxon && gene.taxon.curie}
             >
               {loc && loc.hgvs}
@@ -316,9 +327,13 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
 
   const variantsSequenceViewerProps = useMemo(() => {
     const variants = allelesFiltered.data?.results
+<<<<<<< HEAD
       ? allelesFiltered.data.results.flatMap(
           (row) => (row && row.variant && row.variant.curatedVariantGenomicLocations) || []
         )
+=======
+      ? allelesFiltered.data.results.flatMap((row) => (row && row.variant && row.variant.curatedVariantGenomicLocations) || [])
+>>>>>>> 70121132 (SCRUM-4854: revert variantLocation to variant with Variant entity paths)
       : [];
     const variantLocations = variants.map((variant) =>
       variant && variant.start != null
