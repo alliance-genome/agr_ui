@@ -19,53 +19,37 @@ function formatLocation(location) {
 }
 
 const VariantSummaryCuration = ({ variant: variantData, variantId }) => {
-  const { variant } = variantData || {};
-  const variantSubject = variant?.variantAssociationSubject;
+  const variant = variantData?.variants && variantData.variants[0];
+  const cvgla = variant?.curatedVariantGenomicLocations && variant.curatedVariantGenomicLocations[0];
 
-  // hgvs is directly on variant, not variantAssociationSubject
-  const symbol = variant?.hgvs || variant?.variantAssociationSubject.curie;
+  const symbol = cvgla?.hgvs || variant?.curie;
 
-  // Determine the correct anchor for "See all consequences" link
-  // On the standalone Variant page (variantId prop is passed), use #variant-molecular-consequences
-  // On the Allele page (no variantId prop), use the dynamic sectionAnchor based on HGVS
-  const consequencesAnchor = variantId ? '#variant-molecular-consequences' : sectionAnchor(variant?.hgvs);
+  const consequencesAnchor = variantId ? '#variant-molecular-consequences' : sectionAnchor(cvgla?.hgvs);
 
-  const {
-    taxon: species,
-    variantType: type,
-    references,
-    crossReferences,
-    relatedNotes: notes,
-    referenceSequence,
-    variantSequence,
-    predictedVariantConsequences,
-  } = variantSubject || {};
+  const { taxon: species, variantType: type, references, crossReferences, relatedNotes: notes } = variant || {};
 
-  // Get location object - try both possible paths
-  const variantLocationObj =
-    variantSubject?.variantGenomicLocationAssociationObject || variant?.variantGenomicLocationAssociationObject;
+  const variantLocationObj = cvgla?.variantGenomicLocationAssociationObject;
 
-  // Create location object
   const location = {
     chromosome: variantLocationObj?.name,
-    start: variant?.start,
-    end: variant?.end,
+    start: cvgla?.start,
+    end: cvgla?.end,
     assembly: variantLocationObj?.genomeAssembly?.primaryExternalId,
   };
 
   const assembly = variantLocationObj?.genomeAssembly?.primaryExternalId;
 
-  const nucleotideChange = variant?.nucleotideChange;
+  const nucleotideChange = cvgla?.nucleotideChange;
+  const referenceSequence = cvgla?.referenceSequence;
+  const variantSequence = cvgla?.variantSequence;
 
-  // Use the mostSevereConsequence field which is pre-calculated by the API
-  const consequence = variant?.mostSevereConsequence?.vepConsequences?.[0]?.name;
+  const consequence = cvgla?.mostSevereConsequence?.vepConsequences?.[0]?.name;
 
-  // Use pre-sorted and deduplicated HGVS fields from variant object
-  const hgvsC = variant?.hgvsC;
-  const hgvsP = variant?.hgvsP;
+  const hgvsC = cvgla?.hgvsC;
+  const hgvsP = cvgla?.hgvsP;
 
-  // Gene overlap - all genes from overlapGenes collection
-  const overlapGenes = variant?.overlapGenes;
+  const overlapGenes = cvgla?.overlapGenes;
+  const predictedVariantConsequences = cvgla?.predictedVariantConsequences;
 
   const genomeLocation = getVariantGenomeLocation(variantData);
   return (

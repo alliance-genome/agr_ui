@@ -7,22 +7,21 @@ const VariantSequenceView = ({ variant: variantData }) => {
   const genomeLocation = getVariantGenomeLocation(variantData);
 
   // Build location from new API data structure
-  const { variant } = variantData || {};
-  const variantSubject = variant?.variantAssociationSubject;
-  const variantLocationObj =
-    variantSubject?.variantGenomicLocationAssociationObject || variant?.variantGenomicLocationAssociationObject;
+  const variant = variantData?.variants && variantData.variants[0];
+  const cvgla = variant?.curatedVariantGenomicLocations && variant.curatedVariantGenomicLocations[0];
+  const variantLocationObj = cvgla?.variantGenomicLocationAssociationObject;
 
   const location = {
     chromosome: variantLocationObj?.name,
-    start: variant?.start,
-    end: variant?.end,
+    start: cvgla?.start,
+    end: cvgla?.end,
   };
 
   let htpVariant = `${location.chromosome}:${location.start}`;
   const fmin = Math.min(genomeLocation.start, location.start);
   const fmax = Math.max(genomeLocation.end, location.end);
   // Extract species from new data structure
-  const species = variantSubject?.taxon;
+  const species = variant?.taxon;
 
   return (
     <GenomeFeatureWrapper

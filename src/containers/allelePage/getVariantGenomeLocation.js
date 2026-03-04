@@ -2,14 +2,13 @@ import { getSingleGenomeLocation } from '../../lib/utils';
 
 export default function getVariantGenomeLocation(variantData) {
   // Support new API data structure
-  const nestedVariant = variantData?.variant;
-  const variantSubject = nestedVariant?.variantAssociationSubject;
-  const variantLocationObj =
-    variantSubject?.variantGenomicLocationAssociationObject || nestedVariant?.variantGenomicLocationAssociationObject;
+  const nestedVariant = variantData?.variants && variantData.variants[0];
+  const cvgla = nestedVariant?.curatedVariantGenomicLocations && nestedVariant.curatedVariantGenomicLocations[0];
+  const variantLocationObj = cvgla?.variantGenomicLocationAssociationObject;
 
   // First, check for overlapping genes' genome locations (prioritize gene span like production)
   // If multiple genes overlap, use the smallest start and greatest end to cover all genes
-  const overlapGenes = nestedVariant?.overlapGenes;
+  const overlapGenes = cvgla?.overlapGenes;
   if (overlapGenes && overlapGenes.length > 0) {
     // Collect all start/end values from geneGenomicLocationAssociations across all overlap genes
     const allLocations = [];
@@ -49,9 +48,9 @@ export default function getVariantGenomeLocation(variantData) {
   }
 
   // Only use variant position + padding if no gene data is available
-  if (variantLocationObj && nestedVariant?.start != null) {
-    const start = nestedVariant.start;
-    const end = nestedVariant.end;
+  if (variantLocationObj && cvgla?.start != null) {
+    const start = cvgla.start;
+    const end = cvgla.end;
     return {
       chromosome: variantLocationObj.name,
       start: Math.max(1, start - 500),
