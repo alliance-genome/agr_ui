@@ -303,8 +303,6 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
               start: loc?.start,
               end: loc?.end,
             };
-            const curie = row.allele?.curie;
-            const displayText = curie || id;
             return (
               <div
                 key={id}
@@ -314,7 +312,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
                 }}
-                title={displayText}
+                title={id}
               >
                 <VariantJBrowseLink
                   geneLocation={geneLocation}
@@ -324,7 +322,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
                   type={type.name}
                   taxonid={taxonId}
                 >
-                  {displayText}
+                  {id}
                 </VariantJBrowseLink>
               </div>
             );
