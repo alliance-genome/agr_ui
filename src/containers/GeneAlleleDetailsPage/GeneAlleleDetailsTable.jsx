@@ -132,6 +132,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
       formatter: (variant) => {
         if (!variant) return null;
         const loc = variant.curatedVariantGenomicLocations && variant.curatedVariantGenomicLocations[0];
+        if (!loc) return null;
         const location =
           loc && loc.start != null
             ? {
