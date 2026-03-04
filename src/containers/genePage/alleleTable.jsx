@@ -108,9 +108,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
 
       return {
         ...row,
-        id: row.alterationType === 'variant'
-          ? (hgvs && alleleId ? `${hgvs}_${alleleId}` : hgvs || alleleId)
-          : alleleId,
+        id: row.alterationType === 'variant' ? (hgvs && alleleId ? `${hgvs}_${alleleId}` : hgvs || alleleId) : alleleId,
         allele: row.allele,
         synonyms: row.allele?.alleleSynonyms,
         variants: variants,
