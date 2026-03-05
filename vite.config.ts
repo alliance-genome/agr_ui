@@ -10,7 +10,7 @@ const ENV_KEYS_TO_EXPOSE = [
   'REACT_APP_JBROWSE_AGR_RELEASE',
 ];
 
-const PROXY_PATHS = ['/api', '/jbrowse', '/bluegenes', '/swagger-ui', '/openapi'];
+const PROXY_PATHS = ['/api', '/jbrowse', '/bluegenes', '/swagger-ui', '/openapi', '/agr_simplemine.cgi'];
 
 const proxy = Object.fromEntries(
   PROXY_PATHS.map((path) => [
