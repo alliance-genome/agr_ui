@@ -134,7 +134,7 @@ const VariantSummaryCuration = ({ variant: variantData, variantId }) => {
       </AttributeValue>
 
       <AttributeLabel>HGVS.g name</AttributeLabel>
-      <AttributeValue>{variant.hgvs}</AttributeValue>
+      <AttributeValue>{cvgla?.hgvs}</AttributeValue>
 
       <AttributeLabel>HGVS.c name</AttributeLabel>
       <AttributeValue>{hgvsC && hgvsC.length ? <CollapsibleList>{hgvsC}</CollapsibleList> : null}</AttributeValue>
