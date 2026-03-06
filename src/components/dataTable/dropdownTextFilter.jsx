@@ -18,7 +18,7 @@ class DropdownTextFilter extends React.Component {
   }
 
   fireCallbacks() {
-    this.props.onFilter(this.state.value);
+    this.props.onFilter(this.state.value.trim());
   }
 
   handleChange(event) {
