@@ -9,7 +9,7 @@ export const data = {
         url: 'https://rgd.mcw.edu/wg/portals/',
       },
       {
-        title: 'Flybase Human Disease Model Report Index',
+        title: 'FlyBase Human Disease Model Report Index',
         url: 'https://flybase.org/lists/FBhh/',
       },
       {
