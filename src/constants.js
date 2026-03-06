@@ -9,7 +9,7 @@ export const ALLELE_CATEGORY = 'allele';
 export const ALLELE_VARIANT_CATEGORY = 'allele_variant';
 export const VARIANT_SEARCH_RESULTS_CATEGORY = 'variant_search_result';
 export const MODEL_CATEGORY = 'model';
-export const DATASET_CATEGORY = 'dataset';
+export const DATASET_CATEGORY = 'htp_dataset_search_result';
 
 /* Wordpress REST API connection setting */
 export const WORDPRESS_REST_API_BASE = 'https://public-api.wordpress.com/wp/v2/sites/alliancegenome.wordpress.com';
