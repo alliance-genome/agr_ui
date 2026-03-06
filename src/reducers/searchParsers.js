@@ -205,11 +205,13 @@ function parseGoResult(_d) {
 
 function parseDatasetResult(_d) {
   let d = injectHighlightIntoResponse(_d);
-  let idCollection = [d.id].concat(d.crossReferences);
+  let id = d.curie || d.id;
+  let idCollection = [id].concat(d.crossReferences);
   //make it unique
-  idCollection = idCollection.filter((e, i) => idCollection.indexOf(e) === i);
+  idCollection = idCollection.filter((e, i) => e && idCollection.indexOf(e) === i);
   return {
     ...d,
+    id: id,
     display_name: d.name,
     dataProviderNote: 'High-Throughput (HTP) Dataset Index metadata provided by ' + d.dataProvider,
     idCollection: idCollection,
