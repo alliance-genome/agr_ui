@@ -199,7 +199,7 @@ const VariantToTranscriptTable = ({ variant, variantHgvs, variantType }) => {
 
     return {
       id: transcript.curie || `row-${index}`,
-      transcriptId: transcript.curie,
+      transcriptId: transcript.transcriptId || transcript.curie,
       name: transcript.name || transcript.curie,
       type: transcript.transcriptType,
       gene: gene,

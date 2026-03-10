@@ -44,9 +44,11 @@ const AlleleMolecularConsequences = ({ alleleId, allele }) => {
   return (
     <>
       {variants.map((variant) => {
-        const variantId = variant.variant?.hgvs;
-        const type = variant.variant?.variantAssociationSubject?.variantType || {};
-        const consequences = variant.variant?.predictedVariantConsequences;
+        const variantObj = variant.variants?.[0];
+        const cvgla = variantObj?.curatedVariantGenomicLocations?.[0];
+        const variantId = cvgla?.hgvs;
+        const type = variantObj?.variantType || {};
+        const consequences = cvgla?.predictedVariantConsequences;
         return (
           <Subsection title={sectionTitle(variantId)} level={1} key={`consequnce-summary-${variantId}`}>
             <AttributeList className={style.attributeList}>
@@ -62,7 +64,7 @@ const AlleleMolecularConsequences = ({ alleleId, allele }) => {
                         <span className="text-break">{variantId}</span>
                       </VariantJBrowseLink>
                     */}
-                <HashLink to={`#${makeId(variantId)}`}>
+                <HashLink to={variantId ? `#${makeId(variantId)}` : '#'}>
                   <span className="text-break">{variantId}</span>
                 </HashLink>
               </AttributeValue>
