@@ -101,14 +101,21 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     // Use selected alleles data when in override mode and data is available
     const baseData = selectionOverride.active && selectedAllelesData ? selectedAllelesData : resolvedData || [];
 
-    let processedData = baseData.map((row) => ({
-      ...row,
-      id: getIdentifier(row.allele),
-      allele: row.allele,
-      synonyms: row.allele.alleleSynonyms,
-      variantName: row.variants,
-      variantConsequences: row.variants,
-    }));
+    let processedData = baseData.map((row) => {
+      const variants = row.variants || [];
+      const hgvs = variants[0]?.curatedVariantGenomicLocations?.[0]?.hgvs;
+      const alleleId = getIdentifier(row.allele);
+
+      return {
+        ...row,
+        id: row.alterationType === 'variant' ? (hgvs && alleleId ? `${hgvs}_${alleleId}` : hgvs || alleleId) : alleleId,
+        allele: row.allele,
+        synonyms: row.allele?.alleleSynonyms,
+        variants: variants,
+        variantName: variants,
+        variantConsequences: variants,
+      };
+    });
 
     // Filter to only show the selected alleles when in override mode
     if (selectionOverride.active && selectionOverride.alleleIds.length > 0) {
@@ -229,7 +236,13 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
           </span>
         ),
       },
-      formatter: (allele) => <AlleleCellCuration identifier={getIdentifier(allele)} allele={allele} />,
+      formatter: (allele, row) => {
+        if (row.alterationType === 'variant') {
+          const hgvs = row.variants?.[0]?.curatedVariantGenomicLocations?.[0]?.hgvs;
+          return <Link to={`/variant/${hgvs}`}>{hgvs}</Link>;
+        }
+        return <AlleleCellCuration identifier={getIdentifier(allele)} allele={allele} />;
+      },
       headerStyle: { width: '185px' },
       filterable: !selectionOverride.active,
       filterName: 'symbol',
@@ -279,7 +292,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
           </span>
         ),
       },
-      formatter: (variants) => (
+      formatter: (variants, row) => (
         <div>
           {variants?.map((variant) => {
             const loc = variant.curatedVariantGenomicLocations?.[0];
@@ -291,7 +304,16 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
               end: loc?.end,
             };
             return (
-              <div key={id}>
+              <div
+                key={id}
+                style={{
+                  maxWidth: variantNameColWidth - 20,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+                title={id}
+              >
                 <VariantJBrowseLink
                   geneLocation={geneLocation}
                   geneSymbol={geneSymbolText}
@@ -370,9 +392,12 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     {
       dataField: 'hasDisease',
       text: 'Has Disease Annotations',
-      formatter: (hasDisease, allele) => (
-        <BooleanLinkCell to={`/allele/${allele.id}#disease-associations`} value={hasDisease} />
-      ),
+      formatter: (hasDisease, row) => {
+        if (row.alterationType === 'variant') {
+          return <BooleanLinkCell value={hasDisease} />;
+        }
+        return <BooleanLinkCell to={`/allele/${row.id}#disease-associations`} value={hasDisease} />;
+      },
       headerNode: <RotatedHeaderCell>Has Disease Annotations</RotatedHeaderCell>,
       headerStyle: {
         paddingLeft: 0,
@@ -385,9 +410,12 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     {
       dataField: 'hasPhenotype',
       text: 'Has Phenotype Annotations',
-      formatter: (hasPhenotype, allele) => (
-        <BooleanLinkCell to={`/allele/${allele.id}#phenotypes`} value={hasPhenotype} />
-      ),
+      formatter: (hasPhenotype, row) => {
+        if (row.alterationType === 'variant') {
+          return <BooleanLinkCell value={hasPhenotype} />;
+        }
+        return <BooleanLinkCell to={`/allele/${row.id}#phenotypes`} value={hasPhenotype} />;
+      },
       headerNode: <RotatedHeaderCell>Has Phenotype Annotations</RotatedHeaderCell>,
       headerStyle: {
         paddingLeft: 0,
