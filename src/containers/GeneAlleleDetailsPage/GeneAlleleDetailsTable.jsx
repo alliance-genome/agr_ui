@@ -337,33 +337,53 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
        The data format here should be agreed upon by the maintainers of the VariantsSequenceViewer.
        Changes might break the VariantsSequenceViewer.
     */
-    const formatAllele = (alleleId) => ({
-      id: alleleId,
-    });
+    const formatAllele = (id) => ({ id });
+
+    // Table selection uses symbol, but viewer needs primaryExternalId
+    const symbolToExtId = new Map();
+    const extIdToSymbol = new Map();
+    if (allelesFiltered.data?.results) {
+      for (const row of allelesFiltered.data.results) {
+        const sym = row?.symbol;
+        const extId = row?.allele?.primaryExternalId;
+        if (sym && extId) {
+          symbolToExtId.set(sym, extId);
+          extIdToSymbol.set(extId, sym);
+        }
+      }
+    }
+
     return {
       gene: gene,
       fmin: fmin,
       fmax: fmax,
       hasVariants: isLoading ? undefined : Boolean(variants && variants.length),
-      allelesSelected: alleleIdsSelected.map(formatAllele),
+      allelesSelected: alleleIdsSelected
+        .filter((sym) => symbolToExtId.has(sym))
+        .map((sym) => formatAllele(symbolToExtId.get(sym))),
       allelesVisible: allelesFiltered.data?.results
-        ? allelesFiltered.data.results.map(({ allele }) => formatAllele(allele && allele.primaryExternalId))
+        ? allelesFiltered.data.results
+            .filter((row) => row?.allele?.primaryExternalId)
+            .map((row) => formatAllele(row.allele.primaryExternalId))
         : [],
-      onAllelesSelect: setAlleleIdsSelected,
+      onAllelesSelect: (extIds) => {
+        const symbols = extIds.map((id) => extIdToSymbol.get(id) || id);
+        setAlleleIdsSelected(symbols);
+      },
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading, allelesFiltered.data, alleleIdsSelected, setAlleleIdsSelected]);
 
   const selectRow = useMemo(() => {
-    const getAlleleId = (allele) => allele && allele.primaryExternalId;
-    const rowsSelected = data.filter((row) => alleleIdsSelected.indexOf(getAlleleId(row.allele)) > -1);
+    const getRowSymbol = (row) => row && row.symbol;
+    const rowsSelected = data.filter((row) => alleleIdsSelected.indexOf(getRowSymbol(row)) > -1);
     return {
       mode: 'checkbox',
       clickToSelect: true,
       hideSelectColumn: true,
       selected: rowsSelected.map((row) => row.key),
       onSelect: (row) => {
-        const alleleIdRow = getAlleleId(row.allele);
+        const alleleIdRow = getRowSymbol(row);
         setAlleleIdsSelected((alleleIdsSelectedPrev) => {
           if (alleleIdsSelectedPrev.includes(alleleIdRow)) {
             const indexAlleleId = alleleIdsSelectedPrev.indexOf(alleleIdRow);
