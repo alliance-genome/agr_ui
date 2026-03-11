@@ -31,6 +31,12 @@ const ExpressionLinks = ({
       displayName: geneDataProvider + ' (images)',
     };
   }
+  if (spellCrossReference) {
+    spellCrossReference = {
+      ...spellCrossReference,
+      displayName: 'Serial Patterns of Expression Levels Locator (SPELL)',
+    };
+  }
 
   const primarySources = [
     allExpressionCrossReference,
