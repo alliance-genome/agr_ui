@@ -17,8 +17,10 @@ const AlleleVariantsSummary = ({ allele, alleleId }) => {
     <>
       {data &&
         data.map((variantData) => {
-          const hgvs = variantData?.variant?.hgvs;
-          const id = variantData?.variant?.id;
+          const variantObj = variantData?.variants?.[0];
+          const cvgla = variantObj?.curatedVariantGenomicLocations?.[0];
+          const hgvs = cvgla?.hgvs;
+          const id = variantObj?.curie;
           return (
             <Subsection title={hgvs} level={1} key={id}>
               <AttributeList className="mb-0">

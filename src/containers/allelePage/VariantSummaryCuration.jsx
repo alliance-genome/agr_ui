@@ -79,8 +79,8 @@ const VariantSummaryCuration = ({ variant: variantData, variantId }) => {
       <AttributeValue>
         {overlapGenes && overlapGenes.length
           ? overlapGenes.map((gene, index) => (
-              <span key={gene.curie}>
-                <Link to={`/gene/${gene.curie}`}>{gene.geneSymbol.displayText}</Link>
+              <span key={gene.curie || gene.primaryExternalId}>
+                <Link to={`/gene/${gene.curie || gene.primaryExternalId}`}>{gene.geneSymbol.displayText}</Link>
                 {index < overlapGenes.length - 1 && ', '}
               </span>
             ))
