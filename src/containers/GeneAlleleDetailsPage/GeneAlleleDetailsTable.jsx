@@ -337,44 +337,19 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
        The data format here should be agreed upon by the maintainers of the VariantsSequenceViewer.
        Changes might break the VariantsSequenceViewer.
     */
-    const formatAllele = (id) => ({ id });
-
-    // Viewer needs primaryExternalId (matches VCF allele_ids),
-    // but table selection uses symbol. Build bidirectional maps.
-    const symbolToExtId = new Map();
-    const extIdToSymbol = new Map();
-    if (allelesFiltered.data?.results) {
-      for (const row of allelesFiltered.data.results) {
-        const sym = row?.symbol;
-        const extId = row?.allele?.primaryExternalId;
-        if (sym && extId) {
-          symbolToExtId.set(sym, extId);
-          extIdToSymbol.set(extId, sym);
-        }
-      }
-    }
-
+    const formatAllele = (alleleId) => ({
+      id: alleleId,
+    });
     return {
       gene: gene,
       fmin: fmin,
       fmax: fmax,
       hasVariants: isLoading ? undefined : Boolean(variants && variants.length),
-      allelesSelected: alleleIdsSelected
-        .filter((sym) => symbolToExtId.has(sym))
-        .map((sym) => formatAllele(symbolToExtId.get(sym))),
+      allelesSelected: alleleIdsSelected.map(formatAllele),
       allelesVisible: allelesFiltered.data?.results
-        ? allelesFiltered.data.results
-            .filter((row) => row?.allele?.primaryExternalId)
-            .map((row) => formatAllele(row.allele.primaryExternalId))
+        ? allelesFiltered.data.results.map(({ allele }) => formatAllele(allele && allele.primaryExternalId))
         : [],
-      onAllelesSelect: (extIds) => {
-        const symbols = extIds.map((id) => extIdToSymbol.get(id) || id);
-        setAlleleIdsSelected((prev) => {
-          // Merge viewer selections with existing non-allele selections
-          const nonAlleleSelections = prev.filter((sym) => !symbolToExtId.has(sym));
-          return [...nonAlleleSelections, ...symbols.filter((sym) => symbolToExtId.has(sym))];
-        });
-      },
+      onAllelesSelect: setAlleleIdsSelected,
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading, allelesFiltered.data, alleleIdsSelected, setAlleleIdsSelected]);
