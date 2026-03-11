@@ -39,7 +39,7 @@ const VariantSummaryCuration = ({ variant: variantData, variantId }) => {
 
   const assembly = variantLocationObj?.genomeAssembly?.primaryExternalId;
 
-  const nucleotideChange = cvgla?.nucleotideChange;
+  const nucleotideChange = variant?.nucleotideChange;
   const referenceSequence = cvgla?.referenceSequence;
   const variantSequence = cvgla?.variantSequence;
 
