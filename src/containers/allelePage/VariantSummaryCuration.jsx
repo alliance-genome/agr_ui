@@ -172,10 +172,7 @@ const VariantSummaryCuration = ({ variant: variantData, variantId }) => {
               const refId = ref.referenceID || ref.curie;
               const { url } = ref.url ? { url: ref.url } : getSingleReferenceUrl(refId);
               return (
-                <ExternalLink
-                  key={refId}
-                  href={url}
-                >
+                <ExternalLink key={refId} href={url}>
                   {refId || ref.shortCitation}
                 </ExternalLink>
               );
