@@ -6,6 +6,7 @@ import { AttributeLabel, AttributeValue } from '../../components/attribute';
 import { CollapsibleList } from '../../components/collapsibleList';
 import { VariantJBrowseLink } from '../../components/variant';
 import ExternalLink from '../../components/ExternalLink.jsx';
+import { getSingleReferenceUrl } from '../../components/dataTable/utils.jsx';
 import DataSourceLinkCuration from '../../components/dataSourceLinkCuration.jsx';
 import Sequence from './Sequence.jsx';
 import getVariantGenomeLocation from './getVariantGenomeLocation';
@@ -167,14 +168,18 @@ const VariantSummaryCuration = ({ variant: variantData, variantId }) => {
       <AttributeValue>
         {references && references.length ? (
           <CollapsibleList>
-            {references.map((ref) => (
-              <ExternalLink
-                key={ref.referenceID || ref.curie}
-                href={ref.url || `https://pubmed.ncbi.nlm.nih.gov/${ref.referenceID?.replace('PMID:', '')}`}
-              >
-                {ref.referenceID || ref.shortCitation}
-              </ExternalLink>
-            ))}
+            {references.map((ref) => {
+              const refId = ref.referenceID || ref.curie;
+              const { url } = ref.url ? { url: ref.url } : getSingleReferenceUrl(refId);
+              return (
+                <ExternalLink
+                  key={refId}
+                  href={url}
+                >
+                  {refId || ref.shortCitation}
+                </ExternalLink>
+              );
+            })}
           </CollapsibleList>
         ) : null}
       </AttributeValue>
