@@ -421,6 +421,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
           data={data}
           columns={columns}
           downloadUrl={`/api/gene/${geneId}/allele-variant-detail/download`}
+          downloadText="Download (150k or less)"
           selectRow={selectRow}
           sortOptions={sortOptions}
           keyField="key"
