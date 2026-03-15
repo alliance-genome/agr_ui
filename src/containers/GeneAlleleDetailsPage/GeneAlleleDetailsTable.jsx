@@ -338,6 +338,8 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
        Changes might break the VariantsSequenceViewer.
     */
     const formatAllele = (id) => ({ id });
+    const getViewerFilterId = (row) =>
+      row?.variant?.curatedVariantGenomicLocations?.[0]?.hgvs || row?.allele?.primaryExternalId || null;
 
     // Table selection uses symbol, but viewer needs primaryExternalId
     const symbolToExtId = new Map();
@@ -363,8 +365,10 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
         .map((sym) => formatAllele(symbolToExtId.get(sym))),
       allelesVisible: allelesFiltered.data?.results
         ? allelesFiltered.data.results
-            .filter((row) => row?.allele?.primaryExternalId)
-            .map((row) => formatAllele(row.allele.primaryExternalId))
+            .map(getViewerFilterId)
+            .filter(Boolean)
+            .filter((id, index, allIds) => allIds.indexOf(id) === index)
+            .map(formatAllele)
         : [],
       onAllelesSelect: (extIds) => {
         const symbols = extIds.map((id) => extIdToSymbol.get(id) || id);
@@ -373,6 +377,11 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading, allelesFiltered.data, alleleIdsSelected, setAlleleIdsSelected]);
+
+  const variantsSequenceViewerKey = useMemo(
+    () => variantsSequenceViewerProps.allelesVisible.map((allele) => allele.id).sort().join('|'),
+    [variantsSequenceViewerProps.allelesVisible]
+  );
 
   const selectRow = useMemo(() => {
     const getRowSymbol = (row) => row && row.symbol;
@@ -409,7 +418,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
       ) : null}
       <ErrorBoundary>
         {isLoading || isLoadingGene ? null : variantsSequenceViewerProps.hasVariants ? (
-          <VariantsSequenceViewer {...variantsSequenceViewerProps} />
+          <VariantsSequenceViewer key={variantsSequenceViewerKey} {...variantsSequenceViewerProps} />
         ) : (
           <NoData>No mapped variant information available</NoData>
         )}
