@@ -32,6 +32,7 @@ class GenomeFeatureWrapper extends Component {
       vcfLoadError: null,
     };
 
+    this.loadRequestId = 0;
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -77,7 +78,12 @@ class GenomeFeatureWrapper extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.primaryId !== prevProps.primaryId) {
+    const visibleVariantsChanged = !isEqual(prevProps.visibleVariants, this.props.visibleVariants);
+    const isoformFilterChanged = !isEqual(prevProps.isoformFilter, this.props.isoformFilter);
+    const shouldReloadGenomeFeature =
+      this.props.primaryId !== prevProps.primaryId || visibleVariantsChanged || isoformFilterChanged;
+
+    if (shouldReloadGenomeFeature) {
       this.loadGenomeFeature();
       if (this.gfc) {
         this.gfc.setSelectedAlleles(
@@ -94,8 +100,6 @@ class GenomeFeatureWrapper extends Component {
         this.gfc.setSelectedAlleles(alleleIds, `#${this.props.id}`);
       }
     }
-    // Note: visibleVariants changes are not handled here to prevent full reload
-    // when variants are clicked, which would cause them to temporarily disappear
   }
 
   componentWillUnmount() {
@@ -333,6 +337,7 @@ class GenomeFeatureWrapper extends Component {
   }
 
   async loadGenomeFeature() {
+    const requestId = ++this.loadRequestId;
     const {
       chromosome,
       fmin,
@@ -387,6 +392,10 @@ class GenomeFeatureWrapper extends Component {
         displayType
       );
 
+      if (requestId !== this.loadRequestId) {
+        return;
+      }
+
       // Generate track configuration with fetched data
 
       const trackConfig = this.generateTrackConfig(
@@ -422,6 +431,10 @@ class GenomeFeatureWrapper extends Component {
         vcfLoadError: vcfError,
       });
     } catch (error) {
+      if (requestId !== this.loadRequestId) {
+        return;
+      }
+
       // Error loading genome feature data
       this.setState({
         loadState: 'error',
