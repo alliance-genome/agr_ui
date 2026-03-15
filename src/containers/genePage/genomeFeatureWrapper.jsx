@@ -31,6 +31,8 @@ class GenomeFeatureWrapper extends Component {
       helpText: '',
       vcfLoadError: null,
     };
+    this.latestLoadId = 0;
+    this.isUnmounted = false;
 
     this.handleClick = this.handleClick.bind(this);
   }
@@ -86,6 +88,11 @@ class GenomeFeatureWrapper extends Component {
         );
       }
     } else if (
+      !isEqual(prevProps.visibleVariants, this.props.visibleVariants) ||
+      !isEqual(prevProps.isoformFilter, this.props.isoformFilter)
+    ) {
+      this.loadGenomeFeature();
+    } else if (
       !isEqual(prevProps.allelesSelected, this.props.allelesSelected) &&
       this.props.allelesSelected !== undefined
     ) {
@@ -94,14 +101,17 @@ class GenomeFeatureWrapper extends Component {
         this.gfc.setSelectedAlleles(alleleIds, `#${this.props.id}`);
       }
     }
-    // Note: visibleVariants changes are not handled here to prevent full reload
-    // when variants are clicked, which would cause them to temporarily disappear
   }
 
   componentWillUnmount() {
+    this.isUnmounted = true;
     if (this.gfc && this.gfc.closeModal) {
       this.gfc.closeModal();
     }
+  }
+
+  isCurrentLoad(loadId) {
+    return !this.isUnmounted && loadId === this.latestLoadId;
   }
 
   async generateJBrowseTrackData(fmin, fmax, chromosome, species, releaseVersion, displayType) {
@@ -333,6 +343,7 @@ class GenomeFeatureWrapper extends Component {
   }
 
   async loadGenomeFeature() {
+    const loadId = ++this.latestLoadId;
     const {
       chromosome,
       fmin,
@@ -387,6 +398,10 @@ class GenomeFeatureWrapper extends Component {
         displayType
       );
 
+      if (!this.isCurrentLoad(loadId)) {
+        return;
+      }
+
       // Generate track configuration with fetched data
 
       const trackConfig = this.generateTrackConfig(
@@ -411,23 +426,31 @@ class GenomeFeatureWrapper extends Component {
       this.gfc = new GenomeFeatureViewer(trackConfig, `#${id}`, 900, 500);
 
       // Set selected alleles after initialization
-      if (this.props.allelesSelected && this.props.allelesSelected.length > 0) {
-        const alleleIds = this.props.allelesSelected.map((a) => a.id);
+      if (!this.isCurrentLoad(loadId)) {
+        return;
+      }
+
+      if (allelesSelected && allelesSelected.length > 0) {
+        const alleleIds = allelesSelected.map((a) => a.id);
         this.gfc.setSelectedAlleles(alleleIds, `#${id}`);
       }
 
-      this.setState({
-        helpText: this.gfc.generateLegend(),
-        loadState: 'loaded',
-        vcfLoadError: vcfError,
-      });
+      if (this.isCurrentLoad(loadId)) {
+        this.setState({
+          helpText: this.gfc.generateLegend(),
+          loadState: 'loaded',
+          vcfLoadError: vcfError,
+        });
+      }
     } catch (error) {
       // Error loading genome feature data
-      this.setState({
-        loadState: 'error',
-        helpText: 'Error loading genome data',
-        errorDetails: error.message,
-      });
+      if (this.isCurrentLoad(loadId)) {
+        this.setState({
+          loadState: 'error',
+          helpText: 'Error loading genome data',
+          errorDetails: error.message,
+        });
+      }
     }
   }
 
