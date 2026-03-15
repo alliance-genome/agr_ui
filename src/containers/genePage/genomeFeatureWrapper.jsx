@@ -85,17 +85,24 @@ class GenomeFeatureWrapper extends Component {
           `#${this.props.id}`
         );
       }
-    } else if (
-      !isEqual(prevProps.allelesSelected, this.props.allelesSelected) &&
-      this.props.allelesSelected !== undefined
-    ) {
+      return;
+    }
+
+    const allelesSelectedChanged =
+      !isEqual(prevProps.allelesSelected, this.props.allelesSelected) && this.props.allelesSelected !== undefined;
+    const visibleVariantsChanged = !isEqual(prevProps.visibleVariants, this.props.visibleVariants);
+    const hasActiveSelection = Array.isArray(this.props.allelesSelected) && this.props.allelesSelected.length > 0;
+
+    if (allelesSelectedChanged) {
       if (this.gfc) {
         const alleleIds = this.props.allelesSelected.map((a) => a.id);
         this.gfc.setSelectedAlleles(alleleIds, `#${this.props.id}`);
       }
     }
-    // Note: visibleVariants changes are not handled here to prevent full reload
-    // when variants are clicked, which would cause them to temporarily disappear
+
+    if (visibleVariantsChanged && !hasActiveSelection) {
+      this.loadGenomeFeature();
+    }
   }
 
   componentWillUnmount() {

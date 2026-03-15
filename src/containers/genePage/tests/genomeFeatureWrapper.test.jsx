@@ -236,4 +236,58 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     const vcfAlert = container.querySelector('.alert.alert-warning');
     expect(vcfAlert).not.toBeInTheDocument();
   });
+
+  test('should reload when visible variants change without a viewer selection', async () => {
+    const { rerender } = render(<GenomeFeatureWrapper {...defaultProps} visibleVariants={['MGI:1']} />);
+
+    await waitFor(() => {
+      expect(fetchNCListData).toHaveBeenCalledTimes(1);
+    });
+
+    rerender(<GenomeFeatureWrapper {...defaultProps} visibleVariants={['MGI:1', 'MGI:2']} />);
+
+    await waitFor(() => {
+      expect(fetchNCListData).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  test('should not reload when visible variants change while alleles remain selected', async () => {
+    const selectedAlleles = [{ id: 'MGI:1' }];
+    const { rerender } = render(
+      <GenomeFeatureWrapper {...defaultProps} allelesSelected={selectedAlleles} visibleVariants={['MGI:1']} />
+    );
+
+    await waitFor(() => {
+      expect(fetchNCListData).toHaveBeenCalledTimes(1);
+    });
+
+    rerender(
+      <GenomeFeatureWrapper
+        {...defaultProps}
+        allelesSelected={selectedAlleles}
+        visibleVariants={['MGI:1', 'MGI:2']}
+      />
+    );
+
+    await waitFor(() => {
+      expect(fetchNCListData).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  test('should reload when clearing the last selected allele also restores visible variants', async () => {
+    const selectedAlleles = [{ id: 'MGI:1' }];
+    const { rerender } = render(
+      <GenomeFeatureWrapper {...defaultProps} allelesSelected={selectedAlleles} visibleVariants={['MGI:1']} />
+    );
+
+    await waitFor(() => {
+      expect(fetchNCListData).toHaveBeenCalledTimes(1);
+    });
+
+    rerender(<GenomeFeatureWrapper {...defaultProps} allelesSelected={[]} visibleVariants={['MGI:1', 'MGI:2']} />);
+
+    await waitFor(() => {
+      expect(fetchNCListData).toHaveBeenCalledTimes(2);
+    });
+  });
 });
