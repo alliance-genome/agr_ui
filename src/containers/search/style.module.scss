@@ -138,7 +138,7 @@ a > span > .sprite {
   &.model::before {
     color: $data-type-model;
   }
-  &.allele::before {
+  &.allele_variant_search_results::before {
     color: $data-type-allele;
   }
   &.htp_dataset_search_result::before {
