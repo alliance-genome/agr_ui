@@ -1,6 +1,7 @@
 import { makeFieldDisplayName, makeValueDisplayName } from '../lib/searchHelpers.jsx';
 import {
   ALLELE_CATEGORY,
+  ALLELE_VARIANT_CATEGORY,
   CATEGORIES,
   DATASET_CATEGORY,
   DISEASE_CATEGORY,
@@ -94,6 +95,7 @@ export function parseResults(results) {
         return parseAlleleResult(d);
       case 'homology_group':
         return parseHomologyGroupResult(d);
+      case ALLELE_VARIANT_CATEGORY:
       case VARIANT_SEARCH_RESULTS_CATEGORY:
       case 'allele_variant':
         return parseVariantSearchResult(d);
