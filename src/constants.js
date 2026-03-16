@@ -6,7 +6,7 @@ export const GENE_CATEGORY = 'gene';
 export const GO_CATEGORY = 'go_search_result';
 export const DISEASE_CATEGORY = 'disease';
 export const ALLELE_CATEGORY = 'allele';
-export const ALLELE_VARIANT_CATEGORY = 'allele_variant_search_results';
+export const ALLELE_VARIANT_CATEGORY = 'allele_variant_search_result';
 export const VARIANT_SEARCH_RESULTS_CATEGORY = 'variant_search_result';
 export const MODEL_CATEGORY = 'model';
 export const DATASET_CATEGORY = 'htp_dataset_search_result';
@@ -64,6 +64,18 @@ export const CATEGORIES = [
     name: DATASET_CATEGORY,
     displayName: 'HTP Dataset Index',
     displayFields: ['dataProviderNote', 'idCollection', 'tags', 'summary'],
+  },
+  {
+    name: VARIANT_SEARCH_RESULTS_CATEGORY,
+    displayName: 'Variant',
+    displayFields: [
+      'primaryKey',
+      'variantType',
+      'categoryType',
+      'alterationType',
+      'crossReferences',
+      'molecularConsequence',
+    ],
   },
 ];
 
