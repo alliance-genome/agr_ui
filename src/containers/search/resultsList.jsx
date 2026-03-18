@@ -72,7 +72,6 @@ class ResultsList extends Component {
   }
 
   renderRelatedData(d) {
-	console.log(d);
     if (!d.relatedData || d.relatedData.length === 0 || d.relatedData[0] === '') {
       return '';
     }
@@ -157,10 +156,8 @@ class ResultsList extends Component {
   }
 
   renderRows() {
-	console.log(this.props.entries);
     return (
       this.props.entries?.map((d, i) => {
-			console.log(d);
         if (d.category === GENE_CATEGORY) {
           return this.renderGeneEntry(d, i);
         } else {
