@@ -2,9 +2,9 @@ export const HELP_EMAIL = 'help@alliancegenome.org';
 export const SEARCH_API_ERROR_MESSAGE = `There was a problem connecting to the server. Please refresh the page. If you continue to see this message, please contact ${HELP_EMAIL}`;
 export const LARGE_COL_CLASS = 'col-md-8 col-12';
 export const SMALL_COL_CLASS = 'col-md-4 col-12';
-export const GENE_CATEGORY = 'gene';
+export const GENE_CATEGORY = 'gene_search_result';
 export const GO_CATEGORY = 'go_search_result';
-export const DISEASE_CATEGORY = 'disease';
+export const DISEASE_CATEGORY = 'disease_search_result';
 export const ALLELE_CATEGORY = 'allele';
 export const ALLELE_VARIANT_CATEGORY = 'allele_variant_search_result';
 export const VARIANT_SEARCH_RESULTS_CATEGORY = 'variant_search_result';
@@ -43,7 +43,7 @@ export const CATEGORIES = [
   {
     name: GENE_CATEGORY,
     displayName: 'Gene',
-    displayFields: ['name', 'synonyms', 'primaryKey', 'biotype'],
+    displayFields: ['curie', 'name', 'synonyms', 'biotype'],
   },
   {
     name: GO_CATEGORY,

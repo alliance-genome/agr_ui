@@ -95,6 +95,7 @@ class SearchComponent extends Component {
         />
       );
     } else {
+		console.log(this.props.results);
       return <ResultsList entries={this.props.results} />;
     }
   }

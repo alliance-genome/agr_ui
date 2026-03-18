@@ -129,10 +129,10 @@ a > span > .sprite {
   &.go_search_result::before {
     color: $data-type-go;
   }
-  &.gene::before {
+  &.gene_search_result::before {
     color: $data-type-gene;
   }
-  &.disease::before {
+  &.disease_search_result::before {
     color: $data-type-disease;
   }
   &.model::before {
