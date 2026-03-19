@@ -58,6 +58,7 @@ import TransgenicAlleleSectionHelp from '../../components/transgenicAlleles/tran
 import DiseaseSectionHelp from '../../components/disease/diseaseSectionHelp.jsx';
 import { AlleleTableWrapper } from './alleleTableWrapper.jsx';
 import { useParams } from 'react-router-dom';
+import { GENE_CATEGORY } from '../../constants';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
@@ -150,7 +151,7 @@ const GenePage = () => {
         </PageNavEntity>
       </PageNav>
       <PageData>
-        <PageCategoryLabel category="gene" />
+        <PageCategoryLabel category={GENE_CATEGORY} />
         <PageHeader>
           <GeneSymbolCuration gene={gene} />
         </PageHeader>
