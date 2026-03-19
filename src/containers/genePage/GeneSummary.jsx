@@ -12,6 +12,8 @@ import { HELP_AUTOMATED_GENE_DESCRIPTION, HELP_CROSS_REFERENCES_GCRP } from './c
 import GeneSymbolCuration from '../../components/GeneSymbolCuration.jsx';
 import SpeciesName from '../../components/SpeciesName.jsx';
 
+const SUMMARY_CROSS_REF_PREFIXES = ['ENSEMBL:', 'NCBI_Gene:', 'PANTHER:', 'RNAcentral:', 'RefSeq:', 'UniProtKB:'];
+
 const GeneSummary = ({ gene, crossReferenceMap, gcrpCrossReference }) => {
   const { speciesName, taxonId, dataProviderAbbr } = extractGeneFields(gene);
   const synopsisProvider = getSpecies(taxonId)?.geneSynopsisProvider || dataProviderAbbr;
@@ -20,7 +22,12 @@ const GeneSummary = ({ gene, crossReferenceMap, gcrpCrossReference }) => {
   const modDescription = getNoteText(gene.relatedNotes, 'MOD_provided_gene_description');
 
   // Merge gcrpCrossReference into the "other" cross references, always at the top
-  const otherCrossRefs = [...(crossReferenceMap?.other || [])];
+  // Filter to only show the subset of cross references historically displayed in the summary
+  const otherCrossRefs = (crossReferenceMap?.other || []).filter((ref) =>
+    SUMMARY_CROSS_REF_PREFIXES.some(
+      (prefix) => ref.referencedCurie?.startsWith(prefix) && ref.displayName?.startsWith(prefix)
+    )
+  );
   if (gcrpCrossReference) {
     otherCrossRefs.unshift({ ...gcrpCrossReference, crossRefCompleteUrl: buildUrlFromTemplate(gcrpCrossReference) });
   }
