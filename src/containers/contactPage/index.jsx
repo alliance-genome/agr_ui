@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { HELP_EMAIL } from '../../constants';
+import { HELP_EMAIL, RECAPTCHA_SITE_KEY } from '../../constants';
 import HeadMetaTags from '../../components/headMetaTags.jsx';
 import style from '../wordpress/style.module.scss';
 import { sendContactEmail } from '../../lib/sendContactEmail';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 const ContactPage = () => {
   const [searchParams] = useSearchParams();
@@ -14,6 +15,14 @@ const ContactPage = () => {
   const [emailError, setEmailError] = useState('');
   const [submitStatus, setSubmitStatus] = useState(null); // 'sending', 'success', 'error'
   const [submitError, setSubmitError] = useState('');
+  const [captchaToken, setCaptchaToken] = useState(null);
+  const recaptchaRef = useRef(null);
+
+  const clearSubmitStatus = () => {
+    if (submitStatus === 'success') {
+      setSubmitStatus(null);
+    }
+  };
 
   const validateEmail = (value) => {
     const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -32,6 +41,10 @@ const ContactPage = () => {
     setEmailError('');
     setSubmitStatus(null);
     setSubmitError('');
+    setCaptchaToken(null);
+    if (recaptchaRef.current) {
+      recaptchaRef.current.reset();
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -41,18 +54,31 @@ const ContactPage = () => {
       setEmailError('Please enter a valid email address.');
       return;
     }
+    if (!captchaToken) {
+      setSubmitError('Please complete the reCAPTCHA.');
+      setSubmitStatus('error');
+      return;
+    }
     setSubmitStatus('sending');
     setSubmitError('');
     try {
-      await sendContactEmail({ name, email, subject, message });
+      await sendContactEmail({ name, email, subject, message, captchaToken });
       setSubmitStatus('success');
       setName('');
       setEmail('');
       setSubject('');
       setMessage('');
+      setCaptchaToken(null);
+      if (recaptchaRef.current) {
+        recaptchaRef.current.reset();
+      }
     } catch (err) {
       setSubmitStatus('error');
       setSubmitError(err.message || 'Network error. Please try again later.');
+      if (recaptchaRef.current) {
+        recaptchaRef.current.reset();
+      }
+      setCaptchaToken(null);
     }
   };
 
@@ -76,7 +102,7 @@ const ContactPage = () => {
               Have a question or need help? &nbsp;&nbsp;Fill out the form below and we will get back to you as soon as
               possible.
             </p>
-            <form onSubmit={handleSubmit}>
+            <form onFocus={clearSubmitStatus} onSubmit={handleSubmit}>
               <div className="form-group mb-3">
                 <label htmlFor="contact-name">Name</label>
                 <input
@@ -91,7 +117,7 @@ const ContactPage = () => {
               <div className="form-group mb-3">
                 <label htmlFor="contact-email">Email</label>
                 <input
-                  className={`form-control ${emailError ? 'is-invalid' : ''}`}
+                  className={`form-control ${emailError ? "is-invalid" : ""}`}
                   id="contact-email"
                   onBlur={(e) => validateEmail(e.target.value)}
                   onChange={(e) => {
@@ -126,10 +152,18 @@ const ContactPage = () => {
                   value={message}
                 />
               </div>
+              <div className="form-group mb-3">
+                <ReCAPTCHA
+                  ref={recaptchaRef}
+                  sitekey={RECAPTCHA_SITE_KEY}
+                  onChange={(token) => setCaptchaToken(token)}
+                  onExpired={() => setCaptchaToken(null)}
+                />
+              </div>
               <div className="mb-4">
                 <button
                   className="btn btn-primary"
-                  disabled={submitStatus === 'sending'}
+                  disabled={submitStatus === 'sending' || !captchaToken}
                   style={{ marginRight: '3rem' }}
                   type="submit"
                 >
