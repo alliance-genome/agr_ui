@@ -1,5 +1,6 @@
 export const CONTACT_API_URL = 'https://1ythblxki4.execute-api.us-east-1.amazonaws.com/prod/contact';
 export const HELP_EMAIL = 'help@alliancegenome.org';
+export const RECAPTCHA_SITE_KEY = '6Leya4csAAAAAI1Me4cTcUF1BBcO-31Hu4Z8UliC';
 export const SEARCH_API_ERROR_MESSAGE = `There was a problem connecting to the server. Please refresh the page. If you continue to see this message, please contact ${HELP_EMAIL}`;
 export const LARGE_COL_CLASS = 'col-md-8 col-12';
 export const SMALL_COL_CLASS = 'col-md-4 col-12';
