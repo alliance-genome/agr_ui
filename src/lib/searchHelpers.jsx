@@ -54,11 +54,10 @@ export function makeFieldDisplayName(unformattedName, category = '') {
 
   unformattedName = unformattedName || '';
 
-  suffixesToRemove.forEach(function (suffix) {
+  suffixesToRemove.forEach(function(suffix) {
     unformattedName = unformattedName.replace(suffix, '');
   });
 
-  unformattedName = unformattedName.replace('name_key', 'Symbol');
   unformattedName = unformattedName.replace('collapsible_', '');
 
   if (category === DATASET_CATEGORY) {
@@ -71,6 +70,10 @@ export function makeFieldDisplayName(unformattedName, category = '') {
     }
   }
 
+  if (unformattedName.startsWith('nameKey') || unformattedName.startsWith('name_key')) {
+    return 'Symbol';
+  }
+
   switch (unformattedName) {
     case GO_CATEGORY:
       return 'Gene Ontology';
@@ -78,6 +81,8 @@ export function makeFieldDisplayName(unformattedName, category = '') {
       return 'GO Branch';
     case 'curie':
       return 'ID';
+    case 'geneDescription':
+      return 'Gene Synopsis';
     case 'geneType':
       return 'Gene Type';
     case 'disease_genes':
@@ -229,7 +234,7 @@ export function getLinkForEntry(entry) {
 }
 
 function toTitleCase(str) {
-  return str.replace(/\w\S*/g, function (txt) {
+  return str.replace(/\w\S*/g, function(txt) {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
   });
 }

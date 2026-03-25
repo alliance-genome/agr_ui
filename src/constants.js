@@ -43,7 +43,7 @@ export const CATEGORIES = [
   {
     name: GENE_CATEGORY,
     displayName: 'Gene',
-    displayFields: ['curie', 'name', 'synonyms', 'biotype'],
+    displayFields: ['curie', 'name', 'synonyms', 'biotype', 'nameKey', 'geneDescription'],
   },
   {
     name: GO_CATEGORY,
