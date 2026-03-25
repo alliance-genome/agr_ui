@@ -97,7 +97,7 @@ class SearchBarComponent extends Component {
     //gene and disease will go to the pages and skip search results,
     //go terms and alleles will just go to regular search pages as the query
     if (item.method === 'click') {
-      const id = item.suggestion.primaryKey;
+      const id = item.suggestion.primaryKey ? item.suggestion.primaryKey : item.suggestion.curie;
       const url = getURLForEntry(item.suggestion.category, id);
       if (url) {
         autocompleteGoToPageEvent(id);
@@ -105,6 +105,7 @@ class SearchBarComponent extends Component {
       } else {
         //use name if name_key isn't available
         let query = item.suggestion.name_key ? item.suggestion.name_key : item.suggestion.name;
+        query = item.suggestion.nameKey ? item.suggestion.nameKey : query;
         this.setState({ value: query });
         this.doQuery(query);
       }
