@@ -83,6 +83,8 @@ export function makeFieldDisplayName(unformattedName, category = '') {
       return 'ID';
     case 'geneDescription':
       return 'Gene Synopsis';
+    case 'automatedGeneDescription':
+      return 'Automated Gene Synopsis';
     case 'geneType':
       return 'Gene Type';
     case 'disease_genes':
