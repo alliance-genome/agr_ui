@@ -239,7 +239,11 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
       formatter: (allele, row) => {
         if (row.alterationType === 'variant') {
           const hgvs = row.variants?.[0]?.curatedVariantGenomicLocations?.[0]?.hgvs;
-          return <Link to={`/variant/${hgvs}`}>{hgvs}</Link>;
+          return (
+            <div className="text-truncate" title={hgvs}>
+              <Link to={`/variant/${hgvs}`}>{hgvs}</Link>
+            </div>
+          );
         }
         return <AlleleCellCuration identifier={getIdentifier(allele)} allele={allele} />;
       },
