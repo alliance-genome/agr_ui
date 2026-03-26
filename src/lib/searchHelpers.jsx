@@ -54,7 +54,7 @@ export function makeFieldDisplayName(unformattedName, category = '') {
 
   unformattedName = unformattedName || '';
 
-  suffixesToRemove.forEach(function(suffix) {
+  suffixesToRemove.forEach(function (suffix) {
     unformattedName = unformattedName.replace(suffix, '');
   });
 
@@ -236,7 +236,7 @@ export function getLinkForEntry(entry) {
 }
 
 function toTitleCase(str) {
-  return str.replace(/\w\S*/g, function(txt) {
+  return str.replace(/\w\S*/g, function (txt) {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
   });
 }
