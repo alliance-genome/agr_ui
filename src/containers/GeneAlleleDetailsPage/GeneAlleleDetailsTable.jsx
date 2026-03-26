@@ -136,11 +136,11 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
         const location =
           loc && loc.start != null
             ? {
-              start: loc.start,
-              end: loc.end,
-              chromosome:
-                loc.variantGenomicLocationAssociationObject && loc.variantGenomicLocationAssociationObject.name,
-            }
+                start: loc.start,
+                end: loc.end,
+                chromosome:
+                  loc.variantGenomicLocationAssociationObject && loc.variantGenomicLocationAssociationObject.name,
+              }
             : null;
         return (
           <div className="text-truncate">
@@ -193,11 +193,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
         if (!gene) return '';
         const symbol = gene.geneSymbol && gene.geneSymbol.displayText;
         const geneId = gene.curie || gene.primaryExternalId;
-        return symbol ? (
-          <a href={`/gene/${geneId}`} dangerouslySetInnerHTML={{ __html: symbol }} />
-        ) : (
-          geneId || ''
-        );
+        return symbol ? <a href={`/gene/${geneId}`} dangerouslySetInnerHTML={{ __html: symbol }} /> : geneId || '';
       },
       filterable: getDistinctFieldValue(supplementalData, 'filter.associatedGeneSymbol'),
       filterName: 'associatedGeneSymbol',
@@ -318,17 +314,17 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
   const variantsSequenceViewerProps = useMemo(() => {
     const variants = allelesFiltered.data?.results
       ? allelesFiltered.data.results.flatMap(
-        (row) => (row && row.variant && row.variant.curatedVariantGenomicLocations) || []
-      )
+          (row) => (row && row.variant && row.variant.curatedVariantGenomicLocations) || []
+        )
       : [];
     const variantLocations = variants.map((variant) =>
       variant && variant.start != null
         ? {
-          start: variant.start,
-          end: variant.end,
-          chromosome:
-            variant.variantGenomicLocationAssociationObject && variant.variantGenomicLocationAssociationObject.name,
-        }
+            start: variant.start,
+            end: variant.end,
+            chromosome:
+              variant.variantGenomicLocationAssociationObject && variant.variantGenomicLocationAssociationObject.name,
+          }
         : null
     );
     const { fmin, fmax } = findFminFmax([geneLocation, ...variantLocations]);
@@ -364,8 +360,8 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
         .map((sym) => formatAllele(symbolToExtId.get(sym))),
       allelesVisible: allelesFiltered.data?.results
         ? allelesFiltered.data.results
-          .filter((row) => row?.allele?.primaryExternalId)
-          .map((row) => formatAllele(row.allele.primaryExternalId))
+            .filter((row) => row?.allele?.primaryExternalId)
+            .map((row) => formatAllele(row.allele.primaryExternalId))
         : [],
       onAllelesSelect: (extIds) => {
         const symbols = extIds.map((id) => extIdToSymbol.get(id) || id);
