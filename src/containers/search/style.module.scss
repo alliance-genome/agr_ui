@@ -129,20 +129,23 @@ a > span > .sprite {
   &.go_search_result::before {
     color: $data-type-go;
   }
-  &.gene::before {
+  &.gene_search_result::before {
     color: $data-type-gene;
   }
-  &.disease::before {
+  &.disease_search_result::before {
     color: $data-type-disease;
   }
   &.model::before {
     color: $data-type-model;
   }
-  &.allele::before {
+  &.allele_variant_search_result::before {
     color: $data-type-allele;
   }
   &.htp_dataset_search_result::before {
     color: $data-type-dataset;
+  }
+  &.variant_search_result::before {
+    color: $data-type-allele;
   }
 }
 

@@ -14,6 +14,7 @@ import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import CovidInfoLink from '../../components/CovidInfoLink.jsx';
 import { useParams } from 'react-router-dom';
+import { DISEASE_CATEGORY } from '../../constants';
 
 const SUMMARY = 'Summary';
 const GENES = 'Associated Genes';
@@ -98,7 +99,7 @@ const DiseasePage = () => {
             </div>
           </div>
         )}
-        <PageCategoryLabel category="disease" />
+        <PageCategoryLabel category={DISEASE_CATEGORY} />
         <PageHeader>{data.doTerm.name}</PageHeader>
 
         <Subsection hideTitle title={SUMMARY}>

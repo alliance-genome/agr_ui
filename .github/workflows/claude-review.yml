@@ -25,7 +25,6 @@ jobs:
       actions: read
     uses: alliance-genome/.github/.github/workflows/claude-code-review.yml@main
     with:
-      max_turns: 30
       # Frontend-specific focus for React UI application
       review_focus: 'critical bugs, security vulnerabilities, and performance issues in the React frontend application. Focus on: component rendering errors, state management bugs, memory leaks, XSS vulnerabilities, and accessibility violations'
       trigger_phrase: '@claude'

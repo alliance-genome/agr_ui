@@ -169,7 +169,7 @@ export function getGenomicLocations(gene) {
       start: loc.start,
       end: loc.end,
       strand: loc.strand,
-      assembly: gene.taxon?.species?.[0]?.assembly_curie,
+      assembly: gene.taxon?.species?.assembly_curie,
     })) || []
   );
 }

@@ -192,11 +192,8 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
         const gene = associations[0].transcriptGeneAssociationObject;
         if (!gene) return '';
         const symbol = gene.geneSymbol && gene.geneSymbol.displayText;
-        return symbol ? (
-          <a href={`/gene/${gene.curie}`} dangerouslySetInnerHTML={{ __html: symbol }} />
-        ) : (
-          gene.curie || ''
-        );
+        const geneId = gene.curie || gene.primaryExternalId;
+        return symbol ? <a href={`/gene/${geneId}`} dangerouslySetInnerHTML={{ __html: symbol }} /> : geneId || '';
       },
       filterable: getDistinctFieldValue(supplementalData, 'filter.associatedGeneSymbol'),
       filterName: 'associatedGeneSymbol',
@@ -421,7 +418,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
           data={data}
           columns={columns}
           downloadUrl={`/api/gene/${geneId}/allele-variant-detail/download`}
-          downloadText="Download (150k or less)"
+          downloadText="Download (90k or less)"
           selectRow={selectRow}
           sortOptions={sortOptions}
           keyField="key"

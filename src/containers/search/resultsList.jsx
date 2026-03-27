@@ -81,7 +81,8 @@ class ResultsList extends Component {
         category: x.category,
         [x.targetField]: x.sourceName,
       };
-      const label = x.label || CATEGORIES.find((cat) => cat.name === x.category).displayName;
+      const catMatch = CATEGORIES.find((cat) => cat.name === x.category);
+      const label = x.label || (catMatch ? catMatch.displayName : x.category);
       const href = { pathname: '/search', search: stringifyQuery(queryParams) };
       const id = 'X' + hash(x);
 
