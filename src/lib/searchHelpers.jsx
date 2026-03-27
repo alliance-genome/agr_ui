@@ -65,7 +65,7 @@ export function makeFieldDisplayName(unformattedName, category = '') {
       unformattedName = 'Cell/Tissues';
     }
 
-    if (unformattedName.toLowerCase() === 'anatomicalexpression') {
+    if (unformattedName.toLowerCase() === 'anatomicalexpressionslim') {
       unformattedName = 'Tissues';
     }
   }
