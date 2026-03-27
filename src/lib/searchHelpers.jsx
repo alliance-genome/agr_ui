@@ -70,7 +70,7 @@ export function makeFieldDisplayName(unformattedName, category = '') {
     }
   }
 
-  if (unformattedName.startsWith('nameKey') || unformattedName.startsWith('name_key')) {
+  if (unformattedName.startsWith('nameKey')) {
     return 'Symbol';
   }
 
