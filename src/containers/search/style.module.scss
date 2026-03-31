@@ -132,6 +132,9 @@ a > span > .sprite {
   &.gene_search_result::before {
     color: $data-type-gene;
   }
+  &.genome_feature::before {
+    color: $data-type-gene;
+  }
   &.disease_search_result::before {
     color: $data-type-disease;
   }
