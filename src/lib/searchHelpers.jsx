@@ -50,7 +50,7 @@ export function removeExclude(value) {
 }
 
 export function makeFieldDisplayName(unformattedName, category = '') {
-  const suffixesToRemove = ['WithParents', 'AgrSlim'];
+  const suffixesToRemove = ['WithParents', 'AgrSlim', 'Slim'];
 
   unformattedName = unformattedName || '';
 
