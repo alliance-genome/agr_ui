@@ -1,22 +1,21 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { HELP_EMAIL, RECAPTCHA_SITE_KEY } from '../../constants';
 import HeadMetaTags from '../../components/headMetaTags.jsx';
 import style from '../wordpress/style.module.scss';
 import { sendContactEmail } from '../../lib/sendContactEmail';
-import ReCAPTCHA from 'react-google-recaptcha';
 
-const ContactPage = () => {
+const ContactForm = () => {
   const [searchParams] = useSearchParams();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState(searchParams.get('subject') || '');
   const [message, setMessage] = useState('');
   const [emailError, setEmailError] = useState('');
-  const [submitStatus, setSubmitStatus] = useState(null); // 'sending', 'success', 'error'
+  const [submitStatus, setSubmitStatus] = useState(null);
   const [submitError, setSubmitError] = useState('');
-  const [captchaToken, setCaptchaToken] = useState(null);
-  const recaptchaRef = useRef(null);
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const clearSubmitStatus = () => {
     if (submitStatus === 'success') {
@@ -41,46 +40,35 @@ const ContactPage = () => {
     setEmailError('');
     setSubmitStatus(null);
     setSubmitError('');
-    setCaptchaToken(null);
-    if (recaptchaRef.current) {
-      recaptchaRef.current.reset();
-    }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!pattern.test(email)) {
       setEmailError('Please enter a valid email address.');
       return;
     }
-    if (!captchaToken) {
-      setSubmitError('Please complete the reCAPTCHA.');
+    if (!executeRecaptcha) {
+      setSubmitError('reCAPTCHA not ready. Please try again.');
       setSubmitStatus('error');
       return;
     }
     setSubmitStatus('sending');
     setSubmitError('');
     try {
+      const captchaToken = await executeRecaptcha('contact');
       await sendContactEmail({ name, email, subject, message, captchaToken });
       setSubmitStatus('success');
       setName('');
       setEmail('');
       setSubject('');
       setMessage('');
-      setCaptchaToken(null);
-      if (recaptchaRef.current) {
-        recaptchaRef.current.reset();
-      }
     } catch (err) {
       setSubmitStatus('error');
       setSubmitError(err.message || 'Network error. Please try again later.');
-      if (recaptchaRef.current) {
-        recaptchaRef.current.reset();
-      }
-      setCaptchaToken(null);
     }
-  };
+  }, [executeRecaptcha, name, email, subject, message]);
 
   return (
     <div>
@@ -152,18 +140,10 @@ const ContactPage = () => {
                   value={message}
                 />
               </div>
-              <div className="form-group mb-3">
-                <ReCAPTCHA
-                  ref={recaptchaRef}
-                  sitekey={RECAPTCHA_SITE_KEY}
-                  onChange={(token) => setCaptchaToken(token)}
-                  onExpired={() => setCaptchaToken(null)}
-                />
-              </div>
               <div className="mb-4">
                 <button
                   className="btn btn-primary"
-                  disabled={submitStatus === 'sending' || !captchaToken}
+                  disabled={submitStatus === 'sending'}
                   style={{ marginRight: '3rem' }}
                   type="submit"
                 >
@@ -194,5 +174,14 @@ const ContactPage = () => {
     </div>
   );
 };
+
+const ContactPage = () => (
+  <GoogleReCaptchaProvider
+    reCaptchaKey={RECAPTCHA_SITE_KEY}
+    useEnterprise
+  >
+    <ContactForm />
+  </GoogleReCaptchaProvider>
+);
 
 export default ContactPage;
