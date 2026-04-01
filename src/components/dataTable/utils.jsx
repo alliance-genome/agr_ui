@@ -14,13 +14,9 @@ export const renderPaginationShowsTotal = (start, end, total) => {
 export const getDistinctFieldValue = (supplementalData, field) => {
   if (!supplementalData) return [];
   const { distinctFieldValues = {} } = supplementalData || {};
-  return (
-    (distinctFieldValues[field] || [])
-      .sort(compareAlphabeticalCaseInsensitive)
-      // TODO: remove when backend is fixed, see https://agr-jira.atlassian.net/browse/SCRUM-2649
-      .map(simplifySpeciesNameSC)
-      .filter((value) => value && value.trim())
-  );
+  return (distinctFieldValues[field] || [])
+    .sort(compareAlphabeticalCaseInsensitive)
+    .filter((value) => value && value.trim());
 };
 export const getIsViaOrthology = (annotation) => {
   return annotation.generatedRelationString.includes('orthology');
@@ -130,14 +126,6 @@ export const buildSourceUrl = (dataProvider) => {
 
   return url;
 };
-
-// TODO: remove when the data is fixed on the backend
-// see https://agr-jira.atlassian.net/browse/SCRUM-2649
-export function simplifySpeciesNameSC(speciesName) {
-  const SC = 'Saccharomyces cerevisiae';
-  if (speciesName.startsWith(SC)) return SC;
-  else return speciesName;
-}
 
 //takes an array of objects and a function that returns the approprate subField and returns a unique set of those objects
 export function removeDuplicates(objects, keyFunction) {

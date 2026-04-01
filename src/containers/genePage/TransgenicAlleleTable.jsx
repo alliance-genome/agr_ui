@@ -6,8 +6,8 @@ import useDataTableQuery from '../../hooks/useDataTableQuery';
 import CommaSeparatedGeneList from '../allelePage/CommaSeparatedGeneList.jsx';
 import RotatedHeaderCell from '../../components/dataTable/RotatedHeaderCell.jsx';
 import BooleanLinkCell from '../../components/dataTable/BooleanLinkCell.jsx';
-import { getDistinctFieldValue, simplifySpeciesNameSC } from '../../components/dataTable/utils.jsx';
-import { compareByFixedOrder, getSpeciesNameCorrected } from '../../lib/utils';
+import { getDistinctFieldValue } from '../../components/dataTable/utils.jsx';
+import { compareByFixedOrder } from '../../lib/utils';
 import { SPECIES_NAME_ORDER } from '../../constants';
 import SpeciesName from '../../components/SpeciesName.jsx';
 import DataSourceLinkCuration from '../../components/dataSourceLinkCuration.jsx';
@@ -61,9 +61,9 @@ const TransgenicAlleleTable = ({ geneId }) => {
           <small className="text-muted text-transform-none">(carrying the transgene)</small>
         </>
       ),
-      formatter: (taxon) => <SpeciesName>{taxon?.name ? simplifySpeciesNameSC(taxon.name) : ''}</SpeciesName>,
+      formatter: (taxon) => <SpeciesCell taxon={taxon} />,
       filterable: getDistinctFieldValue(supplementalData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
-      filterFormatter: (species) => <SpeciesName>{simplifySpeciesNameSC(species)}</SpeciesName>,
+      filterFormatter: (species) => <SpeciesName>{species}</SpeciesName>,
       headerStyle: { width: '100px' },
     },
     {

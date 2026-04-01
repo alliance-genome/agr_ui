@@ -212,12 +212,6 @@ export function buildUrlFromTemplate(crossReference) {
 }
 
 // Fix up species name with yeast correction
-export function getSpeciesNameCorrected(name) {
-  if (name === 'Saccharomyces cerevisiae S288C') {
-    return 'Saccharomyces cerevisiae';
-  }
-  return name;
-}
 
 export function buildCrossReferenceMap(crossReferences) {
   if (!crossReferences) return {};
@@ -269,7 +263,7 @@ export function getNoteText(relatedNotes, noteTypeName) {
 
 export function extractGeneFields(gene) {
   return {
-    speciesName: getSpeciesNameCorrected(gene.taxon?.name),
+    speciesName: gene.taxon?.species?.fullName || gene.taxon?.name,
     taxonId: gene.taxon?.curie,
     geneSymbolText: gene.geneSymbol?.displayText,
     dataProviderAbbr: gene.dataProvider?.abbreviation,

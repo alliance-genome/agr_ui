@@ -10,10 +10,9 @@ import SpeciesName from '../../components/SpeciesName.jsx';
 import DataSourceLinkCuration from '../../components/dataSourceLinkCuration.jsx';
 import GeneSymbolCuration from '../../components/GeneSymbolCuration.jsx';
 import AlleleSummaryDescription from '../../components/AlleleSummaryDescription.jsx';
-import { getSpeciesNameCorrected } from '../../lib/utils.js';
 
 const AlleleSummary = ({ allele, category, description, crossReference, alleleOfGene, transgenicAlleleConstructs }) => {
-  const speciesName = getSpeciesNameCorrected(allele.taxon?.name);
+  const speciesName = allele.taxon?.species?.fullName || allele.taxon?.name;
   const constructSlimList = useMemo(
     () => transgenicAlleleConstructs?.map((transgenicAlleleConstruct) => transgenicAlleleConstruct.construct),
     [transgenicAlleleConstructs]

@@ -23,7 +23,6 @@ import PhenotypeTable from '../genePage/phenotypeTable.jsx';
 import React from 'react';
 import GeneSymbolCuration from '../../components/GeneSymbolCuration.jsx';
 import DataSourceLinkCuration from '../../components/dataSourceLinkCuration.jsx';
-import { getSpeciesNameCorrected } from '../../lib/utils.js';
 
 const SUMMARY = 'Summary';
 const PHENOTYPES = 'Phenotypes';
@@ -62,7 +61,7 @@ const AllelePage = () => {
     return null;
   }
 
-  const speciesName = getSpeciesNameCorrected(data.allele.taxon?.name);
+  const speciesName = data.allele.taxon?.species?.fullName || data.allele.taxon?.name;
 
   const title = `${data.allele.alleleSymbol?.formatText} | ${speciesName} allele`;
 

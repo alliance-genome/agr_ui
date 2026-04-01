@@ -13,7 +13,6 @@ import {
   GO_CATEGORY,
   VARIANT_SEARCH_RESULTS_CATEGORY,
 } from '../constants';
-import { getSpeciesNameCorrected } from './utils';
 
 const SINGLE_VAL_FIELDS = ['mode', 'page'];
 const CLEARING_FIELDS = ['category'];
@@ -35,7 +34,7 @@ export function makeValueDisplayName(unformattedName) {
     case 'cellular_component':
       return 'cellular component';
     default:
-      return getSpeciesNameCorrected(unformattedName.replace(/_/g, ' '));
+      return unformattedName.replace(/_/g, ' ');
   }
 }
 
