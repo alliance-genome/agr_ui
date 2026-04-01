@@ -14,11 +14,9 @@ export const renderPaginationShowsTotal = (start, end, total) => {
 export const getDistinctFieldValue = (supplementalData, field) => {
   if (!supplementalData) return [];
   const { distinctFieldValues = {} } = supplementalData || {};
-  return (
-    (distinctFieldValues[field] || [])
-      .sort(compareAlphabeticalCaseInsensitive)
-      .filter((value) => value && value.trim())
-  );
+  return (distinctFieldValues[field] || [])
+    .sort(compareAlphabeticalCaseInsensitive)
+    .filter((value) => value && value.trim());
 };
 export const getIsViaOrthology = (annotation) => {
   return annotation.generatedRelationString.includes('orthology');
