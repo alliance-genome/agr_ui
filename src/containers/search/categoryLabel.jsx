@@ -6,6 +6,9 @@ import { CATEGORIES } from '../../constants';
 
 const CategoryLabel = ({ category, hideImage, hideLabel }) => {
   let current = CATEGORIES.find((cat) => cat.name === category);
+  if(!current) {
+    current = { displayName: category };
+  }
   return (
     <span className={`${style.categoryLabel} ${style[category]} ${hideImage ? style.noIcon : ''}`}>
       {!hideLabel && current && current.displayName}
