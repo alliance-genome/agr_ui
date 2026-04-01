@@ -52,7 +52,7 @@ const DiseaseToAlleleTable = ({ id }) => {
     {
       dataField: 'subject.taxon',
       text: 'Species',
-      formatter: (species) => <SpeciesCell species={species} />,
+      formatter: (taxon) => <SpeciesCell taxon={taxon} />,
       filterName: 'species',
       filterable: getDistinctFieldValue(supplementalData, 'species').sort(compareByFixedOrder(SPECIES_NAME_ORDER)),
       filterFormatter: (speciesName) => <SpeciesName>{speciesName}</SpeciesName>,
