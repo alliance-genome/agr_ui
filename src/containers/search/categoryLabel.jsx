@@ -6,7 +6,7 @@ import { CATEGORIES } from '../../constants';
 
 const CategoryLabel = ({ category, hideImage, hideLabel }) => {
   let current = CATEGORIES.find((cat) => cat.name === category);
-  if(!current) {
+  if (!current) {
     current = { displayName: category };
   }
   return (
