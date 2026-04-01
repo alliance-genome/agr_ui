@@ -22,6 +22,7 @@ import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import SpeciesName from '../../components/SpeciesName.jsx';
 import ErrorBoundary from '../../components/errorBoundary.jsx';
 import VariantSummaryCuration from './VariantSummaryCuration.jsx';
+import { VARIANT_CATEGORY } from '../../constants';
 
 const SUMMARY = 'Summary';
 const MOLECULAR_CONSEQUENCE = 'Variant Molecular Consequences';
@@ -100,7 +101,7 @@ const VariantPage = () => {
         </PageNavEntity>
       </PageNav>
       <PageData>
-        <PageCategoryLabel category="allele" />
+        <PageCategoryLabel category={VARIANT_CATEGORY} />
         <PageHeader>{variantSymbol}</PageHeader>
 
         <Subsection hideTitle title={SUMMARY}>

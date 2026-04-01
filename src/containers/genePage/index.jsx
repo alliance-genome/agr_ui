@@ -58,7 +58,7 @@ import TransgenicAlleleSectionHelp from '../../components/transgenicAlleles/tran
 import DiseaseSectionHelp from '../../components/disease/diseaseSectionHelp.jsx';
 import { AlleleTableWrapper } from './alleleTableWrapper.jsx';
 import { useParams } from 'react-router-dom';
-import { GENE_CATEGORY, GENOME_FEATURE_CATEGORY } from '../../constants';
+import { GENE_CATEGORY } from '../../constants';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
@@ -111,7 +111,7 @@ const GenePage = () => {
   const { speciesName, taxonId, geneSymbolText, dataProviderAbbr } = extractGeneFields(gene);
 
   const isGeneType = gene.geneType?.curie === 'SO:0000704' || gene.geneType?.ancestors?.includes('SO:0000704');
-  const pageCategory = isGeneType ? GENE_CATEGORY : GENOME_FEATURE_CATEGORY;
+  const pageLabel = isGeneType ? GENE_CATEGORY : 'genome_feature';
 
   // Normalize genome locations
   const genomeLocations = getGenomicLocations(gene);
@@ -154,7 +154,7 @@ const GenePage = () => {
         </PageNavEntity>
       </PageNav>
       <PageData>
-        <PageCategoryLabel category={pageCategory} />
+        <PageCategoryLabel category={pageLabel} />
         <PageHeader>
           <GeneSymbolCuration gene={gene} />
         </PageHeader>

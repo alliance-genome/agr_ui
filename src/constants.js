@@ -3,12 +3,10 @@ export const SEARCH_API_ERROR_MESSAGE = `There was a problem connecting to the s
 export const LARGE_COL_CLASS = 'col-md-8 col-12';
 export const SMALL_COL_CLASS = 'col-md-4 col-12';
 export const GENE_CATEGORY = 'gene_search_result';
-export const GENOME_FEATURE_CATEGORY = 'genome_feature';
 export const GO_CATEGORY = 'go_search_result';
 export const DISEASE_CATEGORY = 'disease_search_result';
-export const ALLELE_CATEGORY = 'allele';
-export const ALLELE_VARIANT_CATEGORY = 'allele_variant_search_result';
-export const VARIANT_SEARCH_RESULTS_CATEGORY = 'variant_search_result';
+export const ALLELE_CATEGORY = 'allele_search_result';
+export const VARIANT_CATEGORY = 'variant_search_result';
 export const MODEL_CATEGORY = 'model';
 export const DATASET_CATEGORY = 'htp_dataset_search_result';
 
@@ -26,8 +24,8 @@ export const CATEGORIES = [
     displayName: 'All',
   },
   {
-    name: ALLELE_VARIANT_CATEGORY,
-    displayName: 'Allele / Variant',
+    name: ALLELE_CATEGORY,
+    displayName: 'Allele',
     displayFields: [
       'primaryKey',
       'genes',
@@ -45,10 +43,6 @@ export const CATEGORIES = [
     name: GENE_CATEGORY,
     displayName: 'Gene',
     displayFields: ['curie', 'name', 'synonyms', 'biotype', 'nameKey'],
-  },
-  {
-    name: GENOME_FEATURE_CATEGORY,
-    displayName: 'Genome Feature',
   },
   {
     name: GO_CATEGORY,
@@ -71,7 +65,7 @@ export const CATEGORIES = [
     displayFields: ['dataProviderNote', 'idCollection', 'tags', 'summary'],
   },
   {
-    name: VARIANT_SEARCH_RESULTS_CATEGORY,
+    name: VARIANT_CATEGORY,
     displayName: 'Variant',
     displayFields: [
       'primaryKey',

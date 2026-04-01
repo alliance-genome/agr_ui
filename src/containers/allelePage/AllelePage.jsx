@@ -23,6 +23,7 @@ import PhenotypeTable from '../genePage/phenotypeTable.jsx';
 import React from 'react';
 import GeneSymbolCuration from '../../components/GeneSymbolCuration.jsx';
 import DataSourceLinkCuration from '../../components/dataSourceLinkCuration.jsx';
+import { ALLELE_CATEGORY } from '../../constants';
 
 const SUMMARY = 'Summary';
 const PHENOTYPES = 'Phenotypes';
@@ -89,7 +90,7 @@ const AllelePage = () => {
         </PageNavEntity>
       </PageNav>
       <PageData>
-        <PageCategoryLabel category="allele" />
+        <PageCategoryLabel category={ALLELE_CATEGORY} />
         <PageHeader>
           <AlleleSymbol allele={data.allele} />
         </PageHeader>
