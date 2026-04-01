@@ -10,8 +10,7 @@ import {
   GENE_CATEGORY,
   GO_CATEGORY,
   ALLELE_CATEGORY,
-  ALLELE_VARIANT_CATEGORY,
-  VARIANT_SEARCH_RESULTS_CATEGORY,
+  VARIANT_CATEGORY,
   NON_HIGHLIGHTED_FIELDS,
 } from '../../constants';
 import { Link } from 'react-router-dom';
@@ -163,8 +162,8 @@ class ResultsList extends Component {
           return this.renderGeneEntry(d, i);
         } else {
           let lookupCategory =
-            d.category === ALLELE_CATEGORY || d.category === VARIANT_SEARCH_RESULTS_CATEGORY
-              ? ALLELE_VARIANT_CATEGORY
+            d.category === ALLELE_CATEGORY || d.category === VARIANT_CATEGORY
+              ? ALLELE_CATEGORY
               : d.category;
           let catMatch = CATEGORIES.find((cat) => cat.name === lookupCategory);
           let fields = catMatch ? catMatch.displayFields || ['id', 'synonyms'] : ['id', 'synonyms'];
