@@ -9,7 +9,7 @@ import ResultsTable from './resultsTable.jsx';
 import CategoryLabel from './categoryLabel.jsx';
 import fetchData from '../../lib/fetchData';
 import {
-  ALLELE_VARIANT_CATEGORY,
+  ALLELE_CATEGORY,
   DISEASE_CATEGORY,
   GENE_CATEGORY,
   GO_CATEGORY,
@@ -34,7 +34,7 @@ import { setPageLoading } from '../../actions/loadingActions';
 const BASE_SEARCH_URL = '/api/search';
 const PAGE_SIZE = 5;
 //todo: ideally this would come from constants.js, but we don't want 'all'
-const CATEGORIES = [GENE_CATEGORY, GO_CATEGORY, DISEASE_CATEGORY, ALLELE_VARIANT_CATEGORY];
+const CATEGORIES = [GENE_CATEGORY, GO_CATEGORY, DISEASE_CATEGORY, ALLELE_CATEGORY];
 const SEARCH_PATH = '/search';
 
 class MultiTableComponent extends Component {
@@ -65,7 +65,7 @@ class MultiTableComponent extends Component {
     let geneUrl = this.getUrlByCategory(GENE_CATEGORY);
     let goUrl = this.getUrlByCategory(GO_CATEGORY);
     let diseaseUrl = this.getUrlByCategory(DISEASE_CATEGORY);
-    let alleleUrl = this.getUrlByCategory(ALLELE_VARIANT_CATEGORY);
+    let alleleUrl = this.getUrlByCategory(ALLELE_CATEGORY);
     this.props.dispatch(setPageLoading(true));
     fetchData(geneUrl)
       .then((geneData) => {
@@ -83,7 +83,7 @@ class MultiTableComponent extends Component {
       )
       .then(
         fetchData(alleleUrl).then((alleleData) => {
-          this.props.dispatch(receiveResponse(alleleData, this.props.queryParams, ALLELE_VARIANT_CATEGORY));
+          this.props.dispatch(receiveResponse(alleleData, this.props.queryParams, ALLELE_CATEGORY));
         })
       )
       .catch((e) => {
@@ -107,7 +107,7 @@ class MultiTableComponent extends Component {
     if (category === DISEASE_CATEGORY) {
       return this.props.diseaseTotal.toLocaleString();
     }
-    if (category === ALLELE_VARIANT_CATEGORY) {
+    if (category === ALLELE_CATEGORY) {
       return this.props.alleleTotal.toLocaleString();
     }
   }
@@ -123,7 +123,7 @@ class MultiTableComponent extends Component {
     if (category === DISEASE_CATEGORY) {
       return this.props.diseaseResults;
     }
-    if (category === ALLELE_VARIANT_CATEGORY) {
+    if (category === ALLELE_CATEGORY) {
       return this.props.alleleResults;
     }
   }
