@@ -422,7 +422,7 @@ export const SPECIES = [
     jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/FlyBase/fruitfly/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
     jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/FlyBase/fruitfly/',
-    jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_000001215.4_Release_6_plus_ISO1_MT_genomic.fna.gz',
+    jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/dmel-all-chromosome-r6.67.fasta.gz',
     jBrowsetracks: '_all_genes,_ht_variants,_variants,_multiple-variant_alleles',
     jBrowseOrthologyTracks:
       'Drosophila_melanogaster_all_genes,fly2yeast.filter.anchors,human2fly.filter.anchors,mouse2fly.filter.anchors,rat2fly.filter.anchors,worm2fly.filter.anchors,xenopustropicalis2fly.filter.anchors,zebrafish2fly.filter.anchors',
