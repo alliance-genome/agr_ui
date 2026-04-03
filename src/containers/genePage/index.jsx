@@ -59,6 +59,7 @@ import DiseaseSectionHelp from '../../components/disease/diseaseSectionHelp.jsx'
 import { AlleleTableWrapper } from './alleleTableWrapper.jsx';
 import { useParams } from 'react-router-dom';
 import { GENE_CATEGORY } from '../../constants';
+import ErrorBoundary from '../../components/errorBoundary.jsx';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
@@ -94,6 +95,12 @@ const SECTIONS = [
   { name: GENETIC_INTERACTIONS },
 ];
 
+const GenePageCategoryLabel = ({ gene }) => {
+  const isGeneType = gene.geneType?.curie === 'SO:0000704' || !!gene.geneType?.ancestors?.['SO:0000704'];
+  const pageLabel = isGeneType ? GENE_CATEGORY : 'genome_feature';
+  return <PageCategoryLabel category={pageLabel} />;
+};
+
 const GenePage = () => {
   const { id: geneId } = useParams();
   const { isLoading, isError, data } = usePageLoadingQuery(`/api/gene/${geneId}`);
@@ -109,9 +116,6 @@ const GenePage = () => {
 
   const gene = data.gene;
   const { speciesName, taxonId, geneSymbolText, dataProviderAbbr } = extractGeneFields(gene);
-
-  const isGeneType = gene.geneType?.curie === 'SO:0000704' || gene.geneType?.ancestors?.includes('SO:0000704');
-  const pageLabel = isGeneType ? GENE_CATEGORY : 'genome_feature';
 
   // Normalize genome locations
   const genomeLocations = getGenomicLocations(gene);
@@ -154,7 +158,9 @@ const GenePage = () => {
         </PageNavEntity>
       </PageNav>
       <PageData>
-        <PageCategoryLabel category={pageLabel} />
+        <ErrorBoundary>
+          <GenePageCategoryLabel gene={gene} />
+        </ErrorBoundary>
         <PageHeader>
           <GeneSymbolCuration gene={gene} />
         </PageHeader>
