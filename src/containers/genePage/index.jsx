@@ -117,6 +117,10 @@ const GenePage = () => {
   const gene = data.gene;
   const { speciesName, taxonId, geneSymbolText, dataProviderAbbr } = extractGeneFields(gene);
 
+  const ancestorRelTypes = gene.geneType?.ancestors?.['SO:0000704'];
+  const isGeneType = gene.geneType?.curie === 'SO:0000704' || ancestorRelTypes?.includes('is_a');
+  const pageCategory = isGeneType ? GENE_CATEGORY : GENOME_FEATURE_CATEGORY;
+
   // Normalize genome locations
   const genomeLocations = getGenomicLocations(gene);
   const genomeLocation = getSingleGenomeLocation(genomeLocations);
