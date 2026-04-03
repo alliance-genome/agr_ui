@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import ConstructLink from '../../components/ConstructLink.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { ALLELE_CATEGORY } from '../../constants';
 import useTransgenicAllele from '../../hooks/useTransgenicAllele.js';
 import DataSourceLinkCuration from '../../components/dataSourceLinkCuration.jsx';
 
@@ -65,7 +66,7 @@ const AlleleTransgenicConstructs = ({ data, isLoading, isError }) => {
               )}
             </AttributeValue>
           </AttributeList>
-          <Link to={`/search?category=allele&constructs=${transgenicAlleleConstruct.construct.primaryExternalId}`}>
+          <Link to={`/search?category=${ALLELE_CATEGORY}&constructs=${transgenicAlleleConstruct.construct.primaryExternalId}`}>
             All alleles with this construct <FontAwesomeIcon icon={faMagnifyingGlass} />
           </Link>
         </div>
