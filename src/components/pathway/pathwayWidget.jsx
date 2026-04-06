@@ -233,6 +233,10 @@ class PathwayWidget extends Component {
    */
   loadReactomeDiagram(pathwayId) {
     if (!this.reactomePathwayDiagram) {
+      // Reset unavailable state so the holder div is re-rendered before we retry
+      if (this.state.reactomeDiagramUnavailable) {
+        this.setState({ reactomeDiagramUnavailable: false });
+      }
       (async () => {
         // ensure the Reactome library has been loaded (typeof used to check if variable is even declared)
         let attempts = 0;
