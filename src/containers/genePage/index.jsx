@@ -96,7 +96,9 @@ const SECTIONS = [
 ];
 
 const GenePageCategoryLabel = ({ gene }) => {
-  const isGeneType = gene.geneType?.curie === 'SO:0000704' || !!gene.geneType?.ancestors?.['SO:0000704'];
+  const ancestorRels = gene.geneType?.ancestors?.['SO:0000704'];
+  const isGeneType =
+    gene.geneType?.curie === 'SO:0000704' || (ancestorRels?.length === 1 && ancestorRels[0] === 'is_a');
   const pageLabel = isGeneType ? GENE_CATEGORY : 'genome_feature';
   return <PageCategoryLabel category={pageLabel} />;
 };
@@ -116,10 +118,6 @@ const GenePage = () => {
 
   const gene = data.gene;
   const { speciesName, taxonId, geneSymbolText, dataProviderAbbr } = extractGeneFields(gene);
-
-  const ancestorRelTypes = gene.geneType?.ancestors?.['SO:0000704'];
-  const isGeneType = gene.geneType?.curie === 'SO:0000704' || ancestorRelTypes?.includes('is_a');
-  const pageCategory = isGeneType ? GENE_CATEGORY : GENOME_FEATURE_CATEGORY;
 
   // Normalize genome locations
   const genomeLocations = getGenomicLocations(gene);
