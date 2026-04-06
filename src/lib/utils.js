@@ -213,7 +213,7 @@ export function buildUrlFromTemplate(crossReference) {
 
 // Fix up species name with yeast correction
 
-export function buildCrossReferenceMap(crossReferences) {
+export function buildCrossReferenceMap(crossReferences, primaryExternalId) {
   if (!crossReferences) return {};
 
   const findByPage = (pageName) => crossReferences.find((ref) => ref.resourceDescriptorPage?.name === pageName);
@@ -226,6 +226,16 @@ export function buildCrossReferenceMap(crossReferences) {
 
   const map = {};
   map.primary = addUrl(findByPage('gene'));
+
+  // Fallback for species (like human) that don't have a "gene" page entry:
+  // use the "default" entry matching the gene's primary ID
+  let primaryFallbackRef;
+  if (!map.primary && primaryExternalId) {
+    primaryFallbackRef = crossReferences.find(
+      (ref) => ref.resourceDescriptorPage?.name === 'default' && ref.referencedCurie === primaryExternalId
+    );
+    map.primary = addUrl(primaryFallbackRef);
+  }
 
   const pantherRefs = findByPrefix('PANTHER:');
   map.panther = pantherRefs.length > 0 ? addUrl(pantherRefs[0]) : undefined;
@@ -247,9 +257,14 @@ export function buildCrossReferenceMap(crossReferences) {
       findByPage('gene/MODinteractions_molecular')
   );
 
-  // "other" = "default" page entries excluding PANTHER
+  // "other" = "default" page entries excluding PANTHER and the primary fallback
   map.other = crossReferences
-    .filter((ref) => ref.resourceDescriptorPage?.name === 'default' && !ref.referencedCurie?.startsWith('PANTHER:'))
+    .filter(
+      (ref) =>
+        ref.resourceDescriptorPage?.name === 'default' &&
+        !ref.referencedCurie?.startsWith('PANTHER:') &&
+        ref !== primaryFallbackRef
+    )
     .map(addUrl);
 
   return map;
