@@ -38,6 +38,8 @@ class PathwayWidget extends Component {
       },
     };
 
+    this._isMounted = false;
+
     this.pathwayChanged.bind(this);
     this.reactionChanged.bind(this);
   }
@@ -198,8 +200,13 @@ class PathwayWidget extends Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     // this.loadReactomeLibrary();
     this.setState({ loading: false });
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   /**
@@ -244,13 +251,17 @@ class PathwayWidget extends Component {
         let attempts = 0;
         const maxAttempts = 15; // give up after ~15 seconds
         while (typeof Reactome === 'undefined' || !Reactome) {
+          if (!this._isMounted) return;
           if (attempts >= maxAttempts) {
-            this.setState({ reactomeDiagramUnavailable: true });
+            if (this._isMounted) {
+              this.setState({ reactomeDiagramUnavailable: true });
+            }
             return;
           }
           attempts++;
           await new Promise((resolve) => setTimeout(resolve, 1000));
         }
+        if (!this._isMounted) return;
         this.reactomePathwayDiagram = Reactome.Diagram.create({
           placeHolder: 'reactomePathwayHolder',
           width: 1130,
@@ -485,7 +496,8 @@ class PathwayWidget extends Component {
                   You can view this pathway directly on{' '}
                   <ExternalLink href={REACTOME_PATHWAY_BROWSER + this.state.reactomePathways.selected}>
                     Reactome
-                  </ExternalLink>.
+                  </ExternalLink>
+                  .
                 </p>
               )}
             </div>
