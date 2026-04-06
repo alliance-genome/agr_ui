@@ -238,6 +238,8 @@ class PathwayWidget extends Component {
         this.setState({ reactomeDiagramUnavailable: false });
       }
       (async () => {
+        // Yield to React's render cycle so the holder div is in the DOM after a state reset
+        await new Promise((resolve) => setTimeout(resolve, 0));
         // ensure the Reactome library has been loaded (typeof used to check if variable is even declared)
         let attempts = 0;
         const maxAttempts = 15; // give up after ~15 seconds
