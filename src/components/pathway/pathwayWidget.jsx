@@ -24,6 +24,7 @@ class PathwayWidget extends Component {
     this.state = {
       loading: true, // if any of the data is still loading
       error: false, // if any error occured while loading the data or widget
+      reactomeDiagramUnavailable: false, // true if the Reactome JS library failed to load
       stringency: STRINGENCY_HIGH,
       uniprot: { loaded: false, error: false, id: undefined },
       reactomePathways: { loaded: false, error: false, selected: undefined, pathways: undefined },
@@ -234,7 +235,14 @@ class PathwayWidget extends Component {
     if (!this.reactomePathwayDiagram) {
       (async () => {
         // ensure the Reactome library has been loaded (typeof used to check if variable is even declared)
-        while (typeof Reactome != 'undefined' && !Reactome) {
+        let attempts = 0;
+        const maxAttempts = 15; // give up after ~15 seconds
+        while (typeof Reactome === 'undefined' || !Reactome) {
+          if (attempts >= maxAttempts) {
+            this.setState({ reactomeDiagramUnavailable: true });
+            return;
+          }
+          attempts++;
           await new Promise((resolve) => setTimeout(resolve, 1000));
         }
         this.reactomePathwayDiagram = Reactome.Diagram.create({
@@ -243,11 +251,9 @@ class PathwayWidget extends Component {
           height: 600,
         });
         this.reactomePathwayDiagram.loadDiagram(pathwayId);
-        // console.log("REACTOME PATHWAY: ", this.reactomePathwayDiagram);
       })();
     } else {
       this.reactomePathwayDiagram.loadDiagram(pathwayId);
-      console.log('REACTOME PATHWAY: ', this.reactomePathwayDiagram);
     }
   }
 
@@ -465,7 +471,21 @@ class PathwayWidget extends Component {
             <NoData />
           )}
 
-          <div id="reactomePathwayHolder" style={{ maxWidth: '1280px' }}></div>
+          {this.state.reactomeDiagramUnavailable ? (
+            <div style={{ padding: '2rem', textAlign: 'center', color: '#666' }}>
+              <p>The Reactome pathway diagram is currently unavailable.</p>
+              {this.state.reactomePathways.selected && (
+                <p>
+                  You can view this pathway directly on{' '}
+                  <ExternalLink href={REACTOME_PATHWAY_BROWSER + this.state.reactomePathways.selected}>
+                    Reactome
+                  </ExternalLink>.
+                </p>
+              )}
+            </div>
+          ) : (
+            <div id="reactomePathwayHolder" style={{ maxWidth: '1280px' }}></div>
+          )}
 
           {this.state.reactomePathways.loaded &&
           !this.state.reactomePathways.error &&
