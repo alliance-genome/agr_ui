@@ -8,7 +8,7 @@ const GeneLink = ({ gene }) => {
   const identifier = getIdentifier(gene);
   return (
     <Link key={identifier} to={`/gene/${identifier}`}>
-      <GeneSymbolCuration gene={gene} /> ({gene.taxon?.species?.abbreviation})
+      <GeneSymbolCuration gene={gene} />{gene.taxon?.species?.abbreviation && ` (${gene.taxon.species.abbreviation})`}
     </Link>
   );
 };
