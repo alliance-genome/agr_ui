@@ -124,7 +124,16 @@ const GenePage = () => {
   const genomeLocation = getSingleGenomeLocation(genomeLocations);
 
   // Build cross-reference map from flat array
-  const crossReferenceMap = buildCrossReferenceMap(gene.crossReferences, gene.primaryExternalId);
+  const crossReferenceMap = buildCrossReferenceMap(gene.crossReferences);
+
+  let primaryCrossReference;
+  if (taxonId === 'NCBITaxon:9606') {
+    primaryCrossReference = gene.crossReferences?.find(
+      (ref) => ref.resourceDescriptorPage?.name === 'default' && ref.referencedCurie === gene.primaryExternalId
+    );
+  } else {
+    primaryCrossReference = gene.dataProviderCrossReference;
+  }
 
   // manufacture a single cell atlas cross reference since this isn't stored
   // in the database (see AGR-1406)
@@ -156,7 +165,9 @@ const GenePage = () => {
           truncateName
         >
           <SpeciesName>{speciesName}</SpeciesName>
-          <DataSourceLinkCuration reference={crossReferenceMap.primary} />
+          <DataSourceLinkCuration reference={primaryCrossReference}>
+            {primaryCrossReference?.referencedCurie}
+          </DataSourceLinkCuration>
         </PageNavEntity>
       </PageNav>
       <PageData>
