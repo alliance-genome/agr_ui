@@ -16,12 +16,13 @@ import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel.jsx';
 // import AlleleToVariantTable from './AlleleToVariantTable';
 // import AlleleSequenceView from './AlleleSequenceView';
 import VariantSequenceView from './VariantSequenceView.jsx';
-import VariantToTranscriptTableNew from './VariantToTranscriptTableNew.jsx';
+import VariantToTranscriptTable from './VariantToTranscriptTable.jsx';
 import MolecularConsequenceHelp from './MolecularConsequenceHelp.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import SpeciesName from '../../components/SpeciesName.jsx';
 import ErrorBoundary from '../../components/errorBoundary.jsx';
-import NewVariantSummary from './NewVariantSummary.jsx';
+import VariantSummaryCuration from './VariantSummaryCuration.jsx';
+import { VARIANT_CATEGORY } from '../../constants';
 
 const SUMMARY = 'Summary';
 const MOLECULAR_CONSEQUENCE = 'Variant Molecular Consequences';
@@ -68,9 +69,12 @@ const VariantPage = () => {
     return null;
   }
 
-  const variantSymbol = data.variant?.hgvs || data.symbol || data.displayName || data.id;
+  const variant = data.variants && data.variants[0];
+  const variantLocation =
+    variant && variant.curatedVariantGenomicLocations && variant.curatedVariantGenomicLocations[0];
+  const variantSymbol = variantLocation?.hgvs || variant?.curie || data.symbol || data.displayName || data.id;
   const reference = data.crossReferenceMap ? data.crossReferenceMap.primary : null;
-  const title = `${variantSymbol} | ${data.species && data.species.name} allele`;
+  const title = `${variantSymbol} | ${variant?.taxon?.name} allele`;
 
   return (
     <DataPage>
@@ -82,22 +86,22 @@ const VariantPage = () => {
           truncateName
         >
           <DataSourceLink reference={reference} />
-          {data.variant?.overlapGenes?.length > 0 && (
+          {variantLocation?.overlapGenes?.length > 0 && (
             <div>
               Variant overlaps{' '}
-              {data.variant.overlapGenes.map((gene, index) => (
-                <span key={gene.curie}>
-                  <Link to={`/gene/${gene.curie}`}>{gene.geneSymbol?.displayText}</Link>
-                  {index < data.variant.overlapGenes.length - 1 && ', '}
+              {variantLocation.overlapGenes.map((gene, index) => (
+                <span key={gene.curie || gene.primaryExternalId}>
+                  <Link to={`/gene/${gene.curie || gene.primaryExternalId}`}>{gene.geneSymbol?.displayText}</Link>
+                  {index < variantLocation.overlapGenes.length - 1 && ', '}
                 </span>
               ))}
             </div>
           )}
-          <SpeciesName>{data.variant?.variantAssociationSubject?.taxon?.name}</SpeciesName>
+          <SpeciesName>{variant?.taxon?.name}</SpeciesName>
         </PageNavEntity>
       </PageNav>
       <PageData>
-        <PageCategoryLabel category="allele" />
+        <PageCategoryLabel category={VARIANT_CATEGORY} />
         <PageHeader>{variantSymbol}</PageHeader>
 
         <Subsection hideTitle title={SUMMARY}>
@@ -105,11 +109,9 @@ const VariantPage = () => {
             <AttributeList className="mb-0">
               <AttributeLabel>Species</AttributeLabel>
               <AttributeValue>
-                {data.variant.variantAssociationSubject.taxon.curie && (
-                  <SpeciesName>{data.variant.variantAssociationSubject.taxon.name}</SpeciesName>
-                )}
+                {variant?.taxon?.curie && <SpeciesName>{variant.taxon.name}</SpeciesName>}
               </AttributeValue>
-              <NewVariantSummary variant={data} variantId={variantId} />
+              <VariantSummaryCuration variant={data} variantId={variantId} />
             </AttributeList>
           </ErrorBoundary>
           <hr />
@@ -119,7 +121,11 @@ const VariantPage = () => {
         </Subsection>
 
         <Subsection help={<MolecularConsequenceHelp />} title={MOLECULAR_CONSEQUENCE}>
-          <VariantToTranscriptTableNew variant={data.variant} variantHgvs={variantId} />
+          <VariantToTranscriptTable
+            variant={variantLocation}
+            variantHgvs={variantId}
+            variantType={variant?.variantType}
+          />
         </Subsection>
       </PageData>
     </DataPage>

@@ -5,7 +5,14 @@ import style from './style.module.scss';
 import CategoryLabel from './categoryLabel.jsx';
 import DetailList from './detailList.jsx';
 import ResultExplanation from './resultExplanation.jsx';
-import { CATEGORIES, NON_HIGHLIGHTED_FIELDS } from '../../constants';
+import {
+  CATEGORIES,
+  GENE_CATEGORY,
+  GO_CATEGORY,
+  ALLELE_CATEGORY,
+  VARIANT_CATEGORY,
+  NON_HIGHLIGHTED_FIELDS,
+} from '../../constants';
 import { Link } from 'react-router-dom';
 
 import SpeciesIcon from '../../components/speciesIcon/index.jsx';
@@ -73,12 +80,13 @@ class ResultsList extends Component {
         category: x.category,
         [x.targetField]: x.sourceName,
       };
-      const label = x.label || CATEGORIES.find((cat) => cat.name === x.category).displayName;
+      const catMatch = CATEGORIES.find((cat) => cat.name === x.category);
+      const label = x.label || (catMatch ? catMatch.displayName : x.category);
       const href = { pathname: '/search', search: stringifyQuery(queryParams) };
       const id = 'X' + hash(x);
 
       let tip = '';
-      if (d.category === 'go' && x.category === 'gene') {
+      if (d.category === GO_CATEGORY && x.category === GENE_CATEGORY) {
         tip = (
           <UncontrolledTooltip delay={{ hide: 150, show: 300 }} placement="top" target={id}>
             Includes direct and child annotations
@@ -150,12 +158,14 @@ class ResultsList extends Component {
   renderRows() {
     return (
       this.props.entries?.map((d, i) => {
-        if (d.category === 'gene') {
+        if (d.category === GENE_CATEGORY) {
           return this.renderGeneEntry(d, i);
-        } else if (['allele', 'dataset', 'disease', 'go'].includes(d.category)) {
-          return this.renderEntry(d, i, CATEGORIES.find((cat) => cat.name === d.category).displayFields);
         } else {
-          return this.renderEntry(d, i, ['id', 'synonyms']);
+          let lookupCategory =
+            d.category === ALLELE_CATEGORY || d.category === VARIANT_CATEGORY ? ALLELE_CATEGORY : d.category;
+          let catMatch = CATEGORIES.find((cat) => cat.name === lookupCategory);
+          let fields = catMatch ? catMatch.displayFields || ['id', 'synonyms'] : ['id', 'synonyms'];
+          return this.renderEntry(d, i, fields);
         }
       }) || []
     );

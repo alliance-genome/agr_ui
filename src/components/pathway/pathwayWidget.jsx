@@ -264,11 +264,11 @@ class PathwayWidget extends Component {
 
   getUniProtIDFromXrefs() {
     let uniprotIds = [];
-    let otherXrefs = this.props.xrefs.other;
+    let otherXrefs = (this.props.xrefs && this.props.xrefs.other) || [];
     otherXrefs.forEach((xref) => {
-      let xrefId = xref.displayName;
-      if (xrefId.includes('UniProtKB:')) {
-        uniprotIds.push(xrefId);
+      const curieId = xref.referencedCurie || xref.displayName || '';
+      if (curieId.includes('UniProtKB:')) {
+        uniprotIds.push(curieId);
       }
     });
     return uniprotIds;

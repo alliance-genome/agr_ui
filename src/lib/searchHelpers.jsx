@@ -4,6 +4,14 @@ import without from 'lodash.without';
 import { Link } from 'react-router-dom';
 import ExternalLink from '../components/ExternalLink.jsx';
 import qs from 'qs';
+import {
+  ALLELE_CATEGORY,
+  DATASET_CATEGORY,
+  DISEASE_CATEGORY,
+  GENE_CATEGORY,
+  GO_CATEGORY,
+  VARIANT_CATEGORY,
+} from '../constants';
 
 const SINGLE_VAL_FIELDS = ['mode', 'page'];
 const CLEARING_FIELDS = ['category'];
@@ -40,7 +48,7 @@ export function removeExclude(value) {
 }
 
 export function makeFieldDisplayName(unformattedName, category = '') {
-  const suffixesToRemove = ['WithParents', 'AgrSlim'];
+  const suffixesToRemove = ['WithParents', 'AgrSlim', 'Slim'];
 
   unformattedName = unformattedName || '';
 
@@ -48,32 +56,40 @@ export function makeFieldDisplayName(unformattedName, category = '') {
     unformattedName = unformattedName.replace(suffix, '');
   });
 
-  unformattedName = unformattedName.replace('name_key', 'Symbol');
   unformattedName = unformattedName.replace('collapsible_', '');
 
-  if (category === 'dataset') {
+  if (category === DATASET_CATEGORY) {
     if (unformattedName.toLowerCase() === 'expression') {
       unformattedName = 'Cell/Tissues';
     }
 
-    if (unformattedName.toLowerCase() === 'anatomicalexpression') {
+    if (unformattedName.toLowerCase() === 'anatomicalexpressionslim') {
       unformattedName = 'Tissues';
     }
   }
 
+  if (unformattedName.startsWith('nameKey')) {
+    return 'Symbol';
+  }
+
   switch (unformattedName) {
-    case 'go':
+    case GO_CATEGORY:
       return 'Gene Ontology';
-    case 'go_type':
-    case 'go_branch':
+    case 'branch':
       return 'GO Branch';
+    case 'curie':
+      return 'ID';
+    case 'geneDescription':
+      return 'Gene Synopsis';
+    case 'automatedGeneDescription':
+      return 'Automated Gene Synopsis';
     case 'geneType':
       return 'Gene Type';
     case 'disease_genes':
-    case 'go_genes':
+    case 'genes':
       return 'Associated Genes';
     case 'disease_species':
-    case 'go_species':
+    case 'associatedSpecies':
       return 'Associated Species';
     case 'dnaChangeTypes':
       return 'DNA Change Types';
@@ -116,7 +132,9 @@ export function makeFieldDisplayName(unformattedName, category = '') {
     case 'variantName':
       return 'Variant Name';
     case 'alterationType':
-      return 'Category\u00a0'; //non breaking whitespace char in order to avoid conflict with higher level category value
+      // Non-breaking space prevents key collision with the 'category' field
+      // in flattenWithPrettyFieldNames when both are present in highlights
+      return 'Category\u00a0';
     default:
       //replace fix both camel case and underscores, capitalize the first letter
       return unformattedName
@@ -176,15 +194,17 @@ export function getQueryParamWithValueChanged(key, val, queryParams, isClear = f
 
 export const getURLForEntry = (category, id, alterationType) => {
   switch (category) {
-    case 'gene':
+    case GENE_CATEGORY:
       return `/gene/${id}`;
-    case 'disease':
+    case DISEASE_CATEGORY:
       return `/disease/${id}`;
-    case 'allele':
+    case ALLELE_CATEGORY:
       if (alterationType === 'variant') {
         return `/variant/${id}`;
       }
       return `/allele/${id}`;
+    case VARIANT_CATEGORY:
+      return `/variant/${id}`;
     default:
       return '';
   }
@@ -192,7 +212,7 @@ export const getURLForEntry = (category, id, alterationType) => {
 
 export function getLinkForEntry(entry) {
   let entryText;
-  if (entry.category === 'allele' && entry.alterationType === 'variant') {
+  if (entry.category === ALLELE_CATEGORY && entry.alterationType === 'variant') {
     if (entry.variantName) {
       entryText = entry.variantName;
     } else {

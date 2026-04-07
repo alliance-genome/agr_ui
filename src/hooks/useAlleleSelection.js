@@ -132,9 +132,9 @@ export default function useAlleleSelection(tableProps, cachedAlleles = []) {
               let computedCategory = allele.category || 'allele';
               if (allele.variants && Array.isArray(allele.variants) && allele.variants.length > 0) {
                 if (allele.variants.length === 1) {
-                  computedCategory = 'allele with one associated variant';
+                  computedCategory = 'allele with one variant';
                 } else {
-                  computedCategory = 'allele with multiple associated variants';
+                  computedCategory = 'allele with multiple variants';
                 }
               }
 

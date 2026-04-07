@@ -1,5 +1,15 @@
 import { makeFieldDisplayName, makeValueDisplayName } from '../lib/searchHelpers.jsx';
-import { CATEGORIES, DUPLICATE_HIGHLIGHTED_FIELDS, NON_HIGHLIGHTED_FIELDS } from '../constants';
+import {
+  ALLELE_CATEGORY,
+  CATEGORIES,
+  DATASET_CATEGORY,
+  DISEASE_CATEGORY,
+  DUPLICATE_HIGHLIGHTED_FIELDS,
+  GENE_CATEGORY,
+  GO_CATEGORY,
+  NON_HIGHLIGHTED_FIELDS,
+  VARIANT_CATEGORY,
+} from '../constants';
 
 const JOIN_HIGHLIGHT_BY = '...';
 
@@ -22,7 +32,8 @@ function flattenWithPrettyFieldNames(highlights, category = '') {
 export function injectHighlightIntoResponse(responseObj) {
   let high = responseObj.highlights || {};
   let highKeys = Object.keys(high);
-  let displayFields = CATEGORIES.find((cat) => cat.name === responseObj.category).displayFields;
+  let categoryMatch = CATEGORIES.find((cat) => cat.name === responseObj.category);
+  let displayFields = categoryMatch ? categoryMatch.displayFields || [] : [];
   let simpleHighObj = {};
   highKeys.forEach((key) => {
     let highArr = high[key];
@@ -71,18 +82,21 @@ function replaceHighlightValue(value, unhighlightedValue, highlight) {
 export function parseResults(results) {
   return results?.map((d) => {
     switch (d.category) {
-      case 'gene':
+      case GENE_CATEGORY:
         return parseGeneResult(d);
-      case 'go':
+      case GO_CATEGORY:
         return parseGoResult(d);
-      case 'dataset':
+      case DATASET_CATEGORY:
         return parseDatasetResult(d);
-      case 'disease':
+      case DISEASE_CATEGORY:
         return parseDiseaseResult(d);
-      case 'allele':
+      case ALLELE_CATEGORY:
         return parseAlleleResult(d);
       case 'homology_group':
         return parseHomologyGroupResult(d);
+      case VARIANT_CATEGORY:
+      case 'allele_variant':
+        return parseVariantSearchResult(d);
       default:
         return parseDefaultResult(d);
     }
@@ -179,21 +193,25 @@ function parseGoResult(_d) {
   return {
     ...d,
     display_name: d.name,
+    id: d.curie,
+    primaryKey: d.curie,
+    go_branch: makeValueDisplayName(_d.branch),
     branch: makeValueDisplayName(_d.branch),
     highlight: d.highlights,
-    collapsible_synonyms: d.synonyms, //not just named synonyms,
-    //so that it can be collapsible when others aren't
+    collapsible_synonyms: d.synonyms || [],
     missing: d.missingTerms,
   };
 }
 
 function parseDatasetResult(_d) {
   let d = injectHighlightIntoResponse(_d);
-  let idCollection = [d.id].concat(d.crossReferences);
+  let id = d.curie || d.id;
+  let idCollection = [id].concat(d.crossReferences);
   //make it unique
-  idCollection = idCollection.filter((e, i) => idCollection.indexOf(e) === i);
+  idCollection = idCollection.filter((e, i) => e && idCollection.indexOf(e) === i);
   return {
     ...d,
+    id: id,
     display_name: d.name,
     dataProviderNote: 'High-Throughput (HTP) Dataset Index metadata provided by ' + d.dataProvider,
     idCollection: idCollection,
@@ -217,7 +235,7 @@ function parseHomologyGroupResult(_d) {
   let d = injectHighlightIntoResponse(_d);
   return {
     associated_genes: d.associated_genes,
-    category: d.category || 'gene',
+    category: d.category || GENE_CATEGORY,
     display_name: d.name,
     highlight: d.highlights,
     href: d.href,
@@ -241,6 +259,19 @@ function parseAlleleResult(_d) {
   };
 }
 
+function parseVariantSearchResult(_d) {
+  let speciesKey = _d.species;
+  let d = injectHighlightIntoResponse(_d);
+  return {
+    ...d,
+    display_name: d.name,
+    highlight: d.highlights,
+    speciesKey: speciesKey,
+    missing: d.missingTerms,
+    ...(d.crossReferences != null && { crossReferences: d.crossReferences }),
+  };
+}
+
 function parseDefaultResult(_d) {
   let d = injectHighlightIntoResponse(_d);
   return {
@@ -249,5 +280,6 @@ function parseDefaultResult(_d) {
     highlight: d.highlights,
     href: _d.modCrossRefCompleteUrl,
     missing: d.missingTerms,
+    ...(d.crossReferences != null && { crossReferences: d.crossReferences }),
   };
 }

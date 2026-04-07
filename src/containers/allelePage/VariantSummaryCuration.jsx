@@ -6,65 +6,51 @@ import { AttributeLabel, AttributeValue } from '../../components/attribute';
 import { CollapsibleList } from '../../components/collapsibleList';
 import { VariantJBrowseLink } from '../../components/variant';
 import ExternalLink from '../../components/ExternalLink.jsx';
-import { sectionAnchor } from './AlleleMolecularConsequences.jsx';
+import { getSingleReferenceUrl } from '../../components/dataTable/utils.jsx';
+import DataSourceLinkCuration from '../../components/dataSourceLinkCuration.jsx';
 import Sequence from './Sequence.jsx';
 import getVariantGenomeLocation from './getVariantGenomeLocation';
+import { sectionAnchor } from './AlleleMolecularConsequences.jsx';
 
 function formatLocation(location) {
   const { chromosome = '', start = '', end = '' } = location || {};
-  return start !== end ? `${chromosome}:${start}-${end}` : `${chromosome}:${start}`;
+  const formattedStart = start !== '' ? Number(start).toLocaleString('en-US') : '';
+  const formattedEnd = end !== '' ? Number(end).toLocaleString('en-US') : '';
+  return start !== end ? `${chromosome}:${formattedStart}-${formattedEnd}` : `${chromosome}:${formattedStart}`;
 }
 
-const NewVariantSummary = ({ variant: variantData }) => {
-  const { variant } = variantData || {};
-  const variantSubject = variant?.variantAssociationSubject;
+const VariantSummaryCuration = ({ variant: variantData, variantId }) => {
+  const variant = variantData?.variants && variantData.variants[0];
+  const cvgla = variant?.curatedVariantGenomicLocations && variant.curatedVariantGenomicLocations[0];
 
-  // hgvs is directly on variant, not variantAssociationSubject
-  const symbol = variant?.hgvs;
+  const symbol = cvgla?.hgvs || variant?.curie;
 
-  const {
-    taxon: species,
-    variantType: type,
-    references,
-    crossReferences,
-    relatedNotes: notes,
-    referenceSequence,
-    variantSequence,
-    predictedVariantConsequences,
-  } = variantSubject || {};
+  const consequencesAnchor = variantId ? '#variant-molecular-consequences' : sectionAnchor(cvgla?.hgvs);
 
-  // Get location object - try both possible paths
-  const variantLocationObj =
-    variantSubject?.variantGenomicLocationAssociationObject || variant?.variantGenomicLocationAssociationObject;
+  const { taxon: species, variantType: type, references, crossReferences, relatedNotes: notes } = variant || {};
 
-  // Create location object
+  const variantLocationObj = cvgla?.variantGenomicLocationAssociationObject;
+
   const location = {
     chromosome: variantLocationObj?.name,
-    start: variant?.start,
-    end: variant?.end,
+    start: cvgla?.start,
+    end: cvgla?.end,
     assembly: variantLocationObj?.genomeAssembly?.primaryExternalId,
   };
 
   const assembly = variantLocationObj?.genomeAssembly?.primaryExternalId;
 
-  // Create nucleotide change - try both possible paths
-  const refSeq = referenceSequence || variantSubject?.referenceSequence || variant?.referenceSequence;
-  const varSeq = variantSequence || variantSubject?.variantSequence || variant?.variantSequence;
-  const nucleotideChange = refSeq ? `${refSeq}>${varSeq || ''}` : null;
+  const nucleotideChange = variant?.nucleotideChange;
+  const referenceSequence = cvgla?.referenceSequence;
+  const variantSequence = cvgla?.variantSequence;
 
-  // Extract consequence - try both possible paths
-  const consequences =
-    predictedVariantConsequences ||
-    variantSubject?.predictedVariantConsequences ||
-    variant?.predictedVariantConsequences;
-  const consequence = consequences?.[0]?.vepConsequences?.[0]?.name;
+  const consequence = cvgla?.mostSevereConsequence?.vepConsequences?.[0]?.name;
 
-  // Extract HGVS names from predictedVariantConsequences
-  const hgvsC = consequences?.map((c) => c.hgvsCodingNomenclature).filter(Boolean);
-  const hgvsP = consequences?.map((c) => c.hgvsProteinNomenclature).filter(Boolean);
+  const hgvsC = cvgla?.hgvsC;
+  const hgvsP = cvgla?.hgvsP;
 
-  // Gene overlap - all genes from overlapGenes collection
-  const overlapGenes = variant?.overlapGenes;
+  const overlapGenes = cvgla?.overlapGenes;
+  const predictedVariantConsequences = cvgla?.predictedVariantConsequences;
 
   const genomeLocation = getVariantGenomeLocation(variantData);
   return (
@@ -94,8 +80,8 @@ const NewVariantSummary = ({ variant: variantData }) => {
       <AttributeValue>
         {overlapGenes && overlapGenes.length
           ? overlapGenes.map((gene, index) => (
-              <span key={gene.curie}>
-                <Link to={`/gene/${gene.curie}`}>{gene.geneSymbol.displayText}</Link>
+              <span key={gene.curie || gene.primaryExternalId}>
+                <Link to={`/gene/${gene.curie || gene.primaryExternalId}`}>{gene.geneSymbol.displayText}</Link>
                 {index < overlapGenes.length - 1 && ', '}
               </span>
             ))
@@ -106,14 +92,7 @@ const NewVariantSummary = ({ variant: variantData }) => {
       <AttributeValue>{assembly}</AttributeValue>
 
       <AttributeLabel>Location</AttributeLabel>
-      <AttributeValue>
-        {formatLocation(location)}{' '}
-        {/*
-          <small>
-            <a href='#'>Highlight in browser</a>
-          </small>
-          */}
-      </AttributeValue>
+      <AttributeValue>{formatLocation(location)} </AttributeValue>
 
       <AttributeLabel>Nucleotide Change</AttributeLabel>
       <AttributeValue>
@@ -148,7 +127,7 @@ const NewVariantSummary = ({ variant: variantData }) => {
               {consequence && consequence.replace(/_/g, ' ').split(',')}
             </CollapsibleList>
 
-            <HashLink to={sectionAnchor(symbol)} className="btn btn-link btn-sm p-0">
+            <HashLink to={consequencesAnchor} className="btn btn-link btn-sm p-0">
               See all consequences
             </HashLink>
           </>
@@ -156,7 +135,7 @@ const NewVariantSummary = ({ variant: variantData }) => {
       </AttributeValue>
 
       <AttributeLabel>HGVS.g name</AttributeLabel>
-      <AttributeValue>{symbol}</AttributeValue>
+      <AttributeValue>{cvgla?.hgvs}</AttributeValue>
 
       <AttributeLabel>HGVS.c name</AttributeLabel>
       <AttributeValue>{hgvsC && hgvsC.length ? <CollapsibleList>{hgvsC}</CollapsibleList> : null}</AttributeValue>
@@ -174,25 +153,30 @@ const NewVariantSummary = ({ variant: variantData }) => {
 
       <AttributeLabel>Cross references</AttributeLabel>
       <AttributeValue>
-        {/*
-                {crossReference && crossReference.primary ? (
-                    <DataSourceLink reference={crossReference.primary}/>
-                ) : null}
-*/}
+        {crossReferences && crossReferences.length ? (
+          <CollapsibleList>
+            {crossReferences.map((ref) => (
+              <DataSourceLinkCuration key={ref.referencedCurie} reference={ref}>
+                {ref.displayName}
+              </DataSourceLinkCuration>
+            ))}
+          </CollapsibleList>
+        ) : null}
       </AttributeValue>
 
       <AttributeLabel>References</AttributeLabel>
       <AttributeValue>
         {references && references.length ? (
           <CollapsibleList>
-            {references.map((ref) => (
-              <ExternalLink
-                key={ref.referenceID || ref.curie}
-                href={ref.url || `https://pubmed.ncbi.nlm.nih.gov/${ref.referenceID?.replace('PMID:', '')}`}
-              >
-                {ref.referenceID || ref.shortCitation}
-              </ExternalLink>
-            ))}
+            {references.map((ref) => {
+              const refId = ref.referenceID || ref.curie;
+              const { url } = ref.url ? { url: ref.url } : getSingleReferenceUrl(refId);
+              return (
+                <ExternalLink key={refId} href={url}>
+                  {refId || ref.shortCitation}
+                </ExternalLink>
+              );
+            })}
           </CollapsibleList>
         ) : null}
       </AttributeValue>
@@ -200,7 +184,7 @@ const NewVariantSummary = ({ variant: variantData }) => {
   );
 };
 
-NewVariantSummary.propTypes = {
+VariantSummaryCuration.propTypes = {
   variantId: PropTypes.string,
   variant: PropTypes.object.isRequired,
   allele: PropTypes.shape({
@@ -209,4 +193,4 @@ NewVariantSummary.propTypes = {
   }),
 };
 
-export default NewVariantSummary;
+export default VariantSummaryCuration;

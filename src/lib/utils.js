@@ -162,6 +162,18 @@ export function getSingleGenomeLocation(genomeLocations) {
   return genomeLocation;
 }
 
+export function getGenomicLocations(gene) {
+  return (
+    gene.geneGenomicLocationAssociations?.map((loc) => ({
+      chromosome: loc.geneGenomicLocationAssociationObject?.name,
+      start: loc.start,
+      end: loc.end,
+      strand: loc.strand,
+      assembly: gene.taxon?.species?.assembly_curie,
+    })) || []
+  );
+}
+
 export function findFminFmax(locations) {
   let fmax;
   let fmin;
@@ -200,9 +212,80 @@ export function buildUrlFromTemplate(crossReference) {
 }
 
 // Fix up species name with yeast correction
-export function getSpeciesNameCorrected(name) {
-  if (name === 'Saccharomyces cerevisiae S288C') {
-    return 'Saccharomyces cerevisiae';
+
+export function buildCrossReferenceMap(crossReferences, primaryExternalId) {
+  if (!crossReferences) return {};
+
+  const findByPage = (pageName) => crossReferences.find((ref) => ref.resourceDescriptorPage?.name === pageName);
+  const findByPrefix = (prefix) => crossReferences.filter((ref) => ref.referencedCurie?.startsWith(prefix));
+
+  const addUrl = (ref) => {
+    if (!ref) return ref;
+    return { ...ref, crossRefCompleteUrl: buildUrlFromTemplate(ref) };
+  };
+
+  const map = {};
+  map.primary = addUrl(findByPage('gene'));
+
+  // Fallback for species (like human) that don't have a "gene" page entry:
+  // use the "default" entry matching the gene's primary ID
+  let primaryFallbackRef;
+  if (!map.primary && primaryExternalId) {
+    primaryFallbackRef = crossReferences.find(
+      (ref) => ref.resourceDescriptorPage?.name === 'default' && ref.referencedCurie === primaryExternalId
+    );
+    map.primary = addUrl(primaryFallbackRef);
   }
-  return name;
+
+  const pantherRefs = findByPrefix('PANTHER:');
+  map.panther = pantherRefs.length > 0 ? addUrl(pantherRefs[0]) : undefined;
+
+  map.phenotypes = addUrl(findByPage('gene/phenotypes'));
+  map.phenotypesImpc = addUrl(findByPage('gene/phenotypes_impc'));
+  map.expression = addUrl(findByPage('gene/expression'));
+  map.wildTypeExpression = addUrl(findByPage('gene/wild_type_expression'));
+  map.expressionImages = addUrl(findByPage('gene/expression_images'));
+  map.spell = addUrl(findByPage('gene/spell'));
+  map.otherExpression = addUrl(findByPage('gene/other_expression'));
+  map.references = addUrl(findByPage('gene/references'));
+  map.expressionAtlas = addUrl(findByPage('expression_atlas'));
+  map.biogridOrcs = addUrl(findByPage('biogrid/orcs'));
+
+  map.modInteractions = addUrl(
+    findByPage('gene/MODinteractions') ||
+      findByPage('gene/MODinteractions_genetic') ||
+      findByPage('gene/MODinteractions_molecular')
+  );
+
+  // "other" = "default" page entries excluding PANTHER and the primary fallback
+  map.other = crossReferences
+    .filter(
+      (ref) =>
+        ref.resourceDescriptorPage?.name === 'default' &&
+        !ref.referencedCurie?.startsWith('PANTHER:') &&
+        ref !== primaryFallbackRef
+    )
+    .map(addUrl);
+
+  return map;
+}
+
+export function getNoteText(relatedNotes, noteTypeName) {
+  if (!relatedNotes) return undefined;
+  const note = relatedNotes.find((n) => n.noteType?.name === noteTypeName);
+  return note?.freeText;
+}
+
+export function extractGeneFields(gene) {
+  return {
+    speciesName: gene.taxon?.species?.fullName || gene.taxon?.name,
+    taxonId: gene.taxon?.curie,
+    geneSymbolText: gene.geneSymbol?.displayText,
+    dataProviderAbbr: gene.dataProvider?.abbreviation,
+    geneId: gene.primaryExternalId,
+  };
+}
+
+export function getSynonymStrings(gene) {
+  return gene.geneSynonyms?.map((s) => s.displayText) || [];
 }

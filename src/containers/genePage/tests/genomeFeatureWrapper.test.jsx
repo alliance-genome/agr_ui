@@ -2,7 +2,7 @@ import React from 'react';
 import { render, waitFor, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import GenomeFeatureWrapper from '../genomeFeatureWrapper';
-import { fetchTabixVcfData, fetchNCListData } from 'genomefeatures';
+import { fetchTabixVcfData, fetchNCListData, GenomeFeatureViewer } from 'genomefeatures';
 
 // Mock the genomefeatures module
 jest.mock('genomefeatures', () => ({
@@ -50,6 +50,14 @@ jest.mock('../../../hooks/ReleaseContextProvider', () => ({
 }));
 
 describe('GenomeFeatureWrapper VCF Error Handling', () => {
+  const createDeferred = () => {
+    let resolve;
+    const promise = new Promise((res) => {
+      resolve = res;
+    });
+    return { promise, resolve };
+  };
+
   beforeEach(() => {
     // Reset all mocks before each test
     jest.clearAllMocks();
@@ -235,5 +243,70 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     // Should not show the VCF-specific alert
     const vcfAlert = container.querySelector('.alert.alert-warning');
     expect(vcfAlert).not.toBeInTheDocument();
+  });
+
+  test('should reload the viewer when visibleVariants are cleared', async () => {
+    const { rerender } = render(<GenomeFeatureWrapper {...defaultProps} visibleVariants={['MGI:allele-1']} />);
+
+    await waitFor(() => {
+      expect(GenomeFeatureViewer).toHaveBeenCalledTimes(1);
+    });
+
+    rerender(<GenomeFeatureWrapper {...defaultProps} visibleVariants={[]} />);
+
+    await waitFor(() => {
+      expect(GenomeFeatureViewer).toHaveBeenCalledTimes(2);
+    });
+
+    const latestConfig = GenomeFeatureViewer.mock.calls.at(-1)[0];
+    expect(latestConfig.visibleVariants).toEqual([]);
+    expect(latestConfig.tracks[0].type).toBe('ISOFORM_AND_VARIANT');
+  });
+
+  test('should reload the viewer when isoformFilter changes', async () => {
+    const { rerender } = render(<GenomeFeatureWrapper {...defaultProps} isoformFilter={['MGI:transcript-1']} />);
+
+    await waitFor(() => {
+      expect(GenomeFeatureViewer).toHaveBeenCalledTimes(1);
+    });
+
+    rerender(<GenomeFeatureWrapper {...defaultProps} isoformFilter={['MGI:transcript-2']} />);
+
+    await waitFor(() => {
+      expect(GenomeFeatureViewer).toHaveBeenCalledTimes(2);
+    });
+
+    const latestConfig = GenomeFeatureViewer.mock.calls.at(-1)[0];
+    expect(latestConfig.isoformFilter).toEqual(['MGI:transcript-2']);
+    expect(latestConfig.tracks[0].type).toBe('ISOFORM_AND_VARIANT');
+  });
+
+  test('should ignore stale viewer loads during rapid visibleVariants changes', async () => {
+    const firstLoad = createDeferred();
+    const secondLoad = createDeferred();
+
+    fetchNCListData.mockImplementationOnce(() => firstLoad.promise).mockImplementationOnce(() => secondLoad.promise);
+
+    const { rerender } = render(<GenomeFeatureWrapper {...defaultProps} visibleVariants={['MGI:allele-1']} />);
+
+    rerender(<GenomeFeatureWrapper {...defaultProps} visibleVariants={[]} />);
+
+    secondLoad.resolve([]);
+    await waitFor(() => {
+      expect(GenomeFeatureViewer).toHaveBeenCalledTimes(1);
+    });
+
+    let latestConfig = GenomeFeatureViewer.mock.calls.at(-1)[0];
+    expect(latestConfig.visibleVariants).toEqual([]);
+
+    firstLoad.resolve([]);
+
+    await waitFor(() => {
+      expect(fetchNCListData).toHaveBeenCalledTimes(2);
+    });
+
+    expect(GenomeFeatureViewer).toHaveBeenCalledTimes(1);
+    latestConfig = GenomeFeatureViewer.mock.calls.at(-1)[0];
+    expect(latestConfig.visibleVariants).toEqual([]);
   });
 });
