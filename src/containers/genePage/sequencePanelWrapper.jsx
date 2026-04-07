@@ -28,6 +28,11 @@ const SequencePanel = ({ species, gene, refseq, start, end }) => {
   const jBrowseurltemplate = getSpecies(species).jBrowseurltemplate;
   const jBrowsefastaurl = getSpecies(species).jBrowsefastaurl;
 
+  if (!refseq) {
+    console.warn('SequencePanel: refseq is undefined, skipping sequence panel rendering');
+    return null;
+  }
+
   if (species === 'NCBITaxon:559292' && !refseq.startsWith('chr') && !refseq.toLowerCase().startsWith('scaffold')) {
     refseq = 'chr' + refseq;
   }
