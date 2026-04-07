@@ -24,6 +24,7 @@ class PathwayWidget extends Component {
     this.state = {
       loading: true, // if any of the data is still loading
       error: false, // if any error occured while loading the data or widget
+      reactomeDiagramUnavailable: false, // true if the Reactome JS library failed to load
       stringency: STRINGENCY_HIGH,
       uniprot: { loaded: false, error: false, id: undefined },
       reactomePathways: { loaded: false, error: false, selected: undefined, pathways: undefined },
@@ -36,6 +37,8 @@ class PathwayWidget extends Component {
         selected: undefined,
       },
     };
+
+    this._isMounted = false;
 
     this.pathwayChanged.bind(this);
     this.reactionChanged.bind(this);
@@ -197,8 +200,13 @@ class PathwayWidget extends Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     // this.loadReactomeLibrary();
     this.setState({ loading: false });
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   /**
@@ -232,22 +240,37 @@ class PathwayWidget extends Component {
    */
   loadReactomeDiagram(pathwayId) {
     if (!this.reactomePathwayDiagram) {
+      // Reset unavailable state so the holder div is re-rendered before we retry
+      if (this.state.reactomeDiagramUnavailable) {
+        this.setState({ reactomeDiagramUnavailable: false });
+      }
       (async () => {
+        // Yield to React's render cycle so the holder div is in the DOM after a state reset
+        await new Promise((resolve) => setTimeout(resolve, 0));
         // ensure the Reactome library has been loaded (typeof used to check if variable is even declared)
-        while (typeof Reactome != 'undefined' && !Reactome) {
+        let attempts = 0;
+        const maxAttempts = 15; // give up after ~15 seconds
+        while (typeof Reactome === 'undefined' || !Reactome) {
+          if (!this._isMounted) return;
+          if (attempts >= maxAttempts) {
+            if (this._isMounted) {
+              this.setState({ reactomeDiagramUnavailable: true });
+            }
+            return;
+          }
+          attempts++;
           await new Promise((resolve) => setTimeout(resolve, 1000));
         }
+        if (!this._isMounted) return;
         this.reactomePathwayDiagram = Reactome.Diagram.create({
           placeHolder: 'reactomePathwayHolder',
           width: 1130,
           height: 600,
         });
         this.reactomePathwayDiagram.loadDiagram(pathwayId);
-        // console.log("REACTOME PATHWAY: ", this.reactomePathwayDiagram);
       })();
     } else {
       this.reactomePathwayDiagram.loadDiagram(pathwayId);
-      console.log('REACTOME PATHWAY: ', this.reactomePathwayDiagram);
     }
   }
 
@@ -465,7 +488,22 @@ class PathwayWidget extends Component {
             <NoData />
           )}
 
-          <div id="reactomePathwayHolder" style={{ maxWidth: '1280px' }}></div>
+          {this.state.reactomeDiagramUnavailable ? (
+            <div style={{ padding: '2rem', textAlign: 'center', color: '#666' }}>
+              <p>The Reactome pathway diagram is currently unavailable.</p>
+              {this.state.reactomePathways.selected && (
+                <p>
+                  You can view this pathway directly on{' '}
+                  <ExternalLink href={REACTOME_PATHWAY_BROWSER + this.state.reactomePathways.selected}>
+                    Reactome
+                  </ExternalLink>
+                  .
+                </p>
+              )}
+            </div>
+          ) : (
+            <div id="reactomePathwayHolder" style={{ maxWidth: '1280px' }}></div>
+          )}
 
           {this.state.reactomePathways.loaded &&
           !this.state.reactomePathways.error &&
