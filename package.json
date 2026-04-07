@@ -45,7 +45,7 @@
     "d3-selection": "^3.0.0",
     "events": "^3.3.0",
     "generic-sequence-panel": "^1.8.0",
-    "genomefeatures": "github:alliance-genome/genomefeatures#a49427156f449ea11319ac2bd3069751d25ba4e5",
+    "genomefeatures": "github:alliance-genome/genomefeatures#37dc2289d9193aa39823a58ee221b3c14a6d3185",
     "html-react-parser": "^5.2.3",
     "immutable": "^5.1.2",
     "js-yaml": "^4.1.0",
