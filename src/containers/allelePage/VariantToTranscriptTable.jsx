@@ -208,7 +208,7 @@ const VariantToTranscriptTable = ({ variant, variantHgvs, variantType }) => {
         {
           molecularConsequences: (item.vepConsequences || []).map((c) => c.name),
           aminoAcidReference: item.aminoAcidReference || '',
-          aminoAcidVariation: item.aminoAcidVariant || '',
+          aminoAcidVariation: item.aminoAcidVariant || item.aminoAcidReference || '',
           proteinStartPosition: item.calculatedProteinStart,
           proteinEndPosition: item.calculatedProteinEnd,
           codonReference: item.codonReference || '',
