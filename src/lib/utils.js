@@ -130,14 +130,6 @@ export function getSpecies(taxonId) {
   return SPECIES.find((s) => s.taxonId === taxonId) || {};
 }
 
-export const shortSpeciesName = (taxonId) => {
-  return getSpecies(taxonId).shortName;
-};
-
-export const fullSpeciesName = (taxonId) => {
-  return getSpecies(taxonId).fullName;
-};
-
 export function htmlToPlainText(html) {
   return html.replaceAll('<sup>', '[').replaceAll('</sup>', ']');
 }
