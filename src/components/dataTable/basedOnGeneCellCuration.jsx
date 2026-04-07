@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { shortSpeciesName } from '../../lib/utils';
+
 import { CollapsibleList } from '../../components/collapsibleList';
 import { getIdentifier, removeDuplicates } from './utils.jsx';
 import GeneSymbolCuration from '../GeneSymbolCuration.jsx';
@@ -8,7 +8,7 @@ const GeneLink = ({ gene }) => {
   const identifier = getIdentifier(gene);
   return (
     <Link key={identifier} to={`/gene/${identifier}`}>
-      <GeneSymbolCuration gene={gene} /> ({shortSpeciesName(gene.taxon.curie)})
+      <GeneSymbolCuration gene={gene} /> ({gene.taxon?.species?.abbreviation})
     </Link>
   );
 };
