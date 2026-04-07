@@ -114,12 +114,16 @@ class GenomeFeatureWrapper extends Component {
 
     // Construct chromosome string with species-specific formatting
     let chrString = chromosome;
-    if (apolloPrefix === 'yeast') {
+    if (apolloPrefix === 'yeast' && !chromosome.startsWith('chr')) {
       chrString = 'chr' + chromosome;
     }
-    //    if ((apolloPrefix === 'x_laevis' || apolloPrefix === 'x_tropicalis') && !chromosome.startsWith('Sca')) {
-    //      chrString = 'Chr' + chromosome;
-    //    }
+    if (
+      (apolloPrefix === 'x_laevis' || apolloPrefix === 'x_tropicalis') &&
+      !chromosome.startsWith('Chr') &&
+      !chromosome.toLowerCase().startsWith('sca')
+    ) {
+      chrString = 'Chr' + chromosome;
+    }
     // Create location string and parse it using GMOD format
     const locString = `${chrString}:${fmin}..${fmax}`;
     const parsedRegion = parseLocString(locString);
