@@ -96,9 +96,12 @@ const SECTIONS = [
 ];
 
 const GenePageCategoryLabel = ({ gene }) => {
-  const ancestorRels = gene.geneType?.ancestors?.['SO:0000704'];
   const isGeneType =
-    gene.geneType?.curie === 'SO:0000704' || (ancestorRels?.length === 1 && ancestorRels[0] === 'is_a');
+    gene.geneType?.curie === 'SO:0000704' ||
+    gene.geneType?.ancestors?.some(entry => {
+      const rels = entry['SO:0000704'];
+      return rels?.length === 1 && rels[0] === 'is_a';
+    });
   const pageLabel = isGeneType ? GENE_CATEGORY : 'genome_feature';
   return <PageCategoryLabel category={pageLabel} />;
 };
