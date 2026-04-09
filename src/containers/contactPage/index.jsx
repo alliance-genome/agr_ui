@@ -24,8 +24,8 @@ const ContactForm = () => {
     }
   };
 
-  const validateEmail = (value) => {
-    if (value && !e.target.validity.valid) {
+  const validateEmail = (e) => {
+    if (!e.target.validity.valid) {
       setEmailError('Please enter a valid email address.');
     } else {
       setEmailError('');
@@ -45,10 +45,6 @@ const ContactForm = () => {
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
-      if (!e.target.validity.valid) {
-        setEmailError('Please enter a valid email address.');
-        return;
-      }
       if (!executeRecaptcha) {
         setSubmitError('reCAPTCHA not ready. Please try again.');
         setSubmitStatus('error');
@@ -109,7 +105,7 @@ const ContactForm = () => {
                 <input
                   className={`form-control ${emailError ? 'is-invalid' : ''}`}
                   id="contact-email"
-                  onBlur={(e) => validateEmail(e.target.value)}
+                  onBlur={(e) => validateEmail(e)}
                   onChange={(e) => {
                     setEmail(e.target.value);
                     setEmailError('');
