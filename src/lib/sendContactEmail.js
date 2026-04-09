@@ -7,17 +7,17 @@ export const sendContactEmail = async ({ name, email, subject, message, captchaT
     body: JSON.stringify({ name, email, subject, message, captchaToken }),
   });
   if (!response.ok) {
-    let message = 'Failed to send message.';
+    let errMessage = 'Failed to send errMessage.';
     const text = await response.text();
 
     try {
       const data = JSON.parse(text);
-      message = data.errors?.join(', ') || data.error || message;
+      errMessage = data.errors?.join(', ') || data.error || errMessage;
     } catch {
-      message = text || message;
+      errMessage = text || errMessage;
     }
 
-    throw new Error(message);
+    throw new Error(errMessage);
   }
   return response.json();
 };

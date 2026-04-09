@@ -16,6 +16,7 @@ const ContactForm = () => {
   const [submitStatus, setSubmitStatus] = useState(null);
   const [submitError, setSubmitError] = useState('');
   const { executeRecaptcha } = useGoogleReCaptcha();
+  // const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const clearSubmitStatus = () => {
     if (submitStatus === 'success') {
@@ -24,8 +25,7 @@ const ContactForm = () => {
   };
 
   const validateEmail = (value) => {
-    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (value && !pattern.test(value)) {
+    if (value && !e.target.validity.valid) {
       setEmailError('Please enter a valid email address.');
     } else {
       setEmailError('');
@@ -45,8 +45,7 @@ const ContactForm = () => {
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
-      const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!pattern.test(email)) {
+      if (!e.target.validity.valid) {
         setEmailError('Please enter a valid email address.');
         return;
       }
