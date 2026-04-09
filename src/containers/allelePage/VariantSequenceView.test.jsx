@@ -16,7 +16,7 @@ describe('VariantSequenceView', () => {
     const variantData = {
       id: 'NC_003279.8:g.10765226C>T',
       synonyms: ['variant-synonym'],
-      variants: [
+      variantList: [
         {
           id: 'VAR:123',
           taxon: {
@@ -97,7 +97,7 @@ describe('VariantSequenceView', () => {
           },
         ],
       },
-      variants: [
+      variantList: [
         {
           id: 'VARIANT:456',
           taxon: {
