@@ -44,7 +44,7 @@ const AlleleMolecularConsequences = ({ alleleId, allele }) => {
   return (
     <>
       {variants.map((variant) => {
-        const variantObj = variant.variants?.[0];
+        const variantObj = variant.variantList?.[0];
         const cvgla = variantObj?.curatedVariantGenomicLocations?.[0];
         const variantId = cvgla?.hgvs;
         const type = variantObj?.variantType || {};

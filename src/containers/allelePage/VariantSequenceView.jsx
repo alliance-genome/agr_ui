@@ -24,7 +24,7 @@ function getTargetGeneLocation(targetGene) {
 
 const VariantSequenceView = ({ variant: variantData }) => {
   // Build location from new API data structure
-  const variant = variantData?.variants && variantData.variants[0];
+  const variant = variantData?.variantList && variantData.variantList[0];
   const cvgla = variant?.curatedVariantGenomicLocations && variant.curatedVariantGenomicLocations[0];
   const variantLocationObj = cvgla?.variantGenomicLocationAssociationObject;
   const targetGene = getTargetGene(variantData, cvgla);

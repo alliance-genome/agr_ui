@@ -113,7 +113,7 @@ export default function useAlleleSelection(tableProps, cachedAlleles = []) {
                   },
                 },
                 // Include variants fetched from /api/allele/{id}/variants endpoint
-                variants: response.variants || [],
+                variants: response.variantList || [],
                 diseases: [],
               };
             });

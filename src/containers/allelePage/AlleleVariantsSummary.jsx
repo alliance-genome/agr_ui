@@ -17,7 +17,7 @@ const AlleleVariantsSummary = ({ allele, alleleId }) => {
     <>
       {data &&
         data.map((variantData) => {
-          const variantObj = variantData?.variants?.[0];
+          const variantObj = variantData?.variantList?.[0];
           const cvgla = variantObj?.curatedVariantGenomicLocations?.[0];
           const hgvs = cvgla?.hgvs;
           const id = variantObj?.curie;

@@ -2,7 +2,7 @@ import { getSingleGenomeLocation } from '../../lib/utils';
 
 export default function getVariantGenomeLocation(variantData) {
   // Support new API data structure
-  const nestedVariant = variantData?.variants && variantData.variants[0];
+  const nestedVariant = variantData?.variantList && variantData.variantList[0];
   const cvgla = nestedVariant?.curatedVariantGenomicLocations && nestedVariant.curatedVariantGenomicLocations[0];
   const variantLocationObj = cvgla?.variantGenomicLocationAssociationObject;
 
