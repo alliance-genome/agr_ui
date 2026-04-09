@@ -69,7 +69,7 @@ const VariantPage = () => {
     return null;
   }
 
-  const variant = data.variants && data.variants[0];
+  const variant = data.variantList && data.variantList[0];
   const variantLocation =
     variant && variant.curatedVariantGenomicLocations && variant.curatedVariantGenomicLocations[0];
   const variantSymbol = variantLocation?.hgvs || variant?.curie || data.symbol || data.displayName || data.id;

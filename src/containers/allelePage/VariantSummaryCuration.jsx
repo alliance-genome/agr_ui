@@ -20,7 +20,7 @@ function formatLocation(location) {
 }
 
 const VariantSummaryCuration = ({ variant: variantData, variantId }) => {
-  const variant = variantData?.variants && variantData.variants[0];
+  const variant = variantData?.variantList && variantData.variantList[0];
   const cvgla = variant?.curatedVariantGenomicLocations && variant.curatedVariantGenomicLocations[0];
 
   const symbol = cvgla?.hgvs || variant?.curie;
