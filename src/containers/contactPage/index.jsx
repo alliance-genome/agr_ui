@@ -42,33 +42,36 @@ const ContactForm = () => {
     setSubmitError('');
   };
 
-  const handleSubmit = useCallback(async (e) => {
-    e.preventDefault();
-    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!pattern.test(email)) {
-      setEmailError('Please enter a valid email address.');
-      return;
-    }
-    if (!executeRecaptcha) {
-      setSubmitError('reCAPTCHA not ready. Please try again.');
-      setSubmitStatus('error');
-      return;
-    }
-    setSubmitStatus('sending');
-    setSubmitError('');
-    try {
-      const captchaToken = await executeRecaptcha('contact');
-      await sendContactEmail({ name, email, subject, message, captchaToken });
-      setSubmitStatus('success');
-      setName('');
-      setEmail('');
-      setSubject('');
-      setMessage('');
-    } catch (err) {
-      setSubmitStatus('error');
-      setSubmitError(err.message || 'Network error. Please try again later.');
-    }
-  }, [executeRecaptcha, name, email, subject, message]);
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!pattern.test(email)) {
+        setEmailError('Please enter a valid email address.');
+        return;
+      }
+      if (!executeRecaptcha) {
+        setSubmitError('reCAPTCHA not ready. Please try again.');
+        setSubmitStatus('error');
+        return;
+      }
+      setSubmitStatus('sending');
+      setSubmitError('');
+      try {
+        const captchaToken = await executeRecaptcha('contact');
+        await sendContactEmail({ name, email, subject, message, captchaToken });
+        setSubmitStatus('success');
+        setName('');
+        setEmail('');
+        setSubject('');
+        setMessage('');
+      } catch (err) {
+        setSubmitStatus('error');
+        setSubmitError(err.message || 'Network error. Please try again later.');
+      }
+    },
+    [executeRecaptcha, name, email, subject, message]
+  );
 
   return (
     <div>
@@ -105,7 +108,7 @@ const ContactForm = () => {
               <div className="form-group mb-3">
                 <label htmlFor="contact-email">Email</label>
                 <input
-                  className={`form-control ${emailError ? "is-invalid" : ""}`}
+                  className={`form-control ${emailError ? 'is-invalid' : ''}`}
                   id="contact-email"
                   onBlur={(e) => validateEmail(e.target.value)}
                   onChange={(e) => {
@@ -176,10 +179,7 @@ const ContactForm = () => {
 };
 
 const ContactPage = () => (
-  <GoogleReCaptchaProvider
-    reCaptchaKey={RECAPTCHA_SITE_KEY}
-    useEnterprise
-  >
+  <GoogleReCaptchaProvider reCaptchaKey={RECAPTCHA_SITE_KEY} useEnterprise>
     <ContactForm />
   </GoogleReCaptchaProvider>
 );
