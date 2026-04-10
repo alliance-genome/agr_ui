@@ -21,8 +21,7 @@ function getTargetGeneLocation(targetGene, variantLocationObj) {
       start: geneLocationAssociation.start,
       end: geneLocationAssociation.end,
       strand: geneLocationAssociation.strand,
-      assembly:
-        targetGene?.taxon?.species?.assembly_curie || variantLocationObj?.genomeAssembly?.primaryExternalId,
+      assembly: targetGene?.taxon?.species?.assembly_curie || variantLocationObj?.genomeAssembly?.primaryExternalId,
     };
   }
 
