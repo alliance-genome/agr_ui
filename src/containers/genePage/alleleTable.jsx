@@ -102,8 +102,8 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     const baseData = selectionOverride.active && selectedAllelesData ? selectedAllelesData : resolvedData || [];
 
     let processedData = baseData.map((row) => {
-      const variants = row.variants || [];
-      const hgvs = variants[0]?.curatedVariantGenomicLocations?.[0]?.hgvs;
+      const variantList = row.variantList || [];
+      const hgvs = variantList[0]?.curatedVariantGenomicLocations?.[0]?.hgvs;
       const alleleId = getIdentifier(row.allele);
 
       return {
@@ -111,9 +111,9 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
         id: row.alterationType === 'variant' ? (hgvs && alleleId ? `${hgvs}_${alleleId}` : hgvs || alleleId) : alleleId,
         allele: row.allele,
         synonyms: row.allele?.alleleSynonyms,
-        variants: variants,
-        variantName: variants,
-        variantConsequences: variants,
+        variantList: variantList,
+        variantName: variantList,
+        variantConsequences: variantList,
       };
     });
 
@@ -137,7 +137,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
   const variantsSequenceViewerProps = useMemo(() => {
     const variantsFiltered =
       allelesFiltered.data && allelesFiltered.data.results
-        ? allelesFiltered.data.results.flatMap((allele) => (allele && allele.variants) || [])
+        ? allelesFiltered.data.results.flatMap((allele) => (allele && allele.variantList) || [])
         : [];
     const variantLocations = variantsFiltered.map((variant) => variant && variant.location);
 
@@ -238,7 +238,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
       },
       formatter: (allele, row) => {
         if (row.alterationType === 'variant') {
-          const hgvs = row.variants?.[0]?.curatedVariantGenomicLocations?.[0]?.hgvs;
+          const hgvs = row.variantList?.[0]?.curatedVariantGenomicLocations?.[0]?.hgvs;
           return (
             <div className="text-truncate" title={hgvs}>
               <Link to={`/variant/${hgvs}`}>{hgvs}</Link>
