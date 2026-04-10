@@ -134,4 +134,74 @@ describe('VariantSequenceView', () => {
       })
     );
   });
+
+  test('derives target gene metadata from predicted variant consequences when overlap genes are absent', () => {
+    const variantData = {
+      symbol: 'NC_003279.8:g.10765226C>T',
+      variantList: [
+        {
+          taxon: {
+            curie: 'NCBITaxon:6239',
+          },
+          curatedVariantGenomicLocations: [
+            {
+              start: 10765226,
+              end: 10765226,
+              variantGenomicLocationAssociationObject: {
+                name: 'I',
+                genomeAssembly: {
+                  primaryExternalId: 'WBcel235',
+                },
+              },
+              predictedVariantConsequences: [
+                {
+                  variantTranscript: {
+                    transcriptGeneAssociations: [
+                      {
+                        transcriptGeneAssociationObject: {
+                          curie: 'WB:WBGene00000912',
+                          geneSymbol: {
+                            displayText: 'daf-16',
+                          },
+                          geneGenomicLocationAssociations: [
+                            {
+                              start: 10750498,
+                              end: 10776703,
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+
+    render(<VariantSequenceView variant={variantData} />);
+
+    expect(mockGenomeFeatureWrapper).toHaveBeenCalledTimes(1);
+    const props = mockGenomeFeatureWrapper.mock.calls[0][0];
+    expect(props).toEqual(
+      expect.objectContaining({
+        chromosome: 'I',
+        geneSymbol: 'daf-16',
+        primaryId: 'WB:WBGene00000912',
+        species: 'NCBITaxon:6239',
+        fmin: 10750498,
+        fmax: 10776703,
+        genomeLocationList: [
+          expect.objectContaining({
+            chromosome: 'I',
+            start: 10750498,
+            end: 10776703,
+            assembly: 'WBcel235',
+          }),
+        ],
+      })
+    );
+  });
 });

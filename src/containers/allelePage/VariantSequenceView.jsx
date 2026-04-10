@@ -4,18 +4,25 @@ import GenomeFeatureWrapper from '../genePage/genomeFeatureWrapper.jsx';
 import getVariantGenomeLocation from './getVariantGenomeLocation';
 
 function getTargetGene(variantData, cvgla) {
-  return cvgla?.overlapGenes?.[0] || variantData?.gene || null;
+  const consequenceGene =
+    cvgla?.predictedVariantConsequences
+      ?.flatMap((consequence) => consequence?.variantTranscript?.transcriptGeneAssociations || [])
+      .map((association) => association?.transcriptGeneAssociationObject)
+      .find(Boolean) || null;
+
+  return cvgla?.overlapGenes?.[0] || variantData?.gene || consequenceGene;
 }
 
-function getTargetGeneLocation(targetGene) {
+function getTargetGeneLocation(targetGene, variantLocationObj) {
   const geneLocationAssociation = targetGene?.geneGenomicLocationAssociations?.[0];
   if (geneLocationAssociation) {
     return {
-      chromosome: geneLocationAssociation.geneGenomicLocationAssociationObject?.name,
+      chromosome: geneLocationAssociation.geneGenomicLocationAssociationObject?.name || variantLocationObj?.name,
       start: geneLocationAssociation.start,
       end: geneLocationAssociation.end,
       strand: geneLocationAssociation.strand,
-      assembly: targetGene?.taxon?.species?.assembly_curie,
+      assembly:
+        targetGene?.taxon?.species?.assembly_curie || variantLocationObj?.genomeAssembly?.primaryExternalId,
     };
   }
 
@@ -28,7 +35,7 @@ const VariantSequenceView = ({ variant: variantData }) => {
   const cvgla = variant?.curatedVariantGenomicLocations && variant.curatedVariantGenomicLocations[0];
   const variantLocationObj = cvgla?.variantGenomicLocationAssociationObject;
   const targetGene = getTargetGene(variantData, cvgla);
-  const targetGeneLocation = getTargetGeneLocation(targetGene);
+  const targetGeneLocation = getTargetGeneLocation(targetGene, variantLocationObj);
   const genomeLocation = targetGeneLocation || getVariantGenomeLocation(variantData);
 
   const location = {
