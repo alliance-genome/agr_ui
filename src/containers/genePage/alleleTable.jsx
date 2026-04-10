@@ -102,8 +102,8 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     const baseData = selectionOverride.active && selectedAllelesData ? selectedAllelesData : resolvedData || [];
 
     let processedData = baseData.map((row) => {
-      const variants = row.variantList || [];
-      const hgvs = variants[0]?.curatedVariantGenomicLocations?.[0]?.hgvs;
+      const variantList = row.variantList || [];
+      const hgvs = variantList[0]?.curatedVariantGenomicLocations?.[0]?.hgvs;
       const alleleId = getIdentifier(row.allele);
 
       return {
@@ -111,9 +111,9 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
         id: row.alterationType === 'variant' ? (hgvs && alleleId ? `${hgvs}_${alleleId}` : hgvs || alleleId) : alleleId,
         allele: row.allele,
         synonyms: row.allele?.alleleSynonyms,
-        variantList: variants,
-        variantName: variants,
-        variantConsequences: variants,
+        variantList: variantList,
+        variantName: variantList,
+        variantConsequences: variantList,
       };
     });
 
