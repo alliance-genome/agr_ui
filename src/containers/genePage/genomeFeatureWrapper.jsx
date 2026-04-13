@@ -74,16 +74,28 @@ class GenomeFeatureWrapper extends Component {
   }
 
   componentDidMount() {
+    if (this.shouldWaitForReleaseVersion()) {
+      return;
+    }
+
     this.loadGenomeFeature();
   }
 
   componentDidUpdate(prevProps) {
     const visibleVariantsChanged = !isEqual(prevProps.visibleVariants, this.props.visibleVariants);
     const isoformFilterChanged = !isEqual(prevProps.isoformFilter, this.props.isoformFilter);
+    const releaseVersionChanged = this.props.releaseVersion !== prevProps.releaseVersion;
     const shouldReloadGenomeFeature =
-      this.props.primaryId !== prevProps.primaryId || visibleVariantsChanged || isoformFilterChanged;
+      this.props.primaryId !== prevProps.primaryId ||
+      visibleVariantsChanged ||
+      isoformFilterChanged ||
+      releaseVersionChanged;
 
     if (shouldReloadGenomeFeature) {
+      if (this.shouldWaitForReleaseVersion()) {
+        return;
+      }
+
       this.loadGenomeFeature();
       if (this.gfc) {
         this.gfc.setSelectedAlleles(
@@ -106,6 +118,10 @@ class GenomeFeatureWrapper extends Component {
     if (this.gfc && this.gfc.closeModal) {
       this.gfc.closeModal();
     }
+  }
+
+  shouldWaitForReleaseVersion() {
+    return !process.env.REACT_APP_JBROWSE_AGR_RELEASE && this.props.releaseIsLoading;
   }
 
   async generateJBrowseTrackData(fmin, fmax, chromosome, species, releaseVersion, displayType) {
@@ -541,6 +557,7 @@ GenomeFeatureWrapper.propTypes = {
   isoformFilter: PropTypes.array,
   primaryId: PropTypes.string,
   releaseVersion: PropTypes.string,
+  releaseIsLoading: PropTypes.bool,
   species: PropTypes.string.isRequired,
   strand: PropTypes.string,
   synonyms: PropTypes.array,
@@ -551,22 +568,13 @@ GenomeFeatureWrapper.propTypes = {
 
 // Functional wrapper to provide release version from context
 const GenomeFeatureWrapperWithRelease = (props) => {
-  const useGetReleaseVersion = () => {
-    const release = useRelease();
-
-    if (!release.isLoading && !release.isError) {
-      return release.data.releaseVersion;
-    } else {
-      return 'unknown';
-    }
-  };
-
-  const contextReleaseVersion = useGetReleaseVersion();
+  const release = useRelease();
+  const contextReleaseVersion = release.isLoading ? 'unknown' : release.isError ? undefined : release.data.releaseVersion;
   const releaseVersion = process.env.REACT_APP_JBROWSE_AGR_RELEASE || contextReleaseVersion;
 
   // Debug logging removed for production
 
-  return <GenomeFeatureWrapper {...props} releaseVersion={releaseVersion} />;
+  return <GenomeFeatureWrapper {...props} releaseIsLoading={release.isLoading} releaseVersion={releaseVersion} />;
 };
 
 export default GenomeFeatureWrapperWithRelease;
