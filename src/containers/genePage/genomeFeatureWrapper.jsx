@@ -569,7 +569,11 @@ GenomeFeatureWrapper.propTypes = {
 // Functional wrapper to provide release version from context
 const GenomeFeatureWrapperWithRelease = (props) => {
   const release = useRelease();
-  const contextReleaseVersion = release.isLoading ? 'unknown' : release.isError ? undefined : release.data.releaseVersion;
+  const contextReleaseVersion = release.isLoading
+    ? 'unknown'
+    : release.isError
+      ? undefined
+      : release.data.releaseVersion;
   const releaseVersion = process.env.REACT_APP_JBROWSE_AGR_RELEASE || contextReleaseVersion;
 
   // Debug logging removed for production
