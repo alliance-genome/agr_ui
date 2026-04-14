@@ -27,12 +27,15 @@ const VariantSummaryCuration = ({ variant: variantData, variantId }) => {
 
   const consequencesAnchor = variantId ? '#variant-molecular-consequences' : sectionAnchor(cvgla?.hgvs);
 
-  const { taxon: species, variantType: type, references, crossReferences: variantCrossRefs, relatedNotes: notes } =
-    variant || {};
+  const {
+    taxon: species,
+    variantType: type,
+    references,
+    crossReferences: variantCrossRefs,
+    relatedNotes: notes,
+  } = variant || {};
   const crossReferences =
-    variantCrossRefs?.length > 0
-      ? variantCrossRefs
-      : [variantData?.allele?.dataProviderCrossReference].filter(Boolean);
+    variantCrossRefs?.length > 0 ? variantCrossRefs : [variantData?.allele?.dataProviderCrossReference].filter(Boolean);
 
   const variantLocationObj = cvgla?.variantGenomicLocationAssociationObject;
 
@@ -50,18 +53,15 @@ const VariantSummaryCuration = ({ variant: variantData, variantId }) => {
   const nucleotideChange =
     variant?.nucleotideChange ||
     (referenceSequence && variantSequence ? `${referenceSequence}>${variantSequence}` : null) ||
-    (cvgla?.hgvs?.match(/g\.\d+(?:_\d+)?(.+)$/)?.[1] || null);
+    cvgla?.hgvs?.match(/g\.\d+(?:_\d+)?(.+)$/)?.[1] ||
+    null;
 
   const consequence = cvgla?.mostSevereConsequence?.vepConsequences?.[0]?.name;
 
   const predictedVariantConsequences = cvgla?.predictedVariantConsequences;
 
-  const hgvsC =
-    cvgla?.hgvsC ||
-    predictedVariantConsequences?.map((pvc) => pvc.hgvsCodingNomenclature).filter(Boolean);
-  const hgvsP =
-    cvgla?.hgvsP ||
-    predictedVariantConsequences?.map((pvc) => pvc.hgvsProteinNomenclature).filter(Boolean);
+  const hgvsC = cvgla?.hgvsC || predictedVariantConsequences?.map((pvc) => pvc.hgvsCodingNomenclature).filter(Boolean);
+  const hgvsP = cvgla?.hgvsP || predictedVariantConsequences?.map((pvc) => pvc.hgvsProteinNomenclature).filter(Boolean);
 
   const overlapGenes = cvgla?.overlapGenes;
 
