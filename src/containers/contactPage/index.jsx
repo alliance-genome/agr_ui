@@ -16,7 +16,6 @@ const ContactForm = () => {
   const [submitStatus, setSubmitStatus] = useState(null);
   const [submitError, setSubmitError] = useState('');
   const { executeRecaptcha } = useGoogleReCaptcha();
-  // const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const clearSubmitStatus = () => {
     if (submitStatus === 'success') {
@@ -173,6 +172,7 @@ const ContactForm = () => {
   );
 };
 
+// false positive: useEnterprise is intentionally enabled
 const ContactPage = () => (
   <GoogleReCaptchaProvider reCaptchaKey={RECAPTCHA_SITE_KEY} useEnterprise>
     <ContactForm />

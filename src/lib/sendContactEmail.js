@@ -7,7 +7,7 @@ export const sendContactEmail = async ({ name, email, subject, message, captchaT
     body: JSON.stringify({ name, email, subject, message, captchaToken }),
   });
   if (!response.ok) {
-    let errMessage = 'Failed to send errMessage.';
+    let errMessage = 'Failed to send message.';
     const text = await response.text();
 
     try {
