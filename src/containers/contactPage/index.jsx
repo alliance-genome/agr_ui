@@ -17,9 +17,10 @@ const ContactForm = () => {
   const [submitError, setSubmitError] = useState('');
   const { executeRecaptcha } = useGoogleReCaptcha();
 
-  const clearSubmitStatus = () => {
-    if (submitStatus === 'success') {
+const clearSubmitStatus = () => {
+    if (submitStatus === 'success' || submitStatus === 'error') {
       setSubmitStatus(null);
+      setSubmitError('');
     }
   };
 
@@ -97,6 +98,7 @@ const ContactForm = () => {
                   required
                   type="text"
                   value={name}
+                  maxLength={100}
                 />
               </div>
               <div className="form-group mb-3">
@@ -124,6 +126,7 @@ const ContactForm = () => {
                   required
                   type="text"
                   value={subject}
+                  maxLength={200}
                 />
               </div>
               <div className="form-group mb-3">
@@ -135,6 +138,7 @@ const ContactForm = () => {
                   required
                   rows="6"
                   value={message}
+                  maxLength={5000}
                 />
               </div>
               <div className="mb-4">
