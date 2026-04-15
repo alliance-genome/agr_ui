@@ -17,7 +17,7 @@ const ContactForm = () => {
   const [submitError, setSubmitError] = useState('');
   const { executeRecaptcha } = useGoogleReCaptcha();
 
-const clearSubmitStatus = () => {
+  const clearSubmitStatus = () => {
     if (submitStatus === 'success' || submitStatus === 'error') {
       setSubmitStatus(null);
       setSubmitError('');
