@@ -24,6 +24,8 @@ const initializeGOLibraryWebComponents_PRODUCTION = () => {
   head.appendChild(ribbonTableScriptElement);
 
   const goCamVizScriptElement = document.createElement('script');
+  // GO-CAM viz is shipped as an ES module bundle in production.
+  goCamVizScriptElement.type = 'module';
   goCamVizScriptElement.src = '/assets/wc-gocam-viz/wc-gocam-viz.esm.js';
   head.appendChild(goCamVizScriptElement);
 };
