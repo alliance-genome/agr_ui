@@ -69,8 +69,8 @@ export const CATEGORIES = [
     displayName: 'HTP Variant',
     displayFields: [
       'primaryKey',
+      'name',
       'variantType',
-      'categoryType',
       'alterationType',
       'crossReferences',
       'molecularConsequence',
