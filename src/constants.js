@@ -66,7 +66,7 @@ export const CATEGORIES = [
   },
   {
     name: VARIANT_CATEGORY,
-    displayName: 'Variant',
+    displayName: 'HTP Variant',
     displayFields: [
       'primaryKey',
       'variantType',
