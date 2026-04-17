@@ -338,7 +338,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
       filterName: 'variant',
     },
     {
-      dataField: 'variants',
+      dataField: 'variantList',
       text: 'Variant type',
       formatter: (variants) => (
         <div>
