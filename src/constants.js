@@ -67,14 +67,7 @@ export const CATEGORIES = [
   {
     name: VARIANT_CATEGORY,
     displayName: 'HTP Variant',
-    displayFields: [
-      'primaryKey',
-      'variantType',
-      'categoryType',
-      'alterationType',
-      'crossReferences',
-      'molecularConsequence',
-    ],
+    displayFields: ['primaryKey', 'name', 'variantType', 'alterationType', 'crossReferences', 'molecularConsequence'],
   },
 ];
 
