@@ -105,6 +105,7 @@ export function makeFieldDisplayName(unformattedName, category = '') {
     case 'idCollection':
       return 'ID';
     case 'secondaryIds':
+    case 'Secondary ID':
       return 'Secondary ID';
     case 'crossReferenceLinks':
     case 'external_ids':
