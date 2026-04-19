@@ -250,6 +250,8 @@ function parseAlleleResult(_d) {
   let d = injectHighlightIntoResponse(_d);
   return {
     ...d,
+    alleleId: d.primaryKey,
+    alleleCrossReferences: d.crossReferences,
     display_name: d.symbol ? d.symbol : d.name,
     href: _d.modCrossRefCompleteUrl,
     highlight: d.highlights,
