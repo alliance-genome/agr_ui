@@ -27,16 +27,16 @@ export const CATEGORIES = [
     name: ALLELE_CATEGORY,
     displayName: 'Allele',
     displayFields: [
-      'primaryKey',
+      'alleleId',
       'genes',
       'synonyms',
       'variantType',
-      'categoryType',
       'alterationType',
-      'crossReferences',
+      'variants',
+      'alleleCrossReferences',
+      'geneCrossReferences',
       'molecularConsequence',
       'diseases',
-      'variantName',
     ],
   },
   {
@@ -67,8 +67,16 @@ export const CATEGORIES = [
   {
     name: VARIANT_CATEGORY,
     displayName: 'HTP Variant',
-    displayFields: ['primaryKey', 'name', 'genes', 'synonyms', 'variantType', 'alterationType', 'crossReferences', 'molecularConsequence'],
-
+    displayFields: [
+      'primaryKey',
+      'name',
+      'genes',
+      'synonyms',
+      'variantType',
+      'alterationType',
+      'crossReferences',
+      'molecularConsequence',
+    ],
   },
 ];
 

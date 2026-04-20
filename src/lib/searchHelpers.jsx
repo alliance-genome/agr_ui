@@ -93,6 +93,12 @@ export function makeFieldDisplayName(unformattedName, category = '') {
       return 'Associated Species';
     case 'dnaChangeTypes':
       return 'DNA Change Types';
+    case 'alleleId':
+      return 'Allele ID';
+    case 'alleleCrossReferences':
+      return 'Allele Cross References';
+    case 'geneCrossReferences':
+      return 'Gene Cross References';
     case 'primaryKey':
       return 'Source';
     case 'primaryId':
