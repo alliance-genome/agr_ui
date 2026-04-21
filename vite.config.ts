@@ -8,9 +8,11 @@ const ENV_KEYS_TO_EXPOSE = [
   'CDK_DEFAULT_REGION',
   'CDK_DEFAULT_ACCOUNT',
   'REACT_APP_JBROWSE_AGR_RELEASE',
+  'VITE_STOCK_API_BASE',
 ];
 
 const PROXY_PATHS = ['/api', '/jbrowse', '/bluegenes', '/swagger-ui', '/openapi', '/agr_simplemine.cgi'];
+
 
 const proxy = Object.fromEntries(
   PROXY_PATHS.map((path) => [
@@ -33,7 +35,15 @@ export default defineConfig(({ mode }) => {
     define: Object.fromEntries(ENV_KEYS_TO_EXPOSE.map((key) => [`process.env.${key}`, JSON.stringify(env[key])])),
     server: {
       port: 3000,
-      proxy,
+      proxy: {
+        ...proxy,
+        '/stock-api': {
+          target: env.VITE_STOCK_API_BASE || 'http://localhost:8081',
+          changeOrigin: true,
+          secure: false,
+          rewrite: (path: string) => path.replace(/^\/stock-api/, ''),
+        },
+      },
     },
     preview: {
       proxy,

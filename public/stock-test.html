@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Stock Availability Test</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+  h1 { font-size: 1.3rem; color: #334155; }
+  .search { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+  input { padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem; width: 300px; }
+  button { padding: 0.5rem 1rem; background: #0d9488; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; padding: 0.5rem; font-size: 0.8rem; color: #64748b; border-bottom: 2px solid #e2e8f0; }
+  td { padding: 0.5rem; border-bottom: 1px solid #f1f5f9; font-size: 0.9rem; }
+  tr:hover { background: #f0fdfa; }
+  .info { color: #94a3b8; font-size: 0.85rem; }
+  .count { background: #f0fdfa; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; margin-bottom: 0.5rem; }
+</style>
+</head>
+<body>
+<h1>Stock Availability -- Test Page</h1>
+<div class="search">
+  <select id="type">
+    <option value="alleles">Allele (FBal)</option>
+    <option value="genes">Gene (FBgn)</option>
+    <option value="insertions">Insertion (FBti)</option>
+    <option value="constructs">Construct (FBtp)</option>
+  </select>
+  <input id="id" placeholder="e.g. FB:FBal0018186" value="FB:FBal0018186">
+  <button onclick="search()">Search</button>
+</div>
+<div id="result"></div>
+
+<script>
+var API = 'https://uedpyfqwwx37ypz6r6sdoxwusm0ybtug.lambda-url.us-east-1.on.aws';
+
+function search() {
+  var type = document.getElementById('type').value;
+  var id = document.getElementById('id').value.trim().replace(/^FB:/, '');
+  var el = document.getElementById('result');
+  el.textContent = 'Loading...';
+
+  fetch(API + '/' + type + '/' + id + '/stocks')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var stocks = data.stocks || [];
+      el.textContent = '';
+
+      if (!stocks.length) {
+        el.textContent = 'No stocks found for ' + id;
+        return;
+      }
+
+      var info = document.createElement('div');
+      info.className = 'count';
+      info.textContent = stocks.length + ' stocks found';
+      el.appendChild(info);
+
+      var table = document.createElement('table');
+      var thead = document.createElement('thead');
+      var hr = document.createElement('tr');
+      ['Center', 'Stock ID', '#', 'Genotype'].forEach(function(h) {
+        var th = document.createElement('th');
+        th.textContent = h;
+        hr.appendChild(th);
+      });
+      thead.appendChild(hr);
+      table.appendChild(thead);
+
+      var tbody = document.createElement('tbody');
+      stocks.forEach(function(s) {
+        var tr = document.createElement('tr');
+        [s.collection_short_name || '', s.FBst || '', s.stock_number || '', (s.FB_genotype || '').substring(0, 80)].forEach(function(v) {
+          var td = document.createElement('td');
+          td.textContent = v;
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+      el.appendChild(table);
+    })
+    .catch(function(e) {
+      el.textContent = 'Error: ' + e.message;
+    });
+}
+</script>
+</body>
+</html>
