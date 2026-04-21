@@ -51,6 +51,7 @@ import TransgenicAlleleSectionHelp from '../../components/transgenicAlleles/tran
 import DiseaseSectionHelp from '../../components/disease/diseaseSectionHelp.jsx';
 import { AlleleTableWrapper } from './alleleTableWrapper.jsx';
 import { useParams } from 'react-router-dom';
+import GeneStockTable from './GeneStockTable.jsx';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
@@ -67,6 +68,7 @@ const PHENOTYPES = 'Phenotypes';
 const INTERACTIONS = 'Molecular Interactions';
 const GENETIC_INTERACTIONS = 'Genetic Interactions';
 const MODELS = 'Models';
+const STOCKS = 'Stock Availability';
 
 const SECTIONS = [
   { name: SUMMARY },
@@ -84,6 +86,7 @@ const SECTIONS = [
   { name: EXPRESSION },
   { name: INTERACTIONS },
   { name: GENETIC_INTERACTIONS },
+  { name: STOCKS },
 ];
 
 const GenePage = () => {
@@ -252,6 +255,10 @@ const GenePage = () => {
 
         <Subsection help={<GeneticInteractionSectionHelp />} title={GENETIC_INTERACTIONS}>
           <GeneGeneticInteractionDetailTable focusGeneDisplayName={data.symbol} focusGeneId={data.id} />
+        </Subsection>
+
+        <Subsection title={STOCKS}>
+          <GeneStockTable geneId={geneId} />
         </Subsection>
       </PageData>
     </DataPage>

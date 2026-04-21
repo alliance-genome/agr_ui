@@ -16,6 +16,7 @@ import AlleleTransgenicConstructs from './AlleleTransgenicConstructs.jsx';
 import AlleleMolecularConsequences from './AlleleMolecularConsequences.jsx';
 import AlleleVariantsSummary from './AlleleVariantsSummary.jsx';
 import MolecularConsequenceHelp from './MolecularConsequenceHelp.jsx';
+import AlleleStockTable from './AlleleStockTable.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import useTransgenicAllele from '../../hooks/useTransgenicAllele.js';
 import SpeciesName from '../../components/SpeciesName.jsx';
@@ -31,6 +32,7 @@ const DISEASE = 'Disease Associations';
 const VARIANTS = 'Genomic Variant Information';
 const CONSTRUCTS = 'Transgenic Constructs';
 const MOLECULAR_CONSEQUENCE = 'Variant Molecular Consequences';
+const STOCKS = 'Stock Availability';
 
 const SECTIONS = [
   { name: SUMMARY },
@@ -39,6 +41,7 @@ const SECTIONS = [
   { name: MOLECULAR_CONSEQUENCE },
   { name: PHENOTYPES },
   { name: DISEASE },
+  { name: STOCKS },
 ];
 
 const AllelePage = () => {
@@ -136,6 +139,10 @@ const AllelePage = () => {
 
         <Subsection title={DISEASE}>
           <AlleleToDiseaseTable alleleId={alleleId} />
+        </Subsection>
+
+        <Subsection title={STOCKS}>
+          <AlleleStockTable alleleId={alleleId} />
         </Subsection>
       </PageData>
     </DataPage>
