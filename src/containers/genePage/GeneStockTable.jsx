@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { DataTable } from '../../components/dataTable';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import ExternalLink from '../../components/ExternalLink.jsx';
@@ -16,10 +16,23 @@ const CENTER_URLS = {
 };
 
 const GeneStockTable = ({ geneId }) => {
+  const [searchInput, setSearchInput] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+
   const cleanId = geneId ? geneId.replace(/^FB:/, '') : '';
-  const baseUrl = cleanId && STOCK_API_BASE ? `${STOCK_API_BASE}/genes/${cleanId}/stocks` : null;
+  const baseUrl = useMemo(() => {
+    if (!cleanId || !STOCK_API_BASE) return null;
+    let url = `${STOCK_API_BASE}/genes/${cleanId}/stocks`;
+    if (searchQuery) url += `?filter.genotype=${encodeURIComponent(searchQuery)}`;
+    return url;
+  }, [cleanId, searchQuery]);
 
   const { data: results, totalRows, ...tableProps } = useDataTableQuery(baseUrl);
+
+  const handleSearch = useCallback((e) => {
+    e.preventDefault();
+    setSearchQuery(searchInput.trim());
+  }, [searchInput]);
 
   if (!STOCK_API_BASE) return null;
 
@@ -53,15 +66,35 @@ const GeneStockTable = ({ geneId }) => {
   ];
 
   return (
-    <DataTable
-      {...tableProps}
-      columns={columns}
-      data={results}
-      downloadUrl={baseUrl}
-      keyField="FBst"
-      noDataMessage="No stocks available for this gene."
-      totalRows={totalRows}
-    />
+    <div>
+      <form onSubmit={handleSearch} style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem' }}>
+        <input
+          type="text"
+          placeholder="Search genotypes..."
+          value={searchInput}
+          onChange={e => setSearchInput(e.target.value)}
+          style={{ padding: '0.35rem 0.6rem', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '0.85rem', width: '250px' }}
+        />
+        <button type="submit" className="btn btn-primary btn-sm">Search</button>
+        {searchQuery && (
+          <button
+            type="button"
+            className="btn btn-outline-secondary btn-sm"
+            onClick={() => { setSearchInput(''); setSearchQuery(''); }}
+          >
+            Clear
+          </button>
+        )}
+      </form>
+      <DataTable
+        {...tableProps}
+        columns={columns}
+        data={results}
+        keyField="FBst"
+        noDataMessage="No stocks available for this gene."
+        totalRows={totalRows}
+      />
+    </div>
   );
 };
 
