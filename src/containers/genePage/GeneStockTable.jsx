@@ -71,12 +71,12 @@ const GeneStockTable = ({ geneId }) => {
           style={{ padding: '0.3rem 0.6rem', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '0.85rem', width: '200px' }}
         />
       </div>
-      <table className="table table-sm table-striped" style={{ fontSize: '0.85rem' }}>
+      <table className="table table-sm table-striped table-bordered" style={{ fontSize: '0.85rem' }}>
         <thead>
           <tr>
-            <th style={{ width: '110px' }}>Center</th>
-            <th style={{ width: '70px', textAlign: 'right' }}>Stock #</th>
-            <th>Genotype</th>
+            <th style={{ width: '130px', padding: '0.5rem 0.75rem' }}>Center</th>
+            <th style={{ width: '90px', textAlign: 'right', padding: '0.5rem 0.75rem' }}>Stock #</th>
+            <th style={{ padding: '0.5rem 0.75rem' }}>Genotype</th>
           </tr>
         </thead>
         <tbody>
@@ -85,9 +85,9 @@ const GeneStockTable = ({ geneId }) => {
             const orderUrl = info ? info.order + stock.stock_number : null;
             return (
               <tr key={`${stock.FBst}-${idx}`}>
-                <td>{info ? <ExternalLink href={info.home}>{stock.collection_short_name}</ExternalLink> : stock.collection_short_name}</td>
-                <td style={{ textAlign: 'right' }}>{orderUrl ? <ExternalLink href={orderUrl}>{stock.stock_number}</ExternalLink> : stock.stock_number}</td>
-                <td style={{ maxWidth: '500px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{stock.FB_genotype || ''}</td>
+                <td style={{ padding: '0.4rem 0.75rem' }}>{info ? <ExternalLink href={info.home}>{stock.collection_short_name}</ExternalLink> : stock.collection_short_name}</td>
+                <td style={{ textAlign: 'right', padding: '0.4rem 0.75rem' }}>{orderUrl ? <ExternalLink href={orderUrl}>{stock.stock_number}</ExternalLink> : stock.stock_number}</td>
+                <td style={{ padding: '0.4rem 0.75rem', maxWidth: '500px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{stock.FB_genotype || ''}</td>
               </tr>
             );
           })}
