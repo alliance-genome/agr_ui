@@ -32,7 +32,9 @@ export default defineConfig(({ mode }) => {
     },
     define: Object.fromEntries(ENV_KEYS_TO_EXPOSE.map((key) => [`process.env.${key}`, JSON.stringify(env[key])])),
     server: {
+      host: true,
       port: 3000,
+      allowedHosts: ['iching.caltech.edu'],
       proxy,
     },
     preview: {

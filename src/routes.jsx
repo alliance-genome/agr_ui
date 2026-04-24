@@ -18,6 +18,8 @@ import ReferencePage from './containers/referencePage/index.jsx';
 import MODLanding from './containers/modLanding/Main.jsx';
 import AlzheimersPage from './containers/alzheimersPage/index.jsx';
 import BlastPage from './containers/blastPage/index.jsx';
+import OntologyBrowserPage from './containers/ontologyBrowser/index.jsx';
+import OntologyIndex from './containers/ontologyBrowser/OntologyIndex.jsx';
 
 const WordpressRedirect = () => {
   const { slug } = useParams();
@@ -43,6 +45,8 @@ const LayoutWithRoutes = () => (
 
       <Route exact path="/members/:id" element={<MODLanding />} />
 
+      <Route exact path="/ontology-browser" element={<OntologyIndex />} />
+      <Route exact path="/ontology-browser/disease" element={<OntologyBrowserPage />} />
       <Route exact path="/disease-portal/alzheimers-disease" element={<AlzheimersPage />} />
       <Route exact path="/blastservice" element={<BlastPage />} />
 
