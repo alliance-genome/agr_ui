@@ -1,0 +1,74 @@
+.treeContainer {
+  margin-top: 1rem;
+  overflow-x: auto;
+}
+
+.termTree,
+.childList {
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+}
+
+.childList {
+  padding-left: 1.75rem;
+}
+
+.termNode {
+  margin: 0.2rem 0;
+}
+
+.nodeRow {
+  align-items: center;
+  display: flex;
+  gap: 0.4rem;
+}
+
+.toggleButton {
+  background: none;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: monospace;
+  font-size: 0.8rem;
+  height: 1.25rem;
+  line-height: 1;
+  min-width: 1.25rem;
+  padding: 0;
+  text-align: center;
+
+  &:hover:not(:disabled) {
+    background: #e8e8e8;
+    border-color: #999;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+}
+
+.togglePlaceholder {
+  display: inline-block;
+  flex-shrink: 0;
+  min-width: 1.25rem;
+  text-align: center;
+}
+
+.termLink {
+  color: #337ab7;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.termCurie {
+  color: #888;
+  font-size: 0.82em;
+}
+
+.rootName {
+  font-size: 1.05em;
+  font-weight: 600;
+}
