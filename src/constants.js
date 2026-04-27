@@ -33,8 +33,6 @@ export const CATEGORIES = [
       'variantType',
       'alterationType',
       'variants',
-      'alleleCrossReferences',
-      'geneCrossReferences',
       'molecularConsequence',
       'diseases',
     ],
