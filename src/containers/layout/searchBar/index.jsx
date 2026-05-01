@@ -97,14 +97,14 @@ class SearchBarComponent extends Component {
     //gene and disease will go to the pages and skip search results,
     //go terms and alleles will just go to regular search pages as the query
     if (item.method === 'click') {
-      const id = item.suggestion.primaryKey;
+      const id = item.suggestion.primaryKey ? item.suggestion.primaryKey : item.suggestion.curie;
       const url = getURLForEntry(item.suggestion.category, id);
       if (url) {
         autocompleteGoToPageEvent(id);
         this.props.navigate(url);
       } else {
-        //use name if name_key isn't available
-        let query = item.suggestion.name_key ? item.suggestion.name_key : item.suggestion.name;
+        //use name if nameKey isn't available
+        let query = item.suggestion.nameKey ? item.suggestion.nameKey : item.suggestion.name;
         this.setState({ value: query });
         this.doQuery(query);
       }
@@ -150,7 +150,7 @@ class SearchBarComponent extends Component {
   renderSuggestion(d) {
     return (
       <div className={style.autoListItem}>
-        <span>{d.name_key ? d.name_key : d.name}</span>
+        <span>{d.nameKey ? d.nameKey : d.name}</span>
         <span className={style.catContainer}>
           <CategoryLabel category={d.category} />
         </span>
@@ -159,7 +159,7 @@ class SearchBarComponent extends Component {
   }
 
   render() {
-    let _getSuggestionValue = (d) => d.name_key;
+    let _getSuggestionValue = (d) => d.nameKey;
     let _inputProps = {
       autoFocus: this.props.autoFocus,
       placeholder: this.props.placeholder,

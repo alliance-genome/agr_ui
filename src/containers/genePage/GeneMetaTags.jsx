@@ -1,36 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import HeadMetaTags from '../../components/headMetaTags.jsx';
-import { htmlToPlainText } from '../../lib/utils';
+import { htmlToPlainText, getNoteText, extractGeneFields, getSynonymStrings } from '../../lib/utils';
 
 const GeneMetaTags = ({ gene }) => {
   if (!gene) {
     return null;
   }
 
-  const title = `${htmlToPlainText(gene.symbol)} | ${gene.species.name} gene`;
-  const dateProduced = new Date(gene.dateProduced);
-  const keywords = [
-    'gene',
-    gene.dataProvider.replace('\n', ' '),
-    gene.symbol,
-    ...(gene.synonyms || []),
-    gene.species.name,
-    gene.id,
-  ];
+  const { speciesName, taxonId, geneSymbolText, dataProviderAbbr, geneId } = extractGeneFields(gene);
+  const symbol = geneSymbolText || '';
+  const dataProvider = dataProviderAbbr || '';
+  const synonyms = getSynonymStrings(gene);
+  const geneName = gene.geneFullName?.displayText;
+  const automatedGeneSynopsis = getNoteText(gene.relatedNotes, 'automated_gene_description');
+  const geneSynopsis = getNoteText(gene.relatedNotes, 'MOD_provided_gene_description');
+
+  const title = `${htmlToPlainText(symbol)} | ${speciesName} gene`;
+  const keywords = ['gene', dataProvider, symbol, ...synonyms, speciesName, geneId];
+  const description = [geneName, automatedGeneSynopsis, geneSynopsis].filter((a) => !!a).join(' ');
   const jsonLd = [
     {
       '@context': 'http://schema.org',
       '@type': 'Dataset',
-      '@id': gene.id,
-      name: gene.symbol,
-      dateCreated: dateProduced,
-      datePublished: dateProduced,
-      dateModified: dateProduced,
-      description: [gene.name, gene.automatedGeneSynopsis, gene.geneSynopsis, gene.geneSynopsisUrl]
-        .filter((a) => !!a)
-        .join(' '),
-      url: 'https://www.alliancegenome.org/gene/' + gene.id,
+      '@id': geneId,
+      name: symbol,
+      description: description,
+      url: 'https://www.alliancegenome.org/gene/' + geneId,
       keywords: keywords.join(' '),
       includedInDataCatalog: 'https://www.alliancegenome.org',
       creator: {
@@ -53,13 +49,10 @@ const GeneMetaTags = ({ gene }) => {
         },
       ],
       '@type': ['bs:Gene'],
-      identifier: gene.id,
-      name: gene.symbol,
-      url: `https://www.alliancegenome.org/gene/${gene.id}`,
-      dateCreated: dateProduced,
-      datePublished: dateProduced,
-      dateModified: dateProduced,
-      description: gene.automatedGeneSynopsis + ' ' + (gene.geneSynopsis || gene.geneSynopsisUrl || ''),
+      identifier: geneId,
+      name: symbol,
+      url: `https://www.alliancegenome.org/gene/${geneId}`,
+      description: (automatedGeneSynopsis || '') + ' ' + (geneSynopsis || ''),
       // 'sameAs': `https://zfin.org/ZDB-GENE-001103-2`, // TODO: add resolver here
     },
   ];
