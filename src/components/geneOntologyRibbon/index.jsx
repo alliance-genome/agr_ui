@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useMemo } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import HorizontalScroll from '../horizontalScroll.jsx';
 
@@ -609,5 +609,4 @@ GeneOntologyRibbonWithNavigate.propTypes = {
   geneSymbol: PropTypes.string,
 };
 
-//TODO: withRouter - test
 export default GeneOntologyRibbonWithNavigate;
