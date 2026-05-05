@@ -7,11 +7,11 @@ export class AmplifyStageStack extends cdk.Stack {
     super(scope, id, props);
 
     /*
-	REWRITE					Rewrite (200).
-	PERMANENT_REDIRECT	Permanent redirect (301).
-	TEMPORARY_REDIRECT	Temporary redirect (302).
-	NOT_FOUND				Not found (404).
-	NOT_FOUND_REWRITE		Not found rewrite (404).
+  REWRITE					Rewrite (200).
+  PERMANENT_REDIRECT	Permanent redirect (301).
+  TEMPORARY_REDIRECT	Temporary redirect (302).
+  NOT_FOUND				Not found (404).
+  NOT_FOUND_REWRITE		Not found rewrite (404).
 */
 
     const stage_paths = [
@@ -143,6 +143,21 @@ export class AmplifyStageStack extends cdk.Stack {
       {
         source: '/agr_simplemine.cgi',
         target: 'https://caltech-curation.textpressolab.com/pub/cgi-bin/forms/agr_simplemine.cgi',
+        status: amplify.RedirectStatus.REWRITE,
+      },
+      {
+        source: '/download/',
+        target: 'https://stage-api.alliancegenome.org/downloads',
+        status: amplify.RedirectStatus.REWRITE,
+      },
+      {
+        source: '/download/<*>',
+        target: 'https://stage-api.alliancegenome.org/download/<*>',
+        status: amplify.RedirectStatus.REWRITE,
+      },
+      {
+        source: '/downloads',
+        target: 'https://stage-api.alliancegenome.org/api/downloads',
         status: amplify.RedirectStatus.REWRITE,
       },
       {
