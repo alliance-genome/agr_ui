@@ -54,5 +54,4 @@ RouteListenerFC.propTypes = {
   onRouteChange: PropTypes.func.isRequired,
 };
 
-//TODO: withRouter - test
 export default RouteListenerFC;

@@ -166,12 +166,22 @@ export default function useAlleleSelection(tableProps, cachedAlleles = []) {
         }
 
         // Scroll to first selected row after data loads
-        setTimeout(() => {
-          const firstRow = document.querySelector(`tr[data-row-key="${alleleIds[0]}"]`);
-          if (firstRow) {
-            firstRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }
-        }, 800);
+        // Skip scrolling if this is a back/forward navigation to prevent conflicts
+        // with the Layout component's hash-based scroll restoration (KANBAN-632)
+        const isHistoryNavigation =
+          window.performance &&
+          window.performance.getEntriesByType &&
+          window.performance.getEntriesByType('navigation').length > 0 &&
+          window.performance.getEntriesByType('navigation')[0].type === 'back_forward';
+
+        if (!isHistoryNavigation) {
+          setTimeout(() => {
+            const firstRow = document.querySelector(`tr[data-row-key="${alleleIds[0]}"]`);
+            if (firstRow) {
+              firstRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+          }, 800);
+        }
       } else if (fromViewer && alleleIds.length === 0) {
         // Clear override when all selections removed from viewer
         setSelectionOverride({

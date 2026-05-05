@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { UncontrolledTooltip } from 'reactstrap';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCode, faBookOpen, faDownload, faLightbulb } from '@fortawesome/free-solid-svg-icons';
+import { faCode, faBookOpen, faDownload, faLightbulb, faStethoscope } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import style from './style.module.scss';
 
-library.add(faCode, faBookOpen, faDownload, faLightbulb);
+library.add(faCode, faBookOpen, faDownload, faLightbulb, faStethoscope);
 
 const ActionButton = ({ children, icon, size, id, to, tooltip, external = false }) => {
   const Contents = () => (

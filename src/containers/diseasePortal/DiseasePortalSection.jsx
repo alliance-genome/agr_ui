@@ -1,22 +1,34 @@
 import React from 'react';
 import style from './style.module.scss';
-// import SearchBarComponent from '../layout/searchBar';
-// import SearchExample from './SearchExample';
 import EntityButton from './EntityButton.jsx';
 import { useEntityButtonCounts } from './useEntityButtonCounts.js';
-// import {Link} from 'react-router-dom';
 
-const DiseasePortalSection = () => {
-  const url = '/api/disease/DOID:10652/';
+const DiseasePortalSection = ({ disease }) => {
+  const url = `/api/disease/${disease.doid}/`;
   const geneCount = useEntityButtonCounts(url + 'genes_counts');
   const modelCount = useEntityButtonCounts(url + 'models_counts');
   const alleleCount = useEntityButtonCounts(url + 'alleles_counts');
 
+  const pageTitle =
+    disease.pageName === 'Disease'
+      ? 'Disease Portals'
+      : // <a href={`/disease/${disease.doid}`}>{`${disease.pageName} Portal`}</a>
+        `${disease.pageName} Portal`;
+  const speciesEntityButton =
+    disease.pageName === 'Disease' ? (
+      <EntityButton id="entity-species" to="/about-us" tooltip="View all associated species">
+        9<br />
+        Species
+      </EntityButton>
+    ) : (
+      ''
+    );
+
   return (
     <section className={`${style.section} ${style.searchBackground} shadow`}>
       <div className={style.contentContainer}>
-        <h1 className="display-4 font-weight-normal mb-1 text-center">Alzheimer's Disease Portal</h1>
-        <h4 className="mb-5 text-center">Bringing the power of model systems to the biomedical community.</h4>
+        <h1 className="display-4 font-weight-normal mb-1 text-center">{pageTitle}</h1>
+        <h4 className="mb-5 text-center">Bringing the power of model systems to the biomedical community</h4>
         {/* <div className={style.searchBarContainer}>
           <SearchBarComponent autoFocus placeholder='Search for genes, alleles, disease models, and more' />
         </div>
@@ -31,33 +43,34 @@ const DiseasePortalSection = () => {
         <div className="d-flex justify-content-around flex-wrap">
           <EntityButton
             id="entity-models"
-            to="/disease/DOID:10652#associated-models"
+            to={`/disease/${disease.doid}#associated-models`}
             tooltip="View all associated models"
           >
             <div>{modelCount ? modelCount.toLocaleString() : ''}</div>
             Models
           </EntityButton>
-          <EntityButton id="entity-genes" to="/disease/DOID:10652#associated-genes" tooltip="View all associated genes">
+          <EntityButton
+            id="entity-genes"
+            to={`/disease/${disease.doid}#associated-genes`}
+            tooltip="View all associated genes"
+          >
             <div>{geneCount ? geneCount.toLocaleString() : ''}</div>
             Genes
           </EntityButton>
           <EntityButton
             id="entity-alleles"
-            to="/disease/DOID:10652#associated-alleles"
+            to={`/disease/${disease.doid}#associated-alleles`}
             tooltip="View all associated alleles"
           >
             <div>{alleleCount ? alleleCount.toLocaleString() : ''}</div>
             Alleles
           </EntityButton>
-          <EntityButton id="entity-publications" to="/disease-portal/alzheimers-disease">
-            13,865
+          {/* <EntityButton id="entity-publications" to="">
+            96,000
             <br />
             Publications
-          </EntityButton>
-          <EntityButton id="entity-species" to="/about-us" tooltip="View all associated species">
-            9<br />
-            Species
-          </EntityButton>
+          </EntityButton> */}
+          {speciesEntityButton}
         </div>
       </div>
     </section>

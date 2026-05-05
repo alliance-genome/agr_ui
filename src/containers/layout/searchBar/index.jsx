@@ -227,5 +227,4 @@ const SearchBarComponentWithNavigateAndLocation = (props) => {
   return <SearchBarComponent navigate={navigate} location={location} {...props} />;
 };
 
-//TODO: withRouter - test
 export default SearchBarComponentWithNavigateAndLocation;
