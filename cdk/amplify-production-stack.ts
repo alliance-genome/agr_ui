@@ -191,11 +191,6 @@ export class AmplifyProductionStack extends cdk.Stack {
         status: amplify.RedirectStatus.REWRITE,
       },
       {
-        source: '/downloads',
-        target: 'https://prod-alb.alliancegenome.org/api/downloads',
-        status: amplify.RedirectStatus.REWRITE,
-      },
-      {
         source: '/swagger-ui',
         target: 'https://www.alliancegenome.org/swagger-ui/',
         status: amplify.RedirectStatus.PERMANENT_REDIRECT,

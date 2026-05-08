@@ -156,11 +156,6 @@ export class AmplifyStageStack extends cdk.Stack {
         status: amplify.RedirectStatus.REWRITE,
       },
       {
-        source: '/downloads',
-        target: 'https://stage-api.alliancegenome.org/api/downloads',
-        status: amplify.RedirectStatus.REWRITE,
-      },
-      {
         source: '/swagger-ui',
         target: 'https://stage-api.alliancegenome.org/swagger-ui',
         status: amplify.RedirectStatus.REWRITE,
