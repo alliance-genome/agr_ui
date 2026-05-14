@@ -51,7 +51,7 @@ const DiseaseToModelTable = ({ id }) => {
     {
       dataField: 'subject.taxon',
       text: 'Species',
-      formatter: (species) => <SpeciesCell species={species} />,
+      formatter: (taxon) => <SpeciesCell taxon={taxon} />,
       filterFormatter: (speciesName) => <SpeciesName>{speciesName}</SpeciesName>,
       headerStyle: { width: '105px' },
       filterName: 'species',

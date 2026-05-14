@@ -79,7 +79,7 @@ const GeneGeneticInteractionDetailTable = ({ focusGeneId, focusGeneDisplayName }
         headerStyle: {
           width: '200px',
         },
-        formatter: (species) => <SpeciesCell species={species} />,
+        formatter: (taxon) => <SpeciesCell taxon={taxon} />,
         filterable: true,
         filterType: 'checkbox',
         filterName: 'interactorSpecies',

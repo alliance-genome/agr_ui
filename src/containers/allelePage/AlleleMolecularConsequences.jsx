@@ -11,9 +11,8 @@ import style from './style.module.scss';
 import useAllAlleleVariants from '../../hooks/useAlleleVariants';
 import { makeId } from '../../lib/utils';
 
-export const sectionTitle = (variant) => {
-  const { id } = variant || {};
-  return `Predicted effect of ${id}`;
+export const sectionTitle = (variantHgvs) => {
+  return `Predicted effect of ${variantHgvs}`;
 };
 
 export const sectionAnchor = (variant) => {
@@ -45,13 +44,13 @@ const AlleleMolecularConsequences = ({ alleleId, allele }) => {
   return (
     <>
       {variants.map((variant) => {
-        const {
-          id: variantId,
-          // location,
-          variantType: type = {},
-        } = variant;
+        const variantObj = variant.variantList?.[0];
+        const cvgla = variantObj?.curatedVariantGenomicLocations?.[0];
+        const variantId = cvgla?.hgvs;
+        const type = variantObj?.variantType || {};
+        const consequences = cvgla?.predictedVariantConsequences;
         return (
-          <Subsection title={sectionTitle(variant)} level={1} key={`consequnce-summary-${variantId}`}>
+          <Subsection title={sectionTitle(variantId)} level={1} key={`consequnce-summary-${variantId}`}>
             <AttributeList className={style.attributeList}>
               <AttributeLabel>Variant</AttributeLabel>
               <AttributeValue>
@@ -65,14 +64,14 @@ const AlleleMolecularConsequences = ({ alleleId, allele }) => {
                         <span className="text-break">{variantId}</span>
                       </VariantJBrowseLink>
                     */}
-                <HashLink to={`#${makeId(variantId)}`}>
+                <HashLink to={variantId ? `#${makeId(variantId)}` : '#'}>
                   <span className="text-break">{variantId}</span>
                 </HashLink>
               </AttributeValue>
               <AttributeLabel>Variant type:</AttributeLabel>
               <AttributeValue>{type.name}</AttributeValue>
             </AttributeList>
-            <VariantToTranscriptTable variant={variant} />
+            <VariantToTranscriptTable variant={consequences} variantHgvs={variantId} variantType={type} />
           </Subsection>
         );
       })}

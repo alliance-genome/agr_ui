@@ -161,5 +161,4 @@ ExpressionComparisonRibbon.propTypes = {
   geneTaxon: PropTypes.string.isRequired,
 };
 
-//TODO: withRouter - test
 export default ExpressionComparisonRibbon;
