@@ -1,31 +1,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { dataSourceType } from '../../lib/types';
 import { AttributeLabel, AttributeList, AttributeValue } from '../../components/attribute';
-import CrossReferenceList from '../../components/crossReferenceList.jsx';
+import CrossReferenceListCuration from '../../components/CrossReferenceListCuration.jsx';
 
-const PhenotypeCrossRefs = ({ primary, other }) => {
-  primary = primary.filter((ref) => ref !== undefined);
-  other = other.filter((ref) => ref !== undefined);
+const PhenotypeCrossRefs = ({ crossReferenceMap, geneDataProvider }) => {
+  const primary = [];
+  const other = [];
+
+  if (crossReferenceMap.phenotypes) {
+    primary.push({
+      ...crossReferenceMap.phenotypes,
+      displayName: geneDataProvider || crossReferenceMap.phenotypes.displayName,
+    });
+  }
+
+  if (crossReferenceMap.biogridOrcs) {
+    other.push({ ...crossReferenceMap.biogridOrcs, displayName: 'BioGRID CRISPR Screen Cell Line Phenotypes' });
+  }
+
+  if (crossReferenceMap.phenotypesImpc) {
+    other.push({ ...crossReferenceMap.phenotypesImpc, displayName: 'IMPC' });
+  }
 
   return (
     <AttributeList>
       <AttributeLabel>Primary Sources</AttributeLabel>
       <AttributeValue placeholder="None">
-        {primary && primary.length && <CrossReferenceList collapsible={false} crossReferences={primary} sort={false} />}
+        {primary.length > 0 && (
+          <CrossReferenceListCuration collapsible={false} crossReferences={primary} sort={false} />
+        )}
       </AttributeValue>
 
       <AttributeLabel>Other Sources</AttributeLabel>
       <AttributeValue placeholder="None">
-        {other && other.length && <CrossReferenceList collapsible={false} crossReferences={other} sort={false} />}
+        {other.length > 0 && <CrossReferenceListCuration collapsible={false} crossReferences={other} sort={false} />}
       </AttributeValue>
     </AttributeList>
   );
 };
 
 PhenotypeCrossRefs.propTypes = {
-  primary: PropTypes.arrayOf(dataSourceType),
-  other: PropTypes.arrayOf(dataSourceType),
+  crossReferenceMap: PropTypes.object,
+  geneDataProvider: PropTypes.string,
 };
 
 export default PhenotypeCrossRefs;

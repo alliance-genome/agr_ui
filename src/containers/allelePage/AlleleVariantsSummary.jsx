@@ -5,7 +5,7 @@ import { DownloadButton } from '../../components/dataTable';
 import Subsection from '../../components/subsection.jsx';
 import NoData from '../../components/noData.jsx';
 import useAllAlleleVariants from '../../hooks/useAlleleVariants';
-import VariantSummary from './VariantSummary.jsx';
+import VariantSummaryCuration from './VariantSummaryCuration.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
@@ -13,24 +13,26 @@ const AlleleVariantsSummary = ({ allele, alleleId }) => {
   const { data } = useAllAlleleVariants(alleleId);
 
   const { gene, species } = allele;
-
   return (
     <>
       {data &&
-        data.map((variant) => {
-          const { displayName } = variant || {};
+        data.map((variantData) => {
+          const variantObj = variantData?.variantList?.[0];
+          const cvgla = variantObj?.curatedVariantGenomicLocations?.[0];
+          const hgvs = cvgla?.hgvs;
+          const id = variantObj?.curie;
           return (
-            <Subsection title={displayName} level={1} key={displayName}>
+            <Subsection title={hgvs} level={1} key={id}>
               <AttributeList className="mb-0">
-                <VariantSummary
+                <VariantSummaryCuration
                   variant={{
-                    ...variant,
+                    ...variantData,
                     gene: gene,
                     species: species,
                   }}
                 />
               </AttributeList>
-              <Link to={`/search?q=${displayName}`}>
+              <Link to={`/search?q=${hgvs}`}>
                 All alleles with this variant <FontAwesomeIcon icon={faMagnifyingGlass} />
               </Link>
             </Subsection>

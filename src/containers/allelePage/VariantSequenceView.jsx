@@ -3,12 +3,57 @@ import PropTypes from 'prop-types';
 import GenomeFeatureWrapper from '../genePage/genomeFeatureWrapper.jsx';
 import getVariantGenomeLocation from './getVariantGenomeLocation';
 
-const VariantSequenceView = ({ variant }) => {
-  const genomeLocation = getVariantGenomeLocation(variant);
+function getTargetGene(variantData, cvgla) {
+  const consequenceGene =
+    cvgla?.predictedVariantConsequences
+      ?.flatMap((consequence) => consequence?.variantTranscript?.transcriptGeneAssociations || [])
+      .map((association) => association?.transcriptGeneAssociationObject)
+      .find(Boolean) || null;
 
-  let htpVariant = `${variant.location.chromosome}:${variant.location.start}`;
-  const fmin = Math.min(genomeLocation.start, variant.location.start);
-  const fmax = Math.max(genomeLocation.end, variant.location.end);
+  return cvgla?.overlapGenes?.[0] || variantData?.gene || consequenceGene;
+}
+
+function getTargetGeneLocation(targetGene, variantLocationObj) {
+  const geneLocationAssociation = targetGene?.geneGenomicLocationAssociations?.[0];
+  if (geneLocationAssociation) {
+    return {
+      chromosome: geneLocationAssociation.geneGenomicLocationAssociationObject?.name || variantLocationObj?.name,
+      start: geneLocationAssociation.start,
+      end: geneLocationAssociation.end,
+      strand: geneLocationAssociation.strand,
+      assembly: targetGene?.taxon?.species?.assembly_curie || variantLocationObj?.genomeAssembly?.primaryExternalId,
+    };
+  }
+
+  return targetGene?.genomeLocations?.[0] || null;
+}
+
+const VariantSequenceView = ({ variant: variantData }) => {
+  // Build location from new API data structure
+  const variant = variantData?.variantList && variantData.variantList[0];
+  const cvgla = variant?.curatedVariantGenomicLocations && variant.curatedVariantGenomicLocations[0];
+  const variantLocationObj = cvgla?.variantGenomicLocationAssociationObject;
+  const targetGene = getTargetGene(variantData, cvgla);
+  const targetGeneLocation = getTargetGeneLocation(targetGene, variantLocationObj);
+  const genomeLocation = targetGeneLocation || getVariantGenomeLocation(variantData);
+
+  const location = {
+    chromosome: variantLocationObj?.name,
+    start: cvgla?.start,
+    end: cvgla?.end,
+  };
+
+  if (!genomeLocation?.chromosome || location.start == null || location.end == null) {
+    return null;
+  }
+
+  const htpVariant = `${location.chromosome}:${location.start}`;
+  const fmin = Math.min(genomeLocation.start, location.start);
+  const fmax = Math.max(genomeLocation.end, location.end);
+  const species = variant?.taxon?.curie || targetGene?.taxon?.curie;
+  const targetGeneId = targetGene?.curie || targetGene?.primaryExternalId || targetGene?.modEntityId;
+  const targetGeneSymbol = targetGene?.geneSymbol?.displayText || targetGene?.symbol;
+
   return (
     <GenomeFeatureWrapper
       assembly={genomeLocation.assembly}
@@ -17,16 +62,16 @@ const VariantSequenceView = ({ variant }) => {
       displayType="ISOFORM"
       fmax={fmax}
       fmin={fmin}
-      geneSymbol={variant.gene.symbol}
+      geneSymbol={targetGeneSymbol}
       genomeLocationList={[genomeLocation]}
       height="200px"
       id="genome-feature-location-id"
       htpVariant={htpVariant}
-      primaryId={variant.id}
-      species={variant.species && variant.species.taxonId}
+      primaryId={targetGeneId || variantData.id || variant?.id}
+      species={species}
       strand={genomeLocation.strand}
-      synonyms={variant.synonyms}
-      visibleVariants={[variant.id]}
+      synonyms={variantData.synonyms}
+      visibleVariants={[variantData.id || variant?.id]}
       width="600px"
     />
   );

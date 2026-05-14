@@ -178,5 +178,4 @@ SingleFilterSelectorWithNavigate.propTypes = {
   values: PropTypes.array,
 };
 
-//TODO: withRouter - test
 export default connect()(SingleFilterSelectorWithNavigate);

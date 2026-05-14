@@ -33,6 +33,7 @@ const DataTable = ({
   downloadUrl,
   downloadMethod,
   downloadBody,
+  downloadText,
   error,
   isError,
   isFetching,
@@ -220,6 +221,7 @@ const DataTable = ({
           disabled={disabled}
           method={downloadMethod}
           body={downloadBody}
+          text={downloadText}
         />
       )}
       {disabled && (
