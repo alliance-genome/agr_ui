@@ -2,6 +2,13 @@ export const HELP_EMAIL = 'help@alliancegenome.org';
 export const SEARCH_API_ERROR_MESSAGE = `There was a problem connecting to the server. Please refresh the page. If you continue to see this message, please contact ${HELP_EMAIL}`;
 export const LARGE_COL_CLASS = 'col-md-8 col-12';
 export const SMALL_COL_CLASS = 'col-md-4 col-12';
+export const GENE_CATEGORY = 'gene_search_result';
+export const GO_CATEGORY = 'go_search_result';
+export const DISEASE_CATEGORY = 'disease_search_result';
+export const ALLELE_CATEGORY = 'allele_search_result';
+export const VARIANT_CATEGORY = 'variant_search_result';
+export const MODEL_CATEGORY = 'model';
+export const DATASET_CATEGORY = 'htp_dataset_search_result';
 
 /* Wordpress REST API connection setting */
 export const WORDPRESS_REST_API_BASE = 'https://public-api.wordpress.com/wp/v2/sites/alliancegenome.wordpress.com';
@@ -17,48 +24,62 @@ export const CATEGORIES = [
     displayName: 'All',
   },
   {
-    name: 'gene',
+    name: ALLELE_CATEGORY,
+    displayName: 'Allele',
+    displayFields: [
+      'alleleId',
+      'genes',
+      'synonyms',
+      'variantType',
+      'alterationType',
+      'variants',
+      'molecularConsequence',
+      'diseases',
+    ],
+  },
+  {
+    name: GENE_CATEGORY,
     displayName: 'Gene',
-    displayFields: ['name', 'synonyms', 'primaryKey', 'biotype'],
+    displayFields: ['curie', 'name', 'synonyms', 'biotype', 'nameKey'],
   },
   {
-    name: 'go',
+    name: GO_CATEGORY,
     displayName: 'Gene Ontology',
-    displayFields: ['primaryKey', 'collapsible_synonyms', 'branch'],
+    displayFields: ['curie', 'collapsible_synonyms', 'branch'],
   },
   {
-    name: 'disease',
+    name: DISEASE_CATEGORY,
     displayName: 'Disease',
     displayFields: ['primaryKey', 'definition'],
   },
   {
-    name: 'allele',
-    displayName: 'Allele/Variant',
-    displayFields: [
-      'primaryKey',
-      'genes',
-      'synonyms',
-      'variantType',
-      'molecularConsequence',
-      'diseases',
-      'variantName',
-    ],
-  },
-  {
-    name: 'model',
+    name: MODEL_CATEGORY,
     displayName: 'Model',
     displayFields: ['primaryKey', 'synonyms'],
   },
   {
-    name: 'dataset',
+    name: DATASET_CATEGORY,
     displayName: 'HTP Dataset Index',
     displayFields: ['dataProviderNote', 'idCollection', 'tags', 'summary'],
   },
+  {
+    name: VARIANT_CATEGORY,
+    displayName: 'HTP Variant',
+    displayFields: [
+      'primaryKey',
+      'name',
+      'genes',
+      'synonyms',
+      'variantType',
+      'alterationType',
+      'crossReferences',
+      'molecularConsequence',
+    ],
+  },
 ];
 
-// Allele category constants
-export const ALLELE_WITH_ONE_VARIANT = 'allele with one associated variant';
-export const ALLELE_WITH_MULTIPLE_VARIANTS = 'allele with multiple associated variants';
+export const ALLELE_WITH_ONE_VARIANT = 'allele with one variant';
+export const ALLELE_WITH_MULTIPLE_VARIANTS = 'allele with multiple variants';
 
 export const NON_HIGHLIGHTED_FIELDS = [
   'sourceHref',
@@ -105,6 +126,11 @@ export const NAV_MENU = [
       {
         label: 'Disease Portal',
         route: '/disease-portal',
+      },
+      {
+        label: 'SimpleMine',
+        route: '/agr_simplemine.cgi',
+        external: true,
       },
       {
         label: 'Submit Data',
@@ -405,7 +431,7 @@ export const SPECIES = [
     jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/FlyBase/fruitfly/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
     jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/FlyBase/fruitfly/',
-    jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_000001215.4_Release_6_plus_ISO1_MT_genomic.fna.gz',
+    jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/dmel-all-chromosome-r6.67.fasta.gz',
     jBrowsetracks: '_all_genes,_ht_variants,_variants,_multiple-variant_alleles',
     jBrowseOrthologyTracks:
       'Drosophila_melanogaster_all_genes,fly2yeast.filter.anchors,human2fly.filter.anchors,mouse2fly.filter.anchors,rat2fly.filter.anchors,worm2fly.filter.anchors,xenopustropicalis2fly.filter.anchors,zebrafish2fly.filter.anchors',

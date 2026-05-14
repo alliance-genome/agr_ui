@@ -185,14 +185,21 @@ describe('JBrowse Migration Validation', () => {
     // Test the chromosome prefix logic from genomeFeatureWrapper.js
     function applyChromosomePrefixLogic(apolloPrefix, chromosome) {
       let chrString = chromosome;
-      if (apolloPrefix === 'yeast' || (apolloPrefix === 'x_laevis' && !chromosome.startsWith('Scaffold'))) {
+      if (apolloPrefix === 'yeast' && !chromosome.startsWith('chr')) {
         chrString = 'chr' + chromosome;
+      }
+      if (
+        (apolloPrefix === 'x_laevis' || apolloPrefix === 'x_tropicalis') &&
+        !chromosome.startsWith('Chr') &&
+        !chromosome.toLowerCase().startsWith('sca')
+      ) {
+        chrString = 'Chr' + chromosome;
       }
       return chrString;
     }
 
     describe('Yeast chromosome prefixing', () => {
-      it('should add chr prefix to all yeast chromosomes', () => {
+      it('should add chr prefix to bare yeast chromosomes', () => {
         const yeastChromosomes = [
           'I',
           'II',
@@ -218,6 +225,15 @@ describe('JBrowse Migration Validation', () => {
         });
       });
 
+      it('should NOT double-prefix yeast chromosomes that already have chr prefix', () => {
+        const prefixedChromosomes = ['chrI', 'chrIV', 'chrXII', 'chrXVI', 'chrMito'];
+
+        prefixedChromosomes.forEach((chr) => {
+          const result = applyChromosomePrefixLogic('yeast', chr);
+          assert.strictEqual(result, chr, `Yeast ${chr} should remain unchanged (already prefixed)`);
+        });
+      });
+
       it('should handle yeast mitochondrial chromosome', () => {
         const result = applyChromosomePrefixLogic('yeast', 'Mito');
         assert.strictEqual(result, 'chrMito', 'Yeast mitochondrial chromosome should become chrMito');
@@ -225,7 +241,7 @@ describe('JBrowse Migration Validation', () => {
     });
 
     describe('X. laevis chromosome prefixing', () => {
-      it('should add chr prefix to regular X. laevis chromosomes', () => {
+      it('should add Chr prefix to bare X. laevis chromosomes', () => {
         const xlaevisChromosomes = [
           '1L',
           '1S',
@@ -249,12 +265,21 @@ describe('JBrowse Migration Validation', () => {
 
         xlaevisChromosomes.forEach((chr) => {
           const result = applyChromosomePrefixLogic('x_laevis', chr);
-          assert.strictEqual(result, `chr${chr}`, `X. laevis chromosome ${chr} should become chr${chr}`);
+          assert.strictEqual(result, `Chr${chr}`, `X. laevis chromosome ${chr} should become Chr${chr}`);
         });
       });
 
-      it('should NOT add chr prefix to X. laevis scaffold sequences', () => {
-        const scaffolds = ['Scaffold1', 'Scaffold123', 'Scaffold_ABC'];
+      it('should NOT double-prefix X. laevis chromosomes that already have Chr prefix', () => {
+        const prefixedChromosomes = ['Chr1L', 'Chr5S', 'Chr9_10L'];
+
+        prefixedChromosomes.forEach((chr) => {
+          const result = applyChromosomePrefixLogic('x_laevis', chr);
+          assert.strictEqual(result, chr, `X. laevis ${chr} should remain unchanged (already prefixed)`);
+        });
+      });
+
+      it('should NOT add Chr prefix to X. laevis scaffold sequences', () => {
+        const scaffolds = ['Scaffold1', 'Scaffold123', 'scaffold_ABC'];
 
         scaffolds.forEach((scaffold) => {
           const result = applyChromosomePrefixLogic('x_laevis', scaffold);
@@ -384,12 +409,21 @@ describe('JBrowse Migration Validation', () => {
         });
       });
 
-      it('should NOT add chr prefix to X. tropicalis chromosomes', () => {
+      it('should add Chr prefix to bare X. tropicalis chromosomes', () => {
         const xtropChromosomes = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
         xtropChromosomes.forEach((chr) => {
           const result = applyChromosomePrefixLogic('x_tropicalis', chr);
-          assert.strictEqual(result, chr, `X. tropicalis chromosome ${chr} should remain unchanged`);
+          assert.strictEqual(result, `Chr${chr}`, `X. tropicalis chromosome ${chr} should become Chr${chr}`);
+        });
+      });
+
+      it('should NOT double-prefix X. tropicalis chromosomes that already have Chr prefix', () => {
+        const prefixedChromosomes = ['Chr1', 'Chr5', 'Chr7', 'Chr10'];
+
+        prefixedChromosomes.forEach((chr) => {
+          const result = applyChromosomePrefixLogic('x_tropicalis', chr);
+          assert.strictEqual(result, chr, `X. tropicalis ${chr} should remain unchanged (already prefixed)`);
         });
       });
     });
@@ -435,16 +469,16 @@ describe('JBrowse Migration Validation', () => {
       assert(ncListUrlTemplate.includes('SGD/yeast'), 'Should use correct species path for yeast');
     });
 
-    it('should construct valid URLs for X. laevis with chr prefix', () => {
+    it('should construct valid URLs for X. laevis with Chr prefix', () => {
       const speciesInfo = getSpecies('NCBITaxon:8355'); // X. laevis
       const releaseVersion = '8.2.0';
-      const chrString = 'chr1L'; // X. laevis chromosomes get chr prefix
+      const chrString = 'Chr1L'; // X. laevis chromosomes get Chr prefix (uppercase)
 
       const { ncListUrlTemplate } = buildJBrowseUrls(speciesInfo, releaseVersion, chrString);
 
       assert(
-        ncListUrlTemplate.includes('tracks/All_Genes/chr1L/trackData.jsonz'),
-        'Should construct URL with chr prefix for X. laevis'
+        ncListUrlTemplate.includes('tracks/All_Genes/Chr1L/trackData.jsonz'),
+        'Should construct URL with Chr prefix for X. laevis'
       );
       assert(ncListUrlTemplate.includes('XenBase/x_laevis'), 'Should use correct species path for X. laevis');
     });
@@ -514,8 +548,15 @@ describe('JBrowse Migration Validation', () => {
 
         // Apply chromosome prefix logic
         let chrString = chromosome;
-        if (apolloPrefix === 'yeast' || (apolloPrefix === 'x_laevis' && !chromosome.startsWith('Scaffold'))) {
+        if (apolloPrefix === 'yeast' && !chromosome.startsWith('chr')) {
           chrString = 'chr' + chromosome;
+        }
+        if (
+          (apolloPrefix === 'x_laevis' || apolloPrefix === 'x_tropicalis') &&
+          !chromosome.startsWith('Chr') &&
+          !chromosome.toLowerCase().startsWith('sca')
+        ) {
+          chrString = 'Chr' + chromosome;
         }
         assert.strictEqual(
           chrString,
