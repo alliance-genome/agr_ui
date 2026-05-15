@@ -53,7 +53,7 @@ const GenePhysicalInteractionDetailTable = ({ focusGeneDisplayName, focusGeneId 
     {
       dataField: 'geneMolecularInteraction.geneGeneAssociationObject.taxon',
       text: 'Interactor species',
-      formatter: (species) => <SpeciesCell species={species} />,
+      formatter: (taxon) => <SpeciesCell taxon={taxon} />,
       headerStyle: { width: '8em' },
       headerClasses: style.columnHeaderGroup2,
       classes: style.columnGroup2,

@@ -15,14 +15,14 @@ import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel.jsx';
 // import AlleleToDiseaseTable from './AlleleToDiseaseTable';
 // import AlleleToVariantTable from './AlleleToVariantTable';
 // import AlleleSequenceView from './AlleleSequenceView';
-import VariantSummary from './VariantSummary.jsx';
 import VariantSequenceView from './VariantSequenceView.jsx';
 import VariantToTranscriptTable from './VariantToTranscriptTable.jsx';
 import MolecularConsequenceHelp from './MolecularConsequenceHelp.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
-import GeneSymbol from '../../components/GeneSymbol.jsx';
 import SpeciesName from '../../components/SpeciesName.jsx';
 import ErrorBoundary from '../../components/errorBoundary.jsx';
+import VariantSummaryCuration from './VariantSummaryCuration.jsx';
+import { VARIANT_CATEGORY } from '../../constants';
 
 const SUMMARY = 'Summary';
 const MOLECULAR_CONSEQUENCE = 'Variant Molecular Consequences';
@@ -69,9 +69,12 @@ const VariantPage = () => {
     return null;
   }
 
-  const variantSymbol = data.symbol || data.displayName || data.id;
+  const variant = data.variantList && data.variantList[0];
+  const variantLocation =
+    variant && variant.curatedVariantGenomicLocations && variant.curatedVariantGenomicLocations[0];
+  const variantSymbol = variantLocation?.hgvs || variant?.curie || data.symbol || data.displayName || data.id;
   const reference = data.crossReferenceMap ? data.crossReferenceMap.primary : null;
-  const title = `${variantSymbol} | ${data.species && data.species.name} allele`;
+  const title = `${variantSymbol} | ${variant?.taxon?.name} allele`;
 
   return (
     <DataPage>
@@ -83,27 +86,32 @@ const VariantPage = () => {
           truncateName
         >
           <DataSourceLink reference={reference} />
-          {data.gene && (
+          {variantLocation?.overlapGenes?.length > 0 && (
             <div>
               Variant overlaps{' '}
-              <Link to={`/gene/${data.gene.id}`}>
-                <GeneSymbol gene={data.gene} />
-              </Link>
+              {variantLocation.overlapGenes.map((gene, index) => (
+                <span key={gene.curie || gene.primaryExternalId}>
+                  <Link to={`/gene/${gene.curie || gene.primaryExternalId}`}>{gene.geneSymbol?.displayText}</Link>
+                  {index < variantLocation.overlapGenes.length - 1 && ', '}
+                </span>
+              ))}
             </div>
           )}
-          <SpeciesName>{data.species && data.species.name}</SpeciesName>
+          <SpeciesName>{variant?.taxon?.name}</SpeciesName>
         </PageNavEntity>
       </PageNav>
       <PageData>
-        <PageCategoryLabel category="allele" />
+        <PageCategoryLabel category={VARIANT_CATEGORY} />
         <PageHeader>{variantSymbol}</PageHeader>
 
         <Subsection hideTitle title={SUMMARY}>
           <ErrorBoundary>
             <AttributeList className="mb-0">
               <AttributeLabel>Species</AttributeLabel>
-              <AttributeValue>{data.species && <SpeciesName>{data.species.name}</SpeciesName>}</AttributeValue>
-              <VariantSummary variant={data} variantId={variantId} />
+              <AttributeValue>
+                {variant?.taxon?.curie && <SpeciesName>{variant.taxon.name}</SpeciesName>}
+              </AttributeValue>
+              <VariantSummaryCuration variant={data} variantId={variantId} />
             </AttributeList>
           </ErrorBoundary>
           <hr />
@@ -113,7 +121,11 @@ const VariantPage = () => {
         </Subsection>
 
         <Subsection help={<MolecularConsequenceHelp />} title={MOLECULAR_CONSEQUENCE}>
-          <VariantToTranscriptTable variant={data} />
+          <VariantToTranscriptTable
+            variant={variantLocation}
+            variantHgvs={variantId}
+            variantType={variant?.variantType}
+          />
         </Subsection>
       </PageData>
     </DataPage>

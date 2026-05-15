@@ -8,7 +8,7 @@ import CollapsibleBox from '../../components/collapsibleBox/collapsibleBox.jsx';
 import { CollapsibleList } from '../../components/collapsibleList';
 import SpeciesName from '../../components/SpeciesName.jsx';
 
-const COLLAPSIBLE_FIELDS = ['collapsible_synonyms', 'variantName'];
+const COLLAPSIBLE_FIELDS = ['collapsible_synonyms', 'variants'];
 
 const JOIN_CHAR = ', ';
 

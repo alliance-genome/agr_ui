@@ -32,6 +32,7 @@ class GenomeFeatureWrapper extends Component {
       vcfLoadError: null,
     };
 
+    this.loadRequestId = 0;
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -73,11 +74,28 @@ class GenomeFeatureWrapper extends Component {
   }
 
   componentDidMount() {
+    if (this.shouldWaitForReleaseVersion()) {
+      return;
+    }
+
     this.loadGenomeFeature();
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.primaryId !== prevProps.primaryId) {
+    const visibleVariantsChanged = !isEqual(prevProps.visibleVariants, this.props.visibleVariants);
+    const isoformFilterChanged = !isEqual(prevProps.isoformFilter, this.props.isoformFilter);
+    const releaseVersionChanged = this.props.releaseVersion !== prevProps.releaseVersion;
+    const shouldReloadGenomeFeature =
+      this.props.primaryId !== prevProps.primaryId ||
+      visibleVariantsChanged ||
+      isoformFilterChanged ||
+      releaseVersionChanged;
+
+    if (shouldReloadGenomeFeature) {
+      if (this.shouldWaitForReleaseVersion()) {
+        return;
+      }
+
       this.loadGenomeFeature();
       if (this.gfc) {
         this.gfc.setSelectedAlleles(
@@ -94,8 +112,6 @@ class GenomeFeatureWrapper extends Component {
         this.gfc.setSelectedAlleles(alleleIds, `#${this.props.id}`);
       }
     }
-    // Note: visibleVariants changes are not handled here to prevent full reload
-    // when variants are clicked, which would cause them to temporarily disappear
   }
 
   componentWillUnmount() {
@@ -104,18 +120,26 @@ class GenomeFeatureWrapper extends Component {
     }
   }
 
+  shouldWaitForReleaseVersion() {
+    return !process.env.REACT_APP_JBROWSE_AGR_RELEASE && this.props.releaseIsLoading;
+  }
+
   async generateJBrowseTrackData(fmin, fmax, chromosome, species, releaseVersion, displayType) {
     const speciesInfo = getSpecies(species);
     const apolloPrefix = speciesInfo.apolloName;
 
     // Construct chromosome string with species-specific formatting
     let chrString = chromosome;
-    if (apolloPrefix === 'yeast') {
+    if (apolloPrefix === 'yeast' && !chromosome.startsWith('chr')) {
       chrString = 'chr' + chromosome;
     }
-    //    if ((apolloPrefix === 'x_laevis' || apolloPrefix === 'x_tropicalis') && !chromosome.startsWith('Sca')) {
-    //      chrString = 'Chr' + chromosome;
-    //    }
+    if (
+      (apolloPrefix === 'x_laevis' || apolloPrefix === 'x_tropicalis') &&
+      !chromosome.startsWith('Chr') &&
+      !chromosome.toLowerCase().startsWith('sca')
+    ) {
+      chrString = 'Chr' + chromosome;
+    }
     // Create location string and parse it using GMOD format
     const locString = `${chrString}:${fmin}..${fmax}`;
     const parsedRegion = parseLocString(locString);
@@ -333,6 +357,7 @@ class GenomeFeatureWrapper extends Component {
   }
 
   async loadGenomeFeature() {
+    const requestId = ++this.loadRequestId;
     const {
       chromosome,
       fmin,
@@ -387,6 +412,10 @@ class GenomeFeatureWrapper extends Component {
         displayType
       );
 
+      if (requestId !== this.loadRequestId) {
+        return;
+      }
+
       // Generate track configuration with fetched data
 
       const trackConfig = this.generateTrackConfig(
@@ -422,6 +451,10 @@ class GenomeFeatureWrapper extends Component {
         vcfLoadError: vcfError,
       });
     } catch (error) {
+      if (requestId !== this.loadRequestId) {
+        return;
+      }
+
       // Error loading genome feature data
       this.setState({
         loadState: 'error',
@@ -524,6 +557,7 @@ GenomeFeatureWrapper.propTypes = {
   isoformFilter: PropTypes.array,
   primaryId: PropTypes.string,
   releaseVersion: PropTypes.string,
+  releaseIsLoading: PropTypes.bool,
   species: PropTypes.string.isRequired,
   strand: PropTypes.string,
   synonyms: PropTypes.array,
@@ -534,22 +568,17 @@ GenomeFeatureWrapper.propTypes = {
 
 // Functional wrapper to provide release version from context
 const GenomeFeatureWrapperWithRelease = (props) => {
-  const useGetReleaseVersion = () => {
-    const release = useRelease();
-
-    if (!release.isLoading && !release.isError) {
-      return release.data.releaseVersion;
-    } else {
-      return 'unknown';
-    }
-  };
-
-  const contextReleaseVersion = useGetReleaseVersion();
+  const release = useRelease();
+  const contextReleaseVersion = release.isLoading
+    ? 'unknown'
+    : release.isError
+      ? undefined
+      : release.data.releaseVersion;
   const releaseVersion = process.env.REACT_APP_JBROWSE_AGR_RELEASE || contextReleaseVersion;
 
   // Debug logging removed for production
 
-  return <GenomeFeatureWrapper {...props} releaseVersion={releaseVersion} />;
+  return <GenomeFeatureWrapper {...props} releaseIsLoading={release.isLoading} releaseVersion={releaseVersion} />;
 };
 
 export default GenomeFeatureWrapperWithRelease;

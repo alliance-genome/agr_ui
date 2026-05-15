@@ -48,7 +48,7 @@ const DiseaseAnnotationTable = ({ focusGeneId, focusTaxonId, includeNotAnnotatio
       filterFormatter: (speciesName) => <SpeciesName>{speciesName}</SpeciesName>,
       filterType: 'checkbox',
       headerStyle: { width: '100px' },
-      formatter: (species) => <SpeciesCell species={species} />,
+      formatter: (taxon) => <SpeciesCell taxon={taxon} />,
       hide: !orthologGenes || !orthologGenes.length,
     },
     {

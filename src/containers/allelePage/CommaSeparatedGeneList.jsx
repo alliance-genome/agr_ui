@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { shortSpeciesName } from '../../lib/utils';
+
 import CommaSeparatedList from '../../components/commaSeparatedList.jsx';
 import GeneSymbol from '../../components/GeneSymbol.jsx';
 
@@ -26,7 +26,7 @@ const CommaSeparatedGeneList = ({ genes }) => {
         return (
           <MaybeLink key={gene.geneSymbol.displayText} url={url}>
             {gene.geneSymbol.displayText}
-            {gene.taxon && ` (${shortSpeciesName(gene.taxon.curie)})`}
+            {gene.taxon?.species?.abbreviation && ` (${gene.taxon.species.abbreviation})`}
           </MaybeLink>
         );
       })}

@@ -12,7 +12,6 @@ import SingleReferenceCellCuration from './singleReferenceCellCuration.jsx';
 import SpeciesCell from './SpeciesCell.jsx';
 import AssayCell from './assayCell.jsx';
 import SourceCell from './sourceCell.jsx';
-import BasedOnGeneCell from './basedOnGeneCell.jsx';
 import BasedOnGeneCellCuration from './basedOnGeneCellCuration.jsx';
 import CellTooltip from './CellTooltip.jsx';
 import TableSummary from './tableSummary.jsx';
@@ -37,7 +36,6 @@ export {
   SpeciesCell,
   SourceCell,
   TableSummary,
-  BasedOnGeneCell,
   BasedOnGeneCellCuration,
   DataTable,
   DownloadButton,

@@ -126,23 +126,29 @@ a > span > .sprite {
     bottom: 0.1rem;
     margin-right: 0.15rem;
   }
-  &.go::before {
+  &.go_search_result::before {
     color: $data-type-go;
   }
-  &.gene::before {
+  &.gene_search_result::before {
     color: $data-type-gene;
   }
-  &.disease::before {
+  &.genome_feature::before {
+    color: $data-type-gene;
+  }
+  &.disease_search_result::before {
     color: $data-type-disease;
   }
   &.model::before {
     color: $data-type-model;
   }
-  &.allele::before {
+  &.allele_search_result::before {
     color: $data-type-allele;
   }
-  &.dataset::before {
+  &.htp_dataset_search_result::before {
     color: $data-type-dataset;
+  }
+  &.variant_search_result::before {
+    color: $data-type-allele;
   }
 }
 

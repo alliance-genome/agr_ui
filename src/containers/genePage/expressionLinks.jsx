@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { AttributeList, AttributeLabel, AttributeValue } from '../../components/attribute';
-import CrossReferenceList from '../../components/crossReferenceList.jsx';
+import CrossReferenceListCuration from '../../components/CrossReferenceListCuration.jsx';
 
 const ExpressionLinks = ({
   allExpressionCrossReference,
@@ -31,6 +31,12 @@ const ExpressionLinks = ({
       displayName: geneDataProvider + ' (images)',
     };
   }
+  if (spellCrossReference) {
+    spellCrossReference = {
+      ...spellCrossReference,
+      displayName: 'Serial Patterns of Expression Levels Locator (SPELL)',
+    };
+  }
 
   const primarySources = [
     allExpressionCrossReference,
@@ -52,15 +58,15 @@ const ExpressionLinks = ({
     <AttributeList>
       <AttributeLabel>Primary Sources</AttributeLabel>
       <AttributeValue placeholder="None">
-        {primarySources && primarySources.length && (
-          <CrossReferenceList collapsible={false} crossReferences={primarySources} sort={false} />
+        {primarySources && primarySources.length > 0 && (
+          <CrossReferenceListCuration crossReferences={primarySources} sort={false} collapsible={false} />
         )}
       </AttributeValue>
 
       <AttributeLabel>Other Sources</AttributeLabel>
       <AttributeValue placeholder="None">
-        {otherExpressionCrossReferences && otherExpressionCrossReferences.length && (
-          <CrossReferenceList collapsible={false} crossReferences={otherExpressionCrossReferences} sort={false} />
+        {otherExpressionCrossReferences && otherExpressionCrossReferences.length > 0 && (
+          <CrossReferenceListCuration crossReferences={otherExpressionCrossReferences} collapsible={false} />
         )}
       </AttributeValue>
     </AttributeList>

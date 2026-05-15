@@ -5,16 +5,19 @@ import NotFound from '../../components/notFound.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import ErrorBoundary from '../../components/errorBoundary.jsx';
 import { GeneAlleleDetailsTableWrapper } from './GeneAlleleDetailsTableWrapper.jsx';
+import { extractGeneFields } from '../../lib/utils';
 
 const GeneAlleleDetailsPage = () => {
   const { id: geneId } = useParams();
-  const { isLoading: isLoadingGene, isError: isErrorGene, data: gene } = usePageLoadingQuery(`/api/gene/${geneId}`);
+  const { isLoading: isLoadingGene, isError: isErrorGene, data } = usePageLoadingQuery(`/api/gene/${geneId}`);
   if (isLoadingGene) {
     return null;
   } else if (isErrorGene) {
     return <NotFound />;
   }
 
+  const gene = data.gene;
+  const { geneSymbolText } = extractGeneFields(gene);
   const pageTitle = 'Alleles and Variants Details';
 
   return (
@@ -24,7 +27,7 @@ const GeneAlleleDetailsPage = () => {
           <ol className="breadcrumb">
             <li className="breadcrumb-item">Gene</li>
             <li className="breadcrumb-item">
-              <Link to={`/gene/${geneId}`}>{gene.symbol}</Link>
+              <Link to={`/gene/${geneId}`} dangerouslySetInnerHTML={{ __html: geneSymbolText }} />
             </li>
             <li className="breadcrumb-item active" aria-current="page">
               {pageTitle}
@@ -32,7 +35,7 @@ const GeneAlleleDetailsPage = () => {
           </ol>
         </nav>
         <PageHeader>
-          {pageTitle} for <Link to={`/gene/${geneId}`}>{gene.symbol}</Link>
+          {pageTitle} for <Link to={`/gene/${geneId}`} dangerouslySetInnerHTML={{ __html: geneSymbolText }} />
         </PageHeader>
         <ErrorBoundary>
           <div style={{ width: '100%', overflowX: 'scroll' }}>

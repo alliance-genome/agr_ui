@@ -172,5 +172,4 @@ DiseaseComparisonRibbon.propTypes = {
   geneTaxon: PropTypes.string,
 };
 
-//TODO: withRouter - test
 export default DiseaseComparisonRibbon;

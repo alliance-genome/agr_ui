@@ -43,7 +43,7 @@ describe('RGD Search', () => {
     ('Should render R. norvegicus search as the first search link',
     () => {
       const footer = screen(getByTestId('href_search_0')); // First item
-      expect(footer).toHaveAttribute('href', 'search?species=Rattus norvegicus&category=gene');
+      expect(footer).toHaveAttribute('href', 'search?species=Rattus norvegicus&category=gene_search_result');
       const label = screen.getByTestId('search_label_0');
       expect(label).toContainHTML('<i>R. norvegicus</i>');
     })

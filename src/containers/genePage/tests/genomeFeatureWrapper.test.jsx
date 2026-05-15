@@ -2,7 +2,7 @@ import React from 'react';
 import { render, waitFor, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import GenomeFeatureWrapper from '../genomeFeatureWrapper';
-import { fetchTabixVcfData, fetchNCListData } from 'genomefeatures';
+import { fetchTabixVcfData, fetchNCListData, GenomeFeatureViewer } from 'genomefeatures';
 
 // Mock the genomefeatures module
 jest.mock('genomefeatures', () => ({
@@ -50,6 +50,14 @@ jest.mock('../../../hooks/ReleaseContextProvider', () => ({
 }));
 
 describe('GenomeFeatureWrapper VCF Error Handling', () => {
+  const createDeferred = () => {
+    let resolve;
+    const promise = new Promise((res) => {
+      resolve = res;
+    });
+    return { promise, resolve };
+  };
+
   beforeEach(() => {
     // Reset all mocks before each test
     jest.clearAllMocks();
@@ -186,25 +194,20 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     expect(errorAlert).toHaveTextContent('Variant data could not be loaded');
   });
 
-  test('should not attempt to load VCF when release version is unknown', async () => {
+  test('should wait to load genome feature data while release metadata is still loading', async () => {
     // Clear any environment variable that might override the release version
     const originalEnv = process.env.REACT_APP_JBROWSE_AGR_RELEASE;
     delete process.env.REACT_APP_JBROWSE_AGR_RELEASE;
 
-    // Set mock to return unknown release version
     mockUseRelease.mockReturnValue({
-      isLoading: false,
+      isLoading: true,
       isError: false,
-      data: { releaseVersion: 'unknown' },
+      data: undefined,
     });
 
     render(<GenomeFeatureWrapper {...defaultProps} />);
 
-    await waitFor(() => {
-      expect(fetchNCListData).toHaveBeenCalled();
-    });
-
-    // VCF loading should not be attempted
+    expect(fetchNCListData).not.toHaveBeenCalled();
     expect(fetchTabixVcfData).not.toHaveBeenCalled();
 
     // Should not show error alert
@@ -212,6 +215,73 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     expect(errorAlert).not.toBeInTheDocument();
 
     // Restore environment variable
+    if (originalEnv) {
+      process.env.REACT_APP_JBROWSE_AGR_RELEASE = originalEnv;
+    }
+  });
+
+  test('should fall back to the default release when release metadata fails to load', async () => {
+    const originalEnv = process.env.REACT_APP_JBROWSE_AGR_RELEASE;
+    delete process.env.REACT_APP_JBROWSE_AGR_RELEASE;
+
+    mockUseRelease.mockReturnValue({
+      isLoading: false,
+      isError: true,
+      data: undefined,
+    });
+
+    render(<GenomeFeatureWrapper {...defaultProps} />);
+
+    await waitFor(() => {
+      expect(fetchNCListData).toHaveBeenCalledTimes(1);
+    });
+
+    expect(fetchNCListData).toHaveBeenCalledWith(
+      expect.objectContaining({
+        urlTemplate: expect.stringContaining('/8.2.0/'),
+      })
+    );
+
+    await waitFor(() => {
+      expect(GenomeFeatureViewer).toHaveBeenCalledTimes(1);
+    });
+
+    if (originalEnv) {
+      process.env.REACT_APP_JBROWSE_AGR_RELEASE = originalEnv;
+    }
+  });
+
+  test('should load genome feature data after release version changes from unknown to known', async () => {
+    const originalEnv = process.env.REACT_APP_JBROWSE_AGR_RELEASE;
+    delete process.env.REACT_APP_JBROWSE_AGR_RELEASE;
+
+    mockUseRelease.mockReturnValue({
+      isLoading: true,
+      isError: false,
+      data: undefined,
+    });
+
+    const { rerender } = render(<GenomeFeatureWrapper {...defaultProps} />);
+
+    expect(fetchNCListData).not.toHaveBeenCalled();
+    expect(GenomeFeatureViewer).not.toHaveBeenCalled();
+
+    mockUseRelease.mockReturnValue({
+      isLoading: false,
+      isError: false,
+      data: { releaseVersion: '8.2.0' },
+    });
+
+    rerender(<GenomeFeatureWrapper {...defaultProps} />);
+
+    await waitFor(() => {
+      expect(fetchNCListData).toHaveBeenCalledTimes(1);
+    });
+
+    await waitFor(() => {
+      expect(GenomeFeatureViewer).toHaveBeenCalledTimes(1);
+    });
+
     if (originalEnv) {
       process.env.REACT_APP_JBROWSE_AGR_RELEASE = originalEnv;
     }
@@ -227,13 +297,78 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
       expect(fetchNCListData).toHaveBeenCalled();
     });
 
-    // Should show the general error message, not the VCF-specific one
-    const generalError = screen.getByText('Unable to retrieve data');
-    expect(generalError).toBeInTheDocument();
-    expect(generalError).toHaveClass('text-danger');
+    await waitFor(() => {
+      const generalError = screen.getByText('Unable to retrieve data');
+      expect(generalError).toHaveClass('text-danger');
+    });
 
     // Should not show the VCF-specific alert
     const vcfAlert = container.querySelector('.alert.alert-warning');
     expect(vcfAlert).not.toBeInTheDocument();
+  });
+
+  test('should reload the viewer when visibleVariants are cleared', async () => {
+    const { rerender } = render(<GenomeFeatureWrapper {...defaultProps} visibleVariants={['MGI:allele-1']} />);
+
+    await waitFor(() => {
+      expect(GenomeFeatureViewer).toHaveBeenCalledTimes(1);
+    });
+
+    rerender(<GenomeFeatureWrapper {...defaultProps} visibleVariants={[]} />);
+
+    await waitFor(() => {
+      expect(GenomeFeatureViewer).toHaveBeenCalledTimes(2);
+    });
+
+    const latestConfig = GenomeFeatureViewer.mock.calls.at(-1)[0];
+    expect(latestConfig.visibleVariants).toEqual([]);
+    expect(latestConfig.tracks[0].type).toBe('ISOFORM_AND_VARIANT');
+  });
+
+  test('should reload the viewer when isoformFilter changes', async () => {
+    const { rerender } = render(<GenomeFeatureWrapper {...defaultProps} isoformFilter={['MGI:transcript-1']} />);
+
+    await waitFor(() => {
+      expect(GenomeFeatureViewer).toHaveBeenCalledTimes(1);
+    });
+
+    rerender(<GenomeFeatureWrapper {...defaultProps} isoformFilter={['MGI:transcript-2']} />);
+
+    await waitFor(() => {
+      expect(GenomeFeatureViewer).toHaveBeenCalledTimes(2);
+    });
+
+    const latestConfig = GenomeFeatureViewer.mock.calls.at(-1)[0];
+    expect(latestConfig.isoformFilter).toEqual(['MGI:transcript-2']);
+    expect(latestConfig.tracks[0].type).toBe('ISOFORM_AND_VARIANT');
+  });
+
+  test('should ignore stale viewer loads during rapid visibleVariants changes', async () => {
+    const firstLoad = createDeferred();
+    const secondLoad = createDeferred();
+
+    fetchNCListData.mockImplementationOnce(() => firstLoad.promise).mockImplementationOnce(() => secondLoad.promise);
+
+    const { rerender } = render(<GenomeFeatureWrapper {...defaultProps} visibleVariants={['MGI:allele-1']} />);
+
+    rerender(<GenomeFeatureWrapper {...defaultProps} visibleVariants={[]} />);
+
+    secondLoad.resolve([]);
+    await waitFor(() => {
+      expect(GenomeFeatureViewer).toHaveBeenCalledTimes(1);
+    });
+
+    let latestConfig = GenomeFeatureViewer.mock.calls.at(-1)[0];
+    expect(latestConfig.visibleVariants).toEqual([]);
+
+    firstLoad.resolve([]);
+
+    await waitFor(() => {
+      expect(fetchNCListData).toHaveBeenCalledTimes(2);
+    });
+
+    expect(GenomeFeatureViewer).toHaveBeenCalledTimes(1);
+    latestConfig = GenomeFeatureViewer.mock.calls.at(-1)[0];
+    expect(latestConfig.visibleVariants).toEqual([]);
   });
 });

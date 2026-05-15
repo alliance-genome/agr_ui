@@ -1,12 +1,13 @@
 /*eslint-disable import/no-anonymous-default-export*/
 /*eslint-disable quotes */
+import { DISEASE_CATEGORY, GENE_CATEGORY, GO_CATEGORY } from '../../../constants';
 export default {
   aggregations: [
     {
       key: 'category',
       values: [
         {
-          key: 'gene',
+          key: GENE_CATEGORY,
           total: 322,
           values: [],
         },
@@ -19,12 +20,13 @@ export default {
         description: ['<em>kinase</em> activity'],
         name: ['<em>GTPase</em> activity'],
       },
-      href: 'http://www.yeastgenome.org/locus/S000005759/overview',
+      href: 'http://amigo.geneontology.org/amigo/term/GO:0003924',
       name: 'GTPase activity',
-      go_branch: 'Molecular Function',
-      synonym: 'YOR233W',
-      type: null,
-      category: 'go',
+      curie: 'GO:0003924',
+      nameKey: 'GTPase activity',
+      branch: 'molecular_function',
+      synonyms: ['YOR233W'],
+      category: GO_CATEGORY,
     },
     {
       highlights: {
@@ -35,7 +37,7 @@ export default {
       name: "Huntington's disease",
       omim_id: '143100',
       synonym: 'HUNTINGTON CHOREA',
-      category: 'disease',
+      category: DISEASE_CATEGORY,
     },
     {
       highlights: {
@@ -53,7 +55,7 @@ export default {
       symbol: 'ADK1',
       synonym: 'YDR226W',
       type: null,
-      category: 'gene',
+      category: GENE_CATEGORY,
       homologs: [
         {
           symbol: 'HGNC:957',
@@ -79,7 +81,7 @@ export default {
       symbol: 'EKI1',
       synonym: 'YDR147W',
       type: null,
-      category: 'gene',
+      category: GENE_CATEGORY,
     },
     {
       highlights: {
@@ -98,7 +100,7 @@ export default {
       symbol: 'MKK2',
       synonym: 'YPL140C',
       type: null,
-      category: 'gene',
+      category: GENE_CATEGORY,
     },
     {
       highlights: {
@@ -111,7 +113,7 @@ export default {
       symbol: 'DAK2',
       synonym: 'YFL053W',
       type: null,
-      category: 'gene',
+      category: GENE_CATEGORY,
     },
     {
       highlights: {
@@ -129,7 +131,7 @@ export default {
       symbol: 'ADK2',
       synonym: 'YER170W',
       type: null,
-      category: 'gene',
+      category: GENE_CATEGORY,
     },
     {
       highlights: {
@@ -146,7 +148,7 @@ export default {
       symbol: 'CHK1',
       synonym: 'YBR274W',
       type: null,
-      category: 'gene',
+      category: GENE_CATEGORY,
     },
     {
       highlights: {
@@ -159,7 +161,7 @@ export default {
       symbol: 'GUK1',
       synonym: 'YDR454C',
       type: null,
-      category: 'gene',
+      category: GENE_CATEGORY,
     },
   ],
   total: 322,

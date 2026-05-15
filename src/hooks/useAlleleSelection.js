@@ -64,7 +64,7 @@ export default function useAlleleSelection(tableProps, cachedAlleles = []) {
             if (alleleData && variantsData) {
               return {
                 ...alleleData,
-                variants: variantsData.results || [],
+                variantList: variantsData.results || [],
               };
             }
             return alleleData;
@@ -113,7 +113,7 @@ export default function useAlleleSelection(tableProps, cachedAlleles = []) {
                   },
                 },
                 // Include variants fetched from /api/allele/{id}/variants endpoint
-                variants: response.variants || [],
+                variantList: response.variantList || [],
                 diseases: [],
               };
             });
@@ -130,11 +130,11 @@ export default function useAlleleSelection(tableProps, cachedAlleles = []) {
               // This fallback computation based on variants.length is kept for safety,
               // but won't trigger since variants array is always empty from individual allele API
               let computedCategory = allele.category || 'allele';
-              if (allele.variants && Array.isArray(allele.variants) && allele.variants.length > 0) {
-                if (allele.variants.length === 1) {
-                  computedCategory = 'allele with one associated variant';
+              if (allele.variantList && Array.isArray(allele.variantList) && allele.variantList.length > 0) {
+                if (allele.variantList.length === 1) {
+                  computedCategory = 'allele with one variant';
                 } else {
-                  computedCategory = 'allele with multiple associated variants';
+                  computedCategory = 'allele with multiple variants';
                 }
               }
 

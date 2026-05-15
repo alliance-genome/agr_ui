@@ -29,7 +29,9 @@ const VariantEffectDetails = ({ consequence = {}, transcript = {}, variant = {} 
     molecularConsequences = [],
     impact = '',
     siftPrediction = '',
+    siftScore,
     polyphenPrediction = '',
+    polyphenScore,
 
     //hgvs
     hgvsCodingNomenclature,
@@ -43,9 +45,10 @@ const VariantEffectDetails = ({ consequence = {}, transcript = {}, variant = {} 
     hgvsProteinNomenclature,
     hgvsCodingNomenclature,
     hgvsVEPGeneNomenclature,
+    variant.hgvs,
     variant.id,
     variant.name,
-  ].filter((hgvsName) => hgvsName);
+  ].filter((hgvsName, index, self) => hgvsName && self.indexOf(hgvsName) === index);
 
   return (
     <div className={`${styles.row} ${styles.detailRow}`}>
@@ -58,7 +61,7 @@ const VariantEffectDetails = ({ consequence = {}, transcript = {}, variant = {} 
           type={variant.variantType && variant.variantType.name}
           taxonid={variant.species && variant.species.taxonId}
         >
-          <span className="text-break">{variant.id}</span>
+          <span className="text-break">{variant.hgvs || variant.id}</span>
         </VariantJBrowseLink>{' '}
         on <strong>{transcript.name}</strong>
       </h5>
@@ -78,7 +81,7 @@ const VariantEffectDetails = ({ consequence = {}, transcript = {}, variant = {} 
         <AttributeValue>{transcript.type && transcript.type.name}</AttributeValue>
 
         <AttributeLabel>Affected sequence feature accession</AttributeLabel>
-        <AttributeValue>{transcript.id}</AttributeValue>
+        <AttributeValue>{transcript.transcriptId || transcript.id}</AttributeValue>
 
         <AttributeLabel>Variant location in feature</AttributeLabel>
         <AttributeValue>{transcript.intronExonLocation}</AttributeValue>
@@ -94,10 +97,16 @@ const VariantEffectDetails = ({ consequence = {}, transcript = {}, variant = {} 
         <AttributeValue>{impact.toLowerCase()}</AttributeValue>
 
         <AttributeLabel>SIFT prediction (score)</AttributeLabel>
-        <AttributeValue>{siftPrediction && siftPrediction.replace(/_/g, ' ')}</AttributeValue>
+        <AttributeValue>
+          {siftPrediction?.name && siftPrediction.name.replace(/_/g, ' ')}
+          {siftScore != null && ` (${siftScore})`}
+        </AttributeValue>
 
         <AttributeLabel>PolyPhen prediction (score)</AttributeLabel>
-        <AttributeValue>{polyphenPrediction && polyphenPrediction.replace(/_/g, ' ')}</AttributeValue>
+        <AttributeValue>
+          {polyphenPrediction?.name && polyphenPrediction.name.replace(/_/g, ' ')}
+          {polyphenScore != null && ` (${polyphenScore})`}
+        </AttributeValue>
 
         <AttributeLabel style={labelStyle}>Position of Variant in Transcript</AttributeLabel>
         <AttributeValue>
