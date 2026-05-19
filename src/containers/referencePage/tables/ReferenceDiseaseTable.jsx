@@ -29,7 +29,7 @@ const columns = [
     filterable: true,
     filterName: 'species',
     headerStyle: { width: '100px' },
-    formatter: (species) => species && <SpeciesCell species={species} />,
+    formatter: (species) => species && <SpeciesCell taxon={species} />,
   },
   {
     dataField: 'subject',

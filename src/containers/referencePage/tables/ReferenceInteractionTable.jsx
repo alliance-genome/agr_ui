@@ -8,7 +8,7 @@ const columns = [
     dataField: 'species',
     text: 'Species',
     headerStyle: { width: '110px' },
-    formatter: (species) => species && <SpeciesCell species={species} />,
+    formatter: (species) => species && <SpeciesCell taxon={species} />,
   },
   {
     dataField: 'gene',
@@ -21,7 +21,7 @@ const columns = [
     dataField: 'interactorSpecies',
     text: 'Interactor Species',
     headerStyle: { width: '120px' },
-    formatter: (species) => species && <SpeciesCell species={species} />,
+    formatter: (species) => species && <SpeciesCell taxon={species} />,
   },
   {
     dataField: 'interactorGene',

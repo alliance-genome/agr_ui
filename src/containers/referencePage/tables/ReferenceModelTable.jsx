@@ -8,7 +8,7 @@ const columns = [
     dataField: 'species',
     text: 'Species',
     headerStyle: { width: '130px' },
-    formatter: (species) => species && <SpeciesCell species={species} />,
+    formatter: (species) => species && <SpeciesCell taxon={species} />,
   },
   {
     dataField: 'name',

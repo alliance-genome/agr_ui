@@ -22,7 +22,7 @@ const columns = [
     dataField: 'subjectSpecies',
     text: 'Species',
     headerStyle: { width: '120px' },
-    formatter: (species) => species && <SpeciesCell species={species} />,
+    formatter: (species) => species && <SpeciesCell taxon={species} />,
   },
   {
     dataField: 'subjectGene',
@@ -34,7 +34,7 @@ const columns = [
     dataField: 'objectSpecies',
     text: 'Ortholog species',
     headerStyle: { width: '140px' },
-    formatter: (species) => species && <SpeciesCell species={species} />,
+    formatter: (species) => species && <SpeciesCell taxon={species} />,
   },
   {
     dataField: 'objectGene',
