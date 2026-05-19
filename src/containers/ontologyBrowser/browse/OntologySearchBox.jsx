@@ -132,6 +132,7 @@ const OntologySearchBox = ({ onSelect, category, placeholder }) => {
       onSuggestionsFetchRequested={onSuggestionsFetchRequested}
       onSuggestionsClearRequested={onSuggestionsClearRequested}
       onSuggestionSelected={onSuggestionSelected}
+      highlightFirstSuggestion
       getSuggestionValue={(s) => s.name || s.nameKey || ''}
       renderSuggestion={(s) => (
         <div style={{ padding: '4px 8px' }}>
@@ -178,16 +179,6 @@ const OntologySearchBox = ({ onSelect, category, placeholder }) => {
         value,
         placeholder: placeholder || 'Search terms',
         onChange: (_e, { newValue }) => setValue(newValue),
-        onKeyDown: (e) => {
-          if (e.key === 'Enter' && suggestions.length > 0) {
-            e.preventDefault();
-            const top = suggestions[0];
-            const curie = top.curie || top.primaryKey;
-            if (curie) onSelect(curie);
-            setValue('');
-            setSuggestions([]);
-          }
-        },
         className: 'form-control',
       }}
       theme={{

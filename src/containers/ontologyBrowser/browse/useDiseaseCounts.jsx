@@ -17,6 +17,12 @@ export const CountsProvider = ({ children }) => {
     countsRef.current = counts;
   }, [counts]);
 
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
+
   const flush = useCallback(async () => {
     const batch = Array.from(pendingRef.current).slice(0, MAX_BATCH);
     if (batch.length === 0) return;

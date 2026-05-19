@@ -62,7 +62,7 @@ const TreeNode = ({ curie, name, depth, forceExpanded, focusedCurie, onSelect, s
         <span className={style.curie}>&nbsp;{curie}</span>
         <span className={style.badgeRow}>
           {ANNOTATION_TYPES.map((t) => (
-            <CountBadge key={t.id} curie={curie} type={t} hideZero />
+            <CountBadge key={t.id} curie={curie} type={t} />
           ))}
         </span>
       </div>

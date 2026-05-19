@@ -22,6 +22,12 @@ export const TermsProvider = ({ children }) => {
     termsRef.current = terms;
   }, [terms]);
 
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
+
   const flush = useCallback(async () => {
     const batch = Array.from(pendingRef.current).slice(0, MAX_BATCH);
     if (batch.length === 0) return;

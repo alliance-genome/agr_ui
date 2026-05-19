@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 import { useDiseaseCounts } from './useDiseaseCounts.jsx';
 import style from './style.module.scss';
 
-const CountBadge = ({ curie, type, hideZero, expanded }) => {
+const CountBadge = ({ curie, type, expanded }) => {
   const counts = useDiseaseCounts(curie);
   const count = counts ? counts[type.id] : undefined;
 
-  // Hide entirely when there are no records, regardless of hideZero. The
-  // pill is a shortcut — useless if there is nothing to jump to.
+  // The pill is a navigation shortcut — useless when there's nothing to jump to.
   if (typeof count !== 'number' || count === 0) return null;
-  if (hideZero && count === 0) return null;
 
   const href = `/disease/${curie}#${type.hash}`;
   const display = expanded ? `View ${type.label.toLowerCase()}` : type.label.charAt(0).toUpperCase();
@@ -53,7 +51,6 @@ CountBadge.propTypes = {
     bg: PropTypes.string.isRequired,
     fg: PropTypes.string.isRequired,
   }).isRequired,
-  hideZero: PropTypes.bool,
   expanded: PropTypes.bool,
 };
 
