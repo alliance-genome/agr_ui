@@ -18,6 +18,7 @@ import ReferencePage from './containers/referencePage/index.jsx';
 import MODLanding from './containers/modLanding/Main.jsx';
 import DiseasePortalPage from './containers/diseasePortal/index.jsx';
 import BlastPage from './containers/blastPage/index.jsx';
+import OntologyBrowser from './containers/ontologyBrowser/browse/index.jsx';
 
 const WordpressRedirect = () => {
   const { slug } = useParams();
@@ -48,6 +49,10 @@ const LayoutWithRoutes = () => (
 
       <Route exact path="/disease-portal" element={<DiseasePortalPage name="human" />} />
       <Route exact path="/disease-portal/:name" element={<DiseasePortalPage />} />
+
+      <Route exact path="/ontology" element={<Navigate replace to="/ontology/disease" />} />
+      <Route exact path="/ontology/:ontology" element={<OntologyBrowser />} />
+      <Route exact path="/ontology/:ontology/:id" element={<OntologyBrowser />} />
 
       <Route exact path="/wordpress/:slug" component={WordpressRedirect} />
       <Route path="/:slug" element={<WordpressPage />} />
