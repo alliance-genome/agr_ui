@@ -156,11 +156,6 @@ export class AmplifyStageStack extends cdk.Stack {
         status: amplify.RedirectStatus.REWRITE,
       },
       {
-        source: '/downloads',
-        target: 'https://stage-api.alliancegenome.org/api/downloads',
-        status: amplify.RedirectStatus.REWRITE,
-      },
-      {
         source: '/swagger-ui',
         target: 'https://stage-api.alliancegenome.org/swagger-ui',
         status: amplify.RedirectStatus.REWRITE,
@@ -314,7 +309,7 @@ export class AmplifyStageStack extends cdk.Stack {
         oauthToken: cdk.SecretValue.secretsManager('GithubOauthDevopsToken'),
       }),
       autoBranchCreation: {
-        patterns: ['SCRUM-*'],
+        patterns: ['SCRUM-*', 'hotfix/*', 'hotfix-*', 'develop/*', 'feature/*'],
       },
       autoBranchDeletion: true,
       role: iam.Role.fromRoleArn(this, 'AmplifyALBRole', 'arn:aws:iam::100225593120:role/StageAmplifyRole'),
@@ -324,7 +319,7 @@ export class AmplifyStageStack extends cdk.Stack {
 
     const domain = amplifyApp.addDomain('alliancegenome.org', {
       enableAutoSubdomain: true, // in case subdomains should be auto registered for branches
-      autoSubdomainCreationPatterns: ['scrum-*'], // regex for branches that should auto register subdomains
+      autoSubdomainCreationPatterns: ['scrum-*', 'hotfix-*', 'develop/*'], // regex for branches that should auto register subdomains
     });
 
     //domain.mapRoot(stage);

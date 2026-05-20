@@ -181,11 +181,6 @@ export class AmplifyTestStack extends cdk.Stack {
         status: amplify.RedirectStatus.REWRITE,
       },
       {
-        source: '/downloads',
-        target: 'https://test-alb.alliancegenome.org/api/downloads',
-        status: amplify.RedirectStatus.REWRITE,
-      },
-      {
         source: '/swagger-ui',
         target: 'https://test-alb.alliancegenome.org/swagger-ui',
         status: amplify.RedirectStatus.REWRITE,
@@ -309,7 +304,7 @@ export class AmplifyTestStack extends cdk.Stack {
         oauthToken: cdk.SecretValue.secretsManager('GithubOauthDevopsToken'),
       }),
       autoBranchCreation: {
-        patterns: ['KANBAN-*'],
+        patterns: ['KANBAN-*', 'release/*'],
       },
       autoBranchDeletion: true,
       role: iam.Role.fromRoleArn(this, 'AmplifyALBRole', 'arn:aws:iam::100225593120:role/StageAmplifyRole'),
@@ -319,7 +314,7 @@ export class AmplifyTestStack extends cdk.Stack {
 
     const domain = amplifyApp.addDomain('alliancegenome.org', {
       enableAutoSubdomain: true, // in case subdomains should be auto registered for branches
-      autoSubdomainCreationPatterns: ['kanban-*'], // regex for branches that should auto register subdomains
+      autoSubdomainCreationPatterns: ['kanban-*', 'release/*'], // regex for branches that should auto register subdomains
     });
 
     //domain.mapRoot(test);
