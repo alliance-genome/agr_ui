@@ -6,14 +6,15 @@ on:
       - main
 jobs:
   open-mergeback-PR-to-stage:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-24.04
     permissions:
       contents: write
       pull-requests: write
     env:
       mergeback-prbranchname: ${{ github.event.pull_request.head.ref }}
-      mergeback-headbranchname: "mergeback/main-to-stage/${{ github.event.pull_request.head.ref }}"
-      mergeback-basebranchname: "stage"
+      mergeback-headbranchname: 'mergeback/main-to-stage/${{ github.event.pull_request.head.ref }}'
+      mergeback-basebranchname: 'stage'
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -70,14 +71,15 @@ jobs:
           gh pr comment ${{ steps.pr-create.outputs.gh-pr-url }} --body "${{ env.pr-comment }}"
 
   open-mergeback-PR-to-develop-ui-wg:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-24.04
     permissions:
       contents: write
       pull-requests: write
     env:
       mergeback-prbranchname: ${{ github.event.pull_request.head.ref }}
-      mergeback-headbranchname: "mergeback/main-to-develop-ui-wg/${{ github.event.pull_request.head.ref }}"
-      mergeback-basebranchname: "develop/ui-wg"
+      mergeback-headbranchname: 'mergeback/main-to-develop-ui-wg/${{ github.event.pull_request.head.ref }}'
+      mergeback-basebranchname: 'develop/ui-wg'
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
