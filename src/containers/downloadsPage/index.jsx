@@ -60,7 +60,7 @@ const DownloadsPage = () => {
   const { releaseVersion } = dataRelease || {};
 
   const { data: files, isLoading } = usePageLoadingQuery(
-    `https://fms.alliancegenome.org/api/datafile/by/release/${releaseVersion}?latest=true`
+    `/api/downloads`
   );
 
   if (isLoadingRelease || isLoading) {
@@ -68,7 +68,7 @@ const DownloadsPage = () => {
   }
 
   const getFileForDataType = (dataType, dataSubType) => {
-    return files.find((file) => file.dataType.name === dataType && file.dataSubType.name === dataSubType);
+    return files.find((file) => file.dataType === dataType && file.dataSubType === dataSubType);
   };
 
   return (
