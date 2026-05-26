@@ -7,7 +7,7 @@ export const GO_CATEGORY = 'go_search_result';
 export const DISEASE_CATEGORY = 'disease_search_result';
 export const ALLELE_CATEGORY = 'allele_search_result';
 export const VARIANT_CATEGORY = 'variant_search_result';
-export const MODEL_CATEGORY = 'model';
+export const MODEL_CATEGORY = 'model_search_result';
 export const DATASET_CATEGORY = 'htp_dataset_search_result';
 
 /* Wordpress REST API connection setting */
