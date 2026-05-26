@@ -115,6 +115,7 @@ const GenePhysicalInteractionDetailTable = ({ focusGeneDisplayName, focusGeneId 
       text: 'Reference',
       // eslint-disable-next-line react/prop-types
       formatter: (reference) => {
+        if (!reference || !reference.length) return null;
         return (
           <ExternalLink
             href={getSingleReferenceUrl(reference[0].referenceID).url}
