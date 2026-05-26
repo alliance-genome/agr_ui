@@ -197,6 +197,12 @@ export function buildUrlFromTemplate(crossReference) {
     let prefix = parts[0];
     let localId = parts[1];
 
+    // DIP's DIPview CGI only accepts the numeric portion of the local id
+    // (e.g. "DIP-191659E" must be passed as "191659").
+    if (prefix.toLowerCase() === 'dip') {
+      localId = localId.replace(/\D/g, '');
+    }
+
     return urlTemplate?.replace('[%s]', localId);
   }
 
