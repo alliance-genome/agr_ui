@@ -10,7 +10,6 @@
     "start:stage": "make uirunstage",
     "prebuild": "npm run generators",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
     "preview": "vite preview",
     "preview:test": "API_URL=https://test.alliancegenome.org vite preview",
     "preview:stage": "API_URL=https://stage.alliancegenome.org vite preview",
@@ -20,7 +19,9 @@
     "resource-descriptors": "node bin/build_resource_descriptors.js",
     "local-init": "nvm install && nvm use && npm install && npm run generators",
     "test": "jest",
-    "format": "npm run lint && prettier --write ."
+    "prettier": "prettier --write .",
+    "lint": "eslint .",
+    "format": "npm run lint && npm run prettier"
   },
   "dependencies": {
     "@aws-cdk/aws-amplify-alpha": "^2.195.0-alpha.0",
