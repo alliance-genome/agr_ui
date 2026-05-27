@@ -6,20 +6,13 @@ import { SingleReferenceCellCuration } from './index';
 import ExperimentalConditionCellCuration from './ExperimentalConditionCellCuration.jsx';
 
 import style from './style.module.scss';
-import ExternalLink from '../ExternalLink.jsx';
 import { Link } from 'react-router-dom';
-import { getResourceUrl } from './getResourceUrl.jsx';
+import DataSourceLinkCuration from '../dataSourceLinkCuration.jsx';
 import TypeCellCuration from './TypeCellCuration.jsx';
 import { getAnnotationSubjectText, getIdentifier, naturalSortByAnnotationSubject } from './utils.jsx';
 
 function renderLink(entity) {
   const identifier = getIdentifier(entity.phenotypeAnnotationSubject);
-  const url = getResourceUrl({
-    identifier,
-    type: entity.phenotypeAnnotationSubject.type,
-    subtype: entity.phenotypeAnnotationSubject.subtype,
-  });
-
   const innerText = getAnnotationSubjectText(entity);
   const inner = <span dangerouslySetInnerHTML={{ __html: innerText }} />;
 
@@ -28,7 +21,11 @@ function renderLink(entity) {
   } else if (entity.type === 'GenePhenotypeAnnotation') {
     return <Link to={`/gene/${identifier}`}>{inner}</Link>;
   } else {
-    return <ExternalLink href={url}>{inner}</ExternalLink>;
+    return (
+      <DataSourceLinkCuration reference={entity.phenotypeAnnotationSubject.dataProviderCrossReference}>
+        {inner}
+      </DataSourceLinkCuration>
+    );
   }
 }
 
