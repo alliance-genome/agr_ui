@@ -53,92 +53,85 @@ const OntologyBrowser = () => {
   const handleTreeSelect = (curie) => handleSelect(curie, { fromTree: true });
   const handleOntologyChange = (newId) => navigate(`/ontology/${newId}`);
 
-  const detailCurie = useMemo(
-    () => focusedCurie || ontology.rootCurie || null,
-    [focusedCurie, ontology.rootCurie]
-  );
+  const detailCurie = useMemo(() => focusedCurie || ontology.rootCurie || null, [focusedCurie, ontology.rootCurie]);
 
   return (
     <CountsProvider>
-    <TermsProvider>
-    <div className={style.page}>
-      <HeadMetaTags title={PAGE_TITLE} />
-      <h2>{PAGE_TITLE}</h2>
+      <TermsProvider>
+        <div className={style.page}>
+          <HeadMetaTags title={PAGE_TITLE} />
+          <h2>{PAGE_TITLE}</h2>
 
-      <div className={style.chooserRow}>
-        <label htmlFor="ontology-chooser" className={style.chooserLabel}>
-          Ontology:
-        </label>
-        <select
-          id="ontology-chooser"
-          className="form-control"
-          style={{ maxWidth: 360, display: 'inline-block' }}
-          value={ontology.id}
-          onChange={(e) => handleOntologyChange(e.target.value)}
-        >
-          {ONTOLOGIES.map((o) => (
-            <option key={o.id} value={o.id}>
-              {o.label}
-              {o.available ? '' : ' — coming soon'}
-            </option>
-          ))}
-        </select>
-      </div>
+          <div className={style.chooserRow}>
+            <label htmlFor="ontology-chooser" className={style.chooserLabel}>
+              Ontology:
+            </label>
+            <select
+              id="ontology-chooser"
+              className="form-control"
+              style={{ maxWidth: 360, display: 'inline-block' }}
+              value={ontology.id}
+              onChange={(e) => handleOntologyChange(e.target.value)}
+            >
+              {ONTOLOGIES.map((o) => (
+                <option key={o.id} value={o.id}>
+                  {o.label}
+                  {o.available ? '' : ' — coming soon'}
+                </option>
+              ))}
+            </select>
+          </div>
 
-      {!ontology.available ? (
-        <div className={style.placeholder}>
-          <p>
-            <strong>{ontology.label}</strong> is not yet available in the browser. This ontology has not been indexed
-            into Elasticsearch. Pick another ontology above, or check back once it is loaded.
-          </p>
+          {!ontology.available ? (
+            <div className={style.placeholder}>
+              <p>
+                <strong>{ontology.label}</strong> is not yet available in the browser. This ontology has not been
+                indexed into Elasticsearch. Pick another ontology above, or check back once it is loaded.
+              </p>
+            </div>
+          ) : (
+            <>
+              <p style={{ color: '#6c757d' }}>
+                Browsing <strong>{ontology.label}</strong> starting at <strong>{ontology.rootName}</strong> (
+                {ontology.rootCurie}). Use the search box to jump to any term.
+              </p>
+
+              <div className={style.searchRow}>
+                <OntologySearchBox
+                  onSelect={handleSelect}
+                  category={ontology.searchCategory}
+                  placeholder={`Search ${ontology.label} terms`}
+                />
+              </div>
+
+              <div className={style.legend}>
+                <span className={style.legendLabel}>Annotation Available:</span>
+                {ANNOTATION_TYPES.map((t) => (
+                  <span key={t.id} className={style.legendItem} style={{ background: t.bg, color: t.fg }}>
+                    {t.label}
+                  </span>
+                ))}
+              </div>
+
+              <div className={style.layout}>
+                <div className={style.treePane}>
+                  <OntologyTree
+                    rootCurie={ontology.rootCurie}
+                    rootName={ontology.rootName}
+                    forceExpanded={forceExpanded}
+                    focusedCurie={focusedCurie}
+                    onSelect={handleTreeSelect}
+                    scrollOnFocus={!fromTree}
+                  />
+                </div>
+                <div className={style.detailPane}>
+                  <TermDetailPanel curie={detailCurie} />
+                </div>
+              </div>
+            </>
+          )}
         </div>
-      ) : (
-        <>
-          <p style={{ color: '#6c757d' }}>
-            Browsing <strong>{ontology.label}</strong> starting at <strong>{ontology.rootName}</strong> (
-            {ontology.rootCurie}). Use the search box to jump to any term.
-          </p>
-
-          <div className={style.searchRow}>
-            <OntologySearchBox
-              onSelect={handleSelect}
-              category={ontology.searchCategory}
-              placeholder={`Search ${ontology.label} terms`}
-            />
-          </div>
-
-          <div className={style.legend}>
-            <span className={style.legendLabel}>Annotation Available:</span>
-            {ANNOTATION_TYPES.map((t) => (
-              <span
-                key={t.id}
-                className={style.legendItem}
-                style={{ background: t.bg, color: t.fg }}
-              >
-                {t.label}
-              </span>
-            ))}
-          </div>
-
-          <div className={style.layout}>
-            <div className={style.treePane}>
-              <OntologyTree
-                rootCurie={ontology.rootCurie}
-                rootName={ontology.rootName}
-                forceExpanded={forceExpanded}
-                focusedCurie={focusedCurie}
-                onSelect={handleTreeSelect}
-                scrollOnFocus={!fromTree}
-              />
-            </div>
-            <div className={style.detailPane}>
-              <TermDetailPanel curie={detailCurie} />
-            </div>
-          </div>
-        </>
-      )}
-    </div>
-    </TermsProvider>
+      </TermsProvider>
     </CountsProvider>
   );
 };

@@ -127,85 +127,85 @@ const OntologySearchBox = ({ onSelect, category, placeholder }) => {
 
   return (
     <>
-    <Autosuggest
-      suggestions={suggestions}
-      onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-      onSuggestionsClearRequested={onSuggestionsClearRequested}
-      onSuggestionSelected={onSuggestionSelected}
-      highlightFirstSuggestion
-      getSuggestionValue={(s) => s.name || s.nameKey || ''}
-      renderSuggestion={(s) => (
-        <div style={{ padding: '4px 8px' }}>
-          <strong>{s.name || s.nameKey}</strong>{' '}
-          <span style={{ color: '#868e96', fontSize: '0.8rem', fontFamily: 'monospace' }}>{s.curie}</span>
-        </div>
-      )}
-      renderSuggestionsContainer={({ containerProps, children, query }) => {
-        const { key, ...containerRest } = containerProps;
-        return (
-        <div key={key} {...containerRest}>
-          <div style={{ maxHeight: 280, overflowY: 'auto' }}>{children}</div>
-          {children && query && (
-            <button
-              type="button"
-              aria-label={`View all results for ${query}`}
-              onMouseDown={(e) => {
-                e.preventDefault();
-                openModalFor(query);
-              }}
-              style={{
-                display: 'block',
-                width: '100%',
-                textAlign: 'left',
-                padding: '9px 12px',
-                borderTop: '1px solid #dee2e6',
-                borderLeft: 'none',
-                borderRight: 'none',
-                borderBottom: 'none',
-                background: '#f8f9fa',
-                color: '#0d6efd',
-                fontSize: '0.85rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-              }}
-            >
-              View all results for &ldquo;{query}&rdquo; &rarr;
-            </button>
-          )}
-        </div>
-        );
-      }}
-      inputProps={{
-        value,
-        placeholder: placeholder || 'Search terms',
-        onChange: (_e, { newValue }) => setValue(newValue),
-        className: 'form-control',
-      }}
-      theme={{
-        container: { position: 'relative' },
-        suggestionsContainer: {
-          position: 'absolute',
-          top: '100%',
-          left: 0,
-          right: 0,
-          zIndex: 100,
-          background: 'white',
-          border: '1px solid #dee2e6',
-          borderTop: 'none',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-        },
-        suggestionsList: { listStyle: 'none', margin: 0, padding: 0 },
-        suggestion: { cursor: 'pointer' },
-        suggestionHighlighted: { backgroundColor: '#e9ecef' },
-      }}
-    />
-    <FullResultsModal
-      isOpen={!!modalQuery}
-      query={modalQuery || ''}
-      category={category}
-      onSelect={onModalSelect}
-      onClose={closeModal}
-    />
+      <Autosuggest
+        suggestions={suggestions}
+        onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+        onSuggestionsClearRequested={onSuggestionsClearRequested}
+        onSuggestionSelected={onSuggestionSelected}
+        highlightFirstSuggestion
+        getSuggestionValue={(s) => s.name || s.nameKey || ''}
+        renderSuggestion={(s) => (
+          <div style={{ padding: '4px 8px' }}>
+            <strong>{s.name || s.nameKey}</strong>{' '}
+            <span style={{ color: '#868e96', fontSize: '0.8rem', fontFamily: 'monospace' }}>{s.curie}</span>
+          </div>
+        )}
+        renderSuggestionsContainer={({ containerProps, children, query }) => {
+          const { key, ...containerRest } = containerProps;
+          return (
+            <div key={key} {...containerRest}>
+              <div style={{ maxHeight: 280, overflowY: 'auto' }}>{children}</div>
+              {children && query && (
+                <button
+                  type="button"
+                  aria-label={`View all results for ${query}`}
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    openModalFor(query);
+                  }}
+                  style={{
+                    display: 'block',
+                    width: '100%',
+                    textAlign: 'left',
+                    padding: '9px 12px',
+                    borderTop: '1px solid #dee2e6',
+                    borderLeft: 'none',
+                    borderRight: 'none',
+                    borderBottom: 'none',
+                    background: '#f8f9fa',
+                    color: '#0d6efd',
+                    fontSize: '0.85rem',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                  }}
+                >
+                  View all results for &ldquo;{query}&rdquo; &rarr;
+                </button>
+              )}
+            </div>
+          );
+        }}
+        inputProps={{
+          value,
+          placeholder: placeholder || 'Search terms',
+          onChange: (_e, { newValue }) => setValue(newValue),
+          className: 'form-control',
+        }}
+        theme={{
+          container: { position: 'relative' },
+          suggestionsContainer: {
+            position: 'absolute',
+            top: '100%',
+            left: 0,
+            right: 0,
+            zIndex: 100,
+            background: 'white',
+            border: '1px solid #dee2e6',
+            borderTop: 'none',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+          },
+          suggestionsList: { listStyle: 'none', margin: 0, padding: 0 },
+          suggestion: { cursor: 'pointer' },
+          suggestionHighlighted: { backgroundColor: '#e9ecef' },
+        }}
+      />
+      <FullResultsModal
+        isOpen={!!modalQuery}
+        query={modalQuery || ''}
+        category={category}
+        onSelect={onModalSelect}
+        onClose={closeModal}
+      />
     </>
   );
 };

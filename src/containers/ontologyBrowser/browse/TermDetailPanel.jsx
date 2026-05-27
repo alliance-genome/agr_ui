@@ -25,7 +25,6 @@ const TermDetailPanel = ({ curie }) => {
     staleTime: 5 * 60_000,
   });
 
-
   if (!curie) return <em>Select a term to see details.</em>;
   if (isLoading || !data) return <em>Loading…</em>;
 
@@ -50,10 +49,7 @@ const TermDetailPanel = ({ curie }) => {
           View disease page <FontAwesomeIcon icon={faArrowRight} />
         </Link>
         {portalSlug && (
-          <Link
-            to={`/disease-portal/${portalSlug}`}
-            className={`btn btn-outline-primary ${style.viewPageButton}`}
-          >
+          <Link to={`/disease-portal/${portalSlug}`} className={`btn btn-outline-primary ${style.viewPageButton}`}>
             View disease portal
           </Link>
         )}

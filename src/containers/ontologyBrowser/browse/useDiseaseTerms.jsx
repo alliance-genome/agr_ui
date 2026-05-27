@@ -36,9 +36,7 @@ export const TermsProvider = ({ children }) => {
       inFlightRef.current.add(id);
     });
     try {
-      const data = await fetchData(
-        `/api/disease/batch?ids=${encodeURIComponent(batch.join(','))}`
-      );
+      const data = await fetchData(`/api/disease/batch?ids=${encodeURIComponent(batch.join(','))}`);
       setTerms((prev) => ({ ...prev, ...(data || {}) }));
     } catch {
       // unresolved terms stay undefined; TreeNode will show arrow optimistically
