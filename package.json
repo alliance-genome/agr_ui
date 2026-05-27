@@ -108,6 +108,9 @@
     "typescript-eslint": "^8.59.0",
     "vite": "^6.4.2"
   },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "*"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
