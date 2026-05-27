@@ -6,7 +6,12 @@ const dataProviderFormatter = (provider, row) => {
   if (!provider) return null;
   const abbr = provider.abbreviation;
   const xref = row.geneExpressionAnnotation?.dataProviderCrossReference?.referencedCurie;
-  return <span>{abbr}{xref ? `: ${xref}` : ''}</span>;
+  return (
+    <span>
+      {abbr}
+      {xref ? `: ${xref}` : ''}
+    </span>
+  );
 };
 
 const columns = [

@@ -14,9 +14,7 @@ const RelatedPapersList = ({ referenceId }) => {
   const related = useQuery({
     queryKey: ['related-papers', referenceId, includeOrthologs],
     queryFn: () =>
-      fetchData(
-        `/api/reference/${referenceId}/related-papers?limit=10&includeOrthologs=${includeOrthologs}`
-      ),
+      fetchData(`/api/reference/${referenceId}/related-papers?limit=10&includeOrthologs=${includeOrthologs}`),
     staleTime: 60_000,
   });
 

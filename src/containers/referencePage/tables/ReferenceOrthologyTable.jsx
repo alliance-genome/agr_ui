@@ -15,7 +15,10 @@ const geneLink = (gene) => {
 };
 
 const methodsCell = (predictionMethods) =>
-  (predictionMethods || []).map((m) => m.name || m).filter(Boolean).join(', ');
+  (predictionMethods || [])
+    .map((m) => m.name || m)
+    .filter(Boolean)
+    .join(', ');
 
 const columns = [
   {

@@ -138,10 +138,7 @@ const ReferencePage = () => {
   const { data, isLoading, isError } = usePageLoadingQuery(`/api/reference/${referenceId}`);
 
   const crossReferenceCuries = React.useMemo(
-    () =>
-      (data?.literatureSummary?.cross_references || [])
-        .map((x) => x.curie)
-        .filter(Boolean),
+    () => (data?.literatureSummary?.cross_references || []).map((x) => x.curie).filter(Boolean),
     [data]
   );
   const counts = useSectionCounts(referenceId, crossReferenceCuries);

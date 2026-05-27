@@ -29,8 +29,7 @@ const columns = [
     dataField: 'synonyms',
     text: 'Synonyms',
     headerStyle: { width: '200px' },
-    formatter: (syns) =>
-      syns && syns.length ? <span dangerouslySetInnerHTML={{ __html: syns.join(', ') }} /> : null,
+    formatter: (syns) => (syns && syns.length ? <span dangerouslySetInnerHTML={{ __html: syns.join(', ') }} /> : null),
   },
   { dataField: 'mutationType', text: 'Mutation type', headerStyle: { width: '150px' } },
   { dataField: 'molecularConsequence', text: 'Molecular consequence', headerStyle: { width: '180px' } },

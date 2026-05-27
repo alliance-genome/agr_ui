@@ -4,7 +4,10 @@ import ExternalLink from '../../../components/ExternalLink.jsx';
 export const namesList = (value) => {
   if (!value) return '';
   const items = Array.isArray(value) ? value : [value];
-  return items.map((item) => item?.name).filter(Boolean).join(', ');
+  return items
+    .map((item) => item?.name)
+    .filter(Boolean)
+    .join(', ');
 };
 
 export const sourceFormatter = (evidence) => {
