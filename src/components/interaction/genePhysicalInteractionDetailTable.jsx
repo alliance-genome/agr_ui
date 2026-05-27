@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { DataTable, GeneCellCuration, SpeciesCell } from '../dataTable';
 import SpeciesName from '../SpeciesName.jsx';
-import { getResourceUrl } from '../dataTable/getResourceUrl.jsx';
 import { getIdentifier, getSingleReferenceUrl } from '../dataTable/utils.jsx';
 import ExternalLink from '../ExternalLink.jsx';
+import DataSourceLinkCuration from '../dataSourceLinkCuration.jsx';
 import MITerm from './MITerm.jsx';
 import MITermURL from './MITermURL.jsx';
 import style from './genePhysicalInteractionDetailTable.module.scss';
@@ -86,13 +86,9 @@ const GenePhysicalInteractionDetailTable = ({ focusGeneDisplayName, focusGeneId 
       text: 'Source',
       formatter: (crossReferences = [], { geneMolecularInteraction = {} } = {}) => (
         <div>
-          {crossReferences.map(({ referencedCurie, displayName } = {}) => (
-            <div key={referencedCurie}>
-              <ExternalLink
-                href={getResourceUrl({ identifier: referencedCurie.toUpperCase(), type: 'gene/interactions' })}
-              >
-                {displayName}
-              </ExternalLink>
+          {crossReferences.map((crossRef = {}) => (
+            <div key={crossRef.referencedCurie}>
+              <DataSourceLinkCuration reference={crossRef}>{crossRef.displayName}</DataSourceLinkCuration>
             </div>
           ))}
           {!geneMolecularInteraction.aggregationDatabase ||
@@ -119,6 +115,7 @@ const GenePhysicalInteractionDetailTable = ({ focusGeneDisplayName, focusGeneId 
       text: 'Reference',
       // eslint-disable-next-line react/prop-types
       formatter: (reference) => {
+        if (!reference || !reference.length) return null;
         return (
           <ExternalLink
             href={getSingleReferenceUrl(reference[0].referenceID).url}
