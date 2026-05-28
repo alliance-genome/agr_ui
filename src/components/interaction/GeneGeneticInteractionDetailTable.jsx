@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { DataTable, GeneCellCuration, SpeciesCell } from '../dataTable';
-import { getResourceUrl } from '../dataTable/getResourceUrl.jsx';
 import { getIdentifier, getSingleReferenceUrl } from '../dataTable/utils.jsx';
 import SpeciesName from '../SpeciesName.jsx';
 import ExternalLink from '../ExternalLink.jsx';
+import DataSourceLinkCuration from '../dataSourceLinkCuration.jsx';
 import MITerm from './MITerm.jsx';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import AlleleCellCuration from '../dataTable/AlleleCellCuration.jsx';
@@ -171,13 +171,9 @@ const GeneGeneticInteractionDetailTable = ({ focusGeneId, focusGeneDisplayName }
         },
         formatter: (crossReferences = []) => (
           <div>
-            {crossReferences.map(({ referencedCurie, displayName } = {}) => (
-              <div key={referencedCurie}>
-                <ExternalLink
-                  href={getResourceUrl({ identifier: referencedCurie.toUpperCase(), type: 'gene/interactions' })}
-                >
-                  {displayName}
-                </ExternalLink>
+            {crossReferences.map((crossRef = {}) => (
+              <div key={crossRef.referencedCurie}>
+                <DataSourceLinkCuration reference={crossRef}>{crossRef.displayName}</DataSourceLinkCuration>
               </div>
             ))}
           </div>
@@ -193,6 +189,7 @@ const GeneGeneticInteractionDetailTable = ({ focusGeneId, focusGeneDisplayName }
         },
         // eslint-disable-next-line react/prop-types
         formatter: (reference) => {
+          if (!reference || !reference.length) return null;
           return (
             <ExternalLink
               href={getSingleReferenceUrl(reference[0].referenceID).url}
