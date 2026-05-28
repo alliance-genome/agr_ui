@@ -24,7 +24,6 @@ import SpeciesName from '../../components/SpeciesName.jsx';
 import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration.jsx';
 import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn.jsx';
 import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration.jsx';
-import ReferenceCellViaOrthologyCuration from '../../components/dataTable/ReferencesCellViaOrthologyCuration.jsx';
 import { GENE_DETAILS_COLUMNS } from '../../components/dataTable/constants';
 
 const DiseaseToGeneTable = ({ id }) => {
@@ -164,9 +163,11 @@ const DiseaseToGeneTable = ({ id }) => {
       text: 'References',
       headerStyle: { width: '150px' },
       formatter: (pubModIds, row) => {
-        const isViaOrthology = getIsViaOrthology(row);
-        if (!isViaOrthology) return <ReferencesCellCuration pubModIds={pubModIds} />;
-        return <ReferenceCellViaOrthologyCuration />;
+        if (getIsViaOrthology(row)) {
+          const refIds = (row.references || []).map((r) => r?.curie).filter(Boolean);
+          return refIds.length ? <ReferencesCellCuration pubModIds={refIds} /> : null;
+        }
+        return <ReferencesCellCuration pubModIds={pubModIds} />;
       },
       filterable: true,
       filterName: 'reference',
