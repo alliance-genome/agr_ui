@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import CountBadge from './CountBadge.jsx';
@@ -25,11 +26,11 @@ const TreeNode = ({ curie, name, depth, forceExpanded, focusedCurie, onSelect, s
     }
   }, [focusedCurie, curie, scrollOnFocus]);
 
-  const children = data?.children || [];
+  const childTerms = data?.children || [];
   // We don't know if a node has children until we've expanded it and
   // fetched its doc. Show the arrow optimistically; hide it only after a
   // fetch confirms no children.
-  const knownEmpty = !!data && children.length === 0 && !(data.doTerm?.descendantCount > 0);
+  const knownEmpty = !!data && childTerms.length === 0 && !(data.doTerm?.descendantCount > 0);
   const hasChildren = !knownEmpty;
   const isFocused = focusedCurie === curie;
 
@@ -42,7 +43,7 @@ const TreeNode = ({ curie, name, depth, forceExpanded, focusedCurie, onSelect, s
     <div className={style.node}>
       <div
         ref={rowRef}
-        className={`${style.nodeRow} ${isFocused ? style.nodeRowFocused : ''}`}
+        className={classNames(style.nodeRow, { [style.nodeRowFocused]: isFocused })}
         onClick={() => onSelect(curie)}
       >
         {hasChildren ? (
@@ -66,9 +67,9 @@ const TreeNode = ({ curie, name, depth, forceExpanded, focusedCurie, onSelect, s
           ))}
         </span>
       </div>
-      {open && children.length > 0 && (
+      {open && childTerms.length > 0 && (
         <div className={style.children}>
-          {[...children]
+          {[...childTerms]
             .sort((a, b) => (a.name || '').localeCompare(b.name || ''))
             .map((c) => (
               <TreeNode

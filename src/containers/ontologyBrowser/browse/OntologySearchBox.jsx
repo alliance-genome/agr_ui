@@ -8,6 +8,24 @@ const ENDPOINT = '/api/search_autocomplete';
 const SEARCH_ENDPOINT = '/api/search';
 const FULL_RESULTS_LIMIT = 200;
 
+const AUTOSUGGEST_THEME = {
+  container: { position: 'relative' },
+  suggestionsContainer: {
+    position: 'absolute',
+    top: '100%',
+    left: 0,
+    right: 0,
+    zIndex: 100,
+    background: 'white',
+    border: '1px solid #dee2e6',
+    borderTop: 'none',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+  },
+  suggestionsList: { listStyle: 'none', margin: 0, padding: 0 },
+  suggestion: { cursor: 'pointer' },
+  suggestionHighlighted: { backgroundColor: '#e9ecef' },
+};
+
 const FullResultsModal = ({ isOpen, query, category, onSelect, onClose }) => {
   const [results, setResults] = useState(null);
   const [error, setError] = useState(false);
@@ -181,23 +199,7 @@ const OntologySearchBox = ({ onSelect, category, placeholder }) => {
           onChange: (_e, { newValue }) => setValue(newValue),
           className: 'form-control',
         }}
-        theme={{
-          container: { position: 'relative' },
-          suggestionsContainer: {
-            position: 'absolute',
-            top: '100%',
-            left: 0,
-            right: 0,
-            zIndex: 100,
-            background: 'white',
-            border: '1px solid #dee2e6',
-            borderTop: 'none',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-          },
-          suggestionsList: { listStyle: 'none', margin: 0, padding: 0 },
-          suggestion: { cursor: 'pointer' },
-          suggestionHighlighted: { backgroundColor: '#e9ecef' },
-        }}
+        theme={AUTOSUGGEST_THEME}
       />
       <FullResultsModal
         isOpen={!!modalQuery}

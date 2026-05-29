@@ -6,7 +6,7 @@ import fetchData from '../../../lib/fetchData';
 import OntologyTree from './OntologyTree.jsx';
 import TermDetailPanel from './TermDetailPanel.jsx';
 import OntologySearchBox from './OntologySearchBox.jsx';
-import { ONTOLOGIES, DEFAULT_ONTOLOGY_ID, getOntology } from './ontologies.js';
+import { ONTOLOGIES, getOntology } from './ontologies.js';
 import { ANNOTATION_TYPES } from './annotationTypes.js';
 import { CountsProvider } from './useDiseaseCounts.jsx';
 import { TermsProvider } from './useDiseaseTerms.jsx';
@@ -18,7 +18,7 @@ const OntologyBrowser = () => {
   const { ontology: ontologyParam, id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const ontology = getOntology(ontologyParam || DEFAULT_ONTOLOGY_ID);
+  const ontology = getOntology(ontologyParam);
   const focusedCurie = id || null;
   // When the user clicks a term inside the tree we set fromTree=true so we
   // skip re-anchoring the tree to the canonical ancestor chain (which can
@@ -51,7 +51,6 @@ const OntologyBrowser = () => {
   const handleSelect = (curie, opts = {}) =>
     navigate(`/ontology/${ontology.id}/${curie}`, opts.fromTree ? { state: { fromTree: true } } : undefined);
   const handleTreeSelect = (curie) => handleSelect(curie, { fromTree: true });
-  const handleOntologyChange = (newId) => navigate(`/ontology/${newId}`);
 
   const detailCurie = useMemo(() => focusedCurie || ontology.rootCurie || null, [focusedCurie, ontology.rootCurie]);
 
@@ -71,12 +70,12 @@ const OntologyBrowser = () => {
               className="form-control"
               style={{ maxWidth: 360, display: 'inline-block' }}
               value={ontology.id}
-              onChange={(e) => handleOntologyChange(e.target.value)}
+              onChange={(e) => navigate(`/ontology/${e.target.value}`)}
             >
               {ONTOLOGIES.map((o) => (
                 <option key={o.id} value={o.id}>
                   {o.label}
-                  {o.available ? '' : ' — coming soon'}
+                  {!o.available && ' — coming soon'}
                 </option>
               ))}
             </select>
