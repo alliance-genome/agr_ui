@@ -114,8 +114,8 @@ const OntologyBrowser = () => {
               <div className={style.layout}>
                 <div className={style.treePane}>
                   <OntologyTree
-                    rootCurie={ontology.rootCurie}
-                    rootName={ontology.rootName}
+                    curie={ontology.rootCurie}
+                    name={ontology.rootName}
                     forceExpanded={forceExpanded}
                     focusedCurie={focusedCurie}
                     onSelect={handleTreeSelect}

@@ -8,7 +8,7 @@ import { ANNOTATION_TYPES } from './annotationTypes.js';
 import { useDiseaseTerm } from './useDiseaseTerms.jsx';
 import style from './style.module.scss';
 
-const TreeNode = ({ curie, name, depth, forceExpanded, focusedCurie, onSelect, scrollOnFocus }) => {
+const OntologyTree = ({ curie, name, depth = 0, forceExpanded, focusedCurie, onSelect, scrollOnFocus = true }) => {
   const [open, setOpen] = useState(false);
   const rowRef = useRef(null);
 
@@ -72,7 +72,7 @@ const TreeNode = ({ curie, name, depth, forceExpanded, focusedCurie, onSelect, s
           {[...childTerms]
             .sort((a, b) => (a.name || '').localeCompare(b.name || ''))
             .map((c) => (
-              <TreeNode
+              <OntologyTree
                 key={c.curie}
                 curie={c.curie}
                 name={c.name}
@@ -89,33 +89,10 @@ const TreeNode = ({ curie, name, depth, forceExpanded, focusedCurie, onSelect, s
   );
 };
 
-TreeNode.propTypes = {
+OntologyTree.propTypes = {
   curie: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  depth: PropTypes.number.isRequired,
-  forceExpanded: PropTypes.instanceOf(Set).isRequired,
-  focusedCurie: PropTypes.string,
-  onSelect: PropTypes.func.isRequired,
-  scrollOnFocus: PropTypes.bool,
-};
-
-const OntologyTree = ({ rootCurie, rootName, forceExpanded, focusedCurie, onSelect, scrollOnFocus = true }) => {
-  return (
-    <TreeNode
-      curie={rootCurie}
-      name={rootName}
-      depth={0}
-      forceExpanded={forceExpanded}
-      focusedCurie={focusedCurie}
-      onSelect={onSelect}
-      scrollOnFocus={scrollOnFocus}
-    />
-  );
-};
-
-OntologyTree.propTypes = {
-  rootCurie: PropTypes.string.isRequired,
-  rootName: PropTypes.string.isRequired,
+  depth: PropTypes.number,
   forceExpanded: PropTypes.instanceOf(Set).isRequired,
   focusedCurie: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
