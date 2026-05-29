@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import HeadMetaTags from '../../../components/headMetaTags.jsx';
-import fetchData from '../../../lib/fetchData';
+import HeadMetaTags from '../../components/headMetaTags.jsx';
+import fetchData from '../../lib/fetchData';
 import OntologyTree from './OntologyTree.jsx';
 import TermDetailPanel from './TermDetailPanel.jsx';
 import OntologySearchBox from './OntologySearchBox.jsx';

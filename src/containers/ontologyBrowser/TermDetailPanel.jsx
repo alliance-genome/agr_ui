@@ -4,12 +4,12 @@ import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import fetchData from '../../../lib/fetchData';
-import { CollapsibleList } from '../../../components/collapsibleList';
-import ExternalLink from '../../../components/ExternalLink.jsx';
+import fetchData from '../../lib/fetchData';
+import { CollapsibleList } from '../../components/collapsibleList';
+import ExternalLink from '../../components/ExternalLink.jsx';
 import CountBadge from './CountBadge.jsx';
 import { ANNOTATION_TYPES } from './annotationTypes.js';
-import { data as portalData } from '../../diseasePortal/portalData.js';
+import { data as portalData } from '../diseasePortal/portalData.js';
 import style from './style.module.scss';
 
 const portalSlugForCurie = (curie) => {

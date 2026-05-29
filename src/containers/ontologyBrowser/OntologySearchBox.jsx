@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import Autosuggest from 'react-autosuggest';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
-import fetchData from '../../../lib/fetchData';
+import fetchData from '../../lib/fetchData';
 
 const ENDPOINT = '/api/search_autocomplete';
 const SEARCH_ENDPOINT = '/api/search';

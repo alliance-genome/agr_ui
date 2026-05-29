@@ -1,21 +1,26 @@
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import fetchData from '../../../lib/fetchData';
+import fetchData from '../../lib/fetchData';
+
+// Batches disease term-doc fetches across all tree nodes so the page only
+// makes a few round-trips even when many nodes are visible. Each TreeNode
+// calls useDiseaseTerm(curie) on mount; the provider debounces and pulls
+// many ids in one /api/disease/batch request.
 
 const Ctx = createContext(null);
 const DEBOUNCE_MS = 40;
 const MAX_BATCH = 200;
 
-export const CountsProvider = ({ children }) => {
-  const [counts, setCounts] = useState({});
+export const TermsProvider = ({ children }) => {
+  const [terms, setTerms] = useState({});
   const pendingRef = useRef(new Set());
   const inFlightRef = useRef(new Set());
   const timerRef = useRef(null);
-  const countsRef = useRef(counts);
+  const termsRef = useRef(terms);
 
   useEffect(() => {
-    countsRef.current = counts;
-  }, [counts]);
+    termsRef.current = terms;
+  }, [terms]);
 
   useEffect(() => {
     return () => {
@@ -31,10 +36,10 @@ export const CountsProvider = ({ children }) => {
       inFlightRef.current.add(id);
     });
     try {
-      const data = await fetchData(`/api/disease/counts?ids=${encodeURIComponent(batch.join(','))}`);
-      setCounts((prev) => ({ ...prev, ...(data || {}) }));
+      const data = await fetchData(`/api/disease/batch?ids=${encodeURIComponent(batch.join(','))}`);
+      setTerms((prev) => ({ ...prev, ...(data || {}) }));
     } catch {
-      // leave the curies un-resolved; CountBadge renders nothing for them
+      // unresolved terms stay undefined; TreeNode will show arrow optimistically
     } finally {
       batch.forEach((id) => inFlightRef.current.delete(id));
     }
@@ -46,7 +51,7 @@ export const CountsProvider = ({ children }) => {
   const request = useCallback(
     (curie) => {
       if (!curie) return;
-      if (countsRef.current[curie]) return;
+      if (termsRef.current[curie]) return;
       if (inFlightRef.current.has(curie) || pendingRef.current.has(curie)) return;
       pendingRef.current.add(curie);
       if (timerRef.current) clearTimeout(timerRef.current);
@@ -55,15 +60,15 @@ export const CountsProvider = ({ children }) => {
     [flush]
   );
 
-  return <Ctx.Provider value={{ counts, request }}>{children}</Ctx.Provider>;
+  return <Ctx.Provider value={{ terms, request }}>{children}</Ctx.Provider>;
 };
 
-CountsProvider.propTypes = { children: PropTypes.node };
+TermsProvider.propTypes = { children: PropTypes.node };
 
-export const useDiseaseCounts = (curie) => {
+export const useDiseaseTerm = (curie) => {
   const ctx = useContext(Ctx);
   useEffect(() => {
     if (ctx && curie) ctx.request(curie);
   }, [ctx, curie]);
-  return ctx?.counts?.[curie] || null;
+  return ctx?.terms?.[curie] || null;
 };

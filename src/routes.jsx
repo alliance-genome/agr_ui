@@ -18,7 +18,7 @@ import ReferencePage from './containers/referencePage/index.jsx';
 import MODLanding from './containers/modLanding/Main.jsx';
 import DiseasePortalPage from './containers/diseasePortal/index.jsx';
 import BlastPage from './containers/blastPage/index.jsx';
-import OntologyBrowser from './containers/ontologyBrowser/browse/index.jsx';
+import OntologyBrowser from './containers/ontologyBrowser/index.jsx';
 
 const WordpressRedirect = () => {
   const { slug } = useParams();
