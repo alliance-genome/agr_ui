@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Autosuggest from 'react-autosuggest';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import fetchData from '../../lib/fetchData';
+import style from './style.module.scss';
 
 const ENDPOINT = '/api/search_autocomplete';
 const SEARCH_ENDPOINT = '/api/search';
@@ -162,29 +163,15 @@ const OntologySearchBox = ({ onSelect, category, placeholder }) => {
           const { key, ...containerRest } = containerProps;
           return (
             <div key={key} {...containerRest}>
-              <div style={{ maxHeight: 280, overflowY: 'auto' }}>{children}</div>
+              <div className={style.suggestionsScroll}>{children}</div>
               {children && query && (
                 <button
                   type="button"
+                  className={style.viewAllButton}
                   aria-label={`View all results for ${query}`}
                   onMouseDown={(e) => {
                     e.preventDefault();
                     openModalFor(query);
-                  }}
-                  style={{
-                    display: 'block',
-                    width: '100%',
-                    textAlign: 'left',
-                    padding: '9px 12px',
-                    borderTop: '1px solid #dee2e6',
-                    borderLeft: 'none',
-                    borderRight: 'none',
-                    borderBottom: 'none',
-                    background: '#f8f9fa',
-                    color: '#0d6efd',
-                    fontSize: '0.85rem',
-                    fontWeight: 600,
-                    cursor: 'pointer',
                   }}
                 >
                   View all results for &ldquo;{query}&rdquo; &rarr;

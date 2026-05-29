@@ -53,6 +53,34 @@
   font-weight: 600;
 }
 
+.chooserSelect {
+  max-width: 360px;
+  display: inline-block;
+}
+
+.explainer {
+  color: $gray-600;
+}
+
+.suggestionsScroll {
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.viewAllButton {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 9px 12px;
+  border: none;
+  border-top: 1px solid $border-color;
+  background: $gray-100;
+  color: $primary;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 .placeholder {
   padding: 1.5rem;
   border: 1px dashed $border-color;

@@ -67,8 +67,7 @@ const OntologyBrowser = () => {
             </label>
             <select
               id="ontology-chooser"
-              className="form-control"
-              style={{ maxWidth: 360, display: 'inline-block' }}
+              className={`form-control ${style.chooserSelect}`}
               value={ontology.id}
               onChange={(e) => navigate(`/ontology/${e.target.value}`)}
             >
@@ -90,7 +89,7 @@ const OntologyBrowser = () => {
             </div>
           ) : (
             <>
-              <p style={{ color: '#6c757d' }}>
+              <p className={style.explainer}>
                 Browsing <strong>{ontology.label}</strong> starting at <strong>{ontology.rootName}</strong> (
                 {ontology.rootCurie}). Use the search box to jump to any term.
               </p>
