@@ -19,7 +19,7 @@ export const CountsProvider = ({ children }) => {
 
   useEffect(() => {
     return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
+      clearTimeout(timerRef.current);
     };
   }, []);
 
@@ -49,7 +49,7 @@ export const CountsProvider = ({ children }) => {
       if (countsRef.current[curie]) return;
       if (inFlightRef.current.has(curie) || pendingRef.current.has(curie)) return;
       pendingRef.current.add(curie);
-      if (timerRef.current) clearTimeout(timerRef.current);
+      clearTimeout(timerRef.current);
       timerRef.current = setTimeout(flush, DEBOUNCE_MS);
     },
     [flush]
