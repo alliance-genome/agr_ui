@@ -74,3 +74,16 @@ $max-width: 800px;
     pointer-events: none;
   }
 }
+
+.portalCounts {
+  margin-left: 0.75rem;
+  font-size: 0.85rem;
+  color: $gray-600;
+
+  span {
+    &:not(:last-child)::after {
+      content: '\00b7';
+      margin: 0 0.4rem;
+    }
+  }
+}

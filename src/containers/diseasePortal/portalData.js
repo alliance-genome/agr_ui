@@ -60,6 +60,12 @@ export const data = {
       { title: 'OMIM', url: 'https://omim.org/entry/104300' },
     ],
   },
+  'parkinsons-disease': {
+    doid: 'DOID:14330',
+    pageName: "Parkinson's Disease",
+    publications: [],
+    resources: [],
+  },
   'diabetes-mellitus': {
     doid: 'DOID:9351',
     pageName: 'Diabetes Mellitus',
