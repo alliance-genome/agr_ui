@@ -26,6 +26,14 @@ const DiseasePortalPage = () => {
   const { name: dname } = useParams();
   const diseaseData = dname ? data[dname] : data['human'];
 
+  // Hook must run unconditionally on every render (Rules of Hooks): both the
+  // list (/disease-portal) and detail (/disease-portal/:name) routes render
+  // this same component, so React reuses the fiber across that navigation.
+  // Passing a null url when there's no doid makes the query a no-op.
+  const { data: diseaseApiData } = usePageLoadingQuery(
+    diseaseData?.doid ? `/api/disease/${diseaseData.doid}` : null
+  );
+
   if (dname && !diseaseData) {
     return <NotFound />;
   }
@@ -53,7 +61,6 @@ const DiseasePortalPage = () => {
   }
 
   const portalTitle = diseaseData.pageName;
-  const { data: diseaseApiData } = usePageLoadingQuery(`/api/disease/${diseaseData.doid}`);
 
   return (
     <div>
