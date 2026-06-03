@@ -3,6 +3,7 @@ import HeadMetaTags from '../../components/headMetaTags.jsx';
 import PapersSection from './PapersSection.jsx';
 import PortalListSection from './PortalListSection.jsx';
 import ResourcesSection from './ResourcesSection.jsx';
+import SummarySection from './SummarySection.jsx';
 import DiseasePortalSection from './DiseasePortalSection.jsx';
 import MembersSection from '../../components/MembersSection.jsx';
 import NotFound from '../../components/notFound.jsx';
@@ -14,12 +15,12 @@ import { Link, useParams } from 'react-router-dom';
 import { data } from './portalData.js';
 import style from './style.module.scss';
 
-const DESCRIPTION = 'Definition';
+const SUMMARY = 'Summary';
 const COMMUNITY_RESOURCES = 'Community Resources';
 const RECENT_PAPERS = 'Recent Alliance Papers';
 const MEMBERS = 'Members';
 
-const SECTIONS = [{ name: DESCRIPTION }, { name: RECENT_PAPERS }, { name: COMMUNITY_RESOURCES }];
+const SECTIONS = [{ name: SUMMARY }, { name: RECENT_PAPERS }, { name: COMMUNITY_RESOURCES }];
 
 const DiseasePortalPage = () => {
   const { name: dname } = useParams();
@@ -65,8 +66,8 @@ const DiseasePortalPage = () => {
           </PageNavEntity>
         </PageNav>
         <PageData>
-          <Subsection title={DESCRIPTION}>
-            {diseaseApiData?.doTerm?.definition && <p>{diseaseApiData.doTerm.definition}</p>}
+          <Subsection title={SUMMARY}>
+            <SummarySection disease={diseaseApiData} />
           </Subsection>
           <Subsection title={RECENT_PAPERS}>
             <PapersSection disease={diseaseData} />
@@ -74,9 +75,11 @@ const DiseasePortalPage = () => {
           <Subsection title={COMMUNITY_RESOURCES}>
             <ResourcesSection disease={diseaseData} />
           </Subsection>
-          <Subsection hideTitle title={MEMBERS}>
-            <MembersSection />
-          </Subsection>
+          <div className={style.membersFooter}>
+            <Subsection hideTitle title={MEMBERS}>
+              <MembersSection />
+            </Subsection>
+          </div>
         </PageData>
       </DataPage>
     </div>

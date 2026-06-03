@@ -5,6 +5,7 @@ import SpeciesIcon from '../../components/speciesIcon/index.jsx';
 import { speciesMap } from '../referencePage/index.jsx';
 import { Link } from 'react-router-dom';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
+import style from './style.module.scss';
 
 const CitationLink = ({ curie }) => {
   const { data: pubData, isLoading, isError } = usePageLoadingQuery(`/api/reference/${curie}`);
@@ -53,21 +54,25 @@ const PapersSection = ({ disease }) => {
       {disease.publications.map((publication, index) => {
         if (publication.curie) {
           return (
-            <p key={'publications-' + index}>
+            <div className={style.publicationEntry} key={'publications-' + index}>
               <CitationLink curie={publication.curie} />
-            </p>
+            </div>
           );
         }
         if (publication.pmid) {
           return (
-            <p key={'publications-' + index}>
+            <div className={style.publicationEntry} key={'publications-' + index}>
               <ExternalLink href={'https://www.ncbi.nlm.nih.gov/pubmed/' + publication.pmid}>
                 {publication.title}
               </ExternalLink>
-            </p>
+            </div>
           );
         }
-        return <p key={'publications-' + index}>{publication.title}</p>;
+        return (
+          <div className={style.publicationEntry} key={'publications-' + index}>
+            {publication.title}
+          </div>
+        );
       })}
     </div>
   );
