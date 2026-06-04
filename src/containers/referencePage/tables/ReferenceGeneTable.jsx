@@ -6,10 +6,10 @@ import createReferenceTable from './createReferenceTable.jsx';
 const formatLocation = (gene) => {
   const assoc = gene.geneGenomicLocationAssociations?.[0];
   if (!assoc) return null;
-  const loc = assoc.geneGenomicLocationAssociationObject || assoc;
-  const chrom = loc.chromosome || loc.chromosomeAccession;
-  const start = loc.start ?? loc.startPosition;
-  const end = loc.end ?? loc.endPosition;
+  const loc = assoc.geneGenomicLocationAssociationObject || {};
+  const chrom = loc.name || loc.chromosome || loc.chromosomeAccession;
+  const start = assoc.start ?? assoc.startPosition;
+  const end = assoc.end ?? assoc.endPosition;
   if (!chrom) return null;
   if (start && end) return `${chrom}:${start}-${end}`;
   return chrom;
@@ -17,15 +17,17 @@ const formatLocation = (gene) => {
 
 const columns = [
   {
-    dataField: 'species',
+    dataField: 'speciesName',
     text: 'Species',
     headerStyle: { width: '130px' },
-    formatter: (species) => species && <SpeciesCell taxon={species} />,
+    filterable: true,
+    formatter: (_, row) => row.species && <SpeciesCell taxon={row.species} />,
   },
   {
     dataField: 'symbol',
     text: 'Symbol',
     headerStyle: { width: '120px' },
+    filterable: true,
     formatter: (symbol, row) => (
       <Link to={`/gene/${row.curie}`}>
         <span dangerouslySetInnerHTML={{ __html: symbol || row.curie }} />
@@ -36,10 +38,11 @@ const columns = [
     dataField: 'name',
     text: 'Name',
     headerStyle: { width: '220px' },
+    filterable: true,
     formatter: (n) => n && <span dangerouslySetInnerHTML={{ __html: n }} />,
   },
-  { dataField: 'biotype', text: 'Biotype', headerStyle: { width: '120px' } },
-  { dataField: 'location', text: 'Genome location', headerStyle: { width: '160px' } },
+  { dataField: 'biotype', text: 'Biotype', headerStyle: { width: '120px' }, filterable: true },
+  { dataField: 'location', text: 'Genome location', headerStyle: { width: '160px' }, filterable: true },
 ];
 
 const ReferenceGeneTable = createReferenceTable({
@@ -48,6 +51,7 @@ const ReferenceGeneTable = createReferenceTable({
   columns,
   transform: (gene) => ({
     species: gene.taxon,
+    speciesName: gene.taxon?.name,
     symbol: gene.geneSymbol?.displayText,
     name: gene.geneFullName?.displayText,
     biotype: gene.geneType?.name,

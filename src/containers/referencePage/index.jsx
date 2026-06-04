@@ -19,8 +19,6 @@ import ReferencePhenotypeTable from './tables/ReferencePhenotypeTable.jsx';
 import ReferenceExpressionTable from './tables/ReferenceExpressionTable.jsx';
 import ReferenceInteractionTable from './tables/ReferenceInteractionTable.jsx';
 import ReferenceGeneticInteractionTable from './tables/ReferenceGeneticInteractionTable.jsx';
-import ReferenceOrthologyTable from './tables/ReferenceOrthologyTable.jsx';
-import RelatedPapersList from './RelatedPapersList.jsx';
 import ReferenceGeneTable from './tables/ReferenceGeneTable.jsx';
 import ReferenceAlleleTable from './tables/ReferenceAlleleTable.jsx';
 import ReferenceModelTable from './tables/ReferenceModelTable.jsx';
@@ -40,33 +38,30 @@ const PHENOTYPES = 'Phenotypes';
 const EXPRESSION = 'Expression';
 const MOLECULAR_INTERACTIONS = 'Molecular Interactions';
 const GENETIC_INTERACTIONS = 'Genetic Interactions';
-const ORTHOLOGY = 'Orthology';
-const RELATED_PAPERS = 'Related Papers';
 const totalUrl = (base) => {
   const sep = base.includes('?') ? '&' : '?';
   return `${base}${sep}limit=0`;
 };
 
 function useSectionCounts(referenceId, crossReferenceCuries) {
-  const xrefParam = crossReferenceCuries.length
-    ? `?crossReferences=${encodeURIComponent(crossReferenceCuries.join(','))}`
-    : '';
+  const hasXrefs = crossReferenceCuries.length > 0;
+  const xrefParam = hasXrefs ? `?crossReferences=${encodeURIComponent(crossReferenceCuries.join(','))}` : '';
   const countable = [
     { name: GENES, url: `/api/reference/${referenceId}/genes` },
-    { name: ORTHOLOGY, url: `/api/reference/${referenceId}/orthology` },
     { name: PHENOTYPES, url: `/api/reference/${referenceId}/phenotype-annotations` },
     { name: DISEASE_ASSOCIATIONS, url: `/api/reference/${referenceId}/disease-annotations` },
     { name: ALLELES_AND_VARIANTS, url: `/api/reference/${referenceId}/alleles` },
     { name: MODELS, url: `/api/reference/${referenceId}/models` },
-    { name: EXPRESSION, url: `/api/reference/${referenceId}/expression-annotations${xrefParam}` },
-    { name: MOLECULAR_INTERACTIONS, url: `/api/reference/${referenceId}/molecular-interactions${xrefParam}` },
-    { name: GENETIC_INTERACTIONS, url: `/api/reference/${referenceId}/genetic-interactions${xrefParam}` },
+    { name: EXPRESSION, url: `/api/reference/${referenceId}/expression-annotations${xrefParam}`, requiresXrefs: true },
+    { name: MOLECULAR_INTERACTIONS, url: `/api/reference/${referenceId}/molecular-interactions${xrefParam}`, requiresXrefs: true },
+    { name: GENETIC_INTERACTIONS, url: `/api/reference/${referenceId}/genetic-interactions${xrefParam}`, requiresXrefs: true },
   ];
   const queries = useQueries({
     queries: countable.map((s) => ({
       queryKey: ['ref-section-count', referenceId, s.name, s.url],
       queryFn: () => fetchData(totalUrl(s.url)).then((d) => d?.total ?? 0),
       staleTime: 60_000,
+      enabled: !s.requiresXrefs || hasXrefs,
     })),
   });
   return Object.fromEntries(countable.map((s, i) => [s.name, queries[i].data]));
@@ -163,7 +158,6 @@ const ReferencePage = () => {
     { name: SUMMARY },
     { name: ABSTRACT },
     { name: GENES, count: counts[GENES] },
-    { name: ORTHOLOGY, count: counts[ORTHOLOGY] },
     { name: PHENOTYPES, count: counts[PHENOTYPES] },
     { name: DISEASE_ASSOCIATIONS, count: counts[DISEASE_ASSOCIATIONS] },
     { name: ALLELES_AND_VARIANTS, count: counts[ALLELES_AND_VARIANTS] },
@@ -171,7 +165,6 @@ const ReferencePage = () => {
     { name: EXPRESSION, count: counts[EXPRESSION] },
     { name: MOLECULAR_INTERACTIONS, count: counts[MOLECULAR_INTERACTIONS] },
     { name: GENETIC_INTERACTIONS, count: counts[GENETIC_INTERACTIONS] },
-    { name: RELATED_PAPERS },
   ];
 
   const FormattedAbstract = ({ abstract }) => {
@@ -210,9 +203,6 @@ const ReferencePage = () => {
         <Subsection title={GENES}>
           <ReferenceGeneTable id={referenceId} />
         </Subsection>
-        <Subsection title={ORTHOLOGY}>
-          <ReferenceOrthologyTable id={referenceId} />
-        </Subsection>
         <Subsection title={PHENOTYPES}>
           <ReferencePhenotypeTable id={referenceId} />
         </Subsection>
@@ -233,9 +223,6 @@ const ReferencePage = () => {
         </Subsection>
         <Subsection title={GENETIC_INTERACTIONS}>
           <ReferenceGeneticInteractionTable id={referenceId} crossReferences={crossReferenceCuries} />
-        </Subsection>
-        <Subsection title={RELATED_PAPERS}>
-          <RelatedPapersList referenceId={referenceId} />
         </Subsection>
       </PageData>
     </DataPage>
