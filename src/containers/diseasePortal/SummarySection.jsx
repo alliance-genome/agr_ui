@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { UncontrolledTooltip } from 'reactstrap';
 
-import { AttributeList, AttributeLabel, AttributeValue } from '../../components/attribute';
 import ExternalLink from '../../components/ExternalLink.jsx';
 import CommaSeparatedList from '../../components/commaSeparatedList.jsx';
 import SynonymList from '../../components/synonymList.jsx';
 import { formatLink } from '../diseasePage/utils';
 import diseasePageStyle from '../diseasePage/style.module.scss';
+import style from './style.module.scss';
 
 const transformSynonyms = (synonyms) => {
   if (!Array.isArray(synonyms)) {
@@ -40,29 +40,31 @@ const renderDefinitionLinks = (links) =>
     </CommaSeparatedList>
   );
 
-const renderDefinition = (doTerm) =>
-  (doTerm.definition || (doTerm.definitionUrls && doTerm.definitionUrls.length > 0)) && (
-    <div>
-      {doTerm.definition} {renderDefinitionLinks(doTerm.definitionUrls)}
-    </div>
-  );
-
 const SummarySection = ({ disease }) => {
   const doTerm = disease?.doTerm;
   if (!doTerm) {
     return null;
   }
 
-  return (
-    <AttributeList>
-      <AttributeLabel bsClassName="col-md-1">Definition</AttributeLabel>
-      <AttributeValue bsClassName="col-md-11">{renderDefinition(doTerm)}</AttributeValue>
+  const { definition, definitionUrls, synonyms } = doTerm;
+  const synonymNames = transformSynonyms(synonyms);
+  const hasDefinition = definition || (definitionUrls && definitionUrls.length > 0);
 
-      <AttributeLabel bsClassName="col-md-1">Synonyms</AttributeLabel>
-      <AttributeValue bsClassName="col-md-11" placeholder="None">
-        {doTerm.synonyms && <SynonymList synonyms={transformSynonyms(doTerm.synonyms)} />}
-      </AttributeValue>
-    </AttributeList>
+  return (
+    <div className={style.summary}>
+      {hasDefinition && (
+        <div className={style.summaryDefinition}>
+          <div className={style.summaryLabel}>Definition</div>
+          {definition} {renderDefinitionLinks(definitionUrls)}
+        </div>
+      )}
+      {synonymNames.length > 0 && (
+        <div className={style.summarySynonyms}>
+          <div className={style.summaryLabel}>Synonyms</div>
+          <SynonymList synonyms={synonymNames} />
+        </div>
+      )}
+    </div>
   );
 };
 
