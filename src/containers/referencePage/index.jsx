@@ -53,8 +53,16 @@ function useSectionCounts(referenceId, crossReferenceCuries) {
     { name: ALLELES_AND_VARIANTS, url: `/api/reference/${referenceId}/alleles` },
     { name: MODELS, url: `/api/reference/${referenceId}/models` },
     { name: EXPRESSION, url: `/api/reference/${referenceId}/expression-annotations${xrefParam}`, requiresXrefs: true },
-    { name: MOLECULAR_INTERACTIONS, url: `/api/reference/${referenceId}/molecular-interactions${xrefParam}`, requiresXrefs: true },
-    { name: GENETIC_INTERACTIONS, url: `/api/reference/${referenceId}/genetic-interactions${xrefParam}`, requiresXrefs: true },
+    {
+      name: MOLECULAR_INTERACTIONS,
+      url: `/api/reference/${referenceId}/molecular-interactions${xrefParam}`,
+      requiresXrefs: true,
+    },
+    {
+      name: GENETIC_INTERACTIONS,
+      url: `/api/reference/${referenceId}/genetic-interactions${xrefParam}`,
+      requiresXrefs: true,
+    },
   ];
   const queries = useQueries({
     queries: countable.map((s) => ({

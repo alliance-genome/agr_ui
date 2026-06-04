@@ -1,12 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import hash from 'object-hash';
-import {
-  DataTable,
-  GeneCellCuration,
-  AlleleCellCuration,
-  SpeciesCell,
-} from '../../../components/dataTable';
+import { DataTable, GeneCellCuration, AlleleCellCuration, SpeciesCell } from '../../../components/dataTable';
 import useDataTableQuery from '../../../hooks/useDataTableQuery';
 import { getIdentifier } from '../../../components/dataTable/utils.jsx';
 import AnnotatedPhenotypePopupCuration from '../../../components/dataTable/AnnotatedPhenotypePopupCuration.jsx';

@@ -81,7 +81,9 @@ const columns = [
               <DataSourceLinkCuration reference={crossRef}>{crossRef.displayName}</DataSourceLinkCuration>
             </div>
           ))}
-          {gmi.aggregationDatabase && gmi.interactionSource && gmi.interactionSource.curie !== gmi.aggregationDatabase.curie ? (
+          {gmi.aggregationDatabase &&
+          gmi.interactionSource &&
+          gmi.interactionSource.curie !== gmi.aggregationDatabase.curie ? (
             <span>
               <MITermURL {...gmi.interactionSource} />
               <i>
