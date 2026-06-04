@@ -55,11 +55,11 @@ const SummarySection = ({ disease }) => {
 
   return (
     <AttributeList>
-      <AttributeLabel>Definition</AttributeLabel>
-      <AttributeValue>{renderDefinition(doTerm)}</AttributeValue>
+      <AttributeLabel bsClassName="col-md-1">Definition</AttributeLabel>
+      <AttributeValue bsClassName="col-md-11">{renderDefinition(doTerm)}</AttributeValue>
 
-      <AttributeLabel>Synonyms</AttributeLabel>
-      <AttributeValue placeholder="None">
+      <AttributeLabel bsClassName="col-md-1">Synonyms</AttributeLabel>
+      <AttributeValue bsClassName="col-md-11" placeholder="None">
         {doTerm.synonyms && <SynonymList synonyms={transformSynonyms(doTerm.synonyms)} />}
       </AttributeValue>
     </AttributeList>
