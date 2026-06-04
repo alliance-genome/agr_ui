@@ -7,13 +7,11 @@ import useDataTableQuery from '../../../hooks/useDataTableQuery';
 const createReferenceTable = ({ endpoint, transform, columns, displayName, supportsCrossReferences = false }) => {
   const Table = ({ id, crossReferences = [] }) => {
     const hasXrefs = crossReferences.length > 0;
-    const queryParams = supportsCrossReferences && hasXrefs
-      ? `?crossReferences=${encodeURIComponent(crossReferences.join(','))}`
-      : '';
-    const tableQuery = useDataTableQuery(
-      `/api/reference/${id}/${endpoint}${queryParams}`,
-      { enabled: !supportsCrossReferences || hasXrefs }
-    );
+    const queryParams =
+      supportsCrossReferences && hasXrefs ? `?crossReferences=${encodeURIComponent(crossReferences.join(','))}` : '';
+    const tableQuery = useDataTableQuery(`/api/reference/${id}/${endpoint}${queryParams}`, {
+      enabled: !supportsCrossReferences || hasXrefs,
+    });
     const data = (tableQuery.data || []).map((record) => ({
       ...transform(record),
       id: hash(record),
