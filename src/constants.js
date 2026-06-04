@@ -128,6 +128,10 @@ export const NAV_MENU = [
         route: '/disease-portal',
       },
       {
+        label: 'Ontology Browser',
+        route: '/ontology/disease',
+      },
+      {
         label: 'SimpleMine',
         route: '/agr_simplemine.cgi',
         external: true,
