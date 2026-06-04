@@ -1,18 +1,8 @@
 import React from 'react';
 import { GeneCellCuration, SpeciesCell } from '../../../components/dataTable';
+import { getIdentifier } from '../../../components/dataTable/utils.jsx';
+import DataSourceLinkCuration from '../../../components/dataSourceLinkCuration.jsx';
 import createReferenceTable from './createReferenceTable.jsx';
-
-const dataProviderFormatter = (provider, row) => {
-  if (!provider) return null;
-  const abbr = provider.abbreviation;
-  const xref = row.geneExpressionAnnotation?.dataProviderCrossReference?.referencedCurie;
-  return (
-    <span>
-      {abbr}
-      {xref ? `: ${xref}` : ''}
-    </span>
-  );
-};
 
 const columns = [
   {
@@ -25,16 +15,41 @@ const columns = [
     dataField: 'gene',
     text: 'Gene',
     headerStyle: { width: '120px' },
-    formatter: (gene) => gene && <GeneCellCuration gene={gene} />,
+    formatter: (gene) => gene && <GeneCellCuration identifier={getIdentifier(gene)} gene={gene} />,
   },
   { dataField: 'location', text: 'Location', headerStyle: { width: '180px' } },
-  { dataField: 'stage', text: 'Stage', headerStyle: { width: '120px' } },
-  { dataField: 'assay', text: 'Assay', headerStyle: { width: '140px' } },
   {
-    dataField: 'dataProvider',
-    text: 'Source',
+    dataField: 'stage',
+    text: 'Stage',
     headerStyle: { width: '120px' },
-    formatter: dataProviderFormatter,
+    formatter: (stage) => (stage === 'N/A' ? '' : stage),
+  },
+  {
+    dataField: 'assay',
+    text: 'Assay',
+    headerStyle: { width: '140px' },
+    formatter: (assayCell) => {
+      if (!assayCell) return null;
+      const assayName = assayCell.name;
+      return <span title={assayName}>{assayName}</span>;
+    },
+  },
+  {
+    dataField: 'source',
+    text: 'Source',
+    headerStyle: { width: '200px' },
+    formatter: (crossReferences = []) => (
+      <div>
+        {(crossReferences || []).map((crossRef = {}) => {
+          if (!crossRef.referencedCurie || !crossRef.displayName) return null;
+          return (
+            <div key={crossRef.referencedCurie}>
+              <DataSourceLinkCuration reference={crossRef}>{crossRef.displayName}</DataSourceLinkCuration>
+            </div>
+          );
+        })}
+      </div>
+    ),
   },
 ];
 
@@ -51,9 +66,8 @@ const ReferenceExpressionTable = createReferenceTable({
       species: gea.expressionAnnotationSubject?.taxon,
       location: gea.whereExpressedStatement,
       stage: gea.whenExpressedStageName,
-      assay: gea.expressionAssayUsed?.name,
-      dataProvider: gea.dataProvider,
-      annotation: gea,
+      assay: gea.expressionAssayUsed,
+      source: gea.crossReferences,
     };
   },
 });
