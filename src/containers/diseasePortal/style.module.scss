@@ -74,3 +74,45 @@ $max-width: 800px;
     pointer-events: none;
   }
 }
+
+.portalCounts {
+  margin-left: 0.75rem;
+  font-size: 0.85rem;
+  color: $gray-600;
+
+  span {
+    &:not(:last-child)::after {
+      content: '\00b7';
+      margin: 0 0.4rem;
+    }
+  }
+}
+
+.summaryDefinition {
+  margin-bottom: 1.25rem;
+}
+
+.summaryLabel {
+  font-weight: 700;
+  text-transform: capitalize;
+  margin-bottom: 0.25rem;
+}
+
+.publicationEntry {
+  margin-bottom: 1rem;
+}
+
+// The Members banner is a shared full-width component styled for the portal
+// list page. When embedded as the last block of a portal detail page, its
+// divider line and the wrapping subsection's trailing margin left a large
+// empty gap above the footer. Trim that chrome here without affecting the
+// banner elsewhere.
+.membersFooter {
+  > div {
+    margin-bottom: 0;
+  }
+
+  section {
+    border-bottom: 0;
+  }
+}
