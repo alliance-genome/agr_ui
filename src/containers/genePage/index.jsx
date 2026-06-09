@@ -1,6 +1,6 @@
 import React from 'react';
 import { DataPage, PageNav, PageData, PageHeader } from '../../components/dataPage';
-import BasicGeneInfo from './basicGeneInfo.jsx';
+import GeneSummary from './GeneSummary.jsx';
 import {
   OrthologyFilteredTable,
   HomologyUserGuide,
@@ -30,7 +30,7 @@ import SequencePanel from './sequencePanelWrapper.jsx';
 import ExpressionLinks from './expressionLinks.jsx';
 
 import SpeciesIcon from '../../components/speciesIcon/index.jsx';
-import DataSourceLink from '../../components/dataSourceLink.jsx';
+import DataSourceLinkCuration from '../../components/dataSourceLinkCuration.jsx';
 import PhenotypeTable from './phenotypeTable.jsx';
 import { ExpressionComparisonRibbon, ExpressionUserGuide } from '../../components/expression';
 import { DiseaseComparisonRibbon } from '../../components/disease';
@@ -40,9 +40,16 @@ import PageNavEntity from '../../components/dataPage/PageNavEntity.jsx';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import { useRelease } from '../../hooks/ReleaseContextProvider';
-import { getSpecies, getSingleGenomeLocation } from '../../lib/utils';
+import {
+  getSpecies,
+  getSingleGenomeLocation,
+  getGenomicLocations,
+  buildCrossReferenceMap,
+  extractGeneFields,
+  getSynonymStrings,
+} from '../../lib/utils';
 import TransgenicAlleleTable from './TransgenicAlleleTable.jsx';
-import GeneSymbol from '../../components/GeneSymbol.jsx';
+import GeneSymbolCuration from '../../components/GeneSymbolCuration.jsx';
 import PhenotypeCrossRefs from './PhenotypeCrossRefs.jsx';
 import SpeciesName from '../../components/SpeciesName.jsx';
 import SequenceFeatureViewerSectionHelp from '../../components/sequenceFeatureViewer/sequenceFeatureViewerSectionHelp.jsx';
@@ -51,6 +58,8 @@ import TransgenicAlleleSectionHelp from '../../components/transgenicAlleles/tran
 import DiseaseSectionHelp from '../../components/disease/diseaseSectionHelp.jsx';
 import { AlleleTableWrapper } from './alleleTableWrapper.jsx';
 import { useParams } from 'react-router-dom';
+import { GENE_CATEGORY } from '../../constants';
+import ErrorBoundary from '../../components/errorBoundary.jsx';
 
 const SUMMARY = 'Summary';
 const SEQUENCE_FEATURE_VIEWER = 'Sequence Feature Viewer';
@@ -86,6 +95,17 @@ const SECTIONS = [
   { name: GENETIC_INTERACTIONS },
 ];
 
+const GenePageCategoryLabel = ({ gene }) => {
+  const isGeneType =
+    gene.geneType?.curie === 'SO:0000704' ||
+    gene.geneType?.ancestors?.some((entry) => {
+      const rels = entry['SO:0000704'];
+      return rels?.length === 1 && rels[0] === 'is_a';
+    });
+  const pageLabel = isGeneType ? GENE_CATEGORY : 'genome_feature';
+  return <PageCategoryLabel category={pageLabel} />;
+};
+
 const GenePage = () => {
   const { id: geneId } = useParams();
   const { isLoading, isError, data } = usePageLoadingQuery(`/api/gene/${geneId}`);
@@ -99,91 +119,114 @@ const GenePage = () => {
     return null;
   }
 
-  const genomeLocation = getSingleGenomeLocation(data.genomeLocations);
+  const gene = data.gene;
+  const { speciesName, taxonId, geneSymbolText, dataProviderAbbr } = extractGeneFields(gene);
 
-  // TODO: this name should come directly from the API
-  if (data.crossReferenceMap['expression-atlas']) {
-    data.crossReferenceMap['expression-atlas'].displayName = 'Expression Atlas';
+  // Normalize genome locations
+  const genomeLocations = getGenomicLocations(gene);
+  const genomeLocation = getSingleGenomeLocation(genomeLocations);
+
+  // Build cross-reference map from flat array
+  const crossReferenceMap = buildCrossReferenceMap(gene.crossReferences);
+
+  let primaryCrossReference;
+  if (taxonId === 'NCBITaxon:9606') {
+    primaryCrossReference = gene.crossReferences?.find(
+      (ref) => ref.resourceDescriptorPage?.name === 'default' && ref.referencedCurie === gene.primaryExternalId
+    );
+  } else {
+    primaryCrossReference = gene.dataProviderCrossReference;
   }
 
   // manufacture a single cell atlas cross reference since this isn't stored
   // in the database (see AGR-1406)
   let singleCellAtlasXRef;
-  if (getSpecies(data.species.taxonId).enableSingleCellExpressionAtlasLink) {
+  if (getSpecies(taxonId).enableSingleCellExpressionAtlasLink) {
+    const singleCellUrl = `https://www.ebi.ac.uk/gxa/sc/search?q=${geneSymbolText}&species=${speciesName}`;
     singleCellAtlasXRef = {
-      name: 'Single Cell Expression Atlas',
-      crossRefCompleteUrl: `https://www.ebi.ac.uk/gxa/sc/search?q=${data.symbol}&species=${data.species.name}`,
+      displayName: 'Single Cell Expression Atlas',
+      referencedCurie: `SingleCellExpressionAtlas:${geneSymbolText}`,
+      crossRefCompleteUrl: singleCellUrl,
+      resourceDescriptorPage: {
+        name: 'gene/single_cell_expression_atlas',
+        urlTemplate: singleCellUrl,
+      },
     };
   }
 
+  const geneSpecies = { taxonId: taxonId, name: speciesName };
+
+  const synonymStrings = getSynonymStrings(gene);
+
   return (
-    <DataPage key={data.id}>
-      <GeneMetaTags gene={data} />
+    <DataPage key={gene.primaryExternalId}>
+      <GeneMetaTags gene={gene} />
       <PageNav sections={SECTIONS}>
         <PageNavEntity
-          entityName={<GeneSymbol gene={data} />}
-          icon={<SpeciesIcon inNav scale={0.5} species={data.species.name} />}
+          entityName={<GeneSymbolCuration gene={gene} />}
+          icon={<SpeciesIcon inNav scale={0.5} species={speciesName} />}
           truncateName
         >
-          <SpeciesName>{data.species.name}</SpeciesName>
-          <DataSourceLink reference={data.crossReferenceMap.primary} />
+          <SpeciesName>{speciesName}</SpeciesName>
+          <DataSourceLinkCuration reference={primaryCrossReference}>
+            {primaryCrossReference?.referencedCurie}
+          </DataSourceLinkCuration>
         </PageNavEntity>
       </PageNav>
       <PageData>
-        <PageCategoryLabel category="gene" />
+        <ErrorBoundary>
+          <GenePageCategoryLabel gene={gene} />
+        </ErrorBoundary>
         <PageHeader>
-          <GeneSymbol gene={data} />
+          <GeneSymbolCuration gene={gene} />
         </PageHeader>
 
         <Subsection hideTitle title={SUMMARY}>
-          <BasicGeneInfo gene={data} />
+          <GeneSummary gene={gene} crossReferenceMap={crossReferenceMap} gcrpCrossReference={gene.gcrpCrossReference} />
         </Subsection>
 
         <Subsection help={<HomologyUserGuide />} title={ORTHOLOGY}>
-          <OrthologyBasicInfo pantherCrossReference={data.crossReferenceMap.panther} />
-          <OrthologyFilteredTable geneId={data.id} />
-          <OrthologyJBrowseLinkPanel geneLocation={genomeLocation} taxonid={data.species.taxonId} />
+          <OrthologyBasicInfo pantherCrossReference={crossReferenceMap.panther} />
+          <OrthologyFilteredTable geneId={gene.primaryExternalId} />
+          <OrthologyJBrowseLinkPanel geneLocation={genomeLocation} taxonid={taxonId} />
         </Subsection>
 
         <Subsection help={<ParalogyUserGuide />} title={PARALOGY}>
-          <ParalogyTable geneId={data.id} />
+          <ParalogyTable geneId={gene.primaryExternalId} />
         </Subsection>
 
         <Subsection help={<GoUserGuide />} title={FUNCTION}>
-          <GeneOntologyRibbon geneId={data.id} geneSpecies={data.species} geneSymbol={data.symbol} />
+          <GeneOntologyRibbon geneId={gene.primaryExternalId} geneSpecies={geneSpecies} geneSymbol={geneSymbolText} />
         </Subsection>
 
         <Subsection help={<PathwayUserGuide />} title={PATHWAY}>
           <PathwayWidget
-            geneId={data.id}
-            geneSpecies={data.species}
-            geneSymbol={data.symbol}
-            xrefs={data.crossReferenceMap}
+            geneId={gene.primaryExternalId}
+            geneSpecies={geneSpecies}
+            geneSymbol={geneSymbolText}
+            xrefs={crossReferenceMap}
           />
         </Subsection>
 
         <Subsection title={PHENOTYPES}>
-          <PhenotypeCrossRefs
-            primary={[data.crossReferenceMap.phenotypes]}
-            other={[data.crossReferenceMap.biogrid_orcs, data.crossReferenceMap.phenotypes_impc]}
-          />
-          <PhenotypeTable geneId={data.id} entityType={'gene'} hideSourceColumn={true} />
+          <PhenotypeCrossRefs crossReferenceMap={crossReferenceMap} geneDataProvider={dataProviderAbbr} />
+          <PhenotypeTable geneId={gene.primaryExternalId} entityType={'gene'} hideSourceColumn={true} />
         </Subsection>
 
         <Subsection help={<DiseaseSectionHelp />} title={DISEASE}>
-          <DiseaseComparisonRibbon geneId={data.id} geneTaxon={data.species.taxonId} />
+          <DiseaseComparisonRibbon geneId={gene.primaryExternalId} geneTaxon={taxonId} />
         </Subsection>
 
         <Subsection help={<AlleleTableSectionHelp />} title={ALLELES}>
-          <AlleleTableWrapper geneId={data.id} />
+          <AlleleTableWrapper geneId={gene.primaryExternalId} />
         </Subsection>
 
         <Subsection help={<TransgenicAlleleSectionHelp />} title={TG_ALLELES}>
-          <TransgenicAlleleTable geneId={data.id} />
+          <TransgenicAlleleTable geneId={gene.primaryExternalId} />
         </Subsection>
 
         <Subsection help={<ModelSectionHelp />} title={MODELS}>
-          <GeneModelsTable id={data.id} />
+          <GeneModelsTable id={gene.primaryExternalId} />
         </Subsection>
 
         <Subsection
@@ -198,19 +241,19 @@ const GenePage = () => {
           {!release.isLoading && (
             <GenomeFeatureWrapper
               assembly={genomeLocation.assembly}
-              biotype={data.soTermName}
+              biotype={gene.geneType?.name}
               chromosome={genomeLocation.chromosome}
               displayType="ISOFORM"
               fmax={genomeLocation.end}
               fmin={genomeLocation.start}
-              geneSymbol={data.symbol}
-              genomeLocationList={data.genomeLocations}
+              geneSymbol={geneSymbolText}
+              genomeLocationList={genomeLocations}
               height="200px"
               id="genome-feature-location-id"
-              primaryId={data.id}
-              species={data.species.taxonId}
+              primaryId={gene.primaryExternalId}
+              species={taxonId}
               strand={genomeLocation.strand}
-              synonyms={data.synonyms}
+              synonyms={synonymStrings}
               width="600px"
             />
           )}
@@ -221,37 +264,43 @@ const GenePage = () => {
             refseq={genomeLocation.chromosome}
             start={genomeLocation.start}
             end={genomeLocation.end}
-            gene={data.symbol}
-            species={data.species.taxonId}
+            gene={geneSymbolText}
+            species={taxonId}
           />
         </Subsection>
 
         <Subsection help={<ExpressionUserGuide />} title={EXPRESSION}>
           <ExpressionLinks
-            allExpressionCrossReference={data.crossReferenceMap.expression}
-            geneDataProvider={data.dataProvider}
-            imagesCrossReference={data.crossReferenceMap.expression_images}
+            allExpressionCrossReference={crossReferenceMap.expression}
+            geneDataProvider={dataProviderAbbr}
+            imagesCrossReference={crossReferenceMap.expressionImages}
             otherExpressionCrossReferences={[
-              data.crossReferenceMap.other_expression,
+              crossReferenceMap.otherExpression,
               singleCellAtlasXRef,
-              data.crossReferenceMap['expression-atlas'],
+              crossReferenceMap.expressionAtlas,
             ]}
-            spellCrossReference={data.crossReferenceMap.spell}
-            wildtypeExpressionCrossReference={data.crossReferenceMap.wild_type_expression}
+            spellCrossReference={crossReferenceMap.spell}
+            wildtypeExpressionCrossReference={crossReferenceMap.wildTypeExpression}
           />
-          <ExpressionComparisonRibbon geneId={data.id} geneTaxon={data.species.taxonId} />
+          <ExpressionComparisonRibbon geneId={gene.primaryExternalId} geneTaxon={taxonId} />
         </Subsection>
 
         <Subsection help={<InteractionUserGuide />} title={INTERACTIONS}>
           <GeneInteractionCrossReference
-            crossReference={data.crossReferenceMap.MODinteractions}
-            geneDataProvider={data.dataProvider}
+            crossReference={crossReferenceMap.modInteractions}
+            geneDataProvider={dataProviderAbbr}
           />
-          <GenePhysicalInteractionDetailTable focusGeneDisplayName={data.symbol} focusGeneId={data.id} />
+          <GenePhysicalInteractionDetailTable
+            focusGeneDisplayName={geneSymbolText}
+            focusGeneId={gene.primaryExternalId}
+          />
         </Subsection>
 
         <Subsection help={<GeneticInteractionSectionHelp />} title={GENETIC_INTERACTIONS}>
-          <GeneGeneticInteractionDetailTable focusGeneDisplayName={data.symbol} focusGeneId={data.id} />
+          <GeneGeneticInteractionDetailTable
+            focusGeneDisplayName={geneSymbolText}
+            focusGeneId={gene.primaryExternalId}
+          />
         </Subsection>
       </PageData>
     </DataPage>

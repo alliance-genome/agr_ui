@@ -13,6 +13,7 @@ import DiseaseName from '../../components/disease/DiseaseName.jsx';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import { useParams } from 'react-router-dom';
+import { DISEASE_CATEGORY } from '../../constants';
 
 const SUMMARY = 'Summary';
 const GENES = 'Associated Genes';
@@ -86,7 +87,7 @@ const DiseasePage = () => {
         </PageNavEntity>
       </PageNav>
       <PageData>
-        <PageCategoryLabel category="disease" />
+        <PageCategoryLabel category={DISEASE_CATEGORY} />
         <PageHeader>{data.doTerm.name}</PageHeader>
 
         <Subsection hideTitle title={SUMMARY}>

@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import GenomeFeatureWrapper from './genomeFeatureWrapper.jsx';
-import { getSingleGenomeLocation } from '../../lib/utils';
+import { getSingleGenomeLocation, getGenomicLocations, getSynonymStrings } from '../../lib/utils';
 
 const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisible, onAllelesSelect }) => {
-  const genomeLocationList = gene.genomeLocations;
+  const genomeLocationList = getGenomicLocations(gene);
   const genomeLocation = getSingleGenomeLocation(genomeLocationList);
 
   // Use ISOFORM display type for human and SGD since they don't have variants to display at the moment
   // This avoids showing error messages about missing variant data
   // TODO: Change back to ISOFORM_AND_VARIANT when variant data is available for these species
-  const species = gene.species?.taxonId;
-  const isHumanOrSGD = species === 'NCBITaxon:9606' || species === 'NCBITaxon:559292';
+  const taxonId = gene.taxon?.curie;
+  const isHumanOrSGD = taxonId === 'NCBITaxon:9606' || taxonId === 'NCBITaxon:559292';
   const displayType = isHumanOrSGD ? 'ISOFORM' : 'ISOFORM_AND_VARIANT';
 
   // TODO: remove when onAllelesSelect is in use
@@ -33,20 +33,20 @@ const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisi
     <GenomeFeatureWrapper
       allelesSelected={allelesSelected}
       assembly={genomeLocation.assembly}
-      biotype={gene.soTermName}
+      biotype={gene.geneType?.name}
       chromosome={genomeLocation.chromosome}
       displayType={displayType}
       fmax={fmax}
       fmin={fmin}
-      geneSymbol={gene.symbol}
+      geneSymbol={gene.geneSymbol?.displayText}
       genomeLocationList={genomeLocationList}
       height="200px"
       onAllelesSelect={onAllelesSelect}
       id="genome-feature-allele-location-id"
-      primaryId={gene.id}
-      species={gene.species.taxonId}
+      primaryId={gene.primaryExternalId}
+      species={taxonId}
       strand={genomeLocation.strand}
-      synonyms={gene.synonyms}
+      synonyms={getSynonymStrings(gene)}
       visibleVariants={visibleVariantIds}
       width="600px"
     />

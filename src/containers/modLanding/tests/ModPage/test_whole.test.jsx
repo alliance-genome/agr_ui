@@ -51,7 +51,7 @@ jest.mock('../../content.jsx', () => ({
       fetchNewsCount: 3,
       newsURL: 'https://example.org/',
       linkToNewsPage: 'https://example.org/',
-      search: [['<i>T. Mod</i>', '/search?species=T Mod&category=gene']],
+      search: [['<i>T. Mod</i>', '/search?species=T Mod&category=gene_search_result']],
       resources: [
         ['TestMod Resource 1', 'https://example.org/'],
         ['TestMod Resource 2', 'https://example.org/'],
