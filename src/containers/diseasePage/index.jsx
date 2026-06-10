@@ -11,6 +11,7 @@ import DiseaseToModelTable from './DiseaseToModelTable.jsx';
 import PageNavEntity from '../../components/dataPage/PageNavEntity.jsx';
 import DiseaseName from '../../components/disease/DiseaseName.jsx';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel.jsx';
+import YourInputWelcome from '../../components/YourInputWelcome.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import { useParams } from 'react-router-dom';
 import { DISEASE_CATEGORY } from '../../constants';
@@ -89,6 +90,7 @@ const DiseasePage = () => {
       <PageData>
         <PageCategoryLabel category={DISEASE_CATEGORY} />
         <PageHeader>{data.doTerm.name}</PageHeader>
+        <YourInputWelcome type="Disease" name={data.doTerm.name} allianceId={data.doTerm.curie} />
 
         <Subsection hideTitle title={SUMMARY}>
           <BasicDiseaseInfo disease={data} />

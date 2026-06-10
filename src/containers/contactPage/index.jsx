@@ -10,7 +10,17 @@ const ContactForm = () => {
   const [searchParams] = useSearchParams();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [subject, setSubject] = useState(searchParams.get('subject') || '');
+  const [subject, setSubject] = useState(() => {
+    const explicit = searchParams.get('subject');
+    if (explicit) return explicit;
+    const type = searchParams.get('type');
+    const entityName = searchParams.get('name');
+    const id = searchParams.get('id');
+    if (type || entityName || id) {
+      return `Feedback on ${type || ''} page: ${entityName || ''}${id ? ` (${id})` : ''}`;
+    }
+    return '';
+  });
   const [message, setMessage] = useState('');
   const [emailError, setEmailError] = useState('');
   const [submitStatus, setSubmitStatus] = useState(null);
