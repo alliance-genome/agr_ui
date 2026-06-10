@@ -9,10 +9,7 @@ const YourInputWelcome = ({ type, name, allianceId }) => {
   if (name) params.set('name', name);
   if (allianceId) params.set('id', allianceId);
   return (
-    <Link
-      className={`btn btn-primary btn-sm ${styles.floatingButton}`}
-      to={`/contact-us?${params.toString()}`}
-    >
+    <Link className={`btn btn-primary btn-sm ${styles.floatingButton}`} to={`/contact-us?${params.toString()}`}>
       Your Input Welcome
     </Link>
   );
