@@ -26,11 +26,11 @@ const ContactForm = () => {
   const [submitStatus, setSubmitStatus] = useState(null);
   const [submitError, setSubmitError] = useState('');
   const { executeRecaptcha } = useGoogleReCaptcha();
-  // const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const clearSubmitStatus = () => {
-    if (submitStatus === 'success') {
+    if (submitStatus === 'success' || submitStatus === 'error') {
       setSubmitStatus(null);
+      setSubmitError('');
     }
   };
 

@@ -16,9 +16,9 @@ const YourInputWelcome = ({ type, name, allianceId }) => {
 };
 
 YourInputWelcome.propTypes = {
-  type: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  allianceId: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  name: PropTypes.string,
+  allianceId: PropTypes.string,
 };
 
 export default YourInputWelcome;
