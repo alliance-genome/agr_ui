@@ -1,7 +1,7 @@
 // make the routes easier to read
 /*eslint react/jsx-sort-props:0*/
 import React from 'react';
-import { Route, Routes, Navigate, useParams } from 'react-router-dom';
+import { Route, Routes, Navigate, useParams, useLocation } from 'react-router-dom';
 
 import { WordpressPage, WordpressPostList, WordpressPost } from './containers/wordpress';
 import Homepage from './containers/homepage/index.jsx';
@@ -18,6 +18,7 @@ import ReferencePage from './containers/referencePage/index.jsx';
 import MODLanding from './containers/modLanding/Main.jsx';
 import DiseasePortalPage from './containers/diseasePortal/index.jsx';
 import BlastPage from './containers/blastPage/index.jsx';
+import ContactPage from './containers/contactPage/index.jsx';
 
 const WordpressRedirect = () => {
   const { slug } = useParams();
@@ -48,7 +49,7 @@ const LayoutWithRoutes = () => (
 
       <Route exact path="/disease-portal" element={<DiseasePortalPage name="human" />} />
       <Route exact path="/disease-portal/:name" element={<DiseasePortalPage />} />
-
+      <Route exact path="/contact-us" element={<ContactPage />} />
       <Route exact path="/wordpress/:slug" component={WordpressRedirect} />
       <Route path="/:slug" element={<WordpressPage />} />
 
