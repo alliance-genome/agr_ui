@@ -1,6 +1,9 @@
 @import '../../theme.module';
 
 .fileLink {
+  display: inline-block;
+  min-width: 130px;
+  text-align: center;
   background-color: $primary;
   color: white;
   padding: 0.1rem 0.3rem;

@@ -7,14 +7,14 @@ const fileExtension = (filename) => {
   return filename.substring(filename.lastIndexOf('.') + 1);
 };
 
-const DownloadFileLink = ({ url, fileType }) => {
+const DownloadFileLink = ({ url, fileType, size }) => {
   if (!url) {
     return null;
   }
-  fileType = (fileType || fileExtension(url) || '').toUpperCase();
+  fileType = (fileType || fileExtension(fileType) || '').toUpperCase();
   return (
     <a className={style.fileLink} href={url}>
-      {fileType}
+      {fileType} {size ? `(${(size / 1024 / 1024).toFixed(2)} MB)` : ''}
     </a>
   );
 };
@@ -22,6 +22,7 @@ const DownloadFileLink = ({ url, fileType }) => {
 DownloadFileLink.propTypes = {
   fileType: PropTypes.string,
   url: PropTypes.string,
+  size: PropTypes.number
 };
 
 export default DownloadFileLink;
