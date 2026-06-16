@@ -48,9 +48,7 @@ const SPECIES_SUBTYPES = [
 const DownloadsPage = () => {
   const { isLoading: isLoadingRelease } = useRelease();
 
-  const { data: files, isLoading } = usePageLoadingQuery(
-    `/api/downloads`
-  );
+  const { data: files, isLoading } = usePageLoadingQuery(`/api/downloads`);
 
   if (isLoadingRelease || isLoading) {
     return null;

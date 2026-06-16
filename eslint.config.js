@@ -27,5 +27,5 @@ export default tseslint.config(
     files: ['**/*.{js,jsx}'],
     extends: [tseslint.configs.disableTypeChecked],
   },
-  eslintConfigPrettier,
+  eslintConfigPrettier
 );

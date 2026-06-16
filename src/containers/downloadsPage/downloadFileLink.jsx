@@ -22,7 +22,7 @@ const DownloadFileLink = ({ url, fileType, size }) => {
 DownloadFileLink.propTypes = {
   fileType: PropTypes.string,
   url: PropTypes.string,
-  size: PropTypes.number
+  size: PropTypes.number,
 };
 
 export default DownloadFileLink;

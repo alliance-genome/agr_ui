@@ -27,7 +27,7 @@ DownloadFileRow.propTypes = {
       id: PropTypes.number,
       stableURL: PropTypes.string,
       fileType: PropTypes.string,
-      size: PropTypes.number
+      size: PropTypes.number,
     })
   ),
 };
