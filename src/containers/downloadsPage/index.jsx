@@ -45,19 +45,8 @@ const SPECIES_SUBTYPES = [
   { species: 'Xenopus laevis', subType: 'XBXL' },
   { species: 'Xenopus tropicalis', subType: 'XBXT' },
 ];
-const TAXON_SUBTYPES = [
-  { species: 'Caenorhabditis elegans', subType: 'NCBITaxon6239' },
-  { species: 'Danio rerio', subType: 'NCBITaxon7955' },
-  { species: 'Drosophila melanogaster', subType: 'NCBITaxon7227' },
-  { species: 'Mus musculus', subType: 'NCBITaxon10090' },
-  { species: 'Rattus norvegicus', subType: 'NCBITaxon10116' },
-  { species: 'Saccharomyces cerevisiae', subType: 'NCBITaxon559292' },
-];
-
 const DownloadsPage = () => {
-  const { data: dataRelease, isLoading: isLoadingRelease } = useRelease();
-
-  const { releaseVersion } = dataRelease || {};
+  const { isLoading: isLoadingRelease } = useRelease();
 
   const { data: files, isLoading } = usePageLoadingQuery(
     `/api/downloads`
