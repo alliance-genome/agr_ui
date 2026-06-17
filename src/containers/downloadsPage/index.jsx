@@ -134,10 +134,7 @@ const DownloadsPage = () => {
 
         <Subsection title={GENE_DESCRIPTIONS}>
           <DownloadFileTable>
-            <DownloadFileRow
-              description="All genes"
-              files={getFilesForDataType('GENE', 'COMBINED')}
-            />
+            <DownloadFileRow description="All genes" files={getFilesForDataType('GENE', 'COMBINED')} />
             {SPECIES_SUBTYPES.map((speciesSubType) => (
               <DownloadFileRow
                 description={
