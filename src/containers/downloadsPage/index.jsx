@@ -5,7 +5,6 @@ import { DataPage, PageData, PageHeader, PageNav } from '../../components/dataPa
 
 import DownloadFileTable from './downloadFileTable.jsx';
 import HelpPopup from '../../components/helpPopup.jsx';
-import GeneDescriptionsHelp from './geneDescriptionsHelp.jsx';
 import GeneticInteractionsHelp from './geneticInteractionsHelp.jsx';
 import VariantsHelp from './variantsHelp.jsx';
 import HeadMetaTags from '../../components/headMetaTags.jsx';
@@ -17,15 +16,17 @@ import { useRelease } from '../../hooks/ReleaseContextProvider.jsx';
 
 const DISEASE = 'Disease';
 const EXPRESSION = 'Expression';
+const PHENOTYPES = 'Phenotypes';
 const MOLECULAR_INTERACTIONS = 'Molecular Interactions';
 const GENETIC_INTERACTIONS = 'Genetic Interactions';
-const GENE_DESCRIPTIONS = 'Gene Descriptions';
+const GENE_DESCRIPTIONS = 'Genes';
 const ORTHOLOGY = 'Orthology';
 const VARIANTS = 'Variants (VCF)';
 const VARIANT_ALLELE = 'Variants/Alleles';
 const SECTIONS = [
   { name: DISEASE },
   { name: EXPRESSION },
+  { name: PHENOTYPES },
   { name: GENE_DESCRIPTIONS },
   { name: MOLECULAR_INTERACTIONS },
   { name: GENETIC_INTERACTIONS },
@@ -107,8 +108,29 @@ const DownloadsPage = () => {
           </DownloadFileTable>
         </Subsection>
 
-        <Subsection help={<GeneDescriptionsHelp />} title={GENE_DESCRIPTIONS}>
+        <Subsection title={PHENOTYPES}>
           <DownloadFileTable>
+            <DownloadFileRow
+              description="All phenotype annotations"
+              files={getFilesForDataType('PHENOTYPE-ALLIANCE', 'COMBINED')}
+            />
+            {SPECIES_SUBTYPES.filter(({ subType }) => subType !== 'HUMAN').map((speciesSubType) => (
+              <DownloadFileRow
+                description={
+                  <>
+                    <SpeciesName>{speciesSubType.species}</SpeciesName> annotations
+                  </>
+                }
+                key={speciesSubType.species}
+                files={getFilesForDataType('PHENOTYPE-ALLIANCE', speciesSubType.subType)}
+              />
+            ))}
+          </DownloadFileTable>
+        </Subsection>
+
+        <Subsection title={GENE_DESCRIPTIONS}>
+          <DownloadFileTable>
+            <DownloadFileRow description="All genes" files={getFilesForDataType('GENE', 'COMBINED')} />
             {SPECIES_SUBTYPES.map((speciesSubType) => (
               <DownloadFileRow
                 description={
@@ -140,7 +162,8 @@ const DownloadsPage = () => {
                     <ExternalLink href="http://www.psidev.info">HUPO Proteomics Standards Initiative</ExternalLink>{' '}
                     Molecular Interactions (PSI-MI) working group. The interaction data is sourced from Alliance members
                     WormBase and FlyBase, as well as the{' '}
-                    <ExternalLink href="http://www.imexconsortium.org">IMEx consortium</ExternalLink> and the{' '}
+                    <ExternalLink href="http://www.imexconsortium.org">IMEx consortium</ExternalLink>
+                    {' and the '}
                     <ExternalLink href="https://thebiogrid.org">BioGRID database</ExternalLink>.
                   </HelpPopup>
                 </span>
