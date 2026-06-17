@@ -94,19 +94,17 @@ const DownloadsPage = () => {
               description="All expression annotations"
               files={getFilesForDataType('EXPRESSION-ALLIANCE', 'COMBINED')}
             />
-            {SPECIES_SUBTYPES.filter(({ subType }) => subType !== 'HUMAN').map(
-              (speciesSubType) => (
-                <DownloadFileRow
-                  description={
-                    <>
-                      <SpeciesName>{speciesSubType.species}</SpeciesName> annotations
-                    </>
-                  }
-                  key={speciesSubType.species}
-                  files={getFilesForDataType('EXPRESSION-ALLIANCE', speciesSubType.subType)}
-                />
-              )
-            )}
+            {SPECIES_SUBTYPES.filter(({ subType }) => subType !== 'HUMAN').map((speciesSubType) => (
+              <DownloadFileRow
+                description={
+                  <>
+                    <SpeciesName>{speciesSubType.species}</SpeciesName> annotations
+                  </>
+                }
+                key={speciesSubType.species}
+                files={getFilesForDataType('EXPRESSION-ALLIANCE', speciesSubType.subType)}
+              />
+            ))}
           </DownloadFileTable>
         </Subsection>
 
@@ -116,19 +114,17 @@ const DownloadsPage = () => {
               description="All phenotype annotations"
               files={getFilesForDataType('PHENOTYPE-ALLIANCE', 'COMBINED')}
             />
-            {SPECIES_SUBTYPES.filter(({ subType }) => subType !== 'HUMAN').map(
-              (speciesSubType) => (
-                <DownloadFileRow
-                  description={
-                    <>
-                      <SpeciesName>{speciesSubType.species}</SpeciesName> annotations
-                    </>
-                  }
-                  key={speciesSubType.species}
-                  files={getFilesForDataType('PHENOTYPE-ALLIANCE', speciesSubType.subType)}
-                />
-              )
-            )}
+            {SPECIES_SUBTYPES.filter(({ subType }) => subType !== 'HUMAN').map((speciesSubType) => (
+              <DownloadFileRow
+                description={
+                  <>
+                    <SpeciesName>{speciesSubType.species}</SpeciesName> annotations
+                  </>
+                }
+                key={speciesSubType.species}
+                files={getFilesForDataType('PHENOTYPE-ALLIANCE', speciesSubType.subType)}
+              />
+            ))}
           </DownloadFileTable>
         </Subsection>
 
@@ -156,18 +152,16 @@ const DownloadsPage = () => {
                 <span>
                   All molecular interactions{' '}
                   <HelpPopup id="interactions-help">
-                    This file provides a set of annotations of molecular interactions for genes
-                    and gene products for all Alliance species (human, rat, mouse, zebrafish,
-                    fruit fly, nematode, and yeast). The file is in the{' '}
+                    This file provides a set of annotations of molecular interactions for genes and gene products for
+                    all Alliance species (human, rat, mouse, zebrafish, fruit fly, nematode, and yeast). The file is in
+                    the{' '}
                     <ExternalLink href="https://github.com/HUPO-PSI/miTab/blob/master/PSI-MITAB27Format.md">
                       PSI-MI TAB 2.7 format
                     </ExternalLink>
                     , a tab-delimited format established by the{' '}
-                    <ExternalLink href="http://www.psidev.info">
-                      HUPO Proteomics Standards Initiative
-                    </ExternalLink>{' '}
-                    Molecular Interactions (PSI-MI) working group. The interaction data is sourced
-                    from Alliance members WormBase and FlyBase, as well as the{' '}
+                    <ExternalLink href="http://www.psidev.info">HUPO Proteomics Standards Initiative</ExternalLink>{' '}
+                    Molecular Interactions (PSI-MI) working group. The interaction data is sourced from Alliance members
+                    WormBase and FlyBase, as well as the{' '}
                     <ExternalLink href="http://www.imexconsortium.org">IMEx consortium</ExternalLink>
                     {' and the '}
                     <ExternalLink href="https://thebiogrid.org">BioGRID database</ExternalLink>.
