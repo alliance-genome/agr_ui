@@ -45,30 +45,17 @@ const SPECIES_SUBTYPES = [
   { species: 'Xenopus laevis', subType: 'XBXL' },
   { species: 'Xenopus tropicalis', subType: 'XBXT' },
 ];
-const TAXON_SUBTYPES = [
-  { species: 'Caenorhabditis elegans', subType: 'NCBITaxon6239' },
-  { species: 'Danio rerio', subType: 'NCBITaxon7955' },
-  { species: 'Drosophila melanogaster', subType: 'NCBITaxon7227' },
-  { species: 'Mus musculus', subType: 'NCBITaxon10090' },
-  { species: 'Rattus norvegicus', subType: 'NCBITaxon10116' },
-  { species: 'Saccharomyces cerevisiae', subType: 'NCBITaxon559292' },
-];
-
 const DownloadsPage = () => {
-  const { data: dataRelease, isLoading: isLoadingRelease } = useRelease();
+  const { isLoading: isLoadingRelease } = useRelease();
 
-  const { releaseVersion } = dataRelease || {};
-
-  const { data: files, isLoading } = usePageLoadingQuery(
-    `https://fms.alliancegenome.org/api/datafile/by/release/${releaseVersion}?latest=true`
-  );
+  const { data: files, isLoading } = usePageLoadingQuery(`/api/downloads`);
 
   if (isLoadingRelease || isLoading) {
     return null;
   }
 
-  const getFileForDataType = (dataType, dataSubType) => {
-    return files.find((file) => file.dataType.name === dataType && file.dataSubType.name === dataSubType);
+  const getFilesForDataType = (dataType, dataSubType) => {
+    return files.filter((file) => file.dataType === dataType && file.dataSubType === dataSubType);
   };
 
   return (
@@ -84,10 +71,7 @@ const DownloadsPage = () => {
           <DownloadFileTable>
             <DownloadFileRow
               description="All disease associations"
-              files={[
-                getFileForDataType('DISEASE-ALLIANCE-JSON', 'COMBINED'),
-                getFileForDataType('DISEASE-ALLIANCE', 'COMBINED'),
-              ]}
+              files={getFilesForDataType('DISEASE-ALLIANCE', 'COMBINED')}
             />
             {SPECIES_SUBTYPES.map((speciesSubType) => (
               <DownloadFileRow
@@ -97,10 +81,7 @@ const DownloadsPage = () => {
                   </>
                 }
                 key={speciesSubType.species}
-                files={[
-                  getFileForDataType('DISEASE-ALLIANCE-JSON', speciesSubType.subType),
-                  getFileForDataType('DISEASE-ALLIANCE', speciesSubType.subType),
-                ]}
+                files={getFilesForDataType('DISEASE-ALLIANCE', speciesSubType.subType)}
               />
             ))}
           </DownloadFileTable>
@@ -110,10 +91,7 @@ const DownloadsPage = () => {
           <DownloadFileTable>
             <DownloadFileRow
               description="All expression annotations"
-              files={[
-                getFileForDataType('EXPRESSION-ALLIANCE-JSON', 'COMBINED'),
-                getFileForDataType('EXPRESSION-ALLIANCE', 'COMBINED'),
-              ]}
+              files={getFilesForDataType('EXPRESSION-ALLIANCE', 'COMBINED')}
             />
             {SPECIES_SUBTYPES.filter(({ subType }) => subType !== 'HUMAN').map((speciesSubType) => (
               <DownloadFileRow
@@ -123,10 +101,7 @@ const DownloadsPage = () => {
                   </>
                 }
                 key={speciesSubType.species}
-                files={[
-                  getFileForDataType('EXPRESSION-ALLIANCE-JSON', speciesSubType.subType),
-                  getFileForDataType('EXPRESSION-ALLIANCE', speciesSubType.subType),
-                ]}
+                files={getFilesForDataType('EXPRESSION-ALLIANCE', speciesSubType.subType)}
               />
             ))}
           </DownloadFileTable>
@@ -142,11 +117,7 @@ const DownloadsPage = () => {
                   </>
                 }
                 key={speciesSubType.species}
-                files={[
-                  getFileForDataType('GENE-DESCRIPTION-JSON', speciesSubType.subType),
-                  getFileForDataType('GENE-DESCRIPTION-TSV', speciesSubType.subType),
-                  getFileForDataType('GENE-DESCRIPTION-TXT', speciesSubType.subType),
-                ]}
+                files={getFilesForDataType('GENE', speciesSubType.subType)}
               />
             ))}
           </DownloadFileTable>
@@ -174,7 +145,7 @@ const DownloadsPage = () => {
                   </HelpPopup>
                 </span>
               }
-              files={[getFileForDataType('INTERACTION-MOL', 'COMBINED')]}
+              files={getFilesForDataType('INTERACTION-MOL', 'COMBINED')}
             />
             {SPECIES_SUBTYPES.map((speciesSubType) => (
               <DownloadFileRow
@@ -184,12 +155,12 @@ const DownloadsPage = () => {
                   </>
                 }
                 key={speciesSubType.species}
-                files={[getFileForDataType('INTERACTION-MOL', speciesSubType.subType)]}
+                files={getFilesForDataType('INTERACTION-MOL', speciesSubType.subType)}
               />
             ))}
             <DownloadFileRow
               description="SARS-CoV-2 molecular interactions"
-              files={[getFileForDataType('INTERACTION-MOL', 'SARS-CoV-2')]}
+              files={getFilesForDataType('INTERACTION-MOL', 'SARS-CoV-2')}
             />
           </DownloadFileTable>
         </Subsection>
@@ -198,7 +169,7 @@ const DownloadsPage = () => {
           <DownloadFileTable>
             <DownloadFileRow
               description="All genetic interactions"
-              files={[getFileForDataType('INTERACTION-GEN', 'COMBINED')]}
+              files={getFilesForDataType('INTERACTION-GEN', 'COMBINED')}
             />
             {SPECIES_SUBTYPES.map((speciesSubType) => (
               <DownloadFileRow
@@ -208,7 +179,7 @@ const DownloadsPage = () => {
                   </>
                 }
                 key={speciesSubType.species}
-                files={[getFileForDataType('INTERACTION-GEN', speciesSubType.subType)]}
+                files={getFilesForDataType('INTERACTION-GEN', speciesSubType.subType)}
               />
             ))}
           </DownloadFileTable>
@@ -218,10 +189,7 @@ const DownloadsPage = () => {
           <DownloadFileTable>
             <DownloadFileRow
               description="Alliance combined orthology data"
-              files={[
-                getFileForDataType('ORTHOLOGY-ALLIANCE', 'COMBINED'),
-                getFileForDataType('ORTHOLOGY-ALLIANCE-JSON', 'COMBINED'),
-              ]}
+              files={getFilesForDataType('ORTHOLOGY-ALLIANCE', 'COMBINED')}
             />
           </DownloadFileTable>
         </Subsection>
@@ -234,7 +202,7 @@ const DownloadsPage = () => {
                   <SpeciesName>Caenorhabditis elegans</SpeciesName> variants
                 </>
               }
-              files={[getFileForDataType('VCF', 'WBcel235')]}
+              files={getFilesForDataType('VARIANT-CONSEQUENCE', 'WB')}
             />
             <DownloadFileRow
               description={
@@ -242,7 +210,7 @@ const DownloadsPage = () => {
                   <SpeciesName>Danio rerio</SpeciesName> variants
                 </>
               }
-              files={[getFileForDataType('VCF', 'GRCz11')]}
+              files={getFilesForDataType('VARIANT-CONSEQUENCE', 'ZFIN')}
             />
             <DownloadFileRow
               description={
@@ -250,7 +218,7 @@ const DownloadsPage = () => {
                   <SpeciesName>Drosophila melanogaster</SpeciesName> variants
                 </>
               }
-              files={[getFileForDataType('VCF', 'R6')]}
+              files={getFilesForDataType('VARIANT-CONSEQUENCE', 'FB')}
             />
             <DownloadFileRow
               description={
@@ -258,7 +226,7 @@ const DownloadsPage = () => {
                   <SpeciesName>Mus musculus</SpeciesName> variants
                 </>
               }
-              files={[getFileForDataType('VCF', 'GRCm39')]}
+              files={getFilesForDataType('VARIANT-CONSEQUENCE', 'MGI')}
             />
             <DownloadFileRow
               description={
@@ -266,25 +234,22 @@ const DownloadsPage = () => {
                   <SpeciesName>Rattus norvegicus</SpeciesName> variants
                 </>
               }
-              files={[getFileForDataType('VCF', 'mRatBN7.2')]}
+              files={getFilesForDataType('VARIANT-CONSEQUENCE', 'RGD')}
             />
           </DownloadFileTable>
         </Subsection>
 
         <Subsection title={VARIANT_ALLELE}>
           <DownloadFileTable>
-            {TAXON_SUBTYPES.map((taxonSubType) => (
+            {SPECIES_SUBTYPES.map((speciesSubType) => (
               <DownloadFileRow
                 description={
                   <>
-                    <SpeciesName>{taxonSubType.species}</SpeciesName> variants/alleles
+                    <SpeciesName>{speciesSubType.species}</SpeciesName> variants/alleles
                   </>
                 }
-                key={taxonSubType.species}
-                files={[
-                  getFileForDataType('VARIANT-ALLELE-JSON', taxonSubType.subType),
-                  getFileForDataType('VARIANT-ALLELE', taxonSubType.subType),
-                ]}
+                key={speciesSubType.species}
+                files={getFilesForDataType('VARIANT-ALLELE', speciesSubType.subType)}
               />
             ))}
           </DownloadFileTable>
