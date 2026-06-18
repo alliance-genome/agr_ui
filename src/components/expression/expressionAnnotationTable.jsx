@@ -105,7 +105,7 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
 
   const data = results?.map((result) => ({
     key: hash(result),
-    species: result.geneExpressionAnnotation.expressionAnnotationSubject.taxon.name,
+    species: result.geneExpressionAnnotation.expressionAnnotationSubject.taxon.species.fullName,
     gene: result.geneExpressionAnnotation.expressionAnnotationSubject,
     location: result.geneExpressionAnnotation.whereExpressedStatement,
     stage: result.geneExpressionAnnotation.whenExpressedStageName,
