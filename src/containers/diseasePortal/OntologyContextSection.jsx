@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import fetchData from '../../lib/fetchData';
 import OntologyTree from '../ontologyBrowser/OntologyTree.jsx';
+import { ANNOTATION_TYPES } from '../ontologyBrowser/annotationTypes.js';
 import { CountsProvider } from '../ontologyBrowser/useDiseaseCounts.jsx';
 import { TermsProvider } from '../ontologyBrowser/useDiseaseTerms.jsx';
 import style from './style.module.scss';
@@ -39,17 +40,28 @@ const OntologyContextSection = ({ curie, name }) => {
   return (
     <CountsProvider>
       <TermsProvider>
-        {parents.length > 0 && (
-          <div className={style.ontologyParents}>
-            <span className={style.ontologyParentsLabel}>Parent terms:</span>
-            {parents.map((p) => (
-              <span key={p.curie} className={style.ontologyParentItem}>
-                <em className={style.ontologyRelation}>is-a</em>
-                <Link to={`/ontology/disease/${p.curie}`}>{p.name}</Link>
+        <div className={style.ontologyHeader}>
+          {parents.length > 0 && (
+            <div className={style.ontologyParents}>
+              <span className={style.ontologyParentsLabel}>Parent terms:</span>
+              {parents.map((p) => (
+                <span key={p.curie} className={style.ontologyParentItem}>
+                  <em className={style.ontologyRelation}>is-a</em>
+                  <Link to={`/ontology/disease/${p.curie}`}>{p.name}</Link>
+                </span>
+              ))}
+            </div>
+          )}
+
+          <div className={style.ontologyLegend}>
+            <span className={style.ontologyLegendLabel}>Annotation Available:</span>
+            {ANNOTATION_TYPES.map((t) => (
+              <span key={t.id} className={style.ontologyLegendItem} style={{ background: t.bg, color: t.fg }}>
+                {t.label}
               </span>
             ))}
           </div>
-        )}
+        </div>
 
         <div className={style.ontologyTreePane}>
           <OntologyTree
@@ -59,7 +71,7 @@ const OntologyContextSection = ({ curie, name }) => {
             focusedCurie={selectedCurie}
             onSelect={setSelectedCurie}
             scrollOnFocus={false}
-            leafHref={(c) => `/disease/${c}`}
+            nodeHref={(c) => `/ontology/disease/${c}`}
           />
         </div>
       </TermsProvider>

@@ -17,12 +17,12 @@ import { data } from './portalData.js';
 import style from './style.module.scss';
 
 const SUMMARY = 'Summary';
-const ONTOLOGY = 'Disease Ontology';
+const ONTOLOGY = 'Ontology View';
 const COMMUNITY_RESOURCES = 'Community Resources';
 const RECENT_PAPERS = 'Recent Alliance Papers';
 const MEMBERS = 'Members';
 
-const SECTIONS = [{ name: SUMMARY }, { name: ONTOLOGY }, { name: RECENT_PAPERS }, { name: COMMUNITY_RESOURCES }];
+const SECTIONS = [{ name: SUMMARY }, { name: RECENT_PAPERS }, { name: COMMUNITY_RESOURCES }, { name: ONTOLOGY }];
 
 const DiseasePortalPage = () => {
   const { name: dname } = useParams();
@@ -76,14 +76,14 @@ const DiseasePortalPage = () => {
           <Subsection title={SUMMARY}>
             <SummarySection disease={diseaseApiData} />
           </Subsection>
-          <Subsection title={ONTOLOGY}>
-            <OntologyContextSection curie={diseaseData.doid} name={diseaseApiData?.doTerm?.name || portalTitle} />
-          </Subsection>
           <Subsection title={RECENT_PAPERS}>
             <PapersSection disease={diseaseData} />
           </Subsection>
           <Subsection title={COMMUNITY_RESOURCES}>
             <ResourcesSection disease={diseaseData} />
+          </Subsection>
+          <Subsection title={ONTOLOGY}>
+            <OntologyContextSection curie={diseaseData.doid} name={diseaseApiData?.doTerm?.name || portalTitle} />
           </Subsection>
           <div className={style.membersFooter}>
             <Subsection hideTitle title={MEMBERS}>

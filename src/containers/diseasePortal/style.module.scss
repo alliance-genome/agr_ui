@@ -104,12 +104,21 @@ $max-width: 800px;
 
 // Embedded ontology context (KANBAN-1391): immediate-parent links above the
 // scoped, in-page-explorable focus-term tree.
+// One row: parent-term links on the left, annotation legend pushed to the
+// right (margin-left:auto), baseline-aligned. Wraps on narrow viewports.
+.ontologyHeader {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
 .ontologyParents {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   gap: 0.25rem 0.75rem;
-  margin-bottom: 0.75rem;
 }
 
 .ontologyParentsLabel {
@@ -126,6 +135,27 @@ $max-width: 800px;
 .ontologyRelation {
   margin-right: 0.4rem;
   color: $gray-600;
+}
+
+.ontologyLegend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  font-size: 0.85rem;
+}
+
+.ontologyLegendLabel {
+  color: $gray-700;
+  margin-right: 4px;
+}
+
+.ontologyLegendItem {
+  padding: 1px 8px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
 .ontologyTreePane {

@@ -17,7 +17,7 @@ const OntologyTree = ({
   focusedCurie,
   onSelect,
   scrollOnFocus = true,
-  leafHref,
+  nodeHref,
 }) => {
   const [open, setOpen] = useState(false);
   const rowRef = useRef(null);
@@ -43,10 +43,10 @@ const OntologyTree = ({
   const knownEmpty = !!data && childTerms.length === 0 && !(data.doTerm?.descendantCount > 0);
   const hasChildren = !knownEmpty;
   const isFocused = focusedCurie === curie;
-  // A leaf has nothing to drill into, so when the consumer supplies a leafHref
-  // its label becomes a link out to that entity's page. Non-leaf rows keep
-  // their expand/select behavior.
-  const leafUrl = !hasChildren && leafHref ? leafHref(curie) : null;
+  // When the consumer supplies nodeHref, every term label (leaf or not) becomes
+  // a link to that URL. Drill-down stays on the separate chevron control, so
+  // linking the label doesn't interfere with exploring children in place.
+  const nodeUrl = nodeHref ? nodeHref(curie) : null;
 
   const toggle = (e) => {
     e.stopPropagation();
@@ -73,8 +73,8 @@ const OntologyTree = ({
         ) : (
           <span className={style.toggleSpacer} />
         )}
-        {leafUrl ? (
-          <Link to={leafUrl} onClick={(e) => e.stopPropagation()}>
+        {nodeUrl ? (
+          <Link to={nodeUrl} onClick={(e) => e.stopPropagation()}>
             {name}
           </Link>
         ) : (
@@ -101,7 +101,7 @@ const OntologyTree = ({
                 focusedCurie={focusedCurie}
                 onSelect={onSelect}
                 scrollOnFocus={scrollOnFocus}
-                leafHref={leafHref}
+                nodeHref={nodeHref}
               />
             ))}
         </div>
@@ -118,7 +118,7 @@ OntologyTree.propTypes = {
   focusedCurie: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
   scrollOnFocus: PropTypes.bool,
-  leafHref: PropTypes.func,
+  nodeHref: PropTypes.func,
 };
 
 export default OntologyTree;
