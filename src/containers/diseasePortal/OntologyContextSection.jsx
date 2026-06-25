@@ -59,6 +59,7 @@ const OntologyContextSection = ({ curie, name }) => {
             focusedCurie={selectedCurie}
             onSelect={setSelectedCurie}
             scrollOnFocus={false}
+            leafHref={(c) => `/disease/${c}`}
           />
         </div>
       </TermsProvider>

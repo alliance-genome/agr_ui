@@ -3,12 +3,22 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 import CountBadge from './CountBadge.jsx';
 import { ANNOTATION_TYPES } from './annotationTypes.js';
 import { useDiseaseTerm } from './useDiseaseTerms.jsx';
 import style from './style.module.scss';
 
-const OntologyTree = ({ curie, name, depth = 0, forceExpanded, focusedCurie, onSelect, scrollOnFocus = true }) => {
+const OntologyTree = ({
+  curie,
+  name,
+  depth = 0,
+  forceExpanded,
+  focusedCurie,
+  onSelect,
+  scrollOnFocus = true,
+  leafHref,
+}) => {
   const [open, setOpen] = useState(false);
   const rowRef = useRef(null);
 
@@ -33,6 +43,10 @@ const OntologyTree = ({ curie, name, depth = 0, forceExpanded, focusedCurie, onS
   const knownEmpty = !!data && childTerms.length === 0 && !(data.doTerm?.descendantCount > 0);
   const hasChildren = !knownEmpty;
   const isFocused = focusedCurie === curie;
+  // A leaf has nothing to drill into, so when the consumer supplies a leafHref
+  // its label becomes a link out to that entity's page. Non-leaf rows keep
+  // their expand/select behavior.
+  const leafUrl = !hasChildren && leafHref ? leafHref(curie) : null;
 
   const toggle = (e) => {
     e.stopPropagation();
@@ -59,7 +73,13 @@ const OntologyTree = ({ curie, name, depth = 0, forceExpanded, focusedCurie, onS
         ) : (
           <span className={style.toggleSpacer} />
         )}
-        <span>{name}</span>
+        {leafUrl ? (
+          <Link to={leafUrl} onClick={(e) => e.stopPropagation()}>
+            {name}
+          </Link>
+        ) : (
+          <span>{name}</span>
+        )}
         <span className={style.curie}>&nbsp;{curie}</span>
         <span className={style.badgeRow}>
           {ANNOTATION_TYPES.map((t) => (
@@ -81,6 +101,7 @@ const OntologyTree = ({ curie, name, depth = 0, forceExpanded, focusedCurie, onS
                 focusedCurie={focusedCurie}
                 onSelect={onSelect}
                 scrollOnFocus={scrollOnFocus}
+                leafHref={leafHref}
               />
             ))}
         </div>
@@ -97,6 +118,7 @@ OntologyTree.propTypes = {
   focusedCurie: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
   scrollOnFocus: PropTypes.bool,
+  leafHref: PropTypes.func,
 };
 
 export default OntologyTree;
