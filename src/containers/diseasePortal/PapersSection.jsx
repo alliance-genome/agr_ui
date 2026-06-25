@@ -34,12 +34,19 @@ const PaperEntry = ({ reference }) => {
   const species = speciesForCorpus(reference.mods_in_corpus);
   return (
     <div className={style.publicationEntry}>
-      {species.map((sp) => (
-        <div style={{ float: 'left', lineHeight: 0.9, paddingRight: 8 }} key={`${reference.curie}-${sp}`}>
+      {species.map((sp, i) => (
+        // Overlap adjacent corpus icons by ~one border-width so their baked-in
+        // borders read as a single shared edge (honeycomb), not a doubled one.
+        // The gap before the citation is handled by the Link's left margin.
+        <div style={{ lineHeight: 0.9, marginLeft: i === 0 ? 0 : -1 }} key={`${reference.curie}-${sp}`}>
           <SpeciesIcon scale={scale} species={sp} />
         </div>
       ))}
-      <Link to={`/reference/${reference.curie}`} dangerouslySetInnerHTML={{ __html: reference.citation }} />
+      <Link
+        to={`/reference/${reference.curie}`}
+        style={{ marginLeft: 8 }}
+        dangerouslySetInnerHTML={{ __html: reference.citation }}
+      />
     </div>
   );
 };
