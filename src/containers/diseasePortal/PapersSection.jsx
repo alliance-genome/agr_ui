@@ -1,79 +1,87 @@
 import React from 'react';
 import NotFound from '../../components/notFound.jsx';
-import ExternalLink from '../../components/ExternalLink.jsx';
 import SpeciesIcon from '../../components/speciesIcon/index.jsx';
-import { speciesMap } from '../referencePage/index.jsx';
 import { Link } from 'react-router-dom';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import style from './style.module.scss';
 
-const CitationLink = ({ curie }) => {
-  const { data: pubData, isLoading, isError } = usePageLoadingQuery(`/api/reference/${curie}`);
+// Species shown for each MOD corpus. The authoritative source is the paper's
+// `mods_in_corpus` (set by the curator pipeline), not cross-reference prefixes.
+// Note: the RGD (rat) corpus is intentionally displayed as Human per the curator.
+const MOD_SPECIES = {
+  MGI: 'Mus musculus',
+  RGD: 'Homo sapiens',
+  XB: 'Xenopus tropicalis',
+  ZFIN: 'Danio rerio',
+  FB: 'Drosophila melanogaster',
+  WB: 'Caenorhabditis elegans',
+  SGD: 'Saccharomyces cerevisiae',
+};
+
+// Map a paper's corpus membership to the species icon(s) to render. `AGR` (the
+// Alliance central corpus) has no species of its own, so it is ignored; if no
+// MOD corpus maps, fall back to Homo sapiens.
+const speciesForCorpus = (modsInCorpus = []) => {
+  const species = modsInCorpus.map((mod) => MOD_SPECIES[mod]).filter(Boolean);
+  return species.length ? species : ['Homo sapiens'];
+};
+
+const PaperEntry = ({ reference }) => {
+  if (!reference || !reference.curie) {
+    return null;
+  }
+  const scale = 6 / 13;
+  const species = speciesForCorpus(reference.mods_in_corpus);
+  return (
+    <div className={style.publicationEntry}>
+      {species.map((sp) => (
+        <div style={{ float: 'left', lineHeight: 0.9, paddingRight: 8 }} key={`${reference.curie}-${sp}`}>
+          <SpeciesIcon scale={scale} species={sp} />
+        </div>
+      ))}
+      <Link to={`/reference/${reference.curie}`} dangerouslySetInnerHTML={{ __html: reference.citation }} />
+    </div>
+  );
+};
+
+// The endpoint matches the disease name as free text against title + abstract,
+// requiring all tokens. A trailing "disease" token therefore excludes on-topic
+// papers that don't repeat the word (e.g. "Alzheimer's disease" misses papers
+// titled "...Implications for Alzheimer") and lets the common word "disease"
+// pull in tangential papers. Drop a trailing "disease" word so the query anchors
+// on the distinctive part of the name. See RECENT_PAPERS_API.md.
+const normalizeDiseaseQuery = (name) => {
+  if (!name) {
+    return name;
+  }
+  const trimmed = name.replace(/\s+disease$/i, '').trim();
+  return trimmed || name;
+};
+
+const PapersSection = ({ diseaseName }) => {
+  const query = normalizeDiseaseQuery(diseaseName);
+  const url = query
+    ? `/api/reference/latest-literature-by-disease-per-mod?disease=${encodeURIComponent(query)}&latest=1`
+    : null;
+  const { data, isLoading, isError } = usePageLoadingQuery(url);
+
+  if (!diseaseName || isLoading) {
+    return null;
+  }
   if (isError) {
     return <NotFound />;
   }
-  if (isLoading) {
-    return null;
+
+  const results = data?.results || [];
+  if (results.length === 0) {
+    return <div className={style.publicationEntry}>No recent Alliance papers found for this disease.</div>;
   }
 
-  if (pubData) {
-    const ref = pubData.literatureSummary;
-
-    ref.modXrefs = [];
-    ref.extXrefs = [];
-    for (let xr = 0; xr < ref.cross_references.length; xr++) {
-      if (speciesMap[ref.cross_references[xr].curie.substring(0, ref.cross_references[xr].curie.indexOf(':'))])
-        ref.modXrefs.push(ref.cross_references[xr]);
-      else ref.extXrefs.push(ref.cross_references[xr]);
-    }
-
-    const scale = 6 / 13;
-    const prefs = ref.modXrefs.map((xref) => xref.curie.substring(0, xref.curie.indexOf(':')));
-    let mods = [];
-    for (let i = 0; i < prefs.length; i++) {
-      if (speciesMap[prefs[i]]) mods.push(speciesMap[prefs[i]]);
-    }
-    if (prefs.length === 0) mods.push('Homo sapiens');
-
-    return (
-      <>
-        {mods.map((mid) => (
-          <div style={{ float: 'left', lineHeight: 0.9, paddingRight: 8 }} key={`${mid}-sprite`}>
-            <SpeciesIcon scale={scale} species={mid} />
-          </div>
-        ))}
-        <Link to={`/reference/${curie}`} dangerouslySetInnerHTML={{ __html: ref.citation }} />
-      </>
-    );
-  }
-};
-
-const PapersSection = ({ disease }) => {
   return (
     <div>
-      {disease.publications.map((publication, index) => {
-        if (publication.curie) {
-          return (
-            <div className={style.publicationEntry} key={'publications-' + index}>
-              <CitationLink curie={publication.curie} />
-            </div>
-          );
-        }
-        if (publication.pmid) {
-          return (
-            <div className={style.publicationEntry} key={'publications-' + index}>
-              <ExternalLink href={'https://www.ncbi.nlm.nih.gov/pubmed/' + publication.pmid}>
-                {publication.title}
-              </ExternalLink>
-            </div>
-          );
-        }
-        return (
-          <div className={style.publicationEntry} key={'publications-' + index}>
-            {publication.title}
-          </div>
-        );
-      })}
+      {results.map((result, index) => (
+        <PaperEntry key={result.literatureSummary?.curie || index} reference={result.literatureSummary} />
+      ))}
     </div>
   );
 };
