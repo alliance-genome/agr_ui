@@ -70,7 +70,7 @@ const OntologyTree = ({ curie, name, depth = 0, forceExpanded, focusedCurie, onS
       {open && childTerms.length > 0 && (
         <div className={style.children}>
           {[...childTerms]
-            .sort((a, b) => (a.name || '').localeCompare(b.name || ''))
+            .sort((a, b) => (a.name || '').localeCompare(b.name || '', undefined, { numeric: true }))
             .map((c) => (
               <OntologyTree
                 key={c.curie}
