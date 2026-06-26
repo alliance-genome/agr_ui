@@ -99,6 +99,12 @@ $max-width: 800px;
 }
 
 .publicationEntry {
+  // Lay out the species icon(s) and citation as flex items so the row's height
+  // is driven by the tallest child. The icons were previously floated, but the
+  // entry never contained the float, so on very wide viewports a single-line
+  // citation (shorter than the icon) let the icon overflow into the next entry.
+  display: flex;
+  align-items: flex-start;
   margin-bottom: 1rem;
 }
 
