@@ -83,7 +83,13 @@ const DiseasePortalPage = () => {
             <ResourcesSection disease={diseaseData} />
           </Subsection>
           <Subsection title={ONTOLOGY}>
-            <OntologyContextSection curie={diseaseData.doid} name={diseaseApiData?.doTerm?.name || portalTitle} />
+            {/* key on doid forces a remount per disease: the reused fiber (see above)
+                would otherwise leave the embedded tree's scoped state stale. */}
+            <OntologyContextSection
+              key={diseaseData.doid}
+              curie={diseaseData.doid}
+              name={diseaseApiData?.doTerm?.name || portalTitle}
+            />
           </Subsection>
           <div className={style.membersFooter}>
             <Subsection hideTitle title={MEMBERS}>
