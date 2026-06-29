@@ -79,7 +79,35 @@ const PapersSection = ({ diseaseName }) => {
     return <NotFound />;
   }
 
-  const results = data?.results || [];
+  // The endpoint returns the newest paper per corpus, treating the Alliance
+  // central `AGR` corpus as one of those corpora. The AGR paper has no species
+  // of its own but is itself a member of one or more MOD corpora, so it renders
+  // the same icon(s) as those MODs' dedicated papers — looking like a duplicate
+  // (e.g. two "mouse" papers). We can't display the AGR entry distinctly yet, so
+  // we drop it — but ONLY when it's truly redundant: an AGR paper is frequently
+  // the sole carrier of a species (e.g. the only RGD/SGD/WB paper for a disease),
+  // and blanket-dropping every AGR-tagged row silently removes that species. So
+  // drop an AGR row only if every MOD species it carries is already represented
+  // by a non-AGR row; keep it when it's the only source of a species. Also
+  // dedupe repeated curies (the backend can return one paper in two slots).
+  const rawResults = data?.results || [];
+  const isAgr = (r) => (r.literatureSummary?.mods_in_corpus || []).includes('AGR');
+  const modsOf = (r) => (r.literatureSummary?.mods_in_corpus || []).filter((m) => MOD_SPECIES[m]);
+  const coveredByNonAgr = new Set(rawResults.filter((r) => !isAgr(r)).flatMap(modsOf));
+  const seenCuries = new Set();
+  const results = rawResults.filter((r) => {
+    const curie = r.literatureSummary?.curie;
+    if (curie && seenCuries.has(curie)) {
+      return false;
+    }
+    if (curie) {
+      seenCuries.add(curie);
+    }
+    if (!isAgr(r)) {
+      return true;
+    }
+    return modsOf(r).some((m) => !coveredByNonAgr.has(m));
+  });
   if (results.length === 0) {
     return <div className={style.publicationEntry}>No recent Alliance papers found for this disease.</div>;
   }

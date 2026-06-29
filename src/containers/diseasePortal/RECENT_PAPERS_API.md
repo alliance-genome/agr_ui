@@ -51,6 +51,18 @@ publication(s) for each, as a **flat** list (newest-first within each corpus).
 With `latest=1` this yields roughly one paper per corpus (~7–8 entries,
 including the Alliance central `AGR` corpus).
 
+**UI note:** the `AGR` central-corpus entry has no species of its own but is
+itself a member of one or more MOD corpora, so it renders the same icon(s) as
+those MODs' dedicated papers — looking like a duplicate (e.g. two "mouse"
+papers). `PapersSection` drops the AGR entry, but only when it is **redundant**:
+an AGR paper is frequently the _sole_ carrier of a species for a disease (e.g.
+the only RGD/SGD/WB paper), so a blanket drop of every `AGR`-tagged row silently
+removes that species (measured ~15% of diseases). The UI therefore drops an AGR
+row only when every MOD species it carries is already covered by a non-AGR row,
+and additionally dedupes repeated curies (the backend can return one paper in
+two corpus slots). The clean long-term fix is backend-side (exclude `AGR` from
+the per-corpus grouping, or expose which slot each paper filled).
+
 ## Response
 
 Standard `JsonResultResponse` envelope:
