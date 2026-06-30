@@ -6,6 +6,7 @@ import {
   EvidenceCodesCellCuration,
   GeneCellCuration,
   ReferencesCellCuration,
+  ReferenceList,
 } from '../../components/dataTable';
 
 import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration.jsx';
@@ -159,8 +160,14 @@ const DiseaseToGeneTable = ({ id }) => {
       filterName: 'dataProvider',
     },
     {
+      dataField: 'references',
+      text: 'Reference',
+      headerStyle: { width: '180px' },
+      formatter: (references) => <ReferenceList refs={references} />,
+    },
+    {
       dataField: 'pubmedPubModIDs',
-      text: 'References',
+      text: 'Reference ID',
       headerStyle: { width: '150px' },
       formatter: (pubModIds, row) => {
         if (getIsViaOrthology(row)) {

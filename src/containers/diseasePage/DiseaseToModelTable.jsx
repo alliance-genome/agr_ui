@@ -1,6 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DataTable, EvidenceCodesCellCuration, ReferencesCellCuration, SpeciesCell } from '../../components/dataTable';
+import {
+  DataTable,
+  EvidenceCodesCellCuration,
+  ReferencesCellCuration,
+  ReferenceList,
+  SpeciesCell,
+} from '../../components/dataTable';
 import ExperimentalConditionCellCuration from '../../components/dataTable/ExperimentalConditionCellCuration.jsx';
 import GeneticModifiersCellCuration from '../../components/dataTable/GeneticModifiersCellCuration.jsx';
 import { buildProvidersWithUrl, getIdentifier, getDistinctFieldValue } from '../../components/dataTable/utils.jsx';
@@ -127,8 +133,14 @@ const DiseaseToModelTable = ({ id }) => {
       filterable: true,
     },
     {
+      dataField: 'references',
+      text: 'Reference',
+      formatter: (references) => <ReferenceList refs={references} />,
+      headerStyle: { width: '180px' },
+    },
+    {
       dataField: 'pubmedPubModIDs',
-      text: 'References',
+      text: 'Reference ID',
       formatter: (pubModIds) => <ReferencesCellCuration pubModIds={pubModIds} />,
       headerStyle: { width: '150px' },
       filterName: 'reference',
