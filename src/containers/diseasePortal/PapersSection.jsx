@@ -17,6 +17,17 @@ const MOD_SPECIES = {
   SGD: 'Saccharomyces cerevisiae',
 };
 
+// Display order for the paper rows: mouse, rat, frog, zebrafish, fly, worm,
+// yeast (matching the species order used elsewhere on the site). Rows are sorted
+// by the highest-priority MOD in their corpus membership; rows with no known MOD
+// (e.g. AGR-only) sort last.
+const MOD_DISPLAY_ORDER = ['MGI', 'RGD', 'XB', 'ZFIN', 'FB', 'WB', 'SGD'];
+
+const rowSortKey = (reference) => {
+  const indices = (reference?.mods_in_corpus || []).map((mod) => MOD_DISPLAY_ORDER.indexOf(mod)).filter((i) => i >= 0);
+  return indices.length ? Math.min(...indices) : MOD_DISPLAY_ORDER.length;
+};
+
 // Map a paper's corpus membership to the species icon(s) to render. `AGR` (the
 // Alliance central corpus) has no species of its own, so it is ignored; if no
 // MOD corpus maps, fall back to Homo sapiens.
@@ -111,9 +122,14 @@ const PapersSection = ({ diseaseName }) => {
     return <div className={style.publicationEntry}>No recent Alliance papers found for this disease.</div>;
   }
 
+  // Order the rows mouse → rat → frog → zebrafish → fly → worm → yeast. Array
+  // .sort is stable, so papers sharing a MOD keep the backend's newest-first
+  // order.
+  const orderedResults = [...results].sort((a, b) => rowSortKey(a.literatureSummary) - rowSortKey(b.literatureSummary));
+
   return (
     <div>
-      {results.map((result, index) => (
+      {orderedResults.map((result, index) => (
         <PaperEntry key={result.literatureSummary?.curie || index} reference={result.literatureSummary} />
       ))}
     </div>
