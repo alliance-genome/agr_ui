@@ -7,10 +7,9 @@ import style from './style.module.scss';
 
 // Species shown for each MOD corpus. The authoritative source is the paper's
 // `mods_in_corpus` (set by the curator pipeline), not cross-reference prefixes.
-// Note: the RGD (rat) corpus is intentionally displayed as Human per the curator.
 const MOD_SPECIES = {
   MGI: 'Mus musculus',
-  RGD: 'Homo sapiens',
+  RGD: 'Rattus norvegicus',
   XB: 'Xenopus tropicalis',
   ZFIN: 'Danio rerio',
   FB: 'Drosophila melanogaster',
