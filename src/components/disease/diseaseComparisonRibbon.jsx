@@ -14,6 +14,7 @@ import OrthologPicker from '../OrthologPicker.jsx';
 import useEventListener from '../../hooks/useEventListener';
 import useComparisonRibbonQuery from '../../hooks/useComparisonRibbonQuery';
 import { useNavigate } from 'react-router-dom';
+import { smartAlphaSort } from '../../lib/utils';
 
 const DiseaseComparisonRibbon = ({ geneId, geneTaxon }) => {
   const [includeNotAnnotations, setIncludeNotAnnotations] = useState(false);
@@ -84,6 +85,13 @@ const DiseaseComparisonRibbon = ({ geneId, geneTaxon }) => {
           group.available = false;
         }
       });
+    });
+
+    data.categories.forEach((category) => {
+      const allGroup = category.groups.filter((g) => g.type === 'All');
+      const termGroups = category.groups.filter((g) => g.type === 'Term');
+      termGroups.sort(smartAlphaSort((g) => g.label));
+      category.groups = [...allGroup, ...termGroups];
     });
 
     return data;
