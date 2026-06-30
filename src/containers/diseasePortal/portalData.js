@@ -8,11 +8,13 @@ export const data = {
         title: 'Disease Portals - Rat Genome Database',
         url: 'https://rgd.mcw.edu/wg/portals/',
       },
+      { title: 'FlyBase Human Disease Model Report Index', url: 'https://flybase.org/lists/FBhh/' },
       {
         title: 'Human Mouse Disease Connection',
         url: 'http://www.informatics.jax.org/mgihome/projects/aboutHMDC.shtml',
       },
       { title: 'Matchmaker Exchange', url: 'https://www.matchmakerexchange.org/' },
+      { title: 'ModelMatcher', url: 'https://www.modelmatcher.net/' },
       { title: 'Online Mendelian Inheritance of Man (OMIM)', url: 'https://www.omim.org/' },
       { title: 'Portal Kids First DRC', url: 'https://portal.kidsfirstdrc.org/login?redirect_path=/data-exploration' },
     ],
@@ -64,7 +66,18 @@ export const data = {
     doid: 'DOID:14330',
     pageName: "Parkinson's Disease",
     publications: [],
-    resources: [],
+    resources: [
+      {
+        title: 'Age and Age-Related Disease Portal - Rat Genome Database',
+        url: 'https://rgd.mcw.edu/rgdweb/portal/home.jsp?p=1',
+      },
+      { title: 'National Institute on Aging', url: 'https://www.nia.nih.gov/' },
+      {
+        title: "Parkinson's Disease Clinical Trials",
+        url: 'https://clinicaltrials.gov/search?cond=Parkinson%27s%20Disease&viewType=Card',
+      },
+      { title: "Parkinson's Precision Medicine Initiative", url: 'https://www.ppmi-info.org/' },
+    ],
   },
   'diabetes-mellitus': {
     doid: 'DOID:9351',
