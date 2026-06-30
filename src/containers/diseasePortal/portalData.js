@@ -8,11 +8,13 @@ export const data = {
         title: 'Disease Portals - Rat Genome Database',
         url: 'https://rgd.mcw.edu/wg/portals/',
       },
+      { title: 'FlyBase Human Disease Model Report Index', url: 'https://flybase.org/lists/FBhh/' },
       {
         title: 'Human Mouse Disease Connection',
         url: 'http://www.informatics.jax.org/mgihome/projects/aboutHMDC.shtml',
       },
       { title: 'Matchmaker Exchange', url: 'https://www.matchmakerexchange.org/' },
+      { title: 'ModelMatcher', url: 'https://www.modelmatcher.net/' },
       { title: 'Online Mendelian Inheritance of Man (OMIM)', url: 'https://www.omim.org/' },
       { title: 'Portal Kids First DRC', url: 'https://portal.kidsfirstdrc.org/login?redirect_path=/data-exploration' },
     ],
