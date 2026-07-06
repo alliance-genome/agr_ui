@@ -3,12 +3,22 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 import CountBadge from './CountBadge.jsx';
 import { ANNOTATION_TYPES } from './annotationTypes.js';
 import { useDiseaseTerm } from './useDiseaseTerms.jsx';
 import style from './style.module.scss';
 
-const OntologyTree = ({ curie, name, depth = 0, forceExpanded, focusedCurie, onSelect, scrollOnFocus = true }) => {
+const OntologyTree = ({
+  curie,
+  name,
+  depth = 0,
+  forceExpanded,
+  focusedCurie,
+  onSelect,
+  scrollOnFocus = true,
+  nodeHref,
+}) => {
   const [open, setOpen] = useState(false);
   const rowRef = useRef(null);
 
@@ -33,6 +43,10 @@ const OntologyTree = ({ curie, name, depth = 0, forceExpanded, focusedCurie, onS
   const knownEmpty = !!data && childTerms.length === 0 && !(data.doTerm?.descendantCount > 0);
   const hasChildren = !knownEmpty;
   const isFocused = focusedCurie === curie;
+  // When the consumer supplies nodeHref, every term label (leaf or not) becomes
+  // a link to that URL. Drill-down stays on the separate chevron control, so
+  // linking the label doesn't interfere with exploring children in place.
+  const nodeUrl = nodeHref ? nodeHref(curie) : null;
 
   const toggle = (e) => {
     e.stopPropagation();
@@ -59,7 +73,13 @@ const OntologyTree = ({ curie, name, depth = 0, forceExpanded, focusedCurie, onS
         ) : (
           <span className={style.toggleSpacer} />
         )}
-        <span>{name}</span>
+        {nodeUrl ? (
+          <Link to={nodeUrl} onClick={(e) => e.stopPropagation()}>
+            {name}
+          </Link>
+        ) : (
+          <span>{name}</span>
+        )}
         <span className={style.curie}>&nbsp;{curie}</span>
         <span className={style.badgeRow}>
           {ANNOTATION_TYPES.map((t) => (
@@ -70,7 +90,7 @@ const OntologyTree = ({ curie, name, depth = 0, forceExpanded, focusedCurie, onS
       {open && childTerms.length > 0 && (
         <div className={style.children}>
           {[...childTerms]
-            .sort((a, b) => (a.name || '').localeCompare(b.name || ''))
+            .sort((a, b) => (a.name || '').localeCompare(b.name || '', undefined, { numeric: true }))
             .map((c) => (
               <OntologyTree
                 key={c.curie}
@@ -81,6 +101,7 @@ const OntologyTree = ({ curie, name, depth = 0, forceExpanded, focusedCurie, onS
                 focusedCurie={focusedCurie}
                 onSelect={onSelect}
                 scrollOnFocus={scrollOnFocus}
+                nodeHref={nodeHref}
               />
             ))}
         </div>
@@ -97,6 +118,7 @@ OntologyTree.propTypes = {
   focusedCurie: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
   scrollOnFocus: PropTypes.bool,
+  nodeHref: PropTypes.func,
 };
 
 export default OntologyTree;

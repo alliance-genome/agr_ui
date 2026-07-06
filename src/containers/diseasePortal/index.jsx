@@ -1,6 +1,7 @@
 import React from 'react';
 import HeadMetaTags from '../../components/headMetaTags.jsx';
 import PapersSection from './PapersSection.jsx';
+import OntologyContextSection from './OntologyContextSection.jsx';
 import PortalListSection from './PortalListSection.jsx';
 import ResourcesSection from './ResourcesSection.jsx';
 import SummarySection from './SummarySection.jsx';
@@ -16,11 +17,12 @@ import { data } from './portalData.js';
 import style from './style.module.scss';
 
 const SUMMARY = 'Summary';
+const ONTOLOGY = 'Ontology View';
 const COMMUNITY_RESOURCES = 'Community Resources';
 const RECENT_PAPERS = 'Recent Alliance Papers';
 const MEMBERS = 'Members';
 
-const SECTIONS = [{ name: SUMMARY }, { name: RECENT_PAPERS }, { name: COMMUNITY_RESOURCES }];
+const SECTIONS = [{ name: SUMMARY }, { name: RECENT_PAPERS }, { name: COMMUNITY_RESOURCES }, { name: ONTOLOGY }];
 
 const DiseasePortalPage = () => {
   const { name: dname } = useParams();
@@ -75,10 +77,19 @@ const DiseasePortalPage = () => {
             <SummarySection disease={diseaseApiData} />
           </Subsection>
           <Subsection title={RECENT_PAPERS}>
-            <PapersSection disease={diseaseData} />
+            <PapersSection diseaseName={diseaseApiData?.doTerm?.name} />
           </Subsection>
           <Subsection title={COMMUNITY_RESOURCES}>
             <ResourcesSection disease={diseaseData} />
+          </Subsection>
+          <Subsection title={ONTOLOGY}>
+            {/* key on doid forces a remount per disease: the reused fiber (see above)
+                would otherwise leave the embedded tree's scoped state stale. */}
+            <OntologyContextSection
+              key={diseaseData.doid}
+              curie={diseaseData.doid}
+              name={diseaseApiData?.doTerm?.name || portalTitle}
+            />
           </Subsection>
           <div className={style.membersFooter}>
             <Subsection hideTitle title={MEMBERS}>
