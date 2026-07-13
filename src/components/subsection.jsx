@@ -20,32 +20,27 @@ const Subsection = ({ children, hardcoded, hasData, help, hideTitle = false, isM
   );
 
   let renderTitle;
+  const titleContent = (
+    <>
+      {isMeta && target}
+      {title}
+      {helpPopup}
+    </>
+  );
   switch (level) {
     case 1:
       renderTitle = (
-        <h4 className="text-break">
-          {isMeta && target}
-          {title}
-          {helpPopup}
-        </h4>
+        <h4 className="text-break">{titleContent}</h4>
       );
       break;
     case 2:
       renderTitle = (
-        <h5>
-          {isMeta && target}
-          {title}
-          {helpPopup}
-        </h5>
+        <h5>{titleContent}</h5>
       );
       break;
     default:
       renderTitle = (
-        <h3>
-          {isMeta && target}
-          {title}
-          {helpPopup}
-        </h3>
+        <h3>{titleContent}</h3>
       );
   }
 

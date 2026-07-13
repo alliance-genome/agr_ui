@@ -7,20 +7,19 @@ import { faFilter } from '@fortawesome/free-solid-svg-icons';
 
 import style from './style.module.scss';
 
-const ColumnHeader = ({ column, filter, filterElement }) => {
-  const classes = '';
-  const popperModifiers = [
-    {
-      name: 'preventOverflow',
-      options: {
-        rootBoundary: 'viewport',
-      },
+const popperModifiers = [
+  {
+    name: 'preventOverflow',
+    options: {
+      rootBoundary: 'viewport',
     },
-  ];
+  },
+];
+const ColumnHeader = ({ column, filter, filterElement }) => {
   const active = Array.isArray(filter) ? filter.length > 0 : filter;
   const { helpPopupProps } = column;
   return (
-    <div className={classes}>
+    <div>
       {column.headerNode || column.text}
       {filterElement && (
         <UncontrolledButtonDropdown>
@@ -32,13 +31,13 @@ const ColumnHeader = ({ column, filter, filterElement }) => {
           </DropdownMenu>
         </UncontrolledButtonDropdown>
       )}
-      {helpPopupProps ? (
+      {helpPopupProps && (
         <div className="btn-group">
           <span className={style.helpIconWrapper}>
             <HelpPopup {...helpPopupProps} />
           </span>
         </div>
-      ) : null}
+      )}
     </div>
   );
 };
