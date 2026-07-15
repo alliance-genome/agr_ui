@@ -5,7 +5,7 @@ import { ReferenceCell, GeneCell, DataTable, ReferencesCellCuration } from '../d
 import DataSourceLink from '../dataSourceLink.jsx';
 import CommaSeparatedList from '../commaSeparatedList.jsx';
 import { compareAlphabeticalCaseInsensitive, compareByFixedOrder } from '../../lib/utils';
-import { getIdentifier, getSingleReferenceUrl } from '../dataTable/utils.jsx';
+import { getIdentifier } from '../dataTable/utils.jsx';
 import { getDistinctFieldValue } from '../dataTable/utils.jsx';
 import { SPECIES_NAME_ORDER } from '../../constants';
 import useComparisonRibbonTableQuery from '../../hooks/useComparisonRibbonTableQuery';
@@ -96,7 +96,7 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
     {
       dataField: 'reference',
       text: 'Reference',
-      formatter: (reference) => <ReferencesCellCuration pubModIds={reference} />,
+      formatter: (reference) => <ReferencesCellCuration pubmedPublications={reference} />,
       headerStyle: { width: '150px' },
       filterable: true,
       filterName: 'reference',
@@ -111,7 +111,7 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
     stage: result.geneExpressionAnnotation.whenExpressedStageName,
     assay: result.geneExpressionAnnotation.expressionAssayUsed,
     source: result.geneExpressionAnnotation.crossReferences ? result.geneExpressionAnnotation.crossReferences : null,
-    reference: result.referenceId,
+    reference: result.referenceXrefs,
   }));
 
   const sortOptions = [

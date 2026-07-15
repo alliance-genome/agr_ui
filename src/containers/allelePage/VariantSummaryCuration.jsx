@@ -6,7 +6,7 @@ import { AttributeLabel, AttributeValue } from '../../components/attribute';
 import { CollapsibleList } from '../../components/collapsibleList';
 import { VariantJBrowseLink } from '../../components/variant';
 import ExternalLink from '../../components/ExternalLink.jsx';
-import { getSingleReferenceUrl } from '../../components/dataTable/utils.jsx';
+import { buildUrlFromTemplate } from '../../lib/utils.js';
 import DataSourceLinkCuration from '../../components/dataSourceLinkCuration.jsx';
 import Sequence from './Sequence.jsx';
 import getVariantGenomeLocation from './getVariantGenomeLocation';
@@ -183,7 +183,11 @@ const VariantSummaryCuration = ({ variant: variantData, variantId }) => {
           <CollapsibleList>
             {references.map((ref) => {
               const refId = ref.referenceID || ref.curie;
-              const { url } = ref.url ? { url: ref.url } : getSingleReferenceUrl(refId);
+              let url = ref.url || null;
+              if (!url) {
+                const xref = ref.crossReferences?.find((x) => x.referencedCurie === refId);
+                url = xref ? buildUrlFromTemplate(xref) : null;
+              }
               return (
                 <ExternalLink key={refId} href={url}>
                   {refId || ref.shortCitation}
