@@ -384,7 +384,8 @@ export const SPECIES = [
     jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/XenBase/x_laevis/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
     jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/XenBase/x_laevis/',
-    jBrowseGffUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/docker/{release}/XenBase/x_laevis/GFF_XBXL.sorted.gff.gz',
+    jBrowseGffUrlTemplate:
+      'https://s3.amazonaws.com/agrjbrowse/docker/{release}/XenBase/x_laevis/GFF_XBXL.sorted.gff.gz',
     jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_017654675.1_Xenopus_laevis_v10.1_genomic.fna.gz',
     jBrowsetracks: '_all_genes',
     jBrowseOrthologyTracks:

@@ -46,8 +46,13 @@ describe('genomefeatures package imports', () => {
   });
 
   test('should import all functions at once', () => {
-    const { GenomeFeatureViewer, fetchNCListData, fetchTabixVcfData, fetchTabixGffData, parseLocString } =
-      require('genomefeatures');
+    const {
+      GenomeFeatureViewer,
+      fetchNCListData,
+      fetchTabixVcfData,
+      fetchTabixGffData,
+      parseLocString,
+    } = require('genomefeatures');
 
     expect(GenomeFeatureViewer).toBeDefined();
     expect(fetchNCListData).toBeDefined();
