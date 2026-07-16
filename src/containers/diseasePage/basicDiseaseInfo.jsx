@@ -88,7 +88,9 @@ const transformSynonyms = (synonyms) => {
 const BasicDiseaseInfo = ({ disease }) => (
   <AttributeList>
     <AttributeLabel>Definition</AttributeLabel>
-    <AttributeValue><Definition disease={disease.doTerm} /></AttributeValue>
+    <AttributeValue>
+      <Definition disease={disease.doTerm} />
+    </AttributeValue>
 
     <AttributeLabel>Synonyms</AttributeLabel>
     <AttributeValue placeholder="None">
@@ -103,13 +105,19 @@ const BasicDiseaseInfo = ({ disease }) => (
     </AttributeValue>
 
     <AttributeLabel>Parent Terms</AttributeLabel>
-    <AttributeValue placeholder="None"><TermList terms={disease.parents} /></AttributeValue>
+    <AttributeValue placeholder="None">
+      <TermList terms={disease.parents} />
+    </AttributeValue>
 
     <AttributeLabel>Child Terms</AttributeLabel>
-    <AttributeValue placeholder="None"><TermList terms={disease.children} /></AttributeValue>
+    <AttributeValue placeholder="None">
+      <TermList terms={disease.children} />
+    </AttributeValue>
 
     <AttributeLabel>Sources of Associations</AttributeLabel>
-    <AttributeValue><SourceList sources={disease.sourceReferenceLinkUrls} /></AttributeValue>
+    <AttributeValue>
+      <SourceList sources={disease.sourceReferenceLinkUrls} />
+    </AttributeValue>
   </AttributeList>
 );
 

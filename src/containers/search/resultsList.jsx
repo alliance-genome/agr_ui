@@ -16,7 +16,7 @@ import SpeciesName from '../../components/SpeciesName.jsx';
 
 const DEFAULT_FIELDS = ['symbol', 'name', 'synonyms', 'sourceHref', 'id', 'type'];
 
-const HighlightedValues = ({highlight, fields}) => {
+const HighlightedValues = ({ highlight, fields }) => {
   const _data = highlight;
   const _fields = Object.keys(_data).filter(
     (d) => (fields || DEFAULT_FIELDS).indexOf(d) < 0 && NON_HIGHLIGHTED_FIELDS.indexOf(d) < 0
@@ -24,7 +24,7 @@ const HighlightedValues = ({highlight, fields}) => {
   return <DetailList data={_data} fields={_fields} />;
 };
 
-const Header = ({d}) => (
+const Header = ({ d }) => (
   <div className="row">
     <div className="col-sm-10">
       <h4 className={style.resultLinkLabel}>{getLinkForEntry(d)}</h4>
@@ -42,9 +42,9 @@ const Header = ({d}) => (
   </div>
 );
 
-const DetailFromFields = ({d, fields}) => <DetailList data={d} fields={fields} />;
+const DetailFromFields = ({ d, fields }) => <DetailList data={d} fields={fields} />;
 
-const MissingTerms = ({d}) => {
+const MissingTerms = ({ d }) => {
   if (!d.missing || d.missing.length === 0 || d.missing[0] === '') {
     return null;
   }
@@ -55,7 +55,7 @@ const MissingTerms = ({d}) => {
   );
 };
 
-const RelatedData = ({d}) => {
+const RelatedData = ({ d }) => {
   if (!d.relatedData || d.relatedData.length === 0 || d.relatedData[0] === '') {
     return null;
   }
@@ -96,12 +96,12 @@ const RelatedData = ({d}) => {
   );
 };
 
-const Entry = ({d, i, fields}) => (
+const Entry = ({ d, i, fields }) => (
   <div className={style.resultContainer}>
     <Header d={d} />
     <SpeciesIcon iconClass={style.resultSpeciesIcon} species={d.speciesKey} />
     <DetailFromFields d={d} fields={fields} />
-    <HighlightedValues highlight={d.highlight}/>
+    <HighlightedValues highlight={d.highlight} />
     <RelatedData d={d} />
     <MissingTerms d={d} />
     {d.explanation && <ResultExplanation explanation={d.explanation} score={d.score} />}
@@ -109,7 +109,7 @@ const Entry = ({d, i, fields}) => (
   </div>
 );
 
-const GeneEntry = ({d, i}) => {
+const GeneEntry = ({ d, i }) => {
   const fields = CATEGORIES.find((cat) => cat.name === d.category).displayFields;
   return (
     <div className={style.resultContainer}>
