@@ -12,7 +12,7 @@ import HelpPopup from './helpPopup.jsx';
 
 const Subsection = ({ children, hardcoded, hasData, help, hideTitle = false, isMeta, level, title }) => {
   const id = title && makeId(title);
-  const target = <a className={style.target} id={id} />;
+  const Target = () => <a className={style.target} id={id} />;
   const helpPopup = help && (
     <span className="small ml-3">
       <HelpPopup id={`help-${title}`}>{help}</HelpPopup>
@@ -22,7 +22,7 @@ const Subsection = ({ children, hardcoded, hasData, help, hideTitle = false, isM
   let renderTitle;
   const titleContent = (
     <>
-      {isMeta && target}
+      {isMeta && <target />}
       {title}
       {helpPopup}
     </>
@@ -40,7 +40,7 @@ const Subsection = ({ children, hardcoded, hasData, help, hideTitle = false, isM
 
   return (
     <div className={style.subsection}>
-      {!isMeta && target}
+      {!isMeta && <Target />}
       {hardcoded && <span className="badge badge-danger">Hardcoded Example Data</span>}
       {title && !hideTitle && renderTitle}
       {typeof hasData !== 'undefined' && !hasData ? <NoData /> : <ErrorBoundary>{children}</ErrorBoundary>}
