@@ -24,9 +24,7 @@ const SingleReferenceCellCuration = ({ singleReference, pubmedPublications }) =>
 const getMatchingCrossReference = (reference, pubmedPublications) => {
   if (!reference || !pubmedPublications?.length) return null;
   const candidateCuries = new Set(
-    reference.crossReferences?.length
-      ? reference.crossReferences.map((x) => x.referencedCurie)
-      : [reference.curie]
+    reference.crossReferences?.length ? reference.crossReferences.map((x) => x.referencedCurie) : [reference.curie]
   );
   return pubmedPublications.find((pub) => candidateCuries.has(pub.referencedCurie)) || null;
 };
