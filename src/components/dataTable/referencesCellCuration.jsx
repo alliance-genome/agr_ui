@@ -14,21 +14,23 @@ const removeDuplicates = (refs) => {
 };
 
 const ReferencesCellCuration = ({ pubModIds }) => {
+  if (!Array.isArray(pubModIds) || pubModIds.length === 0) {
+    return null;
+  }
+
   const refStringsAndUrls = getMultipleReferencesUrls(pubModIds);
   const uniqueRefs = removeDuplicates(refStringsAndUrls);
 
   return (
-    pubModIds && (
-      <CollapsibleList>
-        {uniqueRefs.map(({ pubModId, url }) => {
-          return (
-            <ExternalLink href={url} key={pubModId} title={pubModId}>
-              {pubModId}
-            </ExternalLink>
-          );
-        })}
-      </CollapsibleList>
-    )
+    <CollapsibleList>
+      {uniqueRefs.map(({ pubModId, url }) => {
+        return (
+          <ExternalLink href={url} key={pubModId} title={pubModId}>
+            {pubModId}
+          </ExternalLink>
+        );
+      })}
+    </CollapsibleList>
   );
 };
 
