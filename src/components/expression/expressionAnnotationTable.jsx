@@ -5,13 +5,12 @@ import { ReferenceCell, GeneCell, DataTable, ReferencesCellCuration } from '../d
 import DataSourceLink from '../dataSourceLink.jsx';
 import CommaSeparatedList from '../commaSeparatedList.jsx';
 import { compareAlphabeticalCaseInsensitive, compareByFixedOrder } from '../../lib/utils';
-import { getResourceUrl } from '../dataTable/getResourceUrl.jsx';
 import { getIdentifier, getSingleReferenceUrl } from '../dataTable/utils.jsx';
 import { getDistinctFieldValue } from '../dataTable/utils.jsx';
 import { SPECIES_NAME_ORDER } from '../../constants';
 import useComparisonRibbonTableQuery from '../../hooks/useComparisonRibbonTableQuery';
 import SpeciesName from '../SpeciesName.jsx';
-import ExternalLink from '../ExternalLink.jsx';
+import DataSourceLinkCuration from '../dataSourceLinkCuration.jsx';
 
 const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, term }) => {
   const params = {};
@@ -80,18 +79,11 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
       text: 'Source',
       formatter: (crossReferences = ([] = {})) => (
         <div>
-          {crossReferences?.map(({ referencedCurie, displayName } = {}) => {
-            if (!referencedCurie || !displayName) return null;
+          {crossReferences?.map((crossRef = {}) => {
+            if (!crossRef.referencedCurie || !crossRef.displayName) return null;
             return (
-              <div key={referencedCurie}>
-                <ExternalLink
-                  href={getResourceUrl({
-                    identifier: referencedCurie.toUpperCase(),
-                    type: 'gene/expression/annotation/detail',
-                  })}
-                >
-                  {displayName}
-                </ExternalLink>
+              <div key={crossRef.referencedCurie}>
+                <DataSourceLinkCuration reference={crossRef}>{crossRef.displayName}</DataSourceLinkCuration>
               </div>
             );
           })}
@@ -113,7 +105,7 @@ const ExpressionAnnotationTable = ({ focusGeneId, focusTaxonId, orthologGenes, t
 
   const data = results?.map((result) => ({
     key: hash(result),
-    species: result.geneExpressionAnnotation.expressionAnnotationSubject.taxon.name,
+    species: result.geneExpressionAnnotation.expressionAnnotationSubject.taxon.species.fullName,
     gene: result.geneExpressionAnnotation.expressionAnnotationSubject,
     location: result.geneExpressionAnnotation.whereExpressedStatement,
     stage: result.geneExpressionAnnotation.whenExpressedStageName,

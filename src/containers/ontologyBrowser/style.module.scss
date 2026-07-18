@@ -1,0 +1,273 @@
+@import '../../theme.module';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+.page {
+  padding: 1rem 1.25rem;
+  max-width: 1520px;
+  margin: 0 auto;
+}
+
+.layout {
+  display: flex;
+  gap: 1.25rem;
+  flex-direction: column;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+}
+
+.treePane {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  padding: 0.75rem 0.5rem;
+  max-height: 70vh;
+  overflow: auto;
+}
+
+.detailPane {
+  flex: 0 0 380px;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  padding: 1rem;
+  align-self: flex-start;
+}
+
+.searchRow {
+  margin-bottom: 1rem;
+}
+
+.chooserRow {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.chooserLabel {
+  margin: 0;
+  font-weight: 600;
+}
+
+.chooserSelect {
+  max-width: 360px;
+  display: inline-block;
+}
+
+.explainer {
+  color: $gray-600;
+}
+
+.suggestionsScroll {
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.viewAllButton {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 9px 12px;
+  border: none;
+  border-top: 1px solid $border-color;
+  background: $gray-100;
+  color: $primary;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.placeholder {
+  padding: 1.5rem;
+  border: 1px dashed $border-color;
+  border-radius: 4px;
+  color: $gray-700;
+  background: $gray-100;
+}
+
+.node {
+  user-select: none;
+}
+
+.nodeRow {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 2px 4px;
+  border-radius: 3px;
+  cursor: pointer;
+
+  &:hover {
+    background: $gray-100;
+  }
+}
+
+.nodeRowFocused {
+  background: $primary-100;
+  font-weight: 600;
+
+  &:hover {
+    background: $primary-100;
+  }
+}
+
+.toggle {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: $gray-700;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 0;
+  cursor: pointer;
+
+  &:hover {
+    background: $gray-200;
+    border-color: $gray-400;
+    color: $gray-800;
+  }
+
+  &:focus {
+    outline: none;
+    background: $gray-200;
+    border-color: $primary;
+  }
+}
+
+.toggleSpacer {
+  width: 24px;
+  flex: 0 0 24px;
+}
+
+.children {
+  margin-left: 1.25rem;
+  border-left: 1px dashed $border-color;
+  padding-left: 0.5rem;
+}
+
+.curie {
+  color: $gray-600;
+  font-size: 0.8rem;
+  font-family: monospace;
+}
+
+.countBadge {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 11px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.countBadgeExpanded {
+  min-width: 0;
+  height: auto;
+  padding: 4px 12px;
+  border-radius: 14px;
+  font-size: 0.85rem;
+}
+
+.countBadgeLink {
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: none;
+    filter: brightness(0.92);
+  }
+}
+
+.badgeRow {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-left: 0.5rem;
+}
+
+.detailBadgeRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 0.5rem;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 0.75rem;
+  font-size: 0.85rem;
+}
+
+.legendLabel {
+  color: $gray-700;
+  margin-right: 4px;
+}
+
+.legendItem {
+  padding: 1px 8px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.detailTitle {
+  margin: 0 0 0.25rem;
+  font-size: 1.25rem;
+}
+
+.countLine {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  color: $gray-700;
+}
+
+.detailSection {
+  margin-top: 1rem;
+}
+
+.detailSectionLabel {
+  font-size: 0.75rem;
+  color: $gray-600;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.viewPageButton {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+
+  :global(.svg-inline--fa) {
+    margin-left: 0.4rem;
+  }
+}
+
+.parentList {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+
+  li {
+    padding: 1px 0;
+  }
+}
+
+.relation {
+  margin-right: 0.6rem;
+}

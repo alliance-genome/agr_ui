@@ -29,7 +29,9 @@ export const getIdentifier = (subject) => {
 export const getSingleReferenceUrl = (pubModId) => {
   if (!pubModId) return { pubModId, url: undefined };
   let url;
-  if (
+  if (pubModId.startsWith('AGRKB:')) {
+    url = `/reference/${pubModId}`;
+  } else if (
     pubModId.includes('PMID') ||
     pubModId.includes('ORPHA') ||
     pubModId.includes('MIM') ||
