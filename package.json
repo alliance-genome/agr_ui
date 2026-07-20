@@ -45,7 +45,7 @@
     "genomefeatures": "github:alliance-genome/genomefeatures#e9a83e5b63b8664e0de1b471932a5818353b3ae7",
     "html-react-parser": "^5.2.17",
     "immutable": "^5.1.5",
-    "js-yaml": "^4.1.1",
+    "js-yaml": "^4.2.0",
     "lodash.clone": "^4.5.0",
     "lodash.isequal": "^4.5.0",
     "lodash.without": "^4.4.0",
