@@ -124,18 +124,18 @@ export function naturalSortByAnnotationSubject(annotations) {
 
 export function getAnnotationSubjectText(annotation) {
   if (annotation.type === 'AGMDiseaseAnnotation') {
-    return annotation.diseaseAnnotationSubject.agmFullName.displayText;
+    return annotation.diseaseAnnotationSubject?.agmFullName?.displayText ?? '';
   } else if (annotation.type === 'AlleleDiseaseAnnotation') {
-    return annotation.diseaseAnnotationSubject.alleleSymbol.displayText;
+    return annotation.diseaseAnnotationSubject?.alleleSymbol?.displayText ?? '';
   } else if (annotation.type === 'GeneDiseaseAnnotation') {
-    return annotation.diseaseAnnotationSubject.geneSymbol.displayText;
+    return annotation.diseaseAnnotationSubject?.geneSymbol?.displayText ?? '';
   } else if (annotation.type === 'AGMPhenotypeAnnotation') {
-    return annotation.phenotypeAnnotationSubject.agmFullName.displayText;
+    return annotation.phenotypeAnnotationSubject?.agmFullName?.displayText ?? '';
   } else if (annotation.type === 'AllelePhenotypeAnnotation') {
-    return annotation.phenotypeAnnotationSubject.alleleSymbol.displayText;
+    return annotation.phenotypeAnnotationSubject?.alleleSymbol?.displayText ?? '';
   } else if (annotation.type === 'GenePhenotypeAnnotation') {
-    return annotation.phenotypeAnnotationSubject.geneSymbol.displayText;
+    return annotation.phenotypeAnnotationSubject?.geneSymbol?.displayText ?? '';
   } else {
-    return null;
+    return '';
   }
 }
