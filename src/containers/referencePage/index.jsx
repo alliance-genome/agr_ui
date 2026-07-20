@@ -23,7 +23,7 @@ import ReferenceGeneTable from './tables/ReferenceGeneTable.jsx';
 import ReferenceAlleleTable from './tables/ReferenceAlleleTable.jsx';
 import ReferenceModelTable from './tables/ReferenceModelTable.jsx';
 import { useParams } from 'react-router-dom';
-import { getSingleReferenceUrl } from '../../components/dataTable/utils.jsx';
+import { buildUrlFromTemplate } from '../../lib/utils.js';
 import styles from './style.module.scss';
 
 // const MODS = 'Mods';
@@ -102,7 +102,7 @@ const SourceList = ({ sources }) => {
         <CollapsibleList collapsedSize={3}>
           {sources.map((ref) => {
             return (
-              <ExternalLink href={getSingleReferenceUrl(ref.curie).url} key={ref.curie} title={ref.curie}>
+              <ExternalLink href={buildUrlFromTemplate(ref)} key={ref.curie} title={ref.curie}>
                 {ref.curie}
               </ExternalLink>
             );
@@ -154,13 +154,13 @@ const ReferencePage = () => {
   }
   const ref = data.literatureSummary;
 
-  // separate xrefs into mod xrefs and external xrefs here, and attach them to ref object
+  // cross_references entries arrive pre-enriched from the indexer with referencedCurie + resourceDescriptorPage.
+  // Split into MOD xrefs (FB/MGI/RGD/SGD/WB/Xenbase/ZFIN) and external xrefs by curie prefix.
   ref.modXrefs = [];
   ref.extXrefs = [];
-  for (let xr = 0; xr < ref.cross_references.length; xr++) {
-    if (speciesMap[ref.cross_references[xr].curie.substring(0, ref.cross_references[xr].curie.indexOf(':'))])
-      ref.modXrefs.push(ref.cross_references[xr]);
-    else ref.extXrefs.push(ref.cross_references[xr]);
+  for (const entry of ref.cross_references) {
+    const prefix = entry.curie.substring(0, entry.curie.indexOf(':'));
+    (speciesMap[prefix] ? ref.modXrefs : ref.extXrefs).push(entry);
   }
   const sections = [
     { name: SUMMARY },

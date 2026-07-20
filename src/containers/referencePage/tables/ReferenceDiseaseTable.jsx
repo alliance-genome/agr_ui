@@ -95,7 +95,7 @@ const ReferenceDiseaseTable = ({ id }) => {
           <AnnotatedEntitiesPopupCuration
             entities={row.primaryAnnotations}
             mainRowCurie={row.subject ? getIdentifier(row.subject) : undefined}
-            pubModIds={row.pubmedPubModIDs}
+            pubmedPublications={row.pubmedPublications}
             columnNameSet={GENE_DETAILS_COLUMNS}
           >
             View

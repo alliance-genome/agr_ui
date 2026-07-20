@@ -1,6 +1,5 @@
 import React from 'react';
 import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
-import { getResourceUrl } from './getResourceUrl.jsx';
 import { smartAlphaSort } from '../../lib/utils';
 
 export const renderPaginationShowsTotal = (start, end, total) => {
@@ -24,32 +23,6 @@ export const getIsViaOrthology = (annotation) => {
 export const getIdentifier = (subject) => {
   if (!subject) return;
   return subject.curie ? subject.curie : subject.primaryExternalId ? subject.primaryExternalId : subject.modInternalId;
-};
-
-export const getSingleReferenceUrl = (pubModId) => {
-  if (!pubModId) return { pubModId, url: undefined };
-  let url;
-  if (pubModId.startsWith('AGRKB:')) {
-    url = `/reference/${pubModId}`;
-  } else if (
-    pubModId.includes('PMID') ||
-    pubModId.includes('ORPHA') ||
-    pubModId.includes('MIM') ||
-    pubModId.includes('PMCID')
-  ) {
-    url = getResourceUrl({ identifier: pubModId });
-  } else {
-    url = getResourceUrl({ identifier: pubModId, type: 'reference' });
-  }
-  return { pubModId, url };
-};
-
-export const getMultipleReferencesUrls = (pubModIds) => {
-  if (!pubModIds) return [];
-  return [...pubModIds]
-    .filter(Boolean)
-    .sort()
-    .map((pubModId) => getSingleReferenceUrl(pubModId));
 };
 
 const buildProvider = (annotation) => {

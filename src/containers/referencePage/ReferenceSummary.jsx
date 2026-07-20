@@ -8,7 +8,7 @@ import CrossReferenceList from '../../components/crossReferenceList.jsx';
 import CommaSeparatedList from '../../components/commaSeparatedList.jsx';
 import ExternalLink from '../../components/ExternalLink.jsx';
 import NoData from '../../components/noData.jsx';
-import { getSingleReferenceUrl } from '../../components/dataTable/utils.jsx';
+import { buildUrlFromTemplate } from '../../lib/utils.js';
 import ApplySpeciesNameFormat from './SpeciesFinderFormatter.jsx';
 import styles from './style.module.scss';
 
@@ -18,7 +18,7 @@ const CommaSeparatedSourceList = ({ sources }) => {
   return (
     <CommaSeparatedList listItemClassName={styles.crossRefsListItem}>
       {sources.map((source) => (
-        <ExternalLink href={getSingleReferenceUrl(source.curie).url} key={`source-${source.curie}`}>
+        <ExternalLink href={buildUrlFromTemplate(source)} key={`source-${source.curie}`}>
           {source.curie}
         </ExternalLink>
       ))}
@@ -39,19 +39,15 @@ const PubSourceLink = ({ ref }) => {
   const pubVol = ref.volume;
   const pubIss = ref.issue_name ? `(${ref.issue_name})` : '';
   const pubRng = ref.page_range;
-  // extract DOI URL
-  let DOI_URL = '';
-  for (let xr = 0; xr < ref.cross_references.length; xr++) {
-    if (ref.cross_references[xr].curie.match(/^doi\:/i)) {
-      DOI_URL = ref.cross_references[xr].curie;
-      break;
-    }
-  }
+  // extract DOI cross-reference (already enriched with resourceDescriptorPage in index.jsx)
+  const doiXref = [...(ref.extXrefs || []), ...(ref.modXrefs || [])].find(
+    (xr) => xr.curie && xr.curie.match(/^doi\:/i)
+  );
   // build link text string
   const pubsrc = `${publisher}. ${dateString}; ${pubVol} ${pubIss}:${pubRng}`;
-  if (DOI_URL)
+  if (doiXref)
     return (
-      <ExternalLink href={getSingleReferenceUrl(DOI_URL).url} key={`source-${DOI_URL}`}>
+      <ExternalLink href={buildUrlFromTemplate(doiXref)} key={`source-${doiXref.curie}`}>
         {pubsrc}
       </ExternalLink>
     );
