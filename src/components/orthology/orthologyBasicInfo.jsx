@@ -1,20 +1,18 @@
-import { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { AttributeList, AttributeLabel, AttributeValue } from '../attribute';
-import DataSourceLink from '../dataSourceLink.jsx';
+import DataSourceLinkCuration from '../dataSourceLinkCuration.jsx';
 
-class OrthologyBasicInfo extends Component {
-  render() {
-    const { pantherCrossReference } = this.props;
-
-    return (
-      <AttributeList>
-        <AttributeLabel>Gene tree</AttributeLabel>
-        <AttributeValue>{pantherCrossReference && <DataSourceLink reference={pantherCrossReference} />}</AttributeValue>
-      </AttributeList>
-    );
-  }
-}
+const OrthologyBasicInfo = ({ pantherCrossReference }) => {
+  return (
+    <AttributeList>
+      <AttributeLabel>Gene tree</AttributeLabel>
+      <AttributeValue>
+        {pantherCrossReference && <DataSourceLinkCuration reference={pantherCrossReference} />}
+      </AttributeValue>
+    </AttributeList>
+  );
+};
 
 OrthologyBasicInfo.propTypes = {
   pantherCrossReference: PropTypes.object,

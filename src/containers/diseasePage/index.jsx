@@ -11,9 +11,10 @@ import DiseaseToModelTable from './DiseaseToModelTable.jsx';
 import PageNavEntity from '../../components/dataPage/PageNavEntity.jsx';
 import DiseaseName from '../../components/disease/DiseaseName.jsx';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel.jsx';
+import YourInputWelcome from '../../components/YourInputWelcome.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
-import CovidInfoLink from '../../components/CovidInfoLink.jsx';
 import { useParams } from 'react-router-dom';
+import { DISEASE_CATEGORY } from '../../constants';
 
 const SUMMARY = 'Summary';
 const GENES = 'Associated Genes';
@@ -78,8 +79,6 @@ const DiseasePage = () => {
     },
   ];
 
-  const showCoronavirusResourcesLink = data.doTerm.curie === 'DOID:0080599' || data.doTerm.curie === 'DOID:0080600';
-
   return (
     <DataPage>
       <HeadMetaTags jsonLd={jsonLd} title={title} />
@@ -89,17 +88,9 @@ const DiseasePage = () => {
         </PageNavEntity>
       </PageNav>
       <PageData>
-        {showCoronavirusResourcesLink && (
-          <div className="mb-2">
-            <div className="row">
-              <div className="col col-lg-8 offset-lg-2">
-                <CovidInfoLink />
-              </div>
-            </div>
-          </div>
-        )}
-        <PageCategoryLabel category="disease" />
+        <PageCategoryLabel category={DISEASE_CATEGORY} />
         <PageHeader>{data.doTerm.name}</PageHeader>
+        <YourInputWelcome type="Disease" name={data.doTerm.name} allianceId={data.doTerm.curie} />
 
         <Subsection hideTitle title={SUMMARY}>
           <BasicDiseaseInfo disease={data} />

@@ -1,0 +1,9 @@
+#!/bin/bash
+echo "Installing Node v20.17.0 (LTS)"
+nvm install
+nvm use
+node -v
+npm -v
+rm -f package-lock.json
+rm -rf node_modules
+npm install

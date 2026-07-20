@@ -4,6 +4,7 @@ import Search from '../../Search.jsx';
 import { MODContent } from '../../content.jsx';
 import { getByTestId, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { GO_CATEGORY } from '../../../../constants';
 
 const content = MODContent['goc'];
 
@@ -43,7 +44,7 @@ describe('GO Search', () => {
     ('Should render Gene Ontology search as the first search link',
     () => {
       const footer = screen(getByTestId('href_search_0')); // First item
-      expect(footer).toHaveAttribute('href', 'search?category=go');
+      expect(footer).toHaveAttribute('href', `search?category=${GO_CATEGORY}`);
       const label = screen.getByTestId('search_label_0');
       expect(label).toContainHTML('Gene Ontology');
     })

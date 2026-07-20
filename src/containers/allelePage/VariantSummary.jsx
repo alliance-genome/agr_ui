@@ -36,7 +36,6 @@ const VariantSummary = ({ variant }) => {
   } = variant || {};
 
   const genomeLocation = getVariantGenomeLocation(variant);
-  console.log(species);
   return (
     <>
       <AttributeLabel>Symbol</AttributeLabel>

@@ -209,5 +209,4 @@ LayoutWithLocation.propTypes = {
   pageLoading: PropTypes.bool,
 };
 
-//TODO: withRouter - test
 export default connect(mapStateToProps)(LayoutWithLocation);

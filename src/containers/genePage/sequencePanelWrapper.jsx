@@ -7,6 +7,8 @@ import { Buffer } from 'buffer';
 
 import { useRelease } from '../../hooks/ReleaseContextProvider.jsx';
 
+import NoData from '../../components/noData.jsx';
+
 window.Buffer = Buffer;
 
 const SequencePanel = ({ species, gene, refseq, start, end }) => {
@@ -27,6 +29,11 @@ const SequencePanel = ({ species, gene, refseq, start, end }) => {
   const jBrowsenclistbaseurl = getSpecies(species).jBrowsenclistbaseurltemplate.replace('{release}', releaseVersion);
   const jBrowseurltemplate = getSpecies(species).jBrowseurltemplate;
   const jBrowsefastaurl = getSpecies(species).jBrowsefastaurl;
+
+  if (!refseq) {
+    console.warn('SequencePanel: refseq is undefined, skipping sequence panel rendering');
+    return <NoData />;
+  }
 
   if (species === 'NCBITaxon:559292' && !refseq.startsWith('chr') && !refseq.toLowerCase().startsWith('scaffold')) {
     refseq = 'chr' + refseq;

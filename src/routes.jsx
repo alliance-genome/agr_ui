@@ -9,7 +9,6 @@ import Layout from './containers/layout/index.jsx';
 import Search from './containers/search';
 import GenePage from './containers/genePage/index.jsx';
 import GeneAlleleDetailsPage from './containers/GeneAlleleDetailsPage/index.jsx';
-import DiseasesPage from './containers/diseaseLanding/index.jsx';
 import DiseasePage from './containers/diseasePage/index.jsx';
 import NotFound from './components/notFound.jsx';
 import DownloadsPage from './containers/downloadsPage/index.jsx';
@@ -18,22 +17,26 @@ import VariantPage from './containers/allelePage/VariantPage.jsx';
 import ReferencePage from './containers/referencePage/index.jsx';
 import MODLanding from './containers/modLanding/Main.jsx';
 import DiseasePortalPage from './containers/diseasePortal/index.jsx';
-import AlzheimersPage from './containers/alzheimersPage/index.jsx';
 import BlastPage from './containers/blastPage/index.jsx';
+import ContactPage from './containers/contactPage/index.jsx';
 
 const WordpressRedirect = () => {
   const { slug } = useParams();
   return <Navigate replace to={`/${slug}`} />;
-};
-const AlzheimersPageRedirect = () => {
-  return <Navigate replace to={`/disease-portal/DOID:10652`} />;
 };
 
 const LayoutWithRoutes = () => (
   <Layout>
     <Routes>
       <Route exact path="/" element={<Homepage />} />
+
       <Route exact path="/search" element={<Search />} />
+      <Route exact path="/downloads" element={<DownloadsPage />} />
+      <Route exact path="/blastservice" element={<BlastPage />} />
+
+      <Route exact path="/news" element={<WordpressPostList />} />
+      <Route exact path="/news/:slug" element={<WordpressPost />} />
+
       <Route exact path="/gene/:id" element={<GenePage />} />
       <Route exact path="/gene/:id/allele-details" element={<GeneAlleleDetailsPage />} />
 
@@ -41,19 +44,12 @@ const LayoutWithRoutes = () => (
       <Route exact path="/allele/:id" element={<AllelePage />} />
       <Route exact path="/variant/:id" element={<VariantPage />} />
       <Route exact path="/reference/:id" element={<ReferencePage />} />
-      <Route exact path="/news/:slug" element={<WordpressPost />} />
-
-      <Route exact path="/news" element={<WordpressPostList />} />
-      <Route exact path="/downloads" element={<DownloadsPage />} />
 
       <Route exact path="/members/:id" element={<MODLanding />} />
 
       <Route exact path="/disease-portal" element={<DiseasePortalPage name="human" />} />
       <Route exact path="/disease-portal/:name" element={<DiseasePortalPage />} />
-      {/* <Route exact path="/disease-portal/alzheimers-disease" component={AlzheimersPageRedirect} /> */}
-      {/* <Route exact path="/disease-portal/alzheimers-disease" element={<AlzheimersPage />} /> */}
-      <Route exact path="/blastservice" element={<BlastPage />} />
-
+      <Route exact path="/contact-us" element={<ContactPage />} />
       <Route exact path="/wordpress/:slug" component={WordpressRedirect} />
       <Route path="/:slug" element={<WordpressPage />} />
 

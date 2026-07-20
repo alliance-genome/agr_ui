@@ -7,11 +7,11 @@ export class AmplifyProductionStack extends cdk.Stack {
     super(scope, id, props);
 
     /*
-	REWRITE					Rewrite (200).
-	PERMANENT_REDIRECT	Permanent redirect (301).
-	TEMPORARY_REDIRECT	Temporary redirect (302).
-	NOT_FOUND				Not found (404).
-	NOT_FOUND_REWRITE		Not found rewrite (404).
+  REWRITE					Rewrite (200).
+  PERMANENT_REDIRECT	Permanent redirect (301).
+  TEMPORARY_REDIRECT	Temporary redirect (302).
+  NOT_FOUND				Not found (404).
+  NOT_FOUND_REWRITE		Not found rewrite (404).
 */
 
     const main_paths = [
@@ -172,15 +172,24 @@ export class AmplifyProductionStack extends cdk.Stack {
       },
       {
         source: '/bluegenes/',
-        target: 'https://production-alliancemine.alliancegenome.org:444/bluegenes/alliancemine',
+        target: 'https://alliancemine.alliancegenome.org/bluegenes/alliancemine',
         status: amplify.RedirectStatus.REWRITE,
       },
       {
         source: '/bluegenes/<*>',
-        target: 'https://production-alliancemine.alliancegenome.org:444/bluegenes/<*>',
+        target: 'https://alliancemine.alliancegenome.org/bluegenes/<*>',
         status: amplify.RedirectStatus.REWRITE,
       },
-
+      {
+        source: '/download/',
+        target: 'https://prod-alb.alliancegenome.org/downloads',
+        status: amplify.RedirectStatus.REWRITE,
+      },
+      {
+        source: '/download/<*>',
+        target: 'https://prod-alb.alliancegenome.org/api/download/<*>',
+        status: amplify.RedirectStatus.REWRITE,
+      },
       {
         source: '/swagger-ui',
         target: 'https://www.alliancegenome.org/swagger-ui/',

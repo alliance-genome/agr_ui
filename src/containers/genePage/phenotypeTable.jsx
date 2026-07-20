@@ -46,9 +46,9 @@ const PhenotypeTable = ({ geneId, entityType, hideSourceColumn = false }) => {
       headerStyle: { width: '90px' },
     },
     {
-      dataField: 'primaryAnnotations',
+      dataField: 'primaryAnnotationsSource',
       text: 'Source',
-      formatter: (primaryAnnotations) => primaryAnnotations && <ProvidersCellCuration providers={primaryAnnotations} />,
+      formatter: (_, row) => row.primaryAnnotations && <ProvidersCellCuration providers={row.primaryAnnotations} />,
       filterable: true,
       headerStyle: { width: '100px' },
       filterName: 'dataProvider',

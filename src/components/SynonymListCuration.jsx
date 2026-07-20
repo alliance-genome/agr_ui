@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CollapsibleList } from './collapsibleList';
-import { compareAlphabeticalCaseInsensitive, smartAlphaSort } from '../lib/utils';
+import { smartAlphaSort } from '../lib/utils';
+import { removeDuplicates } from './dataTable/utils';
 
 const SynonymListCuration = ({ synonyms }) => {
+  const uniqueSynonyms = synonyms ? removeDuplicates(synonyms, (synonym) => synonym.displayText) : null;
+
   return (
-    (synonyms && (
+    (uniqueSynonyms && (
       <CollapsibleList>
-        {synonyms.sort(smartAlphaSort((synonym) => synonym.displayText)).map((synonym) => (
+        {uniqueSynonyms.sort(smartAlphaSort((synonym) => synonym.displayText)).map((synonym) => (
           <span dangerouslySetInnerHTML={{ __html: synonym.displayText }} key={synonym.formatText} />
         ))}
       </CollapsibleList>

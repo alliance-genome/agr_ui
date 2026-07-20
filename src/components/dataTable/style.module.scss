@@ -59,7 +59,7 @@
     width: 900px;
     display: flex;
     flex-direction: column;
-    height: 500px;
+    max-height: 500px;
   }
 
   .tableContainer {

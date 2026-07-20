@@ -43,7 +43,7 @@ describe('WormBase Search', () => {
     ('Should render C. elegans search as the first search link',
     () => {
       const footer = screen(getByTestId('href_search_0')); // First item
-      expect(footer).toHaveAttribute('href', 'search?species=Caenorhabditis elegans&category=gene');
+      expect(footer).toHaveAttribute('href', 'search?species=Caenorhabditis elegans&category=gene_search_result');
       const label = screen.getByTestId('search_label_0');
       expect(label).toContainHTML('<i>C. elegans</i>');
     })

@@ -8,7 +8,13 @@ import style from './style.module.scss';
 import ResultsTable from './resultsTable.jsx';
 import CategoryLabel from './categoryLabel.jsx';
 import fetchData from '../../lib/fetchData';
-import { SEARCH_API_ERROR_MESSAGE } from '../../constants';
+import {
+  ALLELE_CATEGORY,
+  DISEASE_CATEGORY,
+  GENE_CATEGORY,
+  GO_CATEGORY,
+  SEARCH_API_ERROR_MESSAGE,
+} from '../../constants';
 import { receiveResponse, setError } from '../../actions/search';
 import { getQueryParamWithValueChanged, stringifyQuery } from '../../lib/searchHelpers.jsx';
 
@@ -28,7 +34,7 @@ import { setPageLoading } from '../../actions/loadingActions';
 const BASE_SEARCH_URL = '/api/search';
 const PAGE_SIZE = 5;
 //todo: ideally this would come from constants.js, but we don't want 'all'
-const CATEGORIES = ['gene', 'go', 'disease', 'allele'];
+const CATEGORIES = [GENE_CATEGORY, GO_CATEGORY, DISEASE_CATEGORY, ALLELE_CATEGORY];
 const SEARCH_PATH = '/search';
 
 class MultiTableComponent extends Component {
@@ -56,28 +62,28 @@ class MultiTableComponent extends Component {
   }
 
   fetchAllData() {
-    let geneUrl = this.getUrlByCategory('gene');
-    let goUrl = this.getUrlByCategory('go');
-    let diseaseUrl = this.getUrlByCategory('disease');
-    let alleleUrl = this.getUrlByCategory('allele');
+    let geneUrl = this.getUrlByCategory(GENE_CATEGORY);
+    let goUrl = this.getUrlByCategory(GO_CATEGORY);
+    let diseaseUrl = this.getUrlByCategory(DISEASE_CATEGORY);
+    let alleleUrl = this.getUrlByCategory(ALLELE_CATEGORY);
     this.props.dispatch(setPageLoading(true));
     fetchData(geneUrl)
       .then((geneData) => {
-        this.props.dispatch(receiveResponse(geneData, this.props.queryParams, 'gene'));
+        this.props.dispatch(receiveResponse(geneData, this.props.queryParams, GENE_CATEGORY));
       })
       .then(
         fetchData(goUrl).then((goData) => {
-          this.props.dispatch(receiveResponse(goData, this.props.queryParams, 'go'));
+          this.props.dispatch(receiveResponse(goData, this.props.queryParams, GO_CATEGORY));
         })
       )
       .then(
         fetchData(diseaseUrl).then((diseaseData) => {
-          this.props.dispatch(receiveResponse(diseaseData, this.props.queryParams, 'disease'));
+          this.props.dispatch(receiveResponse(diseaseData, this.props.queryParams, DISEASE_CATEGORY));
         })
       )
       .then(
         fetchData(alleleUrl).then((alleleData) => {
-          this.props.dispatch(receiveResponse(alleleData, this.props.queryParams, 'allele'));
+          this.props.dispatch(receiveResponse(alleleData, this.props.queryParams, ALLELE_CATEGORY));
         })
       )
       .catch((e) => {
@@ -92,32 +98,32 @@ class MultiTableComponent extends Component {
 
   //there has to be a better way to do this...
   getTotalForCategory(category) {
-    if (category === 'gene') {
+    if (category === GENE_CATEGORY) {
       return this.props.geneTotal.toLocaleString();
     }
-    if (category === 'go') {
+    if (category === GO_CATEGORY) {
       return this.props.goTotal.toLocaleString();
     }
-    if (category === 'disease') {
+    if (category === DISEASE_CATEGORY) {
       return this.props.diseaseTotal.toLocaleString();
     }
-    if (category === 'allele') {
+    if (category === ALLELE_CATEGORY) {
       return this.props.alleleTotal.toLocaleString();
     }
   }
 
   //there also has to be a better way to do this...
   getResultsForCategory(category) {
-    if (category === 'gene') {
+    if (category === GENE_CATEGORY) {
       return this.props.geneResults;
     }
-    if (category === 'go') {
+    if (category === GO_CATEGORY) {
       return this.props.goResults;
     }
-    if (category === 'disease') {
+    if (category === DISEASE_CATEGORY) {
       return this.props.diseaseResults;
     }
-    if (category === 'allele') {
+    if (category === ALLELE_CATEGORY) {
       return this.props.alleleResults;
     }
   }

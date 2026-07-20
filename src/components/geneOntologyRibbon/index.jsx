@@ -609,5 +609,4 @@ GeneOntologyRibbonWithNavigate.propTypes = {
   geneSymbol: PropTypes.string,
 };
 
-//TODO: withRouter - test
 export default GeneOntologyRibbonWithNavigate;

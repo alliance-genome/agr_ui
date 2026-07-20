@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CrossReferenceList from '../crossReferenceList.jsx';
+import DataSourceLinkCuration from '../dataSourceLinkCuration.jsx';
 import { AttributeList, AttributeLabel, AttributeValue } from '../attribute';
 
 export default function GeneInteractionCrossReference(props) {
@@ -10,10 +10,7 @@ export default function GeneInteractionCrossReference(props) {
     <AttributeList>
       <AttributeLabel>Primary Sources</AttributeLabel>
       <AttributeValue>
-        <CrossReferenceList
-          collapsible={false}
-          crossReferences={[{ ...crossReference, displayName: geneDataProvider }]}
-        />
+        <DataSourceLinkCuration reference={crossReference}>{geneDataProvider}</DataSourceLinkCuration>
       </AttributeValue>
     </AttributeList>
   ) : null;
