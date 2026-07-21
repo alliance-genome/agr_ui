@@ -35,8 +35,8 @@ export function smartAlphaSort(accessor) {
 
     // Split strings into chunks of strings and numbers
     const splitRegex = /([0-9]+|[^0-9]+)/g;
-    const aChunksArray = ax.match(splitRegex);
-    const bChunksArray = bx.match(splitRegex);
+    const aChunksArray = ax.match(splitRegex) || [];
+    const bChunksArray = bx.match(splitRegex) || [];
 
     const len = Math.min(aChunksArray.length, bChunksArray.length);
 
