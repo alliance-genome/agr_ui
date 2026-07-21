@@ -165,10 +165,10 @@ const DiseaseToGeneTable = ({ id }) => {
       formatter: (pubmedPublications, row) => {
         if (getIsViaOrthology(row)) {
           const xrefs = (row.references || []).flatMap((ref) => {
-            const refId = ref?.referenceID || ref?.curie;
-            if (!refId) return [];
-            const xref = ref.crossReferences?.find((x) => x.referencedCurie === refId);
-            return [xref || { referencedCurie: refId }];
+            const modId = ref?.pubModID;
+            if (!modId) return [];
+            const match = (ref.crossReferences || []).find((x) => x.referencedCurie === modId);
+            return [match || { referencedCurie: modId }];
           });
           return xrefs.length ? <ReferencesCellCuration pubmedPublications={xrefs} /> : null;
         }
