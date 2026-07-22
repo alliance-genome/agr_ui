@@ -27,6 +27,7 @@ export const getIdentifier = (subject) => {
 };
 
 export const getSingleReferenceUrl = (pubModId) => {
+  if (!pubModId) return { pubModId, url: null };
   let url;
   if (
     pubModId.includes('PMID') ||
@@ -42,7 +43,11 @@ export const getSingleReferenceUrl = (pubModId) => {
 };
 
 export const getMultipleReferencesUrls = (pubModIds) => {
-  return pubModIds.sort().map((pubModId) => getSingleReferenceUrl(pubModId));
+  if (!Array.isArray(pubModIds)) return [];
+  return pubModIds
+    .filter(Boolean)
+    .sort()
+    .map((pubModId) => getSingleReferenceUrl(pubModId));
 };
 
 const buildProvider = (annotation) => {
