@@ -29,22 +29,29 @@ const CommaSeparatedSourceList = ({ sources }) => {
 const PubSourceLink = ({ ref }) => {
   const publisher = ref.resource_title;
   // this should not need to be done here; talk to Blue Team about fixing these date formats (e.g. "1999.7.30")
-  const date_pub_fixed = ref.date_published.replace(/\b(\d)\b/g, '0$1').replace(/\.+/g, '-');
+  // date_published may be missing entirely (e.g. internal_process_reference); ?. leaves it undefined (falsy) then
+  const date_pub_fixed = ref.date_published?.replace(/\b(\d)\b/g, '0$1').replace(/\.+/g, '-');
   if (!publisher && !date_pub_fixed) return <NoData>Not Available</NoData>;
+  // date_published may be a full date ("1999-07-30") or year-only ("2018"); only reformat when it parses,
+  // otherwise show the raw value (a year-only string produces an Invalid Date that formatToParts throws on)
   const pubDate = new Date(date_pub_fixed + 'T00:00:00'); // must add a time, or Date assumes midnight in Greenwich, which usually (i.e. in the US) means you see the previous day instead
-  const dateOptions = { year: 'numeric', month: 'short', day: 'numeric' };
-  const dateParts = new Intl.DateTimeFormat('en-US', dateOptions).formatToParts(pubDate);
-  const datePartValues = dateParts.map((p) => p.value);
-  const dateString = datePartValues[4] + ' ' + datePartValues[0] + ' ' + datePartValues[2];
-  const pubVol = ref.volume;
+  let dateString = date_pub_fixed;
+  if (date_pub_fixed && !isNaN(pubDate.getTime())) {
+    const dateOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+    const dateParts = new Intl.DateTimeFormat('en-US', dateOptions).formatToParts(pubDate);
+    const datePartValues = dateParts.map((p) => p.value);
+    dateString = datePartValues[4] + ' ' + datePartValues[0] + ' ' + datePartValues[2];
+  }
+  const pubVol = ref.volume || '';
   const pubIss = ref.issue_name ? `(${ref.issue_name})` : '';
-  const pubRng = ref.page_range;
+  const pubRng = ref.page_range || '';
   // extract DOI cross-reference (already enriched with resourceDescriptorPage in index.jsx)
   const doiXref = [...(ref.extXrefs || []), ...(ref.modXrefs || [])].find(
     (xr) => xr.curie && xr.curie.match(/^doi\:/i)
   );
-  // build link text string
-  const pubsrc = `${publisher}. ${dateString}; ${pubVol} ${pubIss}:${pubRng}`;
+  // build link text string, omitting empty segments so missing fields don't render as "undefined"
+  const volIssRng = `${pubVol} ${pubIss}:${pubRng}`.replace(/^\s*:\s*$/, '').trim();
+  const pubsrc = [publisher, dateString].filter(Boolean).join('. ') + (volIssRng ? `; ${volIssRng}` : '');
   if (doiXref)
     return (
       <ExternalLink href={buildUrlFromTemplate(doiXref)} key={`source-${doiXref.curie}`}>
@@ -118,7 +125,7 @@ const ReferenceSummary = ({ ref }) => {
         <MODidentifiers xrefs={ref.modXrefs} />
       </AttributeValue>
       <AttributeLabel>Alliance Publication Type</AttributeLabel>
-      <AttributeValue>{ref.category.replace(/_/g, ' ')}</AttributeValue>
+      <AttributeValue>{ref.category ? ref.category.replace(/_/g, ' ') : <NoData>Not Available</NoData>}</AttributeValue>
       <AttributeLabel>AGRKB ID</AttributeLabel>
       <AttributeValue>{ref.curie}</AttributeValue>
     </AttributeList>
