@@ -5,16 +5,17 @@ import { makeId } from '../lib/utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
 
+const popperModifiers = [
+  {
+    name: 'preventOverflow',
+    options: {
+      rootBoundary: 'viewport',
+    },
+  },
+];
 const HelpPopup = ({ children, id, placement = 'top-start', ...otherProps }) => {
   id = makeId(id);
-  const popperModifiers = [
-    {
-      name: 'preventOverflow',
-      options: {
-        rootBoundary: 'viewport',
-      },
-    },
-  ];
+
   return (
     <>
       <FontAwesomeIcon icon={faCircleQuestion} id={id} style={{ cursor: 'pointer' }} className="text-primary" />
