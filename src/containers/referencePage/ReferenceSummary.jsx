@@ -29,8 +29,8 @@ const CommaSeparatedSourceList = ({ sources }) => {
 const PubSourceLink = ({ ref }) => {
   const publisher = ref.resource_title;
   // this should not need to be done here; talk to Blue Team about fixing these date formats (e.g. "1999.7.30")
-  // date_published may be missing entirely (e.g. internal_process_reference)
-  const date_pub_fixed = ref.date_published ? ref.date_published.replace(/\b(\d)\b/g, '0$1').replace(/\.+/g, '-') : '';
+  // date_published may be missing entirely (e.g. internal_process_reference); ?. leaves it undefined (falsy) then
+  const date_pub_fixed = ref.date_published?.replace(/\b(\d)\b/g, '0$1').replace(/\.+/g, '-');
   if (!publisher && !date_pub_fixed) return <NoData>Not Available</NoData>;
   // date_published may be a full date ("1999-07-30") or year-only ("2018"); only reformat when it parses,
   // otherwise show the raw value (a year-only string produces an Invalid Date that formatToParts throws on)
