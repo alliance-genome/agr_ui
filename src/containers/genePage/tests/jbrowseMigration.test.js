@@ -3,17 +3,17 @@ import { getSpecies } from '../../../lib/utils';
 
 describe('JBrowse Migration Validation', () => {
   describe('Species Configuration', () => {
-    it('should have JBrowse URL templates for mouse species', () => {
+    it('should have JBrowse GFF3 and VCF URL templates for mouse species', () => {
       const speciesInfo = getSpecies('NCBITaxon:10090');
 
       // Verify JBrowse URL templates exist
-      assert(speciesInfo.jBrowsenclistbaseurltemplate, 'Should have JBrowse NCList URL template');
+      assert(speciesInfo.jBrowseGffUrlTemplate, 'Should have JBrowse tabix GFF3 URL template');
       assert(speciesInfo.jBrowseVcfUrlTemplate, 'Should have JBrowse VCF URL template');
 
       // Verify URL templates contain {release} placeholder
       assert(
-        speciesInfo.jBrowsenclistbaseurltemplate.includes('{release}'),
-        'NCList URL template should contain {release} placeholder'
+        speciesInfo.jBrowseGffUrlTemplate.includes('{release}'),
+        'GFF3 URL template should contain {release} placeholder'
       );
       assert(
         speciesInfo.jBrowseVcfUrlTemplate.includes('{release}'),
@@ -21,19 +21,18 @@ describe('JBrowse Migration Validation', () => {
       );
     });
 
-    it('should have correct S3 URL patterns for version 8.2.0', () => {
+    it('should have correct S3 URL patterns for version 9.1.0', () => {
       const speciesInfo = getSpecies('NCBITaxon:10090'); // Mouse
 
       // Verify S3 URL structure targets correct paths
-      assert(speciesInfo.jBrowsenclistbaseurltemplate.includes('agrjbrowse/docker'), 'Should use agrjbrowse S3 bucket');
-      assert(
-        speciesInfo.jBrowsenclistbaseurltemplate.includes('MGI/mouse'),
-        'Should use correct species path for mouse'
-      );
+      assert(speciesInfo.jBrowseGffUrlTemplate.includes('agrjbrowse/docker'), 'Should use agrjbrowse S3 bucket');
+      assert(speciesInfo.jBrowseGffUrlTemplate.includes('MGI/mouse'), 'Should use correct species path for mouse');
+      assert(speciesInfo.jBrowseGffUrlTemplate.endsWith('GFF_MGI.sorted.gff.gz'), 'Should target the sorted GFF3 file');
     });
 
-    it('should support all Alliance species with JBrowse URLs', () => {
+    it('should support all Alliance species with JBrowse GFF3 URLs', () => {
       const testSpecies = [
+        'NCBITaxon:9606', // Human
         'NCBITaxon:10090', // Mouse
         'NCBITaxon:7227', // Fly
         'NCBITaxon:6239', // Worm
@@ -46,9 +45,14 @@ describe('JBrowse Migration Validation', () => {
 
       testSpecies.forEach((taxonId) => {
         const speciesInfo = getSpecies(taxonId);
-        assert(speciesInfo.jBrowsenclistbaseurltemplate, `Species ${taxonId} should have JBrowse NCList URL`);
+        assert(speciesInfo.jBrowseGffUrlTemplate, `Species ${taxonId} should have JBrowse GFF3 URL`);
         assert(speciesInfo.jBrowseVcfUrlTemplate, `Species ${taxonId} should have JBrowse VCF URL`);
       });
+    });
+
+    it('should not have a jBrowseGffUrlTemplate for SARS-CoV-2 (no sorted GFF3 published yet, species being dropped)', () => {
+      const speciesInfo = getSpecies('NCBITaxon:2697049');
+      assert(!speciesInfo.jBrowseGffUrlTemplate, 'SARS-CoV-2 should intentionally have no jBrowseGffUrlTemplate');
     });
 
     it('should have species-specific S3 paths for different organisms', () => {
@@ -62,7 +66,7 @@ describe('JBrowse Migration Validation', () => {
       testCases.forEach(({ taxonId, expectedPath }) => {
         const speciesInfo = getSpecies(taxonId);
         assert(
-          speciesInfo.jBrowsenclistbaseurltemplate.includes(expectedPath),
+          speciesInfo.jBrowseGffUrlTemplate.includes(expectedPath),
           `Species ${taxonId} should use path ${expectedPath}`
         );
       });
@@ -70,34 +74,34 @@ describe('JBrowse Migration Validation', () => {
   });
 
   describe('URL Construction', () => {
-    it('should construct JBrowse URLs with version 8.2.0', () => {
+    it('should construct JBrowse URLs with version 9.1.0', () => {
       const speciesInfo = getSpecies('NCBITaxon:10090');
-      const releaseVersion = '8.2.0';
+      const releaseVersion = '9.1.0';
 
       // Test URL template replacement
-      const ncListUrl = speciesInfo.jBrowsenclistbaseurltemplate.replace('{release}', releaseVersion);
+      const gffUrl = speciesInfo.jBrowseGffUrlTemplate.replace('{release}', releaseVersion);
       const vcfUrl = speciesInfo.jBrowseVcfUrlTemplate.replace('{release}', releaseVersion);
 
-      assert(ncListUrl.includes('8.2.0'), 'NCList URL should contain version 8.2.0');
-      assert(vcfUrl.includes('8.2.0'), 'VCF URL should contain version 8.2.0');
-      assert(!ncListUrl.includes('{release}'), 'NCList URL should not contain placeholder');
-      assert(!vcfUrl.includes('{release}'), 'VCF URL should not contain placeholder');
+      assert(gffUrl.includes('9.1.0'), 'GFF3 URL should contain version 9.1.0');
+      assert(vcfUrl.includes('9.1.0'), 'VCF URL should contain version 9.1.0');
+      assert(!gffUrl.includes('{release}'), 'GFF3 URL should not contain unresolved placeholder');
+      assert(!vcfUrl.includes('{release}'), 'VCF URL should not contain unresolved placeholder');
     });
 
     it('should target correct S3 bucket and data structure', () => {
       const speciesInfo = getSpecies('NCBITaxon:7227'); // Fly
-      const releaseVersion = '8.2.0';
+      const releaseVersion = '9.1.0';
 
-      const ncListUrl = speciesInfo.jBrowsenclistbaseurltemplate.replace('{release}', releaseVersion);
+      const gffUrl = speciesInfo.jBrowseGffUrlTemplate.replace('{release}', releaseVersion);
       const vcfUrl = speciesInfo.jBrowseVcfUrlTemplate.replace('{release}', releaseVersion);
 
       // Verify S3 structure
       assert(
-        ncListUrl.includes('s3.amazonaws.com/agrjbrowse/docker/8.2.0/FlyBase/fruitfly'),
-        'Should target correct S3 path for fly NCList data'
+        gffUrl === 'https://s3.amazonaws.com/agrjbrowse/docker/9.1.0/FlyBase/fruitfly/GFF_FB.sorted.gff.gz',
+        'Should target correct S3 path for fly tabix GFF3 data'
       );
       assert(
-        vcfUrl.includes('s3.amazonaws.com/agrjbrowse/VCF/8.2.0/FlyBase/fruitfly'),
+        vcfUrl.includes('s3.amazonaws.com/agrjbrowse/VCF/9.1.0/FlyBase/fruitfly'),
         'Should target correct S3 path for fly VCF data'
       );
     });
@@ -108,16 +112,17 @@ describe('JBrowse Migration Validation', () => {
       const speciesInfo = getSpecies('NCBITaxon:10090');
 
       // Verify we're using static file URLs, not API endpoints
-      assert(speciesInfo.jBrowsenclistbaseurltemplate.includes('s3.amazonaws.com'), 'Should use S3 static file URLs');
+      assert(speciesInfo.jBrowseGffUrlTemplate.includes('s3.amazonaws.com'), 'Should use S3 static file URLs');
       assert(speciesInfo.jBrowseVcfUrlTemplate.includes('s3.amazonaws.com'), 'Should use S3 static file URLs for VCF');
 
       // Verify it doesn't contain Apollo patterns
-      assert(!speciesInfo.jBrowsenclistbaseurltemplate.includes('/apollo/'), 'Should not contain Apollo server paths');
+      assert(!speciesInfo.jBrowseGffUrlTemplate.includes('/apollo/'), 'Should not contain Apollo server paths');
       assert(!speciesInfo.jBrowseVcfUrlTemplate.includes('/apollo/'), 'Should not contain Apollo server paths');
     });
 
-    it('should provide version-aware configuration system', () => {
-      const allSpecies = [
+    it('should provide version-aware configuration for every species with a GFF3 URL', () => {
+      const speciesWithGff = [
+        'NCBITaxon:9606',
         'NCBITaxon:10090',
         'NCBITaxon:7227',
         'NCBITaxon:6239',
@@ -126,16 +131,16 @@ describe('JBrowse Migration Validation', () => {
         'NCBITaxon:10116',
         'NCBITaxon:8355',
         'NCBITaxon:8364',
-        'NCBITaxon:2697049',
+        // NCBITaxon:2697049 (SARS-CoV-2) intentionally excluded - no GFF3 URL yet
       ];
 
-      allSpecies.forEach((taxonId) => {
+      speciesWithGff.forEach((taxonId) => {
         const speciesInfo = getSpecies(taxonId);
 
         // All species should have version-aware URLs
         assert(
-          speciesInfo.jBrowsenclistbaseurltemplate.includes('{release}'),
-          `Species ${taxonId} NCList URL should be version-aware`
+          speciesInfo.jBrowseGffUrlTemplate.includes('{release}'),
+          `Species ${taxonId} GFF3 URL should be version-aware`
         );
         assert(
           speciesInfo.jBrowseVcfUrlTemplate.includes('{release}'),
@@ -144,15 +149,15 @@ describe('JBrowse Migration Validation', () => {
       });
     });
 
-    it('should support fresh genomic data access (version 8.2.0 vs 5.3.0)', () => {
+    it('should support fresh genomic data access (version 9.1.0 vs 9.0.0)', () => {
       const speciesInfo = getSpecies('NCBITaxon:10090');
 
       // Test that version replacement works for both old and new versions
-      const newVersionUrl = speciesInfo.jBrowsenclistbaseurltemplate.replace('{release}', '8.2.0');
-      const oldVersionUrl = speciesInfo.jBrowsenclistbaseurltemplate.replace('{release}', '5.3.0');
+      const newVersionUrl = speciesInfo.jBrowseGffUrlTemplate.replace('{release}', '9.1.0');
+      const oldVersionUrl = speciesInfo.jBrowseGffUrlTemplate.replace('{release}', '9.0.0');
 
-      assert(newVersionUrl.includes('8.2.0'), 'Should support new data version 8.2.0');
-      assert(oldVersionUrl.includes('5.3.0'), 'Should support old data version 5.3.0');
+      assert(newVersionUrl.includes('9.1.0'), 'Should support new data version 9.1.0');
+      assert(oldVersionUrl.includes('9.0.0'), 'Should support old data version 9.0.0');
       assert(newVersionUrl !== oldVersionUrl, 'Different versions should generate different URLs');
     });
   });
@@ -161,11 +166,11 @@ describe('JBrowse Migration Validation', () => {
     it('should target correct file formats for JBrowse', () => {
       const speciesInfo = getSpecies('NCBITaxon:10090');
 
-      // NCList URLs should target .jsonz files
-      assert(speciesInfo.jBrowseurltemplate.includes('trackData.jsonz'), 'Should target JBrowse NCList .jsonz format');
+      // GFF3 URLs should target sorted, bgzip-compressed .gff.gz files (tabix .tbi index alongside)
+      assert(speciesInfo.jBrowseGffUrlTemplate.endsWith('.sorted.gff.gz'), 'Should target sorted, bgzipped GFF3 file');
 
       // VCF URLs should target .vcf.gz files (when combined with filename)
-      const vcfBaseUrl = speciesInfo.jBrowseVcfUrlTemplate.replace('{release}', '8.2.0');
+      const vcfBaseUrl = speciesInfo.jBrowseVcfUrlTemplate.replace('{release}', '9.1.0');
       assert(vcfBaseUrl.endsWith('/'), 'VCF URL template should end with / for file appending');
     });
 
@@ -177,7 +182,7 @@ describe('JBrowse Migration Validation', () => {
       assert(speciesInfo.apolloTrack, 'Should maintain apolloTrack for reference');
 
       // But JBrowse fields should be the primary data source
-      assert(speciesInfo.jBrowsenclistbaseurltemplate, 'Should have JBrowse as primary data source');
+      assert(speciesInfo.jBrowseGffUrlTemplate, 'Should have JBrowse tabix GFF3 as primary data source');
     });
   });
 
@@ -430,155 +435,73 @@ describe('JBrowse Migration Validation', () => {
   });
 
   describe('URL Template Resolution', () => {
-    function buildJBrowseUrls(speciesInfo, releaseVersion, chrString) {
-      const ncListUrlTemplate =
-        speciesInfo.jBrowsenclistbaseurltemplate.replace('{release}', releaseVersion) +
-        `tracks/All_Genes/${chrString}/trackData.jsonz`;
+    function buildJBrowseUrls(speciesInfo, releaseVersion) {
+      const gffUrl = speciesInfo.jBrowseGffUrlTemplate.replace('{release}', releaseVersion);
       const vcfTabixUrl = speciesInfo.jBrowseVcfUrlTemplate.replace('{release}', releaseVersion) + 'variants.vcf.gz';
 
-      return { ncListUrlTemplate, vcfTabixUrl };
+      return { gffUrl, vcfTabixUrl };
     }
 
-    it('should properly resolve {refseq} placeholder in URL templates', () => {
+    it('should resolve {release} placeholder in the GFF3 URL template', () => {
       const speciesInfo = getSpecies('NCBITaxon:10090'); // Mouse
-      const releaseVersion = '8.2.0';
-      const chrString = '1';
+      const releaseVersion = '9.1.0';
 
-      const { ncListUrlTemplate } = buildJBrowseUrls(speciesInfo, releaseVersion, chrString);
+      const { gffUrl } = buildJBrowseUrls(speciesInfo, releaseVersion);
 
-      // Verify URL is properly constructed
-      assert(
-        ncListUrlTemplate.includes('tracks/All_Genes/1/trackData.jsonz'),
-        'Should resolve chromosome reference in URL path'
-      );
-      assert(!ncListUrlTemplate.includes('{refseq}'), 'Should not contain unresolved {refseq} placeholder');
-      assert(!ncListUrlTemplate.includes('{release}'), 'Should not contain unresolved {release} placeholder');
+      assert(gffUrl.endsWith('GFF_MGI.sorted.gff.gz'), 'Should resolve to the single sorted GFF3 file, not sharded');
+      assert(!gffUrl.includes('{release}'), 'Should not contain unresolved {release} placeholder');
     });
 
-    it('should construct valid URLs for yeast with chr prefix', () => {
+    it('should construct a single-file GFF3 URL for yeast (no chromosome sharding)', () => {
       const speciesInfo = getSpecies('NCBITaxon:559292'); // Yeast
-      const releaseVersion = '8.2.0';
-      const chrString = 'chrI'; // Yeast chromosomes get chr prefix
+      const releaseVersion = '9.1.0';
 
-      const { ncListUrlTemplate } = buildJBrowseUrls(speciesInfo, releaseVersion, chrString);
+      const { gffUrl } = buildJBrowseUrls(speciesInfo, releaseVersion);
 
-      assert(
-        ncListUrlTemplate.includes('tracks/All_Genes/chrI/trackData.jsonz'),
-        'Should construct URL with chr prefix for yeast'
-      );
-      assert(ncListUrlTemplate.includes('SGD/yeast'), 'Should use correct species path for yeast');
+      assert.strictEqual(gffUrl, 'https://s3.amazonaws.com/agrjbrowse/docker/9.1.0/SGD/yeast/GFF_SGD.sorted.gff.gz');
+      assert(gffUrl.includes('SGD/yeast'), 'Should use correct species path for yeast');
     });
 
-    it('should construct valid URLs for X. laevis with Chr prefix', () => {
+    it('should construct a single-file GFF3 URL for X. laevis (no chromosome sharding)', () => {
       const speciesInfo = getSpecies('NCBITaxon:8355'); // X. laevis
-      const releaseVersion = '8.2.0';
-      const chrString = 'Chr1L'; // X. laevis chromosomes get Chr prefix (uppercase)
+      const releaseVersion = '9.1.0';
 
-      const { ncListUrlTemplate } = buildJBrowseUrls(speciesInfo, releaseVersion, chrString);
+      const { gffUrl } = buildJBrowseUrls(speciesInfo, releaseVersion);
 
-      assert(
-        ncListUrlTemplate.includes('tracks/All_Genes/Chr1L/trackData.jsonz'),
-        'Should construct URL with Chr prefix for X. laevis'
+      assert.strictEqual(
+        gffUrl,
+        'https://s3.amazonaws.com/agrjbrowse/docker/9.1.0/XenBase/x_laevis/GFF_XBXL.sorted.gff.gz'
       );
-      assert(ncListUrlTemplate.includes('XenBase/x_laevis'), 'Should use correct species path for X. laevis');
+      assert(gffUrl.includes('XenBase/x_laevis'), 'Should use correct species path for X. laevis');
     });
 
-    it('should construct valid URLs for fly chromosomes without prefix', () => {
-      const speciesInfo = getSpecies('NCBITaxon:7227'); // Fly
-      const releaseVersion = '8.2.0';
-      const chrString = '2L'; // Fly chromosomes don't get chr prefix
-
-      const { ncListUrlTemplate } = buildJBrowseUrls(speciesInfo, releaseVersion, chrString);
-
-      assert(
-        ncListUrlTemplate.includes('tracks/All_Genes/2L/trackData.jsonz'),
-        'Should construct URL without chr prefix for fly'
-      );
-      assert(ncListUrlTemplate.includes('FlyBase/fruitfly'), 'Should use correct species path for fly');
-    });
-
-    it('should handle scaffold sequences correctly for X. laevis', () => {
-      const speciesInfo = getSpecies('NCBITaxon:8355'); // X. laevis
-      const releaseVersion = '8.2.0';
-      const chrString = 'Scaffold123'; // Scaffolds don't get chr prefix
-
-      const { ncListUrlTemplate } = buildJBrowseUrls(speciesInfo, releaseVersion, chrString);
-
-      assert(
-        ncListUrlTemplate.includes('tracks/All_Genes/Scaffold123/trackData.jsonz'),
-        'Should construct URL without chr prefix for X. laevis scaffolds'
-      );
-    });
-
-    it('should generate complete and valid S3 URLs', () => {
+    it('should generate complete and valid S3 URLs for each species', () => {
       const testCases = [
-        {
-          taxonId: 'NCBITaxon:10090',
-          apolloPrefix: 'mouse',
-          chromosome: '1',
-          expectedChrString: '1',
-          expectedPath: 'MGI/mouse',
-        },
-        {
-          taxonId: 'NCBITaxon:559292',
-          apolloPrefix: 'yeast',
-          chromosome: 'I',
-          expectedChrString: 'chrI',
-          expectedPath: 'SGD/yeast',
-        },
-        {
-          taxonId: 'NCBITaxon:7227',
-          apolloPrefix: 'fly',
-          chromosome: '2L',
-          expectedChrString: '2L',
-          expectedPath: 'FlyBase/fruitfly',
-        },
+        { taxonId: 'NCBITaxon:10090', expectedPath: 'MGI/mouse', expectedFilename: 'GFF_MGI.sorted.gff.gz' },
+        { taxonId: 'NCBITaxon:559292', expectedPath: 'SGD/yeast', expectedFilename: 'GFF_SGD.sorted.gff.gz' },
+        { taxonId: 'NCBITaxon:7227', expectedPath: 'FlyBase/fruitfly', expectedFilename: 'GFF_FB.sorted.gff.gz' },
         {
           taxonId: 'NCBITaxon:6239',
-          apolloPrefix: 'worm',
-          chromosome: 'I',
-          expectedChrString: 'I',
           expectedPath: 'WormBase/c_elegans_PRJNA13758',
+          expectedFilename: 'GFF_WB.sorted.gff.gz',
         },
       ];
 
-      testCases.forEach(({ taxonId, apolloPrefix, chromosome, expectedChrString, expectedPath }) => {
+      testCases.forEach(({ taxonId, expectedPath, expectedFilename }) => {
         const speciesInfo = getSpecies(taxonId);
-        const releaseVersion = '8.2.0';
+        const releaseVersion = '9.1.0';
 
-        // Apply chromosome prefix logic
-        let chrString = chromosome;
-        if (apolloPrefix === 'yeast' && !chromosome.startsWith('chr')) {
-          chrString = 'chr' + chromosome;
-        }
-        if (
-          (apolloPrefix === 'x_laevis' || apolloPrefix === 'x_tropicalis') &&
-          !chromosome.startsWith('Chr') &&
-          !chromosome.toLowerCase().startsWith('sca')
-        ) {
-          chrString = 'Chr' + chromosome;
-        }
-        assert.strictEqual(
-          chrString,
-          expectedChrString,
-          `Chromosome ${chromosome} should become ${expectedChrString} for ${apolloPrefix}`
-        );
-
-        // Build URLs
-        const { ncListUrlTemplate, vcfTabixUrl } = buildJBrowseUrls(speciesInfo, releaseVersion, chrString);
+        const { gffUrl, vcfTabixUrl } = buildJBrowseUrls(speciesInfo, releaseVersion);
 
         // Verify URL structure
         assert(
-          ncListUrlTemplate.includes(`s3.amazonaws.com/agrjbrowse/docker/8.2.0/${expectedPath}`),
-          `Should use correct S3 path for ${apolloPrefix}`
+          gffUrl.startsWith(`https://s3.amazonaws.com/agrjbrowse/docker/9.1.0/${expectedPath}`),
+          `Should use correct S3 path for ${taxonId}`
         );
+        assert(gffUrl.endsWith(expectedFilename), `Should target ${expectedFilename} for ${taxonId}`);
         assert(
-          ncListUrlTemplate.includes(`tracks/All_Genes/${chrString}/trackData.jsonz`),
-          `Should construct correct track path for ${apolloPrefix} chromosome ${chromosome}`
-        );
-        assert(
-          vcfTabixUrl.includes(`s3.amazonaws.com/agrjbrowse/VCF/8.2.0/${expectedPath}`),
-          `Should use correct VCF path for ${apolloPrefix}`
+          vcfTabixUrl.includes(`s3.amazonaws.com/agrjbrowse/VCF/9.1.0/${expectedPath}`),
+          `Should use correct VCF path for ${taxonId}`
         );
       });
     });

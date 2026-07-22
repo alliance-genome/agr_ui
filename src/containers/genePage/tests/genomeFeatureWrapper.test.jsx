@@ -2,7 +2,7 @@ import React from 'react';
 import { render, waitFor, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import GenomeFeatureWrapper from '../genomeFeatureWrapper';
-import { fetchTabixVcfData, fetchNCListData, GenomeFeatureViewer } from 'genomefeatures';
+import { fetchTabixVcfData, fetchTabixGffData, GenomeFeatureViewer } from 'genomefeatures';
 
 // Mock the genomefeatures module
 jest.mock('genomefeatures', () => ({
@@ -12,7 +12,7 @@ jest.mock('genomefeatures', () => ({
     this.closeModal = jest.fn();
     return this;
   }),
-  fetchNCListData: jest.fn(),
+  fetchTabixGffData: jest.fn(),
   fetchTabixVcfData: jest.fn(),
   parseLocString: jest.fn((str) => {
     const [chr, range] = str.split(':');
@@ -26,7 +26,7 @@ jest.mock('../../../lib/utils', () => ({
   getSpecies: jest.fn(() => ({
     apolloName: 'mouse',
     jBrowseName: 'Mus musculus',
-    jBrowsenclistbaseurltemplate: 'https://s3.amazonaws.com/agrjbrowse/docker/{release}/MGI/mouse/',
+    jBrowseGffUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/docker/{release}/MGI/mouse/GFF_MGI.sorted.gff.gz',
     jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/MGI/mouse/',
     jBrowsetracks: ',All_Genes',
   })),
@@ -91,7 +91,7 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     // Default mock implementations
-    fetchNCListData.mockResolvedValue([]);
+    fetchTabixGffData.mockResolvedValue([]);
     fetchTabixVcfData.mockResolvedValue([]);
   });
 
@@ -137,7 +137,7 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     const { container } = render(<GenomeFeatureWrapper {...isoformProps} />);
 
     await waitFor(() => {
-      expect(fetchNCListData).toHaveBeenCalled();
+      expect(fetchTabixGffData).toHaveBeenCalled();
     });
 
     // Should not find the error alert for ISOFORM display type
@@ -154,7 +154,7 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     render(<GenomeFeatureWrapper {...isoformProps} />);
 
     await waitFor(() => {
-      expect(fetchNCListData).toHaveBeenCalled();
+      expect(fetchTabixGffData).toHaveBeenCalled();
     });
 
     // VCF loading should not be attempted for ISOFORM display type
@@ -207,7 +207,7 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
 
     render(<GenomeFeatureWrapper {...defaultProps} />);
 
-    expect(fetchNCListData).not.toHaveBeenCalled();
+    expect(fetchTabixGffData).not.toHaveBeenCalled();
     expect(fetchTabixVcfData).not.toHaveBeenCalled();
 
     // Should not show error alert
@@ -233,12 +233,12 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     render(<GenomeFeatureWrapper {...defaultProps} />);
 
     await waitFor(() => {
-      expect(fetchNCListData).toHaveBeenCalledTimes(1);
+      expect(fetchTabixGffData).toHaveBeenCalledTimes(1);
     });
 
-    expect(fetchNCListData).toHaveBeenCalledWith(
+    expect(fetchTabixGffData).toHaveBeenCalledWith(
       expect.objectContaining({
-        urlTemplate: expect.stringContaining('/8.2.0/'),
+        url: expect.stringContaining('/8.2.0/'),
       })
     );
 
@@ -263,7 +263,7 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
 
     const { rerender } = render(<GenomeFeatureWrapper {...defaultProps} />);
 
-    expect(fetchNCListData).not.toHaveBeenCalled();
+    expect(fetchTabixGffData).not.toHaveBeenCalled();
     expect(GenomeFeatureViewer).not.toHaveBeenCalled();
 
     mockUseRelease.mockReturnValue({
@@ -275,7 +275,7 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     rerender(<GenomeFeatureWrapper {...defaultProps} />);
 
     await waitFor(() => {
-      expect(fetchNCListData).toHaveBeenCalledTimes(1);
+      expect(fetchTabixGffData).toHaveBeenCalledTimes(1);
     });
 
     await waitFor(() => {
@@ -289,12 +289,12 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
 
   test('should handle general loading error differently from VCF error', async () => {
     // Mock NCList loading to fail (general error)
-    fetchNCListData.mockRejectedValue(new Error('General loading error'));
+    fetchTabixGffData.mockRejectedValue(new Error('General loading error'));
 
     const { container } = render(<GenomeFeatureWrapper {...defaultProps} />);
 
     await waitFor(() => {
-      expect(fetchNCListData).toHaveBeenCalled();
+      expect(fetchTabixGffData).toHaveBeenCalled();
     });
 
     await waitFor(() => {
@@ -347,7 +347,7 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     const firstLoad = createDeferred();
     const secondLoad = createDeferred();
 
-    fetchNCListData.mockImplementationOnce(() => firstLoad.promise).mockImplementationOnce(() => secondLoad.promise);
+    fetchTabixGffData.mockImplementationOnce(() => firstLoad.promise).mockImplementationOnce(() => secondLoad.promise);
 
     const { rerender } = render(<GenomeFeatureWrapper {...defaultProps} visibleVariants={['MGI:allele-1']} />);
 
@@ -364,7 +364,7 @@ describe('GenomeFeatureWrapper VCF Error Handling', () => {
     firstLoad.resolve([]);
 
     await waitFor(() => {
-      expect(fetchNCListData).toHaveBeenCalledTimes(2);
+      expect(fetchTabixGffData).toHaveBeenCalledTimes(2);
     });
 
     expect(GenomeFeatureViewer).toHaveBeenCalledTimes(1);

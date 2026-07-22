@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { AttributeList, AttributeLabel, AttributeValue } from '../../components/attribute';
 import ExternalLink from '../../components/ExternalLink.jsx';
-import { GenomeFeatureViewer, fetchNCListData, fetchTabixVcfData, parseLocString } from 'genomefeatures';
+import { GenomeFeatureViewer, fetchTabixGffData, fetchTabixVcfData, parseLocString } from 'genomefeatures';
 import { getTranscriptTypes } from '../../lib/genomeFeatureTypes';
 import LoadingSpinner from '../../components/loadingSpinner.jsx';
 import HorizontalScroll from '../../components/horizontalScroll.jsx';
@@ -144,17 +144,18 @@ class GenomeFeatureWrapper extends Component {
     const locString = `${chrString}:${fmin}..${fmax}`;
     const parsedRegion = parseLocString(locString);
 
-    // Convert to the format expected by NCList/VCF fetchers
+    // Convert to the format expected by the tabix GFF3/VCF fetchers
     const region = {
       chromosome: parsedRegion.chromosome,
       start: parsedRegion.start,
       end: parsedRegion.end,
     };
 
-    // Build JBrowse URLs using release version
-    const ncListUrlTemplate =
-      speciesInfo.jBrowsenclistbaseurltemplate.replace('{release}', releaseVersion) +
-      `tracks/All_Genes/${chrString}/trackData.jsonz`;
+    // Build the tabix GFF3 URL using release version (single sorted file per species, no per-chromosome sharding)
+    if (!speciesInfo.jBrowseGffUrlTemplate) {
+      throw new Error(`No jBrowseGffUrlTemplate configured for species ${species}`);
+    }
+    const gffUrl = speciesInfo.jBrowseGffUrlTemplate.replace('{release}', releaseVersion);
 
     // VCF filename mapping based on species
     const vcfFilenameMap = {
@@ -186,11 +187,11 @@ class GenomeFeatureWrapper extends Component {
     // All species VCF files are in the root directory (no species subfolders)
     const vcfTabixUrl = `https://s3.amazonaws.com/agrjbrowse/VCF/${releaseVersion}/${vcfFilename}`;
 
-    // Fetch track data from JBrowse NCList files
+    // Fetch track data from the tabix-indexed GFF3 file
     // This is critical data - let errors propagate so the component can show error state
-    const trackData = await fetchNCListData({
+    const trackData = await fetchTabixGffData({
       region,
-      urlTemplate: ncListUrlTemplate,
+      url: gffUrl,
     });
 
     // Fetch variant data from VCF tabix files (if needed for display type and release version is valid)
