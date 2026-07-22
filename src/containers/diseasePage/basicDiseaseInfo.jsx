@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { UncontrolledTooltip } from 'reactstrap';
@@ -14,7 +14,7 @@ import { smartAlphaSort } from '../../lib/utils';
 import SynonymList from '../../components/synonymList.jsx';
 import { formatLink } from './utils';
 
-const renderTermList = (terms) =>
+const TermList = ({ terms }) =>
   terms && (
     <CollapsibleList>
       {terms.sort(smartAlphaSort((term) => term.name)).map((term) => (
@@ -25,7 +25,7 @@ const renderTermList = (terms) =>
     </CollapsibleList>
   );
 
-const renderSourceList = (sources) =>
+const SourceList = ({ sources }) =>
   sources && (
     <CommaSeparatedList>
       {sources.map((source) => (
@@ -36,7 +36,7 @@ const renderSourceList = (sources) =>
     </CommaSeparatedList>
   );
 
-const renderDefinitionLinks = (links) =>
+const DefinitionLinks = ({ links }) =>
   links && (
     <CommaSeparatedList>
       {links.map((link, idx) => {
@@ -60,56 +60,68 @@ const renderDefinitionLinks = (links) =>
     </CommaSeparatedList>
   );
 
-const renderDefinition = (disease) =>
+const Definition = ({ disease }) =>
   (disease.definition || (disease.definitionUrls && disease.definitionUrls.length > 0)) && (
     <div>
-      {disease.definition} {renderDefinitionLinks(disease.definitionUrls)}
+      {disease.definition} <DefinitionLinks links={disease.definitionUrls} />
     </div>
   );
 
-const transformCrossReferenceLinkUrls = (crossReferenceLinkUrls) => {
-  if (!Array.isArray(crossReferenceLinkUrls)) {
-    return [];
-  }
-  return crossReferenceLinkUrls.map(({ referencedCurie, url }) => ({
-    crossRefCompleteUrl: url,
-    name: referencedCurie,
-    displayName: referencedCurie,
-  }));
-};
+    const transformCrossReferenceLinkUrls = (crossReferenceLinkUrls) => {
+      if (!Array.isArray(crossReferenceLinkUrls)) {
+        return [];
+      }
 
-const transformSynonyms = (synonyms) => {
-  if (!Array.isArray(synonyms)) {
-    return [];
-  }
-  return synonyms.map((item) => item.name);
-};
+      return crossReferenceLinkUrls.map((item) => {
+        const { referencedCurie, url } = item;
+        return {
+          crossRefCompleteUrl: url,
+          name: referencedCurie,
+          displayName: referencedCurie,
+        };
+      });
+    };
+
+    const transformSynonyms = (synonyms) => {
+      if (!Array.isArray(synonyms)) {
+        return [];
+      }
+      return synonyms.map((item) => item.name);
+    };
 
 const BasicDiseaseInfo = ({ disease }) => (
   <AttributeList>
     <AttributeLabel>Definition</AttributeLabel>
-    <AttributeValue>{renderDefinition(disease.doTerm)}</AttributeValue>
-
-    <AttributeLabel>Synonyms</AttributeLabel>
-    <AttributeValue placeholder="None">
-      {disease.doTerm.synonyms && <SynonymList synonyms={transformSynonyms(disease.doTerm.synonyms)} />}
-    </AttributeValue>
-
-    <AttributeLabel>Cross References</AttributeLabel>
     <AttributeValue>
-      {disease.crossReferenceLinkUrls && (
-        <CrossReferenceList crossReferences={transformCrossReferenceLinkUrls(disease.crossReferenceLinkUrls)} />
-      )}
+      <Definition disease={disease.doTerm} />
     </AttributeValue>
+
+        <AttributeLabel>Synonyms</AttributeLabel>
+        <AttributeValue placeholder="None">
+          {disease.doTerm.synonyms && <SynonymList synonyms={transformSynonyms(disease.doTerm.synonyms)} />}
+        </AttributeValue>
+
+        <AttributeLabel>Cross References</AttributeLabel>
+        <AttributeValue>
+          {disease.crossReferenceLinkUrls && (
+            <CrossReferenceList crossReferences={transformCrossReferenceLinkUrls(disease.crossReferenceLinkUrls)} />
+          )}
+        </AttributeValue>
 
     <AttributeLabel>Parent Terms</AttributeLabel>
-    <AttributeValue placeholder="None">{renderTermList(disease.parents)}</AttributeValue>
+    <AttributeValue placeholder="None">
+      <TermList terms={disease.parents} />
+    </AttributeValue>
 
     <AttributeLabel>Child Terms</AttributeLabel>
-    <AttributeValue placeholder="None">{renderTermList(disease.children)}</AttributeValue>
+    <AttributeValue placeholder="None">
+      <TermList terms={disease.children} />
+    </AttributeValue>
 
     <AttributeLabel>Sources of Associations</AttributeLabel>
-    <AttributeValue>{renderSourceList(disease.sourceReferenceLinkUrls)}</AttributeValue>
+    <AttributeValue>
+      <SourceList sources={disease.sourceReferenceLinkUrls} />
+    </AttributeValue>
   </AttributeList>
 );
 

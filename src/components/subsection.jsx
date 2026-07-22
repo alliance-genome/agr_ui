@@ -12,7 +12,7 @@ import HelpPopup from './helpPopup.jsx';
 
 const Subsection = ({ children, hardcoded, hasData, help, hideTitle = false, isMeta, level, title }) => {
   const id = title && makeId(title);
-  const target = <a className={style.target} id={id} />;
+  const Target = () => <a className={style.target} id={id} />;
   const helpPopup = help && (
     <span className="small ml-3">
       <HelpPopup id={`help-${title}`}>{help}</HelpPopup>
@@ -20,38 +20,27 @@ const Subsection = ({ children, hardcoded, hasData, help, hideTitle = false, isM
   );
 
   let renderTitle;
+  const titleContent = (
+    <>
+      {isMeta && <target />}
+      {title}
+      {helpPopup}
+    </>
+  );
   switch (level) {
     case 1:
-      renderTitle = (
-        <h4 className="text-break">
-          {isMeta && target}
-          {title}
-          {helpPopup}
-        </h4>
-      );
+      renderTitle = <h4 className="text-break">{titleContent}</h4>;
       break;
     case 2:
-      renderTitle = (
-        <h5>
-          {isMeta && target}
-          {title}
-          {helpPopup}
-        </h5>
-      );
+      renderTitle = <h5>{titleContent}</h5>;
       break;
     default:
-      renderTitle = (
-        <h3>
-          {isMeta && target}
-          {title}
-          {helpPopup}
-        </h3>
-      );
+      renderTitle = <h3>{titleContent}</h3>;
   }
 
   return (
     <div className={style.subsection}>
-      {!isMeta && target}
+      {!isMeta && <Target />}
       {hardcoded && <span className="badge badge-danger">Hardcoded Example Data</span>}
       {title && !hideTitle && renderTitle}
       {typeof hasData !== 'undefined' && !hasData ? <NoData /> : <ErrorBoundary>{children}</ErrorBoundary>}
@@ -68,6 +57,10 @@ Subsection.propTypes = {
   isMeta: PropTypes.bool,
   level: PropTypes.number,
   title: PropTypes.string,
+};
+
+Subsection.defaultProps = {
+  hideTitle: false,
 };
 
 export default Subsection;

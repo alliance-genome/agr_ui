@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import style from './style.module.scss';
@@ -16,7 +16,7 @@ import SpeciesName from '../../components/SpeciesName.jsx';
 
 const DEFAULT_FIELDS = ['symbol', 'name', 'synonyms', 'sourceHref', 'id', 'type'];
 
-const renderHighlightedValues = (highlight, fields) => {
+const HighlightedValues = ({ highlight, fields }) => {
   const _data = highlight;
   const _fields = Object.keys(_data).filter(
     (d) => (fields || DEFAULT_FIELDS).indexOf(d) < 0 && NON_HIGHLIGHTED_FIELDS.indexOf(d) < 0
@@ -24,7 +24,7 @@ const renderHighlightedValues = (highlight, fields) => {
   return <DetailList data={_data} fields={_fields} />;
 };
 
-const renderHeader = (d) => (
+const Header = ({ d }) => (
   <div className="row">
     <div className="col-sm-10">
       <h4 className={style.resultLinkLabel}>{getLinkForEntry(d)}</h4>
@@ -42,11 +42,11 @@ const renderHeader = (d) => (
   </div>
 );
 
-const renderDetailFromFields = (d, fields) => <DetailList data={d} fields={fields} />;
+const DetailFromFields = ({ d, fields }) => <DetailList data={d} fields={fields} />;
 
-const renderMissingTerms = (d) => {
+const MissingTerms = ({ d }) => {
   if (!d.missing || d.missing.length === 0 || d.missing[0] === '') {
-    return '';
+    return null;
   }
   return (
     <div className={style.missingTerms}>
@@ -55,9 +55,9 @@ const renderMissingTerms = (d) => {
   );
 };
 
-const renderRelatedData = (d) => {
+const RelatedData = ({ d }) => {
   if (!d.relatedData || d.relatedData.length === 0 || d.relatedData[0] === '') {
-    return '';
+    return null;
   }
 
   const _links = d.relatedData.map((x) => {
@@ -96,29 +96,29 @@ const renderRelatedData = (d) => {
   );
 };
 
-const renderEntry = (d, i, fields) => (
-  <div className={style.resultContainer} key={`sr${i}`}>
-    {renderHeader(d)}
+const Entry = ({ d, i, fields }) => (
+  <div className={style.resultContainer}>
+    <Header d={d} />
     <SpeciesIcon iconClass={style.resultSpeciesIcon} species={d.speciesKey} />
-    {renderDetailFromFields(d, fields)}
-    {renderHighlightedValues(d.highlight)}
-    {renderRelatedData(d)}
-    {renderMissingTerms(d)}
+    <DetailFromFields d={d} fields={fields} />
+    <HighlightedValues highlight={d.highlight} />
+    <RelatedData d={d} />
+    <MissingTerms d={d} />
     {d.explanation && <ResultExplanation explanation={d.explanation} score={d.score} />}
     <hr />
   </div>
 );
 
-const renderGeneEntry = (d, i) => {
+const GeneEntry = ({ d, i }) => {
   const fields = CATEGORIES.find((cat) => cat.name === d.category).displayFields;
   return (
-    <div className={style.resultContainer} key={`sr${i}`}>
-      {renderHeader(d)}
+    <div className={style.resultContainer}>
+      <Header d={d} />
       <SpeciesIcon iconClass={style.resultSpeciesIcon} species={d.speciesKey} />
-      {renderDetailFromFields(d, fields)}
-      {renderHighlightedValues(d.highlight)}
-      {renderRelatedData(d)}
-      {renderMissingTerms(d)}
+      <DetailFromFields d={d} fields={fields} />
+      <HighlightedValues highlight={d.highlight} />
+      <RelatedData d={d} />
+      <MissingTerms d={d} />
       {d.explanation && <ResultExplanation explanation={d.explanation} score={d.score} />}
       <hr />
     </div>
@@ -129,11 +129,11 @@ const ResultsList = ({ entries }) => {
   const rows =
     entries?.map((d, i) => {
       if (d.category === GENE_CATEGORY) {
-        return renderGeneEntry(d, i);
+        return <GeneEntry key={`sr${i}`} d={d} i={i} />;
       } else {
         const catMatch = CATEGORIES.find((cat) => cat.name === d.category);
         const fields = catMatch ? catMatch.displayFields || ['id', 'synonyms'] : ['id', 'synonyms'];
-        return renderEntry(d, i, fields);
+        return <Entry key={`sr${i}`} d={d} i={i} fields={fields} />;
       }
     }) || [];
   return <div className={style.resultsListParent}>{rows}</div>;
