@@ -67,27 +67,27 @@ const Definition = ({ disease }) =>
     </div>
   );
 
-    const transformCrossReferenceLinkUrls = (crossReferenceLinkUrls) => {
-      if (!Array.isArray(crossReferenceLinkUrls)) {
-        return [];
-      }
+const transformCrossReferenceLinkUrls = (crossReferenceLinkUrls) => {
+  if (!Array.isArray(crossReferenceLinkUrls)) {
+    return [];
+  }
 
-      return crossReferenceLinkUrls.map((item) => {
-        const { referencedCurie, url } = item;
-        return {
-          crossRefCompleteUrl: url,
-          name: referencedCurie,
-          displayName: referencedCurie,
-        };
-      });
+  return crossReferenceLinkUrls.map((item) => {
+    const { referencedCurie, url } = item;
+    return {
+      crossRefCompleteUrl: url,
+      name: referencedCurie,
+      displayName: referencedCurie,
     };
+  });
+};
 
-    const transformSynonyms = (synonyms) => {
-      if (!Array.isArray(synonyms)) {
-        return [];
-      }
-      return synonyms.map((item) => item.name);
-    };
+const transformSynonyms = (synonyms) => {
+  if (!Array.isArray(synonyms)) {
+    return [];
+  }
+  return synonyms.map((item) => item.name);
+};
 
 const BasicDiseaseInfo = ({ disease }) => (
   <AttributeList>
@@ -96,17 +96,17 @@ const BasicDiseaseInfo = ({ disease }) => (
       <Definition disease={disease.doTerm} />
     </AttributeValue>
 
-        <AttributeLabel>Synonyms</AttributeLabel>
-        <AttributeValue placeholder="None">
-          {disease.doTerm.synonyms && <SynonymList synonyms={transformSynonyms(disease.doTerm.synonyms)} />}
-        </AttributeValue>
+    <AttributeLabel>Synonyms</AttributeLabel>
+    <AttributeValue placeholder="None">
+      {disease.doTerm.synonyms && <SynonymList synonyms={transformSynonyms(disease.doTerm.synonyms)} />}
+    </AttributeValue>
 
-        <AttributeLabel>Cross References</AttributeLabel>
-        <AttributeValue>
-          {disease.crossReferenceLinkUrls && (
-            <CrossReferenceList crossReferences={transformCrossReferenceLinkUrls(disease.crossReferenceLinkUrls)} />
-          )}
-        </AttributeValue>
+    <AttributeLabel>Cross References</AttributeLabel>
+    <AttributeValue>
+      {disease.crossReferenceLinkUrls && (
+        <CrossReferenceList crossReferences={transformCrossReferenceLinkUrls(disease.crossReferenceLinkUrls)} />
+      )}
+    </AttributeValue>
 
     <AttributeLabel>Parent Terms</AttributeLabel>
     <AttributeValue placeholder="None">
