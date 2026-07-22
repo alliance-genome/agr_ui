@@ -28,7 +28,7 @@ const OntologyBrowser = () => {
   const { data: ancestors } = useQuery({
     queryKey: ['ontology-ancestors', ontology.id, focusedCurie],
     queryFn: () => fetchData(`/api/disease/${encodeURIComponent(focusedCurie)}/ancestors`),
-    enabled: !!focusedCurie && ontology.available && ontology.id === 'disease' && !fromTree,
+    enabled: !!focusedCurie && ontology.id === 'disease' && !fromTree,
     staleTime: 5 * 60_000,
   });
 
@@ -74,60 +74,48 @@ const OntologyBrowser = () => {
               {ONTOLOGIES.map((o) => (
                 <option key={o.id} value={o.id}>
                   {o.label}
-                  {!o.available && ' — coming soon'}
                 </option>
               ))}
             </select>
           </div>
 
-          {!ontology.available ? (
-            <div className={style.placeholder}>
-              <p>
-                <strong>{ontology.label}</strong> is not yet available in the browser. This ontology has not been
-                indexed into Elasticsearch. Pick another ontology above, or check back once it is loaded.
-              </p>
+          <p className={style.explainer}>
+            Browsing <strong>{ontology.label}</strong> starting at <strong>{ontology.rootName}</strong> (
+            {ontology.rootCurie}). Use the search box to jump to any term.
+          </p>
+
+          <div className={style.searchRow}>
+            <OntologySearchBox
+              onSelect={handleSelect}
+              category={ontology.searchCategory}
+              placeholder={`Search ${ontology.label} terms`}
+            />
+          </div>
+
+          <div className={style.legend}>
+            <span className={style.legendLabel}>Annotation Available:</span>
+            {ANNOTATION_TYPES.map((t) => (
+              <span key={t.id} className={style.legendItem} style={{ background: t.bg, color: t.fg }}>
+                {t.label}
+              </span>
+            ))}
+          </div>
+
+          <div className={style.layout}>
+            <div className={style.treePane}>
+              <OntologyTree
+                curie={ontology.rootCurie}
+                name={ontology.rootName}
+                forceExpanded={forceExpanded}
+                focusedCurie={focusedCurie}
+                onSelect={handleTreeSelect}
+                scrollOnFocus={!fromTree}
+              />
             </div>
-          ) : (
-            <>
-              <p className={style.explainer}>
-                Browsing <strong>{ontology.label}</strong> starting at <strong>{ontology.rootName}</strong> (
-                {ontology.rootCurie}). Use the search box to jump to any term.
-              </p>
-
-              <div className={style.searchRow}>
-                <OntologySearchBox
-                  onSelect={handleSelect}
-                  category={ontology.searchCategory}
-                  placeholder={`Search ${ontology.label} terms`}
-                />
-              </div>
-
-              <div className={style.legend}>
-                <span className={style.legendLabel}>Annotation Available:</span>
-                {ANNOTATION_TYPES.map((t) => (
-                  <span key={t.id} className={style.legendItem} style={{ background: t.bg, color: t.fg }}>
-                    {t.label}
-                  </span>
-                ))}
-              </div>
-
-              <div className={style.layout}>
-                <div className={style.treePane}>
-                  <OntologyTree
-                    curie={ontology.rootCurie}
-                    name={ontology.rootName}
-                    forceExpanded={forceExpanded}
-                    focusedCurie={focusedCurie}
-                    onSelect={handleTreeSelect}
-                    scrollOnFocus={!fromTree}
-                  />
-                </div>
-                <div className={style.detailPane}>
-                  <TermDetailPanel curie={detailCurie} />
-                </div>
-              </div>
-            </>
-          )}
+            <div className={style.detailPane}>
+              <TermDetailPanel curie={detailCurie} />
+            </div>
+          </div>
         </div>
       </TermsProvider>
     </CountsProvider>
