@@ -158,7 +158,8 @@ const ReferencePage = () => {
   // Split into MOD xrefs (FB/MGI/RGD/SGD/WB/Xenbase/ZFIN) and external xrefs by curie prefix.
   ref.modXrefs = [];
   ref.extXrefs = [];
-  for (const entry of ref.cross_references) {
+  // cross_references may be missing entirely (e.g. internal_process_reference), so default to []
+  for (const entry of ref.cross_references || []) {
     const prefix = entry.curie.substring(0, entry.curie.indexOf(':'));
     (speciesMap[prefix] ? ref.modXrefs : ref.extXrefs).push(entry);
   }
