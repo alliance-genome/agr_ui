@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { DataTable, GeneCellCuration, SpeciesCell } from '../dataTable';
 import SpeciesName from '../SpeciesName.jsx';
-import { getIdentifier, getSingleReferenceUrl } from '../dataTable/utils.jsx';
+import { getIdentifier } from '../dataTable/utils.jsx';
+import { buildUrlFromTemplate } from '../../lib/utils.js';
 import ExternalLink from '../ExternalLink.jsx';
 import DataSourceLinkCuration from '../dataSourceLinkCuration.jsx';
 import MITerm from './MITerm.jsx';
@@ -116,13 +117,11 @@ const GenePhysicalInteractionDetailTable = ({ focusGeneDisplayName, focusGeneId 
       // eslint-disable-next-line react/prop-types
       formatter: (reference) => {
         if (!reference || !reference.length) return null;
+        const refId = reference[0].referenceID;
+        const xref = reference[0].crossReferences?.find((x) => x.referencedCurie === refId);
         return (
-          <ExternalLink
-            href={getSingleReferenceUrl(reference[0].referenceID).url}
-            key={reference[0].referenceID}
-            title={reference[0].referenceID}
-          >
-            {reference[0].referenceID}
+          <ExternalLink href={xref ? buildUrlFromTemplate(xref) : null} key={refId} title={refId}>
+            {refId}
           </ExternalLink>
         );
       },

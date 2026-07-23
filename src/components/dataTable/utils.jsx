@@ -1,6 +1,5 @@
 import React from 'react';
 import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
-import { getResourceUrl } from './getResourceUrl.jsx';
 import { smartAlphaSort } from '../../lib/utils';
 
 export const renderPaginationShowsTotal = (start, end, total) => {
@@ -24,27 +23,6 @@ export const getIsViaOrthology = (annotation) => {
 export const getIdentifier = (subject) => {
   if (!subject) return;
   return subject.curie ? subject.curie : subject.primaryExternalId ? subject.primaryExternalId : subject.modInternalId;
-};
-
-export const getSingleReferenceUrl = (pubModId) => {
-  let url;
-  if (pubModId.startsWith('AGRKB:')) {
-    url = `/reference/${pubModId}`;
-  } else if (
-    pubModId.includes('PMID') ||
-    pubModId.includes('ORPHA') ||
-    pubModId.includes('MIM') ||
-    pubModId.includes('PMCID')
-  ) {
-    url = getResourceUrl({ identifier: pubModId });
-  } else {
-    url = getResourceUrl({ identifier: pubModId, type: 'reference' });
-  }
-  return { pubModId, url };
-};
-
-export const getMultipleReferencesUrls = (pubModIds) => {
-  return pubModIds.sort().map((pubModId) => getSingleReferenceUrl(pubModId));
 };
 
 const buildProvider = (annotation) => {
@@ -146,18 +124,18 @@ export function naturalSortByAnnotationSubject(annotations) {
 
 export function getAnnotationSubjectText(annotation) {
   if (annotation.type === 'AGMDiseaseAnnotation') {
-    return annotation.diseaseAnnotationSubject.agmFullName.displayText;
+    return annotation.diseaseAnnotationSubject?.agmFullName?.displayText ?? '';
   } else if (annotation.type === 'AlleleDiseaseAnnotation') {
-    return annotation.diseaseAnnotationSubject.alleleSymbol.displayText;
+    return annotation.diseaseAnnotationSubject?.alleleSymbol?.displayText ?? '';
   } else if (annotation.type === 'GeneDiseaseAnnotation') {
-    return annotation.diseaseAnnotationSubject.geneSymbol.displayText;
+    return annotation.diseaseAnnotationSubject?.geneSymbol?.displayText ?? '';
   } else if (annotation.type === 'AGMPhenotypeAnnotation') {
-    return annotation.phenotypeAnnotationSubject.agmFullName.displayText;
+    return annotation.phenotypeAnnotationSubject?.agmFullName?.displayText ?? '';
   } else if (annotation.type === 'AllelePhenotypeAnnotation') {
-    return annotation.phenotypeAnnotationSubject.alleleSymbol.displayText;
+    return annotation.phenotypeAnnotationSubject?.alleleSymbol?.displayText ?? '';
   } else if (annotation.type === 'GenePhenotypeAnnotation') {
-    return annotation.phenotypeAnnotationSubject.geneSymbol.displayText;
+    return annotation.phenotypeAnnotationSubject?.geneSymbol?.displayText ?? '';
   } else {
-    return null;
+    return '';
   }
 }

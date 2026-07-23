@@ -42,7 +42,7 @@ const DiseaseToModelTable = ({ id }) => {
             <AnnotatedEntitiesPopupCuration
               entities={rowData.primaryAnnotations}
               mainRowCurie={getIdentifier(subject)}
-              pubModIds={rowData.pubmedPubModIDs}
+              pubmedPublications={rowData.pubmedPublications}
               columnNameSet={MODEL_DETAILS_COLUMNS}
             >
               Annotation details
@@ -139,9 +139,9 @@ const DiseaseToModelTable = ({ id }) => {
       headerStyle: { width: '180px' },
     },
     {
-      dataField: 'pubmedPubModIDs',
+      dataField: 'pubmedPublications',
       text: 'Reference ID',
-      formatter: (pubModIds) => <ReferencesCellCuration pubModIds={pubModIds} />,
+      formatter: (pubmedPublications) => <ReferencesCellCuration pubmedPublications={pubmedPublications} />,
       headerStyle: { width: '150px' },
       filterName: 'reference',
       filterable: true,

@@ -50,7 +50,7 @@ const DiseaseToGeneTable = ({ id }) => {
                 <AnnotatedEntitiesPopupCuration
                   entities={row.primaryAnnotations}
                   mainRowCurie={getIdentifier(subject)}
-                  pubModIds={row.pubmedPubModIDs}
+                  pubmedPublications={row.pubmedPublications}
                   columnNameSet={GENE_DETAILS_COLUMNS}
                 >
                   Annotation details
@@ -166,15 +166,20 @@ const DiseaseToGeneTable = ({ id }) => {
       formatter: (references) => <ReferenceList refs={references} />,
     },
     {
-      dataField: 'pubmedPubModIDs',
+      dataField: 'pubmedPublications',
       text: 'Reference ID',
       headerStyle: { width: '150px' },
-      formatter: (pubModIds, row) => {
+      formatter: (pubmedPublications, row) => {
         if (getIsViaOrthology(row)) {
-          const refIds = (row.references || []).map((r) => r?.curie).filter(Boolean);
-          return refIds.length ? <ReferencesCellCuration pubModIds={refIds} /> : null;
+          const xrefs = (row.references || []).flatMap((ref) => {
+            const modId = ref?.pubModID;
+            if (!modId) return [];
+            const match = (ref.crossReferences || []).find((x) => x.referencedCurie === modId);
+            return [match || { referencedCurie: modId }];
+          });
+          return xrefs.length ? <ReferencesCellCuration pubmedPublications={xrefs} /> : null;
         }
-        return <ReferencesCellCuration pubModIds={pubModIds} />;
+        return <ReferencesCellCuration pubmedPublications={pubmedPublications} />;
       },
       filterable: true,
       filterName: 'reference',
