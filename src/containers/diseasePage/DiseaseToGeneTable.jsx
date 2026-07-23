@@ -171,7 +171,9 @@ const DiseaseToGeneTable = ({ id }) => {
           return (
             <CollapsibleList>
               {curies.map((curie) => (
-                <Link to={`/reference/${curie}`} key={curie} title={curie}>{curie}</Link>
+                <Link to={`/reference/${curie}`} key={curie} title={curie}>
+                  {curie}
+                </Link>
               ))}
             </CollapsibleList>
           );
