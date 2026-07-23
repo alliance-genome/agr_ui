@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import {
   BasedOnGeneCellCuration,
   DataTable,
@@ -7,6 +8,7 @@ import {
   GeneCellCuration,
   ReferencesCellCuration,
 } from '../../components/dataTable';
+import { CollapsibleList } from '../../components/collapsibleList';
 
 import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration.jsx';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
@@ -164,13 +166,17 @@ const DiseaseToGeneTable = ({ id }) => {
       headerStyle: { width: '150px' },
       formatter: (pubmedPublications, row) => {
         if (getIsViaOrthology(row)) {
-          const xrefs = (row.references || []).flatMap((ref) => {
-            const modId = ref?.pubModID;
-            if (!modId) return [];
-            const match = (ref.crossReferences || []).find((x) => x.referencedCurie === modId);
-            return [match || { referencedCurie: modId }];
-          });
-          return xrefs.length ? <ReferencesCellCuration pubmedPublications={xrefs} /> : null;
+          const curies = [...new Set((row.references || []).map((reference) => reference?.curie).filter(Boolean))];
+          if (!curies.length) return null;
+          return (
+            <CollapsibleList>
+              {curies.map((curie) => (
+                <Link to={`/reference/${curie}`} key={curie} title={curie}>
+                  {curie}
+                </Link>
+              ))}
+            </CollapsibleList>
+          );
         }
         return <ReferencesCellCuration pubmedPublications={pubmedPublications} />;
       },
