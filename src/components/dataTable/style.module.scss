@@ -47,6 +47,10 @@
   display: inline-block;
   max-width: 100%;
 }
+.referenceDim {
+  opacity: 0.5;
+  filter: saturate(0.55);
+}
 
 .tablePopup {
   max-height: 500px;

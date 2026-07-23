@@ -34,6 +34,8 @@ const DiseaseToGeneTable = ({ id }) => {
     ...tableProps
   } = useDataTableQuery(`/api/disease/${id}/genes`, undefined, { sizePerPage: 10 }, {}, 60000);
 
+  const citationFilter = tableProps.tableState?.filters?.referenceCitation?.filterVal;
+
   const columns = [
     {
       dataField: 'subject',
@@ -163,7 +165,9 @@ const DiseaseToGeneTable = ({ id }) => {
       dataField: 'references',
       text: 'Reference',
       headerStyle: { width: '180px' },
-      formatter: (references) => <ReferenceList refs={references} />,
+      formatter: (references) => <ReferenceList refs={references} filterTerm={citationFilter} />,
+      filterable: true,
+      filterName: 'referenceCitation',
     },
     {
       dataField: 'pubmedPublications',

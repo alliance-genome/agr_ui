@@ -29,6 +29,8 @@ const DiseaseToModelTable = ({ id }) => {
     ...tableProps
   } = useDataTableQuery(`/api/disease/${id}/models`, undefined, { sizePerPage: 10 }, {}, 60000);
 
+  const citationFilter = tableProps.tableState?.filters?.referenceCitation?.filterVal;
+
   const columns = [
     {
       dataField: 'subject',
@@ -135,8 +137,10 @@ const DiseaseToModelTable = ({ id }) => {
     {
       dataField: 'references',
       text: 'Reference',
-      formatter: (references) => <ReferenceList refs={references} />,
+      formatter: (references) => <ReferenceList refs={references} filterTerm={citationFilter} />,
       headerStyle: { width: '180px' },
+      filterable: true,
+      filterName: 'referenceCitation',
     },
     {
       dataField: 'pubmedPublications',

@@ -11,6 +11,8 @@ import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCurat
 const PhenotypeTable = ({ geneId, entityType, hideSourceColumn = false }) => {
   const { data: results, ...tableProps } = useDataTableQuery(`/api/${entityType}/${geneId}/phenotypes`);
 
+  const citationFilter = tableProps.tableState?.filters?.referenceCitation?.filterVal;
+
   const data = results?.map((record) => ({
     ...record,
     id: hash(record),
@@ -58,7 +60,9 @@ const PhenotypeTable = ({ geneId, entityType, hideSourceColumn = false }) => {
       dataField: 'references',
       text: 'Reference',
       headerStyle: { width: '180px' },
-      formatter: (references) => <ReferenceList refs={references} />,
+      formatter: (references) => <ReferenceList refs={references} filterTerm={citationFilter} />,
+      filterable: true,
+      filterName: 'referenceCitation',
     },
     {
       dataField: 'pubmedPublications',

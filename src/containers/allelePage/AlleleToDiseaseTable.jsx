@@ -17,6 +17,8 @@ import { ALLELE_DETAILS_COLUMNS } from '../../components/dataTable/constants';
 const AlleleToDiseaseTable = ({ alleleId }) => {
   const { supplementalData, data: results, ...tableProps } = useDataTableQuery(`/api/allele/${alleleId}/diseases`);
 
+  const citationFilter = tableProps.tableState?.filters?.referenceCitation?.filterVal;
+
   const tableData = results?.map((annotation) => ({
     providers: buildProvidersWithUrl(annotation.primaryAnnotations),
     ...annotation,
@@ -78,8 +80,10 @@ const AlleleToDiseaseTable = ({ alleleId }) => {
     {
       dataField: 'references',
       text: 'Reference',
-      formatter: (references) => <ReferenceList refs={references} />,
+      formatter: (references) => <ReferenceList refs={references} filterTerm={citationFilter} />,
       headerStyle: { width: '180px' },
+      filterable: true,
+      filterName: 'referenceCitation',
     },
     {
       dataField: 'pubmedPublications',
