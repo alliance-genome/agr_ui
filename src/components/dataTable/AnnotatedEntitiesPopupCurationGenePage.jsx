@@ -39,7 +39,13 @@ function renderLink(entity) {
   }
 }
 
-function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCurie, pubModIds, columnNameSet }) {
+function AnnotatedEntitiesPopupCurationGenePage({
+  countId,
+  children,
+  mainRowCurie,
+  pubmedPublications,
+  columnNameSet,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [pagination, setPagination] = useState({ page: 1, limit: 10 });
 
@@ -269,7 +275,7 @@ function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCuri
                             <td>
                               <SingleReferenceCellCuration
                                 singleReference={entity.evidenceItem}
-                                pubModIds={pubModIds}
+                                pubmedPublications={pubmedPublications}
                               />
                             </td>
                           )}
@@ -329,7 +335,7 @@ AnnotatedEntitiesPopupCurationGenePage.propTypes = {
   countId: PropTypes.string,
   children: PropTypes.node,
   mainRowCurie: PropTypes.string,
-  pubModIds: PropTypes.array,
+  pubmedPublications: PropTypes.array,
   columnNameSet: PropTypes.instanceOf(Set),
 };
 

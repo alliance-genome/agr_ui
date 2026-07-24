@@ -29,7 +29,7 @@ function renderLink(entity) {
   }
 }
 
-function AnnotatedPhenotypePopupCuration({ children, entities, mainRowCurie, pubModIds, columnNameSet }) {
+function AnnotatedPhenotypePopupCuration({ children, entities, mainRowCurie, pubmedPublications, columnNameSet }) {
   if (!entities || !entities.length) {
     return null;
   }
@@ -84,7 +84,10 @@ function AnnotatedPhenotypePopupCuration({ children, entities, mainRowCurie, pub
                     )}
                     {columnNameSet.has('References') && (
                       <td>
-                        <SingleReferenceCellCuration singleReference={entity.evidenceItem} pubModIds={pubModIds} />
+                        <SingleReferenceCellCuration
+                          singleReference={entity.evidenceItem}
+                          pubmedPublications={pubmedPublications}
+                        />
                       </td>
                     )}
                   </tr>
@@ -102,7 +105,7 @@ AnnotatedPhenotypePopupCuration.propTypes = {
   children: PropTypes.node,
   entities: PropTypes.array,
   mainRowCurie: PropTypes.string,
-  pubModIds: PropTypes.array,
+  pubmedPublications: PropTypes.array,
   columnNameSet: PropTypes.object,
 };
 
