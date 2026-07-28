@@ -1,4 +1,4 @@
-name: Automatic mergebacks from main to stage & develop/ui-wg
+name: Automatic mergebacks from main to stage & develop/ui-wg.
 on:
   pull_request:
     types: [closed]
@@ -21,9 +21,12 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GH_PAT }}
+      - name: fetch branches
+        run: |
+          git fetch
       - name: create mergeback branch
         run: |
-          git checkout -b ${{ env.mergeback-headbranchname }} ${{ env.mergeback-prbranchname }}
+          git checkout -b ${{ env.mergeback-headbranchname }} origin/${{ env.mergeback-prbranchname }}
       - name: fetch base branch
         run: |
           git fetch origin ${{ env.mergeback-basebranchname }}:${{ env.mergeback-basebranchname }}
@@ -86,9 +89,12 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GH_PAT }}
+      - name: fetch branches
+        run: |
+          git fetch
       - name: create mergeback branch
         run: |
-          git checkout -b ${{ env.mergeback-headbranchname }} ${{ env.mergeback-prbranchname }}
+          git checkout -b ${{ env.mergeback-headbranchname }} origin/${{ env.mergeback-prbranchname }}
       - name: fetch base branch
         run: |
           git fetch origin ${{ env.mergeback-basebranchname }}:${{ env.mergeback-basebranchname }}

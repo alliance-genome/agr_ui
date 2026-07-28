@@ -36,7 +36,7 @@ const DiseaseToAlleleTable = ({ id }) => {
               <AnnotatedEntitiesPopupCuration
                 entities={rowData.primaryAnnotations}
                 mainRowCurie={getIdentifier(subject)}
-                pubModIds={rowData.pubmedPubModIDs}
+                pubmedPublications={rowData.pubmedPublications}
                 columnNameSet={ALLELE_DETAILS_COLUMNS}
               >
                 Annotation details
@@ -112,11 +112,9 @@ const DiseaseToAlleleTable = ({ id }) => {
       filterName: 'dataProvider',
     },
     {
-      dataField: 'pubmedPubModIDs',
+      dataField: 'pubmedPublications',
       text: 'References',
-      formatter: (pubmedPubModIDs) => {
-        return <ReferencesCellCuration pubModIds={pubmedPubModIDs} />;
-      },
+      formatter: (pubmedPublications) => <ReferencesCellCuration pubmedPublications={pubmedPublications} />,
       headerStyle: { width: '150px' },
       filterable: true,
       filterName: 'reference',

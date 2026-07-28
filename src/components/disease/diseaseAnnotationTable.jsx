@@ -62,7 +62,7 @@ const DiseaseAnnotationTable = ({ focusGeneId, focusTaxonId, includeNotAnnotatio
             <AnnotatedEntitiesPopupCurationGenePage
               countId={row.countId}
               mainRowCurie={getIdentifier(subject)}
-              pubModIds={row.pubmedPubModIDs}
+              pubmedPublications={row.pubmedPublications}
               columnNameSet={GENE_DETAILS_COLUMNS}
             >
               Annotation details
@@ -155,12 +155,12 @@ const DiseaseAnnotationTable = ({ focusGeneId, focusTaxonId, includeNotAnnotatio
       formatter: BasedOnGeneCellCuration,
     },
     {
-      dataField: 'pubmedPubModIDs',
+      dataField: 'pubmedPublications',
       text: 'References',
       filterable: true,
       filterName: 'reference',
       headerStyle: { width: '150px' },
-      formatter: (pubModIds) => <ReferencesCellCuration pubModIds={pubModIds} />,
+      formatter: (pubmedPublications) => <ReferencesCellCuration pubmedPublications={pubmedPublications} />,
     },
   ];
 
