@@ -2,6 +2,25 @@ import React from 'react';
 import { compareAlphabeticalCaseInsensitive } from '../../lib/utils';
 import { smartAlphaSort } from '../../lib/utils';
 
+// Small shim to keep the reference-page callsites working after
+// SCRUM-6204 moved the real cross-reference URL building into
+// buildUrlFromTemplate (which requires the full CrossReference object
+// with resourceDescriptorPage). The reference page only has a raw
+// curie/DOI string, so this handles the two cases that matter for its
+// external links: an AGRKB curie routes back into the SPA, anything
+// else falls through to identifiers.org (or the given URL if it already
+// looks like one).
+export const getSingleReferenceUrl = (pubModId) => {
+  if (!pubModId) return { pubModId, url: null };
+  if (pubModId.startsWith('http://') || pubModId.startsWith('https://')) {
+    return { pubModId, url: pubModId };
+  }
+  if (pubModId.startsWith('AGRKB:')) {
+    return { pubModId, url: `/reference/${pubModId}` };
+  }
+  return { pubModId, url: `https://identifiers.org/${encodeURIComponent(pubModId)}` };
+};
+
 export const renderPaginationShowsTotal = (start, end, total) => {
   return (
     <span>
