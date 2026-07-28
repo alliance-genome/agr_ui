@@ -6,13 +6,21 @@ import { CollapsibleList } from '../collapsibleList';
 import style from './style.module.scss';
 
 const ReferenceList = ({ refs, trunc = true, filterTerm }) => {
-  const term = (filterTerm || '').trim().toLowerCase();
+  // filterVal is a string for text filters, an array for checkbox filters; accept either
+  const terms = (Array.isArray(filterTerm) ? filterTerm : [filterTerm])
+    .map((value) =>
+      String(value ?? '')
+        .trim()
+        .toLowerCase()
+    )
+    .filter(Boolean);
   return (
     refs && (
       <CollapsibleList>
         {refs.map((ref) => {
-          // when a filter is active, de-emphasize references that don't match it
-          const dim = term.length > 0 && !(ref.shortCitation || '').toLowerCase().includes(term);
+          // when a filter is active, de-emphasize references matching none of its terms
+          const citation = (ref.shortCitation || '').toLowerCase();
+          const dim = terms.length > 0 && !terms.some((term) => citation.includes(term));
           return (
             <Link
               to={`/reference/${ref.curie}`}
