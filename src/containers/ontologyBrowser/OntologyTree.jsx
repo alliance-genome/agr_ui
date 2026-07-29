@@ -30,18 +30,22 @@ const OntologyTree = ({
     if (forceExpanded.has(curie)) setOpen(true);
   }, [forceExpanded, curie]);
 
+  // Ancestor rows load their children asynchronously via the batched fetch,
+  // and each arrival shifts the focused row further down the tree. Re-anchor
+  // a few times so late layout shifts get corrected.
   useEffect(() => {
-    if (scrollOnFocus && focusedCurie === curie && rowRef.current) {
-      rowRef.current.scrollIntoView({ block: 'center', behavior: 'smooth' });
-    }
+    if (!scrollOnFocus || focusedCurie !== curie) return;
+    const anchor = () => rowRef.current?.scrollIntoView({ block: 'center', behavior: 'auto' });
+    anchor();
+    const timers = [100, 300, 700, 1200].map((ms) => setTimeout(anchor, ms));
+    return () => timers.forEach(clearTimeout);
   }, [focusedCurie, curie, scrollOnFocus]);
 
   const childTerms = data?.children || [];
-  // We don't know if a node has children until we've expanded it and
-  // fetched its doc. Show the arrow optimistically; hide it only after a
-  // fetch confirms no children.
-  const knownEmpty = !!data && childTerms.length === 0 && !(data.doTerm?.descendantCount > 0);
-  const hasChildren = !knownEmpty;
+  // Only show the toggle once the term doc confirms children exist. This
+  // avoids the flash where every node briefly renders a chevron and then
+  // loses it a moment later when the batched fetch reports zero children.
+  const hasChildren = childTerms.length > 0 || (data?.doTerm?.descendantCount || 0) > 0;
   const isFocused = focusedCurie === curie;
   // When the consumer supplies nodeHref, every term label (leaf or not) becomes
   // a link to that URL. Drill-down stays on the separate chevron control, so
