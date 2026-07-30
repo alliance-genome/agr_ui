@@ -6,6 +6,7 @@ import {
   EvidenceCodesCellCuration,
   GeneCellCuration,
   ReferencesCellCuration,
+  ReferenceList,
   SpeciesCell,
 } from '../dataTable';
 import AnnotatedEntitiesPopupCurationGenePage from '../dataTable/AnnotatedEntitiesPopupCurationGenePage.jsx';
@@ -39,7 +40,9 @@ const DiseaseAnnotationTable = ({ focusGeneId, focusTaxonId, includeNotAnnotatio
     ...tableProps
   } = useComparisonRibbonTableQuery('/api/disease', focusGeneId, focusTaxonId, orthologGenes, term, params);
 
-  let columns = [
+  const citationFilter = tableProps.tableState?.filters?.referenceCitation?.filterVal;
+
+  const columns = [
     {
       dataField: 'subject.taxon',
       text: 'Species',
@@ -155,8 +158,16 @@ const DiseaseAnnotationTable = ({ focusGeneId, focusTaxonId, includeNotAnnotatio
       formatter: BasedOnGeneCellCuration,
     },
     {
+      dataField: 'references',
+      text: 'Reference',
+      headerStyle: { width: '180px' },
+      formatter: (references) => <ReferenceList refs={references} filterTerm={citationFilter} />,
+      filterable: true,
+      filterName: 'referenceCitation',
+    },
+    {
       dataField: 'pubmedPublications',
-      text: 'References',
+      text: 'Reference ID',
       filterable: true,
       filterName: 'reference',
       headerStyle: { width: '150px' },
