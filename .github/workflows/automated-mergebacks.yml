@@ -1,4 +1,4 @@
-name: Automatic mergebacks from main to stage & develop/ui-wg.
+name: Automatic mergebacks from main to stage & develop/ui-wg
 on:
   pull_request:
     types: [closed]
