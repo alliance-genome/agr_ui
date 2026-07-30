@@ -1,85 +1,138 @@
 import React from 'react';
 import NotFound from '../../components/notFound.jsx';
-import ExternalLink from '../../components/ExternalLink.jsx';
 import SpeciesIcon from '../../components/speciesIcon/index.jsx';
-import { speciesMap } from '../referencePage/index.jsx';
-import style from './style.module.scss';
 import { Link } from 'react-router-dom';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
+import style from './style.module.scss';
 
-const CitationLink = ({ curie }) => {
-  const { data: pubData, isLoading, isError } = usePageLoadingQuery(`/api/reference/${curie}`);
+// Species shown for each MOD corpus. The authoritative source is the paper's
+// `mods_in_corpus` (set by the curator pipeline), not cross-reference prefixes.
+const MOD_SPECIES = {
+  MGI: 'Mus musculus',
+  RGD: 'Rattus norvegicus',
+  XB: 'Xenopus tropicalis',
+  ZFIN: 'Danio rerio',
+  FB: 'Drosophila melanogaster',
+  WB: 'Caenorhabditis elegans',
+  SGD: 'Saccharomyces cerevisiae',
+};
+
+// Display order for the paper rows: mouse, rat, frog, zebrafish, fly, worm,
+// yeast (matching the species order used elsewhere on the site). Rows are sorted
+// by the highest-priority MOD in their corpus membership; rows with no known MOD
+// (e.g. AGR-only) sort last.
+const MOD_DISPLAY_ORDER = ['MGI', 'RGD', 'XB', 'ZFIN', 'FB', 'WB', 'SGD'];
+
+const rowSortKey = (reference) => {
+  const indices = (reference?.mods_in_corpus || []).map((mod) => MOD_DISPLAY_ORDER.indexOf(mod)).filter((i) => i >= 0);
+  return indices.length ? Math.min(...indices) : MOD_DISPLAY_ORDER.length;
+};
+
+// Map a paper's corpus membership to the species icon(s) to render. `AGR` (the
+// Alliance central corpus) has no species of its own, so it is ignored; if no
+// MOD corpus maps, fall back to Homo sapiens.
+const speciesForCorpus = (modsInCorpus = []) => {
+  const species = modsInCorpus.map((mod) => MOD_SPECIES[mod]).filter(Boolean);
+  return species.length ? species : ['Homo sapiens'];
+};
+
+const PaperEntry = ({ reference }) => {
+  if (!reference || !reference.curie) {
+    return null;
+  }
+  const scale = 6 / 13;
+  const species = speciesForCorpus(reference.mods_in_corpus);
+  return (
+    <div className={style.publicationEntry}>
+      {species.map((sp, i) => (
+        // Overlap adjacent corpus icons by ~one border-width so their baked-in
+        // borders read as a single shared edge (honeycomb), not a doubled one.
+        // The gap before the citation is handled by the Link's left margin.
+        <div style={{ lineHeight: 0.9, marginLeft: i === 0 ? 0 : -1 }} key={`${reference.curie}-${sp}`}>
+          <SpeciesIcon scale={scale} species={sp} />
+        </div>
+      ))}
+      <Link
+        to={`/reference/${reference.curie}`}
+        style={{ marginLeft: 8 }}
+        dangerouslySetInnerHTML={{ __html: reference.citation }}
+      />
+    </div>
+  );
+};
+
+// The endpoint matches the disease name as free text against title + abstract,
+// requiring all tokens. A trailing "disease" token therefore excludes on-topic
+// papers that don't repeat the word (e.g. "Alzheimer's disease" misses papers
+// titled "...Implications for Alzheimer") and lets the common word "disease"
+// pull in tangential papers. Drop a trailing "disease" word so the query anchors
+// on the distinctive part of the name. See RECENT_PAPERS_API.md.
+const normalizeDiseaseQuery = (name) => {
+  if (!name) {
+    return name;
+  }
+  const trimmed = name.replace(/\s+disease$/i, '').trim();
+  return trimmed || name;
+};
+
+const PapersSection = ({ diseaseName }) => {
+  const query = normalizeDiseaseQuery(diseaseName);
+  const url = query
+    ? `/api/reference/latest-literature-by-disease-per-mod?disease=${encodeURIComponent(query)}&latest=1`
+    : null;
+  const { data, isLoading, isError } = usePageLoadingQuery(url);
+
+  if (!diseaseName || isLoading) {
+    return null;
+  }
   if (isError) {
     return <NotFound />;
   }
-  if (isLoading) {
-    return null;
+
+  // The endpoint returns the newest paper per corpus, treating the Alliance
+  // central `AGR` corpus as one of those corpora. The AGR paper has no species
+  // of its own but is itself a member of one or more MOD corpora, so it renders
+  // the same icon(s) as those MODs' dedicated papers — looking like a duplicate
+  // (e.g. two "mouse" papers). We can't display the AGR entry distinctly yet, so
+  // we drop it — but ONLY when it's truly redundant: an AGR paper is frequently
+  // the sole carrier of a species (e.g. the only RGD/SGD/WB paper for a disease),
+  // and blanket-dropping every AGR-tagged row silently removes that species. So
+  // drop an AGR row only if every MOD species it carries is already represented
+  // by a non-AGR row; keep it when it's the only source of a species. Also
+  // dedupe repeated curies (the backend can return one paper in two slots).
+  const rawResults = data?.results || [];
+  const isAgr = (r) => (r.literatureSummary?.mods_in_corpus || []).includes('AGR');
+  const modsOf = (r) => (r.literatureSummary?.mods_in_corpus || []).filter((m) => MOD_SPECIES[m]);
+  const coveredByNonAgr = new Set(rawResults.filter((r) => !isAgr(r)).flatMap(modsOf));
+  const seenCuries = new Set();
+  const results = rawResults.filter((r) => {
+    const curie = r.literatureSummary?.curie;
+    if (curie && seenCuries.has(curie)) {
+      return false;
+    }
+    if (curie) {
+      seenCuries.add(curie);
+    }
+    if (!isAgr(r)) {
+      return true;
+    }
+    return modsOf(r).some((m) => !coveredByNonAgr.has(m));
+  });
+  if (results.length === 0) {
+    return <div className={style.publicationEntry}>No recent Alliance papers found for this disease.</div>;
   }
 
-  if (pubData) {
-    const ref = pubData.literatureSummary;
+  // Order the rows mouse → rat → frog → zebrafish → fly → worm → yeast. Array
+  // .sort is stable, so papers sharing a MOD keep the backend's newest-first
+  // order.
+  const orderedResults = [...results].sort((a, b) => rowSortKey(a.literatureSummary) - rowSortKey(b.literatureSummary));
 
-    ref.modXrefs = [];
-    ref.extXrefs = [];
-    for (let xr = 0; xr < ref.cross_references.length; xr++) {
-      if (speciesMap[ref.cross_references[xr].curie.substring(0, ref.cross_references[xr].curie.indexOf(':'))])
-        ref.modXrefs.push(ref.cross_references[xr]);
-      else ref.extXrefs.push(ref.cross_references[xr]);
-    }
-
-    const scale = 6 / 13;
-    const prefs = ref.modXrefs.map((xref) => xref.curie.substring(0, xref.curie.indexOf(':')));
-    let mods = [];
-    for (let i = 0; i < prefs.length; i++) {
-      if (speciesMap[prefs[i]]) mods.push(speciesMap[prefs[i]]);
-    }
-    if (prefs.length === 0) mods.push('Homo sapiens');
-
-    return (
-      <>
-        {mods.map((mid) => (
-          <div style={{ float: 'left', lineHeight: 0.9, paddingRight: 8 }} key={`${mid}-sprite`}>
-            <SpeciesIcon scale={scale} species={mid} />
-          </div>
-        ))}
-        <Link to={`/reference/${curie}`} dangerouslySetInnerHTML={{ __html: ref.citation }} />
-      </>
-    );
-  }
-};
-
-const PapersSection = ({ disease }) => {
   return (
-    <section className={style.section}>
-      <div className={style.contentContainer}>
-        <div className="row">
-          <div className="col-lg-12">
-            <h2>Recent Papers</h2>
-            <div>
-              {disease.publications.map((publication, index) => {
-                if (publication.curie) {
-                  return (
-                    <p key={'publications-' + index}>
-                      <CitationLink curie={publication.curie} />
-                    </p>
-                  );
-                }
-                if (publication.pmid) {
-                  return (
-                    <p key={'publications-' + index}>
-                      <ExternalLink href={'https://www.ncbi.nlm.nih.gov/pubmed/' + publication.pmid}>
-                        {publication.title}
-                      </ExternalLink>
-                    </p>
-                  );
-                }
-                return <p key={'publications-' + index}>{publication.title}</p>;
-              })}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <div>
+      {orderedResults.map((result, index) => (
+        <PaperEntry key={result.literatureSummary?.curie || index} reference={result.literatureSummary} />
+      ))}
+    </div>
   );
 };
 

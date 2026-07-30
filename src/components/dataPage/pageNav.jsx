@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
 import { Collapse } from 'reactstrap';
 import Scrollspy from 'react-scrollspy';
@@ -27,19 +28,40 @@ const PageNav = ({ children, sections }) => {
             className={`list-group list-group-flush ${style.scrollSpy}`}
             componentTag="div"
             currentClassName="active"
-            items={sections.map(({ name }) => makeId(name))}
+            items={sections.filter((s) => !s.to).map(({ name }) => makeId(name))}
           >
-            {sections.map(({ name: section, level = 0 }) => {
-              const style = { paddingLeft: `${level + 1}em`, border: 'none' };
+            {sections.map(({ name: section, level = 0, count, to }) => {
+              const itemStyle = { paddingLeft: `${level + 1}em` };
+              const hasCount = count !== undefined && count !== null;
+              const badgeClass = `${style.navBadge} ${count === 0 ? style.navBadgeZero : ''}`;
+              const inner = (
+                <>
+                  <span>{section}</span>
+                  {hasCount && <span className={badgeClass}>{count.toLocaleString()}</span>}
+                </>
+              );
+              if (to) {
+                return (
+                  <Link
+                    className={`list-group-item list-group-item-action ${style.navItem}`}
+                    key={section}
+                    onClick={() => setIsOpen(false)}
+                    style={itemStyle}
+                    to={to}
+                  >
+                    {inner}
+                  </Link>
+                );
+              }
               return (
                 <HashLink
-                  className="list-group-item list-group-item-action"
+                  className={`list-group-item list-group-item-action ${style.navItem}`}
                   key={section}
                   onClick={() => setIsOpen(false)}
-                  style={style}
+                  style={itemStyle}
                   to={'#' + makeId(section)}
                 >
-                  {section}
+                  {inner}
                 </HashLink>
               );
             })}
@@ -56,6 +78,8 @@ PageNav.propTypes = {
     PropTypes.shape({
       name: PropTypes.string.isRequired,
       level: PropTypes.number,
+      count: PropTypes.number,
+      to: PropTypes.string,
     })
   ),
 };

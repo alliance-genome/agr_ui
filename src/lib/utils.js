@@ -35,8 +35,8 @@ export function smartAlphaSort(accessor) {
 
     // Split strings into chunks of strings and numbers
     const splitRegex = /([0-9]+|[^0-9]+)/g;
-    const aChunksArray = ax.match(splitRegex);
-    const bChunksArray = bx.match(splitRegex);
+    const aChunksArray = ax.match(splitRegex) || [];
+    const bChunksArray = bx.match(splitRegex) || [];
 
     const len = Math.min(aChunksArray.length, bChunksArray.length);
 
@@ -155,13 +155,15 @@ export function getSingleGenomeLocation(genomeLocations) {
 }
 
 export function getGenomicLocations(gene) {
+  // Species-level canonical assembly; identical for every location of a gene.
+  const assembly = gene.taxon?.species?.genomeAssembly?.primaryExternalId;
   return (
     gene.geneGenomicLocationAssociations?.map((loc) => ({
       chromosome: loc.geneGenomicLocationAssociationObject?.name,
       start: loc.start,
       end: loc.end,
       strand: loc.strand,
-      assembly: gene.taxon?.species?.assembly_curie,
+      assembly,
     })) || []
   );
 }
@@ -196,6 +198,12 @@ export function buildUrlFromTemplate(crossReference) {
   if (parts.length >= 2) {
     let prefix = parts[0];
     let localId = parts[1];
+
+    // DIP's DIPview CGI only accepts the numeric portion of the local id
+    // (e.g. "DIP-191659E" must be passed as "191659").
+    if (prefix.toLowerCase() === 'dip') {
+      localId = localId.replace(/\D/g, '');
+    }
 
     return urlTemplate?.replace('[%s]', localId);
   }

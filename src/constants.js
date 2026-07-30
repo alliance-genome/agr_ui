@@ -9,7 +9,7 @@ export const GO_CATEGORY = 'go_search_result';
 export const DISEASE_CATEGORY = 'disease_search_result';
 export const ALLELE_CATEGORY = 'allele_search_result';
 export const VARIANT_CATEGORY = 'variant_search_result';
-export const MODEL_CATEGORY = 'model';
+export const MODEL_CATEGORY = 'model_search_result';
 export const DATASET_CATEGORY = 'htp_dataset_search_result';
 
 /* Wordpress REST API connection setting */
@@ -128,6 +128,10 @@ export const NAV_MENU = [
       {
         label: 'Disease Portal',
         route: '/disease-portal',
+      },
+      {
+        label: 'Ontology Browser',
+        route: '/ontology/disease',
       },
       {
         label: 'SimpleMine',
@@ -325,6 +329,7 @@ export const SPECIES = [
     jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/human/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
     jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/human/',
+    jBrowseGffUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/docker/{release}/human/GFF_HUMAN.sorted.gff.gz',
     jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_000001405.40_GRCh38.p14_genomic.fna.gz',
     jBrowsetracks: '_all_genes,_ht_variants',
     jBrowseOrthologyTracks:
@@ -343,6 +348,7 @@ export const SPECIES = [
     jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/MGI/mouse/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
     jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/MGI/mouse/',
+    jBrowseGffUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/docker/{release}/MGI/mouse/GFF_MGI.sorted.gff.gz',
     jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_000001635.27_GRCm39_genomic.fna.gz',
     jBrowsetracks: '_all_genes,_ht_variants,_variants,_multiple-variant_alleles',
     jBrowseOrthologyTracks:
@@ -361,6 +367,7 @@ export const SPECIES = [
     jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/RGD/rat/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
     jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/RGD/rat/',
+    jBrowseGffUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/docker/{release}/RGD/rat/GFF_RGD.sorted.gff.gz',
     jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_015227675.2_mRatBN7.2_genomic.fna.gz',
     jBrowsetracks: '_all_genes,_ht_variants,_variants',
     jBrowseOrthologyTracks:
@@ -379,6 +386,8 @@ export const SPECIES = [
     jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/XenBase/x_laevis/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
     jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/XenBase/x_laevis/',
+    jBrowseGffUrlTemplate:
+      'https://s3.amazonaws.com/agrjbrowse/docker/{release}/XenBase/x_laevis/GFF_XBXL.sorted.gff.gz',
     jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_017654675.1_Xenopus_laevis_v10.1_genomic.fna.gz',
     jBrowsetracks: '_all_genes',
     jBrowseOrthologyTracks:
@@ -397,6 +406,8 @@ export const SPECIES = [
     jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/XenBase/x_tropicalis/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
     jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/XenBase/x_tropicalis/',
+    jBrowseGffUrlTemplate:
+      'https://s3.amazonaws.com/agrjbrowse/docker/{release}/XenBase/x_tropicalis/GFF_XBXT.sorted.gff.gz',
     jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_000004195.4_UCB_Xtro_10.0_genomic.fna.gz',
     jBrowsetracks: '_all_genes',
     jBrowseOrthologyTracks:
@@ -415,6 +426,8 @@ export const SPECIES = [
     jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/zfin/zebrafish-11/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
     jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/zfin/zebrafish-11/',
+    jBrowseGffUrlTemplate:
+      'https://s3.amazonaws.com/agrjbrowse/docker/{release}/zfin/zebrafish-11/GFF_ZFIN.sorted.gff.gz',
     jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_000002035.6_GRCz11_genomic.fna.gz',
     jBrowsetracks: '_all_genes,_ht_variants,_variants',
     jBrowseOrthologyTracks:
@@ -433,6 +446,7 @@ export const SPECIES = [
     jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/FlyBase/fruitfly/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
     jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/FlyBase/fruitfly/',
+    jBrowseGffUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/docker/{release}/FlyBase/fruitfly/GFF_FB.sorted.gff.gz',
     jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/dmel-all-chromosome-r6.67.fasta.gz',
     jBrowsetracks: '_all_genes,_ht_variants,_variants,_multiple-variant_alleles',
     jBrowseOrthologyTracks:
@@ -451,6 +465,8 @@ export const SPECIES = [
     jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/WormBase/c_elegans_PRJNA13758/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
     jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/WormBase/c_elegans_PRJNA13758/',
+    jBrowseGffUrlTemplate:
+      'https://s3.amazonaws.com/agrjbrowse/docker/{release}/WormBase/c_elegans_PRJNA13758/GFF_WB.sorted.gff.gz',
     jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_000002985.6_WBcel235_genomic.fna.gz',
     jBrowsetracks: '_all_genes,_ht_variants,_variants',
     jBrowseOrthologyTracks:
@@ -469,6 +485,7 @@ export const SPECIES = [
     jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/SGD/yeast/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
     jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/SGD/yeast/',
+    jBrowseGffUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/docker/{release}/SGD/yeast/GFF_SGD.sorted.gff.gz',
     jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_000146045.2_R64_genomic.fna.gz',
     jBrowsetracks: '_all_genes,_ht_variants',
     jBrowseOrthologyTracks:

@@ -1,12 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import {
   BasedOnGeneCellCuration,
   DataTable,
   EvidenceCodesCellCuration,
   GeneCellCuration,
   ReferencesCellCuration,
+  ReferenceList,
 } from '../../components/dataTable';
+import { CollapsibleList } from '../../components/collapsibleList';
 
 import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration.jsx';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
@@ -24,7 +27,6 @@ import SpeciesName from '../../components/SpeciesName.jsx';
 import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration.jsx';
 import DiseaseQualifiersColumn from '../../components/dataTable/DiseaseQualifiersColumn.jsx';
 import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration.jsx';
-import ReferenceCellViaOrthologyCuration from '../../components/dataTable/ReferencesCellViaOrthologyCuration.jsx';
 import { GENE_DETAILS_COLUMNS } from '../../components/dataTable/constants';
 
 const DiseaseToGeneTable = ({ id }) => {
@@ -33,6 +35,8 @@ const DiseaseToGeneTable = ({ id }) => {
     supplementalData,
     ...tableProps
   } = useDataTableQuery(`/api/disease/${id}/genes`, undefined, { sizePerPage: 10 }, {}, 60000);
+
+  const citationFilter = tableProps.tableState?.filters?.referenceCitation?.filterVal;
 
   const columns = [
     {
@@ -50,7 +54,7 @@ const DiseaseToGeneTable = ({ id }) => {
                 <AnnotatedEntitiesPopupCuration
                   entities={row.primaryAnnotations}
                   mainRowCurie={getIdentifier(subject)}
-                  pubModIds={row.pubmedPubModIDs}
+                  pubmedPublications={row.pubmedPublications}
                   columnNameSet={GENE_DETAILS_COLUMNS}
                 >
                   Annotation details
@@ -160,13 +164,32 @@ const DiseaseToGeneTable = ({ id }) => {
       filterName: 'dataProvider',
     },
     {
-      dataField: 'pubmedPubModIDs',
-      text: 'References',
+      dataField: 'references',
+      text: 'Reference',
+      headerStyle: { width: '180px' },
+      formatter: (references) => <ReferenceList refs={references} filterTerm={citationFilter} />,
+      filterable: true,
+      filterName: 'referenceCitation',
+    },
+    {
+      dataField: 'pubmedPublications',
+      text: 'Reference ID',
       headerStyle: { width: '150px' },
-      formatter: (pubModIds, row) => {
-        const isViaOrthology = getIsViaOrthology(row);
-        if (!isViaOrthology) return <ReferencesCellCuration pubModIds={pubModIds} />;
-        return <ReferenceCellViaOrthologyCuration />;
+      formatter: (pubmedPublications, row) => {
+        if (getIsViaOrthology(row)) {
+          const curies = [...new Set((row.references || []).map((reference) => reference?.curie).filter(Boolean))];
+          if (!curies.length) return null;
+          return (
+            <CollapsibleList>
+              {curies.map((curie) => (
+                <Link to={`/reference/${curie}`} key={curie} title={curie}>
+                  {curie}
+                </Link>
+              ))}
+            </CollapsibleList>
+          );
+        }
+        return <ReferencesCellCuration pubmedPublications={pubmedPublications} />;
       },
       filterable: true,
       filterName: 'reference',

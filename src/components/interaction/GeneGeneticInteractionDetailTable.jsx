@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { DataTable, GeneCellCuration, SpeciesCell } from '../dataTable';
-import { getResourceUrl } from '../dataTable/getResourceUrl.jsx';
-import { getIdentifier, getSingleReferenceUrl } from '../dataTable/utils.jsx';
+import { getIdentifier } from '../dataTable/utils.jsx';
+import { buildUrlFromTemplate } from '../../lib/utils.js';
 import SpeciesName from '../SpeciesName.jsx';
 import ExternalLink from '../ExternalLink.jsx';
+import DataSourceLinkCuration from '../dataSourceLinkCuration.jsx';
 import MITerm from './MITerm.jsx';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import AlleleCellCuration from '../dataTable/AlleleCellCuration.jsx';
@@ -171,13 +172,9 @@ const GeneGeneticInteractionDetailTable = ({ focusGeneId, focusGeneDisplayName }
         },
         formatter: (crossReferences = []) => (
           <div>
-            {crossReferences.map(({ referencedCurie, displayName } = {}) => (
-              <div key={referencedCurie}>
-                <ExternalLink
-                  href={getResourceUrl({ identifier: referencedCurie.toUpperCase(), type: 'gene/interactions' })}
-                >
-                  {displayName}
-                </ExternalLink>
+            {crossReferences.map((crossRef = {}) => (
+              <div key={crossRef.referencedCurie}>
+                <DataSourceLinkCuration reference={crossRef}>{crossRef.displayName}</DataSourceLinkCuration>
               </div>
             ))}
           </div>
@@ -193,13 +190,12 @@ const GeneGeneticInteractionDetailTable = ({ focusGeneId, focusGeneDisplayName }
         },
         // eslint-disable-next-line react/prop-types
         formatter: (reference) => {
+          if (!reference || !reference.length) return null;
+          const refId = reference[0].referenceID;
+          const xref = reference[0].crossReferences?.find((x) => x.referencedCurie === refId);
           return (
-            <ExternalLink
-              href={getSingleReferenceUrl(reference[0].referenceID).url}
-              key={reference[0].referenceID}
-              title={reference[0].referenceID}
-            >
-              {reference[0].referenceID}
+            <ExternalLink href={xref ? buildUrlFromTemplate(xref) : null} key={refId} title={refId}>
+              {refId}
             </ExternalLink>
           );
         },

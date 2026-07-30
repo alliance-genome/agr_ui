@@ -74,3 +74,115 @@ $max-width: 800px;
     pointer-events: none;
   }
 }
+
+.portalCounts {
+  margin-left: 0.75rem;
+  font-size: 0.85rem;
+  color: $gray-600;
+
+  span {
+    &:not(:last-child)::after {
+      content: '\00b7';
+      margin: 0 0.4rem;
+    }
+  }
+}
+
+.summaryDefinition {
+  margin-bottom: 1.25rem;
+}
+
+.summaryLabel {
+  font-weight: 700;
+  text-transform: capitalize;
+  margin-bottom: 0.25rem;
+}
+
+.publicationEntry {
+  // Lay out the species icon(s) and citation as flex items so the row's height
+  // is driven by the tallest child. The icons were previously floated, but the
+  // entry never contained the float, so on very wide viewports a single-line
+  // citation (shorter than the icon) let the icon overflow into the next entry.
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+// Embedded ontology context (KANBAN-1391): immediate-parent links above the
+// scoped, in-page-explorable focus-term tree.
+// One row: parent-term links on the left, annotation legend pushed to the
+// right (margin-left:auto), baseline-aligned. Wraps on narrow viewports.
+.ontologyHeader {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.ontologyParents {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+}
+
+.ontologyParentsLabel {
+  font-size: 0.75rem;
+  color: $gray-600;
+  text-transform: uppercase;
+}
+
+.ontologyParentItem {
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.ontologyRelation {
+  margin-right: 0.4rem;
+  color: $gray-600;
+}
+
+.ontologyLegend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  font-size: 0.85rem;
+}
+
+.ontologyLegendLabel {
+  color: $gray-700;
+  margin-right: 4px;
+}
+
+.ontologyLegendItem {
+  padding: 1px 8px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.ontologyTreePane {
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  padding: 0.75rem 0.5rem;
+  max-height: 60vh;
+  overflow: auto;
+}
+
+// The Members banner is a shared full-width component styled for the portal
+// list page. When embedded as the last block of a portal detail page, its
+// divider line and the wrapping subsection's trailing margin left a large
+// empty gap above the footer. Trim that chrome here without affecting the
+// banner elsewhere.
+.membersFooter {
+  > div {
+    margin-bottom: 0;
+  }
+
+  section {
+    border-bottom: 0;
+  }
+}
