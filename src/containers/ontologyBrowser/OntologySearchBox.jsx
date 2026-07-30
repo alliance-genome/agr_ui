@@ -9,6 +9,31 @@ const ENDPOINT = '/api/search_autocomplete';
 const SEARCH_ENDPOINT = '/api/search';
 const FULL_RESULTS_LIMIT = 200;
 
+// Re-rank hits so the closest name match floats to the top. ES scores can
+// bury an unnumbered parent term ("Parkinson's disease") under its numbered
+// subtypes ("Parkinson's disease 1", "…2", …); tier by match strength, then
+// prefer shorter names within a tier so the parent wins the tie.
+const rankByCloseness = (query, results) => {
+  const q = (query || '').trim().toLowerCase();
+  if (!q || !results?.length) return results || [];
+  const tier = (r) => {
+    const n = (r.name || r.nameKey || '').toLowerCase();
+    if (n === q) return 0;
+    if (n.startsWith(q)) return 1;
+    if (new RegExp(`\\b${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`).test(n)) return 2;
+    if (n.includes(q)) return 3;
+    return 4;
+  };
+  return [...results].sort((a, b) => {
+    const ta = tier(a);
+    const tb = tier(b);
+    if (ta !== tb) return ta - tb;
+    const la = (a.name || a.nameKey || '').length;
+    const lb = (b.name || b.nameKey || '').length;
+    return la - lb;
+  });
+};
+
 const AUTOSUGGEST_THEME = {
   container: { position: 'relative' },
   suggestionsContainer: {
@@ -37,7 +62,10 @@ const FullResultsModal = ({ isOpen, query, category, onSelect, onClose }) => {
     setError(false);
     const url = `${SEARCH_ENDPOINT}?q=${encodeURIComponent(query)}&category=${category}&limit=${FULL_RESULTS_LIMIT}`;
     fetchData(url)
-      .then((data) => setResults(data?.results || []))
+      .then((data) => {
+        const filtered = (data?.results || []).filter((r) => !/^obsolete/i.test(r.name || r.nameKey || ''));
+        setResults(rankByCloseness(query, filtered));
+      })
       .catch(() => setError(true));
   }, [isOpen, query, category]);
 
@@ -128,7 +156,8 @@ const OntologySearchBox = ({ onSelect, category, placeholder }) => {
     const url = `${ENDPOINT}?q=${encodeURIComponent(q)}&category=${category}`;
     fetchData(url, { signal: controller.signal })
       .then((data) => {
-        setSuggestions(data?.results || []);
+        const filtered = (data?.results || []).filter((r) => !/^obsolete/i.test(r.name || r.nameKey || ''));
+        setSuggestions(rankByCloseness(q, filtered));
       })
       .catch(() => {
         // aborted or failed; leave existing suggestions
