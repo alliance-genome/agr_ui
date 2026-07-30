@@ -109,7 +109,7 @@ const OntologyBrowser = () => {
             <OntologySearchBox
               onSelect={handleSelect}
               category={ontology.searchCategory}
-              placeholder={`Search ${ontology.label} terms`}
+              placeholder={`Search ${ontology.label} terms or IDs`}
             />
           </div>
 
