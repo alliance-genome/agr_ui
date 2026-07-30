@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
 import CountBadge from './CountBadge.jsx';
 import { ANNOTATION_TYPES } from './annotationTypes.js';
 import { useDiseaseTerm } from './useDiseaseTerms.jsx';
@@ -17,7 +16,7 @@ const OntologyTree = ({
   focusedCurie,
   onSelect,
   scrollOnFocus = true,
-  nodeHref,
+  onFocusMounted,
 }) => {
   const [open, setOpen] = useState(false);
   const rowRef = useRef(null);
@@ -30,16 +29,38 @@ const OntologyTree = ({
     if (forceExpanded.has(curie)) setOpen(true);
   }, [forceExpanded, curie]);
 
-  // Ancestor rows load their children asynchronously via the batched fetch,
-  // and each arrival shifts the focused row further down the tree. Re-anchor
-  // a few times so late layout shifts get corrected.
+  // Deep-link nav can shift the focused row multiple times while ancestor
+  // batches arrive. Re-anchor a few times so late layout shifts still land the
+  // row in view. Anchoring is strictly opt-in (scrollOnFocus) AND only fires
+  // when the row is currently outside its scroll parent's viewport, so an
+  // in-tree click never yanks the pane away from the user's cursor.
   useEffect(() => {
     if (!scrollOnFocus || focusedCurie !== curie) return;
-    const anchor = () => rowRef.current?.scrollIntoView({ block: 'center', behavior: 'auto' });
+    onFocusMounted?.();
+    const findScrollParent = (el) => {
+      let p = el.parentElement;
+      while (p) {
+        const s = window.getComputedStyle(p);
+        if (/(auto|scroll)/.test(s.overflow) || /(auto|scroll)/.test(s.overflowY)) return p;
+        p = p.parentElement;
+      }
+      return document.scrollingElement;
+    };
+    const anchor = () => {
+      const el = rowRef.current;
+      if (!el) return;
+      const scrollParent = findScrollParent(el);
+      if (scrollParent) {
+        const rowRect = el.getBoundingClientRect();
+        const parentRect = scrollParent.getBoundingClientRect();
+        if (rowRect.top >= parentRect.top && rowRect.bottom <= parentRect.bottom) return;
+      }
+      el.scrollIntoView({ block: 'center', behavior: 'auto' });
+    };
     anchor();
     const timers = [100, 300, 700, 1200].map((ms) => setTimeout(anchor, ms));
     return () => timers.forEach(clearTimeout);
-  }, [focusedCurie, curie, scrollOnFocus]);
+  }, [focusedCurie, curie, scrollOnFocus, onFocusMounted]);
 
   const childTerms = data?.children || [];
   // Only show the toggle once the term doc confirms children exist. This
@@ -47,10 +68,6 @@ const OntologyTree = ({
   // loses it a moment later when the batched fetch reports zero children.
   const hasChildren = childTerms.length > 0 || (data?.doTerm?.descendantCount || 0) > 0;
   const isFocused = focusedCurie === curie;
-  // When the consumer supplies nodeHref, every term label (leaf or not) becomes
-  // a link to that URL. Drill-down stays on the separate chevron control, so
-  // linking the label doesn't interfere with exploring children in place.
-  const nodeUrl = nodeHref ? nodeHref(curie) : null;
 
   const toggle = (e) => {
     e.stopPropagation();
@@ -77,13 +94,7 @@ const OntologyTree = ({
         ) : (
           <span className={style.toggleSpacer} />
         )}
-        {nodeUrl ? (
-          <Link to={nodeUrl} onClick={(e) => e.stopPropagation()}>
-            {name}
-          </Link>
-        ) : (
-          <span>{name}</span>
-        )}
+        <span>{name}</span>
         <span className={style.curie}>&nbsp;{curie}</span>
         <span className={style.badgeRow}>
           {ANNOTATION_TYPES.map((t) => (
@@ -94,7 +105,7 @@ const OntologyTree = ({
       {open && childTerms.length > 0 && (
         <div className={style.children}>
           {[...childTerms]
-            .sort((a, b) => (a.name || '').localeCompare(b.name || '', undefined, { numeric: true }))
+            .sort((a, b) => (a.name || '').localeCompare(b.name || ''))
             .map((c) => (
               <OntologyTree
                 key={c.curie}
@@ -105,7 +116,7 @@ const OntologyTree = ({
                 focusedCurie={focusedCurie}
                 onSelect={onSelect}
                 scrollOnFocus={scrollOnFocus}
-                nodeHref={nodeHref}
+                onFocusMounted={onFocusMounted}
               />
             ))}
         </div>
@@ -122,7 +133,7 @@ OntologyTree.propTypes = {
   focusedCurie: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
   scrollOnFocus: PropTypes.bool,
-  nodeHref: PropTypes.func,
+  onFocusMounted: PropTypes.func,
 };
 
 export default OntologyTree;
