@@ -115,7 +115,10 @@ const ReferencePage = () => {
   const { id: referenceId } = useParams();
   const { data, isLoading, isError } = usePageLoadingQuery(`/api/reference/${referenceId}`);
 
-  const counts = useSectionCounts(referenceId);
+  // Skip firing section-count queries while the four Reference-array tables
+  // are hidden. Restore this call when the tables come back.
+  const counts = {};
+  // const counts = useSectionCounts(referenceId);
 
   if (isError) {
     return <NotFound />;
@@ -136,10 +139,12 @@ const ReferencePage = () => {
   const sections = [
     { name: SUMMARY },
     { name: ABSTRACT },
-    { name: GENES, count: counts[GENES] },
-    { name: ALLELES_AND_VARIANTS, count: counts[ALLELES_AND_VARIANTS] },
-    { name: TRANSGENIC_ALLELES, count: counts[TRANSGENIC_ALLELES] },
-    { name: MODELS, count: counts[MODELS] },
+    // Hidden on stage until the four Reference-array tables are ready. Restore
+    // these entries in the same order to re-enable the PageNav links + badges.
+    // { name: GENES, count: counts[GENES] },
+    // { name: ALLELES_AND_VARIANTS, count: counts[ALLELES_AND_VARIANTS] },
+    // { name: TRANSGENIC_ALLELES, count: counts[TRANSGENIC_ALLELES] },
+    // { name: MODELS, count: counts[MODELS] },
   ];
 
   const FormattedAbstract = ({ abstract }) => {
@@ -175,6 +180,9 @@ const ReferencePage = () => {
         <Subsection title={ABSTRACT}>
           <FormattedAbstract abstract={ref.abstract} />
         </Subsection>
+        {/* Hidden on stage until the four Reference-array tables are ready.
+            Restore the four sections below (and their sections array entries
+            above) to bring them back on the page.
         <Subsection title={GENES}>
           <ReferenceGeneTable id={referenceId} />
         </Subsection>
@@ -187,6 +195,7 @@ const ReferencePage = () => {
         <Subsection title={MODELS}>
           <ReferenceModelTable id={referenceId} />
         </Subsection>
+        */}
       </PageData>
     </DataPage>
   );
