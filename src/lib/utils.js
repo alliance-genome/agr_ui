@@ -155,13 +155,15 @@ export function getSingleGenomeLocation(genomeLocations) {
 }
 
 export function getGenomicLocations(gene) {
+  // Species-level canonical assembly; identical for every location of a gene.
+  const assembly = gene.taxon?.species?.genomeAssembly?.primaryExternalId;
   return (
     gene.geneGenomicLocationAssociations?.map((loc) => ({
       chromosome: loc.geneGenomicLocationAssociationObject?.name,
       start: loc.start,
       end: loc.end,
       strand: loc.strand,
-      assembly: gene.taxon?.species?.assembly_curie,
+      assembly,
     })) || []
   );
 }
