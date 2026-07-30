@@ -59,8 +59,4 @@ Subsection.propTypes = {
   title: PropTypes.string,
 };
 
-Subsection.defaultProps = {
-  hideTitle: false,
-};
-
 export default Subsection;
