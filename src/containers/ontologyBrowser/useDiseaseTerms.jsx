@@ -9,7 +9,9 @@ import fetchData from '../../lib/fetchData';
 
 const Ctx = createContext(null);
 const DEBOUNCE_MS = 40;
-const MAX_BATCH = 200;
+// Keep the batch URL short enough that the stage WAF doesn't 403 us — each
+// curie takes ~17 encoded chars, and requests over ~1800 chars start failing.
+const MAX_BATCH = 80;
 
 export const TermsProvider = ({ children }) => {
   const [terms, setTerms] = useState({});

@@ -5,7 +5,7 @@ import { DataTable, GeneCellCuration, AlleleCellCuration, SpeciesCell } from '..
 import useDataTableQuery from '../../../hooks/useDataTableQuery';
 import { getIdentifier } from '../../../components/dataTable/utils.jsx';
 import AnnotatedPhenotypePopupCuration from '../../../components/dataTable/AnnotatedPhenotypePopupCuration.jsx';
-import { GENE_DETAILS_COLUMNS } from '../../../components/dataTable/constants';
+import { REFERENCE_PAGE_DETAILS_COLUMNS } from '../../../components/dataTable/constants';
 import ProvidersCellCuration from '../../../components/dataTable/ProvidersCellCuration.jsx';
 
 const ReferencePhenotypeTable = ({ id }) => {
@@ -70,7 +70,7 @@ const ReferencePhenotypeTable = ({ id }) => {
             entities={row.primaryAnnotations}
             mainRowCurie={row.subject ? getIdentifier(row.subject) : undefined}
             pubmedPublications={row.pubmedPublications}
-            columnNameSet={GENE_DETAILS_COLUMNS}
+            columnNameSet={REFERENCE_PAGE_DETAILS_COLUMNS}
           >
             View
           </AnnotatedPhenotypePopupCuration>

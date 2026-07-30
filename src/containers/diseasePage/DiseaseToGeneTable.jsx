@@ -7,6 +7,7 @@ import {
   EvidenceCodesCellCuration,
   GeneCellCuration,
   ReferencesCellCuration,
+  ReferenceList,
 } from '../../components/dataTable';
 import { CollapsibleList } from '../../components/collapsibleList';
 
@@ -34,6 +35,8 @@ const DiseaseToGeneTable = ({ id }) => {
     supplementalData,
     ...tableProps
   } = useDataTableQuery(`/api/disease/${id}/genes`, undefined, { sizePerPage: 10 }, {}, 60000);
+
+  const citationFilter = tableProps.tableState?.filters?.referenceCitation?.filterVal;
 
   const columns = [
     {
@@ -161,8 +164,16 @@ const DiseaseToGeneTable = ({ id }) => {
       filterName: 'dataProvider',
     },
     {
+      dataField: 'references',
+      text: 'Reference',
+      headerStyle: { width: '180px' },
+      formatter: (references) => <ReferenceList refs={references} filterTerm={citationFilter} />,
+      filterable: true,
+      filterName: 'referenceCitation',
+    },
+    {
       dataField: 'pubmedPublications',
-      text: 'References',
+      text: 'Reference ID',
       headerStyle: { width: '150px' },
       formatter: (pubmedPublications, row) => {
         if (getIsViaOrthology(row)) {
