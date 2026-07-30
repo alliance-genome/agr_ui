@@ -1,5 +1,10 @@
 import PropTypes from 'prop-types';
-import { DataTable, EvidenceCodesCellCuration, ReferencesCellCuration } from '../../components/dataTable';
+import {
+  DataTable,
+  EvidenceCodesCellCuration,
+  ReferencesCellCuration,
+  ReferenceList,
+} from '../../components/dataTable';
 import AnnotatedEntitiesPopupCuration from '../../components/dataTable/AnnotatedEntitiesPopupCuration.jsx';
 import AssociationType from '../../components/AssociationType.jsx';
 import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration.jsx';
@@ -11,6 +16,8 @@ import { ALLELE_DETAILS_COLUMNS } from '../../components/dataTable/constants';
 
 const AlleleToDiseaseTable = ({ alleleId }) => {
   const { supplementalData, data: results, ...tableProps } = useDataTableQuery(`/api/allele/${alleleId}/diseases`);
+
+  const citationFilter = tableProps.tableState?.filters?.referenceCitation?.filterVal;
 
   const tableData = results?.map((annotation) => ({
     providers: buildProvidersWithUrl(annotation.primaryAnnotations),
@@ -71,8 +78,16 @@ const AlleleToDiseaseTable = ({ alleleId }) => {
       filterName: 'dataProvider',
     },
     {
+      dataField: 'references',
+      text: 'Reference',
+      formatter: (references) => <ReferenceList refs={references} filterTerm={citationFilter} />,
+      headerStyle: { width: '180px' },
+      filterable: true,
+      filterName: 'referenceCitation',
+    },
+    {
       dataField: 'pubmedPublications',
-      text: 'References',
+      text: 'Reference ID',
       formatter: (pubmedPublications) => <ReferencesCellCuration pubmedPublications={pubmedPublications} />,
       headerStyle: { width: '150px' },
       filterable: true,

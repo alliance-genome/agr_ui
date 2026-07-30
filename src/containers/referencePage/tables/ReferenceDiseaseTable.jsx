@@ -16,7 +16,7 @@ import DiseaseLinkCuration from '../../../components/disease/DiseaseLinkCuration
 import DiseaseQualifiersColumn from '../../../components/dataTable/DiseaseQualifiersColumn.jsx';
 import ProvidersCellCuration from '../../../components/dataTable/ProvidersCellCuration.jsx';
 import AnnotatedEntitiesPopupCuration from '../../../components/dataTable/AnnotatedEntitiesPopupCuration.jsx';
-import { GENE_DETAILS_COLUMNS } from '../../../components/dataTable/constants';
+import { REFERENCE_PAGE_DETAILS_COLUMNS } from '../../../components/dataTable/constants';
 
 const ReferenceDiseaseTable = ({ id }) => {
   const { data: results, ...tableProps } = useDataTableQuery(`/api/reference/${id}/disease-annotations`);
@@ -96,7 +96,7 @@ const ReferenceDiseaseTable = ({ id }) => {
             entities={row.primaryAnnotations}
             mainRowCurie={row.subject ? getIdentifier(row.subject) : undefined}
             pubmedPublications={row.pubmedPublications}
-            columnNameSet={GENE_DETAILS_COLUMNS}
+            columnNameSet={REFERENCE_PAGE_DETAILS_COLUMNS}
           >
             View
           </AnnotatedEntitiesPopupCuration>
