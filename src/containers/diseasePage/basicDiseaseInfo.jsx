@@ -85,23 +85,6 @@ const transformSynonyms = (synonyms) => {
   return synonyms.map((item) => item.name);
 };
 
-  return crossReferenceLinkUrls.map((item) => {
-    const { referencedCurie, url } = item;
-    return {
-      crossRefCompleteUrl: url,
-      name: referencedCurie,
-      displayName: referencedCurie,
-    };
-  });
-};
-
-const transformSynonyms = (synonyms) => {
-  if (!Array.isArray(synonyms)) {
-    return [];
-  }
-  return synonyms.map((item) => item.name);
-};
-
 const BasicDiseaseInfo = ({ disease }) => (
   <AttributeList>
     <AttributeLabel>Definition</AttributeLabel>
