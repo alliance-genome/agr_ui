@@ -9,6 +9,20 @@ const ENDPOINT = '/api/search_autocomplete';
 const SEARCH_ENDPOINT = '/api/search';
 const FULL_RESULTS_LIMIT = 200;
 
+// Autocomplete matches on lowercased *name* tokens and on the exact curie text,
+// so `DOID:10763` finds the term but `doid:10763`, `DOID:` alone, or a bare
+// numeric id return nothing. Uppercase the prefix so lowercased curie input
+// still hits the exact-curie path.
+const CURIE_PREFIX = /^([A-Za-z][A-Za-z0-9_]*):?$/;
+const FULL_CURIE = /^([A-Za-z][A-Za-z0-9_]*):(\S+)$/;
+const normalizeCurieQuery = (q) => {
+  const full = q.match(FULL_CURIE);
+  if (full) return `${full[1].toUpperCase()}:${full[2]}`;
+  const prefix = q.match(CURIE_PREFIX);
+  if (prefix) return `${prefix[1].toUpperCase()}${q.endsWith(':') ? ':' : ''}`;
+  return q;
+};
+
 // Re-rank hits so the closest name match floats to the top. ES scores can
 // bury an unnumbered parent term ("Parkinson's disease") under its numbered
 // subtypes ("Parkinson's disease 1", "…2", …); tier by match strength, then
@@ -153,14 +167,25 @@ const OntologySearchBox = ({ onSelect, category, placeholder }) => {
     if (abortRef.current) abortRef.current.abort();
     const controller = new AbortController();
     abortRef.current = controller;
-    const url = `${ENDPOINT}?q=${encodeURIComponent(q)}&category=${category}`;
+    const normalized = normalizeCurieQuery(q);
+    // When the user has typed a fully-formed curie, add an instant
+    // "jump to this term" row up front. `__instant` marks it as our synthetic
+    // row so we can render it distinctly and drop any duplicate from the
+    // backend hit list.
+    const fullCurieMatch = normalized.match(FULL_CURIE);
+    const instantRow = fullCurieMatch
+      ? [{ __instant: true, curie: normalized, name: `Jump to ${normalized}` }]
+      : [];
+    const url = `${ENDPOINT}?q=${encodeURIComponent(normalized)}&category=${category}`;
     fetchData(url, { signal: controller.signal })
       .then((data) => {
         const filtered = (data?.results || []).filter((r) => !/^obsolete/i.test(r.name || r.nameKey || ''));
-        setSuggestions(rankByCloseness(q, filtered));
+        const ranked = rankByCloseness(normalized, filtered).filter((r) => (r.curie || r.primaryKey) !== normalized);
+        setSuggestions([...instantRow, ...ranked]);
       })
       .catch(() => {
-        // aborted or failed; leave existing suggestions
+        // aborted or failed; show the instant row on its own if we have one.
+        if (instantRow.length) setSuggestions(instantRow);
       });
   };
 
@@ -181,13 +206,20 @@ const OntologySearchBox = ({ onSelect, category, placeholder }) => {
         onSuggestionsClearRequested={onSuggestionsClearRequested}
         onSuggestionSelected={onSuggestionSelected}
         highlightFirstSuggestion
-        getSuggestionValue={(s) => s.name || s.nameKey || ''}
-        renderSuggestion={(s) => (
-          <div style={{ padding: '4px 8px' }}>
-            <strong>{s.name || s.nameKey}</strong>{' '}
-            <span style={{ color: '#868e96', fontSize: '0.8rem', fontFamily: 'monospace' }}>{s.curie}</span>
-          </div>
-        )}
+        getSuggestionValue={(s) => (s.__instant ? s.curie : s.name || s.nameKey || '')}
+        renderSuggestion={(s) =>
+          s.__instant ? (
+            <div style={{ padding: '4px 8px', background: '#f1f8ff' }}>
+              <span style={{ color: '#0366d6', fontWeight: 600 }}>Jump to</span>{' '}
+              <span style={{ fontFamily: 'monospace' }}>{s.curie}</span>
+            </div>
+          ) : (
+            <div style={{ padding: '4px 8px' }}>
+              <strong>{s.name || s.nameKey}</strong>{' '}
+              <span style={{ color: '#868e96', fontSize: '0.8rem', fontFamily: 'monospace' }}>{s.curie}</span>
+            </div>
+          )
+        }
         renderSuggestionsContainer={({ containerProps, children, query }) => {
           const { key, ...containerRest } = containerProps;
           return (
