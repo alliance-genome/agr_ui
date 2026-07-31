@@ -116,6 +116,8 @@ const ReferenceSummary = ({ ref }) => {
           {copied ? 'copied to clipboard!' : 'copy citation'}
         </button>
       </AttributeValue>
+      <AttributeLabel>Alliance Publication Type</AttributeLabel>
+      <AttributeValue>{ref.category ? ref.category.replace(/_/g, ' ') : <NoData>Not Available</NoData>}</AttributeValue>
       <AttributeLabel>Cross References</AttributeLabel>
       <AttributeValue placeholder="None">
         <ExternalCrossReferences xrefs={ref.extXrefs} />
@@ -124,8 +126,6 @@ const ReferenceSummary = ({ ref }) => {
       <AttributeValue placeholder="None">
         <MODidentifiers xrefs={ref.modXrefs} />
       </AttributeValue>
-      <AttributeLabel>Alliance Publication Type</AttributeLabel>
-      <AttributeValue>{ref.category ? ref.category.replace(/_/g, ' ') : <NoData>Not Available</NoData>}</AttributeValue>
       <AttributeLabel>AGRKB ID</AttributeLabel>
       <AttributeValue>{ref.curie}</AttributeValue>
     </AttributeList>
