@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import HorizontalScroll from '../horizontalScroll.jsx';
 

@@ -105,16 +105,11 @@ const OntologyBrowser = () => {
             </select>
           </div>
 
-          <p className={style.explainer}>
-            Browsing <strong>{ontology.label}</strong> starting at <strong>{ontology.rootName}</strong> (
-            {ontology.rootCurie}). Use the search box to jump to any term.
-          </p>
-
           <div className={style.searchRow}>
             <OntologySearchBox
               onSelect={handleSelect}
               category={ontology.searchCategory}
-              placeholder={`Search ${ontology.label} terms`}
+              placeholder={`Search ${ontology.label} terms or IDs`}
             />
           </div>
 

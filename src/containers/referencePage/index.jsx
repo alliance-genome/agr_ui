@@ -166,6 +166,8 @@ const ReferencePage = () => {
         <div>
           <PageNavEntity entityName={ref.short_citation || ref.citation}>
             <SourceList sources={ref.modXrefs} />
+            {/* AGRKB ID sits below the MOD IDs, outside the collapsible list so it is always visible */}
+            {ref.curie && <div style={{ textIndent: 8, marginTop: 6 }}>{ref.curie}</div>}
           </PageNavEntity>
         </div>
       </PageNav>
