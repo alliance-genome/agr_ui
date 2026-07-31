@@ -62,7 +62,7 @@ const OntologyTree = ({
     return () => timers.forEach(clearTimeout);
   }, [focusedCurie, curie, scrollOnFocus, onFocusMounted]);
 
-  const childTerms = data?.children || [];
+  const childTerms = (data?.children || []).filter((c) => !/^obsolete/i.test(c.name || ''));
   // Only show the toggle once the term doc confirms children exist. This
   // avoids the flash where every node briefly renders a chevron and then
   // loses it a moment later when the batched fetch reports zero children.
