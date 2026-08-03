@@ -2,7 +2,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { DropdownMenu, DropdownToggle, ButtonDropdown } from 'reactstrap';
-import { GeneCellCuration, AlleleCellCuration, ModelCellCuration, SingleReferenceCellCuration } from './index';
+import {
+  GeneCellCuration,
+  AlleleCellCuration,
+  ModelCellCuration,
+  SingleReferenceCellCuration,
+  SingleReferenceLinkCuration,
+} from './index';
 import ExperimentalConditionCellCuration from './ExperimentalConditionCellCuration';
 import hash from 'object-hash';
 
@@ -191,7 +197,8 @@ function AnnotatedEntitiesPopupCurationGenePage({
                       {columnNameSet.has('Annotation Type') && <th>Annotation type</th>}
                       {columnNameSet.has('Evidence Codes') && <th>Evidence Codes</th>}
                       {columnNameSet.has('Source') && <th>Source</th>}
-                      {columnNameSet.has('References') && <th>References</th>}
+                      {columnNameSet.has('Reference') && <th>Reference</th>}
+                      {columnNameSet.has('References') && <th>Reference ID</th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -269,6 +276,11 @@ function AnnotatedEntitiesPopupCurationGenePage({
                           {columnNameSet.has('Source') && (
                             <td>
                               <ProviderCellCuration provider={provider} />
+                            </td>
+                          )}
+                          {columnNameSet.has('Reference') && (
+                            <td>
+                              <SingleReferenceLinkCuration singleReference={entity.evidenceItem} />
                             </td>
                           )}
                           {columnNameSet.has('References') && (

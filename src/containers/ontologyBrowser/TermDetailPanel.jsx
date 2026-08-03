@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import fetchData from '../../lib/fetchData';
 import { CollapsibleList } from '../../components/collapsibleList';
 import ExternalLink from '../../components/ExternalLink.jsx';
@@ -46,7 +44,7 @@ const TermDetailPanel = ({ curie }) => {
 
       <div className={style.detailSection}>
         <Link to={`/disease/${curie}`} className={`btn btn-primary ${style.viewPageButton}`}>
-          View disease page <FontAwesomeIcon icon={faArrowRight} />
+          View disease page
         </Link>
         {portalSlug && (
           <Link to={`/disease-portal/${portalSlug}`} className={`btn btn-outline-primary ${style.viewPageButton}`}>

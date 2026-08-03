@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DropdownMenu, DropdownToggle, UncontrolledButtonDropdown } from 'reactstrap';
-import { SingleReferenceCellCuration } from './index';
+import { SingleReferenceCellCuration, SingleReferenceLinkCuration } from './index';
 import ExperimentalConditionCellCuration from './ExperimentalConditionCellCuration.jsx';
 
 import style from './style.module.scss';
@@ -60,7 +60,8 @@ function AnnotatedPhenotypePopupCuration({ children, entities, mainRowCurie, pub
                 {columnNameSet.has('Name') && <th>Name</th>}
                 {columnNameSet.has('Type') && <th>Type</th>}
                 {columnNameSet.has('Experimental Condition') && <th>Experimental condition</th>}
-                {columnNameSet.has('References') && <th>References</th>}
+                {columnNameSet.has('Reference') && <th>Reference</th>}
+                {columnNameSet.has('References') && <th>Reference ID</th>}
               </tr>
             </thead>
             <tbody>
@@ -80,6 +81,11 @@ function AnnotatedPhenotypePopupCuration({ children, entities, mainRowCurie, pub
                     {columnNameSet.has('Experimental Condition') && (
                       <td>
                         <ExperimentalConditionCellCuration conditions={expCondition} />
+                      </td>
+                    )}
+                    {columnNameSet.has('Reference') && (
+                      <td>
+                        <SingleReferenceLinkCuration singleReference={entity.evidenceItem} />
                       </td>
                     )}
                     {columnNameSet.has('References') && (

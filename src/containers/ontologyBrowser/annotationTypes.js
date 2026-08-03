@@ -12,19 +12,19 @@ export const ANNOTATION_TYPES = [
     fg: '#084298',
   },
   {
-    id: 'models',
-    label: 'Models',
-    endpoint: 'models_counts',
-    hash: 'associated-models',
-    bg: '#d1e7dd',
-    fg: '#0f5132',
-  },
-  {
     id: 'alleles',
     label: 'Alleles',
     endpoint: 'alleles_counts',
     hash: 'associated-alleles',
     bg: '#fff3cd',
     fg: '#664d03',
+  },
+  {
+    id: 'models',
+    label: 'Models',
+    endpoint: 'models_counts',
+    hash: 'associated-models',
+    bg: '#d1e7dd',
+    fg: '#0f5132',
   },
 ];
