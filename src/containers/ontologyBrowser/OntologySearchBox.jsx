@@ -185,9 +185,7 @@ const OntologySearchBox = ({ onSelect, category, placeholder, curiePrefix }) => 
     // row so we can render it distinctly and drop any duplicate from the
     // backend hit list.
     const fullCurieMatch = normalized.match(FULL_CURIE);
-    const instantRow = fullCurieMatch
-      ? [{ __instant: true, curie: normalized, name: `Jump to ${normalized}` }]
-      : [];
+    const instantRow = fullCurieMatch ? [{ __instant: true, curie: normalized, name: `Jump to ${normalized}` }] : [];
     const url = `${ENDPOINT}?q=${encodeURIComponent(normalized)}&category=${category}`;
     fetchData(url, { signal: controller.signal })
       .then((data) => {
