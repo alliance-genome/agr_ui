@@ -11,15 +11,22 @@ const FULL_RESULTS_LIMIT = 200;
 
 // Autocomplete matches on lowercased *name* tokens and on the exact curie text,
 // so `DOID:10763` finds the term but `doid:10763`, `DOID:` alone, or a bare
-// numeric id return nothing. Uppercase the prefix so lowercased curie input
-// still hits the exact-curie path.
+// numeric id return nothing. Canonicalize the prefix case against the active
+// ontology's expected prefix (e.g. `DOID`, `WBbt`, `FBbt`) so lowercased curie
+// input still hits the exact-curie path, without mangling correctly-cased
+// mixed-case prefixes.
 const CURIE_PREFIX = /^([A-Za-z][A-Za-z0-9_]*):?$/;
-const FULL_CURIE = /^([A-Za-z][A-Za-z0-9_]*):(\S+)$/;
-const normalizeCurieQuery = (q) => {
+// Local id restricted to typical curie tail characters so we do not treat
+// pasted URLs (which contain `/`) or free-form text as a curie and generate
+// a bogus "Jump to" row.
+const FULL_CURIE = /^([A-Za-z][A-Za-z0-9_]*):([A-Za-z0-9_.-]+)$/;
+const normalizeCurieQuery = (q, curiePrefix) => {
+  if (!curiePrefix) return q;
+  const matchesPrefix = (p) => p.toLowerCase() === curiePrefix.toLowerCase();
   const full = q.match(FULL_CURIE);
-  if (full) return `${full[1].toUpperCase()}:${full[2]}`;
+  if (full && matchesPrefix(full[1])) return `${curiePrefix}:${full[2]}`;
   const prefix = q.match(CURIE_PREFIX);
-  if (prefix) return `${prefix[1].toUpperCase()}${q.endsWith(':') ? ':' : ''}`;
+  if (prefix && matchesPrefix(prefix[1])) return `${curiePrefix}${q.endsWith(':') ? ':' : ''}`;
   return q;
 };
 
@@ -142,14 +149,19 @@ FullResultsModal.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-const OntologySearchBox = ({ onSelect, category, placeholder }) => {
+const OntologySearchBox = ({ onSelect, category, placeholder, curiePrefix }) => {
   const [value, setValue] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [modalQuery, setModalQuery] = useState(null);
   const abortRef = useRef(null);
 
   const openModalFor = (q) => {
-    if (q && q.trim()) setModalQuery(q);
+    const trimmed = (q || '').trim();
+    if (!trimmed) return;
+    // Normalize before firing the modal search — /api/search is case-sensitive
+    // on curies just like the autocomplete, so a lowercase curie click on
+    // "View all results" would otherwise still return zero hits.
+    setModalQuery(normalizeCurieQuery(trimmed, curiePrefix));
   };
   const closeModal = () => setModalQuery(null);
   const onModalSelect = (curie) => {
@@ -167,7 +179,7 @@ const OntologySearchBox = ({ onSelect, category, placeholder }) => {
     if (abortRef.current) abortRef.current.abort();
     const controller = new AbortController();
     abortRef.current = controller;
-    const normalized = normalizeCurieQuery(q);
+    const normalized = normalizeCurieQuery(q, curiePrefix);
     // When the user has typed a fully-formed curie, add an instant
     // "jump to this term" row up front. `__instant` marks it as our synthetic
     // row so we can render it distinctly and drop any duplicate from the
@@ -179,12 +191,15 @@ const OntologySearchBox = ({ onSelect, category, placeholder }) => {
     const url = `${ENDPOINT}?q=${encodeURIComponent(normalized)}&category=${category}`;
     fetchData(url, { signal: controller.signal })
       .then((data) => {
+        if (controller.signal.aborted) return;
         const filtered = (data?.results || []).filter((r) => !/^obsolete/i.test(r.name || r.nameKey || ''));
         const ranked = rankByCloseness(normalized, filtered).filter((r) => (r.curie || r.primaryKey) !== normalized);
         setSuggestions([...instantRow, ...ranked]);
       })
       .catch(() => {
-        // aborted or failed; show the instant row on its own if we have one.
+        // Superseded by a newer keystroke; leave the in-flight query alone so
+        // its stale instant row does not flicker over the latest state.
+        if (controller.signal.aborted) return;
         if (instantRow.length) setSuggestions(instantRow);
       });
   };
@@ -264,6 +279,11 @@ OntologySearchBox.propTypes = {
   onSelect: PropTypes.func.isRequired,
   category: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
+  // Canonical curie prefix for the active ontology (e.g. `DOID`, `WBbt`).
+  // When provided, lowercased curie input is rewritten to this exact casing
+  // before hitting the backend; input with any other prefix passes through
+  // unchanged.
+  curiePrefix: PropTypes.string,
 };
 
 export default OntologySearchBox;
