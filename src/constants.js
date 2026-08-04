@@ -12,7 +12,7 @@ export const VARIANT_CATEGORY = 'variant_search_result';
 export const MODEL_CATEGORY = 'model_search_result';
 export const DATASET_CATEGORY = 'htp_dataset_search_result';
 
-/* Wordpress REST API connection setting */
+/* Wordpress REST API connection setting  */
 export const WORDPRESS_REST_API_BASE = 'https://public-api.wordpress.com/wp/v2/sites/alliancegenome.wordpress.com';
 export const WORDPRESS_PAGE_BASE_URL = WORDPRESS_REST_API_BASE + '/pages?slug=';
 export const WORDPRESS_POST_BASE_URL = WORDPRESS_REST_API_BASE + '/posts';
