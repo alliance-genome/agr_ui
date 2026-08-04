@@ -1,6 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DataTable, EvidenceCodesCellCuration, ReferencesCellCuration, SpeciesCell } from '../../components/dataTable';
+import {
+  DataTable,
+  EvidenceCodesCellCuration,
+  ReferencesCellCuration,
+  ReferenceList,
+  SpeciesCell,
+} from '../../components/dataTable';
 import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration.jsx';
 import DiseaseLinkCuration from '../../components/disease/DiseaseLinkCuration.jsx';
 import { getDistinctFieldValue } from '../../components/dataTable/utils.jsx';
@@ -21,6 +27,8 @@ const DiseaseToAlleleTable = ({ id }) => {
     supplementalData,
     ...tableProps
   } = useDataTableQuery(`/api/disease/${id}/alleles`, undefined, { sizePerPage: 10 }, {}, 60000);
+
+  const citationFilter = tableProps.tableState?.filters?.referenceCitation?.filterVal;
 
   const columns = [
     {
@@ -112,8 +120,16 @@ const DiseaseToAlleleTable = ({ id }) => {
       filterName: 'dataProvider',
     },
     {
+      dataField: 'references',
+      text: 'Reference',
+      formatter: (references) => <ReferenceList refs={references} filterTerm={citationFilter} />,
+      headerStyle: { width: '180px' },
+      filterable: true,
+      filterName: 'referenceCitation',
+    },
+    {
       dataField: 'pubmedPublications',
-      text: 'References',
+      text: 'Reference ID',
       formatter: (pubmedPublications) => <ReferencesCellCuration pubmedPublications={pubmedPublications} />,
       headerStyle: { width: '150px' },
       filterable: true,

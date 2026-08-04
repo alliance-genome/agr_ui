@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -14,17 +14,16 @@ import CollapsibleFacet from './collapsibleFacet.jsx';
 import { selectActiveCategory, selectAggregations } from '../../../selectors/searchSelectors';
 import { selectPageLoading } from '../../../selectors/loadingSelector';
 
-class FilterSelectorComponent extends Component {
-  renderFilters() {
-    let aggs = this.props.aggregations;
-    if (aggs.length === 0) {
+const FilterSelectorComponent = ({ activeCategory, aggregations, isPending, queryParams }) => {
+  const renderFilters = () => {
+    if (aggregations.length === 0) {
       return <p>No filters available.</p>;
     }
     // if on cat selector and pending, render nothing
-    if (this.props.activeCategory === 'none' && this.props.isPending) {
+    if (activeCategory === 'none' && isPending) {
       return null;
     }
-    return aggs.map((d) => {
+    return aggregations.map((d) => {
       let isShowMore = false;
       //This is the "always show all of the values for __ facet" setting, right now
       //species facets are the only ones that get this special honor.  Also, 'all'
@@ -35,23 +34,22 @@ class FilterSelectorComponent extends Component {
 
       return (
         <div key={`filter${d.name}`}>
-          <SingleFilterSelector {...d} isShowMore={isShowMore} queryParams={this.props.queryParams} />
+          <SingleFilterSelector {...d} isShowMore={isShowMore} queryParams={queryParams} />
         </div>
       );
     });
-  }
+  };
 
-  renderCatSelector() {
-    let cat = this.props.activeCategory;
-    if (cat === 'none') {
+  const renderCatSelector = () => {
+    if (activeCategory === 'none') {
       return null;
     }
-    let newQp = getQueryParamWithValueChanged('category', [], this.props.queryParams, true);
-    let newHref = { pathname: '/search', search: stringifyQuery(newQp) };
+    const newQp = getQueryParamWithValueChanged('category', [], queryParams, true);
+    const newHref = { pathname: '/search', search: stringifyQuery(newQp) };
     return (
       <div>
         <p>
-          <CategoryLabel category={this.props.activeCategory} />
+          <CategoryLabel category={activeCategory} />
         </p>
         <p>
           <Link to={newHref}>
@@ -60,27 +58,25 @@ class FilterSelectorComponent extends Component {
         </p>
       </div>
     );
-  }
+  };
 
-  render() {
-    return (
-      <div>
-        <div className="d-none d-md-block">
-          {this.renderCatSelector()}
-          {this.renderFilters()}
-        </div>
-        <div className="d-block d-md-none">
-          <CollapsibleFacet label="Filter">
-            <div className={style.mobileFacetList}>
-              {this.renderCatSelector()}
-              {this.renderFilters()}
-            </div>
-          </CollapsibleFacet>
-        </div>
+  return (
+    <div>
+      <div className="d-none d-md-block">
+        {renderCatSelector()}
+        {renderFilters()}
       </div>
-    );
-  }
-}
+      <div className="d-block d-md-none">
+        <CollapsibleFacet label="Filter">
+          <div className={style.mobileFacetList}>
+            {renderCatSelector()}
+            {renderFilters()}
+          </div>
+        </CollapsibleFacet>
+      </div>
+    </div>
+  );
+};
 
 FilterSelectorComponent.propTypes = {
   activeCategory: PropTypes.string,

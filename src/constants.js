@@ -1,4 +1,6 @@
+export const CONTACT_API_URL = 'https://1ythblxki4.execute-api.us-east-1.amazonaws.com/prod/contact';
 export const HELP_EMAIL = 'help@alliancegenome.org';
+export const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
 export const SEARCH_API_ERROR_MESSAGE = `There was a problem connecting to the server. Please refresh the page. If you continue to see this message, please contact ${HELP_EMAIL}`;
 export const LARGE_COL_CLASS = 'col-md-8 col-12';
 export const SMALL_COL_CLASS = 'col-md-4 col-12';
@@ -421,11 +423,10 @@ export const SPECIES = [
     apolloName: 'zebrafish',
     apolloTrack: '/All%20Genes/',
     jBrowseName: 'Danio rerio',
-    jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/zfin/zebrafish-11/`,
+    jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/zfin/zebrafish/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
-    jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/zfin/zebrafish-11/',
-    jBrowseGffUrlTemplate:
-      'https://s3.amazonaws.com/agrjbrowse/docker/{release}/zfin/zebrafish-11/GFF_ZFIN.sorted.gff.gz',
+    jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/zfin/zebrafish/',
+    jBrowseGffUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/docker/{release}/zfin/zebrafish/GFF_ZFIN.sorted.gff.gz',
     jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_000002035.6_GRCz11_genomic.fna.gz',
     jBrowsetracks: '_all_genes,_ht_variants,_variants',
     jBrowseOrthologyTracks:
