@@ -427,7 +427,7 @@ export const SPECIES = [
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
     jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/zfin/zebrafish/',
     jBrowseGffUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/docker/{release}/zfin/zebrafish/GFF_ZFIN.sorted.gff.gz',
-    jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_000002035.6_GRCz11_genomic.fna.gz',
+    jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_049306965.1_GRCz12tu_genomic.fna.gz',
     jBrowsetracks: '_all_genes,_ht_variants,_variants',
     jBrowseOrthologyTracks:
       'Danio_rerio_all_genes,human2zebrafish.filter.anchors,mouse2zebrafish.filter.anchors,rat2zebrafish.filter.anchors,zebrafish2fly.filter.anchors,zebrafish2worm.filter.anchors,zebrafish2xenopustropicalis.filter.anchors,zebrafish2yeast.filter.anchors',
