@@ -109,6 +109,7 @@ const OntologyBrowser = () => {
             <OntologySearchBox
               onSelect={handleSelect}
               category={ontology.searchCategory}
+              curiePrefix={ontology.rootCurie ? ontology.rootCurie.split(':')[0] : undefined}
               placeholder={`Search ${ontology.label} terms or IDs`}
             />
           </div>
