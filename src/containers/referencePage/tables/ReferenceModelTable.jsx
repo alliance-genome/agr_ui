@@ -1,11 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import hash from 'object-hash';
-import { DataTable } from '../../../components/dataTable';
+import { DataTable, SpeciesCell } from '../../../components/dataTable';
 import useDataTableQuery from '../../../hooks/useDataTableQuery';
-import CollapsibleList from '../../../components/collapsibleList/collapsibleList.jsx';
-import AssociationType from '../../../components/AssociationType.jsx';
-import DiseaseLinkCuration from '../../../components/disease/DiseaseLinkCuration.jsx';
 import ModelCellCuration from '../../../components/dataTable/ModelCellCuration.jsx';
 
 const ReferenceModelTable = ({ id }) => {
@@ -17,38 +14,15 @@ const ReferenceModelTable = ({ id }) => {
 
   const columns = [
     {
+      dataField: 'species',
+      text: 'Species',
+      formatter: (_v, row) => row.model?.taxon && <SpeciesCell taxon={row.model.taxon} />,
+      headerStyle: { width: '130px' },
+    },
+    {
       dataField: 'model',
       text: 'Model name',
       formatter: (model) => <ModelCellCuration model={model} />,
-      headerStyle: { width: '220px' },
-    },
-    {
-      dataField: 'diseaseModels',
-      text: 'Associated Human Diseases',
-      formatter: (diseaseModels) =>
-        diseaseModels && (
-          <CollapsibleList collapsedSize={diseaseModels.length}>
-            {diseaseModels.map((diseaseModel) => (
-              <div key={(diseaseModel.associationType || '') + (diseaseModel.disease?.curie || '')}>
-                <AssociationType type={diseaseModel.associationType} showOnlyNot />{' '}
-                <DiseaseLinkCuration disease={diseaseModel.disease} />
-              </div>
-            ))}
-          </CollapsibleList>
-        ),
-      headerStyle: { width: '230px' },
-    },
-    {
-      dataField: 'associatedPhenotype',
-      text: 'Associated Phenotypes',
-      formatter: (associatedPhenotype) =>
-        associatedPhenotype && (
-          <CollapsibleList collapsedSize={2} showBullets>
-            {associatedPhenotype.map((phenotype) => (
-              <span dangerouslySetInnerHTML={{ __html: phenotype }} key={phenotype} />
-            ))}
-          </CollapsibleList>
-        ),
       headerStyle: { width: '220px' },
     },
     {
