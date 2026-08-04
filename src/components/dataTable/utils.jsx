@@ -25,6 +25,30 @@ export const getIdentifier = (subject) => {
   return subject.curie ? subject.curie : subject.primaryExternalId ? subject.primaryExternalId : subject.modInternalId;
 };
 
+export const getSingleReferenceUrl = (pubModId) => {
+  if (!pubModId) return { pubModId, url: null };
+  let url;
+  if (
+    pubModId.includes('PMID') ||
+    pubModId.includes('ORPHA') ||
+    pubModId.includes('MIM') ||
+    pubModId.includes('PMCID')
+  ) {
+    url = getResourceUrl({ identifier: pubModId });
+  } else {
+    url = getResourceUrl({ identifier: pubModId, type: 'reference' });
+  }
+  return { pubModId, url };
+};
+
+export const getMultipleReferencesUrls = (pubModIds) => {
+  if (!Array.isArray(pubModIds)) return [];
+  return pubModIds
+    .filter(Boolean)
+    .sort()
+    .map((pubModId) => getSingleReferenceUrl(pubModId));
+};
+
 const buildProvider = (annotation) => {
   if (!annotation) return;
   return {

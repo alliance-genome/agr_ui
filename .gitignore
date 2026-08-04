@@ -74,6 +74,7 @@ test-npm-github/
 
 # Development tools and temporary files
 .serena/
+.playwright-mcp/
 bfg.jar
 *.jar
 .bfg-report/
