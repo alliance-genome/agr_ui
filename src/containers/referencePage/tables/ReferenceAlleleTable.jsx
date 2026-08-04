@@ -1,14 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { SpeciesCell } from '../../../components/dataTable';
+import { AlleleCellCuration, SpeciesCell } from '../../../components/dataTable';
+import { CollapsibleList } from '../../../components/collapsibleList';
+import SynonymListCuration from '../../../components/SynonymListCuration.jsx';
+import { getIdentifier } from '../../../components/dataTable/utils.jsx';
 import createReferenceTable from './createReferenceTable.jsx';
 
-const synonymNames = (allele) => {
-  const syns = allele.alleleSynonyms || allele.synonyms || [];
-  return syns.map((s) => s.displayText || s.name || s).filter(Boolean);
-};
-
-const columns = [
+const baseColumns = [
   {
     dataField: 'species',
     text: 'Species',
@@ -16,47 +14,108 @@ const columns = [
     formatter: (species) => species && <SpeciesCell taxon={species} />,
   },
   {
-    dataField: 'symbol',
-    text: 'Symbol',
-    headerStyle: { width: '160px' },
-    formatter: (symbol, row) => (
-      <Link to={`/allele/${row.curie}`}>
-        <span dangerouslySetInnerHTML={{ __html: symbol || row.curie }} />
-      </Link>
-    ),
+    dataField: 'allele',
+    text: 'Allele/Variant Symbol',
+    headerStyle: { width: '185px' },
+    formatter: (allele, row) => {
+      if (row.alterationType === 'variant') {
+        const hgvs = row.variantList?.[0]?.curatedVariantGenomicLocations?.[0]?.hgvs;
+        return (
+          <div className="text-truncate" title={hgvs}>
+            <Link to={`/variant/${hgvs}`}>{hgvs}</Link>
+          </div>
+        );
+      }
+      return <AlleleCellCuration identifier={getIdentifier(allele)} allele={allele} />;
+    },
   },
   {
     dataField: 'synonyms',
-    text: 'Synonyms',
-    headerStyle: { width: '200px' },
-    formatter: (syns) => (syns && syns.length ? <span dangerouslySetInnerHTML={{ __html: syns.join(', ') }} /> : null),
+    text: 'Allele Synonyms',
+    headerStyle: { width: '165px' },
+    formatter: (synonyms) => <SynonymListCuration synonyms={synonyms} />,
   },
-  { dataField: 'mutationType', text: 'Mutation type', headerStyle: { width: '150px' } },
-  { dataField: 'molecularConsequence', text: 'Molecular consequence', headerStyle: { width: '180px' } },
-  { dataField: 'source', text: 'Source', headerStyle: { width: '100px' } },
+  {
+    dataField: 'alterationType',
+    text: 'Category',
+    headerStyle: { width: '160px' },
+  },
+  {
+    dataField: 'variantList',
+    text: 'Variant',
+    headerStyle: { width: '300px' },
+    formatter: (variants) => (
+      <div>
+        {(variants || []).map((variant) => {
+          const hgvs = variant.curatedVariantGenomicLocations?.[0]?.hgvs;
+          if (!hgvs) return null;
+          return (
+            <div
+              key={hgvs}
+              style={{ maxWidth: 280, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+              title={hgvs}
+            >
+              <Link to={`/variant/${hgvs}`}>{hgvs}</Link>
+            </div>
+          );
+        })}
+      </div>
+    ),
+  },
+  {
+    dataField: 'variantType',
+    text: 'Variant type',
+    headerStyle: { width: '150px' },
+    formatter: (_v, row) => (
+      <div>
+        {(row.variantList || []).map((variant) => {
+          const hgvs = variant.curatedVariantGenomicLocations?.[0]?.hgvs;
+          return <div key={hgvs}>{variant.variantType?.name?.replace(/_/g, ' ')}</div>;
+        })}
+      </div>
+    ),
+  },
+  {
+    dataField: 'molecularConsequence',
+    text: 'Molecular consequence',
+    headerStyle: { width: '180px' },
+    formatter: (_v, row) => (
+      <div>
+        {(row.variantList || []).map((variant) => {
+          const loc = variant.curatedVariantGenomicLocations?.[0];
+          const hgvs = loc?.hgvs;
+          const consequences =
+            loc?.predictedVariantConsequences?.flatMap((c) => c.vepConsequences?.map((v) => v.name) || []) || [];
+          const unique = [...new Set(consequences.map((c) => c.replace(/_/g, ' ')))];
+          return (
+            <div key={hgvs}>
+              <CollapsibleList collapsedSize={1}>{unique}</CollapsibleList>
+            </div>
+          );
+        })}
+      </div>
+    ),
+  },
 ];
+
+const VARIANT_FIELDS = new Set(['variantList', 'variantType', 'molecularConsequence']);
+
+const columnsForData = (data) => {
+  const anyVariants = (data || []).some((row) => (row.variantList || []).length > 0);
+  if (anyVariants) return baseColumns;
+  return baseColumns.filter((c) => !VARIANT_FIELDS.has(c.dataField));
+};
 
 const ReferenceAlleleTable = createReferenceTable({
   displayName: 'ReferenceAlleleTable',
   endpoint: 'alleles',
-  columns,
-  transform: (allele) => ({
-    species: allele.taxon,
-    symbol: allele.alleleSymbol?.displayText,
-    synonyms: synonymNames(allele),
-    mutationType: allele.alleleMutationTypes
-      ?.map((m) => m.mutationTypes?.map((t) => t.name))
-      .flat()
-      .filter(Boolean)
-      .join(', '),
-    molecularConsequence: allele.alleleMolecularConsequences
-      ?.map((c) => c.molecularConsequence?.name)
-      .filter(Boolean)
-      .join(', '),
-    source:
-      allele.dataProvider?.abbreviation ||
-      allele.dataProviderCrossReference?.resourceDescriptorPage?.resourceDescriptor?.name,
-    curie: allele.primaryExternalId,
+  columns: columnsForData,
+  transform: (row) => ({
+    species: row.allele?.taxon,
+    allele: row.allele,
+    synonyms: row.allele?.alleleSynonyms,
+    alterationType: row.alterationType,
+    variantList: row.variantList || [],
   }),
 });
 

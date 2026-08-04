@@ -16,7 +16,8 @@ const createReferenceTable = ({ endpoint, transform, columns, displayName, suppo
       ...transform(record),
       id: hash(record),
     }));
-    return <DataTable {...tableQuery} data={data} columns={columns} keyField="id" />;
+    const resolvedColumns = typeof columns === 'function' ? columns(data) : columns;
+    return <DataTable {...tableQuery} data={data} columns={resolvedColumns} keyField="id" />;
   };
 
   Table.displayName = displayName;
