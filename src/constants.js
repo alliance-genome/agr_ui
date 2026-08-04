@@ -12,7 +12,7 @@ export const VARIANT_CATEGORY = 'variant_search_result';
 export const MODEL_CATEGORY = 'model_search_result';
 export const DATASET_CATEGORY = 'htp_dataset_search_result';
 
-/* Wordpress REST API connection setting  */
+/* Wordpress REST API connection setting */
 export const WORDPRESS_REST_API_BASE = 'https://public-api.wordpress.com/wp/v2/sites/alliancegenome.wordpress.com';
 export const WORDPRESS_PAGE_BASE_URL = WORDPRESS_REST_API_BASE + '/pages?slug=';
 export const WORDPRESS_POST_BASE_URL = WORDPRESS_REST_API_BASE + '/posts';
@@ -426,8 +426,7 @@ export const SPECIES = [
     jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/zfin/zebrafish/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
     jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/zfin/zebrafish/',
-    jBrowseGffUrlTemplate:
-      'https://s3.amazonaws.com/agrjbrowse/docker/{release}/zfin/zebrafish/GFF_ZFIN.sorted.gff.gz',
+    jBrowseGffUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/docker/{release}/zfin/zebrafish/GFF_ZFIN.sorted.gff.gz',
     jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_000002035.6_GRCz11_genomic.fna.gz',
     jBrowsetracks: '_all_genes,_ht_variants,_variants',
     jBrowseOrthologyTracks:
