@@ -2,7 +2,6 @@ export const data = {
   human: {
     doid: 'DOID:4',
     pageName: 'Disease',
-    publications: [],
     resources: [
       {
         title: 'Disease Portals - Rat Genome Database',
@@ -22,29 +21,6 @@ export const data = {
   'alzheimers-disease': {
     doid: 'DOID:10652',
     pageName: "Alzheimer's Disease",
-    publications: [
-      {
-        curie: 'AGRKB:101000001189286',
-      },
-      {
-        curie: 'AGRKB:101000001188014',
-      },
-      {
-        curie: 'AGRKB:101000000971426',
-      },
-      {
-        curie: 'AGRKB:101000001201875',
-      },
-      {
-        curie: 'AGRKB:101000001185360',
-      },
-      {
-        curie: 'AGRKB:101000001163279',
-      },
-      {
-        curie: 'AGRKB:101000001197720',
-      },
-    ],
     resources: [
       {
         title: 'Age and Age-Related Disease Portal - Rat Genome Database',
@@ -65,7 +41,6 @@ export const data = {
   'parkinsons-disease': {
     doid: 'DOID:14330',
     pageName: "Parkinson's Disease",
-    publications: [],
     resources: [
       {
         title: 'Age and Age-Related Disease Portal - Rat Genome Database',
@@ -82,29 +57,6 @@ export const data = {
   'diabetes-mellitus': {
     doid: 'DOID:9351',
     pageName: 'Diabetes Mellitus',
-    publications: [
-      {
-        curie: 'AGRKB:101000001203478',
-      },
-      {
-        curie: 'AGRKB:101000001051122',
-      },
-      {
-        curie: 'AGRKB:101000000947661',
-      },
-      {
-        curie: 'AGRKB:101000001065373',
-      },
-      {
-        curie: 'AGRKB:101000001185272',
-      },
-      {
-        curie: 'AGRKB:101000001062370',
-      },
-      {
-        curie: 'AGRKB:101000001029539',
-      },
-    ],
     resources: [
       { title: 'American Diabetes Association (ADA)', url: 'https://professional.diabetes.org/' },
       { title: 'Broad Institute - Diabetes', url: 'https://www.broadinstitute.org/diabetes' },
