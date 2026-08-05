@@ -237,12 +237,12 @@ export const NAV_MENU = [
       },
       {
         label: 'Organization and Governance',
-        shortLabel: 'Organization / Governance',
+        shortLabel: 'Organization',
         route: '/organization-and-governance',
       },
       {
         label: 'Privacy, Warranty, Licensing, and Data Preservation Commitment',
-        shortLabel: 'Licensing, Privacy, etc',
+        shortLabel: 'Licensing, Privacy',
         route: '/privacy-warranty-licensing',
       },
     ],
