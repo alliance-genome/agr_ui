@@ -77,6 +77,20 @@ export const data = {
       { title: 'World Health Organization (WHO) - Diabetes', url: 'https://www.who.int/health-topics/diabetes' },
     ],
   },
+  'long-qt-syndrome': {
+    doid: 'DOID:2843',
+    pageName: 'Long QT Syndrome',
+    group: 'Heart disease',
+    listLabel: 'long QT syndrome',
+    resources: [
+      { title: 'Hearts in Rhythm Organization (HiRO)', url: 'https://heartsinrhythm.ca/' },
+      {
+        title: 'International LQTS Registry (University of Rochester)',
+        url: 'https://www.urmc.rochester.edu/clinical-cardiovascular-research/lqts-registry',
+      },
+      { title: 'SADS Foundation (Sudden Arrhythmia Death Syndromes)', url: 'https://sads.org/' },
+    ],
+  },
   'alzheimers-disease': {
     doid: 'DOID:10652',
     pageName: "Alzheimer's Disease",
