@@ -35,6 +35,26 @@ export const data = {
       { title: 'Portal Kids First DRC', url: 'https://portal.kidsfirstdrc.org/login?redirect_path=/data-exploration' },
     ],
   },
+  'colorectal-cancer': {
+    doid: 'DOID:9256',
+    pageName: 'Colorectal Cancer',
+    group: 'Cancer',
+    listLabel: 'colorectal cancer',
+    resources: [
+      { title: 'Colon Cancer Family Registry (CCFR)', url: 'https://coloncfr.org/' },
+      { title: 'Colorectal Cancer Alliance', url: 'https://colorectalcancer.org' },
+      {
+        title: 'Fight Colorectal Cancer - Research',
+        url: 'https://fightcolorectalcancer.org/our-programs/research-innovation/',
+      },
+      {
+        title: 'GECCO (Genetics and Epidemiology of Colorectal Cancer Consortium)',
+        url: 'https://research.fredhutch.org/peters/en/genetics-and-epidemiology-of-colorectal-cancer-consortium.html',
+      },
+      { title: 'NCI Advances in Colorectal Cancer Research', url: 'https://www.cancer.gov/types/colorectal/research' },
+      { title: 'NCI Genomic Data Commons (GDC)', url: 'https://gdc.cancer.gov/' },
+    ],
+  },
   'autism-spectrum-disorder': {
     doid: 'DOID:0060041',
     pageName: 'Autism Spectrum Disorder',
