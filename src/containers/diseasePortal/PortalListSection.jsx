@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useEntityButtonCounts } from './useEntityButtonCounts.js';
-import { data } from './portalData.js';
+import { data, portalsByGroup } from './portalData.js';
 import style from './style.module.scss';
 
 const PortalListItem = ({ portalKey, label }) => {
@@ -26,19 +26,18 @@ const PortalListItem = ({ portalKey, label }) => {
 const PortalListSection = () => {
   return (
     <ul style={{ fontSize: '1.2rem' }}>
-      <li>Disease of metabolism</li>
-      <li style={{ listStyleType: 'none' }}>
-        <ul>
-          <PortalListItem portalKey="diabetes-mellitus" label="diabetes mellitus" />
-        </ul>
-      </li>
-      <li>Neurodegenerative disease</li>
-      <li style={{ listStyleType: 'none' }}>
-        <ul>
-          <PortalListItem portalKey="alzheimers-disease" label="Alzheimer&#39;s disease" />
-          <PortalListItem portalKey="parkinsons-disease" label="Parkinson&#39;s disease" />
-        </ul>
-      </li>
+      {portalsByGroup().map((group) => (
+        <React.Fragment key={group.name}>
+          <li>{group.name}</li>
+          <li style={{ listStyleType: 'none' }}>
+            <ul>
+              {group.portals.map((portal) => (
+                <PortalListItem key={portal.slug} portalKey={portal.slug} label={portal.label} />
+              ))}
+            </ul>
+          </li>
+        </React.Fragment>
+      ))}
     </ul>
   );
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import style from './style.module.scss';
 import EntityButton from './EntityButton.jsx';
 import { useEntityButtonCounts } from './useEntityButtonCounts.js';
+import { isRootPortal } from './portalData.js';
 
 const DiseasePortalSection = ({ disease }) => {
   const url = `/api/disease/${disease.doid}/`;
@@ -9,20 +10,19 @@ const DiseasePortalSection = ({ disease }) => {
   const modelCount = useEntityButtonCounts(url + 'models_counts');
   const alleleCount = useEntityButtonCounts(url + 'alleles_counts');
 
-  const pageTitle =
-    disease.pageName === 'Disease'
-      ? 'Disease Portals'
-      : // <a href={`/disease/${disease.doid}`}>{`${disease.pageName} Portal`}</a>
-        `${disease.pageName} Portal`;
-  const speciesEntityButton =
-    disease.pageName === 'Disease' ? (
-      <EntityButton id="entity-species" to="/about-us" tooltip="View all associated species">
-        9<br />
-        Species
-      </EntityButton>
-    ) : (
-      ''
-    );
+  const isRoot = isRootPortal(disease);
+  const pageTitle = isRoot
+    ? 'Disease Portals'
+    : // <a href={`/disease/${disease.doid}`}>{`${disease.pageName} Portal`}</a>
+      `${disease.pageName} Portal`;
+  const speciesEntityButton = isRoot ? (
+    <EntityButton id="entity-species" to="/about-us" tooltip="View all associated species">
+      9<br />
+      Species
+    </EntityButton>
+  ) : (
+    ''
+  );
 
   return (
     <section className={`${style.section} ${style.searchBackground} shadow`}>

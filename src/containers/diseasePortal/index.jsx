@@ -42,6 +42,9 @@ const DiseasePortalPage = () => {
   // Passing a null url when there's no doid makes the query a no-op.
   const { data: diseaseApiData } = usePageLoadingQuery(diseaseData?.doid ? `/api/disease/${diseaseData.doid}` : null);
 
+  // pageName is required; fall back rather than render "undefined Portal"
+  const portalTitle = diseaseData?.pageName || diseaseApiData?.doTerm?.name || 'Disease';
+
   if (dname && !diseaseData) {
     return <NotFound />;
   }
@@ -49,7 +52,7 @@ const DiseasePortalPage = () => {
   if (!dname) {
     return (
       <div>
-        <HeadMetaTags title={`${diseaseData.pageName} Portal`} />
+        <HeadMetaTags title={`${portalTitle} Portal`} />
         <DiseasePortalSection disease={diseaseData} />
         <section className={style.section}>
           <div className={style.contentContainer}>
@@ -68,11 +71,9 @@ const DiseasePortalPage = () => {
     );
   }
 
-  const portalTitle = diseaseData.pageName;
-
   return (
     <div>
-      <HeadMetaTags title={`${diseaseData.pageName} Portal`} />
+      <HeadMetaTags title={`${portalTitle} Portal`} />
       <DiseasePortalSection disease={diseaseData} />
       <DataPage>
         <PageNav sections={makeSections(diseaseData.doid)}>
