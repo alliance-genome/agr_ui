@@ -86,7 +86,7 @@ const DiseasePortalPage = () => {
             <SummarySection disease={diseaseApiData} />
           </Subsection>
           <Subsection title={RECENT_PAPERS}>
-            <PapersSection diseaseName={diseaseApiData?.doTerm?.name} />
+            <PapersSection diseaseName={diseaseApiData?.doTerm?.name} queryOverride={diseaseData.papersQuery} />
           </Subsection>
           <Subsection title={COMMUNITY_RESOURCES}>
             <ResourcesSection disease={diseaseData} />

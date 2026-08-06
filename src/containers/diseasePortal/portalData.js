@@ -15,6 +15,12 @@ import { DISEASE_ROOT_CURIE } from '../ontologyBrowser/ontologies.js';
 //              Omit on the root entry.
 //   listLabel  optional. Label in the index, when it differs from pageName.
 //   resources  optional. Community Resources links.
+//   papersQuery optional. Overrides the Recent Papers query for portals whose
+//              name matches badly as free text. The endpoint requires every
+//              token in title/abstract, so a name built from common words
+//              ("long QT syndrome") pulls in unrelated papers; quoting the
+//              phrase anchors it. Used verbatim, skipping the normalization
+//              applied to a disease name. See RECENT_PAPERS_API.md.
 export const data = {
   human: {
     doid: DISEASE_ROOT_CURIE,
@@ -121,6 +127,7 @@ export const data = {
     pageName: 'Long QT Syndrome',
     group: 'Heart disease',
     listLabel: 'long QT syndrome',
+    papersQuery: '"long QT syndrome"',
     resources: [
       { title: 'Hearts in Rhythm Organization (HiRO)', url: 'https://heartsinrhythm.ca/' },
       {

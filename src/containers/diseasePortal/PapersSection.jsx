@@ -75,8 +75,9 @@ const normalizeDiseaseQuery = (name) => {
   return trimmed || name;
 };
 
-const PapersSection = ({ diseaseName }) => {
-  const query = normalizeDiseaseQuery(diseaseName);
+const PapersSection = ({ diseaseName, queryOverride }) => {
+  // An override is a curated query string, so it bypasses normalization.
+  const query = queryOverride || normalizeDiseaseQuery(diseaseName);
   const url = query
     ? `/api/reference/latest-literature-by-disease-per-mod?disease=${encodeURIComponent(query)}&latest=1`
     : null;
