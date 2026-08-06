@@ -64,7 +64,7 @@ export const data = {
   'alzheimers-disease': {
     doid: 'DOID:10652',
     pageName: "Alzheimer's Disease",
-    group: 'Neurodegenerative disease',
+    group: 'Nervous system disease',
     listLabel: "Alzheimer's disease",
     resources: [
       {
@@ -86,7 +86,7 @@ export const data = {
   'parkinsons-disease': {
     doid: 'DOID:14330',
     pageName: "Parkinson's Disease",
-    group: 'Neurodegenerative disease',
+    group: 'Nervous system disease',
     listLabel: "Parkinson's disease",
     resources: [
       {
