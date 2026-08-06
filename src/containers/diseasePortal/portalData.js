@@ -35,6 +35,22 @@ export const data = {
       { title: 'Portal Kids First DRC', url: 'https://portal.kidsfirstdrc.org/login?redirect_path=/data-exploration' },
     ],
   },
+  'autism-spectrum-disorder': {
+    doid: 'DOID:0060041',
+    pageName: 'Autism Spectrum Disorder',
+    group: 'Developmental disorder of mental health',
+    listLabel: 'autism spectrum disorder',
+    resources: [
+      { title: 'Autism BrainNet', url: 'https://autismbrainnet.org/' },
+      {
+        title: 'NIH Autism Data Science Initiative (ADSI)',
+        url: 'https://dpcpsi.nih.gov/autism-data-science-initiative/funded-research',
+      },
+      { title: 'NIMH Data Archive', url: 'https://nda.nih.gov/' },
+      { title: 'SFARI Gene', url: 'https://gene.sfari.org/' },
+      { title: 'SPARK (Simons Foundation Powering Autism Research)', url: 'https://sparkforautism.org/' },
+    ],
+  },
   'diabetes-mellitus': {
     doid: 'DOID:9351',
     pageName: 'Diabetes Mellitus',
