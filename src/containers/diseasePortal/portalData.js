@@ -99,6 +99,24 @@ export const data = {
       { title: 'OMIM', url: 'https://omim.org/entry/104300' },
     ],
   },
+  epilepsy: {
+    doid: 'DOID:1826',
+    pageName: 'Epilepsy',
+    group: 'Nervous system disease',
+    listLabel: 'epilepsy',
+    resources: [
+      { title: 'American Epilepsy Society', url: 'https://aesnet.org' },
+      {
+        title: 'CURE Epilepsy - Epilepsy Genetics Initiative (EGI)',
+        url: 'https://www.cureepilepsy.org/our-research/epilepsy-genetics-initiative/',
+      },
+      { title: 'Epi25 Collaborative', url: 'https://epi-25.org/' },
+      {
+        title: 'NINDS Focus on Epilepsy Research',
+        url: 'https://www.ninds.nih.gov/current-research/focus-disorders/focus-epilepsy-research',
+      },
+    ],
+  },
   'parkinsons-disease': {
     doid: 'DOID:14330',
     pageName: "Parkinson's Disease",
