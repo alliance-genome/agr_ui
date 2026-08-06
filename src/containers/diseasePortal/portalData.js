@@ -77,6 +77,25 @@ export const data = {
       { title: 'World Health Organization (WHO) - Diabetes', url: 'https://www.who.int/health-topics/diabetes' },
     ],
   },
+  ciliopathy: {
+    doid: 'DOID:0060340',
+    pageName: 'Ciliopathy',
+    group: 'Genetic disease',
+    listLabel: 'ciliopathy',
+    resources: [
+      { title: 'Ciliopathy Alliance', url: 'https://ciliopathyalliance.org/' },
+      {
+        title: 'NCI/NEI ciliopathy gene-therapy research news (NIH intramural)',
+        url: 'https://www.nih.gov/news-events/news-releases/nih-researchers-develop-gene-therapy-rare-ciliopathy',
+      },
+      { title: 'PCD Research', url: 'https://pcdresearch.org/' },
+      {
+        title: 'Rare Diseases Clinical Research Network (RDCRN) - NIH/NCATS',
+        url: 'https://www.rarediseasesnetwork.org/',
+      },
+      { title: 'TheRaCil (Therapies for Renal Ciliopathies)', url: 'https://theracil.eu/' },
+    ],
+  },
   'long-qt-syndrome': {
     doid: 'DOID:2843',
     pageName: 'Long QT Syndrome',
