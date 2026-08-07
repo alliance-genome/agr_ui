@@ -174,6 +174,12 @@ const ReferencePage = () => {
 
       <PageData>
         <PageCategoryLabel category="reference" />
+        {/* set to one of the retraction types, and absent otherwise */}
+        {ref.retraction_status && (
+          <div className={`alert alert-danger ${styles.retractionBanner}`} role="alert">
+            This reference has been retracted. Some or all of the associated data have been removed.
+          </div>
+        )}
         <PageHeader>
           <ApplySpeciesNameFormat text={ref.title} />
         </PageHeader>
