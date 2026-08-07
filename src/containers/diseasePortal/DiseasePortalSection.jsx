@@ -42,11 +42,7 @@ const DiseasePortalSection = ({ disease }) => {
           <li><Link to='/help#how'>More...</Link></li>
         </ul> */}
         <div className="d-flex justify-content-around flex-wrap">
-          <EntityButton
-            id="entity-diseases"
-            to="/search?q=&category=disease_search_result"
-            tooltip="View all diseases"
-          >
+          <EntityButton id="entity-diseases" to="/search?q=&category=disease_search_result" tooltip="View all diseases">
             <div>{diseaseCount ? diseaseCount.toLocaleString() : ''}</div>
             Diseases
           </EntityButton>
