@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import CountBadge from './CountBadge.jsx';
@@ -17,6 +18,7 @@ const OntologyTree = ({
   onSelect,
   scrollOnFocus = true,
   onFocusMounted,
+  nodeHref,
 }) => {
   const [open, setOpen] = useState(false);
   const rowRef = useRef(null);
@@ -68,6 +70,10 @@ const OntologyTree = ({
   // loses it a moment later when the batched fetch reports zero children.
   const hasChildren = childTerms.length > 0 || (data?.doTerm?.descendantCount || 0) > 0;
   const isFocused = focusedCurie === curie;
+  // Embedded viewers (the disease portal) link every label out to the full
+  // browser, since they have no detail panel of their own. The standalone
+  // omits nodeHref and keeps rendering a plain span that selects in place.
+  const nodeUrl = nodeHref ? nodeHref(curie) : null;
 
   const toggle = (e) => {
     e.stopPropagation();
@@ -94,7 +100,13 @@ const OntologyTree = ({
         ) : (
           <span className={style.toggleSpacer} />
         )}
-        <span>{name}</span>
+        {nodeUrl ? (
+          <Link to={nodeUrl} onClick={(e) => e.stopPropagation()}>
+            {name}
+          </Link>
+        ) : (
+          <span>{name}</span>
+        )}
         <span className={style.curie}>&nbsp;{curie}</span>
         <span className={style.badgeRow}>
           {ANNOTATION_TYPES.map((t) => (
@@ -117,6 +129,7 @@ const OntologyTree = ({
                 onSelect={onSelect}
                 scrollOnFocus={scrollOnFocus}
                 onFocusMounted={onFocusMounted}
+                nodeHref={nodeHref}
               />
             ))}
         </div>
@@ -134,6 +147,7 @@ OntologyTree.propTypes = {
   onSelect: PropTypes.func.isRequired,
   scrollOnFocus: PropTypes.bool,
   onFocusMounted: PropTypes.func,
+  nodeHref: PropTypes.func,
 };
 
 export default OntologyTree;
