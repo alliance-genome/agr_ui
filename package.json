@@ -165,7 +165,7 @@
       "react-dom": "$react-dom"
     },
     "core-js": "$core-js",
-    "underscore": "1.13.8",
-    "dompurify": "3.4.13"
+    "underscore": "^1.13.8",
+    "dompurify": "^3.4.13"
   }
 }
