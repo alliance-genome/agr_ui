@@ -6,6 +6,7 @@ import { isRootPortal } from './portalData.js';
 
 const DiseasePortalSection = ({ disease }) => {
   const url = `/api/disease/${disease.doid}/`;
+  const diseaseCount = useEntityButtonCounts('/api/disease/annotated-count');
   const geneCount = useEntityButtonCounts(url + 'genes_counts');
   const modelCount = useEntityButtonCounts(url + 'models_counts');
   const alleleCount = useEntityButtonCounts(url + 'alleles_counts');
@@ -41,6 +42,10 @@ const DiseasePortalSection = ({ disease }) => {
           <li><Link to='/help#how'>More...</Link></li>
         </ul> */}
         <div className="d-flex justify-content-around flex-wrap">
+          <EntityButton id="entity-diseases" to="/search?q=&category=disease_search_result" tooltip="View all diseases">
+            <div>{diseaseCount ? diseaseCount.toLocaleString() : ''}</div>
+            Diseases
+          </EntityButton>
           <EntityButton
             id="entity-models"
             to={`/disease/${disease.doid}#associated-models`}
