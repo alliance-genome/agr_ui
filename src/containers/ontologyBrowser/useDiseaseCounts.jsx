@@ -4,7 +4,8 @@ import fetchData from '../../lib/fetchData';
 
 const Ctx = createContext(null);
 const DEBOUNCE_MS = 40;
-const MAX_BATCH = 200;
+// Same WAF ceiling the term provider hits — over ~1800 chars the request 403s.
+const MAX_BATCH = 80;
 
 export const CountsProvider = ({ children }) => {
   const [counts, setCounts] = useState({});
