@@ -162,6 +162,7 @@
       "react": "$react",
       "react-dom": "$react-dom"
     },
-    "core-js": "^3.45.0"
+    "core-js": "^3.45.0",
+    "underscore": "1.12.1"
   }
 }
