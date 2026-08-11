@@ -40,6 +40,7 @@ import fetchData from '../fetchData';
 import PaginationCountAndDropdown from '@agr-tanstack-react-table/components/PaginationCountAndDropdown.tsx';
 import PageSelector from '@agr-tanstack-react-table/components/PageSelector.tsx';
 import { sectionAnchor } from '../../containers/allelePage/AlleleMolecularConsequences';
+import NoData from '../../components/noData';
 
 export type InteractiveTableQueryProps = {
   baseUrl: string;
@@ -73,6 +74,7 @@ type InteractiveTableProps<DataType> = {
   };
   query?: InteractiveTableQueryProps;
   sortable?: boolean;
+  noDataMessage?: string;
 };
 
 type MultiTextInputFilterValue = {
@@ -103,6 +105,7 @@ const AllianceInteractiveTable = <TData extends RowData>({
   download,
   query: queryProps,
   sortable = false,
+  noDataMessage = 'No data available',
 }: InteractiveTableProps<TData>): ReactNode => {
   const [queryKeys, setQueryKeys] = useState<unknown[]>([]);
   const [queryParams, setQueryParams] = useState('');
@@ -149,6 +152,9 @@ const AllianceInteractiveTable = <TData extends RowData>({
       },
     },
   });
+
+  console.log("COLDEFS", columns);
+  console.log("COLOBJS", table.getAllColumns());
 
   const initialSettings = {
     columnOrder: table.getAllLeafColumns().map((c) => c.id),
@@ -231,6 +237,10 @@ const AllianceInteractiveTable = <TData extends RowData>({
   );
 
   if (JSON.stringify(table.getState()) === '{}') return null;
+
+  if ((useFrontendLogic || !query.isFetching) && table.getRowCount() === 0) {
+    return <NoData>{noDataMessage}</NoData>;
+  }
 
   // reorder columns after drag & drop
   function handleDragEnd(event: DragEndEvent) {

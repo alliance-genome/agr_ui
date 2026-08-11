@@ -6,10 +6,8 @@ import { CollapsibleList } from '../../components/collapsibleList';
 import Translation from './Translation.jsx';
 import VariantEffectDetails from './VariantEffectDetails.jsx';
 import styles from './style.module.scss';
-import useDataTableQuery from '../../hooks/useDataTableQuery';
 import { createChildRowEnabledHelper } from '@agr-tanstack-react-table';
 import AllianceInteractiveTable from '@agr-tanstack-react-table/AllianceInteractiveTable.tsx';
-import tab from 'bootstrap/js/src/tab.js';
 import { DEFAULT_TABLE_STATE } from '../../constants';
 
 //TODO: tanstack table merge conflict resolution continue
@@ -33,6 +31,7 @@ const newColumns = [
         {props.row.getIsExpanded() ? 'Hide details' : 'Show details'}
       </button>
     ),
+    meta: { width: '120px' },
   }),
   tableHelper.accessor('name', {
     header: 'Sequence Feature',
@@ -344,13 +343,13 @@ const VariantToTranscriptTable = ({ variant, variantHgvs, variantType }) => {
   };
 
   const ExpandedRow = ({ rowData: row }) => {
-    const { consequences = [], ...transcript } = row;
+    const { consequences = [], original, ...transcript } = row;
     return consequences.map((consequence, index) => (
       <VariantEffectDetails
         consequence={consequence}
         key={`${transcript.id}-${index}`}
         transcript={transcript}
-        variant={variant}
+        variant={{ ...original, hgvs: variantHgvs, variantType }}
       />
     ));
   };
@@ -365,9 +364,9 @@ const VariantToTranscriptTable = ({ variant, variantHgvs, variantType }) => {
     const geneAssoc = transcript.transcriptGeneAssociations?.[0]?.transcriptGeneAssociationObject;
     const gene = geneAssoc
       ? {
-        id: geneAssoc.curie || geneAssoc.primaryExternalId,
-        symbol: geneAssoc.geneSymbol?.displayText,
-      }
+          id: geneAssoc.curie || geneAssoc.primaryExternalId,
+          symbol: geneAssoc.geneSymbol?.displayText,
+        }
       : null;
 
     return {
@@ -434,7 +433,8 @@ const VariantToTranscriptTable = ({ variant, variantHgvs, variantType }) => {
       <AllianceInteractiveTable
         id="allele-to-variant-table"
         columns={newColumns}
-        query={{ baseUrl: `/api/variant/${variantId}/transcripts` }}
+        // query={{ baseUrl: `/api/variant/${variantId}/transcripts` }}
+        data={allData}
         ExpandedRowComponent={ExpandedRow}
         fullWidth
       />
