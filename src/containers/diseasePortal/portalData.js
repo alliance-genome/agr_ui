@@ -12,7 +12,8 @@ import { DISEASE_ROOT_CURIE } from '../ontologyBrowser/ontologies.js';
 //              Not taken from the API: /api/disease/DOID:4 is named "disease",
 //              and the title has to render before that query resolves.
 //   group      parent-disease heading this portal appears under in the index.
-//              Omit on the root entry.
+//              Uses the DO slim term behind the gene-page disease ribbon, so
+//              headings match the buckets curators see there. Omit on the root.
 //   listLabel  optional. Label in the index, when it differs from pageName.
 //   resources  optional. Community Resources links.
 //   papersQuery optional. Overrides the Recent Papers query for portals whose
@@ -64,7 +65,7 @@ export const data = {
   'autism-spectrum-disorder': {
     doid: 'DOID:0060041',
     pageName: 'Autism Spectrum Disorder',
-    group: 'Developmental disorder of mental health',
+    group: 'Disease of mental health',
     listLabel: 'autism spectrum disorder',
     resources: [
       { title: 'Autism BrainNet', url: 'https://autismbrainnet.org/' },
@@ -106,7 +107,7 @@ export const data = {
   ciliopathy: {
     doid: 'DOID:0060340',
     pageName: 'Ciliopathy',
-    group: 'Genetic disease',
+    group: 'Monogenic disease',
     listLabel: 'ciliopathy',
     resources: [
       { title: 'Ciliopathy Alliance', url: 'https://ciliopathyalliance.org/' },
@@ -125,7 +126,7 @@ export const data = {
   'long-qt-syndrome': {
     doid: 'DOID:2843',
     pageName: 'Long QT Syndrome',
-    group: 'Heart disease',
+    group: 'Cardiovascular system disease',
     listLabel: 'long QT syndrome',
     papersQuery: '"long QT syndrome"',
     resources: [
@@ -140,7 +141,7 @@ export const data = {
   'alzheimers-disease': {
     doid: 'DOID:10652',
     pageName: "Alzheimer's Disease",
-    group: 'Nervous system disease',
+    group: 'Central nervous system disease',
     listLabel: "Alzheimer's disease",
     resources: [
       {
@@ -162,7 +163,7 @@ export const data = {
   epilepsy: {
     doid: 'DOID:1826',
     pageName: 'Epilepsy',
-    group: 'Nervous system disease',
+    group: 'Central nervous system disease',
     listLabel: 'epilepsy',
     resources: [
       { title: 'American Epilepsy Society', url: 'https://aesnet.org' },
@@ -180,7 +181,7 @@ export const data = {
   'parkinsons-disease': {
     doid: 'DOID:14330',
     pageName: "Parkinson's Disease",
-    group: 'Nervous system disease',
+    group: 'Central nervous system disease',
     listLabel: "Parkinson's disease",
     resources: [
       {
