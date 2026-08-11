@@ -17,11 +17,13 @@ import { DISEASE_ROOT_CURIE } from '../ontologyBrowser/ontologies.js';
 //   listLabel  optional. Label in the index, when it differs from pageName.
 //   resources  optional. Community Resources links.
 //   papersQuery optional. Overrides the Recent Papers query for portals whose
-//              name matches badly as free text. The endpoint requires every
-//              token in title/abstract, so a name built from common words
-//              ("long QT syndrome") pulls in unrelated papers; quoting the
-//              phrase anchors it. Used verbatim, skipping the normalization
-//              applied to a disease name. See RECENT_PAPERS_API.md.
+//              name matches badly as free text. The endpoint matches loosely and
+//              fills every MOD slot even with no real match, so a name built from
+//              common words pulls in unrelated papers: quote it to force a phrase
+//              match ("long QT syndrome"), or cut it to the distinctive token
+//              when that phrase is itself rare in the MOD corpora (autism). Used
+//              verbatim, skipping the normalization applied to a disease name.
+//              See RECENT_PAPERS_API.md.
 export const data = {
   human: {
     doid: DISEASE_ROOT_CURIE,
@@ -67,6 +69,7 @@ export const data = {
     pageName: 'Autism Spectrum Disorder',
     group: 'Disease of mental health',
     listLabel: 'autism spectrum disorder',
+    papersQuery: 'autism',
     resources: [
       { title: 'Autism BrainNet', url: 'https://autismbrainnet.org/' },
       {
