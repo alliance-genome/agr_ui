@@ -61,12 +61,10 @@ const PaperEntry = ({ reference }) => {
   );
 };
 
-// The endpoint matches the disease name as free text against title + abstract,
-// requiring all tokens. A trailing "disease" token therefore excludes on-topic
-// papers that don't repeat the word (e.g. "Alzheimer's disease" misses papers
-// titled "...Implications for Alzheimer") and lets the common word "disease"
-// pull in tangential papers. Drop a trailing "disease" word so the query anchors
-// on the distinctive part of the name. See RECENT_PAPERS_API.md.
+// The endpoint matches the disease name loosely against title + abstract and
+// fills every corpus slot even with no real match, so a common trailing token
+// like "disease" injects tangential papers rather than narrowing. Drop it so the
+// query anchors on the distinctive part of the name. See RECENT_PAPERS_API.md.
 const normalizeDiseaseQuery = (name) => {
   if (!name) {
     return name;

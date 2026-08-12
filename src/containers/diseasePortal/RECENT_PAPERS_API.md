@@ -201,9 +201,9 @@ rows, so expect some drift when spot-checking.
 
 ### Query normalization: strip a trailing "disease" token
 
-A trailing `disease` word both **excludes** on-topic papers that don't repeat the
-word and lets the common word `disease` pull in **tangential** papers. So
-`PapersSection` strips a trailing `disease` token before querying
+Under the loose matching above, a trailing `disease` word is a common token that
+pulls **tangential** papers into slots that would otherwise hold an on-topic one.
+So `PapersSection` strips a trailing `disease` token before querying
 (`/\s+disease$/i`):
 
 | `doTerm.name`         | Query sent                                                 |
