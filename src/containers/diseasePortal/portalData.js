@@ -12,9 +12,18 @@ import { DISEASE_ROOT_CURIE } from '../ontologyBrowser/ontologies.js';
 //              Not taken from the API: /api/disease/DOID:4 is named "disease",
 //              and the title has to render before that query resolves.
 //   group      parent-disease heading this portal appears under in the index.
-//              Omit on the root entry.
+//              Uses the DO slim term behind the gene-page disease ribbon, so
+//              headings match the buckets curators see there. Omit on the root.
 //   listLabel  optional. Label in the index, when it differs from pageName.
 //   resources  optional. Community Resources links.
+//   papersQuery optional. Overrides the Recent Papers query for portals whose
+//              name matches badly as free text. The endpoint matches loosely and
+//              fills every MOD slot even with no real match, so a name built from
+//              common words pulls in unrelated papers: quote it to force a phrase
+//              match ("long QT syndrome"), or cut it to the distinctive token
+//              when that phrase is itself rare in the MOD corpora (autism). Used
+//              verbatim, skipping the normalization applied to a disease name.
+//              See RECENT_PAPERS_API.md.
 export const data = {
   human: {
     doid: DISEASE_ROOT_CURIE,
@@ -33,6 +42,43 @@ export const data = {
       { title: 'ModelMatcher', url: 'https://www.modelmatcher.net/' },
       { title: 'Online Mendelian Inheritance of Man (OMIM)', url: 'https://www.omim.org/' },
       { title: 'Portal Kids First DRC', url: 'https://portal.kidsfirstdrc.org/login?redirect_path=/data-exploration' },
+    ],
+  },
+  'colorectal-cancer': {
+    doid: 'DOID:9256',
+    pageName: 'Colorectal Cancer',
+    group: 'Cancer',
+    listLabel: 'colorectal cancer',
+    resources: [
+      { title: 'Colon Cancer Family Registry (CCFR)', url: 'https://coloncfr.org/' },
+      { title: 'Colorectal Cancer Alliance', url: 'https://colorectalcancer.org' },
+      {
+        title: 'Fight Colorectal Cancer - Research',
+        url: 'https://fightcolorectalcancer.org/our-programs/research-innovation/',
+      },
+      {
+        title: 'GECCO (Genetics and Epidemiology of Colorectal Cancer Consortium)',
+        url: 'https://research.fredhutch.org/peters/en/genetics-and-epidemiology-of-colorectal-cancer-consortium.html',
+      },
+      { title: 'NCI Advances in Colorectal Cancer Research', url: 'https://www.cancer.gov/types/colorectal/research' },
+      { title: 'NCI Genomic Data Commons (GDC)', url: 'https://gdc.cancer.gov/' },
+    ],
+  },
+  'autism-spectrum-disorder': {
+    doid: 'DOID:0060041',
+    pageName: 'Autism Spectrum Disorder',
+    group: 'Disease of mental health',
+    listLabel: 'autism spectrum disorder',
+    papersQuery: 'autism',
+    resources: [
+      { title: 'Autism BrainNet', url: 'https://autismbrainnet.org/' },
+      {
+        title: 'NIH Autism Data Science Initiative (ADSI)',
+        url: 'https://dpcpsi.nih.gov/autism-data-science-initiative/funded-research',
+      },
+      { title: 'NIMH Data Archive', url: 'https://nda.nih.gov/' },
+      { title: 'SFARI Gene', url: 'https://gene.sfari.org/' },
+      { title: 'SPARK (Simons Foundation Powering Autism Research)', url: 'https://sparkforautism.org/' },
     ],
   },
   'diabetes-mellitus': {
@@ -61,10 +107,44 @@ export const data = {
       { title: 'World Health Organization (WHO) - Diabetes', url: 'https://www.who.int/health-topics/diabetes' },
     ],
   },
+  ciliopathy: {
+    doid: 'DOID:0060340',
+    pageName: 'Ciliopathy',
+    group: 'Monogenic disease',
+    listLabel: 'ciliopathy',
+    resources: [
+      { title: 'Ciliopathy Alliance', url: 'https://ciliopathyalliance.org/' },
+      {
+        title: 'NCI/NEI ciliopathy gene-therapy research news (NIH intramural)',
+        url: 'https://www.nih.gov/news-events/news-releases/nih-researchers-develop-gene-therapy-rare-ciliopathy',
+      },
+      { title: 'PCD Research', url: 'https://pcdresearch.org/' },
+      {
+        title: 'Rare Diseases Clinical Research Network (RDCRN) - NIH/NCATS',
+        url: 'https://www.rarediseasesnetwork.org/',
+      },
+      { title: 'TheRaCil (Therapies for Renal Ciliopathies)', url: 'https://theracil.eu/' },
+    ],
+  },
+  'long-qt-syndrome': {
+    doid: 'DOID:2843',
+    pageName: 'Long QT Syndrome',
+    group: 'Cardiovascular system disease',
+    listLabel: 'long QT syndrome',
+    papersQuery: '"long QT syndrome"',
+    resources: [
+      { title: 'Hearts in Rhythm Organization (HiRO)', url: 'https://heartsinrhythm.ca/' },
+      {
+        title: 'International LQTS Registry (University of Rochester)',
+        url: 'https://www.urmc.rochester.edu/clinical-cardiovascular-research/lqts-registry',
+      },
+      { title: 'SADS Foundation (Sudden Arrhythmia Death Syndromes)', url: 'https://sads.org/' },
+    ],
+  },
   'alzheimers-disease': {
     doid: 'DOID:10652',
     pageName: "Alzheimer's Disease",
-    group: 'Neurodegenerative disease',
+    group: 'Central nervous system disease',
     listLabel: "Alzheimer's disease",
     resources: [
       {
@@ -83,10 +163,28 @@ export const data = {
       { title: 'OMIM', url: 'https://omim.org/entry/104300' },
     ],
   },
+  epilepsy: {
+    doid: 'DOID:1826',
+    pageName: 'Epilepsy',
+    group: 'Central nervous system disease',
+    listLabel: 'epilepsy',
+    resources: [
+      { title: 'American Epilepsy Society', url: 'https://aesnet.org' },
+      {
+        title: 'CURE Epilepsy - Epilepsy Genetics Initiative (EGI)',
+        url: 'https://www.cureepilepsy.org/our-research/epilepsy-genetics-initiative/',
+      },
+      { title: 'Epi25 Collaborative', url: 'https://epi-25.org/' },
+      {
+        title: 'NINDS Focus on Epilepsy Research',
+        url: 'https://www.ninds.nih.gov/current-research/focus-disorders/focus-epilepsy-research',
+      },
+    ],
+  },
   'parkinsons-disease': {
     doid: 'DOID:14330',
     pageName: "Parkinson's Disease",
-    group: 'Neurodegenerative disease',
+    group: 'Central nervous system disease',
     listLabel: "Parkinson's disease",
     resources: [
       {

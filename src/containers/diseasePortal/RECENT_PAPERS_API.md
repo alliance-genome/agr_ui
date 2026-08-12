@@ -63,6 +63,45 @@ and additionally dedupes repeated curies (the backend can return one paper in
 two corpus slots). The clean long-term fix is backend-side (exclude `AGR` from
 the per-corpus grouping, or expose which slot each paper filled).
 
+### Backend follow-ups (needs discussion — do NOT implement UI-side)
+
+Two known problems with per-corpus selection. Both belong in the API, because
+selection is where the ranking already happens; the UI can only compensate for
+it. Recorded Aug 11 2026, pending discussion.
+
+**1. Exclude the `AGR` corpus from per-corpus grouping** (or expose which slot
+each paper filled). This is the duplicate-row problem above; it would retire the
+~18-line redundancy filter in `PapersSection.jsx`.
+
+**2. Filter out reviews — ideally a param** (`excludeTypes=Review` /
+`includeReviews=false`) rather than hardcoded, so the behavior stays visible to
+callers. Curator request, Aug 11 2026: papers with a PubMed publication type of
+`Review` are frequently the newest hit for a corpus while being only marginally
+on-topic, since a review can name-drop a disease once in a list of conditions.
+
+Measured on the autism portal (`disease=autism&latest=1`): 2 of 8 rows are
+reviews — MGI (`P-Rex Rac-GEFs`, autism appears once, in "linked to fibrotic
+diseases, asthma, and autism spectrum disorders") and SGD (`A comprehensive
+review on DDX3X liquid phase condensation…`). The next non-review MGI paper is
+`AGRKB:101000001305569`, "Cortical development dynamics across autism spectrum
+disorder mouse models" (_Nature_, 2026-08-01) — squarely on topic, and only one
+month older, so almost no freshness is lost.
+
+`pubmed_types` is already in the response (e.g.
+`['Journal Article', 'Review']`), so this is _technically_ doable in the UI —
+but it shouldn't be, for three reasons:
+
+- With `latest=1` the backend sends only the newest paper per corpus, so
+  filtering **removes** the row rather than replacing it: the mouse and yeast
+  rows would simply disappear. A UI fix therefore has to over-fetch
+  (`latest=5`+) and re-run the per-corpus pick, duplicating backend logic and
+  inflating the payload ~5×.
+- Even then it silently drops a species whenever every fetched paper for a
+  corpus happens to be a review.
+- Match on the exact string `Review`. `pubmed_types` also carries values like
+  `Research Support, Non-U.S. Gov't` alongside `Journal Article`; a substring
+  match would additionally catch things like `Scientific Integrity Review`.
+
 ## Response
 
 Standard `JsonResultResponse` envelope:
@@ -111,29 +150,61 @@ The component reads exactly what it renders:
   the **authoritative** species source (set by the curator pipeline), replacing
   the old fragile cross-reference-prefix guessing. Fixed map:
 
-  | Corpus | Species (drives `<SpeciesIcon>`)                             |
-  | ------ | ------------------------------------------------------------ |
-  | MGI    | `Mus musculus`                                               |
-  | RGD    | `Homo sapiens` _(rat corpus is shown as Human, per curator)_ |
-  | XB     | `Xenopus tropicalis`                                         |
-  | ZFIN   | `Danio rerio`                                                |
-  | FB     | `Drosophila melanogaster`                                    |
-  | WB     | `Caenorhabditis elegans`                                     |
-  | SGD    | `Saccharomyces cerevisiae`                                   |
+  | Corpus | Species (drives `<SpeciesIcon>`)                                   |
+  | ------ | ------------------------------------------------------------------ |
+  | MGI    | `Mus musculus`                                                     |
+  | RGD    | `Rattus norvegicus` _(per curator, June 2026; was `Homo sapiens`)_ |
+  | XB     | `Xenopus tropicalis`                                               |
+  | ZFIN   | `Danio rerio`                                                      |
+  | FB     | `Drosophila melanogaster`                                          |
+  | WB     | `Caenorhabditis elegans`                                           |
+  | SGD    | `Saccharomyces cerevisiae`                                         |
 
   `AGR` (Alliance central corpus) has no species of its own and is ignored; if a
   paper maps to no MOD species, the icon falls back to `Homo sapiens`.
+
+  The icon reflects **corpus membership, not the paper's study species** — RGD
+  curates human disease literature alongside rat, so an RGD row is occasionally a
+  human clinical-genetics paper wearing a rat icon (measured Aug 11 2026 across
+  all portals: 2 of 8 — ciliopathy, a RAB34 compound-heterozygous variant paper,
+  and long QT, a KCNH2 patient frameshift paper; the other 6 are rat studies). No
+  fixed per-corpus icon avoids this, and it is the same class of problem as the
+  review filter above: the honest fix is a per-paper species signal from the API
+  rather than a per-corpus guess. `Rattus norvegicus` is the better default at
+  6/8, which is why the curator switched to it in June 2026.
 
 The disease name is sourced from the page's existing `/api/disease/{doid}` query
 (`doTerm.name`), so no new lookup table is needed. The root portal (DOID:4) never
 renders this section (it only appears on detail routes).
 
+### Matching behavior (corrected Aug 11 2026)
+
+An earlier version of this document stated that the endpoint requires **all**
+tokens of the query to match. **That is wrong.** Measured behavior:
+
+- Matching is **loose**, and the backend **fills every corpus slot even when
+  nothing genuinely matches**. So extra tokens actively inject junk rather than
+  narrowing: `autism spectrum disorder` returned a "broad-**spectrum**
+  antibacterial" paper for WB and a Xenopus "pigmentary **disorders**" paper.
+- **Quoting forces a phrase match**, and it works: `"long QT syndrome"` returns
+  KCNH2 arrhythmia, KV7.1/KCNE1 and CALM1/2 papers, where the unquoted name
+  returns kidney-aging and yeast-plasmid papers.
+- But quoting only helps when the phrase is reasonably common in the MOD
+  corpora. For autism it changed nothing, while cutting the query to the single
+  distinctive token `autism` went from 6 mostly-noise rows to 8 on-topic ones.
+
+Hence the two knobs: the trailing-"disease" strip below, and the per-portal
+`papersQuery` override in `portalData.js` (quote the phrase, or cut to the
+distinctive token — whichever the corpora reward). Note the endpoint is not
+fully deterministic: two identical requests minutes apart returned different XB
+rows, so expect some drift when spot-checking.
+
 ### Query normalization: strip a trailing "disease" token
 
-Because the endpoint requires **all** tokens of the query to match, a trailing
-`disease` word both **excludes** on-topic papers that don't repeat the word and
-lets the common word `disease` pull in **tangential** papers. So `PapersSection`
-strips a trailing `disease` token before querying (`/\s+disease$/i`):
+Under the loose matching above, a trailing `disease` word is a common token that
+pulls **tangential** papers into slots that would otherwise hold an on-topic one.
+So `PapersSection` strips a trailing `disease` token before querying
+(`/\s+disease$/i`):
 
 | `doTerm.name`         | Query sent                                                 |
 | --------------------- | ---------------------------------------------------------- |
