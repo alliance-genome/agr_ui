@@ -117,7 +117,8 @@ const OntologyTree = ({
       {open && childTerms.length > 0 && (
         <div className={style.children}>
           {[...childTerms]
-            .sort((a, b) => (a.name || '').localeCompare(b.name || ''))
+            // numeric: true so "ataxia 2" sorts before "ataxia 10"
+            .sort((a, b) => (a.name || '').localeCompare(b.name || '', undefined, { numeric: true }))
             .map((c) => (
               <OntologyTree
                 key={c.curie}
