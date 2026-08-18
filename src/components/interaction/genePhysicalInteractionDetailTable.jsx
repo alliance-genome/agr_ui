@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DataTable, GeneCellCuration, SpeciesCell } from '../dataTable';
+import { DataTable, GeneCellCuration, ReferenceList, SpeciesCell } from '../dataTable';
 import SpeciesName from '../SpeciesName.jsx';
 import { getIdentifier } from '../dataTable/utils.jsx';
 import { buildUrlFromTemplate } from '../../lib/utils.js';
@@ -112,8 +112,18 @@ const GenePhysicalInteractionDetailTable = ({ focusGeneDisplayName, focusGeneId 
       filterName: 'source',
     },
     {
-      dataField: 'geneMolecularInteraction.evidence',
+      // dummy field: the Reference ID column below owns the real evidence dataField
+      dataField: 'referenceCitation',
+      isDummyField: true,
       text: 'Reference',
+      formatter: (_, row) => <ReferenceList refs={row.geneMolecularInteraction?.evidence} />,
+      headerStyle: { width: '11em' },
+      headerClasses: style.columnHeaderGroup3,
+      classes: style.columnGroup3,
+    },
+    {
+      dataField: 'geneMolecularInteraction.evidence',
+      text: 'Reference ID',
       // eslint-disable-next-line react/prop-types
       formatter: (reference) => {
         if (!reference || !reference.length) return null;

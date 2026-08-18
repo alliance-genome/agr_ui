@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { DataTable, GeneCellCuration, SpeciesCell } from '../dataTable';
+import { DataTable, GeneCellCuration, ReferenceList, SpeciesCell } from '../dataTable';
 import { getIdentifier } from '../dataTable/utils.jsx';
 import { buildUrlFromTemplate } from '../../lib/utils.js';
 import SpeciesName from '../SpeciesName.jsx';
@@ -183,8 +183,18 @@ const GeneGeneticInteractionDetailTable = ({ focusGeneId, focusGeneDisplayName }
         filterName: 'source',
       },
       {
-        dataField: 'geneGeneticInteraction.evidence',
+        // dummy field: the Reference ID column below owns the real evidence dataField
+        dataField: 'referenceCitation',
+        isDummyField: true,
         text: 'Reference',
+        headerStyle: {
+          width: '180px',
+        },
+        formatter: (_, row) => <ReferenceList refs={row.geneGeneticInteraction?.evidence} />,
+      },
+      {
+        dataField: 'geneGeneticInteraction.evidence',
+        text: 'Reference ID',
         headerStyle: {
           width: '150px',
         },
