@@ -91,7 +91,15 @@ const DiseasePortalPage = () => {
           <Subsection title={COMMUNITY_RESOURCES}>
             <ResourcesSection disease={diseaseData} />
           </Subsection>
-          <Subsection title={ONTOLOGY}>
+          <Subsection
+            title={ONTOLOGY}
+            titleAdornment={
+              // The section's only route out to the full browser, replacing the removed nav item.
+              <Link to={`/ontology/disease/${diseaseData.doid}`}>
+                Browse Ontology for {diseaseApiData?.doTerm?.name || portalTitle}
+              </Link>
+            }
+          >
             {/* key on doid forces a remount per disease: the reused fiber (see above)
                 would otherwise leave the embedded tree's scoped state stale. */}
             <OntologyContextSection
