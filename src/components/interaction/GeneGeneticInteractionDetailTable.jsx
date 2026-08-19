@@ -191,6 +191,8 @@ const GeneGeneticInteractionDetailTable = ({ focusGeneId, focusGeneDisplayName }
           width: '180px',
         },
         formatter: (_, row) => <ReferenceList refs={row.geneGeneticInteraction?.evidence} />,
+        filterable: true,
+        filterName: 'referenceCitation',
       },
       {
         dataField: 'geneGeneticInteraction.evidence',

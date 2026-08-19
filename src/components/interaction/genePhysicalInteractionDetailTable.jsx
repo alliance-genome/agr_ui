@@ -120,6 +120,8 @@ const GenePhysicalInteractionDetailTable = ({ focusGeneDisplayName, focusGeneId 
       headerStyle: { width: '11em' },
       headerClasses: style.columnHeaderGroup3,
       classes: style.columnGroup3,
+      filterable: true,
+      filterName: 'referenceCitation',
     },
     {
       dataField: 'geneMolecularInteraction.evidence',
