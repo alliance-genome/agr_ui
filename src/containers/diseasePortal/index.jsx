@@ -18,19 +18,12 @@ import style from './style.module.scss';
 
 const SUMMARY = 'Summary';
 const ONTOLOGY = 'Ontology View';
-const BROWSE_ONTOLOGY = 'Browse Ontology';
 const COMMUNITY_RESOURCES = 'Community Resources';
 const RECENT_PAPERS = 'Recent Alliance Papers';
 const MEMBERS = 'Members';
 
-// Browse Ontology is an outbound link rather than an anchor, so sections depend on the doid.
-const makeSections = (doid) => [
-  { name: SUMMARY },
-  { name: RECENT_PAPERS },
-  { name: COMMUNITY_RESOURCES },
-  { name: ONTOLOGY },
-  { name: BROWSE_ONTOLOGY, to: `/ontology/disease/${doid}` },
-];
+// Every entry is an in-page anchor, so this no longer varies per disease.
+const SECTIONS = [{ name: SUMMARY }, { name: RECENT_PAPERS }, { name: COMMUNITY_RESOURCES }, { name: ONTOLOGY }];
 
 const DiseasePortalPage = () => {
   const { name: dname } = useParams();
@@ -76,7 +69,7 @@ const DiseasePortalPage = () => {
       <HeadMetaTags title={`${portalTitle} Portal`} />
       <DiseasePortalSection disease={diseaseData} />
       <DataPage>
-        <PageNav sections={makeSections(diseaseData.doid)}>
+        <PageNav sections={SECTIONS}>
           <PageNavEntity entityName={portalTitle}>
             <Link to={`/disease/${diseaseData.doid}`}>{diseaseData.doid}</Link>
           </PageNavEntity>
