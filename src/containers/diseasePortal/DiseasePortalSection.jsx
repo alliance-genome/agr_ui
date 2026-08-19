@@ -4,18 +4,31 @@ import EntityButton from './EntityButton.jsx';
 import { useEntityButtonCounts } from './useEntityButtonCounts.js';
 import { isRootPortal } from './portalData.js';
 
+// Hidden on every portal page pending a decision on what the count should mean
+// per portal (KANBAN-1492). Flip to true to restore the Alliance-wide pill.
+const SHOW_DISEASE_COUNT = false;
+
 const DiseasePortalSection = ({ disease }) => {
   const url = `/api/disease/${disease.doid}/`;
-  const diseaseCount = useEntityButtonCounts('/api/disease/annotated-count');
+  const isRoot = isRootPortal(disease);
+  const diseaseCount = useEntityButtonCounts(SHOW_DISEASE_COUNT ? '/api/disease/annotated-count' : null);
   const geneCount = useEntityButtonCounts(url + 'genes_counts');
   const modelCount = useEntityButtonCounts(url + 'models_counts');
   const alleleCount = useEntityButtonCounts(url + 'alleles_counts');
 
-  const isRoot = isRootPortal(disease);
   const pageTitle = isRoot
     ? 'Disease Portals'
     : // <a href={`/disease/${disease.doid}`}>{`${disease.pageName} Portal`}</a>
       `${disease.pageName} Portal`;
+  const diseasesEntityButton = SHOW_DISEASE_COUNT ? (
+    <EntityButton id="entity-diseases" to="/search?q=&category=disease_search_result" tooltip="View all diseases">
+      <div>{diseaseCount ? diseaseCount.toLocaleString() : ''}</div>
+      Diseases
+    </EntityButton>
+  ) : (
+    ''
+  );
+  // Whole-Alliance figure, shown on the root portal only.
   const speciesEntityButton = isRoot ? (
     <EntityButton id="entity-species" to="/about-us" tooltip="View all associated species">
       9<br />
@@ -42,10 +55,7 @@ const DiseasePortalSection = ({ disease }) => {
           <li><Link to='/help#how'>More...</Link></li>
         </ul> */}
         <div className="d-flex justify-content-around flex-wrap">
-          <EntityButton id="entity-diseases" to="/search?q=&category=disease_search_result" tooltip="View all diseases">
-            <div>{diseaseCount ? diseaseCount.toLocaleString() : ''}</div>
-            Diseases
-          </EntityButton>
+          {diseasesEntityButton}
           <EntityButton
             id="entity-models"
             to={`/disease/${disease.doid}#associated-models`}
