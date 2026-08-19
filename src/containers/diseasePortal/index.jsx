@@ -19,11 +19,11 @@ import style from './style.module.scss';
 const SUMMARY = 'Summary';
 const ONTOLOGY = 'Ontology View';
 const COMMUNITY_RESOURCES = 'Community Resources';
-const RECENT_PAPERS = 'Recent Alliance Papers';
+const RECENT_LITERATURE = 'Recent Literature';
 const MEMBERS = 'Members';
 
 // Every entry is an in-page anchor, so this no longer varies per disease.
-const SECTIONS = [{ name: SUMMARY }, { name: ONTOLOGY }, { name: RECENT_PAPERS }, { name: COMMUNITY_RESOURCES }];
+const SECTIONS = [{ name: SUMMARY }, { name: ONTOLOGY }, { name: COMMUNITY_RESOURCES }, { name: RECENT_LITERATURE }];
 
 const DiseasePortalPage = () => {
   const { name: dname } = useParams();
@@ -95,11 +95,11 @@ const DiseasePortalPage = () => {
               name={diseaseApiData?.doTerm?.name || portalTitle}
             />
           </Subsection>
-          <Subsection title={RECENT_PAPERS}>
-            <PapersSection diseaseName={diseaseApiData?.doTerm?.name} queryOverride={diseaseData.papersQuery} />
-          </Subsection>
           <Subsection title={COMMUNITY_RESOURCES}>
             <ResourcesSection disease={diseaseData} />
+          </Subsection>
+          <Subsection title={RECENT_LITERATURE}>
+            <PapersSection diseaseName={diseaseApiData?.doTerm?.name} queryOverride={diseaseData.papersQuery} />
           </Subsection>
           <div className={style.membersFooter}>
             <Subsection hideTitle title={MEMBERS}>
