@@ -10,7 +10,17 @@ import NoData from './noData.jsx';
 import ErrorBoundary from './errorBoundary.jsx';
 import HelpPopup from './helpPopup.jsx';
 
-const Subsection = ({ children, hardcoded, hasData, help, hideTitle = false, isMeta, level, title }) => {
+const Subsection = ({
+  children,
+  hardcoded,
+  hasData,
+  help,
+  hideTitle = false,
+  isMeta,
+  level,
+  title,
+  titleAdornment,
+}) => {
   const id = title && makeId(title);
   const Target = () => <a className={style.target} id={id} />;
   const helpPopup = help && (
@@ -18,6 +28,7 @@ const Subsection = ({ children, hardcoded, hasData, help, hideTitle = false, isM
       <HelpPopup id={`help-${title}`}>{help}</HelpPopup>
     </span>
   );
+  const adornment = titleAdornment && <span className="small ml-3">{titleAdornment}</span>;
 
   let renderTitle;
   const titleContent = (
@@ -25,6 +36,7 @@ const Subsection = ({ children, hardcoded, hasData, help, hideTitle = false, isM
       {isMeta && <target />}
       {title}
       {helpPopup}
+      {adornment}
     </>
   );
   switch (level) {
@@ -57,6 +69,7 @@ Subsection.propTypes = {
   isMeta: PropTypes.bool,
   level: PropTypes.number,
   title: PropTypes.string,
+  titleAdornment: PropTypes.node,
 };
 
 Subsection.defaultProps = {
