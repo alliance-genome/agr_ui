@@ -23,7 +23,7 @@ const RECENT_PAPERS = 'Recent Alliance Papers';
 const MEMBERS = 'Members';
 
 // Every entry is an in-page anchor, so this no longer varies per disease.
-const SECTIONS = [{ name: SUMMARY }, { name: RECENT_PAPERS }, { name: COMMUNITY_RESOURCES }, { name: ONTOLOGY }];
+const SECTIONS = [{ name: SUMMARY }, { name: ONTOLOGY }, { name: RECENT_PAPERS }, { name: COMMUNITY_RESOURCES }];
 
 const DiseasePortalPage = () => {
   const { name: dname } = useParams();
@@ -78,12 +78,6 @@ const DiseasePortalPage = () => {
           <Subsection title={SUMMARY}>
             <SummarySection disease={diseaseApiData} />
           </Subsection>
-          <Subsection title={RECENT_PAPERS}>
-            <PapersSection diseaseName={diseaseApiData?.doTerm?.name} queryOverride={diseaseData.papersQuery} />
-          </Subsection>
-          <Subsection title={COMMUNITY_RESOURCES}>
-            <ResourcesSection disease={diseaseData} />
-          </Subsection>
           <Subsection
             title={ONTOLOGY}
             titleAdornment={
@@ -100,6 +94,12 @@ const DiseasePortalPage = () => {
               curie={diseaseData.doid}
               name={diseaseApiData?.doTerm?.name || portalTitle}
             />
+          </Subsection>
+          <Subsection title={RECENT_PAPERS}>
+            <PapersSection diseaseName={diseaseApiData?.doTerm?.name} queryOverride={diseaseData.papersQuery} />
+          </Subsection>
+          <Subsection title={COMMUNITY_RESOURCES}>
+            <ResourcesSection disease={diseaseData} />
           </Subsection>
           <div className={style.membersFooter}>
             <Subsection hideTitle title={MEMBERS}>
