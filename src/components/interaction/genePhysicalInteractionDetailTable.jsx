@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DataTable, GeneCellCuration, ReferenceList, SpeciesCell } from '../dataTable';
+import { DataTable, GeneCellCuration, ReferenceList, ReferencesCellCuration, SpeciesCell } from '../dataTable';
 import SpeciesName from '../SpeciesName.jsx';
 import { getIdentifier } from '../dataTable/utils.jsx';
-import { buildUrlFromTemplate } from '../../lib/utils.js';
-import ExternalLink from '../ExternalLink.jsx';
 import DataSourceLinkCuration from '../dataSourceLinkCuration.jsx';
+import evidenceReferenceIds from './evidenceReferenceIds.js';
 import MITerm from './MITerm.jsx';
 import MITermURL from './MITermURL.jsx';
 import style from './genePhysicalInteractionDetailTable.module.scss';
@@ -126,17 +125,7 @@ const GenePhysicalInteractionDetailTable = ({ focusGeneDisplayName, focusGeneId 
     {
       dataField: 'geneMolecularInteraction.evidence',
       text: 'Reference ID',
-      // eslint-disable-next-line react/prop-types
-      formatter: (reference) => {
-        if (!reference || !reference.length) return null;
-        const refId = reference[0].referenceID;
-        const xref = reference[0].crossReferences?.find((x) => x.referencedCurie === refId);
-        return (
-          <ExternalLink href={xref ? buildUrlFromTemplate(xref) : null} key={refId} title={refId}>
-            {refId}
-          </ExternalLink>
-        );
-      },
+      formatter: (evidence) => <ReferencesCellCuration pubmedPublications={evidenceReferenceIds(evidence)} />,
       headerStyle: { width: '10em' },
       headerClasses: style.columnHeaderGroup3,
       classes: style.columnGroup3,
