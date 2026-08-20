@@ -15,7 +15,21 @@ import { DISEASE_ROOT_CURIE } from '../ontologyBrowser/ontologies.js';
 //              Uses the DO slim term behind the gene-page disease ribbon, so
 //              headings match the buckets curators see there. Omit on the root.
 //   listLabel  optional. Label in the index, when it differs from pageName.
-//   resources  optional. Community Resources links.
+//   resources  optional. Community Resources links. Keep each list alphabetical
+//              by title, ignoring a leading "The" — the convention is enforced by
+//              hand only: ResourcesSection renders the array in declaration order
+//              with no sort, so a new or renamed entry sits wherever it is typed
+//              and nothing flags a list that has drifted. This bit us in
+//              KANBAN-1489, where renaming "SADS Foundation ..." to "The
+//              Foundation for Inherited Arrhythmias (FIA)" left it last in a list
+//              it now sorts first in.
+//              Possible improvement: sort by title in ResourcesSection at render
+//              time, stripping a leading article for comparison, the way
+//              portalsByGroup() now sorts the index headings (KANBAN-1488). That
+//              would make placement here irrelevant. Not done for 9.1.0 because
+//              the lists are curator-vetted and were already in the right order —
+//              worth doing the next time this file's resources are touched in
+//              bulk.
 //   papersQuery optional. Overrides the Recent Papers query for portals whose
 //              name matches badly as free text. The endpoint matches loosely and
 //              fills every MOD slot even with no real match, so a name built from
