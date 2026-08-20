@@ -377,7 +377,9 @@ const GenomeFeatureWrapper = (props) => {
     const genomeLength = (location.end - location.start) / 1000.0;
     return (
       <span key={location.chromosome + location.start + location.end}>
-        <ExternalLink href={generateJBrowseLink(species, location.chromosome, location.start, location.end, htpVariant)}>
+        <ExternalLink
+          href={generateJBrowseLink(species, location.chromosome, location.start, location.end, htpVariant)}
+        >
           {location.chromosome.toLowerCase().startsWith('chr') || location.chromosome.toLowerCase().startsWith('sca')
             ? location.chromosome
             : 'Chr' + location.chromosome}

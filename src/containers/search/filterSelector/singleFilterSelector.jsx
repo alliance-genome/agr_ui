@@ -106,7 +106,11 @@ const SingleFilterSelector = ({ displayName, isShowMore, name, navigate, queryPa
     );
   };
 
-  const selectableNode = isSearchMode ? renderSearchNode() : <ul className="nav nav-pills flex-column">{renderFilterValues()}</ul>;
+  const selectableNode = isSearchMode ? (
+    renderSearchNode()
+  ) : (
+    <ul className="nav nav-pills flex-column">{renderFilterValues()}</ul>
+  );
 
   return (
     <div className={style.aggValContainer}>

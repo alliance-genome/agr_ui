@@ -146,7 +146,8 @@ const GeneOntologyRibbon = ({ geneId, geneSpecies, geneSymbol, navigate }) => {
       if (!crossAspect) {
         const aspect = getCategoryIdLabel(group);
         filtered[sub].assocs = filtered[sub].assocs.filter((assoc) => {
-          const cat = assoc.object.category[0] === 'molecular_activity' ? 'molecular_function' : assoc.object.category[0];
+          const cat =
+            assoc.object.category[0] === 'molecular_activity' ? 'molecular_function' : assoc.object.category[0];
           return aspect === undefined || cat === aspect[1];
         });
       }
@@ -399,7 +400,7 @@ const GeneOntologyRibbon = ({ geneId, geneSpecies, geneSymbol, navigate }) => {
   const renderValid = () => (
     <div>
       {loading ? <LoadingSpinner /> : renderRibbonStrips()}
-      {selected.group ? (selected.loading ? <LoadingSpinner /> : renderRibbonTable()) : ''}
+      {selected.group ? selected.loading ? <LoadingSpinner /> : renderRibbonTable() : ''}
     </div>
   );
 

@@ -74,11 +74,7 @@ const Layout = ({ children, pageLoading }) => {
               <ReleaseBanner />
               <WordpressInject slug="agr-topbar" />
             </div>
-            <button
-              className="navbar-toggler d-md-none"
-              onClick={() => setMenuOpen((prev) => !prev)}
-              type="button"
-            >
+            <button className="navbar-toggler d-md-none" onClick={() => setMenuOpen((prev) => !prev)} type="button">
               <FontAwesomeIcon icon={faBars} fixedWidth />
             </button>
           </div>
