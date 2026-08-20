@@ -213,7 +213,7 @@ export const data = {
         title: "Parkinson's Disease Clinical Trials",
         url: 'https://clinicaltrials.gov/search?cond=Parkinson%27s%20Disease&viewType=Card',
       },
-      { title: "Parkinson's Precision Medicine Initiative", url: 'https://www.ppmi-info.org/' },
+      { title: "Parkinson's Precision Medicine Initiative (PPMI)", url: 'https://www.ppmi-info.org/' },
     ],
   },
 };
