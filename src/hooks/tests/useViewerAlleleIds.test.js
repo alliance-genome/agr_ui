@@ -1,0 +1,50 @@
+import { useQuery } from '@tanstack/react-query';
+import fetchAllPages from '../../lib/fetchAllPages';
+import useViewerAlleleIds, { getViewerAlleleIdsUrl } from '../useViewerAlleleIds';
+
+jest.mock('@tanstack/react-query', () => ({ useQuery: jest.fn((config) => config) }));
+jest.mock('../../lib/fetchAllPages', () => jest.fn());
+
+describe('useViewerAlleleIds', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    useQuery.mockImplementation((config) => config);
+  });
+
+  test.each(['NCBITaxon:9606', 'NCBITaxon:559292'])('does not enable viewer requests for %s', (taxonId) => {
+    const query = useViewerAlleleIds('HGNC:11998', taxonId, {});
+
+    expect(query.enabled).toBe(false);
+    expect(fetchAllPages).not.toHaveBeenCalled();
+  });
+
+  test('enables one bounded complete query for a variant-capable taxon', async () => {
+    const tableState = {
+      filters: { alleleSymbol: { filterVal: 'pax2a' } },
+      page: 7,
+      sizePerPage: 50,
+      sort: 'variantType',
+    };
+    const query = useViewerAlleleIds('ZFIN:ZDB-GENE-030113-2', 'NCBITaxon:7955', tableState);
+
+    expect(query.enabled).toBe(true);
+    expect(query.queryKey).toEqual([
+      'gene-allele-viewer-ids',
+      'ZFIN:ZDB-GENE-030113-2',
+      '/api/gene/ZFIN:ZDB-GENE-030113-2/allele-viewer-ids?filter.alleleSymbol=pax2a',
+    ]);
+
+    await query.queryFn();
+    expect(fetchAllPages).toHaveBeenCalledWith(
+      '/api/gene/ZFIN:ZDB-GENE-030113-2/allele-viewer-ids?filter.alleleSymbol=pax2a'
+    );
+  });
+
+  test('paging, page size, and sorting do not change the viewer URL', () => {
+    const filters = { variantType: { filterVal: ['SNV', 'deletion'] } };
+
+    expect(getViewerAlleleIdsUrl('MGI:1', { filters, page: 1, sizePerPage: 10, sort: 'alleleSymbol' })).toBe(
+      getViewerAlleleIdsUrl('MGI:1', { filters, page: 9, sizePerPage: 100, sort: 'variantType' })
+    );
+  });
+});

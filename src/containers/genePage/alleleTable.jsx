@@ -18,9 +18,9 @@ import RotatedHeaderCell from '../../components/dataTable/RotatedHeaderCell.jsx'
 import BooleanLinkCell from '../../components/dataTable/BooleanLinkCell.jsx';
 import VariantsSequenceViewer from './VariantsSequenceViewer.jsx';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import useAllVariants from '../../hooks/useAllVariants';
+import useViewerAlleleIds, { usesVariantViewer } from '../../hooks/useViewerAlleleIds';
 import useAlleleSelection from '../../hooks/useAlleleSelection';
-import { ALLELE_WITH_ONE_VARIANT, ALLELE_WITH_MULTIPLE_VARIANTS, HELP_EMAIL } from '../../constants';
+import { HELP_EMAIL } from '../../constants';
 import { getIdentifier, getDistinctFieldValue } from '../../components/dataTable/utils.jsx';
 
 const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
@@ -32,12 +32,10 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
   const tableProps = useDataTableQuery(`/api/gene/${geneId}/alleles`);
   const { data: resolvedData, totalRows, isLoading, supplementalData } = tableProps;
 
-  // Filtered but not paginated list of alleles (used for viewer and category lookup)
-  // Moved before useAlleleSelection so cached categories can be used
-  const allelesFiltered = useAllVariants(geneId, tableProps.tableState);
+  // Bounded, projected identifiers used only by variant-capable viewers.
+  const viewerAlleleIds = useViewerAlleleIds(geneId, taxonId, tableProps.tableState);
 
   // Use custom hook for allele selection
-  // Pass allelesFiltered so the hook can use cached categories instead of incorrect API alterationType
   const {
     alleleIdsSelected,
     setAlleleIdsSelected,
@@ -47,7 +45,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     selectedAllelesError,
     handleAllelesSelect,
     clearAlleleSelection,
-  } = useAlleleSelection(tableProps, allelesFiltered?.data?.results);
+  } = useAlleleSelection(tableProps);
 
   // Local state for pagination when in override mode
   const [overridePage, setOverridePage] = useState(1);
@@ -128,32 +126,20 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     }
 
     return processedData;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resolvedData, selectionOverride, selectedAllelesData, currentPage, pageSize]);
 
   const hasAlleles = totalRows > 0;
   const hasManyAlleles = totalRows > 20000;
 
   const variantsSequenceViewerProps = useMemo(() => {
-    const variantsFiltered =
-      allelesFiltered.data && allelesFiltered.data.results
-        ? allelesFiltered.data.results.flatMap((allele) => (allele && allele.variantList) || [])
-        : [];
-    const variantLocations = variantsFiltered.map((variant) => variant && variant.location);
-
     // Use only gene bounds to prevent viewer from showing excessive region
     // This keeps the focus on the target gene instead of expanding based on distant variants
     const { fmin, fmax } = findFminFmax([geneLocation]);
 
-    // Filter to only show variants for alleles with associated variants by default
-    // When in override mode, use the selected alleles for viewer visibility
-    let alleleIdsFiltered = selectionOverride.active ? selectedAllelesData : allelesFiltered.data?.results;
-    alleleIdsFiltered = (alleleIdsFiltered || [])
-      .filter((row) => {
-        const category = row.category || row.alterationType;
-        return category === ALLELE_WITH_ONE_VARIANT || category === ALLELE_WITH_MULTIPLE_VARIANTS;
-      })
-      .map((row) => row.id || getIdentifier(row.allele));
+    const alleleIdsFiltered = selectionOverride.active
+      ? (selectedAllelesData || []).map((row) => row.id)
+      : viewerAlleleIds.data?.results || [];
+    const usesVariants = usesVariantViewer(taxonId);
 
     /*
        Warning!
@@ -168,7 +154,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
       gene: gene,
       fmin: fmin,
       fmax: fmax,
-      hasVariants: Boolean(variantsFiltered && variantsFiltered.length),
+      hasVariants: !usesVariants || alleleIdsFiltered.length > 0,
       allelesSelected: alleleIdsSelected.map(formatAllele),
       allelesVisible: alleleIdsFiltered.map(formatAllele),
       onAllelesSelect: handleAllelesSelect,
@@ -176,13 +162,14 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
 
     return props;
   }, [
-    allelesFiltered.data,
+    viewerAlleleIds.data,
     alleleIdsSelected,
     handleAllelesSelect,
     selectionOverride.active,
     selectedAllelesData,
     gene,
     geneLocation,
+    taxonId,
   ]);
 
   const selectRow = useMemo(
@@ -459,7 +446,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
   return (
     <>
       {
-        isLoading || isLoadingGene ? null : variantsSequenceViewerProps.hasVariants ? (
+        isLoading || isLoadingGene || viewerAlleleIds.isLoading ? null : variantsSequenceViewerProps.hasVariants ? (
           <VariantsSequenceViewer {...variantsSequenceViewerProps} />
         ) : hasAlleles ? (
           <NoData>No mapped variant information available</NoData>
