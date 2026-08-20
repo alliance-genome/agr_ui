@@ -30,7 +30,7 @@ const TRANSGENIC_ALLELES = 'Transgenic Alleles';
 const MODELS = 'Models';
 const totalUrl = (base) => {
   const sep = base.includes('?') ? '&' : '?';
-  return `${base}${sep}limit=1`;
+  return `${base}${sep}limit=0`;
 };
 
 function useSectionCounts(referenceId) {
