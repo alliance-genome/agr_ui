@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import GenomeFeatureWrapper from './genomeFeatureWrapper.jsx';
 import { getSingleGenomeLocation, getGenomicLocations, getSynonymStrings } from '../../lib/utils';
-import { ISOFORM_ONLY_TAXA } from '../../hooks/useViewerAlleleIds';
+import { ISOFORM_ONLY_TAXA } from '../../constants';
 
 const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisible, onAllelesSelect }) => {
   const genomeLocationList = getGenomicLocations(gene);

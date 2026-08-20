@@ -82,6 +82,7 @@ export const CATEGORIES = [
 
 export const ALLELE_WITH_ONE_VARIANT = 'allele with one variant';
 export const ALLELE_WITH_MULTIPLE_VARIANTS = 'allele with multiple variants';
+export const ISOFORM_ONLY_TAXA = new Set(['NCBITaxon:9606', 'NCBITaxon:559292']);
 
 export const NON_HIGHLIGHTED_FIELDS = [
   'sourceHref',

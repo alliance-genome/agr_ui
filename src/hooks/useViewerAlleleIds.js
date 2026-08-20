@@ -1,18 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
 import fetchAllPages from '../lib/fetchAllPages';
 import { buildTableQueryString } from '../lib/utils';
-
-export const ISOFORM_ONLY_TAXA = new Set(['NCBITaxon:9606', 'NCBITaxon:559292']);
+import { ISOFORM_ONLY_TAXA } from '../constants';
 
 export function usesVariantViewer(taxonId) {
   return Boolean(taxonId) && !ISOFORM_ONLY_TAXA.has(taxonId);
 }
 
 export function getViewerAlleleIdsUrl(geneId, tableState) {
-  const filterQuery = buildTableQueryString({ filters: tableState?.filters })
-    .split('&')
-    .filter((parameter) => parameter.startsWith('filter.'))
-    .join('&');
+  const queryParams = new URLSearchParams(buildTableQueryString({ filters: tableState?.filters }));
+  for (const parameter of [...queryParams.keys()]) {
+    if (!parameter.startsWith('filter.')) {
+      queryParams.delete(parameter);
+    }
+  }
+  const filterQuery = queryParams.toString();
   const suffix = filterQuery ? `?${filterQuery}` : '';
   return `/api/gene/${geneId}/allele-viewer-ids${suffix}`;
 }
@@ -22,7 +24,10 @@ export function getVisibleViewerAlleleIds(response, selectionOverride) {
 }
 
 export function hasViewerContent(taxonId, hasAlleles, response) {
-  return usesVariantViewer(taxonId) ? Boolean(response?.results?.length) : hasAlleles;
+  if (!usesVariantViewer(taxonId)) {
+    return hasAlleles;
+  }
+  return Boolean(response?.results?.length) || response?.supplementalData?.hasStandaloneVariants === true;
 }
 
 export default function useViewerAlleleIds(geneId, taxonId, tableState) {

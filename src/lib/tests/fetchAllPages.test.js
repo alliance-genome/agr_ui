@@ -7,6 +7,7 @@ describe('fetchAllPages', () => {
       total: 2,
       returnedRecords: 2,
       requestDate: 'test-date',
+      supplementalData: { hasStandaloneVariants: true },
     });
 
     await expect(fetchAllPages('/api/example?filter=all', fetchPage)).resolves.toEqual({
@@ -14,6 +15,7 @@ describe('fetchAllPages', () => {
       total: 2,
       returnedRecords: 2,
       requestDate: 'test-date',
+      supplementalData: { hasStandaloneVariants: true },
     });
     expect(fetchPage).toHaveBeenCalledWith(`/api/example?filter=all&page=1&limit=${PUBLIC_API_PAGE_SIZE}`);
     expect(fetchPage).toHaveBeenCalledTimes(1);

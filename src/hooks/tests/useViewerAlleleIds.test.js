@@ -52,6 +52,14 @@ describe('useViewerAlleleIds', () => {
     );
   });
 
+  test('keeps filter delimiters encoded in the viewer URL', () => {
+    const filters = { alleleSymbol: { filterVal: 'a&b=c' } };
+
+    expect(getViewerAlleleIdsUrl('MGI:1', { filters })).toBe(
+      '/api/gene/MGI:1/allele-viewer-ids?filter.alleleSymbol=a%26b%3Dc'
+    );
+  });
+
   test('keeps selected IDs visible while selected-row details are loading', () => {
     expect(getVisibleViewerAlleleIds({ results: ['MGI:1', 'MGI:2'] }, { active: true, alleleIds: ['MGI:2'] })).toEqual([
       'MGI:2',
@@ -60,6 +68,18 @@ describe('useViewerAlleleIds', () => {
 
   test('keeps viewer mounting independent from selection details', () => {
     expect(hasViewerContent('NCBITaxon:7955', true, { results: ['ZFIN:1'] })).toBe(true);
+    expect(
+      hasViewerContent('NCBITaxon:10116', true, {
+        results: [],
+        supplementalData: { hasStandaloneVariants: true },
+      })
+    ).toBe(true);
+    expect(
+      hasViewerContent('NCBITaxon:10116', true, {
+        results: [],
+        supplementalData: { hasStandaloneVariants: false },
+      })
+    ).toBe(false);
     expect(hasViewerContent('NCBITaxon:9606', true, undefined)).toBe(true);
     expect(hasViewerContent('NCBITaxon:9606', false, undefined)).toBe(false);
   });
