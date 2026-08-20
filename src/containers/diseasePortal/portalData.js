@@ -40,7 +40,7 @@ export const data = {
       },
       { title: 'Matchmaker Exchange', url: 'https://www.matchmakerexchange.org/' },
       { title: 'ModelMatcher', url: 'https://www.modelmatcher.net/' },
-      { title: 'Online Mendelian Inheritance of Man (OMIM)', url: 'https://www.omim.org/' },
+      { title: 'Online Mendelian Inheritance in Man (OMIM)', url: 'https://www.omim.org/' },
       { title: 'Portal Kids First DRC', url: 'https://portal.kidsfirstdrc.org/login?redirect_path=/data-exploration' },
     ],
   },
@@ -57,7 +57,7 @@ export const data = {
         url: 'https://fightcolorectalcancer.org/our-programs/research-innovation/',
       },
       {
-        title: 'GECCO (Genetics and Epidemiology of Colorectal Cancer Consortium)',
+        title: 'The Genetics and Epidemiology of Colorectal Cancer Consortium (GECCO)',
         url: 'https://research.fredhutch.org/peters/en/genetics-and-epidemiology-of-colorectal-cancer-consortium.html',
       },
       { title: 'NCI Advances in Colorectal Cancer Research', url: 'https://www.cancer.gov/types/colorectal/research' },
@@ -77,8 +77,8 @@ export const data = {
         url: 'https://dpcpsi.nih.gov/autism-data-science-initiative/funded-research',
       },
       { title: 'NIMH Data Archive', url: 'https://nda.nih.gov/' },
-      { title: 'SFARI Gene', url: 'https://gene.sfari.org/' },
-      { title: 'SPARK (Simons Foundation Powering Autism Research)', url: 'https://sparkforautism.org/' },
+      { title: 'Simons Foundation Autism Research Initiative Gene (SFARI Gene)', url: 'https://gene.sfari.org/' },
+      { title: 'Simons Foundation Powering Autism Research (SPARK)', url: 'https://sparkforautism.org/' },
     ],
   },
   'diabetes-mellitus': {
@@ -118,12 +118,12 @@ export const data = {
         title: 'NCI/NEI ciliopathy gene-therapy research news (NIH intramural)',
         url: 'https://www.nih.gov/news-events/news-releases/nih-researchers-develop-gene-therapy-rare-ciliopathy',
       },
-      { title: 'PCD Research', url: 'https://pcdresearch.org/' },
+      { title: 'Primary Ciliary Dyskinesia Research (PCD Research)', url: 'https://pcdresearch.org/' },
       {
         title: 'Rare Diseases Clinical Research Network (RDCRN) - NIH/NCATS',
         url: 'https://www.rarediseasesnetwork.org/',
       },
-      { title: 'TheRaCil (Therapies for Renal Ciliopathies)', url: 'https://theracil.eu/' },
+      { title: 'Therapies for Renal Ciliopathies (TheRaCil)', url: 'https://theracil.eu/' },
     ],
   },
   'long-qt-syndrome': {
@@ -133,12 +133,12 @@ export const data = {
     listLabel: 'long QT syndrome',
     papersQuery: '"long QT syndrome"',
     resources: [
+      { title: 'The Foundation for Inherited Arrhythmias (FIA)', url: 'https://www.fiacardiac.org/' },
       { title: 'Hearts in Rhythm Organization (HiRO)', url: 'https://heartsinrhythm.ca/' },
       {
         title: 'International LQTS Registry (University of Rochester)',
         url: 'https://www.urmc.rochester.edu/clinical-cardiovascular-research/lqts-registry',
       },
-      { title: 'SADS Foundation (Sudden Arrhythmia Death Syndromes)', url: 'https://sads.org/' },
     ],
   },
   'alzheimers-disease': {
@@ -159,8 +159,11 @@ export const data = {
       },
       { title: "Alzheimer's Foundation of America", url: 'https://alzfdn.org/' },
       { title: 'National Institute on Aging', url: 'https://www.nia.nih.gov/' },
-      { title: 'NIAGADS', url: 'https://www.niagads.org/' },
-      { title: 'OMIM', url: 'https://omim.org/entry/104300' },
+      {
+        title: "National Institute on Aging Genetics of Alzheimer's Disease Data Storage Site (NIAGADS)",
+        url: 'https://www.niagads.org/',
+      },
+      { title: 'Online Mendelian Inheritance in Man (OMIM)', url: 'https://omim.org/entry/104300' },
     ],
   },
   epilepsy: {
