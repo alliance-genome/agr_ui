@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
 import fetchData from '../lib/fetchData';
+import { ALLELE_WITH_MULTIPLE_VARIANTS, ALLELE_WITH_ONE_VARIANT } from '../constants';
 
 /**
  * Custom hook for managing allele selection state and fetching selected allele data
@@ -8,8 +9,8 @@ import fetchData from '../lib/fetchData';
  */
 export function getSelectedAlleleCategory(response) {
   const variantCount = response.variantList?.length || 0;
-  if (variantCount === 1) return 'allele with one variant';
-  if (variantCount > 1) return 'allele with multiple variants';
+  if (variantCount === 1) return ALLELE_WITH_ONE_VARIANT;
+  if (variantCount > 1) return ALLELE_WITH_MULTIPLE_VARIANTS;
   return response.alterationType || response.category || 'allele';
 }
 
