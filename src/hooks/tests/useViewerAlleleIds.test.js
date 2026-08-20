@@ -63,4 +63,12 @@ describe('useViewerAlleleIds', () => {
     expect(hasViewerContent('NCBITaxon:9606', true, undefined)).toBe(true);
     expect(hasViewerContent('NCBITaxon:9606', false, undefined)).toBe(false);
   });
+
+  test('retains placeholder IDs only while refetching the same gene', () => {
+    const query = useViewerAlleleIds('MGI:1', 'NCBITaxon:10090', {});
+    const previousData = { results: ['MGI:2'] };
+
+    expect(query.placeholderData(previousData, { queryKey: ['gene-allele-viewer-ids', 'MGI:1'] })).toBe(previousData);
+    expect(query.placeholderData(previousData, { queryKey: ['gene-allele-viewer-ids', 'MGI:3'] })).toBeUndefined();
+  });
 });

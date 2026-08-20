@@ -32,6 +32,7 @@ export default function useViewerAlleleIds(geneId, taxonId, tableState) {
     queryKey: ['gene-allele-viewer-ids', geneId, url],
     queryFn: () => fetchAllPages(url),
     enabled: Boolean(geneId) && usesVariantViewer(taxonId),
-    placeholderData: (previousData) => previousData,
+    placeholderData: (previousData, previousQuery) =>
+      previousQuery?.queryKey[1] === geneId ? previousData : undefined,
   });
 }
