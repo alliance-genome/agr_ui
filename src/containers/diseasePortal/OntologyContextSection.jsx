@@ -10,12 +10,12 @@ import { TermsProvider } from '../ontologyBrowser/useDiseaseTerms.jsx';
 import style from './style.module.scss';
 
 // Embedded, scoped ontology view for a disease portal page (KANBAN-1391).
-// Two interaction modes by control:
-//  - Term labels — both the ancestor context and every row in the tree — link
-//    OUT to the full-page ontology browser. The embed has no detail panel, so
-//    selecting a term in place would be a dead end.
-//  - The chevron stays in-page: expand/collapse drill-down is local, no route
-//    change.
+// Everything in the tree stays in-page (KANBAN-1497): clicking a term row only
+// highlights it, the chevron expands and collapses, and the route out to the
+// full browser is the single "Browse Ontology for ..." link on the section
+// heading. The G/A/M count badges still link to their disease pages.
+// Omitting nodeHref is what keeps term labels plain spans; the standalone
+// browser omits it too, so this stays embed-local.
 const OntologyContextSection = ({ curie, name }) => {
   // Immediate parents come from the single-term doc (same shape the standalone
   // TermDetailPanel uses). The DO is a DAG, so there can be more than one.
@@ -72,7 +72,6 @@ const OntologyContextSection = ({ curie, name }) => {
             focusedCurie={selectedCurie}
             onSelect={setSelectedCurie}
             scrollOnFocus={false}
-            nodeHref={(c) => `/ontology/disease/${c}`}
           />
         </div>
       </TermsProvider>
