@@ -18,11 +18,19 @@ import style from './style.module.scss';
 
 const SUMMARY = 'Summary';
 const ONTOLOGY = 'Ontology View';
+const BROWSE_ONTOLOGY = 'Browse Ontology';
 const COMMUNITY_RESOURCES = 'Community Resources';
 const RECENT_PAPERS = 'Recent Alliance Papers';
 const MEMBERS = 'Members';
 
-const SECTIONS = [{ name: SUMMARY }, { name: RECENT_PAPERS }, { name: COMMUNITY_RESOURCES }, { name: ONTOLOGY }];
+// Browse Ontology is an outbound link rather than an anchor, so sections depend on the doid.
+const makeSections = (doid) => [
+  { name: SUMMARY },
+  { name: RECENT_PAPERS },
+  { name: COMMUNITY_RESOURCES },
+  { name: ONTOLOGY },
+  { name: BROWSE_ONTOLOGY, to: `/ontology/disease/${doid}` },
+];
 
 const DiseasePortalPage = () => {
   const { name: dname } = useParams();
@@ -34,6 +42,9 @@ const DiseasePortalPage = () => {
   // Passing a null url when there's no doid makes the query a no-op.
   const { data: diseaseApiData } = usePageLoadingQuery(diseaseData?.doid ? `/api/disease/${diseaseData.doid}` : null);
 
+  // pageName is required; fall back rather than render "undefined Portal"
+  const portalTitle = diseaseData?.pageName || diseaseApiData?.doTerm?.name || 'Disease';
+
   if (dname && !diseaseData) {
     return <NotFound />;
   }
@@ -41,7 +52,7 @@ const DiseasePortalPage = () => {
   if (!dname) {
     return (
       <div>
-        <HeadMetaTags title={`${diseaseData.pageName} Portal`} />
+        <HeadMetaTags title={`${portalTitle} Portal`} />
         <DiseasePortalSection disease={diseaseData} />
         <section className={style.section}>
           <div className={style.contentContainer}>
@@ -60,14 +71,12 @@ const DiseasePortalPage = () => {
     );
   }
 
-  const portalTitle = diseaseData.pageName;
-
   return (
     <div>
-      <HeadMetaTags title={`${diseaseData.pageName} Portal`} />
+      <HeadMetaTags title={`${portalTitle} Portal`} />
       <DiseasePortalSection disease={diseaseData} />
       <DataPage>
-        <PageNav sections={SECTIONS}>
+        <PageNav sections={makeSections(diseaseData.doid)}>
           <PageNavEntity entityName={portalTitle}>
             <Link to={`/disease/${diseaseData.doid}`}>{diseaseData.doid}</Link>
           </PageNavEntity>
@@ -77,7 +86,7 @@ const DiseasePortalPage = () => {
             <SummarySection disease={diseaseApiData} />
           </Subsection>
           <Subsection title={RECENT_PAPERS}>
-            <PapersSection diseaseName={diseaseApiData?.doTerm?.name} />
+            <PapersSection diseaseName={diseaseApiData?.doTerm?.name} queryOverride={diseaseData.papersQuery} />
           </Subsection>
           <Subsection title={COMMUNITY_RESOURCES}>
             <ResourcesSection disease={diseaseData} />

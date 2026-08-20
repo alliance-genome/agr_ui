@@ -48,7 +48,7 @@ const LayoutWithRoutes = () => (
 
       <Route exact path="/members/:id" element={<MODLanding />} />
 
-      <Route exact path="/disease-portal" element={<DiseasePortalPage name="human" />} />
+      <Route exact path="/disease-portal" element={<DiseasePortalPage />} />
       <Route exact path="/disease-portal/:name" element={<DiseasePortalPage />} />
       <Route exact path="/contact-us" element={<ContactPage />} />
 

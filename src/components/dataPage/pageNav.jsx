@@ -24,6 +24,7 @@ const PageNav = ({ children, sections }) => {
           </button>
         </div>
         <Collapse isOpen={isOpen} navbar>
+          {/* Scrollspy maps items to children by index, so `to` entries (filtered out here) must stay last. */}
           <Scrollspy
             className={`list-group list-group-flush ${style.scrollSpy}`}
             componentTag="div"
