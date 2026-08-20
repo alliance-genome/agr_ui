@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/jsx-no-comment-textnodes */
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Select from 'react-select';
@@ -18,68 +18,51 @@ const MED_NUM_VISIBLE = 20;
 const MAX_NUM_VISIBLE = 1000;
 const SEARCH_PATH = '/search';
 
-class SingleFilterSelector extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      numVisible: SMALL_NUM_VISIBLE,
-      isSearchMode: false,
-    };
+const SingleFilterSelector = ({ displayName, isShowMore, name, navigate, queryParams, values }) => {
+  const [numVisible, setNumVisible] = useState(isShowMore ? MED_NUM_VISIBLE : SMALL_NUM_VISIBLE);
+  const [isSearchMode, setIsSearchMode] = useState(false);
 
-    if (props.isShowMore) {
-      this.state = {
-        numVisible: MED_NUM_VISIBLE,
-      };
-    }
-  }
+  const handleSelectChange = (newValues) => {
+    const simpleValues = newValues.map((d) => d.name);
+    const newQp = getQueryParamWithoutPage(name, simpleValues, queryParams);
+    navigate({ pathname: SEARCH_PATH, search: stringifyQuery(newQp) });
+  };
 
-  handleSelectChange(newValues) {
-    let simpleValues = newValues.map((d) => d.name);
-    let newQp = getQueryParamWithoutPage(this.props.name, simpleValues, this.props.queryParams);
-    let newPath = { pathname: SEARCH_PATH, search: stringifyQuery(newQp) };
-    this.props.navigate(newPath);
-  }
+  const getNextNumVisible = () => {
+    if (numVisible === SMALL_NUM_VISIBLE) return MED_NUM_VISIBLE;
+    if (numVisible === MED_NUM_VISIBLE) return MAX_NUM_VISIBLE;
+    return SMALL_NUM_VISIBLE;
+  };
 
-  renderFilterValues() {
-    let values = removeBlankValue(this.props.values)?.slice(0, this.state.numVisible);
-
-    return values?.map((value) => (
-      <SingleFilterValue
-        key={`fv.${this.props.name}.${value.name}`}
-        value={value}
-        name={this.props.name}
-        queryParams={this.props.queryParams}
-        SEARCH_PATH={SEARCH_PATH}
-        displayName={this.props.displayName}
-      />
-    ));
-  }
-
-  handleControlClick(e) {
+  const handleControlClick = (e) => {
     e.preventDefault();
-    this.setState({ numVisible: this.getNextNumVisible() });
-  }
+    setNumVisible(getNextNumVisible());
+  };
 
-  handleToggleMode(e) {
+  const handleToggleMode = (e) => {
     e.preventDefault();
-    this.setState({ isSearchMode: !this.state.isSearchMode });
-  }
+    setIsSearchMode((prev) => !prev);
+  };
 
-  getNextNumVisible() {
-    let currentNum = this.state.numVisible;
-    let newNum;
-    if (currentNum === SMALL_NUM_VISIBLE) {
-      newNum = MED_NUM_VISIBLE;
-    } else if (currentNum === MED_NUM_VISIBLE) {
-      newNum = MAX_NUM_VISIBLE;
-    } else {
-      newNum = SMALL_NUM_VISIBLE;
-    }
-    return newNum;
-  }
+  // don't render an empty filter
+  if (values?.length === 0) return null;
 
-  renderSearchNode() {
-    let currentValues = this.props.values.filter((d) => d.isActive);
+  const renderFilterValues = () =>
+    removeBlankValue(values)
+      ?.slice(0, numVisible)
+      .map((value) => (
+        <SingleFilterValue
+          key={`fv.${name}.${value.name}`}
+          value={value}
+          name={name}
+          queryParams={queryParams}
+          SEARCH_PATH={SEARCH_PATH}
+          displayName={displayName}
+        />
+      ));
+
+  const renderSearchNode = () => {
+    const currentValues = values.filter((d) => d.isActive);
     return (
       <div className={style.selectContainer}>
         <Select
@@ -87,68 +70,56 @@ class SingleFilterSelector extends Component {
           getOptionLabel={(option) => option.displayName}
           getOptionValue={(option) => option.name}
           isMulti
-          onChange={this.handleSelectChange.bind(this)}
-          options={this.props.values}
+          onChange={handleSelectChange}
+          options={values}
           placeholder="Search or Select"
           value={currentValues}
         />
       </div>
     );
-  }
+  };
 
-  renderControlNode() {
-    if (this.props.values?.length <= SMALL_NUM_VISIBLE) {
-      return null;
-    }
-    let moreLabel = this.state.numVisible !== MAX_NUM_VISIBLE ? 'Show More' : `Show ${SMALL_NUM_VISIBLE}`;
-    let modeLabelNode = this.state.isSearchMode ? (
+  const renderControlNode = () => {
+    if (values?.length <= SMALL_NUM_VISIBLE) return null;
+    const moreLabel = numVisible !== MAX_NUM_VISIBLE ? 'Show More' : `Show ${SMALL_NUM_VISIBLE}`;
+    const modeLabelNode = isSearchMode ? (
       <span>List</span>
     ) : (
       <span>
         <FontAwesomeIcon icon={faMagnifyingGlass} />
       </span>
     );
-    let moreLabelNode = this.state.isSearchMode ? (
+    const moreLabelNode = isSearchMode ? (
       <span />
     ) : (
-      <a href="#" onClick={this.handleControlClick.bind(this)}>
+      <a href="#" onClick={handleControlClick}>
         {moreLabel}
       </a>
     );
     return (
       <p className={style.singleFacetControl}>
-        <a href="#" onClick={this.handleToggleMode.bind(this)}>
+        <a href="#" onClick={handleToggleMode}>
           {modeLabelNode}
         </a>
         {moreLabelNode}
       </p>
     );
-  }
+  };
 
-  renderListNode() {
-    return <ul className="nav nav-pills flex-column">{this.renderFilterValues(this.props)}</ul>;
-  }
+  const selectableNode = isSearchMode ? renderSearchNode() : <ul className="nav nav-pills flex-column">{renderFilterValues()}</ul>;
 
-  render() {
-    // don't render an empty filter
-    if (this.props.values?.length === 0) {
-      return null;
-    }
-    let selectableNode = this.state.isSearchMode ? this.renderSearchNode() : this.renderListNode();
-    return (
-      <div className={style.aggValContainer}>
-        <p className={style.filterLabel}>
-          <b>{this.props.displayName}</b>
-        </p>
-        {selectableNode}
-        {this.renderControlNode()}
-      </div>
-    );
-  }
-}
+  return (
+    <div className={style.aggValContainer}>
+      <p className={style.filterLabel}>
+        <b>{displayName}</b>
+      </p>
+      {selectableNode}
+      {renderControlNode()}
+    </div>
+  );
+};
 
 SingleFilterSelector.propTypes = {
-  dispatch: PropTypes.func,
   displayName: PropTypes.string,
   navigate: PropTypes.func.isRequired,
   isShowMore: PropTypes.bool,
@@ -157,20 +128,12 @@ SingleFilterSelector.propTypes = {
   values: PropTypes.array,
 };
 
-/*
- * TODO: convert component to functional component utilizing useNavigate
- *
- * The wrapper component is simply a stop-gap solution since converting the component
- * is non-trivial and would stand in the way of completing the vite/react upgrade.
- * */
-
 const SingleFilterSelectorWithNavigate = (props) => {
   const navigate = useNavigate();
   return <SingleFilterSelector navigate={navigate} {...props} />;
 };
 
 SingleFilterSelectorWithNavigate.propTypes = {
-  dispatch: PropTypes.func,
   displayName: PropTypes.string,
   isShowMore: PropTypes.bool,
   name: PropTypes.string,

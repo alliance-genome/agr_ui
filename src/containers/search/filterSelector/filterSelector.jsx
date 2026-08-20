@@ -32,9 +32,16 @@ const FilterSelectorComponent = ({ activeCategory, aggregations, isPending, quer
         isShowMore = true;
       }
 
+      // strip the domain-level `key` field out of the aggregation before
+      // spreading — React 19 warns when a spread object contains a `key`
+      // property because it can't tell if the caller meant it as a React key
+      // or a data field.
+      // eslint-disable-next-line no-unused-vars
+      const { key: _aggKey, ...aggProps } = d;
+
       return (
         <div key={`filter${d.name}`}>
-          <SingleFilterSelector {...d} isShowMore={isShowMore} queryParams={queryParams} />
+          <SingleFilterSelector {...aggProps} isShowMore={isShowMore} queryParams={queryParams} />
         </div>
       );
     });
