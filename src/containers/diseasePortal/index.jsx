@@ -22,8 +22,20 @@ const COMMUNITY_RESOURCES = 'Community Resources';
 const RECENT_LITERATURE = 'Recent Literature';
 const MEMBERS = 'Members';
 
+// Hidden for release 9.1.0 (KANBAN-1473). The list is free-text matched against
+// title and abstract, and the group decided it must instead be papers annotated
+// with DO terms for the page's disease — API work that is not done, so the
+// section ships hidden rather than misleading. Flip to true once that lands; see
+// RECENT_PAPERS_API.md for the agreed target behavior.
+const SHOW_RECENT_LITERATURE = false;
+
 // Every entry is an in-page anchor, so this no longer varies per disease.
-const SECTIONS = [{ name: SUMMARY }, { name: ONTOLOGY }, { name: COMMUNITY_RESOURCES }, { name: RECENT_LITERATURE }];
+const SECTIONS = [
+  { name: SUMMARY },
+  { name: ONTOLOGY },
+  { name: COMMUNITY_RESOURCES },
+  ...(SHOW_RECENT_LITERATURE ? [{ name: RECENT_LITERATURE }] : []),
+];
 
 const DiseasePortalPage = () => {
   const { name: dname } = useParams();
@@ -98,9 +110,11 @@ const DiseasePortalPage = () => {
           <Subsection title={COMMUNITY_RESOURCES}>
             <ResourcesSection disease={diseaseData} />
           </Subsection>
-          <Subsection title={RECENT_LITERATURE}>
-            <PapersSection diseaseName={diseaseApiData?.doTerm?.name} queryOverride={diseaseData.papersQuery} />
-          </Subsection>
+          {SHOW_RECENT_LITERATURE && (
+            <Subsection title={RECENT_LITERATURE}>
+              <PapersSection diseaseName={diseaseApiData?.doTerm?.name} queryOverride={diseaseData.papersQuery} />
+            </Subsection>
+          )}
           <div className={style.membersFooter}>
             <Subsection hideTitle title={MEMBERS}>
               <MembersSection />
