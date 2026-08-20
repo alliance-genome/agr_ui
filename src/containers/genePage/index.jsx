@@ -262,13 +262,15 @@ const GenePage = () => {
         </Subsection>
 
         <Subsection help={<SequencePanelSectionHelp />} title={SEQUENCE_DETAILS}>
-          <SequencePanel
-            refseq={genomeLocation.chromosome}
-            start={genomeLocation.start}
-            end={genomeLocation.end}
-            gene={geneSymbolText}
-            species={taxonId}
-          />
+          {!release.isLoading && (
+            <SequencePanel
+              refseq={genomeLocation.chromosome}
+              start={genomeLocation.start}
+              end={genomeLocation.end}
+              gene={geneSymbolText}
+              species={taxonId}
+            />
+          )}
         </Subsection>
 
         <Subsection help={<ExpressionUserGuide />} title={EXPRESSION}>
