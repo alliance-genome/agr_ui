@@ -227,8 +227,8 @@ export const findPortalForDisease = (curie, parentClosureIDs) => {
   return ancestor ? { slug: ancestor[0], pageName: ancestor[1].pageName } : null;
 };
 
-// Portals for the index, grouped by parent disease. Group order and the order
-// within each group both follow `data`.
+// Portals for the index, grouped by parent disease. Group headings are sorted
+// alphabetically; the order within each group follows `data`.
 export const portalsByGroup = () => {
   const groups = [];
   Object.entries(data).forEach(([slug, portal]) => {
@@ -243,5 +243,8 @@ export const portalsByGroup = () => {
     }
     group.portals.push({ slug, label: portal.listLabel || portal.pageName });
   });
-  return groups;
+  // Headings are sorted here rather than by reordering `data` (KANBAN-1488), so
+  // adding a portal cannot silently misplace one. `groups` is built fresh above,
+  // so sorting it in place does not touch the exported `data`.
+  return groups.sort((a, b) => a.name.localeCompare(b.name));
 };
