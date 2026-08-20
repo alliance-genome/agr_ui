@@ -204,6 +204,29 @@ export const data = {
 // The root portal (the index page); every other entry is a disease portal.
 export const isRootPortal = (portal) => portal?.doid === DISEASE_ROOT_CURIE;
 
+// The portal a disease page should link to (KANBAN-1498): the portal on the term
+// itself, otherwise the portal whose term is one of its ancestors. Costs nothing
+// beyond a set intersection — `parentClosureIDs` is the full DAG closure and is
+// already on the payload the disease page fetches, so no extra request and no
+// walking of parent links. Note the closure is why /{id}/ancestors is not used:
+// that returns a single path, which misses portals on other branches.
+// The root portal is excluded deliberately: DOID:4 is in every closure, so
+// including it would give every disease in the DO a link to the portal index.
+export const findPortalForDisease = (curie, parentClosureIDs) => {
+  const portals = Object.entries(data).filter(([, portal]) => !isRootPortal(portal));
+
+  const own = portals.find(([, portal]) => portal.doid === curie);
+  if (own) {
+    return { slug: own[0], pageName: own[1].pageName };
+  }
+
+  const closure = new Set(parentClosureIDs || []);
+  // No portal term is a descendant of another (verified against the DO), so a
+  // second match would mean separate DAG branches; `data` order breaks the tie.
+  const ancestor = portals.find(([, portal]) => closure.has(portal.doid));
+  return ancestor ? { slug: ancestor[0], pageName: ancestor[1].pageName } : null;
+};
+
 // Portals for the index, grouped by parent disease. Group order and the order
 // within each group both follow `data`.
 export const portalsByGroup = () => {
