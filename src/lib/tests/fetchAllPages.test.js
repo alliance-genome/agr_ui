@@ -51,8 +51,6 @@ describe('fetchAllPages', () => {
       .mockResolvedValueOnce({ results: firstResults, total: 1002 })
       .mockResolvedValueOnce({ results: ['last'], total: 1002 });
 
-    await expect(fetchAllPages('/api/example', fetchPage)).rejects.toThrow(
-      'expected 1002 records, received 1001'
-    );
+    await expect(fetchAllPages('/api/example', fetchPage)).rejects.toThrow('expected 1002 records, received 1001');
   });
 });
