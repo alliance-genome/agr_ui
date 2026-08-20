@@ -1,6 +1,9 @@
 # Disease Portal — Recent Papers API
 
-Status: **implemented** (endpoint live on stage; UI wired in `PapersSection.jsx`)
+Status: **hidden in the UI for release 9.1.0** (KANBAN-1473). The endpoint is live
+on stage and the UI is still wired in `PapersSection.jsx`, but the section is not
+rendered — the group decided the list must be built from DO-annotated papers
+instead of free-text matches, which is API work not yet done. Details below.
 Branch: `feature/DPrecentpapersAPI`
 Consumer: `src/containers/diseasePortal/PapersSection.jsx`
 
@@ -21,7 +24,26 @@ disease.
 > `RECENT_PAPERS_BACKEND_SCOPE.md` (the ABC-proxy build plan) is obsolete and has
 > been removed.
 
-> **Why free-text matching, not DOID (intentional — do not "fix" back to DOID):**
+> **SUPERSEDED Aug 20 2026 — the group decided the opposite. Read this before
+> touching the query.** The consensus is that the papers listed must be ones
+> **annotated with DO terms for the page's disease**, not free-text matches. That
+> reverses the reasoning kept below, and it is a large change rather than a tweak:
+> free-text search of title + abstract is replaced by a query over curated
+> disease annotations, so it is API work, not a UI query change. See KANBAN-1473.
+>
+> Consequences the group accepted in making that call: the list becomes precise
+> but no longer surfaces papers ahead of curation, so it will be older on average
+> and thinner for diseases with a curation backlog — the exact trade-off the
+> original design refused. Expect it to look much more like the old hand-curated
+> `publications` arrays than the current list does. A rename to "Recent Annotated
+> Papers" was discussed alongside it, which is the honest label for this content.
+>
+> **For 9.1.0 the section is hidden entirely** rather than shipped with free-text
+> results (KANBAN-1473); see `SHOW_RECENT_LITERATURE` in
+> `src/containers/diseasePortal/index.jsx`.
+
+> **Original rationale, kept for the reasoning it captures — no longer the
+> direction (was: "do not fix back to DOID"):**
 > The whole purpose of this section is to surface the _most recent_ literature.
 > DOID-to-paper association is **curated**, which takes time — and the lag
 > differs per MOD corpus. Matching on DOID would therefore systematically miss

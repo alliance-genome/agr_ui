@@ -18,18 +18,23 @@ import style from './style.module.scss';
 
 const SUMMARY = 'Summary';
 const ONTOLOGY = 'Ontology View';
-const BROWSE_ONTOLOGY = 'Browse Ontology';
 const COMMUNITY_RESOURCES = 'Community Resources';
-const RECENT_PAPERS = 'Recent Alliance Papers';
+const RECENT_LITERATURE = 'Recent Literature';
 const MEMBERS = 'Members';
 
-// Browse Ontology is an outbound link rather than an anchor, so sections depend on the doid.
-const makeSections = (doid) => [
+// Hidden for release 9.1.0 (KANBAN-1473). The list is free-text matched against
+// title and abstract, and the group decided it must instead be papers annotated
+// with DO terms for the page's disease — API work that is not done, so the
+// section ships hidden rather than misleading. Flip to true once that lands; see
+// RECENT_PAPERS_API.md for the agreed target behavior.
+const SHOW_RECENT_LITERATURE = false;
+
+// Every entry is an in-page anchor, so this no longer varies per disease.
+const SECTIONS = [
   { name: SUMMARY },
-  { name: RECENT_PAPERS },
-  { name: COMMUNITY_RESOURCES },
   { name: ONTOLOGY },
-  { name: BROWSE_ONTOLOGY, to: `/ontology/disease/${doid}` },
+  { name: COMMUNITY_RESOURCES },
+  ...(SHOW_RECENT_LITERATURE ? [{ name: RECENT_LITERATURE }] : []),
 ];
 
 const DiseasePortalPage = () => {
@@ -76,7 +81,7 @@ const DiseasePortalPage = () => {
       <HeadMetaTags title={`${portalTitle} Portal`} />
       <DiseasePortalSection disease={diseaseData} />
       <DataPage>
-        <PageNav sections={makeSections(diseaseData.doid)}>
+        <PageNav sections={SECTIONS}>
           <PageNavEntity entityName={portalTitle}>
             <Link to={`/disease/${diseaseData.doid}`}>{diseaseData.doid}</Link>
           </PageNavEntity>
@@ -85,13 +90,15 @@ const DiseasePortalPage = () => {
           <Subsection title={SUMMARY}>
             <SummarySection disease={diseaseApiData} />
           </Subsection>
-          <Subsection title={RECENT_PAPERS}>
-            <PapersSection diseaseName={diseaseApiData?.doTerm?.name} queryOverride={diseaseData.papersQuery} />
-          </Subsection>
-          <Subsection title={COMMUNITY_RESOURCES}>
-            <ResourcesSection disease={diseaseData} />
-          </Subsection>
-          <Subsection title={ONTOLOGY}>
+          <Subsection
+            title={ONTOLOGY}
+            titleAdornment={
+              // The section's only route out to the full browser, replacing the removed nav item.
+              <Link className={style.ontologyBrowseLink} to={`/ontology/disease/${diseaseData.doid}`}>
+                Browse ontology for {diseaseApiData?.doTerm?.name || portalTitle}
+              </Link>
+            }
+          >
             {/* key on doid forces a remount per disease: the reused fiber (see above)
                 would otherwise leave the embedded tree's scoped state stale. */}
             <OntologyContextSection
@@ -100,6 +107,14 @@ const DiseasePortalPage = () => {
               name={diseaseApiData?.doTerm?.name || portalTitle}
             />
           </Subsection>
+          <Subsection title={COMMUNITY_RESOURCES}>
+            <ResourcesSection disease={diseaseData} />
+          </Subsection>
+          {SHOW_RECENT_LITERATURE && (
+            <Subsection title={RECENT_LITERATURE}>
+              <PapersSection diseaseName={diseaseApiData?.doTerm?.name} queryOverride={diseaseData.papersQuery} />
+            </Subsection>
+          )}
           <div className={style.membersFooter}>
             <Subsection hideTitle title={MEMBERS}>
               <MembersSection />

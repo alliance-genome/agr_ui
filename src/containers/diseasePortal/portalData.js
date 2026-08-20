@@ -15,7 +15,21 @@ import { DISEASE_ROOT_CURIE } from '../ontologyBrowser/ontologies.js';
 //              Uses the DO slim term behind the gene-page disease ribbon, so
 //              headings match the buckets curators see there. Omit on the root.
 //   listLabel  optional. Label in the index, when it differs from pageName.
-//   resources  optional. Community Resources links.
+//   resources  optional. Community Resources links. Keep each list alphabetical
+//              by title, ignoring a leading "The" — the convention is enforced by
+//              hand only: ResourcesSection renders the array in declaration order
+//              with no sort, so a new or renamed entry sits wherever it is typed
+//              and nothing flags a list that has drifted. This bit us in
+//              KANBAN-1489, where renaming "SADS Foundation ..." to "The
+//              Foundation for Inherited Arrhythmias (FIA)" left it last in a list
+//              it now sorts first in.
+//              Possible improvement: sort by title in ResourcesSection at render
+//              time, stripping a leading article for comparison, the way
+//              portalsByGroup() now sorts the index headings (KANBAN-1488). That
+//              would make placement here irrelevant. Not done for 9.1.0 because
+//              the lists are curator-vetted and were already in the right order —
+//              worth doing the next time this file's resources are touched in
+//              bulk.
 //   papersQuery optional. Overrides the Recent Papers query for portals whose
 //              name matches badly as free text. The endpoint matches loosely and
 //              fills every MOD slot even with no real match, so a name built from
@@ -40,7 +54,7 @@ export const data = {
       },
       { title: 'Matchmaker Exchange', url: 'https://www.matchmakerexchange.org/' },
       { title: 'ModelMatcher', url: 'https://www.modelmatcher.net/' },
-      { title: 'Online Mendelian Inheritance of Man (OMIM)', url: 'https://www.omim.org/' },
+      { title: 'Online Mendelian Inheritance in Man (OMIM)', url: 'https://www.omim.org/' },
       { title: 'Portal Kids First DRC', url: 'https://portal.kidsfirstdrc.org/login?redirect_path=/data-exploration' },
     ],
   },
@@ -57,7 +71,7 @@ export const data = {
         url: 'https://fightcolorectalcancer.org/our-programs/research-innovation/',
       },
       {
-        title: 'GECCO (Genetics and Epidemiology of Colorectal Cancer Consortium)',
+        title: 'The Genetics and Epidemiology of Colorectal Cancer Consortium (GECCO)',
         url: 'https://research.fredhutch.org/peters/en/genetics-and-epidemiology-of-colorectal-cancer-consortium.html',
       },
       { title: 'NCI Advances in Colorectal Cancer Research', url: 'https://www.cancer.gov/types/colorectal/research' },
@@ -77,8 +91,8 @@ export const data = {
         url: 'https://dpcpsi.nih.gov/autism-data-science-initiative/funded-research',
       },
       { title: 'NIMH Data Archive', url: 'https://nda.nih.gov/' },
-      { title: 'SFARI Gene', url: 'https://gene.sfari.org/' },
-      { title: 'SPARK (Simons Foundation Powering Autism Research)', url: 'https://sparkforautism.org/' },
+      { title: 'Simons Foundation Autism Research Initiative Gene (SFARI Gene)', url: 'https://gene.sfari.org/' },
+      { title: 'Simons Foundation Powering Autism Research (SPARK)', url: 'https://sparkforautism.org/' },
     ],
   },
   'diabetes-mellitus': {
@@ -118,12 +132,12 @@ export const data = {
         title: 'NCI/NEI ciliopathy gene-therapy research news (NIH intramural)',
         url: 'https://www.nih.gov/news-events/news-releases/nih-researchers-develop-gene-therapy-rare-ciliopathy',
       },
-      { title: 'PCD Research', url: 'https://pcdresearch.org/' },
+      { title: 'Primary Ciliary Dyskinesia Research (PCD Research)', url: 'https://pcdresearch.org/' },
       {
         title: 'Rare Diseases Clinical Research Network (RDCRN) - NIH/NCATS',
         url: 'https://www.rarediseasesnetwork.org/',
       },
-      { title: 'TheRaCil (Therapies for Renal Ciliopathies)', url: 'https://theracil.eu/' },
+      { title: 'Therapies for Renal Ciliopathies (TheRaCil)', url: 'https://theracil.eu/' },
     ],
   },
   'long-qt-syndrome': {
@@ -133,12 +147,12 @@ export const data = {
     listLabel: 'long QT syndrome',
     papersQuery: '"long QT syndrome"',
     resources: [
+      { title: 'The Foundation for Inherited Arrhythmias (FIA)', url: 'https://www.fiacardiac.org/' },
       { title: 'Hearts in Rhythm Organization (HiRO)', url: 'https://heartsinrhythm.ca/' },
       {
         title: 'International LQTS Registry (University of Rochester)',
         url: 'https://www.urmc.rochester.edu/clinical-cardiovascular-research/lqts-registry',
       },
-      { title: 'SADS Foundation (Sudden Arrhythmia Death Syndromes)', url: 'https://sads.org/' },
     ],
   },
   'alzheimers-disease': {
@@ -159,8 +173,11 @@ export const data = {
       },
       { title: "Alzheimer's Foundation of America", url: 'https://alzfdn.org/' },
       { title: 'National Institute on Aging', url: 'https://www.nia.nih.gov/' },
-      { title: 'NIAGADS', url: 'https://www.niagads.org/' },
-      { title: 'OMIM', url: 'https://omim.org/entry/104300' },
+      {
+        title: "National Institute on Aging Genetics of Alzheimer's Disease Data Storage Site (NIAGADS)",
+        url: 'https://www.niagads.org/',
+      },
+      { title: 'Online Mendelian Inheritance in Man (OMIM)', url: 'https://omim.org/entry/104300' },
     ],
   },
   epilepsy: {
@@ -196,7 +213,7 @@ export const data = {
         title: "Parkinson's Disease Clinical Trials",
         url: 'https://clinicaltrials.gov/search?cond=Parkinson%27s%20Disease&viewType=Card',
       },
-      { title: "Parkinson's Precision Medicine Initiative", url: 'https://www.ppmi-info.org/' },
+      { title: "Parkinson's Precision Medicine Initiative (PPMI)", url: 'https://www.ppmi-info.org/' },
     ],
   },
 };
@@ -204,8 +221,31 @@ export const data = {
 // The root portal (the index page); every other entry is a disease portal.
 export const isRootPortal = (portal) => portal?.doid === DISEASE_ROOT_CURIE;
 
-// Portals for the index, grouped by parent disease. Group order and the order
-// within each group both follow `data`.
+// The portal a disease page should link to (KANBAN-1498): the portal on the term
+// itself, otherwise the portal whose term is one of its ancestors. Costs nothing
+// beyond a set intersection — `parentClosureIDs` is the full DAG closure and is
+// already on the payload the disease page fetches, so no extra request and no
+// walking of parent links. Note the closure is why /{id}/ancestors is not used:
+// that returns a single path, which misses portals on other branches.
+// The root portal is excluded deliberately: DOID:4 is in every closure, so
+// including it would give every disease in the DO a link to the portal index.
+export const findPortalForDisease = (curie, parentClosureIDs) => {
+  const portals = Object.entries(data).filter(([, portal]) => !isRootPortal(portal));
+
+  const own = portals.find(([, portal]) => portal.doid === curie);
+  if (own) {
+    return { slug: own[0], pageName: own[1].pageName };
+  }
+
+  const closure = new Set(parentClosureIDs || []);
+  // No portal term is a descendant of another (verified against the DO), so a
+  // second match would mean separate DAG branches; `data` order breaks the tie.
+  const ancestor = portals.find(([, portal]) => closure.has(portal.doid));
+  return ancestor ? { slug: ancestor[0], pageName: ancestor[1].pageName } : null;
+};
+
+// Portals for the index, grouped by parent disease. Group headings are sorted
+// alphabetically; the order within each group follows `data`.
 export const portalsByGroup = () => {
   const groups = [];
   Object.entries(data).forEach(([slug, portal]) => {
@@ -220,5 +260,8 @@ export const portalsByGroup = () => {
     }
     group.portals.push({ slug, label: portal.listLabel || portal.pageName });
   });
-  return groups;
+  // Headings are sorted here rather than by reordering `data` (KANBAN-1488), so
+  // adding a portal cannot silently misplace one. `groups` is built fresh above,
+  // so sorting it in place does not touch the exported `data`.
+  return groups.sort((a, b) => a.name.localeCompare(b.name));
 };

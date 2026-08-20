@@ -186,3 +186,12 @@ $max-width: 800px;
     border-bottom: 0;
   }
 }
+
+// Secondary action on the Ontology View heading (KANBAN-1497). Sizes are
+// absolute on purpose: Bootstrap's .small is relative, so inside an h3 it still
+// rendered at heading scale and read as a second title. 0.85rem and weight 400
+// match the section's other meta text (.ontologyLegend, .ontologyParentsLabel).
+.ontologyBrowseLink {
+  font-size: 0.85rem;
+  font-weight: 400;
+}

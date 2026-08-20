@@ -13,6 +13,7 @@ import { CollapsibleList } from '../../components/collapsibleList';
 import { smartAlphaSort } from '../../lib/utils';
 import SynonymList from '../../components/synonymList.jsx';
 import { formatLink } from './utils';
+import { findPortalForDisease } from '../diseasePortal/portalData.js';
 
 const TermList = ({ terms }) =>
   terms && (
@@ -89,6 +90,27 @@ const transformSynonyms = (synonyms) => {
   return synonyms.map((item) => item.name);
 };
 
+// Omitted entirely when neither the term nor any ancestor has a portal, rather
+// than falling back to the portal index (KANBAN-1498).
+const PortalRow = ({ disease }) => {
+  const portal = findPortalForDisease(disease.doTerm?.curie, disease.parentClosureIDs);
+  if (!portal) {
+    return null;
+  }
+  return (
+    <>
+      <AttributeLabel>Disease Portal</AttributeLabel>
+      <AttributeValue>
+        <Link to={`/disease-portal/${portal.slug}`}>{portal.pageName} Portal</Link>
+      </AttributeValue>
+    </>
+  );
+};
+
+PortalRow.propTypes = {
+  disease: PropTypes.object,
+};
+
 const BasicDiseaseInfo = ({ disease }) => (
   <AttributeList>
     <AttributeLabel>Definition</AttributeLabel>
@@ -122,6 +144,8 @@ const BasicDiseaseInfo = ({ disease }) => (
     <AttributeValue>
       <SourceList sources={disease.sourceReferenceLinkUrls} />
     </AttributeValue>
+
+    <PortalRow disease={disease} />
   </AttributeList>
 );
 
