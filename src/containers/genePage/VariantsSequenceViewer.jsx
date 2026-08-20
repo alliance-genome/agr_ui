@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import GenomeFeatureWrapper from './genomeFeatureWrapper.jsx';
 import { getSingleGenomeLocation, getGenomicLocations, getSynonymStrings } from '../../lib/utils';
+import { ISOFORM_ONLY_TAXA } from '../../hooks/useViewerAlleleIds';
 
 const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisible, onAllelesSelect }) => {
   const genomeLocationList = getGenomicLocations(gene);
@@ -11,7 +12,7 @@ const VariantsSequenceViewer = ({ gene, fmin, fmax, allelesSelected, allelesVisi
   // This avoids showing error messages about missing variant data
   // TODO: Change back to ISOFORM_AND_VARIANT when variant data is available for these species
   const taxonId = gene.taxon?.curie;
-  const isHumanOrSGD = taxonId === 'NCBITaxon:9606' || taxonId === 'NCBITaxon:559292';
+  const isHumanOrSGD = ISOFORM_ONLY_TAXA.has(taxonId);
   const displayType = isHumanOrSGD ? 'ISOFORM' : 'ISOFORM_AND_VARIANT';
 
   // TODO: remove when onAllelesSelect is in use

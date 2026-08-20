@@ -18,7 +18,7 @@ import RotatedHeaderCell from '../../components/dataTable/RotatedHeaderCell.jsx'
 import BooleanLinkCell from '../../components/dataTable/BooleanLinkCell.jsx';
 import VariantsSequenceViewer from './VariantsSequenceViewer.jsx';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import useViewerAlleleIds, { usesVariantViewer } from '../../hooks/useViewerAlleleIds';
+import useViewerAlleleIds, { getVisibleViewerAlleleIds, hasViewerContent } from '../../hooks/useViewerAlleleIds';
 import useAlleleSelection from '../../hooks/useAlleleSelection';
 import { HELP_EMAIL } from '../../constants';
 import { getIdentifier, getDistinctFieldValue } from '../../components/dataTable/utils.jsx';
@@ -136,10 +136,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     // This keeps the focus on the target gene instead of expanding based on distant variants
     const { fmin, fmax } = findFminFmax([geneLocation]);
 
-    const alleleIdsFiltered = selectionOverride.active
-      ? (selectedAllelesData || []).map((row) => row.id)
-      : viewerAlleleIds.data?.results || [];
-    const usesVariants = usesVariantViewer(taxonId);
+    const alleleIdsFiltered = getVisibleViewerAlleleIds(viewerAlleleIds.data, selectionOverride);
 
     /*
        Warning!
@@ -154,7 +151,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
       gene: gene,
       fmin: fmin,
       fmax: fmax,
-      hasVariants: !usesVariants || alleleIdsFiltered.length > 0,
+      hasVariants: hasViewerContent(taxonId, hasAlleles, viewerAlleleIds.data),
       allelesSelected: alleleIdsSelected.map(formatAllele),
       allelesVisible: alleleIdsFiltered.map(formatAllele),
       onAllelesSelect: handleAllelesSelect,
@@ -170,6 +167,7 @@ const AlleleTable = ({ isLoadingGene, gene, geneId }) => {
     gene,
     geneLocation,
     taxonId,
+    hasAlleles,
   ]);
 
   const selectRow = useMemo(

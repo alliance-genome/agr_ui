@@ -17,6 +17,14 @@ export function getViewerAlleleIdsUrl(geneId, tableState) {
   return `/api/gene/${geneId}/allele-viewer-ids${suffix}`;
 }
 
+export function getVisibleViewerAlleleIds(response, selectionOverride) {
+  return selectionOverride.active ? selectionOverride.alleleIds : response?.results || [];
+}
+
+export function hasViewerContent(taxonId, hasAlleles, response) {
+  return usesVariantViewer(taxonId) ? Boolean(response?.results?.length) : hasAlleles;
+}
+
 export default function useViewerAlleleIds(geneId, taxonId, tableState) {
   const url = getViewerAlleleIdsUrl(geneId, tableState);
 
@@ -24,5 +32,6 @@ export default function useViewerAlleleIds(geneId, taxonId, tableState) {
     queryKey: ['gene-allele-viewer-ids', geneId, url],
     queryFn: () => fetchAllPages(url),
     enabled: Boolean(geneId) && usesVariantViewer(taxonId),
+    placeholderData: (previousData) => previousData,
   });
 }

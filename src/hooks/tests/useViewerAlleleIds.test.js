@@ -1,6 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import fetchAllPages from '../../lib/fetchAllPages';
-import useViewerAlleleIds, { getViewerAlleleIdsUrl } from '../useViewerAlleleIds';
+import useViewerAlleleIds, {
+  getViewerAlleleIdsUrl,
+  getVisibleViewerAlleleIds,
+  hasViewerContent,
+} from '../useViewerAlleleIds';
 
 jest.mock('@tanstack/react-query', () => ({ useQuery: jest.fn((config) => config) }));
 jest.mock('../../lib/fetchAllPages', () => jest.fn());
@@ -46,5 +50,17 @@ describe('useViewerAlleleIds', () => {
     expect(getViewerAlleleIdsUrl('MGI:1', { filters, page: 1, sizePerPage: 10, sort: 'alleleSymbol' })).toBe(
       getViewerAlleleIdsUrl('MGI:1', { filters, page: 9, sizePerPage: 100, sort: 'variantType' })
     );
+  });
+
+  test('keeps selected IDs visible while selected-row details are loading', () => {
+    expect(getVisibleViewerAlleleIds({ results: ['MGI:1', 'MGI:2'] }, { active: true, alleleIds: ['MGI:2'] })).toEqual([
+      'MGI:2',
+    ]);
+  });
+
+  test('keeps viewer mounting independent from selection details', () => {
+    expect(hasViewerContent('NCBITaxon:7955', true, { results: ['ZFIN:1'] })).toBe(true);
+    expect(hasViewerContent('NCBITaxon:9606', true, undefined)).toBe(true);
+    expect(hasViewerContent('NCBITaxon:9606', false, undefined)).toBe(false);
   });
 });

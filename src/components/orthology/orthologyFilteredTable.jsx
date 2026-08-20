@@ -24,7 +24,7 @@ const OrthologyFilteredTable = ({ geneId }) => {
   const [stringencyLevel, setStringencyLevel, resetStringencyLevel] = useResettableState(STRINGENCY_HIGH);
   const [showFilterPanel, setShowFilterPanel] = useState(false);
 
-  const { data, isLoading } = useGeneOrthology(geneId);
+  const { data, isLoading, isError } = useGeneOrthology(geneId);
 
   const filterCallback = (dat) => {
     const meetMethodFilter = filterMethod
@@ -52,6 +52,10 @@ const OrthologyFilteredTable = ({ geneId }) => {
 
   if (isLoading) {
     return <LoadingSpinner />;
+  }
+
+  if (isError || !data) {
+    return <NoData />;
   }
 
   if (data.total === 0) {
