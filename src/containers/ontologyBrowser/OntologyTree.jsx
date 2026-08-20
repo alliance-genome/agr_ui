@@ -70,9 +70,14 @@ const OntologyTree = ({
   // loses it a moment later when the batched fetch reports zero children.
   const hasChildren = childTerms.length > 0 || (data?.doTerm?.descendantCount || 0) > 0;
   const isFocused = focusedCurie === curie;
-  // Embedded viewers (the disease portal) link every label out to the full
-  // browser, since they have no detail panel of their own. The standalone
-  // omits nodeHref and keeps rendering a plain span that selects in place.
+  // nodeHref is an opt-in seam: supply it and the term label renders as a link
+  // out to the full browser instead of a plain span that selects in place. No
+  // caller passes it today — the standalone drives its own detail panel, and the
+  // disease-portal embed dropped it in KANBAN-1497, so its rows are plain text
+  // with a single "Browse ontology for ..." link on the section heading. Kept
+  // rather than deleted because that call has already reversed twice: KANBAN-1470
+  // restored these links, KANBAN-1497 removed them again.
+  // Keyboard selection of a row is a separate gap, tracked in KANBAN-1500.
   const nodeUrl = nodeHref ? nodeHref(curie) : null;
 
   const toggle = (e) => {
