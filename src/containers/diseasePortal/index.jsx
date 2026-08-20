@@ -82,8 +82,8 @@ const DiseasePortalPage = () => {
             title={ONTOLOGY}
             titleAdornment={
               // The section's only route out to the full browser, replacing the removed nav item.
-              <Link to={`/ontology/disease/${diseaseData.doid}`}>
-                Browse Ontology for {diseaseApiData?.doTerm?.name || portalTitle}
+              <Link className={style.ontologyBrowseLink} to={`/ontology/disease/${diseaseData.doid}`}>
+                Browse ontology for {diseaseApiData?.doTerm?.name || portalTitle}
               </Link>
             }
           >
