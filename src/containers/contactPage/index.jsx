@@ -1,10 +1,13 @@
 import React, { useCallback, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
-import { HELP_EMAIL, RECAPTCHA_SITE_KEY } from '../../constants';
+import { HELP_EMAIL } from '../../constants';
 import HeadMetaTags from '../../components/headMetaTags.jsx';
 import style from '../wordpress/style.module.scss';
 import { sendContactEmail } from '../../lib/sendContactEmail';
+
+// lives here, not in constants.js, so that module stays importable outside Vite (bin/build_sitemap.js)
+const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
 
 const ContactForm = () => {
   const [searchParams] = useSearchParams();
