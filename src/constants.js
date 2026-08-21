@@ -1,3 +1,6 @@
+// Imported by bin/build_sitemap.js under plain node, so keep this file free of JSX, TypeScript
+// and import.meta — prebuild runs before vite build, so a parse error here fails the whole
+// deploy. RECAPTCHA_SITE_KEY lives in contactPage for exactly that reason.
 export const CONTACT_API_URL = 'https://1ythblxki4.execute-api.us-east-1.amazonaws.com/prod/contact';
 export const HELP_EMAIL = 'help@alliancegenome.org';
 export const SEARCH_API_ERROR_MESSAGE = `There was a problem connecting to the server. Please refresh the page. If you continue to see this message, please contact ${HELP_EMAIL}`;

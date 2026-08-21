@@ -1,3 +1,6 @@
+// Imported by bin/build_sitemap.js under plain node, so keep this file (and anything it imports)
+// free of JSX, TypeScript and import.meta — prebuild runs before vite build, so a parse error
+// here fails the whole deploy, not just sitemap generation.
 import { DISEASE_ROOT_CURIE } from '../ontologyBrowser/ontologies.js';
 
 // One entry per disease portal, keyed by the URL slug (/disease-portal/{slug}).
