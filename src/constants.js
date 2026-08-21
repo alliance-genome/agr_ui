@@ -429,7 +429,7 @@ export const SPECIES = [
     jBrowseGffUrlTemplate:
       'https://s3.amazonaws.com/agrjbrowse/docker/{release}/zfin/zebrafish-11/GFF_ZFIN.sorted.gff.gz',
     jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_000002035.6_GRCz11_genomic.fna.gz',
-    jBrowsetracks: '_all_genes,_ht_variants,_variants',
+    jBrowsetracks: '_all_genes,_variants',
     jBrowseOrthologyTracks:
       'Danio_rerio_all_genes,human2zebrafish.filter.anchors,mouse2zebrafish.filter.anchors,rat2zebrafish.filter.anchors,zebrafish2fly.filter.anchors,zebrafish2worm.filter.anchors,zebrafish2xenopustropicalis.filter.anchors,zebrafish2yeast.filter.anchors',
     vertebrate: true,
