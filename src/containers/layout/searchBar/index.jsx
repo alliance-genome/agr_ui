@@ -31,7 +31,7 @@ const SearchBarComponent = ({ autoFocus, placeholder = 'search: RPB7, kinase, as
   useEffect(() => {
     const queryOptions = parseQueryString(location.search);
     setValue(queryOptions.q || '');
-    setCatOption(queryOptions.category ? CATEGORIES.find((cat) => cat.name === queryOptions.category) : DEFAULT_CAT);
+    setCatOption(CATEGORIES.find((cat) => cat.name === queryOptions.category) ?? DEFAULT_CAT);
   }, [location.search]);
 
   // Abort any in-flight autocomplete fetch on unmount so the resolver doesn't
@@ -58,8 +58,7 @@ const SearchBarComponent = ({ autoFocus, placeholder = 'search: RPB7, kinase, as
   const handleClear = () => setAutoOptions([]);
 
   const handleSelect = (selected) => {
-    const newCatOption = CATEGORIES.find((cat) => cat.name === selected);
-    setCatOption(newCatOption);
+    setCatOption(CATEGORIES.find((cat) => cat.name === selected) ?? DEFAULT_CAT);
   };
 
   const handleSubmit = (e) => {
@@ -116,7 +115,7 @@ const SearchBarComponent = ({ autoFocus, placeholder = 'search: RPB7, kinase, as
   );
 
   const renderDropdown = () => {
-    const _title = (catOption || DEFAULT_CAT).displayName;
+    const _title = catOption.displayName;
     const nodes = CATEGORIES.map((d) => {
       const labelNode = d.name === DEFAULT_CAT.name ? 'All' : <CategoryLabel category={d.name} />;
       return (

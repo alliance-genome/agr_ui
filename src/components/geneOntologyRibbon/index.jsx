@@ -71,8 +71,10 @@ const GeneOntologyRibbon = ({ geneId, geneSpecies, geneSymbol, navigate }) => {
   const ribbonRef = useRef(null);
   const tableRef = useRef(null);
 
-  const stateRef = useRef({});
-  stateRef.current = { ribbon, selected, selectedOrthologs, onlyEXP };
+  const stateRef = useRef({ ribbon: undefined, selected: null, selectedOrthologs: [], onlyEXP: false });
+  useEffect(() => {
+    stateRef.current = { ribbon, selected, selectedOrthologs, onlyEXP };
+  });
 
   // ---------- API helpers ----------
 
@@ -110,8 +112,6 @@ const GeneOntologyRibbon = ({ geneId, geneSpecies, geneSymbol, navigate }) => {
     const cat = stateRef.current.ribbon.categories.filter((c) => c.groups.some((gp) => gp.id === group.id));
     return cat.length > 0 ? [cat[0].id, cat[0].label] : undefined;
   };
-
-  const getGeneIdList = () => [geneId, ...stateRef.current.selectedOrthologs.map(getOrthologId)];
 
   const ensureFocusGeneIsPopulated = (data) => {
     const hasFocusGene = data.subjects.some((sub) => sub.id === geneId);
