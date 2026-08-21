@@ -7,6 +7,7 @@ import style from './style.module.scss';
 
 const CollapsibleList = ({ children, collapsedSize = 2, showBullets = false }) => {
   const [collapsed, setCollapsed] = useState(true);
+  const id = useId();
 
   if (!children) {
     return null;
@@ -16,7 +17,7 @@ const CollapsibleList = ({ children, collapsedSize = 2, showBullets = false }) =
   const childCount = React.Children.count(children);
   const label = ' ' + (collapsed ? 'Show All ' + childCount : 'Show First ' + collapsedSize);
   const caretIcon = collapsed ? faCaretDown : faCaretUp;
-  const id = useId();
+
   return (
     <div>
       <ul className={`${style.collapsibleList} ${showBullets ? style.bulleted : ''}`}>

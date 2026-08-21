@@ -22,7 +22,7 @@ const DEFAULT_TABLE_STATE: TableState = {
   pagination: { pageIndex: 0, pageSize: 10 },
   rowPinning: { top: [], bottom: [] },
   rowSelection: {},
-  sorting: [{ id: '', desc: false }],
+  sorting: [],
   globalFilter: null,
 };
 
@@ -201,11 +201,7 @@ const useAllianceInteractiveTableSettings = <TData extends RowData>(
   useLocalStorage: boolean = false,
   onQueryKeyUpdate?: (queryKey: unknown[]) => void,
   onQueryParamUpdate?: (queryParams: string) => void
-): {
-  tableState: TableState;
-  updateTableState: (newTableState: TableState) => void;
-  resetTableState: () => void;
-} => {
+): void => {
   const [localSettings, updateLocalSettings] = useSmartStorage<TableState>(`interactiveTableSettings.${tableId}`);
 
   let defaultState = getDefaultSettingsForTable(table, initialSettings);
@@ -226,14 +222,16 @@ const useAllianceInteractiveTableSettings = <TData extends RowData>(
 
     //TODO: when using backend logic mode, require sortKey if enableSorting is set to true
     //TODO: when using backend logic mode, require filterKey if enableFiltering is set to true
-    //TODO: default sort state should be an empty array because no column with id "" exists
     if (onQueryParamUpdate) {
-      console.log(tableState.columnFilters);
+      console.log('onQueryParamUpdate', tableState.columnFilters);
+
+      const sortById = tableState.sorting[0]?.id;
+      const sortBy = sortById ? table.getColumn(sortById)?.columnDef.meta?.sortKey || null : null;
 
       const params = {
         page: tableState.pagination.pageIndex + 1 || 1,
         limit: tableState.pagination.pageSize || null,
-        sortBy: table.getColumn(tableState.sorting[0].id)?.columnDef.meta?.sortKey || null,
+        sortBy,
         ...(tableState.columnFilters.length > 0
           ? {
               filter: Object.fromEntries(
@@ -255,6 +253,7 @@ const useAllianceInteractiveTableSettings = <TData extends RowData>(
     return {
       ...prev,
       state: tableState,
+      initialState: defaultState,
       onStateChange: (newState) => {
         dispatch({ type: 'UPDATE', newTableState: typeof newState === 'function' ? newState(tableState) : newState });
       },
@@ -276,16 +275,6 @@ const useAllianceInteractiveTableSettings = <TData extends RowData>(
       dispatch({ type: 'LOCAL_SETTINGS_UPDATED', newTableState: localSettings });
     }
   }, [useLocalStorage, localSettingsBehind, localSettings, tableState, dispatch]);
-
-  const resetTableState = () =>
-    dispatch({ type: 'UPDATE', newTableState: getDefaultSettingsForTable(table, initialSettings) });
-  const updateTableState = (newTableState: TableState) => dispatch({ type: 'UPDATE', newTableState });
-
-  return {
-    tableState,
-    resetTableState,
-    updateTableState,
-  };
 };
 
 export default useAllianceInteractiveTableSettings;

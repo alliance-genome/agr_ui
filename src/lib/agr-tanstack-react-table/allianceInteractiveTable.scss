@@ -574,7 +574,11 @@
       border-collapse: separate;
 
       > thead {
-        position: sticky;
+        //position sticky causes a bug in Safari where the modals are cutoff by the grandparent container with
+        //overflow auto. If we want to use a sticky header in the future, we should opt to make tbody the vertical
+        //scrolling container as opposed to the entire table, but that will require some scss work
+
+        //position: sticky;
         top: 0;
         z-index: 200;
 

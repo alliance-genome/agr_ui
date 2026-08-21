@@ -261,7 +261,7 @@ const GeneGeneticInteractionDetailTable = ({ focusGeneId, focusGeneDisplayName }
       }),
       tableHelper.accessor('geneGeneticInteraction.geneGeneAssociationObject.taxon', {
         header: `Interactor Species`,
-        cell: ({ cell }) => <SpeciesCell species={cell.getValue()} />,
+        cell: ({ cell }) => <SpeciesCell taxon={cell.getValue()} />,
         enableSorting: true,
         meta: {
           width: '200px',

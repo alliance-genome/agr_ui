@@ -1,4 +1,4 @@
-import React, { type ReactNode, use, useCallback, useState } from 'react';
+import React, { type ReactNode, use, useCallback, useEffect, useState } from 'react';
 import {
   type Cell,
   type Column,
@@ -153,8 +153,6 @@ const AllianceInteractiveTable = <TData extends RowData>({
     },
   });
 
-  console.log("COLDEFS", columns);
-  console.log("COLOBJS", table.getAllColumns());
 
   const initialSettings = {
     columnOrder: table.getAllLeafColumns().map((c) => c.id),
@@ -172,7 +170,7 @@ const AllianceInteractiveTable = <TData extends RowData>({
     ),
   };
 
-  const { resetTableState } = useAllianceInteractiveTableSettings(
+  useAllianceInteractiveTableSettings(
     id,
     table,
     initialSettings,
@@ -236,6 +234,8 @@ const AllianceInteractiveTable = <TData extends RowData>({
     })
   );
 
+  useEffect(() => console.log('STATE', table.getState()), [table]);
+
   if (JSON.stringify(table.getState()) === '{}') return null;
 
   if ((useFrontendLogic || !query.isFetching) && table.getRowCount() === 0) {
@@ -282,7 +282,7 @@ const AllianceInteractiveTable = <TData extends RowData>({
           <div className="main-toolbar">
             <section className="left-side">
               {useResetButton && (
-                <button className="reset-button" onClick={() => resetTableState()}>
+                <button className="reset-button" onClick={() => table.reset()}>
                   Reset
                 </button>
               )}
@@ -349,7 +349,7 @@ const AllianceInteractiveTable = <TData extends RowData>({
                   <label htmlFor={`${id}-sort-dropdown`}>Sort by</label>
                   <select
                     id={`${id}-sort-dropdown`}
-                    value={table.getState().sorting[0].id}
+                    value={table.getState().sorting[0]?.id || ''}
                     onChange={(e) => {
                       if (e.target.value === '') {
                         table.setSorting((_) => [{ id: '', desc: false }]);
