@@ -29,7 +29,7 @@ function renderLink(entity) {
   }
 }
 
-function AnnotatedPhenotypePopupCuration({ children, entities, mainRowCurie, pubmedPublications, columnNameSet }) {
+function AnnotatedPhenotypePopupCuration({ children, entities, pubmedPublications, columnNameSet }) {
   if (!entities || !entities.length) {
     return null;
   }
@@ -66,10 +66,7 @@ function AnnotatedPhenotypePopupCuration({ children, entities, mainRowCurie, pub
             </thead>
             <tbody>
               {sortedEntities.map((entity) => {
-                var expCondition = entity.conditionRelations;
-                if (entity.conditionModifiers != null) {
-                  expCondition = entity.conditionModifiers;
-                }
+                const expCondition = entity.conditionModifiers ?? entity.conditionRelations;
                 return (
                   <tr key={entity.id}>
                     {columnNameSet.has('Name') && <td>{renderLink(entity)}</td>}
@@ -110,7 +107,6 @@ function AnnotatedPhenotypePopupCuration({ children, entities, mainRowCurie, pub
 AnnotatedPhenotypePopupCuration.propTypes = {
   children: PropTypes.node,
   entities: PropTypes.array,
-  mainRowCurie: PropTypes.string,
   pubmedPublications: PropTypes.array,
   columnNameSet: PropTypes.object,
 };
