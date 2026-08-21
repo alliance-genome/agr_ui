@@ -22,7 +22,7 @@ const DiseasePortalSection = ({ disease }) => {
       `${disease.pageName} Portal`;
   const diseasesEntityButton = SHOW_DISEASE_COUNT ? (
     <EntityButton id="entity-diseases" to="/search?q=&category=disease_search_result" tooltip="View all diseases">
-      <div>{diseaseCount ? diseaseCount.toLocaleString() : ''}</div>
+      <div>{diseaseCount != null && diseaseCount.toLocaleString()}</div>
       Diseases
     </EntityButton>
   ) : (
@@ -62,7 +62,7 @@ const DiseasePortalSection = ({ disease }) => {
             to={`/disease/${disease.doid}#associated-genes`}
             tooltip="View all associated genes"
           >
-            <div>{geneCount ? geneCount.toLocaleString() : ''}</div>
+            <div>{geneCount != null && geneCount.toLocaleString()}</div>
             Genes
           </EntityButton>
           <EntityButton
@@ -70,7 +70,7 @@ const DiseasePortalSection = ({ disease }) => {
             to={`/disease/${disease.doid}#associated-alleles`}
             tooltip="View all associated alleles"
           >
-            <div>{alleleCount ? alleleCount.toLocaleString() : ''}</div>
+            <div>{alleleCount != null && alleleCount.toLocaleString()}</div>
             Alleles
           </EntityButton>
           <EntityButton
@@ -78,7 +78,7 @@ const DiseasePortalSection = ({ disease }) => {
             to={`/disease/${disease.doid}#associated-models`}
             tooltip="View all associated models"
           >
-            <div>{modelCount ? modelCount.toLocaleString() : ''}</div>
+            <div>{modelCount != null && modelCount.toLocaleString()}</div>
             Models
           </EntityButton>
           {/* <EntityButton id="entity-publications" to="">
