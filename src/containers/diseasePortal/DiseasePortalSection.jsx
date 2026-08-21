@@ -13,8 +13,8 @@ const DiseasePortalSection = ({ disease }) => {
   const isRoot = isRootPortal(disease);
   const diseaseCount = useEntityButtonCounts(SHOW_DISEASE_COUNT ? '/api/disease/annotated-count' : null);
   const geneCount = useEntityButtonCounts(url + 'genes_counts');
-  const modelCount = useEntityButtonCounts(url + 'models_counts');
   const alleleCount = useEntityButtonCounts(url + 'alleles_counts');
+  const modelCount = useEntityButtonCounts(url + 'models_counts');
 
   const pageTitle = isRoot
     ? 'Disease Portals'
@@ -30,7 +30,7 @@ const DiseasePortalSection = ({ disease }) => {
   );
   // Whole-Alliance figure, shown on the root portal only.
   const speciesEntityButton = isRoot ? (
-    <EntityButton id="entity-species" to="/about-us" tooltip="View all associated species">
+    <EntityButton id="entity-species" to="/about-us" tooltip="About the Alliance">
       9<br />
       Species
     </EntityButton>
@@ -56,14 +56,7 @@ const DiseasePortalSection = ({ disease }) => {
         </ul> */}
         <div className="d-flex justify-content-around flex-wrap">
           {diseasesEntityButton}
-          <EntityButton
-            id="entity-models"
-            to={`/disease/${disease.doid}#associated-models`}
-            tooltip="View all associated models"
-          >
-            <div>{modelCount ? modelCount.toLocaleString() : ''}</div>
-            Models
-          </EntityButton>
+          {/* Gene, Allele, Model order matches the disease pages and the ontology browser (KANBAN-1503). */}
           <EntityButton
             id="entity-genes"
             to={`/disease/${disease.doid}#associated-genes`}
@@ -79,6 +72,14 @@ const DiseasePortalSection = ({ disease }) => {
           >
             <div>{alleleCount ? alleleCount.toLocaleString() : ''}</div>
             Alleles
+          </EntityButton>
+          <EntityButton
+            id="entity-models"
+            to={`/disease/${disease.doid}#associated-models`}
+            tooltip="View all associated models"
+          >
+            <div>{modelCount ? modelCount.toLocaleString() : ''}</div>
+            Models
           </EntityButton>
           {/* <EntityButton id="entity-publications" to="">
             96,000
