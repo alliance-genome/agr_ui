@@ -14,26 +14,31 @@ const ReferenceList = ({ refs, trunc = true, filterTerm }) => {
         .toLowerCase()
     )
     .filter(Boolean);
+  // Orphanet/OMIM evidence carries no citation, so there is nothing to show (KANBAN-1505).
+  const citedRefs = (refs || []).filter((ref) => ref?.shortCitation);
+  if (!citedRefs.length) {
+    return null;
+  }
+
   return (
-    refs && (
-      <CollapsibleList>
-        {refs.map((ref) => {
-          // when a filter is active, de-emphasize references matching none of its terms
-          const citation = (ref.shortCitation || '').toLowerCase();
-          const dim = terms.length > 0 && !terms.some((term) => citation.includes(term));
-          return (
-            <Link
-              to={`/reference/${ref.curie}`}
-              title={ref.shortCitation}
-              className={`${trunc ? style.ellipses : ''}${dim ? ' ' + style.referenceDim : ''}`}
-              key={ref.curie}
-            >
-              {ref.shortCitation}
-            </Link>
-          );
-        })}
-      </CollapsibleList>
-    )
+    <CollapsibleList>
+      {citedRefs.map((ref) => {
+        // when a filter is active, de-emphasize references matching none of its terms
+        const citation = ref.shortCitation.toLowerCase();
+        const dim = terms.length > 0 && !terms.some((term) => citation.includes(term));
+        const className = `${trunc ? style.ellipses : ''}${dim ? ' ' + style.referenceDim : ''}`;
+        // only AGRKB references have an Alliance reference page to link to
+        return ref.curie?.startsWith('AGRKB:') ? (
+          <Link to={`/reference/${ref.curie}`} title={ref.shortCitation} className={className} key={ref.curie}>
+            {ref.shortCitation}
+          </Link>
+        ) : (
+          <span title={ref.shortCitation} className={className} key={ref.curie}>
+            {ref.shortCitation}
+          </span>
+        );
+      })}
+    </CollapsibleList>
   );
 };
 
