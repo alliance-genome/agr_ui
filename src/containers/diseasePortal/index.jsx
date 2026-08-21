@@ -19,10 +19,23 @@ import style from './style.module.scss';
 const SUMMARY = 'Summary';
 const ONTOLOGY = 'Ontology View';
 const COMMUNITY_RESOURCES = 'Community Resources';
-const RECENT_PAPERS = 'Recent Alliance Papers';
+const RECENT_LITERATURE = 'Recent Literature';
 const MEMBERS = 'Members';
 
-const SECTIONS = [{ name: SUMMARY }, { name: RECENT_PAPERS }, { name: COMMUNITY_RESOURCES }, { name: ONTOLOGY }];
+// Hidden for release 9.1.0 (KANBAN-1473). The list is free-text matched against
+// title and abstract, and the group decided it must instead be papers annotated
+// with DO terms for the page's disease — API work that is not done, so the
+// section ships hidden rather than misleading. Flip to true once that lands; see
+// RECENT_PAPERS_API.md for the agreed target behavior.
+const SHOW_RECENT_LITERATURE = false;
+
+// Every entry is an in-page anchor, so this no longer varies per disease.
+const SECTIONS = [
+  { name: SUMMARY },
+  { name: ONTOLOGY },
+  { name: COMMUNITY_RESOURCES },
+  ...(SHOW_RECENT_LITERATURE ? [{ name: RECENT_LITERATURE }] : []),
+];
 
 const DiseasePortalPage = () => {
   const { name: dname } = useParams();
@@ -34,6 +47,9 @@ const DiseasePortalPage = () => {
   // Passing a null url when there's no doid makes the query a no-op.
   const { data: diseaseApiData } = usePageLoadingQuery(diseaseData?.doid ? `/api/disease/${diseaseData.doid}` : null);
 
+  // pageName is required; fall back rather than render "undefined Portal"
+  const portalTitle = diseaseData?.pageName || diseaseApiData?.doTerm?.name || 'Disease';
+
   if (dname && !diseaseData) {
     return <NotFound />;
   }
@@ -41,7 +57,7 @@ const DiseasePortalPage = () => {
   if (!dname) {
     return (
       <div>
-        <HeadMetaTags title={`${diseaseData.pageName} Portal`} />
+        <HeadMetaTags title={`${portalTitle} Portal`} />
         <DiseasePortalSection disease={diseaseData} />
         <section className={style.section}>
           <div className={style.contentContainer}>
@@ -60,11 +76,9 @@ const DiseasePortalPage = () => {
     );
   }
 
-  const portalTitle = diseaseData.pageName;
-
   return (
     <div>
-      <HeadMetaTags title={`${diseaseData.pageName} Portal`} />
+      <HeadMetaTags title={`${portalTitle} Portal`} />
       <DiseasePortalSection disease={diseaseData} />
       <DataPage>
         <PageNav sections={SECTIONS}>
@@ -76,13 +90,15 @@ const DiseasePortalPage = () => {
           <Subsection title={SUMMARY}>
             <SummarySection disease={diseaseApiData} />
           </Subsection>
-          <Subsection title={RECENT_PAPERS}>
-            <PapersSection diseaseName={diseaseApiData?.doTerm?.name} />
-          </Subsection>
-          <Subsection title={COMMUNITY_RESOURCES}>
-            <ResourcesSection disease={diseaseData} />
-          </Subsection>
-          <Subsection title={ONTOLOGY}>
+          <Subsection
+            title={ONTOLOGY}
+            titleAdornment={
+              // The section's only route out to the full browser, replacing the removed nav item.
+              <Link className={style.ontologyBrowseLink} to={`/ontology/disease/${diseaseData.doid}`}>
+                Browse ontology for {diseaseApiData?.doTerm?.name || portalTitle}
+              </Link>
+            }
+          >
             {/* key on doid forces a remount per disease: the reused fiber (see above)
                 would otherwise leave the embedded tree's scoped state stale. */}
             <OntologyContextSection
@@ -91,6 +107,14 @@ const DiseasePortalPage = () => {
               name={diseaseApiData?.doTerm?.name || portalTitle}
             />
           </Subsection>
+          <Subsection title={COMMUNITY_RESOURCES}>
+            <ResourcesSection disease={diseaseData} />
+          </Subsection>
+          {SHOW_RECENT_LITERATURE && (
+            <Subsection title={RECENT_LITERATURE}>
+              <PapersSection diseaseName={diseaseApiData?.doTerm?.name} queryOverride={diseaseData.papersQuery} />
+            </Subsection>
+          )}
           <div className={style.membersFooter}>
             <Subsection hideTitle title={MEMBERS}>
               <MembersSection />

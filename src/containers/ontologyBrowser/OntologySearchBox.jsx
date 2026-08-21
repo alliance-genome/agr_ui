@@ -9,6 +9,27 @@ const ENDPOINT = '/api/search_autocomplete';
 const SEARCH_ENDPOINT = '/api/search';
 const FULL_RESULTS_LIMIT = 200;
 
+// Autocomplete matches on lowercased *name* tokens and on the exact curie text,
+// so `DOID:10763` finds the term but `doid:10763`, `DOID:` alone, or a bare
+// numeric id return nothing. Canonicalize the prefix case against the active
+// ontology's expected prefix (e.g. `DOID`, `WBbt`, `FBbt`) so lowercased curie
+// input still hits the exact-curie path, without mangling correctly-cased
+// mixed-case prefixes.
+const CURIE_PREFIX = /^([A-Za-z][A-Za-z0-9_]*):?$/;
+// Local id restricted to typical curie tail characters so we do not treat
+// pasted URLs (which contain `/`) or free-form text as a curie and generate
+// a bogus "Jump to" row.
+const FULL_CURIE = /^([A-Za-z][A-Za-z0-9_]*):([A-Za-z0-9_.-]+)$/;
+const normalizeCurieQuery = (q, curiePrefix) => {
+  if (!curiePrefix) return q;
+  const matchesPrefix = (p) => p.toLowerCase() === curiePrefix.toLowerCase();
+  const full = q.match(FULL_CURIE);
+  if (full && matchesPrefix(full[1])) return `${curiePrefix}:${full[2]}`;
+  const prefix = q.match(CURIE_PREFIX);
+  if (prefix && matchesPrefix(prefix[1])) return `${curiePrefix}${q.endsWith(':') ? ':' : ''}`;
+  return q;
+};
+
 // Re-rank hits so the closest name match floats to the top. ES scores can
 // bury an unnumbered parent term ("Parkinson's disease") under its numbered
 // subtypes ("Parkinson's disease 1", "…2", …); tier by match strength, then
@@ -128,14 +149,19 @@ FullResultsModal.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-const OntologySearchBox = ({ onSelect, category, placeholder }) => {
+const OntologySearchBox = ({ onSelect, category, placeholder, curiePrefix }) => {
   const [value, setValue] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [modalQuery, setModalQuery] = useState(null);
   const abortRef = useRef(null);
 
   const openModalFor = (q) => {
-    if (q && q.trim()) setModalQuery(q);
+    const trimmed = (q || '').trim();
+    if (!trimmed) return;
+    // Normalize before firing the modal search — /api/search is case-sensitive
+    // on curies just like the autocomplete, so a lowercase curie click on
+    // "View all results" would otherwise still return zero hits.
+    setModalQuery(normalizeCurieQuery(trimmed, curiePrefix));
   };
   const closeModal = () => setModalQuery(null);
   const onModalSelect = (curie) => {
@@ -153,14 +179,26 @@ const OntologySearchBox = ({ onSelect, category, placeholder }) => {
     if (abortRef.current) abortRef.current.abort();
     const controller = new AbortController();
     abortRef.current = controller;
-    const url = `${ENDPOINT}?q=${encodeURIComponent(q)}&category=${category}`;
+    const normalized = normalizeCurieQuery(q, curiePrefix);
+    // When the user has typed a fully-formed curie, add an instant
+    // "jump to this term" row up front. `__instant` marks it as our synthetic
+    // row so we can render it distinctly and drop any duplicate from the
+    // backend hit list.
+    const fullCurieMatch = normalized.match(FULL_CURIE);
+    const instantRow = fullCurieMatch ? [{ __instant: true, curie: normalized, name: `Jump to ${normalized}` }] : [];
+    const url = `${ENDPOINT}?q=${encodeURIComponent(normalized)}&category=${category}`;
     fetchData(url, { signal: controller.signal })
       .then((data) => {
+        if (controller.signal.aborted) return;
         const filtered = (data?.results || []).filter((r) => !/^obsolete/i.test(r.name || r.nameKey || ''));
-        setSuggestions(rankByCloseness(q, filtered));
+        const ranked = rankByCloseness(normalized, filtered).filter((r) => (r.curie || r.primaryKey) !== normalized);
+        setSuggestions([...instantRow, ...ranked]);
       })
       .catch(() => {
-        // aborted or failed; leave existing suggestions
+        // Superseded by a newer keystroke; leave the in-flight query alone so
+        // its stale instant row does not flicker over the latest state.
+        if (controller.signal.aborted) return;
+        if (instantRow.length) setSuggestions(instantRow);
       });
   };
 
@@ -181,13 +219,20 @@ const OntologySearchBox = ({ onSelect, category, placeholder }) => {
         onSuggestionsClearRequested={onSuggestionsClearRequested}
         onSuggestionSelected={onSuggestionSelected}
         highlightFirstSuggestion
-        getSuggestionValue={(s) => s.name || s.nameKey || ''}
-        renderSuggestion={(s) => (
-          <div style={{ padding: '4px 8px' }}>
-            <strong>{s.name || s.nameKey}</strong>{' '}
-            <span style={{ color: '#868e96', fontSize: '0.8rem', fontFamily: 'monospace' }}>{s.curie}</span>
-          </div>
-        )}
+        getSuggestionValue={(s) => (s.__instant ? s.curie : s.name || s.nameKey || '')}
+        renderSuggestion={(s) =>
+          s.__instant ? (
+            <div style={{ padding: '4px 8px', background: '#f1f8ff' }}>
+              <span style={{ color: '#0366d6', fontWeight: 600 }}>Jump to</span>{' '}
+              <span style={{ fontFamily: 'monospace' }}>{s.curie}</span>
+            </div>
+          ) : (
+            <div style={{ padding: '4px 8px' }}>
+              <strong>{s.name || s.nameKey}</strong>{' '}
+              <span style={{ color: '#868e96', fontSize: '0.8rem', fontFamily: 'monospace' }}>{s.curie}</span>
+            </div>
+          )
+        }
         renderSuggestionsContainer={({ containerProps, children, query }) => {
           const { key, ...containerRest } = containerProps;
           return (
@@ -232,6 +277,11 @@ OntologySearchBox.propTypes = {
   onSelect: PropTypes.func.isRequired,
   category: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
+  // Canonical curie prefix for the active ontology (e.g. `DOID`, `WBbt`).
+  // When provided, lowercased curie input is rewritten to this exact casing
+  // before hitting the backend; input with any other prefix passes through
+  // unchanged.
+  curiePrefix: PropTypes.string,
 };
 
 export default OntologySearchBox;

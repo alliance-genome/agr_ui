@@ -82,6 +82,7 @@ export const CATEGORIES = [
 
 export const ALLELE_WITH_ONE_VARIANT = 'allele with one variant';
 export const ALLELE_WITH_MULTIPLE_VARIANTS = 'allele with multiple variants';
+export const ISOFORM_ONLY_TAXA = new Set(['NCBITaxon:9606', 'NCBITaxon:559292']);
 
 export const NON_HIGHLIGHTED_FIELDS = [
   'sourceHref',
@@ -237,12 +238,12 @@ export const NAV_MENU = [
       },
       {
         label: 'Organization and Governance',
-        shortLabel: 'Organization / Governance',
+        shortLabel: 'Organization',
         route: '/organization-and-governance',
       },
       {
         label: 'Privacy, Warranty, Licensing, and Data Preservation Commitment',
-        shortLabel: 'Licensing, Privacy, etc',
+        shortLabel: 'Licensing, Privacy',
         route: '/privacy-warranty-licensing',
       },
     ],
@@ -368,7 +369,7 @@ export const SPECIES = [
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
     jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/RGD/rat/',
     jBrowseGffUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/docker/{release}/RGD/rat/GFF_RGD.sorted.gff.gz',
-    jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_015227675.2_mRatBN7.2_genomic.fna.gz',
+    jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_036323735.1_GRCr8_genomic.fna.gz',
     jBrowsetracks: '_all_genes,_ht_variants,_variants',
     jBrowseOrthologyTracks:
       'Rattus_norvegicus_all_genes,human2rat.filter.anchors,rat2fly.filter.anchors,rat2mouse.filter.anchors,rat2worm.filter.anchors,rat2xenopustropicalis.filter.anchors,rat2yeast.filter.anchors,rat2zebrafish.filter.anchors',
@@ -423,12 +424,11 @@ export const SPECIES = [
     apolloName: 'zebrafish',
     apolloTrack: '/All%20Genes/',
     jBrowseName: 'Danio rerio',
-    jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/zfin/zebrafish-11/`,
+    jBrowsenclistbaseurltemplate: `https://s3.amazonaws.com/agrjbrowse/docker/{release}/zfin/zebrafish/`,
     jBrowseurltemplate: 'tracks/All_Genes/{refseq}/trackData.jsonz',
-    jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/zfin/zebrafish-11/',
-    jBrowseGffUrlTemplate:
-      'https://s3.amazonaws.com/agrjbrowse/docker/{release}/zfin/zebrafish-11/GFF_ZFIN.sorted.gff.gz',
-    jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_000002035.6_GRCz11_genomic.fna.gz',
+    jBrowseVcfUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/VCF/{release}/zfin/zebrafish/',
+    jBrowseGffUrlTemplate: 'https://s3.amazonaws.com/agrjbrowse/docker/{release}/zfin/zebrafish/GFF_ZFIN.sorted.gff.gz',
+    jBrowsefastaurl: 'https://s3.amazonaws.com/agrjbrowse/fasta/GCF_049306965.1_GRCz12tu_genomic.fna.gz',
     jBrowsetracks: '_all_genes,_variants',
     jBrowseOrthologyTracks:
       'Danio_rerio_all_genes,human2zebrafish.filter.anchors,mouse2zebrafish.filter.anchors,rat2zebrafish.filter.anchors,zebrafish2fly.filter.anchors,zebrafish2worm.filter.anchors,zebrafish2xenopustropicalis.filter.anchors,zebrafish2yeast.filter.anchors',

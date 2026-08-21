@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import CountBadge from './CountBadge.jsx';
@@ -17,6 +18,7 @@ const OntologyTree = ({
   onSelect,
   scrollOnFocus = true,
   onFocusMounted,
+  nodeHref,
 }) => {
   const [open, setOpen] = useState(false);
   const rowRef = useRef(null);
@@ -68,6 +70,15 @@ const OntologyTree = ({
   // loses it a moment later when the batched fetch reports zero children.
   const hasChildren = childTerms.length > 0 || (data?.doTerm?.descendantCount || 0) > 0;
   const isFocused = focusedCurie === curie;
+  // nodeHref is an opt-in seam: supply it and the term label renders as a link
+  // out to the full browser instead of a plain span that selects in place. No
+  // caller passes it today — the standalone drives its own detail panel, and the
+  // disease-portal embed dropped it in KANBAN-1497, so its rows are plain text
+  // with a single "Browse ontology for ..." link on the section heading. Kept
+  // rather than deleted because that call has already reversed twice: KANBAN-1470
+  // restored these links, KANBAN-1497 removed them again.
+  // Keyboard selection of a row is a separate gap, tracked in KANBAN-1500.
+  const nodeUrl = nodeHref ? nodeHref(curie) : null;
 
   const toggle = (e) => {
     e.stopPropagation();
@@ -94,7 +105,13 @@ const OntologyTree = ({
         ) : (
           <span className={style.toggleSpacer} />
         )}
-        <span>{name}</span>
+        {nodeUrl ? (
+          <Link to={nodeUrl} onClick={(e) => e.stopPropagation()}>
+            {name}
+          </Link>
+        ) : (
+          <span>{name}</span>
+        )}
         <span className={style.curie}>&nbsp;{curie}</span>
         <span className={style.badgeRow}>
           {ANNOTATION_TYPES.map((t) => (
@@ -105,7 +122,8 @@ const OntologyTree = ({
       {open && childTerms.length > 0 && (
         <div className={style.children}>
           {[...childTerms]
-            .sort((a, b) => (a.name || '').localeCompare(b.name || ''))
+            // numeric: true so "ataxia 2" sorts before "ataxia 10"
+            .sort((a, b) => (a.name || '').localeCompare(b.name || '', undefined, { numeric: true }))
             .map((c) => (
               <OntologyTree
                 key={c.curie}
@@ -117,6 +135,7 @@ const OntologyTree = ({
                 onSelect={onSelect}
                 scrollOnFocus={scrollOnFocus}
                 onFocusMounted={onFocusMounted}
+                nodeHref={nodeHref}
               />
             ))}
         </div>
@@ -134,6 +153,7 @@ OntologyTree.propTypes = {
   onSelect: PropTypes.func.isRequired,
   scrollOnFocus: PropTypes.bool,
   onFocusMounted: PropTypes.func,
+  nodeHref: PropTypes.func,
 };
 
 export default OntologyTree;
