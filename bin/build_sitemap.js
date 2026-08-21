@@ -1,5 +1,6 @@
 import { simpleSitemapAndIndex } from 'sitemap';
 import { data as portalData, isRootPortal } from '../src/containers/diseasePortal/portalData.js';
+import { NAV_MENU } from '../src/constants.js';
 
 // derived from portalData so a new portal is indexed without anyone remembering this file
 const diseasePortalUrls = Object.entries(portalData)
@@ -10,6 +11,14 @@ const diseasePortalUrls = Object.entries(portalData)
     priority: 0.7,
     lastmodrealtime: true,
   }));
+
+// likewise from the nav, so a new MOD landing page is indexed with no second edit
+const memberUrls = (NAV_MENU.find((section) => section.label === 'Members')?.sub ?? []).map(({ route }) => ({
+  url: route,
+  changefreq: 'monthly',
+  priority: 0.7,
+  lastmodrealtime: true,
+}));
 
 simpleSitemapAndIndex({
   hostname: 'https://www.alliancegenome.org',
@@ -40,5 +49,6 @@ simpleSitemapAndIndex({
     { url: '/downloads', changefreq: 'monthly', priority: 0.7, lastmodrealtime: true },
     { url: '/news', changefreq: 'weekly', priority: 0.7, lastmodrealtime: true },
     { url: '/blastservice', changefreq: 'monthly', priority: 0.7, lastmodrealtime: true },
+    ...memberUrls,
   ],
 });
