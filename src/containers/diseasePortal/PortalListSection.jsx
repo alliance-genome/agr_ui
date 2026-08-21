@@ -7,17 +7,18 @@ import style from './style.module.scss';
 const PortalListItem = ({ portalKey, label }) => {
   const disease = data[portalKey];
   const url = `/api/disease/${disease.doid}/`;
-  const modelCount = useEntityButtonCounts(url + 'models_counts');
   const geneCount = useEntityButtonCounts(url + 'genes_counts');
   const alleleCount = useEntityButtonCounts(url + 'alleles_counts');
+  const modelCount = useEntityButtonCounts(url + 'models_counts');
 
   return (
     <li>
       <Link to={`/disease-portal/${portalKey}`}>{label}</Link>
+      {/* Gene, Allele, Model order matches the portal page pills (KANBAN-1503). */}
       <span className={style.portalCounts}>
-        {modelCount != null && <span>{modelCount.toLocaleString()} models</span>}
         {geneCount != null && <span>{geneCount.toLocaleString()} genes</span>}
         {alleleCount != null && <span>{alleleCount.toLocaleString()} alleles</span>}
+        {modelCount != null && <span>{modelCount.toLocaleString()} models</span>}
       </span>
     </li>
   );
