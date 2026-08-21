@@ -66,10 +66,7 @@ function AnnotatedPhenotypePopupCuration({ children, entities, pubmedPublication
             </thead>
             <tbody>
               {sortedEntities.map((entity) => {
-                var expCondition = entity.conditionRelations;
-                if (entity.conditionModifiers != null) {
-                  expCondition = entity.conditionModifiers;
-                }
+                const expCondition = entity.conditionModifiers ?? entity.conditionRelations;
                 return (
                   <tr key={entity.id}>
                     {columnNameSet.has('Name') && <td>{renderLink(entity)}</td>}
