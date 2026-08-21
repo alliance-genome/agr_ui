@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import hash from 'object-hash';
-import { DataTable, ReferencesCellCuration, ReferenceList, GeneCellCuration } from '../../components/dataTable';
+import { DataTable, ReferencesCellCuration, ReferenceList } from '../../components/dataTable';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
-import { getIdentifier } from '../../components/dataTable/utils.jsx';
 import AnnotatedPhenotypePopupCuration from '../../components/dataTable/AnnotatedPhenotypePopupCuration.jsx';
 import { GENE_DETAILS_COLUMNS } from '../../components/dataTable/constants';
 import ProvidersCellCuration from '../../components/dataTable/ProvidersCellCuration.jsx';
@@ -30,20 +29,17 @@ const PhenotypeTable = ({ geneId, entityType, hideSourceColumn = false }) => {
     {
       dataField: 'primaryAnnotations',
       text: 'Annotation details',
-      formatter: (subject, row) => (
-        <>
-          <GeneCellCuration identifier={getIdentifier(subject)} gene={subject} />
-          <small>
-            <AnnotatedPhenotypePopupCuration
-              entities={row.primaryAnnotations}
-              mainRowCurie={getIdentifier(subject)}
-              pubmedPublications={row.pubmedPublications}
-              columnNameSet={GENE_DETAILS_COLUMNS}
-            >
-              View
-            </AnnotatedPhenotypePopupCuration>
-          </small>
-        </>
+      // every row's subject is the page's own gene or allele, so only the popup link belongs here
+      formatter: (_, row) => (
+        <small>
+          <AnnotatedPhenotypePopupCuration
+            entities={row.primaryAnnotations}
+            pubmedPublications={row.pubmedPublications}
+            columnNameSet={GENE_DETAILS_COLUMNS}
+          >
+            View
+          </AnnotatedPhenotypePopupCuration>
+        </small>
       ),
       headerStyle: { width: '90px' },
     },
