@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef } from 'react';
 import fetchData from '../lib/fetchData';
 import { ALLELE_WITH_MULTIPLE_VARIANTS, ALLELE_WITH_ONE_VARIANT } from '../constants';
+import { getIdentifier } from '../components/dataTable/utils';
 
 /**
  * Custom hook for managing allele selection state and fetching selected allele data
@@ -105,7 +106,7 @@ export default function useAlleleSelection(tableProps) {
           const seenIds = new Set();
 
           for (const allele of validAlleles) {
-            const alleleId = allele.allele.primaryExternalId;
+            const alleleId = getIdentifier(allele.allele);
 
             if (alleleId && !seenIds.has(alleleId)) {
               seenIds.add(alleleId);
