@@ -14,6 +14,19 @@ export function getSelectedAlleleCategory(response) {
   return response.alterationType || response.category || 'allele';
 }
 
+export function buildSelectedAlleleRow(response) {
+  if (!response?.allele) return null;
+
+  return {
+    ...response,
+    alterationType: getSelectedAlleleCategory(response),
+  };
+}
+
+export function getSelectedVariantList(response) {
+  return response?.results?.flatMap((row) => row.variantList || []) || [];
+}
+
 export default function useAlleleSelection(tableProps) {
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
   const [selectionOverride, setSelectionOverride] = useState({
@@ -71,7 +84,7 @@ export default function useAlleleSelection(tableProps) {
             if (alleleData && variantsData) {
               return {
                 ...alleleData,
-                variantList: variantsData.results || [],
+                variantList: getSelectedVariantList(variantsData),
               };
             }
             return alleleData;
@@ -85,46 +98,17 @@ export default function useAlleleSelection(tableProps) {
             return;
           }
 
-          // Extract the nested allele object from the API response
-          // API returns: { category: "allele_summary", allele: {...}, alterationType: "...", variants: [...] }
-          // We need to map the individual allele API response to match the gene alleles list format
-          const validAlleles = alleles
-            .filter((a) => a !== null && a.allele)
-            .map((response) => {
-              const allele = response.allele;
-              return {
-                ...allele,
-                id: allele.primaryExternalId, // Map primaryExternalId to id
-                symbol: allele.alleleSymbol?.displayText || allele.alleleSymbol?.formatText,
-                synonyms: allele.alleleSynonyms?.map((s) => s.displayText || s.formatText) || [],
-                category: getSelectedAlleleCategory(response),
-                // Map crossReference structure to crossReferenceMap for table compatibility
-                crossReferenceMap: {
-                  primary: {
-                    url:
-                      response.crossReference?.resourceDescriptorPage?.urlTemplate?.replace(
-                        '[%s]',
-                        allele.primaryExternalId?.split(':')[1] || ''
-                      ) ||
-                      allele.dataProviderCrossReference?.resourceDescriptorPage?.urlTemplate?.replace(
-                        '[%s]',
-                        allele.primaryExternalId?.split(':')[1] || ''
-                      ),
-                  },
-                },
-                // Include variants fetched from /api/allele/{id}/variants endpoint
-                variantList: response.variantList || [],
-                diseases: [],
-              };
-            });
+          const validAlleles = alleles.map(buildSelectedAlleleRow).filter(Boolean);
 
           // Deduplicate alleles based on ID to prevent duplicates
           const uniqueAlleles = [];
           const seenIds = new Set();
 
           for (const allele of validAlleles) {
-            if (allele && allele.id && !seenIds.has(allele.id)) {
-              seenIds.add(allele.id);
+            const alleleId = allele.allele.primaryExternalId;
+
+            if (alleleId && !seenIds.has(alleleId)) {
+              seenIds.add(alleleId);
 
               uniqueAlleles.push(allele);
             }
