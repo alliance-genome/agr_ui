@@ -1,13 +1,34 @@
 import { useState, useCallback, useRef } from 'react';
 import fetchData from '../lib/fetchData';
+import { ALLELE_WITH_MULTIPLE_VARIANTS, ALLELE_WITH_ONE_VARIANT } from '../constants';
+import { getIdentifier } from '../components/dataTable/utils';
 
 /**
  * Custom hook for managing allele selection state and fetching selected allele data
  * @param {Object} tableProps - The table properties from useDataTableQuery
- * @param {Array} cachedAlleles - Optional cached allele data with correct categories from useAllVariants
  * @returns {Object} Selection state and handlers
  */
-export default function useAlleleSelection(tableProps, cachedAlleles = []) {
+export function getSelectedAlleleCategory(response) {
+  const variantCount = response.variantList?.length || 0;
+  if (variantCount === 1) return ALLELE_WITH_ONE_VARIANT;
+  if (variantCount > 1) return ALLELE_WITH_MULTIPLE_VARIANTS;
+  return response.alterationType || response.category || 'allele';
+}
+
+export function buildSelectedAlleleRow(response) {
+  if (!response?.allele) return null;
+
+  return {
+    ...response,
+    alterationType: getSelectedAlleleCategory(response),
+  };
+}
+
+export function getSelectedVariantList(response) {
+  return response?.results?.flatMap((row) => row.variantList || []) || [];
+}
+
+export default function useAlleleSelection(tableProps) {
   const [alleleIdsSelected, setAlleleIdsSelected] = useState([]);
   const [selectionOverride, setSelectionOverride] = useState({
     active: false,
@@ -64,7 +85,7 @@ export default function useAlleleSelection(tableProps, cachedAlleles = []) {
             if (alleleData && variantsData) {
               return {
                 ...alleleData,
-                variantList: variantsData.results || [],
+                variantList: getSelectedVariantList(variantsData),
               };
             }
             return alleleData;
@@ -78,70 +99,19 @@ export default function useAlleleSelection(tableProps, cachedAlleles = []) {
             return;
           }
 
-          // Extract the nested allele object from the API response
-          // API returns: { category: "allele_summary", allele: {...}, alterationType: "...", variants: [...] }
-          // We need to map the individual allele API response to match the gene alleles list format
-          const validAlleles = alleles
-            .filter((a) => a !== null && a.allele)
-            .map((response) => {
-              const allele = response.allele;
-              // TEMPORARY FIX (SCRUM-5638): Look up the correct category from cached allele data first.
-              // The individual allele API returns incorrect alterationType (e.g., "allele with one variant"
-              // for alleles that actually have multiple variants), so we prefer the cached category
-              // from the gene alleles endpoint which has the correct value.
-              // TODO: Remove this workaround and the cachedAlleles parameter when SCRUM-5638 backend fix
-              // is implemented to return correct alterationType from /api/allele/{id} endpoint.
-              const cachedAllele = cachedAlleles?.find((a) => a.id === allele.primaryExternalId);
-              return {
-                ...allele,
-                id: allele.primaryExternalId, // Map primaryExternalId to id
-                symbol: allele.alleleSymbol?.displayText || allele.alleleSymbol?.formatText,
-                synonyms: allele.alleleSynonyms?.map((s) => s.displayText || s.formatText) || [],
-                category: cachedAllele?.category || response.alterationType || response.category || 'allele',
-                // Map crossReference structure to crossReferenceMap for table compatibility
-                crossReferenceMap: {
-                  primary: {
-                    url:
-                      response.crossReference?.resourceDescriptorPage?.urlTemplate?.replace(
-                        '[%s]',
-                        allele.primaryExternalId?.split(':')[1] || ''
-                      ) ||
-                      allele.dataProviderCrossReference?.resourceDescriptorPage?.urlTemplate?.replace(
-                        '[%s]',
-                        allele.primaryExternalId?.split(':')[1] || ''
-                      ),
-                  },
-                },
-                // Include variants fetched from /api/allele/{id}/variants endpoint
-                variantList: response.variantList || [],
-                diseases: [],
-              };
-            });
+          const validAlleles = alleles.map(buildSelectedAlleleRow).filter(Boolean);
 
           // Deduplicate alleles based on ID to prevent duplicates
           const uniqueAlleles = [];
           const seenIds = new Set();
 
           for (const allele of validAlleles) {
-            if (allele && allele.id && !seenIds.has(allele.id)) {
-              seenIds.add(allele.id);
+            const alleleId = getIdentifier(allele.allele);
 
-              // Category is already set correctly from cachedAllele lookup (line 81)
-              // This fallback computation based on variants.length is kept for safety,
-              // but won't trigger since variants array is always empty from individual allele API
-              let computedCategory = allele.category || 'allele';
-              if (allele.variantList && Array.isArray(allele.variantList) && allele.variantList.length > 0) {
-                if (allele.variantList.length === 1) {
-                  computedCategory = 'allele with one variant';
-                } else {
-                  computedCategory = 'allele with multiple variants';
-                }
-              }
+            if (alleleId && !seenIds.has(alleleId)) {
+              seenIds.add(alleleId);
 
-              uniqueAlleles.push({
-                ...allele,
-                category: computedCategory,
-              });
+              uniqueAlleles.push(allele);
             }
           }
 
@@ -193,7 +163,7 @@ export default function useAlleleSelection(tableProps, cachedAlleles = []) {
         setIsLoadingSelectedAlleles(false);
       }
     },
-    [tableProps.tableState, cachedAlleles]
+    [tableProps.tableState]
   );
 
   const clearAlleleSelection = useCallback(() => {

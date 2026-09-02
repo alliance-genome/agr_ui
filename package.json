@@ -10,17 +10,17 @@
     "start:stage": "make uirunstage",
     "prebuild": "npm run generators",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
     "preview": "vite preview",
     "preview:test": "API_URL=https://test.alliancegenome.org vite preview",
     "preview:stage": "API_URL=https://stage.alliancegenome.org vite preview",
-    "generators": "npm run resource-descriptors && npm run sitemap && npm run robots",
+    "generators": "npm run sitemap && npm run robots",
     "robots": "node bin/build_robots.js",
     "sitemap": "node bin/build_sitemap.js",
-    "resource-descriptors": "node bin/build_resource_descriptors.js",
     "local-init": "nvm install && nvm use && npm install && npm run generators",
     "test": "jest",
-    "format": "npm run lint && prettier --write ."
+    "prettier": "prettier --write .",
+    "lint": "eslint .",
+    "format": "npm run lint && npm run prettier"
   },
   "dependencies": {
     "@aws-cdk/aws-amplify-alpha": "^2.195.0-alpha.0",
@@ -38,11 +38,12 @@
     "bootstrap": "4.6.1",
     "buffer": "^6.0.3",
     "classnames": "^2.5.1",
+    "core-js": "^3.49.0",
     "custom-event-polyfill": "^1.0.7",
     "d3-selection": "^3.0.0",
     "events": "^3.3.0",
-    "generic-sequence-panel": "^1.8.0",
-    "genomefeatures": "github:alliance-genome/genomefeatures#e9a83e5b63b8664e0de1b471932a5818353b3ae7",
+    "generic-sequence-panel": "^2.0.0",
+    "genomefeatures": "github:alliance-genome/genomefeatures#797ccb4a62a389d5954b8379c38d3ce95f4bdeb9",
     "html-react-parser": "^5.2.17",
     "immutable": "^5.1.5",
     "js-yaml": "^4.1.1",
@@ -51,7 +52,7 @@
     "lodash.without": "^4.4.0",
     "object-hash": "^3.0.0",
     "prop-types": "^15.8.1",
-    "qs": "^6.15.1",
+    "qs": "^6.15.2",
     "react": "^19.2.5",
     "react-autosuggest": "^10.1.0",
     "react-bootstrap": "^2.10.10",
@@ -72,6 +73,7 @@
     "redux": "^5.0.1",
     "redux-mock-store": "^1.5.5",
     "redux-thunk": "^3.1.0",
+    "regenerator-runtime": "^0.11.1",
     "reselect": "^5.1.1",
     "sitemap": "^8.0.3",
     "whatwg-fetch": "^3.6.20"
@@ -104,7 +106,7 @@
     "jest-transform-stub": "^2.0.0",
     "prettier": "^3.8.3",
     "sass-embedded": "^1.99.0",
-    "ts-node": "^10.9.2",
+    "tsx": "^4.23.11",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.59.0",
     "vite": "^6.4.2"
@@ -162,6 +164,8 @@
       "react": "$react",
       "react-dom": "$react-dom"
     },
-    "core-js": "^3.45.0"
+    "core-js": "$core-js",
+    "underscore": "^1.13.8",
+    "dompurify": "^3.4.13"
   }
 }

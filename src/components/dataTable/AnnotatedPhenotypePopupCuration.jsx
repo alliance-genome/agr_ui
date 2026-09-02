@@ -2,24 +2,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DropdownMenu, DropdownToggle, UncontrolledButtonDropdown } from 'reactstrap';
-import { SingleReferenceCellCuration } from './index';
+import { SingleReferenceCellCuration, SingleReferenceLinkCuration } from './index';
 import ExperimentalConditionCellCuration from './ExperimentalConditionCellCuration.jsx';
 
 import style from './style.module.scss';
-import ExternalLink from '../ExternalLink.jsx';
 import { Link } from 'react-router-dom';
-import { getResourceUrl } from './getResourceUrl.jsx';
+import DataSourceLinkCuration from '../dataSourceLinkCuration.jsx';
 import TypeCellCuration from './TypeCellCuration.jsx';
 import { getAnnotationSubjectText, getIdentifier, naturalSortByAnnotationSubject } from './utils.jsx';
 
 function renderLink(entity) {
   const identifier = getIdentifier(entity.phenotypeAnnotationSubject);
-  const url = getResourceUrl({
-    identifier,
-    type: entity.phenotypeAnnotationSubject.type,
-    subtype: entity.phenotypeAnnotationSubject.subtype,
-  });
-
   const innerText = getAnnotationSubjectText(entity);
   const inner = <span dangerouslySetInnerHTML={{ __html: innerText }} />;
 
@@ -28,11 +21,15 @@ function renderLink(entity) {
   } else if (entity.type === 'GenePhenotypeAnnotation') {
     return <Link to={`/gene/${identifier}`}>{inner}</Link>;
   } else {
-    return <ExternalLink href={url}>{inner}</ExternalLink>;
+    return (
+      <DataSourceLinkCuration reference={entity.phenotypeAnnotationSubject.dataProviderCrossReference}>
+        {inner}
+      </DataSourceLinkCuration>
+    );
   }
 }
 
-function AnnotatedPhenotypePopupCuration({ children, entities, mainRowCurie, pubModIds, columnNameSet }) {
+function AnnotatedPhenotypePopupCuration({ children, entities, pubmedPublications, columnNameSet }) {
   if (!entities || !entities.length) {
     return null;
   }
@@ -63,15 +60,13 @@ function AnnotatedPhenotypePopupCuration({ children, entities, mainRowCurie, pub
                 {columnNameSet.has('Name') && <th>Name</th>}
                 {columnNameSet.has('Type') && <th>Type</th>}
                 {columnNameSet.has('Experimental Condition') && <th>Experimental condition</th>}
-                {columnNameSet.has('References') && <th>References</th>}
+                {columnNameSet.has('Reference') && <th>Reference</th>}
+                {columnNameSet.has('References') && <th>Reference ID</th>}
               </tr>
             </thead>
             <tbody>
               {sortedEntities.map((entity) => {
-                var expCondition = entity.conditionRelations;
-                if (entity.conditionModifiers != null) {
-                  expCondition = entity.conditionModifiers;
-                }
+                const expCondition = entity.conditionModifiers ?? entity.conditionRelations;
                 return (
                   <tr key={entity.id}>
                     {columnNameSet.has('Name') && <td>{renderLink(entity)}</td>}
@@ -85,9 +80,17 @@ function AnnotatedPhenotypePopupCuration({ children, entities, mainRowCurie, pub
                         <ExperimentalConditionCellCuration conditions={expCondition} />
                       </td>
                     )}
+                    {columnNameSet.has('Reference') && (
+                      <td>
+                        <SingleReferenceLinkCuration singleReference={entity.evidenceItem} />
+                      </td>
+                    )}
                     {columnNameSet.has('References') && (
                       <td>
-                        <SingleReferenceCellCuration singleReference={entity.evidenceItem} pubModIds={pubModIds} />
+                        <SingleReferenceCellCuration
+                          singleReference={entity.evidenceItem}
+                          pubmedPublications={pubmedPublications}
+                        />
                       </td>
                     )}
                   </tr>
@@ -104,8 +107,7 @@ function AnnotatedPhenotypePopupCuration({ children, entities, mainRowCurie, pub
 AnnotatedPhenotypePopupCuration.propTypes = {
   children: PropTypes.node,
   entities: PropTypes.array,
-  mainRowCurie: PropTypes.string,
-  pubModIds: PropTypes.array,
+  pubmedPublications: PropTypes.array,
   columnNameSet: PropTypes.object,
 };
 
