@@ -150,6 +150,9 @@ a > span > .sprite {
   &.variant_search_result::before {
     color: $data-type-allele;
   }
+  &.literature_search_result::before {
+    color: $data-type-literature;
+  }
 }
 
 .resultSpeciesIcon {
