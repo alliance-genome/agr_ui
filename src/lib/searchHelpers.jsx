@@ -10,6 +10,7 @@ import {
   DISEASE_CATEGORY,
   GENE_CATEGORY,
   GO_CATEGORY,
+  LITERATURE_CATEGORY,
   VARIANT_CATEGORY,
 } from '../constants';
 
@@ -138,6 +139,10 @@ export function makeFieldDisplayName(unformattedName, category = '') {
       return 'Variant Type';
     case 'variantName':
       return 'Variant Name';
+    case 'authors':
+      return 'Author';
+    case 'abstractText':
+      return 'Abstract';
     case 'alterationType':
       // Non-breaking space prevents key collision with the 'category' field
       // in flattenWithPrettyFieldNames when both are present in highlights
@@ -212,6 +217,8 @@ export const getURLForEntry = (category, id, alterationType) => {
       return `/allele/${id}`;
     case VARIANT_CATEGORY:
       return `/variant/${id}`;
+    case LITERATURE_CATEGORY:
+      return `/reference/${id}`;
     default:
       return '';
   }
