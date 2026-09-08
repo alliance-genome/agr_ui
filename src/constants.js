@@ -13,6 +13,7 @@ export const ALLELE_CATEGORY = 'allele_search_result';
 export const VARIANT_CATEGORY = 'variant_search_result';
 export const MODEL_CATEGORY = 'model_search_result';
 export const DATASET_CATEGORY = 'htp_dataset_search_result';
+export const LITERATURE_CATEGORY = 'literature_search_result';
 
 /* Wordpress REST API connection setting  */
 export const WORDPRESS_REST_API_BASE = 'https://public-api.wordpress.com/wp/v2/sites/alliancegenome.wordpress.com';
@@ -79,6 +80,11 @@ export const CATEGORIES = [
       'crossReferences',
       'molecularConsequence',
     ],
+  },
+  {
+    name: LITERATURE_CATEGORY,
+    displayName: 'Literature',
+    displayFields: ['shortCitation', 'authors', 'publicationYear', 'abstractText', 'crossReferences'],
   },
 ];
 
