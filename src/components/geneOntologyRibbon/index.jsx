@@ -552,7 +552,8 @@ class GeneOntologyRibbon extends Component {
         ref={this.tableRef}
         // bio-link-data={JSON.stringify(this.state.selected.data)}
         filter-by={this.state.onlyEXP ? 'evidence:' + EXP_CODES.join(',') : ''}
-        group-by="term"
+        // Keep positive and NOT annotations separate; the grouped term retains the first annotation's tags.
+        group-by="term,qualifier"
         // hide-columns={'qualifier,' + (this.state.selectedOrthologs.length == 0 ? 'gene,' : '') + (this.state.selected.group.id != 'all' ? ',aspect' : '')}
         hide-columns={'qualifier,gene,' + (this.state.selected.group.id !== 'all' ? ',aspect' : '')}
         order-by="term"
