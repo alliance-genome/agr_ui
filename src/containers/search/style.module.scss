@@ -138,7 +138,7 @@ a > span > .sprite {
   &.disease_search_result::before {
     color: $data-type-disease;
   }
-  &.model::before {
+  &.model_search_result::before {
     color: $data-type-model;
   }
   &.allele_search_result::before {
@@ -148,7 +148,7 @@ a > span > .sprite {
     color: $data-type-dataset;
   }
   &.variant_search_result::before {
-    color: $data-type-allele;
+    color: $data-type-variant;
   }
   &.literature_search_result::before {
     color: $data-type-literature;
