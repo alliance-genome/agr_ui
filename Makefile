@@ -30,15 +30,6 @@ run:
 pretty:
 	npx prettier --write .
 
-stage-alb-deploy:
-	npx aws-cdk deploy stage-alb-stack
-
-test-alb-deploy:
-	npx aws-cdk deploy test-alb-stack
-
-prod-alb-deploy:
-	npx aws-cdk deploy prod-alb-stack
-
 stage-ui-deploy:
 	npx aws-cdk deploy agr-ui-stage
 

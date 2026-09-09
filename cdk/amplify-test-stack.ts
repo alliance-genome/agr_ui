@@ -17,7 +17,7 @@ export class AmplifyTestStack extends cdk.Stack {
     const test_paths = [
       {
         source: '/api/<*>',
-        target: 'https://test-alb.alliancegenome.org/api/<*>',
+        target: 'https://production-api.alliancegenome.org/api/<*>',
         status: amplify.RedirectStatus.REWRITE,
       },
 
@@ -129,17 +129,6 @@ export class AmplifyTestStack extends cdk.Stack {
       },
 
       {
-        source: '/jbrowse/<*>',
-        target: 'https://test-alb.alliancegenome.org/jbrowse/<*>',
-        status: amplify.RedirectStatus.REWRITE,
-      },
-      {
-        source: '/apollo/<*>',
-        target: 'https://test-alb.alliancegenome.org/apollo/<*>',
-        status: amplify.RedirectStatus.REWRITE,
-      },
-
-      {
         source: '/alliancemine',
         target: 'https://production-alliancemine.alliancegenome.org/alliancemine/',
         status: amplify.RedirectStatus.REWRITE,
@@ -172,32 +161,32 @@ export class AmplifyTestStack extends cdk.Stack {
 
       {
         source: '/download/',
-        target: 'https://test-alb.alliancegenome.org/downloads',
+        target: 'https://production-api.alliancegenome.org/downloads',
         status: amplify.RedirectStatus.REWRITE,
       },
       {
         source: '/download/<*>',
-        target: 'https://test-alb.alliancegenome.org/api/download/<*>',
+        target: 'https://production-api.alliancegenome.org/api/download/<*>',
         status: amplify.RedirectStatus.REWRITE,
       },
       {
         source: '/swagger-ui',
-        target: 'https://test-alb.alliancegenome.org/swagger-ui',
+        target: 'https://production-api.alliancegenome.org/swagger-ui',
         status: amplify.RedirectStatus.REWRITE,
       },
       {
         source: '/swagger-ui/',
-        target: 'https://test-alb.alliancegenome.org/swagger-ui/',
+        target: 'https://production-api.alliancegenome.org/swagger-ui/',
         status: amplify.RedirectStatus.REWRITE,
       },
       {
         source: '/swagger-ui/<*>',
-        target: 'https://test-alb.alliancegenome.org/swagger-ui/<*>',
+        target: 'https://production-api.alliancegenome.org/swagger-ui/<*>',
         status: amplify.RedirectStatus.REWRITE,
       },
       {
         source: '/openapi',
-        target: 'https://test-alb.alliancegenome.org/openapi',
+        target: 'https://production-api.alliancegenome.org/openapi',
         status: amplify.RedirectStatus.REWRITE,
       },
 
