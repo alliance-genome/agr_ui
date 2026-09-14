@@ -83,7 +83,7 @@ export const CATEGORIES = [
   },
   {
     name: LITERATURE_CATEGORY,
-    displayName: 'Literature',
+    displayName: 'Reference',
     displayFields: ['shortCitation', 'authors', 'publicationYear', 'abstractText', 'crossReferences'],
   },
 ];
