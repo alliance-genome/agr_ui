@@ -39,18 +39,18 @@ async function generateJBrowseTrackData(fmin, fmax, chromosome, species, release
   const locString = `${chrString}:${fmin}..${fmax}`;
   const parsedRegion = parseLocString(locString);
 
-    // Convert to the format expected by the tabix GFF3/VCF fetchers
-    const region = {
-      chromosome: parsedRegion.chromosome,
-      start: parsedRegion.start,
-      end: parsedRegion.end,
-    };
+  // Convert to the format expected by the tabix GFF3/VCF fetchers
+  const region = {
+    chromosome: parsedRegion.chromosome,
+    start: parsedRegion.start,
+    end: parsedRegion.end,
+  };
 
-    // Build the tabix GFF3 URL using release version (single sorted file per species, no per-chromosome sharding)
-    if (!speciesInfo.jBrowseGffUrlTemplate) {
-      throw new Error(`No jBrowseGffUrlTemplate configured for species ${species}`);
-    }
-    const gffUrl = speciesInfo.jBrowseGffUrlTemplate.replace('{release}', releaseVersion);
+  // Build the tabix GFF3 URL using release version (single sorted file per species, no per-chromosome sharding)
+  if (!speciesInfo.jBrowseGffUrlTemplate) {
+    throw new Error(`No jBrowseGffUrlTemplate configured for species ${species}`);
+  }
+  const gffUrl = speciesInfo.jBrowseGffUrlTemplate.replace('{release}', releaseVersion);
 
   const vcfFilenameMap = {
     MGI: 'mouse-latest.vcf.gz',
@@ -78,12 +78,12 @@ async function generateJBrowseTrackData(fmin, fmax, chromosome, species, release
   const vcfFilename = vcfFilenameMap[speciesPrefix] || 'variants.vcf.gz';
   const vcfTabixUrl = `https://s3.amazonaws.com/agrjbrowse/VCF/${releaseVersion}/${vcfFilename}`;
 
-    // Fetch track data from the tabix-indexed GFF3 file
-    // This is critical data - let errors propagate so the component can show error state
-    const trackData = await fetchTabixGffData({
-      region,
-      url: gffUrl,
-    });
+  // Fetch track data from the tabix-indexed GFF3 file
+  // This is critical data - let errors propagate so the component can show error state
+  const trackData = await fetchTabixGffData({
+    region,
+    url: gffUrl,
+  });
 
   let variantData = null;
   let vcfError = null;
