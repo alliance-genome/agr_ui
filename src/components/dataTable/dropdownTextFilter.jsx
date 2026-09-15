@@ -1,65 +1,49 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Form, FormGroup, Input } from 'reactstrap';
 
-class DropdownTextFilter extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { value: props.defaultFilter || '' };
-    this.inputRef = React.createRef();
+const DropdownTextFilter = ({ column, defaultFilter = '', onFilter }) => {
+  const [value, setValue] = useState(defaultFilter);
+  const inputRef = useRef(null);
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.handleClear = this.handleClear.bind(this);
-  }
+  useEffect(() => {
+    if (inputRef.current) inputRef.current.focus();
+  }, []);
 
-  componentDidMount() {
-    this.inputRef.current.focus();
-  }
-
-  fireCallbacks() {
-    this.props.onFilter(this.state.value.trim());
-  }
-
-  handleChange(event) {
-    this.setState({ value: event.target.value });
-  }
-
-  handleClick(event) {
+  const handleClick = (event) => {
     event.preventDefault();
-    this.fireCallbacks();
-  }
+    onFilter(value.trim());
+  };
 
-  handleClear(event) {
+  const handleClear = (event) => {
     event.preventDefault();
-    this.setState({ value: '' }, () => this.fireCallbacks());
-  }
+    setValue('');
+    onFilter('');
+  };
 
-  render() {
-    return (
-      <Form onSubmit={this.handleClick}>
-        <FormGroup>
-          <Input
-            innerRef={this.inputRef}
-            onChange={this.handleChange}
-            placeholder={`Filter ${this.props.column.text}...`}
-            style={{ width: '200px' }}
-            type="text"
-            value={this.state.value}
-          />
-        </FormGroup>
-        <FormGroup className="d-flex justify-content-between">
-          <Button onClick={this.handleClear} outline>
-            Clear
-          </Button>
-          <Button color="primary" onClick={this.handleClick}>
-            Apply
-          </Button>
-        </FormGroup>
-      </Form>
-    );
-  }
-}
+  return (
+    <Form onSubmit={handleClick}>
+      <FormGroup>
+        <Input
+          innerRef={inputRef}
+          onChange={(e) => setValue(e.target.value)}
+          placeholder={`Filter ${column.text}...`}
+          style={{ width: '200px' }}
+          type="text"
+          value={value}
+        />
+      </FormGroup>
+      <FormGroup className="d-flex justify-content-between">
+        <Button onClick={handleClear} outline>
+          Clear
+        </Button>
+        <Button color="primary" onClick={handleClick}>
+          Apply
+        </Button>
+      </FormGroup>
+    </Form>
+  );
+};
 
 DropdownTextFilter.propTypes = {
   column: PropTypes.object,

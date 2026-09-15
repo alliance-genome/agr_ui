@@ -72,8 +72,4 @@ Subsection.propTypes = {
   titleAdornment: PropTypes.node,
 };
 
-Subsection.defaultProps = {
-  hideTitle: false,
-};
-
 export default Subsection;
