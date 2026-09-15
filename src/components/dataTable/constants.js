@@ -6,6 +6,7 @@ export const MODEL_DETAILS_COLUMNS = new Set([
   'Annotation Type',
   'Evidence Codes',
   'Source',
+  'Reference',
   'References',
 ]);
 
@@ -22,6 +23,7 @@ export const GENE_DETAILS_COLUMNS = new Set([
   'Annotation Type',
   'Evidence Codes',
   'Source',
+  'Reference',
   'References',
 ]);
 
@@ -37,5 +39,12 @@ export const ALLELE_DETAILS_COLUMNS = new Set([
   'Annotation Type',
   'Evidence Codes',
   'Source',
+  'Reference',
   'References',
 ]);
+
+// Reference pages already scope every annotation to a single reference, so their popups
+// omit the local 'Reference' citation column that would otherwise repeat on every row.
+export const REFERENCE_PAGE_DETAILS_COLUMNS = new Set(
+  [...GENE_DETAILS_COLUMNS].filter((column) => column !== 'Reference')
+);

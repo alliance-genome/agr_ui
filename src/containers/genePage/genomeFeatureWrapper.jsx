@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { AttributeList, AttributeLabel, AttributeValue } from '../../components/attribute';
 import ExternalLink from '../../components/ExternalLink.jsx';
-import { GenomeFeatureViewer, fetchNCListData, fetchTabixVcfData, parseLocString } from 'genomefeatures';
+import { GenomeFeatureViewer, fetchTabixGffData, fetchTabixVcfData, parseLocString } from 'genomefeatures';
 import { getTranscriptTypes } from '../../lib/genomeFeatureTypes';
 import LoadingSpinner from '../../components/loadingSpinner.jsx';
 import HorizontalScroll from '../../components/horizontalScroll.jsx';
@@ -35,16 +35,22 @@ async function generateJBrowseTrackData(fmin, fmax, chromosome, species, release
     chrString = 'Chr' + chromosome;
   }
 
-  const parsedRegion = parseLocString(`${chrString}:${fmin}..${fmax}`);
+  // Create location string and parse it using GMOD format
+  const locString = `${chrString}:${fmin}..${fmax}`;
+  const parsedRegion = parseLocString(locString);
+
+  // Convert to the format expected by the tabix GFF3/VCF fetchers
   const region = {
     chromosome: parsedRegion.chromosome,
     start: parsedRegion.start,
     end: parsedRegion.end,
   };
 
-  const ncListUrlTemplate =
-    speciesInfo.jBrowsenclistbaseurltemplate.replace('{release}', releaseVersion) +
-    `tracks/All_Genes/${chrString}/trackData.jsonz`;
+  // Build the tabix GFF3 URL using release version (single sorted file per species, no per-chromosome sharding)
+  if (!speciesInfo.jBrowseGffUrlTemplate) {
+    throw new Error(`No jBrowseGffUrlTemplate configured for species ${species}`);
+  }
+  const gffUrl = speciesInfo.jBrowseGffUrlTemplate.replace('{release}', releaseVersion);
 
   const vcfFilenameMap = {
     MGI: 'mouse-latest.vcf.gz',
@@ -72,7 +78,12 @@ async function generateJBrowseTrackData(fmin, fmax, chromosome, species, release
   const vcfFilename = vcfFilenameMap[speciesPrefix] || 'variants.vcf.gz';
   const vcfTabixUrl = `https://s3.amazonaws.com/agrjbrowse/VCF/${releaseVersion}/${vcfFilename}`;
 
-  const trackData = await fetchNCListData({ region, urlTemplate: ncListUrlTemplate });
+  // Fetch track data from the tabix-indexed GFF3 file
+  // This is critical data - let errors propagate so the component can show error state
+  const trackData = await fetchTabixGffData({
+    region,
+    url: gffUrl,
+  });
 
   let variantData = null;
   let vcfError = null;
@@ -244,7 +255,7 @@ const GenomeFeatureWrapper = (props) => {
 
       const effectiveReleaseVersion = process.env.REACT_APP_JBROWSE_AGR_RELEASE || releaseVersion || '8.2.0';
 
-      let nameSuffix = [geneSymbol, ...synonyms, primaryId]
+      const nameSuffix = [geneSymbol, ...synonyms, primaryId]
         .filter((x, i, a) => a.indexOf(x) === i)
         .map((x) => encodeURI(x));
       if (getSpecies(species).apolloName === 'SARS-CoV-2') {

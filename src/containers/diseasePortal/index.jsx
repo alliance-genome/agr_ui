@@ -1,41 +1,127 @@
 import React from 'react';
 import HeadMetaTags from '../../components/headMetaTags.jsx';
 import PapersSection from './PapersSection.jsx';
+import OntologyContextSection from './OntologyContextSection.jsx';
 import PortalListSection from './PortalListSection.jsx';
 import ResourcesSection from './ResourcesSection.jsx';
+import SummarySection from './SummarySection.jsx';
 import DiseasePortalSection from './DiseasePortalSection.jsx';
 import MembersSection from '../../components/MembersSection.jsx';
-import { HELP_EMAIL } from '../../constants';
-import { useParams } from 'react-router-dom';
+import NotFound from '../../components/notFound.jsx';
+import Subsection from '../../components/subsection.jsx';
+import { DataPage, PageNav, PageData } from '../../components/dataPage';
+import PageNavEntity from '../../components/dataPage/PageNavEntity.jsx';
+import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
+import { Link, useParams } from 'react-router-dom';
 import { data } from './portalData.js';
+import style from './style.module.scss';
+
+const SUMMARY = 'Summary';
+const ONTOLOGY = 'Ontology View';
+const COMMUNITY_RESOURCES = 'Community Resources';
+const RECENT_LITERATURE = 'Recent Literature';
+const MEMBERS = 'Members';
+
+// Hidden for release 9.1.0 (KANBAN-1473). The list is free-text matched against
+// title and abstract, and the group decided it must instead be papers annotated
+// with DO terms for the page's disease — API work that is not done, so the
+// section ships hidden rather than misleading. Flip to true once that lands; see
+// RECENT_PAPERS_API.md for the agreed target behavior.
+const SHOW_RECENT_LITERATURE = false;
+
+// Every entry is an in-page anchor, so this no longer varies per disease.
+const SECTIONS = [
+  { name: SUMMARY },
+  { name: ONTOLOGY },
+  { name: COMMUNITY_RESOURCES },
+  ...(SHOW_RECENT_LITERATURE ? [{ name: RECENT_LITERATURE }] : []),
+];
 
 const DiseasePortalPage = () => {
   const { name: dname } = useParams();
-  const diseaseData = data[dname] || data['human'];
+  const diseaseData = dname ? data[dname] : data['human'];
+
+  // Hook must run unconditionally on every render (Rules of Hooks): both the
+  // list (/disease-portal) and detail (/disease-portal/:name) routes render
+  // this same component, so React reuses the fiber across that navigation.
+  // Passing a null url when there's no doid makes the query a no-op.
+  const { data: diseaseApiData } = usePageLoadingQuery(diseaseData?.doid ? `/api/disease/${diseaseData.doid}` : null);
+
+  // pageName is required; fall back rather than render "undefined Portal"
+  const portalTitle = diseaseData?.pageName || diseaseApiData?.doTerm?.name || 'Disease';
+
+  if (dname && !diseaseData) {
+    return <NotFound />;
+  }
+
+  if (!dname) {
+    return (
+      <div>
+        <HeadMetaTags title={`${portalTitle} Portal`} />
+        <DiseasePortalSection disease={diseaseData} />
+        <section className={style.section}>
+          <div className={style.contentContainer}>
+            <h2>Disease Portals</h2>
+            <PortalListSection />
+          </div>
+        </section>
+        <section className={style.section}>
+          <div className={style.contentContainer}>
+            <h2>Community Resources</h2>
+            <ResourcesSection disease={diseaseData} />
+          </div>
+        </section>
+        <MembersSection />
+      </div>
+    );
+  }
+
   return (
     <div>
-      <HeadMetaTags title={`${diseaseData.pageName} Portal`} />
+      <HeadMetaTags title={`${portalTitle} Portal`} />
       <DiseasePortalSection disease={diseaseData} />
-
-      {/* resources come before papers, but after Disease Portals list */}
-      {dname ? (
-        <>
-          <ResourcesSection disease={diseaseData} />
-          <PapersSection disease={diseaseData} />
-        </>
-      ) : (
-        <>
-          <PortalListSection />
-          <ResourcesSection disease={diseaseData} />
-        </>
-      )}
-
-      <div>
-        <h4 className="mt-4 text-center">
-          Need Help? Contact Us: &nbsp;<a href={`mailto:${HELP_EMAIL}`}>{HELP_EMAIL}</a>
-        </h4>
-      </div>
-      <MembersSection />
+      <DataPage>
+        <PageNav sections={SECTIONS}>
+          <PageNavEntity entityName={portalTitle}>
+            <Link to={`/disease/${diseaseData.doid}`}>{diseaseData.doid}</Link>
+          </PageNavEntity>
+        </PageNav>
+        <PageData>
+          <Subsection title={SUMMARY}>
+            <SummarySection disease={diseaseApiData} />
+          </Subsection>
+          <Subsection
+            title={ONTOLOGY}
+            titleAdornment={
+              // The section's only route out to the full browser, replacing the removed nav item.
+              <Link className={style.ontologyBrowseLink} to={`/ontology/disease/${diseaseData.doid}`}>
+                Browse ontology for {diseaseApiData?.doTerm?.name || portalTitle}
+              </Link>
+            }
+          >
+            {/* key on doid forces a remount per disease: the reused fiber (see above)
+                would otherwise leave the embedded tree's scoped state stale. */}
+            <OntologyContextSection
+              key={diseaseData.doid}
+              curie={diseaseData.doid}
+              name={diseaseApiData?.doTerm?.name || portalTitle}
+            />
+          </Subsection>
+          <Subsection title={COMMUNITY_RESOURCES}>
+            <ResourcesSection disease={diseaseData} />
+          </Subsection>
+          {SHOW_RECENT_LITERATURE && (
+            <Subsection title={RECENT_LITERATURE}>
+              <PapersSection diseaseName={diseaseApiData?.doTerm?.name} queryOverride={diseaseData.papersQuery} />
+            </Subsection>
+          )}
+          <div className={style.membersFooter}>
+            <Subsection hideTitle title={MEMBERS}>
+              <MembersSection />
+            </Subsection>
+          </div>
+        </PageData>
+      </DataPage>
     </div>
   );
 };

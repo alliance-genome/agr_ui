@@ -22,6 +22,12 @@ describe('genomefeatures package imports', () => {
     expect(typeof fetchTabixVcfData).toBe('function');
   });
 
+  test('should import fetchTabixGffData successfully', () => {
+    const { fetchTabixGffData } = require('genomefeatures');
+    expect(fetchTabixGffData).toBeDefined();
+    expect(typeof fetchTabixGffData).toBe('function');
+  });
+
   test('should import parseLocString successfully', () => {
     const { parseLocString } = require('genomefeatures');
     expect(parseLocString).toBeDefined();
@@ -40,11 +46,18 @@ describe('genomefeatures package imports', () => {
   });
 
   test('should import all functions at once', () => {
-    const { GenomeFeatureViewer, fetchNCListData, fetchTabixVcfData, parseLocString } = require('genomefeatures');
+    const {
+      GenomeFeatureViewer,
+      fetchNCListData,
+      fetchTabixVcfData,
+      fetchTabixGffData,
+      parseLocString,
+    } = require('genomefeatures');
 
     expect(GenomeFeatureViewer).toBeDefined();
     expect(fetchNCListData).toBeDefined();
     expect(fetchTabixVcfData).toBeDefined();
+    expect(fetchTabixGffData).toBeDefined();
     expect(parseLocString).toBeDefined();
   });
 });

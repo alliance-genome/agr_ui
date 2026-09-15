@@ -1,36 +1,45 @@
 import React from 'react';
-import style from './style.module.scss';
 import { Link } from 'react-router-dom';
+import { useEntityButtonCounts } from './useEntityButtonCounts.js';
+import { data, portalsByGroup } from './portalData.js';
+import style from './style.module.scss';
+
+const PortalListItem = ({ portalKey, label }) => {
+  const disease = data[portalKey];
+  const url = `/api/disease/${disease.doid}/`;
+  const geneCount = useEntityButtonCounts(url + 'genes_counts');
+  const alleleCount = useEntityButtonCounts(url + 'alleles_counts');
+  const modelCount = useEntityButtonCounts(url + 'models_counts');
+
+  return (
+    <li>
+      <Link to={`/disease-portal/${portalKey}`}>{label}</Link>
+      {/* Gene, Allele, Model order matches the portal page pills (KANBAN-1503). */}
+      <span className={style.portalCounts}>
+        {geneCount != null && <span>{geneCount.toLocaleString()} genes</span>}
+        {alleleCount != null && <span>{alleleCount.toLocaleString()} alleles</span>}
+        {modelCount != null && <span>{modelCount.toLocaleString()} models</span>}
+      </span>
+    </li>
+  );
+};
 
 const PortalListSection = () => {
   return (
-    <section className={style.section}>
-      <div className={style.contentContainer}>
-        <div className="row">
-          <div className={`col-lg-12 ${style.portalList}`}>
-            <h2>Disease Portals</h2>
-            <ul style={{ fontSize: '1.2rem' }}>
-              <li>Disease of metabolism</li>
-              <li style={{ listStyleType: 'none' }}>
-                <ul>
-                  <li>
-                    <Link to={'/disease-portal/diabetes-mellitus'}>diabetes mellitus</Link>
-                  </li>
-                </ul>
-              </li>
-              <li>Neurodegenerative disease</li>
-              <li style={{ listStyleType: 'none' }}>
-                <ul>
-                  <li>
-                    <Link to={'/disease-portal/alzheimers-disease'}>Alzheimer's disease</Link>
-                  </li>
-                </ul>
-              </li>
+    <ul style={{ fontSize: '1.2rem' }}>
+      {portalsByGroup().map((group) => (
+        <React.Fragment key={group.name}>
+          <li>{group.name}</li>
+          <li style={{ listStyleType: 'none' }}>
+            <ul>
+              {group.portals.map((portal) => (
+                <PortalListItem key={portal.slug} portalKey={portal.slug} label={portal.label} />
+              ))}
             </ul>
-          </div>
-        </div>
-      </div>
-    </section>
+          </li>
+        </React.Fragment>
+      ))}
+    </ul>
   );
 };
 

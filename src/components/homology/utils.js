@@ -1,6 +1,7 @@
 export function getOrthologSpeciesName(orthology = {}) {
   const { objectGene = {} } = orthology;
-  return (objectGene.taxon || {}).name;
+  const taxon = objectGene.taxon || {};
+  return (taxon.species || {}).fullName || taxon.name;
 }
 
 export function getOrthologSpeciesId(orthology = {}) {

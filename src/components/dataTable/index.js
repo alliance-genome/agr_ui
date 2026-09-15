@@ -8,7 +8,9 @@ import EvidenceCodesCell from './evidenceCodesCell.jsx';
 import EvidenceCodesCellCuration from './evidenceCodesCellCuration.jsx';
 import ReferenceCell from './referenceCell.jsx';
 import ReferencesCellCuration from './referencesCellCuration.jsx';
+import ReferenceList from './referenceList.jsx';
 import SingleReferenceCellCuration from './singleReferenceCellCuration.jsx';
+import SingleReferenceLinkCuration from './singleReferenceLinkCuration.jsx';
 import SpeciesCell from './SpeciesCell.jsx';
 import AssayCell from './assayCell.jsx';
 import SourceCell from './sourceCell.jsx';
@@ -30,7 +32,9 @@ export {
   EvidenceCodesCellCuration,
   ReferenceCell,
   ReferencesCellCuration,
+  ReferenceList,
   SingleReferenceCellCuration,
+  SingleReferenceLinkCuration,
   CellTooltip,
   AssayCell,
   SpeciesCell,

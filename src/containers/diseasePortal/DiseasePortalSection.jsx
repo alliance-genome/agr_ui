@@ -2,27 +2,41 @@ import React from 'react';
 import style from './style.module.scss';
 import EntityButton from './EntityButton.jsx';
 import { useEntityButtonCounts } from './useEntityButtonCounts.js';
+import { isRootPortal } from './portalData.js';
+
+// Hidden on every portal page pending a decision on what the count should mean
+// per portal (KANBAN-1492). Flip to true to restore the Alliance-wide pill.
+const SHOW_DISEASE_COUNT = false;
 
 const DiseasePortalSection = ({ disease }) => {
   const url = `/api/disease/${disease.doid}/`;
+  const isRoot = isRootPortal(disease);
+  const diseaseCount = useEntityButtonCounts(SHOW_DISEASE_COUNT ? '/api/disease/annotated-count' : null);
   const geneCount = useEntityButtonCounts(url + 'genes_counts');
-  const modelCount = useEntityButtonCounts(url + 'models_counts');
   const alleleCount = useEntityButtonCounts(url + 'alleles_counts');
+  const modelCount = useEntityButtonCounts(url + 'models_counts');
 
-  const pageTitle =
-    disease.pageName === 'Disease'
-      ? 'Disease Portals'
-      : // <a href={`/disease/${disease.doid}`}>{`${disease.pageName} Portal`}</a>
-        `${disease.pageName} Portal`;
-  const speciesEntityButton =
-    disease.pageName === 'Disease' ? (
-      <EntityButton id="entity-species" to="/about-us" tooltip="View all associated species">
-        9<br />
-        Species
-      </EntityButton>
-    ) : (
-      ''
-    );
+  const pageTitle = isRoot
+    ? 'Disease Portals'
+    : // <a href={`/disease/${disease.doid}`}>{`${disease.pageName} Portal`}</a>
+      `${disease.pageName} Portal`;
+  const diseasesEntityButton = SHOW_DISEASE_COUNT ? (
+    <EntityButton id="entity-diseases" to="/search?q=&category=disease_search_result" tooltip="View all diseases">
+      <div>{diseaseCount != null && diseaseCount.toLocaleString()}</div>
+      Diseases
+    </EntityButton>
+  ) : (
+    ''
+  );
+  // Whole-Alliance figure, shown on the root portal only.
+  const speciesEntityButton = isRoot ? (
+    <EntityButton id="entity-species" to="/about-us" tooltip="About the Alliance">
+      9<br />
+      Species
+    </EntityButton>
+  ) : (
+    ''
+  );
 
   return (
     <section className={`${style.section} ${style.searchBackground} shadow`}>
@@ -41,20 +55,14 @@ const DiseasePortalSection = ({ disease }) => {
           <li><Link to='/help#how'>More...</Link></li>
         </ul> */}
         <div className="d-flex justify-content-around flex-wrap">
-          <EntityButton
-            id="entity-models"
-            to={`/disease/${disease.doid}#associated-models`}
-            tooltip="View all associated models"
-          >
-            <div>{modelCount ? modelCount.toLocaleString() : ''}</div>
-            Models
-          </EntityButton>
+          {diseasesEntityButton}
+          {/* Gene, Allele, Model order matches the disease pages and the ontology browser (KANBAN-1503). */}
           <EntityButton
             id="entity-genes"
             to={`/disease/${disease.doid}#associated-genes`}
             tooltip="View all associated genes"
           >
-            <div>{geneCount ? geneCount.toLocaleString() : ''}</div>
+            <div>{geneCount != null && geneCount.toLocaleString()}</div>
             Genes
           </EntityButton>
           <EntityButton
@@ -62,8 +70,16 @@ const DiseasePortalSection = ({ disease }) => {
             to={`/disease/${disease.doid}#associated-alleles`}
             tooltip="View all associated alleles"
           >
-            <div>{alleleCount ? alleleCount.toLocaleString() : ''}</div>
+            <div>{alleleCount != null && alleleCount.toLocaleString()}</div>
             Alleles
+          </EntityButton>
+          <EntityButton
+            id="entity-models"
+            to={`/disease/${disease.doid}#associated-models`}
+            tooltip="View all associated models"
+          >
+            <div>{modelCount != null && modelCount.toLocaleString()}</div>
+            Models
           </EntityButton>
           {/* <EntityButton id="entity-publications" to="">
             96,000
