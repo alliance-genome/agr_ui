@@ -32,6 +32,15 @@ const GeneSummary = ({ gene, crossReferenceMap, gcrpCrossReference }) => {
     otherCrossRefs.unshift({ ...gcrpCrossReference, crossRefCompleteUrl: buildUrlFromTemplate(gcrpCrossReference) });
   }
 
+  // SCRUM-6455: GeneCards, added explicitly rather than by widening SUMMARY_CROSS_REF_PREFIXES.
+  // Two reasons it cannot come through that filter: it lives on the named 'gene/genecards' page so
+  // it is absent from map.other, which holds only 'default' page entries; and the filter requires
+  // the displayName to share the curie's prefix, which is false here (HGNC:1100 / 'GeneCards').
+  // Only human genes carry one, so this is a no-op elsewhere.
+  if (crossReferenceMap?.genecards) {
+    otherCrossRefs.push(crossReferenceMap.genecards);
+  }
+
   return (
     <AttributeList>
       <AttributeLabel>Species</AttributeLabel>
