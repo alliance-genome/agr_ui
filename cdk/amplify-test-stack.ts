@@ -192,10 +192,18 @@ export class AmplifyTestStack extends cdk.Stack {
       {
         source: '/pavi',
         target: 'https://pavi.alliancegenome.org',
-        status: amplify.RedirectStatus.REWRITE,
+        status: amplify.RedirectStatus.PERMANENT_REDIRECT,
       },
-      { source: '/pavi/', target: 'https://pavi.alliancegenome.org', status: amplify.RedirectStatus.REWRITE },
-      { source: '/pavi/<*>', target: 'https://pavi.alliancegenome.org/<*>', status: amplify.RedirectStatus.REWRITE },
+      {
+        source: '/pavi/',
+        target: 'https://pavi.alliancegenome.org',
+        status: amplify.RedirectStatus.PERMANENT_REDIRECT,
+      },
+      {
+        source: '/pavi/<*>',
+        target: 'https://pavi.alliancegenome.org/<*>',
+        status: amplify.RedirectStatus.PERMANENT_REDIRECT,
+      },
       {
         source: '/textpresso/sgd',
         target: 'https://test.alliancegenome.org/textpresso/sgd/tpc',
