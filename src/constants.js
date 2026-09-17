@@ -158,6 +158,11 @@ export const NAV_MENU = [
         shortLabel: 'Tools',
         route: '/prototypes',
       },
+      {
+        label: 'Pavi',
+        route: '/pavi',
+        external: true,
+      },
     ],
   },
   {
