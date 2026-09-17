@@ -201,19 +201,11 @@ export class AmplifyProductionStack extends cdk.Stack {
       },
       {
         source: '/pavi',
-        target: 'https://pavi.alliancegenome.org',
+        target: 'https://www.alliancegenome.org/pavi/',
         status: amplify.RedirectStatus.PERMANENT_REDIRECT,
       },
-      {
-        source: '/pavi/',
-        target: 'https://pavi.alliancegenome.org',
-        status: amplify.RedirectStatus.PERMANENT_REDIRECT,
-      },
-      {
-        source: '/pavi/<*>',
-        target: 'https://pavi.alliancegenome.org/<*>',
-        status: amplify.RedirectStatus.REWRITE,
-      },
+      { source: '/pavi/', target: 'https://pavi.alliancegenome.org/', status: amplify.RedirectStatus.REWRITE },
+      { source: '/pavi/<*>', target: 'https://pavi.alliancegenome.org/<*>', status: amplify.RedirectStatus.REWRITE },
       {
         source: '/textpresso/sgd',
         target: 'https://www.alliancegenome.org/textpresso/sgd/tpc',
