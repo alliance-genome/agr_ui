@@ -191,12 +191,12 @@ export class AmplifyTestStack extends cdk.Stack {
       },
       {
         source: '/pavi',
-        target: 'https://pavi.alliancegenome.org',
+        target: 'https://www.alliancegenome.org/pavi/',
         status: amplify.RedirectStatus.PERMANENT_REDIRECT,
       },
       {
         source: '/pavi/',
-        target: 'https://pavi.alliancegenome.org/pavi',
+        target: 'https://pavi.alliancegenome.org/pavi/',
         status: amplify.RedirectStatus.REWRITE,
       },
       {
