@@ -199,7 +199,11 @@ export class AmplifyProductionStack extends cdk.Stack {
         target: 'https://production-api.alliancegenome.org/openapi',
         status: amplify.RedirectStatus.REWRITE,
       },
-
+      {
+        source: '/pavi',
+        target: 'https://pavi.alliancegenome.org',
+        status: amplify.RedirectStatus.PERMANENT_REDIRECT,
+      },
       {
         source: '/textpresso/sgd',
         target: 'https://www.alliancegenome.org/textpresso/sgd/tpc',
