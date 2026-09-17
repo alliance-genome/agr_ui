@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { UncontrolledTooltip } from 'reactstrap';
@@ -72,15 +72,11 @@ const transformCrossReferenceLinkUrls = (crossReferenceLinkUrls) => {
   if (!Array.isArray(crossReferenceLinkUrls)) {
     return [];
   }
-
-  return crossReferenceLinkUrls.map((item) => {
-    const { referencedCurie, url } = item;
-    return {
-      crossRefCompleteUrl: url,
-      name: referencedCurie,
-      displayName: referencedCurie,
-    };
-  });
+  return crossReferenceLinkUrls.map(({ referencedCurie, url }) => ({
+    crossRefCompleteUrl: url,
+    name: referencedCurie,
+    displayName: referencedCurie,
+  }));
 };
 
 const transformSynonyms = (synonyms) => {
