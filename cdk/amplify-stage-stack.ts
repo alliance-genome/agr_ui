@@ -181,6 +181,16 @@ export class AmplifyStageStack extends cdk.Stack {
         status: amplify.RedirectStatus.PERMANENT_REDIRECT,
       },
       {
+        source: '/pavi/',
+        target: 'https://pavi.alliancegenome.org',
+        status: amplify.RedirectStatus.PERMANENT_REDIRECT,
+      },
+      {
+        source: '/pavi/<*>',
+        target: 'https://pavi.alliancegenome.org/<*>',
+        status: amplify.RedirectStatus.PERMANENT_REDIRECT,
+      },
+      {
         source: '/alliancemine',
         target: 'https://stage.alliancegenome.org/alliancemine/',
         status: amplify.RedirectStatus.PERMANENT_REDIRECT,
