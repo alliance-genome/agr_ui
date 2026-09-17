@@ -177,8 +177,8 @@ export class AmplifyStageStack extends cdk.Stack {
       },
       {
         source: '/pavi',
-        target: 'https://www.alliancegenome.org/pavi/',
-        status: amplify.RedirectStatus.PERMANENT_REDIRECT,
+        target: 'https://pavi.alliancegenome.org/pavi/',
+        status: amplify.RedirectStatus.REWRITE,
       },
       {
         source: '/pavi/',
