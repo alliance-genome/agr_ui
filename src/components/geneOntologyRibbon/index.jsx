@@ -387,8 +387,11 @@ const GeneOntologyRibbon = ({ geneId, geneSpecies, geneSymbol, navigate }) => {
     return (
       <go-annotation-ribbon-table
         ref={tableRef}
+        // bio-link-data={JSON.stringify(this.state.selected.data)}
         filter-by={onlyEXP ? 'evidence:' + EXP_CODES.join(',') : ''}
-        group-by="term"
+        // Keep positive and NOT annotations separate; the grouped term retains the first annotation's tags.
+        group-by="term,qualifier"
+        // hide-columns={'qualifier,' + (selectedOrthologs.length == 0 ? 'gene,' : '') + (selected.group.id != 'all' ? ',aspect' : '')}
         hide-columns={'qualifier,gene,' + (selected.group.id !== 'all' ? ',aspect' : '')}
         order-by="term"
       />

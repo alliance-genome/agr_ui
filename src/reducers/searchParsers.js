@@ -7,6 +7,7 @@ import {
   DUPLICATE_HIGHLIGHTED_FIELDS,
   GENE_CATEGORY,
   GO_CATEGORY,
+  LITERATURE_CATEGORY,
   NON_HIGHLIGHTED_FIELDS,
   VARIANT_CATEGORY,
 } from '../constants';
@@ -96,6 +97,8 @@ export function parseResults(results) {
         return parseHomologyGroupResult(d);
       case VARIANT_CATEGORY:
         return parseVariantSearchResult(d);
+      case LITERATURE_CATEGORY:
+        return parseLiteratureResult(d);
       default:
         return parseDefaultResult(d);
     }
@@ -271,6 +274,13 @@ function parseVariantSearchResult(_d) {
     missing: d.missingTerms,
     ...(d.crossReferences != null && { crossReferences: d.crossReferences }),
   };
+}
+
+function parseLiteratureResult(_d) {
+  const d = parseDefaultResult(_d);
+  delete d.highlight[makeFieldDisplayName('name')];
+  delete d.highlight[makeFieldDisplayName('nameKey')];
+  return d;
 }
 
 function parseDefaultResult(_d) {
