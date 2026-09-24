@@ -47,16 +47,28 @@ $max-width: 800px;
   }
 }
 
+// Pill row: keep all pills on a single line (KANBAN-1057 added the longer
+// "Model Organism Genes" label, which pushed "Species" onto a second row).
+// EntityButton wraps its <Link> in a <b>, so that <b> is the flex item — make
+// the pills share the row width and let long labels wrap inside their own pill.
+.entityRow {
+  flex-wrap: nowrap;
+
+  > b {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+}
+
 .entityButton {
   color: $gray-700;
-  display: inline-flex;
-  flex: 1 0 0;
+  display: flex;
+  width: 100%;
   font-size: 1rem;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin: 1rem;
-  white-space: nowrap;
+  margin: 1rem 0.25rem;
   position: relative;
   transition: transform 100ms ease-out;
 
