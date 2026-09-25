@@ -1,0 +1,24 @@
+name: PR do-not-merge label validation
+on:
+  pull_request:
+    types: [synchronize, opened, reopened, edited, labeled, unlabeled]
+    branches:
+      - test
+      - main
+      - stage
+      - develop/**/*
+      - release/**/*
+
+jobs:
+  do-not-merge-label-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail in case Pull Request is labeled with do-not-merge
+        env:
+          BLOCKED: ${{ contains(github.event.pull_request.labels.*.name, 'do-not-merge') }}
+        run: |
+          if [ "$BLOCKED" = "true" ]; then
+            echo "Pull Request labeled as \"do-not-merge\"!"
+            exit 1
+          fi
+          echo "No do-not-merge label found."
