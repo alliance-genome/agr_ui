@@ -14,11 +14,13 @@ const ExplainNode = ({ explanation }) => {
         <strong>{explanation.value}</strong>: {explanation.match || ''}
         {explanation.description}
       </li>
-      <li>
-        {explanation.details.map((detail, i) => (
-          <ExplainNode explanation={detail} key={i} />
-        ))}
-      </li>
+      {explanation.details && (
+        <li>
+          {explanation.details.map((detail, i) => (
+            <ExplainNode explanation={detail} key={i} />
+          ))}
+        </li>
+      )}
     </ul>
   );
 };
