@@ -140,17 +140,6 @@ export class AmplifyProductionStack extends cdk.Stack {
       },
 
       {
-        source: '/jbrowse/<*>',
-        target: 'https://production-api.alliancegenome.org/jbrowse/<*>',
-        status: amplify.RedirectStatus.REWRITE,
-      },
-      {
-        source: '/apollo/<*>',
-        target: 'https://production-api.alliancegenome.org/apollo/<*>',
-        status: amplify.RedirectStatus.REWRITE,
-      },
-
-      {
         source: '/alliancemine',
         target: 'https://www.alliancegenome.org/alliancemine/',
         status: amplify.RedirectStatus.PERMANENT_REDIRECT,
@@ -210,7 +199,21 @@ export class AmplifyProductionStack extends cdk.Stack {
         target: 'https://production-api.alliancegenome.org/openapi',
         status: amplify.RedirectStatus.REWRITE,
       },
-
+      {
+        source: '/pavi',
+        target: 'https://pavi.alliancegenome.org/pavi/',
+        status: amplify.RedirectStatus.REWRITE,
+      },
+      {
+        source: '/pavi/',
+        target: 'https://pavi.alliancegenome.org/pavi/',
+        status: amplify.RedirectStatus.REWRITE,
+      },
+      {
+        source: '/pavi/<*>',
+        target: 'https://pavi.alliancegenome.org/pavi/<*>',
+        status: amplify.RedirectStatus.REWRITE,
+      },
       {
         source: '/textpresso/sgd',
         target: 'https://www.alliancegenome.org/textpresso/sgd/tpc',

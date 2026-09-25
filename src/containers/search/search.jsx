@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import clone from 'lodash.clone';
@@ -19,9 +19,6 @@ import HeadMetaTags from '../../components/headMetaTags.jsx';
 
 import style from './style.module.scss';
 
-// used to test rendering fixture response
-import fixtureResponse from './tests/fixtureResponse';
-
 import {
   selectActiveCategory,
   selectErrorMessage,
@@ -37,128 +34,116 @@ import SearchBarComponent from '../layout/searchBar/index.jsx';
 
 const BASE_SEARCH_URL = '/api/search';
 
-class SearchComponent extends Component {
-  // fetch data at start
-  componentDidMount() {
-    // this.fetchFixtureData(); // uncomment to use fixture mode
-    this.fetchSearchData();
-  }
-
-  // fetch data whenever URL changes within /search
-  componentDidUpdate(prevProps) {
-    if (prevProps.location !== this.props.location) {
-      this.fetchSearchData();
-    }
-  }
-
-  fetchFixtureData() {
-    this.props.dispatch(receiveResponse(fixtureResponse, this.props.queryParams));
-    this.props.dispatch(setError(false));
-    this.props.dispatch(setPageLoading(false));
-  }
-
-  fetchSearchData() {
-    // edit for pagination
-    let size = this.props.pageSize;
-    let _limit = size;
-    let _offset = (this.props.currentPage - 1) * size;
-    let qp = clone(this.props.queryParams);
-    qp.limit = _limit;
-    qp.offset = _offset;
+const SearchComponent = ({
+  activeCategory,
+  currentPage,
+  dispatch,
+  errorMessage,
+  isError,
+  isMultiTable,
+  isReady,
+  isTable,
+  location,
+  pageSize,
+  queryParams,
+  results,
+}) => {
+  const fetchSearchData = () => {
+    const qp = clone(queryParams);
+    qp.limit = pageSize;
+    qp.offset = (currentPage - 1) * pageSize;
     const searchUrl = `${BASE_SEARCH_URL}?${stringifyQuery(qp)}`;
-    this.props.dispatch(setPageLoading(true));
+    dispatch(setPageLoading(true));
     fetchData(searchUrl, undefined, 60000)
       .then((data) => {
-        this.props.dispatch(receiveResponse(data, this.props.queryParams));
-        this.props.dispatch(setError(false));
-        this.props.dispatch(setPageLoading(false));
+        dispatch(receiveResponse(data, queryParams));
+        dispatch(setError(false));
+        dispatch(setPageLoading(false));
       })
       .catch((e) => {
-        this.props.dispatch(setPageLoading(false));
+        dispatch(setPageLoading(false));
         if (process.env.NODE_ENV === 'production') {
-          this.props.dispatch(setError(SEARCH_API_ERROR_MESSAGE));
+          dispatch(setError(SEARCH_API_ERROR_MESSAGE));
         } else {
           throw e;
         }
       });
-  }
+  };
 
-  renderResultsNode() {
-    if (this.props.isMultiTable) {
-      return <MultiTable queryParams={this.props.queryParams} />;
-    } else if (this.props.isTable) {
-      return (
-        <ResultsTable
-          activeCategory={this.props.activeCategory}
-          entries={this.props.results}
-          query={this.props.queryParams.q}
-        />
-      );
-    } else {
-      return <ResultsList entries={this.props.results} />;
+  // Fetch on mount + whenever location changes (matches previous
+  // componentDidUpdate check on prevProps.location !== this.props.location)
+  const prevLocationRef = useRef(null);
+  useEffect(() => {
+    if (prevLocationRef.current !== location) {
+      prevLocationRef.current = location;
+      fetchSearchData();
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
 
-  renderErrorNode() {
-    if (!this.props.isError) {
-      return null;
+  const renderResultsNode = () => {
+    if (isMultiTable) return <MultiTable queryParams={queryParams} />;
+    if (isTable) {
+      return <ResultsTable activeCategory={activeCategory} entries={results} query={queryParams.q} />;
     }
+    return <ResultsList entries={results} />;
+  };
+
+  const renderErrorNode = () => {
+    if (!isError) return null;
     return (
       <div className="alert alert-warning">
         <h3>Oops, Error</h3>
-        <p>{this.props.errorMessage}</p>
+        <p>{errorMessage}</p>
       </div>
     );
-  }
+  };
 
-  render() {
-    const { isReady, queryParams } = this.props;
-    let title = 'Search ' + (queryParams.q || '');
-    return (
-      <>
-        <HeadMetaTags title={title} />
+  const title = 'Search ' + (queryParams.q || '');
+  return (
+    <>
+      <HeadMetaTags title={title} />
 
-        <div className={`${style.searchBarBackground} shadow-sm`}>
-          <div className="container">
-            <div className={style.searchBarContainer}>
-              <SearchBarComponent />
-            </div>
+      <div className={`${style.searchBarBackground} shadow-sm`}>
+        <div className="container">
+          <div className={style.searchBarContainer}>
+            <SearchBarComponent />
           </div>
         </div>
+      </div>
 
-        <div className="container">
-          {this.renderErrorNode()}
+      <div className="container">
+        {renderErrorNode()}
 
-          {!isReady && <LoadingPage />}
+        {!isReady && <LoadingPage />}
 
-          {isReady && (
-            <div className="row mb-3">
-              <div className={SMALL_COL_CLASS}>
-                <FilterSelector queryParams={queryParams} />
-              </div>
-              <div className={LARGE_COL_CLASS}>
-                <div className="d-flex justify-content-between align-items-baseline">
-                  <span>
-                    <TotalCount /> results{' '}
-                    {queryParams.q && (
-                      <span>
-                        for <b>{queryParams.q}</b>
-                      </span>
-                    )}
-                  </span>
-                  <SearchControls queryParams={queryParams} />
-                </div>
-                <SearchBreadcrumbs queryParams={queryParams} />
-                {this.renderResultsNode()}
+        {isReady && (
+          <div className="row mb-3">
+            <div className={SMALL_COL_CLASS}>
+              <FilterSelector queryParams={queryParams} />
+            </div>
+            <div className={LARGE_COL_CLASS}>
+              <div className="d-flex justify-content-between align-items-baseline">
+                <span>
+                  <TotalCount /> results{' '}
+                  {queryParams.q && (
+                    <span>
+                      for <b>{queryParams.q}</b>
+                    </span>
+                  )}
+                </span>
                 <SearchControls queryParams={queryParams} />
               </div>
+              <SearchBreadcrumbs queryParams={queryParams} />
+              {renderResultsNode()}
+              <SearchControls queryParams={queryParams} />
             </div>
-          )}
-        </div>
-      </>
-    );
-  }
-}
+          </div>
+        )}
+      </div>
+    </>
+  );
+};
 
 SearchComponent.propTypes = {
   activeCategory: PropTypes.string,
@@ -169,20 +154,19 @@ SearchComponent.propTypes = {
   isMultiTable: PropTypes.bool,
   isReady: PropTypes.bool,
   isTable: PropTypes.bool,
-  location: PropTypes.any.isRequired,
-  mode: PropTypes.string,
+  location: PropTypes.object.isRequired,
   pageSize: PropTypes.number,
   queryParams: PropTypes.object,
   results: PropTypes.array,
 };
 
 function mapStateToProps(state, ownProps) {
-  let _queryParams = selectQueryParams(state, ownProps);
-  let _mode = _queryParams.mode;
-  let _isTable = _mode === 'table';
-  let _currentPage = parseInt(_queryParams.page) || 1;
-  let _activeCategory = selectActiveCategory(state);
-  let _isMultiTable = _isTable && _activeCategory === 'none';
+  const _queryParams = selectQueryParams(state, ownProps);
+  const _mode = _queryParams.mode;
+  const _isTable = _mode === 'table';
+  const _currentPage = parseInt(_queryParams.page) || 1;
+  const _activeCategory = selectActiveCategory(state);
+  const _isMultiTable = _isTable && _activeCategory === 'none';
   return {
     activeCategory: _activeCategory,
     currentPage: _currentPage,
@@ -200,11 +184,13 @@ function mapStateToProps(state, ownProps) {
 
 const ConnectedSearchComponent = connect(mapStateToProps)(SearchComponent);
 
-//temporary wrapper until SearchComponent is changed to a functional component and we remove redux
-function SearchComponentWithLocation(props) {
+// mapStateToProps' selectors (selectQueryParams -> selectRoutingDomain) read
+// props.location.search from the connected component's ownProps, so we inject
+// the router location before connect runs.
+const SearchComponentWithLocation = (props) => {
   const location = useLocation();
   return <ConnectedSearchComponent {...props} location={location} />;
-}
+};
 
-export { SearchComponentWithLocation };
+export { SearchComponent, SearchComponentWithLocation };
 export default SearchComponentWithLocation;

@@ -106,6 +106,7 @@
     "jest-transform-stub": "^2.0.0",
     "prettier": "^3.8.3",
     "sass-embedded": "^1.99.0",
+    "ts-node": "^10.9.2",
     "tsx": "^4.23.11",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.59.0",
