@@ -1,4 +1,4 @@
-name: PR do-not-merge label validation
+name: PR validation (by label)
 on:
   pull_request:
     types: [synchronize, opened, reopened, edited, labeled, unlabeled]
