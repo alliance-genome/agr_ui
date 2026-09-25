@@ -1,8 +1,20 @@
+import React from 'react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import GeneOntologyRibbonWithNavigate from './index.jsx';
+import fetchData from '../../lib/fetchData';
 import { AnnotationRibbonTable } from '../../../node_modules/@geneontology/web-components/dist/collection/components/annotation-ribbon-table/annotation-ribbon-table.js';
 
 jest.mock('react-router-dom', () => ({ useNavigate: () => jest.fn() }));
-jest.mock('../OrthologPicker.jsx', () => () => null);
+jest.mock('../../lib/fetchData', () => jest.fn());
+// Report no orthologs on mount so the ribbon summary loads, as the real picker does.
+jest.mock('../OrthologPicker.jsx', () => {
+  const { useEffect } = jest.requireActual('react');
+  return ({ onChange }) => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => onChange([]), []);
+    return null;
+  };
+});
 // Exercise the installed component's real data conversion, grouping and filtering without network or Stencil rendering.
 jest.mock('@stencil/core', () => ({ h: jest.fn() }), { virtual: true });
 jest.mock('@geneontology/dbxrefs', () => ({ getURL: (prefix, _, id) => `https://example.org/${prefix}/${id}` }), {
@@ -26,18 +38,63 @@ const labels = (row, column) =>
     .map((cell) => cell.label)
     .filter(Boolean);
 
+// Stand-ins for the GO web components; the table records the data the ribbon pushes into it.
+const tableSetData = jest.fn();
+customElements.define(
+  'go-annotation-ribbon-strips',
+  class extends HTMLElement {
+    setData() {}
+  }
+);
+customElements.define(
+  'go-annotation-ribbon-table',
+  class extends HTMLElement {
+    setData(data) {
+      tableSetData(data);
+    }
+  }
+);
+
+const summary = {
+  categories: [{ id: 'GO:0003674', label: 'molecular_function', groups: [{ id: 'GO:0003824', type: 'Term' }] }],
+  subjects: [{ id: 'HGNC:5320', label: 'HYAL1', groups: {} }],
+};
+
+beforeEach(() => tableSetData.mockClear());
+
 async function displayTable(assocs, { onlyEXP = false, groupId = 'GO:0003824' } = {}) {
-  const element = GeneOntologyRibbonWithNavigate({ geneId: 'HGNC:5320' });
-  const ribbon = new element.type(element.props);
-  ribbon.state.selected.group = { id: groupId };
-  ribbon.state.onlyEXP = onlyEXP;
-  const { props } = ribbon.renderRibbonTable();
+  fetchData.mockImplementation((url) =>
+    Promise.resolve(url.includes('ontology/ribbon') ? summary : [{ subject: 'HGNC:5320', assocs }])
+  );
+  const { container } = render(
+    <GeneOntologyRibbonWithNavigate geneId="HGNC:5320" geneSpecies={{ taxonId: 'NCBITaxon:9606' }} />
+  );
+  const ribbon = await waitFor(() => {
+    const el = container.querySelector('#go-ribbon');
+    if (!el) throw new Error('ribbon not rendered');
+    return el;
+  });
+  if (onlyEXP) {
+    fireEvent.click(screen.getByRole('checkbox'));
+    await waitFor(() => expect(screen.getByRole('checkbox')).toBeChecked());
+  }
+  act(() => {
+    ribbon.dispatchEvent(
+      new CustomEvent('cellClick', {
+        detail: { subjects: [summary.subjects[0]], group: { id: groupId, type: 'Term' } },
+      })
+    );
+  });
+  await waitFor(() => expect(tableSetData).toHaveBeenCalled());
+
+  // Run the real table component with the attributes and data the ribbon rendered.
+  const element = container.querySelector('go-annotation-ribbon-table');
   const table = new AnnotationRibbonTable();
-  table.groupBy = props['group-by'];
-  table.orderBy = props['order-by'];
-  table.hideColumns = props['hide-columns'];
-  table.filterBy = props['filter-by'];
-  await table.setData([{ subject: 'HGNC:5320', assocs }]);
+  table.groupBy = element.getAttribute('group-by');
+  table.orderBy = element.getAttribute('order-by');
+  table.hideColumns = element.getAttribute('hide-columns');
+  table.filterBy = element.getAttribute('filter-by');
+  await table.setData(tableSetData.mock.calls.at(-1)[0]);
   return table.displayTable;
 }
 
