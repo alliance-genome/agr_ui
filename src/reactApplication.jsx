@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Provider } from 'react-redux';
 import configureStore from './lib/configureStore';
 import { BrowserRouter } from 'react-router-dom';
@@ -22,28 +22,25 @@ const queryClient = new QueryClient({
   },
 });
 
-class ReactApp extends Component {
-  render() {
-    const Router = this.props.router || BrowserRouter;
-    return (
-      <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
-          <ReleaseContextProvider>
-            <Router>
-              {isBrowser ? (
-                <RouteListener onRouteChange={logPageView}>
-                  <LayoutWithRoutes />
-                </RouteListener>
-              ) : (
+const ReactApp = ({ router: Router = BrowserRouter }) => {
+  return (
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <ReleaseContextProvider>
+          <Router>
+            {isBrowser ? (
+              <RouteListener onRouteChange={logPageView}>
                 <LayoutWithRoutes />
-              )}
-            </Router>
-          </ReleaseContextProvider>
-        </QueryClientProvider>
-      </Provider>
-    );
-  }
-}
+              </RouteListener>
+            ) : (
+              <LayoutWithRoutes />
+            )}
+          </Router>
+        </ReleaseContextProvider>
+      </QueryClientProvider>
+    </Provider>
+  );
+};
 
 ReactApp.propTypes = {
   router: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useQueries } from '@tanstack/react-query';
 import NotFound from '../../components/notFound.jsx';
 import HeadMetaTags from '../../components/headMetaTags.jsx';
 import SpeciesIcon from '../../components/speciesIcon/index.jsx';
@@ -10,17 +11,44 @@ import { CollapsibleList } from '../../components/collapsibleList';
 import NoData from '../../components/noData.jsx';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
+import fetchData from '../../lib/fetchData';
 import ReferenceSummary from './ReferenceSummary.jsx';
 import ApplySpeciesNameFormat from './SpeciesFinderFormatter.jsx';
+import ReferenceGeneTable from './tables/ReferenceGeneTable.jsx';
+import ReferenceAlleleTable from './tables/ReferenceAlleleTable.jsx';
+import ReferenceTransgenicAlleleTable from './tables/ReferenceTransgenicAlleleTable.jsx';
+import ReferenceModelTable from './tables/ReferenceModelTable.jsx';
 import { useParams } from 'react-router-dom';
-import { getSingleReferenceUrl } from '../../components/dataTable/utils.jsx';
+import { buildUrlFromTemplate } from '../../lib/utils.js';
 import styles from './style.module.scss';
 
-// const MODS = 'Mods';
-const CITATION = 'Citation';
 const SUMMARY = 'Summary';
 const ABSTRACT = 'Abstract';
-const SECTIONS = [{ name: SUMMARY }, { name: ABSTRACT }];
+const GENES = 'Genes';
+const ALLELES_AND_VARIANTS = 'Alleles/Variants';
+const TRANSGENIC_ALLELES = 'Transgenic Alleles';
+const MODELS = 'Models';
+const totalUrl = (base) => {
+  const sep = base.includes('?') ? '&' : '?';
+  return `${base}${sep}limit=0`;
+};
+
+function useSectionCounts(referenceId) {
+  const countable = [
+    { name: GENES, url: `/api/reference/${referenceId}/genes` },
+    { name: ALLELES_AND_VARIANTS, url: `/api/reference/${referenceId}/alleles` },
+    { name: TRANSGENIC_ALLELES, url: `/api/reference/${referenceId}/transgenic-alleles` },
+    { name: MODELS, url: `/api/reference/${referenceId}/models` },
+  ];
+  const queries = useQueries({
+    queries: countable.map((s) => ({
+      queryKey: ['ref-section-count', referenceId, s.name, s.url],
+      queryFn: () => fetchData(totalUrl(s.url)).then((d) => d?.total ?? 0),
+      staleTime: 60_000,
+    })),
+  });
+  return Object.fromEntries(countable.map((s, i) => [s.name, queries[i].data]));
+}
 
 const modMap = {
   FB: 'flybase',
@@ -49,7 +77,7 @@ const SourceList = ({ sources }) => {
         <CollapsibleList collapsedSize={3}>
           {sources.map((ref) => {
             return (
-              <ExternalLink href={getSingleReferenceUrl(ref.curie).url} key={ref.curie} title={ref.curie}>
+              <ExternalLink href={buildUrlFromTemplate(ref)} key={ref.curie} title={ref.curie}>
                 {ref.curie}
               </ExternalLink>
             );
@@ -86,25 +114,39 @@ const ModSprites = ({ xrefs, size }) => {
 const ReferencePage = () => {
   const { id: referenceId } = useParams();
   const { data, isLoading, isError } = usePageLoadingQuery(`/api/reference/${referenceId}`);
-  // const { data, isLoading, isError } = usePageLoadingQuery(    `https://literature-rest.alliancegenome.org/reference/${referenceId}`  );
+
+  // Skip firing section-count queries while the four Reference-array tables
+  // are hidden. Restore this call when the tables come back.
+  const counts = {};
+  // const counts = useSectionCounts(referenceId);
+
   if (isError) {
     return <NotFound />;
   }
-  if (isLoading) {
+  if (isLoading || !data) {
     return null;
   }
   const ref = data.literatureSummary;
-  // const ref = data;
 
-  // separate xrefs into mod xrefs and external xrefs here, and attach them to ref object
+  // separate xrefs into mod xrefs and external xrefs here, and attach them to ref object.
+  // cross_references may be missing entirely (e.g. internal_process_reference), so default to [].
   ref.modXrefs = [];
   ref.extXrefs = [];
-  for (let xr = 0; xr < ref.cross_references.length; xr++) {
-    if (speciesMap[ref.cross_references[xr].curie.substring(0, ref.cross_references[xr].curie.indexOf(':'))])
-      ref.modXrefs.push(ref.cross_references[xr]);
-    else ref.extXrefs.push(ref.cross_references[xr]);
+  for (const entry of ref.cross_references || []) {
+    if (!entry.curie) continue;
+    const prefix = entry.curie.substring(0, entry.curie.indexOf(':'));
+    (speciesMap[prefix] ? ref.modXrefs : ref.extXrefs).push(entry);
   }
-  // console.log(ref.modXrefs);
+  const sections = [
+    { name: SUMMARY },
+    { name: ABSTRACT },
+    // Hidden on stage until the four Reference-array tables are ready. Restore
+    // these entries in the same order to re-enable the PageNav links + badges.
+    // { name: GENES, count: counts[GENES] },
+    // { name: ALLELES_AND_VARIANTS, count: counts[ALLELES_AND_VARIANTS] },
+    // { name: TRANSGENIC_ALLELES, count: counts[TRANSGENIC_ALLELES] },
+    // { name: MODELS, count: counts[MODELS] },
+  ];
 
   const FormattedAbstract = ({ abstract }) => {
     if (!abstract) return <NoData>Not Available</NoData>;
@@ -117,19 +159,27 @@ const ReferencePage = () => {
     <DataPage>
       <HeadMetaTags title={ref.title} />
 
-      <PageNav sections={SECTIONS}>
+      <PageNav sections={sections}>
         <PageNavEntity>
           <ModSprites xrefs={ref.modXrefs} size="48" />
         </PageNavEntity>
         <div>
           <PageNavEntity entityName={ref.short_citation || ref.citation}>
             <SourceList sources={ref.modXrefs} />
+            {/* AGRKB ID sits below the MOD IDs, outside the collapsible list so it is always visible */}
+            {ref.curie && <div style={{ textIndent: 8, marginTop: 6 }}>{ref.curie}</div>}
           </PageNavEntity>
         </div>
       </PageNav>
 
       <PageData>
         <PageCategoryLabel category="reference" />
+        {/* set to one of the retraction types, and absent otherwise */}
+        {ref.retraction_status && (
+          <div className={`alert alert-danger ${styles.retractionBanner}`} role="alert">
+            This reference has been retracted. Some or all of the associated data have been removed.
+          </div>
+        )}
         <PageHeader>
           <ApplySpeciesNameFormat text={ref.title} />
         </PageHeader>
@@ -139,6 +189,22 @@ const ReferencePage = () => {
         <Subsection title={ABSTRACT}>
           <FormattedAbstract abstract={ref.abstract} />
         </Subsection>
+        {/* Hidden on stage until the four Reference-array tables are ready.
+            Restore the four sections below (and their sections array entries
+            above) to bring them back on the page.
+        <Subsection title={GENES}>
+          <ReferenceGeneTable id={referenceId} />
+        </Subsection>
+        <Subsection title={ALLELES_AND_VARIANTS}>
+          <ReferenceAlleleTable id={referenceId} />
+        </Subsection>
+        <Subsection title={TRANSGENIC_ALLELES}>
+          <ReferenceTransgenicAlleleTable id={referenceId} />
+        </Subsection>
+        <Subsection title={MODELS}>
+          <ReferenceModelTable id={referenceId} />
+        </Subsection>
+        */}
       </PageData>
     </DataPage>
   );

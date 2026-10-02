@@ -84,25 +84,29 @@
     margin-bottom: 1rem;
   }
 
+  // multi-column: column count follows the width, height follows the content
   .siteMapContainer {
-    display: flex;
     flex-grow: 1;
-    flex-direction: column;
-    flex-wrap: wrap;
-    height: 460px;
+    column-width: 7rem;
+    column-gap: 1rem;
+
+    @include media-breakpoint-up(sm) {
+      column-width: 8rem;
+    }
 
     @include media-breakpoint-up(md) {
-      height: 235px;
+      column-width: 9rem;
+      column-gap: 1.5rem;
     }
   }
 
   .siteMapGroup {
     margin-bottom: 0.5rem;
-    width: 50%;
-
-    @include media-breakpoint-up(md) {
-      width: 15%;
-    }
+    // keep a group whole in its column
+    -webkit-column-break-inside: avoid;
+    break-inside: avoid;
+    // an over-long label wraps instead of overhanging the next column
+    white-space: normal;
   }
 
   .siteMapHeader {

@@ -2,10 +2,10 @@ import React from 'react';
 
 import ExternalLink from '../ExternalLink.jsx';
 import { CollapsibleList } from '../collapsibleList';
-import { getMultipleReferencesUrls } from './utils.jsx';
+import { buildUrlFromTemplate } from '../../lib/utils.js';
 
 const removeDuplicates = (refs) => {
-  const newArray = refs.map((ref) => [ref.pubModId, ref]);
+  const newArray = refs.map((ref) => [ref.referencedCurie, ref]);
   const newMap = new Map(newArray);
   const iterator = newMap.values();
   const uniqueRefs = [...iterator];
@@ -13,22 +13,23 @@ const removeDuplicates = (refs) => {
   return uniqueRefs;
 };
 
-const ReferencesCellCuration = ({ pubModIds }) => {
-  const refStringsAndUrls = getMultipleReferencesUrls(pubModIds);
+const ReferencesCellCuration = ({ pubmedPublications }) => {
+  if (!pubmedPublications || !pubmedPublications.length) return null;
+
+  const refStringsAndUrls = pubmedPublications.map((publication) => ({
+    referencedCurie: publication.referencedCurie,
+    url: buildUrlFromTemplate(publication),
+  }));
   const uniqueRefs = removeDuplicates(refStringsAndUrls);
 
   return (
-    pubModIds && (
-      <CollapsibleList>
-        {uniqueRefs.map(({ pubModId, url }) => {
-          return (
-            <ExternalLink href={url} key={pubModId} title={pubModId}>
-              {pubModId}
-            </ExternalLink>
-          );
-        })}
-      </CollapsibleList>
-    )
+    <CollapsibleList>
+      {uniqueRefs.map(({ referencedCurie, url }) => (
+        <ExternalLink href={url} key={referencedCurie} title={referencedCurie}>
+          {referencedCurie}
+        </ExternalLink>
+      ))}
+    </CollapsibleList>
   );
 };
 

@@ -50,6 +50,7 @@ import {
 } from '../../lib/utils';
 import TransgenicAlleleTable from './TransgenicAlleleTable.jsx';
 import GeneSymbolCuration from '../../components/GeneSymbolCuration.jsx';
+import YourInputWelcome from '../../components/YourInputWelcome.jsx';
 import PhenotypeCrossRefs from './PhenotypeCrossRefs.jsx';
 import SpeciesName from '../../components/SpeciesName.jsx';
 import SequenceFeatureViewerSectionHelp from '../../components/sequenceFeatureViewer/sequenceFeatureViewerSectionHelp.jsx';
@@ -180,6 +181,7 @@ const GenePage = () => {
         <PageHeader>
           <GeneSymbolCuration gene={gene} />
         </PageHeader>
+        <YourInputWelcome type="Gene" name={geneSymbolText} allianceId={gene.primaryExternalId} />
 
         <Subsection hideTitle title={SUMMARY}>
           <GeneSummary gene={gene} crossReferenceMap={crossReferenceMap} gcrpCrossReference={gene.gcrpCrossReference} />
@@ -260,13 +262,15 @@ const GenePage = () => {
         </Subsection>
 
         <Subsection help={<SequencePanelSectionHelp />} title={SEQUENCE_DETAILS}>
-          <SequencePanel
-            refseq={genomeLocation.chromosome}
-            start={genomeLocation.start}
-            end={genomeLocation.end}
-            gene={geneSymbolText}
-            species={taxonId}
-          />
+          {!release.isLoading && (
+            <SequencePanel
+              refseq={genomeLocation.chromosome}
+              start={genomeLocation.start}
+              end={genomeLocation.end}
+              gene={geneSymbolText}
+              species={taxonId}
+            />
+          )}
         </Subsection>
 
         <Subsection help={<ExpressionUserGuide />} title={EXPRESSION}>

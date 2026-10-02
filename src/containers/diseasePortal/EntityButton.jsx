@@ -7,7 +7,8 @@ import style from './style.module.scss';
 const EntityButton = ({ children, id, to, tooltip }) => {
   return (
     <b>
-      <Link className={style.entityButton} id={id} to={to}>
+      {/* New tab so the portal page stays put behind the pill (KANBAN-1499). */}
+      <Link className={style.entityButton} id={id} to={to} target="_blank" rel="noopener">
         {children}
         {tooltip && (
           <UncontrolledTooltip placement="bottom" target={id}>

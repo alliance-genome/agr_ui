@@ -1,6 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DataTable, EvidenceCodesCellCuration, ReferencesCellCuration, SpeciesCell } from '../../components/dataTable';
+import {
+  DataTable,
+  EvidenceCodesCellCuration,
+  ReferencesCellCuration,
+  ReferenceList,
+  SpeciesCell,
+} from '../../components/dataTable';
 import ExperimentalConditionCellCuration from '../../components/dataTable/ExperimentalConditionCellCuration.jsx';
 import GeneticModifiersCellCuration from '../../components/dataTable/GeneticModifiersCellCuration.jsx';
 import { buildProvidersWithUrl, getIdentifier, getDistinctFieldValue } from '../../components/dataTable/utils.jsx';
@@ -23,6 +29,8 @@ const DiseaseToModelTable = ({ id }) => {
     ...tableProps
   } = useDataTableQuery(`/api/disease/${id}/models`, undefined, { sizePerPage: 10 }, {}, 60000);
 
+  const citationFilter = tableProps.tableState?.filters?.referenceCitation?.filterVal;
+
   const columns = [
     {
       dataField: 'subject',
@@ -36,7 +44,7 @@ const DiseaseToModelTable = ({ id }) => {
             <AnnotatedEntitiesPopupCuration
               entities={rowData.primaryAnnotations}
               mainRowCurie={getIdentifier(subject)}
-              pubModIds={rowData.pubmedPubModIDs}
+              pubmedPublications={rowData.pubmedPublications}
               columnNameSet={MODEL_DETAILS_COLUMNS}
             >
               Annotation details
@@ -127,9 +135,17 @@ const DiseaseToModelTable = ({ id }) => {
       filterable: true,
     },
     {
-      dataField: 'pubmedPubModIDs',
-      text: 'References',
-      formatter: (pubModIds) => <ReferencesCellCuration pubModIds={pubModIds} />,
+      dataField: 'references',
+      text: 'Reference',
+      formatter: (references) => <ReferenceList refs={references} filterTerm={citationFilter} />,
+      headerStyle: { width: '180px' },
+      filterable: true,
+      filterName: 'referenceCitation',
+    },
+    {
+      dataField: 'pubmedPublications',
+      text: 'Reference ID',
+      formatter: (pubmedPublications) => <ReferencesCellCuration pubmedPublications={pubmedPublications} />,
       headerStyle: { width: '150px' },
       filterName: 'reference',
       filterable: true,

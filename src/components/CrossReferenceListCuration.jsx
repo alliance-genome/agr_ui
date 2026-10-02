@@ -30,13 +30,13 @@ const CrossReferenceListCuration = ({ collapsible = true, crossReferences, gcrpC
 
   const size = collapsible ? undefined : crossReferences.length;
 
-  if (sort) {
-    crossReferences.sort(byWithLinkThenName);
-  }
+  // Copy before sorting — Array.prototype.sort mutates in place, and
+  // crossReferences is a prop (mutating it violates React immutability).
+  const orderedReferences = sort ? [...crossReferences].sort(byWithLinkThenName) : crossReferences;
 
   return (
     <CollapsibleList collapsedSize={size}>
-      {crossReferences.map((ref) => (
+      {orderedReferences.map((ref) => (
         <span key={ref.referencedCurie || ref.displayName}>
           <DataSourceLinkCuration reference={ref} />
           {gcrpCurie && ref.referencedCurie === gcrpCurie && <span> (GCRP ID)</span>}

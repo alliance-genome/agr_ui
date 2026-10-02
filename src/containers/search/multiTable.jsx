@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -37,113 +37,102 @@ const PAGE_SIZE = 5;
 const CATEGORIES = [GENE_CATEGORY, GO_CATEGORY, DISEASE_CATEGORY, ALLELE_CATEGORY];
 const SEARCH_PATH = '/search';
 
-class MultiTableComponent extends Component {
-  componentDidMount() {
-    this.fetchAllData();
-  }
+const MultiTableComponent = (props) => {
+  const {
+    dispatch,
+    queryParams,
+    geneResults,
+    goResults,
+    diseaseResults,
+    alleleResults,
+    geneTotal,
+    goTotal,
+    diseaseTotal,
+    alleleTotal,
+  } = props;
 
-  // fetch data whenever URL changes within /search
-  componentDidUpdate(prevProps) {
-    if (stringifyQuery(prevProps.queryParams) !== stringifyQuery(this.props.queryParams)) {
-      this.fetchAllData();
-    }
-  }
-
-  getUrlByCategory(category) {
-    let size = PAGE_SIZE;
-    let currentPage = 1;
-    let _limit = size;
-    let _offset = (currentPage - 1) * size;
-    let qp = clone(this.props.queryParams);
-    qp.limit = _limit;
-    qp.offset = _offset;
+  const getUrlByCategory = (category) => {
+    const qp = clone(queryParams);
+    qp.limit = PAGE_SIZE;
+    qp.offset = 0;
     qp.category = category;
     return `${BASE_SEARCH_URL}?${stringifyQuery(qp)}`;
-  }
+  };
 
-  fetchAllData() {
-    let geneUrl = this.getUrlByCategory(GENE_CATEGORY);
-    let goUrl = this.getUrlByCategory(GO_CATEGORY);
-    let diseaseUrl = this.getUrlByCategory(DISEASE_CATEGORY);
-    let alleleUrl = this.getUrlByCategory(ALLELE_CATEGORY);
-    this.props.dispatch(setPageLoading(true));
+  const fetchAllData = () => {
+    const geneUrl = getUrlByCategory(GENE_CATEGORY);
+    const goUrl = getUrlByCategory(GO_CATEGORY);
+    const diseaseUrl = getUrlByCategory(DISEASE_CATEGORY);
+    const alleleUrl = getUrlByCategory(ALLELE_CATEGORY);
+    dispatch(setPageLoading(true));
     fetchData(geneUrl)
       .then((geneData) => {
-        this.props.dispatch(receiveResponse(geneData, this.props.queryParams, GENE_CATEGORY));
+        dispatch(receiveResponse(geneData, queryParams, GENE_CATEGORY));
       })
       .then(
         fetchData(goUrl).then((goData) => {
-          this.props.dispatch(receiveResponse(goData, this.props.queryParams, GO_CATEGORY));
+          dispatch(receiveResponse(goData, queryParams, GO_CATEGORY));
         })
       )
       .then(
         fetchData(diseaseUrl).then((diseaseData) => {
-          this.props.dispatch(receiveResponse(diseaseData, this.props.queryParams, DISEASE_CATEGORY));
+          dispatch(receiveResponse(diseaseData, queryParams, DISEASE_CATEGORY));
         })
       )
       .then(
         fetchData(alleleUrl).then((alleleData) => {
-          this.props.dispatch(receiveResponse(alleleData, this.props.queryParams, ALLELE_CATEGORY));
+          dispatch(receiveResponse(alleleData, queryParams, ALLELE_CATEGORY));
         })
       )
       .catch((e) => {
-        this.props.dispatch(setPageLoading(false));
+        dispatch(setPageLoading(false));
         if (process.env.NODE_ENV === 'production') {
-          this.props.dispatch(setError(SEARCH_API_ERROR_MESSAGE));
+          dispatch(setError(SEARCH_API_ERROR_MESSAGE));
         } else {
           throw e;
         }
       });
-  }
+  };
 
-  //there has to be a better way to do this...
-  getTotalForCategory(category) {
-    if (category === GENE_CATEGORY) {
-      return this.props.geneTotal.toLocaleString();
+  // fetch data whenever URL changes within /search (mount + queryParams change)
+  const queryKey = stringifyQuery(queryParams);
+  const prevQueryKeyRef = useRef(null);
+  useEffect(() => {
+    if (prevQueryKeyRef.current !== queryKey) {
+      prevQueryKeyRef.current = queryKey;
+      fetchAllData();
     }
-    if (category === GO_CATEGORY) {
-      return this.props.goTotal.toLocaleString();
-    }
-    if (category === DISEASE_CATEGORY) {
-      return this.props.diseaseTotal.toLocaleString();
-    }
-    if (category === ALLELE_CATEGORY) {
-      return this.props.alleleTotal.toLocaleString();
-    }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queryKey]);
 
-  //there also has to be a better way to do this...
-  getResultsForCategory(category) {
-    if (category === GENE_CATEGORY) {
-      return this.props.geneResults;
-    }
-    if (category === GO_CATEGORY) {
-      return this.props.goResults;
-    }
-    if (category === DISEASE_CATEGORY) {
-      return this.props.diseaseResults;
-    }
-    if (category === ALLELE_CATEGORY) {
-      return this.props.alleleResults;
-    }
-  }
+  const getTotalForCategory = (category) => {
+    if (category === GENE_CATEGORY) return geneTotal.toLocaleString();
+    if (category === GO_CATEGORY) return goTotal.toLocaleString();
+    if (category === DISEASE_CATEGORY) return diseaseTotal.toLocaleString();
+    if (category === ALLELE_CATEGORY) return alleleTotal.toLocaleString();
+  };
 
-  renderCategory(category, key) {
-    let categoryQp = getQueryParamWithValueChanged('category', category, this.props.queryParams);
-    let categoryHref = { pathname: SEARCH_PATH, search: stringifyQuery(categoryQp) };
+  const getResultsForCategory = (category) => {
+    if (category === GENE_CATEGORY) return geneResults;
+    if (category === GO_CATEGORY) return goResults;
+    if (category === DISEASE_CATEGORY) return diseaseResults;
+    if (category === ALLELE_CATEGORY) return alleleResults;
+  };
 
-    if (this.getTotalForCategory(category) === '0') {
-      return null;
-    }
+  const renderCategory = (category, key) => {
+    const categoryQp = getQueryParamWithValueChanged('category', category, queryParams);
+    const categoryHref = { pathname: SEARCH_PATH, search: stringifyQuery(categoryQp) };
+
+    if (getTotalForCategory(category) === '0') return null;
 
     return (
       <div key={key}>
         <p>
           <Link to={categoryHref}>
-            {this.getTotalForCategory(category)} <CategoryLabel category={category} /> Results
+            {getTotalForCategory(category)} <CategoryLabel category={category} /> Results
           </Link>
         </p>
-        <ResultsTable activeCategory={category} entries={this.getResultsForCategory(category)} />
+        <ResultsTable activeCategory={category} entries={getResultsForCategory(category)} />
         <span className="float-right">
           <Link to={categoryHref}>
             Show All <CategoryLabel category={category} hideImage /> Results
@@ -152,16 +141,10 @@ class MultiTableComponent extends Component {
         <hr className={style.clear} />
       </div>
     );
-  }
+  };
 
-  render() {
-    return (
-      <div className={style.resultContainer}>
-        {CATEGORIES.map((category, idx) => this.renderCategory(category, idx))}
-      </div>
-    );
-  }
-}
+  return <div className={style.resultContainer}>{CATEGORIES.map((c, i) => renderCategory(c, i))}</div>;
+};
 
 MultiTableComponent.propTypes = {
   dispatch: PropTypes.func,

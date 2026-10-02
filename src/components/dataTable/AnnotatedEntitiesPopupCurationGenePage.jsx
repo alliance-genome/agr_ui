@@ -2,7 +2,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { DropdownMenu, DropdownToggle, ButtonDropdown } from 'reactstrap';
-import { GeneCellCuration, AlleleCellCuration, ModelCellCuration, SingleReferenceCellCuration } from './index';
+import {
+  GeneCellCuration,
+  AlleleCellCuration,
+  ModelCellCuration,
+  SingleReferenceCellCuration,
+  SingleReferenceLinkCuration,
+} from './index';
 import ExperimentalConditionCellCuration from './ExperimentalConditionCellCuration';
 import hash from 'object-hash';
 
@@ -39,7 +45,13 @@ function renderLink(entity) {
   }
 }
 
-function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCurie, pubModIds, columnNameSet }) {
+function AnnotatedEntitiesPopupCurationGenePage({
+  countId,
+  children,
+  mainRowCurie,
+  pubmedPublications,
+  columnNameSet,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [pagination, setPagination] = useState({ page: 1, limit: 10 });
 
@@ -185,7 +197,8 @@ function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCuri
                       {columnNameSet.has('Annotation Type') && <th>Annotation type</th>}
                       {columnNameSet.has('Evidence Codes') && <th>Evidence Codes</th>}
                       {columnNameSet.has('Source') && <th>Source</th>}
-                      {columnNameSet.has('References') && <th>References</th>}
+                      {columnNameSet.has('Reference') && <th>Reference</th>}
+                      {columnNameSet.has('References') && <th>Reference ID</th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -265,11 +278,16 @@ function AnnotatedEntitiesPopupCurationGenePage({ countId, children, mainRowCuri
                               <ProviderCellCuration provider={provider} />
                             </td>
                           )}
+                          {columnNameSet.has('Reference') && (
+                            <td>
+                              <SingleReferenceLinkCuration singleReference={entity.evidenceItem} />
+                            </td>
+                          )}
                           {columnNameSet.has('References') && (
                             <td>
                               <SingleReferenceCellCuration
                                 singleReference={entity.evidenceItem}
-                                pubModIds={pubModIds}
+                                pubmedPublications={pubmedPublications}
                               />
                             </td>
                           )}
@@ -329,7 +347,7 @@ AnnotatedEntitiesPopupCurationGenePage.propTypes = {
   countId: PropTypes.string,
   children: PropTypes.node,
   mainRowCurie: PropTypes.string,
-  pubModIds: PropTypes.array,
+  pubmedPublications: PropTypes.array,
   columnNameSet: PropTypes.instanceOf(Set),
 };
 

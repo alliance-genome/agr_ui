@@ -76,6 +76,28 @@ $page-nav-width: 220px;
   }
 }
 
+.navItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+}
+
+.navBadge {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 10px;
+  background-color: $gray-100;
+  color: $gray-700;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+}
+
+.navBadgeZero {
+  color: $gray-500;
+}
+
 .titleTooltip {
   max-width: 100%;
   font-size: 1rem;
