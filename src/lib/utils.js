@@ -240,6 +240,9 @@ export function buildCrossReferenceMap(crossReferences) {
   map.references = addUrl(findByPage('gene/references'));
   map.expressionAtlas = addUrl(findByPage('expression_atlas'));
   map.biogridOrcs = addUrl(findByPage('biogrid/orcs'));
+  // SCRUM-6455: GeneCards, a page on the HGNC descriptor. Named rather than 'default', so it is
+  // surfaced explicitly below instead of arriving via map.other.
+  map.genecards = addUrl(findByPage('gene/genecards'));
 
   map.modInteractions = addUrl(
     findByPage('gene/MODinteractions') ||
