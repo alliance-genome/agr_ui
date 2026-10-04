@@ -167,6 +167,6 @@
     },
     "core-js": "$core-js",
     "underscore": "^1.13.8",
-    "dompurify": "^3.4.13"
+    "dompurify": "^3.4.16"
   }
 }
