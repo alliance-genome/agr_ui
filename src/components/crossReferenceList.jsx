@@ -22,13 +22,12 @@ const CrossReferenceList = ({ collapsible = true, crossReferences, sort = true }
 
   const size = collapsible ? undefined : crossReferences.length;
 
-  if (sort) {
-    crossReferences.sort(byWithLinkThenName);
-  }
+  // Copy before sorting — sort mutates in place and crossReferences is a prop.
+  const orderedReferences = sort ? [...crossReferences].sort(byWithLinkThenName) : crossReferences;
 
   return (
     <CollapsibleList collapsedSize={size}>
-      {crossReferences.map((ref) => (
+      {orderedReferences.map((ref) => (
         <DataSourceLink key={ref.displayName + ref.name + ref.url} reference={ref} />
       ))}
     </CollapsibleList>

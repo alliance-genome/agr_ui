@@ -14,6 +14,7 @@ import OrthologPicker from '../OrthologPicker.jsx';
 import useEventListener from '../../hooks/useEventListener';
 import useComparisonRibbonQuery from '../../hooks/useComparisonRibbonQuery';
 import { useNavigate } from 'react-router-dom';
+import { smartAlphaSort } from '../../lib/utils';
 
 const DiseaseComparisonRibbon = ({ geneId, geneTaxon }) => {
   const [includeNotAnnotations, setIncludeNotAnnotations] = useState(false);
@@ -86,6 +87,13 @@ const DiseaseComparisonRibbon = ({ geneId, geneTaxon }) => {
       });
     });
 
+    data.categories.forEach((category) => {
+      const allGroup = category.groups.filter((g) => g.type === 'All');
+      const termGroups = category.groups.filter((g) => g.type === 'Term');
+      termGroups.sort(smartAlphaSort((g) => g.label));
+      category.groups = [...allGroup, ...termGroups];
+    });
+
     return data;
   }
 
@@ -93,6 +101,21 @@ const DiseaseComparisonRibbon = ({ geneId, geneTaxon }) => {
     if (!summary.data) return { categories: [], subjects: [] };
     return processRibbonData(summary.data);
   }, [summary.data]);
+
+  //customized max color for ribbon data
+  const MIN_COLOR_LEVEL = 50;
+  const maxColorLevel = useMemo(() => {
+    if (!ribbonData?.subjects?.length) return MIN_COLOR_LEVEL;
+    let max = 0;
+    for (const subject of ribbonData.subjects) {
+      if (!subject.groups) continue;
+      for (const group of Object.values(subject.groups)) {
+        const nb = group?.ALL?.nb_annotations ?? 0;
+        if (nb > max) max = nb;
+      }
+    }
+    return Math.max(max, MIN_COLOR_LEVEL);
+  }, [ribbonData]);
 
   useEffect(() => {
     if (!ribbonRef.current || !ribbonData || ribbonData.subjects.length === 0) return;
@@ -136,6 +159,7 @@ const DiseaseComparisonRibbon = ({ geneId, geneTaxon }) => {
             fire-event-on-empty-cells="false"
             group-clickable="false"
             group-open-new-tab="false"
+            max-color-level={maxColorLevel}
             new-tab="false"
             ref={ribbonRef}
             selected="all"

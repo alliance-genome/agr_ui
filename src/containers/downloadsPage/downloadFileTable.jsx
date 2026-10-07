@@ -8,7 +8,7 @@ const DownloadFileTable = ({ children }) => (
     <thead>
       <tr>
         <th>Description</th>
-        <th style={{ width: '200px' }}>Download</th>
+        <th style={{ width: '300px', minWidth: '300px' }}>Download</th>
       </tr>
     </thead>
     <tbody>{children}</tbody>

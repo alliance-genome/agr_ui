@@ -11,9 +11,9 @@ const DownloadFileRow = ({ description, files }) => {
   return (
     <tr>
       <td>{description}</td>
-      <td>
+      <td style={{ whiteSpace: 'nowrap' }}>
         {files.map((file) => (
-          <DownloadFileLink fileType={file.dataType.fileExtension} key={file.id} url={file.stableURL} />
+          <DownloadFileLink fileType={file.fileType} key={file.id} url={file.stableURL} size={file.size} />
         ))}
       </td>
     </tr>
@@ -26,9 +26,8 @@ DownloadFileRow.propTypes = {
     PropTypes.shape({
       id: PropTypes.number,
       stableURL: PropTypes.string,
-      dataType: PropTypes.shape({
-        fileExtension: PropTypes.string,
-      }),
+      fileType: PropTypes.string,
+      size: PropTypes.number,
     })
   ),
 };

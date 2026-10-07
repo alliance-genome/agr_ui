@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import MethodHeader from '../homology/methodHeader.jsx';
@@ -37,70 +37,68 @@ export function isBest(value = '') {
   return typeof value === 'boolean' ? value : !!value.match(/yes/i);
 }
 
-class OrthologyTable extends Component {
-  render() {
-    let rowGroup = 0;
-    return (
-      <table className="table">
-        <thead className="text-capitalize">
-          <tr>
-            {columns.map((column) => {
-              if (column.name === 'Method') {
-                return <MethodHeader key={column.name} name={column.name} />;
-              } else {
-                return (
-                  <th key={column.name}>
-                    {column.name} {column.help && <HelpPopup id={`help-${column.name}`}>{column.help}</HelpPopup>}
-                  </th>
-                );
-              }
-            })}
-          </tr>
-        </thead>
-        <tbody>
-          {sortBy(this.props.data, [
-            compareByFixedOrder(TAXON_ORDER, (o) => getOrthologSpeciesId(o)),
-            (orthDataA, orthDataB) =>
-              orthDataB.predictionMethodsMatched.length - orthDataA.predictionMethodsMatched.length,
-          ]).map((orthData, idx, orthList) => {
-            const scoreNumerator = orthData.predictionMethodsMatched?.length;
-            const scoreDemominator = scoreNumerator + (orthData.predictionMethodsNotMatched?.length || 0);
-            const orthId = getOrthologId(orthData);
-
-            if (idx > 0 && getOrthologSpeciesName(orthList[idx - 1]) !== getOrthologSpeciesName(orthData)) {
-              rowGroup += 1;
+const OrthologyTable = ({ data }) => {
+  let rowGroup = 0;
+  return (
+    <table className="table">
+      <thead className="text-capitalize">
+        <tr>
+          {columns.map((column) => {
+            if (column.name === 'Method') {
+              return <MethodHeader key={column.name} name={column.name} />;
+            } else {
+              return (
+                <th key={column.name}>
+                  {column.name} {column.help && <HelpPopup id={`help-${column.name}`}>{column.help}</HelpPopup>}
+                </th>
+              );
             }
-            return (
-              <tr className={rowGroup % 2 === 0 ? style.groupedRow : ''} key={orthId}>
-                <td>
-                  <SpeciesName>{getOrthologSpeciesName(orthData)}</SpeciesName>
-                </td>
-                <td>
-                  <Link to={`/gene/${orthId}`}>
-                    <span dangerouslySetInnerHTML={{ __html: getOrthologSymbol(orthData) }} />
-                  </Link>
-                </td>
-                <td>{`${scoreNumerator} of ${scoreDemominator}`}</td>
-                <BooleanCell
-                  isTrueFunc={isBest}
-                  render={orthData.isBestScore?.name === 'Yes_Adjusted' ? () => 'Yes *' : null}
-                  value={orthData.isBestScore.name}
-                />
-                <BooleanCell isTrueFunc={isBest} value={orthData.isBestScoreReverse.name} />
-                <MethodCell
-                  predictionMethodsMatched={orthData.predictionMethodsMatched?.map((method) => method.name)}
-                  predictionMethodsNotMatched={orthData.predictionMethodsNotMatched?.map((method) => method.name)}
-                  rowKey={orthId}
-                  paralogy={false}
-                />
-              </tr>
-            );
           })}
-        </tbody>
-      </table>
-    );
-  }
-}
+        </tr>
+      </thead>
+      <tbody>
+        {sortBy(data, [
+          compareByFixedOrder(TAXON_ORDER, (o) => getOrthologSpeciesId(o)),
+          (orthDataA, orthDataB) =>
+            orthDataB.predictionMethodsMatched.length - orthDataA.predictionMethodsMatched.length,
+        ]).map((orthData, idx, orthList) => {
+          const scoreNumerator = orthData.predictionMethodsMatched?.length;
+          const scoreDemominator = scoreNumerator + (orthData.predictionMethodsNotMatched?.length || 0);
+          const orthId = getOrthologId(orthData);
+
+          if (idx > 0 && getOrthologSpeciesName(orthList[idx - 1]) !== getOrthologSpeciesName(orthData)) {
+            rowGroup += 1;
+          }
+          return (
+            <tr className={rowGroup % 2 === 0 ? style.groupedRow : ''} key={orthId}>
+              <td>
+                <SpeciesName>{getOrthologSpeciesName(orthData)}</SpeciesName>
+              </td>
+              <td>
+                <Link to={`/gene/${orthId}`}>
+                  <span dangerouslySetInnerHTML={{ __html: getOrthologSymbol(orthData) }} />
+                </Link>
+              </td>
+              <td>{`${scoreNumerator} of ${scoreDemominator}`}</td>
+              <BooleanCell
+                isTrueFunc={isBest}
+                render={orthData.isBestScore?.name === 'Yes_Adjusted' ? () => 'Yes *' : null}
+                value={orthData.isBestScore.name}
+              />
+              <BooleanCell isTrueFunc={isBest} value={orthData.isBestScoreReverse.name} />
+              <MethodCell
+                predictionMethodsMatched={orthData.predictionMethodsMatched?.map((method) => method.name)}
+                predictionMethodsNotMatched={orthData.predictionMethodsNotMatched?.map((method) => method.name)}
+                rowKey={orthId}
+                paralogy={false}
+              />
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
+};
 
 OrthologyTable.propTypes = {
   data: PropTypes.arrayOf(

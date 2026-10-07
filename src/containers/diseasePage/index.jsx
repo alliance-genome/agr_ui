@@ -11,6 +11,7 @@ import DiseaseToModelTable from './DiseaseToModelTable.jsx';
 import PageNavEntity from '../../components/dataPage/PageNavEntity.jsx';
 import DiseaseName from '../../components/disease/DiseaseName.jsx';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel.jsx';
+import YourInputWelcome from '../../components/YourInputWelcome.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
 import { useParams } from 'react-router-dom';
 import { DISEASE_CATEGORY } from '../../constants';
@@ -19,7 +20,7 @@ const SUMMARY = 'Summary';
 const GENES = 'Associated Genes';
 const ALLELES = 'Associated Alleles';
 const MODELS = 'Associated Models';
-const SECTIONS = [{ name: SUMMARY }, { name: GENES }, { name: ALLELES }, { name: MODELS }];
+const BROWSE_ONTOLOGY = 'Browse Ontology';
 
 const DiseasePage = () => {
   const { id: diseaseId } = useParams();
@@ -32,8 +33,6 @@ const DiseasePage = () => {
   if (isLoading) {
     return null; // the main page loading bar is sufficient
   }
-
-  console.log(data);
 
   const title = data.doTerm.name || data.doTerm.curie;
 
@@ -81,7 +80,15 @@ const DiseasePage = () => {
   return (
     <DataPage>
       <HeadMetaTags jsonLd={jsonLd} title={title} />
-      <PageNav sections={SECTIONS}>
+      <PageNav
+        sections={[
+          { name: SUMMARY },
+          { name: GENES },
+          { name: ALLELES },
+          { name: MODELS },
+          { name: BROWSE_ONTOLOGY, to: `/ontology/disease/${data.doTerm.curie}` },
+        ]}
+      >
         <PageNavEntity entityName={<DiseaseName disease={data.doTerm} />}>
           <ExternalLink href={data.diseaseURL}>{data.doTerm.curie}</ExternalLink>
         </PageNavEntity>
@@ -89,6 +96,7 @@ const DiseasePage = () => {
       <PageData>
         <PageCategoryLabel category={DISEASE_CATEGORY} />
         <PageHeader>{data.doTerm.name}</PageHeader>
+        <YourInputWelcome type="Disease" name={data.doTerm.name} allianceId={data.doTerm.curie} />
 
         <Subsection hideTitle title={SUMMARY}>
           <BasicDiseaseInfo disease={data} />

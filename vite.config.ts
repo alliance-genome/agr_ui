@@ -11,7 +11,7 @@ const ENV_KEYS_TO_EXPOSE = [
   'VITE_STOCK_API_BASE',
 ];
 
-const PROXY_PATHS = ['/api', '/jbrowse', '/bluegenes', '/swagger-ui', '/openapi', '/agr_simplemine.cgi'];
+const PROXY_PATHS = ['/api', '/jbrowse', '/bluegenes', '/swagger-ui', '/openapi', '/agr_simplemine.cgi', '/pavi'];
 
 
 const proxy = Object.fromEntries(

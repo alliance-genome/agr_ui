@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import HorizontalScroll from '../horizontalScroll.jsx';
 
@@ -15,164 +15,143 @@ import { useNavigate } from 'react-router-dom';
 
 const GO_API_URL = 'https://api.geneontology.org/api/';
 const EXP_CODES = ['EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP'];
+const SUBSET = 'goslim_agr';
 
-class GeneOntologyRibbon extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      compareOrthologs: false,
-      applyingFilters: false, // if ortholgs are loading or any other filtering is happening
-      loading: true, // if ribbon strips loading
-      error: false, // if the ribbon encountered any error while loading (eg ID not present in mygene.info)
-      subjectBaseURL: '/gene/',
-      stringency: STRINGENCY_HIGH,
-      selectedOrthologs: [],
-      crossAspect: false,
-      filterReference: true,
-      excludePB: true,
-      excludeIBA: true,
-      onlyEXP: false,
-      subset: 'goslim_agr',
-      selected: {
-        subject: null,
-        group: null,
-        data: null,
-        loading: false, // if ribbon table loading
-        error: false, // not used yet but follow the same logic as for the strips - can be used if errors occured while loading the table (should never happened)
-      },
-      search: '',
-    };
-    this.ribbonRef = React.createRef();
-    this.tableRef = React.createRef();
-    this.handleOrthologyChange = this.handleOrthologyChange.bind(this);
-    this.handleCompareOrthologsChange = this.handleCompareOrthologsChange.bind(this);
-    this.selectGroup = this.selectGroup.bind(this);
-    this.onGroupClicked = this.onGroupClicked.bind(this);
-    this.onSubjectClicked = this.onSubjectClicked.bind(this);
+// -- pure helpers -----------------------------------------------------------
+
+const hasParentElementId = (elt, id) => {
+  if (elt.id === id) return true;
+  if (!elt.parentElement) return false;
+  return hasParentElementId(elt.parentElement, id);
+};
+
+const associationKey = (assoc) => {
+  if (assoc.qualifier) {
+    return assoc.subject.id + '@' + assoc.object.id + '@' + assoc.negated + '@' + assoc.qualifier.join('-');
   }
+  return assoc.subject.id + '@' + assoc.object.id + '@' + assoc.negated;
+};
 
-  componentDidMount() {
-    this.addEventListeners();
+const fullAssociationKey = (assoc) =>
+  associationKey(assoc) + '@' + assoc.evidence_type + '@' + assoc.provided_by + '@' + assoc.reference.join('#');
+
+const diffAssociations = (assocsAll, assocsExclude) => {
+  const list = [];
+  for (const assoc of assocsAll) {
+    const keyAll = fullAssociationKey(assoc);
+    const found = assocsExclude.some((exclude) => fullAssociationKey(exclude) === keyAll);
+    if (!found) list.push(assoc);
   }
+  return list;
+};
 
-  componentWillUnmount() {
-    this.removeEventListeners();
-  }
+// -- component --------------------------------------------------------------
 
-  componentDidUpdate(prevProps, prevState) {
-    // Update ribbon data when it changes
-    if (this.state.ribbon && this.state.ribbon !== prevState.ribbon) {
-      if (this.ribbonRef.current) {
-        this.ribbonRef.current.setData(this.state.ribbon);
-      }
-    }
-    // Update table data when it changes
-    if (this.state.selected.data && this.state.selected.data !== prevState.selected.data) {
-      // Use setTimeout to ensure the table component is mounted
-      setTimeout(() => {
-        if (this.tableRef.current && this.tableRef.current.setData) {
-          this.tableRef.current.setData(this.state.selected.data);
-        }
-      }, 0);
-    }
-    // Add event listeners if ref just became available
-    this.addEventListeners();
-  }
+const GeneOntologyRibbon = ({ geneId, geneSpecies, geneSymbol, navigate }) => {
+  const [compareOrthologs, setCompareOrthologs] = useState(false);
+  const [applyingFilters, setApplyingFilters] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [selectedOrthologs, setSelectedOrthologs] = useState([]);
+  const [onlyEXP, setOnlyEXP] = useState(false);
+  const [ribbon, setRibbon] = useState(undefined);
+  const [selected, setSelected] = useState({
+    subject: null,
+    group: null,
+    data: null,
+    loading: false,
+    error: false,
+  });
 
-  addEventListeners() {
-    if (this.ribbonRef.current && !this.listenersAdded) {
-      this.ribbonRef.current.addEventListener('cellClick', this.onGroupClicked);
-      this.ribbonRef.current.addEventListener('subjectClick', this.onSubjectClicked);
-      this.listenersAdded = true;
-    }
-  }
+  // Preserved as constants (previously in state but never updated)
+  const excludePB = true;
+  const crossAspect = false;
+  const filterReference = true;
 
-  removeEventListeners() {
-    if (this.ribbonRef.current) {
-      this.ribbonRef.current.removeEventListener('cellClick', this.onGroupClicked);
-      this.ribbonRef.current.removeEventListener('subjectClick', this.onSubjectClicked);
-    }
-  }
-  // ===================================================================
-  //                      API QUERY SECTION
-  // ===================================================================
+  const ribbonRef = useRef(null);
+  const tableRef = useRef(null);
 
-  ribbonOptions() {
-    // var excludeIBA = this.state.excludeIBA && subjects.length > 1;
+  const stateRef = useRef({ ribbon: undefined, selected: null, selectedOrthologs: [], onlyEXP: false });
+  useEffect(() => {
+    stateRef.current = { ribbon, selected, selectedOrthologs, onlyEXP };
+  });
+
+  // ---------- API helpers ----------
+
+  const ribbonOptions = () => {
+    // excludeIBA is intentionally always false (see original comment)
     const excludeIBA = false;
     let exps = '';
-    if (this.state.onlyEXP) {
-      for (let exp of EXP_CODES) {
-        exps += '&ecodes=' + exp;
-      }
+    if (stateRef.current.onlyEXP) {
+      for (const exp of EXP_CODES) exps += '&ecodes=' + exp;
     }
-    return (
-      '&exclude_PB=' +
-      this.state.excludePB +
-      '&exclude_IBA=' +
-      excludeIBA +
-      '&cross_aspect=' +
-      this.state.crossAspect +
-      exps
-    );
-  }
+    return '&exclude_PB=' + excludePB + '&exclude_IBA=' + excludeIBA + '&cross_aspect=' + crossAspect + exps;
+  };
 
-  /**
-   * Fetch ribbon data to fill the ribbon strips
-   * @param {*} subset a subset or slim id (eg goslim_agr)
-   * @param {*} subjects an array of subjects (gene ids)
-   */
-  fetchSummaryData(subset, subjects) {
-    let subs = '';
-    if (subjects instanceof Array) {
-      subs = subjects.join('&subject=');
-    }
-    let query = GO_API_URL + 'ontology/ribbon/?subset=' + subset + '&subject=' + subs + this.ribbonOptions(subjects);
+  const fetchSummaryData = (subset, subjects) => {
+    const subs = subjects instanceof Array ? subjects.join('&subject=') : '';
+    const query = GO_API_URL + 'ontology/ribbon/?subset=' + subset + '&subject=' + subs + ribbonOptions();
     return fetchData(query);
-  }
+  };
 
-  /**
-   * Fetch ribbon data to fill the ribbon table
-   * @param {*} subject a single subject (gene id)
-   * @param {*} group one or more group ids. "all" to fetch data for all groups
-   */
-  fetchAssociationData(subject, group) {
-    if (group === 'all') {
-      group = this.state.ribbon.categories.map((elt) => {
-        return elt.id;
+  const fetchAssociationData = (subject, group) => {
+    let g = group;
+    if (g === 'all') g = stateRef.current.ribbon.categories.map((elt) => elt.id);
+    if (g instanceof Array) g = g.join('&slim=');
+    return fetchData(GO_API_URL + 'bioentityset/slimmer/function?slim=' + g + '&subject=' + subject + '&rows=-1');
+  };
+
+  // ---------- utility functions bound to current state ----------
+
+  const getCategory = (group) => {
+    const cat = stateRef.current.ribbon.categories.filter((c) => c.groups.some((gp) => gp.id === group.id));
+    return cat.length > 0 ? cat[0] : undefined;
+  };
+
+  const getCategoryIdLabel = (group) => {
+    const cat = stateRef.current.ribbon.categories.filter((c) => c.groups.some((gp) => gp.id === group.id));
+    return cat.length > 0 ? [cat[0].id, cat[0].label] : undefined;
+  };
+
+  const ensureFocusGeneIsPopulated = (data) => {
+    const hasFocusGene = data.subjects.some((sub) => sub.id === geneId);
+    const subjects = [...data.subjects];
+    if (!hasFocusGene) {
+      subjects.unshift({
+        id: geneId,
+        label: geneSymbol,
+        nb_annotations: 0,
+        nb_classes: 0,
+        taxon_id: geneSpecies.taxonId,
+        taxon_label: geneSpecies.name,
+        groups: {},
       });
     }
-    if (group instanceof Array) {
-      group = group.join('&slim=');
-    }
-    let query = GO_API_URL + 'bioentityset/slimmer/function?slim=' + group + '&subject=' + subject + '&rows=-1';
-    return fetchData(query);
-  }
+    subjects.forEach((sub) => {
+      if (!sub.groups) return;
+      Object.values(sub.groups).forEach((group) => {
+        if (group.available === 'false' || group.available === false) group.available = false;
+        if (group.ALL?.available === 'false' || group.ALL?.available === false) group.available = false;
+      });
+    });
+    return { ...data, subjects };
+  };
 
-  // ===================================================================
-  //                    CLIENT-SIDE FILTERING (should be minimized)
-  // ===================================================================
-
-  /**
-   * Create a deep copy of table data and returns a filtered data object
-   * @param {*} group group (eg ontology term) for which we retrieved the associated data
-   * @param {*} data association data related to the selected group/term
-   */
-  applyTableFilters(group, data) {
-    let filtered = JSON.parse(JSON.stringify(data));
+  const applyTableFilters = (group, data) => {
+    const filtered = JSON.parse(JSON.stringify(data));
     for (let sub = 0; sub < filtered.length; sub++) {
-      if (this.state.excludePB) {
+      if (excludePB) {
         filtered[sub].assocs = filtered[sub].assocs.filter((assoc) => assoc.object.id !== 'GO:0005515');
       }
-      if (!this.state.crossAspect) {
-        let aspect = this.getCategoryIdLabel(group);
+      if (!crossAspect) {
+        const aspect = getCategoryIdLabel(group);
         filtered[sub].assocs = filtered[sub].assocs.filter((assoc) => {
           const cat =
             assoc.object.category[0] === 'molecular_activity' ? 'molecular_function' : assoc.object.category[0];
           return aspect === undefined || cat === aspect[1];
         });
       }
-      if (this.state.filterReference) {
+      if (filterReference) {
         filtered[sub].assocs = filtered[sub].assocs.filter((assoc) => {
           assoc.reference = assoc.reference.filter(
             (ref) =>
@@ -183,406 +162,255 @@ class GeneOntologyRibbon extends Component {
       }
     }
     return filtered;
-  }
+  };
 
-  // ===================================================================
-  //                          EVENTS HANDLER
-  // ===================================================================
+  // ---------- event handlers ----------
 
-  onSubjectClicked(e) {
-    // to ensure we are only considering events coming from the disease ribbon
-    if (this.hasParentElementId(e.target, 'go-ribbon')) {
-      // don't use the ribbon default action upon subject click
-      e.detail.originalEvent.preventDefault();
-
-      // but re-route to alliance gene page
-      let { history } = this.props;
-      history.push({
-        pathname: '/gene/' + e.detail.subject.id,
-      });
-    }
-  }
-
-  onGroupClicked(e) {
-    // to ensure we are only considering events coming from the disease ribbon
-    if (e.target.id !== 'go-ribbon') {
-      return;
-    }
-    this.selectGroup(e.detail.subjects[0], e.detail.group);
-  }
-
-  selectGroup(subject, group) {
-    if (this.state.selected.group && group) {
-      const sameGroupID = group.id === this.state.selected.group.id;
-      const sameGroupType = group.type === this.state.selected.group.type;
-      const sameSubject = subject.id === this.state.selected.subject.id;
-      if (sameGroupID && sameGroupType && sameSubject) {
-        group = undefined;
-      }
+  const selectGroup = (subject, group) => {
+    let effectiveGroup = group;
+    const cur = stateRef.current.selected;
+    if (cur.group && group) {
+      const sameGroupID = group.id === cur.group.id;
+      const sameGroupType = group.type === cur.group.type;
+      const sameSubject = subject.id === cur.subject.id;
+      if (sameGroupID && sameGroupType && sameSubject) effectiveGroup = undefined;
     }
 
-    this.setState({
-      selected: {
-        subject: subject,
-        group: group,
-        data: null,
-        loading: true,
-        error: false,
-      },
+    setSelected({
+      subject,
+      group: effectiveGroup,
+      data: null,
+      loading: true,
+      error: false,
     });
 
-    // if no group selected, no association to fetch
-    if (!group) {
-      return;
-    }
+    if (!effectiveGroup) return;
 
-    // other group
-    if (group.type === 'Other') {
-      let aspect = this.getCategory(group);
-      let terms = aspect.groups.filter((elt) => {
-        return elt.type === 'Term';
-      });
-      terms = terms.map((elt) => {
-        return elt.id;
-      });
+    if (effectiveGroup.type === 'Other') {
+      const aspect = getCategory(effectiveGroup);
+      const terms = aspect.groups.filter((elt) => elt.type === 'Term').map((elt) => elt.id);
 
-      this.fetchAssociationData(subject.id, group.id)
-        .then((data_all) => {
-          this.fetchAssociationData(subject.id, terms)
-            .then((data_terms) => {
-              let concat_assocs = [];
-              for (let array of data_terms) {
-                concat_assocs = concat_assocs.concat(array.assocs);
-              }
-
-              let other_assocs = this.diffAssociations(data_all[0].assocs, concat_assocs);
-              data_all[0].assocs = other_assocs;
-
-              let filtered = this.applyTableFilters(group, data_all);
-              this.setState({
-                selected: {
-                  subject: subject,
-                  group: group,
-                  data: filtered, // assoc data from BioLink
-                  loading: false,
-                  error: false,
-                },
-              });
+      fetchAssociationData(subject.id, effectiveGroup.id)
+        .then((dataAll) => {
+          fetchAssociationData(subject.id, terms)
+            .then((dataTerms) => {
+              let concatAssocs = [];
+              for (const arr of dataTerms) concatAssocs = concatAssocs.concat(arr.assocs);
+              dataAll[0].assocs = diffAssociations(dataAll[0].assocs, concatAssocs);
+              const filtered = applyTableFilters(effectiveGroup, dataAll);
+              setSelected({ subject, group: effectiveGroup, data: filtered, loading: false, error: false });
             })
             .catch(() => {
-              this.setState({ loading: false, error: true });
+              setLoading(false);
+              setError(true);
             });
         })
         .catch(() => {
-          this.setState({ loading: false, error: true });
+          setLoading(false);
+          setError(true);
         });
-      // regular group
     } else {
-      this.fetchAssociationData(subject.id, group.id)
+      fetchAssociationData(subject.id, effectiveGroup.id)
         .then((data) => {
-          let filtered = this.applyTableFilters(group, data);
-          this.setState({
-            selected: {
-              subject: subject,
-              group: group,
-              data: filtered, // assoc data from BioLink
-              loading: false,
-              error: false,
-            },
-          });
+          const filtered = applyTableFilters(effectiveGroup, data);
+          setSelected({ subject, group: effectiveGroup, data: filtered, loading: false, error: false });
         })
         .catch(() => {
-          this.setState({ selected: { loading: false, error: true } });
+          setSelected({ subject: null, group: null, data: null, loading: false, error: true });
         });
     }
-  }
+  };
 
-  handleOrthologyChange(selectedOrthologs) {
-    this.setState({ applyingFilters: true });
-    this.setState({ selectedOrthologs }, () => {
-      this.fetchSummaryData(this.state.subset, this.getGeneIdList())
-        .then((data) => {
-          data = this.ensureFocusGeneIsPopulated(data);
-          // notify no more filters to apply and data ready
-          this.setState(
-            {
-              applyingFilters: false,
-              loading: false,
-              error: false,
-              ribbon: data,
-            },
-            () => {
-              if (
-                this.state.selected.subject &&
-                !this.state.ribbon.subjects.some((sub) => sub.id === this.state.selected.subject.id)
-              ) {
-                this.selectGroup(null, null);
-              }
-            }
-          );
-        })
-        .catch(() => {
-          this.setState({ loading: false, error: true });
-        });
-    });
-  }
+  const onGroupClicked = useCallback((e) => {
+    if (e.target.id !== 'go-ribbon') return;
+    selectGroup(e.detail.subjects[0], e.detail.group);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  handleCompareOrthologsChange(compareOrthologs) {
-    this.setState({ compareOrthologs });
-  }
+  const onSubjectClicked = useCallback(
+    (e) => {
+      if (hasParentElementId(e.target, 'go-ribbon')) {
+        e.detail.originalEvent.preventDefault();
+        navigate('/gene/' + e.detail.subject.id);
+      }
+    },
+    [navigate]
+  );
 
-  handleExpAnnotations(event) {
-    this.setState({ applyingFilters: true });
-    this.setState({ onlyEXP: event.target.checked }, () => {
-      this.fetchSummaryData(this.state.subset, this.getGeneIdList())
-        .then((data) => {
-          data = this.ensureFocusGeneIsPopulated(data);
-          this.setState({ applyingFilters: false, loading: false, error: false, ribbon: data });
-        })
-        .catch(() => {
-          this.setState({ loading: false, error: true });
-        });
-    });
-  }
-
-  // ===================================================================
-  //                      UTILITY FUNCTIONS
-  //            (ideally this belong to somewhere else)
-  // ===================================================================
-
-  ensureFocusGeneIsPopulated(data) {
-    // Fix AGR-2000: always show the focus gene even if no annotation
-    const hasFocusGene = data.subjects.some((sub) => sub.id === this.props.geneId);
-    const subjects = [...data.subjects];
-    if (!hasFocusGene) {
-      subjects.unshift({
-        id: this.props.geneId,
-        label: this.props.geneSymbol,
-        nb_annotations: 0,
-        nb_classes: 0,
-        taxon_id: this.props.geneSpecies.taxonId,
-        taxon_label: this.props.geneSpecies.name,
-        groups: {},
-      });
-    }
-    // The API returns 'available: false' for cells where species can't have data
-    // but sometimes as string "false" instead of boolean
-    subjects.forEach((sub) => {
-      if (!sub.groups) return;
-      Object.values(sub.groups).forEach((group) => {
-        if (group.available === 'false' || group.available === false) {
-          group.available = false;
+  const handleOrthologyChange = (orthologs) => {
+    setApplyingFilters(true);
+    setSelectedOrthologs(orthologs);
+    const geneIds = [geneId, ...orthologs.map(getOrthologId)];
+    fetchSummaryData(SUBSET, geneIds)
+      .then((data) => {
+        const populated = ensureFocusGeneIsPopulated(data);
+        setApplyingFilters(false);
+        setLoading(false);
+        setError(false);
+        setRibbon(populated);
+        const curSelected = stateRef.current.selected;
+        if (curSelected.subject && !populated.subjects.some((sub) => sub.id === curSelected.subject.id)) {
+          selectGroup(null, null);
         }
-        if (group.ALL?.available === 'false' || group.ALL?.available === false) {
-          group.available = false;
-        }
+      })
+      .catch(() => {
+        setLoading(false);
+        setError(true);
       });
-    });
+  };
 
-    return {
-      ...data,
-      subjects,
+  const handleCompareOrthologsChange = (val) => setCompareOrthologs(val);
+
+  const handleExpAnnotations = (event) => {
+    const newValue = event.target.checked;
+    setApplyingFilters(true);
+    setOnlyEXP(newValue);
+    // Read the fresh onlyEXP inline via a modified ribbonOptions param — since our
+    // ribbonOptions() reads from stateRef, and stateRef is updated only after
+    // React re-renders, we mimic the class behavior which relied on the setState
+    // callback firing after state was applied. Use the fresh value directly here.
+    const excludeIBA = false;
+    let exps = '';
+    if (newValue) for (const exp of EXP_CODES) exps += '&ecodes=' + exp;
+    const opts = '&exclude_PB=' + excludePB + '&exclude_IBA=' + excludeIBA + '&cross_aspect=' + crossAspect + exps;
+    const subjects = [geneId, ...stateRef.current.selectedOrthologs.map(getOrthologId)];
+    const subs = subjects.join('&subject=');
+    fetchData(GO_API_URL + 'ontology/ribbon/?subset=' + SUBSET + '&subject=' + subs + opts)
+      .then((data) => {
+        const populated = ensureFocusGeneIsPopulated(data);
+        setApplyingFilters(false);
+        setLoading(false);
+        setError(false);
+        setRibbon(populated);
+      })
+      .catch(() => {
+        setLoading(false);
+        setError(true);
+      });
+  };
+
+  // ---------- Effects to sync web-component state ----------
+
+  // Attach event listeners on the ribbon web-component whenever the ref
+  // becomes available.
+  const listenersAddedRef = useRef(false);
+  useEffect(() => {
+    if (!ribbonRef.current || listenersAddedRef.current) return;
+    const el = ribbonRef.current;
+    el.addEventListener('cellClick', onGroupClicked);
+    el.addEventListener('subjectClick', onSubjectClicked);
+    listenersAddedRef.current = true;
+    return () => {
+      if (el) {
+        el.removeEventListener('cellClick', onGroupClicked);
+        el.removeEventListener('subjectClick', onSubjectClicked);
+      }
+      listenersAddedRef.current = false;
     };
-  }
+  }, [ribbon, onGroupClicked, onSubjectClicked]);
 
-  /**
-   * Return the category object for a given group
-   * @param {*} group group object (eg ontology term)
-   */
-  getCategory(group) {
-    let cat = this.state.ribbon.categories.filter((cat) => {
-      return cat.groups.some((gp) => gp.id === group.id);
-    });
-    return cat.length > 0 ? cat[0] : undefined;
-  }
+  // Push ribbon data into the web component when it arrives / changes.
+  useEffect(() => {
+    if (ribbon && ribbonRef.current) ribbonRef.current.setData(ribbon);
+  }, [ribbon]);
 
-  /**
-   * Return the category [id, label] for a given group
-   * @param {*} group group object (eg ontology term)
-   */
-  getCategoryIdLabel(group) {
-    let cat = this.state.ribbon.categories.filter((cat) => {
-      return cat.groups.some((gp) => gp.id === group.id);
-    });
-    return cat.length > 0 ? [cat[0].id, cat[0].label] : undefined;
-  }
+  // Push selected table data into the ribbon-table web component.
+  useEffect(() => {
+    if (!selected.data) return;
+    const timer = setTimeout(() => {
+      if (tableRef.current && tableRef.current.setData) tableRef.current.setData(selected.data);
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [selected.data]);
 
-  /**
-   * Check if a HTML element has a parent with provided id
-   * @param {} elt HTML element to check
-   * @param {*} id id to look in the parents of provided element
-   */
-  hasParentElementId(elt, id) {
-    if (elt.id === id) {
-      return true;
-    }
-    if (!elt.parentElement) {
-      return false;
-    }
-    return this.hasParentElementId(elt.parentElement, id);
-  }
+  // ---------- render ----------
 
-  getGeneIdList() {
-    return [this.props.geneId].concat(this.state.selectedOrthologs.map(getOrthologId));
-  }
+  const renderControls = () => (
+    <ControlsContainer>
+      <OrthologPicker
+        checkboxValue={compareOrthologs}
+        defaultStringency={STRINGENCY_HIGH}
+        focusGeneId={geneId}
+        focusTaxonId={geneSpecies.taxonId}
+        id="go-ortho-picker"
+        onChange={handleOrthologyChange}
+        onCheckboxValueChange={handleCompareOrthologsChange}
+      />
 
-  associationKey(assoc) {
-    if (assoc.qualifier) {
-      return assoc.subject.id + '@' + assoc.object.id + '@' + assoc.negated + '@' + assoc.qualifier.join('-');
-    }
-    return assoc.subject.id + '@' + assoc.object.id + '@' + assoc.negated;
-  }
+      <div className="form-check form-check-inline">
+        <label className="form-check-label">
+          <input
+            checked={onlyEXP}
+            className="form-check-input"
+            onChange={handleExpAnnotations}
+            title="When showing the GO functions for multiple orthologs, we recommend switching this on as a number of GO functions are inferred through phylogeny (see PAINT tool)"
+            type="checkbox"
+          />
+          <b>Show functions with at least one experimental evidence</b>
+        </label>
+      </div>
+    </ControlsContainer>
+  );
 
-  fullAssociationKey(assoc) {
-    const key =
-      this.associationKey(assoc) +
-      '@' +
-      assoc.evidence_type +
-      '@' +
-      assoc.provided_by +
-      '@' +
-      assoc.reference.join('#');
-    return key;
-  }
+  const renderRibbonStrips = () => (
+    <HorizontalScroll className="text-nowrap">
+      <go-annotation-ribbon-strips
+        category-all-style="1"
+        color-by="annotations"
+        fire-event-on-empty-cells="false"
+        group-clickable="false"
+        group-open-new-tab="false"
+        id="go-ribbon"
+        new-tab="false"
+        ref={ribbonRef}
+        selection-mode="cell"
+        show-other-group
+        subject-base-url="/gene/"
+        subject-open-new-tab="false"
+        subject-position={compareOrthologs ? 'left' : 'none'}
+        update-on-subject-change="false"
+      />
+      <div className="ribbon-loading-overlay">{applyingFilters && <LoadingSpinner />}</div>
+      <div className="text-muted mt-2">
+        <i>Cell color indicative of annotation volume</i>
+      </div>
+    </HorizontalScroll>
+  );
 
-  diffAssociations(assocs_all, assocs_exclude) {
-    const list = [];
-    for (let assoc of assocs_all) {
-      let found = false;
-      let key_all = this.fullAssociationKey(assoc);
-      for (let exclude of assocs_exclude) {
-        let key_exclude = this.fullAssociationKey(exclude);
-        if (key_all === key_exclude) {
-          found = true;
-          break;
-        }
-      }
-      if (!found) {
-        list.push(assoc);
-      }
-    }
-    return list;
-  }
-
-  // ===================================================================
-  //                            RENDERING
-  // ===================================================================
-
-  renderControls() {
-    const { geneId, geneSpecies } = this.props;
-    const { compareOrthologs } = this.state;
-
-    return (
-      <ControlsContainer>
-        <OrthologPicker
-          checkboxValue={compareOrthologs}
-          defaultStringency={STRINGENCY_HIGH}
-          focusGeneId={geneId}
-          focusTaxonId={geneSpecies.taxonId}
-          id="go-ortho-picker"
-          onChange={this.handleOrthologyChange}
-          onCheckboxValueChange={this.handleCompareOrthologsChange}
-        />
-
-        <div className="form-check form-check-inline">
-          <label className="form-check-label">
-            <input
-              checked={this.state.onlyEXP}
-              className="form-check-input"
-              onChange={this.handleExpAnnotations.bind(this)}
-              title="When showing the GO functions for multiple orthologs, we recommend switching this on as a number of GO functions are inferred through phylogeny (see PAINT tool)"
-              type="checkbox"
-            />
-            <b>Show functions with at least one experimental evidence</b>
-          </label>
-        </div>
-      </ControlsContainer>
-    );
-  }
-
-  renderRibbonStrips() {
-    const { applyingFilters, compareOrthologs, ribbon } = this.state;
-    return (
-      <HorizontalScroll className="text-nowrap">
-        <go-annotation-ribbon-strips
-          category-all-style="1"
-          color-by="annotations"
-          fire-event-on-empty-cells="false"
-          group-clickable="false"
-          group-open-new-tab="false"
-          id="go-ribbon"
-          new-tab="false"
-          ref={this.ribbonRef}
-          selection-mode="cell"
-          show-other-group
-          subject-base-url="/gene/"
-          subject-open-new-tab="false"
-          subject-position={compareOrthologs ? 'left' : 'none'}
-          update-on-subject-change="false"
-        />
-        <div className="ribbon-loading-overlay">{applyingFilters && <LoadingSpinner />}</div>
-        <div className="text-muted mt-2">
-          <i>Cell color indicative of annotation volume</i>
-        </div>
-      </HorizontalScroll>
-    );
-  }
-
-  renderRibbonTable() {
-    if (
-      this.state.selected.subject &&
-      this.state.selected.subject.groups[this.state.selected.group.id] &&
-      this.state.onlyEXP
-    ) {
-      let gp = this.state.selected.subject.groups[this.state.selected.group.id];
-      let keys = Object.keys(gp);
-      let hasEXP = false;
-      for (let key of keys) {
-        if (EXP_CODES.includes(key)) {
-          hasEXP = true;
-        }
-      }
-      if (!hasEXP) {
-        return '';
-      }
+  const renderRibbonTable = () => {
+    if (selected.subject && selected.subject.groups[selected.group.id] && onlyEXP) {
+      const gp = selected.subject.groups[selected.group.id];
+      const hasEXP = Object.keys(gp).some((key) => EXP_CODES.includes(key));
+      if (!hasEXP) return '';
     }
 
     return (
       <go-annotation-ribbon-table
-        ref={this.tableRef}
-        // bio-link-data={JSON.stringify(this.state.selected.data)}
-        filter-by={this.state.onlyEXP ? 'evidence:' + EXP_CODES.join(',') : ''}
+        ref={tableRef}
+        filter-by={onlyEXP ? 'evidence:' + EXP_CODES.join(',') : ''}
         group-by="term"
-        // hide-columns={'qualifier,' + (this.state.selectedOrthologs.length == 0 ? 'gene,' : '') + (this.state.selected.group.id != 'all' ? ',aspect' : '')}
-        hide-columns={'qualifier,gene,' + (this.state.selected.group.id !== 'all' ? ',aspect' : '')}
+        hide-columns={'qualifier,gene,' + (selected.group.id !== 'all' ? ',aspect' : '')}
         order-by="term"
       />
     );
-  }
+  };
 
-  render() {
-    return (
-      <div>
-        {this.renderControls()}
+  const renderError = () => <NoData>No function available for that gene</NoData>;
 
-        {this.state.error ? this.renderError() : this.renderValid()}
-      </div>
-    );
-  }
+  const renderValid = () => (
+    <div>
+      {loading ? <LoadingSpinner /> : renderRibbonStrips()}
+      {selected.group ? selected.loading ? <LoadingSpinner /> : renderRibbonTable() : ''}
+    </div>
+  );
 
-  renderError() {
-    return <NoData>No function available for that gene</NoData>;
-  }
-
-  renderValid() {
-    return (
-      <div>
-        {this.state.loading ? <LoadingSpinner /> : this.renderRibbonStrips()}
-        {this.state.selected.group ? this.state.selected.loading ? <LoadingSpinner /> : this.renderRibbonTable() : ''}
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      {renderControls()}
+      {error ? renderError() : renderValid()}
+    </div>
+  );
+};
 
 GeneOntologyRibbon.propTypes = {
   geneId: PropTypes.string.isRequired,
@@ -590,13 +418,6 @@ GeneOntologyRibbon.propTypes = {
   geneSymbol: PropTypes.string,
   navigate: PropTypes.func.isRequired,
 };
-
-/*
- * TODO: convert component to functional component utilizing useNavigate
- *
- * The wrapper component is simply a stop-gap solution since converting the component
- * is non-trivial and would stand in the way of completing the vite/react upgrade.
- * */
 
 const GeneOntologyRibbonWithNavigate = (props) => {
   const navigate = useNavigate();

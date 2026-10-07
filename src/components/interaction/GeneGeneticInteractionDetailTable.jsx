@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { DataTable, GeneCellCuration, SpeciesCell } from '../dataTable';
-import { getResourceUrl } from '../dataTable/getResourceUrl.jsx';
-import { getIdentifier, getSingleReferenceUrl } from '../dataTable/utils.jsx';
+import { DataTable, GeneCellCuration, ReferenceList, ReferencesCellCuration, SpeciesCell } from '../dataTable';
+import { getIdentifier } from '../dataTable/utils.jsx';
 import SpeciesName from '../SpeciesName.jsx';
 import ExternalLink from '../ExternalLink.jsx';
+import DataSourceLinkCuration from '../dataSourceLinkCuration.jsx';
+import evidenceReferenceIds from './evidenceReferenceIds.js';
 import MITerm from './MITerm.jsx';
 import useDataTableQuery from '../../hooks/useDataTableQuery';
 import AlleleCellCuration from '../dataTable/AlleleCellCuration.jsx';
@@ -171,13 +172,9 @@ const GeneGeneticInteractionDetailTable = ({ focusGeneId, focusGeneDisplayName }
         },
         formatter: (crossReferences = []) => (
           <div>
-            {crossReferences.map(({ referencedCurie, displayName } = {}) => (
-              <div key={referencedCurie}>
-                <ExternalLink
-                  href={getResourceUrl({ identifier: referencedCurie.toUpperCase(), type: 'gene/interactions' })}
-                >
-                  {displayName}
-                </ExternalLink>
+            {crossReferences.map((crossRef = {}) => (
+              <div key={crossRef.referencedCurie}>
+                <DataSourceLinkCuration reference={crossRef}>{crossRef.displayName}</DataSourceLinkCuration>
               </div>
             ))}
           </div>
@@ -186,23 +183,24 @@ const GeneGeneticInteractionDetailTable = ({ focusGeneId, focusGeneDisplayName }
         filterName: 'source',
       },
       {
-        dataField: 'geneGeneticInteraction.evidence',
+        // dummy field: the Reference ID column below owns the real evidence dataField
+        dataField: 'referenceCitation',
+        isDummyField: true,
         text: 'Reference',
+        headerStyle: {
+          width: '180px',
+        },
+        formatter: (_, row) => <ReferenceList refs={row.geneGeneticInteraction?.evidence} />,
+        filterable: true,
+        filterName: 'referenceCitation',
+      },
+      {
+        dataField: 'geneGeneticInteraction.evidence',
+        text: 'Reference ID',
         headerStyle: {
           width: '150px',
         },
-        // eslint-disable-next-line react/prop-types
-        formatter: (reference) => {
-          return (
-            <ExternalLink
-              href={getSingleReferenceUrl(reference[0].referenceID).url}
-              key={reference[0].referenceID}
-              title={reference[0].referenceID}
-            >
-              {reference[0].referenceID}
-            </ExternalLink>
-          );
-        },
+        formatter: (evidence) => <ReferencesCellCuration pubmedPublications={evidenceReferenceIds(evidence)} />,
         filterable: true,
         filterName: 'reference',
       },

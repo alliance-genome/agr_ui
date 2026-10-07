@@ -1,29 +1,27 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import style from './style.module.scss';
 
-class ExplainNode extends Component {
-  render() {
-    if (!this.props.explanation || this.props.explanation === null) {
-      return null;
-    }
-
-    return (
-      <ul className={style.explanationList}>
-        <li>
-          {' '}
-          <strong>{this.props.explanation.value}</strong>: {this.props.explanation.match || ''}
-          {this.props.explanation.description}
-        </li>
-        <li>
-          {this.props.explanation.details.map(function (detail, i) {
-            return <ExplainNode explanation={detail} key={i} />;
-          })}
-        </li>
-      </ul>
-    );
+const ExplainNode = ({ explanation }) => {
+  if (!explanation) {
+    return null;
   }
-}
+
+  return (
+    <ul className={style.explanationList}>
+      <li>
+        {' '}
+        <strong>{explanation.value}</strong>: {explanation.match || ''}
+        {explanation.description}
+      </li>
+      <li>
+        {explanation.details.map((detail, i) => (
+          <ExplainNode explanation={detail} key={i} />
+        ))}
+      </li>
+    </ul>
+  );
+};
 
 ExplainNode.propTypes = {
   explanation: PropTypes.object,

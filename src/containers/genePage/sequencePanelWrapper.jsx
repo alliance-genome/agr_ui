@@ -26,14 +26,20 @@ const SequencePanel = ({ species, gene, refseq, start, end }) => {
   const releaseVersion = process.env.REACT_APP_JBROWSE_AGR_RELEASE || contextReleaseVersion;
   // Debug logging removed for production
 
-  const jBrowsenclistbaseurl = getSpecies(species).jBrowsenclistbaseurltemplate.replace('{release}', releaseVersion);
-  const jBrowseurltemplate = getSpecies(species).jBrowseurltemplate;
+  const jBrowseGffUrlTemplate = getSpecies(species).jBrowseGffUrlTemplate;
   const jBrowsefastaurl = getSpecies(species).jBrowsefastaurl;
 
   if (!refseq) {
     console.warn('SequencePanel: refseq is undefined, skipping sequence panel rendering');
     return <NoData />;
   }
+
+  if (!jBrowseGffUrlTemplate) {
+    console.warn(`SequencePanel: no jBrowseGffUrlTemplate for species ${species}, skipping sequence panel rendering`);
+    return <NoData />;
+  }
+
+  const jBrowseGffUrl = jBrowseGffUrlTemplate.replace('{release}', releaseVersion);
 
   if (species === 'NCBITaxon:559292' && !refseq.startsWith('chr') && !refseq.toLowerCase().startsWith('scaffold')) {
     refseq = 'chr' + refseq;
@@ -51,8 +57,7 @@ const SequencePanel = ({ species, gene, refseq, start, end }) => {
       start={start}
       end={end}
       gene={gene}
-      nclistbaseurl={jBrowsenclistbaseurl}
-      urltemplate={jBrowseurltemplate}
+      gffurl={jBrowseGffUrl}
       fastaurl={jBrowsefastaurl}
     />
   );
@@ -64,8 +69,7 @@ SequencePanel.propTypes = {
   start: PropTypes.number,
   end: PropTypes.number,
   gene: PropTypes.string,
-  jBrowsenclistbaseurl: PropTypes.string,
-  jBrowseurltemplate: PropTypes.string,
+  jBrowseGffUrl: PropTypes.string,
   jBrowsefastaurl: PropTypes.string,
 };
 

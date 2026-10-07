@@ -1,51 +1,34 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import style from './style.module.scss';
 import { makeFieldDisplayName } from '../../lib/searchHelpers.jsx';
 import ExplainNode from './explainNode.jsx';
 
-class ResultExplanation extends Component {
-  constructor() {
-    super();
-    this.state = {
-      isHidden: true,
-    };
-  }
+const ResultExplanation = ({ explanation, score }) => {
+  const [isHidden, setIsHidden] = useState(true);
 
-  toggleHidden() {
-    this.setState({
-      isHidden: !this.state.isHidden,
-    });
-  }
+  if (!explanation || explanation === '') return null;
 
-  render() {
-    if (!this.props.explanation || this.props.explanation === '') {
-      return '';
-    }
-    let field = 'score';
-    return (
-      <div>
-        <div className={style.detailContainer}>
-          <div className={style.detailLineContainer}>
-            <span className={style.detailLabel}>
-              <strong>{makeFieldDisplayName(field)}:</strong>{' '}
-            </span>
-            <span className={style.detailValue}>{this.props.score}</span>
-            <button
-              className={`btn btn-outline-primary btn-sm ${style.explanationButton}`}
-              onClick={this.toggleHidden.bind(this)}
-            >
-              scoring details
-            </button>
-          </div>
-        </div>
-        <div className={style.resultExplanation}>
-          {!this.state.isHidden && <ExplainNode explanation={this.props.explanation} />}
+  return (
+    <div>
+      <div className={style.detailContainer}>
+        <div className={style.detailLineContainer}>
+          <span className={style.detailLabel}>
+            <strong>{makeFieldDisplayName('score')}:</strong>{' '}
+          </span>
+          <span className={style.detailValue}>{score}</span>
+          <button
+            className={`btn btn-outline-primary btn-sm ${style.explanationButton}`}
+            onClick={() => setIsHidden((prev) => !prev)}
+          >
+            scoring details
+          </button>
         </div>
       </div>
-    );
-  }
-}
+      <div className={style.resultExplanation}>{!isHidden && <ExplainNode explanation={explanation} />}</div>
+    </div>
+  );
+};
 
 ResultExplanation.propTypes = {
   explanation: PropTypes.object,
