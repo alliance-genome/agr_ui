@@ -12,8 +12,8 @@ import Subsection from '../../components/subsection.jsx';
 import { DataPage, PageNav, PageData } from '../../components/dataPage';
 import PageNavEntity from '../../components/dataPage/PageNavEntity.jsx';
 import usePageLoadingQuery from '../../hooks/usePageLoadingQuery';
-import { Link, useParams } from 'react-router-dom';
-import { data } from './portalData.js';
+import { Link, Navigate, useParams } from 'react-router-dom';
+import { data, isRootPortal } from './portalData.js';
 import style from './style.module.scss';
 
 const SUMMARY = 'Summary';
@@ -52,6 +52,12 @@ const DiseasePortalPage = () => {
 
   if (dname && !diseaseData) {
     return <NotFound />;
+  }
+
+  // The root entry's page is the index itself, so /disease-portal/human is not a
+  // second copy of it (KANBAN-1484).
+  if (dname && isRootPortal(diseaseData)) {
+    return <Navigate replace to="/disease-portal" />;
   }
 
   if (!dname) {
