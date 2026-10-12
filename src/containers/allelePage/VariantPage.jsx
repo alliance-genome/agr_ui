@@ -90,8 +90,8 @@ const VariantPage = () => {
             <div>
               Variant overlaps{' '}
               {variantLocation.overlapGenes.map((gene, index) => (
-                <span key={gene.curie || gene.primaryExternalId}>
-                  <Link to={`/gene/${gene.curie || gene.primaryExternalId}`}>{gene.geneSymbol?.displayText}</Link>
+                <span key={gene.primaryExternalId || gene.curie}>
+                  <Link to={`/gene/${gene.primaryExternalId || gene.curie}`}>{gene.geneSymbol?.displayText}</Link>
                   {index < variantLocation.overlapGenes.length - 1 && ', '}
                 </span>
               ))}

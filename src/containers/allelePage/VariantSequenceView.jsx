@@ -51,7 +51,7 @@ const VariantSequenceView = ({ variant: variantData }) => {
   const fmin = Math.min(genomeLocation.start, location.start);
   const fmax = Math.max(genomeLocation.end, location.end);
   const species = variant?.taxon?.curie || targetGene?.taxon?.curie;
-  const targetGeneId = targetGene?.curie || targetGene?.primaryExternalId || targetGene?.modEntityId;
+  const targetGeneId = targetGene?.primaryExternalId || targetGene?.modEntityId || targetGene?.curie;
   const targetGeneSymbol = targetGene?.geneSymbol?.displayText || targetGene?.symbol;
 
   return (
