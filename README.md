@@ -50,6 +50,20 @@ Execute tests:
 make test
 ```
 
+### End-to-end smoke tests
+
+[Playwright](https://playwright.dev/) smoke tests for the gene and allele pages live in `e2e/`.
+By default they start the Vite dev server and proxy `/api` to stage (override with `API_URL`),
+so they need network access. Install the browser once, then run:
+
+```bash
+npx playwright install chromium
+npm run test:e2e
+```
+
+To test a running or deployed site instead, set `E2E_BASE_URL`, e.g.
+`E2E_BASE_URL=https://stage.alliancegenome.org npm run test:e2e`.
+
 ## Prettier Formatting
 
 Fix code formatting using Prettier:
