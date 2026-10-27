@@ -28,8 +28,7 @@ describe('DiseasePortalSection counts', () => {
     renderSection();
 
     // the regression: 0 is falsy, so a truthiness guard printed nothing here
-    expect(pillText('human-genes')).toBe('0Human Genes');
-    expect(pillText('model-genes')).toBe('0Model Organism Genes');
+    expect(pillText('genes')).toBe('0Genes');
     expect(pillText('alleles')).toBe('0Alleles');
     expect(pillText('models')).toBe('0Models');
   });
@@ -38,8 +37,7 @@ describe('DiseasePortalSection counts', () => {
     useEntityButtonCounts.mockReturnValue(undefined);
     renderSection();
 
-    expect(pillText('human-genes')).toBe('Human Genes');
-    expect(pillText('model-genes')).toBe('Model Organism Genes');
+    expect(pillText('genes')).toBe('Genes');
     expect(pillText('alleles')).toBe('Alleles');
     expect(pillText('models')).toBe('Models');
     expect(screen.queryByText('false')).not.toBeInTheDocument();
@@ -49,6 +47,6 @@ describe('DiseasePortalSection counts', () => {
     useEntityButtonCounts.mockReturnValue(4167);
     renderSection();
 
-    expect(pillText('human-genes')).toBe('4,167Human Genes');
+    expect(pillText('genes')).toBe('4,167Genes');
   });
 });

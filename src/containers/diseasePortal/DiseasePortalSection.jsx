@@ -12,8 +12,7 @@ const DiseasePortalSection = ({ disease }) => {
   const url = `/api/disease/${disease.doid}/`;
   const isRoot = isRootPortal(disease);
   const diseaseCount = useEntityButtonCounts(SHOW_DISEASE_COUNT ? '/api/disease/annotated-count' : null);
-  const humanGeneCount = useEntityButtonCounts(url + 'human_genes_counts');
-  const modelGeneCount = useEntityButtonCounts(url + 'model_genes_counts');
+  const geneCount = useEntityButtonCounts(url + 'genes_counts');
   const alleleCount = useEntityButtonCounts(url + 'alleles_counts');
   const modelCount = useEntityButtonCounts(url + 'models_counts');
 
@@ -57,23 +56,14 @@ const DiseasePortalSection = ({ disease }) => {
         </ul> */}
         <div className={`d-flex justify-content-around ${style.entityRow}`}>
           {diseasesEntityButton}
-          {/* Gene, Allele, Model order matches the disease pages and the ontology browser (KANBAN-1503).
-              Genes split into human vs model organism gene counts (KANBAN-1057). */}
+          {/* Gene, Allele, Model order matches the disease pages and the ontology browser (KANBAN-1503). */}
           <EntityButton
-            id="entity-human-genes"
+            id="entity-genes"
             to={`/disease/${disease.doid}#associated-genes`}
-            tooltip="View all associated human genes"
+            tooltip="View all associated genes"
           >
-            <div>{humanGeneCount != null && humanGeneCount.toLocaleString()}</div>
-            Human Genes
-          </EntityButton>
-          <EntityButton
-            id="entity-model-genes"
-            to={`/disease/${disease.doid}#associated-genes`}
-            tooltip="View all associated model organism genes"
-          >
-            <div>{modelGeneCount != null && modelGeneCount.toLocaleString()}</div>
-            Model Organism Genes
+            <div>{geneCount != null && geneCount.toLocaleString()}</div>
+            Genes
           </EntityButton>
           <EntityButton
             id="entity-alleles"
