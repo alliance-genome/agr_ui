@@ -9,6 +9,7 @@ import { CollapsibleList } from '../../components/collapsibleList';
 import SpeciesName from '../../components/SpeciesName.jsx';
 
 const COLLAPSIBLE_FIELDS = ['collapsible_synonyms', 'variants'];
+const COLLAPSIBLE_BOX_FIELDS = ['summary', 'abstractText'];
 
 const JOIN_CHAR = ', ';
 
@@ -39,7 +40,10 @@ const DetailList = ({ data, fields }) => {
       }
     }
 
-    if (field.toLocaleString() === 'summary') {
+    if (COLLAPSIBLE_BOX_FIELDS.includes(field)) {
+      if (!value) {
+        return null;
+      }
       return (
         <div key={`sumField.${field}`}>
           <CollapsibleBox>

@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Select from 'react-select';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 import style from './style.module.scss';
 import { getQueryParamWithoutPage, removeBlankValue, stringifyQuery } from '../../../lib/searchHelpers.jsx';
@@ -20,7 +20,7 @@ const SEARCH_PATH = '/search';
 
 const SingleFilterSelector = ({ displayName, isShowMore, name, navigate, queryParams, values }) => {
   const [numVisible, setNumVisible] = useState(isShowMore ? MED_NUM_VISIBLE : SMALL_NUM_VISIBLE);
-  const [isSearchMode, setIsSearchMode] = useState(false);
+  const [isSearchMode /* , setIsSearchMode */] = useState(false);
 
   const handleSelectChange = (newValues) => {
     const simpleValues = newValues.map((d) => d.name);
@@ -39,10 +39,10 @@ const SingleFilterSelector = ({ displayName, isShowMore, name, navigate, queryPa
     setNumVisible(getNextNumVisible());
   };
 
-  const handleToggleMode = (e) => {
-    e.preventDefault();
-    setIsSearchMode((prev) => !prev);
-  };
+  // const handleToggleMode = (e) => {
+  //   e.preventDefault();
+  //   setIsSearchMode((prev) => !prev);
+  // };
 
   // don't render an empty filter
   if (values?.length === 0) return null;
@@ -82,13 +82,14 @@ const SingleFilterSelector = ({ displayName, isShowMore, name, navigate, queryPa
   const renderControlNode = () => {
     if (values?.length <= SMALL_NUM_VISIBLE) return null;
     const moreLabel = numVisible !== MAX_NUM_VISIBLE ? 'Show More' : `Show ${SMALL_NUM_VISIBLE}`;
-    const modeLabelNode = isSearchMode ? (
-      <span>List</span>
-    ) : (
-      <span>
-        <FontAwesomeIcon icon={faMagnifyingGlass} />
-      </span>
-    );
+    // SCRUM-6682: facet search is turned off until it searches every value, not just the ones returned with the facet
+    // const modeLabelNode = isSearchMode ? (
+    //   <span>List</span>
+    // ) : (
+    //   <span>
+    //     <FontAwesomeIcon icon={faMagnifyingGlass} />
+    //   </span>
+    // );
     const moreLabelNode = isSearchMode ? (
       <span />
     ) : (
@@ -98,9 +99,9 @@ const SingleFilterSelector = ({ displayName, isShowMore, name, navigate, queryPa
     );
     return (
       <p className={style.singleFacetControl}>
-        <a href="#" onClick={handleToggleMode}>
+        {/* <a href="#" onClick={handleToggleMode}>
           {modeLabelNode}
-        </a>
+        </a> */}
         {moreLabelNode}
       </p>
     );

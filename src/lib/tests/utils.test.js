@@ -1,6 +1,12 @@
 import assert from 'assert';
 
-import { compareByFixedOrder, compareAlphabeticalCaseInsensitive, sortBy } from '../utils';
+import {
+  compareByFixedOrder,
+  compareAlphabeticalCaseInsensitive,
+  sortBy,
+  buildCrossReferenceMap,
+  buildUrlFromTemplate,
+} from '../utils';
 
 describe('utils', () => {
   describe('#compareByFixedOrder', () => {
@@ -102,6 +108,46 @@ describe('utils', () => {
       const expected = ['ONE', 'ONE', 'TWO', 'THREE', 'THREE', 'FIVE', 'FIVE', 'FOUR'];
       const actual = sortBy(original, [compareByFixedOrder(order), compareAlphabeticalCaseInsensitive()]);
       assert.deepEqual(actual, expected);
+    });
+  });
+
+  // SCRUM-6455: the GeneCards linkout is a page on the HGNC descriptor, keyed on the HGNC id.
+  // Both facts below were load-bearing bugs before this: the xref sits on a named page so it never
+  // reaches map.other, and the URL only resolves if [%s] takes the curie's local part.
+  describe('#buildCrossReferenceMap with a GeneCards page', () => {
+    const geneCardsXref = {
+      referencedCurie: 'HGNC:1100',
+      displayName: 'GeneCards',
+      resourceDescriptorPage: { name: 'gene/genecards', urlTemplate: 'https://www.genecards.org/card/[%s]' },
+    };
+
+    it('exposes the GeneCards page under its own key', () => {
+      const map = buildCrossReferenceMap([geneCardsXref]);
+      assert.equal(map.genecards.referencedCurie, 'HGNC:1100');
+      assert.equal(map.genecards.displayName, 'GeneCards');
+    });
+
+    it('resolves the URL from the HGNC local id, not the whole curie', () => {
+      const map = buildCrossReferenceMap([geneCardsXref]);
+      assert.equal(map.genecards.crossRefCompleteUrl, 'https://www.genecards.org/card/1100');
+      assert.equal(buildUrlFromTemplate(geneCardsXref), 'https://www.genecards.org/card/1100');
+    });
+
+    it('keeps it out of map.other, which holds only default-page entries', () => {
+      const map = buildCrossReferenceMap([geneCardsXref]);
+      assert.equal(map.other.length, 0);
+    });
+
+    it('leaves genecards undefined for a gene without one', () => {
+      const map = buildCrossReferenceMap([
+        {
+          referencedCurie: 'NCBI_Gene:672',
+          displayName: 'NCBI_Gene:672',
+          resourceDescriptorPage: { name: 'default', urlTemplate: 'https://www.ncbi.nlm.nih.gov/gene/[%s]' },
+        },
+      ]);
+      assert.equal(map.genecards, undefined);
+      assert.equal(map.other.length, 1);
     });
   });
 });

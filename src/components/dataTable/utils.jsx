@@ -22,7 +22,7 @@ export const getIsViaOrthology = (annotation) => {
 };
 export const getIdentifier = (subject) => {
   if (!subject) return;
-  return subject.curie ? subject.curie : subject.primaryExternalId ? subject.primaryExternalId : subject.modInternalId;
+  return subject.primaryExternalId || subject.modInternalId || subject.curie;
 };
 
 export const getSingleReferenceUrl = (pubModId) => {

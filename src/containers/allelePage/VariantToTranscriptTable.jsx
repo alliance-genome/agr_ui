@@ -192,7 +192,7 @@ const VariantToTranscriptTable = ({ variant, variantHgvs, variantType }) => {
     const geneAssoc = transcript.transcriptGeneAssociations?.[0]?.transcriptGeneAssociationObject;
     const gene = geneAssoc
       ? {
-          id: geneAssoc.curie || geneAssoc.primaryExternalId,
+          id: geneAssoc.primaryExternalId || geneAssoc.curie,
           symbol: geneAssoc.geneSymbol?.displayText,
         }
       : null;
