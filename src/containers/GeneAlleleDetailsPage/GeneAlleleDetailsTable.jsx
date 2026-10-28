@@ -192,7 +192,7 @@ const GeneAlleleDetailsTable = ({ isLoadingGene, gene, geneId }) => {
         const gene = associations[0].transcriptGeneAssociationObject;
         if (!gene) return '';
         const symbol = gene.geneSymbol && gene.geneSymbol.displayText;
-        const geneId = gene.curie || gene.primaryExternalId;
+        const geneId = gene.primaryExternalId || gene.curie;
         return symbol ? <a href={`/gene/${geneId}`} dangerouslySetInnerHTML={{ __html: symbol }} /> : geneId || '';
       },
       filterable: getDistinctFieldValue(supplementalData, 'filter.associatedGeneSymbol'),
