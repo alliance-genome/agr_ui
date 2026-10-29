@@ -8,10 +8,10 @@ import fetchData from '../../lib/fetchData';
 import OntologyTree from './OntologyTree.jsx';
 import TermDetailPanel from './TermDetailPanel.jsx';
 import OntologySearchBox from './OntologySearchBox.jsx';
-import { ONTOLOGIES, getOntology } from './ontologies.js';
-import { ANNOTATION_TYPES } from './annotationTypes.js';
+import { ONTOLOGY_GROUPS, getOntology } from './ontologies.js';
 import { CountsProvider } from './useDiseaseCounts.jsx';
-import { TermsProvider } from './useDiseaseTerms.jsx';
+import { TermsProvider } from './useOntologyTerms.jsx';
+import { fetchOlsAncestors } from '../../lib/ols';
 import style from './style.module.scss';
 
 const PAGE_TITLE = 'Ontology Browser';
@@ -31,8 +31,11 @@ const OntologyBrowser = () => {
 
   const { data: ancestors } = useQuery({
     queryKey: ['ontology-ancestors', ontology.id, focusedCurie],
-    queryFn: () => fetchData(`/api/disease/${encodeURIComponent(focusedCurie)}/ancestors`),
-    enabled: !!focusedCurie && ontology.id === 'disease' && !fromTree,
+    queryFn: () =>
+      ontology.source === 'ols'
+        ? fetchOlsAncestors(ontology.olsId, focusedCurie, ontology.curiePrefix)
+        : fetchData(`/api/disease/${encodeURIComponent(focusedCurie)}/ancestors`),
+    enabled: !!focusedCurie && !fromTree,
     staleTime: 5 * 60_000,
   });
 
@@ -58,6 +61,8 @@ const OntologyBrowser = () => {
   };
   const handleTreeSelect = (curie) => handleSelect(curie, { fromTree: true });
 
+  const annotationTypes = ontology.annotationTypes || [];
+
   const detailCurie = useMemo(() => focusedCurie || ontology.rootCurie || null, [focusedCurie, ontology.rootCurie]);
 
   // Batched fetches cascade down the ancestor chain, so the tree layout shifts
@@ -82,7 +87,7 @@ const OntologyBrowser = () => {
 
   return (
     <CountsProvider>
-      <TermsProvider>
+      <TermsProvider ontology={ontology}>
         <div className={style.page}>
           <HeadMetaTags title={PAGE_TITLE} />
           <h2>{PAGE_TITLE}</h2>
@@ -97,10 +102,14 @@ const OntologyBrowser = () => {
               value={ontology.id}
               onChange={(e) => navigate(`/ontology/${e.target.value}`)}
             >
-              {ONTOLOGIES.map((o) => (
-                <option key={o.id} value={o.id}>
-                  {o.label}
-                </option>
+              {ONTOLOGY_GROUPS.map((group) => (
+                <optgroup key={group.label} label={group.label}>
+                  {group.ontologies.map((o) => (
+                    <option key={o.id} value={o.id}>
+                      {o.label}
+                    </option>
+                  ))}
+                </optgroup>
               ))}
             </select>
           </div>
@@ -108,20 +117,21 @@ const OntologyBrowser = () => {
           <div className={style.searchRow}>
             <OntologySearchBox
               onSelect={handleSelect}
-              category={ontology.searchCategory}
-              curiePrefix={ontology.rootCurie ? ontology.rootCurie.split(':')[0] : undefined}
+              ontology={ontology}
               placeholder={`Search ${ontology.label} terms or IDs`}
             />
           </div>
 
-          <div className={style.legend}>
-            <span className={style.legendLabel}>Annotation Available:</span>
-            {ANNOTATION_TYPES.map((t) => (
-              <span key={t.id} className={style.legendItem} style={{ background: t.bg, color: t.fg }}>
-                {t.label}
-              </span>
-            ))}
-          </div>
+          {annotationTypes.length > 0 && (
+            <div className={style.legend}>
+              <span className={style.legendLabel}>Annotation Available:</span>
+              {annotationTypes.map((t) => (
+                <span key={t.id} className={style.legendItem} style={{ background: t.bg, color: t.fg }}>
+                  {t.label}
+                </span>
+              ))}
+            </div>
+          )}
 
           <div className={style.layout}>
             <div className={style.treePane}>
@@ -133,6 +143,8 @@ const OntologyBrowser = () => {
               )}
               <div style={{ visibility: treeRevealed ? 'visible' : 'hidden' }}>
                 <OntologyTree
+                  key={ontology.id}
+                  annotationTypes={annotationTypes}
                   curie={ontology.rootCurie}
                   name={ontology.rootName}
                   forceExpanded={forceExpanded}
@@ -144,7 +156,7 @@ const OntologyBrowser = () => {
               </div>
             </div>
             <div className={style.detailPane}>
-              <TermDetailPanel curie={detailCurie} />
+              <TermDetailPanel curie={detailCurie} ontology={ontology} />
             </div>
           </div>
         </div>

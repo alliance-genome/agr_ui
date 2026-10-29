@@ -14,6 +14,9 @@ export const VARIANT_CATEGORY = 'variant_search_result';
 export const MODEL_CATEGORY = 'model_search_result';
 export const DATASET_CATEGORY = 'htp_dataset_search_result';
 export const LITERATURE_CATEGORY = 'literature_search_result';
+// Not a search category — anatomy terms are not indexed. Used to label the
+// anatomy page in the same visual language as the other entity pages.
+export const ANATOMY_CATEGORY = 'anatomy';
 
 /* Wordpress REST API connection setting  */
 export const WORDPRESS_REST_API_BASE = 'https://public-api.wordpress.com/wp/v2/sites/alliancegenome.wordpress.com';

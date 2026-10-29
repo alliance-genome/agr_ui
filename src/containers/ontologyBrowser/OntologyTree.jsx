@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import CountBadge from './CountBadge.jsx';
 import { ANNOTATION_TYPES } from './annotationTypes.js';
-import { useDiseaseTerm } from './useDiseaseTerms.jsx';
+import { useOntologyTerm } from './useOntologyTerms.jsx';
 import style from './style.module.scss';
 
 const OntologyTree = ({
@@ -19,13 +19,14 @@ const OntologyTree = ({
   scrollOnFocus = true,
   onFocusMounted,
   nodeHref,
+  annotationTypes = ANNOTATION_TYPES,
 }) => {
   const [open, setOpen] = useState(false);
   const rowRef = useRef(null);
 
   // Term doc comes from the batched provider so every visible node knows its
   // children without firing per-node requests.
-  const data = useDiseaseTerm(curie);
+  const data = useOntologyTerm(curie);
 
   useEffect(() => {
     if (forceExpanded.has(curie)) setOpen(true);
@@ -114,7 +115,7 @@ const OntologyTree = ({
         )}
         <span className={style.curie}>&nbsp;{curie}</span>
         <span className={style.badgeRow}>
-          {ANNOTATION_TYPES.map((t) => (
+          {annotationTypes.map((t) => (
             <CountBadge key={t.id} curie={curie} type={t} />
           ))}
         </span>
@@ -136,6 +137,7 @@ const OntologyTree = ({
                 scrollOnFocus={scrollOnFocus}
                 onFocusMounted={onFocusMounted}
                 nodeHref={nodeHref}
+                annotationTypes={annotationTypes}
               />
             ))}
         </div>
@@ -154,6 +156,10 @@ OntologyTree.propTypes = {
   scrollOnFocus: PropTypes.bool,
   onFocusMounted: PropTypes.func,
   nodeHref: PropTypes.func,
+  // Count pills to render per row. Defaults to the disease set so the
+  // disease-portal embed keeps its G/A/M badges; anatomy passes [] because the
+  // Alliance API has no term-centric counts for those ontologies.
+  annotationTypes: PropTypes.array,
 };
 
 export default OntologyTree;

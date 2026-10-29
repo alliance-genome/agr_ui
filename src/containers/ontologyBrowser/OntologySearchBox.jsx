@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Autosuggest from 'react-autosuggest';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import fetchData from '../../lib/fetchData';
+import { searchOls } from '../../lib/ols';
 import style from './style.module.scss';
 
 const ENDPOINT = '/api/search_autocomplete';
@@ -73,7 +74,7 @@ const AUTOSUGGEST_THEME = {
   suggestionHighlighted: { backgroundColor: '#e9ecef' },
 };
 
-const FullResultsModal = ({ isOpen, query, category, onSelect, onClose }) => {
+const FullResultsModal = ({ isOpen, query, ontology, onSelect, onClose }) => {
   const [results, setResults] = useState(null);
   const [error, setError] = useState(false);
 
@@ -81,14 +82,19 @@ const FullResultsModal = ({ isOpen, query, category, onSelect, onClose }) => {
     if (!isOpen || !query) return;
     setResults(null);
     setError(false);
-    const url = `${SEARCH_ENDPOINT}?q=${encodeURIComponent(query)}&category=${category}&limit=${FULL_RESULTS_LIMIT}`;
-    fetchData(url)
-      .then((data) => {
-        const filtered = (data?.results || []).filter((r) => !/^obsolete/i.test(r.name || r.nameKey || ''));
+    const search =
+      ontology.source === 'ols'
+        ? searchOls(ontology.olsId, query, ontology.curiePrefix, { rows: FULL_RESULTS_LIMIT })
+        : fetchData(
+            `${SEARCH_ENDPOINT}?q=${encodeURIComponent(query)}&category=${ontology.searchCategory}&limit=${FULL_RESULTS_LIMIT}`
+          ).then((data) => data?.results || []);
+    search
+      .then((hits) => {
+        const filtered = hits.filter((r) => !/^obsolete/i.test(r.name || r.nameKey || ''));
         setResults(rankByCloseness(query, filtered));
       })
       .catch(() => setError(true));
-  }, [isOpen, query, category]);
+  }, [isOpen, query, ontology]);
 
   return (
     <Modal isOpen={isOpen} toggle={onClose} size="lg" scrollable>
@@ -144,12 +150,13 @@ const FullResultsModal = ({ isOpen, query, category, onSelect, onClose }) => {
 FullResultsModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   query: PropTypes.string,
-  category: PropTypes.string.isRequired,
+  ontology: PropTypes.object.isRequired,
   onSelect: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 
-const OntologySearchBox = ({ onSelect, category, placeholder, curiePrefix }) => {
+const OntologySearchBox = ({ onSelect, ontology, placeholder }) => {
+  const curiePrefix = ontology.curiePrefix;
   const [value, setValue] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [modalQuery, setModalQuery] = useState(null);
@@ -186,11 +193,16 @@ const OntologySearchBox = ({ onSelect, category, placeholder, curiePrefix }) => 
     // backend hit list.
     const fullCurieMatch = normalized.match(FULL_CURIE);
     const instantRow = fullCurieMatch ? [{ __instant: true, curie: normalized, name: `Jump to ${normalized}` }] : [];
-    const url = `${ENDPOINT}?q=${encodeURIComponent(normalized)}&category=${category}`;
-    fetchData(url, { signal: controller.signal })
-      .then((data) => {
+    const lookup =
+      ontology.source === 'ols'
+        ? searchOls(ontology.olsId, normalized, ontology.curiePrefix, { signal: controller.signal })
+        : fetchData(`${ENDPOINT}?q=${encodeURIComponent(normalized)}&category=${ontology.searchCategory}`, {
+            signal: controller.signal,
+          }).then((data) => data?.results || []);
+    lookup
+      .then((hits) => {
         if (controller.signal.aborted) return;
-        const filtered = (data?.results || []).filter((r) => !/^obsolete/i.test(r.name || r.nameKey || ''));
+        const filtered = hits.filter((r) => !/^obsolete/i.test(r.name || r.nameKey || ''));
         const ranked = rankByCloseness(normalized, filtered).filter((r) => (r.curie || r.primaryKey) !== normalized);
         setSuggestions([...instantRow, ...ranked]);
       })
@@ -265,7 +277,7 @@ const OntologySearchBox = ({ onSelect, category, placeholder, curiePrefix }) => 
       <FullResultsModal
         isOpen={!!modalQuery}
         query={modalQuery || ''}
-        category={category}
+        ontology={ontology}
         onSelect={onModalSelect}
         onClose={closeModal}
       />
@@ -275,13 +287,13 @@ const OntologySearchBox = ({ onSelect, category, placeholder, curiePrefix }) => 
 
 OntologySearchBox.propTypes = {
   onSelect: PropTypes.func.isRequired,
-  category: PropTypes.string.isRequired,
-  placeholder: PropTypes.string,
-  // Canonical curie prefix for the active ontology (e.g. `DOID`, `WBbt`).
-  // When provided, lowercased curie input is rewritten to this exact casing
-  // before hitting the backend; input with any other prefix passes through
+  // Active ontology registry entry. Supplies the backend to search ('agr' hits
+  // /api/search_autocomplete, 'ols' hits OLS4) and the canonical curie prefix
+  // (e.g. `DOID`, `WBbt`) used to rewrite lowercased curie input to the exact
+  // casing both backends match on; input with any other prefix passes through
   // unchanged.
-  curiePrefix: PropTypes.string,
+  ontology: PropTypes.object.isRequired,
+  placeholder: PropTypes.string,
 };
 
 export default OntologySearchBox;

@@ -6,7 +6,7 @@ import fetchData from '../../lib/fetchData';
 import OntologyTree from '../ontologyBrowser/OntologyTree.jsx';
 import { ANNOTATION_TYPES } from '../ontologyBrowser/annotationTypes.js';
 import { CountsProvider } from '../ontologyBrowser/useDiseaseCounts.jsx';
-import { TermsProvider } from '../ontologyBrowser/useDiseaseTerms.jsx';
+import { TermsProvider } from '../ontologyBrowser/useOntologyTerms.jsx';
 import style from './style.module.scss';
 
 // Embedded, scoped ontology view for a disease portal page (KANBAN-1391).

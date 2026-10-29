@@ -153,6 +153,11 @@ a > span > .sprite {
   &.literature_search_result::before {
     color: $data-type-literature;
   }
+  // Anatomy terms are not in the site search index, so this category exists
+  // only to label the anatomy page, not to come back as a search result.
+  &.anatomy::before {
+    color: $data-type-anatomy;
+  }
 }
 
 .resultSpeciesIcon {

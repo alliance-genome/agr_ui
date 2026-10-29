@@ -10,6 +10,7 @@ import Search from './containers/search';
 import GenePage from './containers/genePage/index.jsx';
 import GeneAlleleDetailsPage from './containers/GeneAlleleDetailsPage/index.jsx';
 import DiseasePage from './containers/diseasePage/index.jsx';
+import AnatomyPage from './containers/anatomyPage/index.jsx';
 import NotFound from './components/notFound.jsx';
 import DownloadsPage from './containers/downloadsPage/index.jsx';
 import AllelePage from './containers/allelePage/AllelePage.jsx';
@@ -42,6 +43,7 @@ const LayoutWithRoutes = () => (
       <Route exact path="/gene/:id/allele-details" element={<GeneAlleleDetailsPage />} />
 
       <Route exact path="/disease/:id" element={<DiseasePage />} />
+      <Route exact path="/anatomy/:id" element={<AnatomyPage />} />
       <Route exact path="/allele/:id" element={<AllelePage />} />
       <Route exact path="/variant/:id" element={<VariantPage />} />
       <Route exact path="/reference/:id" element={<ReferencePage />} />
