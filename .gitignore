@@ -50,6 +50,10 @@ dist-ssr
 /.sass-cache
 /connect.lock
 /coverage
+/test-results
+/playwright-report
+/blob-report
+/playwright/.cache
 /libpeerconnection.log
 npm-debug.log
 yarn-error.log
