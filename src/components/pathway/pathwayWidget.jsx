@@ -191,6 +191,11 @@ const PathwayWidget = ({ geneId, geneSpecies, xrefs }) => {
             console.error(error);
             setGocams({ list: undefined, selected: undefined, loaded: true });
           });
+      })
+      .catch((error) => {
+        // Without this, a failed context fetch leaves gocams.loaded false and the default-tab choice never runs
+        console.error(error);
+        setGocams({ list: undefined, selected: undefined, loaded: true });
       });
 
     return () => {
@@ -200,16 +205,16 @@ const PathwayWidget = ({ geneId, geneSpecies, xrefs }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // ----- after all three lists load, pick the first non-empty tab -----
+  // ----- after all three lists load, pick the first non-empty tab (GO-CAMs first, KANBAN-1969) -----
   useEffect(() => {
     if (!(reactomePathways.loaded && reactomeReactions.loaded && gocams.loaded)) return;
 
-    if (reactomePathways.pathways && reactomePathways.pathways.length > 0) {
+    if (gocams.list && gocams.list.length > 0) {
+      selectMODPathway();
+    } else if (reactomePathways.pathways && reactomePathways.pathways.length > 0) {
       setSelectedTab('ReactomePathway');
     } else if (reactomeReactions.reactions && reactomeReactions.reactions.length > 0) {
       setSelectedTab('ReactomeReactions');
-    } else if (gocams.list && gocams.list.length > 0) {
-      selectMODPathway();
     } else {
       setSelectedTab('ReactomePathway');
     }
@@ -236,6 +241,13 @@ const PathwayWidget = ({ geneId, geneSpecies, xrefs }) => {
     <nav>
       <div className="nav nav-tabs">
         <button
+          className={selectedTab == 'MODPathways' ? 'nav-link active' : 'nav-link'}
+          aria-selected="true"
+          onClick={() => selectMODPathway()}
+        >
+          GO-CAMs ({gocams.list ? gocams.list.length : '0'})
+        </button>
+        <button
           className={selectedTab == 'ReactomePathway' ? 'nav-link active' : 'nav-link'}
           aria-selected="true"
           onClick={() => setSelectedTab('ReactomePathway')}
@@ -248,13 +260,6 @@ const PathwayWidget = ({ geneId, geneSpecies, xrefs }) => {
           onClick={() => setSelectedTab('ReactomeReactions')}
         >
           Reactome Reactions ({reactomeReactions.reactions ? reactomeReactions.reactions.length : '0'})
-        </button>
-        <button
-          className={selectedTab == 'MODPathways' ? 'nav-link active' : 'nav-link'}
-          aria-selected="true"
-          onClick={() => selectMODPathway()}
-        >
-          GO-CAMs ({gocams.list ? gocams.list.length : '0'})
         </button>
       </div>
     </nav>
