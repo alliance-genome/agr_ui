@@ -7,11 +7,9 @@ import AlleleSummary from './AlleleSummary.jsx';
 import AlleleSymbol from './AlleleSymbol.jsx';
 import SpeciesIcon from '../../components/speciesIcon/index.jsx';
 import PageNavEntity from '../../components/dataPage/PageNavEntity.jsx';
-import DataSourceLink from '../../components/dataSourceLink.jsx';
 import { Link, useParams } from 'react-router-dom';
 import PageCategoryLabel from '../../components/dataPage/PageCategoryLabel.jsx';
 import AlleleToDiseaseTable from './AlleleToDiseaseTable.jsx';
-import AlleleSequenceView from './AlleleSequenceView.jsx';
 import AlleleTransgenicConstructs from './AlleleTransgenicConstructs.jsx';
 import AlleleMolecularConsequences from './AlleleMolecularConsequences.jsx';
 import AlleleVariantsSummary from './AlleleVariantsSummary.jsx';
@@ -119,10 +117,6 @@ const AllelePage = () => {
             <></>
             <AlleleVariantsSummary allele={data} alleleId={alleleId} />
             {/* <AlleleToVariantTable allele={data} alleleId={alleleId} /> */}
-          </ErrorBoundary>
-          <br />
-          <ErrorBoundary>
-            <AlleleSequenceView allele={data} />
           </ErrorBoundary>
         </Subsection>
 
