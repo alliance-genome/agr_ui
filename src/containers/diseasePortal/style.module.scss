@@ -47,16 +47,41 @@ $max-width: 800px;
   }
 }
 
-// Pill row: keep all pills on a single line (added with KANBAN-1057's split
-// gene pills; kept after the split was rolled back).
-// EntityButton wraps its <Link> in a <b>, so that <b> is the flex item — make
-// the pills share the row width and let long labels wrap inside their own pill.
-.entityRow {
-  flex-wrap: nowrap;
+// Pill row (KANBAN-2077): each pill is as wide as its own label and count,
+// spaced evenly by the row's justify-content-around, instead of the equal-width
+// columns used before. EntityButton wraps its <Link> in a <b>, so that <b> is
+// the flex item. Its default min-width (auto = its longest word) keeps a label
+// from breaking mid-word. The max-width makes a long multi-word label such as
+// "Model Organism Genes" wrap between words before the row has to wrap; the
+// row itself only wraps onto a second line when the pills still do not fit.
+$entity-font-size: 1rem;
+$entity-font-size-wide: 1.75rem;
+// The root portal carries the most pills (Species, and Diseases once restored
+// under KANBAN-1095, are root-only), so on wide screens its row may extend past the 800px text column, centered,
+// up to this width. Per-disease portals keep the text column's width.
+$entity-row-root-max-width: 1400px;
 
+.entityRow {
+  flex-wrap: wrap;
+  column-gap: 1rem;
+
+  // The cap is 9x the pill's font size. It is set on the <b>, whose own font
+  // is the page default, so it steps with .entityButton's font explicitly.
   > b {
-    flex: 1 1 0;
-    min-width: 0;
+    flex: 0 1 auto;
+    max-width: 9 * $entity-font-size;
+
+    @media (min-width: $max-width) {
+      max-width: 9 * $entity-font-size-wide;
+    }
+  }
+}
+
+.entityRowRoot {
+  @media (min-width: $max-width) {
+    --entity-row-width: min(calc(100vw - 2rem), #{$entity-row-root-max-width});
+    width: var(--entity-row-width);
+    margin-left: calc((100% - var(--entity-row-width)) / 2);
   }
 }
 
@@ -64,7 +89,7 @@ $max-width: 800px;
   color: $gray-700;
   display: flex;
   width: 100%;
-  font-size: 1rem;
+  font-size: $entity-font-size;
   flex-direction: column;
   align-items: center;
   text-align: center;
@@ -79,7 +104,7 @@ $max-width: 800px;
   }
 
   @media (min-width: $max-width) {
-    font-size: 1.75rem;
+    font-size: $entity-font-size-wide;
   }
 
   .icon {

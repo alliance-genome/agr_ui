@@ -54,7 +54,7 @@ const DiseasePortalSection = ({ disease }) => {
           <li><SearchExample term='liver' /></li>
           <li><Link to='/help#how'>More...</Link></li>
         </ul> */}
-        <div className={`d-flex justify-content-around ${style.entityRow}`}>
+        <div className={`d-flex justify-content-around ${style.entityRow} ${isRoot ? style.entityRowRoot : ''}`}>
           {diseasesEntityButton}
           {/* Gene, Allele, Model order matches the disease pages and the ontology browser (KANBAN-1503). */}
           <EntityButton
